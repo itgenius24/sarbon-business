@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "pre-commit": "next lint"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
@@ -22,6 +24,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
     "sass": "^1.66.1"
   }
 }
