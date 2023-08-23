@@ -1,0 +1,27 @@
+.header {
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  font-size: 0.85rem;
+  width: 100%;
+  z-index: 2;
+  font-family: var(--font-mono);
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: rem(8);
+  }
+  p {
+    position: relative;
+    margin: 0;
+    padding: 1rem;
+  }
+  .vercelLogo {
+    filter: invert(1);
+  }
+  .code {
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+}

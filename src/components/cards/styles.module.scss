@@ -1,0 +1,28 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(25%, auto));
+  width: 100%;
+  .card {
+    padding: rem(16) rem(19);
+    border-radius: var(--border-radius);
+    background: rgba(var(--card-rgb), 0);
+    border: 1px solid rgba(var(--card-border-rgb), 0);
+    transition: background 200ms, border 200ms;
+    span {
+      display: inline-block;
+      transition: transform 200ms;
+    }
+    h2 {
+      font-weight: 600;
+      margin-bottom: rem(11);
+      font-size: rem(24);
+    }
+    p {
+      margin: 0;
+      opacity: 0.6;
+      font-size: rem(14);
+      line-height: rem(22);
+      max-width: 30ch;
+    }
+  }
+}

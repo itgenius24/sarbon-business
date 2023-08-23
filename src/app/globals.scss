@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 1681px) {
+  .html.layout {
+    font-size: calc(100vw / 1681 * 16);
+  }
+}
+
+@media (min-width: 1920) {
+  .html.layout {
+    font-size: calc(100vw / 1920 * 16);
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: rgb(255, 255, 255);
+  background: #000;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
