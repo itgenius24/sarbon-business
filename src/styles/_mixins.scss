@@ -27,6 +27,27 @@ $screen-xl-min: 1280px;
   }
 }
 
+@mixin primary-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--base-white);
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
 @mixin element-center {
   display: flex;
   align-items: center;

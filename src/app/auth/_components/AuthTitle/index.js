@@ -1,0 +1,1 @@
+export { AuthTitle } from "./AuthTitle";

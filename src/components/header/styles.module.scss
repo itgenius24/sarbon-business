@@ -1,27 +1,86 @@
 .header {
-  display: inherit;
-  justify-content: inherit;
-  align-items: inherit;
-  font-size: 0.85rem;
+  padding-top: 16px;
+  padding-bottom: 16px;
   width: 100%;
-  z-index: 2;
-  font-family: var(--font-mono);
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: rem(8);
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list {
+  margin-left: 20px;
+  display: flex;
+  gap: 4px;
+}
+
+.listItem {
+  list-style-type: none;
+}
+
+.itemLink {
+  padding: 8px 12px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  color: #344054;
+  &:hover {
+    padding: 8px 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+    transition: 0.3s ease-in-out;
   }
-  p {
-    position: relative;
-    margin: 0;
-    padding: 1rem;
+}
+
+.activeLink {
+  padding: 8px 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  color: #344054;
+}
+
+.rightBox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.buttonBox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.userIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: auto;
   }
-  .vercelLogo {
-    filter: invert(1);
-  }
-  .code {
-    font-weight: 700;
-    font-family: var(--font-mono);
-  }
+}
+
+.registerLink {
+  @include primary-btn;
+  margin-right: 16px;
 }
