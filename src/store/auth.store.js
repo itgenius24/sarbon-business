@@ -20,11 +20,12 @@ class Store {
       setIsAuth: action,
       login: action,
       logout: action,
+      setAuthData: action,
     });
 
     makePersistable(this, {
       name: "authStore",
-      properties: ["isAuth", "userData", "token"],
+      properties: ["isAuth", "userData", "token", "authData"],
       storage: storage()
     });
   }

@@ -1,3 +1,4 @@
+import authStore from "@/store/auth.store";
 import axios from "axios";
 
 const request = axios.create({
@@ -27,6 +28,18 @@ export const errorHandlerHttp = (error) => {
   return Promise.reject(error);
 };
 
-request.interceptors.response.use((response) => response.data, errorHandlerHttp);
+request.interceptors.request.use((config) => {
+  const token = authStore.token.access_token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  config.headers["X-API-KEY"] = "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT";
+  config.headers["Authorization"] = "API-KEY";
+
+  return config;
+});
+
+request.interceptors.response.use((response) => response.data.data.data, errorHandlerHttp);
 
 export default request;

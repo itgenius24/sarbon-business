@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Button } from "@chakra-ui/react";
 import { AuthTitle } from "../AuthTitle";
 import { Dropdown } from "@/components/Dropdown";
@@ -13,7 +15,8 @@ export const RegistrationForm = () => {
     register,
     handleSubmit,
     onSubmit,
-    handleBack
+    handleBack,
+    companyOptions,
   } = useRegistrationFormProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -24,6 +27,18 @@ export const RegistrationForm = () => {
         control={control}
         name="role"
         label="Профиль деятельности"
+      />
+      <Dropdown
+        options={companyOptions}
+        control={control}
+        name="company"
+        label="Компания"
+      />
+      <TextField
+        label="Имя"
+        name="fullName"
+        register={register}
+        placeholder="Введите свое имя"
       />
       <TextField
         label="Email"

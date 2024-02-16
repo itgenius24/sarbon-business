@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useDropdownProps = () => {
@@ -13,6 +13,16 @@ export const useDropdownProps = () => {
   function handleClose () {
     setOpen(false);
   }
+
+  function onWindowClick () {
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    window.addEventListener("click", onWindowClick);
+
+    return () => window.removeEventListener("click", onWindowClick);
+  }, []);
 
   return {
     isOpen,

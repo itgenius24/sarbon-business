@@ -21,7 +21,11 @@ authRequest.interceptors.request.use((config) => {
   }
   config.headers["environment-id"] = "11b59b25-8772-456a-84e1-20bdfdd32506";
   config.headers["resource-id"] = "e32ba3ac-a552-4e42-a3c9-04e3ac1a4ac3";
-  console.log({ config });
+
+  if(config.url.includes("with-option") || config.url.includes("register")) {
+    config.headers["Authorization"] = "API-KEY";
+    config.headers["X-API-KEY"] = "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT";
+  }
   return config;
 });
 

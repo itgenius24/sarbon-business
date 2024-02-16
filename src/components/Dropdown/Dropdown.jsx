@@ -15,7 +15,7 @@ export const Dropdown = ({
   name = "select",
 }) => {
 
-  const optionsHeight = `${Math.floor(options && options.length / 2) * 50}px`;
+  const optionsHeight = `${Math.floor(options && options.length * 50 / 2)}px`;
 
   const {
     isOpen,
@@ -34,7 +34,10 @@ export const Dropdown = ({
         <div className={cls.controlWrap} >
           <div
             className={clsx(cls.control, { [cls.open]: isOpen })}
-            onClick={handleToggle}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggle();
+            }}
           >
             {
               (value?.label || !isNaN(defaultValueIndex))
