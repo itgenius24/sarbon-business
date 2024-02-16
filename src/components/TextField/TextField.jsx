@@ -25,10 +25,10 @@ export const TextField = ({
       )
     }
   >
-    {label && <span className={cls.label}>{label}</span>}
+    {label && <label className={cls.label} htmlFor={name}>{label}</label>}
     <div className={cls.inputWrapper}>
       {addonBefore && <span className={cls.before}>{addonBefore}</span>}
-      <input className={clsx(cls.fieldInput, inputClassName)} type={type} {...register(name)} {...props} />
+      <input className={clsx(cls.fieldInput, inputClassName)} id={name} type={type} {...register(name)} {...props} />
       {addonAfter && <span className={cls.after}>{addonAfter}</span>}
       {errors?.[name] && <span className={clsx(cls.errorMessage, errorClassName)}>{errors?.[name]?.message}</span>}
     </div>

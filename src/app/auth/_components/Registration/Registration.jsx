@@ -13,6 +13,7 @@ export const Registration = () => {
     errors,
     navigateLogin,
     onSubmit,
+    isPending,
   } = useRegistrationProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -24,7 +25,7 @@ export const Registration = () => {
         name="phone"
         type="tel"
         label="Мобильный телефон"
-        placeholder="+998 (99) 999-99-99"
+        placeholder="+998971234567"
       />
     </Box>
     <Button size="md" type="submit">Продолжить</Button>
@@ -36,6 +37,7 @@ export const Registration = () => {
       color="brand.600"
       leftIcon={<ArrowLeft />}
       mt="32px"
+      isLoading={isPending}
     >
       Вернуться на Войти
     </Button>

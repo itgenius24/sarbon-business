@@ -1,13 +1,16 @@
+"use client";
+
 import cls from "./styles.module.scss";
 import VerificationInput from "react-verification-input";
 import { useOtpProps } from "./useOtpProps";
 import { AuthTitle } from "../AuthTitle";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { ArrowLeft } from "@/assets/icons/icons";
+import { observer } from "mobx-react-lite";
 
-export const Otp = () => {
+export const Otp = observer(() => {
 
-  const { onChange, handleSendOtp, navigateLogin, value } = useOtpProps();
+  const { onChange, handleSendOtp, navigateLogin, value, phone } = useOtpProps();
 
   return <Box>
     <AuthTitle
@@ -16,7 +19,7 @@ export const Otp = () => {
       subtitle={
         <p>
           Мы отправили вам код подтверждения на ваш указанный номер
-          <span className={cls.phone}>+998 (99) 999-99-99</span>
+          <span className={cls.phone}>{phone}</span>
         </p>
       }
     />
@@ -54,4 +57,4 @@ export const Otp = () => {
       Вернуться на Войти
     </Button>
   </Box>;
-};
+});
