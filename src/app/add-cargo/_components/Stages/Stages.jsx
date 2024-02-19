@@ -9,7 +9,7 @@ export const Stages = () => {
     // boxShadow:"0px 0px 0px 4px #007AFF0D"
   };
 
-  return <Box as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="sticky">
+  return <Box as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="sticky" top="48px">
     <Box pb="20px" borderBottom="1px solid" borderColor="brand.200">
       <Heading size="sm">Этапы добавление груза</Heading>
       <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">Вы можете следить за своими действия в этом поле</Text>
