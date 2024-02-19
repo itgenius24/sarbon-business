@@ -255,3 +255,26 @@ export const PlusIcon = () =>(
     <path d="M10.0001 4.16669V15.8334M4.16675 10H15.8334" stroke="white" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
+
+export const StepDoneIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <g clipPath="url(#clip0_843_1794)">
+      <rect width="24" height="24" rx="12" fill="#007AFF" fillOpacity="0.05"/>
+      <rect x="0.75" y="0.75" width="22.5" height="22.5" rx="11.25" stroke="#007AFF" strokeWidth="1.5"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M17.0965 7.39004L9.9365 14.3L8.0365 12.27C7.6865 11.94 7.1365 11.92 6.7365 12.2C6.3465 12.49 6.2365 13 6.4765 13.41L8.7265 17.07C8.9465 17.41 9.3265 17.62 9.7565 17.62C10.1665 17.62 10.5565 17.41 10.7765 17.07C11.1365 16.6 18.0065 8.41004 18.0065 8.41004C18.9065 7.49004 17.8165 6.68004 17.0965 7.38004V7.39004Z" fill="#007AFF"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_843_1794">
+        <rect width="24" height="24" rx="12" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+export const StepProcessIcon = ({ color = "#007AFF" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <rect x="0.75" y="0.75" width="22.5" height="22.5" rx="11.25" fill={color} fillOpacity="0.05"/>
+    <rect x="0.75" y="0.75" width="22.5" height="22.5" rx="11.25" stroke={color} strokeWidth="1.5"/>
+    <circle cx="12" cy="12" r="4" fill={color}/>
+  </svg>
+);
