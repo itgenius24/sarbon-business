@@ -12,7 +12,7 @@ replicaCount: 1
 
 image:
   registry: gitlab.udevs.io:5050/
-  repository: xlogistics/xlogistic_frontend
+  repository: xlogistic/xlogistic_frontend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
