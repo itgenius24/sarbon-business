@@ -10,6 +10,7 @@ import { Box, IconButton, ListItem, UnorderedList } from "@chakra-ui/react";
 import { LanguageIcon, SettingIcon } from "@/assets/icons/icons";
 import { usePathname } from "next/navigation";
 import { Logo } from "../Logo";
+import { isServer } from "@tanstack/react-query";
 
 export const Header = ({ elements }) => {
 
@@ -41,7 +42,7 @@ export const Header = ({ elements }) => {
         </Box>
         <Box className={cls.rightBox}>
           <Box className={cls.buttonBox}>
-            {!isAuth && (
+            {!isServer && !isAuth && (
               <Link
                 className={cls.registerLink}
                 title={"Зарегистрироваться"}

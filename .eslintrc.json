@@ -12,6 +12,7 @@
     "no-unused-vars": "warn",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
+    "jsx-quotes": ["warn", "prefer-double"],
     "react/display-name": "off",
     "object-curly-spacing": ["warn", "always", { "arraysInObjects": true }],
     "no-useless-escape": "off",

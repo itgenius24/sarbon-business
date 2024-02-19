@@ -1,13 +1,13 @@
 import { action, makeAutoObservable } from "mobx";
-import { makePersistable } from "mobx-persist-store";
+import { clearPersistedStore, makePersistable } from "mobx-persist-store";
 import { enableStaticRendering } from "mobx-react-lite";
 
 enableStaticRendering(typeof window === "undefined");
 
-function storage () {
+function storage (store = "sessionStorage") {
   try {
     if(window) {
-      return window.localStorage;
+      return window[store];
     }
   } catch (e) {
     return null;
@@ -21,13 +21,17 @@ class Store {
       login: action,
       logout: action,
       setAuthData: action,
+      setRemember: action
     });
 
-    makePersistable(this, {
-      name: "authStore",
-      properties: ["isAuth", "userData", "token", "authData"],
-      storage: storage()
-    });
+    this.storePersist = makePersistable;
+    this.setRemember(false);
+
+    // makePersistable(this, {
+    //   name: "authStore",
+    //   properties: ["isAuth", "userData", "token", "authData"],
+    //   storage: storage()
+    // });
   }
 
   isAuth = false;
@@ -59,6 +63,23 @@ class Store {
 
   setAuthData(key, value) {
     this.authData[key] = value;
+  }
+
+  setRemember(remember = false) {
+    clearPersistedStore(this);
+    if(remember) {
+      this.storePersist(this, {
+        name: "authStore",
+        properties: ["isAuth", "userData", "token", "authData"],
+        storage: storage("localStorage")
+      });
+    } else {
+      this.storePersist(this, {
+        name: "authStore",
+        properties: ["isAuth", "userData", "token", "authData"],
+        storage: storage("sessionStorage")
+      });
+    }
   }
 
   get getAuthData() {

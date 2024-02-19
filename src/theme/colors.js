@@ -10,6 +10,10 @@ export const colors = {
     100: "#F2F4F7",
     50: "#F9FAFB",
   },
+  error: {
+    500: "#F04438",
+    300: "#FDA29B",
+  },
   primary: "#007AFF",
   primaryText: "#026FE7",
   baseWhite: "#FFFFFF",

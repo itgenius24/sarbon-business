@@ -13,6 +13,7 @@ export const Dropdown = ({
   label,
   control,
   name = "select",
+  required
 }) => {
 
   const optionsHeight = `${Math.floor(options && options.length * 50 / 2)}px`;
@@ -28,9 +29,10 @@ export const Dropdown = ({
     name={name}
     control={control || dropdownControl}
     defaultValue={options[defaultValueIndex]}
+    rules={{ required }}
     render={({ field: { value, onChange, ...props }, }) => (
       <div className={cls.dropdown} {...props}>
-        <label className={cls.label}>{label}</label>
+        {label && <span className={cls.label}>{label}</span>}
         <div className={cls.controlWrap} >
           <div
             className={clsx(cls.control, { [cls.open]: isOpen })}

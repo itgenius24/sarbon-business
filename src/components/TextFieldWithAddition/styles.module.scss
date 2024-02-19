@@ -1,0 +1,129 @@
+.field {
+  flex-shrink: 0;
+}
+
+.fieldTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  color: var(--brand-700);
+}
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.additionalItemLabel {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.contentWrapper {
+  height: 44px;
+  display: flex;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+.inputWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 20;
+  display: flex;
+  border: 1px solid var(--brand-300);
+  background-color: var(--base-white);
+  border-radius: 8px 0 0 8px;
+  overflow: hidden;
+}
+
+.inputWrapper.error {
+  border-color: var(--error-300);
+}
+
+.inputWrapper:has(.fieldInput:focus) {
+  box-shadow: 0px 0px 0px 4px #E3F0FF;
+}
+
+.after {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  color: var(--icon-base);
+}
+
+.before {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: var(--icon-base);
+}
+
+.fieldInput {
+  width: 100%;
+  height: 100%;
+  padding: 10px 14px;
+  outline: none;
+
+  &::placeholder {
+    color: var(--brand-500);
+    font-weight: 400;
+  }
+}
+
+.additionalItem {
+  max-width: 161px;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+  padding: 10px 14px;
+  color: var(--brand-500);
+  border: 1px solid var(--brand-300);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  background-color: var(--brand-50);
+}
+
+.additionalItem.lightTheme {
+  background-color: var(--base-white);
+}
+
+.additionalItemContent {
+  width: 100%;
+  font-weight: 400;
+  color: var(--brand-500);
+}
+
+.additionalItemOptions {
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 8px);
+  left: 0;
+  padding: 6px;
+  background-color: var(--base-white);
+  border-radius: 0 0 8px 8px;
+  border: 1px solid var(--brand-200);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  user-select: none;
+}
+
+.additionalItemOption {
+  width: 100%;
+  padding: 10px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.additionalItemOption.active {
+  background-color: var(--brand-50);
+}
+
+.additionalItemOptionLabel {
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+}

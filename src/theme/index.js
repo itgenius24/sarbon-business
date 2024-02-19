@@ -1,6 +1,7 @@
 import { colors } from "./colors";
 import { extendTheme } from "@chakra-ui/react";
 import { buttonTheme } from "@/theme/components/button";
+import { headingTheme } from "@/theme/components/heading";
 
 export const theme = extendTheme({
   fonts: {
@@ -8,5 +9,8 @@ export const theme = extendTheme({
     body: "Inter, Roboto, sans-serif"
   },
   colors,
-  components: { Button: buttonTheme, }
+  components: {
+    Button: buttonTheme,
+    Heading: headingTheme
+  }
 });

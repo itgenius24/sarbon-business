@@ -10,7 +10,7 @@ import { HelpCircleIcon } from "@/assets/icons/icons";
 export const RegistrationForm = () => {
 
   const {
-    roleOptions,
+    clientTypeOptions,
     control,
     register,
     handleSubmit,
@@ -23,16 +23,18 @@ export const RegistrationForm = () => {
     <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" subtitle="На перевочика" />
     <Box display="flex" flexDirection="column" rowGap="20px" mb="24px">
       <Dropdown
-        options={roleOptions}
+        options={clientTypeOptions}
         control={control}
-        name="role"
+        name="clientType"
         label="Профиль деятельности"
+        required
       />
       <Dropdown
         options={companyOptions}
         control={control}
         name="company"
         label="Компания"
+        required
       />
       <TextField
         label="Имя"

@@ -1,6 +1,7 @@
 import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export const useLoginProps = () => {
@@ -57,13 +58,22 @@ export const useLoginProps = () => {
     loginOne.mutate(data);
   }
 
+  function onRememberChange (e) {
+    authStore.setRemember(e.target.checked);
+  }
+
+  useEffect(() => {
+    authStore.setRemember(false);
+  }, []);
+
   return {
     handleSubmit,
     register,
     errors,
     onSubmit,
     navigateRegistration,
-    isPending: loginOne.isPending || login.isPending
+    isPending: loginOne.isPending || login.isPending,
+    onRememberChange,
   };
 
 };

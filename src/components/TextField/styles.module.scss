@@ -11,10 +11,15 @@
   border: 1px solid var(--brand-300);
   background-color: var(--base-white);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.inputWrapper:has(.fieldInput:focus) {
+  box-shadow: 0px 0px 0px 4px #E3F0FF;
 }
 
 .inputWrapper.error {
-  border-color: var(--brand-600);
+  border-color: var(--error-300);
 }
 
 .label {
@@ -62,7 +67,10 @@
 
 .errorMessage {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 4px);
   left: 0;
-  color: var(--brand-600);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--error-500);
 }

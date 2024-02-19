@@ -1,7 +1,6 @@
 import { useOtpMutation } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuthContext } from "../../_providers/AuthProvider";
 import authStore from "@/store/auth.store";
 
 export const useOtpProps = () => {

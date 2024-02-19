@@ -3,12 +3,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@/utils/yupResolver";
 import { usePhoneMutation } from "@/services/api";
-import { useAuthContext } from "../../_providers/AuthProvider";
 import authStore from "@/store/auth.store";
 
 export const useRegistrationProps = () => {
-
-  // const { setSmsId, setPhone } = useAuthContext();
 
   const router = useRouter();
 

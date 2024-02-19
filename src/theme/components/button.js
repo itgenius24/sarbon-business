@@ -46,6 +46,7 @@ const secondaryWhite = defineStyle({
 });
 
 const sm = defineStyle({
+  height: "40px",
   padding: "10px 16px",
   fontSize: "14px",
   fontWeight: "600",
