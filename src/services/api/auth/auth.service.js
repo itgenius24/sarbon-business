@@ -1,5 +1,5 @@
 import authRequest from "@/services/authRequest";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 
