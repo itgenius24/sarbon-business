@@ -1,13 +1,16 @@
-FROM node:18.17.0
+FROM node:18-alpine
+RUN mkdir app
+WORKDIR app
 
-RUN apt-get update && apt-get install -y yarn
 
-WORKDIR /app
+COPY package*.json ./
+RUN npm install
 
-COPY package.json yarn.lock ./
+COPY . ./
+RUN npm run build
 
-RUN yarn install
 
-COPY . .
-
-CMD ["yarn", "start"]
+ENV NODE_ENV=production
+# ENV HOST=0.0.0.0
+# EXPOSE 80
+ENTRYPOINT ["npm", "start"]

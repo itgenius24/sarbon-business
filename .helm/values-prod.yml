@@ -73,8 +73,8 @@ service:
   type: ClusterIP
   annotations: {}
   specs:
-    - port: 80
-      targetPort: 80
+    - port: 8080
+      targetPort: 8080
       name: https
 
 ingress:
@@ -89,7 +89,7 @@ ingress:
       hosts:
         - host: "xlogistic.ucode.run"
           path: /
-          servicePort: 80
+          servicePort: 8080
       tls:
         - secretName: ucode-star
           hosts:
