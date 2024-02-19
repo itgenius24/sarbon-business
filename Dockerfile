@@ -1,12 +1,13 @@
 FROM node:18.17.0
-RUN apt update && apt install -y yarn
 
-RUN mkdir app
-WORKDIR app
+RUN apt-get update && apt-get install -y yarn
 
-COPY . ./
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+
 RUN yarn install
 
-RUN yarn build
+COPY . .
 
-ENTRYPOINT ["yarn", "start"]
+CMD ["yarn", "start"]

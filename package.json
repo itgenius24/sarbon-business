@@ -45,7 +45,7 @@
       "npx eslint --fix"
     ]
   },
-  "engines" : { 
-    "node" : ">=18.0.0"
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
