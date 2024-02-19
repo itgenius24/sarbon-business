@@ -42,15 +42,13 @@ export const Header = ({ elements }) => {
         </Box>
         <Box className={cls.rightBox}>
           <Box className={cls.buttonBox}>
-            {!isServer && !isAuth && (
-              <Link
-                className={cls.registerLink}
-                title={"Зарегистрироваться"}
-                href="/auth"
-              >
+            <Link
+              className={clsx(cls.registerLink, { [cls.show]: !isAuth })}
+              title={"Зарегистрироваться"}
+              href="/auth"
+            >
                 Зарегистрироваться
-              </Link>
-            )}
+            </Link>
             <Box display="flex" columnGap="4px">
               <IconButton variant="reset">
                 <SettingIcon />
