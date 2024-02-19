@@ -1,12 +1,12 @@
-import { StepDoneIcon, StepProcessIcon } from "@/assets/icons/icons";
 import { Box, Heading, ListItem, OrderedList, Text } from "@chakra-ui/react";
+import { Disabled, Done, Process } from "../StageStatuses";
 
 export const Stages = () => {
 
-  const processProps = {
-    color: "#026FE7",
-    borderRadius:"50%",
-    // boxShadow:"0px 0px 0px 4px #007AFF0D"
+  const statuses = {
+    process: Process,
+    disabled: Disabled,
+    done: Done
   };
 
   return <Box as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="sticky" top="48px">
@@ -16,31 +16,25 @@ export const Stages = () => {
     </Box>
     <OrderedList listStyleType="none" m="0" p="0" mt="24px" display="flex" flexDirection="column" rowGap="24px">
       <ListItem>
-        <Box display="flex" columnGap="12px" alignItems="flex-start">
-          <StepDoneIcon />
-          <Box display="flex" flexDirection="column">
-            <Box as="span" fontWeight="600" fontSize="14px" lineHeight="20px">Груз</Box>
-            <Box as="span" fontWeight="400" fontSize="14px" lineHeight="20px">не заполнено</Box>
-          </Box>
-        </Box>
+        <statuses.process title="Груз" subtitle="не заполнено" />
       </ListItem>
       <ListItem>
-        <Box display="flex" columnGap="12px" alignItems="flex-start" {...processProps}>
-          <StepProcessIcon />
-          <Box display="flex" flexDirection="column">
-            <Box as="span" fontWeight="600" fontSize="14px" lineHeight="20px">Когда</Box>
-            <Box as="span" fontWeight="400" fontSize="14px" lineHeight="20px">по раб. дням</Box>
-          </Box>
-        </Box>
+        <statuses.done title="Груз" subtitle="не заполнено" />
       </ListItem>
       <ListItem>
-        <Box display="flex" columnGap="12px" alignItems="flex-start" {...processProps}>
-          <StepProcessIcon />
-          <Box display="flex" flexDirection="column">
-            <Box as="span" fontWeight="600" fontSize="14px" lineHeight="20px">Маршрут</Box>
-            <Box as="span" fontWeight="400" fontSize="14px" lineHeight="20px">Ташкент -&gt; Бухара, 1200 км</Box>
-          </Box>
-        </Box>
+        <statuses.disabled title="Когда" subtitle="по раб. дням" />
+      </ListItem>
+      <ListItem>
+        <statuses.disabled title="Маршрут" subtitle="Ташкент -&gt; Бухара, 1200 км" />
+      </ListItem>
+      <ListItem>
+        <statuses.disabled title="Транспорт" subtitle="не заполнено" />
+      </ListItem>
+      <ListItem>
+        <statuses.disabled title="Оплата" subtitle="не заполнено" />
+      </ListItem>
+      <ListItem>
+        <statuses.disabled title="Дополнительно" subtitle="ром, +998 (99) 999-99-99" />
       </ListItem>
     </OrderedList>
   </Box>;

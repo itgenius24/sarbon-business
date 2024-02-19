@@ -13,7 +13,7 @@ export const CargoForm = () => {
       <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">В рассчёте на одну машину</Text>
     </Box>
     <Box display="flex" columnGap="24px" flexGrow="1">
-      <Dropdown />
+      <Dropdown searchable search />
       <TextFieldWithAddition width="134px" placeholder="Вес" additionalItemDefaultIndex={0} additionalItemOptions={weightOptions} />
       <TextFieldWithAddition width="134px" placeholder="Объем" additionalItemPlaceholder={<span>м<sup>3</sup></span>} />
     </Box>

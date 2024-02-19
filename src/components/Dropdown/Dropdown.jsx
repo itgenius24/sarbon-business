@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 import cls from "./styles.module.scss";
 import { useDropdownProps } from "./useDropdownProps";
 import clsx from "clsx";
-import { SelectionArrow } from "@/assets/icons/icons";
+import { SearchIcon, SelectionArrow } from "@/assets/icons/icons";
 
 export const Dropdown = ({
   options = [],
@@ -13,7 +13,11 @@ export const Dropdown = ({
   label,
   control,
   name = "select",
-  required
+  register = () => {},
+  required,
+  searchable,
+  searchName = "search",
+  inputPlaceholder = "Выберите",
 }) => {
 
   const optionsHeight = `${Math.floor(options && options.length * 50 / 2)}px`;
@@ -35,20 +39,31 @@ export const Dropdown = ({
         {label && <span className={cls.label}>{label}</span>}
         <div className={cls.controlWrap} >
           <div
-            className={clsx(cls.control, { [cls.open]: isOpen })}
+            className={clsx(cls.control, { [cls.open]: isOpen, [cls.searchable]: searchable })}
             onClick={(e) => {
               e.stopPropagation();
               handleToggle();
             }}
           >
-            {
-              (value?.label || !isNaN(defaultValueIndex))
-                ? <span className={cls.value}>{value?.label || options[defaultValueIndex]?.label}</span>
-                : <span className={cls.placeholder}>{placeholder}</span>
-            }
-            <span className={clsx(cls.arrow, { [cls.open]: isOpen })}>
-              {<SelectionArrow />}
-            </span>
+            <>
+              {
+                searchable
+                  ? <div className={cls.inputWrap}>
+                    <input className={cls.input} {...register(searchName)} placeholder={inputPlaceholder} />
+                    <span className={cls.leftIcon}><SearchIcon /></span>
+                  </div>
+                  : <>
+                    {
+                      (value?.label || !isNaN(defaultValueIndex))
+                        ? <span className={cls.value}>{value?.label || options[defaultValueIndex]?.label}</span>
+                        : <span className={cls.placeholder}>{placeholder}</span>
+                    }
+                    <span className={clsx(cls.arrow, { [cls.open]: isOpen })}>
+                      {<SelectionArrow />}
+                    </span>
+                  </>
+              }
+            </>
           </div>
           {isOpen && (
             <div

@@ -195,7 +195,7 @@ export const CheckIcon = () => (
   </svg>
 );
 
-export const Searchicon = () => (
+export const SearchIcon = () => (
   <svg
     width="18"
     height="18"
