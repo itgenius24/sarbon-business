@@ -1,4 +1,4 @@
-FROM node:16.18.1 
+FROM node:18.16.0
 RUN apt update && apt install -y yarn
 
 RUN mkdir app
