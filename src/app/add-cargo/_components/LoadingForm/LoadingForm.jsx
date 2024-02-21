@@ -1,0 +1,142 @@
+import { Dropdown } from "@/components/Dropdown";
+import cls from "./styles.module.scss";
+import { useLoadingFormProps } from "./useLoadingFormProps";
+import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
+import { Button } from "@chakra-ui/react";
+import { Checkbox } from "@/components/Checkbox";
+
+export const LoadingForm = () => {
+
+  const {
+    control,
+    loadings,
+    register,
+    watch,
+    setValue,
+    handleAppendLoading,
+    handleRemoveLoading,
+    handleUnloadingAppend,
+    handleUnloadingRemove,
+    unloading
+  } = useLoadingFormProps();
+
+  return <div className={cls.formGroup}>
+    <div className={cls.formContent}>
+      <div className={cls.fields}>
+        {
+          loadings.map((loading, index) => {
+            return <div className={cls.fieldsWrapper} key={loading.id}>
+              {
+                index === 0 && <h2 className={cls.heading}>Загрузка</h2>
+              }
+              {
+                index !== 0 && <Button variant="reset"
+                  onClick={() => handleRemoveLoading(index)}
+                  color="brand.700"
+                  leftIcon={<DeleteIcon />}
+                >
+                  Удалить
+                </Button>
+              }
+              <div className={cls.field}>
+                <Dropdown
+                  searchable
+                  search
+                  control={control}
+                  required
+                  register={register}
+                  watch={watch}
+                  setValue={setValue}
+                  searchName="search"
+                  name={`loadings[${index}].location`}
+                  placeholder="Населённый пункт"
+                  options={[{ label: "Тест", value: "test" }, { label: "Тест2", value: "test2" }, { label: "Тест3", value: "test3" }]}
+                />
+                <TextFieldWithAddition
+                  placeholder="Адрес"
+                  additionalItemTheme="white"
+                  control={control}
+                  name={`loadings[${index}].address`}
+                  additionalItemPlaceholder={
+                    <span className={cls.additionalIcons}>
+                      <LocationMarkIcon />
+                      <DotPointIcon />
+                    </span>
+                  }
+                />
+              </div>
+            </div>;
+          })
+        }
+      </div>
+    </div>
+    <div className={cls.fieldActions}>
+      <h2 className={cls.fieldActionsHeading}>Добавить точку маршрута</h2>
+      <div className={cls.fieldActionsButtons}>
+        <Button onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Загрузка</Button>
+        <Button onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Разгрузка</Button>
+        <Button onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Ехать через</Button>
+        <Button onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Таможня</Button>
+      </div>
+    </div>
+    <div className={cls.fields}>
+      {
+        unloading.map((loading, index) => {
+          return <div className={cls.fieldsWrapper} key={loading.id}>
+            {
+              index === 0 && <h2 className={cls.heading}>Разгрузка</h2>
+            }
+            {
+              index !== 0 && <Button variant="reset"
+                onClick={() => handleUnloadingRemove(index)}
+                color="brand.700"
+                leftIcon={<DeleteIcon />}
+              >
+                  Удалить
+              </Button>
+            }
+            <div className={cls.field}>
+              <Dropdown
+                searchable
+                search
+                control={control}
+                required
+                register={register}
+                watch={watch}
+                setValue={setValue}
+                searchName="search"
+                name={`loadings[${index}].location`}
+                placeholder="Населённый пункт"
+                options={[{ label: "Тест", value: "test" }, { label: "Тест2", value: "test2" }, { label: "Тест3", value: "test3" }]}
+              />
+              <TextFieldWithAddition
+                placeholder="Адрес"
+                additionalItemTheme="white"
+                control={control}
+                name={`loadings[${index}].address`}
+                additionalItemPlaceholder={
+                  <span className={cls.additionalIcons}>
+                    <LocationMarkIcon />
+                    <DotPointIcon />
+                  </span>
+                }
+              />
+            </div>
+          </div>;
+        })
+      }
+    </div>
+    <div className={cls.route}>
+      <h2 className={cls.heading}>Маршрут</h2>
+      <div className={cls.routeContent}>
+        <Checkbox>
+          <span className={cls.checkboxInner}>
+            <span>Кругорейс</span>
+            <HelpCircleIcon />
+          </span>
+        </Checkbox>
+      </div>
+    </div>
+  </div>;
+};

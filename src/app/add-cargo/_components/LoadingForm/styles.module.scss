@@ -1,0 +1,85 @@
+.formGroup {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--brand-200);
+}
+
+.formContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.heading {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--brand-700);
+}
+
+.fields {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  max-width: 540px;
+  display: flex;
+  column-gap: 24px;
+  margin-left: auto;
+}
+
+.fieldsWrapper {
+  display: flex;
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
+.additionalIcons {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.fieldActions {
+  max-width: 540px;
+  margin-left: auto;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--brand-200);
+}
+
+.fieldActionsHeading {
+  margin-bottom: 16px;
+  color: var(--brand-700);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.fieldActionsButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route {
+  display: flex;
+  column-gap: 32px;
+  margin-top: 24px;
+}
+
+.routeContent {
+  width: 540px;
+  margin-left: auto;
+}
+
+.checkboxInner {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}

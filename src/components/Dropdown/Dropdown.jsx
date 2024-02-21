@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 import cls from "./styles.module.scss";
 import { useDropdownProps } from "./useDropdownProps";
 import clsx from "clsx";
-import { SearchIcon, SelectionArrow } from "@/assets/icons/icons";
+import { CircleCloseIcon, SearchIcon, SelectionArrow } from "@/assets/icons/icons";
 
 export const Dropdown = ({
   options = [],
@@ -18,6 +18,8 @@ export const Dropdown = ({
   searchable,
   searchName = "search",
   inputPlaceholder = "Выберите",
+  setValue = () => {},
+  watch = () => {},
 }) => {
 
   const optionsHeight = `${Math.floor(options && options.length * 50 / 2)}px`;
@@ -51,6 +53,9 @@ export const Dropdown = ({
                   ? <div className={cls.inputWrap}>
                     <input className={cls.input} {...register(searchName)} placeholder={inputPlaceholder} />
                     <span className={cls.leftIcon}><SearchIcon /></span>
+                    {
+                      watch(searchName) && <span className={cls.rightIcon} onClick={() => setValue(searchName, "")}><CircleCloseIcon /></span>
+                    }
                   </div>
                   : <>
                     {
@@ -76,7 +81,13 @@ export const Dropdown = ({
                   <div
                     className={clsx(cls.option, { [cls.selected]: option.value === value?.value })}
                     key={index}
-                    onClick={() => onChange(option)}
+                    onClick={() => {
+                      if(searchable) {
+                        setValue(searchName, option.value);
+                      }
+                      onChange(option);
+                      handleToggle();
+                    }}
                   >
                     {option.label}
                     {(

@@ -217,12 +217,24 @@ export const CloseIcon = () =>(
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M12.4993 7.49984L7.49935 12.4998M7.49935 7.49984L12.4993 12.4998M18.3327 9.99984C18.3327 14.6022 14.6017 18.3332 9.99935 18.3332C5.39698 18.3332 1.66602 14.6022 1.66602 9.99984C1.66602 5.39746 5.39698 1.6665 9.99935 1.6665C14.6017 1.6665 18.3327 5.39746 18.3327 9.99984Z" stroke="#667085" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
-
 );
 
-export const DeleteIcon = () =>(
+export const CircleCloseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <g clipPath="url(#clip0_834_47235)">
+      <path d="M12.4998 7.49935L7.49984 12.4993M7.49984 7.49935L12.4998 12.4993M18.3332 9.99935C18.3332 14.6017 14.6022 18.3327 9.99984 18.3327C5.39746 18.3327 1.6665 14.6017 1.6665 9.99935C1.6665 5.39698 5.39746 1.66602 9.99984 1.66602C14.6022 1.66602 18.3332 5.39698 18.3332 9.99935Z" stroke="#667085" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_834_47235">
+        <rect width="20" height="20" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+export const DeleteIcon = ({ color = "#667085" }) =>(
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7.5 2.5H12.5M2.5 5H17.5M15.8333 5L15.2489 13.7661C15.1612 15.0813 15.1174 15.7389 14.8333 16.2375C14.5833 16.6765 14.206 17.0294 13.7514 17.2497C13.235 17.5 12.5759 17.5 11.2578 17.5H8.74221C7.42409 17.5 6.76503 17.5 6.24861 17.2497C5.79396 17.0294 5.41674 16.6765 5.16665 16.2375C4.88259 15.7389 4.83875 15.0813 4.75107 13.7661L4.16667 5M8.33333 8.75V12.9167M11.6667 8.75V12.9167" stroke="#667085" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M7.5 2.5H12.5M2.5 5H17.5M15.8333 5L15.2489 13.7661C15.1612 15.0813 15.1174 15.7389 14.8333 16.2375C14.5833 16.6765 14.206 17.0294 13.7514 17.2497C13.235 17.5 12.5759 17.5 11.2578 17.5H8.74221C7.42409 17.5 6.76503 17.5 6.24861 17.2497C5.79396 17.0294 5.41674 16.6765 5.16665 16.2375C4.88259 15.7389 4.83875 15.0813 4.75107 13.7661L4.16667 5M8.33333 8.75V12.9167M11.6667 8.75V12.9167" stroke={color} strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 
 );
@@ -250,9 +262,9 @@ export const HelpCircleIcon = () =>(
   </svg>
 );
 
-export const PlusIcon = () =>(
+export const PlusIcon = ({ color="white" }) =>(
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path d="M10.0001 4.16669V15.8334M4.16675 10H15.8334" stroke="white" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10.0001 4.16669V15.8334M4.16675 10H15.8334" stroke={color} strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -276,5 +288,18 @@ export const StepProcessIcon = ({ color = "#007AFF" }) => (
     <rect x="0.75" y="0.75" width="22.5" height="22.5" rx="11.25" fill={color} fillOpacity="0.05"/>
     <rect x="0.75" y="0.75" width="22.5" height="22.5" rx="11.25" stroke={color} strokeWidth="1.5"/>
     <circle cx="12" cy="12" r="4" fill={color}/>
+  </svg>
+);
+
+export const DotPointIcon = ({ color = "#344054" }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.5 9.99935L7.5 9.99935M17.5 4.99935L7.5 4.99935M17.5 14.9993L7.5 14.9993M4.16667 9.99935C4.16667 10.4596 3.79357 10.8327 3.33333 10.8327C2.8731 10.8327 2.5 10.4596 2.5 9.99935C2.5 9.53911 2.8731 9.16602 3.33333 9.16602C3.79357 9.16602 4.16667 9.53911 4.16667 9.99935ZM4.16667 4.99935C4.16667 5.45959 3.79357 5.83268 3.33333 5.83268C2.8731 5.83268 2.5 5.45959 2.5 4.99935C2.5 4.53911 2.8731 4.16602 3.33333 4.16602C3.79357 4.16602 4.16667 4.53911 4.16667 4.99935ZM4.16667 14.9993C4.16667 15.4596 3.79357 15.8327 3.33333 15.8327C2.8731 15.8327 2.5 15.4596 2.5 14.9993C2.5 14.5391 2.8731 14.166 3.33333 14.166C3.79357 14.166 4.16667 14.5391 4.16667 14.9993Z" stroke={color} strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const LocationMarkIcon = ({ color = "#344054" }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9.99967 10.8327C11.3804 10.8327 12.4997 9.71339 12.4997 8.33268C12.4997 6.95197 11.3804 5.83268 9.99967 5.83268C8.61896 5.83268 7.49967 6.95197 7.49967 8.33268C7.49967 9.71339 8.61896 10.8327 9.99967 10.8327Z" stroke={color} strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9.99967 18.3327C13.333 14.9993 16.6663 12.0146 16.6663 8.33268C16.6663 4.65078 13.6816 1.66602 9.99967 1.66602C6.31778 1.66602 3.33301 4.65078 3.33301 8.33268C3.33301 12.0146 6.66634 14.9993 9.99967 18.3327Z" stroke={color} strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );

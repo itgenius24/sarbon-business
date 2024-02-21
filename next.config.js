@@ -8,6 +8,7 @@ const nextConfig = {
     prependData: `
         @import "./src/styles/mixins.scss";
         @import "./src/styles/unit.scss";
+        @import "./src/styles/date-picker.scss";
         `
   }
 };

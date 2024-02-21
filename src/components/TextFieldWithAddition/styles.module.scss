@@ -65,7 +65,8 @@
 .fieldInput {
   width: 100%;
   height: 100%;
-  padding: 10px 14px;
+  padding: 10px;
+  padding-right: 0;
   outline: none;
 
   &::placeholder {
