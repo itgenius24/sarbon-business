@@ -2,6 +2,7 @@ import { Box, Heading } from "@chakra-ui/react";
 import { CargoForm } from "../CargoForm";
 import { DeadlineForm } from "../DeadlineForm";
 import { LoadingForm } from "../LoadingForm";
+import { TransportDetail } from "../TransportDetail";
 
 export const CargoDetail = () => {
 
@@ -10,5 +11,6 @@ export const CargoDetail = () => {
     <CargoForm />
     <DeadlineForm />
     <LoadingForm />
+    <TransportDetail />
   </Box>;
 };

@@ -24,7 +24,7 @@
 }
 
 .field {
-  max-width: 540px;
+  flex-grow: 1;
   display: flex;
   column-gap: 24px;
   margin-left: auto;
@@ -32,10 +32,15 @@
 
 .fieldsWrapper {
   display: flex;
+  column-gap: 32px;
 
   &:not(:last-child) {
     margin-bottom: 24px;
   }
+}
+
+.fieldsWrapperActions {
+  width: 280px;
 }
 
 .additionalIcons {

@@ -1,0 +1,1 @@
+export { TransportDetail } from "./TransportDetail";

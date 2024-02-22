@@ -1,9 +1,16 @@
 import request from "@/services/request";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
   getCompanyList: (params) => request.get("/v2/object-slim/get-list/company", { params }),
   getRoleList: (params) => request.get("/v2/object-slim/get-list/role", { params }),
+  getCargoType: (params) => request.get("/v2/object-slim/get-list/cargo_type", { params }),
+  getMeasurement: (params) => request.get("/v2/object-slim/get-list/measurement", { params }),
+  getAddress: (params) => request.get("/v2/object-slim/get-list/address", { params }),
+  getCarType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+  getCurrency: (params) => request.get("/v2/object-slim/get-list/currency", { params }),
+  getPackage: (params) => request.get("/v2/object-slim/get-list/packages", { params }),
+  createCargo: (data) => request.post("/v2/items/cargo", data)
 };
 
 
@@ -20,4 +27,50 @@ export const useGetRoleList = (params, props) => {
     queryFn: () => objectService.getRoleList(params),
     ...props
   });
+};
+
+export const useGetCargoType = (params = { data: JSON.stringify({}) }) => {
+  return useQuery({
+    queryKey: ["object/getCargoType", params],
+    queryFn: () => objectService.getCargoType(params),
+  });
+};
+
+export const useGetMeasurement = (params = { data: JSON.stringify({}) }) => {
+  return useQuery({
+    queryKey: ["object/getMeasurement", params],
+    queryFn: () => objectService.getMeasurement(params),
+  });
+};
+
+export const useGetAddress = (params = { data: JSON.stringify({}) }) => {
+  return useQuery({
+    queryKey: ["object/getAddress", params],
+    queryFn: () => objectService.getAddress(params),
+  });
+};
+
+export const useGetCarType = (params = { data: JSON.stringify({}) }) => {
+  return useQuery({
+    queryKey: ["object/getCarType", params],
+    queryFn: () => objectService.getCarType(params),
+  });
+};
+
+export const useGetCurrency = (params = { data: JSON.stringify({}) }) => {
+  return useQuery({
+    queryKey: ["object/getCurrency", params],
+    queryFn: () => objectService.getCurrency(params),
+  });
+};
+
+export const useGetPackage = (params = { data: JSON.stringify({}) }) => {
+  return useQuery({
+    queryKey: ["object/getPackage", params],
+    queryFn: () => objectService.getPackage(params),
+  });
+};
+
+export const useCreateCargoMutation = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => objectService.createCargo(data), ...mutationSettings });
 };

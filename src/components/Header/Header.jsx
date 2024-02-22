@@ -10,12 +10,18 @@ import { Box, IconButton, ListItem, UnorderedList } from "@chakra-ui/react";
 import { LanguageIcon, SettingIcon } from "@/assets/icons/icons";
 import { usePathname } from "next/navigation";
 import { Logo } from "../Logo";
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
 
-export const Header = ({ elements }) => {
+const Header = observer(({ elements }) => {
+
+  const [isAuth, setAuth] = useState(false);
 
   const pathname = usePathname();
 
-  const isAuth = authStore.isAuth;
+  useEffect(() => {
+    setAuth(authStore.getIsAuth);
+  }, [authStore.getIsAuth]);
 
   return <Box as="header" className={cls.header} borderBottom="1px solid" borderBottomColor="brand.200">
     <Container>
@@ -41,13 +47,15 @@ export const Header = ({ elements }) => {
         </Box>
         <Box className={cls.rightBox}>
           <Box className={cls.buttonBox}>
-            <Link
-              className={clsx(cls.registerLink, { [cls.show]: !isAuth })}
-              title={"Зарегистрироваться"}
-              href="/auth"
-            >
+            {
+              !isAuth && <Link
+                className={clsx(cls.registerLink)}
+                title={"Зарегистрироваться"}
+                href="/auth"
+              >
                 Зарегистрироваться
-            </Link>
+              </Link>
+            }
             <Box display="flex" columnGap="4px">
               <IconButton variant="reset">
                 <SettingIcon />
@@ -68,4 +76,6 @@ export const Header = ({ elements }) => {
       </Box>
     </Container>
   </Box>;
-};
+});
+
+export default Header;

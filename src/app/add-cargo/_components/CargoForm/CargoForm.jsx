@@ -8,7 +8,6 @@ import { Checkbox } from "@/components/Checkbox";
 export const CargoForm = () => {
 
   const {
-    weightOptions,
     errors,
     control,
     register,
@@ -18,6 +17,10 @@ export const CargoForm = () => {
     handlePackagingAndQuantity,
     isDimensionsAndDiameter,
     isPackagingAndQuantity,
+    cargoTypeOptions,
+    weightMeasurementOptions,
+    volumeMeasurementOptions,
+    packageOptions,
   } = useCargoFormProps();
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
@@ -27,7 +30,7 @@ export const CargoForm = () => {
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">В рассчёте на одну машину</Text>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="16px" maxW="540px" width="100%" ml="auto">
-        <Box display="flex" columnGap="24px" flexGrow="1">
+        <Box display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
           <Dropdown
             searchable
             search
@@ -36,9 +39,10 @@ export const CargoForm = () => {
             register={register}
             watch={watch}
             setValue={setValue}
-            searchName="search"
-            name="cargo"
-            options={[{ label: "Тест", value: "test" }, { label: "Тест2", value: "test2" }, { label: "Тест3", value: "test3" }]}
+            searchName="cargo_type_search"
+            name="cargo_type"
+            options={cargoTypeOptions}
+            errors={errors}
           />
           <TextFieldWithAddition
             rules={{
@@ -49,13 +53,13 @@ export const CargoForm = () => {
             }}
             errors={errors}
             control={control}
-            name="weight"
+            name="weight_measurement"
             register={register}
-            additionalItemName="weightUnit"
+            additionalItemName="weight_unit"
             width="134px"
             placeholder="Вес"
             additionalItemDefaultIndex={0}
-            additionalItemOptions={weightOptions}
+            additionalItemOptions={weightMeasurementOptions}
           />
           <TextFieldWithAddition
             rules={{
@@ -66,11 +70,14 @@ export const CargoForm = () => {
             }}
             errors={errors}
             control={control}
-            name="volume"
+            name="volume_measurement"
             register={register}
             width="134px"
             placeholder="Объем"
             additionalItemPlaceholder={<span>м<sup>3</sup></span>}
+            additionalItemName="volume_unit"
+            additionalItemDefaultIndex={0}
+            additionalItemOptions={volumeMeasurementOptions}
           />
         </Box>
         <Box display="flex" columnGap="24px">
@@ -100,6 +107,7 @@ export const CargoForm = () => {
         <Button variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
         <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
+            errors={errors}
             searchable
             search
             control={control}
@@ -109,17 +117,18 @@ export const CargoForm = () => {
             setValue={setValue}
             searchName="packagingSearch"
             name="packaging"
-            options={[{ label: "Тест", value: "test" }, { label: "Тест2", value: "test2" }, { label: "Тест3", value: "test3" }]}
+            options={packageOptions}
           />
           <TextFieldWithAddition
             control={control}
-            name="weight"
+            errors={errors}
+            name="packaging_quantity"
             register={register}
             width="196px"
             placeholder="Кол-во"
             additionalItemPlaceholder="шт."
             additionalItemDefaultIndex={0}
-            additionalItemOptions={weightOptions}
+            additionalItemOptions={[]}
           />
         </Box>
       </Box>

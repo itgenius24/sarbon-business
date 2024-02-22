@@ -5,6 +5,9 @@ import cls from "./styles.module.scss";
 import { useDropdownProps } from "./useDropdownProps";
 import clsx from "clsx";
 import { CircleCloseIcon, SearchIcon, SelectionArrow } from "@/assets/icons/icons";
+import { useMemo } from "react";
+import { convertLatinToCyril } from "@/utils/convertLatinToCyril";
+
 
 export const Dropdown = ({
   options = [],
@@ -20,9 +23,21 @@ export const Dropdown = ({
   inputPlaceholder = "Выберите",
   setValue = () => {},
   watch = () => {},
+  errors,
 }) => {
 
-  const optionsHeight = `${Math.floor(options && options.length * 50 / 2)}px`;
+  const height = Math.floor(options && options.length * 50 / 2);
+
+  const optionsHeight = `${height > 200 ? 200 : height}px`;
+
+  const checkedOptions = useMemo(() => {
+    if(searchable && watch(searchName)) {
+      return options.filter(option => option.label.toLowerCase().includes(convertLatinToCyril(watch(searchName)).toLowerCase()));
+    } else {
+      return options;
+    }
+
+  }, [watch(searchName), options]);
 
   const {
     isOpen,
@@ -77,13 +92,13 @@ export const Dropdown = ({
               onClick={handleClose}
             >
               {
-                options.map((option, index) => (
+                checkedOptions.map((option, index) => (
                   <div
                     className={clsx(cls.option, { [cls.selected]: option.value === value?.value })}
                     key={index}
                     onClick={() => {
                       if(searchable) {
-                        setValue(searchName, option.value);
+                        setValue(searchName, option.label);
                       }
                       onChange(option);
                       handleToggle();

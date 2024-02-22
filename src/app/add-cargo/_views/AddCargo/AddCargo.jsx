@@ -1,3 +1,5 @@
+"use client";
+
 import { DeleteIcon, PlusIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { Box, Button, Heading } from "@chakra-ui/react";
@@ -5,6 +7,7 @@ import { CargoDetail } from "../../_components/CargoDetail";
 import { Stages } from "../../_components/Stages";
 import { useAddCargoProps } from "./useAddCargoProps";
 import { AddCargoProvider } from "../../_providers";
+import { CargoSetup } from "../../_components/CargoSetup";
 
 export const AddCargo = () => {
 
@@ -23,8 +26,15 @@ export const AddCargo = () => {
               </Box>
             </Box>
             <CargoDetail />
+            <CargoSetup />
           </Box>
           <Stages />
+        </Box>
+        <Box mt="32px">
+          <Box display="flex" columnGap="12px" justifyContent="flex-end" maxWidth="900px">
+            <Button size="sm" maxWidth="223px" variant="secondaryWhite">Сохранить как шаблон</Button>
+            <Button size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Опубликовать груз</Button>
+          </Box>
         </Box>
       </Container>
     </Box>

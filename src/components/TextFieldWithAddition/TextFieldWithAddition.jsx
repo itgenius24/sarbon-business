@@ -25,6 +25,8 @@ export const TextFieldWithAddition = ({
   additionalItemPlaceholder = "",
   additionalItemDefaultIndex,
   width = "",
+  additionalOnclick = () => {},
+  ...props
 }) => {
 
   const { dropdownControl, isOpen, handleToggle, handleClose } = useTextFieldWithAdditionProps();
@@ -39,7 +41,7 @@ export const TextFieldWithAddition = ({
     <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] })}>
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
-        <input className={cls.fieldInput} {...register(name, rules)} type={type} placeholder={placeholder} />
+        <input className={cls.fieldInput} {...register(name, rules)} type={type} placeholder={placeholder} {...props} />
         {before && <span className={cls.before}>{before}</span>}
       </div>
       <Controller
@@ -49,16 +51,21 @@ export const TextFieldWithAddition = ({
           return <div className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light" })}>
             <button
               className={cls.additionalItemContent}
-              onClick={() => additionalItemOptions ? handleToggle() : () => {}}
+              onClick={() => {
+                if(additionalItemOptions.length > 0) {
+                  handleToggle();
+                }
+                additionalOnclick();
+              }}
             >
-              {field.value || additionalItemOptions?.[additionalItemDefaultIndex]?.label || additionalItemPlaceholder}
+              {field.value?.label || additionalItemOptions?.[additionalItemDefaultIndex]?.label || additionalItemPlaceholder}
             </button>
             {
-              additionalItemOptions && isOpen && <div className={cls.additionalItemOptions}>
+              additionalItemOptions.length > 0 && isOpen && <div className={cls.additionalItemOptions}>
                 {additionalItemOptions.map((item, index) => {
                   return <button
                     key={index}
-                    className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field.value })}
+                    className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field?.value?.value })}
                     onClick={() => {
                       field.onChange(item);
                       handleClose();
@@ -66,7 +73,7 @@ export const TextFieldWithAddition = ({
                   >
                     <span className={cls.additionalItemOptionLabel}>
                       <span>{item.label}</span>
-                      <CheckIcon />
+                      {item.value === field?.value?.value && <CheckIcon />}
                     </span>
                   </button>;
                 })}

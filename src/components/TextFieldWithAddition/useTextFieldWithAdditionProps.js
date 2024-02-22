@@ -15,17 +15,6 @@ export const useTextFieldWithAdditionProps = () => {
     setOpen(false);
   }
 
-  function onWindowClick () {
-    setOpen(false);
-  }
-
-  useEffect(() => {
-    document.addEventListener("click", onWindowClick);
-    return () => {
-      document.removeEventListener("click", onWindowClick);
-    };
-  }, []);
-
   return {
     isOpen,
     handleToggle,

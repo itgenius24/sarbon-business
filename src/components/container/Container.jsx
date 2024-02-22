@@ -2,7 +2,7 @@ import { Container as ChakraContainer } from "@chakra-ui/react";
 
 export const Container = ({ children, ...props }) => {
 
-  return <ChakraContainer maxW="1216px" width="100%" {...props}>
+  return <ChakraContainer maxW="1258px" width="100%" {...props}>
     {children}
   </ChakraContainer>;
 };

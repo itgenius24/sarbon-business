@@ -1,5 +1,5 @@
 .field {
-  flex-shrink: 0;
+  width: 100%;
 }
 
 .fieldTop {
@@ -79,7 +79,6 @@
   max-width: 161px;
   height: 100%;
   position: relative;
-  z-index: 10;
   padding: 10px 14px;
   color: var(--brand-500);
   border: 1px solid var(--brand-300);
@@ -94,14 +93,16 @@
 
 .additionalItemContent {
   width: 100%;
+  min-width: 30px;
   font-weight: 400;
+  white-space: nowrap;
   color: var(--brand-500);
 }
 
 .additionalItemOptions {
   width: 100%;
   position: absolute;
-  z-index: 10;
+  z-index: 100;
   top: calc(100% + 8px);
   left: 0;
   padding: 6px;

@@ -82,10 +82,10 @@
 
 .registerLink {
   @include primary-btn;
-  display: none;
+  // display: none;
   margin-right: 16px;
 }
 
-.registerLink.show {
-  display: block;
-}
+// .registerLink.show {
+//   display: block;
+// }

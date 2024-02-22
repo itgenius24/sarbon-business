@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from "mobx";
+import { action, autorun, computed, makeAutoObservable } from "mobx";
 import { clearPersistedStore, makePersistable } from "mobx-persist-store";
 import { enableStaticRendering } from "mobx-react-lite";
 
@@ -21,28 +21,53 @@ class Store {
       login: action,
       logout: action,
       setAuthData: action,
-      setRemember: action
+      setRemember: action,
+      getIsAuth: computed
     });
 
-    this.storePersist = makePersistable;
-    this.setRemember(false);
+    makePersistable(this, {
+      name: "authStore",
+      properties: ["isAuth", "userData", "token", "authData", "remember"],
+      storage: storage("localStorage")
+    });
 
-    // makePersistable(this, {
-    //   name: "authStore",
-    //   properties: ["isAuth", "userData", "token", "authData"],
-    //   storage: storage()
+    // this.rememberDisposer = autorun(() => {
+    //   this.clearStoredDate();
+    //   if(this.remember) {
+    //     makePersistable(this, {
+    //       name: "authStore",
+    //       properties: ["isAuth", "userData", "token", "authData", "remember"],
+    //       storage: storage("localStorage")
+    //     });
+    //   } else {
+    //     makePersistable(this, {
+    //       name: "authStore",
+    //       properties: ["isAuth", "userData", "token", "authData", "remember"],
+    //       storage: storage("sessionStorage")
+    //     });
+    //   }
     // });
+
   }
 
   isAuth = false;
   userData = {};
   token = {};
+  remember = false;
   authData = {
     phone: "",
     role: "",
     smsId: "",
     clientTypeId: "",
   }
+
+  async clearStoredDate() {
+    await clearPersistedStore(this);
+  }
+
+  // dispose() {
+  //   this.rememberDisposer();
+  // }
 
   setIsAuth(value) {
     this.isAuth = value;
@@ -53,6 +78,7 @@ class Store {
     this.userData = data.user;
     this.role = data.role;
     this.token = data.token;
+    // this.dispose();
   }
 
   logout() {
@@ -65,25 +91,16 @@ class Store {
     this.authData[key] = value;
   }
 
-  setRemember(remember = false) {
-    clearPersistedStore(this);
-    if(remember) {
-      this.storePersist(this, {
-        name: "authStore",
-        properties: ["isAuth", "userData", "token", "authData"],
-        storage: storage("localStorage")
-      });
-    } else {
-      this.storePersist(this, {
-        name: "authStore",
-        properties: ["isAuth", "userData", "token", "authData"],
-        storage: storage("sessionStorage")
-      });
-    }
+  setRemember(remember) {
+    this.remember = remember;
   }
 
   get getAuthData() {
     return this.authData;
+  }
+
+  get getIsAuth() {
+    return this.isAuth;
   }
 }
 

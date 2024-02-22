@@ -5,6 +5,8 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
 import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
+import { Modal } from "@/components/Modal";
+import { Map } from "@pbe/react-yandex-maps";
 
 export const LoadingForm = () => {
 
@@ -13,12 +15,16 @@ export const LoadingForm = () => {
     loadings,
     register,
     watch,
-    setValue,
     handleAppendLoading,
     handleRemoveLoading,
     handleUnloadingAppend,
     handleUnloadingRemove,
-    unloading
+    unloading,
+    isModalOpen,
+    handleOpenModal,
+    handleCloseModal,
+    coordinates,
+    getAddressOptions,
   } = useLoadingFormProps();
 
   return <div className={cls.formGroup}>
@@ -27,31 +33,29 @@ export const LoadingForm = () => {
         {
           loadings.map((loading, index) => {
             return <div className={cls.fieldsWrapper} key={loading.id}>
-              {
-                index === 0 && <h2 className={cls.heading}>Загрузка</h2>
-              }
-              {
-                index !== 0 && <Button variant="reset"
-                  onClick={() => handleRemoveLoading(index)}
-                  color="brand.700"
-                  leftIcon={<DeleteIcon />}
-                >
+              <div className={cls.fieldsWrapperActions}>
+                {
+                  index === 0 && <h2 className={cls.heading}>Загрузка</h2>
+                }
+                {
+                  index !== 0 && <Button variant="reset"
+                    onClick={() => handleRemoveLoading(index)}
+                    color="brand.700"
+                    leftIcon={<DeleteIcon />}
+                  >
                   Удалить
-                </Button>
-              }
+                  </Button>
+                }
+              </div>
               <div className={cls.field}>
                 <Dropdown
-                  searchable
-                  search
                   control={control}
                   required
                   register={register}
                   watch={watch}
-                  setValue={setValue}
-                  searchName="search"
                   name={`loadings[${index}].location`}
                   placeholder="Населённый пункт"
-                  options={[{ label: "Тест", value: "test" }, { label: "Тест2", value: "test2" }, { label: "Тест3", value: "test3" }]}
+                  options={getAddressOptions}
                 />
                 <TextFieldWithAddition
                   placeholder="Адрес"
@@ -84,43 +88,43 @@ export const LoadingForm = () => {
       {
         unloading.map((loading, index) => {
           return <div className={cls.fieldsWrapper} key={loading.id}>
-            {
-              index === 0 && <h2 className={cls.heading}>Разгрузка</h2>
-            }
-            {
-              index !== 0 && <Button variant="reset"
-                onClick={() => handleUnloadingRemove(index)}
-                color="brand.700"
-                leftIcon={<DeleteIcon />}
-              >
+            <div className={cls.fieldsWrapperActions}>
+              {
+                index === 0 && <h2 className={cls.heading}>Разгрузка</h2>
+              }
+              {
+                index !== 0 && <Button variant="reset"
+                  onClick={() => handleUnloadingRemove(index)}
+                  color="brand.700"
+                  leftIcon={<DeleteIcon />}
+                >
                   Удалить
-              </Button>
-            }
+                </Button>
+              }
+            </div>
             <div className={cls.field}>
               <Dropdown
-                searchable
-                search
                 control={control}
                 required
                 register={register}
                 watch={watch}
-                setValue={setValue}
-                searchName="search"
-                name={`loadings[${index}].location`}
+                name={`unloading[${index}].location`}
                 placeholder="Населённый пункт"
-                options={[{ label: "Тест", value: "test" }, { label: "Тест2", value: "test2" }, { label: "Тест3", value: "test3" }]}
+                options={getAddressOptions}
               />
               <TextFieldWithAddition
                 placeholder="Адрес"
                 additionalItemTheme="white"
-                control={control}
-                name={`loadings[${index}].address`}
+                register={register}
+                name={`unloading[${index}].address`}
+                additionalOnclick={handleOpenModal}
                 additionalItemPlaceholder={
                   <span className={cls.additionalIcons}>
                     <LocationMarkIcon />
                     <DotPointIcon />
                   </span>
                 }
+                disabled
               />
             </div>
           </div>;
@@ -130,7 +134,7 @@ export const LoadingForm = () => {
     <div className={cls.route}>
       <h2 className={cls.heading}>Маршрут</h2>
       <div className={cls.routeContent}>
-        <Checkbox>
+        <Checkbox register={register} name="gps_monitoring">
           <span className={cls.checkboxInner}>
             <span>Кругорейс</span>
             <HelpCircleIcon />
@@ -138,5 +142,8 @@ export const LoadingForm = () => {
         </Checkbox>
       </div>
     </div>
+    <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Точка маршрута">
+      <Map width="100%" defaultState={{ center: coordinates, zoom: 9 }} />
+    </Modal>
   </div>;
 };

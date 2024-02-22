@@ -62,9 +62,9 @@ export const useLoginProps = () => {
     authStore.setRemember(e.target.checked);
   }
 
-  useEffect(() => {
-    authStore.setRemember(false);
-  }, []);
+  // useEffect(() => {
+  //   authStore.setRemember(false);
+  // }, []);
 
   return {
     handleSubmit,
