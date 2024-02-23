@@ -1,0 +1,163 @@
+.loadsCard {
+  padding: 24px;
+  border-radius: 16px;
+  background-color: #fff;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--brand-200);
+}
+
+.cardTopContent {
+
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  margin-bottom: 16px;
+}
+
+.addressText {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #000;
+}
+
+.addressStatus {
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.addressStatus.process {
+  background: rgba(255, 204, 0, 0.15);
+  color: #FF9500;
+}
+
+.addressStatus.modernize {
+  background: rgba(28, 139, 195, 0.07);
+  color: #1C8BC3;
+}
+
+.addressStatus.offer {
+  background: rgba(1, 145, 65, 0.07);
+  color: #009241;
+}
+
+.addressStatus.waiting {
+  background: rgba(54, 229, 122, 0.07);
+  color: #17B26A;
+}
+
+.addressStatus.cancel {
+  background: rgba(249, 79, 79, 0.07);
+  color: #F64F56;
+}
+
+.addressStatus.archive {
+  background: #EAECF0;
+  color: #D0D5DD;
+}
+
+.distance {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 14px;
+  color: var(--primary);
+}
+
+// .paymentInfo {
+
+// }
+
+.paymentInfoContent {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.paymentInfoText {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--primary);
+}
+
+.paymentInfoSubText {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #84919A;
+}
+
+.paymentInfoComment {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  color: var(--brand-500);  
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--brand-200);
+}
+
+.cardListItem {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+
+  dt {
+    color: rgba(132, 145, 154, 0.8);
+  }
+
+  dd {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #303940;
+  }
+}
+
+.cardBottom {
+  padding-top: 16px;
+  display: flex;
+  column-gap: 8px;
+}
+
+.cardBtn {
+  padding: 12px 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--primary);
+  font-weight: 500;
+  border-color: var(--primary);
+  background-color: rgba(0, 122, 255, 0.07);
+}
+
+.cardBtn.delete {
+  color: var(--error-500);
+  border-color: var(--error-500);
+  background-color: #fff;
+}
+
+.cardBtnInner {
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+}

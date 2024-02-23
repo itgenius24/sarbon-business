@@ -22,7 +22,7 @@ export const AddCargo = () => {
               <Heading size="md">Добавить груз</Heading>
               <Box display="flex" columnGap="12px">
                 <Button leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button>
-                <Button leftIcon={<DeleteIcon />} variant="secondaryWhite" size="sm" >Очистить форму</Button>
+                <Button leftIcon={<DeleteIcon />} onClick={() => addCargoProps.reset({})} variant="secondaryWhite" size="sm" >Очистить форму</Button>
               </Box>
             </Box>
             <CargoDetail />
