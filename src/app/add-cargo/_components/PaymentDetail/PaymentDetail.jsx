@@ -56,6 +56,7 @@ export const PaymentDetail = () => {
           placeholder="10"
           additionalItemPlaceholder="%"
           register={register}
+          errors={errors}
           rules={{
             max: {
               value: 100,

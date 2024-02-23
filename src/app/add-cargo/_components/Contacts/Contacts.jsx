@@ -1,10 +1,13 @@
 import { Box, Heading, Text, Textarea } from "@chakra-ui/react";
 import { useAddCargoContext } from "../../_providers";
-import { TextField } from "@/components/TextField";
+import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+import authStore from "@/store/auth.store";
+import { useGetStoreData } from "@/hooks/useGetStoreData";
 
 export const Contacts = () => {
 
   const { register, setValue, watch } = useAddCargoContext();
+  const { value: userData } = useGetStoreData(authStore, "userData");
 
   return <Box pt="24px" borderTop="1px solid" borderColor="brand.200" >
     <Box display="flex" columnGap="32px" mb="24px">
@@ -12,7 +15,10 @@ export const Contacts = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Контакты</Heading>
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">укажите, к кому обратиться по объявлению</Text>
       </Box>
-      <TextField
+      <TextFieldWithAddition
+        additionalItemPosition="left"
+        additionalItemTheme="light"
+        additionalItemPlaceholder={userData?.login}
         placeholder="+998 (99) 999-99-99"
         name="contact"
         register={register}

@@ -58,7 +58,6 @@ export const CargoForm = () => {
             additionalItemName="weight_unit"
             width="134px"
             placeholder="Вес"
-            additionalItemDefaultIndex={0}
             additionalItemOptions={weightMeasurementOptions}
           />
           <TextFieldWithAddition
@@ -76,7 +75,6 @@ export const CargoForm = () => {
             placeholder="Объем"
             additionalItemPlaceholder={<span>м<sup>3</sup></span>}
             additionalItemName="volume_unit"
-            additionalItemDefaultIndex={0}
             additionalItemOptions={volumeMeasurementOptions}
           />
         </Box>

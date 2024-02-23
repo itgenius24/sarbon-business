@@ -28,6 +28,10 @@
   cursor: pointer;
 }
 
+.control.error {
+  border: 1px solid var(--error-500);
+}
+
 .control.searchable {
   position: relative;
   padding-left: 42px;

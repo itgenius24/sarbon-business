@@ -10,6 +10,17 @@ const nextConfig = {
         @import "./src/styles/unit.scss";
         @import "./src/styles/date-picker.scss";
         `
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.u-code.io",
+        port: "",
+        pathname: "*/media/*",
+      },
+    ],
+
   }
 };
 

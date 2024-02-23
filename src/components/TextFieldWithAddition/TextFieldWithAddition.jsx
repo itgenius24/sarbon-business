@@ -4,7 +4,7 @@ import clsx from "clsx";
 import cls from "./styles.module.scss";
 import { useTextFieldWithAdditionProps } from "./useTextFieldWithAdditionProps";
 import { Controller } from "react-hook-form";
-import { CheckIcon } from "@/assets/icons/icons";
+import { CheckIcon, SelectionArrow } from "@/assets/icons/icons";
 
 export const TextFieldWithAddition = ({
   register = () => {},
@@ -58,7 +58,12 @@ export const TextFieldWithAddition = ({
                 additionalOnclick();
               }}
             >
-              {field.value?.label || additionalItemOptions?.[additionalItemDefaultIndex]?.label || additionalItemPlaceholder}
+              <span className={cls.additionalItemLabelWrapper}>
+                <span>{field.value?.label || additionalItemOptions?.[additionalItemDefaultIndex]?.label || additionalItemPlaceholder}</span>
+                {
+                  additionalItemOptions.length > 0 && <span><SelectionArrow /></span>
+                }
+              </span>
             </button>
             {
               additionalItemOptions.length > 0 && isOpen && <div className={cls.additionalItemOptions}>

@@ -56,12 +56,14 @@ export const LoadingForm = () => {
                   name={`loadings[${index}].location`}
                   placeholder="Населённый пункт"
                   options={getAddressOptions}
+                  defaultValueIndex={0}
                 />
                 <TextFieldWithAddition
                   placeholder="Адрес"
                   additionalItemTheme="white"
-                  control={control}
+                  register={register}
                   name={`loadings[${index}].address`}
+                  additionalOnclick={handleOpenModal}
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
                       <LocationMarkIcon />
@@ -111,6 +113,7 @@ export const LoadingForm = () => {
                 name={`unloading[${index}].location`}
                 placeholder="Населённый пункт"
                 options={getAddressOptions}
+                defaultValueIndex={0}
               />
               <TextFieldWithAddition
                 placeholder="Адрес"
@@ -124,7 +127,6 @@ export const LoadingForm = () => {
                     <DotPointIcon />
                   </span>
                 }
-                disabled
               />
             </div>
           </div>;

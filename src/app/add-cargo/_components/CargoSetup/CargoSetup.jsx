@@ -1,15 +1,27 @@
-import { Box, Heading } from "@chakra-ui/react";
+import cls from "./styles.module.scss";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { BargainRadio } from "../BargainRadio";
-import { HelpCircleIcon } from "@/assets/icons/icons";
+import { DeleteIcon, HelpCircleIcon, UploadCloudIcon } from "@/assets/icons/icons";
 import { userCargoSetupProps } from "./useCargoSetupProps";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Dropdown } from "@/components/Dropdown";
 import { PaymentDetail } from "../PaymentDetail";
 import { Contacts } from "../Contacts";
+import Image from "next/image";
 
 export const CargoSetup = () => {
 
-  const { register, control, errors, currencyOptions, handleImageUpload } = userCargoSetupProps();
+  const {
+    register,
+    watch,
+    control,
+    errors,
+    currencyOptions,
+    handleImageUpload,
+    paymentOptions,
+    imageLoader,
+    setValue
+  } = userCargoSetupProps();
 
   return <Box as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
@@ -93,6 +105,10 @@ export const CargoSetup = () => {
         </Box>
         <Dropdown
           placeholder="Выберите"
+          options={paymentOptions}
+          name="payment_type"
+          control={control}
+          errors={errors}
         />
       </Box>
       <Box display="flex" columnGap="32px" >
@@ -103,9 +119,39 @@ export const CargoSetup = () => {
     </Box>
     <PaymentDetail />
     <Contacts />
-    <Box padding="16px 24px" display="block" ml="auto" border="1px solid" borderColor="brand.200" borderRadius="12px" as="label" width="416px" height="126px">
-      <input className="visually-hidden" type="file" accept="image/*" onChange={handleImageUpload} />
-      Загрузить
-    </Box>
+    {
+      watch("image")
+        ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" width={"540px"} height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
+          <Image className={cls.img} loader={imageLoader} src={process.env.NEXT_PUBLIC_MEDIA_URL + watch("image")} alt="cargo" width={150} height={150} />
+          <Button onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
+        </Box>
+        : <Box
+          padding="16px 24px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          ml="auto"
+          mt="24px"
+          border="1px solid"
+          borderColor="brand.200"
+          borderRadius="12px"
+          as="label"
+          width="540px"
+          height="126px"
+          cursor="pointer"
+        >
+          <input className="visually-hidden" type="file" accept="image/*" onChange={handleImageUpload} />
+          <Box>
+            <Box mx="auto" mb="12px" width="40px" height="40px" p="10px" boxShadow="0px 1px 2px 0px #1018280D" borderRadius="8px" background="white" border="1px solid" borderColor="brand.200">
+              <UploadCloudIcon />
+            </Box>
+            <Box color="primaryText" textAlign="center">
+            Загрузить
+            </Box>
+            <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">Фото до 10 МБ.</Box>
+          </Box>
+        </Box>
+
+    }
   </Box>;
 };

@@ -26,6 +26,20 @@
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 }
 
+.contentWrapper.leftPosition {
+  flex-direction: row-reverse;
+}
+
+.contentWrapper.leftPosition .additionalItem {
+  border-radius: 8px 0 0 8px;
+  border-left: 1px solid var(--brand-300);
+  border-right: none;
+}
+
+.contentWrapper.leftPosition .inputWrapper {
+  border-radius: 0 8px 8px 0;
+}
+
 .inputWrapper {
   width: 100%;
   height: 100%;
@@ -79,7 +93,7 @@
   max-width: 161px;
   height: 100%;
   position: relative;
-  padding: 10px 14px;
+  padding: 10px 7px;
   color: var(--brand-500);
   border: 1px solid var(--brand-300);
   border-left: none;
@@ -97,6 +111,12 @@
   font-weight: 400;
   white-space: nowrap;
   color: var(--brand-500);
+}
+
+.additionalItemLabelWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .additionalItemOptions {

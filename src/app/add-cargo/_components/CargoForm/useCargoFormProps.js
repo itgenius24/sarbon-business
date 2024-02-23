@@ -36,7 +36,8 @@ export const useCargoFormProps = () => {
   useEffect(() => {
 
     if(getMeasurement.isSuccess) {
-      setValue("weight_unit", weightMeasurementOptions[0] );
+      setValue("weight_unit", weightMeasurementOptions[0]);
+      setValue("volume_unit", volumeMeasurementOptions[0]);
     }
 
   }, [getMeasurement.data]);

@@ -1,0 +1,22 @@
+.stageItem {
+  position: relative;
+
+  &:not(:last-child) {
+    &::after {
+      width: 2px;
+      height: calc(100% - 8px);
+      position: absolute;
+      left: 12px;
+      top: 28px;
+      background-color: #E5E5E5;
+      content: "";
+    }
+  }
+}
+
+.stageItem.done,
+.stageItem.process {
+  &::after {
+    background-color: var(--primary);
+  }
+}

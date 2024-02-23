@@ -56,7 +56,7 @@ export const Dropdown = ({
         {label && <span className={cls.label}>{label}</span>}
         <div className={cls.controlWrap} >
           <div
-            className={clsx(cls.control, { [cls.open]: isOpen, [cls.searchable]: searchable })}
+            className={clsx(cls.control, { [cls.open]: isOpen, [cls.searchable]: searchable, [cls.error]: errors?.[name] })}
             onClick={(e) => {
               e.stopPropagation();
               handleToggle();
@@ -69,7 +69,15 @@ export const Dropdown = ({
                     <input className={cls.input} {...register(searchName)} placeholder={inputPlaceholder} />
                     <span className={cls.leftIcon}><SearchIcon /></span>
                     {
-                      watch(searchName) && <span className={cls.rightIcon} onClick={() => setValue(searchName, "")}><CircleCloseIcon /></span>
+                      watch(searchName) && <span
+                        className={cls.rightIcon}
+                        onClick={() => {
+                          setValue(searchName, "");
+                          setValue(name, {});
+                        }}
+                      >
+                        <CircleCloseIcon />
+                      </span>
                     }
                   </div>
                   : <>

@@ -23,6 +23,7 @@ export const TransportDetail = () => {
     handleCloseBelts,
     handleOpenLiftingCapacity,
     handleCloseLiftingCapacity,
+    errors
   } = useTransportDetailProps();
 
   return <Box>
@@ -31,11 +32,11 @@ export const TransportDetail = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Транспорт</Heading>
       </Box>
       <Box display="flex" columnGap="24px" flexGrow={1}>
-        <Dropdown placeholder="Транспорт" name="car_type" options={carTypeOptions} control={control} />
+        <Dropdown placeholder="Транспорт" name="car_type" options={carTypeOptions} errors={errors} control={control} />
         <TextField
           register={register}
           type="number"
-          rules={{ required: { value: true, message: "Обязательное поле" } }}
+          errors={errors}
           name="transport_count"
           placeholder="Количество машин"
         />
