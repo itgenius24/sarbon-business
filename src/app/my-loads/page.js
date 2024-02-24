@@ -1,5 +1,5 @@
+import { MyLoadsMain } from "@/modules/MyLoadsMain";
 import { Box } from "@chakra-ui/react";
-import { MyLoadsMain } from "./_views/MyLoadsMain";
 
 export default function MyLoads() {
   return <Box>

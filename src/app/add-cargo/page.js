@@ -1,8 +1,6 @@
 "use client";
-
-import { AddCargo } from "./_views/AddCargo";
+import { Cargo } from "@/modules/Cargo";
 
 export default function AddCargoPage() {
-
-  return <AddCargo />;
+  return <Cargo />;
 }
