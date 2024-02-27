@@ -19,7 +19,7 @@ export const DatePicker = ({
 }) => {
 
   if(!onChange || !startDate || !endDate && range) {
-    console.warn("onChange, startDate and endDate are required props for RangePicker component");
+    // console.warn("onChange, startDate and endDate are required props for RangePicker component");
   }
 
   const [innerStartDate, setInnerStartDate] = useState();

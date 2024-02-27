@@ -6,8 +6,9 @@ import { useGetAddress } from "@/services/api";
 export const useLoadingFormProps = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formAddressName, setFormAddressName] = useState("");
 
-  const [coordinates, setCoordinates] = useState([41.3489411, 69.3375433]);
+  const [coordinates, setCoordinates] = useState([41.348947, 69.3375311]);
 
   const { control, register, watch, setValue, errors } = useAddCargoContext();
 
@@ -53,7 +54,8 @@ export const useLoadingFormProps = () => {
     removeUnloading(index);
   }
 
-  function handleOpenModal() {
+  function handleOpenModal(name) {
+    setFormAddressName(name);
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let long = position.coords.longitude;
@@ -64,6 +66,7 @@ export const useLoadingFormProps = () => {
 
   function handleCloseModal() {
     setIsModalOpen(false);
+    setFormAddressName("");
   }
 
   return {
@@ -82,6 +85,6 @@ export const useLoadingFormProps = () => {
     handleCloseModal,
     coordinates,
     getAddressOptions,
-    errors
+    errors,
   };
 };

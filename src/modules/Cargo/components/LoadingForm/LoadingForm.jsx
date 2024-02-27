@@ -23,7 +23,6 @@ export const LoadingForm = () => {
     isModalOpen,
     handleOpenModal,
     handleCloseModal,
-    coordinates,
     getAddressOptions,
     errors,
   } = useLoadingFormProps();
@@ -122,7 +121,7 @@ export const LoadingForm = () => {
                 additionalItemTheme="white"
                 register={register}
                 name={`unloading[${index}].address`}
-                additionalOnclick={handleOpenModal}
+                additionalOnclick={() => handleOpenModal(`unloading[${index}].address`)}
                 errors={errors}
                 additionalItemPlaceholder={
                   <span className={cls.additionalIcons}>
@@ -147,8 +146,10 @@ export const LoadingForm = () => {
         </Checkbox>
       </div>
     </div>
-    <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Точка маршрута">
-      <Map width="100%" defaultState={{ center: coordinates, zoom: 9 }} />
+    <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Точка маршрута" size="xl">
+      <Map>
+
+      </Map>
     </Modal>
   </div>;
 };

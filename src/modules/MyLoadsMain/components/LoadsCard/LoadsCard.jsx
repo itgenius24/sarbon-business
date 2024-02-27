@@ -1,8 +1,33 @@
 import clsx from "clsx";
 import cls from "./styles.module.scss";
 import { DeleteIcon, PencilIcon, TruckIcon } from "@/assets/icons/icons";
+import { LoadBtn } from "@/components/LoadBtn";
+import { useRouter } from "next/navigation";
+import { DataList } from "@/components/DataList";
+import { Box } from "@chakra-ui/react";
 
-export const LoadsCard = () => {
+export const LoadsCard = ({ guid }) => {
+
+  const router = useRouter();
+
+  const list = [
+    {
+      title: "Расстояние: ",
+      value: "570 км",
+    },
+    {
+      title: "Товар: ",
+      value: "Полиэтилен F-0120 Шуртан ГХК",
+    },
+    {
+      title: "Вид: ",
+      value: "Зерно и семена (насыпью),пищевые добавки",
+    },
+    {
+      title: "Время: ",
+      value: "18 январь 22:00 ч",
+    },
+  ];
 
   return <div className={cls.loadsCard}>
     <div className={cls.cardTop}>
@@ -23,43 +48,19 @@ export const LoadsCard = () => {
         <span className={cls.paymentInfoComment}>Возможен торг</span>
       </div>
     </div>
-    <dl className={cls.cardList}>
-      <div className={cls.cardListItem}>
-        <dt>Расстояние:</dt>
-        <dd>570 км</dd>
-      </div>
-      <div className={cls.cardListItem}>
-        <dt>Товар:</dt>
-        <dd>Полиэтилен F-0120 Шуртан ГХК</dd>
-      </div>
-      <div className={cls.cardListItem}>
-        <dt>Вид:</dt>
-        <dd>Зерно и семена (насыпью),пищевые добавки</dd>
-      </div>
-      <div className={cls.cardListItem}>
-        <dt>Время:</dt>
-        <dd>18 январь 22:00 ч</dd>
-      </div>
-    </dl>
+    <Box borderBottom="1px solid" borderColor="brand.200">
+      <DataList list={list} />
+    </Box>
     <div className={cls.cardBottom}>
-      <button className={clsx(cls.cardBtn, cls.delete)}>
-        <span className={cls.cardBtnInner}>
-          <DeleteIcon color="#F04438" />
-          <span>Удалить</span>
-        </span>
-      </button>
-      <button className={cls.cardBtn}>
-        <span className={cls.cardBtnInner}>
-          <PencilIcon />
-          <span>Изменить</span>
-        </span>
-      </button>
-      <button className={cls.cardBtn}>
-        <span className={cls.cardBtnInner}>
-          <TruckIcon />
-          <span>Поиск машин</span>
-        </span>
-      </button>
+      <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => {}}>
+        Удалить
+      </LoadBtn>
+      <LoadBtn icon={<PencilIcon />} onClick={() => router.push(`/my-loads/${guid}`)}>
+        Изменить
+      </LoadBtn>
+      <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
+        Поиск машин
+      </LoadBtn>
     </div>
   </div>;
 };

@@ -16,7 +16,7 @@ export const MyLoadsMain = () => {
       <TopFilter />
       <Box display="flex" flexDirection="column" rowGap="16px">
         {
-          allCargo?.map(cargo => <LoadsCard key={cargo.id} {...cargo} />)
+          allCargo?.map(cargo => <LoadsCard key={cargo.guid} {...cargo} />)
         }
       </Box>
     </Container>

@@ -16,6 +16,8 @@ export const useAddCargoProps = () => {
     }
   });
 
+  const status = "offer";
+
   const schema = yup
     .object({
       contact: yup.string().required().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Некорректный номер телефона"),
@@ -124,6 +126,7 @@ export const useAddCargoProps = () => {
     setStartDate,
     endDate,
     reset,
-    setEndDate
+    setEndDate,
+    status
   };
 };

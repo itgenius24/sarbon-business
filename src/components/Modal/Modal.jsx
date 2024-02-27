@@ -17,9 +17,10 @@ export const Modal = ({
   secondBtnText = "Сохранить",
   firstBtnCallback,
   secondBtnCallback = () => {},
+  ...props
 }) => {
 
-  return <ChakraModal isOpen={isOpen} onClose={onClose}>
+  return <ChakraModal isOpen={isOpen} onClose={onClose} {...props}>
     <ModalOverlay />
     <ModalContent>
       <ModalHeader style={{ fontSize: "18px" }}>{title}</ModalHeader>

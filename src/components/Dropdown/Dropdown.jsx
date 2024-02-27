@@ -25,7 +25,6 @@ export const Dropdown = ({
   watch = () => {},
   errors,
 }) => {
-  console.log({ name, errors });
   const height = Math.floor(options && options.length * 50 / 2);
 
   const optionsHeight = `${height > 200 ? 200 : height}px`;

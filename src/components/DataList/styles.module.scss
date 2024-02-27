@@ -1,0 +1,25 @@
+.cardList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.cardListItem {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+
+  dt {
+    color: rgba(132, 145, 154, 0.8);
+  }
+
+  dd {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #303940;
+  }
+}
