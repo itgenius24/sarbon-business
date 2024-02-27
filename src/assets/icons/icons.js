@@ -177,6 +177,32 @@ export const PrevIcon = () => (
   </svg>
 );
 
+export const RoundCheckIcon = ({ props, styles }) => (
+  <svg
+    style={{
+      minWidth: "16px",
+      minHeight: "16px",
+      ...styles,
+    }}
+    width="16"
+    height="17"
+    viewBox="0 0 16 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <rect x="0.5" y="1" width="15" height="15" rx="7.5" fill="#007AFF" />
+    <rect x="0.5" y="1" width="15" height="15" rx="7.5" stroke="#007AFF" />
+    <path
+      d="M11.3337 6L6.75033 10.5833L4.66699 8.5"
+      stroke="white"
+      strokeWidth="1.66667"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const CheckIcon = () => (
   <svg
     width="16"
