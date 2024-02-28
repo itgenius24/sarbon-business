@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { useState } from "react";
-import truckImage from "@/assets/images/truckImage.png";
 import Link from "next/link";
 import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
@@ -130,7 +129,7 @@ const NewsCard = ({ data = {} }) => {
               style={{ aspectRatio: "384 / 280" }}
               width={384}
               height={280}
-              src={data.news_photo || truckImage}
+              src={data.news_photo}
               alt={data.title}
             />
           </Box>
