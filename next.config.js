@@ -9,9 +9,10 @@ const nextConfig = {
         @import "./src/styles/mixins.scss";
         @import "./src/styles/unit.scss";
         @import "./src/styles/date-picker.scss";
-        `
+        `,
   },
   images: {
+    domains: ["cdn.u-code.io"],
     remotePatterns: [
       {
         protocol: "https",
@@ -20,8 +21,7 @@ const nextConfig = {
         pathname: "*/media/*",
       },
     ],
-
-  }
+  },
 };
 
 module.exports = nextConfig;

@@ -3,9 +3,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 const itemsService = {
   getClientType: (params) => request.get("v2/items/client_type", { params }),
-  createCargo: (data) => request.post("/v2/items/cargo", data)
+  createCargo: (data) => request.post("/v2/items/cargo", data),
+  getSingleNewData: (id) => request.get(`v2/items/news/${id}`),
 };
 
+
+export const useGetNewData = (id = {},settings) => {
+  return useQuery({
+    queryKey: ["items/news/", id],
+    queryFn: () => itemsService.getSingleNewData(id),
+    ...settings,
+  });
+};
 
 export const useGetClientType = (params = {}) => {
   return useQuery({

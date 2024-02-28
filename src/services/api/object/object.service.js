@@ -2,6 +2,7 @@ import request from "@/services/request";
 import { useQuery } from "@tanstack/react-query";
 
 const objectService = {
+  getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
   getCompanyList: (params) => request.get("/v2/object-slim/get-list/company", { params }),
   getRoleList: (params) => request.get("/v2/object-slim/get-list/role", { params }),
   getCargoType: (params) => request.get("/v2/object-slim/get-list/cargo_type", { params }),
@@ -14,6 +15,14 @@ const objectService = {
   getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
 };
 
+
+export const useGetNewsList = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getNewsList", params],
+    queryFn: () => objectService.getNewsList(params),
+    ...settings,
+  });
+};
 
 export const useGetCompanyList = (params) => {
   return useQuery({
