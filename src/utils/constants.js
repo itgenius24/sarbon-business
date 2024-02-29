@@ -19,3 +19,13 @@ export const clientTypeIds = {
   EXPEDITOR_ROLE_ID: EXPEDITOR_CLIENT_TYPE_ID,
   DISPATCHER_ROLE_ID: DISPATCHER_CLIENT_TYPE_ID,
 };
+
+export const statuses = {
+  active: "Активен",
+  new: "Предложение",
+  in_moderation: "В модерации",
+  approve_from_driver: "Ждём водителя",
+  performed: "В исполнение",
+  cancellation: "Отменённые",
+  archive: "Архив",
+};

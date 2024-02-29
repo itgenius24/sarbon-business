@@ -40,6 +40,10 @@ request.interceptors.request.use((config) => {
   return config;
 });
 
-request.interceptors.response.use((response) => response.data.data.data, errorHandlerHttp);
+request.interceptors.response.use((response) => {
+  if (response?.data?.data?.data) return response.data.data.data;
+  else if(response?.data?.data) return response.data.data;
+  else return response.data || response;
+}, errorHandlerHttp);
 
 export default request;

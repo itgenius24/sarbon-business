@@ -5,8 +5,25 @@ import { LoadBtn } from "@/components/LoadBtn";
 import { useRouter } from "next/navigation";
 import { DataList } from "@/components/DataList";
 import { Box } from "@chakra-ui/react";
+import { formatDate } from "@/utils/isValidDate";
+import { statuses } from "@/utils/constants";
 
-export const LoadsCard = ({ guid }) => {
+export const LoadsCard = ({
+  guid,
+  address_id_data,
+  address_id_2_data,
+  bid_cash,
+  cargo_type_id_data,
+  load_time,
+  load_around_the_clock,
+  take_all_unloads,
+  order_status,
+  date,
+  provisions,
+  handleDelete,
+}) => {
+
+  const status = order_status || provisions;
 
   const router = useRouter();
 
@@ -17,15 +34,19 @@ export const LoadsCard = ({ guid }) => {
     },
     {
       title: "Товар: ",
-      value: "Полиэтилен F-0120 Шуртан ГХК",
+      value: cargo_type_id_data?.name,
     },
     {
       title: "Вид: ",
-      value: "Зерно и семена (насыпью),пищевые добавки",
+      value: load_around_the_clock
+        ? "отдельной машиной или догрузом (FTL или LTL)"
+        : take_all_unloads
+          ? "отдельной машиной (FTL)"
+          : "",
     },
     {
       title: "Время: ",
-      value: "18 январь 22:00 ч",
+      value: formatDate(status?.[0] === "new" ? date : load_time),
     },
   ];
 
@@ -33,15 +54,15 @@ export const LoadsCard = ({ guid }) => {
     <div className={cls.cardTop}>
       <div className={cls.cardTopContent}>
         <h2 className={cls.address}>
-          <span className={cls.addressText}>Ташкент Бухара</span>
-          <span className={clsx(cls.addressStatus, { [cls.modernize]: true })}>status</span>
+          <span className={cls.addressText}>{address_id_data?.name} -&gt; {address_id_2_data?.name}</span>
+          <span className={clsx(cls.addressStatus, cls[status?.[0]])}>{statuses[status?.[0]]}</span>
         </h2>
         <span className={cls.distance}>724 км</span>
       </div>
       <div className={cls.paymentInfo}>
         <div className={cls.paymentInfoContent}>
           <span className={cls.paymentInfoText}>
-            350 тыс. UZS
+            {bid_cash} тыс. UZS
           </span>
           <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span>
         </div>
@@ -51,16 +72,25 @@ export const LoadsCard = ({ guid }) => {
     <Box borderBottom="1px solid" borderColor="brand.200">
       <DataList list={list} />
     </Box>
-    <div className={cls.cardBottom}>
-      <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => {}}>
-        Удалить
-      </LoadBtn>
-      <LoadBtn icon={<PencilIcon />} onClick={() => router.push(`/my-loads/${guid}`)}>
-        Изменить
-      </LoadBtn>
-      <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
-        Поиск машин
-      </LoadBtn>
-    </div>
+    {
+      status?.[0] === "active" && <div className={cls.cardBottom}>
+        <LoadBtn icon={<PencilIcon />} onClick={() => router.push(`/my-loads/${guid}`)}>
+          Изменить
+        </LoadBtn>
+      </div>
+    }
+    {
+      status?.[0] === "in_moderation" && <div className={cls.cardBottom}>
+        <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => handleDelete(guid)}>
+          Удалить
+        </LoadBtn>
+        <LoadBtn icon={<PencilIcon />} onClick={() => router.push(`/my-loads/${guid}`)}>
+          Изменить
+        </LoadBtn>
+        <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
+          Поиск машин
+        </LoadBtn>
+      </div>
+    }
   </div>;
 };

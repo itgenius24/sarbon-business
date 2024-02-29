@@ -1,5 +1,3 @@
-"use client";
-
 import { Container } from "@/components/Container";
 import { Box, Heading } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
@@ -8,17 +6,29 @@ import { TopFilter } from "./components/TopFilter";
 
 export const MyLoadsMain = () => {
 
-  const { allCargo } = useMyLoadsMainProps();
+  const { cargos, onFilterChange, handleDelete } = useMyLoadsMainProps();
 
   return <Box py="40px">
     <Container>
       <Heading size="md" mb="24px">Мои грузы</Heading>
-      <TopFilter />
+      <TopFilter onChange={onFilterChange} />
       <Box display="flex" flexDirection="column" rowGap="16px">
         {
-          allCargo?.map(cargo => <LoadsCard key={cargo.guid} {...cargo} />)
+          cargos?.length
+            ? cargos?.map(cargo => <LoadsCard key={cargo.guid} handleDelete={handleDelete} {...cargo} />)
+            : <Heading size="sm" textAlign="center">Ничего не найдено</Heading>
         }
       </Box>
     </Container>
   </Box>;
 };
+
+
+{/* <Box
+display="flex"
+flexDirection="column"
+justifyContent="center"
+alignItems="center"
+>
+<CircularProgress isIndeterminate />
+</Box> */}

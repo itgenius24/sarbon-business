@@ -14,6 +14,8 @@ const objectService = {
   getPaymentType: (params) => request.get("/v2/object-slim/get-list/map", { params }),
   getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
   getCarList: (params) => request.get("/v2/object-slim/get-list/route", { params }),
+  getOffer: (params) => request.get("/v2/object-slim/get-list/response", { params }),
+  getCargoById: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
 };
 
 
@@ -96,9 +98,26 @@ export const useGetPaymentType = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-export const useGetUserCargo = (params) => {
+export const useGetUserCargo = (params, settings) => {
   return useQuery({
     queryKey: ["object/getUserCargo", params],
     queryFn: () => objectService.getUserCargo(params),
+    ...settings
+  });
+};
+
+export const useGetOffer = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOffer", params],
+    queryFn: () => objectService.getOffer(params),
+    ...settings
+  });
+};
+
+export const useGetCargoById = (params, settings) => {
+  return useQuery({
+    queryKey: ["items/getCargoById", params],
+    queryFn: () => objectService.getCargoById(params),
+    ...settings,
   });
 };

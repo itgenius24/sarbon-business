@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import { useGetCarType } from "@/services/api";
 
@@ -10,7 +10,7 @@ export const useTransportDetailProps = () => {
   const [isBeltsOpen, setBeltsOpen] = useState(false);
   const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
 
-  const { register, control, errors } = useAddCargoContext();
+  const { register, control, errors, watch } = useAddCargoContext();
 
   const getCarType = useGetCarType();
   const carTypeOptions = getCarType.data?.response?.map(item => ({ label: item?.name, value: item?.guid }));
@@ -54,6 +54,12 @@ export const useTransportDetailProps = () => {
   function handleCloseLiftingCapacity () {
     setLiftingCapacityOpen(false);
   }
+
+  useEffect(() => {
+
+    setLiftingCapacityOpen(!!watch("capacity"));
+
+  }, [watch("capacity")]);
 
 
   return {

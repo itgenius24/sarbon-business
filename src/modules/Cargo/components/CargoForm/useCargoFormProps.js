@@ -3,11 +3,11 @@ import { useAddCargoContext } from "../../providers";
 import { useGetCargoType, useGetMeasurement, useGetPackage } from "@/services/api";
 
 export const useCargoFormProps = () => {
+  const { control, errors, register, setValue, watch } = useAddCargoContext();
 
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
 
-  const { control, errors, register, setValue, watch } = useAddCargoContext();
 
   const getCargoTypes = useGetCargoType();
   const getMeasurement = useGetMeasurement();
@@ -41,6 +41,10 @@ export const useCargoFormProps = () => {
     }
 
   }, [getMeasurement.data]);
+
+  useEffect(() => {
+    setPackagingAndQuantity(!!watch("packaging_quantity"));
+  }, [watch("packaging_quantity")]);
 
   return {
     errors,
