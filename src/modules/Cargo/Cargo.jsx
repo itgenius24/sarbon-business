@@ -11,6 +11,7 @@ import { useAddCargoProps } from "./useAddCargoProps";
 import Link from "next/link";
 import { LoadBtn } from "@/components/LoadBtn";
 import { TopContent } from "./components/TopContent";
+import { statuses } from "@/utils/constants";
 
 export const Cargo = ({ id }) => {
 
@@ -34,7 +35,7 @@ export const Cargo = ({ id }) => {
             <Link href="/my-loads">Мои грузы</Link>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <BreadcrumbLink color="#344054">В модерации</BreadcrumbLink>
+            <BreadcrumbLink color="#344054">{statuses[status]}</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <Box as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
@@ -44,13 +45,13 @@ export const Cargo = ({ id }) => {
               ? status !== "offer" ? <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
                 <Heading size="md">Самарканд - Бухоро <Text as="span" color="brand.500">1235.56 km</Text></Heading>
                 <Box Box display="flex" columnGap="8px">
-                  <LoadBtn icon={<PencilIcon />} onClick={() => {}}>
+                  <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>
                     Изменить
                   </LoadBtn>
                   <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
                     Поиск машин
                   </LoadBtn>
-                  <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => {}}>
+                  <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => addCargoProps.handleDelete()}>
                     Удалить
                   </LoadBtn>
                 </Box>

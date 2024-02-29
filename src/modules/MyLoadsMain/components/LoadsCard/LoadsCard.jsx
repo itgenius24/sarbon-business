@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { DataList } from "@/components/DataList";
 import { Box } from "@chakra-ui/react";
 import { formatDate } from "@/utils/isValidDate";
+import { statuses } from "@/utils/constants";
 
 export const LoadsCard = ({
   guid,
@@ -17,19 +18,14 @@ export const LoadsCard = ({
   load_around_the_clock,
   take_all_unloads,
   order_status,
+  date,
+  provisions,
+  handleDelete,
 }) => {
 
-  const router = useRouter();
+  const status = order_status || provisions;
 
-  const statuses = {
-    active: "Активен",
-    in_moderation: "В модерации",
-    closed: "Закрыт",
-    canceled: "Отменен",
-    completed: "Завершен",
-    in_progress: "В процессе",
-    archived: "Архив",
-  };
+  const router = useRouter();
 
   const list = [
     {
@@ -50,7 +46,7 @@ export const LoadsCard = ({
     },
     {
       title: "Время: ",
-      value: formatDate(load_time),
+      value: formatDate(status?.[0] === "new" ? date : load_time),
     },
   ];
 
@@ -59,7 +55,7 @@ export const LoadsCard = ({
       <div className={cls.cardTopContent}>
         <h2 className={cls.address}>
           <span className={cls.addressText}>{address_id_data?.name} -&gt; {address_id_2_data?.name}</span>
-          <span className={clsx(cls.addressStatus, cls[order_status?.[0]])}>{statuses[order_status?.[0]]}</span>
+          <span className={clsx(cls.addressStatus, cls[status?.[0]])}>{statuses[status?.[0]]}</span>
         </h2>
         <span className={cls.distance}>724 км</span>
       </div>
@@ -77,15 +73,15 @@ export const LoadsCard = ({
       <DataList list={list} />
     </Box>
     {
-      order_status?.[0] === "active" && <div className={cls.cardBottom}>
+      status?.[0] === "active" && <div className={cls.cardBottom}>
         <LoadBtn icon={<PencilIcon />} onClick={() => router.push(`/my-loads/${guid}`)}>
           Изменить
         </LoadBtn>
       </div>
     }
     {
-      order_status?.[0] === "in_moderation" && <div className={cls.cardBottom}>
-        <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => {}}>
+      status?.[0] === "in_moderation" && <div className={cls.cardBottom}>
+        <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => handleDelete(guid)}>
           Удалить
         </LoadBtn>
         <LoadBtn icon={<PencilIcon />} onClick={() => router.push(`/my-loads/${guid}`)}>

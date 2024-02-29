@@ -18,19 +18,19 @@ export const useTopFilterProps = () => {
     },
     {
       label: "Предложение",
-      value: "offer"
+      value: "new"
     },
     {
       label: "Ждём водителя",
-      value: "waiting"
+      value: "approve_from_driver"
     },
     {
       label: "В исполнение",
-      value: "execution"
+      value: "performed"
     },
     {
       label: "Отменённые",
-      value: "cancel"
+      value: "cancellation"
     },
     {
       label: "Архив",

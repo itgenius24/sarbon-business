@@ -1,22 +1,17 @@
 import * as yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useCreateCargoMutation } from "@/services/api";
+import { useCreateCargoMutation, useDeleteCargo, useGetCargoById, useGetLoadingMutation, useUpdateCargo } from "@/services/api";
 import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
+import { useRouter } from "next/navigation";
 
-export const useAddCargoProps = () => {
+export const useAddCargoProps = ({ id }) => {
 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
-  const createCargo = useCreateCargoMutation({
-    onSuccess() {
-      alert("Груз успешно создан");
-    }
-  });
-
-  const status = "offer";
+  const router = useRouter();
 
   const schema = yup
     .object({
@@ -63,12 +58,66 @@ export const useAddCargoProps = () => {
       ],
       unloading: [
         {
-          location: "",
+          location: {
+            value: "",
+            label: ""
+          },
           address: ""
         }
       ]
     }
   });
+
+  const deleteCargo = useDeleteCargo({
+    onSuccess() {
+      router.back();
+    },
+    onError(res) {
+      console.error(res);
+    }
+  });
+
+  const getLoadingMutation = useGetLoadingMutation({
+    onSuccess(data) {
+      setValue("unloading", [
+        ...watch("unloading"),
+        ...data.response.map(item => (
+          {
+            location: {
+              value: item?.guid,
+              label: item?.name
+            },
+            address: ""
+          }
+        )),
+      ]);
+    }
+  });
+
+  const createCargo = useCreateCargoMutation({
+    onSuccess() {
+      alert("Груз успешно создан");
+    }
+  });
+
+  const updateCargo = useUpdateCargo({
+    onSuccess() {
+      alert("Груз успешно обновлен");
+    }
+  });
+
+  const getCargo = useGetCargoById({
+    data: JSON.stringify({
+      guid: id,
+      with_relations: true
+    })
+  }, { enabled: !!id });
+
+  function handleDelete () {
+    deleteCargo.mutate({ id });
+  }
+
+  const status = "active";
 
   function onSubmit(data) {
 
@@ -92,9 +141,9 @@ export const useAddCargoProps = () => {
         date: endDate,
         address_id: data.loadings[0].location.value,
         address_ids: addressIds,
-        address_id_1: data.unloading[0].location.value,
+        address_id_2: data.unloading[0].location.value,
         gps_monitoring: data.gps_monitoring,
-        vehicle_type: data.car_type.value,
+        vehicle_type_id: data.car_type.value,
         number_of_cars: data.transport_count,
         take_all_unloads: data.is_ftl,
         load_around_the_clock: data.is_ltl,
@@ -104,15 +153,106 @@ export const useAddCargoProps = () => {
         dim_length_special: data.price_after_order,
         currency_id: data.price_prepayment_unit.value,
         payment_within_days: +data.payment_deadline,
-        users_id_2: authStore.userData.id,
+        users_id: authStore.userData.id,
         phone: data.contact,
-        comment: `<p>${data.note}</p>`,
-        photo: `${process.env.NEXT_PUBLIC_MEDIA_URL}${data.image}`,
-        map_id: data.payment_type.value
+        comment: data.note,
+        photo: data.image,
+        map_id: data.payment_type.value,
+        order_status: ["in_moderation"],
       }
     };
-    createCargo.mutate(requestData);
+
+    if(id) {
+      requestData.data.guid = id;
+      requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
+      updateCargo.mutate(requestData);
+    } else {
+      createCargo.mutate(requestData);
+    }
   }
+
+  useEffect(() => {
+    if(getCargo.isSuccess) {
+
+      const data = getCargo.data?.response?.[0];
+
+      setStartDate(new Date(data.load_time));
+      setEndDate(new Date(data.date));
+
+      reset({
+        cargo_type: {
+          value: data.cargo_type_id_data?.guid,
+          label: data.cargo_type_id_data?.name,
+        },
+        cargo_type_search: data.cargo_type_id_data?.name,
+        weight_measurement: data.weight,
+        weight_unit: {
+          value: data.measurement_id_data?.guid,
+          label: data.measurement_id_data?.base_unit,
+        },
+        volume_measurement: data.volume_m3,
+        packaging: {
+          value: data.packages_id_data?.guid,
+          label: data.packages_id_data?.name,
+        },
+        packagingSearch: data.packages_id_data?.name,
+        packaging_quantity: data.package_quantity,
+        loadings: [
+          {
+            location: {
+              value: data.address_id_data?.guid,
+              label: data.address_id_data?.name,
+            },
+            address: "",
+          }
+        ],
+        unloading: [
+          {
+            location: {
+              value: data.address_id_2_data?.guid,
+              label: data.address_id_2_data?.name,
+            },
+            address: "",
+          }
+        ],
+        gps_monitoring: data.gps_monitoring,
+        car_type: {
+          value: data.vehicle_id_data?.guid,
+          label: data.vehicle_id_data?.name,
+        },
+        transport_count: data.number_of_cars,
+        is_ftl: data.take_all_unloads,
+        is_ltl: data.load_around_the_clock,
+        capacity: data.load_capacity,
+        price: data.bid_cash,
+        price_prepayment: data.prepayment_percentage,
+        price_after_order: data.dim_length_special,
+        price_prepayment_unit: {
+          label: data.currency_id_data?.name,
+          value: data.currency_id_data?.guid,
+        },
+        payment_deadline: data.payment_within_days,
+        contact: data.phone,
+        note: data.comment,
+        image: data.photo,
+        payment_type: {
+          label: data?.map_id_data?.name,
+          value: data?.map_id_data?.guid,
+        },
+      });
+    }
+  }, [getCargo.data]);
+
+  useEffect(() => {
+    if(id && getCargo.isSuccess) {
+      getLoadingMutation.mutate({
+        function_id: "1d8af62e-cb8d-4599-966a-4a614435bed8",
+        object_ids: [
+          id
+        ]
+      });
+    }
+  }, [id, getCargo.data]);
 
   return {
     register,
@@ -127,6 +267,7 @@ export const useAddCargoProps = () => {
     endDate,
     reset,
     setEndDate,
-    status
+    status,
+    handleDelete,
   };
 };
