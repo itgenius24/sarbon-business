@@ -43,7 +43,12 @@
   color: #FF9500;
 }
 
-.addressStatus.modernize {
+.addressStatus.active {
+  background: rgba(28, 139, 195, 0.07);
+  color: #1C8BC3;
+}
+
+.addressStatus.in_moderation {
   background: rgba(28, 139, 195, 0.07);
   color: #1C8BC3;
 }

@@ -4,13 +4,13 @@ export const useTopFilterProps = () => {
 
   const [activeTab, setActiveTab] = useState({
     label: "Все",
-    value: "all"
+    value: ""
   });
 
   const filterTabs = [
     {
       label: "Все",
-      value: "all"
+      value: ""
     },
     {
       label: "В модерации",
