@@ -16,20 +16,28 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 const limit = 6;
 export const News = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const page = searchParams.get("page");
+  const [currentPage, setCurrentPage] = useState(+page || 1);
 
-  const handlePaginationClick =(type)=> {
-    if(type==="prev") {
+  const handlePaginationClick = (type) => {
+    if (type === "prev") {
       setCurrentPage((prevVal) => prevVal - 1);
     }
-    if(type==="next") {
+    if (type === "next") {
       setCurrentPage((prevVal) => prevVal + 1);
     }
+    const page = type === "prev" ? currentPage - 1 : currentPage + 1;
+    const path = `${pathname}?page=${page}`;
+    router.push(path, { scroll: false });
   };
 
-  const { data:newsList } = useGetNewsList(
+  const { data: newsList } = useGetNewsList(
     {
       data: JSON.stringify({
         order: {},
@@ -54,7 +62,7 @@ export const News = () => {
     <Container mt={"96px"}>
       <Stack gap={0}>
         <Heading fontSize={36} lineHeight="44px" mb="32px">
-            Новости
+          Новости
         </Heading>
         <NewsList page={currentPage - 1} news={newsList?.response} />
         <Pagination
@@ -120,9 +128,11 @@ const NewsList = ({ news = [], page }) => {
 };
 
 const NewsCard = ({ data = {} }) => {
+  const searchParams = useSearchParams();
+  const fromPage = searchParams.get("page") || "1";
   return (
     <>
-      <Link href={`news/${data.guid}`}>
+      <Link href={`news/${data.guid}?page=${fromPage}`}>
         <Box>
           <Box borderRadius={10} overflow="hidden" maxW="max-content">
             <Image
@@ -136,19 +146,20 @@ const NewsCard = ({ data = {} }) => {
           <Heading
             fontSize={24}
             lineHeight="32px"
+            noOfLines={1}
             m="24px 0 8px"
             {...(!data.title ? { color: "transparent" } : {})}
           >
             {data.title || "!"}
           </Heading>
-          <Text
+          <Box
             color="brand.600"
             fontWeight={500}
             noOfLines={2}
             {...(!data.comment ? { color: "transparent" } : {})}
           >
-            {data.comment || lorem}
-          </Text>
+            <div dangerouslySetInnerHTML={{ __html: data.comment || lorem }} />
+          </Box>
         </Box>
       </Link>
     </>

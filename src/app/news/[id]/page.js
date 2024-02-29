@@ -11,12 +11,13 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useGetNewData } from "@/services/api";
 
 const maxW = 908 + 16 + 16; // width + pL + pR
 export default function NewsPage() {
   const { id } = useParams() || {};
+  const page = useSearchParams()?.get("page") || "1";
 
   const { data } = useGetNewData(
     id,
@@ -47,7 +48,7 @@ export default function NewsPage() {
         }
       >
         <BreadcrumbItem color="#98A2B3">
-          <BreadcrumbLink as={Link} href="/">
+          <BreadcrumbLink as={Link} href={`/?page=${page}`}>
             Главная
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -85,12 +86,10 @@ export default function NewsPage() {
         lineHeight="28px"
         fontWeight={400}
         mb="96px"
-        display={!data?.comment ? "none": ""}
+        display={!data?.comment ? "none" : ""}
       >
         <div dangerouslySetInnerHTML={{ __html: data?.comment }} />
       </Box>
     </Container>
   );
 }
-
-const descText = "<p>Кофе</p>";

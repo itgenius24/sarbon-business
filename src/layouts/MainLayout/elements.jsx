@@ -1,7 +1,7 @@
 export const elements = [
   {
     path: "/main",
-    label: "Поиск машин",
+    label: "Главный",
   },
   {
     path: "/add-cargo",
@@ -14,5 +14,9 @@ export const elements = [
   {
     path: "/distance-calculation",
     label: "Расчет расстояния",
+  },
+  {
+    path: "/search",
+    label: "Поиск машин",
   },
 ];
