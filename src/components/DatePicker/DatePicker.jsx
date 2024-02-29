@@ -16,9 +16,10 @@ export const DatePicker = ({
   range,
   withLeftSide,
   inputWidth,
+  placeholder,
+  label,
 }) => {
-
-  if(!onChange || !startDate || !endDate && range) {
+  if (!onChange || !startDate || (!endDate && range)) {
     // console.warn("onChange, startDate and endDate are required props for RangePicker component");
   }
 
@@ -26,10 +27,7 @@ export const DatePicker = ({
   const [innerEndDate, setInnerEndDate] = useState(null);
 
   const innerOnChange = (dates) => {
-
-
-
-    if(range) {
+    if (range) {
       const [start, end] = dates;
       setInnerStartDate(start);
       setInnerEndDate(end);
@@ -40,40 +38,43 @@ export const DatePicker = ({
       setInnerStartDate(dates);
     }
 
-    if(onChange) {
+    if (onChange) {
       onChange(dates);
     }
-
   };
 
-  const renderDayContents = (day) => <span className="react-datepicker__day-text">{day}</span>;
-
-  return <div className={cls.dateWrapper}>
-    {
-      withLeftSide && <div className={cls.leftSide}>
-
-      </div>
-    }
-    {
-      range
-      ? <ReactDatePicker
-        selected={startDate || innerStartDate}
-        onChange={innerOnChange}
-        startDate={startDate || innerStartDate}
-        endDate={endDate || innerEndDate}
-        monthsShown={monthsShown || 2}
-        customInput={<CustomInputDate width={inputWidth} />}
-        renderDayContents={renderDayContents}
-        selectsRange
-      />
-      : <ReactDatePicker
-        selected={startDate || innerStartDate}
-        onChange={innerOnChange}
-        startDate={startDate || innerStartDate}
-        monthsShown={monthsShown || 1}
-        customInput={<CustomInputDate width={inputWidth} />}
-        renderDayContents={renderDayContents}
-      />
-    }
-  </div>;
+  const renderDayContents = (day) => (
+    <span className="react-datepicker__day-text">{day}</span>
+  );
+  return (
+    <div className={cls.dateWrapper}>
+      {label && <span className={cls.label}>{label}</span>}
+      {withLeftSide && <div className={cls.leftSide}></div>}
+      {range ? (
+        <ReactDatePicker
+          selected={startDate || innerStartDate}
+          onChange={innerOnChange}
+          startDate={startDate || innerStartDate}
+          endDate={endDate || innerEndDate}
+          monthsShown={monthsShown || 2}
+          customInput={
+            <CustomInputDate cPlaceholder={placeholder} width={inputWidth} />
+          }
+          renderDayContents={renderDayContents}
+          selectsRange
+        />
+      ) : (
+        <ReactDatePicker
+          selected={startDate || innerStartDate}
+          onChange={innerOnChange}
+          startDate={startDate || innerStartDate}
+          monthsShown={monthsShown || 1}
+          customInput={
+            <CustomInputDate cPlaceholder={placeholder} width={inputWidth} />
+          }
+          renderDayContents={renderDayContents}
+        />
+      )}
+    </div>
+  );
 };

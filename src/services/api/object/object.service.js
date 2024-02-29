@@ -1,5 +1,5 @@
 import request from "@/services/request";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
   getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
@@ -13,8 +13,16 @@ const objectService = {
   getPackage: (params) => request.get("/v2/object-slim/get-list/packages", { params }),
   getPaymentType: (params) => request.get("/v2/object-slim/get-list/map", { params }),
   getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
+  getCarList: (params) => request.get("/v2/object-slim/get-list/route", { params }),
 };
 
+
+export const useGetCarListOnSubmit = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (params) => objectService.getCarList(params),
+    ...mutationSettings,
+  });
+};
 
 export const useGetNewsList = (params, settings) => {
   return useQuery({

@@ -1,0 +1,41 @@
+.loadsCard {
+  padding: 24px;
+  border-radius: 16px;
+  background-color: #fff;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--brand-200);
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  margin-bottom: 16px;
+}
+
+.addressText {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #000;
+}
+
+
+.distance {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 14px;
+  color: var(--primary);
+}
+
+.cardBottom {
+  padding-top: 16px;
+  display: flex;
+  column-gap: 8px;
+}

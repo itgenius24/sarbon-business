@@ -51,6 +51,7 @@ export const TextFieldWithAddition = ({
           return <div className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light" })}>
             <button
               className={cls.additionalItemContent}
+              type="button"
               onClick={() => {
                 if(additionalItemOptions.length > 0) {
                   handleToggle();

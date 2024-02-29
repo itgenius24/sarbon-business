@@ -1,6 +1,6 @@
 export const elements = [
   {
-    path: "/main",
+    path: "/",
     label: "Главный",
   },
   {
@@ -16,7 +16,7 @@ export const elements = [
     label: "Расчет расстояния",
   },
   {
-    path: "/search",
+    path: "/search-car",
     label: "Поиск машин",
   },
 ];
