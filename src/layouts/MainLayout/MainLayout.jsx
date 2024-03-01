@@ -1,7 +1,7 @@
 import cls from "./styles.module.scss";
 import { elements } from "./elements";
 import { Footer } from "@/components/Footer";
-import Header from "@/components/Header1";
+import Header from "@/components/Header";
 
 export const MainLayout = ({ children }) => {
   return <div className={cls.layout}>

@@ -23,34 +23,36 @@ export const Cargo = ({ id }) => {
   return <AddCargoProvider value={addCargoProps}>
     <Box pt="48px" pb="128px">
       <Container height="100%">
-        <Breadcrumb
-          mb="16px"
-          separator={
-            <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4" fill="none">
-              <circle cx="2" cy="2" r="2" fill="#98A2B3"/>
-            </svg>
-          }
-        >
-          <BreadcrumbItem color="#98A2B3">
-            <Link href="/my-loads">Мои грузы</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <BreadcrumbLink color="#344054">{statuses[status]}</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+        {
+          isEditing && <Breadcrumb
+            mb="16px"
+            separator={
+              <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4" fill="none">
+                <circle cx="2" cy="2" r="2" fill="#98A2B3"/>
+              </svg>
+            }
+          >
+            <BreadcrumbItem color="#98A2B3">
+              <Link href="/my-loads">Мои грузы</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink color="#344054">{statuses[status]}</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        }
         <Box as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
           <Box flexGrow={1} maxW={id ? "100%" : "900px"}>
             {
               isEditing
               ? status !== "offer" ? <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
-                <Heading size="md">Самарканд - Бухоро <Text as="span" color="brand.500">1235.56 km</Text></Heading>
+                <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
                 <Box Box display="flex" columnGap="8px">
                   <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>
                     Изменить
                   </LoadBtn>
-                  <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
+                  {/* <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
                     Поиск машин
-                  </LoadBtn>
+                  </LoadBtn> */}
                   <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => addCargoProps.handleDelete()}>
                     Удалить
                   </LoadBtn>
@@ -60,7 +62,7 @@ export const Cargo = ({ id }) => {
               : <Box display="flex" justifyContent="space-between" alignItems="center" mb="32px">
                 <Heading size="md">Добавить груз</Heading>
                 <Box display="flex" columnGap="12px">
-                  <Button leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button>
+                  {/* <Button leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button> */}
                   <Button leftIcon={<DeleteIcon />} onClick={() => addCargoProps.reset({})} variant="secondaryWhite" size="sm" >Очистить форму</Button>
                 </Box>
               </Box>
@@ -75,7 +77,7 @@ export const Cargo = ({ id }) => {
         {
           !isEditing && <Box mt="32px">
             <Box display="flex" columnGap="12px" justifyContent="flex-end" maxWidth="900px">
-              <Button size="sm" maxWidth="223px" variant="secondaryWhite">Сохранить как шаблон</Button>
+              {/* <Button size="sm" maxWidth="223px" variant="secondaryWhite">Сохранить как шаблон</Button> */}
               <Button size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Опубликовать груз</Button>
             </Box>
           </Box>

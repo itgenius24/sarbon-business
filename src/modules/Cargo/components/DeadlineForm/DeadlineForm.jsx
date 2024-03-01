@@ -4,12 +4,6 @@ import { useAddCargoContext } from "../../providers";
 
 export const DeadlineForm = () => {
   const { startDate, setStartDate, endDate, setEndDate } = useAddCargoContext();
-  console.log("DeadlineForm ", {
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-  });
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box display="flex" alignItems="center" justifyContent="space-between" columnGap="32px">

@@ -29,7 +29,7 @@ export const TextFieldWithAddition = ({
   ...props
 }) => {
 
-  const { dropdownControl, isOpen, handleToggle, handleClose } = useTextFieldWithAdditionProps();
+  const { dropdownControl, isOpen, handleToggle, handleClose, additionalDropdownRef, } = useTextFieldWithAdditionProps();
 
   return <div className={cls.field} style={{ width }}>
     {
@@ -48,7 +48,7 @@ export const TextFieldWithAddition = ({
         name={additionalItemName}
         control={control || dropdownControl}
         render={({ field }) => {
-          return <div className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light" })}>
+          return <div ref={additionalDropdownRef} className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light" })}>
             <button
               className={cls.additionalItemContent}
               type="button"

@@ -184,7 +184,7 @@ export const useAddCargoProps = ({ id }) => {
           value: data.cargo_type_id_data?.guid,
           label: data.cargo_type_id_data?.name,
         },
-        cargo_type_search: data.cargo_type_id_data?.name,
+        // cargo_type_search: data.cargo_type_id_data?.name,
         weight_measurement: data.weight,
         weight_unit: {
           value: data.measurement_id_data?.guid,
@@ -254,6 +254,8 @@ export const useAddCargoProps = ({ id }) => {
     }
   }, [id, getCargo.data]);
 
+  const cargoData = getCargo.data?.response?.[0];
+
   return {
     register,
     control,
@@ -269,5 +271,7 @@ export const useAddCargoProps = ({ id }) => {
     setEndDate,
     status,
     handleDelete,
+    address1: cargoData?.address_id_data?.name,
+    address2: cargoData?.address_id_2_data?.name,
   };
 };

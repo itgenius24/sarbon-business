@@ -32,14 +32,10 @@ export const CargoForm = () => {
       <Box display="flex" flexDirection="column" rowGap="16px" maxW="540px" width="100%" ml="auto">
         <Box display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
           <Dropdown
-            searchable
-            search
             control={control}
             required
             register={register}
             watch={watch}
-            setValue={setValue}
-            searchName="cargo_type_search"
             name="cargo_type"
             options={cargoTypeOptions}
             errors={errors}
@@ -74,8 +70,8 @@ export const CargoForm = () => {
             width="134px"
             placeholder="Объем"
             additionalItemPlaceholder={<span>м<sup>3</sup></span>}
-            additionalItemName="volume_unit"
-            additionalItemOptions={volumeMeasurementOptions}
+            // additionalItemName="volume_unit"
+            // additionalItemOptions={volumeMeasurementOptions}
           />
         </Box>
         <Box display="flex" columnGap="24px">

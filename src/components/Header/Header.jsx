@@ -7,7 +7,7 @@ import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
 import { Box, Button, IconButton, ListItem, UnorderedList } from "@chakra-ui/react";
-import { LanguageIcon, SettingIcon } from "@/assets/icons/icons";
+import { LanguageIcon } from "@/assets/icons/icons";
 import { usePathname } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
@@ -37,13 +37,11 @@ const Header = observer(({ elements }) => {
               <Logo />
             </Box>
             <UnorderedList className={cls.list}>
-              {elements?.map((element) => (
+              {elements?.map((element, index) => (
                 <ListItem className={cls.listItem} key={element.path}>
                   <Link
                     href={element.path}
-                    className={clsx(cls.itemLink, {
-                      [cls.activeLink]: pathname.includes(element.path),
-                    })}
+                    className={clsx(cls.itemLink, { [cls.activeLink]: index ? pathname.includes(element.path) : pathname === element.path, })}
                   >
                     {element.label}
                   </Link>
@@ -66,9 +64,9 @@ const Header = observer(({ elements }) => {
                 {/* <IconButton variant="reset">
                 <SettingIcon />
               </IconButton> */}
-                <IconButton variant="reset">
+                {/* <IconButton variant="reset">
                   <LanguageIcon />
-                </IconButton>
+                </IconButton> */}
               </Box>
               <Box className={cls.userIcon} ml="16px">
                 {isAuth ? (
