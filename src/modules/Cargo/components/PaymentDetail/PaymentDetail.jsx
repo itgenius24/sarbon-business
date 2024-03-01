@@ -15,12 +15,15 @@ export const PaymentDetail = () => {
     setPrepaymentFuelOpen
   } = usePaymentDetailProps();
 
+  const { canEdit } = useAddCargoContext();
+
   return <Box py="24px">
     <Box display="flex" columnGap="32px" mb="24px" >
       <Box width="280px" flexShrink={0}>
         <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Оплата через</Heading>
       </Box>
       <TextFieldWithAddition
+        disabled={!canEdit}
         name="payment_deadline"
         register={register}
         control={control}
@@ -44,18 +47,20 @@ export const PaymentDetail = () => {
       </Box>
       <Box display="flex" gap="12px" flexWrap="wrap">
         {
-          !prepaymentFuelOpen && <Button variant="reset" onClick={() => setPrepaymentFuelOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>Предоплата деньгами или топливом</Button>
+          !prepaymentFuelOpen && <Button isDisabled={!canEdit} variant="reset" onClick={() => setPrepaymentFuelOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>Предоплата деньгами или топливом</Button>
         }
         {/* <Button variant="reset" leftIcon={<PlusIcon color="#007AFF" />}>Оплата на выгрузке</Button> */}
         {
-          !directContractOpen && <Button variant="reset" onClick={() => setDirectContractOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>Договор</Button>
+          !directContractOpen && <Button isDisabled={!canEdit} variant="reset" onClick={() => setDirectContractOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>Договор</Button>
         }
       </Box>
     </Box>
     {
       prepaymentFuelOpen && <Box display="flex" alignItems="center" columnGap="32px" pt="24px">
         <Box width="280px" flexShrink={0}>
-          <Button variant="reset"
+          <Button
+            isDisabled={!canEdit}
+            variant="reset"
             onClick={() => setPrepaymentFuelOpen(false)}
             color="brand.700"
             leftIcon={<DeleteIcon />}
@@ -65,6 +70,7 @@ export const PaymentDetail = () => {
         </Box>
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
           <TextFieldWithAddition
+            disabled={!canEdit}
             name="prepayment_percent"
             placeholder="10"
             additionalItemPlaceholder="%"
@@ -81,10 +87,10 @@ export const PaymentDetail = () => {
               }
             }}
           />
-          <Checkbox name="prepayment_with_fuel" register={register}>
+          <Checkbox disabled={!canEdit} name="prepayment_with_fuel" register={register}>
           Предоплата топливом
           </Checkbox>
-          <Checkbox name="prepayment_with_payment" register={register}>
+          <Checkbox disabled={!canEdit} name="prepayment_with_payment" register={register}>
           Оплата на выгрузке (скрывает оплату через)
           </Checkbox>
         </Box>
@@ -93,7 +99,9 @@ export const PaymentDetail = () => {
     {
       directContractOpen && <Box display="flex" alignItems="center" columnGap="32px" pt="24px">
         <Box width="280px" flexShrink={0}>
-          <Button variant="reset"
+          <Button
+            isDisabled={!canEdit}
+            variant="reset"
             onClick={() => setDirectContractOpen(false)}
             color="brand.700"
             leftIcon={<DeleteIcon />}
@@ -102,7 +110,7 @@ export const PaymentDetail = () => {
           </Button>
         </Box>
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
-          <Checkbox name="contract" register={register}>
+          <Checkbox disabled={!canEdit} name="contract" register={register}>
           Заключаю договор с перевозчиком от своей фирмы
           </Checkbox>
         </Box>

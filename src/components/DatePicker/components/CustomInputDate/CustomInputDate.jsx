@@ -2,7 +2,7 @@ import cls from "./styles.module.scss";
 import { forwardRef } from "react";
 
 export const CustomInputDate = forwardRef(
-  ({ value, onClick, width, cPlaceholder }, ref) => {
+  ({ value, onClick, width, cPlaceholder, disabled, ...props }, ref) => {
 
     return (
       <button
@@ -11,6 +11,7 @@ export const CustomInputDate = forwardRef(
         onClick={onClick}
         ref={ref}
         style={{ width: width || "100%" }}
+        disabled={disabled}
       >
         <span className={cls.dateInputInner}>
           <span>

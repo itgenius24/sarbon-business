@@ -10,7 +10,7 @@ export const useTransportDetailProps = () => {
   const [isBeltsOpen, setBeltsOpen] = useState(false);
   const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
 
-  const { register, control, errors, watch } = useAddCargoContext();
+  const { register, control, errors, watch, canEdit } = useAddCargoContext();
 
   const getCarType = useGetCarType();
   const carTypeOptions = getCarType.data?.response?.map(item => ({ label: item?.name, value: item?.guid }));
@@ -82,5 +82,6 @@ export const useTransportDetailProps = () => {
     handleCloseLiftingCapacity,
     register,
     errors,
+    canEdit,
   };
 };

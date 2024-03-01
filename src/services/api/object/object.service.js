@@ -15,6 +15,7 @@ const objectService = {
   getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
   getCarList: (params) => request.get("/v2/object-slim/get-list/route", { params }),
   getOffer: (params) => request.get("/v2/object-slim/get-list/response", { params }),
+  getOfferById: (params) => request.get("/v2/object-slim/get-list/response", { params }),
   getCargoById: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
 };
 
@@ -110,6 +111,14 @@ export const useGetOffer = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOffer", params],
     queryFn: () => objectService.getOffer(params),
+    ...settings
+  });
+};
+
+export const useGetOfferById = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOfferById", params],
+    queryFn: () => objectService.getOfferById(params),
     ...settings
   });
 };

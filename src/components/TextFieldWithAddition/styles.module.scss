@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.field.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .fieldTop {
   display: flex;
   align-items: baseline;

@@ -18,6 +18,7 @@ export const DatePicker = ({
   inputWidth,
   placeholder,
   label,
+  disabled,
 }) => {
   if (!onChange || !startDate || (!endDate && range)) {
     // console.warn("onChange, startDate and endDate are required props for RangePicker component");
@@ -52,25 +53,27 @@ export const DatePicker = ({
       {withLeftSide && <div className={cls.leftSide}></div>}
       {range ? (
         <ReactDatePicker
+          disabled={disabled}
           selected={startDate || innerStartDate}
           onChange={innerOnChange}
           startDate={startDate || innerStartDate}
           endDate={endDate || innerEndDate}
           monthsShown={monthsShown || 2}
           customInput={
-            <CustomInputDate cPlaceholder={placeholder} width={inputWidth} />
+            <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
           }
           renderDayContents={renderDayContents}
           selectsRange
         />
       ) : (
         <ReactDatePicker
+          disabled={disabled}
           selected={startDate || innerStartDate}
           onChange={innerOnChange}
           startDate={startDate || innerStartDate}
           monthsShown={monthsShown || 1}
           customInput={
-            <CustomInputDate cPlaceholder={placeholder} width={inputWidth} />
+            <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
           }
           renderDayContents={renderDayContents}
         />

@@ -10,7 +10,7 @@ export const useLoadingFormProps = () => {
 
   const [coordinates, setCoordinates] = useState([41.348947, 69.3375311]);
 
-  const { control, register, watch, setValue, errors } = useAddCargoContext();
+  const { control, register, watch, setValue, errors, canEdit } = useAddCargoContext();
 
   const getAddress = useGetAddress();
   const getAddressOptions = getAddress.data?.response?.map(item => ({ label: item.name, value: item.guid, addressId: item.address_id }));
@@ -86,5 +86,6 @@ export const useLoadingFormProps = () => {
     coordinates,
     getAddressOptions,
     errors,
+    canEdit,
   };
 };

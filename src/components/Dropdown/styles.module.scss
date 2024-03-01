@@ -32,6 +32,11 @@
   border: 1px solid var(--error-500);
 }
 
+.control.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .control.searchable {
   position: relative;
   padding-left: 42px;

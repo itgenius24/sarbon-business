@@ -3,7 +3,7 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import { useAddCargoContext } from "../../providers";
 
 export const DeadlineForm = () => {
-  const { startDate, setStartDate, endDate, setEndDate } = useAddCargoContext();
+  const { startDate, setStartDate, endDate, setEndDate, canEdit } = useAddCargoContext();
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box display="flex" alignItems="center" justifyContent="space-between" columnGap="32px">
@@ -13,6 +13,7 @@ export const DeadlineForm = () => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <DatePicker
+          disabled={!canEdit}
           startDate={startDate}
           setStartDate={setStartDate}
           endDate={endDate}

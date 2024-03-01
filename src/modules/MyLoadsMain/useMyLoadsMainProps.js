@@ -41,6 +41,12 @@ export const useMyLoadsMainProps = () => {
     data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
 
+  } else if(orderStatus === "new") {
+
+    const data = JSON.parse(getCargoFilterParams.data);
+    data.provisions = [orderStatus];
+    getCargoFilterParams.data = JSON.stringify(data);
+
   }
 
   const getAllUserCargo = useGetUserCargo(
@@ -50,10 +56,7 @@ export const useMyLoadsMainProps = () => {
 
   const getOfferCargo = useGetOffer(
     getCargoFilterParams,
-    {
-      enabled: !!userId && !isCargo
-      ,
-    }
+    { enabled: !!userId && !isCargo, }
   );
 
   const deleteCargo = useDeleteCargo({

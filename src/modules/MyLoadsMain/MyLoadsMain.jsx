@@ -22,13 +22,3 @@ export const MyLoadsMain = () => {
     </Container>
   </Box>;
 };
-
-
-{/* <Box
-display="flex"
-flexDirection="column"
-justifyContent="center"
-alignItems="center"
->
-<CircularProgress isIndeterminate />
-</Box> */}

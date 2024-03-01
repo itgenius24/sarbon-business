@@ -20,12 +20,13 @@ export const CargoSetup = () => {
     handleImageUpload,
     paymentOptions,
     imageLoader,
-    setValue
+    setValue,
+    canEdit
   } = userCargoSetupProps();
 
   return <Box as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
-      <BargainRadio />
+      <BargainRadio disabled={!canEdit} />
       <HelpCircleIcon />
     </Box>
     <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
@@ -35,6 +36,7 @@ export const CargoSetup = () => {
           <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Предлагаемая сумма</Heading>
         </Box>
         <TextFieldWithAddition
+          disabled={!canEdit}
           name="price"
           register={register}
           control={control}
@@ -58,6 +60,7 @@ export const CargoSetup = () => {
           <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма предоплаты</Heading>
         </Box>
         <TextFieldWithAddition
+          disabled={!canEdit}
           name="price_prepayment"
           register={register}
           control={control}
@@ -81,6 +84,7 @@ export const CargoSetup = () => {
           <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
         </Box>
         <TextFieldWithAddition
+          disabled={!canEdit}
           name="price_after_order"
           register={register}
           control={control}
@@ -104,6 +108,7 @@ export const CargoSetup = () => {
           <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Тип оплаты</Heading>
         </Box>
         <Dropdown
+          disabled={!canEdit}
           placeholder="Выберите"
           options={paymentOptions}
           name="payment_type"
@@ -123,7 +128,7 @@ export const CargoSetup = () => {
       watch("image")
         ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" width={"540px"} height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
           <Image className={cls.img} loader={imageLoader} src={process.env.NEXT_PUBLIC_MEDIA_URL + watch("image")} alt="cargo" width={150} height={150} />
-          <Button onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
+          <Button isDisabled={!canEdit} onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
         </Box>
         : <Box
           padding="16px 24px"
@@ -138,9 +143,10 @@ export const CargoSetup = () => {
           as="label"
           width="540px"
           height="126px"
-          cursor="pointer"
+          cursor={canEdit ? "pointer" : "not-allowed"}
+          opacity={canEdit ? 1 : 0.5}
         >
-          <input className="visually-hidden" type="file" accept="image/*" onChange={handleImageUpload} />
+          <input disabled={!canEdit} className="visually-hidden" type="file" accept="image/*" onChange={handleImageUpload} />
           <Box>
             <Box mx="auto" mb="12px" width="40px" height="40px" p="10px" boxShadow="0px 1px 2px 0px #1018280D" borderRadius="8px" background="white" border="1px solid" borderColor="brand.200">
               <UploadCloudIcon />

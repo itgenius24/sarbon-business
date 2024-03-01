@@ -6,7 +6,8 @@ const itemsService = {
   createCargo: (data) => request.post("/v2/items/cargo", data),
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`),
-  updateCargo: (data) => request.put("/v2/items/cargo", data)
+  updateCargo: (data) => request.put("/v2/items/cargo", data),
+  updateResponse: (data) => request.put("/v2/items/response", data)
 };
 
 
@@ -35,4 +36,8 @@ export const useDeleteCargo = (mutationSettings) => {
 
 export const useUpdateCargo = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateCargo(data), ...mutationSettings });
+};
+
+export const useUpdateResponse = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateResponse(data), ...mutationSettings });
 };

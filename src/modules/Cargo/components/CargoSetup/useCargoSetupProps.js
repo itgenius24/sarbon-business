@@ -5,7 +5,7 @@ import { fileUpload } from "@/services/fileUpload";
 
 export const userCargoSetupProps = () => {
 
-  const { register, control, errors, setValue, watch } = useAddCargoContext();
+  const { register, control, errors, setValue, watch, canEdit } = useAddCargoContext();
 
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
@@ -40,5 +40,6 @@ export const userCargoSetupProps = () => {
     handleImageUpload,
     paymentOptions,
     imageLoader,
+    canEdit,
   };
 };

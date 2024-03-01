@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteIcon, PencilIcon, PlusIcon, TruckIcon } from "@/assets/icons/icons";
+import { DeleteIcon, PencilIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text } from "@chakra-ui/react";
 import { CargoDetail } from "./components/CargoDetail";
@@ -10,15 +10,45 @@ import { AddCargoProvider } from "./providers";
 import { useAddCargoProps } from "./useAddCargoProps";
 import Link from "next/link";
 import { LoadBtn } from "@/components/LoadBtn";
-import { TopContent } from "./components/TopContent";
 import { statuses } from "@/utils/constants";
+import { TopContent } from "./components/TopContent";
 
-export const Cargo = ({ id }) => {
+export const Cargo = ({ id, status }) => {
 
-  const addCargoProps = useAddCargoProps({ id });
-
+  const addCargoProps = useAddCargoProps({ id, status });
   const isEditing = !!id;
-  const status = addCargoProps.status;
+
+  function getTopContent () {
+    if(status === "in_moderation") {
+      return <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
+        <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
+        <Box Box display="flex" columnGap="8px">
+          <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>
+          Изменить
+          </LoadBtn>
+          {/* <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
+          Поиск машин
+        </LoadBtn> */}
+          <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => addCargoProps.handleDelete()}>
+          Удалить
+          </LoadBtn>
+        </Box>
+      </Box>;
+    } else if(status === "new"){
+      return <TopContent
+        address1={addCargoProps.address1}
+        address2={addCargoProps.address2}
+        userName={addCargoProps.userName}
+        proposedAmount={addCargoProps.proposedAmount}
+        rating={addCargoProps.rating}
+        transportModel={addCargoProps.transportModel}
+        phoneNumber={addCargoProps.phoneNumber}
+      />;
+    }
+
+    return <></>;
+
+  }
 
   return <AddCargoProvider value={addCargoProps}>
     <Box pt="48px" pb="128px">
@@ -41,24 +71,10 @@ export const Cargo = ({ id }) => {
           </Breadcrumb>
         }
         <Box as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
-          <Box flexGrow={1} maxW={id ? "100%" : "900px"}>
+          <Box flexGrow={1} maxW={id ? "100%" : "900px"} as="form">
             {
               isEditing
-              ? status !== "offer" ? <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
-                <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
-                <Box Box display="flex" columnGap="8px">
-                  <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>
-                    Изменить
-                  </LoadBtn>
-                  {/* <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
-                    Поиск машин
-                  </LoadBtn> */}
-                  <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => addCargoProps.handleDelete()}>
-                    Удалить
-                  </LoadBtn>
-                </Box>
-              </Box>
-              : <TopContent />
+              ? getTopContent()
               : <Box display="flex" justifyContent="space-between" alignItems="center" mb="32px">
                 <Heading size="md">Добавить груз</Heading>
                 <Box display="flex" columnGap="12px">
@@ -80,6 +96,12 @@ export const Cargo = ({ id }) => {
               {/* <Button size="sm" maxWidth="223px" variant="secondaryWhite">Сохранить как шаблон</Button> */}
               <Button size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Опубликовать груз</Button>
             </Box>
+          </Box>
+        }
+        {
+          status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
+            <Button variant="outlineError" onClick={() => addCargoProps.handleCancel()}>Отказать</Button>
+            <Button onClick={() => addCargoProps.handleAccept()}>Принять</Button>
           </Box>
         }
       </Container>

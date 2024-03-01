@@ -21,6 +21,7 @@ export const CargoForm = () => {
     weightMeasurementOptions,
     volumeMeasurementOptions,
     packageOptions,
+    canEdit,
   } = useCargoFormProps();
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
@@ -39,6 +40,7 @@ export const CargoForm = () => {
             name="cargo_type"
             options={cargoTypeOptions}
             errors={errors}
+            disabled={!canEdit}
           />
           <TextFieldWithAddition
             rules={{
@@ -55,6 +57,7 @@ export const CargoForm = () => {
             width="134px"
             placeholder="Вес"
             additionalItemOptions={weightMeasurementOptions}
+            disabled={!canEdit}
           />
           <TextFieldWithAddition
             rules={{
@@ -70,6 +73,7 @@ export const CargoForm = () => {
             width="134px"
             placeholder="Объем"
             additionalItemPlaceholder={<span>м<sup>3</sup></span>}
+            disabled={!canEdit}
             // additionalItemName="volume_unit"
             // additionalItemOptions={volumeMeasurementOptions}
           />
@@ -77,6 +81,7 @@ export const CargoForm = () => {
         <Box display="flex" columnGap="24px">
           {
             !isPackagingAndQuantity && <Button
+              isDisabled={!canEdit}
               leftIcon={<PlusIcon color="#007AFF" />}
               variant="reset"
               onClick={handlePackagingAndQuantity}
@@ -86,6 +91,7 @@ export const CargoForm = () => {
           }
           {
             !isDimensionsAndDiameter && <Button
+              isDisabled={!canEdit}
               leftIcon={<PlusIcon color="#007AFF" />}
               variant="reset"
               onClick={handleDimensionsAndDiameter}
@@ -98,12 +104,11 @@ export const CargoForm = () => {
     </Box>
     {
       isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px">
-        <Button variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
+        <Button disabled={!canEdit} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
         <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
             errors={errors}
             searchable
-            search
             control={control}
             required
             register={register}
@@ -112,6 +117,7 @@ export const CargoForm = () => {
             searchName="packagingSearch"
             name="packaging"
             options={packageOptions}
+            disabled={!canEdit}
           />
           <TextFieldWithAddition
             control={control}
@@ -123,6 +129,7 @@ export const CargoForm = () => {
             additionalItemPlaceholder="шт."
             additionalItemDefaultIndex={0}
             additionalItemOptions={[]}
+            disabled={!canEdit}
           />
         </Box>
       </Box>
@@ -139,8 +146,9 @@ export const CargoForm = () => {
               width="123px"
               placeholder="Габарит"
               additionalItemPlaceholder="м"
+              disabled={!canEdit}
             />
-            <Checkbox register={register} name="isSpecial1">особые</Checkbox>
+            <Checkbox register={register} name="isSpecial1" disabled={!canEdit}>особые</Checkbox>
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
@@ -150,11 +158,13 @@ export const CargoForm = () => {
               width="123px"
               placeholder="Габарит"
               additionalItemPlaceholder="м"
+              disabled={!canEdit}
             />
-            <Checkbox register={register} name="isSpecial2">особые</Checkbox>
+            <Checkbox register={register} name="isSpecial2" disabled={!canEdit}>особые</Checkbox>
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
+              disabled={!canEdit}
               control={control}
               name="dimensions3"
               register={register}
@@ -166,6 +176,7 @@ export const CargoForm = () => {
           </Box>
           <TextFieldWithAddition
             control={control}
+            disabled={!canEdit}
             name="diameter"
             register={register}
             width="123px"

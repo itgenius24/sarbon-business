@@ -26,12 +26,13 @@ export const TextFieldWithAddition = ({
   additionalItemDefaultIndex,
   width = "",
   additionalOnclick = () => {},
+  disabled,
   ...props
 }) => {
 
   const { dropdownControl, isOpen, handleToggle, handleClose, additionalDropdownRef, } = useTextFieldWithAdditionProps();
 
-  return <div className={cls.field} style={{ width }}>
+  return <div className={clsx(cls.field, { [cls.disabled]: disabled })} style={{ width }}>
     {
       label || additionalItemLabel && <div className={clsx(cls.fieldTop)}>
         {label && <span className={cls.fieldLabel}>{label}</span>}
@@ -41,7 +42,7 @@ export const TextFieldWithAddition = ({
     <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] })}>
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
-        <input className={cls.fieldInput} {...register(name, rules)} type={type} placeholder={placeholder} {...props} />
+        <input className={cls.fieldInput} {...register(name, rules)} disabled={disabled} type={type} placeholder={placeholder} {...props} />
         {before && <span className={cls.before}>{before}</span>}
       </div>
       <Controller
@@ -50,7 +51,8 @@ export const TextFieldWithAddition = ({
         render={({ field }) => {
           return <div ref={additionalDropdownRef} className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light" })}>
             <button
-              className={cls.additionalItemContent}
+              disabled={disabled}
+              className={clsx(cls.additionalItemContent)}
               type="button"
               onClick={() => {
                 if(additionalItemOptions.length > 0) {

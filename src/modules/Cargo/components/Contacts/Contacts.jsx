@@ -6,7 +6,7 @@ import { useGetStoreData } from "@/hooks/useGetStoreData";
 
 export const Contacts = () => {
 
-  const { register, setValue, watch } = useAddCargoContext();
+  const { register, setValue, watch, canEdit } = useAddCargoContext();
   const { value: userData } = useGetStoreData(authStore, "userData");
 
   return <Box pt="24px" borderTop="1px solid" borderColor="brand.200" >
@@ -16,6 +16,7 @@ export const Contacts = () => {
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">укажите, к кому обратиться по объявлению</Text>
       </Box>
       <TextFieldWithAddition
+        disabled={!canEdit}
         additionalItemPosition="left"
         additionalItemTheme="light"
         additionalItemPlaceholder={userData?.login}
@@ -38,6 +39,7 @@ export const Contacts = () => {
 
       <Box display="flex" flexDirection="column" rowGap="6px" alignItems="flex-start" flexGrow={1}>
         <Textarea
+          isDisabled={!canEdit}
           height="154px"
           width="100%"
           borderRadius="8px"

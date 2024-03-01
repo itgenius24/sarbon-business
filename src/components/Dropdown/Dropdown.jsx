@@ -24,6 +24,7 @@ export const Dropdown = ({
   setValue = () => {},
   watch = () => {},
   errors,
+  disabled,
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
 
@@ -55,17 +56,27 @@ export const Dropdown = ({
         {label && <span className={cls.label}>{label}</span>}
         <div className={cls.controlWrap} >
           <div
-            className={clsx(cls.control, { [cls.open]: isOpen, [cls.searchable]: searchable, [cls.error]: errors?.[name] })}
+            className={
+              clsx(cls.control,
+                {
+                  [cls.open]: isOpen,
+                  [cls.searchable]: searchable,
+                  [cls.error]: errors?.[name],
+                  [cls.disabled]: disabled
+                })
+            }
             onClick={(e) => {
-              e.stopPropagation();
-              handleToggle();
+              if(!disabled) {
+                e.stopPropagation();
+                handleToggle();
+              }
             }}
           >
             <>
               {
                 searchable
                   ? <div className={cls.inputWrap}>
-                    <input className={cls.input} {...register(searchName)} placeholder={inputPlaceholder} />
+                    <input className={cls.input} {...register(searchName)} placeholder={inputPlaceholder} disabled={disabled} />
                     <span className={cls.leftIcon}><SearchIcon /></span>
                     {
                       watch(searchName) && <span

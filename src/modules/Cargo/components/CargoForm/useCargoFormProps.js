@@ -3,7 +3,7 @@ import { useAddCargoContext } from "../../providers";
 import { useGetCargoType, useGetMeasurement, useGetPackage } from "@/services/api";
 
 export const useCargoFormProps = () => {
-  const { control, errors, register, setValue, watch } = useAddCargoContext();
+  const { control, errors, register, setValue, watch, canEdit } = useAddCargoContext();
 
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
@@ -60,5 +60,6 @@ export const useCargoFormProps = () => {
     weightMeasurementOptions,
     volumeMeasurementOptions,
     packageOptions,
+    canEdit,
   };
 };

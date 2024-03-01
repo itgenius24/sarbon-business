@@ -25,6 +25,7 @@ export const LoadingForm = () => {
     handleCloseModal,
     getAddressOptions,
     errors,
+    canEdit,
   } = useLoadingFormProps();
 
   return <div className={cls.formGroup}>
@@ -38,7 +39,9 @@ export const LoadingForm = () => {
                   index === 0 && <h2 className={cls.heading}>Загрузка</h2>
                 }
                 {
-                  index !== 0 && <Button variant="reset"
+                  index !== 0 && <Button
+                    isDisabled={!canEdit}
+                    variant="reset"
                     onClick={() => handleRemoveLoading(index)}
                     color="brand.700"
                     leftIcon={<DeleteIcon />}
@@ -57,6 +60,7 @@ export const LoadingForm = () => {
                   placeholder="Населённый пункт"
                   options={getAddressOptions}
                   errors={errors}
+                  disabled={!canEdit}
                 />
                 <TextFieldWithAddition
                   placeholder="Адрес"
@@ -65,6 +69,7 @@ export const LoadingForm = () => {
                   name={`loadings[${index}].address`}
                   additionalOnclick={handleOpenModal}
                   errors={errors}
+                  disabled={!canEdit}
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
                       <LocationMarkIcon />
@@ -81,10 +86,10 @@ export const LoadingForm = () => {
     <div className={cls.fieldActions}>
       <h2 className={cls.fieldActionsHeading}>Добавить точку маршрута</h2>
       <div className={cls.fieldActionsButtons}>
-        <Button onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Загрузка</Button>
-        <Button onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Разгрузка</Button>
-        <Button onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Ехать через</Button>
-        <Button onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Таможня</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Загрузка</Button>
+        <Button isDisabled={!canEdit} onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Разгрузка</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Ехать через</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Таможня</Button>
       </div>
     </div>
     <div className={cls.fields}>
@@ -96,7 +101,9 @@ export const LoadingForm = () => {
                 index === 0 && <h2 className={cls.heading}>Разгрузка</h2>
               }
               {
-                index !== 0 && <Button variant="reset"
+                index !== 0 && <Button
+                  isDisabled={!canEdit}
+                  variant="reset"
                   onClick={() => handleUnloadingRemove(index)}
                   color="brand.700"
                   leftIcon={<DeleteIcon />}
@@ -107,6 +114,7 @@ export const LoadingForm = () => {
             </div>
             <div className={cls.field}>
               <Dropdown
+                disabled={!canEdit}
                 control={control}
                 required
                 register={register}
@@ -117,6 +125,7 @@ export const LoadingForm = () => {
                 errors={errors}
               />
               <TextFieldWithAddition
+                disabled={!canEdit}
                 placeholder="Адрес"
                 additionalItemTheme="white"
                 register={register}
@@ -138,7 +147,7 @@ export const LoadingForm = () => {
     <div className={cls.route}>
       <h2 className={cls.heading}>Маршрут</h2>
       <div className={cls.routeContent}>
-        <Checkbox register={register} name="gps_monitoring">
+        <Checkbox register={register} name="gps_monitoring" disabled={!canEdit}>
           <span className={cls.checkboxInner}>
             <span>Кругорейс</span>
             <HelpCircleIcon />

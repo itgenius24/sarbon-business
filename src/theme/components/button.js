@@ -1,9 +1,19 @@
 import { defineStyle, defineStyleConfig } from "@chakra-ui/react";
 
 const outline = defineStyle({
-  border: "1px solid transparent",
-  borderRadius: 8,
-  fontWeight: "600",
+  width: "100%",
+  bgColor: "transparent",
+  color: "primary",
+  border: "1px solid primary",
+  borderRadius: "8px",
+});
+
+const outlineError = defineStyle({
+  width: "100%",
+  bgColor: "transparent",
+  color: "#B42318",
+  border: "1px solid #FDA29B",
+  borderRadius: "8px",
 });
 
 const reset = defineStyle({
@@ -67,6 +77,7 @@ const variants = {
   solid,
   secondary,
   secondaryWhite,
+  outlineError,
 };
 
 const sizes = {
