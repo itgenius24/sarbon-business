@@ -136,7 +136,7 @@ const NewsCard = ({ data = {} }) => {
         <Box>
           <Box borderRadius={10} overflow="hidden" maxW="max-content">
             <Image
-              style={{ aspectRatio: "384 / 280" }}
+              style={{ aspectRatio: "384 / 280", objectFit:"cover" }}
               width={384}
               height={280}
               src={data.news_photo}
