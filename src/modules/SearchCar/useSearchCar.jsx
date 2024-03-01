@@ -57,6 +57,7 @@ export const useSearchCar = () => {
       if(data?.response?.length) {
         setCarsArr(data?.response);
       } else {
+        setCarsArr([])
         toast({
           title: "Не найдено",
           description: "К сожалений ничего не найдено",

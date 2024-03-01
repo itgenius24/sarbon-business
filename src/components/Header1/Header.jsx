@@ -23,7 +23,6 @@ const Header = observer(({ elements }) => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
 
-
   return (
     <Box
       as="header"
@@ -42,7 +41,9 @@ const Header = observer(({ elements }) => {
                 <ListItem className={cls.listItem} key={element.path}>
                   <Link
                     href={element.path}
-                    className={clsx(cls.itemLink, { [cls.activeLink]: pathname.includes(element.path), })}
+                    className={clsx(cls.itemLink, {
+                      [cls.activeLink]: pathname.includes(element.path),
+                    })}
                   >
                     {element.label}
                   </Link>
