@@ -15,6 +15,7 @@ export const Search = (props={}) => {
     watch,
     getAddressOptions,
     errors,
+    isPending,
 
     startDate,
     setStartDate,
@@ -93,7 +94,7 @@ export const Search = (props={}) => {
           </SimpleGrid>
         </>
         <>
-          <Button type="submit" maxW="180px">
+          <Button isLoading={isPending} type="submit" maxW="180px">
             Найти машину
           </Button>
         </>

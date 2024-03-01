@@ -7,8 +7,6 @@ import { SingleCar } from "../SingleCar/SingleCar";
 export const CarList = ({ data = [] }) => {
   if(!data?.length)return null;
 
-  console.log("RENDERING data ", data);
-
   return (
     <>
       <Heading size="md" mt="40px" mb="24px">
@@ -16,7 +14,7 @@ export const CarList = ({ data = [] }) => {
       </Heading>
       <VStack align="stretch" spacing="24px">
         {data.map((item) => {
-          return <SingleCar key={item} />;
+          return <SingleCar key={item} carInfo={item} />;
         })}
       </VStack>
     </>

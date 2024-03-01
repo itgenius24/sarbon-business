@@ -8,8 +8,10 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+import { useToast } from "@chakra-ui/react";
 
 export const useSearchCar = () => {
+  const toast = useToast();
   const {
     handleSubmit,
     control,
@@ -26,7 +28,7 @@ export const useSearchCar = () => {
   const getAddressOptions = getAddress.data?.response?.map((item) => ({
     label: item.name,
     value: item.guid,
-    addressId: item.address_id,
+    addressId: item.guid,
   }));
 
   const getMeasurement = useGetMeasurement({});
@@ -50,10 +52,19 @@ export const useSearchCar = () => {
     return format(new Date(val), "dd.MM.yyyy HH:mm");
   };
 
-  const getCarList = useGetCarListOnSubmit({
+  const { mutate, isPending } = useGetCarListOnSubmit({
     onSuccess(data) {
       if(data?.response?.length) {
         setCarsArr(data?.response);
+      } else {
+        toast({
+          title: "Не найдено",
+          description: "К сожалений ничего не найдено",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
       }
     },
   });
@@ -66,32 +77,33 @@ export const useSearchCar = () => {
     const date = formatDate(startDate);
     const params = {
       data: JSON.stringify(
+        // {
+        //   with_relations: true,
+        //   offset: 0,
+        //   order: {},
+        //   search: "",
+        //   limit: 20,
+        //   address_id: ["9c8d3e8d-c699-4c8a-a0e2-8889b0f1490d"],
+        //   address_id_2: ["c4da468c-7270-4e67-bedc-ce16dc2bac41"],
+        //   capacity: 5,
+        //   volume: 5,
+        //   date: "12.03.2024 00:00",
+        // }
         {
           with_relations: true,
           offset: 0,
           order: {},
           search: "",
           limit: 20,
-          address_id: ["9c8d3e8d-c699-4c8a-a0e2-8889b0f1490d"],
-          address_id_2: ["c4da468c-7270-4e67-bedc-ce16dc2bac41"],
-          capacity: 5,
-          volume: 5,
-          date: "12.03.2024 00:00",
+          address_id: [address_id || ""],
+          address_id_2: [address_id_2 || ""],
+          ...(capacity ? { capacity } : {}),
+          ...(volume ? { volume } : {}),
+          ...(date ? { date } : {}),
         }
-        //   {
-        //   offset: 0,
-        //   order: {},
-        //   search: "",
-        //   limit: 20,
-        //   address_id: [address_id || ""],
-        //   address_id_2: [address_id_2 || ""],
-        //   ...(capacity ? { capacity } : {}),
-        //   ...(volume ? { volume } : {}),
-        //   ...(date ? { date } : {}),
-        // }
       ),
     };
-    getCarList.mutate(params);
+    mutate(params);
   };
 
   const getSearchProps =()=> {
@@ -103,6 +115,7 @@ export const useSearchCar = () => {
       watch,
       getAddressOptions,
       errors,
+      isPending,
 
       startDate,
       setStartDate,
@@ -115,7 +128,6 @@ export const useSearchCar = () => {
     return { data: carsArr };
   };
 
-  console.log("RENDERING carsArr", carsArr);
 
   return {
     getSearchProps,
