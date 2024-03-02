@@ -335,6 +335,6 @@ export const useAddCargoProps = ({ id, status }) => {
     rating: data?.users_id_2_data?.rating,
     proposedAmount: data?.conditions,
     transportModel: data?.vehicle_id_data?.name,
-    canEdit: status === "in_moderation",
+    canEdit: status === "in_moderation" || !id,
   };
 };
