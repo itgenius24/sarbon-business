@@ -12,6 +12,7 @@ import Link from "next/link";
 import { LoadBtn } from "@/components/LoadBtn";
 import { statuses } from "@/utils/constants";
 import { TopContent } from "./components/TopContent";
+import { Popup } from "@/components/Popup";
 
 export const Cargo = ({ id, status }) => {
 
@@ -23,13 +24,10 @@ export const Cargo = ({ id, status }) => {
       return <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
         <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
         <Box Box display="flex" columnGap="8px">
-          <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>
+          <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleEditToggle}>
           Изменить
           </LoadBtn>
-          {/* <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
-          Поиск машин
-        </LoadBtn> */}
-          <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => addCargoProps.handleDelete()}>
+          <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={addCargoProps.handleOpenDeletePopup}>
           Удалить
           </LoadBtn>
         </Box>
@@ -79,7 +77,7 @@ export const Cargo = ({ id, status }) => {
                 <Heading size="md">Добавить груз</Heading>
                 <Box display="flex" columnGap="12px">
                   {/* <Button leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button> */}
-                  <Button leftIcon={<DeleteIcon />} onClick={() => addCargoProps.reset({})} variant="secondaryWhite" size="sm" >Очистить форму</Button>
+                  <Button leftIcon={<DeleteIcon color="#344054" />} onClick={() => addCargoProps.reset({})} variant="secondaryWhite" size="sm" >Очистить форму</Button>
                 </Box>
               </Box>
             }
@@ -99,6 +97,12 @@ export const Cargo = ({ id, status }) => {
           </Box>
         }
         {
+          (addCargoProps.isDirty && addCargoProps.canEdit && isEditing) && <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
+            <Button size="sm" maxWidth="223px" variant="secondaryWhite" onClick={addCargoProps.onCancelClick}>Отменить</Button>
+            <Button size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Сохранить изменение</Button>
+          </Box>
+        }
+        {
           status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
             <Button variant="outlineError" onClick={() => addCargoProps.handleCancel()}>Отказать</Button>
             <Button onClick={() => addCargoProps.handleAccept()}>Принять</Button>
@@ -106,5 +110,12 @@ export const Cargo = ({ id, status }) => {
         }
       </Container>
     </Box>
+    <Popup
+      isOpen={addCargoProps.isPopupOpen}
+      onClose={addCargoProps.handleCloseDeletePopup}
+      mainText="Вы уверены что хотите удалить груз “Ташкент-Бухара” ?"
+      status="delete"
+      btn2Callback={addCargoProps.handleDelete}
+    />
   </AddCargoProvider>;
 };

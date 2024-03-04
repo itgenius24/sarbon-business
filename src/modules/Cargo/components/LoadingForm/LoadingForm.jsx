@@ -1,3 +1,5 @@
+"use client";
+
 import { Dropdown } from "@/components/Dropdown";
 import cls from "./styles.module.scss";
 import { useLoadingFormProps } from "./useLoadingFormProps";
@@ -6,7 +8,7 @@ import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } 
 import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
-import { Map } from "@pbe/react-yandex-maps";
+import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
 
 export const LoadingForm = () => {
 
@@ -26,7 +28,15 @@ export const LoadingForm = () => {
     getAddressOptions,
     errors,
     canEdit,
+    coordinates,
+    onMapClick,
+    placeMarkGeometry,
   } = useLoadingFormProps();
+
+  const defaultState = {
+    center: coordinates,
+    zoom: 7,
+  };
 
   return <div className={cls.formGroup}>
     <div className={cls.formContent}>
@@ -156,9 +166,15 @@ export const LoadingForm = () => {
       </div>
     </div>
     <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Точка маршрута" size="xl">
-      <Map>
-
-      </Map>
+      <YMaps
+        query={{
+          load: "Map,Placemark",
+          apikey: "983669bd-58ef-4054-8953-21f67b5c1466"
+        }}>
+        <Map onClick={onMapClick} defaultState={defaultState} width="100%">
+          <Placemark geometry={placeMarkGeometry} />
+        </Map>
+      </YMaps>
     </Modal>
   </div>;
 };

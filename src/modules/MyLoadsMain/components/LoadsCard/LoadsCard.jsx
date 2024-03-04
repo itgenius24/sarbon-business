@@ -21,9 +21,21 @@ export const LoadsCard = ({
   date,
   provisions,
   handleDelete,
+  response_status,
+  orderStatus,
 }) => {
 
-  const status = order_status?.[0] || provisions?.[0];
+  const responseStatuses = {
+    in_moderation: order_status,
+    new: provisions,
+    performed: provisions,
+    cancellation: provisions,
+    archive: provisions,
+    approve_from_driver: response_status,
+    approve_by_customer: response_status
+  };
+
+  const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];
 
   const router = useRouter();
 

@@ -298,22 +298,20 @@ export const CircleCloseIcon = () => (
   </svg>
 );
 
-export const DeleteIcon = ({ color = "#667085" }) => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M7.5 2.5H12.5M2.5 5H17.5M15.8333 5L15.2489 13.7661C15.1612 15.0813 15.1174 15.7389 14.8333 16.2375C14.5833 16.6765 14.206 17.0294 13.7514 17.2497C13.235 17.5 12.5759 17.5 11.2578 17.5H8.74221C7.42409 17.5 6.76503 17.5 6.24861 17.2497C5.79396 17.0294 5.41674 16.6765 5.16665 16.2375C4.88259 15.7389 4.83875 15.0813 4.75107 13.7661L4.16667 5M8.33333 8.75V12.9167M11.6667 8.75V12.9167"
-      stroke={color}
-      strokeWidth="1.66667"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
+export const DeleteIcon = ({ color = "#D92D20", width = "24", height = "24" }) => (
+  <svg width={width} height={height} fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 3h6M3 6h18m-2 0-.701 10.52c-.105 1.578-.158 2.367-.499 2.965a3 3 0 0 1-1.298 1.215c-.62.3-1.41.3-2.993.3h-3.018c-1.582 0-2.373 0-2.993-.3A3 3 0 0 1 6.2 19.485c-.34-.598-.394-1.387-.499-2.966L5 6m5 4.5v5m4-5v5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);
+
+export const WaringIcon = ({ color = "#F79009", width = "24", height = "24" }) => (
+  <svg width={width} height={height} fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.999 16a.25.25 0 1 0 .002.5A.25.25 0 0 0 12 16" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path clipRule="evenodd" d="m7.414 20.414-3.828-3.828A2 2 0 0 1 3 15.172V8.828a2 2 0 0 1 .586-1.414l3.828-3.828A2 2 0 0 1 8.828 3h6.343a2 2 0 0 1 1.414.586l3.828 3.828c.376.375.587.884.587 1.414v6.343a2 2 0 0 1-.586 1.414L16 21H8.828a2 2 0 0 1-1.414-.586v0Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 12.5v-5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);
+
+export const SuccessIcon = ({ color = "#079455", width = "24", height = "24" }) => (
+  <svg width={width} height={height} fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.228 11.222 12.005 15l7.675-7.675C18.1 4.735 15.256 3 12 3a9 9 0 0 0-9 9 9 9 0 0 0 17.941 1" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);
+
+export const PaymentIcon = ({ color = "#079455", width = "24", height = "24" }) => (
+  <svg width={width} height={height} fill="none" xmlns="http://www.w3.org/2000/svg"><path clipRule="evenodd" d="M19.804 18.213v0c-2.505-.5-5.09-.44-7.567.18l-.237.06c-2.634.658-5.38.723-8.043.191l-.153-.03A1 1 0 0 1 3 17.632V6.794a1 1 0 0 1 1.196-.98v0c2.505.5 5.09.439 7.567-.18l.474-.119a17.251 17.251 0 0 1 7.567-.18l.392.078a1 1 0 0 1 .804.981v10.839a1 1 0 0 1-1.196.98Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="2.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M17 15h1M6 9h1" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
 );
 
 export const LocationIcon = () => (

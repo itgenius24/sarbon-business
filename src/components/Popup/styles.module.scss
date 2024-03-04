@@ -1,0 +1,85 @@
+.modalContent {
+  position: relative;
+  background-image: url('/svg/popup-decorative.svg');
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+
+.modalBody {
+  padding-top: 48px;
+}
+
+.modalIcon {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 21px;
+  left: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 8px solid transparent;
+  background-color: transparent;
+}
+
+.modalIcon.delete {
+  background-color: var(--error-50);
+  border-color: var(--error-100);
+}
+
+.modalIcon.warning {
+  background-color: var(--warning-50);
+  border-color: var(--warning-200);
+}
+
+.modalIcon.success {
+  background-color: var(--success-50);
+  border-color: var(--success-200);
+}
+
+.modalIcon.payment {
+  background-color: var(--success-50);
+  border-color: var(--success-200);
+}
+
+.modalFooter {
+  display: flex;
+  column-gap: 12px;
+}
+
+.btn {
+  flex-grow: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+.btn.delete {
+  background-color: var(--error-100);
+  color: var(--error-600);
+}
+
+.btn.success {
+  background-color: var(--success-100);
+  color: var(--success-600);
+}
+
+.btn.payment {
+  background-color: var(--success-100);
+  color: var(--success-600);
+}
+
+.btn.warning {
+  background-color: var(--primary);
+  color: var(--base-white);
+}
+
+.btn.secondary {
+  border: 1px solid var(--brand-300);
+}

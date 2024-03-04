@@ -109,6 +109,7 @@ export const useMyLoadsMainProps = () => {
     cargos: getCargos().data,
     isLoading: getCargos().isLoading,
     onFilterChange,
-    handleDelete
+    handleDelete,
+    orderStatus,
   };
 };

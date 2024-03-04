@@ -16,7 +16,6 @@ export const TextFieldWithAddition = ({
   after,
   label,
   errors = {},
-  rules = {},
   additionalItemLabel,
   additionalItemPosition,
   additionalItemTheme = "gray",
@@ -42,7 +41,7 @@ export const TextFieldWithAddition = ({
     <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] })}>
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
-        <input className={cls.fieldInput} {...register(name, rules)} disabled={disabled} type={type} placeholder={placeholder} {...props} />
+        <input className={cls.fieldInput} {...register(name)} disabled={disabled} type={type} placeholder={placeholder} {...props} />
         {before && <span className={cls.before}>{before}</span>}
       </div>
       <Controller
@@ -90,6 +89,7 @@ export const TextFieldWithAddition = ({
           </div>;
         }}
       />
+      {errors?.[name] && <span className={cls.errorText}>{errors?.[name]?.message}</span>}
     </div>
   </div>;
 };

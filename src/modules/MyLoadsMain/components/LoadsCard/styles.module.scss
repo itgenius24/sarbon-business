@@ -58,9 +58,14 @@
   color: #009241;
 }
 
-.addressStatus.waiting {
-  background: rgba(54, 229, 122, 0.07);
-  color: #17B26A;
+.addressStatus.approve_from_driver {
+  background: rgba(255, 204, 0, 0.15);
+  color: #FF9500;
+}
+
+.addressStatus.approve_by_customer {
+  background: rgba(255, 204, 0, 0.15);
+  color: #FF9500;
 }
 
 .addressStatus.cancellation {

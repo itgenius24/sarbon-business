@@ -9,6 +9,7 @@ export const useLoadingFormProps = () => {
   const [formAddressName, setFormAddressName] = useState("");
 
   const [coordinates, setCoordinates] = useState([41.348947, 69.3375311]);
+  const [placeMarkGeometry, setPlaceMarkGeometry] = useState([41.348947, 69.3375311]);
 
   const { control, register, watch, setValue, errors, canEdit } = useAddCargoContext();
 
@@ -69,6 +70,12 @@ export const useLoadingFormProps = () => {
     setFormAddressName("");
   }
 
+  function onMapClick (e) {
+    const coordinates = e.get("coords");
+    console.log(coordinates);
+    setPlaceMarkGeometry([coordinates[0], coordinates[1]]);
+  }
+
   return {
     loadings,
     register,
@@ -87,5 +94,8 @@ export const useLoadingFormProps = () => {
     getAddressOptions,
     errors,
     canEdit,
+    placeMarkGeometry,
+    setPlaceMarkGeometry,
+    onMapClick,
   };
 };

@@ -5,6 +5,7 @@ import { useCreateCargoMutation, useDeleteCargo, useGetCargoById, useGetLoadingM
 import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
+import { useToast } from "@chakra-ui/react";
 
 export const useAddCargoProps = ({ id, status }) => {
 
@@ -15,33 +16,50 @@ export const useAddCargoProps = ({ id, status }) => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [canEdit, setCanEdit] = useState(!id);
+
   const router = useRouter();
+
+  const toast = useToast();
+
+  function handleEditToggle() {
+    setCanEdit(!canEdit);
+  }
+
+  function handleOpenDeletePopup() {
+    setPopupOpen(true);
+  }
+
+  function handleCloseDeletePopup() {
+    setPopupOpen(false);
+  }
 
   const schema = yup
     .object({
       contact: yup.string().required().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Некорректный номер телефона"),
-      cargo_type: yup.object().required(),
-      weight_measurement: yup.number().required(),
-      weight_unit: yup.object().required(),
-      volume_measurement: yup.number().required(),
+      cargo_type: yup.object().required("Обязательное поле"),
+      weight_measurement: yup.string().required("Обязательное поле"),
+      weight_unit: yup.object().required("Обязательное поле"),
+      volume_measurement: yup.string().required("Обязательное поле"),
       packaging: yup.object(),
-      packaging_quantity: yup.number(),
-      loadings: yup.array().of(yup.object().shape({ location: yup.object().required(), address: yup.string().required() })).required(),
-      unloading: yup.array().of(yup.object().shape({ location: yup.object().required(), address: yup.string().required() })).required(),
-      gps_monitoring: yup.string().required(),
-      car_type: yup.object().required(),
-      transport_count: yup.string().required(),
-      is_ftl: yup.string().required(),
-      is_ltl: yup.string().required(),
-      capacity: yup.number(),
-      price: yup.number().required(),
-      price_prepayment: yup.number().required(),
-      price_after_order: yup.string().required(),
-      price_prepayment_unit: yup.object().required(),
-      payment_deadline: yup.number().required(),
-      payment_type: yup.object().required(),
-    })
-    .required();
+      packaging_quantity: yup.string(),
+      loadings: yup.array().of(yup.object().shape({ location: yup.object().required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      unloading: yup.array().of(yup.object().shape({ location: yup.object().required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      gps_monitoring: yup.string().required("Обязательное поле"),
+      car_type: yup.object().required("Обязательное поле"),
+      transport_count: yup.string().required("Обязательное поле"),
+      is_ftl: yup.string().required("Обязательное поле"),
+      is_ltl: yup.string().required("Обязательное поле"),
+      capacity: yup.string(),
+      price: yup.string().required("Обязательное поле"),
+      price_prepayment: yup.string().required("Обязательное поле"),
+      price_after_order: yup.string().required("Обязательное поле"),
+      price_prepayment_unit: yup.object().required("Обязательное поле"),
+      payment_deadline: yup.string().required("Обязательное поле"),
+      payment_type: yup.object().required("Обязательное поле"),
+    });
+    // .required("Обязательное поле");
 
   const {
     register,
@@ -50,7 +68,7 @@ export const useAddCargoProps = ({ id, status }) => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors }
+    formState: { errors, isDirty, }
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -74,6 +92,13 @@ export const useAddCargoProps = ({ id, status }) => {
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
+      toast({
+        position: "top-right",
+        title: "Груз успешно удален",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
       router.back();
     },
     onError(res) {
@@ -100,13 +125,26 @@ export const useAddCargoProps = ({ id, status }) => {
 
   const createCargo = useCreateCargoMutation({
     onSuccess() {
-      alert("Груз успешно создан");
+      toast({
+        position: "top-right",
+        title: "Груз успешно создан",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      router.back();
     }
   });
 
   const updateCargo = useUpdateCargo({
     onSuccess() {
-      alert("Груз успешно обновлен");
+      toast({
+        position: "top-right",
+        title: "Груз успешно обновлен",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     }
   });
 
@@ -130,7 +168,13 @@ export const useAddCargoProps = ({ id, status }) => {
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess() {
-      alert("Груз успешно обновлен");
+      toast({
+        position: "top-right",
+        title: "Груз успешно обновлена",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
       router.back();
     },
     onError(res) {
@@ -210,6 +254,11 @@ export const useAddCargoProps = ({ id, status }) => {
     } else {
       createCargo.mutate(requestData);
     }
+  }
+
+  function onCancelClick() {
+    getOfferCargoById.refetch();
+    handleEditToggle();
   }
 
   function getData() {
@@ -335,6 +384,12 @@ export const useAddCargoProps = ({ id, status }) => {
     rating: data?.users_id_2_data?.rating,
     proposedAmount: data?.conditions,
     transportModel: data?.vehicle_id_data?.name,
-    canEdit: status === "in_moderation" || !id,
+    canEdit,
+    handleEditToggle,
+    isDirty,
+    onCancelClick,
+    handleOpenDeletePopup,
+    handleCloseDeletePopup,
+    isPopupOpen,
   };
 };

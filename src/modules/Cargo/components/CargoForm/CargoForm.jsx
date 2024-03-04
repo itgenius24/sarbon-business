@@ -43,12 +43,6 @@ export const CargoForm = () => {
             disabled={!canEdit}
           />
           <TextFieldWithAddition
-            rules={{
-              required: {
-                value: true,
-                message: "Обязательное поле",
-              }
-            }}
             errors={errors}
             control={control}
             name="weight_measurement"
@@ -60,12 +54,6 @@ export const CargoForm = () => {
             disabled={!canEdit}
           />
           <TextFieldWithAddition
-            rules={{
-              required: {
-                value: true,
-                message: "Обязательное поле",
-              }
-            }}
             errors={errors}
             control={control}
             name="volume_measurement"

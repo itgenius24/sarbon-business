@@ -26,6 +26,7 @@
 }
 
 .contentWrapper {
+  position: relative;
   height: 44px;
   display: flex;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
@@ -153,4 +154,14 @@
   display: flex;
   align-items: center;
   column-gap: 6px;
+}
+
+.errorText {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--error-500);
 }
