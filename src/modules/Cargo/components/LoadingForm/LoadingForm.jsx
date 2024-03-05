@@ -82,8 +82,10 @@ export const LoadingForm = () => {
                   register={register}
                   name={`loadings[${index}].address`}
                   additionalOnclick={() => handleOpenModal("loadings", index)}
+                  onClick={() => handleOpenModal("loadings", index)}
                   errors={errors}
                   onlyFieldDisabled={true}
+                  disabled={!canEdit}
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
                       <LocationMarkIcon />
@@ -140,11 +142,13 @@ export const LoadingForm = () => {
               />
               <TextFieldWithAddition
                 onlyFieldDisabled={true}
+                disabled={!canEdit}
                 placeholder="Адрес"
                 additionalItemTheme="white"
                 register={register}
                 name={`unloading[${index}].address`}
                 additionalOnclick={() => handleOpenModal("unloading", index)}
+                onClick={() => handleOpenModal("unloading", index)}
                 errors={errors}
                 additionalItemPlaceholder={
                   <span className={cls.additionalIcons}>

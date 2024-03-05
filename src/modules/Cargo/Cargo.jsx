@@ -92,14 +92,14 @@ export const Cargo = ({ id, status }) => {
           !isEditing && <Box mt="32px">
             <Box display="flex" columnGap="12px" justifyContent="flex-end" maxWidth="900px">
               {/* <Button size="sm" maxWidth="223px" variant="secondaryWhite">Сохранить как шаблон</Button> */}
-              <Button size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Опубликовать груз</Button>
+              <Button isLoading={addCargoProps.loading} size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Опубликовать груз</Button>
             </Box>
           </Box>
         }
         {
           (addCargoProps.isDirty && addCargoProps.canEdit && isEditing) && <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
             <Button size="sm" maxWidth="223px" variant="secondaryWhite" onClick={addCargoProps.onCancelClick}>Отменить</Button>
-            <Button size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Сохранить изменение</Button>
+            <Button isLoading={addCargoProps.loading} size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>Сохранить изменение</Button>
           </Box>
         }
         {

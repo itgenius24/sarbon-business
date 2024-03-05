@@ -67,12 +67,23 @@ export const useLoadingFormProps = () => {
 
   function handleOpenModal(name, index) {
     setFormAddressName(() => ({ name, index }));
-    navigator.geolocation.getCurrentPosition((position) => {
-      let lat = position.coords.latitude;
-      let long = position.coords.longitude;
-      setCoordinates([lat, long]);
+
+    if(watch(`${name}.${index}.cor`)) {
+
+      setCoordinates(watch(`${name}.${index}.cor`));
+      setPlaceMarkGeometry(watch(`${name}.${index}.cor`));
       setIsModalOpen(true);
-    });
+
+    } else {
+
+      navigator.geolocation.getCurrentPosition((position) => {
+        let lat = position.coords.latitude;
+        let long = position.coords.longitude;
+        setCoordinates([lat, long]);
+        setIsModalOpen(true);
+      });
+
+    }
   }
 
   function handleCloseModal() {
