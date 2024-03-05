@@ -4,7 +4,6 @@ import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 
 import { Box, Button, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
-import { useSearchCar } from "../../useSearchCar";
 
 export const Search = (props={}) => {
   const {
@@ -16,10 +15,8 @@ export const Search = (props={}) => {
     getAddressOptions,
     errors,
     isPending,
-
     startDate,
     setStartDate,
-    weightMeasurementOptions,
     volumeMeasurementOptions,
   } = props;
   return (
@@ -60,6 +57,7 @@ export const Search = (props={}) => {
               placeholder="Выберите дату"
               startDate={startDate}
               setStartDate={setStartDate}
+              isClearable
             />
           </SimpleGrid>
         </>

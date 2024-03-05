@@ -26,7 +26,6 @@ export const useStagesProps = () => {
   const priceUnit = watch("price_prepayment_unit");
   const paymentType = watch("payment_type");
   const paymentDeadline = watch("payment_deadline");
-  const prepaymentPercent = watch("prepayment_percent");
 
   const additionalDataContact = watch("contact");
 
@@ -56,8 +55,8 @@ export const useStagesProps = () => {
         else return "disabled";
       }
       case "payment": {
-        if(price && pricePrepayment && priceAfter && paymentType && paymentDeadline && prepaymentPercent) return "done";
-        else if(price || pricePrepayment || priceAfter || paymentType || paymentDeadline || prepaymentPercent) return "process";
+        if(price && pricePrepayment && priceAfter && paymentType && paymentDeadline) return "done";
+        else if(price || pricePrepayment || priceAfter || paymentType || paymentDeadline) return "process";
         else return "disabled";
       }
       case "contact": {

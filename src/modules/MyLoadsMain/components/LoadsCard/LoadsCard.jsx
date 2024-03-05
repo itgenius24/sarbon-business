@@ -88,11 +88,6 @@ export const LoadsCard = ({
       <DataList list={list} />
     </Box>
     {
-      status === "performed" && <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => handleDelete(guid)}>
-        Удалить
-      </LoadBtn>
-    }
-    {
       status === "in_moderation" && <div className={cls.cardBottom}>
         <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => handleDelete(guid)}>
           Удалить

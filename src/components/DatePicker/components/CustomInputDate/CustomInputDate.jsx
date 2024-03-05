@@ -1,8 +1,15 @@
+import { CloseIcon } from "@/assets/icons/icons";
 import cls from "./styles.module.scss";
 import { forwardRef } from "react";
 
 export const CustomInputDate = forwardRef(
-  ({ value, onClick, width, cPlaceholder, disabled }, ref) => {
+  ({
+    value,
+    onClick,
+    width,
+    cPlaceholder,
+    disabled,
+  }, ref) => {
     return (
       <button
         type="button"
@@ -31,7 +38,9 @@ export const CustomInputDate = forwardRef(
             </svg>
           </span>
           {value ? (
-            <span className={cls.dateInputValue}>{value || ""}</span>
+            <span className={cls.dateInputValue}>
+              <span className={cls.dateInputValue}>{value || ""}</span>
+            </span>
           ) : (
             <span className={cls.placeholder}>
               {cPlaceholder || "Выберите"}

@@ -19,6 +19,7 @@ export const DatePicker = ({
   placeholder,
   label,
   disabled,
+  isClearable = false,
   minDate = "",
   maxDate = "",
 }) => {
@@ -65,7 +66,14 @@ export const DatePicker = ({
           minDate={minDate}
           maxDate={maxDate}
           customInput={
-            <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
+            <CustomInputDate
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              isClearable={isClearable}
+              disabled={disabled}
+              cPlaceholder={placeholder}
+              width={inputWidth}
+            />
           }
           renderDayContents={renderDayContents}
           selectsRange
@@ -81,7 +89,13 @@ export const DatePicker = ({
           minDate={minDate}
           maxDate={maxDate}
           customInput={
-            <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
+            <CustomInputDate
+              setStartDate={setStartDate}
+              isClearable={isClearable}
+              disabled={disabled}
+              cPlaceholder={placeholder}
+              width={inputWidth}
+            />
           }
           renderDayContents={renderDayContents}
         />
@@ -89,3 +103,13 @@ export const DatePicker = ({
     </div>
   );
 };
+
+// {isClearable && <span
+//   onClick={(e) => {
+//     e.stopPropagation();
+//     setStartDate(() => "");
+//     setEndDate(() => "");
+//   }}
+//   className={cls.clear}>
+//   <CloseIcon />
+// </span>}

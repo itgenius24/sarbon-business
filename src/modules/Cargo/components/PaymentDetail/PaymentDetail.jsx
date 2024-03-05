@@ -63,7 +63,7 @@ export const PaymentDetail = () => {
             variant="reset"
             onClick={() => setPrepaymentFuelOpen(false)}
             color="brand.700"
-            leftIcon={<DeleteIcon />}
+            leftIcon={<DeleteIcon color="#344054" />}
           >
           Предоплата
           </Button>

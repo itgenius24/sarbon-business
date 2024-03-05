@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useCreateCargoMutation, useDeleteCargo, useGetCargoById, useGetLoadingMutation, useGetOffer, useGetOfferById, useUpdateCargo, useUpdateResponse } from "@/services/api";
+import { useCreateAddressMutation, useCreateCargoMutation, useDeleteCargo, useGetCargoById, useGetLoadingMutation, useGetOffer, useGetOfferById, useUpdateCargo, useUpdateResponse } from "@/services/api";
 import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
@@ -68,6 +68,7 @@ export const useAddCargoProps = ({ id, status }) => {
     handleSubmit,
     watch,
     reset,
+    getValues,
     formState: { errors, isDirty, }
   } = useForm({
     resolver: yupResolver(schema),
@@ -123,8 +124,8 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   });
 
-  const createCargo = useCreateCargoMutation({
-    onSuccess() {
+  const createAddress = useCreateAddressMutation({
+    onSuccess(){
       toast({
         position: "top-right",
         title: "Груз успешно создан",
@@ -136,14 +137,35 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   });
 
+  const createCargo = useCreateCargoMutation({
+    onSuccess(data) {
+      const name = getValues("loadings").map(item => item.address).concat(getValues("unloading").map(item => item.address));
+      const cor = getValues("loadings").map(item => item.cor).concat(getValues("unloading").map(item => item.cor)).join(",").split(",");
+      createAddress.mutate({
+        data:{
+          object_data:{
+            name,
+            cor,
+            cargo_id: data?.data?.guid
+          }
+        }
+      });
+    }
+  });
+
   const updateCargo = useUpdateCargo({
-    onSuccess() {
-      toast({
-        position: "top-right",
-        title: "Груз успешно обновлен",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
+    onSuccess(data) {
+      const name = getValues("loadings").map(item => item.address).concat(getValues("unloading").map(item => item.address));
+      const cor = [getValues("loadings").map(item => item.cor).join(","), getValues("unloading").map(item => item.cor).join(",")];
+
+      createAddress.mutate({
+        data:{
+          object_data:{
+            name,
+            cor,
+            cargo_id: data.guid
+          }
+        }
       });
     }
   });

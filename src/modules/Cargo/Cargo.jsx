@@ -37,7 +37,7 @@ export const Cargo = ({ id, status }) => {
         address1={addCargoProps.address1}
         address2={addCargoProps.address2}
         userName={addCargoProps.userName}
-        proposedAmount={addCargoProps.proposedAmount}
+        proposemount={addCargoProps.proposedAmount}
         rating={addCargoProps.rating}
         transportModel={addCargoProps.transportModel}
         phoneNumber={addCargoProps.phoneNumber}
