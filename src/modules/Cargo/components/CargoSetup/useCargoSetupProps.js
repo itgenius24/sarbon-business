@@ -30,6 +30,15 @@ export const userCargoSetupProps = () => {
 
   }, [getCurrency.data]);
 
+  useEffect(() => {
+
+    if(watch("price") && watch("price_prepayment") && canEdit) {
+      setValue("price_after_order", watch("price") - watch("price_prepayment"));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch("price"), watch("price_prepayment")]);
+
   return {
     register,
     control,

@@ -8,6 +8,8 @@ export const MyLoadsMain = () => {
 
   const { cargos, onFilterChange, handleDelete, orderStatus, } = useMyLoadsMainProps();
 
+  console.log({ cargos });
+
   return <Box py="40px">
     <Container>
       <Heading size="md" mb="24px">Мои грузы</Heading>

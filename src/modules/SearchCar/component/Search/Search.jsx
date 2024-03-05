@@ -74,7 +74,7 @@ export const Search = (props={}) => {
               additionalItemName="weight_unit"
               width="224px"
               placeholder="Вес"
-              additionalItemOptions={weightMeasurementOptions}
+              additionalItemPlaceholder="T"
             />
             <TextFieldWithAddition
               errors={errors}

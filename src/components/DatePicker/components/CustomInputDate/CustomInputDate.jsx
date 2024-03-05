@@ -2,8 +2,7 @@ import cls from "./styles.module.scss";
 import { forwardRef } from "react";
 
 export const CustomInputDate = forwardRef(
-  ({ value, onClick, width, cPlaceholder, disabled, ...props }, ref) => {
-
+  ({ value, onClick, width, cPlaceholder, disabled }, ref) => {
     return (
       <button
         type="button"

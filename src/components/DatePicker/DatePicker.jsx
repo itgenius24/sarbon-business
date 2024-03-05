@@ -53,6 +53,7 @@ export const DatePicker = ({
       {withLeftSide && <div className={cls.leftSide}></div>}
       {range ? (
         <ReactDatePicker
+          dateFormat={"dd.MM.yyyy"}
           disabled={disabled}
           selected={startDate || innerStartDate}
           onChange={innerOnChange}
@@ -67,6 +68,7 @@ export const DatePicker = ({
         />
       ) : (
         <ReactDatePicker
+          dateFormat={"dd.MM.yyyy"}
           disabled={disabled}
           selected={startDate || innerStartDate}
           onChange={innerOnChange}

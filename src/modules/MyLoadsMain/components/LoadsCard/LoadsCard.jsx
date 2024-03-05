@@ -7,6 +7,7 @@ import { DataList } from "@/components/DataList";
 import { Box } from "@chakra-ui/react";
 import { formatDate } from "@/utils/isValidDate";
 import { statuses } from "@/utils/constants";
+import { formatSum } from "@/utils/formatSum";
 
 export const LoadsCard = ({
   guid,
@@ -23,6 +24,8 @@ export const LoadsCard = ({
   handleDelete,
   response_status,
   orderStatus,
+  weight,
+  volume_m3,
 }) => {
 
   const responseStatuses = {
@@ -74,7 +77,7 @@ export const LoadsCard = ({
       <div className={cls.paymentInfo}>
         <div className={cls.paymentInfoContent}>
           <span className={cls.paymentInfoText}>
-            {bid_cash} UZS
+            {formatSum.format(bid_cash)} UZS
           </span>
           <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span>
         </div>
@@ -94,7 +97,26 @@ export const LoadsCard = ({
         <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => handleDelete(guid)}>
           Удалить
         </LoadBtn>
-        <LoadBtn onClick={() => {}} icon={<TruckIcon />}>
+        <LoadBtn
+          onClick={(e) => {
+            e.stopPropagation();
+            const query = new URLSearchParams({
+              from: JSON.stringify({
+                value: address_id_data?.guid,
+                label: address_id_data?.name
+              }),
+              to: JSON.stringify({
+                value: address_id_2_data?.guid,
+                label: address_id_2_data?.name
+              }),
+              date: date,
+              weight: weight,
+              volume: volume_m3,
+            });
+            router.push("/search-car?" + query.toString());
+          }}
+          icon={<TruckIcon />}
+        >
           Поиск машин
         </LoadBtn>
       </div>
