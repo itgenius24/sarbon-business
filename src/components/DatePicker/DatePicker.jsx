@@ -19,6 +19,9 @@ export const DatePicker = ({
   placeholder,
   label,
   disabled,
+  isClearable = false,
+  minDate = "",
+  maxDate = "",
 }) => {
   if (!onChange || !startDate || (!endDate && range)) {
     // console.warn("onChange, startDate and endDate are required props for RangePicker component");
@@ -53,27 +56,46 @@ export const DatePicker = ({
       {withLeftSide && <div className={cls.leftSide}></div>}
       {range ? (
         <ReactDatePicker
+          dateFormat={"dd.MM.yyyy"}
           disabled={disabled}
           selected={startDate || innerStartDate}
           onChange={innerOnChange}
           startDate={startDate || innerStartDate}
           endDate={endDate || innerEndDate}
           monthsShown={monthsShown || 2}
+          minDate={minDate}
+          maxDate={maxDate}
           customInput={
-            <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
+            <CustomInputDate
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              isClearable={isClearable}
+              disabled={disabled}
+              cPlaceholder={placeholder}
+              width={inputWidth}
+            />
           }
           renderDayContents={renderDayContents}
           selectsRange
         />
       ) : (
         <ReactDatePicker
+          dateFormat={"dd.MM.yyyy"}
           disabled={disabled}
           selected={startDate || innerStartDate}
           onChange={innerOnChange}
           startDate={startDate || innerStartDate}
           monthsShown={monthsShown || 1}
+          minDate={minDate}
+          maxDate={maxDate}
           customInput={
-            <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
+            <CustomInputDate
+              setStartDate={setStartDate}
+              isClearable={isClearable}
+              disabled={disabled}
+              cPlaceholder={placeholder}
+              width={inputWidth}
+            />
           }
           renderDayContents={renderDayContents}
         />
@@ -81,3 +103,13 @@ export const DatePicker = ({
     </div>
   );
 };
+
+// {isClearable && <span
+//   onClick={(e) => {
+//     e.stopPropagation();
+//     setStartDate(() => "");
+//     setEndDate(() => "");
+//   }}
+//   className={cls.clear}>
+//   <CloseIcon />
+// </span>}

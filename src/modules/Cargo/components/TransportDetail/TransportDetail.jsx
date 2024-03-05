@@ -229,6 +229,7 @@ export const TransportDetail = () => {
             name="capacity"
             additionalItemName="capacity_unit"
             additionalItemDefaultIndex={0}
+            defaultValue=""
           />
         </Box>
       </Box>

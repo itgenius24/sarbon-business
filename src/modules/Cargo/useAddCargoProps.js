@@ -1,7 +1,17 @@
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useCreateCargoMutation, useDeleteCargo, useGetCargoById, useGetLoadingMutation, useGetOffer, useGetOfferById, useUpdateCargo, useUpdateResponse } from "@/services/api";
+import {
+  useCreateAddressMutation,
+  useCreateCargoMutation,
+  useDeleteCargo,
+  useGetCargoById,
+  useGetLoadingMutation,
+  useGetMaps,
+  useGetOfferById,
+  useUpdateCargo,
+  useUpdateResponse
+} from "@/services/api";
 import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
@@ -18,6 +28,8 @@ export const useAddCargoProps = ({ id, status }) => {
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(!id);
+
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -68,6 +80,7 @@ export const useAddCargoProps = ({ id, status }) => {
     handleSubmit,
     watch,
     reset,
+    getValues,
     formState: { errors, isDirty, }
   } = useForm({
     resolver: yupResolver(schema),
@@ -89,6 +102,8 @@ export const useAddCargoProps = ({ id, status }) => {
       ]
     }
   });
+
+  console.log({ errors });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -123,8 +138,9 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   });
 
-  const createCargo = useCreateCargoMutation({
-    onSuccess() {
+  const createAddress = useCreateAddressMutation({
+    onSuccess(){
+      setLoading(false);
       toast({
         position: "top-right",
         title: "Груз успешно создан",
@@ -133,27 +149,60 @@ export const useAddCargoProps = ({ id, status }) => {
         isClosable: true,
       });
       router.back();
+    },
+    onError(){
+      setLoading(false);
+    }
+  });
+
+  const createCargo = useCreateCargoMutation({
+    onSuccess(data) {
+      const name = getValues("loadings").map(item => item.address).concat(getValues("unloading").map(item => item.address));
+      const cor = getValues("loadings").map(item => item.cor).concat(getValues("unloading").map(item => item.cor)).join(",").split(",");
+      createAddress.mutate({
+        data:{
+          object_data:{
+            name,
+            cor,
+            cargo_id: data?.data?.guid
+          }
+        }
+      });
+    },
+    onError() {
+      setLoading(false);
     }
   });
 
   const updateCargo = useUpdateCargo({
-    onSuccess() {
-      toast({
-        position: "top-right",
-        title: "Груз успешно обновлен",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
+    onSuccess(data) {
+      const name = getValues("loadings").map(item => item.address).concat(getValues("unloading").map(item => item.address));
+      const cor = [getValues("loadings").map(item => item.cor).join(","), getValues("unloading").map(item => item.cor).join(",")];
+      setLoading(false);
+      createAddress.mutate({
+        data:{
+          object_data:{
+            name,
+            cor,
+            cargo_id: data.guid
+          }
+        }
       });
+    },
+    onError() {
+      setLoading(false);
     }
+
   });
+
+  const getMaps = useGetMaps({ data: JSON.stringify({ cargo_id: id }) });
 
   const getCargo = useGetCargoById({
     data: JSON.stringify({
       guid: id,
       with_relations: true
     })
-  }, { enabled: !!(isCargo && id) });
+  }, { enabled: !!(isCargo && id && getMaps.isSuccess) });
 
 
   const getOfferCargoById = useGetOfferById(
@@ -205,6 +254,8 @@ export const useAddCargoProps = ({ id, status }) => {
   }
 
   function onSubmit(data) {
+    console.log("first");
+    setLoading(true);
 
     const loadingIds = data.loadings.map(item => item.location.value);
     const unloadingIds = data.unloading.map(item => item.location.value);
@@ -279,6 +330,21 @@ export const useAddCargoProps = ({ id, status }) => {
 
       const data = getData();
 
+      const mapsData = getMaps.data.response;
+      const load = mapsData.pop();
+      mapsData.forEach((item, index) => {
+        setValue(`unloading[${index}]`, {
+          ...watch(`unloading.${index}.location`),
+          address: item?.name,
+          cor: [item?.lat, item?.long],
+        });
+      });
+      setValue("loadings[0]", {
+        ...watch("loadings[0].location"),
+        address: load?.name,
+        cor: [load?.lat, load?.long],
+      });
+
       if(data) {
         setStartDate(new Date(data?.load_time || new Date()));
         setEndDate(new Date(data?.date || new Date()));
@@ -300,24 +366,24 @@ export const useAddCargoProps = ({ id, status }) => {
           },
           packagingSearch: data.packages_id_data?.name,
           packaging_quantity: data.package_quantity,
-          loadings: [
-            {
-              location: {
-                value: data.address_id_data?.guid,
-                label: data.address_id_data?.name,
-              },
-              address: "",
-            }
-          ],
-          unloading: [
-            {
-              location: {
-                value: data.address_id_2_data?.guid,
-                label: data.address_id_2_data?.name,
-              },
-              address: "",
-            }
-          ],
+          // loadings: [
+          //   {
+          //     location: {
+          //       value: data.address_id_data?.guid,
+          //       label: data.address_id_data?.name,
+          //     },
+          //     address: "",
+          //   }
+          // ],
+          // unloading: [
+          //   {
+          //     location: {
+          //       value: data.address_id_2_data?.guid,
+          //       label: data.address_id_2_data?.name,
+          //     },
+          //     address: "",
+          //   }
+          // ],
           gps_monitoring: data.gps_monitoring,
           car_type: {
             value: data.vehicle_id_data?.guid,
@@ -358,6 +424,27 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   }, [id, getCargo.data, getOfferCargoById.data]);
 
+  // useEffect(() => {
+
+  //   if(getMaps.isSuccess) {
+  //     const data = getMaps.data.response;
+  //     const load = data.pop();
+  //     data.forEach((item, index) => {
+  //       setValue(`unloading[${index}]`, {
+  //         ...watch(`unloading.${index}.location`),
+  //         address: item?.name,
+  //         cor: [item?.lat, item?.long],
+  //       });
+  //     });
+  //     setValue("loadings[0]", {
+  //       ...watch("loadings[0].location"),
+  //       address: load?.name,
+  //       cor: [load?.lat, load?.long],
+  //     });
+  //   }
+
+  // }, [getMaps.data]);
+
   const data = getData();
 
   return {
@@ -391,5 +478,6 @@ export const useAddCargoProps = ({ id, status }) => {
     handleOpenDeletePopup,
     handleCloseDeletePopup,
     isPopupOpen,
+    loading,
   };
 };

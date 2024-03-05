@@ -3,22 +3,33 @@
 import {
   useGetAddress,
   useGetCarListOnSubmit,
-  useGetMeasurement,
 } from "@/services/api";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { useToast } from "@chakra-ui/react";
+import { useSearchParams } from "next/navigation";
+import { isValidJSON } from "@/utils/isValidJSON";
 
 export const useSearchCar = () => {
+
+  const searchParams = useSearchParams();
+
+  const fromValue = isValidJSON(searchParams.get("from")) ? JSON.parse(searchParams.get("from")) : undefined;
+  const toValue = isValidJSON(searchParams.get("to")) ? JSON.parse(searchParams.get("to")) : undefined;
+  const date = searchParams.get("date");
+  const weight = searchParams.get("weight");
+  const volume = searchParams.get("volume");
+
   const toast = useToast();
+
   const {
     handleSubmit,
     control,
     watch,
     register,
-    setValue,
     formState: { errors },
+    reset,
   } = useForm({});
 
   const [startDate, setStartDate] = useState(undefined);
@@ -30,22 +41,6 @@ export const useSearchCar = () => {
     value: item.guid,
     addressId: item.guid,
   }));
-
-  const getMeasurement = useGetMeasurement({});
-  const weightMeasurementOptions = getMeasurement.data?.response
-    ?.filter((item) => !item?.base_unit.includes("meter"))
-    ?.map((item) => ({ label: item.Symbol, value: item.guid }));
-
-  const volumeMeasurementOptions = getMeasurement.data?.response
-    ?.filter((item) => item?.base_unit.includes("meter"))
-    ?.map((item) => ({ label: item.Symbol, value: item.guid }));
-
-  useEffect(() => {
-    if (getMeasurement.isSuccess) {
-      setValue("weight_unit", weightMeasurementOptions[0]);
-      setValue("volume_unit", volumeMeasurementOptions[0]);
-    }
-  }, [getMeasurement.data]);
 
   const formatDate = (val) => {
     if (!val) return;
@@ -71,8 +66,8 @@ export const useSearchCar = () => {
   });
 
   const onSubmit = (data) => {
-    const address_id = data.from?.addressId;
-    const address_id_2 = data.to?.addressId;
+    const address_id = data.from?.value;
+    const address_id_2 = data.to?.value;
     const capacity = Number(data.weight_measurement);
     const volume = Number(data.volume_measurement);
     const date = formatDate(startDate);
@@ -120,14 +115,28 @@ export const useSearchCar = () => {
 
       startDate,
       setStartDate,
-      weightMeasurementOptions,
-      volumeMeasurementOptions,
     };
   };
 
   const getCarListProps = () => {
     return { data: carsArr };
   };
+
+  useEffect(() => {
+    if(fromValue || toValue || date || weight || volume) {
+      reset({
+        from: fromValue,
+        to: toValue,
+        weight_measurement: weight,
+        volume_measurement: volume,
+      });
+      setStartDate(date ? new Date(date) : undefined);
+
+      handleSubmit(onSubmit)();
+    }
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   return {

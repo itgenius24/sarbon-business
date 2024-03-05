@@ -16,7 +16,6 @@ export const useOtpProps = () => {
 
   const registrationMutation = useOtpMutation({
     onSuccess: (data) => {
-      console.log({ data });
       router.push("/auth/registration-form");
     }
   });

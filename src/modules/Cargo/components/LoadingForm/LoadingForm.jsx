@@ -31,6 +31,10 @@ export const LoadingForm = () => {
     coordinates,
     onMapClick,
     placeMarkGeometry,
+    setYMaps,
+    yandexMapRef,
+    handleClearLocation,
+    setIsModalOpen,
   } = useLoadingFormProps();
 
   const defaultState = {
@@ -77,8 +81,10 @@ export const LoadingForm = () => {
                   additionalItemTheme="white"
                   register={register}
                   name={`loadings[${index}].address`}
-                  additionalOnclick={handleOpenModal}
+                  additionalOnclick={() => handleOpenModal("loadings", index)}
+                  onClick={() => handleOpenModal("loadings", index)}
                   errors={errors}
+                  onlyFieldDisabled={true}
                   disabled={!canEdit}
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
@@ -135,12 +141,14 @@ export const LoadingForm = () => {
                 errors={errors}
               />
               <TextFieldWithAddition
+                onlyFieldDisabled={true}
                 disabled={!canEdit}
                 placeholder="Адрес"
                 additionalItemTheme="white"
                 register={register}
                 name={`unloading[${index}].address`}
-                additionalOnclick={() => handleOpenModal(`unloading[${index}].address`)}
+                additionalOnclick={() => handleOpenModal("unloading", index)}
+                onClick={() => handleOpenModal("unloading", index)}
                 errors={errors}
                 additionalItemPlaceholder={
                   <span className={cls.additionalIcons}>
@@ -165,13 +173,27 @@ export const LoadingForm = () => {
         </Checkbox>
       </div>
     </div>
-    <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Точка маршрута" size="xl">
+    <Modal
+      isOpen={isModalOpen}
+      onClose={handleCloseModal}
+      firstBtnCallback={handleCloseModal}
+      secondBtnCallback={() => setIsModalOpen(false)}
+      title="Точка маршрута"
+      size="xl"
+    >
       <YMaps
         query={{
           load: "Map,Placemark",
           apikey: "983669bd-58ef-4054-8953-21f67b5c1466"
         }}>
-        <Map onClick={onMapClick} defaultState={defaultState} width="100%">
+        <Map
+          onClick={onMapClick}
+          onLoad={(ymaps) => setYMaps(ymaps)}
+          defaultState={defaultState}
+          instanceRef={yandexMapRef}
+          width="100%"
+          modules={["Placemark", "geocode"]}
+        >
           <Placemark geometry={placeMarkGeometry} />
         </Map>
       </YMaps>
