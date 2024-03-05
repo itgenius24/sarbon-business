@@ -13,6 +13,7 @@ export const DeadlineForm = () => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <DatePicker
+          minDate={new Date()}
           disabled={!canEdit}
           startDate={startDate}
           setStartDate={setStartDate}

@@ -19,6 +19,8 @@ export const DatePicker = ({
   placeholder,
   label,
   disabled,
+  minDate = "",
+  maxDate = "",
 }) => {
   if (!onChange || !startDate || (!endDate && range)) {
     // console.warn("onChange, startDate and endDate are required props for RangePicker component");
@@ -60,6 +62,8 @@ export const DatePicker = ({
           startDate={startDate || innerStartDate}
           endDate={endDate || innerEndDate}
           monthsShown={monthsShown || 2}
+          minDate={minDate}
+          maxDate={maxDate}
           customInput={
             <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
           }
@@ -74,6 +78,8 @@ export const DatePicker = ({
           onChange={innerOnChange}
           startDate={startDate || innerStartDate}
           monthsShown={monthsShown || 1}
+          minDate={minDate}
+          maxDate={maxDate}
           customInput={
             <CustomInputDate disabled={disabled} cPlaceholder={placeholder} width={inputWidth} />
           }
