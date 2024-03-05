@@ -85,6 +85,7 @@ const Pagination = ({ page, pageLength,click }) => {
             borderColor="#D0D5DD"
             h="36px"
             minW="36px"
+            maxW="36px"
             variant="outline"
             aria-label="Previous button"
             icon={<ArrowLeft />}
@@ -100,6 +101,7 @@ const Pagination = ({ page, pageLength,click }) => {
             borderColor="#D0D5DD"
             h="36px"
             minW="36px"
+            maxW="36px"
             variant="outline"
             aria-label="Next button"
             icon={<ArrowLeft rotate={true} />}
