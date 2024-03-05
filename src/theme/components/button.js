@@ -4,7 +4,7 @@ const outline = defineStyle({
   width: "100%",
   bgColor: "transparent",
   color: "primary",
-  border: "1px solid primary",
+  border: "1px solid #007AFF",
   borderRadius: "8px",
 });
 

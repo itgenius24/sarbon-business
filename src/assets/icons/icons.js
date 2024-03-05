@@ -564,3 +564,72 @@ export const DriverReviewStar = () => {
     </svg>
   );
 };
+
+
+
+export const User = ()=> {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+
+};
+
+export const AddCard = () => {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 8H21" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 12H7" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 18H6C4.34315 18 3 16.6569 3 15V7C3 5.34315 4.34315 4 6 4H18C19.6569 4 21 5.34315 21 7V14" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M18.5 17V21" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20.5 19H16.5" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+
+};
+
+
+export const TopUpBalance = ()=> {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22 10H2M11 14H6M2 8.2L2 15.8C2 16.9201 2 17.4802 2.21799 17.908C2.40973 18.2843 2.71569 18.5903 3.09202 18.782C3.51984 19 4.07989 19 5.2 19L18.8 19C19.9201 19 20.4802 19 20.908 18.782C21.2843 18.5903 21.5903 18.2843 21.782 17.908C22 17.4802 22 16.9201 22 15.8V8.2C22 7.0799 22 6.51984 21.782 6.09202C21.5903 5.7157 21.2843 5.40974 20.908 5.21799C20.4802 5 19.9201 5 18.8 5L5.2 5C4.0799 5 3.51984 5 3.09202 5.21799C2.7157 5.40973 2.40973 5.71569 2.21799 6.09202C2 6.51984 2 7.07989 2 8.2Z" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+
+};
+
+export const Car = ()=> {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.7718 19.0041H8.37988" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="17.3503" cy="18.2546" r="1.75073" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="6.62964" cy="18.2546" r="1.75073" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M18.9295 19.0036H20.1666C20.9061 19.0028 21.5344 18.4623 21.6457 17.7312L21.981 15.5453C22.1441 14.5231 21.4991 13.5456 20.495 13.2935C18.9944 12.9367 17.4534 12.7786 15.9116 12.8233C15.0141 12.0383 14.0211 11.3698 12.9561 10.8338C10.7393 9.72206 8.12784 9.72206 5.91112 10.8338L3.65918 11.9629C3.34192 12.12 3.01255 12.2515 2.67426 12.3559C2.26671 12.4893 1.9924 12.8711 1.99613 13.2999V17.5031C1.99562 17.9005 2.15298 18.2819 2.43362 18.5633C2.71427 18.8448 3.09521 19.0032 3.49265 19.0037H5.05071" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+
+};
+
+export const File = ()=> {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M7 21H17C18.6569 21 20 19.6569 20 18V8.37167C20 7.57602 19.6839 6.81296 19.1213 6.25035L16.7497 3.87868C16.187 3.31607 15.424 3 14.6283 3H7C5.34315 3 4 4.34315 4 6V18C4 19.6569 5.34315 21 7 21Z" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 17H8" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 13.5H8" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M11 10H8" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20 8.5H16.5C15.3954 8.5 14.5 7.60457 14.5 6.5V3" stroke="#007AFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+};
+
+
+export const ExitDoor = ({color="#007AFF"})=> {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12.0004 4.77812V19.2269C12.0006 19.7665 11.7557 20.2771 11.3348 20.6148C10.9138 20.9525 10.3623 21.0808 9.8355 20.9636L5.38965 19.9752C4.57599 19.7945 3.99707 19.0729 3.99707 18.2394V5.76653C3.99707 4.93274 4.57656 4.21099 5.39065 4.03081L9.8365 3.0424C10.363 2.92534 10.9142 3.05359 11.3349 3.39107C11.7556 3.72855 12.0004 4.23877 12.0004 4.77812Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8.99923 13.0204V11.0195" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20.0031 8.00072V5.95786C20.0032 5.42717 19.7925 4.91816 19.4172 4.5429C19.0419 4.16764 18.5329 3.95689 18.0022 3.95703H15.001" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20.0031 16.0039V18.0047C20.0032 18.5354 19.7925 19.0444 19.4172 19.4197C19.0419 19.795 18.5329 20.0057 18.0022 20.0056H15.001" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15.001 12.0002H20.0031" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M18.0029 14.0017L20.0038 12.0008L18.0029 10" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+
+};
+
+export const Email=()=>{
+  return <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1.66699 5.83203L8.47109 10.5949C9.02207 10.9806 9.29756 11.1734 9.59721 11.2481C9.8619 11.3141 10.1387 11.3141 10.4034 11.2481C10.7031 11.1734 10.9786 10.9806 11.5296 10.5949L18.3337 5.83203M5.66699 16.6654H14.3337C15.7338 16.6654 16.4339 16.6654 16.9686 16.3929C17.439 16.1532 17.8215 15.7707 18.0612 15.3003C18.3337 14.7656 18.3337 14.0655 18.3337 12.6654V7.33203C18.3337 5.9319 18.3337 5.23183 18.0612 4.69705C17.8215 4.22665 17.439 3.8442 16.9686 3.60451C16.4339 3.33203 15.7338 3.33203 14.3337 3.33203H5.66699C4.26686 3.33203 3.5668 3.33203 3.03202 3.60451C2.56161 3.8442 2.17916 4.22665 1.93948 4.69705C1.66699 5.23183 1.66699 5.9319 1.66699 7.33203V12.6654C1.66699 14.0655 1.66699 14.7656 1.93948 15.3003C2.17916 15.7707 2.56161 16.1532 3.03202 16.3929C3.5668 16.6654 4.26686 16.6654 5.66699 16.6654Z" stroke="#667085" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>;
+
+};
