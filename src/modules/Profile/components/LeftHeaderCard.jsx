@@ -13,7 +13,7 @@ export const LeftHeaderCard = ({ title, value }) => {
         {title}
       </Text>
       <Text color="black" mt="8px">
-        {value}
+        {value || "не найдено"}
       </Text>
     </Box>
   );

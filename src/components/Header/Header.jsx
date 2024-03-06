@@ -8,12 +8,13 @@ import authStore from "@/store/auth.store";
 import { Container } from "../Container";
 import { Box, Button, IconButton, ListItem, UnorderedList } from "@chakra-ui/react";
 import { LanguageIcon } from "@/assets/icons/icons";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 
 const Header = observer(({ elements }) => {
+  const router = useRouter();
 
   const [isAuth, setAuth] = useState(false);
 
@@ -22,6 +23,10 @@ const Header = observer(({ elements }) => {
   useEffect(() => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
+
+  const goToProfile=()=>{
+    router.push(`profile/${authStore.userData.id}`);
+  };
 
   return (
     <Box
@@ -41,7 +46,11 @@ const Header = observer(({ elements }) => {
                 <ListItem className={cls.listItem} key={element.path}>
                   <Link
                     href={element.path}
-                    className={clsx(cls.itemLink, { [cls.activeLink]: index ? pathname.includes(element.path) : pathname === element.path, })}
+                    className={clsx(cls.itemLink, {
+                      [cls.activeLink]: index
+                        ? pathname.includes(element.path)
+                        : pathname === element.path,
+                    })}
                   >
                     {element.label}
                   </Link>
@@ -60,35 +69,28 @@ const Header = observer(({ elements }) => {
                   Зарегистрироваться
                 </Link>
               )}
-              <Box display="flex" columnGap="4px">
-                {/* <IconButton variant="reset">
+              {/*<Box display="flex" columnGap="4px">
+                 <IconButton variant="reset">
                 <SettingIcon />
-              </IconButton> */}
-                {/* <IconButton variant="reset">
+              </IconButton>
+                 <IconButton variant="reset">
                   <LanguageIcon />
-                </IconButton> */}
-              </Box>
-              <Box className={cls.userIcon} ml="16px">
-                {isAuth ? (
-                  <Image
-                    src="/svg/userIcon.svg"
-                    alt="ww"
-                    width={35}
-                    height={35}
-                  />
-                ) : (
-                  <Image
-                    src="/svg/userIcon.svg"
-                    alt="ww"
-                    width={35}
-                    height={35}
-                  />
-                )}
-              </Box>
+                </IconButton>
+              </Box>*/}
               {isAuth && (
-                <Box ml="16px">
-                  <LogOutBtn />
-                </Box>
+                <>
+                  <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
+                    <Image
+                      src="/svg/userIcon.svg"
+                      alt="ww"
+                      width={35}
+                      height={35}
+                    />
+                  </Box>
+                  <Box ml="16px">
+                    <LogOutBtn />
+                  </Box>
+                </>
               )}
             </Box>
           </Box>
