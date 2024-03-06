@@ -12,15 +12,20 @@ export const useLoadingFormProps = () => {
 
   const [yMaps, setYMaps] = useState(null);
 
-  const [coordinates, setCoordinates] = useState([41.348947, 69.3375311]);
-  const [placeMarkGeometry, setPlaceMarkGeometry] = useState([41.348947, 69.3375311]);
+  const [coordinates, setCoordinates] = useState([41.40587471972005, 69.46086540238926]);
+  const [placeMarkGeometry, setPlaceMarkGeometry] = useState([]);
 
   const { control, register, watch, setValue, errors, canEdit } = useAddCargoContext();
 
   const getAddress = useGetAddress();
   const getAddressOptions = getAddress.data?.response?.map(item => ({ label: item.name, value: item.guid, addressId: item.address_id }));
 
-  const { fields: loadings, append: appendLoading, remove: removeLoading, update: updateLoading, replace: replaceLoading } = useFieldArray({
+  const {
+    fields: loadings,
+    append: appendLoading,
+    remove: removeLoading,
+    update: updateLoading
+  } = useFieldArray({
     control,
     name: "loadings",
     rules: { minLength: 1, }
@@ -31,7 +36,6 @@ export const useLoadingFormProps = () => {
     append: appendUnloading,
     remove: removeUnloading ,
     update: updateUnloading,
-    replace: replaceUnloading,
   } = useFieldArray({
     control,
     name: "unloading"
@@ -43,7 +47,8 @@ export const useLoadingFormProps = () => {
         label: "",
         value: ""
       },
-      address: ""
+      address: "",
+      cor: []
     });
   }
 
@@ -68,12 +73,18 @@ export const useLoadingFormProps = () => {
   function handleOpenModal(name, index) {
     setFormAddressName(() => ({ name, index }));
 
-    console.log(watch(`${name}`));
+    if(watch(`${name}.${index}.cor`).length) {
 
-    if(watch(`${name}.${index}.cor`)) {
+      console.log(watch(`${name}.${index}.cor`));
 
-      setCoordinates(watch(`${name}.${index}.cor`));
-      setPlaceMarkGeometry(watch(`${name}.${index}.cor`));
+      let cors = watch(`${name}.${index}.cor`);
+
+      if(typeof cors === "string") {
+        cors = [Number(cors.split(",")[0]), Number(cors.split(",")[1])];
+      }
+
+      setCoordinates(cors);
+      setPlaceMarkGeometry(cors);
       setIsModalOpen(true);
 
     } else {
@@ -116,6 +127,21 @@ export const useLoadingFormProps = () => {
     const coordinates = e.get("coords");
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry([coordinates[0], coordinates[1]]);
+
+    if(formAddressName.name === "loading") {
+      updateLoading(formAddressName?.index, {
+        location: watch(`loadings.${formAddressName?.index}.location`),
+        address: watch(`loadings.${formAddressName?.index}.address`),
+        cor: coordinates
+      });
+    } else {
+      updateUnloading(formAddressName?.index, {
+        location: watch(`unloading.${formAddressName?.index}.location`),
+        address: watch(`unloading.${formAddressName?.index}.address`),
+        cor: coordinates
+      });
+    }
+
   }
 
   function handleClearLocation() {

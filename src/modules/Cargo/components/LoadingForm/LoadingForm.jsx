@@ -38,7 +38,7 @@ export const LoadingForm = () => {
 
   const defaultState = {
     center: coordinates,
-    zoom: 7,
+    zoom: 15,
   };
 
   return <div className={cls.formGroup}>
@@ -191,7 +191,7 @@ export const LoadingForm = () => {
           defaultState={defaultState}
           instanceRef={yandexMapRef}
           width="100%"
-          modules={["Placemark", "geocode"]}
+          modules={["Placemark", "geocode", "control.SearchControl"]}
         >
           <SearchControl options={{ float: "right" }} />
           <Placemark geometry={placeMarkGeometry} />
