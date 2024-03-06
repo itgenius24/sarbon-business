@@ -2,9 +2,7 @@ import { Box, Heading } from "@chakra-ui/react";
 import { CargoForm } from "../CargoForm";
 import { DeadlineForm } from "../DeadlineForm";
 import { TransportDetail } from "../TransportDetail";
-import dynamic from "next/dynamic";
-
-const DynamicLoadingForm = dynamic(async () => import("../LoadingForm"), { ssr: false, });
+import { LoadingForm } from "../LoadingForm";
 
 export const CargoDetail = () => {
 
@@ -12,7 +10,7 @@ export const CargoDetail = () => {
     <Heading size="sm">Детали груза</Heading>
     <CargoForm />
     <DeadlineForm />
-    <DynamicLoadingForm />
+    <LoadingForm />
     <TransportDetail />
   </Box>;
 };

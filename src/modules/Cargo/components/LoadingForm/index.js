@@ -1,2 +1,1 @@
-import { LoadingForm } from "./LoadingForm";
-export default LoadingForm;
+export { LoadingForm } from "./LoadingForm";

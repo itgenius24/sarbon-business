@@ -9,7 +9,7 @@ export const useMyLoadsMainProps = () => {
 
   const getAllUserCargoParams = {
     data: JSON.stringify({
-      user_id: userId,
+      users_id: userId,
       with_relations: true,
     })
   };

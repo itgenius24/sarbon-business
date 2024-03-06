@@ -33,7 +33,6 @@ export const LoadingForm = () => {
     placeMarkGeometry,
     setYMaps,
     yandexMapRef,
-    handleClearLocation,
     setIsModalOpen,
   } = useLoadingFormProps();
 
