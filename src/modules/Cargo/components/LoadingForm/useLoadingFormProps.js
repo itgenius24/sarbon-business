@@ -68,6 +68,8 @@ export const useLoadingFormProps = () => {
   function handleOpenModal(name, index) {
     setFormAddressName(() => ({ name, index }));
 
+    console.log(watch(`${name}`));
+
     if(watch(`${name}.${index}.cor`)) {
 
       setCoordinates(watch(`${name}.${index}.cor`));

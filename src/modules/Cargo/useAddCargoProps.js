@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   useCreateAddressMutation,
@@ -22,6 +22,9 @@ export const useAddCargoProps = ({ id, status }) => {
   const isCargo = status === "active" || status === "in_moderation";
 
   const userId = authStore.userData.id;
+
+  const loadingsRef = useRef([]);
+  const unloadingRef = useRef([]);
 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -87,8 +90,12 @@ export const useAddCargoProps = ({ id, status }) => {
     defaultValues: {
       loadings: [
         {
-          location: "",
-          address: ""
+          location: {
+            value: "",
+            label: ""
+          },
+          address: "",
+          cor: [],
         }
       ],
       unloading: [
@@ -97,13 +104,12 @@ export const useAddCargoProps = ({ id, status }) => {
             value: "",
             label: ""
           },
-          address: ""
+          address: "",
+          cor: [],
         }
       ]
     }
   });
-
-  console.log({ errors });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -121,20 +127,34 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   });
 
+  const allCargoParams = { cargo_id: id };
+
+  const allResponseParams = { response_id: id };
+
+  const isAlCargo = status === "active" || status === "in_moderation";
+
+  const getMaps = useGetMaps(
+    { data: JSON.stringify(isAlCargo ? allCargoParams : allResponseParams) },
+    { enabled: false }
+  );
+
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
-      setValue("unloading", [
-        ...watch("unloading"),
+      unloadingRef.current = [
+        ...unloadingRef.current,
         ...data.response.map(item => (
           {
             location: {
               value: item?.guid,
               label: item?.name
             },
-            address: ""
+            address: "",
+            cor: []
           }
-        )),
-      ]);
+        ))
+      ];
+
+      getMaps.refetch();
     }
   });
 
@@ -195,15 +215,12 @@ export const useAddCargoProps = ({ id, status }) => {
 
   });
 
-  const getMaps = useGetMaps({ data: JSON.stringify({ cargo_id: id }) });
-
   const getCargo = useGetCargoById({
     data: JSON.stringify({
       guid: id,
       with_relations: true
     })
-  }, { enabled: !!(isCargo && id && getMaps.isSuccess) });
-
+  }, { enabled: !!(isCargo && id) });
 
   const getOfferCargoById = useGetOfferById(
     {
@@ -212,7 +229,7 @@ export const useAddCargoProps = ({ id, status }) => {
         with_relations: true
       })
     },
-    { enabled: userId && status === "new", }
+    { enabled: !!(userId && status === "new"), }
   );
 
   const updateResponseMutation = useUpdateResponse({
@@ -254,7 +271,6 @@ export const useAddCargoProps = ({ id, status }) => {
   }
 
   function onSubmit(data) {
-    console.log("first");
     setLoading(true);
 
     const loadingIds = data.loadings.map(item => item.location.value);
@@ -330,20 +346,27 @@ export const useAddCargoProps = ({ id, status }) => {
 
       const data = getData();
 
-      const mapsData = getMaps.data.response;
-      const load = mapsData.pop();
-      mapsData.forEach((item, index) => {
-        setValue(`unloading[${index}]`, {
-          ...watch(`unloading.${index}.location`),
-          address: item?.name,
-          cor: [item?.lat, item?.long],
-        });
-      });
-      setValue("loadings[0]", {
-        ...watch("loadings[0].location"),
-        address: load?.name,
-        cor: [load?.lat, load?.long],
-      });
+      loadingsRef.current = [
+        {
+          location: {
+            value: data?.address_id_data?.guid,
+            label: data?.address_id_data?.name
+          },
+          address: "",
+          cor: []
+        }
+      ];
+
+      unloadingRef.current = [
+        {
+          location: {
+            value: data?.address_id_2_data?.guid,
+            label: data?.address_id_2_data?.name
+          },
+          address: "",
+          cor: []
+        }
+      ];
 
       if(data) {
         setStartDate(new Date(data?.load_time || new Date()));
@@ -366,24 +389,6 @@ export const useAddCargoProps = ({ id, status }) => {
           },
           packagingSearch: data.packages_id_data?.name,
           packaging_quantity: data.package_quantity,
-          // loadings: [
-          //   {
-          //     location: {
-          //       value: data.address_id_data?.guid,
-          //       label: data.address_id_data?.name,
-          //     },
-          //     address: "",
-          //   }
-          // ],
-          // unloading: [
-          //   {
-          //     location: {
-          //       value: data.address_id_2_data?.guid,
-          //       label: data.address_id_2_data?.name,
-          //     },
-          //     address: "",
-          //   }
-          // ],
           gps_monitoring: data.gps_monitoring,
           car_type: {
             value: data.vehicle_id_data?.guid,
@@ -424,26 +429,27 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   }, [id, getCargo.data, getOfferCargoById.data]);
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   if(getMaps.isSuccess) {
-  //     const data = getMaps.data.response;
-  //     const load = data.pop();
-  //     data.forEach((item, index) => {
-  //       setValue(`unloading[${index}]`, {
-  //         ...watch(`unloading.${index}.location`),
-  //         address: item?.name,
-  //         cor: [item?.lat, item?.long],
-  //       });
-  //     });
-  //     setValue("loadings[0]", {
-  //       ...watch("loadings[0].location"),
-  //       address: load?.name,
-  //       cor: [load?.lat, load?.long],
-  //     });
-  //   }
+    if(getMaps.isSuccess) {
+      const data = getMaps.data.response;
+      const reversedData = data.reverse();
 
-  // }, [getMaps.data]);
+      const loadingData = reversedData.pop();
+
+      loadingsRef.current[0].cor = [loadingData?.lat, loadingData?.long];
+      loadingsRef.current[0].address = loadingData?.name;
+
+      unloadingRef.current?.forEach(item => {
+        item.cor = [loadingData?.lat, loadingData?.long];
+        item.address = loadingData?.name;
+      });
+
+      setValue("loadings", loadingsRef.current);
+      setValue("unloading", unloadingRef.current);
+    }
+
+  }, [getMaps.data]);
 
   const data = getData();
 
