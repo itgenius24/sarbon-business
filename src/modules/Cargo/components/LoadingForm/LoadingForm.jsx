@@ -8,7 +8,7 @@ import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } 
 import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
-import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
+import { Map, Placemark, SearchControl, YMaps } from "@pbe/react-yandex-maps";
 
 export const LoadingForm = () => {
 
@@ -193,6 +193,7 @@ export const LoadingForm = () => {
           width="100%"
           modules={["Placemark", "geocode"]}
         >
+          <SearchControl options={{ float: "right" }} />
           <Placemark geometry={placeMarkGeometry} />
         </Map>
       </YMaps>
