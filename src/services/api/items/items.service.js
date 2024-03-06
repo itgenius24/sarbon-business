@@ -2,6 +2,7 @@ import request from "@/services/request";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const itemsService = {
+  updateUserInfo: (data) => request.put("/v2/items/users", data),
   getUserInfo: (id) => request.get(`/v2/items/users/${id}`),
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
   createCargo: (data) => request.post("/v2/items/cargo", data),
@@ -11,10 +12,16 @@ const itemsService = {
   updateResponse: (data) => request.put("/v2/items/response", data),
 };
 
+export const useUpadteUserInfo = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.updateUserInfo(data),
+    ...mutationSettings,
+  });
+};
 
-export const useGetUserInfo = (id = {},settings) => {
+export const useGetUserInfo = (id = '', settings) => {
   return useQuery({
-    queryKey: [`items/users/${id}`, id],
+    queryKey: ["items/users/id", id],
     queryFn: () => itemsService.getUserInfo(id),
     ...settings,
   });

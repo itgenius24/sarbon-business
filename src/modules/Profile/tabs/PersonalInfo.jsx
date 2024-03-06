@@ -19,7 +19,8 @@ import { ProfileInfoForm } from "../components/ProfileInfoForm";
 import { useProfileInfoHook } from "../hooks/useProfileInfoHook";
 
 export const PersonalInfo = () => {
-  const { getProfileFormProps } = useProfileInfoHook();
+  const { getProfileFormProps, handleSubmit, submitForm, isPending } =
+    useProfileInfoHook();
   return (
     <Box>
       <MainContentHeader
@@ -28,8 +29,9 @@ export const PersonalInfo = () => {
       />
       <MainContentCard
         as="form"
+        onSubmit={handleSubmit(submitForm)}
         footer={
-          <ButtonGroup ml="auto" spacing="2" >
+          <ButtonGroup ml="auto" spacing="2">
             <Button
               h="40px"
               p="10px 16px"
@@ -38,10 +40,17 @@ export const PersonalInfo = () => {
               borderColor="brand.300"
               fontSize="16px"
             >
-                Отмена
+              Отмена
             </Button>
-            <Button fontSize="16px" h="40px" p="10px 16px" variant="solid">
-                Сохранить
+            <Button
+              isLoading={isPending}
+              type="submit"
+              fontSize="16px"
+              h="40px"
+              p="10px 16px"
+              variant="solid"
+            >
+              Сохранить
             </Button>
           </ButtonGroup>
         }

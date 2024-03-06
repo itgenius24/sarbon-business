@@ -1,6 +1,7 @@
 import { DeleteIcon, UploadCloudIcon } from "@/assets/icons/icons";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export const FileUpload = ({
   watch,
@@ -8,16 +9,24 @@ export const FileUpload = ({
   handleChange,
   setValue,
   placeholder = "Загрузить",
-  variant="cargo", // profile, cargo
+  variant = "cargo", // profile, cargo
   profilePlaceholder,
+  defaultValue = "",
+  register,
+  rules,
 }) => {
   const canEdit = true;
-
-  const imageLoader = ()=> {
-    return `${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`;
-  };
-
   const src = watch(name);
+
+  useEffect(() => {
+    setValue(name, defaultValue);
+  }, [defaultValue, name, setValue]);
+
+  function imageLoader({ _src, width, quality = 75 }) {
+    const baseUrl = process.env.NEXT_PUBLIC_MEDIA_URL;
+    return `${baseUrl}${src}?w=${width}&q=${quality}`;
+  }
+
   if (src && variant === "cargo") {
     return (
       <Box
@@ -59,14 +68,20 @@ export const FileUpload = ({
     <Flex alignItems="center" ml="auto" mt="24px" gap="20px">
       {src && variant === "profile" && (
         <Image
-        // className={cls.img}
+          // className={cls.img}
           loader={imageLoader}
           src={`${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`}
           alt="profile img"
           width={150}
           height={150}
-          style={{ borderRadius:"50%", height:"126px", width:"126px", objectFit: "cover" }}
-        />)}
+          style={{
+            borderRadius: "50%",
+            height: "126px",
+            width: "126px",
+            objectFit: "cover",
+          }}
+        />
+      )}
       <Box
         padding="16px 24px"
         display="flex"
@@ -82,6 +97,7 @@ export const FileUpload = ({
         opacity={canEdit ? 1 : 0.5}
       >
         <input
+          // {...register(name, rules)}
           disabled={!canEdit}
           className="visually-hidden"
           type="file"

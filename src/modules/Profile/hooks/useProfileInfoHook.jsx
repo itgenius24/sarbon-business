@@ -1,5 +1,6 @@
-import { useGetUserInfo } from "@/services/api";
-import { useRouter, useParams } from "next/navigation";
+import { useUpadteUserInfo } from "@/services/api";
+import { useToast } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export const useProfileInfoHook = () => {
@@ -12,26 +13,42 @@ export const useProfileInfoHook = () => {
     formState: { errors },
   } = useForm({});
   const { id } = useParams();
+  const toast = useToast();
 
-  const { data, isLoading } = useGetUserInfo(
-    "39fdc90c-cb01-47e2-b1ac-bdd90cd01e41",
-    {
-      enabled: !!id,
-      select: (res) => {
-        if(!res.response) return undefined;
-        const { balance, your_id, full_name, email } = res?.response || {};
-        const { name, fName } = full_name?.split(" ") || [];
-        // setValue("name", name);
-        // setValue("fName", fName);
-        // setValue("email", email);
-        return { balance, your_id, full_name, email };
-      },
+  const { mutate , isPending } = useUpadteUserInfo({
+    onSuccess(data) {
+      toast({
+        title: "Успешно изменено!",
+        description: "Вы успешно обновили этого пользователя",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+    onError(data) {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить пользователя!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
     }
-  );
+  });
 
+  const submitForm=(data)=> {
+    const { photo, email,name="",fName="" } = data || {};
+    const body = {
+      guid: id,
+      photo: photo,
+      email: email,
+      full_name: `${name} ${fName}`,
+    };
+    mutate({ data: body });
+  };
 
-
-  console.log("watch", watch());
   const getProfileFormProps = (otherProps) => {
     return {
       watch,
@@ -42,5 +59,5 @@ export const useProfileInfoHook = () => {
       ...otherProps,
     };
   };
-  return { getProfileFormProps };
+  return { getProfileFormProps, handleSubmit, submitForm, isPending };
 };
