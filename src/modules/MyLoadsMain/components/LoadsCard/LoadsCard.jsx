@@ -42,6 +42,8 @@ export const LoadsCard = ({
 
   const router = useRouter();
 
+  const isReversed = orderStatus === "" || orderStatus === "in_moderation";
+
   const list = [
     {
       title: "Расстояние: ",
@@ -69,7 +71,7 @@ export const LoadsCard = ({
     <div className={cls.cardTop}>
       <div className={cls.cardTopContent}>
         <h2 className={cls.address}>
-          <span className={cls.addressText}>{address_id_2_data?.name} -&gt; {address_id_data?.name}</span>
+          <span className={cls.addressText}>{isReversed ? address_id_data?.name : address_id_2_data?.name} -&gt; {isReversed ? address_id_2_data?.name : address_id_data?.name}</span>
           <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
         </h2>
         <span className={cls.distance}>724 км</span>
