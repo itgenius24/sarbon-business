@@ -14,6 +14,7 @@ export const FileUpload = ({
   defaultValue = "",
   register,
   rules,
+  priority = false,
 }) => {
   const canEdit = true;
   const src = watch(name);
@@ -69,6 +70,7 @@ export const FileUpload = ({
       {src && variant === "profile" && (
         <Image
           // className={cls.img}
+          priority={priority}
           loader={imageLoader}
           src={`${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`}
           alt="profile img"

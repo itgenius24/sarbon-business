@@ -2,6 +2,8 @@ import request from "@/services/request";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
+  getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
+  getManualList: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
   getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
   getCompanyList: (params) => request.get("/v2/object-slim/get-list/company", { params }),
   getRoleList: (params) => request.get("/v2/object-slim/get-list/role", { params }),
@@ -21,6 +23,36 @@ const objectService = {
 };
 
 
+export const useGetCarById = (
+  params = { data: JSON.stringify({}) },
+  settings
+) => {
+  return useQuery({
+    queryKey: ["object/getCarsOnSale", params],
+    queryFn: () => objectService.getCarsOnSale(params),
+    ...settings,
+  });
+};
+
+export const useGetCarsOnSale = (
+  params = { data: JSON.stringify({}) },
+  settings
+) => {
+  return useQuery({
+    queryKey: ["object/getCarsOnSale", params],
+    queryFn: () => objectService.getCarsOnSale(params),
+    ...settings,
+  });
+};
+
+export const useGetManualList = (params = { data: JSON.stringify({}) }, settings) => {
+  return useQuery({
+    queryKey: ["object/getManualList", params],
+    queryFn: () => objectService.getManualList(params),
+    ...settings,
+  });
+};
+
 export const useGetCarListOnSubmit = (mutationSettings) => {
   return useMutation({
     mutationFn: (params) => objectService.getCarList(params),
@@ -28,7 +60,7 @@ export const useGetCarListOnSubmit = (mutationSettings) => {
   });
 };
 
-export const useGetNewsList = (params, settings) => {
+export const useGetNewsList = (params = { data: JSON.stringify({}) }, settings) => {
   return useQuery({
     queryKey: ["object/getNewsList", params],
     queryFn: () => objectService.getNewsList(params),

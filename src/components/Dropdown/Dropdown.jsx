@@ -39,6 +39,7 @@ export const Dropdown = ({
 
   }, [watch(searchName), options]);
 
+  const optionLen = !!checkedOptions?.length;
   const {
     isOpen,
     dropdownControl,
@@ -103,7 +104,7 @@ export const Dropdown = ({
               }
             </>
           </div>
-          {isOpen && (
+          {isOpen && optionLen && (
             <div
               className={cls.options}
               style={{ maxHeight: options.length > 2 ? optionsHeight : "auto" }}

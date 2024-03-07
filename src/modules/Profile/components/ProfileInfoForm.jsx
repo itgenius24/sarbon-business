@@ -4,22 +4,13 @@ import { Box, Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 
 import FileUpload from "@/components/FileUpload";
 import { useProfileInfoForm } from "../hooks/useProfileInfoForm";
+import { SkeletonComp } from "@/components/Skeleton";
 
 export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
-
   const { rules, full_name, email, photo, isLoading, handleImageUpload } =
     useProfileInfoForm(setValue);
 
-  if (isLoading) {
-    return (
-      <Stack gap="10px">
-        <Skeleton height="60px" startColor="brand.300" endColor="brand.400" />
-        <Skeleton my="20px" height="60px" startColor="brand.300" endColor="brand.400" />
-        <Skeleton height="100px" startColor="brand.300" endColor="brand.400" />
-      </Stack>
-    );
-  }
-
+  if (isLoading) return <SkeletonComp/>;
 
   return (
     <div>
@@ -57,7 +48,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
       <Box mt="24px">
         <FileUpload
           defaultValue={photo}
-          profilePlaceholder={<FileUploadPlaceholder/>}
+          profilePlaceholder={<FileUploadPlaceholder />}
           variant="profile"
           name="photo"
           register={register}
@@ -70,17 +61,18 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   );
 };
 
-
-function FileUploadPlaceholder(){
-  return <>
-    <Box fontSize="14px" lineHeight="20px">
-                Нажмите, чтобы изменить фото{" "}
-      <Text as="span" color="brand.600">
-                  или перетащите
-      </Text>
-      <Text color="brand.600" fontSize="12px">
-                  SVG, PNG, JPG or GIF (max. 800x400px)
-      </Text>
-    </Box>
-  </>;
+function FileUploadPlaceholder() {
+  return (
+    <>
+      <Box fontSize="14px" lineHeight="20px">
+        Нажмите, чтобы изменить фото{" "}
+        <Text as="span" color="brand.600">
+          или перетащите
+        </Text>
+        <Text color="brand.600" fontSize="12px">
+          SVG, PNG, JPG or GIF (max. 800x400px)
+        </Text>
+      </Box>
+    </>
+  );
 }

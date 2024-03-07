@@ -43,6 +43,7 @@ const LeftContent = () => {
       <Box maxW={544} bg="brand.50" borderRadius={12} p="20px 24px">
         <Flex mb={26} alignItems="center">
           <Image
+            priority={false}
             width={40}
             height={40}
             src={"/svg/logo.svg"}

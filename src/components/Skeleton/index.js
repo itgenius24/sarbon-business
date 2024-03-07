@@ -1,0 +1,1 @@
+export { SkeletonComp } from './Skeleton.jsx';
