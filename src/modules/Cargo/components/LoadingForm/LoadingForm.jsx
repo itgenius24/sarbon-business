@@ -1,11 +1,12 @@
 "use client";
 
+import React from "react";
 import { Dropdown } from "@/components/Dropdown";
 import cls from "./styles.module.scss";
 import { useLoadingFormProps } from "./useLoadingFormProps";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
-import { Box, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
 import { Map, Placemark, SearchControl, YMaps } from "@pbe/react-yandex-maps";
