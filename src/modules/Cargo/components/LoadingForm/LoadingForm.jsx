@@ -5,7 +5,7 @@ import cls from "./styles.module.scss";
 import { useLoadingFormProps } from "./useLoadingFormProps";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
-import { Button } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
 import { Map, Placemark, SearchControl, YMaps } from "@pbe/react-yandex-maps";
@@ -180,23 +180,17 @@ export const LoadingForm = () => {
       title="Точка маршрута"
       size="xl"
     >
-      <YMaps
-        query={{
-          load: "Map,Placemark",
-          apikey: "983669bd-58ef-4054-8953-21f67b5c1466"
-        }}>
-        <Map
-          onClick={onMapClick}
-          onLoad={(ymaps) => setYMaps(ymaps)}
-          defaultState={defaultState}
-          instanceRef={yandexMapRef}
-          width="100%"
-          modules={["Placemark", "geocode", "control.SearchControl"]}
-        >
-          <SearchControl options={{ float: "right" }} />
-          <Placemark geometry={placeMarkGeometry} />
-        </Map>
-      </YMaps>
+      <Map
+        onClick={onMapClick}
+        onLoad={(ymaps) => setYMaps(ymaps)}
+        defaultState={defaultState}
+        instanceRef={yandexMapRef}
+        width="100%"
+        modules={["Placemark", "geocode", "control.SearchControl"]}
+      >
+        <SearchControl options={{ float: "right" }} />
+        <Placemark geometry={placeMarkGeometry} />
+      </Map>
     </Modal>
   </div>;
 };

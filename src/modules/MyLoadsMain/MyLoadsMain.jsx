@@ -6,7 +6,14 @@ import { TopFilter } from "./components/TopFilter";
 
 export const MyLoadsMain = () => {
 
-  const { cargos, onFilterChange, handleDelete, orderStatus, } = useMyLoadsMainProps();
+  const {
+    cargos,
+    onFilterChange,
+    handleDelete,
+    orderStatus,
+    handleAccept,
+    handleCancel,
+  } = useMyLoadsMainProps();
 
   return <Box py="40px">
     <Container>
@@ -15,7 +22,14 @@ export const MyLoadsMain = () => {
       <Box display="flex" flexDirection="column" rowGap="16px">
         {
           cargos?.length
-            ? cargos?.map(cargo => <LoadsCard key={cargo.guid} orderStatus={orderStatus} handleDelete={handleDelete} {...cargo} />)
+            ? cargos?.map(cargo => <LoadsCard
+              key={cargo.guid}
+              orderStatus={orderStatus}
+              handleDelete={handleDelete}
+              handleAccept={handleAccept}
+              handleCancel={handleCancel}
+              {...cargo}
+            />)
             : <Heading size="sm" textAlign="center">Ничего не найдено</Heading>
         }
       </Box>

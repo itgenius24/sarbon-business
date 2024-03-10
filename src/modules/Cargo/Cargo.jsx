@@ -37,10 +37,13 @@ export const Cargo = ({ id, status }) => {
         address1={addCargoProps.address1}
         address2={addCargoProps.address2}
         userName={addCargoProps.userName}
-        proposemount={addCargoProps.proposedAmount}
+        proposedAmount={addCargoProps.proposedAmount}
         rating={addCargoProps.rating}
         transportModel={addCargoProps.transportModel}
         phoneNumber={addCargoProps.phoneNumber}
+        prepayment={addCargoProps.prepayment}
+        paymentAfterFinish={addCargoProps.paymentAfterFinish}
+        driverComment={addCargoProps.driverComment}
       />;
     }
 

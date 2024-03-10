@@ -25,7 +25,7 @@ export const statuses = {
   new: "Предложение",
   in_moderation: "В модерации",
   approve_from_driver: "Ждём водителя",
-  performed: "В исполнение",
+  performed: "В исполнении",
   cancellation: "Отменённые",
   archive: "Архив",
 };

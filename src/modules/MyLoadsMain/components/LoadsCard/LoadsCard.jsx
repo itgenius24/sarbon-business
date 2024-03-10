@@ -4,7 +4,7 @@ import { DeleteIcon, TruckIcon } from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
 import { useRouter } from "next/navigation";
 import { DataList } from "@/components/DataList";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { formatDate } from "@/utils/isValidDate";
 import { statuses } from "@/utils/constants";
 import { formatSum } from "@/utils/formatSum";
@@ -26,6 +26,8 @@ export const LoadsCard = ({
   orderStatus,
   weight,
   volume_m3,
+  handleCancel,
+  handleAccept,
 }) => {
 
   const responseStatuses = {
@@ -63,7 +65,7 @@ export const LoadsCard = ({
     },
     {
       title: "Время: ",
-      value: formatDate(status === "new" ? date : load_time),
+      value: formatDate(status === "new" ? date : load_time, "HH:mm dd.MM.yyyy"),
     },
   ];
 
@@ -90,8 +92,37 @@ export const LoadsCard = ({
       <DataList list={list} />
     </Box>
     {
+      status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
+        <Button
+          variant="outlineError"
+          bgColor="rgba(254, 228, 226, 1)"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCancel(guid);
+          }}
+        >
+          Отказать
+        </Button>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAccept(guid);
+          }}
+        >
+          Принять
+        </Button>
+      </Box>
+    }
+    {
       status === "in_moderation" && <div className={cls.cardBottom}>
-        <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={() => handleDelete(guid)}>
+        <LoadBtn
+          icon={<DeleteIcon color="#F04438" />}
+          type="delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete(guid);
+          }}
+        >
           Удалить
         </LoadBtn>
         <LoadBtn

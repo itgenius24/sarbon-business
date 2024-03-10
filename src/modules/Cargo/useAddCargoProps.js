@@ -485,5 +485,8 @@ export const useAddCargoProps = ({ id, status }) => {
     handleCloseDeletePopup,
     isPopupOpen,
     loading,
+    prepayment: data?.prepayment_percentage,
+    paymentAfterFinish: data?.dim_length_special,
+    driverComment: data?.cargo_id_data?.driver_comment
   };
 };

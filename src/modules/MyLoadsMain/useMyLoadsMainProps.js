@@ -1,11 +1,14 @@
 import authStore from "@/store/auth.store";
-import { useDeleteCargo, useGetOffer, useGetUserCargo } from "@/services/api";
+import { useDeleteCargo, useGetOffer, useGetUserCargo, useUpdateResponse } from "@/services/api";
 import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
 
 export const useMyLoadsMainProps = () => {
   const [orderStatus, setOrderStatus] = useState("");
 
   const userId = authStore.userData.id;
+
+  const toast = useToast();
 
   const getAllUserCargoParams = {
     data: JSON.stringify({
@@ -74,6 +77,66 @@ export const useMyLoadsMainProps = () => {
     }
   });
 
+  const updateResponseMutation = useUpdateResponse({
+    onError(res) {
+      console.error(res);
+    }
+  });
+
+  function handleCancel(id) {
+    updateResponseMutation.mutate(
+      {
+        data:{
+          guid: id,
+          provisions:["cancellation"]
+        }
+      },
+      {
+        onSuccess() {
+          if(isCargo) {
+            getAllUserCargo.refetch();
+          } else {
+            getOfferCargo.refetch();
+          }
+          toast({
+            position: "top-right",
+            title: "Груз отказан",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        }
+      }
+    );
+  }
+
+  function handleAccept(id) {
+    updateResponseMutation.mutate(
+      {
+        data:{
+          guid: id,
+          response_status:["approve_from_driver"]
+        }
+      },
+      {
+        onSuccess() {
+          if(isCargo) {
+            getAllUserCargo.refetch();
+          } else {
+            getOfferCargo.refetch();
+          }
+          toast({
+            position: "top-right",
+            title: "Груз принят",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        }
+      }
+    );
+  }
+
   function handleDelete (id) {
     deleteCargo.mutate({ id });
   }
@@ -111,5 +174,7 @@ export const useMyLoadsMainProps = () => {
     onFilterChange,
     handleDelete,
     orderStatus,
+    handleAccept,
+    handleCancel,
   };
 };

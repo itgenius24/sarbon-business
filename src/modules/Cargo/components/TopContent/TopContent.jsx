@@ -10,7 +10,10 @@ export const TopContent = ({
   userName,
   rating,
   transportModel,
-  phoneNumber
+  phoneNumber,
+  prepayment,
+  paymentAfterFinish,
+  driverComment,
 }) => {
 
   const [showNumber, setShowNumber] = useState(false);
@@ -21,16 +24,29 @@ export const TopContent = ({
       value: userName,
     },
     {
-      title: "Предлагаемая сумма: ",
-      value: proposedAmount,
-    },
-    {
       title: "Модель транспорта: ",
       value: transportModel,
     },
     {
+      title: "Предлагаемая сумма: ",
+      value: proposedAmount,
+    },
+    {
       title: "Рейтинг водителя: ",
       value: <Rating value={Math.round(rating)} />,
+    },
+    {
+      title: "Предоплата: ",
+      value: prepayment,
+    },
+    {
+      title: "Оплата после завершения: ",
+      value: paymentAfterFinish,
+    },
+    {
+      title: "Комментария водителя: ",
+      value: driverComment,
+      grow: true,
     },
   ];
 
