@@ -9,15 +9,15 @@ export const BargainRadio = ({
 
   return <div className={cls.bargainWrapper}>
     <label>
-      <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="1" type="radio" defaultChecked name={name} {...register(name)} />
+      <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="negotiable" type="radio" {...register(name)} defaultChecked />
       <span className={clsx(cls.radioLabel, cls.first)}>Возможен торг</span>
     </label>
     <label>
-      <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="2" type="radio" defaultChecked name={name} {...register(name)} />
+      <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="no_haggling" type="radio" {...register(name)} />
       <span className={clsx(cls.radioLabel, cls.first)}>Без торга</span>
     </label>
     <label>
-      <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="3" type="radio" defaultChecked name={name} {...register(name)} />
+      <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="request" type="radio" {...register(name)} />
       <span className={clsx(cls.radioLabel, cls.first)}>Запросить</span>
     </label>
   </div>;

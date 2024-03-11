@@ -9,7 +9,7 @@ import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } 
 import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
-import { Map, Placemark, SearchControl, YMaps } from "@pbe/react-yandex-maps";
+import LoadingMap from "../LoadingMap";
 
 export const LoadingForm = () => {
 
@@ -36,11 +36,6 @@ export const LoadingForm = () => {
     yandexMapRef,
     setIsModalOpen,
   } = useLoadingFormProps();
-
-  const defaultState = {
-    center: coordinates,
-    zoom: 15,
-  };
 
   return <div className={cls.formGroup}>
     <div className={cls.formContent}>
@@ -181,17 +176,18 @@ export const LoadingForm = () => {
       title="Точка маршрута"
       size="xl"
     >
-      <Map
-        onClick={onMapClick}
-        onLoad={(ymaps) => setYMaps(ymaps)}
-        defaultState={defaultState}
-        instanceRef={yandexMapRef}
-        width="100%"
-        modules={["Placemark", "geocode", "control.SearchControl"]}
-      >
-        <SearchControl options={{ float: "right" }} />
-        <Placemark geometry={placeMarkGeometry} />
-      </Map>
+      <LoadingMap
+        onMapClick={onMapClick}
+        setYMaps={setYMaps}
+        yandexMapRef={yandexMapRef}
+        placeMarkGeometry={placeMarkGeometry}
+        defaultState={
+          {
+            center: [41.40587471972005, 69.46086540238926],
+            zoom: 15,
+          }
+        }
+      />
     </Modal>
   </div>;
 };

@@ -34,12 +34,6 @@ export const PaymentDetail = () => {
           errors={errors}
           type="number"
           width="100%"
-          rules={{
-            required: {
-              value: true,
-              message: "Обязательное поле",
-            }
-          }}
         />
       </Box>
     }

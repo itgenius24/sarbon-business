@@ -71,7 +71,7 @@ export const useAddCargoProps = ({ id, status }) => {
       price_prepayment: yup.string().required("Обязательное поле"),
       price_after_order: yup.string().required("Обязательное поле"),
       price_prepayment_unit: yup.object().required("Обязательное поле"),
-      payment_deadline: yup.string().required("Обязательное поле"),
+      payment_deadline: yup.string(),
       payment_type: yup.object().required("Обязательное поле"),
     });
     // .required("Обязательное поле");
@@ -311,6 +311,9 @@ export const useAddCargoProps = ({ id, status }) => {
         photo: data.image,
         map_id: data.payment_type.value,
         order_status: ["in_moderation"],
+        negotiable: data.bargain === "negotiable",
+        no_haggling: data.bargain === "no_haggling",
+        request: data.bargain === "request",
       }
     };
 
@@ -485,8 +488,8 @@ export const useAddCargoProps = ({ id, status }) => {
     handleCloseDeletePopup,
     isPopupOpen,
     loading,
-    prepayment: data?.prepayment_percentage,
-    paymentAfterFinish: data?.conditions,
+    prepayment: data?.conditions,
+    paymentAfterFinish: data?.bid_amount,
     driverComment: data?.cargo_id_data?.driver_comment
   };
 };

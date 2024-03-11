@@ -1,19 +1,19 @@
+import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { useAddCargoContext } from "../../providers";
-import { useRef, useState } from "react";
 import { useGetAddress } from "@/services/api";
 
 export const useLoadingFormProps = () => {
 
-  const yandexMapRef = useRef(undefined);
+  const yandexMapRef = React.useRef(undefined);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formAddressName, setFormAddressName] = useState({});
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [formAddressName, setFormAddressName] = React.useState({});
 
-  const [yMaps, setYMaps] = useState(null);
+  const [yMaps, setYMaps] = React.useState(null);
 
-  const [coordinates, setCoordinates] = useState([41.40587471972005, 69.46086540238926]);
-  const [placeMarkGeometry, setPlaceMarkGeometry] = useState([]);
+  const [coordinates, setCoordinates] = React.useState([41.40587471972005, 69.46086540238926]);
+  const [placeMarkGeometry, setPlaceMarkGeometry] = React.useState([41.34908881486223, 69.3374228085318]);
 
   const { control, register, watch, setValue, errors, canEdit } = useAddCargoContext();
 
@@ -75,8 +75,6 @@ export const useLoadingFormProps = () => {
 
     if(watch(`${name}.${index}.cor`)?.length) {
 
-      console.log(watch(`${name}.${index}.cor`));
-
       let cors = watch(`${name}.${index}.cor`);
 
       if(typeof cors === "string") {
@@ -88,13 +86,13 @@ export const useLoadingFormProps = () => {
       setIsModalOpen(true);
 
     } else {
-
-      navigator.geolocation.getCurrentPosition((position) => {
-        let lat = position.coords.latitude;
-        let long = position.coords.longitude;
-        setCoordinates([lat, long]);
-        setIsModalOpen(true);
-      });
+      setIsModalOpen(true);
+      // navigator.geolocation.getCurrentPosition((position) => {
+      //   let lat = position.coords.latitude;
+      //   let long = position.coords.longitude;
+      //   setCoordinates([lat, long]);
+      //   setIsModalOpen(true);
+      // });
 
     }
   }
@@ -125,21 +123,26 @@ export const useLoadingFormProps = () => {
 
   function onMapClick (e) {
     const coordinates = e.get("coords");
-    getPlaceMarkAddress(coordinates);
-    setPlaceMarkGeometry([coordinates[0], coordinates[1]]);
 
-    if(formAddressName.name === "loading") {
+    getPlaceMarkAddress(coordinates);
+    setPlaceMarkGeometry(coordinates);
+
+    if(formAddressName.name === "loadings") {
+
       updateLoading(formAddressName?.index, {
         location: watch(`loadings.${formAddressName?.index}.location`),
         address: watch(`loadings.${formAddressName?.index}.address`),
         cor: coordinates
       });
+
     } else {
+
       updateUnloading(formAddressName?.index, {
         location: watch(`unloading.${formAddressName?.index}.location`),
         address: watch(`unloading.${formAddressName?.index}.address`),
         cor: coordinates
       });
+
     }
 
   }

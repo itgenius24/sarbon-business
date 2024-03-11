@@ -26,7 +26,7 @@ export const CargoSetup = () => {
 
   return <Box as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
-      <BargainRadio disabled={!canEdit} />
+      <BargainRadio register={register} disabled={!canEdit} />
       <HelpCircleIcon />
     </Box>
     <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
