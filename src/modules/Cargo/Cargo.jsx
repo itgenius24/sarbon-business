@@ -32,8 +32,9 @@ export const Cargo = ({ id, status }) => {
           </LoadBtn>
         </Box>
       </Box>;
-    } else if(status === "new"){
+    } else if(status === "new" || status === "performed"){
       return <TopContent
+        status={status}
         address1={addCargoProps.address1}
         address2={addCargoProps.address2}
         userName={addCargoProps.userName}

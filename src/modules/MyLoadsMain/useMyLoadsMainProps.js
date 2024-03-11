@@ -41,7 +41,7 @@ export const useMyLoadsMainProps = () => {
   } else if(orderStatus === "in_moderation") {
 
     const data = JSON.parse(getAllUserCargoParams.data);
-    data.order_status = [orderStatus];
+    data.order_status = [orderStatus, "rejected"];
     getAllUserCargoParams.data = JSON.stringify(data);
 
   } else if(orderStatus === "new") {

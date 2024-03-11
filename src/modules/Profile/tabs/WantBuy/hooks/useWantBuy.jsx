@@ -53,12 +53,13 @@ export const useWantBuy = () => {
 };
 
 function getParams(val) {
-  if (!val?.length) return;
+  if (!val?.length) return { data: JSON.stringify({ data: { status: ["active"] } }) };
   return {
     data: JSON.stringify({
       offset: 1,
       name: [val],
       limit: 20,
+      status: ["active"]
     }),
   };
 }

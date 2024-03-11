@@ -24,7 +24,8 @@ export const TransportDetail = () => {
     handleOpenLiftingCapacity,
     handleCloseLiftingCapacity,
     errors,
-    canEdit
+    canEdit,
+    handleCheckboxChange,
   } = useTransportDetailProps();
 
   return <Box>
@@ -56,12 +57,12 @@ export const TransportDetail = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">Загрузка</Heading>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="12px">
-        <Checkbox disabled={!canEdit} register={register} name="is_ftl">
+        <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} value="is_ftl" name="is_ftl" defaultChecked >
           <Box display="flex" alignItems="center">
             <span>отдельной машиной (FTL)</span><HelpCircleIcon />
           </Box>
         </Checkbox>
-        <Checkbox disabled={!canEdit} register={register} name="is_ltl">
+        <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} value="is_ltl" name="is_ltl" >
           отдельной машиной или догрузом (FTL или LTL)
         </Checkbox>
       </Box>

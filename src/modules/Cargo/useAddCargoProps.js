@@ -229,7 +229,7 @@ export const useAddCargoProps = ({ id, status }) => {
         with_relations: true
       })
     },
-    { enabled: !!(userId && status === "new"), }
+    { enabled: !!(userId && !isCargo), }
   );
 
   const updateResponseMutation = useUpdateResponse({
@@ -337,7 +337,7 @@ export const useAddCargoProps = ({ id, status }) => {
       case "active":
         return getCargo.data?.response?.[0];
       default:
-        return null;
+        return getOfferCargoById.data?.response[0];
     }
   }
 
@@ -400,7 +400,7 @@ export const useAddCargoProps = ({ id, status }) => {
           capacity: data.load_capacity,
           price: data.bid_cash,
           price_prepayment: data.prepayment_percentage,
-          price_after_order: data.dim_length_special,
+          price_after_order: data.payment_unloading ?? 0,
           price_prepayment_unit: {
             label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
             value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
@@ -410,7 +410,7 @@ export const useAddCargoProps = ({ id, status }) => {
           note: data.comment,
           image: data.photo,
           payment_type: {
-            label: data?.map_id_data?.name,
+            label: data?.map_id_data?.payment_type,
             value: data?.map_id_data?.guid,
           },
         });
@@ -475,7 +475,7 @@ export const useAddCargoProps = ({ id, status }) => {
     userName: data?.users_id_2_data?.full_name,
     phoneNumber: data?.users_id_2_data?.phone,
     rating: data?.users_id_2_data?.rating,
-    proposedAmount: data?.conditions,
+    proposedAmount: data?.driver_cash,
     transportModel: data?.vehicle_id_data?.name,
     canEdit,
     handleEditToggle,
@@ -486,7 +486,7 @@ export const useAddCargoProps = ({ id, status }) => {
     isPopupOpen,
     loading,
     prepayment: data?.prepayment_percentage,
-    paymentAfterFinish: data?.dim_length_special,
+    paymentAfterFinish: data?.conditions,
     driverComment: data?.cargo_id_data?.driver_comment
   };
 };

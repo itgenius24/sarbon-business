@@ -15,32 +15,34 @@ export const PaymentDetail = () => {
     setPrepaymentFuelOpen
   } = usePaymentDetailProps();
 
-  const { canEdit } = useAddCargoContext();
+  const { canEdit, watch } = useAddCargoContext();
 
   return <Box py="24px">
-    <Box display="flex" columnGap="32px" mb="24px" >
-      <Box width="280px" flexShrink={0}>
-        <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Оплата через</Heading>
+    {
+      watch("payment_type")?.value === "269551bf-09f5-4ebe-936b-889ba5ae1c10" && <Box display="flex" columnGap="32px" mb="24px" >
+        <Box width="280px" flexShrink={0}>
+          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Оплата через</Heading>
+        </Box>
+        <TextFieldWithAddition
+          disabled={!canEdit}
+          name="payment_deadline"
+          register={register}
+          control={control}
+          additionalItemDefaultIndex={0}
+          placeholder="Кол-во дней"
+          additionalItemPlaceholder="банковских дней"
+          errors={errors}
+          type="number"
+          width="100%"
+          rules={{
+            required: {
+              value: true,
+              message: "Обязательное поле",
+            }
+          }}
+        />
       </Box>
-      <TextFieldWithAddition
-        disabled={!canEdit}
-        name="payment_deadline"
-        register={register}
-        control={control}
-        additionalItemDefaultIndex={0}
-        placeholder="Кол-во дней"
-        additionalItemPlaceholder="банковских дней"
-        errors={errors}
-        type="number"
-        width="100%"
-        rules={{
-          required: {
-            value: true,
-            message: "Обязательное поле",
-          }
-        }}
-      />
-    </Box>
+    }
     <Box display="flex" columnGap="32px" pb="24px" borderBottom="1px solid" borderColor="brand.200" >
       <Box width="280px" flexShrink={0}>
         <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Добавить</Heading>

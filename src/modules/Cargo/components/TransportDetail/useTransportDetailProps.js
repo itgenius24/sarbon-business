@@ -10,10 +10,29 @@ export const useTransportDetailProps = () => {
   const [isBeltsOpen, setBeltsOpen] = useState(false);
   const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
 
-  const { register, control, errors, watch, canEdit } = useAddCargoContext();
+  const { register, control, errors, watch, canEdit, setValue, } = useAddCargoContext();
 
   const getCarType = useGetCarType();
   const carTypeOptions = getCarType.data?.response?.map(item => ({ label: item?.name, value: item?.guid }));
+
+  function handleCheckboxChange(e) {
+    const value = e.target.value;
+    const checked = e.target.checked;
+
+    if(!checked) {
+      e.preventDefault();
+      return;
+    }
+
+    if(checked) {
+      if(value === "is_ftl") {
+        setValue("is_ltl", false);
+      } else if(value === "is_ltl") {
+        setValue("is_ftl", false);
+      }
+    }
+
+  }
 
   function handleOpenAdr () {
     setAdrOpen(true);
@@ -83,5 +102,6 @@ export const useTransportDetailProps = () => {
     register,
     errors,
     canEdit,
+    handleCheckboxChange,
   };
 };

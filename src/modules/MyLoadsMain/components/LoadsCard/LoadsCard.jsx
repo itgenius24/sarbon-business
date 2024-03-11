@@ -2,12 +2,11 @@ import clsx from "clsx";
 import cls from "./styles.module.scss";
 import { DeleteIcon, TruckIcon } from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
-import { useRouter } from "next/navigation";
 import { DataList } from "@/components/DataList";
 import { Box, Button } from "@chakra-ui/react";
-import { formatDate } from "@/utils/isValidDate";
 import { statuses } from "@/utils/constants";
 import { formatSum } from "@/utils/formatSum";
+import { useLoadsCardProps } from "./useLoadsCardProps";
 
 export const LoadsCard = ({
   guid,
@@ -28,48 +27,29 @@ export const LoadsCard = ({
   volume_m3,
   handleCancel,
   handleAccept,
+  moderator_comment,
+  indicate_status,
 }) => {
 
-  const responseStatuses = {
-    in_moderation: order_status,
-    new: provisions,
-    performed: provisions,
-    cancellation: provisions,
-    archive: provisions,
-    approve_from_driver: response_status,
-    approve_by_customer: response_status
-  };
+  const {
+    list,
+    router,
+    isReversed,
+    status
+  } = useLoadsCardProps({
+    order_status,
+    provisions,
+    response_status,
+    orderStatus,
+    cargo_type_id_data,
+    load_around_the_clock,
+    take_all_unloads,
+    date,
+    load_time,
+    indicate_status,
+  });
 
-  const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];
-
-  const router = useRouter();
-
-  const isReversed = orderStatus === "" || orderStatus === "in_moderation";
-
-  const list = [
-    {
-      title: "Расстояние: ",
-      value: "570 км",
-    },
-    {
-      title: "Товар: ",
-      value: cargo_type_id_data?.name,
-    },
-    {
-      title: "Вид: ",
-      value: load_around_the_clock
-        ? "отдельной машиной или догрузом (FTL или LTL)"
-        : take_all_unloads
-          ? "отдельной машиной (FTL)"
-          : "",
-    },
-    {
-      title: "Время: ",
-      value: formatDate(status === "new" ? date : load_time, "HH:mm dd.MM.yyyy"),
-    },
-  ];
-
-  return <div className={cls.loadsCard} onClick={() => router.push(`/my-loads/${status}/${guid}`)}>
+  return <div className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })} onClick={() => router.push(`/my-loads/${status}/${guid}`)}>
     <div className={cls.cardTop}>
       <div className={cls.cardTopContent}>
         <h2 className={cls.address}>
@@ -90,6 +70,12 @@ export const LoadsCard = ({
     </div>
     <Box borderBottom="1px solid" borderColor="brand.200">
       <DataList list={list} />
+      {
+        status === "rejected" && <p className={cls.moderatorComment}>
+          <span className={cls.moderatorCommentTitle}>Причина отказа модерации:</span>
+          <span className={cls.moderatorCommentText} dangerouslySetInnerHTML={{ __html: moderator_comment }} />
+        </p>
+      }
     </Box>
     {
       status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">

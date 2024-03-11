@@ -73,7 +73,7 @@ export const useLoadingFormProps = () => {
   function handleOpenModal(name, index) {
     setFormAddressName(() => ({ name, index }));
 
-    if(watch(`${name}.${index}.cor`).length) {
+    if(watch(`${name}.${index}.cor`)?.length) {
 
       console.log(watch(`${name}.${index}.cor`));
 

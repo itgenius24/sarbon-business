@@ -14,6 +14,7 @@ export const TopContent = ({
   prepayment,
   paymentAfterFinish,
   driverComment,
+  status,
 }) => {
 
   const [showNumber, setShowNumber] = useState(false);
@@ -53,10 +54,10 @@ export const TopContent = ({
   return <Box p="24px" bgColor="baseWhite" borderRadius="12px" mb="16px">
     <Heading mb="20px" size="md">{address2} - {address1} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
     <DataList list={list} />
-    <Button maxW="278px" mt="20px" onClick={() => setShowNumber(!showNumber)}>
-      {
-        showNumber ? phoneNumber : "Показать номер"
-      }
-    </Button>
+    {
+      status === "performed" && <Button maxW="278px" mt="20px" onClick={() => setShowNumber(!showNumber)}>
+        { showNumber ? phoneNumber : "Показать номер" }
+      </Button>
+    }
   </Box>;
 };

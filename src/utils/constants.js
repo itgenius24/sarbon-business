@@ -24,6 +24,7 @@ export const statuses = {
   active: "Активен",
   new: "Предложение",
   in_moderation: "В модерации",
+  rejected: "Не прошел модерацию",
   approve_from_driver: "Ждём водителя",
   performed: "В исполнении",
   cancellation: "Отменённые",
