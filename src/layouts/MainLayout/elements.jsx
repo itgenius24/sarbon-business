@@ -11,10 +11,10 @@ export const elements = [
     path: "/my-loads",
     label: "Мои грузы",
   },
-  // {
-  //   path: "/distance-calculation",
-  //   label: "Расчет расстояния",
-  // },
+  {
+    path: "/distance-calculation",
+    label: "Расчет расстояния",
+  },
   {
     path: "/search-car",
     label: "Поиск машин",

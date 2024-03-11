@@ -368,7 +368,7 @@ export const useAddCargoProps = ({ id, status }) => {
         }
       ];
 
-      if(data) {
+      if(data && id) {
         setStartDate(new Date(data?.load_time || new Date()));
         setEndDate(new Date(data?.date || new Date()));
         reset({
