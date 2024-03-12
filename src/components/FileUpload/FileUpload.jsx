@@ -20,7 +20,7 @@ export const FileUpload = ({
   const src = watch(name);
 
   useEffect(() => {
-    setValue(name, defaultValue);
+    defaultValue && setValue(name, defaultValue);
   }, [defaultValue, name, setValue]);
 
   function imageLoader({ _src, width, quality = 75 }) {

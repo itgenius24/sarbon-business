@@ -2,7 +2,7 @@ import request from "@/services/request";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
-  getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
+   getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
   getManualList: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
   getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
   getCompanyList: (params) => request.get("/v2/object-slim/get-list/company", { params }),
@@ -103,17 +103,19 @@ export const useGetAddress = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-export const useGetCarType = (params = { data: JSON.stringify({}) }) => {
+export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = {}) => {
   return useQuery({
     queryKey: ["object/getCarType", params],
     queryFn: () => objectService.getCarType(params),
+    ...settings,
   });
 };
 
-export const useGetCurrency = (params = { data: JSON.stringify({}) }) => {
+export const useGetCurrency = (params = { data: JSON.stringify({}) }, settings = {}) => {
   return useQuery({
     queryKey: ["object/getCurrency", params],
     queryFn: () => objectService.getCurrency(params),
+    ...settings,
   });
 };
 

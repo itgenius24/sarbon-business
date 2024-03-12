@@ -1,5 +1,6 @@
 .field {
   width: 100%;
+  display: grid;
 }
 
 .field.disabled {
@@ -21,8 +22,12 @@
 }
 
 .additionalItemLabel {
-  font-size: 14px;
-  line-height: 20px;
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--brand-700);
 }
 
 .contentWrapper {

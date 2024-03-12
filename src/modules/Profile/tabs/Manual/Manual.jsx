@@ -5,12 +5,11 @@ import { MainContentCard } from "../../components/MainContentCard";
 import { Box, Skeleton, Stack } from "@chakra-ui/react";
 import { SkeletonComp } from "@/components/Skeleton";
 
-const Manual = () => {
+export const Manual = () => {
   const { data, isLoading } = useManual();
 
-
   if (isLoading) return <SkeletonComp />;
-  
+
   return (
     <Box>
       <MainContentHeader title="Справочники" />
@@ -35,5 +34,3 @@ const Manual = () => {
     </Box>
   );
 };
-
-export default Manual;

@@ -14,7 +14,7 @@ export const SearchList = ({
   onCarClick = () => {},
   isLoading,
 }) => {
-
+  console.log("carsList", carsList);
   return (
     <Box minH="250px">
       <Dropdown
@@ -50,7 +50,7 @@ export const SearchList = ({
 };
 
 const CarItem = ({ data, onClick }) => {
-  const handleClick = () =>{
+  const handleClick = () => {
     onClick(data);
   };
   return (
@@ -70,7 +70,7 @@ const CarItem = ({ data, onClick }) => {
             aspectRatio: "137 / 87",
             objectFit: "cover",
             width: "137px",
-            height:"87px"
+            height: "87px",
           }}
           width={132}
           height={87}
