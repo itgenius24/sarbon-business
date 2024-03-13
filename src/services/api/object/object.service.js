@@ -103,17 +103,19 @@ export const useGetAddress = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-export const useGetCarType = (params = { data: JSON.stringify({}) }) => {
+export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = {}) => {
   return useQuery({
     queryKey: ["object/getCarType", params],
     queryFn: () => objectService.getCarType(params),
+    ...settings,
   });
 };
 
-export const useGetCurrency = (params = { data: JSON.stringify({}) }) => {
+export const useGetCurrency = (params = { data: JSON.stringify({}) }, settings = {}) => {
   return useQuery({
     queryKey: ["object/getCurrency", params],
     queryFn: () => objectService.getCurrency(params),
+    ...settings,
   });
 };
 

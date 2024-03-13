@@ -29,6 +29,7 @@ export const TextFieldWithAddition = ({
   disabled,
   onlyFieldDisabled,
   onClick,
+  rules = {},
   ...props
 }) => {
 
@@ -44,7 +45,7 @@ export const TextFieldWithAddition = ({
     <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}>
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
-        <input className={cls.fieldInput} onClick={onClick} {...register(name)} disabled={onClick ? false : disabled || onlyFieldDisabled} type={type} placeholder={placeholder} {...props} />
+        <input className={cls.fieldInput} onClick={onClick} {...register(name, rules)} disabled={onClick ? false : disabled || onlyFieldDisabled} type={type} placeholder={placeholder} {...props} />
         {before && <span className={cls.before}>{before}</span>}
       </div>
       <Controller

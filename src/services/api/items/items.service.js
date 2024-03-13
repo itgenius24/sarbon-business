@@ -2,6 +2,7 @@ import request from "@/services/request";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const itemsService = {
+  createAd: (data) => request.post("/v2/items/car_sale", data),
   updateUserInfo: (data) => request.put("/v2/items/users", data),
   getUserInfo: (id) => request.get(`/v2/items/users/${id}`),
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
@@ -10,6 +11,10 @@ const itemsService = {
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   updateResponse: (data) => request.put("/v2/items/response", data),
+};
+
+export const useCreateAdMutation = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.createAd(data), ...mutationSettings });
 };
 
 export const useUpadteUserInfo = (mutationSettings) => {

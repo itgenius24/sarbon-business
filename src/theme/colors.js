@@ -5,6 +5,7 @@ export const colors = {
     700: "#344054",
     600: "#475467",
     500: "#667085",
+    400: "#98A2B3",
     300: "#D0D5DD",
     200: "#EAECF0",
     100: "#F2F4F7",
@@ -18,5 +19,5 @@ export const colors = {
   primaryText: "#026FE7",
   baseWhite: "#FFFFFF",
   gray: "#F7F7F7",
-  icon: { base: "#98A2B3" }
+  icon: { base: "#98A2B3" },
 };

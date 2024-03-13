@@ -12,7 +12,7 @@ const nextConfig = {
         `,
   },
   images: {
-    domains: ["cdn.u-code.io"],
+    domains: ["cdn.u-code.io", "media.newyorker.com"],
     remotePatterns: [
       {
         protocol: "https",

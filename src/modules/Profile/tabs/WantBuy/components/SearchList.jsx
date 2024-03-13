@@ -14,7 +14,7 @@ export const SearchList = ({
   onCarClick = () => {},
   isLoading,
 }) => {
-
+  console.log("carsList", carsList);
   return (
     <Box minH="250px">
       <Dropdown
@@ -40,8 +40,8 @@ export const SearchList = ({
         <SkeletonComp />
       ) : (
         <SimpleGrid columns={2} spacing={4} mt="16px">
-          {carsList?.map((item) => (
-            <CarItem key={item?.name} data={item} onClick={onCarClick} />
+          {carsList?.map((item, idx) => (
+            <CarItem key={item?.guid || idx} data={item} onClick={onCarClick} />
           ))}
         </SimpleGrid>
       )}
@@ -50,7 +50,7 @@ export const SearchList = ({
 };
 
 const CarItem = ({ data, onClick }) => {
-  const handleClick = () =>{
+  const handleClick = () => {
     onClick(data);
   };
   return (
@@ -70,12 +70,13 @@ const CarItem = ({ data, onClick }) => {
             aspectRatio: "137 / 87",
             objectFit: "cover",
             width: "137px",
-            height:"87px"
+            height: "87px",
           }}
           width={132}
           height={87}
           src={
             data?.photo
+            // `${process.env.NEXT_PUBLIC_MEDIA_URL}${data?.photo}`
             // "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg"
           }
           alt={"car"}

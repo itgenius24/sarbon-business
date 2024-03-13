@@ -14,6 +14,7 @@ export const TextField = ({
   label,
   bottomText,
   rules = {},
+  placeholder = "",
   ...props
 }) => {
   return (
@@ -35,6 +36,7 @@ export const TextField = ({
           )}
           id={name}
           type={type}
+          placeholder={placeholder}
           {...register(name, rules)}
           {...props}
         />
