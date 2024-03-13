@@ -94,6 +94,7 @@ const ThumbnailItem = ({ eachImage, isActive, onClicked = () => {} }) => {
           }}
           priority={false}
           alt={"car"}
+          // src={`${process.env.NEXT_PUBLIC_MEDIA_URL}${url}`}
           src={url}
         />
       </Button>

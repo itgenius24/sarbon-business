@@ -36,6 +36,7 @@ const CreateAd = ({
           errors={errors}
           name="name"
           label="Информация о ТС"
+          rules={rules}
         />
       </Flex>
 
@@ -59,6 +60,8 @@ const CreateAd = ({
           watch={watch}
           handleChange={handleImageUpload}
           setValue={setValue}
+          rules={rules}
+          errors={errors}
         />
       </Box>
       <Flex gap="24px" mt="16px">
@@ -74,6 +77,7 @@ const CreateAd = ({
           type="number"
           width="100%"
           additionalItemOptions={currencyOptions}
+          rules={rules}
         />
         <TextField
           placeholder="+998 --  ---  --  --"
@@ -82,6 +86,7 @@ const CreateAd = ({
           errors={errors}
           name="contact"
           label="Контакт"
+          rules={rules}
         />
       </Flex>
     </div>

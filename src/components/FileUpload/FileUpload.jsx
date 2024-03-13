@@ -2,6 +2,8 @@ import { DeleteIcon, UploadCloudIcon } from "@/assets/icons/icons";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Image from "next/image";
 import { useEffect } from "react";
+import cls from "./styles.module.scss";
+import clsx from "clsx";
 
 export const FileUpload = ({
   watch,
@@ -14,6 +16,7 @@ export const FileUpload = ({
   defaultValue = "",
   register,
   rules,
+  errors,
   priority = false,
 }) => {
   const canEdit = true;
@@ -137,6 +140,9 @@ export const FileUpload = ({
           )}
         </Box>
       </Box>
+      {/* {errors?.[name] && (
+        <span className={cls.errorMessage}>{errors?.[name]?.message}</span>
+      )} */}
     </Flex>
   );
 };

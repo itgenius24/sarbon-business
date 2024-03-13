@@ -40,8 +40,8 @@ export const SearchList = ({
         <SkeletonComp />
       ) : (
         <SimpleGrid columns={2} spacing={4} mt="16px">
-          {carsList?.map((item) => (
-            <CarItem key={item?.name} data={item} onClick={onCarClick} />
+          {carsList?.map((item, idx) => (
+            <CarItem key={item?.guid || idx} data={item} onClick={onCarClick} />
           ))}
         </SimpleGrid>
       )}
@@ -76,6 +76,7 @@ const CarItem = ({ data, onClick }) => {
           height={87}
           src={
             data?.photo
+            // `${process.env.NEXT_PUBLIC_MEDIA_URL}${data?.photo}`
             // "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg"
           }
           alt={"car"}

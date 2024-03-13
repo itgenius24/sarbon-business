@@ -17,14 +17,16 @@ import { SelectionArrow } from "@/assets/icons/icons";
 // import { MoreAboutCar } from "./components/MoreAboutCar";
 
 export const MyAd = () => {
-  const { onsubmit, list, isLoading, getCreateAdProps, isPending } = useMyAd();
-  const { push, back } = useRouter();
-  const { get } = useSearchParams();
-  const create = get("create");
-
-  const openCreatAdCard = () => {
-    push(`${location.pathname}?create=true`);
-  };
+  const {
+    onsubmit,
+    getAdListProps,
+    isLoading,
+    getCreateAdProps,
+    isPending,
+    create,
+    back,
+    openCreatAdCard,
+  } = useMyAd();
 
   return (
     <Box>
@@ -67,8 +69,8 @@ export const MyAd = () => {
         {!create && (
           <AdList
             handleNoData={openCreatAdCard}
-            list={list}
             isLoading={isLoading}
+            {...getAdListProps()}
           />
         )}
         {create && <CreateAd {...getCreateAdProps()} />}

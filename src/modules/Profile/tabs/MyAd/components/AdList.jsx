@@ -1,29 +1,41 @@
-import { Box, Button, Flex, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, SimpleGrid, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { SkeletonComp } from "@/components/Skeleton";
 import { TopFilter } from "@/components/TopFilter";
 import CarCard from "@/modules/Profile/components/CarCard";
 import { NoAdFound } from "./NoAdFound";
 
-export const AdList = ({ adList = fakeData, handleNoData = () => {}, isLoading }) => {
+export const AdList = ({
+  list = fakeData,
+  handleNoData = () => {},
+  isLoading,
+  changeTabState,
+}) => {
   return (
     <Box minH="250px">
+      <TopFilter
+        filterList={filterTabs}
+        onChange={changeTabState}
+        disabled={isLoading}
+      />
+
       {isLoading ? (
         <SkeletonComp />
       ) : (
         <>
-          <TopFilter filterList={filterTabs} />
-          <NoAdFound handleNoData={handleNoData} />
+          {!!list?.length && (
+            <SimpleGrid columns={2} spacing={4} mt="16px">
+              {list?.map((item) => (
+                <CarCard key={item?.name} photoKey="photo" data={item}>
+                  <CarCard.Title value={item?.title} />
+                  <CarCard.Subtitle value={item?.price} />
+                  <CarCard.Info prop="Тип машины:" val={item?.type} />
+                  <CarCard.Info prop="Город:" val={item?.city} />
+                </CarCard>
+              ))}
+            </SimpleGrid>
+          )}
 
-          <SimpleGrid columns={2} spacing={4} mt="16px">
-            {adList?.map((item) => (
-              <CarCard key={item?.name} photoKey="photo" data={item}>
-                <CarCard.Title value={item?.title} />
-                <CarCard.Subtitle value={item?.price} />
-                <CarCard.Info prop="Тип машины:" val={item?.type} />
-                <CarCard.Info prop="Город:" val={item?.city} />
-              </CarCard>
-            ))}
-          </SimpleGrid>
+          {!list?.length && <NoAdFound handleNoData={handleNoData} />}
         </>
       )}
     </Box>

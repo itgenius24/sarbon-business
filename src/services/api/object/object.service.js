@@ -2,7 +2,7 @@ import request from "@/services/request";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
-   getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
+  getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
   getManualList: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
   getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
   getCompanyList: (params) => request.get("/v2/object-slim/get-list/company", { params }),

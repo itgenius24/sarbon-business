@@ -20,10 +20,7 @@ const CarCard = ({ data, onClick, photoKey ,children }) => {
         <CarImage
           width={137}
           height={87}
-          photo={
-            data?.[photoKey]
-            // "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg"
-          }
+          photo={data?.[photoKey]}
           alt={"car"}
         />
       </Box>
@@ -93,7 +90,8 @@ export const CarImage = ({ photo, alt = "image", width = 132, height = 87 }) => 
         height={height}
         src={
           photo
-        // "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg"
+          // `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}`
+          // "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg"
         }
         alt={alt}
       />
