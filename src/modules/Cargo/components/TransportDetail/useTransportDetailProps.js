@@ -19,15 +19,12 @@ export const useTransportDetailProps = () => {
     const value = e.target.value;
     const checked = e.target.checked;
 
-    if(!checked) {
-      e.preventDefault();
-      return;
-    }
-
     if(checked) {
       if(value === "is_ftl") {
+        setValue("is_ftl", true);
         setValue("is_ltl", false);
       } else if(value === "is_ltl") {
+        setValue("is_ltl", true);
         setValue("is_ftl", false);
       }
     }

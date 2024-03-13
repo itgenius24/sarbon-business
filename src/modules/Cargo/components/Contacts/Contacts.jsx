@@ -51,11 +51,8 @@ export const Contacts = () => {
           value={watch("note")}
           onChange={(e) => {
             const value = e.target.value;
-            if(value.match(/\S*\d+\S*/)) {
-              return;
-            }
-            if(e.target.value.length <= 1000) {
-              setValue("note", e.target.value);
+            if(value.length <= 1000) {
+              setValue("note", value.replace(/\d/g, ""));
             }
           }}
         />

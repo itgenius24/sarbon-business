@@ -55,7 +55,7 @@ export const useStagesProps = () => {
         else return "disabled";
       }
       case "payment": {
-        if(price && pricePrepayment && priceAfter && paymentType && paymentDeadline) return "done";
+        if((price && pricePrepayment && priceAfter && paymentType && paymentDeadline) || watch("bargain") === "request") return "done";
         else if(price || pricePrepayment || priceAfter || paymentType || paymentDeadline) return "process";
         else return "disabled";
       }
