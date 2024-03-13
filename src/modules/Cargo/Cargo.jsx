@@ -52,7 +52,7 @@ export const Cargo = ({ id, status }) => {
 
   }
 
-  return <AddCargoProvider value={addCargoProps}>
+  return <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
     <Box pt="48px" pb="128px">
       <Container height="100%">
         {

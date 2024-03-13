@@ -10,7 +10,15 @@ export const useTransportDetailProps = () => {
   const [isBeltsOpen, setBeltsOpen] = useState(false);
   const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
 
-  const { register, control, errors, watch, canEdit, setValue, } = useAddCargoContext();
+  const {
+    register,
+    control,
+    errors,
+    watch,
+    canEdit,
+    setValue,
+    isEditing,
+  } = useAddCargoContext();
 
   const getCarType = useGetCarType();
   const carTypeOptions = getCarType.data?.response?.map(item => ({ label: item?.name, value: item?.guid }));
@@ -77,6 +85,12 @@ export const useTransportDetailProps = () => {
 
   }, [watch("capacity")]);
 
+  useEffect(() => {
+    if(watch("is_ftl") === "is_ftl" && !watch("is_ltl")) {
+      setValue("is_ftl", true);
+      setValue("is_ltl", false);
+    }
+  }, [watch("is_ftl"), watch("is_ltl")]);
 
   return {
     control,
