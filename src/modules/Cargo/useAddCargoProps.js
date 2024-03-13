@@ -59,20 +59,20 @@ export const useAddCargoProps = ({ id, status }) => {
       volume_measurement: yup.string().required("Обязательное поле"),
       packaging: yup.object(),
       packaging_quantity: yup.string(),
-      loadings: yup.array().of(yup.object().shape({ location: yup.object().required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
-      unloading: yup.array().of(yup.object().shape({ location: yup.object().required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      loadings: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      unloading: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
       gps_monitoring: yup.string().required("Обязательное поле"),
       car_type: yup.object().required("Обязательное поле"),
       transport_count: yup.string().required("Обязательное поле"),
       is_ftl: yup.string().required("Обязательное поле"),
       is_ltl: yup.string().required("Обязательное поле"),
       capacity: yup.string(),
-      price: yup.string().required("Обязательное поле"),
-      price_prepayment: yup.string().required("Обязательное поле"),
-      price_after_order: yup.string().required("Обязательное поле"),
+      price: yup.string(),
+      price_prepayment: yup.string(),
+      price_after_order: yup.string(),
       price_prepayment_unit: yup.object().required("Обязательное поле"),
       payment_deadline: yup.string(),
-      payment_type: yup.object().required("Обязательное поле"),
+      payment_type: yup.object(),
     });
     // .required("Обязательное поле");
 
@@ -271,6 +271,19 @@ export const useAddCargoProps = ({ id, status }) => {
   }
 
   function onSubmit(data) {
+
+    if(!authStore.isAuth) {
+      toast({
+        position: "top-right",
+        title: "Авторизуйтесь",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+      router.push("/auth");
+      return;
+    }
+
     setLoading(true);
 
     const loadingIds = data.loadings.map(item => item.location.value);
@@ -282,7 +295,7 @@ export const useAddCargoProps = ({ id, status }) => {
     const addressIds = [...loadingIds, ...unloadingIds];
 
     const requestData = {
-      data:{
+      data: {
         cargo_type_id: data.cargo_type.value,
         weight: +data.weight_measurement,
         measurement_id: data.weight_unit.value,
@@ -314,6 +327,9 @@ export const useAddCargoProps = ({ id, status }) => {
         negotiable: data.bargain === "negotiable",
         no_haggling: data.bargain === "no_haggling",
         request: data.bargain === "request",
+        tir: data.tir,
+        t1: data.t1,
+        cmr: data.cmr,
       }
     };
 

@@ -29,82 +29,87 @@ export const CargoSetup = () => {
       <BargainRadio register={register} disabled={!canEdit} />
       <HelpCircleIcon />
     </Box>
-    <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
-      <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">Ставка</Heading>
-      <Box display="flex" columnGap="32px" mb="24px" >
-        <Box width="280px" flexShrink={0}>
-          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Предлагаемая сумма</Heading>
+    {
+      watch("bargain") !== "request" && <>
+        <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
+          <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">Ставка</Heading>
+          <Box display="flex" columnGap="32px" mb="24px" >
+            <Box width="280px" flexShrink={0}>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Предлагаемая сумма</Heading>
+            </Box>
+            <TextFieldWithAddition
+              disabled={!canEdit}
+              name="price"
+              register={register}
+              control={control}
+              additionalItemName="price_prepayment_unit"
+              additionalItemDefaultIndex={0}
+              placeholder="Введите сумму"
+              errors={errors}
+              type="number"
+              width="100%"
+              additionalItemOptions={currencyOptions}
+            />
+          </Box>
+          <Box display="flex" columnGap="32px" mb="24px" >
+            <Box width="280px" flexShrink={0}>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма предоплаты</Heading>
+            </Box>
+            <TextFieldWithAddition
+              disabled={!canEdit}
+              name="price_prepayment"
+              register={register}
+              control={control}
+              additionalItemName="price_prepayment_unit"
+              additionalItemDefaultIndex={0}
+              placeholder="Введите сумму"
+              errors={errors}
+              type="number"
+              width="100%"
+              additionalItemOptions={currencyOptions}
+            />
+          </Box>
+          <Box display="flex" columnGap="32px" mb="24px" >
+            <Box width="280px" flexShrink={0}>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
+            </Box>
+            <TextFieldWithAddition
+
+              disabled={!canEdit}
+              name="price_after_order"
+              register={register}
+              control={control}
+              additionalItemName="price_prepayment_unit"
+              additionalItemDefaultIndex={0}
+              placeholder="Введите сумму"
+              errors={errors}
+              type="number"
+              width="100%"
+              additionalItemOptions={currencyOptions}
+            />
+          </Box>
+          <Box display="flex" columnGap="32px" mb="24px" >
+            <Box width="280px" flexShrink={0}>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Тип оплаты</Heading>
+            </Box>
+            <Dropdown
+              disabled={!canEdit}
+              placeholder="Выберите"
+              options={paymentOptions}
+              name="payment_type"
+              control={control}
+              errors={errors}
+            />
+          </Box>
+          <Box display="flex" columnGap="32px" >
+            <Box width="280px" flexShrink={0}>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Встречные предложения</Heading>
+            </Box>
+          </Box>
         </Box>
-        <TextFieldWithAddition
-          disabled={!canEdit}
-          name="price"
-          register={register}
-          control={control}
-          additionalItemName="price_prepayment_unit"
-          additionalItemDefaultIndex={0}
-          placeholder="Введите сумму"
-          errors={errors}
-          type="number"
-          width="100%"
-          additionalItemOptions={currencyOptions}
-        />
-      </Box>
-      <Box display="flex" columnGap="32px" mb="24px" >
-        <Box width="280px" flexShrink={0}>
-          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма предоплаты</Heading>
-        </Box>
-        <TextFieldWithAddition
-          disabled={!canEdit}
-          name="price_prepayment"
-          register={register}
-          control={control}
-          additionalItemName="price_prepayment_unit"
-          additionalItemDefaultIndex={0}
-          placeholder="Введите сумму"
-          errors={errors}
-          type="number"
-          width="100%"
-          additionalItemOptions={currencyOptions}
-        />
-      </Box>
-      <Box display="flex" columnGap="32px" mb="24px" >
-        <Box width="280px" flexShrink={0}>
-          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
-        </Box>
-        <TextFieldWithAddition
-          disabled={!canEdit}
-          name="price_after_order"
-          register={register}
-          control={control}
-          additionalItemName="price_prepayment_unit"
-          additionalItemDefaultIndex={0}
-          placeholder="Введите сумму"
-          errors={errors}
-          type="number"
-          width="100%"
-          additionalItemOptions={currencyOptions}
-        />
-      </Box>
-      <Box display="flex" columnGap="32px" mb="24px" >
-        <Box width="280px" flexShrink={0}>
-          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Тип оплаты</Heading>
-        </Box>
-        <Dropdown
-          disabled={!canEdit}
-          placeholder="Выберите"
-          options={paymentOptions}
-          name="payment_type"
-          control={control}
-          errors={errors}
-        />
-      </Box>
-      <Box display="flex" columnGap="32px" >
-        <Box width="280px" flexShrink={0}>
-          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Встречные предложения</Heading>
-        </Box>
-      </Box>
-    </Box>
-    <PaymentDetail />
+        <PaymentDetail />
+      </>
+    }
     <Contacts />
     {
       watch("image")

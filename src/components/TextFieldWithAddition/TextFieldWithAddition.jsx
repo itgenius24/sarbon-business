@@ -16,6 +16,7 @@ export const TextFieldWithAddition = ({
   after,
   label,
   errors = {},
+  error,
   additionalItemLabel,
   additionalItemPosition,
   additionalItemTheme = "gray",
@@ -40,7 +41,7 @@ export const TextFieldWithAddition = ({
         {additionalItemLabel && <span className={cls.additionalItemLabel}>{additionalItemLabel}</span>}
       </div>
     }
-    <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] })}>
+    <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}>
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
         <input className={cls.fieldInput} onClick={onClick} {...register(name)} disabled={onClick ? false : disabled || onlyFieldDisabled} type={type} placeholder={placeholder} {...props} />
@@ -91,7 +92,11 @@ export const TextFieldWithAddition = ({
           </div>;
         }}
       />
-      {errors?.[name] && <span className={cls.errorText}>{errors?.[name]?.message}</span>}
+      {
+        error
+          ? <span className={cls.errorText}>{error?.message}</span>
+          : errors?.[name] && <span className={cls.errorText}>{errors?.[name]?.message}</span>
+      }
     </div>
   </div>;
 };

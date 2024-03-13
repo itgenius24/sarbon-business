@@ -173,18 +173,18 @@ export const TransportDetail = () => {
           </Button>
         </Box>
         <Box display="flex" columnGap="10px" flexGrow={1}>
-          <Checkbox disabled={!canEdit} register={register} name="is_tir_access">
+          <Checkbox disabled={!canEdit} register={register} name="tir">
           TIR
           </Checkbox>
-          <Checkbox disabled={!canEdit} register={register} name="is_t1_access">
+          <Checkbox disabled={!canEdit} register={register} name="t1">
           T1
           </Checkbox>
-          <Checkbox disabled={!canEdit} register={register} name="is_cmr_access">
+          <Checkbox disabled={!canEdit} register={register} name="cmr">
           CMR
           </Checkbox>
-          <Checkbox disabled={!canEdit} register={register} name="is_med_access">
+          {/* <Checkbox disabled={!canEdit} register={register} name="is_med_access">
           Медкнижка
-          </Checkbox>
+          </Checkbox> */}
         </Box>
       </Box>
     }

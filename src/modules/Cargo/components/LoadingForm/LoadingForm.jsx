@@ -68,7 +68,7 @@ export const LoadingForm = () => {
                   name={`loadings[${index}].location`}
                   placeholder="Населённый пункт"
                   options={getAddressOptions}
-                  errors={errors}
+                  error={errors["loadings"]?.[index]?.["location"]}
                   disabled={!canEdit}
                 />
                 <TextFieldWithAddition
@@ -78,7 +78,7 @@ export const LoadingForm = () => {
                   name={`loadings[${index}].address`}
                   additionalOnclick={() => handleOpenModal("loadings", index)}
                   onClick={() => handleOpenModal("loadings", index)}
-                  errors={errors}
+                  error={errors["loadings"]?.[index]?.["address"]}
                   onlyFieldDisabled={true}
                   disabled={!canEdit}
                   additionalItemPlaceholder={
@@ -133,7 +133,7 @@ export const LoadingForm = () => {
                 name={`unloading[${index}].location`}
                 placeholder="Населённый пункт"
                 options={getAddressOptions}
-                errors={errors}
+                error={errors["unloading"]?.[index]?.["location"]}
               />
               <TextFieldWithAddition
                 onlyFieldDisabled={true}
@@ -144,7 +144,7 @@ export const LoadingForm = () => {
                 name={`unloading[${index}].address`}
                 additionalOnclick={() => handleOpenModal("unloading", index)}
                 onClick={() => handleOpenModal("unloading", index)}
-                errors={errors}
+                error={errors["unloading"]?.[index]?.["address"]}
                 additionalItemPlaceholder={
                   <span className={cls.additionalIcons}>
                     <LocationMarkIcon />

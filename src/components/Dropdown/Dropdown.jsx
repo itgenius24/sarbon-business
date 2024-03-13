@@ -24,6 +24,7 @@ export const Dropdown = ({
   setValue = () => {},
   watch = () => {},
   errors,
+  error,
   disabled,
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
@@ -62,7 +63,7 @@ export const Dropdown = ({
                 {
                   [cls.open]: isOpen,
                   [cls.searchable]: searchable,
-                  [cls.error]: errors?.[name],
+                  [cls.error]: errors?.[name] || !!error,
                   [cls.disabled]: disabled
                 })
             }
@@ -104,6 +105,11 @@ export const Dropdown = ({
               }
             </>
           </div>
+          {
+            error
+              ? <span className={cls.errorText}>{error?.message}</span>
+              : errors?.[name] && <span className={cls.errorText}>{errors?.[name].message}</span>
+          }
           {isOpen && optionLen && (
             <div
               className={cls.options}
