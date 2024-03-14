@@ -11,18 +11,16 @@ export const MoreAboutCar = ({ onCarClick, carID }) => {
   // useMoreAboutCar();
   const param = carID ? { guid: carID } : {};
   const { data, isLoading }= useGetCarById({ data: JSON.stringify(param) },{ select: res=> res?.response?.[0] });
-
+  console.log(data);
 
   if (isLoading) return <SkeletonComp/>;
 
   return (
     <Flex gap="10px">
       <Gallery data={data} />
-      <Stack gap="16px">
-        <CarTitle title="О машине" />
+      <Stack gap="16px" flexGrow={1}>
+        <CarTitle title="О машине" price={data.price} />
         <CarInfo prop="Тип машины:" val={data.type} />
-        <CarInfo prop="Город:" val={data.city} />
-        <CarInfo prop="Пробег:" val={data.range} />
         <CarInfo prop="Хозяйн:" val={data.owner} />
         <CarInfo prop="Номер::" val={data.contact} color="primary" />
         <Divider color="brand.300" />

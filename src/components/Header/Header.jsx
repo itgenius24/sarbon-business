@@ -88,8 +88,10 @@ const Header = observer(({ elements }) => {
                     <Image
                       src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : "/images/user.png"}
                       alt="ww"
-                      width={35}
-                      height={35}
+                      width={40}
+                      height={40}
+                      objectFit="cover"
+                      style={{ height: "100%" }}
                     />
                   </Box>
                   {/* <Box ml="16px">

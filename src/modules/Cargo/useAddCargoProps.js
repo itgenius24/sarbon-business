@@ -73,6 +73,7 @@ export const useAddCargoProps = ({ id, status }) => {
       price_prepayment_unit: yup.object().required("Обязательное поле"),
       payment_deadline: yup.string(),
       payment_type: yup.object(),
+      prepayment_percent: yup.number().max(100, "Максимальное значение 100").min(0, "Минимальное значение 0").typeError("Должно быть числом"),
     });
     // .required("Обязательное поле");
 
@@ -360,6 +361,12 @@ export const useAddCargoProps = ({ id, status }) => {
     }
   }
 
+  function handleResetForm () {
+    reset({});
+    setStartDate("");
+    setEndDate("");
+  }
+
   useEffect(() => {
     if(getCargo.isSuccess || getOfferCargoById.isSuccess) {
 
@@ -459,9 +466,9 @@ export const useAddCargoProps = ({ id, status }) => {
       loadingsRef.current[0].cor = [loadingData?.lat, loadingData?.long];
       loadingsRef.current[0].address = loadingData?.name;
 
-      unloadingRef.current?.forEach(item => {
-        item.cor = [loadingData?.lat, loadingData?.long];
-        item.address = loadingData?.name;
+      unloadingRef.current?.forEach((item, index) => {
+        item.cor = [reversedData?.[index]?.lat, reversedData?.[index]?.long];
+        item.address = reversedData?.[index]?.name;
       });
 
       setValue("loadings", loadingsRef.current);
@@ -506,6 +513,7 @@ export const useAddCargoProps = ({ id, status }) => {
     loading,
     prepayment: data?.conditions,
     paymentAfterFinish: data?.bid_amount,
-    driverComment: data?.cargo_id_data?.driver_comment
+    driverComment: data?.cargo_id_data?.driver_comment,
+    handleResetForm,
   };
 };

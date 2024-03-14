@@ -80,12 +80,6 @@ export const useTransportDetailProps = () => {
   }
 
   useEffect(() => {
-
-    setLiftingCapacityOpen(!!watch("capacity"));
-
-  }, [watch("capacity")]);
-
-  useEffect(() => {
     if(watch("is_ftl") === "is_ftl" && !watch("is_ltl")) {
       setValue("is_ftl", true);
       setValue("is_ltl", false);

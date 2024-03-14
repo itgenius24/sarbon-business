@@ -42,10 +42,6 @@ export const useCargoFormProps = () => {
 
   }, [getMeasurement.data]);
 
-  useEffect(() => {
-    setPackagingAndQuantity(!!watch("packaging_quantity"));
-  }, [watch("packaging_quantity")]);
-
   return {
     errors,
     control,

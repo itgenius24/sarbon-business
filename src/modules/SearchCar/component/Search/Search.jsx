@@ -73,6 +73,7 @@ export const Search = (props={}) => {
               width="224px"
               placeholder="Вес"
               additionalItemPlaceholder="T"
+              type="number"
             />
             <TextFieldWithAddition
               errors={errors}
@@ -88,6 +89,7 @@ export const Search = (props={}) => {
               }
               additionalItemName="volume_unit"
               additionalItemOptions={volumeMeasurementOptions}
+              type="number"
             />
           </SimpleGrid>
         </>

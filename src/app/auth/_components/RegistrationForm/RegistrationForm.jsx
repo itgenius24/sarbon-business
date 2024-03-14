@@ -6,6 +6,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
 import { HelpCircleIcon } from "@/assets/icons/icons";
+import { Checkbox } from "@/components/Checkbox";
 
 export const RegistrationForm = () => {
 
@@ -20,7 +21,7 @@ export const RegistrationForm = () => {
   } = useRegistrationFormProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-    <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" subtitle="На перевочика" />
+    <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" />
     <Box display="flex" flexDirection="column" rowGap="20px" mb="24px">
       <Dropdown
         options={clientTypeOptions}
@@ -68,6 +69,9 @@ export const RegistrationForm = () => {
     <Box display="flex" flexDirection="column" rowGap="16px">
       <Button type="submit">Подтвердить</Button>
       <Button variant="secondary" onClick={handleBack}>Назад</Button>
+    </Box>
+    <Box mt="32px">
+      <Checkbox filled>Нажимая кнопку, вы принимаете условия Пользовательского соглашения</Checkbox>
     </Box>
   </Box>;
 };

@@ -72,16 +72,8 @@ export const PaymentDetail = () => {
             additionalItemPlaceholder="%"
             register={register}
             errors={errors}
-            rules={{
-              max: {
-                value: 100,
-                message: "Максимум 100%",
-              },
-              required: {
-                value: true,
-                message: "Обязательное поле",
-              }
-            }}
+            type="number"
+            max={100}
           />
           <Checkbox disabled={!canEdit} name="prepayment_with_fuel" register={register}>
           Предоплата топливом

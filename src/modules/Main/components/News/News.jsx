@@ -90,6 +90,7 @@ const Pagination = ({ page, pageLength,click }) => {
             aria-label="Previous button"
             icon={<ArrowLeft />}
             onClick={() => click("prev")}
+            bgColor="#fff"
           />
           <Spacer />
           <Box>
@@ -104,6 +105,7 @@ const Pagination = ({ page, pageLength,click }) => {
             maxW="36px"
             variant="outline"
             aria-label="Next button"
+            bgColor="#fff"
             icon={<ArrowLeft rotate={true} />}
             onClick={() => click("next")}
           />

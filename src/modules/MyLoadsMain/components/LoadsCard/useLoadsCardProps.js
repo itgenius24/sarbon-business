@@ -33,7 +33,8 @@ export const useLoadsCardProps = ({
     unloading: "разгружаюсь",
     unloaded: "разгрузился",
     complete_the_order: "завершить заказ",
-    breaking: "Поломка"
+    breaking: "Поломка",
+    road_accident: "ДТП"
   };
 
   const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];

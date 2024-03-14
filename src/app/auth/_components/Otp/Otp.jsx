@@ -10,9 +10,19 @@ import { observer } from "mobx-react-lite";
 
 export const Otp = observer(() => {
 
-  const { onChange, handleSendOtp, navigateLogin, value, phone } = useOtpProps();
+  const { onChange, handleSendOtp, navigateBack, value, phone } = useOtpProps();
 
   return <Box>
+    <Button
+      onClick={navigateBack}
+      variant="reset"
+      size="sm"
+      color="brand.600"
+      leftIcon={<ArrowLeft />}
+      mb="32px"
+    >
+      Назад
+    </Button>
     <AuthTitle
       mb="32px"
       title="Проверьте свой телефон"
@@ -46,15 +56,5 @@ export const Otp = observer(() => {
       <Text fontSize="14px" color="brand.600" lineHeight="20px">Не пришло сообщение?</Text>
       <Button variant="reset">Отправить ещё раз</Button>
     </Box>
-    <Button
-      onClick={navigateLogin}
-      variant="reset"
-      size="sm"
-      color="brand.600"
-      leftIcon={<ArrowLeft />}
-      mt="32px"
-    >
-      Вернуться на Войти
-    </Button>
   </Box>;
 });

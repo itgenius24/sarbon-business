@@ -2,21 +2,28 @@ import { useOtpMutation } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import authStore from "@/store/auth.store";
+import { useToast } from "@chakra-ui/react";
 
 export const useOtpProps = () => {
   const router = useRouter();
   const [value, setValue] = useState("");
 
-  // const { smsId, phone } = useAuthContext();
-
-  // console.log({ smsId });
-
+  const toast = useToast();
 
   const { smsId, phone } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       router.push("/auth/registration-form");
+    },
+    onError: () => {
+      toast({
+        title: "Неправильный код",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top right",
+      });
     }
   });
 
@@ -37,15 +44,15 @@ export const useOtpProps = () => {
     });
   }
 
-  function navigateLogin () {
-    router.push("/auth/login");
+  function navigateBack () {
+    router.back();
   }
 
   return {
     value,
     onChange,
     handleSendOtp,
-    navigateLogin,
+    navigateBack,
     phone,
   };
 };

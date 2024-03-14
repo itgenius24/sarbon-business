@@ -52,6 +52,7 @@ export const CargoForm = () => {
             placeholder="Вес"
             additionalItemOptions={weightMeasurementOptions}
             disabled={!canEdit}
+            type="number"
           />
           <TextFieldWithAddition
             errors={errors}
@@ -62,6 +63,7 @@ export const CargoForm = () => {
             placeholder="Объем"
             additionalItemPlaceholder={<span>м<sup>3</sup></span>}
             disabled={!canEdit}
+            type="number"
             // additionalItemName="volume_unit"
             // additionalItemOptions={volumeMeasurementOptions}
           />
@@ -69,6 +71,7 @@ export const CargoForm = () => {
         <Box display="flex" columnGap="24px">
           {
             !isPackagingAndQuantity && <Button
+              key="dimensionsBtn"
               isDisabled={!canEdit}
               leftIcon={<PlusIcon color="#007AFF" />}
               variant="reset"
@@ -79,6 +82,7 @@ export const CargoForm = () => {
           }
           {
             !isDimensionsAndDiameter && <Button
+              key="diameterBtn"
               isDisabled={!canEdit}
               leftIcon={<PlusIcon color="#007AFF" />}
               variant="reset"
@@ -91,7 +95,7 @@ export const CargoForm = () => {
       </Box>
     </Box>
     {
-      isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px">
+      isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px" key="packaging">
         <Button disabled={!canEdit} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
         <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
@@ -123,7 +127,7 @@ export const CargoForm = () => {
       </Box>
     }
     {
-      isDimensionsAndDiameter && <Box display="flex" alignItems="flex-start" mt="24px">
+      isDimensionsAndDiameter && <Box display="flex" alignItems="flex-start" mt="24px" key="dimensions">
         <Button variant="reset" onClick={handleDimensionsAndDiameter} color="brand.700" leftIcon={<DeleteIcon />}>Габариты и диаметр</Button>
         <Box display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
           <Box display="flex" flexDirection="column" rowGap="10px">

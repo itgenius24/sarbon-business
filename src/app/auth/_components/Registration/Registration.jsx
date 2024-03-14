@@ -17,7 +17,18 @@ export const Registration = () => {
   } = useRegistrationProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-    <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" subtitle="На перевочика" />
+    <Button
+      onClick={navigateLogin}
+      variant="reset"
+      size="sm"
+      color="brand.600"
+      leftIcon={<ArrowLeft />}
+      mb="32px"
+      isLoading={isPending}
+    >
+      Вернуться на Войти
+    </Button>
+    <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" />
     <Box mb="24px">
       <TextField
         register={register}
@@ -30,16 +41,5 @@ export const Registration = () => {
     </Box>
     <Button size="md" type="submit">Продолжить</Button>
     <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">Нажимая кнопку «Продолжить», вы принимаете условия <a className={cls.link} href="#">Пользовательского соглашения</a></Text>
-    <Button
-      onClick={navigateLogin}
-      variant="reset"
-      size="sm"
-      color="brand.600"
-      leftIcon={<ArrowLeft />}
-      mt="32px"
-      isLoading={isPending}
-    >
-      Вернуться на Войти
-    </Button>
   </Box>;
 };

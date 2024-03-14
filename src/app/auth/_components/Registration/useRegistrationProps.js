@@ -10,7 +10,7 @@ export const useRegistrationProps = () => {
   const router = useRouter();
 
   const schema = yup
-    .object({ phone: yup.string().required().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Некорректный номер телефона"), })
+    .object({ phone: yup.string().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Неправильный номер телефона").required("Обязательное поле") })
     .required();
 
   const { handleSubmit, register, formState: { errors } } = useForm({

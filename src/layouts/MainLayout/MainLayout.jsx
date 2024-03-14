@@ -1,11 +1,21 @@
+"use client";
+
 import cls from "./styles.module.scss";
 import { elements } from "./elements";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
+import { usePathname } from "next/navigation";
 
 export const MainLayout = ({ children }) => {
+
+  const pathname = usePathname();
+
+  const isAuth = pathname.includes("auth");
+
   return <div className={cls.layout}>
-    <Header elements={elements} />
+    {
+      !isAuth && <Header elements={elements} />
+    }
     <article className={cls.main}>
       {children}
     </article>

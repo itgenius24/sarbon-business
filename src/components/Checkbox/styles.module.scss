@@ -21,6 +21,11 @@
   background-position: center center;
 }
 
+.checkboxLabel.filled .checkboxInput:checked + .checkbox {
+  background-color: #2688EB;
+  background-image: url('/svg/check-white.svg');
+}
+
 .checkboxText {
   user-select: none;
   margin-left: 8px;

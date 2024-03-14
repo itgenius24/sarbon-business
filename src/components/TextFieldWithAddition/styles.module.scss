@@ -136,7 +136,7 @@
 }
 
 .additionalItemOptions {
-  width: 100%;
+  min-width: 120px;
   position: absolute;
   z-index: 100;
   top: calc(100% + 8px);
@@ -163,6 +163,7 @@
 .additionalItemOptionLabel {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   column-gap: 6px;
 }
 
