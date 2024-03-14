@@ -933,3 +933,11 @@ export const Email = () => {
     </svg>
   );
 };
+
+export const ClockIcon = () => (
+  <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.727 11.11h-4.264" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="11.015" cy="10.558" r="8.253" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10.462 11.11V5.973" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);
+
+export const RouteDirectionIcon = () => (
+  <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16.959" cy="17.417" r="2.292" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M5.959 4.926a.115.115 0 1 1-.001.229.115.115 0 0 1 0-.23" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path clipRule="evenodd" d="M9.167 5.04c0 1.523-1.702 3.152-2.628 3.925a.944.944 0 0 1-1.163 0C4.45 8.192 2.75 6.563 2.75 5.04v0a3.208 3.208 0 0 1 3.208-3.208v0A3.208 3.208 0 0 1 9.167 5.04v0Z" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M11 17.418H8.25a2.75 2.75 0 0 1-2.75-2.75v0a2.75 2.75 0 0 1 2.75-2.75h5.5a2.75 2.75 0 0 0 2.75-2.75v0a2.75 2.75 0 0 0-2.75-2.75h-1.833" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);

@@ -1,16 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
+/* eslint no-undef: 0 */ // --> OFF
 export const useDistanceCalculationProps = () => {
 
-  const [isModalOpen, setModalOpen] = React.useState(false);
-  const [ymaps, setYmaps] = React.useState(false);
-  const [panel, setPanel] = React.useState(false);
-  const [coordinates, setCoordinates] = React.useState([]);
+  const [distanceParameters, setDistanceParameters] = React.useState({});
+  const [locationNames, setLocationNames] = React.useState([]);
 
-  const mapRef = useRef(null);
-
-  const { register, control } = useForm();
+  const { register, control, watch, } = useForm();
 
   const { fields: locations, append, remove } = useFieldArray({
     control,
@@ -18,52 +15,74 @@ export const useDistanceCalculationProps = () => {
   });
 
   function handleAppend() {
-    append({
-      cor: [],
-      name: ""
-    });
+    setLocationNames([...locationNames, ""]);
+    append({ name: "" });
   }
 
   function handleRemove(index) {
+    setLocationNames((locationNames) => {
+      locationNames.splice(index, 1);
+      return [...locationNames];
+    });
     remove(index);
   }
 
-  function handleOpenModal() {
-    setModalOpen(true);
+  function onAdditionalAddressChange(e, index) {
+    setLocationNames([...locationNames.slice(0, index), e.target.value, ...locationNames.slice(index + 1)]);
   }
 
-  function handleCloseModal() {
-    setModalOpen(false);
-  }
-
-  function onMapClick(e) {
-    console.log(e.get("coords"));
-    // setCoordinates(e.get("coords"));
-  }
+  const multiRouteRef = useRef(null);
 
   useEffect(() => {
-    if(mapRef.current) {
-      console.log(mapRef.current.controls.get("routePanelControl"));
+    const multiRoute = multiRouteRef.current;
+    if(multiRoute) {
+      const intervalLocations = locationNames.filter(item => item !== "");
+      multiRoute.model.setReferencePoints([watch("from"), ...intervalLocations, watch("to")]);
     }
-    console.log(ymaps);
-  }, [ymaps]);
+  }, [locationNames, watch("from"), watch("to")]);
 
-  useEffect(() => {
-    console.log(panel);
-  }, [panel]);
+  function initYmaps() {
+    /**
+     * Creating a multiroute.
+     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
+      */
+    var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
+      editorMidPointsType: "via",
+      routeActiveStrokeColor: "#175CD3",
+      editorDrawOver: false,
+    });
+
+    multiRoute.events.add("activeroutechange", function () {
+      if(multiRoute.getRoutes().get(0)) {
+        const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
+        const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
+        setDistanceParameters({ duration, distance });
+      }
+    });
+
+    const searchControl = new ymaps.control.SearchControl({ options: { float: "right", } });
+
+    // Creating the map with the button added to it.
+    var myMap = new ymaps.Map("map", {
+      center: [41.40587471972005, 69.46086540238926],
+      zoom: 7,
+      controls: [searchControl],
+    }, { buttonMaxWidth: 300 });
+
+    // Adding a multiroute to the map.
+    myMap.geoObjects.add(multiRoute);
+
+    multiRouteRef.current = multiRoute;
+  }
 
   return {
-    locations,
     register,
+    locations,
     handleAppend,
     handleRemove,
-    handleOpenModal,
-    handleCloseModal,
-    isModalOpen,
-    setYmaps,
-    mapRef,
-    onMapClick,
-    panel,
-    setPanel
+    initYmaps,
+    onAdditionalAddressChange,
+    distanceParameters,
+    watch,
   };
 };
