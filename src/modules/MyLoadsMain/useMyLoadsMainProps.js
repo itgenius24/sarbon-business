@@ -1,5 +1,5 @@
 import authStore from "@/store/auth.store";
-import { useDeleteCargo, useGetOffer, useGetUserCargo, useUpdateResponse } from "@/services/api";
+import { useDeleteCargo, useGetOffer, useGetUserCargo, usePushNotificationMutation, useUpdateResponse } from "@/services/api";
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 
@@ -83,6 +83,8 @@ export const useMyLoadsMainProps = () => {
     }
   });
 
+  const pushNotification = usePushNotificationMutation();
+
   function handleCancel(id) {
     updateResponseMutation.mutate(
       {
@@ -110,7 +112,15 @@ export const useMyLoadsMainProps = () => {
     );
   }
 
-  function handleAccept(id) {
+  function handleAccept(id, driverId) {
+    pushNotification.mutate({
+      data:{
+        object_data:{
+          guid: driverId,
+          responses: id
+        }
+      }
+    });
     updateResponseMutation.mutate(
       {
         data:{

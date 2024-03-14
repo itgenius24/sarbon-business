@@ -1,4 +1,4 @@
-import { useGetUserInfoHook } from "./useGetUserInfo";
+import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { fileUpload } from "@/services/fileUpload";
 
 export const useProfileInfoForm = (setValue) => {

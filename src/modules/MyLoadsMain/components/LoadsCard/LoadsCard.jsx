@@ -29,6 +29,7 @@ export const LoadsCard = ({
   handleAccept,
   moderator_comment,
   indicate_status,
+  users_id_2,
 }) => {
 
   const {
@@ -92,7 +93,7 @@ export const LoadsCard = ({
         <Button
           onClick={(e) => {
             e.stopPropagation();
-            handleAccept(guid);
+            handleAccept(guid, users_id_2);
           }}
         >
           Принять

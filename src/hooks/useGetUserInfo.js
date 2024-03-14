@@ -1,12 +1,13 @@
 import { useGetUserInfo } from "@/services/api";
-import { useParams } from "next/navigation";
+import authStore from "@/store/auth.store";
 
 export const useGetUserInfoHook = () => {
-  const { id } = useParams();
+  const id = authStore.userData.id;
+
   return useGetUserInfo(id, {
     enabled: !!id,
     select: (res) => {
-      if (!res.response) return undefined;
+      if (!res.response) return {};
       return res?.response || {};
     },
   });

@@ -2,11 +2,11 @@
 
 import { Box, Flex, Tabs } from "@chakra-ui/react";
 import { LeftHeaderCard } from "./LeftHeaderCard";
-import { useGetUserInfoHook } from "../hooks/useGetUserInfo";
 import { CTabList } from "./CTabList";
 import { CTabPanels } from "./CTabPanels";
 import { tabsList } from "../tablist";
 import { useCallback, useState } from "react";
+import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 
 export const MainContent = () => {
   const { data } = useGetUserInfoHook();

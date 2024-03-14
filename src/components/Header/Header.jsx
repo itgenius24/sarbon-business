@@ -12,6 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
+import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -25,8 +26,12 @@ const Header = observer(({ elements }) => {
   }, [authStore.getIsAuth]);
 
   const goToProfile=()=>{
-    router.push(`profile/${authStore.userData.id}`);
+    router.push(`/profile/${authStore.userData.id}`);
   };
+
+  const userData = useGetUserInfoHook();
+
+  const photo = userData.data?.photo;
 
   return (
     <Box
@@ -81,15 +86,15 @@ const Header = observer(({ elements }) => {
                 <>
                   <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
                     <Image
-                      src="/svg/userIcon.svg"
+                      src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : "/images/user.png"}
                       alt="ww"
                       width={35}
                       height={35}
                     />
                   </Box>
-                  <Box ml="16px">
+                  {/* <Box ml="16px">
                     <LogOutBtn />
-                  </Box>
+                  </Box> */}
                 </>
               )}
             </Box>
