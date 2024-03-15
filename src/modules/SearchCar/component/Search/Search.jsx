@@ -4,6 +4,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 
 import { Box, Button, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 
 export const Search = (props={}) => {
   const {
@@ -19,6 +20,7 @@ export const Search = (props={}) => {
     setStartDate,
     volumeMeasurementOptions,
   } = props;
+
   return (
     <Box as="article" borderRadius="12px" padding="24px" bgColor="baseWhite">
       <VStack

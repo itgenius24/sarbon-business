@@ -24,14 +24,15 @@ export const useTransportDetailProps = () => {
   const carTypeOptions = getCarType.data?.response?.map(item => ({ label: item?.name, value: item?.guid }));
 
   function handleCheckboxChange(e) {
-    const value = e.target.value;
+
+    const name = e.target.name;
     const checked = e.target.checked;
 
     if(checked) {
-      if(value === "is_ftl") {
+      if(name === "is_ftl") {
         setValue("is_ftl", true);
         setValue("is_ltl", false);
-      } else if(value === "is_ltl") {
+      } else if(name === "is_ltl") {
         setValue("is_ltl", true);
         setValue("is_ftl", false);
       }
@@ -79,13 +80,6 @@ export const useTransportDetailProps = () => {
     setLiftingCapacityOpen(false);
   }
 
-  useEffect(() => {
-    if(watch("is_ftl") === "is_ftl" && !watch("is_ltl")) {
-      setValue("is_ftl", true);
-      setValue("is_ltl", false);
-    }
-  }, [watch("is_ftl"), watch("is_ltl")]);
-
   return {
     control,
     isAdrOpen,
@@ -108,5 +102,6 @@ export const useTransportDetailProps = () => {
     errors,
     canEdit,
     handleCheckboxChange,
+    isEditing,
   };
 };

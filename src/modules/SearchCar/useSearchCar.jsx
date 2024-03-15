@@ -132,7 +132,26 @@ export const useSearchCar = () => {
       });
       setStartDate(date ? new Date(date) : undefined);
 
-      handleSubmit(onSubmit)();
+      const capacity = Number(weight);
+      const numberVolume = Number(volume);
+      console.log(date);
+      const params = {
+        data: JSON.stringify(
+          {
+            with_relations: true,
+            offset: 0,
+            order: {},
+            search: "",
+            limit: 20,
+            address_id: [fromValue?.value || ""],
+            address_id_2: [toValue?.value || ""],
+            ...(capacity ? { capacity } : {}),
+            ...(numberVolume ? { numberVolume } : {}),
+            ...(date ? { date } : {}),
+          }
+        ),
+      };
+      mutate(params);
     }
 
     //eslint-disable-next-line react-hooks/exhaustive-deps

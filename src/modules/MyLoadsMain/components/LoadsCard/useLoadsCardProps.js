@@ -62,7 +62,7 @@ export const useLoadsCardProps = ({
     },
     {
       title: "Время: ",
-      value: formatDate(status === "new" ? date : load_time, "dd.MM.yyyy"),
+      value: formatDate(load_time, "dd.MM.yyyy"),
     },
   ];
 

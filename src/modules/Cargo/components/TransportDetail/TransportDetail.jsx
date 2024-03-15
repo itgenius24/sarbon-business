@@ -26,6 +26,7 @@ export const TransportDetail = () => {
     errors,
     canEdit,
     handleCheckboxChange,
+    isEditing
   } = useTransportDetailProps();
 
   return <Box>
@@ -57,12 +58,12 @@ export const TransportDetail = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">Загрузка</Heading>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="12px">
-        <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} value="is_ftl" name="is_ftl" defaultChecked >
+        <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} defaultChecked={!isEditing} name="is_ftl" >
           <Box display="flex" alignItems="center">
             <span>отдельной машиной (FTL)</span><HelpCircleIcon />
           </Box>
         </Checkbox>
-        <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} value="is_ltl" name="is_ltl" >
+        <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} name="is_ltl" >
           отдельной машиной или догрузом (FTL или LTL)
         </Checkbox>
       </Box>

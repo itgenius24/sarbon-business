@@ -124,7 +124,7 @@ export const LoadsCard = ({
                 value: address_id_2_data?.guid,
                 label: address_id_2_data?.name
               }),
-              date: date,
+              date: load_time,
               weight: weight,
               volume: volume_m3,
             });

@@ -1,9 +1,32 @@
-import { Box } from "@chakra-ui/react";
 import cls from "./styles.module.scss";
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useToast
+} from "@chakra-ui/react";
 import { DataList } from "@/components/DataList";
 import { DriverReviewStar } from "@/assets/icons/icons";
+import authStore from "@/store/auth.store";
+import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
+import { useState } from "react";
 
 export const SingleCar = ({ carInfo }) => {
+
+  const userId = authStore.userData.id;
+
+  const toast = useToast();
+
+  const [isOpen, setIsOpen] = useState(false);
+
   const newList = [
     {
       title: "Транспорт",
@@ -23,6 +46,48 @@ export const SingleCar = ({ carInfo }) => {
     },
   ];
 
+  const getAllUserCargoParams = {
+    data: JSON.stringify({
+      users_id: userId,
+      with_relations: true,
+      order_status: "active"
+    })
+  };
+
+  const getAllUserCargo = useGetUserCargo(
+    getAllUserCargoParams,
+    { enabled: !!userId && isOpen }
+  );
+
+  const offerFromCustomer = useOfferFromCustomerMutation({
+    onSuccess() {
+      toast({
+        title: "Ваше предложение отправлено",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right"
+      });
+      setIsOpen(false);
+    }
+  });
+
+  const [body, setBody] = useState({});
+
+  function handleOpenModal() {
+    setBody({ user_id: carInfo?.users_id });
+    setIsOpen(true);
+  }
+
+  function handleOffer(id) {
+    offerFromCustomer.mutate({
+      ...body,
+      guid: id
+    });
+  }
+
+  console.log(getAllUserCargo.data?.response);
+
   return (
     <div className={cls.loadsCard}>
       <div className={cls.cardTop}>
@@ -38,7 +103,39 @@ export const SingleCar = ({ carInfo }) => {
       <Box borderBottom="1px solid" borderColor="brand.200">
         <DataList list={newList} />
       </Box>
-      <div className={cls.cardBottom}></div>
+      <div className={cls.cardBottom}>
+        <Button onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
+      </div>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Heading size="sm">Выберите груз</Heading>
+            <ModalCloseButton />
+          </ModalHeader>
+          <ModalBody p="20px">
+            {
+              getAllUserCargo.data?.response?.map((item) => {
+                return <Card
+                  onClick={() => handleOffer(item.guid)}
+                  key={item.guid}
+                  mb="20px"
+                  borderRadius="20px"
+                  boxShadow="none"
+                  border="1px solid #EAECF0"
+                  cursor="pointer"
+                >
+                  <CardBody p="20px">
+                    {item?.address_id_data?.name}
+                    -{">"}
+                    {item?.address_id_2_data?.name}
+                  </CardBody>
+                </Card>;
+              })
+            }
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

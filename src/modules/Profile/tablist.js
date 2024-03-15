@@ -16,8 +16,8 @@ const nestedTabs = [
 
 export const tabsList = [
   { id: 0, title: "Личные данные", icon: <User />, content: <PersonalInfo /> },
-  { id: 1, title: "Добавить карту", icon: <AddCard /> },
-  { id: 2, title: "Пополнить баланс", icon: <TopUpBalance /> },
+  // { id: 1, title: "Добавить карту", icon: <AddCard /> },
+  // { id: 2, title: "Пополнить баланс", icon: <TopUpBalance /> },
   { title: "Продажа авто", icon: <Car />, children: nestedTabs },
   { id: 5, title: "Справочники", icon: <File />, content: <Manual /> },
 ];
