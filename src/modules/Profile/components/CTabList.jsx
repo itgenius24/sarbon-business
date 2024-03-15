@@ -3,7 +3,7 @@ import { CustomLogOutTab } from "./CustomLogOutTab";
 import { Tab, TabList, Text } from "@chakra-ui/react";
 import { CTab } from "./CTab";
 
-export const CTabList = ({ list = [], onClick, tabIndex }) => {
+export const CTabList = ({ list = [], onClick = () => {}, tabIndex }) => {
   return (
     <TabList>
       {/* <MTab onClick={onClick} tab={list[0]} />
