@@ -25,7 +25,6 @@ export const useStagesProps = () => {
   const priceAfter = watch("price_after_order");
   const priceUnit = watch("price_prepayment_unit");
   const paymentType = watch("payment_type");
-  const paymentDeadline = watch("payment_deadline");
 
   const additionalDataContact = watch("contact");
 
@@ -55,8 +54,8 @@ export const useStagesProps = () => {
         else return "disabled";
       }
       case "payment": {
-        if((price && pricePrepayment && priceAfter && paymentType && paymentDeadline) || watch("bargain") === "request") return "done";
-        else if(price || pricePrepayment || priceAfter || paymentType || paymentDeadline) return "process";
+        if((price && pricePrepayment && priceAfter && paymentType) || watch("bargain") === "request") return "done";
+        else if(price || pricePrepayment || priceAfter || paymentType) return "process";
         else return "disabled";
       }
       case "contact": {

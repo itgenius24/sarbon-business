@@ -478,6 +478,7 @@ export const useAddCargoProps = ({ id, status }) => {
   }, [getMaps.data]);
 
   const data = getData();
+  console.log({ errors });
 
   return {
     register,
