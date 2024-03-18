@@ -1,6 +1,10 @@
+import { useCreateFeedback } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { formatDate } from "@/utils/isValidDate";
+import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export const useLoadsCardProps = ({
   order_status,
@@ -12,11 +16,14 @@ export const useLoadsCardProps = ({
   take_all_unloads,
   date,
   load_time,
-  indicate_status
+  indicate_status,
+  users_id_2
 }) => {
 
   const [isEstimateModalOpen, setIsEstimateModalOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(5);
+
+  const toast = useToast();
 
   const responseStatuses = {
     in_moderation: order_status,
@@ -70,6 +77,39 @@ export const useLoadsCardProps = ({
     },
   ];
 
+  const { register, handleSubmit } = useForm();
+
+  const createFeedback = useCreateFeedback({
+    onSuccess() {
+      toast({
+        title: "Ваш отзыв отправлен",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right"
+      });
+      handleCloseEstimateModal();
+    }
+  });
+
+  function onSubmit(data) {
+    const reviewStatus = Object.keys(data).filter(key => key.includes("driver_"));
+
+    createFeedback.mutate({
+      data: {
+        company_id: null,
+        grade: ratingValue,
+        rewiv: data.rewiv,
+        users_id: users_id_2,
+        review_status: reviewStatus.filter(key => data[key]),
+        users_id_2: authStore.userData.id,
+        status: [
+          "client"
+        ]
+      }
+    });
+  }
+
   function handleOpenEstimateModal(e) {
     e.stopPropagation();
     setIsEstimateModalOpen(true);
@@ -93,6 +133,9 @@ export const useLoadsCardProps = ({
     isEstimateModalOpen,
     ratingValue,
     handleClickRating,
+    handleSubmit,
+    onSubmit,
+    register
   };
 
 };

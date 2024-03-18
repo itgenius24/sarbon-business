@@ -42,7 +42,10 @@ export const Modal = ({
             {firstBtnText || "Закрыть"}
           </Button>
         }
-        <Button onClick={secondBtnCallback}>
+        <Button onClick={(e) => {
+          e.stopPropagation();
+          secondBtnCallback();
+        }}>
           {secondBtnText}
         </Button>
       </ModalFooter>

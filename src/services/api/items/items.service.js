@@ -11,6 +11,7 @@ const itemsService = {
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   updateResponse: (data) => request.put("/v2/items/response", data),
+  createFeedback: (data) => request.post("/v2/items/review", data),
 };
 
 export const useCreateAdMutation = (mutationSettings) => {
@@ -24,7 +25,7 @@ export const useUpadteUserInfo = (mutationSettings) => {
   });
 };
 
-export const useGetUserInfo = (id = '', settings) => {
+export const useGetUserInfo = (id = "", settings) => {
   return useQuery({
     queryKey: ["items/users/id", id],
     queryFn: () => itemsService.getUserInfo(id),
@@ -61,4 +62,8 @@ export const useUpdateCargo = (mutationSettings) => {
 
 export const useUpdateResponse = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateResponse(data), ...mutationSettings });
+};
+
+export const useCreateFeedback = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.createFeedback(data), ...mutationSettings });
 };

@@ -7,6 +7,7 @@ export const CustomTextarea = ({
   placeholder="Пишите здесь",
   name,
   className,
+  register = () => {},
   ...props
 }) => {
 
@@ -22,6 +23,7 @@ export const CustomTextarea = ({
       resize="none"
       name={name}
       placeholder={placeholder}
+      {...register(name)}
       {...props}
     />
     {

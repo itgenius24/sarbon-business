@@ -45,7 +45,10 @@ export const LoadsCard = ({
     handleCloseEstimateModal,
     isEstimateModalOpen,
     handleClickRating,
-    ratingValue
+    ratingValue,
+    handleSubmit,
+    register,
+    onSubmit
   } = useLoadsCardProps({
     order_status,
     provisions,
@@ -57,6 +60,7 @@ export const LoadsCard = ({
     date,
     load_time,
     indicate_status,
+    users_id_2,
   });
 
   return <div className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })} onClick={() => router.push(`/my-loads/${status}/${guid}`)}>
@@ -161,6 +165,7 @@ export const LoadsCard = ({
     <Modal
       isOpen={isEstimateModalOpen}
       onClose={handleCloseEstimateModal}
+      secondBtnCallback={handleSubmit(onSubmit)}
       title="Оцените водителя"
       secondBtnText="Готово"
       size="lg"
@@ -183,11 +188,57 @@ export const LoadsCard = ({
           width={"24px"}
           height={"24px"}
           iconSize={"16px"}
+          name="driver_1"
+          register={register}
+        />
+      </Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+        <span className={cls.text}>Вовремя получил груз</span>
+        <Checkbox
+          filled
+          width={"24px"}
+          height={"24px"}
+          iconSize={"16px"}
+          name="driver_2"
+          register={register}
+        />
+      </Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+        <span className={cls.text}>Вежливый</span>
+        <Checkbox
+          filled
+          width={"24px"}
+          height={"24px"}
+          iconSize={"16px"}
+          name="driver_3"
+          register={register}
+        />
+      </Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+        <span className={cls.text}>Не доставили груз вовремя</span>
+        <Checkbox
+          filled
+          width={"24px"}
+          height={"24px"}
+          iconSize={"16px"}
+          name="driver_4"
+          register={register}
+        />
+      </Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+        <span className={cls.text}>Не дисциплинированый</span>
+        <Checkbox
+          filled
+          width={"24px"}
+          height={"24px"}
+          iconSize={"16px"}
+          name="driver_5"
+          register={register}
         />
       </Box>
       <Box mt="24px">
         <span className={cls.text}>Комментарий</span>
-        <CustomTextarea className={cls.textarea} />
+        <CustomTextarea register={register} name="rewiv" className={cls.textarea} />
       </Box>
     </Modal>
   </div>;
