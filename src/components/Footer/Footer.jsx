@@ -18,7 +18,7 @@ export const Footer = () => {
     left: [
       {
         title: "Расчет расстояний",
-        link: "/",
+        link: "/distance-calculation",
       },
       {
         title: "Средние ставки",
