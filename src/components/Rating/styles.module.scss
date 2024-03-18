@@ -3,3 +3,11 @@
   display: flex;
   column-gap: 3px;
 }
+
+.star {
+  cursor: pointer;
+
+  & path {
+    transition: fill 0.3s ease;
+  }
+}

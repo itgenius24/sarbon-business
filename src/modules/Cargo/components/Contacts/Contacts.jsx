@@ -3,6 +3,7 @@ import { useAddCargoContext } from "../../providers";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import authStore from "@/store/auth.store";
 import { useGetStoreData } from "@/hooks/useGetStoreData";
+import { CustomTextarea } from "@/components/CustomTextarea";
 
 export const Contacts = () => {
 
@@ -36,8 +37,19 @@ export const Contacts = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Примечание</Heading>
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.</Text>
       </Box>
-
-      <Box display="flex" flexDirection="column" rowGap="6px" alignItems="flex-start" flexGrow={1}>
+      <CustomTextarea
+        disabled={!canEdit}
+        name={"note"}
+        watch={watch}
+        placeholder="Пишите здесь"
+        onChange={(e) => {
+          const value = e.target.value;
+          if(value.length <= 1000) {
+            setValue("note", value.replace(/\d/g, ""));
+          }
+        }}
+      />
+      {/* <Box display="flex" flexDirection="column" rowGap="6px" alignItems="flex-start" flexGrow={1}>
         <Textarea
           isDisabled={!canEdit}
           height="154px"
@@ -57,7 +69,7 @@ export const Contacts = () => {
           }}
         />
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{watch("note")?.length || 0}/1000</Text>
-      </Box>
+      </Box> */}
     </Box>
   </Box>;
 };

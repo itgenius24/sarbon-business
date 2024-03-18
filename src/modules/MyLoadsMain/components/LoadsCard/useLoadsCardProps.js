@@ -1,5 +1,6 @@
 import { formatDate } from "@/utils/isValidDate";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const useLoadsCardProps = ({
   order_status,
@@ -13,6 +14,9 @@ export const useLoadsCardProps = ({
   load_time,
   indicate_status
 }) => {
+
+  const [isEstimateModalOpen, setIsEstimateModalOpen] = useState(false);
+  const [ratingValue, setRatingValue] = useState(5);
 
   const responseStatuses = {
     in_moderation: order_status,
@@ -66,11 +70,29 @@ export const useLoadsCardProps = ({
     },
   ];
 
+  function handleOpenEstimateModal(e) {
+    e.stopPropagation();
+    setIsEstimateModalOpen(true);
+  }
+
+  function handleCloseEstimateModal() {
+    setIsEstimateModalOpen(false);
+  }
+
+  function handleClickRating(value) {
+    setRatingValue(value);
+  }
+
   return {
     list,
     router,
     isReversed,
-    status
+    status,
+    handleOpenEstimateModal,
+    handleCloseEstimateModal,
+    isEstimateModalOpen,
+    ratingValue,
+    handleClickRating,
   };
 
 };

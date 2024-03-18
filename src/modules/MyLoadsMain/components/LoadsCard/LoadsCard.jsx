@@ -3,10 +3,14 @@ import cls from "./styles.module.scss";
 import { DeleteIcon, TruckIcon } from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
 import { DataList } from "@/components/DataList";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { statuses } from "@/utils/constants";
 import { formatSum } from "@/utils/formatSum";
 import { useLoadsCardProps } from "./useLoadsCardProps";
+import { Modal } from "@/components/Modal";
+import { Rating } from "@/components/Rating";
+import { CustomTextarea } from "@/components/CustomTextarea";
+import { Checkbox } from "@/components/Checkbox";
 
 export const LoadsCard = ({
   guid,
@@ -36,7 +40,12 @@ export const LoadsCard = ({
     list,
     router,
     isReversed,
-    status
+    status,
+    handleOpenEstimateModal,
+    handleCloseEstimateModal,
+    isEstimateModalOpen,
+    handleClickRating,
+    ratingValue
   } = useLoadsCardProps({
     order_status,
     provisions,
@@ -136,5 +145,50 @@ export const LoadsCard = ({
         </LoadBtn>
       </div>
     }
+    {
+      status === "archive" && <div className={cls.cardBottom}>
+        <Button
+          onClick={handleOpenEstimateModal}
+          size="sm"
+          variant="secondary"
+          width="278px"
+          color="#000000"
+        >
+          Оценить водителя
+        </Button>
+      </div>
+    }
+    <Modal
+      isOpen={isEstimateModalOpen}
+      onClose={handleCloseEstimateModal}
+      title="Оцените водителя"
+      secondBtnText="Готово"
+      size="lg"
+      width="644px"
+      oneBtn
+      withCloseBtn
+    >
+      <Rating
+        className={cls.rating}
+        width="56"
+        height="56"
+        onClick={handleClickRating}
+        value={ratingValue}
+      />
+      <Heading mb="24px" size="sm">Что вам понравилось больше всего?</Heading>
+      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+        <span className={cls.text}>Хороший водитель</span>
+        <Checkbox
+          filled
+          width={"24px"}
+          height={"24px"}
+          iconSize={"16px"}
+        />
+      </Box>
+      <Box mt="24px">
+        <span className={cls.text}>Комментарий</span>
+        <CustomTextarea className={cls.textarea} />
+      </Box>
+    </Modal>
   </div>;
 };

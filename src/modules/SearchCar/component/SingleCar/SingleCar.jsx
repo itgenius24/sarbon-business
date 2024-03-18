@@ -72,17 +72,19 @@ export const SingleCar = ({ carInfo }) => {
     }
   });
 
-  const [body, setBody] = useState({});
-
   function handleOpenModal() {
-    setBody({ user_id: carInfo?.users_id });
     setIsOpen(true);
   }
 
   function handleOffer(id) {
     offerFromCustomer.mutate({
-      ...body,
-      guid: id
+      // ...body,
+      data: {
+        object_data: {
+          user_id: authStore.userData.id,
+          guid: id
+        }
+      }
     });
   }
 
@@ -126,9 +128,14 @@ export const SingleCar = ({ carInfo }) => {
                   cursor="pointer"
                 >
                   <CardBody p="20px">
-                    {item?.address_id_data?.name}
-                    -{">"}
-                    {item?.address_id_2_data?.name}
+                    <Box display="flex" alignItems="center" justifyContent="space-between">
+                      <Box>
+                        {item?.address_id_data?.name}
+                        {"->"}
+                        {item?.address_id_2_data?.name}
+                      </Box>
+                      <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>
+                    </Box>
                   </CardBody>
                 </Card>;
               })

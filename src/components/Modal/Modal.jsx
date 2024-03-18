@@ -6,6 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
   Button,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 
 export const Modal = ({
@@ -17,20 +18,30 @@ export const Modal = ({
   secondBtnText = "Сохранить",
   firstBtnCallback,
   secondBtnCallback = () => {},
+  oneBtn = false,
+  withCloseBtn,
+  width,
   ...props
 }) => {
 
   return <ChakraModal isOpen={isOpen} onClose={onClose} {...props}>
     <ModalOverlay />
-    <ModalContent>
-      <ModalHeader style={{ fontSize: "18px" }}>{title}</ModalHeader>
+    <ModalContent maxWidth={width}>
+      <ModalHeader style={{ fontSize: "18px" }}>
+        {title}
+        {
+          withCloseBtn && <ModalCloseButton />
+        }
+      </ModalHeader>
       <ModalBody>
         {children}
       </ModalBody>
       <ModalFooter>
-        <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose}>
-          {firstBtnText || "Закрыть"}
-        </Button>
+        {
+          !oneBtn && <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose}>
+            {firstBtnText || "Закрыть"}
+          </Button>
+        }
         <Button onClick={secondBtnCallback}>
           {secondBtnText}
         </Button>
