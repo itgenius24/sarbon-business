@@ -61,7 +61,7 @@ export const CargoForm = () => {
             register={register}
             width="134px"
             placeholder="Объем"
-            additionalItemPlaceholder={<span>м<sup>3</sup></span>}
+            additionalItemPlaceholder="m³"
             disabled={!canEdit}
             type="number"
             // additionalItemName="volume_unit"

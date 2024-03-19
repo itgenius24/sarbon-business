@@ -48,6 +48,7 @@ export const Contacts = () => {
             setValue("note", value.replace(/\d/g, ""));
           }
         }}
+        value={watch("note")}
       />
       {/* <Box display="flex" flexDirection="column" rowGap="6px" alignItems="flex-start" flexGrow={1}>
         <Textarea

@@ -417,8 +417,8 @@ export const useAddCargoProps = ({ id, status }) => {
           packaging_quantity: data.package_quantity,
           gps_monitoring: data.gps_monitoring,
           car_type: {
-            value: data.vehicle_id_data?.guid,
-            label: data.vehicle_id_data?.name,
+            value: data.vehicle_type_id_data?.guid,
+            label: data.vehicle_type_id_data?.name,
           },
           transport_count: data.number_of_cars,
           is_ftl: data.take_all_unloads ?? false,
@@ -426,7 +426,7 @@ export const useAddCargoProps = ({ id, status }) => {
           capacity: data.load_capacity ?? "",
           price: data.bid_cash,
           price_prepayment: data.prepayment_percentage,
-          price_after_order: data.payment_unloading ?? 0,
+          price_after_order: data?.dim_length_special ?? 0,
           price_prepayment_unit: {
             label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
             value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
@@ -439,6 +439,7 @@ export const useAddCargoProps = ({ id, status }) => {
             label: data?.map_id_data?.payment_type,
             value: data?.map_id_data?.guid,
           },
+          bargain: data.request ? "request" : data.negotiable ? "negotiable" : "no_haggling",
         });
       }
     }
@@ -478,7 +479,6 @@ export const useAddCargoProps = ({ id, status }) => {
   }, [getMaps.data]);
 
   const data = getData();
-  console.log({ errors });
 
   return {
     register,
@@ -515,6 +515,7 @@ export const useAddCargoProps = ({ id, status }) => {
     prepayment: data?.conditions,
     paymentAfterFinish: data?.bid_amount,
     driverComment: data?.cargo_id_data?.driver_comment,
+    permission: data?.permissions?.[0],
     handleResetForm,
   };
 };

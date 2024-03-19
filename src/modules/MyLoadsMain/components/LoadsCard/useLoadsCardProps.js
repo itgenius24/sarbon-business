@@ -1,3 +1,4 @@
+import { Rating } from "@/components/Rating";
 import { useCreateFeedback } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { formatDate } from "@/utils/isValidDate";
@@ -14,10 +15,12 @@ export const useLoadsCardProps = ({
   cargo_type_id_data,
   load_around_the_clock,
   take_all_unloads,
-  date,
   load_time,
   indicate_status,
-  users_id_2
+  users_id_2,
+  users_id_2_data,
+  driver_cash,
+  short_name,
 }) => {
 
   const [isEstimateModalOpen, setIsEstimateModalOpen] = useState(false);
@@ -52,8 +55,6 @@ export const useLoadsCardProps = ({
 
   const router = useRouter();
 
-  const isReversed = orderStatus === "" || orderStatus === "in_moderation";
-
   const list = [
     {
       title: status === "performed" ? "Статус: " : "Расстояние: ",
@@ -74,6 +75,25 @@ export const useLoadsCardProps = ({
     {
       title: "Время: ",
       value: formatDate(load_time, "dd.MM.yyyy"),
+    },
+  ];
+
+  const newStatusList = [
+    {
+      title: "Водитель: ",
+      value: users_id_2?.full_name || "не указан",
+    },
+    {
+      title: "Модель транспорта: ",
+      value: short_name || "не указан",
+    },
+    {
+      title: "Предлагаемая сумма: ",
+      value: driver_cash,
+    },
+    {
+      title: "Рейтинг водителя: ",
+      value: <Rating title={users_id_2_data?.rating} value={users_id_2_data?.rating} />,
     },
   ];
 
@@ -125,8 +145,8 @@ export const useLoadsCardProps = ({
 
   return {
     list,
+    newStatusList,
     router,
-    isReversed,
     status,
     handleOpenEstimateModal,
     handleCloseEstimateModal,

@@ -34,12 +34,18 @@ export const LoadsCard = ({
   moderator_comment,
   indicate_status,
   users_id_2,
+  users_id_2_data,
+  currency_id_data,
+  request,
+  no_haggling,
+  driver_cash,
+  short_name,
 }) => {
 
   const {
     list,
+    newStatusList,
     router,
-    isReversed,
     status,
     handleOpenEstimateModal,
     handleCloseEstimateModal,
@@ -61,13 +67,16 @@ export const LoadsCard = ({
     load_time,
     indicate_status,
     users_id_2,
+    users_id_2_data,
+    driver_cash,
+    short_name,
   });
 
   return <div className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })} onClick={() => router.push(`/my-loads/${status}/${guid}`)}>
     <div className={cls.cardTop}>
       <div className={cls.cardTopContent}>
         <h2 className={cls.address}>
-          <span className={cls.addressText}>{isReversed ? address_id_data?.name : address_id_2_data?.name} -&gt; {isReversed ? address_id_2_data?.name : address_id_data?.name}</span>
+          <span className={cls.addressText}>{address_id_data?.name} -&gt; {address_id_2_data?.name}</span>
           <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
         </h2>
         <span className={cls.distance}>724 км</span>
@@ -75,15 +84,19 @@ export const LoadsCard = ({
       <div className={cls.paymentInfo}>
         <div className={cls.paymentInfoContent}>
           <span className={cls.paymentInfoText}>
-            {formatSum.format(bid_cash)} UZS
+            {formatSum(currency_id_data.code, bid_cash)}
           </span>
           <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span>
         </div>
-        <span className={cls.paymentInfoComment}>Возможен торг</span>
+        <span className={cls.paymentInfoComment}>
+          {
+            request ? "Запросить" : no_haggling ? "Без торг" : "Возможен торг"
+          }
+        </span>
       </div>
     </div>
     <Box borderBottom="1px solid" borderColor="brand.200">
-      <DataList list={list} />
+      <DataList list={status === "new" ? newStatusList : list} />
       {
         status === "rejected" && <p className={cls.moderatorComment}>
           <span className={cls.moderatorCommentTitle}>Причина отказа модерации:</span>

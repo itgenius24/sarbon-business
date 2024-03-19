@@ -12,7 +12,6 @@ export const useStagesProps = () => {
   const cargoWeightUnit = watch("weight_unit");
   const cargoType = watch("cargo_type");
   const volumeMeasurement = watch("volume_measurement");
-  const volumeMeasurementUnit = watch("volume_unit");
 
   const loadings = watch("loadings[0]");
   const unloading = watch("unloading[0]");
@@ -84,7 +83,7 @@ export const useStagesProps = () => {
       title: "Груз",
       status: cargoStatus,
       subtitle: cargoStatus === "done"
-        ? `${cargoType?.label} ${cargoWeight} ${cargoWeightUnit?.label} ${volumeMeasurement} ${volumeMeasurementUnit?.label}`
+        ? `${cargoType?.label} ${cargoWeight} ${cargoWeightUnit?.label} ${volumeMeasurement} m³`
         : "не заполнено"
     },
     {

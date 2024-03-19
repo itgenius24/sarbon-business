@@ -21,6 +21,7 @@ export const DistanceCalculation = () => {
     onAdditionalAddressChange,
     distanceParameters,
     watch,
+    handleCalculate
   } = useDistanceCalculationProps();
 
   return <Container py="40px">
@@ -53,7 +54,7 @@ export const DistanceCalculation = () => {
         }
         <TextField register={register} name="to" label="Куда" placeholder="Введите город, страну" />
       </Box>
-      <Button width="253px" mt="20px">Рассчитать расстояние</Button>
+      <Button width="253px" mt="20px" onClick={handleCalculate}>Рассчитать расстояние</Button>
     </Box>
     <div className={cls.map} id="map" style={{ width: "100%", height: "500px" }}>
       {

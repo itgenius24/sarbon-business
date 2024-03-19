@@ -32,14 +32,27 @@ export const useDistanceCalculationProps = () => {
   }
 
   const multiRouteRef = useRef(null);
+  const mapRef = useRef(null);
 
-  useEffect(() => {
+  // useEffect(() => {
+
+  // }, [locationNames, watch("from"), watch("to")]);
+
+  function handleCalculate () {
     const multiRoute = multiRouteRef.current;
     if(multiRoute) {
       const intervalLocations = locationNames.filter(item => item !== "");
       multiRoute.model.setReferencePoints([watch("from"), ...intervalLocations, watch("to")]);
+      console.log(multiRoute.getWayPoints());
+      const locations = [watch("from"), ...locationNames, watch("to")];
+      locations.forEach((item, index) => {
+        console.log(multiRoute.getWayPoints().get(index).properties.getAll());
+      });
+      // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
+      // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
+
     }
-  }, [locationNames, watch("from"), watch("to")]);
+  }
 
   function initYmaps() {
     /**
@@ -72,6 +85,7 @@ export const useDistanceCalculationProps = () => {
     // Adding a multiroute to the map.
     myMap.geoObjects.add(multiRoute);
 
+    mapRef.current = myMap;
     multiRouteRef.current = multiRoute;
   }
 
@@ -84,5 +98,6 @@ export const useDistanceCalculationProps = () => {
     onAdditionalAddressChange,
     distanceParameters,
     watch,
+    handleCalculate
   };
 };

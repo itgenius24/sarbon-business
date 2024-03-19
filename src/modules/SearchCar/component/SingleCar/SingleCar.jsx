@@ -30,7 +30,7 @@ export const SingleCar = ({ carInfo }) => {
   const newList = [
     {
       title: "Транспорт",
-      value: "",
+      value: carInfo?.short_name,
     },
     {
       title: "Разрешение:",
@@ -72,23 +72,23 @@ export const SingleCar = ({ carInfo }) => {
     }
   });
 
+  const [body, setBody] = useState({});
+
   function handleOpenModal() {
     setIsOpen(true);
+    setBody({ user_id: carInfo?.users_id });
   }
 
   function handleOffer(id) {
     offerFromCustomer.mutate({
-      // ...body,
       data: {
         object_data: {
-          user_id: authStore.userData.id,
+          user_id: body.user_id,
           guid: id
         }
       }
     });
   }
-
-  console.log(getAllUserCargo.data?.response);
 
   return (
     <div className={cls.loadsCard}>
