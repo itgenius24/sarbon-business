@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-export const isValidDate = (date, dateFormat = "dd.MM.yyyy") => {
+export const formatDate = (date, dateFormat = "dd.MM.yyyy") => {
   let isValid = true;
   try {
     format(date, dateFormat);
@@ -8,5 +8,5 @@ export const isValidDate = (date, dateFormat = "dd.MM.yyyy") => {
     isValid = false;
   }
 
-  return isValid;
+  return isValid ? format(date, dateFormat) : "";
 };

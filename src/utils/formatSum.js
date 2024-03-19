@@ -1,5 +1,5 @@
 export const formatSum = (code, value) => {
-  const format = new Intl.NumberFormat("uz-UZ", {
+  const format = new Intl.NumberFormat("de-DE", {
     style: "currency",
     // minimumFractionDigits: 3,
     // maximumFractionDigits: 3,

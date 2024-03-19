@@ -46,6 +46,7 @@ export const Cargo = ({ id, status }) => {
         paymentAfterFinish={addCargoProps.paymentAfterFinish}
         driverComment={addCargoProps.driverComment}
         permission={addCargoProps.permission}
+        currency={addCargoProps.currency}
       />;
     }
 

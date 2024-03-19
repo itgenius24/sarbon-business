@@ -16,6 +16,7 @@ export const TopContent = ({
   driverComment,
   status,
   permission,
+  currency,
 }) => {
 
   const [showNumber, setShowNumber] = useState(false);
@@ -31,7 +32,7 @@ export const TopContent = ({
     },
     {
       title: "Предлагаемая сумма: ",
-      value: proposedAmount,
+      value: proposedAmount + " " + currency,
     },
     {
       title: "Рейтинг водителя: ",
@@ -39,11 +40,11 @@ export const TopContent = ({
     },
     {
       title: "Предоплата: ",
-      value: `${prepayment} ${permission === "in_percentages" ? "%" : ""}`,
+      value: `${prepayment} ${permission === "in_percentages" ? "%" : currency}`,
     },
     {
       title: "Оплата после завершения: ",
-      value: `${paymentAfterFinish} ${permission === "in_percentages" ? "%" : ""}`,
+      value: `${paymentAfterFinish} ${permission === "in_percentages" ? "%" : currency}`,
     },
     {
       title: "Комментария водителя: ",

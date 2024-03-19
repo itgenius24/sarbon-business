@@ -86,7 +86,7 @@ export const LoadsCard = ({
           <span className={cls.paymentInfoText}>
             {formatSum(currency_id_data.code, bid_cash)}
           </span>
-          <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span>
+          {/* <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span> */}
         </div>
         <span className={cls.paymentInfoComment}>
           {

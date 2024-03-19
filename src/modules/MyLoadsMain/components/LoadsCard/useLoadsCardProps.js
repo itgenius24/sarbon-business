@@ -1,7 +1,7 @@
 import { Rating } from "@/components/Rating";
 import { useCreateFeedback } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { formatDate } from "@/utils/isValidDate";
+import { formatDate } from "@/utils/formatDate";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -81,7 +81,7 @@ export const useLoadsCardProps = ({
   const newStatusList = [
     {
       title: "Водитель: ",
-      value: users_id_2?.full_name || "не указан",
+      value: users_id_2_data?.full_name || "не указан",
     },
     {
       title: "Модель транспорта: ",
