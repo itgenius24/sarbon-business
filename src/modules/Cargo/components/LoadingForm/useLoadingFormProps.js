@@ -48,7 +48,7 @@ export const useLoadingFormProps = () => {
         value: ""
       },
       address: "",
-      cor: []
+      cor: "",
     });
   }
 
@@ -62,7 +62,8 @@ export const useLoadingFormProps = () => {
         label: "",
         value: ""
       },
-      address: ""
+      address: "",
+      cor: "",
     });
   }
 
@@ -132,7 +133,7 @@ export const useLoadingFormProps = () => {
       updateLoading(formAddressName?.index, {
         location: watch(`loadings.${formAddressName?.index}.location`),
         address: watch(`loadings.${formAddressName?.index}.address`),
-        cor: coordinates
+        cor: coordinates.join(",")
       });
 
     } else {
@@ -140,7 +141,7 @@ export const useLoadingFormProps = () => {
       updateUnloading(formAddressName?.index, {
         location: watch(`unloading.${formAddressName?.index}.location`),
         address: watch(`unloading.${formAddressName?.index}.address`),
-        cor: coordinates
+        cor: coordinates.join(",")
       });
 
     }

@@ -96,7 +96,7 @@ export const useAddCargoProps = ({ id, status }) => {
             label: ""
           },
           address: "",
-          cor: [],
+          cor: "",
         }
       ],
       unloading: [
@@ -106,7 +106,7 @@ export const useAddCargoProps = ({ id, status }) => {
             label: ""
           },
           address: "",
-          cor: [],
+          cor: "",
         }
       ]
     }
@@ -178,13 +178,26 @@ export const useAddCargoProps = ({ id, status }) => {
 
   const createCargo = useCreateCargoMutation({
     onSuccess(data) {
-      const name = getValues("loadings").map(item => item.address).concat(getValues("unloading").map(item => item.address));
-      const cor = getValues("loadings").map(item => item.cor).concat(getValues("unloading").map(item => item.cor)).join(",").split(",");
+
+      let loadingsData = [];
+      let unloading = [];
+
+      getValues("loadings").forEach(item => {
+        if(item.address && item.cor) {
+          loadingsData.push(item.address, ...item.cor.split(","));
+        }
+      });
+
+      getValues("unloading").forEach(item => {
+        if(item.address && item.cor) {
+          unloading.push(item.address, ...item.cor.split(","));
+        }
+      });
+
       createAddress.mutate({
         data:{
           object_data:{
-            name,
-            cor,
+            name: loadingsData.concat(unloading),
             cargo_id: data?.data?.guid
           }
         }
@@ -503,7 +516,7 @@ export const useAddCargoProps = ({ id, status }) => {
     phoneNumber: data?.users_id_2_data?.phone,
     rating: data?.users_id_2_data?.rating,
     proposedAmount: data?.driver_cash,
-    transportModel: data?.vehicle_id_data?.name,
+    transportModel: data?.short_name,
     canEdit,
     handleEditToggle,
     isDirty,

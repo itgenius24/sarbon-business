@@ -126,19 +126,9 @@ export const LoadsCard = ({
         </Button>
       </Box>
     }
-    {
-      status === "in_moderation" && <div className={cls.cardBottom}>
-        <LoadBtn
-          icon={<DeleteIcon color="#F04438" />}
-          type="delete"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDelete(guid);
-          }}
-        >
-          Удалить
-        </LoadBtn>
-        <LoadBtn
+    <div className={cls.cardBottom}>
+      {
+        status === "active" && <LoadBtn
           onClick={(e) => {
             e.stopPropagation();
             const query = new URLSearchParams({
@@ -160,8 +150,20 @@ export const LoadsCard = ({
         >
           Поиск машин
         </LoadBtn>
-      </div>
-    }
+      }
+      {
+        status === "in_moderation" && <LoadBtn
+          icon={<DeleteIcon color="#F04438" />}
+          type="delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete(guid);
+          }}
+        >
+          Удалить
+        </LoadBtn>
+      }
+    </div>
     {
       status === "archive" && <div className={cls.cardBottom}>
         <Button

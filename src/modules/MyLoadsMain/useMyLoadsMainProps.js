@@ -71,6 +71,13 @@ export const useMyLoadsMainProps = () => {
           getOfferCargo.refetch();
         }
       }, 800);
+      toast({
+        position: "top-right",
+        title: "Груз успешно удален",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     },
     onError(res) {
       console.error(res);

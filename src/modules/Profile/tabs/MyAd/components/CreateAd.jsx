@@ -14,6 +14,7 @@ const CreateAd = ({
   currencyOptions,
   handleImageUpload,
   rules,
+  addressOptions,
 }) => {
   return (
     <div>
@@ -25,11 +26,10 @@ const CreateAd = ({
           register={register}
           watch={watch}
           name="vehicle_type_id"
-          placeholder="Выберите город, страну"
+          placeholder="Выберите тип ТС"
           options={TCOptions}
           errors={errors}
         />
-
         <TextField
           placeholder="Марка"
           register={register}
@@ -39,7 +39,19 @@ const CreateAd = ({
           rules={rules}
         />
       </Flex>
-
+      <Box mt="24px">
+        <Dropdown
+          label="Выберите город, страну"
+          control={control}
+          required
+          register={register}
+          watch={watch}
+          name="address"
+          placeholder="Выберите город, страну"
+          options={addressOptions}
+          errors={errors}
+        />
+      </Box>
       <Box mt="24px">
         <TextField
           placeholder="Введите"

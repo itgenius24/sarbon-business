@@ -5,7 +5,7 @@ import CarCard from "@/modules/Profile/components/CarCard";
 import { NoAdFound } from "./NoAdFound";
 
 export const AdList = ({
-  list = fakeData,
+  list,
   handleNoData = () => {},
   isLoading,
   changeTabState,
@@ -35,7 +35,13 @@ export const AdList = ({
             </SimpleGrid>
           )}
 
-          {!list?.length && <NoAdFound handleNoData={handleNoData} />}
+          {
+            !list?.length
+              ? <NoAdFound handleNoData={handleNoData} />
+              : <Button onClick={handleNoData} type="button" maxW="320px" mt="24px">
+                  Добавить публикацию
+              </Button>
+          }
         </>
       )}
     </Box>
@@ -53,37 +59,3 @@ export const filterTabs = [
   },
 ];
 
-const fakeData = [
-  {
-    title: "Krone SD SX3258",
-    price: "30 000 ТЫС.  $",
-    type: "Самосвал",
-    city: "Ташкент",
-    photo:
-      "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg",
-  },
-  {
-    title: "DJR Kal0150",
-    mileage: "1 200 км",
-    type: "Самосвал",
-    city: "Ташкент",
-    photo:
-      "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg",
-  },
-  {
-    title: "DJR Kal0150 (2)",
-    mileage: "1 200 км",
-    type: "Самосвал",
-    city: "Ташкент",
-    photo:
-      "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg",
-  },
-  {
-    title: "Krone SD SX3258 (2)",
-    price: "30 000 ТЫС.  $",
-    type: "Самосвал",
-    city: "Ташкент",
-    photo:
-      "https://media.newyorker.com/photos/61a5800b07516aaf7967f1ee/master/pass/Monroe-OldTrucksNewMoney.jpg",
-  },
-];

@@ -1,5 +1,5 @@
 
-import { useCreateAdMutation, useGetCarType, useGetCarsOnSale, useGetCurrency } from "@/services/api";
+import { useCreateAdMutation, useGetAddress, useGetCarType, useGetCarsOnSale, useGetCurrency } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
 import { useToast } from "@chakra-ui/react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -98,6 +98,8 @@ export const useMyAd = () => {
     });
   };
 
+  const getAddress = useGetAddress();
+
   const createAd = useCreateAdMutation({
     onSuccess(data) {
       displayFormSuccessInfo(data?.data?.name);
@@ -125,6 +127,7 @@ export const useMyAd = () => {
         status: ["active"],
         users_id: id,
         made_date: new Date(),
+        address_id: data.address.value,
       },
     };
 
@@ -148,13 +151,14 @@ export const useMyAd = () => {
       currencyOptions,
       handleImageUpload,
       rules,
+      addressOptions: getAddress.data?.response?.map((el) => ({ label: el?.name, value: el?.guid })),
     };
   };
 
   const getAdListProps=()=> {
     return {
       changeTabState,
-      list:carsList
+      list: carsList,
     };
   };
 
@@ -166,6 +170,9 @@ export const useMyAd = () => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    setTabState("publish");
+  }, [create]);
 
   return {
     onsubmit,
