@@ -160,17 +160,6 @@ export const useAddCargoProps = ({ id, status }) => {
   });
 
   const createAddress = useCreateAddressMutation({
-    onSuccess(){
-      setLoading(false);
-      toast({
-        position: "top-right",
-        title: "Груз успешно создан",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-      router.back();
-    },
     onError(){
       setLoading(false);
     }
@@ -194,14 +183,29 @@ export const useAddCargoProps = ({ id, status }) => {
         }
       });
 
-      createAddress.mutate({
-        data:{
-          object_data:{
-            name: loadingsData.concat(unloading),
-            cargo_id: data?.data?.guid
+      createAddress.mutate(
+        {
+          data:{
+            object_data:{
+              name: loadingsData.concat(unloading),
+              cargo_id: data?.data?.guid
+            }
+          }
+        },
+        {
+          onSuccess() {
+            setLoading(false);
+            toast({
+              position: "top-right",
+              title: "Груз успешно создан",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+            router.back();
           }
         }
-      });
+      );
     },
     onError() {
       setLoading(false);
@@ -210,18 +214,56 @@ export const useAddCargoProps = ({ id, status }) => {
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
-      const name = getValues("loadings").map(item => item.address).concat(getValues("unloading").map(item => item.address));
-      const cor = [getValues("loadings").map(item => item.cor).join(","), getValues("unloading").map(item => item.cor).join(",")];
-      setLoading(false);
-      createAddress.mutate({
-        data:{
-          object_data:{
-            name,
-            cor,
-            cargo_id: data.guid
+      let loadingsData = [];
+      let unloading = [];
+
+
+      getValues("loadings").forEach(item => {
+        if(item.address && item.cor) {
+          const cor = item.cor;
+          if(Array.isArray(cor)) {
+            loadingsData.push(item.address, cor[0]?.toString(), cor[1]?.toString());
+          } else {
+            loadingsData.push(item.address, ...item.cor.split(","));
           }
         }
       });
+
+      getValues("unloading").forEach(item => {
+        if(item.address && item.cor) {
+          const cor = item.cor;
+          if(Array.isArray(cor)) {
+            unloading.push(item.address, cor[0]?.toString(), cor[1]?.toString());
+          } else {
+            unloading.push(item.address, ...item.cor.split(","));
+          }
+        }
+      });
+
+      createAddress.mutate(
+        {
+          data:{
+            object_data:{
+              name: loadingsData.concat(unloading),
+              cargo_id: data?.data?.guid
+            }
+          }
+        },
+        {
+          onSuccess() {
+            setLoading(false);
+            toast({
+              position: "top-right",
+              title: "Груз успешно обновлен",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+            router.back();
+          }
+        }
+      );
+      setLoading(false);
     },
     onError() {
       setLoading(false);

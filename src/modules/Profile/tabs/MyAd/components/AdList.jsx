@@ -10,6 +10,8 @@ export const AdList = ({
   isLoading,
   changeTabState,
 }) => {
+
+  console.log(list);
   return (
     <Box minH="250px">
       <TopFilter
