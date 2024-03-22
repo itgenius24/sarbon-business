@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 const itemsService = {
   createAd: (data) => request.post("/v2/items/car_sale", data),
+  updateAd: (data) => request.put("/v2/items/car_sale", data),
   updateUserInfo: (data) => request.put("/v2/items/users", data),
   getUserInfo: (id) => request.get(`/v2/items/users/${id}`),
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
@@ -18,7 +19,11 @@ export const useCreateAdMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createAd(data), ...mutationSettings });
 };
 
-export const useUpadteUserInfo = (mutationSettings) => {
+export const useUpdateAdMutation = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateAd(data), ...mutationSettings });
+};
+
+export const useUpdateUserInfo = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.updateUserInfo(data),
     ...mutationSettings,

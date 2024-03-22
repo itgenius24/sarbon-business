@@ -78,7 +78,7 @@ export const Footer = () => {
               {data.left.map((item) => {
                 return (
                   <li className={cls.infoItem} key={item.title}>
-                    <Link className={cls.infoLink} href="/">
+                    <Link className={cls.infoLink} href={item.link}>
                       {item.title}
                     </Link>
                   </li>

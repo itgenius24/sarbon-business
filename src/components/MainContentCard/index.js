@@ -1,0 +1,1 @@
+export { MainContentCard } from "./MainContentCard";

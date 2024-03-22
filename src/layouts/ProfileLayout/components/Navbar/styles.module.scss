@@ -1,0 +1,15 @@
+.link {
+  display: flex;
+  column-gap: 10px;
+  padding: 14px 16px;
+  background: white;
+  color: var(--chakra-colors-icon-base);
+
+  &:hover {
+    background: var(--chakra-colors-brand-50);
+  }
+}
+
+.link.active {
+  background: var(--chakra-colors-brand-50);
+}

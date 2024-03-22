@@ -1,6 +1,11 @@
-import { Profile } from "@/modules/Profile";
+"use client";
 
-//
-export default function ProfilePage() {
-  return <div>profile</div>;
+import { ProfileLayout } from "@/layouts/ProfileLayout";
+import { PersonalInfo } from "@/modules/PersonalInfo";
+
+export default function Profile() {
+
+  return <ProfileLayout>
+    <PersonalInfo />
+  </ProfileLayout>;
 }
