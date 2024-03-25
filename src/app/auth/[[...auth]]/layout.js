@@ -1,7 +1,7 @@
 "use client";
 
 import { Box } from "@chakra-ui/react";
-import { InfoBox } from "../_components/InfoBox";
+import { InfoBox } from "../(components)/InfoBox";
 import React from "react";
 
 export default function AuthLayout({ children }) {

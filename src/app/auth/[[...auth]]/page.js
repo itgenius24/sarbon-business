@@ -1,9 +1,9 @@
 "use client";
 
-import { Login } from "../_components/Login";
-import { Registration } from "../_components/Registration";
-import { RegistrationForm } from "../_components/RegistrationForm";
-import { Otp } from "../_components/Otp";
+import { Login } from "../(components)/Login";
+import { Registration } from "../(components)/Registration";
+import { RegistrationForm } from "../(components)/RegistrationForm";
+import { Otp } from "../(components)/Otp";
 
 export default function Auth({ params }) {
   const path = params.auth?.[0];
