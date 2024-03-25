@@ -527,6 +527,8 @@ export const useAddCargoProps = ({ id, status }) => {
         item.address = reversedData?.[index]?.name;
       });
 
+      unloadingRef.current.push(unloadingRef.current.shift());
+
       setValue("loadings", loadingsRef.current);
       setValue("unloading", unloadingRef.current);
     }

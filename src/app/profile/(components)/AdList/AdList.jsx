@@ -1,9 +1,9 @@
 import { Box, Button, SimpleGrid } from "@chakra-ui/react";
 import { SkeletonComp } from "@/components/Skeleton";
 import { TopFilter } from "@/components/TopFilter";
-import CarCard from "@/modules/Profile/components/CarCard";
 import { NoAdFound } from "../NoAdFound";
 import Link from "next/link";
+import CarCard from "../CarCard";
 
 export const AdList = ({
   list,

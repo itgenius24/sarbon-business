@@ -41,6 +41,7 @@ request.interceptors.request.use((config) => {
 });
 
 request.interceptors.response.use((response) => {
+  if (response?.data?.data?.data?.data) return response.data.data.data.data;
   if (response?.data?.data?.data) return response.data.data.data;
   else if(response?.data?.data) return response.data.data;
   else return response.data || response;

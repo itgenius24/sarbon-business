@@ -9,7 +9,6 @@ import {
   SimpleGrid,
   Spacer,
   Stack,
-  Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -18,6 +17,7 @@ import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 const limit = 6;
+
 export const News = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -43,15 +43,12 @@ export const News = () => {
         order: {},
         view_fields: [],
         search: "",
-        undefined: "",
+        // undefined: "",
       }),
     },
     {
       select: (res) => {
         return res;
-        // if (res.count && res.count !== pageLength) {
-        //   setPageLength(res.count);
-        // }
       },
     }
   );
@@ -134,40 +131,37 @@ const NewsList = ({ news = [], page }) => {
 const NewsCard = ({ data = {} }) => {
   const searchParams = useSearchParams();
   const fromPage = searchParams.get("page") || "1";
-  return (
-    <>
-      <Link href={`news/${data.guid}?page=${fromPage}`}>
-        <Box>
-          <Box borderRadius={10} overflow="hidden" maxW="max-content">
-            <Image
-              style={{ aspectRatio: "384 / 280", objectFit:"cover" }}
-              width={384}
-              height={280}
-              src={data.news_photo}
-              alt={data.title}
-            />
-          </Box>
-          <Heading
-            fontSize={24}
-            lineHeight="32px"
-            noOfLines={1}
-            m="24px 0 8px"
-            {...(!data.title ? { color: "transparent" } : {})}
-          >
-            {data.title || "!"}
-          </Heading>
-          <Box
-            color="brand.600"
-            fontWeight={500}
-            noOfLines={2}
-            {...(!data.comment ? { color: "transparent" } : {})}
-          >
-            <div dangerouslySetInnerHTML={{ __html: data.comment || lorem }} />
-          </Box>
-        </Box>
-      </Link>
-    </>
-  );
+
+  return <Link href={`news/${data.guid}?page=${fromPage}`}>
+    <Box>
+      <Box borderRadius={10} overflow="hidden" maxW="max-content">
+        <Image
+          style={{ aspectRatio: "384 / 280", objectFit:"cover" }}
+          width={384}
+          height={280}
+          src={data.news_photo}
+          alt={data.title}
+        />
+      </Box>
+      <Heading
+        fontSize={24}
+        lineHeight="32px"
+        noOfLines={1}
+        m="24px 0 8px"
+        {...(!data.title ? { color: "transparent" } : {})}
+      >
+        {data.title || "!"}
+      </Heading>
+      <Box
+        color="brand.600"
+        fontWeight={500}
+        noOfLines={2}
+        {...(!data.comment ? { color: "transparent" } : {})}
+      >
+        <div dangerouslySetInnerHTML={{ __html: data.comment || lorem }} />
+      </Box>
+    </Box>
+  </Link>;
 };
 
 const lorem =

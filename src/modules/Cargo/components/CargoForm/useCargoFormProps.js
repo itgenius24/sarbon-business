@@ -5,8 +5,8 @@ import { useGetCargoType, useGetMeasurement, useGetPackage } from "@/services/ap
 export const useCargoFormProps = () => {
   const { control, errors, register, setValue, watch, canEdit } = useAddCargoContext();
 
-  const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
-  const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
+  const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(!canEdit);
+  const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(!canEdit);
 
 
   const getCargoTypes = useGetCargoType();

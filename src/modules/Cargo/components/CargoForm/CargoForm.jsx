@@ -96,7 +96,7 @@ export const CargoForm = () => {
     </Box>
     {
       isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px" key="packaging">
-        <Button disabled={!canEdit} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
+        <Button disabled={!canEdit} visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
         <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
             errors={errors}
@@ -128,7 +128,7 @@ export const CargoForm = () => {
     }
     {
       isDimensionsAndDiameter && <Box display="flex" alignItems="flex-start" mt="24px" key="dimensions">
-        <Button variant="reset" onClick={handleDimensionsAndDiameter} color="brand.700" leftIcon={<DeleteIcon />}>Габариты и диаметр</Button>
+        <Button visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handleDimensionsAndDiameter} color="brand.700" leftIcon={<DeleteIcon />}>Габариты и диаметр</Button>
         <Box display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition

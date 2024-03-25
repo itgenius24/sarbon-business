@@ -32,15 +32,15 @@ export const Footer = () => {
     center: [
       {
         title: "О системе Logistics",
-        link: "/",
+        link: "/about-us",
       },
       {
         title: "Контактная информация",
-        link: "/",
+        link: "/contact",
       },
       {
         title: "Реклама на сайте",
-        link: "/",
+        link: "/advertising",
       },
       {
         title: "Тарифы",
@@ -54,7 +54,7 @@ export const Footer = () => {
       },
       {
         title: "Политика конфиденциальности",
-        link: "/",
+        link: "/privacy-policy",
       },
       {
         title: "Карта сайта",
