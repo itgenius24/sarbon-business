@@ -26,7 +26,7 @@ const Header = observer(({ elements }) => {
   }, [authStore.getIsAuth]);
 
   const goToProfile=()=>{
-    router.push(`/profile/${authStore.userData.id}`);
+    router.push("/profile");
   };
 
   const userData = useGetUserInfoHook();
