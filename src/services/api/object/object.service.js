@@ -19,6 +19,8 @@ const objectService = {
   getOffer: (params) => request.get("/v2/object-slim/get-list/response", { params }),
   getCargoById: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
   getMaps: (params) => request.get("/v2/object-slim/get-list/period", { params }),
+  getDirectory: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
+  getPartners: (params) => request.get("/v2/object-slim/get-list/partners_company", { params }),
 };
 
 
@@ -169,6 +171,22 @@ export const useGetMaps = (params, settings) => {
   return useQuery({
     queryKey: ["object/getMaps", params],
     queryFn: () => objectService.getMaps(params),
+    ...settings,
+  });
+};
+
+export const useGetDirectory = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getDirectory", params],
+    queryFn: () => objectService.getDirectory(params),
+    ...settings,
+  });
+};
+
+export const useGetPartnersCompany = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getPartners", params],
+    queryFn: () => objectService.getPartners(params),
     ...settings,
   });
 };

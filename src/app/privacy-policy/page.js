@@ -1,24 +1,21 @@
+"use client";
+
 import { BreadCrumb } from "@/components/BreadCrumb";
 import { Container } from "@/components/Container";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Text } from "@chakra-ui/react";
+import { usePrivacyPolicyProps } from "./usePrivacyPolicyProps";
 
 export default function PrivacyPolicyPage() {
-
-  const crumbs = [
-    {
-      title: "Главная",
-      href: "/",
-    },
-    { title: "Политика конфиденциальности", },
-  ];
-
-  const privacyPolicy = "<p>Политика конфиденциальности</p>";
+  const { directory, crumbs } = usePrivacyPolicyProps();
 
   return <Container mt="50px">
     <BreadCrumb crumbs={crumbs} />
-    <Heading fontSize={48} lineHeight="60px" mb="24px">
-      Политика конфиденциальности
-    </Heading>
-    <div dangerouslySetInnerHTML={{ __html: privacyPolicy }} />
+    <Heading fontSize={48} lineHeight="60px" mb="24px" ML={{ __html: directory?.question }} />
+    <Text fontWeight="400"
+      fontSize="20px"
+      lineHeight="30px"
+      color="brand.600"
+      dangerouslySetInnerHTML={{ __html: directory?.answear }}
+    />
   </Container>;
 }

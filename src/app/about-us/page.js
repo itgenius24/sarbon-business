@@ -1,25 +1,43 @@
+"use client";
+
 import { BreadCrumb } from "@/components/BreadCrumb";
 import { Container } from "@/components/Container";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Text } from "@chakra-ui/react";
 import { DigitalFacts } from "./(components)/DigitalFacts";
 import { Partners } from "./(components)/Partners";
+import { useAboutUsProps } from "./useAboutUsProps";
+import Image from "next/image";
 
 export default function AboutUsPage() {
 
-  const crumbs = [
-    {
-      title: "Главная",
-      href: "/",
-    },
-    { title: "О системе Logistics", },
-  ];
+  const { directory, crumbs, partners } = useAboutUsProps();
 
   return <Container mt="50px">
     <BreadCrumb crumbs={crumbs} />
     <Heading fontSize="36px" lineHeight="44px" mb="24px">
       О системе Logistics
     </Heading>
-    <DigitalFacts />
-    <Partners />
+    <Text
+      fontWeight="400"
+      fontSize="20px"
+      lineHeight="30px"
+      color="brand.600"
+      dangerouslySetInnerHTML={{ __html: directory?.question }}
+    />
+    <Image alt="" src={directory?.photo} width="907" height="128" />
+    <Text
+      mt="64px"
+      fontWeight="400"
+      fontSize="20px"
+      lineHeight="30px"
+      color="brand.600"
+      dangerouslySetInnerHTML={{ __html: directory?.answear }}
+    />
+    <DigitalFacts
+      completed={directory?.projects_completed}
+      downloads={directory?.global_downloads}
+      investment={directory?.return_on_investment}
+    />
+    <Partners partners={partners} />
   </Container>;
 }
