@@ -188,7 +188,7 @@ export const useAddCargoProps = ({ id, status }) => {
           data:{
             object_data:{
               name: loadingsData.concat(unloading),
-              cargo_id: data?.data?.guid
+              cargo_id: data?.guid
             }
           }
         },
@@ -245,7 +245,7 @@ export const useAddCargoProps = ({ id, status }) => {
           data:{
             object_data:{
               name: loadingsData.concat(unloading),
-              cargo_id: data?.data?.guid
+              cargo_id: data?.guid
             }
           }
         },
