@@ -36,7 +36,7 @@ export const AdDetail = ({ id }) => {
           color="brand.700"
           borderColor="brand.300"
           fontSize="16px"
-          onClick={() => router.push("/profile1/my-ad")}
+          onClick={() => router.push("/profile/my-ad")}
         >
           Отмена
         </Button>

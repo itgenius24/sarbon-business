@@ -25,7 +25,7 @@ export const SearchList = ({
       ) : (
         <SimpleGrid columns={2} spacing={4} mt="16px">
           {carsList?.map((item, idx) => (
-            <CarItem key={item?.guid || idx} data={item} path={`/profile1/want-buy/${item?.guid}`} />
+            <CarItem key={item?.guid || idx} data={item} path={`/profile/want-buy/${item?.guid}`} />
           ))}
         </SimpleGrid>
       )}

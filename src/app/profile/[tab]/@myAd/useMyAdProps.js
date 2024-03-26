@@ -15,7 +15,7 @@ export const useMyAdProps = () => {
   const { push } = useRouter();
 
   const openCreateAdCard = () => {
-    push("/profile1/my-ad/detail");
+    push("/profile/my-ad/detail");
   };
 
   const [tabState, setTabState] = useState("publish");
@@ -34,6 +34,7 @@ export const useMyAdProps = () => {
       data: JSON.stringify({
         ...carParam[tabState],
         users_id: id,
+        with_relations: true,
       }),
     },
     {
@@ -48,5 +49,6 @@ export const useMyAdProps = () => {
     carsList,
     isLoading,
     openCreateAdCard,
+    tabState,
   };
 };

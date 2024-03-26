@@ -13,6 +13,7 @@ export default function MyAd () {
     carsList,
     isLoading,
     openCreateAdCard,
+    tabState
   } = useMyAdProps();
 
   return (
@@ -25,6 +26,7 @@ export default function MyAd () {
           handleNoData={openCreateAdCard}
           isLoading={isLoading}
           changeTabState={changeTabState}
+          tabState={tabState}
           list={carsList}
         />
       </MainContentCard>

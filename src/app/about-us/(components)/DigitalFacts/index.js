@@ -1,0 +1,1 @@
+export { DigitalFacts } from "./DigitalFacts";

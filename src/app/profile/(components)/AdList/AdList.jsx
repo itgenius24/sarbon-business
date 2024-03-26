@@ -4,6 +4,7 @@ import { TopFilter } from "@/components/TopFilter";
 import { NoAdFound } from "../NoAdFound";
 import Link from "next/link";
 import CarCard from "../CarCard";
+import { CarItem } from "../CarItem";
 
 export const AdList = ({
   list,
@@ -11,6 +12,7 @@ export const AdList = ({
   isLoading,
   changeTabState,
   onCardClick = () => {},
+  tabState,
 }) => {
 
   return (
@@ -28,23 +30,26 @@ export const AdList = ({
           {!!list?.length && (
             <SimpleGrid columns={2} spacing={4} mt="16px">
               {list?.map((item) => (
-                <Link href={`/profile1/my-ad/detail/${item?.guid}`} key={item?.name}>
-                  <CarCard onClick={onCardClick} photoKey="photo" data={item}>
-                    <CarCard.Title value={item?.title} />
-                    <CarCard.Subtitle value={item?.price} />
-                    <CarCard.Info prop="Тип машины:" val={item?.type} />
-                    <CarCard.Info prop="Город:" val={item?.city} />
-                  </CarCard>
-                </Link>
+                <CarItem key={item?.name} data={item} path={`/profile/my-ad/detail/${item?.guid}`}/>
+                // <Link href={`/profile/my-ad/detail/${item?.guid}`} key={item?.name}>
+                //   <CarCard onClick={onCardClick} photoKey="photo" data={item}>
+                //     <CarCard.Title value={item?.title} />
+                //     <CarCard.Subtitle value={item?.price} />
+                //     <CarCard.Info prop="Тип машины:" val={item?.type} />
+                //     <CarCard.Info prop="Город:" val={item?.city} />
+                //   </CarCard>
+                // </Link>
               ))}
             </SimpleGrid>
           )}
           {
             !list?.length
               ? <NoAdFound handleNoData={handleNoData} />
-              : <Button onClick={handleNoData} type="button" maxW="320px" mt="24px">
-                  Добавить публикацию
-              </Button>
+              : tabState !== "archive"
+                ? <Button onClick={handleNoData} type="button" maxW="320px" mt="24px">
+                    Добавить публикацию
+                </Button>
+                : null
           }
         </>
       )}
