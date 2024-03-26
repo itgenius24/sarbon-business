@@ -1,4 +1,5 @@
 import { useUpdateUserInfo } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -14,11 +15,10 @@ export const usePersonalInfoProps = () => {
     formState: { errors },
   } = useForm({});
 
-  const { id } = useParams();
   const toast = useToast();
 
   const { mutate , isPending } = useUpdateUserInfo({
-    onSuccess(data) {
+    onSuccess() {
       toast({
         title: "Успешно изменено!",
         description: "Вы успешно обновили этого пользователя",
@@ -28,7 +28,7 @@ export const usePersonalInfoProps = () => {
         position: "top-right",
       });
     },
-    onError(data) {
+    onError() {
       toast({
         title: "Ошибка",
         description: "Не удалось обновить пользователя!",
@@ -43,7 +43,7 @@ export const usePersonalInfoProps = () => {
   const submitForm=(data)=> {
     const { photo, email,name="",fName="" } = data || {};
     const body = {
-      guid: id,
+      guid: authStore.userData.id,
       photo: photo,
       email: email,
       full_name: `${name} ${fName}`,
