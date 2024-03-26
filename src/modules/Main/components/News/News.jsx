@@ -23,22 +23,24 @@ export const News = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
-  const [currentPage, setCurrentPage] = useState(+page || 1);
+  const [currentPage, setCurrentPage] = useState(+page || 0);
 
   const handlePaginationClick = (type) => {
-    if (type === "prev") {
-      setCurrentPage((prevVal) => prevVal - 1);
+    if (type === "prev" && currentPage > 0) {
+      setCurrentPage((prevVal) => prevVal - 6);
     }
     if (type === "next") {
-      setCurrentPage((prevVal) => prevVal + 1);
+      setCurrentPage((prevVal) => prevVal + 6);
     }
-    const page = type === "prev" ? currentPage - 1 : currentPage + 1;
+    const page = type === "prev" ? currentPage - 6 : currentPage + 6;
     const path = `${pathname}?page=${page}`;
     router.push(path, { scroll: false });
   };
 
   const { data: newsList } = useGetNewsList(
     {
+      limit,
+      offset: currentPage,
       data: JSON.stringify({
         order: {},
         view_fields: [],
@@ -78,7 +80,7 @@ const Pagination = ({ page, pageLength,click }) => {
       <Container mb={"96px"}>
         <Flex>
           <IconButton
-            isDisabled={page === 1}
+            isDisabled={page === 0}
             borderColor="#D0D5DD"
             h="36px"
             minW="36px"
@@ -91,11 +93,11 @@ const Pagination = ({ page, pageLength,click }) => {
           />
           <Spacer />
           <Box>
-            Страница <b>{page}</b> из <b>{pageLength}</b>
+            Страница <b>{Math.floor(page / 6) + 1}</b> из <b>{pageLength}</b>
           </Box>
           <Spacer />
           <IconButton
-            isDisabled={page === pageLength}
+            isDisabled={Math.floor(page / 6) + 1 === pageLength}
             borderColor="#D0D5DD"
             h="36px"
             minW="36px"
@@ -112,15 +114,12 @@ const Pagination = ({ page, pageLength,click }) => {
   );
 };
 
-const NewsList = ({ news = [], page }) => {
-  const limit = 6;
-  const fromTo = [page * limit, limit * (page + 1)];
-  const data = news ? news.slice(fromTo[0], fromTo[1]) : [];
+const NewsList = ({ news = [] }) => {
 
   return (
     <>
       <SimpleGrid columns={[2, null, 3]} spacing="32px" mb={68}>
-        {data?.map((newCard, i) => (
+        {news?.map((newCard, i) => (
           <NewsCard key={i} data={newCard} />
         ))}
       </SimpleGrid>
@@ -158,11 +157,8 @@ const NewsCard = ({ data = {} }) => {
         noOfLines={2}
         {...(!data.comment ? { color: "transparent" } : {})}
       >
-        <div dangerouslySetInnerHTML={{ __html: data.comment || lorem }} />
+        <div dangerouslySetInnerHTML={{ __html: data.comment }} />
       </Box>
     </Box>
   </Link>;
 };
-
-const lorem =
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, ab!";

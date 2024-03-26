@@ -5,18 +5,22 @@ import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import React from "react";
 
-export const MobileApp = () => {
+export const MobileApp = ({
+  photo,
+  description,
+  description1
+}) => {
   return (
     <Container mt={"96px"}>
       <Box bg="white" borderRadius={24} display="flex">
-        <LeftContent />
-        <RightContent />
+        <LeftContent description={description} description1={description1} />
+        <RightContent photo={photo} />
       </Box>
     </Container>
   );
 };
 
-const RightContent = () => {
+const RightContent = ({ photo }) => {
   return (
     <Box maxWidth="50%" width={"100%"} position="relative">
       <Image
@@ -25,16 +29,16 @@ const RightContent = () => {
           top: "50%",
           transform: "translate(0%, -45%)",
         }}
-        // width={500}
-        // height={500}
-        src={iphoneImg}
+        width={500}
+        height={500}
+        src={photo}
         alt="Mobile Img"
       />
     </Box>
   );
 };
 
-const LeftContent = () => {
+const LeftContent = ({ description, description1 }) => {
   return (
     <Box p="48px 32px" maxW={"50%"} flexGrow="1">
       <Heading fontSize={36} lineHeight="44px" mb={20.5}>
@@ -62,15 +66,13 @@ const LeftContent = () => {
           >
             <RoundCheckIcon styles={{ transform: "translate(0px, 4px)" }} />
             <Text ml={"12px"} fontWeight={400}>
-              Находите и добавляйте грузы, отправляйте предложения,
-              просматривайте рейтинг фирм
+              {description}
             </Text>
           </ListItem>
           <ListItem display={"flex"} alignItems="baseline" width="100%">
             <RoundCheckIcon styles={{ transform: "translate(0px, 4px)" }} />
             <Text ml={"12px"} fontWeight={400}>
-              Попросите водителя скачать приложение, чтобы отправлять заявки и
-              отслеживать этапы перевозки
+              {description1}
             </Text>
           </ListItem>
         </List>

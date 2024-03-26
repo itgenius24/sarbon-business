@@ -10,7 +10,9 @@ export default function PrivacyPolicyPage() {
 
   return <Container mt="50px">
     <BreadCrumb crumbs={crumbs} />
-    <Heading fontSize={48} lineHeight="60px" mb="24px" ML={{ __html: directory?.question }} />
+    <Heading fontSize={48} lineHeight="60px" mb="24px">
+      Политика конфиденциальности
+    </Heading>
     <Text fontWeight="400"
       fontSize="20px"
       lineHeight="30px"

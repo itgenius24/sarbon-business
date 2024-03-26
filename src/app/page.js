@@ -1,3 +1,4 @@
+"use client";
 import { Main } from "@/modules/Main";
 
 export default function Home() {
