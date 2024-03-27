@@ -20,14 +20,6 @@ export const Footer = () => {
         title: "Расчет расстояний",
         link: "/distance-calculation",
       },
-      {
-        title: "Средние ставки",
-        link: "/",
-      },
-      {
-        title: "Страхование",
-        link: "/",
-      },
     ],
     center: [
       {
@@ -38,20 +30,12 @@ export const Footer = () => {
         title: "Контактная информация",
         link: "/contact",
       },
-      {
-        title: "Реклама на сайте",
-        link: "/advertising",
-      },
-      {
-        title: "Тарифы",
-        link: "/",
-      },
     ],
     right: [
-      {
-        title: "Блог",
-        link: "/",
-      },
+      // {
+      //   title: "Блог",
+      //   link: "/",
+      // },
       {
         title: "Политика конфиденциальности",
         link: "/privacy-policy",
