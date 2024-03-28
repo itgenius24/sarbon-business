@@ -1,4 +1,4 @@
-import { action, autorun, computed, makeAutoObservable } from "mobx";
+import { action, computed, makeAutoObservable } from "mobx";
 import { clearPersistedStore, makePersistable } from "mobx-persist-store";
 import { enableStaticRendering } from "mobx-react-lite";
 

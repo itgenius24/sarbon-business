@@ -5,6 +5,8 @@ import { DeleteIcon, HelpCircleIcon, PlusIcon } from "@/assets/icons/icons";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useTransportDetailProps } from "./useTransportDetailProps";
 import { Dropdown } from "@/components/Dropdown";
+import localeStore from "@/store/locale.store";
+import { useTranslation } from "@/app/i18n/client";
 
 export const TransportDetail = () => {
   const {
@@ -29,15 +31,17 @@ export const TransportDetail = () => {
     isEditing
   } = useTransportDetailProps();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return <Box>
     <Box py="24px" display="flex" columnGap="32px" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
-        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Транспорт</Heading>
+        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">{t("Транспорт")}</Heading>
       </Box>
       <Box display="flex" columnGap="24px" flexGrow={1}>
         <Dropdown
           disabled={!canEdit}
-          placeholder="Транспорт"
+          placeholder={t("Транспорт")}
           name="car_type"
           options={carTypeOptions}
           errors={errors}
@@ -49,28 +53,28 @@ export const TransportDetail = () => {
           type="number"
           errors={errors}
           name="transport_count"
-          placeholder="Количество машин"
+          placeholder={t("Количество машин")}
         />
       </Box>
     </Box>
     <Box py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
-        <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">Загрузка</Heading>
+        <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Загрузка")}</Heading>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="12px">
         <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} defaultChecked={!isEditing} name="is_ftl" >
           <Box display="flex" alignItems="center">
-            <span>отдельной машиной (FTL)</span><HelpCircleIcon />
+            <span>{t("отдельной машиной (FTL)")}</span><HelpCircleIcon />
           </Box>
         </Checkbox>
         <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} name="is_ltl" >
-          отдельной машиной или догрузом (FTL или LTL)
+          {t("отдельной машиной или догрузом (FTL или LTL)")}
         </Checkbox>
       </Box>
     </Box>
     <Box py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
-        <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">Добавить</Heading>
+        <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
       <Box display="flex" gap="12px" flexWrap="wrap">
         {
@@ -80,7 +84,7 @@ export const TransportDetail = () => {
             leftIcon={<PlusIcon color="#007AFF" /> }
             variant="reset"
           >
-          TIR,CMR, T1, Медкнижка
+            {t("TIR,CMR, T1, Медкнижка")}
           </Button>
         }
         {
@@ -90,7 +94,7 @@ export const TransportDetail = () => {
             leftIcon={<PlusIcon color="#007AFF" />}
             variant="reset"
           >
-          Сцепка, пневмоход, коники
+            {t("Сцепка, пневмоход, коники")}
           </Button>
         }
         {
@@ -100,7 +104,7 @@ export const TransportDetail = () => {
             leftIcon={<PlusIcon color="#007AFF" />}
             variant="reset"
           >
-          Ремней (шт)
+            {t("Ремней (шт)")}
           </Button>
         }
         {
@@ -110,7 +114,7 @@ export const TransportDetail = () => {
             leftIcon={<PlusIcon color="#007AFF" />}
             variant="reset"
           >
-          Грузоподъемность
+            {t("Грузоподъемность")}
           </Button>
         }
       </Box>
@@ -144,18 +148,18 @@ export const TransportDetail = () => {
             color="brand.700"
             leftIcon={<DeleteIcon />}
           >
-          Требования
+            {t("Требования")}
           </Button>
         </Box>
         <Box display="flex" columnGap="10px" flexGrow={1}>
           <Checkbox disabled={!canEdit} register={register} name="is_adr_requirement">
-            Сцепка
+            {t("Сцепка")}
           </Checkbox>
           <Checkbox disabled={!canEdit} register={register} name="is_pneumatic_requirement">
-            Пневмоход
+            {t("Пневмоход")}
           </Checkbox>
           <Checkbox disabled={!canEdit} register={register} name="is_tir_requirement">
-            Коники
+            {t("Коники")}
           </Checkbox>
         </Box>
       </Box>
@@ -170,18 +174,18 @@ export const TransportDetail = () => {
             color="brand.700"
             leftIcon={<DeleteIcon />}
           >
-          Разрешения
+            {t("Разрешения")}
           </Button>
         </Box>
         <Box display="flex" columnGap="10px" flexGrow={1}>
           <Checkbox disabled={!canEdit} register={register} name="tir">
-          TIR
+            {t("TIR")}
           </Checkbox>
           <Checkbox disabled={!canEdit} register={register} name="t1">
-          T1
+            {t("T1")}
           </Checkbox>
           <Checkbox disabled={!canEdit} register={register} name="cmr">
-          CMR
+            {t("CMR")}
           </Checkbox>
           {/* <Checkbox disabled={!canEdit} register={register} name="is_med_access">
           Медкнижка
@@ -199,11 +203,11 @@ export const TransportDetail = () => {
             color="brand.700"
             leftIcon={<DeleteIcon />}
           >
-          Ремней
+            {t("Ремней")}
           </Button>
         </Box>
         <Box flexGrow={1}>
-          <TextField disabled={!canEdit} placeholder="Штук" type="number" register={register} name="remains" />
+          <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="remains" />
         </Box>
       </Box>
     }
@@ -217,14 +221,14 @@ export const TransportDetail = () => {
             color="brand.700"
             leftIcon={<DeleteIcon />}
           >
-          Грузоподъемность
+            {t("Грузоподъемность")}
           </Button>
         </Box>
         <Box flexGrow={1}>
           <TextFieldWithAddition
             disabled={!canEdit}
-            additionalItemOptions={[{ label: "т", value: "t" }, { label: "кг", value: "kg" }]}
-            placeholder="Штук"
+            additionalItemOptions={[{ label: t("т"), value: "t" }, { label: t("кг"), value: "kg" }]}
+            placeholder={t("Штук")}
             width="135px"
             type="number"
             register={register}

@@ -10,25 +10,30 @@ import GalaxyStore from "@/assets/images/galaxy-store.png";
 import { Logo } from "../Logo";
 import { Box } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "@/app/i18n/client";
 
-export const Footer = () => {
+export const Footer = ({ locale }) => {
   const pathname = usePathname();
+
+  const { t } = useTranslation(locale, "translations");
+  console.log(locale);
+  console.log(t("distance-calculation"));
 
   const data = {
     left: [
       {
-        title: "Расчет расстояний",
-        link: "/distance-calculation",
+        title: t("Расчет расстояний"),
+        link: `/${locale}/distance-calculation`,
       },
     ],
     center: [
       {
-        title: "О системе Logistics",
-        link: "/about-us",
+        title: t("О системе Logistics"),
+        link: `/${locale}/about-us`,
       },
       {
-        title: "Контактная информация",
-        link: "/contact",
+        title: t("Контактная информация"),
+        link: `/${locale}/contact`,
       },
     ],
     right: [
@@ -37,12 +42,12 @@ export const Footer = () => {
       //   link: "/",
       // },
       {
-        title: "Политика конфиденциальности",
-        link: "/privacy-policy",
+        title: t("Политика конфиденциальности"),
+        link: `/${locale}/privacy-policy`,
       },
       {
-        title: "Карта сайта",
-        link: "/",
+        title: t("Карта сайта"),
+        link: `/${locale}/`,
       },
     ],
   };
@@ -57,7 +62,7 @@ export const Footer = () => {
       <Container>
         <div className={cls.footerContent}>
           <div className={cls.infoListWrapper}>
-            <p className={cls.infoListTitle}>Полезное</p>
+            <p className={cls.infoListTitle}>{t("Полезное")}</p>
             <ul className={cls.infoList}>
               {data.left.map((item) => {
                 return (
@@ -71,7 +76,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div className={cls.infoListWrapper}>
-            <p className={cls.infoListTitle}>Контакты и тарифы</p>
+            <p className={cls.infoListTitle}>{t("Контакты и тарифы")}</p>
             <ul className={cls.infoList}>
               {data.center.map((item) => {
                 return (
@@ -85,7 +90,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div className={cls.infoListWrapper}>
-            <p className={cls.infoListTitle}>Информация</p>
+            <p className={cls.infoListTitle}>{t("Информация")}</p>
             <ul className={cls.infoList}>
               {data.right.map((item) => {
                 return (
@@ -102,11 +107,11 @@ export const Footer = () => {
         <div className={cls.footerSocials}>
           <div className={cls.mobileApps}>
             <p className={cls.mobileAppsHeading}>
-              Мобильные приложения Logistics
+              {t("Мобильные приложения Logistics")}
             </p>
             <ul className={cls.mobileAppList}>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href="/" target="_blank">
+                <a className={cls.mobileAppLink} href={`/${locale}`} target="_blank">
                   <Image
                     src={AppStore}
                     alt="App store"
@@ -116,7 +121,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href="/" target="_blank">
+                <a className={cls.mobileAppLink} href={`/${locale}`} target="_blank">
                   <Image
                     src={GooglePlay}
                     alt="Google play"
@@ -126,7 +131,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href="/" target="_blank">
+                <a className={cls.mobileAppLink} href={`/${locale}`} target="_blank">
                   <Image
                     src={GalaxyStore}
                     alt="Galaxy store"
@@ -139,7 +144,7 @@ export const Footer = () => {
           </div>
           <ul className={cls.socialList}>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href="/" target="_blank">
+              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -155,7 +160,7 @@ export const Footer = () => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href="/" target="_blank">
+              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -171,7 +176,7 @@ export const Footer = () => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href="/" target="_blank">
+              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -194,7 +199,7 @@ export const Footer = () => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href="/" target="_blank">
+              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -219,7 +224,7 @@ export const Footer = () => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href="/" target="_blank">
+              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -235,7 +240,7 @@ export const Footer = () => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href="/" target="_blank">
+              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -256,7 +261,7 @@ export const Footer = () => {
         </div>
         <div className={cls.footerBottom}>
           <Logo width={32} height={32} />
-          <p className={cls.copyright}>© 2024 Logistics. Все права защищены.</p>
+          <p className={cls.copyright}>{t("copyright")}</p>
         </div>
       </Container>
     </Box>

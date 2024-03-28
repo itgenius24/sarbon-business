@@ -6,6 +6,8 @@ import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const useLoadsCardProps = ({
   order_status,
@@ -23,6 +25,8 @@ export const useLoadsCardProps = ({
   short_name,
 }) => {
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   const [isEstimateModalOpen, setIsEstimateModalOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(5);
 
@@ -39,16 +43,16 @@ export const useLoadsCardProps = ({
   };
 
   const performedStatuses = {
-    no_status: "нет статуса",
-    go_to_load: "иду на загрузку",
-    wait_for_the_download: "жду загрузку",
-    loading: "загружаюсь",
-    go_to_unload: "иду на разгрузку",
-    unloading: "разгружаюсь",
-    unloaded: "разгрузился",
-    complete_the_order: "завершить заказ",
-    breaking: "Поломка",
-    road_accident: "ДТП"
+    no_status: t("нет статуса"),
+    go_to_load: t("иду на загрузку"),
+    wait_for_the_download: t("жду загрузку"),
+    loading: t("загружаюсь"),
+    go_to_unload: t("иду на разгрузку"),
+    unloading: t("разгружаюсь"),
+    unloaded: t("разгрузился"),
+    complete_the_order: t("завершить заказ"),
+    breaking: t("Поломка"),
+    road_accident: t("ДТП")
   };
 
   const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];
@@ -57,42 +61,42 @@ export const useLoadsCardProps = ({
 
   const list = [
     {
-      title: status === "performed" ? "Статус: " : "Расстояние: ",
+      title: status === "performed" ? t("Статус: ") : t("Расстояние: "),
       value: status === "performed" ? performedStatuses[indicate_status[0]] : "570 км",
     },
     {
-      title: "Товар: ",
+      title: t("Товар: "),
       value: cargo_type_id_data?.name,
     },
     {
-      title: "Вид: ",
+      title: t("Вид: "),
       value: load_around_the_clock
-        ? "отдельной машиной или догрузом (FTL или LTL)"
+        ? t("отдельной машиной или догрузом (FTL или LTL)")
         : take_all_unloads
-          ? "отдельной машиной (FTL)"
+          ? t("отдельной машиной (FTL)")
           : "",
     },
     {
-      title: "Время: ",
+      title: t("Время: "),
       value: formatDate(load_time, "dd.MM.yyyy"),
     },
   ];
 
   const newStatusList = [
     {
-      title: "Водитель: ",
-      value: users_id_2_data?.full_name || "не указан",
+      title: t("Водитель: "),
+      value: users_id_2_data?.full_name || t("не указан"),
     },
     {
-      title: "Модель транспорта: ",
-      value: short_name || "не указан",
+      title: t("Модель транспорта: "),
+      value: short_name || t("не указан"),
     },
     {
-      title: "Предлагаемая сумма: ",
+      title: t("Предлагаемая сумма: "),
       value: driver_cash,
     },
     {
-      title: "Рейтинг водителя: ",
+      title: t("Рейтинг водителя: "),
       value: <Rating title={users_id_2_data?.rating} value={users_id_2_data?.rating} />,
     },
   ];
@@ -102,7 +106,7 @@ export const useLoadsCardProps = ({
   const createFeedback = useCreateFeedback({
     onSuccess() {
       toast({
-        title: "Ваш отзыв отправлен",
+        title: t("Ваш отзыв отправлен"),
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -155,7 +159,8 @@ export const useLoadsCardProps = ({
     handleClickRating,
     handleSubmit,
     onSubmit,
-    register
+    register,
+    t
   };
 
 };

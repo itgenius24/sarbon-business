@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
 
-export const MainLayout = ({ children }) => {
+export const MainLayout = ({ children, locale }) => {
 
   const pathname = usePathname();
 
@@ -14,11 +14,11 @@ export const MainLayout = ({ children }) => {
 
   return <div className={cls.layout}>
     {
-      !isAuth && <Header elements={elements} />
+      !isAuth && <Header locale={locale} elements={elements} />
     }
     <article className={cls.main}>
       {children}
     </article>
-    <Footer />
+    <Footer locale={locale} />
   </div>;
 };

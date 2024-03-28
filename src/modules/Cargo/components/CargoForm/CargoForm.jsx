@@ -4,6 +4,8 @@ import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { useCargoFormProps } from "./useCargoFormProps";
 import { DeleteIcon, PlusIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const CargoForm = () => {
 
@@ -24,11 +26,13 @@ export const CargoForm = () => {
     canEdit,
   } = useCargoFormProps();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box display="flex" alignItems="start" columnGap="32px">
       <Box width="280px" flexShrink="0">
-        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Груз</Heading>
-        <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">В рассчёте на одну машину</Text>
+        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">{t("Груз")}</Heading>
+        <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{t("В рассчёте на одну машину")}</Text>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="16px" maxW="540px" width="100%" ml="auto">
         <Box display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
@@ -49,7 +53,7 @@ export const CargoForm = () => {
             register={register}
             additionalItemName="weight_unit"
             width="134px"
-            placeholder="Вес"
+            placeholder={t("Вес")}
             additionalItemOptions={weightMeasurementOptions}
             disabled={!canEdit}
             type="number"
@@ -60,7 +64,7 @@ export const CargoForm = () => {
             name="volume_measurement"
             register={register}
             width="134px"
-            placeholder="Объем"
+            placeholder={t("Объем")}
             additionalItemPlaceholder="m³"
             disabled={!canEdit}
             type="number"
@@ -77,7 +81,7 @@ export const CargoForm = () => {
               variant="reset"
               onClick={handlePackagingAndQuantity}
             >
-              Упаковка и кол-во
+              {t("Упаковка и кол-во")}
             </Button>
           }
           {
@@ -88,7 +92,7 @@ export const CargoForm = () => {
               variant="reset"
               onClick={handleDimensionsAndDiameter}
             >
-              Габариты и диаметр
+              {t("Габариты и диаметр")}
             </Button>
           }
         </Box>
@@ -96,7 +100,7 @@ export const CargoForm = () => {
     </Box>
     {
       isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px" key="packaging">
-        <Button disabled={!canEdit} visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>Упаковка и количество</Button>
+        <Button disabled={!canEdit} visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>{t("Упаковка и количество")}</Button>
         <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
             errors={errors}
@@ -117,8 +121,8 @@ export const CargoForm = () => {
             name="packaging_quantity"
             register={register}
             width="196px"
-            placeholder="Кол-во"
-            additionalItemPlaceholder="шт."
+            placeholder={t("Кол-во")}
+            additionalItemPlaceholder={t("шт.")}
             additionalItemDefaultIndex={0}
             additionalItemOptions={[]}
             disabled={!canEdit}
@@ -128,7 +132,7 @@ export const CargoForm = () => {
     }
     {
       isDimensionsAndDiameter && <Box display="flex" alignItems="flex-start" mt="24px" key="dimensions">
-        <Button visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handleDimensionsAndDiameter} color="brand.700" leftIcon={<DeleteIcon />}>Габариты и диаметр</Button>
+        <Button visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handleDimensionsAndDiameter} color="brand.700" leftIcon={<DeleteIcon />}>{t("Габариты и диаметр")}</Button>
         <Box display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
@@ -136,11 +140,11 @@ export const CargoForm = () => {
               name="dimensions1"
               register={register}
               width="123px"
-              placeholder="Габарит"
-              additionalItemPlaceholder="м"
+              placeholder={t("Габарит")}
+              additionalItemPlaceholder={t("м")}
               disabled={!canEdit}
             />
-            <Checkbox register={register} name="isSpecial1" disabled={!canEdit}>особые</Checkbox>
+            <Checkbox register={register} name="isSpecial1" disabled={!canEdit}>{t("особые")}</Checkbox>
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
@@ -148,11 +152,11 @@ export const CargoForm = () => {
               name="dimensions2"
               register={register}
               width="123px"
-              placeholder="Габарит"
-              additionalItemPlaceholder="м"
+              placeholder={t("Габарит")}
+              additionalItemPlaceholder={t("м")}
               disabled={!canEdit}
             />
-            <Checkbox register={register} name="isSpecial2" disabled={!canEdit}>особые</Checkbox>
+            <Checkbox register={register} name="isSpecial2" disabled={!canEdit}>{t("особые")}</Checkbox>
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
@@ -161,10 +165,10 @@ export const CargoForm = () => {
               name="dimensions3"
               register={register}
               width="123px"
-              placeholder="Габарит"
-              additionalItemPlaceholder="м"
+              placeholder={t("Габарит")}
+              additionalItemPlaceholder={t("м")}
             />
-            <Checkbox register={register} name="isSpecial3">особые</Checkbox>
+            <Checkbox register={register} name="isSpecial3">{t("особые")}</Checkbox>
           </Box>
           <TextFieldWithAddition
             control={control}
@@ -172,8 +176,8 @@ export const CargoForm = () => {
             name="diameter"
             register={register}
             width="123px"
-            placeholder="Диаметр"
-            additionalItemPlaceholder="м"
+            placeholder={t("Диаметр")}
+            additionalItemPlaceholder={t("м")}
           />
         </Box>
       </Box>

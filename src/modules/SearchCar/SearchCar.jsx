@@ -7,12 +7,12 @@ import { Heading } from "@chakra-ui/react";
 import { useSearchCar } from "./useSearchCar";
 
 export const SearchCarModule = () => {
-  const { getCarListProps, getSearchProps } = useSearchCar();
+  const { getCarListProps, getSearchProps, t } = useSearchCar();
   return (
     <>
       <Container my="40px">
         <Heading size="md" mb="24px">
-          Поиск машин
+          {t("Поиск машин")}
         </Heading>
         <Search {...getSearchProps()} />
 

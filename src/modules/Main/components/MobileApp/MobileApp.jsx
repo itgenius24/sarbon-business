@@ -1,6 +1,5 @@
 import { RoundCheckIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
-import iphoneImg from "@/assets/images/twophones.png";
 import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import React from "react";

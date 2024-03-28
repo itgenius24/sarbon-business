@@ -3,10 +3,14 @@ import { useAddCargoContext } from "../../providers";
 import { Disabled, Done, Process } from "../StageStatuses";
 import { format } from "date-fns";
 import { useGetStoreData } from "@/hooks/useGetStoreData";
+import localeStore from "@/store/locale.store";
+import { useTranslation } from "@/app/i18n/client";
 
 export const useStagesProps = () => {
 
   const { watch, startDate, endDate } = useAddCargoContext();
+
+  const { t } = useTranslation(localeStore.locale, "translations");
 
   const cargoWeight = watch("weight_measurement");
   const cargoWeightUnit = watch("weight_unit");
@@ -80,36 +84,36 @@ export const useStagesProps = () => {
 
   const stages = [
     {
-      title: "Груз",
+      title: t("Груз"),
       status: cargoStatus,
       subtitle: cargoStatus === "done"
         ? `${cargoType?.label} ${cargoWeight} ${cargoWeightUnit?.label} ${volumeMeasurement} m³`
-        : "не заполнено"
+        : t("не заполнено")
     },
     {
       title: "Когда",
       status: dateStatus,
-      subtitle: dateStatus === "done" ? format(startDate, "dd.MM.yyyy") + " -> " + format(endDate, "dd.MM.yyyy") : "не заполнено"
+      subtitle: dateStatus === "done" ? format(startDate, "dd.MM.yyyy") + " -> " + format(endDate, "dd.MM.yyyy") : t("не заполнено")
     },
     {
       title: "Маршрут",
       status: loadingsStatus,
-      subtitle: loadingsStatus === "done" ? loadings?.address + " - " + unloading?.address : "не заполнено"
+      subtitle: loadingsStatus === "done" ? loadings?.address + " - " + unloading?.address : t("не заполнено")
     },
     {
       title: "Транспорт",
       status: transportStatus,
-      subtitle: transportStatus === "done" ? `${transportType?.label} ${transportCount} шт` : "не заполнено"
+      subtitle: transportStatus === "done" ? `${transportType?.label} ${transportCount} шт` : t("не заполнено")
     },
     {
       title: "Оплата",
       status: paymentStatus,
-      subtitle: paymentStatus === "done" ? `${price} ${priceUnit?.label}` : "не заполнено"
+      subtitle: paymentStatus === "done" ? `${price} ${priceUnit?.label}` : t("не заполнено")
     },
     {
       title: "Дополнительно",
       status: contactStatus,
-      subtitle: contactStatus === "done" ? additionalDataName + " " + additionalDataContact : "не заполнено"
+      subtitle: contactStatus === "done" ? additionalDataName + " " + additionalDataContact : t("не заполнено")
     }
   ];
 

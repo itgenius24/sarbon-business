@@ -2,6 +2,8 @@ import cls from "./styles.module.scss";
 import { Box, Heading, ListItem, OrderedList, Text } from "@chakra-ui/react";
 import { useStagesProps } from "./useStagesProps";
 import clsx from "clsx";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const Stages = () => {
 
@@ -10,10 +12,12 @@ export const Stages = () => {
     statuses
   } = useStagesProps();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return <Box as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="sticky" top="48px">
     <Box pb="20px" borderBottom="1px solid" borderColor="brand.200">
-      <Heading size="sm">Этапы добавление груза</Heading>
-      <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">Вы можете следить за своими действия в этом поле</Text>
+      <Heading size="sm">{t("Этапы добавление груза")}</Heading>
+      <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{t("Вы можете следить за своими действия в этом поле")}</Text>
     </Box>
     <OrderedList listStyleType="none" m="0" p="0" mt="24px" display="flex" flexDirection="column" rowGap="24px">
       {

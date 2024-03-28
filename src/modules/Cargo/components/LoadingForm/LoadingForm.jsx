@@ -10,6 +10,8 @@ import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
 import LoadingMap from "../LoadingMap";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const LoadingForm = () => {
 
@@ -37,6 +39,8 @@ export const LoadingForm = () => {
     setIsModalOpen,
   } = useLoadingFormProps();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return <div className={cls.formGroup}>
     <div className={cls.formContent}>
       <div className={cls.fields}>
@@ -45,7 +49,7 @@ export const LoadingForm = () => {
             return <div className={cls.fieldsWrapper} key={loading.id}>
               <div className={cls.fieldsWrapperActions}>
                 {
-                  index === 0 && <h2 className={cls.heading}>Загрузка</h2>
+                  index === 0 && <h2 className={cls.heading}>{t("Загрузка")}</h2>
                 }
                 {
                   index !== 0 && <Button
@@ -55,7 +59,7 @@ export const LoadingForm = () => {
                     color="brand.700"
                     leftIcon={<DeleteIcon />}
                   >
-                  Удалить
+                    {t("Удалить")}
                   </Button>
                 }
               </div>
@@ -66,13 +70,13 @@ export const LoadingForm = () => {
                   register={register}
                   watch={watch}
                   name={`loadings[${index}].location`}
-                  placeholder="Населённый пункт"
+                  placeholder={t("Населённый пункт")}
                   options={getAddressOptions}
                   error={errors["loadings"]?.[index]?.["location"]}
                   disabled={!canEdit}
                 />
                 <TextFieldWithAddition
-                  placeholder="Адрес"
+                  placeholder={t("Адрес")}
                   additionalItemTheme="white"
                   register={register}
                   name={`loadings[${index}].address`}
@@ -95,12 +99,12 @@ export const LoadingForm = () => {
       </div>
     </div>
     <div className={cls.fieldActions}>
-      <h2 className={cls.fieldActionsHeading}>Добавить точку маршрута</h2>
+      <h2 className={cls.fieldActionsHeading}>{t("Добавить точку маршрута")}</h2>
       <div className={cls.fieldActionsButtons}>
-        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Загрузка</Button>
-        <Button isDisabled={!canEdit} onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Разгрузка</Button>
-        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Ехать через</Button>
-        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">Таможня</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Загрузка")}</Button>
+        <Button isDisabled={!canEdit} onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Разгрузка")}</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Ехать через")}</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Таможня")}</Button>
       </div>
     </div>
     <div className={cls.fields}>
@@ -109,7 +113,7 @@ export const LoadingForm = () => {
           return <div className={cls.fieldsWrapper} key={loading.id}>
             <div className={cls.fieldsWrapperActions}>
               {
-                index === 0 && <h2 className={cls.heading}>Разгрузка</h2>
+                index === 0 && <h2 className={cls.heading}>{t("Разгрузка")}</h2>
               }
               {
                 index !== 0 && <Button
@@ -119,7 +123,7 @@ export const LoadingForm = () => {
                   color="brand.700"
                   leftIcon={<DeleteIcon />}
                 >
-                  Удалить
+                  {t("Удалить")}
                 </Button>
               }
             </div>
@@ -131,14 +135,14 @@ export const LoadingForm = () => {
                 register={register}
                 watch={watch}
                 name={`unloading[${index}].location`}
-                placeholder="Населённый пункт"
+                placeholder={t("Населённый пункт")}
                 options={getAddressOptions}
                 error={errors["unloading"]?.[index]?.["location"]}
               />
               <TextFieldWithAddition
                 onlyFieldDisabled={true}
                 disabled={!canEdit}
-                placeholder="Адрес"
+                placeholder={t("Адрес")}
                 additionalItemTheme="white"
                 register={register}
                 name={`unloading[${index}].address`}
@@ -158,11 +162,11 @@ export const LoadingForm = () => {
       }
     </div>
     <div className={cls.route}>
-      <h2 className={cls.heading}>Маршрут</h2>
+      <h2 className={cls.heading}>{t("Маршрут")}</h2>
       <div className={cls.routeContent}>
         <Checkbox register={register} name="gps_monitoring" disabled={!canEdit}>
           <span className={cls.checkboxInner}>
-            <span>Кругорейс</span>
+            <span>{t("Кругорейс")}</span>
             <HelpCircleIcon />
           </span>
         </Checkbox>
@@ -173,7 +177,7 @@ export const LoadingForm = () => {
       onClose={handleCloseModal}
       firstBtnCallback={handleCloseModal}
       secondBtnCallback={() => setIsModalOpen(false)}
-      title="Точка маршрута"
+      title={t("Точка маршрута")}
       size="xl"
     >
       <LoadingMap

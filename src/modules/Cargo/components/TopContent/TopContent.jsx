@@ -1,5 +1,7 @@
+import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
+import localeStore from "@/store/locale.store";
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -21,33 +23,35 @@ export const TopContent = ({
 
   const [showNumber, setShowNumber] = useState(false);
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   const list = [
     {
-      title: "Водитель: ",
+      title: t("Водитель: "),
       value: userName,
     },
     {
-      title: "Модель транспорта: ",
+      title: t("Модель транспорта: "),
       value: transportModel,
     },
     {
-      title: "Предлагаемая сумма: ",
+      title: t("Предлагаемая сумма: "),
       value: proposedAmount + " " + currency,
     },
     {
-      title: "Рейтинг водителя: ",
+      title: t("Рейтинг водителя: "),
       value: <Rating value={Math.round(rating)} />,
     },
     {
-      title: "Предоплата: ",
+      title: t("Предоплата: "),
       value: `${prepayment} ${permission === "in_percentages" ? "%" : currency}`,
     },
     {
-      title: "Оплата после завершения: ",
+      title: t("Оплата после завершения: "),
       value: `${paymentAfterFinish} ${permission === "in_percentages" ? "%" : currency}`,
     },
     {
-      title: "Комментария водителя: ",
+      title: t("Комментария водителя: "),
       value: driverComment,
       grow: true,
     },
@@ -58,7 +62,7 @@ export const TopContent = ({
     <DataList list={list} />
     {
       status === "performed" && <Button maxW="278px" mt="20px" onClick={() => setShowNumber(!showNumber)}>
-        { showNumber ? phoneNumber : "Показать номер" }
+        { showNumber ? phoneNumber : t("Показать номер") }
       </Button>
     }
   </Box>;

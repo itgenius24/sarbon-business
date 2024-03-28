@@ -10,16 +10,21 @@ import { format } from "date-fns";
 import { useToast } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import { isValidJSON } from "@/utils/isValidJSON";
+import localeStore from "@/store/locale.store";
+import { useTranslation } from "@/app/i18n/client";
 
 export const useSearchCar = () => {
 
   const searchParams = useSearchParams();
+
 
   const fromValue = isValidJSON(searchParams.get("from")) ? JSON.parse(searchParams.get("from")) : undefined;
   const toValue = isValidJSON(searchParams.get("to")) ? JSON.parse(searchParams.get("to")) : undefined;
   const date = searchParams.get("date");
   const weight = searchParams.get("weight");
   const volume = searchParams.get("volume");
+
+  const { t } = useTranslation(localeStore.locale, "translations");
 
   const toast = useToast();
 
@@ -54,8 +59,8 @@ export const useSearchCar = () => {
       } else {
         setCarsArr([]);
         toast({
-          title: "Не найдено",
-          description: "К сожалений ничего не найдено",
+          title: t("Не найдено"),
+          description: t("К сожалений ничего не найдено"),
           status: "info",
           duration: 5000,
           isClosable: true,
@@ -160,6 +165,7 @@ export const useSearchCar = () => {
 
   return {
     getSearchProps,
-    getCarListProps
+    getCarListProps,
+    t,
   };
 };

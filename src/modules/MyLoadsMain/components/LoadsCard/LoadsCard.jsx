@@ -54,7 +54,8 @@ export const LoadsCard = ({
     ratingValue,
     handleSubmit,
     register,
-    onSubmit
+    onSubmit,
+    t,
   } = useLoadsCardProps({
     order_status,
     provisions,
@@ -90,7 +91,7 @@ export const LoadsCard = ({
         </div>
         <span className={cls.paymentInfoComment}>
           {
-            request ? "Запросить" : no_haggling ? "Без торг" : "Возможен торг"
+            request ? t("Запросить") : no_haggling ? t("Без торг") : t("Возможен торг")
           }
         </span>
       </div>
@@ -99,7 +100,7 @@ export const LoadsCard = ({
       <DataList list={status === "new" ? newStatusList : list} />
       {
         status === "rejected" && <p className={cls.moderatorComment}>
-          <span className={cls.moderatorCommentTitle}>Причина отказа модерации:</span>
+          <span className={cls.moderatorCommentTitle}>{t("Причина отказа модерации:")}</span>
           <span className={cls.moderatorCommentText} dangerouslySetInnerHTML={{ __html: moderator_comment }} />
         </p>
       }
@@ -114,7 +115,7 @@ export const LoadsCard = ({
             handleCancel(guid);
           }}
         >
-          Отказать
+          {t("Отказать")}
         </Button>
         <Button
           onClick={(e) => {
@@ -122,7 +123,7 @@ export const LoadsCard = ({
             handleAccept(guid, users_id_2);
           }}
         >
-          Принять
+          {t("Принять")}
         </Button>
       </Box>
     }
@@ -148,7 +149,7 @@ export const LoadsCard = ({
           }}
           icon={<TruckIcon />}
         >
-          Поиск машин
+          {t("Поиск машин")}
         </LoadBtn>
       }
       {
@@ -160,7 +161,7 @@ export const LoadsCard = ({
             handleDelete(guid);
           }}
         >
-          Удалить
+          {t("Удалить")}
         </LoadBtn>
       }
     </div>
@@ -173,7 +174,7 @@ export const LoadsCard = ({
           width="278px"
           color="#000000"
         >
-          Оценить водителя
+          {t("Оценить водителя")}
         </Button>
       </div>
     }
@@ -181,8 +182,8 @@ export const LoadsCard = ({
       isOpen={isEstimateModalOpen}
       onClose={handleCloseEstimateModal}
       secondBtnCallback={handleSubmit(onSubmit)}
-      title="Оцените водителя"
-      secondBtnText="Готово"
+      title={t("Оцените водителя")}
+      secondBtnText={t("Готово")}
       size="lg"
       width="644px"
       oneBtn
@@ -195,9 +196,9 @@ export const LoadsCard = ({
         onClick={handleClickRating}
         value={ratingValue}
       />
-      <Heading mb="24px" size="sm">Что вам понравилось больше всего?</Heading>
+      <Heading mb="24px" size="sm">{t("Что вам понравилось больше всего?")}</Heading>
       <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>Хороший водитель</span>
+        <span className={cls.text}>{t("Хороший водитель")}</span>
         <Checkbox
           filled
           width={"24px"}
@@ -208,7 +209,7 @@ export const LoadsCard = ({
         />
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>Вовремя получил груз</span>
+        <span className={cls.text}>{t("Вовремя получил груз")}</span>
         <Checkbox
           filled
           width={"24px"}
@@ -219,7 +220,7 @@ export const LoadsCard = ({
         />
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>Вежливый</span>
+        <span className={cls.text}>{t("Вежливый")}</span>
         <Checkbox
           filled
           width={"24px"}
@@ -230,7 +231,7 @@ export const LoadsCard = ({
         />
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>Не доставили груз вовремя</span>
+        <span className={cls.text}>{t("Не доставили груз вовремя")}</span>
         <Checkbox
           filled
           width={"24px"}
@@ -241,7 +242,7 @@ export const LoadsCard = ({
         />
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>Не дисциплинированый</span>
+        <span className={cls.text}>{t("Не дисциплинированый")}</span>
         <Checkbox
           filled
           width={"24px"}
@@ -252,7 +253,7 @@ export const LoadsCard = ({
         />
       </Box>
       <Box mt="24px">
-        <span className={cls.text}>Комментарий</span>
+        <span className={cls.text}>{t("Комментарий")}</span>
         <CustomTextarea register={register} name="rewiv" className={cls.textarea} />
       </Box>
     </Modal>

@@ -16,6 +16,8 @@ import Link from "next/link";
 import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 const limit = 6;
 
 export const News = () => {
@@ -57,11 +59,14 @@ export const News = () => {
 
   if (!newsList?.response?.length) return null;
   const count = newsList?.count;
+
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return (
     <Container mt={"96px"}>
       <Stack gap={0}>
         <Heading fontSize={36} lineHeight="44px" mb="32px">
-          Новости
+          {t("Новости")}
         </Heading>
         <NewsList page={currentPage - 1} news={newsList?.response} />
         <Pagination
@@ -75,6 +80,9 @@ export const News = () => {
 };
 
 const Pagination = ({ page, pageLength,click }) => {
+
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return (
     <>
       <Container mb={"96px"}>
@@ -93,7 +101,7 @@ const Pagination = ({ page, pageLength,click }) => {
           />
           <Spacer />
           <Box>
-            Страница <b>{Math.floor(page / 6) + 1}</b> из <b>{pageLength}</b>
+            {t("Страница")} <b>{Math.floor(page / 6) + 1}</b> {t("из")} <b>{pageLength}</b>
           </Box>
           <Spacer />
           <IconButton

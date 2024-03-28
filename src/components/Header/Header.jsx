@@ -7,26 +7,30 @@ import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
 import { Box, Button, IconButton, ListItem, UnorderedList } from "@chakra-ui/react";
-import { LanguageIcon } from "@/assets/icons/icons";
+import { LanguageIcon, SettingIcon } from "@/assets/icons/icons";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
+import { LocaleDropdown } from "../LocaleDropdown";
+import { useTranslation } from "@/app/i18n/client";
 
-const Header = observer(({ elements }) => {
+const Header = observer(({ elements, locale }) => {
   const router = useRouter();
 
   const [isAuth, setAuth] = useState(false);
 
   const pathname = usePathname();
 
+  const { t } = useTranslation(locale, "translations");
+
   useEffect(() => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
 
   const goToProfile=()=>{
-    router.push("/profile");
+    router.push(`/${locale}/profile`);
   };
 
   const userData = useGetUserInfoHook();
@@ -57,7 +61,7 @@ const Header = observer(({ elements }) => {
                         : pathname === element.path,
                     })}
                   >
-                    {element.label}
+                    {t(element.label)}
                   </Link>
                 </ListItem>
               ))}
@@ -68,20 +72,18 @@ const Header = observer(({ elements }) => {
               {!isAuth && (
                 <Link
                   className={clsx(cls.registerLink)}
-                  title={"Зарегистрироваться"}
-                  href="/auth"
+                  title={t("Зарегистрироваться")}
+                  href={`/${locale}/auth`}
                 >
-                  Зарегистрироваться
+                  {t("Зарегистрироваться")}
                 </Link>
               )}
-              {/*<Box display="flex" columnGap="4px">
-                 <IconButton variant="reset">
-                <SettingIcon />
-              </IconButton>
-                 <IconButton variant="reset">
-                  <LanguageIcon />
-                </IconButton>
-              </Box>*/}
+              <Box display="flex" columnGap="4px">
+                <LocaleDropdown locale={locale} />
+                {/* <IconButton variant="reset"> */}
+                {/* <LanguageIcon /> */}
+                {/* </IconButton> */}
+              </Box>
               {isAuth && (
                 <>
                   <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
@@ -112,7 +114,9 @@ export default Header;
 
 
 
-export const LogOutBtn = () => {
+export const LogOutBtn = ({ locale = "ru" }) => {
+
+  const { t } = useTranslation(locale, "translations");
 
   const logout = () => {
     authStore.logout();
@@ -126,7 +130,7 @@ export const LogOutBtn = () => {
       color="brand.500"
       onClick={logout}
     >
-      Выйти
+      {t("Выйти")}
     </Button>
   );
 };

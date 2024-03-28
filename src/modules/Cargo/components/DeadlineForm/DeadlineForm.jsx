@@ -1,15 +1,19 @@
 import { DatePicker } from "@/components/DatePicker";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { useAddCargoContext } from "../../providers";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const DeadlineForm = () => {
   const { startDate, setStartDate, endDate, setEndDate, canEdit } = useAddCargoContext();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box display="flex" alignItems="center" justifyContent="space-between" columnGap="32px">
       <Box width="280px" flexShrink="0">
-        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Когда</Heading>
-        <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">до {endDate ? `${endDate.getDate()} ${endDate.toLocaleString("ru-RU", { month: "short" })} затем переместится в архив` : ""}</Text>
+        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">{t("Когда")}</Heading>
+        <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{t("до")} {endDate ? `${endDate.getDate()} ${endDate.toLocaleString("ru-RU", { month: "short" })} ${t("затем переместится в архив")}` : ""}</Text>
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <DatePicker

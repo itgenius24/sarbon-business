@@ -1,8 +1,12 @@
 import clsx from "clsx";
 import cls from "./styles.module.scss";
 import { useTopFilterProps } from "./useTopFilterProps";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const TopFilter = ({ onChange = () => {}, filterList = [], disabled }) => {
+
+  const { t } = useTranslation(localeStore.locale, "translations");
 
   const { activeTab, handleTabClick } =
     useTopFilterProps({ filterList });
@@ -21,7 +25,7 @@ export const TopFilter = ({ onChange = () => {}, filterList = [], disabled }) =>
               onChange({ label, value });
             }}
           >
-            {label}
+            {t(label)}
           </button>
         </div>;
       })

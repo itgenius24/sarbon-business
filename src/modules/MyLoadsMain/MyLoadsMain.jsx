@@ -4,6 +4,8 @@ import { LoadsCard } from "./components/LoadsCard";
 import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
 import { filterTabs } from "./data";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 export const MyLoadsMain = () => {
 
@@ -16,11 +18,13 @@ export const MyLoadsMain = () => {
     handleCancel,
   } = useMyLoadsMainProps();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return (
     <Box py="40px">
       <Container>
         <Heading size="md" mb="24px">
-          Мои грузы
+          {t("Мои грузы")}
         </Heading>
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
         <Box display="flex" flexDirection="column" rowGap="16px">
@@ -37,7 +41,7 @@ export const MyLoadsMain = () => {
             ))
           ) : (
             <Heading size="sm" textAlign="center">
-              Ничего не найдено
+              {t("Ничего не найдено")}
             </Heading>
           )}
         </Box>

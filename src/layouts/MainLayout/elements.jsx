@@ -1,22 +1,26 @@
+import localeStore from "@/store/locale.store";
+
+let activeLang = localeStore.locale;
+
 export const elements = [
   {
-    path: "/",
+    path: `/${activeLang}/`,
     label: "Главный",
   },
   {
-    path: "/add-cargo",
+    path: `/${activeLang}/add-cargo`,
     label: "Добавить груз",
   },
   {
-    path: "/my-loads",
+    path: `/${activeLang}/my-loads`,
     label: "Мои грузы",
   },
   {
-    path: "/distance-calculation",
+    path: `/${activeLang}/distance-calculation`,
     label: "Расчет расстояния",
   },
   {
-    path: "/search-car",
+    path: `/${activeLang}/search-car`,
     label: "Поиск машин",
   },
 ];

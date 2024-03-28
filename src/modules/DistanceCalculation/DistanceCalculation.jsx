@@ -7,6 +7,8 @@ import { TextField } from "@/components/TextField";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { useDistanceCalculationProps } from "./useDistanceCalculationProps";
 import Script from "next/script";
+import { useTranslation } from "@/app/i18n/client";
+import localeStore from "@/store/locale.store";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -24,19 +26,21 @@ export const DistanceCalculation = () => {
     handleCalculate
   } = useDistanceCalculationProps();
 
+  const { t } = useTranslation(localeStore.locale, "translations");
+
   return <Container py="40px">
     <Script
       onLoad={() => ymaps.ready(initYmaps)}
       src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
     />
-    <Heading size="md" mb="24px">Расчет расстояния</Heading>
+    <Heading size="md" mb="24px">{t("Расчет расстояния")}</Heading>
     <Box p="24px" bgColor="baseWhite" borderRadius="12px">
       <Box display="flex" mb="20px" alignItems="center" justifyContent="space-between">
-        <Heading size="sm" fontSize="18px" lineHeight="28px" fontWeight="600">Детали груза</Heading>
-        <Button onClick={handleAppend} variant="reset" leftIcon={<PlusIcon color="#007aff" />}>Добавить доп. адрес</Button>
+        <Heading size="sm" fontSize="18px" lineHeight="28px" fontWeight="600">{t("Детали груза")}</Heading>
+        <Button onClick={handleAppend} variant="reset" leftIcon={<PlusIcon color="#007aff" />}>{t("Добавить доп. адрес")}</Button>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="20px">
-        <TextField register={register} name="from" label="Откуда" placeholder="Введите город, страну" />
+        <TextField register={register} name="from" label={t("Откуда")} placeholder={t("Введите город, страну")} />
         {
           locations.map((item, index) => (
             <Box key={item.id} display="flex" columnGap="16px" alignItems="center">
@@ -46,15 +50,15 @@ export const DistanceCalculation = () => {
                 color="brand.700"
                 leftIcon={<DeleteIcon />}
               >
-                Удалить
+                {t("Удалить")}
               </Button>
-              <TextField register={register} onChange={(event) => onAdditionalAddressChange(event, index)} label="Дополнительный адрес" name={`locations.${index}.name`} placeholder="Введите город, страну" />
+              <TextField register={register} onChange={(event) => onAdditionalAddressChange(event, index)} label={t("Дополнительный адрес")} name={`locations.${index}.name`} placeholder={t("Введите город, страну")} />
             </Box>
           ))
         }
-        <TextField register={register} name="to" label="Куда" placeholder="Введите город, страну" />
+        <TextField register={register} name="to" label={t("Куда")} placeholder={t("Введите город, страну")} />
       </Box>
-      <Button width="253px" mt="20px" onClick={handleCalculate}>Рассчитать расстояние</Button>
+      <Button width="253px" mt="20px" onClick={handleCalculate}>{t("Рассчитать расстояние")}</Button>
     </Box>
     <div className={cls.map} id="map" style={{ width: "100%", height: "500px" }}>
       {
