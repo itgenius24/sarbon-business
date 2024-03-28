@@ -9,6 +9,7 @@ import {
   useGetLoadingMutation,
   useGetMaps,
   useGetOfferById,
+  useGetUserCargo,
   useUpdateCargo,
   useUpdateResponse
 } from "@/services/api";
@@ -20,6 +21,8 @@ import { useToast } from "@chakra-ui/react";
 export const useAddCargoProps = ({ id, status }) => {
 
   const isCargo = status === "active" || status === "in_moderation";
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const userId = authStore.userData.id;
 
@@ -48,6 +51,14 @@ export const useAddCargoProps = ({ id, status }) => {
 
   function handleCloseDeletePopup() {
     setPopupOpen(false);
+  }
+
+  function handleOpenModal() {
+    setIsOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsOpen(false);
   }
 
   const schema = yup
@@ -288,6 +299,16 @@ export const useAddCargoProps = ({ id, status }) => {
     { enabled: !!(userId && !isCargo), }
   );
 
+  const getTempCargo = useGetUserCargo({
+    data: JSON.stringify({
+      users_id: userId,
+      cargo_type:["template"],
+      with_relations: true
+    })
+  });
+
+  console.log(getTempCargo.data);
+
   const updateResponseMutation = useUpdateResponse({
     onSuccess() {
       toast({
@@ -386,6 +407,7 @@ export const useAddCargoProps = ({ id, status }) => {
         tir: data.tir,
         t1: data.t1,
         cmr: data.cmr,
+        cargo_type: ["cargo"],
       }
     };
 
@@ -401,6 +423,17 @@ export const useAddCargoProps = ({ id, status }) => {
   function onCancelClick() {
     getOfferCargoById.refetch();
     handleEditToggle();
+  }
+
+  function handleSelectTemplate(item) {
+    resetForm(item, item.guid);
+    getLoadingMutation.mutate({
+      function_id: "1d8af62e-cb8d-4599-966a-4a614435bed8",
+      object_ids: [
+        item.guid
+      ]
+    });
+    handleCloseModal();
   }
 
   function getData() {
@@ -422,81 +455,86 @@ export const useAddCargoProps = ({ id, status }) => {
     setEndDate("");
   }
 
+  function resetForm(data, id) {
+    loadingsRef.current = [
+      {
+        location: {
+          value: data?.address_id_data?.guid,
+          label: data?.address_id_data?.name
+        },
+        address: "",
+        cor: []
+      }
+    ];
+
+    unloadingRef.current = [
+      {
+        location: {
+          value: data?.address_id_2_data?.guid,
+          label: data?.address_id_2_data?.name
+        },
+        address: "",
+        cor: []
+      }
+    ];
+
+    if(data && id) {
+      setStartDate(new Date(data?.load_time || new Date()));
+      setEndDate(new Date(data?.date || new Date()));
+      reset({
+        cargo_type: {
+          value: data.cargo_type_id_data?.guid,
+          label: data.cargo_type_id_data?.name,
+        },
+        // cargo_type_search: data.cargo_type_id_data?.name,
+        weight_measurement: data.weight,
+        weight_unit: {
+          value: data.measurement_id_data?.guid,
+          label: data.measurement_id_data?.base_unit,
+        },
+        volume_measurement: data.volume_m3,
+        packaging: {
+          value: data.packages_id_data?.guid,
+          label: data.packages_id_data?.name,
+        },
+        packagingSearch: data.packages_id_data?.name,
+        packaging_quantity: data.package_quantity,
+        gps_monitoring: data.gps_monitoring,
+        car_type: {
+          value: data.vehicle_type_id_data?.guid,
+          label: data.vehicle_type_id_data?.name,
+        },
+        transport_count: data.number_of_cars,
+        is_ftl: data.take_all_unloads ?? false,
+        is_ltl: data.load_around_the_clock ?? false,
+        capacity: data.load_capacity ?? "",
+        price: data.bid_cash,
+        price_prepayment: data.prepayment_percentage,
+        price_after_order: data?.cargo_id_data?.dim_length_special ?? 0,
+        price_prepayment_unit: {
+          label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
+          value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
+        },
+        payment_deadline: data.payment_within_days ?? "",
+        contact: data.phone,
+        note: data.comment,
+        image: data.photo,
+        payment_type: {
+          label: data?.map_id_data?.payment_type,
+          value: data?.map_id_data?.guid,
+        },
+        bargain: data.request ? "request" : data.negotiable ? "negotiable" : "no_haggling",
+      });
+    }
+  }
+
   useEffect(() => {
     if(getCargo.isSuccess || getOfferCargoById.isSuccess) {
 
       const data = getData();
 
-      loadingsRef.current = [
-        {
-          location: {
-            value: data?.address_id_data?.guid,
-            label: data?.address_id_data?.name
-          },
-          address: "",
-          cor: []
-        }
-      ];
+      resetForm(data, id);
 
-      unloadingRef.current = [
-        {
-          location: {
-            value: data?.address_id_2_data?.guid,
-            label: data?.address_id_2_data?.name
-          },
-          address: "",
-          cor: []
-        }
-      ];
-
-      if(data && id) {
-        setStartDate(new Date(data?.load_time || new Date()));
-        setEndDate(new Date(data?.date || new Date()));
-        reset({
-          cargo_type: {
-            value: data.cargo_type_id_data?.guid,
-            label: data.cargo_type_id_data?.name,
-          },
-          // cargo_type_search: data.cargo_type_id_data?.name,
-          weight_measurement: data.weight,
-          weight_unit: {
-            value: data.measurement_id_data?.guid,
-            label: data.measurement_id_data?.base_unit,
-          },
-          volume_measurement: data.volume_m3,
-          packaging: {
-            value: data.packages_id_data?.guid,
-            label: data.packages_id_data?.name,
-          },
-          packagingSearch: data.packages_id_data?.name,
-          packaging_quantity: data.package_quantity,
-          gps_monitoring: data.gps_monitoring,
-          car_type: {
-            value: data.vehicle_type_id_data?.guid,
-            label: data.vehicle_type_id_data?.name,
-          },
-          transport_count: data.number_of_cars,
-          is_ftl: data.take_all_unloads ?? false,
-          is_ltl: data.load_around_the_clock ?? false,
-          capacity: data.load_capacity ?? "",
-          price: data.bid_cash,
-          price_prepayment: data.prepayment_percentage,
-          price_after_order: data?.cargo_id_data?.dim_length_special ?? 0,
-          price_prepayment_unit: {
-            label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
-            value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
-          },
-          payment_deadline: data.payment_within_days ?? "",
-          contact: data.phone,
-          note: data.comment,
-          image: data.photo,
-          payment_type: {
-            label: data?.map_id_data?.payment_type,
-            value: data?.map_id_data?.guid,
-          },
-          bargain: data.request ? "request" : data.negotiable ? "negotiable" : "no_haggling",
-        });
-      }
     }
   }, [getCargo.data, getOfferCargoById.data]);
 
@@ -575,5 +613,10 @@ export const useAddCargoProps = ({ id, status }) => {
     permission: data?.permissions?.[0],
     handleResetForm,
     currency: data?.currency_id_2_data?.code,
+    handleOpenModal,
+    handleCloseModal,
+    handleSelectTemplate,
+    isOpen,
+    templates: getTempCargo.data?.response ?? [],
   };
 };

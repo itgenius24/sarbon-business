@@ -21,6 +21,7 @@ export const Modal = ({
   oneBtn = false,
   withCloseBtn,
   width,
+  withFooter = true,
   ...props
 }) => {
 
@@ -36,19 +37,21 @@ export const Modal = ({
       <ModalBody>
         {children}
       </ModalBody>
-      <ModalFooter>
-        {
-          !oneBtn && <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose}>
-            {firstBtnText || "Закрыть"}
+      {
+        withFooter && <ModalFooter>
+          {
+            !oneBtn && <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose}>
+              {firstBtnText || "Закрыть"}
+            </Button>
+          }
+          <Button onClick={(e) => {
+            e.stopPropagation();
+            secondBtnCallback();
+          }}>
+            {secondBtnText}
           </Button>
-        }
-        <Button onClick={(e) => {
-          e.stopPropagation();
-          secondBtnCallback();
-        }}>
-          {secondBtnText}
-        </Button>
-      </ModalFooter>
+        </ModalFooter>
+      }
     </ModalContent>
   </ChakraModal>;
 };

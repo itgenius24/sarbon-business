@@ -16,11 +16,9 @@ import Link from "next/link";
 import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
 const limit = 6;
 
-export const News = () => {
+export const News = ({ t }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -60,8 +58,6 @@ export const News = () => {
   if (!newsList?.response?.length) return null;
   const count = newsList?.count;
 
-  const { t } = useTranslation(localeStore.locale, "translations");
-
   return (
     <Container mt={"96px"}>
       <Stack gap={0}>
@@ -70,6 +66,7 @@ export const News = () => {
         </Heading>
         <NewsList page={currentPage - 1} news={newsList?.response} />
         <Pagination
+          t={t}
           click={handlePaginationClick}
           page={currentPage}
           pageLength={Math.ceil(count / limit) || 1}
@@ -79,9 +76,7 @@ export const News = () => {
   );
 };
 
-const Pagination = ({ page, pageLength,click }) => {
-
-  const { t } = useTranslation(localeStore.locale, "translations");
+const Pagination = ({ page, pageLength, click, t }) => {
 
   return (
     <>

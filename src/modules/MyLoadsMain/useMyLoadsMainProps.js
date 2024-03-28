@@ -1,19 +1,28 @@
 import authStore from "@/store/auth.store";
 import { useDeleteCargo, useGetOffer, useGetUserCargo, usePushNotificationMutation, useUpdateResponse } from "@/services/api";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 
 export const useMyLoadsMainProps = () => {
   const [orderStatus, setOrderStatus] = useState("");
 
+  const count = useRef(0);
+
   const userId = authStore.userData.id;
 
   const toast = useToast();
 
+  const [isLoading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(0);
+
   const getAllUserCargoParams = {
+    limit: 6,
+    offset,
     data: JSON.stringify({
       users_id: userId,
       with_relations: true,
+      cargo_type: ["cargo"],
     })
   };
 
@@ -54,12 +63,15 @@ export const useMyLoadsMainProps = () => {
 
   const getAllUserCargo = useGetUserCargo(
     getAllUserCargoParams,
-    { enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") }
+    {
+      enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore,
+      keepPreviousData: true
+    }
   );
 
   const getOfferCargo = useGetOffer(
     getCargoFilterParams,
-    { enabled: !!userId && !isCargo, }
+    { enabled: !!userId && !isCargo && hasMore, keepPreviousData: true }
   );
 
   const deleteCargo = useDeleteCargo({
@@ -167,14 +179,16 @@ export const useMyLoadsMainProps = () => {
     if(isCargo) {
       return {
         data: getAllUserCargo.data?.response,
-        isLoading: getAllUserCargo.isLoading
+        isLoading: getAllUserCargo.isLoading,
+        count: getAllUserCargo.data?.count
       };
     }
 
     if(!isCargo) {
       return {
         data: getOfferCargo.data?.response,
-        isLoading: getOfferCargo.isLoading
+        isLoading: getOfferCargo.isLoading,
+        count: getOfferCargo.data?.count
       };
     }
 
@@ -185,6 +199,43 @@ export const useMyLoadsMainProps = () => {
 
   }
 
+  // const handleScroll = () => {
+  //   const scrollTop =
+  //   document.documentElement.scrollTop || document.body.scrollTop;
+  //   const scrollHeight = document.documentElement.scrollHeight;
+  //   const clientHeight = document.documentElement.clientHeight;
+
+  //   if (
+  //     scrollTop + clientHeight >= scrollHeight - 473 && hasMore
+  //   ) {
+  //     console.log({ offset, count: count.current });
+  //     setLoading(true);
+  //     setOffset((prev) => prev + 6 < count.current ? prev + 6 : prev + 1);
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+
+  //   return () => {
+  //     document.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+  useEffect(() => {
+
+    if(getCargos()?.count) {
+      count.current = getCargos()?.count;
+    }
+
+    if(getCargos().data?.count <= getCargos().data?.length) {
+      setHasMore(false);
+    }
+
+  }, [getCargos().data]);
+
   return {
     cargos: getCargos().data,
     isLoading: getCargos().isLoading,
@@ -193,5 +244,6 @@ export const useMyLoadsMainProps = () => {
     orderStatus,
     handleAccept,
     handleCancel,
+    isFetching: isLoading
   };
 };

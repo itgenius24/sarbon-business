@@ -40,7 +40,7 @@ export const Navbar = () => {
 
   const pathname = usePathname();
 
-  const path = pathname.split("/")[2];
+  const path = pathname.split("/")[3];
 
   return <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
     {

@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/Container";
 import { Box, Heading } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
@@ -6,6 +8,7 @@ import { TopFilter } from "@/components/TopFilter";
 import { filterTabs } from "./data";
 import { useTranslation } from "@/app/i18n/client";
 import localeStore from "@/store/locale.store";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const MyLoadsMain = () => {
 
@@ -16,6 +19,7 @@ export const MyLoadsMain = () => {
     orderStatus,
     handleAccept,
     handleCancel,
+    isFetching,
   } = useMyLoadsMainProps();
 
   const { t } = useTranslation(localeStore.locale, "translations");
@@ -28,22 +32,25 @@ export const MyLoadsMain = () => {
         </Heading>
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
         <Box display="flex" flexDirection="column" rowGap="16px">
-          {cargos?.length ? (
-            cargos?.map((cargo) => (
-              <LoadsCard
-                key={cargo.guid}
-                orderStatus={orderStatus}
-                handleDelete={handleDelete}
-                handleAccept={handleAccept}
-                handleCancel={handleCancel}
-                {...cargo}
-              />
-            ))
-          ) : (
+          {/* {cargos?.length ? ( */}
+          {cargos?.map((cargo) => (
+            <LoadsCard
+              key={cargo.guid}
+              orderStatus={orderStatus}
+              handleDelete={handleDelete}
+              handleAccept={handleAccept}
+              handleCancel={handleCancel}
+              {...cargo}
+            />
+          ))}
+          {/* ) : (
             <Heading size="sm" textAlign="center">
               {t("Ничего не найдено")}
             </Heading>
-          )}
+          )} */}
+          {/* {
+            isFetching && <LoadingSpinner />
+          } */}
         </Box>
       </Container>
     </Box>

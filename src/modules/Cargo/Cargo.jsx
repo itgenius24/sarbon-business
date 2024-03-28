@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteIcon, PencilIcon } from "@/assets/icons/icons";
+import { DeleteIcon, PencilIcon, PlusIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text } from "@chakra-ui/react";
 import { CargoDetail } from "./components/CargoDetail";
@@ -14,6 +14,7 @@ import { statuses } from "@/utils/constants";
 import { TopContent } from "./components/TopContent";
 import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
+import { Modal } from "@/components/Modal";
 
 export const Cargo = ({ id, status, locale }) => {
 
@@ -85,7 +86,7 @@ export const Cargo = ({ id, status, locale }) => {
               : <Box display="flex" justifyContent="space-between" alignItems="center" mb="32px">
                 <Heading size="md">{t("Добавить груз")}</Heading>
                 <Box display="flex" columnGap="12px">
-                  {/* <Button leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button> */}
+                  <Button onClick={addCargoProps.handleOpenModal} leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button>
                   <Button
                     leftIcon={<DeleteIcon color="#344054" />}
                     onClick={() => addCargoProps.handleResetForm()}
@@ -132,5 +133,37 @@ export const Cargo = ({ id, status, locale }) => {
       status="delete"
       btn2Callback={addCargoProps.handleDelete}
     />
+    <Modal
+      isOpen={addCargoProps.isOpen}
+      title="Выберите шаблон"
+      onClose={addCargoProps.handleCloseModal}
+      withCloseBtn
+      withFooter={false}
+    >
+      <Box display="flex" flexDirection="column" rowGap="20px">
+        {
+          addCargoProps.templates?.map((item) => (
+            <Box
+              onClick={() => addCargoProps.handleSelectTemplate(item)}
+              p="20px"
+              w={"100%"}
+              borderRadius="20px"
+              border="1px solid #EAECF0"
+              as="button"
+              key={item?.guid}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Text as="span" fontWeight={600} fontSize="24px">{item?.address_id_data?.name} -{">"} {item?.address_id_2_data?.name}</Text>
+              <Button variant="reset" width="36px" height="36px" border="1px solid #F04438">
+                <DeleteIcon width="16" height="16" color="#F04438" />
+              </Button>
+            </Box>
+          ))
+        }
+      </Box>
+
+    </Modal>
   </AddCargoProvider>;
 };
