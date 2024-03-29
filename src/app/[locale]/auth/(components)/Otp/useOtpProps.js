@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useOtpProps = () => {
   const router = useRouter();
@@ -10,11 +11,13 @@ export const useOtpProps = () => {
 
   const toast = useToast();
 
+  const locale = useGetLang();
+
   const { smsId, phone } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
     onSuccess: () => {
-      router.push("/auth/registration-form");
+      router.push(`/${locale}/auth/registration-form`);
     },
     onError: () => {
       toast({

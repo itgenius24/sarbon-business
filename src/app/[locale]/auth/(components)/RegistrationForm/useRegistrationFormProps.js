@@ -2,8 +2,10 @@ import authStore from "@/store/auth.store";
 import { useGetClientType, useGetCompanyList, useGetRoleList, useRegisterMutation } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useRegistrationFormProps = () => {
+  const locale = useGetLang();
   const router = useRouter();
 
   const { phone } = authStore.getAuthData;
@@ -17,7 +19,7 @@ export const useRegistrationFormProps = () => {
         token: data?.token,
         role: data?.role
       });
-      router.push("/");
+      router.push(`/${locale}`);
     }
   });
 
@@ -51,7 +53,7 @@ export const useRegistrationFormProps = () => {
   }
 
   function handleBack(){
-    router.push("/auth/registration");
+    router.push(`/${locale}/auth/registration`);
   }
 
   return {

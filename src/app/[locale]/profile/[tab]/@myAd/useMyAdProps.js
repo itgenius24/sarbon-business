@@ -1,4 +1,5 @@
 
+import { useGetLang } from "@/hooks/useGetLang";
 import { useGetCarsOnSale } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,8 +15,10 @@ export const useMyAdProps = () => {
   const { id } = useParams();
   const { push } = useRouter();
 
+  const locale = useGetLang();
+
   const openCreateAdCard = () => {
-    push("/profile/my-ad/detail");
+    push(`/${locale}/profile/my-ad/detail`);
   };
 
   const [tabState, setTabState] = useState("publish");

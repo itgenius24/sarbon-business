@@ -128,7 +128,7 @@ export const useAddCargoProps = ({ id, status }) => {
       ]
     }
   });
-
+  console.log(errors);
   const deleteCargo = useDeleteCargo({
     onSuccess() {
       toast({

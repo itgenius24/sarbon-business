@@ -45,7 +45,9 @@ export const AdList = ({
           )}
           {
             !list?.length
-              ? <NoAdFound handleNoData={handleNoData} />
+              ? tabState !== "archive"
+                ? <NoAdFound handleNoData={handleNoData} />
+                : null
               : tabState !== "archive"
                 ? <Button onClick={handleNoData} type="button" maxW="320px" mt="24px">
                     Добавить публикацию

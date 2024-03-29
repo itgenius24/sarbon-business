@@ -1,3 +1,4 @@
+import { useGetLang } from "@/hooks/useGetLang";
 import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
@@ -7,6 +8,8 @@ import { useForm } from "react-hook-form";
 export const useLoginProps = () => {
 
   const router = useRouter();
+
+  const locale = useGetLang();
 
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
@@ -28,7 +31,7 @@ export const useLoginProps = () => {
         token: data?.token,
         role: data?.role
       });
-      router.push("/");
+      router.push(`/${locale}`);
     },
     onError: (error) => {
       console.log(error);
@@ -69,7 +72,7 @@ export const useLoginProps = () => {
   });
 
   function navigateRegistration () {
-    router.push("/auth/registration");
+    router.push(`/${locale}/auth/registration`);
   }
 
   function onSubmit (data) {

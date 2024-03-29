@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@/utils/yupResolver";
 import { usePhoneMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useRegistrationProps = () => {
 
   const router = useRouter();
+
+  const locale = useGetLang();
 
   const schema = yup
     .object({ phone: yup.string().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Неправильный номер телефона").required("Обязательное поле") })
@@ -21,12 +24,12 @@ export const useRegistrationProps = () => {
   const phoneMutation = usePhoneMutation({
     onSuccess: (data) => {
       authStore.setAuthData("smsId", data.sms_id);
-      router.push("/auth/otp");
+      router.push(`/${locale}/auth/otp`);
     }
   });
 
   function navigateLogin () {
-    router.push("/auth/login");
+    router.push(`/${locale}/auth/login`);
   }
 
   function onSubmit (data) {
