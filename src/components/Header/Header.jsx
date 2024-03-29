@@ -6,8 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
-import { Box, Button, IconButton, ListItem, UnorderedList } from "@chakra-ui/react";
-import { LanguageIcon, SettingIcon } from "@/assets/icons/icons";
+import { Box, Button, ListItem, UnorderedList } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
@@ -15,13 +14,16 @@ import { useEffect, useState } from "react";
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { LocaleDropdown } from "../LocaleDropdown";
 import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
-const Header = observer(({ elements, locale }) => {
+const Header = observer(({ elements }) => {
   const router = useRouter();
 
   const [isAuth, setAuth] = useState(false);
 
   const pathname = usePathname();
+
+  const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 

@@ -17,10 +17,16 @@ import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
+import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useAddCargoProps = ({ id, status }) => {
 
   const isCargo = status === "active" || status === "in_moderation";
+
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -282,6 +288,15 @@ export const useAddCargoProps = ({ id, status }) => {
 
   });
 
+  const deleteTemplate = useDeleteCargo({
+    onSuccess() {
+      toast({
+        title: t("Шаблон успешно удален"),
+        status: "success"
+      });
+    }
+  });
+
   const getCargo = useGetCargoById({
     data: JSON.stringify({
       guid: id,
@@ -311,7 +326,7 @@ export const useAddCargoProps = ({ id, status }) => {
     onSuccess() {
       toast({
         position: "top-right",
-        title: "Груз успешно обновлена",
+        title: t("Груз успешно обновлена"),
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -350,12 +365,12 @@ export const useAddCargoProps = ({ id, status }) => {
     if(!authStore.isAuth) {
       toast({
         position: "top-right",
-        title: "Авторизуйтесь",
+        title: t("Авторизуйтесь"),
         status: "info",
         duration: 2000,
         isClosable: true,
       });
-      router.push("/auth");
+      router.push(`/${locale}/auth`);
       return;
     }
 
@@ -432,6 +447,14 @@ export const useAddCargoProps = ({ id, status }) => {
       ]
     });
     handleCloseModal();
+  }
+
+  function handleDeleteTemplate(item) {
+    deleteTemplate.mutate({ id: item.guid });
+  }
+
+  function handleAddTemplate() {
+    console.log("first");
   }
 
   function getData() {
@@ -616,5 +639,7 @@ export const useAddCargoProps = ({ id, status }) => {
     handleSelectTemplate,
     isOpen,
     templates: getTempCargo.data?.response ?? [],
+    handleDeleteTemplate,
+    handleAddTemplate,
   };
 };

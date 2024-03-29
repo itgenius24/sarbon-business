@@ -162,7 +162,8 @@ export const useLoadsCardProps = ({
     handleSubmit,
     onSubmit,
     register,
-    t
+    t,
+    locale,
   };
 
 };

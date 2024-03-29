@@ -1,5 +1,3 @@
-"use client";
-
 import { DeleteIcon, PencilIcon, PlusIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text } from "@chakra-ui/react";
@@ -107,7 +105,7 @@ export const Cargo = ({ id, status, locale }) => {
         {
           !isEditing && <Box mt="32px">
             <Box display="flex" columnGap="12px" justifyContent="flex-end" maxWidth="900px">
-              {/* <Button size="sm" maxWidth="223px" variant="secondaryWhite">{t("Сохранить как шаблон")}</Button> */}
+              <Button onClick={addCargoProps.handleAddTemplate} size="sm" maxWidth="223px" variant="secondaryWhite">{t("Сохранить как шаблон")}</Button>
               <Button isLoading={addCargoProps.loading} size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>{t("Опубликовать груз")}</Button>
             </Box>
           </Box>
@@ -135,7 +133,7 @@ export const Cargo = ({ id, status, locale }) => {
     />
     <Modal
       isOpen={addCargoProps.isOpen}
-      title="Выберите шаблон"
+      title={t("Выберите шаблон")}
       onClose={addCargoProps.handleCloseModal}
       withCloseBtn
       withFooter={false}
@@ -156,14 +154,16 @@ export const Cargo = ({ id, status, locale }) => {
               alignItems="center"
             >
               <Text as="span" fontWeight={600} fontSize="24px">{item?.address_id_data?.name} -{">"} {item?.address_id_2_data?.name}</Text>
-              <Button variant="reset" width="36px" height="36px" border="1px solid #F04438">
+              <Button onClick={(e) => {
+                e.stopPropagation();
+                addCargoProps.handleDeleteTemplate(item);
+              }} variant="reset" width="36px" height="36px" border="1px solid #F04438">
                 <DeleteIcon width="16" height="16" color="#F04438" />
               </Button>
             </Box>
           ))
         }
       </Box>
-
     </Modal>
   </AddCargoProvider>;
 };

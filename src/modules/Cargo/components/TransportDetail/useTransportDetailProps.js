@@ -80,6 +80,21 @@ export const useTransportDetailProps = () => {
     setLiftingCapacityOpen(false);
   }
 
+  useEffect(() => {
+    if(watch("tir") || watch("cmr") || watch("t1")) {
+      setAccessOpen(true);
+    }
+    if(watch("is_adr_requirement") || watch("is_pneumatic_requirement") || watch("is_tir_requirement")) {
+      setRequirementOpen(true);
+    }
+    if(watch("remains")) {
+      setBeltsOpen(true);
+    }
+    if(watch("capacity")) {
+      setLiftingCapacityOpen(true);
+    }
+  }, []);
+
   return {
     control,
     isAdrOpen,
