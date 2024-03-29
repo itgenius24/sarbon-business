@@ -294,6 +294,7 @@ export const useAddCargoProps = ({ id, status }) => {
         title: t("Шаблон успешно удален"),
         status: "success"
       });
+      setIsOpen(false);
     }
   });
 
