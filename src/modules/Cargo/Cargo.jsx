@@ -13,6 +13,7 @@ import { TopContent } from "./components/TopContent";
 import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
 import { Modal } from "@/components/Modal";
+import { Checkbox } from "@/components/Checkbox";
 
 export const Cargo = ({ id, status, locale }) => {
 
@@ -104,9 +105,27 @@ export const Cargo = ({ id, status, locale }) => {
         </Box>
         {
           !isEditing && <Box mt="32px">
-            <Box display="flex" columnGap="12px" justifyContent="flex-end" maxWidth="900px">
-              <Button onClick={addCargoProps.handleAddTemplate} size="sm" maxWidth="223px" variant="secondaryWhite">{t("Сохранить как шаблон")}</Button>
-              <Button isLoading={addCargoProps.loading} size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>{t("Опубликовать груз")}</Button>
+            <Checkbox name="accept" register={addCargoProps.register} filled >
+              <Text width="396px">Нажимая кнопку, вы принимаете условия <a style={{ color: "#026FE7", fontWeight: "600" }} href="">Пользовательская  соглашения</a></Text>
+            </Checkbox>
+            <Box mt="16px" display="flex" columnGap="12px" justifyContent="flex-start" maxWidth="900px">
+              <Button
+                onClick={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
+                size="sm"
+                maxWidth="223px"
+                variant="secondaryWhite"
+              >
+                {t("Сохранить как шаблон")}
+              </Button>
+              <Button
+                isDisabled={!addCargoProps.watch("accept")}
+                isLoading={addCargoProps.loading}
+                size="sm"
+                maxWidth="223px"
+                onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
+              >
+                {t("Опубликовать груз")}
+              </Button>
             </Box>
           </Box>
         }

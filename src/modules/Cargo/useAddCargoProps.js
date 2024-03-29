@@ -138,7 +138,7 @@ export const useAddCargoProps = ({ id, status }) => {
         duration: 2000,
         isClosable: true,
       });
-      router.back();
+      router.push(`/${locale}/my-loads`);
     },
     onError(res) {
       console.error(res);
@@ -219,7 +219,7 @@ export const useAddCargoProps = ({ id, status }) => {
               duration: 2000,
               isClosable: true,
             });
-            router.back();
+            router.push(`/${locale}/my-loads`);
           }
         }
       );
@@ -276,7 +276,7 @@ export const useAddCargoProps = ({ id, status }) => {
               duration: 2000,
               isClosable: true,
             });
-            router.back();
+            router.push(`/${locale}/my-loads`);
           }
         }
       );
@@ -328,12 +328,12 @@ export const useAddCargoProps = ({ id, status }) => {
     onSuccess() {
       toast({
         position: "top-right",
-        title: t("Груз успешно обновлена"),
+        title: t("Груз успешно обновлен"),
         status: "success",
         duration: 2000,
         isClosable: true,
       });
-      router.back();
+      router.push(`/${locale}/my-loads`);
     },
     onError(res) {
       console.error(res);
@@ -429,8 +429,13 @@ export const useAddCargoProps = ({ id, status }) => {
     if(id) {
       requestData.data.guid = id;
       requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
+
       updateCargo.mutate(requestData);
+
     } else {
+      if(data.isTemp) {
+        requestData.data.cargo_type = ["template"];
+      }
       createCargo.mutate(requestData);
     }
   }
