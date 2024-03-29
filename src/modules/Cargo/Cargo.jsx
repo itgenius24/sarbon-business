@@ -17,7 +17,7 @@ import { Checkbox } from "@/components/Checkbox";
 
 export const Cargo = ({ id, status, locale }) => {
 
-  const addCargoProps = useAddCargoProps({ id, status });
+  const addCargoProps = useAddCargoProps({ id, status, locale });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");

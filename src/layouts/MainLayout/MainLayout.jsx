@@ -1,12 +1,15 @@
 "use client";
 
 import cls from "./styles.module.scss";
-import { elements } from "./elements";
+// import { elements } from "./elements";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
+import { useElements } from "./elements";
 
 export const MainLayout = ({ children, locale }) => {
+
+  const elements = useElements();
 
   const pathname = usePathname();
 
@@ -14,7 +17,7 @@ export const MainLayout = ({ children, locale }) => {
 
   return <div className={cls.layout}>
     {
-      !isAuth && <Header locale={locale} elements={elements} />
+      !isAuth && <Header elements={elements} />
     }
     <article className={cls.main}>
       {children}

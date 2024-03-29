@@ -1,23 +1,30 @@
+import { useGetLang } from "@/hooks/useGetLang";
 
-export const elements = [
-  {
-    path: (lang) => `/${lang}/`,
-    label: "Главный",
-  },
-  {
-    path: (lang) => `/${lang}/add-cargo`,
-    label: "Добавить груз",
-  },
-  {
-    path: (lang) => `/${lang}/my-loads`,
-    label: "Мои грузы",
-  },
-  {
-    path: (lang) => `/${lang}/distance-calculation`,
-    label: "Расчет расстояния",
-  },
-  {
-    path: (lang) => `/${lang}/search-car`,
-    label: "Поиск машин",
-  },
-];
+export const useElements = () => {
+
+  const lang = useGetLang();
+
+  return [
+    {
+      path: `/${lang || "ru"}/`,
+      label: "Главный",
+    },
+    {
+      path: `/${lang || "ru"}/add-cargo`,
+      label: "Добавить груз",
+    },
+    {
+      path: `/${lang || "ru"}/my-loads`,
+      label: "Мои грузы",
+    },
+    {
+      path: `/${lang || "ru"}/distance-calculation`,
+      label: "Расчет расстояния",
+    },
+    {
+      path: `/${lang || "ru"}/search-car`,
+      label: "Поиск машин",
+    },
+  ];
+
+};

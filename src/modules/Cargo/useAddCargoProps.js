@@ -18,13 +18,13 @@ import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
-import { useGetLang } from "@/hooks/useGetLang";
+// import { useGetLang } from "@/hooks/useGetLang";
 
-export const useAddCargoProps = ({ id, status }) => {
+export const useAddCargoProps = ({ id, status, locale }) => {
 
   const isCargo = status === "active" || status === "in_moderation";
 
-  const locale = useGetLang();
+  // const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 
@@ -128,7 +128,7 @@ export const useAddCargoProps = ({ id, status }) => {
       ]
     }
   });
-  console.log(errors);
+
   const deleteCargo = useDeleteCargo({
     onSuccess() {
       toast({
