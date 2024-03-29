@@ -92,7 +92,7 @@ ingress:
           path: /
           servicePort: 8080
       tls:
-        - secretName: ucode-star
+        - secretName: xlogistic-frontent-tls
           hosts:
             - "furalar.uz"
  
