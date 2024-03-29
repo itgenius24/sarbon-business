@@ -14,6 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { CustomLogOutButton } from "../CustomLogOutButton";
+import { useGetLang } from "@/hooks/useGetLang";
 
 const tabStyles = {
   alignItems: "center",
@@ -42,13 +43,15 @@ export const Navbar = () => {
 
   const path = pathname.split("/")[3];
 
+  const locale = useGetLang();
+
   return <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
     {
       navList.map((nav, i) => {
 
         if (nav.children) {
 
-          const index = nav.children.findIndex((child) => pathname.includes(child.path));
+          const index = nav.children.findIndex((child) => pathname.includes(child.path(locale)));
 
           return <CAccordion
             key={i}
@@ -57,7 +60,7 @@ export const Navbar = () => {
               <Flex direction="column">
                 {
                   nav.children.map((child, i) => {
-                    return <Link className={clsx(cls.link, { [cls.active]: pathname.includes(child.path) })} href={child.path} key={i}>
+                    return <Link className={clsx(cls.link, { [cls.active]: pathname.includes(child.path(locale)) })} href={child.path(locale)} key={i}>
                       {child.icon}
                       <span>{child.title}</span>
                     </Link>;
@@ -76,7 +79,7 @@ export const Navbar = () => {
           </CAccordion>;
         }
 
-        return <Link className={clsx(cls.link, { [cls.active]: !path && i === 0 || nav.path.includes(path) })} href={nav.path} key={i}>
+        return <Link className={clsx(cls.link, { [cls.active]: !path && i === 0 || nav.path(locale).includes(path) })} href={nav.path(locale)} key={i}>
           {nav.icon}
           <span>{nav.title}</span>
         </Link>;

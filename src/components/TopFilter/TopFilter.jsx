@@ -2,11 +2,13 @@ import clsx from "clsx";
 import cls from "./styles.module.scss";
 import { useTopFilterProps } from "./useTopFilterProps";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const TopFilter = ({ onChange = () => {}, filterList = [], disabled }) => {
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const { activeTab, handleTabClick } =
     useTopFilterProps({ filterList });

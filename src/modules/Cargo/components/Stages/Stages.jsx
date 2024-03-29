@@ -3,7 +3,7 @@ import { Box, Heading, ListItem, OrderedList, Text } from "@chakra-ui/react";
 import { useStagesProps } from "./useStagesProps";
 import clsx from "clsx";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const Stages = () => {
 
@@ -12,7 +12,9 @@ export const Stages = () => {
     statuses
   } = useStagesProps();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <Box as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="sticky" top="48px">
     <Box pb="20px" borderBottom="1px solid" borderColor="brand.200">

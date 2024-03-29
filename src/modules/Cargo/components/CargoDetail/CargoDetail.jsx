@@ -4,11 +4,13 @@ import { DeadlineForm } from "../DeadlineForm";
 import { TransportDetail } from "../TransportDetail";
 import { LoadingForm } from "../LoadingForm";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const CargoDetail = () => {
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <Box as="article" borderRadius="12px" padding="24px" bgColor="baseWhite">
     <Heading size="sm">{t("Детали груза")}</Heading>

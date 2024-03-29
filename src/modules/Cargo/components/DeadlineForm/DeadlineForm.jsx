@@ -2,12 +2,14 @@ import { DatePicker } from "@/components/DatePicker";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { useAddCargoContext } from "../../providers";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const DeadlineForm = () => {
   const { startDate, setStartDate, endDate, setEndDate, canEdit } = useAddCargoContext();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box display="flex" alignItems="center" justifyContent="space-between" columnGap="32px">

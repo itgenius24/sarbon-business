@@ -5,8 +5,8 @@ import { DeleteIcon, HelpCircleIcon, PlusIcon } from "@/assets/icons/icons";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useTransportDetailProps } from "./useTransportDetailProps";
 import { Dropdown } from "@/components/Dropdown";
-import localeStore from "@/store/locale.store";
 import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const TransportDetail = () => {
   const {
@@ -31,7 +31,9 @@ export const TransportDetail = () => {
     isEditing
   } = useTransportDetailProps();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <Box>
     <Box py="24px" display="flex" columnGap="32px" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">

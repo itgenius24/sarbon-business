@@ -7,8 +7,8 @@ import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
 import { filterTabs } from "./data";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const MyLoadsMain = () => {
 
@@ -22,7 +22,9 @@ export const MyLoadsMain = () => {
     isFetching,
   } = useMyLoadsMainProps();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return (
     <Box py="40px">

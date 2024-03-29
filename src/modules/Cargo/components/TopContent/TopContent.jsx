@@ -1,7 +1,7 @@
 import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -23,7 +23,9 @@ export const TopContent = ({
 
   const [showNumber, setShowNumber] = useState(false);
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const list = [
     {

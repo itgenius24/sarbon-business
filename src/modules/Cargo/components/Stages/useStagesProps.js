@@ -3,14 +3,16 @@ import { useAddCargoContext } from "../../providers";
 import { Disabled, Done, Process } from "../StageStatuses";
 import { format } from "date-fns";
 import { useGetStoreData } from "@/hooks/useGetStoreData";
-import localeStore from "@/store/locale.store";
 import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useStagesProps = () => {
 
   const { watch, startDate, endDate } = useAddCargoContext();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const cargoWeight = watch("weight_measurement");
   const cargoWeightUnit = watch("weight_unit");

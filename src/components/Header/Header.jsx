@@ -52,13 +52,13 @@ const Header = observer(({ elements, locale }) => {
             </Box>
             <UnorderedList className={cls.list}>
               {elements?.map((element, index) => (
-                <ListItem className={cls.listItem} key={element.path}>
+                <ListItem className={cls.listItem} key={element.path(locale)}>
                   <Link
-                    href={element.path}
+                    href={element.path(locale)}
                     className={clsx(cls.itemLink, {
                       [cls.activeLink]: index
-                        ? pathname.includes(element.path)
-                        : pathname === element.path,
+                        ? pathname.includes(element.path(locale))
+                        : pathname === element.path(locale),
                     })}
                   >
                     {t(element.label)}

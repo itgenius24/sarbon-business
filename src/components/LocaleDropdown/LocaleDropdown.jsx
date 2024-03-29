@@ -5,7 +5,6 @@ import RFFlagImg from "@/assets/images/ru.png";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import localeStore from "@/store/locale.store";
 
 export const LocaleDropdown = ({ locale = "ru" }) => {
 
@@ -34,7 +33,6 @@ export const LocaleDropdown = ({ locale = "ru" }) => {
 
   function handleChangeLocale(value) {
     router.push(pathname.replace(locale, value));
-    localeStore.setLocale(value);
     setOpen(false);
   }
 

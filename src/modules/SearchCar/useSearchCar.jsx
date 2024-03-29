@@ -10,8 +10,8 @@ import { format } from "date-fns";
 import { useToast } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import { isValidJSON } from "@/utils/isValidJSON";
-import localeStore from "@/store/locale.store";
 import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useSearchCar = () => {
 
@@ -24,7 +24,9 @@ export const useSearchCar = () => {
   const weight = searchParams.get("weight");
   const volume = searchParams.get("volume");
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const toast = useToast();
 
@@ -139,7 +141,7 @@ export const useSearchCar = () => {
 
       const capacity = Number(weight);
       const numberVolume = Number(volume);
-      console.log(date);
+
       const params = {
         data: JSON.stringify(
           {

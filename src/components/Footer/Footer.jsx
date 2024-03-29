@@ -16,8 +16,6 @@ export const Footer = ({ locale }) => {
   const pathname = usePathname();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(locale);
-  console.log(t("distance-calculation"));
 
   const data = {
     left: [

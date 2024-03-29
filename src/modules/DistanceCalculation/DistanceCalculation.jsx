@@ -8,7 +8,7 @@ import { Box, Button, Heading } from "@chakra-ui/react";
 import { useDistanceCalculationProps } from "./useDistanceCalculationProps";
 import Script from "next/script";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -26,7 +26,9 @@ export const DistanceCalculation = () => {
     handleCalculate
   } = useDistanceCalculationProps();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <Container py="40px">
     <Script

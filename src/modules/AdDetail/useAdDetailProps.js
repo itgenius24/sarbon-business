@@ -60,8 +60,6 @@ export const useAdDetailProps = ({ id }) => {
     { enabled: !!id }
   );
 
-  console.log(getCarById.data?.response[0]);
-
   const createAd = useCreateAdMutation({
     onSuccess(data) {
       displayFormSuccessInfo(data?.data?.name);

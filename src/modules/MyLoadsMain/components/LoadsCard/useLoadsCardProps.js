@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useLoadsCardProps = ({
   order_status,
@@ -25,7 +25,9 @@ export const useLoadsCardProps = ({
   short_name,
 }) => {
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const [isEstimateModalOpen, setIsEstimateModalOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(5);

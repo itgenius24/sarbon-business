@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
 import LoadingMap from "../LoadingMap";
 import { useTranslation } from "@/app/i18n/client";
-import localeStore from "@/store/locale.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const LoadingForm = () => {
 
@@ -39,7 +39,9 @@ export const LoadingForm = () => {
     setIsModalOpen,
   } = useLoadingFormProps();
 
-  const { t } = useTranslation(localeStore.locale, "translations");
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <div className={cls.formGroup}>
     <div className={cls.formContent}>

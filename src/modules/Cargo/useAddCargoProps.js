@@ -307,8 +307,6 @@ export const useAddCargoProps = ({ id, status }) => {
     })
   });
 
-  console.log(getTempCargo.data);
-
   const updateResponseMutation = useUpdateResponse({
     onSuccess() {
       toast({
