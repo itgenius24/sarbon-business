@@ -1,12 +1,12 @@
 import authStore from "@/store/auth.store";
 import { useDeleteCargo, useGetOffer, useGetUserCargo, usePushNotificationMutation, useUpdateResponse } from "@/services/api";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
+import useDebounce from "@/hooks/useDebounce";
 
 export const useMyLoadsMainProps = () => {
   const [orderStatus, setOrderStatus] = useState("");
-
-  const count = useRef(0);
 
   const userId = authStore.userData.id;
 
@@ -27,6 +27,8 @@ export const useMyLoadsMainProps = () => {
   };
 
   const getCargoFilterParams = {
+    limit: 6,
+    offset,
     data: JSON.stringify({
       users_id_3: userId,
       with_relations: true,
@@ -63,15 +65,15 @@ export const useMyLoadsMainProps = () => {
 
   const getAllUserCargo = useGetUserCargo(
     getAllUserCargoParams,
-    {
-      enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore,
-      keepPreviousData: true
-    }
+    { enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation"), keepPreviousData: true }
   );
 
   const getOfferCargo = useGetOffer(
     getCargoFilterParams,
-    { enabled: !!userId && !isCargo && hasMore, keepPreviousData: true }
+    {
+      enabled: !!userId && !isCargo,
+      keepPreviousData: true
+    }
   );
 
   const deleteCargo = useDeleteCargo({
@@ -174,13 +176,12 @@ export const useMyLoadsMainProps = () => {
     setOrderStatus(value);
   }
 
-  function getCargos () {
-
+  const getCargos = useCallback(() => {
     if(isCargo) {
       return {
         data: getAllUserCargo.data?.response,
         isLoading: getAllUserCargo.isLoading,
-        count: getAllUserCargo.data?.count
+        count: getAllUserCargo.data?.count,
       };
     }
 
@@ -188,62 +189,61 @@ export const useMyLoadsMainProps = () => {
       return {
         data: getOfferCargo.data?.response,
         isLoading: getOfferCargo.isLoading,
-        count: getOfferCargo.data?.count
+        count: getOfferCargo.data?.count,
       };
     }
 
     return {
       data: [],
-      isLoading: false
+      isLoading: false,
+      count: 0,
     };
 
-  }
+  }, [getAllUserCargo.data, getOfferCargo.data]);
 
-  // const handleScroll = () => {
-  //   const scrollTop =
-  //   document.documentElement.scrollTop || document.body.scrollTop;
-  //   const scrollHeight = document.documentElement.scrollHeight;
-  //   const clientHeight = document.documentElement.clientHeight;
+  const ref = useRef(null);
 
-  //   if (
-  //     scrollTop + clientHeight >= scrollHeight - 473 && hasMore
-  //   ) {
-  //     console.log({ offset, count: count.current });
-  //     setLoading(true);
-  //     setOffset((prev) => prev + 6 < count.current ? prev + 6 : prev + 1);
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // };
+  const setDebouncedLimit = useDebounce(setOffset, 450);
 
-  // useEffect(() => {
-  //   document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+  const handleScroll = () => {
+    let isInViewport = null;
 
-  //   return () => {
-  //     document.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+    if(ref.current) isInViewport = isVisibleInViewport(ref.current);
+    console.log({ length: getCargos().data });
+    if (
+      isInViewport && getCargos().data?.length === 6
+    ) {
+      setDebouncedLimit(prev => prev + 6);
+    } else {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
+    document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
 
-    if(getCargos()?.count) {
-      count.current = getCargos()?.count;
-    }
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-    if(getCargos().data?.count <= getCargos().data?.length) {
-      setHasMore(false);
-    }
+  // useEffect(() => {
 
-  }, [getCargos().data]);
+  //   if(getCargos().data <= getCargos().data?.length) {
+  //     setHasMore(false);
+  //   }
+
+  // }, [getCargos().data]);
 
   return {
-    cargos: getCargos().data,
+    cargos: isCargo ? getAllUserCargo.data?.response : getOfferCargo.data?.response,
     isLoading: getCargos().isLoading,
     onFilterChange,
     handleDelete,
     orderStatus,
     handleAccept,
     handleCancel,
-    isFetching: isLoading
+    isFetching: isLoading,
+    ref,
   };
 };

@@ -23,7 +23,10 @@ export const DistanceCalculation = () => {
     onAdditionalAddressChange,
     distanceParameters,
     watch,
-    handleCalculate
+    handleCalculate,
+    handleDragOver,
+    handleDragStart,
+    handleDragEnter,
   } = useDistanceCalculationProps();
 
   const locale = useGetLang();
@@ -45,7 +48,16 @@ export const DistanceCalculation = () => {
         <TextField register={register} name="from" label={t("Откуда")} placeholder={t("Введите город, страну")} />
         {
           locations.map((item, index) => (
-            <Box key={item.id} display="flex" columnGap="16px" alignItems="center">
+            <Box
+              key={item.id}
+              display="flex"
+              columnGap="16px"
+              alignItems="center"
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={(e) => handleDragOver(e, index)}
+              onDragEnter={(e) => handleDragEnter(e, index)}
+            >
               <Button
                 variant="reset"
                 onClick={() => handleRemove(index)}

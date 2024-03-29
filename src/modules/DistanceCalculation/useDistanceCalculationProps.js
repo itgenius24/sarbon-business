@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 /* eslint no-undef: 0 */ // --> OFF
+
 export const useDistanceCalculationProps = () => {
 
   const [distanceParameters, setDistanceParameters] = React.useState({});
   const [locationNames, setLocationNames] = React.useState([]);
 
-  const { register, control, watch, } = useForm();
+  const { register, control, watch } = useForm();
 
-  const { fields: locations, append, remove } = useFieldArray({
+  const { fields: locations, append, remove, swap } = useFieldArray({
     control,
     name: "locations",
   });
@@ -43,11 +44,11 @@ export const useDistanceCalculationProps = () => {
     if(multiRoute) {
       const intervalLocations = locationNames.filter(item => item !== "");
       multiRoute.model.setReferencePoints([watch("from"), ...intervalLocations, watch("to")]);
-      console.log(multiRoute.getWayPoints());
-      const locations = [watch("from"), ...locationNames, watch("to")];
-      locations.forEach((item, index) => {
-        console.log(multiRoute.getWayPoints().get(index).properties.getAll());
-      });
+      // console.log(multiRoute.getWayPoints());
+      // const locations = [watch("from"), ...locationNames, watch("to")];
+      // locations.forEach((item, index) => {
+      //   console.log(multiRoute.getWayPoints().get(index).properties.getAll());
+      // });
       // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
       // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
 
@@ -89,6 +90,24 @@ export const useDistanceCalculationProps = () => {
     multiRouteRef.current = multiRoute;
   }
 
+  let draggingIndex = null;
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("index", index);
+    draggingIndex = index;
+  };
+
+  const handleDragEnter = (e, index) => {
+    if(draggingIndex && draggingIndex !== index) {
+      swap(draggingIndex, index);
+      setLocationNames(watch("locations").map(item => item.name));
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
   return {
     register,
     locations,
@@ -98,6 +117,9 @@ export const useDistanceCalculationProps = () => {
     onAdditionalAddressChange,
     distanceParameters,
     watch,
-    handleCalculate
+    handleCalculate,
+    handleDragStart,
+    handleDragOver,
+    handleDragEnter,
   };
 };

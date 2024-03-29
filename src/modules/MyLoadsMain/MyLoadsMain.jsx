@@ -20,6 +20,7 @@ export const MyLoadsMain = () => {
     handleAccept,
     handleCancel,
     isFetching,
+    ref
   } = useMyLoadsMainProps();
 
   const locale = useGetLang();
@@ -35,16 +36,30 @@ export const MyLoadsMain = () => {
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
         <Box display="flex" flexDirection="column" rowGap="16px">
           {/* {cargos?.length ? ( */}
-          {cargos?.map((cargo) => (
-            <LoadsCard
-              key={cargo.guid}
-              orderStatus={orderStatus}
-              handleDelete={handleDelete}
-              handleAccept={handleAccept}
-              handleCancel={handleCancel}
-              {...cargo}
-            />
-          ))}
+          {cargos?.map((cargo, index) => {
+            console.log(cargos.length === index + 1);
+            if(cargos.length === index + 1) {
+              return <div key={cargo.guid} ref={ref}>
+                <LoadsCard
+                  orderStatus={orderStatus}
+                  handleDelete={handleDelete}
+                  handleAccept={handleAccept}
+                  handleCancel={handleCancel}
+                  {...cargo}
+                />
+              </div>;
+            } else {
+              return <div key={cargo.guid}>
+                <LoadsCard
+                  orderStatus={orderStatus}
+                  handleDelete={handleDelete}
+                  handleAccept={handleAccept}
+                  handleCancel={handleCancel}
+                  {...cargo}
+                />
+              </div>;
+            }
+          })}
           {/* ) : (
             <Heading size="sm" textAlign="center">
               {t("Ничего не найдено")}

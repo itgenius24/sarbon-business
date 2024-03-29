@@ -1,5 +1,5 @@
 import request from "@/services/request";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
   getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
@@ -143,10 +143,28 @@ export const useGetUserCargo = (params, settings) => {
   });
 };
 
+export const useGetUserCargoPagination = (params, settings) => {
+  return useInfiniteQuery({
+    queryKey: ["object/getUserCargoPagination", params],
+    queryFn: () => objectService.getUserCargo(params),
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    ...settings
+  });
+};
+
 export const useGetOffer = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOffer", params],
     queryFn: () => objectService.getOffer(params),
+    ...settings
+  });
+};
+
+export const useGetOfferPagination = (params, settings) => {
+  return useInfiniteQuery({
+    queryKey: ["object/getOfferPagination", params],
+    queryFn: () => objectService.getOffer(params),
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     ...settings
   });
 };
