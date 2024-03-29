@@ -85,15 +85,16 @@ ingress:
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
         nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
       type: web
       hosts:
-        - host: "xlogistic.ucode.run"
+        - host: "furalar.uz"
           path: /
           servicePort: 8080
       tls:
         - secretName: ucode-star
           hosts:
-            - "xlogistic.ucode.run"
+            - "furalar.uz"
  
 resources:
   {}
