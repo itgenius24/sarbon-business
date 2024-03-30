@@ -219,13 +219,13 @@ export const useMyLoadsMainProps = () => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+  // useEffect(() => {
+  //   document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
 
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   // useEffect(() => {
 

@@ -5,8 +5,11 @@ import RFFlagImg from "@/assets/images/ru.png";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 export const LocaleDropdown = ({ locale = "ru" }) => {
+
+  const [cookies, setCookie] = useCookies(["i18next"]);
 
   const [isOpen, setOpen] = useState(false);
 
@@ -33,6 +36,7 @@ export const LocaleDropdown = ({ locale = "ru" }) => {
 
   function handleChangeLocale(value) {
     router.push(pathname.replace(locale, value));
+    setCookie("i18next", value, { path: "/" });
     setOpen(false);
   }
 

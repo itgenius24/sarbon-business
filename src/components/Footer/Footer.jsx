@@ -11,11 +11,17 @@ import { Logo } from "../Logo";
 import { Box } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
-export const Footer = ({ locale }) => {
+export const Footer = () => {
+
+  const locale = useGetLang();
+
   const pathname = usePathname();
 
   const { t } = useTranslation(locale, "translations");
+
+  console.log({ locale });
 
   const data = {
     left: [
@@ -109,7 +115,7 @@ export const Footer = ({ locale }) => {
             </p>
             <ul className={cls.mobileAppList}>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={`/${locale}`} target="_blank">
+                <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
                     src={AppStore}
                     alt="App store"
@@ -119,7 +125,7 @@ export const Footer = ({ locale }) => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={`/${locale}`} target="_blank">
+                <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
                     src={GooglePlay}
                     alt="Google play"
@@ -129,7 +135,7 @@ export const Footer = ({ locale }) => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={`/${locale}`} target="_blank">
+                <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
                     src={GalaxyStore}
                     alt="Galaxy store"
@@ -142,7 +148,7 @@ export const Footer = ({ locale }) => {
           </div>
           <ul className={cls.socialList}>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
+              <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -158,7 +164,7 @@ export const Footer = ({ locale }) => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
+              <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -174,7 +180,7 @@ export const Footer = ({ locale }) => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
+              <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -197,7 +203,7 @@ export const Footer = ({ locale }) => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
+              <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -222,7 +228,7 @@ export const Footer = ({ locale }) => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
+              <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -238,7 +244,7 @@ export const Footer = ({ locale }) => {
               </a>
             </li>
             <li className={cls.socialItem}>
-              <a className={cls.socialLink} href={`/${locale}`} target="_blank">
+              <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

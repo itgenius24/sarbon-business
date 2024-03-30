@@ -1,5 +1,3 @@
-"use client";
-
 import { Container } from "@/components/Container";
 import { Box, Heading } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
@@ -37,7 +35,6 @@ export const MyLoadsMain = () => {
         <Box display="flex" flexDirection="column" rowGap="16px">
           {/* {cargos?.length ? ( */}
           {cargos?.map((cargo, index) => {
-            console.log(cargos.length === index + 1);
             if(cargos.length === index + 1) {
               return <div key={cargo.guid} ref={ref}>
                 <LoadsCard

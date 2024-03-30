@@ -74,7 +74,10 @@ export const LoadsCard = ({
     short_name,
   });
 
-  return <div className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })} onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}>
+  return <div
+    className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })}
+    onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}
+  >
     <div className={cls.cardTop}>
       <div className={cls.cardTopContent}>
         <h2 className={cls.address}>

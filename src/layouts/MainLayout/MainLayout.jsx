@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
 import { useElements } from "./elements";
 
-export const MainLayout = ({ children, locale }) => {
+export const MainLayout = ({ children }) => {
 
   const elements = useElements();
 
@@ -22,6 +22,6 @@ export const MainLayout = ({ children, locale }) => {
     <article className={cls.main}>
       {children}
     </article>
-    <Footer locale={locale} />
+    <Footer />
   </div>;
 };
