@@ -51,7 +51,7 @@ export const Footer = () => {
       },
       {
         title: t("Карта сайта"),
-        link: `/${locale}/`,
+        link: `/${locale}/site-map`,
       },
     ],
   };
