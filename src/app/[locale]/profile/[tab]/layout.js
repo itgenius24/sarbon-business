@@ -3,7 +3,7 @@
 import { ProfileLayout } from "@/layouts/ProfileLayout";
 
 export default function Layout({ handbook, personalInfo, wantBuy, myAd, params }) {
-  const tab = params.tab;
+  const { tab, locale } = params;
 
   const components = {
     handbook,
@@ -12,7 +12,7 @@ export default function Layout({ handbook, personalInfo, wantBuy, myAd, params }
     "personal-data": personalInfo,
   };
 
-  return <ProfileLayout>
+  return <ProfileLayout locale={locale} >
     {components[tab] ?? personalInfo}
   </ProfileLayout>;
 

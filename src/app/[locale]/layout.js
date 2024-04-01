@@ -27,7 +27,7 @@ export default function RootLayout({ children, params: { locale } }) {
     <html lang={locale} dir={dir(locale)} className="html layout">
       <body className={inter.className}>
         <Providers>
-          <MainLayout locale={locale}>
+          <MainLayout>
             {children}
           </MainLayout>
         </Providers>

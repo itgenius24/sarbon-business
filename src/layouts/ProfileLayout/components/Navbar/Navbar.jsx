@@ -27,7 +27,7 @@ const CAccordion = ({ children = "", content = "", defaultIndex }) => {
   return (
     <Accordion allowToggle defaultIndex={defaultIndex}>
       <AccordionItem border="none" p="0">
-        <AccordionButton _hover={{ bg: "none" }} p="0">
+        <AccordionButton _hover={{ bg: "none" }} p="0" fontSize="16px">
           <Box flex={1}>{children}</Box>
         </AccordionButton>
         <AccordionPanel p="0">{content}</AccordionPanel>
@@ -45,13 +45,15 @@ export const Navbar = () => {
 
   const locale = useGetLang();
 
+  console.log({ locale });
+
   return <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
     {
       navList.map((nav, i) => {
 
         if (nav.children) {
 
-          const index = nav.children.findIndex((child) => pathname.includes(child.path(locale)));
+          const index = nav.children.findIndex((child) => pathname.includes(child.path));
 
           return <CAccordion
             key={i}
@@ -60,7 +62,7 @@ export const Navbar = () => {
               <Flex direction="column">
                 {
                   nav.children.map((child, i) => {
-                    return <Link className={clsx(cls.link, { [cls.active]: pathname.includes(child.path(locale)) })} href={child.path(locale)} key={i}>
+                    return <Link className={clsx(cls.link, { [cls.active]: pathname.includes(child.path) })} href={`/${locale}` + child.path} key={i}>
                       {child.icon}
                       <span>{child.title}</span>
                     </Link>;
@@ -79,7 +81,7 @@ export const Navbar = () => {
           </CAccordion>;
         }
 
-        return <Link className={clsx(cls.link, { [cls.active]: !path && i === 0 || nav.path(locale).includes(path) })} href={nav.path(locale)} key={i}>
+        return <Link className={clsx(cls.link, { [cls.active]: !path && i === 0 || nav.path.includes(path) })} href={`/${locale}` + nav.path} key={i}>
           {nav.icon}
           <span>{nav.title}</span>
         </Link>;

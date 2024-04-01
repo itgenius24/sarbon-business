@@ -1,10 +1,11 @@
 "use client";
 import { Main } from "@/modules/Main";
 import { useTranslation } from "../i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 
-export default function Home({ params }) {
+export default function Home() {
 
-  const { locale } = params;
+  const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 

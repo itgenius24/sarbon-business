@@ -1,6 +1,7 @@
 
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetCarsOnSale } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,9 +13,9 @@ const carParam = {
   archive: { status: ["in_active"], },
 };
 export const useMyAdProps = () => {
-  const { id } = useParams();
   const { push } = useRouter();
 
+  const userId = authStore.userData.id;
   const locale = useGetLang();
 
   const openCreateAdCard = () => {
@@ -36,7 +37,7 @@ export const useMyAdProps = () => {
     {
       data: JSON.stringify({
         ...carParam[tabState],
-        users_id: id,
+        users_id: userId,
         with_relations: true,
       }),
     },
