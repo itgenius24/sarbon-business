@@ -17,10 +17,8 @@ export const MyLoadsMain = () => {
     orderStatus,
     handleAccept,
     handleCancel,
-    isFetching,
     ref,
-    hasMore,
-    handleLoadMore
+    isLoading,
   } = useMyLoadsMainProps();
 
   const locale = useGetLang();
@@ -35,42 +33,42 @@ export const MyLoadsMain = () => {
         </Heading>
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
         <Box display="flex" flexDirection="column" rowGap="16px">
-          {/* {cargos?.length ? ( */}
-          {cargos?.map((cargo, index) => {
-            if(index === cargos.length -1) {
-              return (
-                <LoadsCard
-                  ref={ref}
-                  key={cargo?.guid}
-                  orderStatus={orderStatus}
-                  handleDelete={handleDelete}
-                  handleAccept={handleAccept}
-                  handleCancel={handleCancel}
-                  {...cargo}
-                />
-              );
-            } else {
-              return (
-                <LoadsCard
-                  key={cargo?.guid}
-                  orderStatus={orderStatus}
-                  handleDelete={handleDelete}
-                  handleAccept={handleAccept}
-                  handleCancel={handleCancel}
-                  {...cargo}
-                />
-              );
-            }
-          })}
-          {/* <Button onClick={handleLoadMore} isDisabled={!hasMore}>Load more</Button> */}
-          {/* ) : (
-            <Heading size="sm" textAlign="center">
-              {t("Ничего не найдено")}
-            </Heading>
-          )} */}
-          {/* {
-            isFetching && <LoadingSpinner />
-          } */}
+          {
+          cargos?.length ? (
+            cargos?.map((cargo, index) => {
+              if(index === cargos.length -1) {
+                return (
+                  <LoadsCard
+                    ref={ref}
+                    key={cargo?.guid}
+                    orderStatus={orderStatus}
+                    handleDelete={handleDelete}
+                    handleAccept={handleAccept}
+                    handleCancel={handleCancel}
+                    {...cargo}
+                  />
+                );
+              } else {
+                return (
+                  <LoadsCard
+                    key={cargo?.guid}
+                    orderStatus={orderStatus}
+                    handleDelete={handleDelete}
+                    handleAccept={handleAccept}
+                    handleCancel={handleCancel}
+                    {...cargo}
+                  />
+                );
+              }
+            })
+          ) : isLoading
+            ? <LoadingSpinner />
+            : (
+              <Heading size="sm" textAlign="center">
+                {t("Ничего не найдено")}
+              </Heading>
+            )
+          }
         </Box>
       </Container>
     </Box>

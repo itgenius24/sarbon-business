@@ -12,7 +12,6 @@ export const useMyLoadsMainProps = () => {
 
   const toast = useToast();
 
-  const [isLoading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [cargos, setCargos] = useState([]);
@@ -214,8 +213,6 @@ export const useMyLoadsMainProps = () => {
     if(ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
 
-      console.log(isVisible);
-
       if(isVisible) setDebouncedLimit(prev => prev + 6);
     }
 
@@ -230,14 +227,6 @@ export const useMyLoadsMainProps = () => {
 
   }, []);
 
-  // useEffect(() => {
-
-  //   if(getCargos().data <= getCargos().data?.length) {
-  //     setHasMore(false);
-  //   }
-
-  // }, [getCargos().data]);
-
   useEffect(() => {
     if(getCargos().data?.length) {
 
@@ -249,6 +238,12 @@ export const useMyLoadsMainProps = () => {
     }
   }, [getCargos().data]);
 
+  useEffect(() => {
+    setCargos([]);
+    setHasMore(true);
+    setOffset(0);
+  }, [orderStatus]);
+
   return {
     cargos,
     isLoading: getCargos().isLoading,
@@ -258,7 +253,6 @@ export const useMyLoadsMainProps = () => {
     orderStatus,
     handleAccept,
     handleCancel,
-    isFetching: isLoading,
     ref,
     handleLoadMore,
   };
