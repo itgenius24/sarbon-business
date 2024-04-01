@@ -59,7 +59,7 @@ export const News = ({ t }) => {
   const count = newsList?.count;
 
   return (
-    <Container mt={"96px"}>
+    <Container>
       <Stack gap={0}>
         <Heading fontSize={36} lineHeight="44px" mb="32px">
           {t("Новости")}

@@ -15,6 +15,7 @@ export const useMyLoadsMainProps = () => {
   const [isLoading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
+  const [cargos, setCargos] = useState([]);
 
   const getAllUserCargoParams = {
     limit: 6,
@@ -65,13 +66,13 @@ export const useMyLoadsMainProps = () => {
 
   const getAllUserCargo = useGetUserCargo(
     getAllUserCargoParams,
-    { enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation"), keepPreviousData: true }
+    { enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore }
   );
 
   const getOfferCargo = useGetOffer(
     getCargoFilterParams,
     {
-      enabled: !!userId && !isCargo,
+      enabled: !!userId && !isCargo && hasMore,
       keepPreviousData: true
     }
   );
@@ -205,27 +206,29 @@ export const useMyLoadsMainProps = () => {
 
   const setDebouncedLimit = useDebounce(setOffset, 450);
 
-  const handleScroll = () => {
-    let isInViewport = null;
+  function handleLoadMore() {
+    setDebouncedLimit(prev => prev + 6);
+  }
 
-    if(ref.current) isInViewport = isVisibleInViewport(ref.current);
-    console.log({ length: getCargos().data });
-    if (
-      isInViewport && getCargos().data?.length === 6
-    ) {
-      setDebouncedLimit(prev => prev + 6);
-    } else {
-      setLoading(false);
+  const handleScroll = () => {
+    if(ref.current) {
+      const isVisible = isVisibleInViewport(ref.current);
+
+      console.log(isVisible);
+
+      if(isVisible) setDebouncedLimit(prev => prev + 6);
     }
+
   };
 
-  // useEffect(() => {
-  //   document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+  useEffect(() => {
+    document.addEventListener("scroll", handleScroll, { capture: true });
 
-  //   return () => {
-  //     document.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+
+  }, []);
 
   // useEffect(() => {
 
@@ -235,9 +238,21 @@ export const useMyLoadsMainProps = () => {
 
   // }, [getCargos().data]);
 
+  useEffect(() => {
+    if(getCargos().data?.length) {
+
+      if(getCargos().data?.length < 6) setHasMore(false);
+      else setHasMore(true);
+
+      if(isCargo) setCargos(prev => [...prev, ...getAllUserCargo.data.response]);
+      else setCargos(prev => [...prev, ...getOfferCargo.data.response]);
+    }
+  }, [getCargos().data]);
+
   return {
-    cargos: isCargo ? getAllUserCargo.data?.response : getOfferCargo.data?.response,
+    cargos,
     isLoading: getCargos().isLoading,
+    hasMore,
     onFilterChange,
     handleDelete,
     orderStatus,
@@ -245,5 +260,6 @@ export const useMyLoadsMainProps = () => {
     handleCancel,
     isFetching: isLoading,
     ref,
+    handleLoadMore,
   };
 };

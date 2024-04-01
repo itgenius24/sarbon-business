@@ -60,6 +60,7 @@ export const Footer = () => {
       pt="64px"
       pb="48px"
       bgColor={pathname.includes("/auth") ? "gray" : "baseWhite"}
+      id="footer"
     >
       <Container>
         <div className={cls.footerContent}>

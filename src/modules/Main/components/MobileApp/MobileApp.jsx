@@ -10,7 +10,7 @@ export const MobileApp = ({
   description1
 }) => {
   return (
-    <Container mt={"96px"}>
+    <Container mt={"96px"} mb={"96px"}>
       <Box bg="white" borderRadius={24} display="flex">
         <LeftContent description={description} description1={description1} />
         <RightContent photo={photo} />

@@ -11,8 +11,9 @@ import { Modal } from "@/components/Modal";
 import { Rating } from "@/components/Rating";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { Checkbox } from "@/components/Checkbox";
+import { forwardRef } from "react";
 
-export const LoadsCard = ({
+export const LoadsCard = forwardRef(({
   guid,
   address_id_data,
   address_id_2_data,
@@ -40,7 +41,7 @@ export const LoadsCard = ({
   no_haggling,
   driver_cash,
   short_name,
-}) => {
+}, ref) => {
 
   const {
     list,
@@ -75,6 +76,7 @@ export const LoadsCard = ({
   });
 
   return <div
+    ref={ref}
     className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })}
     onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}
   >
@@ -262,4 +264,4 @@ export const LoadsCard = ({
       </Box>
     </Modal>
   </div>;
-};
+});

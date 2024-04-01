@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
 import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
@@ -18,7 +18,9 @@ export const MyLoadsMain = () => {
     handleAccept,
     handleCancel,
     isFetching,
-    ref
+    ref,
+    hasMore,
+    handleLoadMore
   } = useMyLoadsMainProps();
 
   const locale = useGetLang();
@@ -35,28 +37,32 @@ export const MyLoadsMain = () => {
         <Box display="flex" flexDirection="column" rowGap="16px">
           {/* {cargos?.length ? ( */}
           {cargos?.map((cargo, index) => {
-            if(cargos.length === index + 1) {
-              return <div key={cargo.guid} ref={ref}>
+            if(index === cargos.length -1) {
+              return (
                 <LoadsCard
+                  ref={ref}
+                  key={cargo?.guid}
                   orderStatus={orderStatus}
                   handleDelete={handleDelete}
                   handleAccept={handleAccept}
                   handleCancel={handleCancel}
                   {...cargo}
                 />
-              </div>;
+              );
             } else {
-              return <div key={cargo.guid}>
+              return (
                 <LoadsCard
+                  key={cargo?.guid}
                   orderStatus={orderStatus}
                   handleDelete={handleDelete}
                   handleAccept={handleAccept}
                   handleCancel={handleCancel}
                   {...cargo}
                 />
-              </div>;
+              );
             }
           })}
+          {/* <Button onClick={handleLoadMore} isDisabled={!hasMore}>Load more</Button> */}
           {/* ) : (
             <Heading size="sm" textAlign="center">
               {t("Ничего не найдено")}
