@@ -1,8 +1,14 @@
 import Image from "next/image";
 import cls from "./styles.module.scss";
 import BigLogoIcon from "@/assets/images/big-logo.svg";
+import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "@/app/i18n/client";
 
 export const InfoBox = () => {
+
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   return <div className={cls.infoBox}>
     <div className={cls.infoWrap}>
@@ -11,13 +17,11 @@ export const InfoBox = () => {
       </div>
       <div className={cls.textWrap}>
         <h1 className={cls.textWrapTitle}>
-          “Logistics — биржа грузоперевозок и крупнейшая экосистема
-          сервисов для транспортной логистики в Узбекистане”
+          {t("“Logistics — биржа грузоперевозок и крупнейшая экосистема сервисов для транспортной логистики в Узбекистане”")}
         </h1>
-        <h1 className={cls.textWrapTitle}>Впервые у нас?</h1>
+        <h1 className={cls.textWrapTitle}>{t("Впервые у нас?")}</h1>
         <p className={cls.desc}>
-          Зарегистрируйтесь и сможете размещать свои грузы и машины,
-          общаться на форуме и многое другое
+          {t("Зарегистрируйтесь и сможете размещать свои грузы и машины, общаться на форуме и многое другое")}
         </p>
       </div>
     </div>

@@ -3,10 +3,13 @@ import { useGetClientType, useGetCompanyList, useGetRoleList, useRegisterMutatio
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "@/app/i18n/client";
 
 export const useRegistrationFormProps = () => {
   const locale = useGetLang();
   const router = useRouter();
+
+  const { t } = useTranslation(locale, "translations");
 
   const { phone } = authStore.getAuthData;
 
@@ -28,7 +31,7 @@ export const useRegistrationFormProps = () => {
   const getClientTypes = useGetClientType();
   const clientTypeOptions =
     getClientTypes.data?.response
-      ?.filter(client => client?.name === "Заказчик" || client?.name === "Экспидетор")
+      ?.filter(client => client?.name === t("Заказчик") || client?.name === t("Экспидетор"))
       ?.map(role => ({ label: role?.name, value: role?.guid }));
 
   const getCompanyList = useGetCompanyList({ data: JSON.stringify({ company_direction: ["logistic_company"] }) });
@@ -64,5 +67,6 @@ export const useRegistrationFormProps = () => {
     onSubmit,
     handleBack,
     companyOptions,
+    t
   };
 };

@@ -18,36 +18,37 @@ export const RegistrationForm = () => {
     onSubmit,
     handleBack,
     companyOptions,
+    t,
   } = useRegistrationFormProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-    <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" />
+    <AuthTitle mb="32px" title={t("Регистрация нового участника на Logistics")} />
     <Box display="flex" flexDirection="column" rowGap="20px" mb="24px">
       <Dropdown
         options={clientTypeOptions}
         control={control}
         name="clientType"
-        label="Профиль деятельности"
+        label={t("Профиль деятельности")}
         required
       />
       <Dropdown
         options={companyOptions}
         control={control}
         name="company"
-        label="Компания"
+        label={t("Компания")}
         required
       />
       <TextField
         label="Имя"
         name="fullName"
         register={register}
-        placeholder="Введите свое имя"
+        placeholder={t("Введите свое имя")}
       />
       <TextField
         label="Email"
         name="email"
         register={register}
-        placeholder="Введите свой email"
+        placeholder={t("Введите свой email")}
         type="email"
         addonAfter={<HelpCircleIcon />}
       />
@@ -55,11 +56,11 @@ export const RegistrationForm = () => {
         label="Логин"
         name="login"
         register={register}
-        placeholder="Введите свой логин"
+        placeholder={t("Введите свой логин")}
       />
       <TextField
-        label="Пароль"
-        bottomText="мин. 8 символов"
+        label={t("Пароль")}
+        bottomText={t("мин. 8 символов")}
         name="password"
         register={register}
         placeholder="••••••••"
@@ -67,11 +68,11 @@ export const RegistrationForm = () => {
       />
     </Box>
     <Box display="flex" flexDirection="column" rowGap="16px">
-      <Button type="submit">Подтвердить</Button>
-      <Button variant="secondary" onClick={handleBack}>Назад</Button>
+      <Button type="submit">{t("Подтвердить")}</Button>
+      <Button variant="secondary" onClick={handleBack}>{t("Назад")}</Button>
     </Box>
     <Box mt="32px">
-      <Checkbox filled>Нажимая кнопку, вы принимаете условия Пользовательского соглашения</Checkbox>
+      <Checkbox filled>{t("Нажимая кнопку, вы принимаете условия Пользовательского соглашения")}</Checkbox>
     </Box>
   </Box>;
 };

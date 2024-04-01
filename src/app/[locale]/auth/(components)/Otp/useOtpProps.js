@@ -4,6 +4,7 @@ import { useState } from "react";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "@/app/i18n/client";
 
 export const useOtpProps = () => {
   const router = useRouter();
@@ -13,6 +14,8 @@ export const useOtpProps = () => {
 
   const locale = useGetLang();
 
+  const { t } = useTranslation(locale, "translations");
+
   const { smsId, phone } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
@@ -21,7 +24,7 @@ export const useOtpProps = () => {
     },
     onError: () => {
       toast({
-        title: "Неправильный код",
+        title: t("Неправильный код"),
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -57,5 +60,6 @@ export const useOtpProps = () => {
     handleSendOtp,
     navigateBack,
     phone,
+    t,
   };
 };

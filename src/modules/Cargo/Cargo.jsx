@@ -106,11 +106,12 @@ export const Cargo = ({ id, status, locale }) => {
         {
           !isEditing && <Box mt="32px">
             <Checkbox name="accept" register={addCargoProps.register} filled >
-              <Text width="396px">Нажимая кнопку, вы принимаете условия <a style={{ color: "#026FE7", fontWeight: "600" }} href="">Пользовательская  соглашения</a></Text>
+              <Text width="396px">{t("Нажимая кнопку, вы принимаете условия")} <a style={{ color: "#026FE7", fontWeight: "600" }} href="">{t("Пользовательская  соглашения")}</a></Text>
             </Checkbox>
             <Box mt="16px" display="flex" columnGap="12px" justifyContent="flex-start" maxWidth="900px">
               <Button
                 onClick={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
+                isLoading={addCargoProps.loading}
                 size="sm"
                 maxWidth="223px"
                 variant="secondaryWhite"

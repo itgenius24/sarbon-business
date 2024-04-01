@@ -14,6 +14,7 @@ export const Registration = () => {
     navigateLogin,
     onSubmit,
     isPending,
+    t,
   } = useRegistrationProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -26,20 +27,20 @@ export const Registration = () => {
       mb="32px"
       isLoading={isPending}
     >
-      Вернуться на Войти
+      {t("Вернуться на Войти")}
     </Button>
-    <AuthTitle mb="32px" title="Регистрация нового участника на Logistics" />
+    <AuthTitle mb="32px" title={t("Регистрация нового участника на Logistics")} />
     <Box mb="24px">
       <TextField
         register={register}
         errors={errors}
         name="phone"
         type="tel"
-        label="Мобильный телефон"
+        label={t("Мобильный телефон")}
         placeholder="+998971234567"
       />
     </Box>
-    <Button size="md" type="submit">Продолжить</Button>
-    <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">Нажимая кнопку «Продолжить», вы принимаете условия <a className={cls.link} href="#">Пользовательского соглашения</a></Text>
+    <Button size="md" type="submit">{t("Продолжить")}</Button>
+    <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">{t("Нажимая кнопку «Продолжить», вы принимаете условия")} <a className={cls.link} href="#">{t("Пользовательского соглашения")}</a></Text>
   </Box>;
 };

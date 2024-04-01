@@ -1,3 +1,4 @@
+import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
@@ -10,12 +11,12 @@ export const useLoginProps = () => {
   const router = useRouter();
 
   const locale = useGetLang();
+  const { t } = useTranslation(locale, "translations");
 
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
 
   const toast = useToast();
-
 
   const {
     handleSubmit,
@@ -59,7 +60,7 @@ export const useLoginProps = () => {
         );
       } else {
         toast({
-          title: "Этот пользователь не заказчик",
+          title: t("Этот пользователь не заказчик"),
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -91,6 +92,7 @@ export const useLoginProps = () => {
     navigateRegistration,
     isPending: loginOne.isPending || login.isPending,
     onRememberChange,
+    t,
   };
 
 };

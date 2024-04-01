@@ -21,8 +21,6 @@ export const Footer = () => {
 
   const { t } = useTranslation(locale, "translations");
 
-  console.log({ locale });
-
   const data = {
     left: [
       {
