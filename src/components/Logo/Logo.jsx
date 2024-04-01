@@ -2,10 +2,13 @@ import cls from "./styles.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { Box } from "@chakra-ui/react";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const Logo = ({ width = 35, height = 35 }) => {
 
-  return <Link href="/" className={cls.logoLInk}>
+  const locale = useGetLang();
+
+  return <Link href={`/${locale}`} className={cls.logoLInk}>
     <Image
       width={width}
       height={height}
