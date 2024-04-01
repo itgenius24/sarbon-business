@@ -19,7 +19,7 @@ export const useElements = () => {
     },
     {
       path: `/${lang || "ru"}/distance-calculation`,
-      label: "Расчет расстояния",
+      label: "Расчет расстояний",
     },
     {
       path: `/${lang || "ru"}/search-car`,
