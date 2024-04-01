@@ -241,55 +241,71 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     }
   });
 
-  const createCargo = useCreateCargoMutation({
-    onSuccess(data) {
+  function onCreateCargoSuccess(data) {
+    const isTemplate = data.cargo_type[0] === "template";
 
-      const isTemplate = data.cargo_type[0] === "template";
+    let loadingsData = [];
+    let unloading = [];
 
-      let loadingsData = [];
-      let unloading = [];
+    getValues("loadings").forEach(item => {
+      if(item.address && item.cor) {
 
-      getValues("loadings").forEach(item => {
-        if(item.address && item.cor) {
+        const cor = item.cor;
+        const isCorArr = Array.isArray(cor);
+
+        if(isCorArr) {
+          loadingsData.push(item.address, ...item.cor);
+        } else {
           loadingsData.push(item.address, ...item.cor.split(","));
         }
-      });
+      }
+    });
 
-      getValues("unloading").forEach(item => {
-        if(item.address && item.cor) {
+    getValues("unloading").forEach(item => {
+      if(item.address && item.cor) {
+
+        const cor = item.cor;
+        const isCorArr = Array.isArray(cor);
+
+        if(isCorArr) {
+          unloading.push(item.address, ...item.cor);
+        } else {
           unloading.push(item.address, ...item.cor.split(","));
         }
-      });
+      }
+    });
 
-      createAddress.mutate(
-        {
-          data:{
-            object_data:{
-              name: loadingsData.concat(unloading),
-              cargo_id: data?.guid
-            }
-          }
-        },
-        {
-          onSuccess() {
-            setLoading(false);
-            toast({
-              position: "top-right",
-              title: isTemplate ? t("Шаблон успешно создан") : t("Груз успешно создан"),
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-            });
-
-            if(!isTemplate) {
-              router.push(`/${locale}/my-loads`);
-            } else {
-              handleResetForm();
-            }
+    createAddress.mutate(
+      {
+        data:{
+          object_data:{
+            name: loadingsData.concat(unloading),
+            cargo_id: data?.guid
           }
         }
-      );
-    },
+      },
+      {
+        onSuccess() {
+          setLoading(false);
+          toast({
+            position: "top-right",
+            title: isTemplate ? t("Шаблон успешно создан") : t("Груз успешно создан"),
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+
+          if(!isTemplate) {
+            router.push(`/${locale}/my-loads`);
+          } else {
+            handleResetForm();
+          }
+        }
+      }
+    );
+  }
+
+  const createCargo = useCreateCargoMutation({
     onError() {
       setLoading(false);
     }
@@ -502,7 +518,11 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       if(data.isTemp) {
         requestData.data.cargo_type = ["template"];
       }
-      createCargo.mutate(requestData);
+      createCargo.mutate(requestData, {
+        onSuccess(data) {
+          onCreateCargoSuccess(data);
+        }
+      });
     }
   }
 
@@ -524,10 +544,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function handleDeleteTemplate(item) {
     deleteTemplate.mutate({ id: item.guid });
-  }
-
-  function handleAddTemplate() {
-    console.log("first");
   }
 
   function getData() {
@@ -713,6 +729,5 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     isOpen,
     templates: getTempCargo.data?.response ?? [],
     handleDeleteTemplate,
-    handleAddTemplate,
   };
 };

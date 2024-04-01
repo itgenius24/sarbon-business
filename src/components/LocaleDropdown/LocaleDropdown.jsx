@@ -1,46 +1,21 @@
 import cls from "./styles.module.scss";
 import { CheckIcon, SelectionArrow } from "@/assets/icons/icons";
-import UzbFlagImg from "@/assets/images/uz.png";
-import RFFlagImg from "@/assets/images/ru.png";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useCookies } from "react-cookie";
+import { useLocaleDropdownProps } from "./useLocaleDropdownProps";
 
 export const LocaleDropdown = ({ locale = "ru" }) => {
 
-  const [cookies, setCookie] = useCookies(["i18next"]);
+  const {
+    isOpen,
+    activeLang,
+    activeLangIndex,
+    handleChangeLocale,
+    langs,
+    setOpen,
+    dropdownRef
+  } = useLocaleDropdownProps({ locale });
 
-  const [isOpen, setOpen] = useState(false);
-
-  const langs = [
-    {
-      value: "ru",
-      label: "Русский",
-      shortName: "Ру",
-      icon: RFFlagImg,
-    },
-    {
-      value: "uz",
-      label: "Узбекский",
-      shortName: "Уз",
-      icon: UzbFlagImg,
-    }
-  ];
-
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const activeLangIndex = langs.findIndex(lang => lang.value === locale);
-  const activeLang = langs[activeLangIndex];
-
-  function handleChangeLocale(value) {
-    router.push(pathname.replace(locale, value));
-    setCookie("i18next", value, { path: "/" });
-    setOpen(false);
-  }
-
-  return <div className={cls.localeDropdown}>
+  return <div className={cls.localeDropdown} ref={dropdownRef} onClick={(e) => e.stopPropagation()}>
     <span className={cls.localeDropdownHeader} onClick={() => setOpen(!isOpen)}>
       <span>
         <Image src={activeLang?.icon} alt={activeLang?.label} width={18} height={18} />

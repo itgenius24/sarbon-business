@@ -19,8 +19,8 @@ export const useStagesProps = () => {
   const cargoType = watch("cargo_type");
   const volumeMeasurement = watch("volume_measurement");
 
-  const loadings = watch("loadings[0]");
-  const unloading = watch("unloading[0]");
+  const loadings = watch("loadings")[0];
+  const unloading = watch("unloading")[0];
 
   const transportType = watch("car_type");
   const transportCount = watch("transport_count");
@@ -49,18 +49,18 @@ export const useStagesProps = () => {
         else return "disabled";
       }
       case "loadings": {
-        if(loadings.address && unloading.address) return "done";
-        else if(loadings.address || unloading.address) return "process";
+        if(loadings?.address && unloading?.address) return "done";
+        else if(loadings?.address || unloading?.address) return "process";
         else return "disabled";
       }
       case "transport": {
-        if(transportType && transportCount) return "done";
-        else if(transportType || transportCount) return "process";
+        if(transportType?.value && transportCount) return "done";
+        else if(transportType?.value || transportCount) return "process";
         else return "disabled";
       }
       case "payment": {
-        if((price && pricePrepayment && priceAfter && paymentType) || watch("bargain") === "request") return "done";
-        else if(price || pricePrepayment || priceAfter || paymentType) return "process";
+        if((price && pricePrepayment && priceAfter && paymentType?.value) || watch("bargain") === "request") return "done";
+        else if(price || pricePrepayment || priceAfter || paymentType?.value) return "process";
         else return "disabled";
       }
       case "contact": {
