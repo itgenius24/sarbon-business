@@ -70,10 +70,7 @@ export const useMyLoadsMainProps = () => {
 
   const getOfferCargo = useGetOffer(
     getCargoFilterParams,
-    {
-      enabled: !!userId && !isCargo && hasMore,
-      keepPreviousData: true
-    }
+    { enabled: !!userId && !isCargo && hasMore, }
   );
 
   const deleteCargo = useDeleteCargo({
@@ -232,9 +229,11 @@ export const useMyLoadsMainProps = () => {
 
       if(getCargos().data?.length < 6) setHasMore(false);
       else setHasMore(true);
+      console.log("first");
 
-      if(isCargo) setCargos(prev => [...prev, ...getAllUserCargo.data.response]);
-      else setCargos(prev => [...prev, ...getOfferCargo.data.response]);
+      setTimeout(() => {
+        setCargos(prev => [...prev, ...getCargos().data]);
+      }, 0);
     }
   }, [getCargos().data]);
 

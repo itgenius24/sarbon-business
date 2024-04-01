@@ -24,7 +24,7 @@ export const MyLoadsMain = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-
+  console.log(cargos);
   return (
     <Box py="40px">
       <Container>
