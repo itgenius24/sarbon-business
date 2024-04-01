@@ -105,8 +105,8 @@ export const LoadingForm = () => {
       <div className={cls.fieldActionsButtons}>
         <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Загрузка")}</Button>
         <Button isDisabled={!canEdit} onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Разгрузка")}</Button>
-        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Ехать через")}</Button>
-        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Таможня")}</Button>
+        {/* <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Ехать через")}</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Таможня")}</Button> */}
       </div>
     </div>
     <div className={cls.fields}>

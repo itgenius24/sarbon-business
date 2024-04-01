@@ -149,7 +149,7 @@ export const LoadsCard = ({
               weight: weight,
               volume: volume_m3,
             });
-            router.push("/search-car?" + query.toString());
+            router.push(`/${locale}/search-car?` + query.toString());
           }}
           icon={<TruckIcon />}
         >
