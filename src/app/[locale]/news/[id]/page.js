@@ -38,7 +38,7 @@ export default function NewsPage({ params }) {
       </Heading>
       <Box maxH={514} borderRadius="10px" overflow="hidden" mb="64px">
         <Image
-          src={data?.photo}
+          src={data?.news_photo}
           alt={data?.title}
           width={908}
           height={514}

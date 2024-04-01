@@ -16,6 +16,7 @@ import Link from "next/link";
 import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useGetLang } from "@/hooks/useGetLang";
 const limit = 6;
 
 export const News = ({ t }) => {
@@ -134,7 +135,9 @@ const NewsCard = ({ data = {} }) => {
   const searchParams = useSearchParams();
   const fromPage = searchParams.get("page") || "1";
 
-  return <Link href={`news/${data.guid}?page=${fromPage}`}>
+  const locale = useGetLang();
+
+  return <Link href={`/${locale}/news/${data.guid}?page=${fromPage}`}>
     <Box>
       <Box borderRadius={10} overflow="hidden" maxW="max-content">
         <Image
