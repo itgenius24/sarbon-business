@@ -398,13 +398,18 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     { enabled: !!(userId && !isCargo), }
   );
 
-  const getTempCargo = useGetUserCargo({
-    data: JSON.stringify({
-      users_id: userId,
-      cargo_type:["template"],
-      with_relations: true
-    })
-  });
+  const getTempCargo = useGetUserCargo(
+    {
+      data: JSON.stringify(
+        {
+          users_id: userId,
+          cargo_type:["template"],
+          with_relations: true
+        }
+      )
+    },
+    { enabled: !!userId }
+  );
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess() {

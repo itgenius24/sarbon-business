@@ -1,3 +1,4 @@
+import authStore from "@/store/auth.store";
 import { useCreateAdMutation, useGetAddress, useGetCarById, useGetCarType, useGetCurrency, useUpdateAdMutation } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
 import { useToast } from "@chakra-ui/react";
@@ -9,6 +10,8 @@ export const useAdDetailProps = ({ id }) => {
 
   const router = useRouter();
   const toast = useToast();
+
+  const userId = authStore.userData.id;
 
   const statusOptions = [
     {
@@ -90,7 +93,7 @@ export const useAdDetailProps = ({ id }) => {
         currency_id: currency_id?.value || currencyOptions[0]?.value,
         photo: photo ? process.env.NEXT_PUBLIC_MEDIA_URL + photo : "",
         status: ["active"],
-        users_id: id,
+        users_id: userId,
         made_date: new Date(),
         address_id: data.address.value,
       },
