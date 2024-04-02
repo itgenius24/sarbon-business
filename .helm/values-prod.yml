@@ -91,10 +91,16 @@ ingress:
         - host: "furalar.uz"
           path: /
           servicePort: 8080
+        - host: "furgo.uz"
+          path: /
+          servicePort: 8080
       tls:
         - secretName: xlogistic-frontent-tls
           hosts:
             - "furalar.uz"
+        - secretName: furgo-frontent-tls
+          hosts:
+            - "furgo.uz"
  
 resources:
   {}
