@@ -18,6 +18,7 @@ import authStore from "@/store/auth.store";
 import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useState } from "react";
 import { Rating } from "@/components/Rating";
+import { Popup } from "@/components/Popup";
 
 export const SingleCar = ({ carInfo }) => {
 
@@ -26,15 +27,20 @@ export const SingleCar = ({ carInfo }) => {
   const toast = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  function handleClosePopup() {
+    setPopupOpen(false);
+  }
 
   const newList = [
     {
       title: "Транспорт",
-      value: carInfo?.short_name,
+      value: carInfo?.short_name || "Нет данных",
     },
     {
       title: "Разрешение:",
-      value: address[carInfo?.users_id_data?.adr],
+      value: address[carInfo?.users_id_data?.adr] || "Нет данных",
     },
     {
       title: "Детали:",
@@ -42,7 +48,7 @@ export const SingleCar = ({ carInfo }) => {
     },
     {
       title: "Дата загрузки:",
-      value: carInfo?.date,
+      value: carInfo?.date || "Нет данных",
     },
   ];
 
@@ -61,14 +67,8 @@ export const SingleCar = ({ carInfo }) => {
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
-      toast({
-        title: "Ваше предложение отправлено",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right"
-      });
       setIsOpen(false);
+      setPopupOpen(true);
     }
   });
 
@@ -144,6 +144,14 @@ export const SingleCar = ({ carInfo }) => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      <Popup
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+        status="success"
+        mainText="Успешно предложен"
+        subText="Груз успешно предложен водителю"
+        hideButtons
+      />
     </div>
   );
 };

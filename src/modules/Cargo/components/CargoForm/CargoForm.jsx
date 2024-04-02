@@ -6,6 +6,7 @@ import { DeleteIcon, PlusIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { DeleteButton } from "@/components/DeleteButton";
 
 export const CargoForm = () => {
 
@@ -102,7 +103,13 @@ export const CargoForm = () => {
     </Box>
     {
       isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px" key="packaging">
-        <Button disabled={!canEdit} visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handlePackagingAndQuantity} color="brand.700" leftIcon={<DeleteIcon />}>{t("Упаковка и количество")}</Button>
+        <DeleteButton
+          isDisabled={!canEdit}
+          visibility={canEdit ? "visible" : "hidden"}
+          onClick={handlePackagingAndQuantity}
+        >
+          {t("Упаковка и количество")}
+        </DeleteButton>
         <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
             errors={errors}
@@ -134,7 +141,12 @@ export const CargoForm = () => {
     }
     {
       isDimensionsAndDiameter && <Box display="flex" alignItems="flex-start" mt="24px" key="dimensions">
-        <Button visibility={canEdit ? "visible" : "hidden"} variant="reset" onClick={handleDimensionsAndDiameter} color="brand.700" leftIcon={<DeleteIcon />}>{t("Габариты и диаметр")}</Button>
+        <DeleteButton
+          visibility={canEdit ? "visible" : "hidden"}
+          onClick={handleDimensionsAndDiameter}
+        >
+          {t("Габариты и диаметр")}
+        </DeleteButton>
         <Box display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
