@@ -1,9 +1,10 @@
 import authStore from "@/store/auth.store";
 import { useDeleteCargo, useGetOffer, useGetUserCargo, usePushNotificationMutation, useUpdateResponse } from "@/services/api";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
+import { keepPreviousData } from "@tanstack/react-query";
 
 export const useMyLoadsMainProps = () => {
   const [orderStatus, setOrderStatus] = useState("");
@@ -13,12 +14,11 @@ export const useMyLoadsMainProps = () => {
   const toast = useToast();
 
   const [hasMore, setHasMore] = useState(true);
-  const [offset, setOffset] = useState(0);
-  const [cargos, setCargos] = useState([]);
+  const [limit, setLimit] = useState(6);
 
   const getAllUserCargoParams = {
-    limit: 6,
-    offset,
+    limit,
+    offset: 0,
     data: JSON.stringify({
       users_id: userId,
       with_relations: true,
@@ -27,8 +27,8 @@ export const useMyLoadsMainProps = () => {
   };
 
   const getCargoFilterParams = {
-    limit: 6,
-    offset,
+    limit,
+    offset: 0,
     data: JSON.stringify({
       users_id_3: userId,
       with_relations: true,
@@ -41,6 +41,7 @@ export const useMyLoadsMainProps = () => {
 
     const data = JSON.parse(getCargoFilterParams.data);
     data.response_status = [orderStatus];
+    data.provisions = ["new"];
     getCargoFilterParams.data = JSON.stringify(data);
 
   } else if(orderStatus === "performed" || orderStatus === "cancellation" || orderStatus === "archive") {
@@ -65,12 +66,18 @@ export const useMyLoadsMainProps = () => {
 
   const getAllUserCargo = useGetUserCargo(
     getAllUserCargoParams,
-    { enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore }
+    {
+      enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore,
+      placeholderData: keepPreviousData
+    }
   );
 
   const getOfferCargo = useGetOffer(
     getCargoFilterParams,
-    { enabled: !!userId && !isCargo && hasMore, }
+    {
+      enabled: !!userId && !isCargo && hasMore,
+      placeholderData: keepPreviousData
+    }
   );
 
   const deleteCargo = useDeleteCargo({
@@ -169,48 +176,30 @@ export const useMyLoadsMainProps = () => {
     deleteCargo.mutate({ id });
   }
 
+  const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
+
   function onFilterChange({ value }) {
     setOrderStatus(value);
+    setLimit(6);
+    setHasMore(true);
   }
-
-  const getCargos = useCallback(() => {
-    if(isCargo) {
-      return {
-        data: getAllUserCargo.data?.response,
-        isLoading: getAllUserCargo.isLoading,
-        count: getAllUserCargo.data?.count,
-      };
-    }
-
-    if(!isCargo) {
-      return {
-        data: getOfferCargo.data?.response,
-        isLoading: getOfferCargo.isLoading,
-        count: getOfferCargo.data?.count,
-      };
-    }
-
-    return {
-      data: [],
-      isLoading: false,
-      count: 0,
-    };
-
-  }, [getAllUserCargo.data, getOfferCargo.data]);
 
   const ref = useRef(null);
 
-  const setDebouncedLimit = useDebounce(setOffset, 450);
+  const setDebouncedLimit = useDebounce(setLimit, 450);
 
   function handleLoadMore() {
     setDebouncedLimit(prev => prev + 6);
   }
 
   const handleScroll = () => {
+
     if(ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
 
-      if(isVisible) setDebouncedLimit(prev => prev + 6);
+      if(isVisible && hasMore) {
+        setDebouncedLimit(prev => prev + 6);
+      }
     }
 
   };
@@ -225,27 +214,18 @@ export const useMyLoadsMainProps = () => {
   }, []);
 
   useEffect(() => {
-    if(getCargos().data?.length) {
 
-      if(getCargos().data?.length < 6) setHasMore(false);
-      else setHasMore(true);
-      console.log("first");
-
-      setTimeout(() => {
-        setCargos(prev => [...prev, ...getCargos().data]);
-      }, 0);
+    if(cargosData.data?.count && cargosData.data?.count === cargosData.data?.response.length) {
+      setHasMore(false);
+    } else {
+      setHasMore(true);
     }
-  }, [getCargos().data]);
 
-  useEffect(() => {
-    setCargos([]);
-    setHasMore(true);
-    setOffset(0);
-  }, [orderStatus]);
+  }, [getAllUserCargo.data, getOfferCargo.data]);
 
   return {
-    cargos,
-    isLoading: getCargos().isLoading,
+    cargos: cargosData.data?.response,
+    isLoading: cargosData.isLoading,
     hasMore,
     onFilterChange,
     handleDelete,

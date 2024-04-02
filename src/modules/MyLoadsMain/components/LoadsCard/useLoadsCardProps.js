@@ -35,6 +35,7 @@ export const useLoadsCardProps = ({
   const toast = useToast();
 
   const responseStatuses = {
+    "": order_status,
     in_moderation: order_status,
     new: provisions,
     performed: provisions,
@@ -54,7 +55,8 @@ export const useLoadsCardProps = ({
     unloaded: t("разгрузился"),
     complete_the_order: t("завершить заказ"),
     breaking: t("Поломка"),
-    road_accident: t("ДТП")
+    road_accident: t("ДТП"),
+    in_active: t("неактивен"),
   };
 
   const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];

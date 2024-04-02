@@ -24,7 +24,7 @@ export const MyLoadsMain = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(cargos);
+
   return (
     <Box py="40px">
       <Container>
@@ -34,8 +34,7 @@ export const MyLoadsMain = () => {
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
         <Box display="flex" flexDirection="column" rowGap="16px">
           {
-          cargos?.length ? (
-            cargos?.map((cargo, index) => {
+            cargos?.length && cargos?.map((cargo, index) => {
               if(index === cargos.length -1) {
                 return (
                   <LoadsCard
@@ -61,13 +60,14 @@ export const MyLoadsMain = () => {
                 );
               }
             })
-          ) : isLoading
-            ? <LoadingSpinner />
-            : (
-              <Heading size="sm" textAlign="center">
-                {t("Ничего не найдено")}
-              </Heading>
-            )
+          }
+          {
+            (!cargos?.length && !isLoading) && <Heading size="sm" textAlign="center">
+              {t("Ничего не найдено")}
+            </Heading>
+          }
+          {
+            isLoading && <LoadingSpinner />
           }
         </Box>
       </Container>

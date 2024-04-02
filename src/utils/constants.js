@@ -29,4 +29,5 @@ export const statuses = {
   performed: "В исполнении",
   cancellation: "Отменённые",
   archive: "Архив",
+  in_active: "Неактивен",
 };
