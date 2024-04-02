@@ -6,11 +6,12 @@ const LoadingMap = React.memo(({
   defaultState,
   setYMaps,
   yandexMapRef,
-  placeMarkGeometry
+  placeMarkGeometry,
+  isDisabled,
 }) => {
 
   return <Map
-    onClick={onMapClick}
+    onClick={isDisabled ? () => {} : onMapClick}
     onLoad={(ymaps) => setYMaps(ymaps)}
     defaultState={defaultState}
     instanceRef={yandexMapRef}

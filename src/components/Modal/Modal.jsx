@@ -22,6 +22,7 @@ export const Modal = ({
   withCloseBtn,
   width,
   withFooter = true,
+  isDisabled,
   ...props
 }) => {
 
@@ -44,7 +45,7 @@ export const Modal = ({
               {firstBtnText || "Закрыть"}
             </Button>
           }
-          <Button onClick={(e) => {
+          <Button isDisabled={isDisabled} onClick={(e) => {
             e.stopPropagation();
             secondBtnCallback();
           }}>

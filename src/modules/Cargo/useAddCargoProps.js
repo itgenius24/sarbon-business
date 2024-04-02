@@ -21,7 +21,7 @@ import { useTranslation } from "@/app/i18n/client";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
 
-  const isCargo = status === "active" || status === "in_moderation";
+  const isCargo = status === "active" || status === "in_moderation" || status === "in_active";
 
   const { t } = useTranslation(locale, "translations");
 
@@ -556,6 +556,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       case "new":
         return getOfferCargoById.data?.response[0];
       case "in_moderation":
+        return getCargo.data?.response?.[0];
+      case "in_active":
         return getCargo.data?.response?.[0];
       case "active":
         return getCargo.data?.response?.[0];

@@ -175,6 +175,7 @@ export const LoadingForm = () => {
       </div>
     </div>
     <Modal
+      isDisabled={!canEdit}
       isOpen={isModalOpen}
       onClose={handleCloseModal}
       firstBtnCallback={handleCloseModal}
@@ -183,13 +184,14 @@ export const LoadingForm = () => {
       size="xl"
     >
       <LoadingMap
+        isDisabled={!canEdit}
         onMapClick={onMapClick}
         setYMaps={setYMaps}
         yandexMapRef={yandexMapRef}
         placeMarkGeometry={placeMarkGeometry}
         defaultState={
           {
-            center: [41.40587471972005, 69.46086540238926],
+            center: coordinates,
             zoom: 15,
           }
         }
