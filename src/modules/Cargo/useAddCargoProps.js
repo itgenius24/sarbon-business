@@ -208,7 +208,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   const allResponseParams = { response_id: id };
 
-  const isAlCargo = status === "active" || status === "in_moderation";
+  const isAlCargo = status === "active" || status === "in_moderation" || status === "in_active";
 
   const getMaps = useGetMaps(
     { data: JSON.stringify(isAlCargo ? allCargoParams : allResponseParams) },
@@ -523,6 +523,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       if(data.isTemp) {
         requestData.data.cargo_type = ["template"];
       }
+      requestData.data.firm_id = authStore.userData.firm_id;
       createCargo.mutate(requestData, {
         onSuccess(data) {
           onCreateCargoSuccess(data);

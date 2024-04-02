@@ -34,7 +34,7 @@ export const MyLoadsMain = () => {
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
         <Box display="flex" flexDirection="column" rowGap="16px">
           {
-            cargos?.length && cargos?.map((cargo, index) => {
+            cargos?.length > 0 && cargos?.map((cargo, index) => {
               if(index === cargos.length -1) {
                 return (
                   <LoadsCard

@@ -18,7 +18,7 @@ export const useRegistrationFormProps = () => {
   const registerMutation = useRegisterMutation({
     onSuccess: (data) => {
       authStore.login({
-        user: data?.user,
+        user: { firm_id: authStore.authData.firm_id, ...data?.user },
         token: data?.token,
         role: data?.role
       });
@@ -38,6 +38,7 @@ export const useRegistrationFormProps = () => {
   const companyOptions = getCompanyList.data?.response?.map(company => ({ label: company?.full_name, value: company?.guid }));
 
   function onSubmit (data) {
+    authStore.setAuthData("firm_id", data.company?.value);
     registerMutation.mutate(
       {
         data:{
@@ -48,7 +49,7 @@ export const useRegistrationFormProps = () => {
           full_name: data.fullName,
           login: data.login,
           password: data.password,
-          company_id: data.company?.value,
+          firm_id: data.company?.value,
           email: data.email,
         }
       }

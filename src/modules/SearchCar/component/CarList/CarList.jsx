@@ -1,7 +1,6 @@
 "use client";
 
 import { Heading, VStack } from "@chakra-ui/react";
-import { useSearchCar } from "../../useSearchCar";
 import { SingleCar } from "../SingleCar/SingleCar";
 
 export const CarList = ({ data = [] }) => {

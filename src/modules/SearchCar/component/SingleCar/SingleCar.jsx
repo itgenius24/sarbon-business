@@ -14,10 +14,10 @@ import {
   useToast
 } from "@chakra-ui/react";
 import { DataList } from "@/components/DataList";
-import { DriverReviewStar } from "@/assets/icons/icons";
 import authStore from "@/store/auth.store";
 import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useState } from "react";
+import { Rating } from "@/components/Rating";
 
 export const SingleCar = ({ carInfo }) => {
 
@@ -41,8 +41,8 @@ export const SingleCar = ({ carInfo }) => {
       value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
     },
     {
-      title: "Рейтинг водителя:",
-      value: carInfo?.users_id_data?.rating,
+      title: "Дата загрузки:",
+      value: carInfo?.date,
     },
   ];
 
@@ -50,7 +50,7 @@ export const SingleCar = ({ carInfo }) => {
     data: JSON.stringify({
       users_id: userId,
       with_relations: true,
-      order_status: "active"
+      order_status: ["active"]
     })
   };
 
@@ -96,9 +96,10 @@ export const SingleCar = ({ carInfo }) => {
         <div className={cls.cardTopContent}>
           <h2 className={cls.address}>
             <span className={cls.addressText}>
-              {carInfo?.address_id_data?.name} {carInfo?.address_id_2_data?.name}
+              {carInfo?.address_id_data?.name} -&gt; {carInfo?.address_id_2_data?.name}
             </span>
           </h2>
+          <span><Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} /></span>
           {/* <span className={cls.distance}>724 км</span> */}
         </div>
       </div>

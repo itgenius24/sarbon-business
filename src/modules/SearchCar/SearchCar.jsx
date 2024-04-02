@@ -15,7 +15,6 @@ export const SearchCarModule = () => {
           {t("Поиск машин")}
         </Heading>
         <Search {...getSearchProps()} />
-
         <CarList {...getCarListProps()} />
       </Container>
     </>
