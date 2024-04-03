@@ -7,6 +7,7 @@ import { filterTabs } from "./data";
 import { useTranslation } from "@/app/i18n/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useGetLang } from "@/hooks/useGetLang";
+import { Empty } from "./components/Empty";
 
 export const MyLoadsMain = () => {
 
@@ -62,9 +63,7 @@ export const MyLoadsMain = () => {
             })
           }
           {
-            (!cargos?.length && !isLoading) && <Heading size="sm" textAlign="center">
-              {t("Ничего не найдено")}
-            </Heading>
+            (!cargos?.length && !isLoading) && <Empty t={t} />
           }
           {
             isLoading && <LoadingSpinner />

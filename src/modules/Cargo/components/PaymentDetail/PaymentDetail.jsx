@@ -4,9 +4,14 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useAddCargoContext } from "../../providers";
 import { Checkbox } from "@/components/Checkbox";
 import { usePaymentDetailProps } from "./usePaymentDetailProps";
+import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "@/app/i18n/client";
 
 export const PaymentDetail = () => {
-  const { control, register, errors } = useAddCargoContext();
+  const { control, register, errors, setValue } = useAddCargoContext();
+
+  const locale = useGetLang();
+  const { t } = useTranslation(locale, "translations");
 
   const {
     directContractOpen,
@@ -21,7 +26,7 @@ export const PaymentDetail = () => {
     {
       watch("payment_type")?.value === "269551bf-09f5-4ebe-936b-889ba5ae1c10" && <Box display="flex" columnGap="32px" mb="24px" >
         <Box width="280px" flexShrink={0}>
-          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Оплата через</Heading>
+          <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t("Оплата через")}</Heading>
         </Box>
         <TextFieldWithAddition
           disabled={!canEdit}
@@ -29,8 +34,8 @@ export const PaymentDetail = () => {
           register={register}
           control={control}
           additionalItemDefaultIndex={0}
-          placeholder="Кол-во дней"
-          additionalItemPlaceholder="банковских дней"
+          placeholder={t("Кол-во дней")}
+          additionalItemPlaceholder={t("банковских дней")}
           errors={errors}
           type="number"
           width="100%"
@@ -39,15 +44,15 @@ export const PaymentDetail = () => {
     }
     <Box display="flex" columnGap="32px" pb="24px" borderBottom="1px solid" borderColor="brand.200" >
       <Box width="280px" flexShrink={0}>
-        <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Добавить</Heading>
+        <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
       <Box display="flex" gap="12px" flexWrap="wrap">
         {
-          !prepaymentFuelOpen && <Button isDisabled={!canEdit} variant="reset" onClick={() => setPrepaymentFuelOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>Предоплата деньгами или топливом</Button>
+          !prepaymentFuelOpen && <Button isDisabled={!canEdit} variant="reset" onClick={() => setPrepaymentFuelOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>{t("Предоплата деньгами или топливом")}</Button>
         }
         {/* <Button variant="reset" leftIcon={<PlusIcon color="#007AFF" />}>Оплата на выгрузке</Button> */}
         {
-          !directContractOpen && <Button isDisabled={!canEdit} variant="reset" onClick={() => setDirectContractOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>Договор</Button>
+          !directContractOpen && <Button isDisabled={!canEdit} variant="reset" onClick={() => setDirectContractOpen(true)} leftIcon={<PlusIcon color="#007AFF" />}>{t("Договор")}</Button>
         }
       </Box>
     </Box>
@@ -61,7 +66,7 @@ export const PaymentDetail = () => {
             color="brand.700"
             leftIcon={<DeleteIcon color="#344054" />}
           >
-          Предоплата
+            {t("Предоплата")}
           </Button>
         </Box>
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
@@ -74,12 +79,18 @@ export const PaymentDetail = () => {
             errors={errors}
             type="number"
             max={100}
+            onChange={(e) => {
+              const value = e.target.value;
+              if(+value > 100) {
+                setValue("prepayment_percent", 100);
+              }
+            }}
           />
           <Checkbox disabled={!canEdit} name="prepayment_with_fuel" register={register}>
-          Предоплата топливом
+            {t("Предоплата топливом")}
           </Checkbox>
           <Checkbox disabled={!canEdit} name="prepayment_with_payment" register={register}>
-          Оплата на выгрузке (скрывает оплату через)
+            {t("Оплата на выгрузке (скрывает оплату через)")}
           </Checkbox>
         </Box>
       </Box>
@@ -94,12 +105,12 @@ export const PaymentDetail = () => {
             color="brand.700"
             leftIcon={<DeleteIcon />}
           >
-          Прямой договор
+            {t("Прямой договор")}
           </Button>
         </Box>
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
           <Checkbox disabled={!canEdit} name="contract" register={register}>
-          Заключаю договор с перевозчиком от своей фирмы
+            {t("Заключаю договор с перевозчиком от своей фирмы")}
           </Checkbox>
         </Box>
       </Box>
