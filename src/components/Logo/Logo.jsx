@@ -14,7 +14,8 @@ export const Logo = ({ width = 35, height = 35 }) => {
       height={height}
       src={"/svg/logo.svg"}
       alt="logo"
+      style={{ borderRadius: "50%" }}
     />
-    <Box as="span">Logistics</Box>
+    <Box as="span">Furgo</Box>
   </Link>;
 };

@@ -34,7 +34,7 @@ export const Login = () => {
     >
       {t("Вернуться на Главную")}
     </Button>
-    <AuthTitle mb="32px" title="Вход в Logistics" subtitle="" />
+    <AuthTitle mb="32px" title="Вход в Furgo" subtitle="" />
     <Box mb="24px" display="flex" flexDirection="column" rowGap="20px">
       <TextField register={register} rules={{ required: { value: true, message: t("Это поле обязательно для заполнения") } }} errors={errors} name="username" label={t("Логин")} placeholder={t("Введите свой логин")} />
       <TextField

@@ -26,7 +26,7 @@ export const RegistrationForm = () => {
   } = useRegistrationFormProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-    <AuthTitle mb="32px" title={t("Регистрация нового участника на Logistics")} />
+    <AuthTitle mb="32px" title={t("Регистрация нового участника на Furgo")} />
     <Box display="flex" flexDirection="column" rowGap="20px" mb="24px">
       <Dropdown
         options={clientTypeOptions}

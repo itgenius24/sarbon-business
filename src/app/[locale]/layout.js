@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Logistics",
-  description: "X Logistics",
+  title: "Furgo",
+  description: "Furgo - Cargo",
   icons: { icon: "/favicon.ico" }
 };
 

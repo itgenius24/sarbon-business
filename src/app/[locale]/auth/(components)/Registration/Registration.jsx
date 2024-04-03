@@ -29,7 +29,7 @@ export const Registration = () => {
     >
       {t("Вернуться на Войти")}
     </Button>
-    <AuthTitle mb="32px" title={t("Регистрация нового участника на Logistics")} />
+    <AuthTitle mb="32px" title={t("Регистрация нового участника на Furgo")} />
     <Box mb="24px">
       <TextField
         register={register}

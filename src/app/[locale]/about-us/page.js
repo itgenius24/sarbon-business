@@ -20,7 +20,7 @@ export default function AboutUsPage({ params }) {
   return <Container mt="50px">
     <BreadCrumb crumbs={crumbs} />
     <Heading fontSize="36px" lineHeight="44px" mb="24px">
-      {t("О системе Logistics")}
+      {t("О системе Furgo")}
     </Heading>
     <Text
       fontWeight="400"

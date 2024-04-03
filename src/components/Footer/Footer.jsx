@@ -30,7 +30,7 @@ export const Footer = () => {
     ],
     center: [
       {
-        title: t("О системе Logistics"),
+        title: t("О системе Furgo"),
         link: `/${locale}/about-us`,
       },
       {
@@ -110,7 +110,7 @@ export const Footer = () => {
         <div className={cls.footerSocials}>
           <div className={cls.mobileApps}>
             <p className={cls.mobileAppsHeading}>
-              {t("Мобильные приложения Logistics")}
+              {t("Мобильные приложения Furgo")}
             </p>
             <ul className={cls.mobileAppList}>
               <li className={cls.mobileAppItem}>

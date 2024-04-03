@@ -50,10 +50,10 @@ const LeftContent = ({ description, description1 }) => {
             width={40}
             height={40}
             src={"/svg/logo.svg"}
-            alt="Logistics logo"
+            alt="Furgo logo"
           />
           <Box as="span" ml="10px" fontSize={24} fontWeight={600}>
-            Logistics
+          Furgo
           </Box>
         </Flex>
         <List maxW={384} color="brand.600" ml={"42px"}>
