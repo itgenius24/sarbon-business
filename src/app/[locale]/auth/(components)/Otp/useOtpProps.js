@@ -16,6 +16,8 @@ export const useOtpProps = () => {
 
   const { t } = useTranslation(locale, "translations");
 
+  const [error, setError] = useState(false);
+
   const { smsId, phone } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
@@ -23,6 +25,7 @@ export const useOtpProps = () => {
       router.push(`/${locale}/auth/registration-form`);
     },
     onError: () => {
+      setError(true);
       toast({
         title: t("Неправильный код"),
         status: "error",
@@ -35,6 +38,7 @@ export const useOtpProps = () => {
 
   function onChange (value) {
     setValue(value);
+    setError(false);
   }
 
   function handleSendOtp () {
@@ -61,5 +65,6 @@ export const useOtpProps = () => {
     navigateBack,
     phone,
     t,
+    error,
   };
 };

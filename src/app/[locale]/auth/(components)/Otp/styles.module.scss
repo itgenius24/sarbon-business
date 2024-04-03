@@ -55,6 +55,10 @@
   animation: horizontal-shaking 0.15s;
 }
 
+.error {
+  border-color: var(--error-600);
+}
+
 @keyframes horizontal-shaking {
   0% {
     transform: translateX(0);

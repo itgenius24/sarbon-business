@@ -100,7 +100,7 @@ export const useStagesProps = () => {
     {
       title: "Маршрут",
       status: loadingsStatus,
-      subtitle: loadingsStatus === "done" ? loadings?.address + " - " + unloading?.address : t("не заполнено")
+      subtitle: loadingsStatus === "done" ? loadings?.address + " -> " + unloading?.address : t("не заполнено")
     },
     {
       title: "Транспорт",

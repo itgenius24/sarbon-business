@@ -105,7 +105,7 @@ export const useLoadsCardProps = ({
     },
   ];
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue, watch, } = useForm();
 
   const createFeedback = useCreateFeedback({
     onSuccess() {
@@ -166,6 +166,8 @@ export const useLoadsCardProps = ({
     register,
     t,
     locale,
+    setValue,
+    watch,
   };
 
 };

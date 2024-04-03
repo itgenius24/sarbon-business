@@ -5,7 +5,7 @@ import { AuthTitle } from "../AuthTitle";
 import { Dropdown } from "@/components/Dropdown";
 import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
-import { HelpCircleIcon } from "@/assets/icons/icons";
+import { EyeIcon, EyeIconOff, HelpCircleIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 
 export const RegistrationForm = () => {
@@ -19,6 +19,10 @@ export const RegistrationForm = () => {
     handleBack,
     companyOptions,
     t,
+    errors,
+    handleTogglePasswordVisibility,
+    isPasswordVisible,
+    watch,
   } = useRegistrationFormProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -29,20 +33,35 @@ export const RegistrationForm = () => {
         control={control}
         name="clientType"
         label={t("Профиль деятельности")}
-        required
+        errors={errors}
+        required={{
+          value: true,
+          message: t("Это поле обязательно"),
+        }}
       />
       <Dropdown
         options={companyOptions}
         control={control}
         name="company"
         label={t("Компания")}
-        required
+        errors={errors}
+        required={{
+          value: true,
+          message: t("Это поле обязательно"),
+        }}
       />
       <TextField
         label="Имя"
         name="fullName"
         register={register}
         placeholder={t("Введите свое имя")}
+        errors={errors}
+        rules={{
+          required: {
+            value: true,
+            message: t("Это поле обязательно"),
+          },
+        }}
       />
       <TextField
         label="Email"
@@ -50,29 +69,57 @@ export const RegistrationForm = () => {
         register={register}
         placeholder={t("Введите свой email")}
         type="email"
+        errors={errors}
         addonAfter={<HelpCircleIcon />}
+        rules={{
+          required: {
+            value: true,
+            message: t("Это поле обязательно"),
+          },
+        }}
       />
       <TextField
         label="Логин"
         name="login"
         register={register}
+        errors={errors}
         placeholder={t("Введите свой логин")}
+        rules={{
+          required: {
+            value: true,
+            message: t("Это поле обязательно"),
+          },
+        }}
       />
       <TextField
         label={t("Пароль")}
         bottomText={t("мин. 8 символов")}
         name="password"
         register={register}
-        placeholder="••••••••"
-        type="password"
+        placeholder={isPasswordVisible ? "Введите свой пароль" : "••••••••"}
+        type={isPasswordVisible ? "text" : "password"}
+        errors={errors}
+        addonAfter={
+          <button type="button" onClick={handleTogglePasswordVisibility}>
+            {
+              isPasswordVisible ? <EyeIconOff /> : <EyeIcon />
+            }
+          </button>
+        }
+        rules={{
+          required: {
+            value: true,
+            message: t("Это поле обязательно"),
+          },
+        }}
       />
     </Box>
-    <Box display="flex" flexDirection="column" rowGap="16px">
-      <Button type="submit">{t("Подтвердить")}</Button>
+    <Box display="flex" flexDirection="column" mt="24px">
+      <Box mb="16px">
+        <Checkbox filled register={register} name="acceptTerms">{t("Нажимая кнопку, вы принимаете условия Пользовательского соглашения")}</Checkbox>
+      </Box>
+      <Button type="submit" mb="16px" isDisabled={!watch("acceptTerms")} >{t("Подтвердить")}</Button>
       <Button variant="secondary" onClick={handleBack}>{t("Назад")}</Button>
-    </Box>
-    <Box mt="32px">
-      <Checkbox filled>{t("Нажимая кнопку, вы принимаете условия Пользовательского соглашения")}</Checkbox>
     </Box>
   </Box>;
 };

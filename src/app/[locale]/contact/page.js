@@ -26,7 +26,7 @@ export default function ContactPage({ params }) {
           {t("Контактная информация")}
         </Heading>
         <Box mb="100px">
-          <Image src={directory?.photo} width="908" height="374" alt="" />
+          <Image style={{ borderRadius: "10px" }} src={directory?.photo} width="908" height="374" alt="" />
         </Box>
         <Box display="flex" columnGap="24px" mb="50px">
           <ContactCard title={t("Почта")} desc={t("Мы вам поможем")} type="email" content={directory?.email} />

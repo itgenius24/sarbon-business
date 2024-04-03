@@ -4,6 +4,7 @@ import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useLoginProps = () => {
@@ -12,6 +13,8 @@ export const useLoginProps = () => {
 
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
+
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
@@ -23,6 +26,7 @@ export const useLoginProps = () => {
     register,
     watch,
     formState: { errors },
+    setError,
   } = useForm();
 
   const login = useLoginMutation({
@@ -67,13 +71,18 @@ export const useLoginProps = () => {
         });
       }
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
+      setError("username", { message: t("Неверные данные") });
+      setError("password", { message: t("Неверные данные") });
     },
   });
 
   function navigateRegistration () {
     router.push(`/${locale}/auth/registration`);
+  }
+
+  function navigateToMain () {
+    router.push(`/${locale}`);
   }
 
   function onSubmit (data) {
@@ -82,6 +91,10 @@ export const useLoginProps = () => {
 
   function onRememberChange (e) {
     authStore.setRemember(e.target.checked);
+  }
+
+  function handleTogglePasswordVisibility(){
+    setPasswordVisible(!isPasswordVisible);
   }
 
   return {
@@ -93,6 +106,9 @@ export const useLoginProps = () => {
     isPending: loginOne.isPending || login.isPending,
     onRememberChange,
     t,
+    handleTogglePasswordVisibility,
+    isPasswordVisible,
+    navigateToMain,
   };
 
 };

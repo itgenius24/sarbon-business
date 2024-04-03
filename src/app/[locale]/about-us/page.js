@@ -29,7 +29,7 @@ export default function AboutUsPage({ params }) {
       color="brand.600"
       dangerouslySetInnerHTML={{ __html: directory?.question }}
     />
-    <Image alt="" src={directory?.photo} width="907" height="128" />
+    <Image style={{ borderRadius: "10px" }} alt="" src={directory?.photo} width="907" height="128" />
     <Text
       mt="64px"
       fontWeight="400"

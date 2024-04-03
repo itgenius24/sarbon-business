@@ -58,6 +58,8 @@ export const LoadsCard = forwardRef(({
     onSubmit,
     t,
     locale,
+    setValue,
+    watch,
   } = useLoadsCardProps({
     order_status,
     provisions,
@@ -260,7 +262,19 @@ export const LoadsCard = forwardRef(({
       </Box>
       <Box mt="24px">
         <span className={cls.text}>{t("Комментарий")}</span>
-        <CustomTextarea register={register} name="rewiv" className={cls.textarea} />
+        <CustomTextarea
+          register={register}
+          name="rewiv"
+          className={cls.textarea}
+          value={watch("rewiv")}
+          watch={watch}
+          onChange={(e) => {
+            const value = e.target.value;
+            if(value.length <= 1000) {
+              setValue("rewiv", value.replace(/\d/g, ""));
+            }
+          }}
+        />
       </Box>
     </Modal>
   </div>;

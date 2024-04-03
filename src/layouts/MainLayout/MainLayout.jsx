@@ -22,6 +22,8 @@ export const MainLayout = ({ children }) => {
     <article className={cls.main}>
       {children}
     </article>
-    <Footer />
+    {
+      !isAuth && <Footer />
+    }
   </div>;
 };

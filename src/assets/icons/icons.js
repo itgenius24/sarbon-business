@@ -942,3 +942,11 @@ export const ClockIcon = () => (
 export const RouteDirectionIcon = () => (
   <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16.959" cy="17.417" r="2.292" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M5.959 4.926a.115.115 0 1 1-.001.229.115.115 0 0 1 0-.23" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path clipRule="evenodd" d="M9.167 5.04c0 1.523-1.702 3.152-2.628 3.925a.944.944 0 0 1-1.163 0C4.45 8.192 2.75 6.563 2.75 5.04v0a3.208 3.208 0 0 1 3.208-3.208v0A3.208 3.208 0 0 1 9.167 5.04v0Z" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M11 17.418H8.25a2.75 2.75 0 0 1-2.75-2.75v0a2.75 2.75 0 0 1 2.75-2.75h5.5a2.75 2.75 0 0 0 2.75-2.75v0a2.75 2.75 0 0 0-2.75-2.75h-1.833" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
 );
+
+export const EyeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"><path d="M1.613 8.476c-.09-.144-.136-.216-.161-.327a.782.782 0 0 1 0-.298c.025-.11.07-.183.161-.326C2.363 6.337 4.597 3.333 8 3.333c3.404 0 5.637 3.004 6.387 4.192.09.143.136.215.162.326.019.083.019.215 0 .298-.026.111-.071.183-.162.327-.75 1.188-2.983 4.19-6.387 4.19-3.403 0-5.636-3.002-6.387-4.19Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);
+
+export const EyeIconOff = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"><path d="M7.162 3.395c.27-.04.55-.062.838-.062 3.404 0 5.637 3.004 6.387 4.192.09.143.136.215.162.326a.784.784 0 0 1 0 .298c-.026.11-.071.183-.163.328-.2.316-.505.761-.908 1.243M4.483 4.477c-1.441.977-2.42 2.336-2.869 3.047-.091.144-.137.216-.162.327a.782.782 0 0 0 0 .298c.025.11.07.183.161.326.75 1.188 2.984 4.192 6.387 4.192 1.373 0 2.555-.489 3.526-1.15M2 2l12 12M6.586 6.586a2 2 0 0 0 2.828 2.828" stroke="#667085" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+);

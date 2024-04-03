@@ -26,6 +26,7 @@ export const Dropdown = ({
   errors,
   error,
   disabled,
+  className,
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
 
@@ -54,7 +55,7 @@ export const Dropdown = ({
     defaultValue={options[defaultValueIndex]}
     rules={{ required }}
     render={({ field: { value, onChange, ...props }, }) => (
-      <div className={cls.dropdown} {...props}>
+      <div className={clsx(cls.dropdown, className)} {...props}>
         {label && <span className={cls.label}>{label}</span>}
         <div className={cls.controlWrap} >
           <div

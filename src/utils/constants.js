@@ -27,7 +27,7 @@ export const statuses = {
   rejected: "Не прошел модерацию",
   approve_from_driver: "Ждём водителя",
   performed: "В исполнении",
-  cancellation: "Отменённые",
+  cancellation: "Отменён",
   archive: "Архив",
   in_active: "Неактивен",
 };

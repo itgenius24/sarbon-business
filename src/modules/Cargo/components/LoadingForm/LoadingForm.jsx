@@ -90,7 +90,6 @@ export const LoadingForm = () => {
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
                       <LocationMarkIcon />
-                      <DotPointIcon />
                     </span>
                   }
                 />
@@ -154,7 +153,6 @@ export const LoadingForm = () => {
                 additionalItemPlaceholder={
                   <span className={cls.additionalIcons}>
                     <LocationMarkIcon />
-                    <DotPointIcon />
                   </span>
                 }
               />

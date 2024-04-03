@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
+import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
 
 export const useRegistrationFormProps = () => {
   const locale = useGetLang();
@@ -13,7 +15,11 @@ export const useRegistrationFormProps = () => {
 
   const { phone } = authStore.getAuthData;
 
-  const { control, register, handleSubmit, watch } = useForm();
+  const { control, register, handleSubmit, watch, formState: { errors } } = useForm();
+
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+
+  const toast = useToast();
 
   const registerMutation = useRegisterMutation({
     onSuccess: (data) => {
@@ -23,6 +29,17 @@ export const useRegistrationFormProps = () => {
         role: data?.role
       });
       router.push(`/${locale}`);
+    },
+    onError(error) {
+      if(error.data?.data?.includes("duplicate")) {
+        toast({
+          title: t("Такой номер уже зарегистрирован"),
+          status: "error",
+          position: "top right",
+        });
+
+        router.push(`/${locale}/auth/login`);
+      }
     }
   });
 
@@ -56,6 +73,10 @@ export const useRegistrationFormProps = () => {
     );
   }
 
+  function handleTogglePasswordVisibility(){
+    setPasswordVisible(!isPasswordVisible);
+  }
+
   function handleBack(){
     router.push(`/${locale}/auth/registration`);
   }
@@ -68,6 +89,10 @@ export const useRegistrationFormProps = () => {
     onSubmit,
     handleBack,
     companyOptions,
-    t
+    t,
+    errors,
+    handleTogglePasswordVisibility,
+    isPasswordVisible,
+    watch,
   };
 };

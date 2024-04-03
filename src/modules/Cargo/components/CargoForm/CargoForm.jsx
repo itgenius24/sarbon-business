@@ -1,3 +1,4 @@
+import cls from "./styles.module.scss";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
@@ -48,6 +49,7 @@ export const CargoForm = () => {
             options={cargoTypeOptions}
             errors={errors}
             disabled={!canEdit}
+            className={cls.dropdown}
           />
           <TextFieldWithAddition
             errors={errors}
