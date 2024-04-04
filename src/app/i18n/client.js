@@ -46,5 +46,11 @@ export function useTranslation(locale, ns, options) {
       setCookie(cookieName, locale, { path: "/" });
     }, [locale, cookies.i18next]);
   }
+
+  if(locale === "undefined") {
+    setCookie(cookieName, "ru", { path: "/" });
+    i18n.changeLanguage("ru");
+  }
+
   return ret;
 }

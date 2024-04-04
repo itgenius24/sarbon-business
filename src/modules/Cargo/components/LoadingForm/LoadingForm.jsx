@@ -1,17 +1,17 @@
 "use client";
 
 import React from "react";
-import { Dropdown } from "@/components/Dropdown";
 import cls from "./styles.module.scss";
 import { useLoadingFormProps } from "./useLoadingFormProps";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { DeleteIcon, DotPointIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
+import { DeleteIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
 import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { Modal } from "@/components/Modal";
 import LoadingMap from "../LoadingMap";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { DropdownWrapper } from "../DropdownWrapper";
 
 export const LoadingForm = () => {
 
@@ -28,7 +28,6 @@ export const LoadingForm = () => {
     isModalOpen,
     handleOpenModal,
     handleCloseModal,
-    getAddressOptions,
     errors,
     canEdit,
     coordinates,
@@ -37,6 +36,7 @@ export const LoadingForm = () => {
     setYMaps,
     yandexMapRef,
     setIsModalOpen,
+    setValue
   } = useLoadingFormProps();
 
   const locale = useGetLang();
@@ -66,16 +66,18 @@ export const LoadingForm = () => {
                 }
               </div>
               <div className={cls.field}>
-                <Dropdown
+                <DropdownWrapper
+                  searchable
+                  disabled={!canEdit}
                   control={control}
                   required
                   register={register}
                   watch={watch}
                   name={`loadings[${index}].location`}
                   placeholder={t("Населённый пункт")}
-                  options={getAddressOptions}
                   error={errors["loadings"]?.[index]?.["location"]}
-                  disabled={!canEdit}
+                  searchName={`loadings[${index}].search`}
+                  setValue={setValue}
                 />
                 <TextFieldWithAddition
                   placeholder={t("Адрес")}
@@ -129,7 +131,8 @@ export const LoadingForm = () => {
               }
             </div>
             <div className={cls.field}>
-              <Dropdown
+              <DropdownWrapper
+                searchable
                 disabled={!canEdit}
                 control={control}
                 required
@@ -137,8 +140,9 @@ export const LoadingForm = () => {
                 watch={watch}
                 name={`unloading[${index}].location`}
                 placeholder={t("Населённый пункт")}
-                options={getAddressOptions}
                 error={errors["unloading"]?.[index]?.["location"]}
+                searchName={`unloading[${index}].search`}
+                setValue={setValue}
               />
               <TextFieldWithAddition
                 onlyFieldDisabled={true}

@@ -217,6 +217,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
+      console.log({ data });
       unloadingRef.current = [
         ...unloadingRef.current,
         ...data.response.map(item => (
@@ -408,7 +409,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         }
       )
     },
-    { enabled: !!userId }
+    { enabled: !!userId && !id }
   );
 
   const updateResponseMutation = useUpdateResponse({
@@ -486,6 +487,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         address_id: data.loadings[0].location.value,
         address_ids: addressIds,
         address_id_2: data.unloading[0].location.value,
+        city_id: data.loadings[0].location.guid,
+        city_id_2: data.unloading[0].location.guid,
         gps_monitoring: data.gps_monitoring,
         vehicle_type_id: data.car_type.value,
         number_of_cars: data.transport_count,
@@ -538,13 +541,18 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function handleSelectTemplate(item) {
+
     resetForm(item, item.guid);
-    getLoadingMutation.mutate({
-      function_id: "1d8af62e-cb8d-4599-966a-4a614435bed8",
-      object_ids: [
-        item.guid
-      ]
-    });
+
+    if(item?.address_ids.length) {
+      getLoadingMutation.mutate({
+        data: {
+          object_ids: [
+            item?.address_ids
+          ]
+        }
+      });
+    }
     handleCloseModal();
   }
 
@@ -578,8 +586,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       {
         location: {
           value: data?.address_id_data?.guid,
-          label: data?.address_id_data?.name
+          label: data?.city_id_data?.name + " " + data?.address_id_data?.name,
+          guid: data?.city_id_data?.guid,
         },
+        search: data?.city_id_data?.name + " " + data?.address_id_data?.name,
         address: "",
         cor: []
       }
@@ -589,8 +599,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       {
         location: {
           value: data?.address_id_2_data?.guid,
-          label: data?.address_id_2_data?.name
+          label: data?.city_id_2_data?.name + " " + data?.address_id_2_data?.name,
+          guid: data?.city_id_2_data?.guid,
         },
+        search: data?.city_id_2_data?.name + " " + data?.address_id_2_data?.name,
         address: "",
         cor: []
       }
@@ -658,12 +670,21 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   useEffect(() => {
     if(id && (getCargo.isSuccess || getOfferCargoById.isSuccess)) {
-      getLoadingMutation.mutate({
-        function_id: "1d8af62e-cb8d-4599-966a-4a614435bed8",
-        object_ids: [
-          id
-        ]
-      });
+
+      let object_ids = [];
+
+      if(isCargo) {
+        object_ids = getCargo.data?.response[0]?.address_ids;
+      } else {
+        object_ids = getOfferCargoById.data?.response[0]?.address_ids;
+      }
+
+      if(object_ids.length) {
+        getLoadingMutation.mutate({ data: { object_ids } });
+      } else {
+        getMaps.refetch();
+      }
+
     }
   }, [id, getCargo.data, getOfferCargoById.data]);
 
@@ -684,6 +705,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       });
 
       unloadingRef.current.push(unloadingRef.current.shift());
+
+      console.log(unloadingRef);
 
       setValue("loadings", loadingsRef.current);
       setValue("unloading", unloadingRef.current);

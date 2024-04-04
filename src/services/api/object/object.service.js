@@ -21,6 +21,7 @@ const objectService = {
   getMaps: (params) => request.get("/v2/object-slim/get-list/period", { params }),
   getDirectory: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
   getPartners: (params) => request.get("/v2/object-slim/get-list/partners_company", { params }),
+  getCityList: (params) => request.get("/v2/object-slim/get-list/city", { params }),
 };
 
 
@@ -205,6 +206,14 @@ export const useGetPartnersCompany = (params, settings) => {
   return useQuery({
     queryKey: ["object/getPartners", params],
     queryFn: () => objectService.getPartners(params),
+    ...settings,
+  });
+};
+
+export const useGetCityList = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getCityList", params],
+    queryFn: () => objectService.getCityList(params),
     ...settings,
   });
 };

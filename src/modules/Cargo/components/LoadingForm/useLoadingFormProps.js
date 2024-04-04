@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 import { useAddCargoContext } from "../../providers";
-import { useGetAddress } from "@/services/api";
+import { useGetAddress, useGetCityList } from "@/services/api";
 
 export const useLoadingFormProps = () => {
 
@@ -17,8 +17,15 @@ export const useLoadingFormProps = () => {
 
   const { control, register, watch, setValue, errors, canEdit } = useAddCargoContext();
 
-  const getAddress = useGetAddress();
-  const getAddressOptions = getAddress.data?.response?.map(item => ({ label: item.name, value: item.guid, addressId: item.address_id }));
+  // const getCity = useGetCityList({
+  //   data: JSON.stringify({
+  //     view_fields: ["name"],
+  //     with_relations: true,
+  //     search: search || "lorem123",
+  //   })
+  // });
+
+  // const getAddressOptions = getCity.data?.response?.map(item => ({ label: `${item.name} ${item.address_id_data?.name}`, value: item.address_id_data?.guid, addressId: item.address_id }));
 
   const {
     fields: loadings,
@@ -55,6 +62,31 @@ export const useLoadingFormProps = () => {
   function handleRemoveLoading(index) {
     removeLoading(index);
   }
+
+  // useEffect(() => {
+
+  //   if(searchData?.name?.includes("loadings")) {
+  //     setOptions(prev => {
+  //       return {
+  //         loadings: {
+  //           ...prev?.loadings,
+  //           [searchData?.index]: { options: getAddressOptions }
+  //         },
+  //         unloading: prev?.unloading
+  //       };
+  //     });
+  //   } else if(searchData?.name?.includes("unloading")) {
+  //     setOptions(prev => {
+  //       return {
+  //         loadings: prev?.loadings,
+  //         unloading: {
+  //           ...prev?.unloading,
+  //           [searchData?.index]: { options: getAddressOptions }
+  //         }
+  //       };
+  //     });
+  //   }
+  // }, [search, getAddressOptions]);
 
   function handleUnloadingAppend() {
     appendUnloading({
@@ -110,13 +142,15 @@ export const useLoadingFormProps = () => {
         updateLoading(formAddressName?.index, {
           location: watch(`loadings.${formAddressName?.index}.location`),
           address: firstGeoObject.getAddressLine(),
-          cor: `${coords[0]},${coords[1]}`
+          cor: `${coords[0]},${coords[1]}`,
+          search: watch(`loadings.${formAddressName?.index}.search`)
         });
       } else {
         updateUnloading(formAddressName?.index, {
           location: watch(`unloading.${formAddressName?.index}.location`),
           address: firstGeoObject.getAddressLine(),
-          cor: `${coords[0]},${coords[1]}`
+          cor: `${coords[0]},${coords[1]}`,
+          search: watch(`unloading.${formAddressName?.index}.search`)
         });
       }
     });
@@ -129,11 +163,11 @@ export const useLoadingFormProps = () => {
     setPlaceMarkGeometry(coordinates);
 
     if(formAddressName.name === "loadings") {
-
       updateLoading(formAddressName?.index, {
         location: watch(`loadings.${formAddressName?.index}.location`),
         address: watch(`loadings.${formAddressName?.index}.address`),
-        cor: coordinates.join(",")
+        cor: coordinates.join(","),
+        search: watch(`loadings.${formAddressName?.index}.search`)
       });
 
     } else {
@@ -141,7 +175,8 @@ export const useLoadingFormProps = () => {
       updateUnloading(formAddressName?.index, {
         location: watch(`unloading.${formAddressName?.index}.location`),
         address: watch(`unloading.${formAddressName?.index}.address`),
-        cor: coordinates.join(",")
+        cor: coordinates.join(","),
+        search: watch(`unloading.${formAddressName?.index}.search`)
       });
 
     }
@@ -169,7 +204,7 @@ export const useLoadingFormProps = () => {
     handleOpenModal,
     handleCloseModal,
     coordinates,
-    getAddressOptions,
+    // getAddressOptions,
     errors,
     canEdit,
     placeMarkGeometry,

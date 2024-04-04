@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 const { default: request } = require("@/services/request");
 
 const functionsService = {
-  getLoadings: (data) => request.post("/v1/invoke_function", data),
+  getLoadings: (data) => request.post("/v1/invoke_function/logistika-send-list-of-address-name", data),
   createAddress: (data) => request.post("/v1/invoke_function/logistika-create-addres", data),
   pushNotification: (data) => request.post("/v1/invoke_function/logistika-notification", data),
   offerFromCustomer: (data) => request.post("/v1/invoke_function/logistika-send-offer-from-customer", data),

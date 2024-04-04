@@ -27,6 +27,8 @@ export const Dropdown = ({
   error,
   disabled,
   className,
+  onSearchChange = () => {},
+  index,
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
 
@@ -79,7 +81,7 @@ export const Dropdown = ({
               {
                 searchable
                   ? <div className={cls.inputWrap}>
-                    <input className={cls.input} {...register(searchName)} placeholder={inputPlaceholder} disabled={disabled} />
+                    <input className={cls.input} {...register(searchName)} defaultValue={watch(searchName)} onInput={(e) => onSearchChange(e, searchName, index)} placeholder={inputPlaceholder} disabled={disabled} />
                     <span className={cls.leftIcon}><SearchIcon /></span>
                     {
                       watch(searchName) && <span
@@ -132,7 +134,7 @@ export const Dropdown = ({
                   >
                     {option.label}
                     {(
-                      option.value === value?.value &&
+                      (option.guid ? option.guid === value?.guid : option.value === value?.value) &&
                         <span>
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                             <path d="M10 3L4.5 8.5L2 6" stroke="#007AFF" strokeWidth="1.6666" strokeLinecap="round" strokeLinejoin="round"/>
