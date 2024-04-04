@@ -227,6 +227,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
               label: item?.name
             },
             address: "",
+            search: item?.name,
             cor: []
           }
         ))
@@ -705,8 +706,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       });
 
       unloadingRef.current.push(unloadingRef.current.shift());
-
-      console.log(unloadingRef);
 
       setValue("loadings", loadingsRef.current);
       setValue("unloading", unloadingRef.current);
