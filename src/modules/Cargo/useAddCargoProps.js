@@ -217,7 +217,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
-      console.log({ data });
       unloadingRef.current = [
         ...unloadingRef.current,
         ...data.response.map(item => (
@@ -514,6 +513,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         t1: data.t1,
         cmr: data.cmr,
         cargo_type: ["cargo"],
+        permission: data?.permission?.map(item => item.value)
       }
     };
 
@@ -531,6 +531,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       createCargo.mutate(requestData, {
         onSuccess(data) {
           onCreateCargoSuccess(data);
+          if(data.isTemp) {
+            getTempCargo.refetch();
+          }
         }
       });
     }
@@ -554,6 +557,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         }
       });
     }
+    getMaps.refetch();
     handleCloseModal();
   }
 
@@ -590,7 +594,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           label: data?.city_id_data?.name + " " + data?.address_id_data?.name,
           guid: data?.city_id_data?.guid,
         },
-        search: data?.city_id_data?.name + " " + data?.address_id_data?.name,
+        search: data?.city_id_data?.name ?? "" + " " + data?.address_id_data?.name,
         address: "",
         cor: []
       }
@@ -603,7 +607,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           label: data?.city_id_2_data?.name + " " + data?.address_id_2_data?.name,
           guid: data?.city_id_2_data?.guid,
         },
-        search: data?.city_id_2_data?.name + " " + data?.address_id_2_data?.name,
+        search: data?.city_id_2_data?.name ?? "" + " " + data?.address_id_2_data?.name,
         address: "",
         cor: []
       }

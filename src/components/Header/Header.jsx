@@ -15,6 +15,7 @@ import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { LocaleDropdown } from "../LocaleDropdown";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import UserImg from "@/assets/images/user.png";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -90,7 +91,7 @@ const Header = observer(({ elements }) => {
                 <>
                   <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
                     <Image
-                      src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : "/images/user.png"}
+                      src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : UserImg}
                       alt="ww"
                       width={40}
                       height={40}

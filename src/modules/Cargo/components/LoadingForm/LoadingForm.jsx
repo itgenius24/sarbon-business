@@ -12,7 +12,6 @@ import LoadingMap from "../LoadingMap";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DropdownWrapper } from "../DropdownWrapper";
-
 export const LoadingForm = () => {
 
   const {

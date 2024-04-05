@@ -9,6 +9,7 @@ export const useTransportDetailProps = () => {
   const [isAccessOpen, setAccessOpen] = useState(false);
   const [isBeltsOpen, setBeltsOpen] = useState(false);
   const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
+  const [isPermissionOpen, setPermissionOpen] = useState(false);
 
   const {
     register,
@@ -80,6 +81,14 @@ export const useTransportDetailProps = () => {
     setLiftingCapacityOpen(false);
   }
 
+  function handleOpenPermission () {
+    setPermissionOpen(true);
+  }
+
+  function handleClosePermission () {
+    setPermissionOpen(false);
+  }
+
   useEffect(() => {
     if(watch("tir") || watch("cmr") || watch("t1")) {
       setAccessOpen(true);
@@ -118,5 +127,8 @@ export const useTransportDetailProps = () => {
     canEdit,
     handleCheckboxChange,
     isEditing,
+    handleOpenPermission,
+    handleClosePermission,
+    isPermissionOpen,
   };
 };

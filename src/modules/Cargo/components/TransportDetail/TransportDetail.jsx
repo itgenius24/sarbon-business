@@ -7,6 +7,7 @@ import { useTransportDetailProps } from "./useTransportDetailProps";
 import { Dropdown } from "@/components/Dropdown";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { ChakraSelect } from "@/components/ChakraSelect";
 
 export const TransportDetail = () => {
   const {
@@ -28,7 +29,10 @@ export const TransportDetail = () => {
     errors,
     canEdit,
     handleCheckboxChange,
-    isEditing
+    isEditing,
+    isPermissionOpen,
+    handleOpenPermission,
+    handleClosePermission
   } = useTransportDetailProps();
 
   const locale = useGetLang();
@@ -78,47 +82,59 @@ export const TransportDetail = () => {
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
-      <Box display="flex" gap="12px" flexWrap="wrap">
-        {
-          !isAccessOpen && <Button
-            isDisabled={!canEdit}
-            onClick={handleOpenAccess}
-            leftIcon={<PlusIcon color="#007AFF" /> }
-            variant="reset"
-          >
-            {t("TIR,CMR, T1, Медкнижка")}
-          </Button>
-        }
-        {
-          !isRequirementOpen && <Button
-            isDisabled={!canEdit}
-            onClick={handleOpenRequirement}
-            leftIcon={<PlusIcon color="#007AFF" />}
-            variant="reset"
-          >
-            {t("Сцепка, пневмоход, коники")}
-          </Button>
-        }
-        {
-          !isBeltsOpen && <Button
-            isDisabled={!canEdit}
-            onClick={handleOpenBelts}
-            leftIcon={<PlusIcon color="#007AFF" />}
-            variant="reset"
-          >
-            {t("Ремней (шт)")}
-          </Button>
-        }
-        {
-          !isLiftingCapacityOpen && <Button
-            isDisabled={!canEdit}
-            onClick={handleOpenLiftingCapacity}
-            leftIcon={<PlusIcon color="#007AFF" />}
-            variant="reset"
-          >
-            {t("Грузоподъемность")}
-          </Button>
-        }
+      <Box zIndex={30}>
+        <Box display="flex" gap="12px" flexWrap="wrap">
+          {
+            !isAccessOpen && <Button
+              isDisabled={!canEdit}
+              onClick={handleOpenAccess}
+              leftIcon={<PlusIcon color="#007AFF" /> }
+              variant="reset"
+            >
+              {t("TIR,CMR, T1, Медкнижка")}
+            </Button>
+          }
+          {
+            !isRequirementOpen && <Button
+              isDisabled={!canEdit}
+              onClick={handleOpenRequirement}
+              leftIcon={<PlusIcon color="#007AFF" />}
+              variant="reset"
+            >
+              {t("Сцепка, пневмоход, коники")}
+            </Button>
+          }
+          {
+            !isBeltsOpen && <Button
+              isDisabled={!canEdit}
+              onClick={handleOpenBelts}
+              leftIcon={<PlusIcon color="#007AFF" />}
+              variant="reset"
+            >
+              {t("Ремней (шт)")}
+            </Button>
+          }
+          {
+            !isLiftingCapacityOpen && <Button
+              isDisabled={!canEdit}
+              onClick={handleOpenLiftingCapacity}
+              leftIcon={<PlusIcon color="#007AFF" />}
+              variant="reset"
+            >
+              {t("Грузоподъемность")}
+            </Button>
+          }
+          {
+            !isPermissionOpen && <Button
+              isDisabled={!canEdit}
+              onClick={handleOpenPermission}
+              leftIcon={<PlusIcon color="#007AFF" />}
+              variant="reset"
+            >
+              {t("Разрешение")}
+            </Button>
+          }
+        </Box>
       </Box>
     </Box>
     {/* <Box py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
@@ -238,6 +254,39 @@ export const TransportDetail = () => {
             additionalItemName="capacity_unit"
             additionalItemDefaultIndex={0}
             defaultValue=""
+          />
+        </Box>
+      </Box>
+    }
+    {
+      isPermissionOpen && <Box py="24px" display="flex" justifyContent="space-between">
+        <Box width="280px" flexShrink="0">
+          <Button
+            isDisabled={!canEdit}
+            variant="reset"
+            onClick={handleClosePermission}
+            color="brand.700"
+            leftIcon={<DeleteIcon />}
+          >
+            {t("Разрешения")}
+          </Button>
+        </Box>
+        <Box flexGrow={1} zIndex={100}>
+          <ChakraSelect
+            isMulti
+            name="permission"
+            control={control}
+            options={[
+              { label: "ADR 1", value: "adr_1" },
+              { label: "ADR 2", value: "adr_2" },
+              { label: "ADR 3", value: "adr_3" },
+              { label: "ADR 4", value: "adr_4" },
+              { label: "ADR 5", value: "adr_5" },
+              { label: "ADR 6", value: "adr_6" },
+              { label: "ADR 7", value: "adr_7" },
+              { label: "ADR 8", value: "adr_8" },
+              { label: "ADR 9", value: "adr_9" },
+            ]}
           />
         </Box>
       </Box>
