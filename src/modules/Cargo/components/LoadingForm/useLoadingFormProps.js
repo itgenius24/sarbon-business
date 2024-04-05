@@ -158,6 +158,8 @@ export const useLoadingFormProps = () => {
   function onMapClick (e) {
     const coordinates = e.get("coords");
 
+    console.log(yMaps);
+
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
 

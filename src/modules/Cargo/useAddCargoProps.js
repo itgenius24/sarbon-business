@@ -38,6 +38,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(!id);
 
+  const [templateId, setTemplateId] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -208,11 +210,21 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   const allResponseParams = { response_id: id };
 
-  const isAlCargo = status === "active" || status === "in_moderation" || status === "in_active";
+  const templateParams = { cargo_id: templateId };
+
+  const isAllCargo = status === "active" || status === "in_moderation" || status === "in_active";
 
   const getMaps = useGetMaps(
-    { data: JSON.stringify(isAlCargo ? allCargoParams : allResponseParams) },
-    { enabled: false }
+    {
+      data: JSON.stringify(
+        id
+          ? isAllCargo
+            ? allCargoParams
+            : allResponseParams
+          : templateParams
+      )
+    },
+    { enabled: !!templateId }
   );
 
   const getLoadingMutation = useGetLoadingMutation({
@@ -557,7 +569,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         }
       });
     }
-    getMaps.refetch();
+    setTemplateId(item?.guid);
+    // getMaps.refetch();
     handleCloseModal();
   }
 
@@ -700,6 +713,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       const reversedData = data.reverse();
 
       const loadingData = reversedData.pop();
+
+      setTemplateId("");
 
       loadingsRef.current[0].cor = [loadingData?.lat, loadingData?.long];
       loadingsRef.current[0].address = loadingData?.name;
