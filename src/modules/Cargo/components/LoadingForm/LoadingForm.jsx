@@ -12,6 +12,7 @@ import LoadingMap from "../LoadingMap";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DropdownWrapper } from "../DropdownWrapper";
+import Script from "next/script";
 export const LoadingForm = () => {
 
   const {
@@ -35,7 +36,8 @@ export const LoadingForm = () => {
     setYMaps,
     yandexMapRef,
     setIsModalOpen,
-    setValue
+    setValue,
+    initYmaps,
   } = useLoadingFormProps();
 
   const locale = useGetLang();
@@ -43,6 +45,10 @@ export const LoadingForm = () => {
   const { t } = useTranslation(locale, "translations");
 
   return <div className={cls.formGroup}>
+    {/* <Script
+      onLoad={() => ymaps.ready(initYmaps)}
+      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
+    /> */}
     <div className={cls.formContent}>
       <div className={cls.fields}>
         {
@@ -65,19 +71,21 @@ export const LoadingForm = () => {
                 }
               </div>
               <div className={cls.field}>
-                <DropdownWrapper
-                  searchable
-                  disabled={!canEdit}
-                  control={control}
-                  required
-                  register={register}
-                  watch={watch}
-                  name={`loadings[${index}].location`}
-                  placeholder={t("Населённый пункт")}
-                  error={errors["loadings"]?.[index]?.["location"]}
-                  searchName={`loadings[${index}].search`}
-                  setValue={setValue}
-                />
+                {
+                  index === 0 && <DropdownWrapper
+                    searchable
+                    disabled={!canEdit}
+                    control={control}
+                    required
+                    register={register}
+                    watch={watch}
+                    name={`loadings[${index}].location`}
+                    placeholder={t("Населённый пункт")}
+                    error={errors["loadings"]?.[index]?.["location"]}
+                    searchName={`loadings[${index}].search`}
+                    setValue={setValue}
+                  />
+                }
                 <TextFieldWithAddition
                   placeholder={t("Адрес")}
                   additionalItemTheme="white"
@@ -130,19 +138,21 @@ export const LoadingForm = () => {
               }
             </div>
             <div className={cls.field}>
-              <DropdownWrapper
-                searchable
-                disabled={!canEdit}
-                control={control}
-                required
-                register={register}
-                watch={watch}
-                name={`unloading[${index}].location`}
-                placeholder={t("Населённый пункт")}
-                error={errors["unloading"]?.[index]?.["location"]}
-                searchName={`unloading[${index}].search`}
-                setValue={setValue}
-              />
+              {
+                index === 0 && <DropdownWrapper
+                  searchable
+                  disabled={!canEdit}
+                  control={control}
+                  required
+                  register={register}
+                  watch={watch}
+                  name={`unloading[${index}].location`}
+                  placeholder={t("Населённый пункт")}
+                  error={errors["unloading"]?.[index]?.["location"]}
+                  searchName={`unloading[${index}].search`}
+                  setValue={setValue}
+                />
+              }
               <TextFieldWithAddition
                 onlyFieldDisabled={true}
                 disabled={!canEdit}

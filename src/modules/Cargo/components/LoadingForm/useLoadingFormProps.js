@@ -158,7 +158,7 @@ export const useLoadingFormProps = () => {
   function onMapClick (e) {
     const coordinates = e.get("coords");
 
-    console.log(yMaps);
+    console.log(yandexMapRef.current);
 
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
@@ -190,6 +190,26 @@ export const useLoadingFormProps = () => {
     handleCloseModal();
   }
 
+  function initYmaps() {
+    /**
+     * Creating a multiroute.
+     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
+      */
+    // var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
+    //   editorMidPointsType: "via",
+    //   routeActiveStrokeColor: "#175CD3",
+    //   editorDrawOver: false,
+    // });
+
+    // multiRoute.events.add("activeroutechange", function () {
+    //   if(multiRoute.getRoutes().get(0)) {
+    //     const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
+    //     const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
+    //     // setDistanceParameters({ duration, distance });
+    //   }
+    // });
+  }
+
   return {
     loadings,
     register,
@@ -215,5 +235,6 @@ export const useLoadingFormProps = () => {
     yandexMapRef,
     handleClearLocation,
     setIsModalOpen,
+    initYmaps,
   };
 };

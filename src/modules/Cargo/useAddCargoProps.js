@@ -137,8 +137,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       volume_measurement: yup.string().required("Обязательное поле"),
       packaging: yup.object(),
       packaging_quantity: yup.string(),
-      loadings: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
-      unloading: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      // loadings: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      // unloading: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
+      loadings: yup.array(),
+      unloading: yup.array(),
       gps_monitoring: yup.string().required("Обязательное поле"),
       car_type: yup.object().required("Обязательное поле"),
       transport_count: yup.string().required("Обязательное поле"),
@@ -484,7 +486,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     loadingIds.splice(0, 1);
     unloadingIds.splice(0, 1);
 
-    const addressIds = [...loadingIds, ...unloadingIds];
+    // const addressIds = [...loadingIds, ...unloadingIds];
 
     const requestData = {
       data: {
@@ -497,7 +499,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         load_time: startDate,
         date: endDate,
         address_id: data.loadings[0].location.value,
-        address_ids: addressIds,
+        // address_ids: addressIds,
         address_id_2: data.unloading[0].location.value,
         city_id: data.loadings[0].location.guid,
         city_id_2: data.unloading[0].location.guid,
@@ -560,15 +562,15 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
     resetForm(item, item.guid);
 
-    if(item?.address_ids.length) {
-      getLoadingMutation.mutate({
-        data: {
-          object_ids: [
-            item?.address_ids
-          ]
-        }
-      });
-    }
+    // if(item?.address_ids.length) {
+    //   getLoadingMutation.mutate({
+    //     data: {
+    //       object_ids: [
+    //         item?.address_ids
+    //       ]
+    //     }
+    //   });
+    // }
     setTemplateId(item?.guid);
     // getMaps.refetch();
     handleCloseModal();
@@ -689,19 +691,19 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   useEffect(() => {
     if(id && (getCargo.isSuccess || getOfferCargoById.isSuccess)) {
 
-      let object_ids = [];
+      // let object_ids = [];
 
-      if(isCargo) {
-        object_ids = getCargo.data?.response[0]?.address_ids;
-      } else {
-        object_ids = getOfferCargoById.data?.response[0]?.address_ids;
-      }
+      // if(isCargo) {
+      //   object_ids = getCargo.data?.response[0]?.address_ids;
+      // } else {
+      //   object_ids = getOfferCargoById.data?.response[0]?.address_ids;
+      // }
 
-      if(object_ids.length) {
-        getLoadingMutation.mutate({ data: { object_ids } });
-      } else {
-        getMaps.refetch();
-      }
+      // if(object_ids.length) {
+      //   getLoadingMutation.mutate({ data: { object_ids } });
+      // } else {
+      // }
+      getMaps.refetch();
 
     }
   }, [id, getCargo.data, getOfferCargoById.data]);
@@ -710,21 +712,36 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
     if(getMaps.isSuccess) {
       const data = getMaps.data.response;
+      console.log({ data });
       const reversedData = data.reverse();
 
       const loadingData = reversedData.pop();
+      console.log({ data });
 
       setTemplateId("");
 
       loadingsRef.current[0].cor = [loadingData?.lat, loadingData?.long];
       loadingsRef.current[0].address = loadingData?.name;
 
-      unloadingRef.current?.forEach((item, index) => {
-        item.cor = [reversedData?.[index]?.lat, reversedData?.[index]?.long];
-        item.address = reversedData?.[index]?.name;
+
+      reversedData?.forEach((item, index) => {
+        if(index === 0) {
+          unloadingRef.current[0].cor = [item?.lat, item?.long];
+          unloadingRef.current[0].address = item?.name;
+          return;
+        }
+        unloadingRef.current.push({
+          cor: [item?.lat, item?.long],
+          address: item?.name
+        });
       });
 
-      unloadingRef.current.push(unloadingRef.current.shift());
+      // unloadingRef.current?.forEach((item, index) => {
+      //   item.cor = [reversedData?.[index]?.lat, reversedData?.[index]?.long];
+      //   item.address = reversedData?.[index]?.name;
+      // });
+
+      // unloadingRef.current.push(unloadingRef.current.shift());
 
       setValue("loadings", loadingsRef.current);
       setValue("unloading", unloadingRef.current);

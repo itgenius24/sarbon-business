@@ -44,6 +44,11 @@ export const useDistanceCalculationProps = () => {
     if(multiRoute) {
       const intervalLocations = locationNames.filter(item => item !== "");
       multiRoute.model.setReferencePoints([watch("from"), ...intervalLocations, watch("to")]);
+      // if(multiRoute.getRoutes().get(0)) {
+      //   const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
+      //   const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
+      //   setDistanceParameters({ duration, distance });
+      // }
       // console.log(multiRoute.getWayPoints());
       // const locations = [watch("from"), ...locationNames, watch("to")];
       // locations.forEach((item, index) => {
@@ -66,7 +71,7 @@ export const useDistanceCalculationProps = () => {
       editorDrawOver: false,
     });
 
-    multiRoute.events.add("activeroutechange", function () {
+    multiRoute.events.add("update", function () {
       if(multiRoute.getRoutes().get(0)) {
         const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
         const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
