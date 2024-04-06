@@ -538,7 +538,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         cmr: data.cmr,
         cargo_type: ["cargo"],
         permission: data?.permission?.map(item => item.value),
-        distance: parseFloat(data.distance.toFixed(3)),
+        distance: parseFloat(distance.distance.toFixed(3)),
         duration: distance.duration,
       }
     };
