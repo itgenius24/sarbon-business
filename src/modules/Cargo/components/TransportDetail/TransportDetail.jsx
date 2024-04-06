@@ -94,7 +94,7 @@ export const TransportDetail = () => {
               {t("TIR")},
               {t("CMR")},
               {t("T1")},
-              {t("Разрешения")},
+              {t("ADR")},
               {t("Медкнижка")},
             </Button>
           }
@@ -128,7 +128,7 @@ export const TransportDetail = () => {
               {t("Грузоподъемность")}
             </Button>
           }
-          {
+          {/* {
             !isPermissionOpen && <Button
               isDisabled={!canEdit}
               onClick={handleOpenPermission}
@@ -137,7 +137,7 @@ export const TransportDetail = () => {
             >
               {t("Разрешение")}
             </Button>
-          }
+          } */}
         </Box>
       </Box>
     </Box>
@@ -208,6 +208,9 @@ export const TransportDetail = () => {
           </Checkbox>
           <Checkbox disabled={!canEdit} register={register} name="cmr">
             {t("CMR")}
+          </Checkbox>
+          <Checkbox disabled={!canEdit} register={register} name="medic_certificate">
+            {t("Медкнижка")}
           </Checkbox>
           <Box flexGrow={1}>
             <ChakraSelect

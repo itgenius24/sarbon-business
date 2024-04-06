@@ -18,6 +18,7 @@ import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
+import { useGetDistance } from "@/hooks/useGetDistance";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
 
@@ -190,6 +191,15 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         }
       ]
     }
+  });
+
+  const getLoadings = Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.[0]?.cor : watch("loadings")?.[0]?.cor?.split(",");
+  const getUnloading = Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.[0]?.cor : watch("unloading")?.[0]?.cor?.split(",");
+
+
+  const distance = useGetDistance({
+    origin: { lat: getLoadings[0], lng: getLoadings[1] },
+    destination: { lat: getUnloading[0], lng: getUnloading[1] }
   });
 
   const deleteCargo = useDeleteCargo({
@@ -480,11 +490,11 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
     setLoading(true);
 
-    const loadingIds = data.loadings.map(item => item.location.value);
-    const unloadingIds = data.unloading.map(item => item.location.value);
+    // const loadingIds = data.loadings.map(item => item.location.value);
+    // const unloadingIds = data.unloading.map(item => item.location.value);
 
-    loadingIds.splice(0, 1);
-    unloadingIds.splice(0, 1);
+    // loadingIds.splice(0, 1);
+    // unloadingIds.splice(0, 1);
 
     // const addressIds = [...loadingIds, ...unloadingIds];
 
@@ -499,7 +509,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         load_time: startDate,
         date: endDate,
         address_id: data.loadings[0].location.value,
-        // address_ids: addressIds,
+        address_ids: [],
         address_id_2: data.unloading[0].location.value,
         city_id: data.loadings[0].location.guid,
         city_id_2: data.unloading[0].location.guid,
@@ -527,7 +537,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         t1: data.t1,
         cmr: data.cmr,
         cargo_type: ["cargo"],
-        permission: data?.permission?.map(item => item.value)
+        permission: data?.permission?.map(item => item.value),
+        distance: parseFloat(data.distance.toFixed(3)),
+        duration: distance.duration,
       }
     };
 

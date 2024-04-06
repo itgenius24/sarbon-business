@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 import { useAddCargoContext } from "../../providers";
+import { useGetDistance } from "@/hooks/useGetDistance";
 
 export const useLoadingFormProps = () => {
 
@@ -157,8 +158,6 @@ export const useLoadingFormProps = () => {
 
   function onMapClick (e) {
     const coordinates = e.get("coords");
-
-    console.log(yandexMapRef.current);
 
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
