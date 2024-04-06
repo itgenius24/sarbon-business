@@ -111,7 +111,7 @@ export const LoadingForm = () => {
     <div className={cls.fieldActions}>
       <h2 className={cls.fieldActionsHeading}>{t("Добавить точку маршрута")}</h2>
       <div className={cls.fieldActionsButtons}>
-        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Загрузка")}</Button>
+        <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Ехать через")}</Button>
         <Button isDisabled={!canEdit} onClick={handleUnloadingAppend} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Разгрузка")}</Button>
         {/* <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Ехать через")}</Button>
         <Button isDisabled={!canEdit} onClick={handleAppendLoading} leftIcon={<PlusIcon color="#007AFF" />} variant="reset">{t("Таможня")}</Button> */}
@@ -171,7 +171,7 @@ export const LoadingForm = () => {
               />
             </div>
           </div>;
-        })
+        }).reverse()
       }
     </div>
     <div className={cls.route}>

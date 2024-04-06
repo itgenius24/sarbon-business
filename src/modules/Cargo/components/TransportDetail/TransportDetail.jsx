@@ -91,7 +91,11 @@ export const TransportDetail = () => {
               leftIcon={<PlusIcon color="#007AFF" /> }
               variant="reset"
             >
-              {t("TIR,CMR, T1, Медкнижка")}
+              {t("TIR")},
+              {t("CMR")},
+              {t("T1")},
+              {t("Разрешения")},
+              {t("Медкнижка")},
             </Button>
           }
           {
@@ -205,6 +209,24 @@ export const TransportDetail = () => {
           <Checkbox disabled={!canEdit} register={register} name="cmr">
             {t("CMR")}
           </Checkbox>
+          <Box flexGrow={1}>
+            <ChakraSelect
+              isMulti
+              name="permission"
+              control={control}
+              options={[
+                { label: "ADR 1", value: "adr_1" },
+                { label: "ADR 2", value: "adr_2" },
+                { label: "ADR 3", value: "adr_3" },
+                { label: "ADR 4", value: "adr_4" },
+                { label: "ADR 5", value: "adr_5" },
+                { label: "ADR 6", value: "adr_6" },
+                { label: "ADR 7", value: "adr_7" },
+                { label: "ADR 8", value: "adr_8" },
+                { label: "ADR 9", value: "adr_9" },
+              ]}
+            />
+          </Box>
           {/* <Checkbox disabled={!canEdit} register={register} name="is_med_access">
           Медкнижка
           </Checkbox> */}
@@ -258,7 +280,7 @@ export const TransportDetail = () => {
         </Box>
       </Box>
     }
-    {
+    {/* {
       isPermissionOpen && <Box py="24px" display="flex" justifyContent="space-between">
         <Box width="280px" flexShrink="0">
           <Button
@@ -290,6 +312,6 @@ export const TransportDetail = () => {
           />
         </Box>
       </Box>
-    }
+    } */}
   </Box>;
 };
