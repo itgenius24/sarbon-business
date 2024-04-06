@@ -43,8 +43,8 @@ export const LoadsCard = forwardRef(({
   short_name,
   city_id_data,
   city_id_2_data,
+  distance,
 }, ref) => {
-  console.log({ city_id_data, city_id_2_data });
 
   const {
     list,
@@ -102,7 +102,7 @@ export const LoadsCard = forwardRef(({
           </span>
           <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
         </h2>
-        <span className={cls.distance}>724 км</span>
+        <span className={cls.distance}>{distance} км</span>
       </div>
       <div className={cls.paymentInfo}>
         <div className={cls.paymentInfoContent}>
