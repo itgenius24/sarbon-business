@@ -13,6 +13,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DropdownWrapper } from "../DropdownWrapper";
 import Script from "next/script";
+
 export const LoadingForm = () => {
 
   const {
@@ -46,8 +47,8 @@ export const LoadingForm = () => {
 
   return <div className={cls.formGroup}>
     {/* <Script
-      onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
+      onLoad={() => ymaps.ready(calculateDistance)}
+      src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&load=package.full&lang=en_US`}
     /> */}
     <div className={cls.formContent}>
       <div className={cls.fields}>

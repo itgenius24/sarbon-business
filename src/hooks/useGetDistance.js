@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGetDistance = ({ origin, destination }) => {
@@ -21,35 +21,37 @@ export const useGetDistance = ({ origin, destination }) => {
 
   const calculateDistance = () => {
     ymaps.ready(() => {
-      const ymaps = window.ymaps;
-      const route = new ymaps.multiRouter.MultiRoute(
-        {
-          referencePoints: [
-            [origin.lat, origin.lng],
-            [destination.lat, destination.lng],
-          ],
-          params: { routingMode: "auto" },
-        },
-        { wayPointDraggable: false }
-      );
+      if(origin && destination) {
+        const ymaps = window.ymaps;
+        const route = new ymaps.multiRouter.MultiRoute(
+          {
+            referencePoints: [
+              [origin.lat, origin.lng],
+              [destination.lat, destination.lng],
+            ],
+            params: { routingMode: "auto" },
+          },
+          { wayPointDraggable: false }
+        );
 
-      route.model.events.add("requestsuccess", () => {
-        const distance = route.getRoutes().get(0).properties.get("distance");
-        const duration = route.getRoutes().get(0).properties.get("duration");
-        setDistance(distance.text);
-        setDuration(duration.text);
-      });
+        route.model.events.add("requestsuccess", () => {
+          const distance = route.getRoutes()?.get(0)?.properties?.get("distance");
+          const duration = route.getRoutes()?.get(0)?.properties?.get("duration");
+          setDistance(distance?.text);
+          setDuration(duration?.text);
+        });
 
-      route.model.events.add("requestfail", (event) => {
-        console.error("Failed to calculate distance:", event);
-      });
+        route.model.events.add("requestfail", (event) => {
+          console.error("Failed to calculate distance:", event);
+        });
 
-      const map = new ymaps.Map("map", {
-        center: [origin.lat, origin.lng],
-        zoom: 10,
-      });
+        const map = new ymaps.Map("map", {
+          center: [origin.lat, origin.lng],
+          zoom: 10,
+        });
 
-      map.geoObjects.add(route);
+        map.geoObjects.add(route);
+      }
     });
   };
 

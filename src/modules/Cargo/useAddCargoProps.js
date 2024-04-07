@@ -196,10 +196,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const getLoadings = Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.[0]?.cor : watch("loadings")?.[0]?.cor?.split(",");
   const getUnloading = Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.[0]?.cor : watch("unloading")?.[0]?.cor?.split(",");
 
-
   const distance = useGetDistance({
-    origin: { lat: getLoadings[0], lng: getLoadings[1] },
-    destination: { lat: getUnloading[0], lng: getUnloading[1] }
+    origin: { lat: getLoadings?.[0], lng: getLoadings?.[1] },
+    destination: { lat: getUnloading?.[0], lng: getUnloading?.[1] }
   });
 
   const deleteCargo = useDeleteCargo({
