@@ -54,20 +54,32 @@ const Header = observer(({ elements }) => {
               <Logo />
             </Box>
             <UnorderedList className={cls.list}>
-              {elements?.map((element, index) => (
-                <ListItem className={cls.listItem} key={element.path}>
-                  <Link
-                    href={element.path}
-                    className={clsx(cls.itemLink, {
-                      [cls.activeLink]: index
+              {elements?.map((element, index) => {
+                return <ListItem className={cls.listItem} key={element.path}>
+                  {
+                    element.path.includes("distance-calculation")
+                     ? <a className={clsx(cls.itemLink, {
+                       [cls.activeLink]: index
                         ? pathname.includes(element.path)
                         : pathname === element.path,
-                    })}
-                  >
-                    {t(element.label)}
-                  </Link>
-                </ListItem>
-              ))}
+                     })}
+                     href={element.path}
+                     >
+                       {t(element.label)}
+                     </a>
+                     : <Link
+                       href={element.path}
+                       className={clsx(cls.itemLink, {
+                         [cls.activeLink]: index
+                        ? pathname.includes(element.path)
+                        : pathname === element.path,
+                       })}
+                     >
+                       {t(element.label)}
+                     </Link>
+                  }
+                </ListItem>;
+              })}
             </UnorderedList>
           </Box>
           <Box className={cls.rightBox}>

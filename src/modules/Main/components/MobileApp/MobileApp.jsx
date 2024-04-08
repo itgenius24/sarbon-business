@@ -11,9 +11,14 @@ export const MobileApp = ({
 }) => {
   return (
     <Container mt={"96px"} mb={"96px"}>
-      <Box bg="white" borderRadius={24} display="flex">
-        <LeftContent description={description} description1={description1} />
-        <RightContent photo={photo} />
+      <Box bg="white" borderRadius={24} p="48px 32px">
+        <Heading fontSize={36} lineHeight="44px" mb={20.5}>
+          Мобильное приложение
+        </Heading>
+        <Box display="flex" alignItems="center">
+          <LeftContent description={description} description1={description1} />
+          <RightContent photo={photo} />
+        </Box>
       </Box>
     </Container>
   );
@@ -26,7 +31,7 @@ const RightContent = ({ photo }) => {
         style={{
           position: "absolute",
           top: "50%",
-          transform: "translate(0%, -45%)",
+          transform: "translate(0%, -50%)",
         }}
         width={500}
         height={500}
@@ -39,13 +44,11 @@ const RightContent = ({ photo }) => {
 
 const LeftContent = ({ description, description1 }) => {
   return (
-    <Box p="48px 32px" maxW={"50%"} flexGrow="1">
-      <Heading fontSize={36} lineHeight="44px" mb={20.5}>
-        Мобильное приложение
-      </Heading>
+    <Box maxW={"50%"} flexGrow="1">
       <Box maxW={544} bg="brand.50" borderRadius={12} p="20px 24px">
         <Flex mb={26} alignItems="center">
           <Image
+            style={{ borderRadius: "50%" }}
             priority={false}
             width={40}
             height={40}
