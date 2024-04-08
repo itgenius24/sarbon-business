@@ -108,7 +108,7 @@ export const LoadsCard = forwardRef(({
       <div className={cls.paymentInfo}>
         <div className={cls.paymentInfoContent}>
           <span className={cls.paymentInfoText}>
-            {formatSum(currency_id_data.code, bid_cash)}
+            {formatSum(currency_id_data?.code, bid_cash)}
           </span>
           {/* <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span> */}
         </div>

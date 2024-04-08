@@ -1,4 +1,5 @@
 export const formatSum = (code, value) => {
+  if (!value || !code) return "";
   const format = new Intl.NumberFormat("de-DE", {
     style: "currency",
     // minimumFractionDigits: 3,

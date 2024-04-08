@@ -534,7 +534,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         users_id: authStore.userData.id,
         phone: data.contact,
         comment: data.note,
-        photo: data.image,
+        photo:  process.env.NEXT_PUBLIC_MEDIA_URL + data.image,
         map_id: data?.payment_type?.value,
         order_status: ["in_moderation"],
         negotiable: data.bargain === "negotiable",
@@ -787,17 +787,14 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
     if(getMaps.isSuccess) {
       const data = getMaps.data.response;
-      console.log({ data });
-      const reversedData = data.reverse();
+      const reversedData = data;
 
       const loadingData = reversedData.pop();
-      console.log({ data });
 
       setTemplateId("");
 
       loadingsRef.current[0].cor = [loadingData?.lat, loadingData?.long];
       loadingsRef.current[0].address = loadingData?.name;
-
 
       reversedData?.forEach((item, index) => {
         if(index === 0) {
