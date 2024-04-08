@@ -9,6 +9,10 @@
   font-weight: 400;
 }
 
+.chakra-select__menu {
+  z-index: 100;
+}
+
 .chakra-select__menu-list {
   padding: 4px 6px;
   border-radius: 8px;

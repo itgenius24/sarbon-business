@@ -4,13 +4,6 @@ import { useGetCarType } from "@/services/api";
 
 export const useTransportDetailProps = () => {
 
-  const [isAdrOpen, setAdrOpen] = useState(false);
-  const [isRequirementOpen, setRequirementOpen] = useState(false);
-  const [isAccessOpen, setAccessOpen] = useState(false);
-  const [isBeltsOpen, setBeltsOpen] = useState(false);
-  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
-  const [isPermissionOpen, setPermissionOpen] = useState(false);
-
   const {
     register,
     control,
@@ -19,6 +12,14 @@ export const useTransportDetailProps = () => {
     canEdit,
     setValue,
     isEditing,
+    setRequirementOpen,
+    setAccessOpen,
+    setBeltsOpen,
+    setLiftingCapacityOpen,
+    isRequirementOpen,
+    isAccessOpen,
+    isBeltsOpen,
+    isLiftingCapacityOpen,
   } = useAddCargoContext();
 
   const getCarType = useGetCarType();
@@ -39,14 +40,6 @@ export const useTransportDetailProps = () => {
       }
     }
 
-  }
-
-  function handleOpenAdr () {
-    setAdrOpen(true);
-  }
-
-  function handleCloseAdr () {
-    setAdrOpen(false);
   }
 
   function handleOpenRequirement () {
@@ -81,39 +74,40 @@ export const useTransportDetailProps = () => {
     setLiftingCapacityOpen(false);
   }
 
-  function handleOpenPermission () {
-    setPermissionOpen(true);
-  }
-
-  function handleClosePermission () {
-    setPermissionOpen(false);
-  }
-
   useEffect(() => {
-    if(watch("tir") || watch("cmr") || watch("t1")) {
-      setAccessOpen(true);
+    if(isEditing && !canEdit) {
+      if(watch("tir") || watch("cmr") || watch("t1") || watch("medic_certificate")) {
+        handleOpenAccess(true);
+      }
+      if(watch("hitch") || watch("pneumatic") || watch("bunks")) {
+        handleOpenRequirement(true);
+      }
+      if(watch("straps_number")) {
+        handleOpenBelts(true);
+      }
+      if(watch("capacity")) {
+        handleOpenLiftingCapacity(true);
+      }
     }
-    if(watch("is_adr_requirement") || watch("is_pneumatic_requirement") || watch("is_tir_requirement")) {
-      setRequirementOpen(true);
-    }
-    if(watch("remains")) {
-      setBeltsOpen(true);
-    }
-    if(watch("capacity")) {
-      setLiftingCapacityOpen(true);
-    }
-  }, []);
+  }, [
+    watch("capacity"),
+    watch("remains"),
+    watch("tir"),
+    watch("cmr"),
+    watch("t1"),
+    watch("medic_certificate"),
+    watch("hitch"),
+    watch("pneumatic"),
+    watch("bunks"),
+  ]);
 
   return {
     control,
-    isAdrOpen,
     isRequirementOpen,
     isAccessOpen,
     isBeltsOpen,
     isLiftingCapacityOpen,
     carTypeOptions,
-    handleOpenAdr,
-    handleCloseAdr,
     handleOpenRequirement,
     handleCloseRequirement,
     handleOpenAccess,
@@ -127,8 +121,5 @@ export const useTransportDetailProps = () => {
     canEdit,
     handleCheckboxChange,
     isEditing,
-    handleOpenPermission,
-    handleClosePermission,
-    isPermissionOpen,
   };
 };

@@ -22,6 +22,14 @@ import { useGetDistance } from "@/hooks/useGetDistance";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
 
+  const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
+  const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
+
+  const [isRequirementOpen, setRequirementOpen] = useState(false);
+  const [isAccessOpen, setAccessOpen] = useState(false);
+  const [isBeltsOpen, setBeltsOpen] = useState(false);
+  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
+
   const isCargo = status === "active" || status === "in_moderation" || status === "in_active";
 
   const { t } = useTranslation(locale, "translations");
@@ -196,17 +204,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const getLoadings = Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.[0]?.cor : watch("loadings")?.[0]?.cor?.split(",");
   const getUnloading = Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.[0]?.cor : watch("unloading")?.[0]?.cor?.split(",");
 
-  console.log({
-    getLoadings,
-    getUnloading
-  });
-
   const distance = useGetDistance({
     origin: { lat: getLoadings?.[0], lng: getLoadings?.[1] },
     destination: { lat: getUnloading?.[0], lng: getUnloading?.[1] }
   });
-
-  console.log({ distance });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -542,10 +543,19 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         tir: data.tir,
         t1: data.t1,
         cmr: data.cmr,
+        med: data?.medic_certificate,
         cargo_type: ["cargo"],
         permission: data?.permission?.map(item => item.value),
         distance: Math.floor(distance.distance || 0),
         duration: distance.duration,
+        straps_number: data.straps_number,
+        hitch: data.hitch,
+        pneumatic: data.pneumatic,
+        bunks: data.bunks,
+        width: data.width,
+        height: data.height,
+        length: data.length,
+        diameter: data.diameter,
       }
     };
 
@@ -562,10 +572,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       requestData.data.firm_id = authStore.userData.firm_id;
       createCargo.mutate(requestData, {
         onSuccess(data) {
-          onCreateCargoSuccess(data);
           if(data.isTemp) {
             getTempCargo.refetch();
           }
+          onCreateCargoSuccess(data);
         }
       });
     }
@@ -579,6 +589,39 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   function handleSelectTemplate(item) {
 
     resetForm(item, item.guid);
+
+    if(
+      item?.tir ||
+      item?.cmr ||
+      item?.t1 ||
+      item?.medic_certificate
+    ) {
+      setAccessOpen(true);
+    }
+
+    if(
+      item?.hitch ||
+      item?.pneumatic ||
+      item?.bunks
+    ) {
+      setRequirementOpen(true);
+    }
+
+    if(item?.straps_number) {
+      setLiftingCapacityOpen(true);
+    }
+
+    if(item?.width || item?.height || item?.length || item?.diameter) {
+      setBeltsOpen(true);
+    }
+
+    if(item?.packages_id_data?.guid || item?.packaging_quantity) {
+      setPackagingAndQuantity(true);
+    }
+
+    if(item?.width || item?.height || item?.length || item?.diameter) {
+      setDimensionsAndDiameter(true);
+    }
 
     // if(item?.address_ids.length) {
     //   getLoadingMutation.mutate({
@@ -692,6 +735,20 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           value: data?.map_id_data?.guid,
         },
         bargain: data.request ? "request" : data.negotiable ? "negotiable" : "no_haggling",
+        permission: Array.isArray(data?.permission) ? data?.permission?.map(item => ({ label: item, value: item })) : [],
+        medic_certificate: data?.med,
+        tir: data?.tir,
+        t1: data?.t1,
+        cmr: data?.cmr,
+        straps_number: data?.straps_number,
+        length: data?.length,
+        width: data?.width,
+        height: data?.height,
+        weight: data?.weight,
+        diameter: data?.diameter,
+        hitch: data?.hitch,
+        pneumatic: data?.pneumatic,
+        bunks: data?.bunks,
       });
     }
   }
@@ -814,5 +871,17 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     templates: getTempCargo.data?.response ?? [],
     handleDeleteTemplate,
     distance: data?.distance,
+    isRequirementOpen,
+    setRequirementOpen,
+    isAccessOpen,
+    setAccessOpen,
+    isBeltsOpen,
+    setBeltsOpen,
+    isLiftingCapacityOpen,
+    setLiftingCapacityOpen,
+    isPackagingAndQuantity,
+    setPackagingAndQuantity,
+    isDimensionsAndDiameter,
+    setDimensionsAndDiameter,
   };
 };

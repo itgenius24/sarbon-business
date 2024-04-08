@@ -30,9 +30,6 @@ export const TransportDetail = () => {
     canEdit,
     handleCheckboxChange,
     isEditing,
-    isPermissionOpen,
-    handleOpenPermission,
-    handleClosePermission
   } = useTransportDetailProps();
 
   const locale = useGetLang();
@@ -174,13 +171,13 @@ export const TransportDetail = () => {
           </Button>
         </Box>
         <Box display="flex" columnGap="10px" flexGrow={1}>
-          <Checkbox disabled={!canEdit} register={register} name="is_adr_requirement">
+          <Checkbox disabled={!canEdit} register={register} name="hitch">
             {t("Сцепка")}
           </Checkbox>
-          <Checkbox disabled={!canEdit} register={register} name="is_pneumatic_requirement">
+          <Checkbox disabled={!canEdit} register={register} name="pneumatic">
             {t("Пневмоход")}
           </Checkbox>
-          <Checkbox disabled={!canEdit} register={register} name="is_tir_requirement">
+          <Checkbox disabled={!canEdit} register={register} name="bunks">
             {t("Коники")}
           </Checkbox>
         </Box>
@@ -216,6 +213,7 @@ export const TransportDetail = () => {
             <ChakraSelect
               isMulti
               name="permission"
+              isDisabled={!canEdit}
               control={control}
               options={[
                 { label: "ADR 1", value: "adr_1" },
@@ -250,7 +248,7 @@ export const TransportDetail = () => {
           </Button>
         </Box>
         <Box flexGrow={1}>
-          <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="remains" />
+          <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="straps_number" />
         </Box>
       </Box>
     }
@@ -283,38 +281,5 @@ export const TransportDetail = () => {
         </Box>
       </Box>
     }
-    {/* {
-      isPermissionOpen && <Box py="24px" display="flex" justifyContent="space-between">
-        <Box width="280px" flexShrink="0">
-          <Button
-            isDisabled={!canEdit}
-            variant="reset"
-            onClick={handleClosePermission}
-            color="brand.700"
-            leftIcon={<DeleteIcon />}
-          >
-            {t("Разрешения")}
-          </Button>
-        </Box>
-        <Box flexGrow={1} zIndex={100}>
-          <ChakraSelect
-            isMulti
-            name="permission"
-            control={control}
-            options={[
-              { label: "ADR 1", value: "adr_1" },
-              { label: "ADR 2", value: "adr_2" },
-              { label: "ADR 3", value: "adr_3" },
-              { label: "ADR 4", value: "adr_4" },
-              { label: "ADR 5", value: "adr_5" },
-              { label: "ADR 6", value: "adr_6" },
-              { label: "ADR 7", value: "adr_7" },
-              { label: "ADR 8", value: "adr_8" },
-              { label: "ADR 9", value: "adr_9" },
-            ]}
-          />
-        </Box>
-      </Box>
-    } */}
   </Box>;
 };

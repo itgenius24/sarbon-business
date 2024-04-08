@@ -3,10 +3,19 @@ import { useAddCargoContext } from "../../providers";
 import { useGetCargoType, useGetMeasurement, useGetPackage } from "@/services/api";
 
 export const useCargoFormProps = () => {
-  const { control, errors, register, setValue, watch, canEdit } = useAddCargoContext();
-
-  const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
-  const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
+  const {
+    control,
+    errors,
+    register,
+    setValue,
+    watch,
+    canEdit,
+    isEditing,
+    isPackagingAndQuantity,
+    setPackagingAndQuantity,
+    isDimensionsAndDiameter,
+    setDimensionsAndDiameter,
+  } = useAddCargoContext();
 
   const getCargoTypes = useGetCargoType();
   const getMeasurement = useGetMeasurement();
@@ -42,13 +51,16 @@ export const useCargoFormProps = () => {
   }, [getMeasurement.data]);
 
   useEffect(() => {
-    if(watch("packaging")?.value) {
-      setPackagingAndQuantity(true);
+    if(isEditing && !canEdit) {
+      if(watch("packaging")?.value || watch("packaging_quantity")) {
+        setPackagingAndQuantity(true);
+      }
+      if(watch("width") || watch("height") || watch("length")) {
+        setDimensionsAndDiameter(true);
+      }
     }
-    if(watch("dimensions1")) {
-      setDimensionsAndDiameter(true);
-    }
-  }, []);
+
+  }, [watch("packaging"), watch("packaging_quantity"), watch("width"), watch("height"), watch("length")]);
 
   return {
     errors,

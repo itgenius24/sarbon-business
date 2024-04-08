@@ -153,38 +153,38 @@ export const CargoForm = () => {
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
               control={control}
-              name="dimensions1"
+              name="length"
               register={register}
               width="123px"
-              placeholder={t("Габарит")}
+              placeholder={t("Длина")}
               additionalItemPlaceholder={t("м")}
               disabled={!canEdit}
             />
-            <Checkbox register={register} name="isSpecial1" disabled={!canEdit}>{t("особые")}</Checkbox>
+            {/* <Checkbox register={register} name="isSpecial1" disabled={!canEdit}>{t("особые")}</Checkbox> */}
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
               control={control}
-              name="dimensions2"
+              name="width"
               register={register}
               width="123px"
-              placeholder={t("Габарит")}
+              placeholder={t("Ширина")}
               additionalItemPlaceholder={t("м")}
               disabled={!canEdit}
             />
-            <Checkbox register={register} name="isSpecial2" disabled={!canEdit}>{t("особые")}</Checkbox>
+            {/* <Checkbox register={register} name="isSpecial2" disabled={!canEdit}>{t("особые")}</Checkbox> */}
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
               disabled={!canEdit}
               control={control}
-              name="dimensions3"
+              name="height"
               register={register}
               width="123px"
-              placeholder={t("Габарит")}
+              placeholder={t("Высота")}
               additionalItemPlaceholder={t("м")}
             />
-            <Checkbox register={register} name="isSpecial3">{t("особые")}</Checkbox>
+            {/* <Checkbox register={register} name="isSpecial3">{t("особые")}</Checkbox> */}
           </Box>
           <TextFieldWithAddition
             control={control}
