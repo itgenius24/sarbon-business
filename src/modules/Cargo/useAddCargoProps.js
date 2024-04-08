@@ -30,6 +30,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [isBeltsOpen, setBeltsOpen] = useState(false);
   const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
 
+  const [prepaymentFuelOpen, setPrepaymentFuelOpen] = useState(false);
+  const [directContractOpen, setDirectContractOpen] = useState(false);
+
   const isCargo = status === "active" || status === "in_moderation" || status === "in_active";
 
   const { t } = useTranslation(locale, "translations");
@@ -556,6 +559,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         height: data.height,
         length: data.length,
         diameter: data.diameter,
+        prepayment_of_fuel: data.prepayment_of_fuel,
+        prepayment_interest: data?.prepayment_interest,
+        payment_upon_unloading: data?.payment_upon_unloading,
+        company_contract: data?.company_contract,
       }
     };
 
@@ -621,6 +628,14 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
     if(item?.width || item?.height || item?.length || item?.diameter) {
       setDimensionsAndDiameter(true);
+    }
+
+    if(item?.prepayment_interest || item?.prepayment_of_fuel || item?.payment_upon_unloading) {
+      setPrepaymentFuelOpen(true);
+    }
+
+    if(item?.company_contract) {
+      setDirectContractOpen(true);
     }
 
     // if(item?.address_ids.length) {
@@ -749,6 +764,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         hitch: data?.hitch,
         pneumatic: data?.pneumatic,
         bunks: data?.bunks,
+        prepayment_of_fuel: data.prepayment_of_fuel,
+        prepayment_interest: data?.prepayment_interest,
+        payment_upon_unloading: data?.payment_upon_unloading,
+        company_contract: data?.company_contract,
       });
     }
   }
@@ -880,5 +899,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setPackagingAndQuantity,
     isDimensionsAndDiameter,
     setDimensionsAndDiameter,
+    prepaymentFuelOpen,
+    setPrepaymentFuelOpen,
+    directContractOpen,
+    setDirectContractOpen,
   };
 };

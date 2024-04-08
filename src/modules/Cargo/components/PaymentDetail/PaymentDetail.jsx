@@ -72,7 +72,7 @@ export const PaymentDetail = () => {
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
           <TextFieldWithAddition
             disabled={!canEdit}
-            name="prepayment_percent"
+            name="prepayment_interest"
             placeholder="10"
             additionalItemPlaceholder="%"
             register={register}
@@ -82,14 +82,14 @@ export const PaymentDetail = () => {
             onChange={(e) => {
               const value = e.target.value;
               if(+value > 100) {
-                setValue("prepayment_percent", 100);
+                setValue("prepayment_interest", 100);
               }
             }}
           />
-          <Checkbox disabled={!canEdit} name="prepayment_with_fuel" register={register}>
+          <Checkbox disabled={!canEdit} name="prepayment_of_fuel" register={register}>
             {t("Предоплата топливом")}
           </Checkbox>
-          <Checkbox disabled={!canEdit} name="prepayment_with_payment" register={register}>
+          <Checkbox disabled={!canEdit} name="payment_upon_unloading" register={register}>
             {t("Оплата на выгрузке (скрывает оплату через)")}
           </Checkbox>
         </Box>
@@ -109,7 +109,7 @@ export const PaymentDetail = () => {
           </Button>
         </Box>
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
-          <Checkbox disabled={!canEdit} name="contract" register={register}>
+          <Checkbox disabled={!canEdit} name="company_contract" register={register}>
             {t("Заключаю договор с перевозчиком от своей фирмы")}
           </Checkbox>
         </Box>
