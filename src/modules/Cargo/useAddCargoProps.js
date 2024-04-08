@@ -72,6 +72,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function handleOpenModal() {
     setIsOpen(true);
+    getTempCargo.refetch();
   }
 
   function handleCloseModal() {
@@ -137,7 +138,20 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       label: "",
       value: "",
     },
-    bargain: "no_haggling",
+    bargain: "",
+    length: "",
+    width: "",
+    height: "",
+    diameter: "",
+    hitch: "",
+    pneumatic: "",
+    bunks: "",
+    tir: false,
+    t1: false,
+    cmr: false,
+    medic_certificate: false,
+    permission: [],
+    straps_number: "",
   };
 
   const schema = yup
@@ -675,6 +689,14 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     reset(emptyCargoFields);
     setStartDate("");
     setEndDate("");
+    setPackagingAndQuantity(false);
+    setDimensionsAndDiameter(false);
+    setRequirementOpen(false);
+    setAccessOpen(false);
+    setBeltsOpen(false);
+    setLiftingCapacityOpen(false);
+    setPrepaymentFuelOpen(false);
+    setDirectContractOpen(false);
   }
 
   function resetForm(data, id) {
