@@ -25,7 +25,7 @@ export const Cargo = ({ id, status, locale }) => {
   function getTopContent () {
     if(status === "in_moderation") {
       return <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
-        <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
+        <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">{addCargoProps.distance} km</Text></Heading>
         <Box Box display="flex" columnGap="8px">
           <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleEditToggle}>
             {t("Изменить")}

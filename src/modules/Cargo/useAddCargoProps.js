@@ -196,10 +196,17 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const getLoadings = Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.[0]?.cor : watch("loadings")?.[0]?.cor?.split(",");
   const getUnloading = Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.[0]?.cor : watch("unloading")?.[0]?.cor?.split(",");
 
+  console.log({
+    getLoadings,
+    getUnloading
+  });
+
   const distance = useGetDistance({
     origin: { lat: getLoadings?.[0], lng: getLoadings?.[1] },
     destination: { lat: getUnloading?.[0], lng: getUnloading?.[1] }
   });
+
+  console.log({ distance });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -537,7 +544,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         cmr: data.cmr,
         cargo_type: ["cargo"],
         permission: data?.permission?.map(item => item.value),
-        distance: parseFloat(distance.distance.toFixed(3)),
+        distance: Math.floor(distance.distance || 0),
         duration: distance.duration,
       }
     };
@@ -806,5 +813,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     isOpen,
     templates: getTempCargo.data?.response ?? [],
     handleDeleteTemplate,
+    distance: data?.distance,
   };
 };
