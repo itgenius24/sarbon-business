@@ -57,8 +57,10 @@ export const useGetDistance = ({ origin, destination }) => {
 
   const milesToKm = miles => miles * 1.609344;
 
+  const dist = distance?.replace("mi", "");
+
   return {
-    distance: milesToKm(Number(distance?.replace("mi", ""))),
+    distance: milesToKm(Number(dist?.replace(",", "."))),
     duration
   };
 };
