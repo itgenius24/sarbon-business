@@ -23,6 +23,7 @@ export const useLoadsCardProps = ({
   users_id_2_data,
   driver_cash,
   short_name,
+  distance
 }) => {
 
   const locale = useGetLang();
@@ -66,7 +67,7 @@ export const useLoadsCardProps = ({
   const list = [
     {
       title: status === "performed" ? t("Статус: ") : t("Расстояние: "),
-      value: status === "performed" ? performedStatuses[indicate_status[0]] : "570 км",
+      value: status === "performed" ? performedStatuses[indicate_status[0]] : `${distance} км`,
     },
     {
       title: t("Товар: "),
