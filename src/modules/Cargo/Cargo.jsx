@@ -40,6 +40,8 @@ export const Cargo = ({ id, status, locale }) => {
         status={status}
         address1={addCargoProps.address1}
         address2={addCargoProps.address2}
+        city1={addCargoProps.city1}
+        city2={addCargoProps.city2}
         userName={addCargoProps.userName}
         proposedAmount={addCargoProps.proposedAmount}
         rating={addCargoProps.rating}
@@ -50,6 +52,7 @@ export const Cargo = ({ id, status, locale }) => {
         driverComment={addCargoProps.driverComment}
         permission={addCargoProps.permission}
         currency={addCargoProps.currency}
+        distance={addCargoProps.distance}
       />;
     }
 

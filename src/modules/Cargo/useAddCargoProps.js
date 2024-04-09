@@ -885,6 +885,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleAccept,
     address1: data?.address_id_data?.name,
     address2: data?.address_id_2_data?.name,
+    city1: data?.city_id_data?.name,
+    city2: data?.city_id_2_data?.name,
     userName: data?.users_id_2_data?.full_name,
     phoneNumber: data?.users_id_2_data?.phone,
     rating: data?.users_id_2_data?.rating,

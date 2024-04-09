@@ -1,3 +1,4 @@
+import cls from "./styles.module.scss";
 import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
@@ -19,6 +20,9 @@ export const TopContent = ({
   status,
   permission,
   currency,
+  distance,
+  city1,
+  city2
 }) => {
 
   const [showNumber, setShowNumber] = useState(false);
@@ -60,7 +64,21 @@ export const TopContent = ({
   ];
 
   return <Box p="24px" bgColor="baseWhite" borderRadius="12px" mb="16px">
-    <Heading mb="20px" size="md">{address1} - {address2} <Text as="span" color="brand.500">1235.56 km</Text></Heading>
+    <h2 className={cls.address}>
+      <span className={cls.addressText}>
+        <span className={cls.addressCountry}>
+          <span className={cls.addressCity}>{city1}</span>
+          <span>{address1}</span>
+        </span>
+        <span>-&gt;</span>
+        <span className={cls.addressCountry}>
+          <span className={cls.addressCity}>{city2}</span>
+          <span>{address2}</span>
+        </span>
+        {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
+      </span>
+      <Text as="span" color="brand.500"> {distance} km</Text>
+    </h2>
     <DataList list={list} />
     {
       status === "performed" && <Button maxW="278px" mt="20px" onClick={() => setShowNumber(!showNumber)}>
