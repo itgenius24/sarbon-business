@@ -29,7 +29,7 @@ export const RegistrationForm = () => {
     <AuthTitle mb="32px" title={t("Регистрация нового участника на Furgo")} />
     <Box display="flex" flexDirection="column" rowGap="20px" mb="24px">
       <Dropdown
-        options={clientTypeOptions}
+        options={[clientTypeOptions[1]]}
         control={control}
         name="clientType"
         label={t("Профиль деятельности")}

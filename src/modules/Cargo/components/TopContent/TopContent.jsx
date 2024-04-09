@@ -30,15 +30,15 @@ export const TopContent = ({
   const list = [
     {
       title: t("Водитель: "),
-      value: userName,
+      value: userName || "",
     },
     {
       title: t("Модель транспорта: "),
-      value: transportModel,
+      value: transportModel || "",
     },
     {
       title: t("Предлагаемая сумма: "),
-      value: proposedAmount + " " + currency,
+      value: proposedAmount || "" + " " + currency ? currency : "",
     },
     {
       title: t("Рейтинг водителя: "),
@@ -46,15 +46,15 @@ export const TopContent = ({
     },
     {
       title: t("Предоплата: "),
-      value: `${prepayment} ${permission === "in_percentages" ? "%" : currency}`,
+      value: `${prepayment || ""} ${permission === "in_percentages" ? "%" : currency || ""}`,
     },
     {
       title: t("Оплата после завершения: "),
-      value: `${paymentAfterFinish} ${permission === "in_percentages" ? "%" : currency}`,
+      value: `${paymentAfterFinish || ""} ${permission === "in_percentages" ? "%" : currency || ""}`,
     },
     {
       title: t("Комментария водителя: "),
-      value: driverComment,
+      value: driverComment || "",
       grow: true,
     },
   ];

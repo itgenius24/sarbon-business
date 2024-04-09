@@ -15,7 +15,7 @@ export const useRegistrationFormProps = () => {
 
   const { phone } = authStore.getAuthData;
 
-  const { control, register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { control, register, handleSubmit, watch, formState: { errors }, setError } = useForm();
 
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -31,14 +31,26 @@ export const useRegistrationFormProps = () => {
       router.push(`/${locale}`);
     },
     onError(error) {
-      if(error.data?.data?.includes("duplicate")) {
+      if(error.data?.data?.includes("user_unq_login")) {
         toast({
-          title: t("Такой номер уже зарегистрирован"),
+          title: t("Такой логин уже зарегистрирован"),
           status: "error",
           position: "top right",
         });
-
-        router.push(`/${locale}/auth/login`);
+        setError("login", { message: t("Такой логин уже зарегистрирован") });
+        // router.push(`/${locale}/auth/login`);
+      } else if(error.data?.data?.includes("user_project_idx_unique")) {
+        toast({
+          title: t("Такой номер уже зарегистрирован"),
+          status: "error",
+          position: "top right",
+        });
+      } else {
+        toast({
+          title: t("Произошла ошибка при регистрации"),
+          status: "error",
+          position: "top right",
+        });
       }
     }
   });

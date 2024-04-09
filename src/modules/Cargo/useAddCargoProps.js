@@ -310,7 +310,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       }
     });
 
-    getValues("unloading").forEach(item => {
+    const unloadingValues = getValues("unloading");
+
+    unloadingValues.reverse().forEach(item => {
       if(item.address && item.cor) {
 
         const cor = item.cor;
@@ -512,7 +514,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       return;
     }
 
-    setLoading(true);
+    // setLoading(true);
 
     // const loadingIds = data.loadings.map(item => item.location.value);
     // const unloadingIds = data.unloading.map(item => item.location.value);
