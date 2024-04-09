@@ -79,6 +79,7 @@ export const LoadsCard = forwardRef(({
     driver_cash,
     short_name,
     distance,
+    currency_id_data,
   });
 
   return <div

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { formatSum } from "@/utils/formatSum";
 
 export const useLoadsCardProps = ({
   order_status,
@@ -23,7 +24,8 @@ export const useLoadsCardProps = ({
   users_id_2_data,
   driver_cash,
   short_name,
-  distance
+  distance,
+  currency_id_data,
 }) => {
 
   const locale = useGetLang();
@@ -98,7 +100,7 @@ export const useLoadsCardProps = ({
     },
     {
       title: t("Предлагаемая сумма: "),
-      value: driver_cash,
+      value: formatSum(currency_id_data?.code, driver_cash),
     },
     {
       title: t("Рейтинг водителя: "),
