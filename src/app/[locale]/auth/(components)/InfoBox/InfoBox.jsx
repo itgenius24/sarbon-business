@@ -3,6 +3,7 @@ import cls from "./styles.module.scss";
 import BigLogoIcon from "@/assets/images/big-logo.svg";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
+import clsx from "clsx";
 
 export const InfoBox = () => {
 
@@ -12,7 +13,7 @@ export const InfoBox = () => {
 
   return <div className={cls.infoBox}>
     <div className={cls.infoWrap}>
-      <div className={cls.logoWrap}>
+      <div className={clsx(cls.logoWrap)}>
         <Image src={BigLogoIcon} alt="logo" className={cls.logo} width={170} height={170} />
       </div>
       <div className={cls.textWrap}>

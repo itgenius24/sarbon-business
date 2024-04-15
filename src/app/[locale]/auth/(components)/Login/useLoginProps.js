@@ -109,6 +109,7 @@ export const useLoginProps = () => {
     handleTogglePasswordVisibility,
     isPasswordVisible,
     navigateToMain,
+    locale,
   };
 
 };

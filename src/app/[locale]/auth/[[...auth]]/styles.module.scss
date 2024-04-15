@@ -1,0 +1,14 @@
+.formWrapper {
+  max-width: 360px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: 180px;
+}
+
+@include lg {
+  .formWrapper {
+    max-width: 343px;
+    margin: 0 auto;
+  }
+}

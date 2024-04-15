@@ -1,52 +1,63 @@
 .infoBox {
   width: 100%;
   max-width: 696px;
-  .infoWrap {
-    width: 100%;
-    height: 700px;
-    background-color: var(--primary);
-    border-radius: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    .logoWrap {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-    }
-    .textWrap {
-      margin-top: 20px;
-      width: 100%;
-      height: 65%;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      border-bottom-left-radius: 28px;
-      border-bottom-right-radius: 28px;
-      border-top: 1px solid rgba(255, 255, 255, 0.5);
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(141, 140, 140, 0.4) 100%
-      );
-      .textWrapTitle {
-        color: #fff;
-        font-size: 27px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 33px;
-      }
-      .desc {
-        color: #fff;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 24px; 
-      }
-    }
+}
+
+.infoWrap {
+  width: 100%;
+  height: 700px;
+  background-color: var(--primary);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.logoWrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.textWrap {
+  margin-top: 20px;
+  width: 100%;
+  height: 65%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(141, 140, 140, 0.4) 100%
+  );
+}
+
+.textWrapTitle {
+  color: #fff;
+  font-size: 27px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 33px;
+}
+
+.desc {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; 
+}
+
+@include lg {
+  .infoBox {
+    display: none;
   }
 }

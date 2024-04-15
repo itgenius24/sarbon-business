@@ -59,6 +59,26 @@
   border-color: var(--error-600);
 }
 
+.subtitle {
+  display: none;
+}
+
+.buttonWrapper {
+  margin-bottom: 32px;
+}
+
+@include lg {
+  .buttonWrapper {
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--brand-400);
+  }
+}
+
 @keyframes horizontal-shaking {
   0% {
     transform: translateX(0);

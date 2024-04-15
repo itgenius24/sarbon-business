@@ -1,0 +1,9 @@
+.mobileLogo {
+  display: none;
+}
+
+@include lg {
+  .mobileLogo {
+    display: block;
+  }
+}

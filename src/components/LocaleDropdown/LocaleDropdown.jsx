@@ -2,8 +2,14 @@ import cls from "./styles.module.scss";
 import { CheckIcon, SelectionArrow } from "@/assets/icons/icons";
 import Image from "next/image";
 import { useLocaleDropdownProps } from "./useLocaleDropdownProps";
+import { useTranslation } from "react-i18next";
 
-export const LocaleDropdown = ({ locale = "ru" }) => {
+export const LocaleDropdown = ({ locale }) => {
+
+  const ret = useTranslation();
+  const { i18n } = ret;
+
+  const resolvedLang = i18n.resolvedLanguage;
 
   const {
     isOpen,
@@ -13,7 +19,7 @@ export const LocaleDropdown = ({ locale = "ru" }) => {
     langs,
     setOpen,
     dropdownRef
-  } = useLocaleDropdownProps({ locale });
+  } = useLocaleDropdownProps({ locale: locale || resolvedLang });
 
   return <div className={cls.localeDropdown} ref={dropdownRef} onClick={(e) => e.stopPropagation()}>
     <span className={cls.localeDropdownHeader} onClick={() => setOpen(!isOpen)}>

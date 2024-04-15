@@ -1,3 +1,13 @@
 .link {
   color: var(--primary-text);
 }
+
+.buttonWrapper {
+  margin-bottom: 32px;
+}
+
+@include lg {
+  .buttonWrapper {
+    margin-bottom: 16px;
+  }
+}

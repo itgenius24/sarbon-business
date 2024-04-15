@@ -8,22 +8,25 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import { ArrowLeft } from "@/assets/icons/icons";
 import { observer } from "mobx-react-lite";
 import clsx from "clsx";
+import { MobileLogo } from "../MobileLogo";
 
 export const Otp = observer(() => {
 
   const { onChange, handleSendOtp, navigateBack, value, phone, t, error } = useOtpProps();
 
   return <Box>
-    <Button
-      onClick={navigateBack}
-      variant="reset"
-      size="sm"
-      color="brand.600"
-      leftIcon={<ArrowLeft />}
-      mb="32px"
-    >
-      {t("Назад")}
-    </Button>
+    <div className={cls.buttonWrapper}>
+      <Button
+        onClick={navigateBack}
+        variant="reset"
+        size="sm"
+        color="brand.600"
+        leftIcon={<ArrowLeft />}
+      >
+        {t("Назад")}
+      </Button>
+    </div>
+    <MobileLogo />
     <AuthTitle
       mb="32px"
       title="Проверьте свой телефон"
@@ -34,6 +37,7 @@ export const Otp = observer(() => {
         </p>
       }
     />
+    <span className={cls.subtitle}>{t("СМС-код")}</span>
     <VerificationInput
       removeDefaultStyles
       autoFocus={() => true}

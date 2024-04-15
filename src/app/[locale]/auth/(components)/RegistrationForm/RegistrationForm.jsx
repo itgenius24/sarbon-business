@@ -7,6 +7,7 @@ import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
 import { EyeIcon, EyeIconOff, HelpCircleIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
+import { MobileLogo } from "../MobileLogo";
 
 export const RegistrationForm = () => {
 
@@ -26,6 +27,7 @@ export const RegistrationForm = () => {
   } = useRegistrationFormProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+    <MobileLogo />
     <AuthTitle mb="32px" title={t("Регистрация нового участника на Furgo")} />
     <Box display="flex" flexDirection="column" rowGap="20px" mb="24px">
       <Dropdown

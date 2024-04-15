@@ -4,6 +4,7 @@ import { useRegistrationProps } from "./useRegistrationProps";
 import { AuthTitle } from "../AuthTitle";
 import { TextField } from "@/components/TextField";
 import { ArrowLeft } from "@/assets/icons/icons";
+import { MobileLogo } from "../MobileLogo";
 
 export const Registration = () => {
 
@@ -18,17 +19,19 @@ export const Registration = () => {
   } = useRegistrationProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-    <Button
-      onClick={navigateLogin}
-      variant="reset"
-      size="sm"
-      color="brand.600"
-      leftIcon={<ArrowLeft />}
-      mb="32px"
-      isLoading={isPending}
-    >
-      {t("Вернуться на Войти")}
-    </Button>
+    <div className={cls.buttonWrapper}>
+      <Button
+        onClick={navigateLogin}
+        variant="reset"
+        size="sm"
+        color="brand.600"
+        leftIcon={<ArrowLeft />}
+        isLoading={isPending}
+      >
+        {t("Вернуться на Войти")}
+      </Button>
+    </div>
+    <MobileLogo />
     <AuthTitle mb="32px" title={t("Регистрация нового участника на Furgo")} />
     <Box mb="24px">
       <TextField

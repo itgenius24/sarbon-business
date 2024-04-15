@@ -1,11 +1,14 @@
 "use client";
 
+import cls from "./styles.module.scss";
 import { useLoginProps } from "./useLoginProps";
 import { AuthTitle } from "../AuthTitle";
 import { TextField } from "@/components/TextField";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
 import { ArrowLeft, EyeIcon, EyeIconOff } from "@/assets/icons/icons";
+import Link from "next/link";
+import { MobileLogo } from "../MobileLogo";
 
 export const Login = () => {
 
@@ -21,19 +24,22 @@ export const Login = () => {
     isPasswordVisible,
     handleTogglePasswordVisibility,
     navigateToMain,
+    locale,
   } = useLoginProps();
 
   return <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-    <Button
-      onClick={navigateToMain}
-      variant="reset"
-      size="sm"
-      color="brand.600"
-      leftIcon={<ArrowLeft />}
-      mb="32px"
-    >
-      {t("Вернуться на Главную")}
-    </Button>
+    <div className={cls.buttonWrapper}>
+      <Button
+        onClick={navigateToMain}
+        variant="reset"
+        size="sm"
+        color="brand.600"
+        leftIcon={<ArrowLeft />}
+      >
+        {t("Вернуться на Главную")}
+      </Button>
+    </div>
+    <MobileLogo />
     <AuthTitle mb="32px" title="Вход в Furgo" subtitle="" />
     <Box mb="24px" display="flex" flexDirection="column" rowGap="20px">
       <TextField register={register} rules={{ required: { value: true, message: t("Это поле обязательно для заполнения") } }} errors={errors} name="username" label={t("Логин")} placeholder={t("Введите свой логин")} />
@@ -48,13 +54,16 @@ export const Login = () => {
         addonAfter={
           <button type="button" onClick={handleTogglePasswordVisibility}>
             {
-                isPasswordVisible ? <EyeIconOff /> : <EyeIcon />
+              isPasswordVisible ? <EyeIconOff /> : <EyeIcon />
             }
           </button>
         }
       />
     </Box>
-    <Checkbox onChange={onRememberChange}>{t("Запомнить")}</Checkbox>
+    <div className={cls.rememberWrapper}>
+      <Checkbox onChange={onRememberChange}>{t("Запомнить")}</Checkbox>
+      <Link className={cls.forgotLink} href={`/${locale}/auth/forgot`}>{t("Забыли логин или пароль?")}</Link>
+    </div>
     <Button mt="24px" size="md" type="submit">{t("Войти")}</Button>
     <Box mt="32px" display="flex" justifyContent="center" columnGap="4px">
       <Text fontSize="14px" color="brand.600" lineHeight="20px">{t("У вас нет аккаунта?")}</Text>

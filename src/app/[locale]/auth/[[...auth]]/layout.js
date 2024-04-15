@@ -1,5 +1,6 @@
 "use client";
 
+import cls from "./styles.module.scss";
 import { Box } from "@chakra-ui/react";
 import { InfoBox } from "../(components)/InfoBox";
 import React from "react";
@@ -8,7 +9,7 @@ import { LocaleDropdown } from "@/components/LocaleDropdown";
 import { Container } from "@/components/Container";
 
 export default function AuthLayout({ children, params: { locale } }) {
-  return <Box bgColor="baseWhite">
+  return <Box bgColor="baseWhite" height="100vh">
     <Box borderBottom="1px solid #EAECF0">
       <Container>
         <Box display="flex" justifyContent="space-between" py="16px">
@@ -19,9 +20,9 @@ export default function AuthLayout({ children, params: { locale } }) {
     </Box>
     <Box pt="24px" pb="26px">
       <Box maxW="1440px" mx="auto" display="flex" alignItems="center" justifyContent="space-between">
-        <Box flexGrow={1} maxW="360px" ml="auto" mr="180px">
+        <div className={cls.formWrapper}>
           {children}
-        </Box>
+        </div>
         <InfoBox />
       </Box>
     </Box>

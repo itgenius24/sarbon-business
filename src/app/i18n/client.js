@@ -42,14 +42,16 @@ export function useTranslation(locale, ns, options) {
     }, [locale, i18n]);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
+
+      if(!locale) {
+        setCookie(cookieName, i18n.resolvedLanguage, { path: "/" });
+        return;
+      }
+
       if (cookies.i18next === locale) return;
       setCookie(cookieName, locale, { path: "/" });
-    }, [locale, cookies.i18next]);
-  }
 
-  if(locale === "undefined") {
-    setCookie(cookieName, "ru", { path: "/" });
-    i18n.changeLanguage("ru");
+    }, [locale, cookies.i18next]);
   }
 
   return ret;

@@ -1,0 +1,22 @@
+.rememberWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgotLink {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--primary);
+}
+
+.buttonWrapper {
+  margin-bottom: 32px;
+}
+
+@include lg {
+  .buttonWrapper {
+    margin-bottom: 16px;
+  }
+}
