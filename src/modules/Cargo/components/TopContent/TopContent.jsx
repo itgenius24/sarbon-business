@@ -42,7 +42,7 @@ export const TopContent = ({
     },
     {
       title: t("Предлагаемая сумма: "),
-      value: proposedAmount || "" + " " + currency ? currency : "",
+      value: proposedAmount ? proposedAmount + " " + currency : "",
     },
     {
       title: t("Рейтинг водителя: "),
@@ -50,11 +50,11 @@ export const TopContent = ({
     },
     {
       title: t("Предоплата: "),
-      value: `${prepayment || ""} ${permission === "in_percentages" ? "%" : currency || ""}`,
+      value: `${prepayment ? prepayment : ""} ${permission === "in_percentages" ? "%" : currency ? currency : ""}`,
     },
     {
       title: t("Оплата после завершения: "),
-      value: `${paymentAfterFinish || ""} ${permission === "in_percentages" ? "%" : currency || ""}`,
+      value: `${paymentAfterFinish ? paymentAfterFinish : ""} ${permission === "in_percentages" ? "%" : currency || ""}`,
     },
     {
       title: t("Комментария водителя: "),

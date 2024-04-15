@@ -22,6 +22,8 @@ export const Cargo = ({ id, status, locale }) => {
 
   const { t } = useTranslation(locale, "translations");
 
+  console.log({ status });
+
   function getTopContent () {
     if(status === "in_moderation") {
       return <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
