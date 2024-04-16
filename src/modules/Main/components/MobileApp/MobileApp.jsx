@@ -1,3 +1,4 @@
+import cls from "./styles.module.scss";
 import { RoundCheckIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
@@ -11,11 +12,11 @@ export const MobileApp = ({
 }) => {
   return (
     <Container mt={"96px"} mb={"96px"}>
-      <Box bg="white" borderRadius={24} p="48px 32px">
-        <Heading fontSize={36} lineHeight="44px" mb={20.5}>
+      <Box className={cls.mobileApp} bg="white" borderRadius={24}>
+        <Heading className={cls.mobileAppHeading} fontSize={36} lineHeight="44px" mb={20.5}>
           Мобильное приложение
         </Heading>
-        <Box display="flex" alignItems="center">
+        <Box className={cls.contentWrapper} display="flex" alignItems="center">
           <LeftContent description={description} description1={description1} />
           <RightContent photo={photo} />
         </Box>
@@ -26,13 +27,9 @@ export const MobileApp = ({
 
 const RightContent = ({ photo }) => {
   return (
-    <Box maxWidth="50%" width={"100%"} position="relative">
+    <Box className={cls.bannerWrapper} width={"100%"} position="relative">
       <Image
-        style={{
-          position: "absolute",
-          top: "50%",
-          transform: "translate(0%, -50%)",
-        }}
+        className={cls.bannerImage}
         width={500}
         height={500}
         src={photo}
@@ -44,8 +41,8 @@ const RightContent = ({ photo }) => {
 
 const LeftContent = ({ description, description1 }) => {
   return (
-    <Box maxW={"50%"} flexGrow="1">
-      <Box maxW={544} bg="brand.50" borderRadius={12} p="20px 24px">
+    <Box className={cls.leftContent} flexGrow="1">
+      <Box className={cls.leftContentInner} bg="brand.50" borderRadius={12} p="20px 24px">
         <Flex mb={26} alignItems="center">
           <Image
             style={{ borderRadius: "50%" }}
@@ -59,7 +56,7 @@ const LeftContent = ({ description, description1 }) => {
           Furgo
           </Box>
         </Flex>
-        <List maxW={384} color="brand.600" ml={"42px"}>
+        <List className={cls.list} maxW={384} color="brand.600">
           <ListItem
             display={"flex"}
             alignItems="baseline"

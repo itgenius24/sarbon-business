@@ -1,0 +1,68 @@
+.mobileApp {
+  padding: 48px 32px;
+}
+
+.leftContent {
+  max-width: 50%;
+}
+
+.leftContentInner {
+  max-width: 544px;
+}
+
+.bannerImage {
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.bannerWrapper {
+  max-width: 50%;
+}
+
+.list {
+  margin-left: 42px;
+}
+
+@include lg {
+  .mobileApp {
+    padding: 0;
+    background: transparent;
+  }
+  
+  .mobileAppHeading {
+    margin-bottom: 8px;
+    font-size: 24px;
+    line-height: 44px;
+  }
+  
+  .contentWrapper {
+    flex-direction: column-reverse;
+  }
+  
+  .leftContent {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .leftContentInner {
+    max-width: 100%;
+    background-color: #fff;
+  }
+
+  .bannerImage {
+    width: 100%;
+    object-fit: cover;
+    position: static;
+    transform: none;
+  }
+
+  .bannerWrapper {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .list {
+    margin-left: 0;
+  }
+}

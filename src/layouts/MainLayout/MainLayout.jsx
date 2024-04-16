@@ -13,17 +13,17 @@ export const MainLayout = ({ children }) => {
 
   const pathname = usePathname();
 
-  const isAuth = pathname.includes("auth");
+  const isAuthPage = pathname.includes("auth");
 
   return <div className={cls.layout}>
     {
-      !isAuth && <Header elements={elements} />
+      !isAuthPage && <Header elements={elements} />
     }
     <article className={cls.main}>
       {children}
     </article>
     {
-      !isAuth && <Footer />
+      !isAuthPage && <Footer />
     }
   </div>;
 };

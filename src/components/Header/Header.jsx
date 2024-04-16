@@ -40,6 +40,12 @@ const Header = observer(({ elements }) => {
 
   const photo = userData.data?.photo;
 
+  const [isNavOpen, setNavOpen] = useState(false);
+
+  function handleToggleNav() {
+    setNavOpen(!isNavOpen);
+  }
+
   return (
     <Box
       as="header"
@@ -48,15 +54,16 @@ const Header = observer(({ elements }) => {
       borderBottomColor="brand.200"
     >
       <Container>
-        <Box as="nav" className={cls.nav}>
+        <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
               <Logo />
             </Box>
-            <UnorderedList className={cls.list}>
-              {elements?.map((element, index) => {
-                return <ListItem className={cls.listItem} key={element.path}>
-                  {
+            <Box className={cls.content}>
+              <UnorderedList className={cls.list}>
+                {elements?.map((element, index) => {
+                  return <ListItem className={cls.listItem} key={element.path}>
+                    {
                     element.path.includes("distance-calculation")
                      ? <a className={clsx(cls.itemLink, {
                        [cls.activeLink]: index
@@ -77,46 +84,56 @@ const Header = observer(({ elements }) => {
                      >
                        {t(element.label)}
                      </Link>
-                  }
-                </ListItem>;
-              })}
-            </UnorderedList>
-          </Box>
-          <Box className={cls.rightBox}>
-            <Box className={cls.buttonBox}>
-              {!isAuth && (
-                <Link
-                  className={clsx(cls.registerLink)}
-                  title={t("Зарегистрироваться")}
-                  href={`/${locale}/auth`}
-                >
-                  {t("Зарегистрироваться")}
-                </Link>
-              )}
-              <Box display="flex" columnGap="4px">
-                <LocaleDropdown locale={locale} />
-                {/* <IconButton variant="reset"> */}
-                {/* <LanguageIcon /> */}
-                {/* </IconButton> */}
-              </Box>
-              {isAuth && (
-                <>
-                  <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
-                    <Image
-                      src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : UserImg}
-                      alt="ww"
-                      width={40}
-                      height={40}
-                      objectFit="cover"
-                      style={{ height: "100%" }}
-                    />
+                    }
+                  </ListItem>;
+                })}
+              </UnorderedList>
+              <Box className={cls.rightBox}>
+                <Box className={cls.buttonBox}>
+                  {!isAuth && (
+                    <Link
+                      className={clsx(cls.registerLink)}
+                      title={t("Зарегистрироваться")}
+                      href={`/${locale}/auth`}
+                    >
+                      {t("Зарегистрироваться")}
+                    </Link>
+                  )}
+                  <Box className={cls.localeBox} display="flex" columnGap="4px">
+                    <LocaleDropdown locale={locale} />
+                    {/* <IconButton variant="reset"> */}
+                    {/* <LanguageIcon /> */}
+                    {/* </IconButton> */}
                   </Box>
-                  {/* <Box ml="16px">
+                  {isAuth && (
+                    <>
+                      <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
+                        <Image
+                          src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : UserImg}
+                          alt="ww"
+                          width={40}
+                          height={40}
+                          objectFit="cover"
+                          style={{ height: "100%" }}
+                        />
+                      </Box>
+                      {/* <Box ml="16px">
                     <LogOutBtn />
                   </Box> */}
-                </>
-              )}
+                    </>
+                  )}
+                </Box>
+              </Box>
             </Box>
+            <button className={cls.burgerBtn} onClick={handleToggleNav}>
+              <svg id="hamburger" class="Header__toggle-svg" viewBox="0 0 60 40">
+                <g stroke="#70707B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                  <path className={cls.topLine} id="top-line" d="M10,10 L50,10 Z"></path>
+                  <path className={cls.middleLine} id="middle-line" d="M10,20 L50,20 Z"></path>
+                  <path className={cls.bottomLine} id="bottom-line" d="M10,30 L50,30 Z"></path>
+                </g>
+              </svg>
+            </button>
           </Box>
         </Box>
       </Container>

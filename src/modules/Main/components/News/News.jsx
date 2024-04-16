@@ -1,5 +1,6 @@
 "use client";
 
+import cls from "./styles.module.scss";
 import { Container } from "@/components/Container";
 import {
   Box,
@@ -9,6 +10,7 @@ import {
   SimpleGrid,
   Spacer,
   Stack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -17,7 +19,7 @@ import { ArrowLeft } from "@/assets/icons/icons";
 import { useGetNewsList } from "@/services/api";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-const limit = 6;
+import { keepPreviousData } from "@tanstack/react-query";
 
 export const News = ({ t }) => {
   const router = useRouter();
@@ -25,13 +27,21 @@ export const News = ({ t }) => {
   const pathname = usePathname();
   const page = searchParams.get("page");
   const [currentPage, setCurrentPage] = useState(+page || 0);
+  const [limit, setLimit] = useState(6);
+
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const handlePaginationClick = (type) => {
     if (type === "prev" && currentPage > 0) {
       setCurrentPage((prevVal) => prevVal - 6);
     }
     if (type === "next") {
-      setCurrentPage((prevVal) => prevVal + 6);
+      if(!isLargerThan768) {
+        setLimit((prevVal) => prevVal + 6);
+        return;
+      } else {
+        setCurrentPage((prevVal) => prevVal + 6);
+      }
     }
     const page = type === "prev" ? currentPage - 6 : currentPage + 6;
     const path = `${pathname}?page=${page}`;
@@ -53,6 +63,7 @@ export const News = ({ t }) => {
       select: (res) => {
         return res;
       },
+      placeholderData: isLargerThan768 ? [] : keepPreviousData,
     }
   );
 
@@ -62,10 +73,16 @@ export const News = ({ t }) => {
   return (
     <Container>
       <Stack gap={0}>
-        <Heading fontSize={36} lineHeight="44px" mb="32px">
+        <Heading className={cls.title} fontSize={36} lineHeight="44px" mb="32px">
           {t("Новости")}
         </Heading>
-        <NewsList page={currentPage - 1} news={newsList?.response} />
+        <NewsList
+          page={page}
+          count={count || 1}
+          handlePaginationClick={handlePaginationClick}
+          isLargerThan768={isLargerThan768}
+          news={newsList?.response}
+        />
         <Pagination
           t={t}
           click={handlePaginationClick}
@@ -80,7 +97,7 @@ export const News = ({ t }) => {
 const Pagination = ({ page, pageLength, click, t }) => {
 
   return (
-    <>
+    <Box className={cls.pagination}>
       <Container mb={"96px"}>
         <Flex>
           <IconButton
@@ -114,18 +131,34 @@ const Pagination = ({ page, pageLength, click, t }) => {
           />
         </Flex>
       </Container>
-    </>
+    </Box>
   );
 };
 
-const NewsList = ({ news = [] }) => {
+const NewsList = ({ news = [], handlePaginationClick, isLargerThan768, page, count }) => {
 
   return (
     <>
-      <SimpleGrid columns={[2, null, 3]} spacing="32px" mb={68}>
+      <SimpleGrid className={cls.simpleGrid} columns={[2, null, 3]} spacing="32px" mb={68}>
         {news?.map((newCard, i) => (
           <NewsCard key={i} data={newCard} />
         ))}
+        {
+          !isLargerThan768 && <Box display="flex" flexDirection="column" justifyContent="center">
+            <IconButton
+              isDisabled={news?.length >= count}
+              borderColor="#D0D5DD"
+              h="36px"
+              minW="36px"
+              maxW="36px"
+              variant="outline"
+              aria-label="Next button"
+              bgColor="#fff"
+              icon={<ArrowLeft rotate={true} />}
+              onClick={() => handlePaginationClick("next")}
+            />
+          </Box>
+        }
       </SimpleGrid>
     </>
   );
@@ -138,9 +171,10 @@ const NewsCard = ({ data = {} }) => {
   const locale = useGetLang();
 
   return <Link href={`/${locale}/news/${data.guid}?page=${fromPage}`}>
-    <Box>
-      <Box borderRadius={10} overflow="hidden" maxW="max-content">
+    <Box className={cls.newsCard}>
+      <Box className={cls.newsCardImageBox} overflow="hidden" maxW="max-content">
         <Image
+          className={cls.newsCardImage}
           style={{ aspectRatio: "384 / 280", objectFit:"cover" }}
           width={384}
           height={280}
@@ -148,22 +182,25 @@ const NewsCard = ({ data = {} }) => {
           alt={data.title}
         />
       </Box>
-      <Heading
-        fontSize={24}
-        lineHeight="32px"
-        noOfLines={1}
-        m="24px 0 8px"
-        {...(!data.title ? { color: "transparent" } : {})}
-      >
-        {data.title || "!"}
-      </Heading>
-      <Box
-        color="brand.600"
-        fontWeight={500}
-        noOfLines={2}
-        {...(!data.comment ? { color: "transparent" } : {})}
-      >
-        <div dangerouslySetInnerHTML={{ __html: data.comment }} />
+      <Box className={cls.newsCardContent}>
+        <Heading
+          className={cls.newsHeading}
+          fontSize={24}
+          lineHeight="32px"
+          noOfLines={1}
+          m="24px 0 8px"
+          {...(!data.title ? { color: "transparent" } : {})}
+        >
+          {data.title || "!"}
+        </Heading>
+        <Box
+          color="brand.600"
+          fontWeight={500}
+          noOfLines={2}
+          {...(!data.comment ? { color: "transparent" } : {})}
+        >
+          <div className={cls.newsComment} dangerouslySetInnerHTML={{ __html: data.comment }} />
+        </Box>
       </Box>
     </Box>
   </Link>;
