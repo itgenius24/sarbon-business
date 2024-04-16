@@ -22,6 +22,7 @@ const objectService = {
   getDirectory: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
   getPartners: (params) => request.get("/v2/object-slim/get-list/partners_company", { params }),
   getCityList: (params) => request.get("/v2/object-slim/get-list/city", { params }),
+  getLoadingTypes: (params) => request.get("/v2/object-slim/get-list/load_type", { params }),
 };
 
 
@@ -110,6 +111,14 @@ export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = 
   return useQuery({
     queryKey: ["object/getCarType", params],
     queryFn: () => objectService.getCarType(params),
+    ...settings,
+  });
+};
+
+export const useLoadingTypes = (params = { data: JSON.stringify({}) }, settings = {}) => {
+  return useQuery({
+    queryKey: ["object-slim/get-list/load_type", params],
+    queryFn: () => objectService.getLoadingTypes(params),
     ...settings,
   });
 };
