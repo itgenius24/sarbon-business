@@ -37,6 +37,7 @@ export const useSearchCar = () => {
     register,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({});
 
   const [startDate, setStartDate] = useState(undefined);
@@ -119,7 +120,7 @@ export const useSearchCar = () => {
       getAddressOptions,
       errors,
       isPending,
-
+      setValue,
       startDate,
       setStartDate,
     };

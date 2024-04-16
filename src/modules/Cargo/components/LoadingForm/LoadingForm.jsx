@@ -11,8 +11,8 @@ import { Modal } from "@/components/Modal";
 import LoadingMap from "../LoadingMap";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
-import { DropdownWrapper } from "../DropdownWrapper";
 import Script from "next/script";
+import { DropdownWrapper } from "@/components/DropdownWrapper";
 
 export const LoadingForm = () => {
 

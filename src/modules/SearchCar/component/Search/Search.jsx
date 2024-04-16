@@ -1,10 +1,10 @@
 "use client";
 import { DatePicker } from "@/components/DatePicker";
 import { Dropdown } from "@/components/Dropdown";
+import { DropdownWrapper } from "@/components/DropdownWrapper";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 
 import { Box, Button, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
-import { useState } from "react";
 
 export const Search = (props={}) => {
   const {
@@ -19,6 +19,7 @@ export const Search = (props={}) => {
     startDate,
     setStartDate,
     volumeMeasurementOptions,
+    setValue,
   } = props;
 
   return (
@@ -32,7 +33,8 @@ export const Search = (props={}) => {
         <>
           <Heading size="sm">Детали маршрута</Heading>
           <SimpleGrid columns={[2, null, 3]} spacing="24px">
-            <Dropdown
+            <DropdownWrapper
+              searchable
               label="Откуда"
               control={control}
               required
@@ -40,10 +42,13 @@ export const Search = (props={}) => {
               watch={watch}
               name="from"
               placeholder="Выберите город, страну"
-              options={getAddressOptions}
+              // options={getAddressOptions}
+              searchName="from_search"
               errors={errors}
+              setValue={setValue}
             />
-            <Dropdown
+            <DropdownWrapper
+              searchable
               label="Куда"
               control={control}
               required
@@ -51,8 +56,10 @@ export const Search = (props={}) => {
               watch={watch}
               name="to"
               placeholder="Выберите город, страну"
-              options={getAddressOptions}
+              searchName="to_search"
+              // options={getAddressOptions}
               errors={errors}
+              setValue={setValue}
             />
             <DatePicker
               label="Дата"
