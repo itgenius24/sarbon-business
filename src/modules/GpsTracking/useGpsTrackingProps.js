@@ -236,7 +236,7 @@ export const useGpsTrackingProps = () => {
   };
 
   const onSubmit = (data) => {
-    console.log('data', data)
+    console.log('data', data);
     // const address_id = data.from?.value;
     // const address_id_2 = data.to?.value;
     // const capacity = Number(data.weight_measurement);
