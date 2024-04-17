@@ -2,7 +2,7 @@ import "./styles.scss";
 import { Select } from "chakra-react-select";
 import { Controller, useForm } from "react-hook-form";
 
-export const ChakraSelect = ({ control, name = "select", ...props }) => {
+export const ChakraSelect = ({ control,size='sm', name = "select", ...props }) => {
 
   const { control: control2 } = useForm();
 
@@ -14,9 +14,10 @@ export const ChakraSelect = ({ control, name = "select", ...props }) => {
       return (
         <Select
           {...options}
+          menuPortalTarget={document.body}
           classNamePrefix="chakra-select"
           useBasicStyles
-          size="sm"
+          size={size}
           {...props}
         />
       );

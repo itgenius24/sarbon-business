@@ -211,7 +211,11 @@
   "СМС-код": "СМС-код",
   "gpsTracking": {
     "title": "GPS tracking",
-    "machineDetails": "Детали машины"
-
+    "machineDetails": "Детали машины",
+    "machineSettings": "Параметры машин",
+    "requirements": "Требования",
+    "permissions": "Разрешения",
+    "belts": "Ремней",
+    "searchCars": "Найти машину"
   }
 }
