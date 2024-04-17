@@ -2,7 +2,7 @@
 
 import { BreadCrumb } from "@/components/BreadCrumb";
 import { Container } from "@/components/Container";
-import { Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text, useMediaQuery } from "@chakra-ui/react";
 import { DigitalFacts } from "./(components)/DigitalFacts";
 import { Partners } from "./(components)/Partners";
 import { useAboutUsProps } from "./useAboutUsProps";
@@ -10,6 +10,8 @@ import Image from "next/image";
 import { useTranslation } from "@/app/i18n/client";
 
 export default function AboutUsPage({ params }) {
+
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const { locale } = params;
 
@@ -19,31 +21,34 @@ export default function AboutUsPage({ params }) {
 
   return <Container mt="50px">
     <BreadCrumb crumbs={crumbs} />
-    <Heading fontSize="36px" lineHeight="44px" mb="24px">
-      {t("О системе Furgo")}
-    </Heading>
-    <Text
-      fontWeight="400"
-      fontSize="20px"
-      lineHeight="30px"
-      color="brand.600"
-      dangerouslySetInnerHTML={{ __html: directory?.question }}
-    />
-    <Image style={{ borderRadius: "10px" }} alt="" src={directory?.photo} width="907" height="128" />
-    <Text
-      mt="64px"
-      fontWeight="400"
-      fontSize="20px"
-      lineHeight="30px"
-      color="brand.600"
-      dangerouslySetInnerHTML={{ __html: directory?.answear }}
-    />
+    <Box padding={isLargerThan768 ? 0 : "12px"} borderRadius={isLargerThan768 ? 0 : "12px"} bgColor={isLargerThan768 ? "transparent" : "white"}>
+      <Heading fontSize={isLargerThan768 ? "36px" : "25px"} lineHeight="44px" mb={isLargerThan768 ? "24px" : "8px"}>
+        {t("О системе Furgo")}
+      </Heading>
+      <Text
+        fontWeight="400"
+        fontSize="20px"
+        lineHeight="30px"
+        color="brand.600"
+        dangerouslySetInnerHTML={{ __html: directory?.question }}
+      />
+      <Image style={{ borderRadius: "10px" }} alt="" src={directory?.photo} width="907" height="128" />
+      <Text
+        mt={isLargerThan768 ? "64px" : "8px"}
+        fontWeight="400"
+        fontSize="20px"
+        lineHeight="30px"
+        color="brand.600"
+        dangerouslySetInnerHTML={{ __html: directory?.answear }}
+      />
+    </Box>
     <DigitalFacts
       t={t}
       completed={directory?.projects_completed}
       downloads={directory?.global_downloads}
       investment={directory?.return_on_investment}
+      isLargerThan768={isLargerThan768}
     />
-    <Partners partners={partners} t={t} />
+    <Partners isLargerThan768={isLargerThan768} partners={partners} t={t} />
   </Container>;
 }

@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { Box, Button, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
 import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
@@ -22,6 +22,8 @@ export const MyLoadsMain = () => {
     isLoading,
   } = useMyLoadsMainProps();
 
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -29,7 +31,7 @@ export const MyLoadsMain = () => {
   return (
     <Box py="40px">
       <Container>
-        <Heading size="md" mb="24px">
+        <Heading fontSize={isLargerThan768 ? "30px" : "22px"} size="md" mb="24px">
           {t("Мои грузы")}
         </Heading>
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />
@@ -45,6 +47,7 @@ export const MyLoadsMain = () => {
                     handleDelete={handleDelete}
                     handleAccept={handleAccept}
                     handleCancel={handleCancel}
+                    isLargerThan768={isLargerThan768}
                     {...cargo}
                   />
                 );
@@ -56,6 +59,7 @@ export const MyLoadsMain = () => {
                     handleDelete={handleDelete}
                     handleAccept={handleAccept}
                     handleCancel={handleCancel}
+                    isLargerThan768={isLargerThan768}
                     {...cargo}
                   />
                 );

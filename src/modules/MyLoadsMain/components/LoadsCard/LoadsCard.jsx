@@ -44,6 +44,7 @@ export const LoadsCard = forwardRef(({
   city_id_data,
   city_id_2_data,
   distance,
+  isLargerThan768,
 }, ref) => {
 
   const {
@@ -82,216 +83,234 @@ export const LoadsCard = forwardRef(({
     currency_id_data,
   });
 
-  return <div
-    ref={ref}
-    className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })}
-    onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}
-  >
-    <div className={cls.cardTop}>
-      <div className={cls.cardTopContent}>
-        <h2 className={cls.address}>
-          <span className={cls.addressText}>
-            <span className={cls.addressCountry}>
-              <span className={cls.addressCity}>{city_id_data?.name}</span>
-              <span>{address_id_data?.name}</span>
+  return <div>
+    <div
+      ref={ref}
+      className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })}
+      onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}
+    >
+      <div className={cls.cardTop}>
+        <div className={cls.cardTopContent}>
+          <h2 className={cls.address}>
+            <span className={cls.addressText}>
+              <span className={cls.addressCountry}>
+                <span className={cls.addressCity}>{city_id_data?.name}</span>
+                <span>{address_id_data?.name}</span>
+              </span>
+              <span>-&gt;</span>
+              <span className={cls.addressCountry}>
+                <span className={cls.addressCity}>{city_id_2_data?.name}</span>
+                <span>{address_id_2_data?.name}</span>
+              </span>
+              {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
-            <span>-&gt;</span>
-            <span className={cls.addressCountry}>
-              <span className={cls.addressCity}>{city_id_2_data?.name}</span>
-              <span>{address_id_2_data?.name}</span>
+            <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
+          </h2>
+          <span className={cls.distance}>{distance} км</span>
+        </div>
+        <div className={cls.paymentInfo}>
+          <div className={cls.paymentInfoContent}>
+            <span className={cls.paymentInfoText}>
+              {formatSum(currency_id_data?.code, bid_cash)}
             </span>
-            {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
+          </div>
+          <span className={cls.paymentInfoComment}>
+            {
+            request ? t("Запросить") : no_haggling ? t("Без торг") : t("Возможен торг")
+            }
           </span>
-          <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
-        </h2>
-        <span className={cls.distance}>{distance} км</span>
+        </div>
       </div>
-      <div className={cls.paymentInfo}>
-        <div className={cls.paymentInfoContent}>
-          <span className={cls.paymentInfoText}>
+      <Box borderBottom="1px solid" borderColor="brand.200">
+        <DataList list={status === "new" ? newStatusList : list} />
+        {
+          status === "rejected" && <p className={cls.moderatorComment}>
+            <span className={cls.moderatorCommentTitle}>{t("Причина отказа модерации:")}</span>
+            <span className={cls.moderatorCommentText} dangerouslySetInnerHTML={{ __html: moderator_comment }} />
+          </p>
+        }
+      </Box>
+      <div className={cls.paymentInfoMobile}>
+        <div className={cls.paymentInfoMobileContent}>
+          <span className={cls.paymentInfoMobileText}>
             {formatSum(currency_id_data?.code, bid_cash)}
           </span>
-          {/* <span className={cls.paymentInfoSubText}>(до 30 тыс. UZS/км)</span> */}
         </div>
-        <span className={cls.paymentInfoComment}>
+        <span className={cls.paymentInfoMobileComment}>
           {
-            request ? t("Запросить") : no_haggling ? t("Без торг") : t("Возможен торг")
+          request ? t("Запросить") : no_haggling ? t("Без торг") : t("Возможен торг")
           }
         </span>
       </div>
-    </div>
-    <Box borderBottom="1px solid" borderColor="brand.200">
-      <DataList list={status === "new" ? newStatusList : list} />
       {
-        status === "rejected" && <p className={cls.moderatorComment}>
-          <span className={cls.moderatorCommentTitle}>{t("Причина отказа модерации:")}</span>
-          <span className={cls.moderatorCommentText} dangerouslySetInnerHTML={{ __html: moderator_comment }} />
-        </p>
+        status === "new" && <Box display="flex" width={isLargerThan768 ? "570px" : "100%"} columnGap="12px" mt="32px">
+          <Button
+            fontSize={isLargerThan768 ? "16px" : "12px"}
+            fontWeight={isLargerThan768 ? 600 : 500}
+            variant="outlineError"
+            bgColor="rgba(254, 228, 226, 1)"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCancel(guid);
+            }}
+          >
+            {t("Отказать")}
+          </Button>
+          <Button
+            fontSize={isLargerThan768 ? "16px" : "12px"}
+            fontWeight={isLargerThan768 ? 600 : 500}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAccept(guid, users_id_2);
+            }}
+          >
+            {t("Принять")}
+          </Button>
+        </Box>
       }
-    </Box>
-    {
-      status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
-        <Button
-          variant="outlineError"
-          bgColor="rgba(254, 228, 226, 1)"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleCancel(guid);
-          }}
-        >
-          {t("Отказать")}
-        </Button>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAccept(guid, users_id_2);
-          }}
-        >
-          {t("Принять")}
-        </Button>
-      </Box>
-    }
-    <div className={cls.cardBottom}>
-      {
-        status === "active" && <LoadBtn
-          onClick={(e) => {
-            e.stopPropagation();
-            const query = new URLSearchParams({
-              from: JSON.stringify({
-                value: address_id_data?.guid,
-                label: address_id_data?.name
-              }),
-              to: JSON.stringify({
-                value: address_id_2_data?.guid,
-                label: address_id_2_data?.name
-              }),
-              date: load_time,
-              weight: weight,
-              volume: volume_m3,
-            });
-            router.push(`/${locale}/search-car?` + query.toString());
-          }}
-          icon={<TruckIcon />}
-        >
-          {t("Поиск машин")}
-        </LoadBtn>
-      }
-      {
-        status === "in_moderation" && <LoadBtn
-          icon={<DeleteIcon color="#F04438" />}
-          type="delete"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDelete(guid);
-          }}
-        >
-          {t("Удалить")}
-        </LoadBtn>
-      }
-    </div>
-    {
-      status === "archive" && <div className={cls.cardBottom}>
-        <Button
-          onClick={handleOpenEstimateModal}
-          size="sm"
-          variant="secondary"
-          width="278px"
-          color="#000000"
-        >
-          {t("Оценить водителя")}
-        </Button>
+      <div className={cls.cardBottom}>
+        {
+          status === "active" && <LoadBtn
+            onClick={(e) => {
+              e.stopPropagation();
+              const query = new URLSearchParams({
+                from: JSON.stringify({
+                  value: address_id_data?.guid,
+                  label: address_id_data?.name
+                }),
+                to: JSON.stringify({
+                  value: address_id_2_data?.guid,
+                  label: address_id_2_data?.name
+                }),
+                date: load_time,
+                weight: weight,
+                volume: volume_m3,
+              });
+              router.push(`/${locale}/search-car?` + query.toString());
+            }}
+            icon={<TruckIcon />}
+          >
+            {t("Поиск машин")}
+          </LoadBtn>
+        }
+        {
+          status === "in_moderation" && <LoadBtn
+            icon={<DeleteIcon color="#F04438" />}
+            type="delete"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(guid);
+            }}
+          >
+            {t("Удалить")}
+          </LoadBtn>
+        }
       </div>
-    }
-    <Modal
-      isOpen={isEstimateModalOpen}
-      onClose={handleCloseEstimateModal}
-      secondBtnCallback={handleSubmit(onSubmit)}
-      title={t("Оцените водителя")}
-      secondBtnText={t("Готово")}
-      size="lg"
-      width="644px"
-      oneBtn
-      withCloseBtn
-    >
-      <Rating
-        className={cls.rating}
-        width="56"
-        height="56"
-        onClick={handleClickRating}
-        value={ratingValue}
-      />
-      <Heading mb="24px" size="sm">{t("Что вам понравилось больше всего?")}</Heading>
-      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>{t("Хороший водитель")}</span>
-        <Checkbox
-          filled
-          width={"24px"}
-          height={"24px"}
-          iconSize={"16px"}
-          name="driver_1"
-          register={register}
+      {
+        status === "archive" && <div className={cls.cardBottom}>
+          <Button
+            onClick={handleOpenEstimateModal}
+            size="sm"
+            variant="secondary"
+            width="278px"
+            color="#000000"
+          >
+            {t("Оценить водителя")}
+          </Button>
+        </div>
+      }
+      <Modal
+        isOpen={isEstimateModalOpen}
+        onClose={handleCloseEstimateModal}
+        secondBtnCallback={handleSubmit(onSubmit)}
+        title={t("Оцените водителя")}
+        secondBtnText={t("Готово")}
+        size="lg"
+        width="644px"
+        oneBtn
+        withCloseBtn
+      >
+        <Rating
+          className={cls.rating}
+          width="56"
+          height="56"
+          onClick={handleClickRating}
+          value={ratingValue}
         />
-      </Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>{t("Вовремя получил груз")}</span>
-        <Checkbox
-          filled
-          width={"24px"}
-          height={"24px"}
-          iconSize={"16px"}
-          name="driver_2"
-          register={register}
-        />
-      </Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>{t("Вежливый")}</span>
-        <Checkbox
-          filled
-          width={"24px"}
-          height={"24px"}
-          iconSize={"16px"}
-          name="driver_3"
-          register={register}
-        />
-      </Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>{t("Не доставили груз вовремя")}</span>
-        <Checkbox
-          filled
-          width={"24px"}
-          height={"24px"}
-          iconSize={"16px"}
-          name="driver_4"
-          register={register}
-        />
-      </Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-        <span className={cls.text}>{t("Не дисциплинированый")}</span>
-        <Checkbox
-          filled
-          width={"24px"}
-          height={"24px"}
-          iconSize={"16px"}
-          name="driver_5"
-          register={register}
-        />
-      </Box>
-      <Box mt="24px">
-        <span className={cls.text}>{t("Комментарий")}</span>
-        <CustomTextarea
-          register={register}
-          name="rewiv"
-          className={cls.textarea}
-          value={watch("rewiv")}
-          watch={watch}
-          onChange={(e) => {
-            const value = e.target.value;
-            if(value.length <= 1000) {
-              setValue("rewiv", value.replace(/\d/g, ""));
-            }
-          }}
-        />
-      </Box>
-    </Modal>
+        <Heading mb="24px" size="sm">{t("Что вам понравилось больше всего?")}</Heading>
+        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+          <span className={cls.text}>{t("Хороший водитель")}</span>
+          <Checkbox
+            filled
+            width={"24px"}
+            height={"24px"}
+            iconSize={"16px"}
+            name="driver_1"
+            register={register}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+          <span className={cls.text}>{t("Вовремя получил груз")}</span>
+          <Checkbox
+            filled
+            width={"24px"}
+            height={"24px"}
+            iconSize={"16px"}
+            name="driver_2"
+            register={register}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+          <span className={cls.text}>{t("Вежливый")}</span>
+          <Checkbox
+            filled
+            width={"24px"}
+            height={"24px"}
+            iconSize={"16px"}
+            name="driver_3"
+            register={register}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+          <span className={cls.text}>{t("Не доставили груз вовремя")}</span>
+          <Checkbox
+            filled
+            width={"24px"}
+            height={"24px"}
+            iconSize={"16px"}
+            name="driver_4"
+            register={register}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
+          <span className={cls.text}>{t("Не дисциплинированый")}</span>
+          <Checkbox
+            filled
+            width={"24px"}
+            height={"24px"}
+            iconSize={"16px"}
+            name="driver_5"
+            register={register}
+          />
+        </Box>
+        <Box mt="24px">
+          <span className={cls.text}>{t("Комментарий")}</span>
+          <CustomTextarea
+            register={register}
+            name="rewiv"
+            className={cls.textarea}
+            value={watch("rewiv")}
+            watch={watch}
+            onChange={(e) => {
+              const value = e.target.value;
+              if(value.length <= 1000) {
+                setValue("rewiv", value.replace(/\d/g, ""));
+              }
+            }}
+          />
+        </Box>
+      </Modal>
+    </div>
+    <span className={clsx(cls.addressStatusMobile, cls[status])}>{statuses[status]}</span>
   </div>;
 });

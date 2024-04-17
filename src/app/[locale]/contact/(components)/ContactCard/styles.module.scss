@@ -51,3 +51,18 @@
   line-height: 24px;
   color: var(--primary);
 }
+
+@include lg {
+  .contactCard {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .title { 
+    margin-top: 16px;
+  }
+
+  .text {
+    margin-bottom: 8px;
+  }
+}

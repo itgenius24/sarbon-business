@@ -50,57 +50,68 @@
   line-height: 14px;
 }
 
-.addressStatus.process {
+.addressStatus.process,
+.addressStatusMobile.process {
   background: rgba(255, 204, 0, 0.15);
   color: #FF9500;
 }
 
-.addressStatus.in_active {
+.addressStatus.in_active,
+.addressStatusMobile.in_active {
   background: rgba(255, 204, 0, 0.15);
   color: #FF9500;
 }
 
-.addressStatus.active {
+.addressStatus.active,
+.addressStatusMobile.active {
   background: rgba(28, 139, 195, 0.07);
   color: #1C8BC3;
 }
 
-.addressStatus.in_moderation {
+.addressStatus.in_moderation,
+.addressStatusMobile.in_moderation {
   background: rgba(28, 139, 195, 0.07);
   color: #1C8BC3;
 }
 
-.addressStatus.rejected {
+.addressStatus.rejected,
+.addressStatusMobile.rejected {
   background: var(--error-100);
   color: var(--error-500);
 }
 
-.addressStatus.new {
+.addressStatus.new,
+.addressStatusMobile.new {
   background: rgba(1, 145, 65, 0.07);
   color: #009241;
 }
 
-.addressStatus.approve_from_driver {
+.addressStatus.approve_from_driver,
+.addressStatusMobile.approve_from_driver {
   background: rgba(255, 204, 0, 0.15);
   color: #FF9500;
 }
 
-.addressStatus.performed {
+.addressStatus.performed,
+.addressStatusMobile.performed {
   background: rgba(255, 204, 0, 0.15);
   color: #FF9500;
 }
 
-.addressStatus.approve_by_customer {
+.addressStatus.approve_by_customer,
+.addressStatusMobile.approve_by_customer {
   background: rgba(255, 204, 0, 0.15);
   color: #FF9500;
 }
 
-.addressStatus.cancellation {
+.addressStatus.cancellation,
+.addressStatusMobile.cancellation {
   background: rgba(249, 79, 79, 0.07);
   color: #F64F56;
 }
 
-.addressStatus.archive {
+.addressStatus.archive,
+.addressStatusMobile.archive {
   background: #EAECF0;
   color: #D0D5DD;
 }
@@ -213,4 +224,69 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 18px;  
+}
+
+.paymentInfoMobile {
+  display: none;
+}
+
+.addressStatusMobile {
+  display: none;
+}
+
+@include lg {
+
+  .loadsCard {
+    padding: 12px;
+    border-radius: 0;
+  }
+
+  .cardTop {
+    padding-bottom: 4px;
+  }
+
+  .addressCity {
+    font-size: 17px;
+    line-height: 20px;
+  }
+
+  .address {
+    margin-bottom: 4px;
+  }
+
+  .addressStatus {
+    display: none;
+  }
+
+  .addressCountry {
+    row-gap: 2px;
+  }
+
+  .paymentInfo {
+    display: none;
+  }
+
+  .paymentInfoMobile {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--brand-200);
+  }
+
+  .paymentInfoMobileText {
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .paymentInfoMobileComment {
+    color: #84919A;
+  }
+
+  .addressStatusMobile {
+    display: block;
+    padding: 8px 16px;
+  }
+
 }

@@ -18,6 +18,5 @@ export const ContactCard = ({
         ? <a className={cls.link} target="_blank" href={addressLink ? addressLink : type === "email" ? `mailto:${content}` : type === "phone" ? `tel:${content}` : content}>{content}</a>
         : <span className={cls.link}>{content}</span>
     }
-
   </div>;
 };

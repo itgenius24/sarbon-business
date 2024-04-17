@@ -23,3 +23,29 @@
     color: #303940;
   }
 }
+
+@include lg {
+  .cardList {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .cardListItem {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  
+    dt {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+    }
+  
+    dd {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+}
