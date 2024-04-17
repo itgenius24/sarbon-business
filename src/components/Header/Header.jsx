@@ -126,7 +126,7 @@ const Header = observer(({ elements }) => {
               </Box>
             </Box>
             <button className={cls.burgerBtn} onClick={handleToggleNav}>
-              <svg id="hamburger" class="Header__toggle-svg" viewBox="0 0 60 40">
+              <svg id="hamburger" viewBox="0 0 60 40">
                 <g stroke="#70707B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                   <path className={cls.topLine} id="top-line" d="M10,10 L50,10 Z"></path>
                   <path className={cls.middleLine} id="middle-line" d="M10,20 L50,20 Z"></path>
