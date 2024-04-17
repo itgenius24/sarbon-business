@@ -25,6 +25,10 @@ export const useElements = () => {
       path: `/${lang || "ru"}/search-car`,
       label: "Поиск машин",
     },
+    {
+      path: `/${lang || "ru"}/gps-tracking`,
+      label: "GPS tracking",
+    },
   ];
 
 };
