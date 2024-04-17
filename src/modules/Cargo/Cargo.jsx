@@ -176,7 +176,21 @@ export const Cargo = ({ id, status, locale }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text as="span" fontWeight={600} fontSize="24px">{item?.address_id_data?.name} -{">"} {item?.address_id_2_data?.name}</Text>
+              <Box display="flex" columnGap="12px">
+                <Box display="flex" flexDirection="column" rowGap="8px" flexWrap="wrap">
+                  <Text as="span" fontWeight={600} fontSize="24px">
+                    {item?.city_id_data?.name}
+                  </Text>
+                  <span>{item?.address_id_data?.name}</span>
+                </Box>
+                  -{">"}
+                <Box display="flex" flexDirection="column" rowGap="8px">
+                  <Text as="span" fontWeight={600} fontSize="24px">
+                    {item?.city_id_2_data?.name}
+                  </Text>
+                  <span>{item?.address_id_2_data?.name}</span>
+                </Box>
+              </Box>
               <Button onClick={(e) => {
                 e.stopPropagation();
                 addCargoProps.handleDeleteTemplate(item);

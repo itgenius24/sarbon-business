@@ -96,7 +96,16 @@ export const SingleCar = ({ carInfo }) => {
         <div className={cls.cardTopContent}>
           <h2 className={cls.address}>
             <span className={cls.addressText}>
-              {carInfo?.address_id_data?.name} -&gt; {carInfo?.address_id_2_data?.name}
+              <span className={cls.addressCountry}>
+                <span className={cls.addressCity}>{carInfo.city_id_data?.name}</span>
+                <span>{carInfo.address_id_data?.name}</span>
+              </span>
+              <span>-&gt;</span>
+              <span className={cls.addressCountry}>
+                <span className={cls.addressCity}>{carInfo.city_id_2_data?.name}</span>
+                <span>{carInfo.address_id_2_data?.name}</span>
+              </span>
+              {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
           </h2>
           <span><Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} /></span>
@@ -131,9 +140,18 @@ export const SingleCar = ({ carInfo }) => {
                   <CardBody p="20px">
                     <Box display="flex" alignItems="center" justifyContent="space-between">
                       <Box>
-                        {item?.address_id_data?.name}
-                        {"->"}
-                        {item?.address_id_2_data?.name}
+                        <span className={cls.addressText}>
+                          <span className={cls.addressCountry}>
+                            <span className={cls.addressCity}>{item.city_id_data?.name}</span>
+                            <span>{item.address_id_data?.name}</span>
+                          </span>
+                          <span>-&gt;</span>
+                          <span className={cls.addressCountry}>
+                            <span className={cls.addressCity}>{item.city_id_2_data?.name}</span>
+                            <span>{item.address_id_2_data?.name}</span>
+                          </span>
+                          {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
+                        </span>
                       </Box>
                       <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>
                     </Box>

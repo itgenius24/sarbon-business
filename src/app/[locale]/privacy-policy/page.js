@@ -11,7 +11,9 @@ export default function PrivacyPolicyPage() {
   const { directory, crumbs, t } = usePrivacyPolicyProps();
 
   return <Container mt="50px">
-    <BreadCrumb crumbs={crumbs} />
+    {
+      isLargerThan768 && <BreadCrumb crumbs={crumbs} />
+    }
     <Box padding={isLargerThan768 ? 0 : "12px"} borderRadius={isLargerThan768 ? 0 : "12px"} bgColor={isLargerThan768 ? "transparent" : "white"}>
       <Heading fontSize={isLargerThan768 ? 48 : 20} lineHeight={isLargerThan768 ? "60px" : "20px"} mb="24px">
         {t("Политика конфиденциальности")}

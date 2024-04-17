@@ -22,6 +22,8 @@ import { useGetDistance } from "@/hooks/useGetDistance";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
 
+  const isAuth = authStore.isAuth;
+
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
 
@@ -72,7 +74,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function handleOpenModal() {
     setIsOpen(true);
-    getTempCargo.refetch();
+    if(isAuth) {
+      getTempCargo.refetch();
+    }
   }
 
   function handleCloseModal() {
@@ -428,7 +432,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         status: "success"
       });
       handleCloseModal();
-      getTempCargo.refetch();
+
+      if(isAuth) getTempCargo.refetch();
     }
   });
 
@@ -514,7 +519,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       return;
     }
 
-    // setLoading(true);
+    setLoading(true);
 
     // const loadingIds = data.loadings.map(item => item.location.value);
     // const unloadingIds = data.unloading.map(item => item.location.value);

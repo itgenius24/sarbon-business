@@ -20,6 +20,18 @@
 }
 
 .addressText {
+  display: flex;
+  align-items: center;
+  column-gap: 18px;
+}
+
+.addressCountry {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.addressCity {
   font-size: 24px;
   font-weight: 600;
   line-height: 22px;

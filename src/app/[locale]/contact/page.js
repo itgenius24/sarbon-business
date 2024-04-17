@@ -23,7 +23,7 @@ export default function ContactPage({ params }) {
   return <>
     <PageContentLayout>
       <Container mt="50px">
-        <BreadCrumb crumbs={crumbs} />
+        {isLargerThan768 && <BreadCrumb crumbs={crumbs} />}
         <Heading fontSize={isLargerThan768 ? "36px" : "24px"} lineHeight={isLargerThan768 ? "44px" : "24px"} mb={isLargerThan768 ? "50px" : "24px"}>
           {t("Контактная информация")}
         </Heading>
