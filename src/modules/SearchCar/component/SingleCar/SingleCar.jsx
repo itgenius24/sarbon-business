@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardBody,
+  Flex,
   Heading,
   Modal,
   ModalBody,
@@ -11,6 +12,8 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
+  Text,
   useToast
 } from "@chakra-ui/react";
 import { DataList } from "@/components/DataList";
@@ -19,8 +22,12 @@ import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useState } from "react";
 import { Rating } from "@/components/Rating";
 import { Popup } from "@/components/Popup";
+import Link from "next/link";
 
-export const SingleCar = ({ carInfo }) => {
+export const SingleCar = ({
+  carInfo,
+  showDistance = false
+}) => {
 
   const userId = authStore.userData.id;
 
@@ -102,6 +109,9 @@ export const SingleCar = ({ carInfo }) => {
           <span><Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} /></span>
           {/* <span className={cls.distance}>724 км</span> */}
         </div>
+        {showDistance && <div className={cls.distance}>
+          {carInfo?.distance} км от адреса
+        </div>}
       </div>
       <Box borderBottom="1px solid" borderColor="brand.200">
         <DataList list={newList} />
@@ -117,29 +127,39 @@ export const SingleCar = ({ carInfo }) => {
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody p="20px">
-            {
-              getAllUserCargo.data?.response?.map((item) => {
-                return <Card
-                  onClick={() => handleOffer(item.guid)}
-                  key={item.guid}
-                  mb="20px"
-                  borderRadius="20px"
-                  boxShadow="none"
-                  border="1px solid #EAECF0"
-                  cursor="pointer"
-                >
-                  <CardBody p="20px">
-                    <Box display="flex" alignItems="center" justifyContent="space-between">
-                      <Box>
-                        {item?.address_id_data?.name}
-                        {"->"}
-                        {item?.address_id_2_data?.name}
+            {!getAllUserCargo?.isLoading
+              ? getAllUserCargo.data?.response?.length > 0
+                ? getAllUserCargo.data?.response?.map((item) => {
+                  return <Card
+                    onClick={() => handleOffer(item.guid)}
+                    key={item.guid}
+                    mb="20px"
+                    borderRadius="20px"
+                    boxShadow="none"
+                    border="1px solid #EAECF0"
+                    cursor="pointer"
+                  >
+                    <CardBody p="20px">
+                      <Box display="flex" alignItems="center" justifyContent="space-between">
+                        <Box>
+                          {item?.address_id_data?.name}
+                          {"->"}
+                          {item?.address_id_2_data?.name}
+                        </Box>
+                        <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>
                       </Box>
-                      <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>
-                    </Box>
-                  </CardBody>
-                </Card>;
-              })
+                    </CardBody>
+                  </Card>;
+                }) : (
+                  <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
+                    <Text color={"blackAlpha.400"} fontSize={"18px"}>У вас нет существующих грузов</Text>
+                    <Link href={"/add-cargo"} variant={"outline"}>Добавить груз</Link>
+                  </Flex>
+                ) : (
+                <Flex alignItems={"center"} justifyContent={"center"}>
+                  <Spinner/>
+                </Flex>
+              )
             }
           </ModalBody>
         </ModalContent>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useGetCarListOnSubmit, useGetCarType, useGetMeasurement, useLoadingTypes } from "@/services/api";
+import { useGetCarType, useGetMeasurement, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 
 /* eslint no-undef: 0 */ // --> OFF
@@ -214,7 +214,7 @@ export const useGpsTrackingProps = () => {
   const toast = useToast();
   const {
     mutate
-  } = useGetCarListOnSubmit({
+  } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
       if (data?.response?.length) {
         setCarsArr(data?.response);
@@ -237,40 +237,29 @@ export const useGpsTrackingProps = () => {
 
   const onSubmit = (data) => {
     console.log('data', data);
-    // const address_id = data.from?.value;
-    // const address_id_2 = data.to?.value;
-    // const capacity = Number(data.weight_measurement);
-    // const volume = Number(data.volume_measurement);
-    // const date = formatDate(startDate);
-    // const params = {
-    //   data: JSON.stringify(
-    //     // {
-    //     //   with_relations: true,
-    //     //   offset: 0,
-    //     //   order: {},
-    //     //   search: "",
-    //     //   limit: 20,
-    //     //   address_id: ["9c8d3e8d-c699-4c8a-a0e2-8889b0f1490d"],
-    //     //   address_id_2: ["c4da468c-7270-4e67-bedc-ce16dc2bac41"],
-    //     //   capacity: 5,
-    //     //   volume: 5,
-    //     //   date: "12.03.2024 00:00",
-    //     // }
-    //     {
-    //       with_relations: true,
-    //       offset: 0,
-    //       order: {},
-    //       search: "",
-    //       limit: 20,
-    //       address_id: [address_id || ""],
-    //       address_id_2: [address_id_2 || ""],
-    //       ...(capacity ? { capacity } : {}),
-    //       ...(volume ? { volume } : {}),
-    //       ...(date ? { date } : {}),
-    //     }
-    //   ),
-    // };
-    // mutate(params);
+    const [lat, long] = data.cor.split(",");
+    const load_type_id = data?.load_type?.value;
+    const weight = Number(data.weight);
+    const volume = Number(data.volume);
+    const permission = data?.permission?.value;
+    const load_capacity = Number(data.load_capacity);
+    const straps_number = Number(data.straps_number);
+    const result = {
+      data: {
+        object_data: {
+          ...data,
+          lat,
+          long,
+          load_type_id,
+          weight,
+          permission,
+          volume,
+          load_capacity,
+          straps_number,
+        }
+      }
+    };
+    mutate(result);
   };
 
 

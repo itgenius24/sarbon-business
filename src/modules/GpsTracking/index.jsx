@@ -68,7 +68,7 @@ export default function GpsTrackingModule() {
 
   const { t } = useTranslation(locale, "translations");
 
-  return <Container py="40px" backgroundColor={"#F6F7F8"}>
+  return <Container py="40px">
     <Script
       onLoad={() => ymaps.ready(initYmaps)}
       src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
@@ -92,6 +92,8 @@ export default function GpsTrackingModule() {
 
         <TextFieldWithAddition
           placeholder={t("Адрес")}
+          // required={true}
+          rules={{ required: true }}
           label={t("Адрес")}
           additionalItemTheme="white"
           register={register}
@@ -110,6 +112,7 @@ export default function GpsTrackingModule() {
 
         <Box maxWidth="234px" width={"100%"}>
           <Dropdown
+            required={true}
             placeholder={t("Введите тип кузова")}
             label={t("Тип кузова")}
             name="car_type"
@@ -120,6 +123,7 @@ export default function GpsTrackingModule() {
         </Box>
         <Box maxWidth="234px" width={"100%"}>
           <Dropdown
+            required={true}
             placeholder={t("Введите тип загрузки")}
             label={t("Тип загрузки")}
             name="load_type_id"
@@ -142,7 +146,7 @@ export default function GpsTrackingModule() {
               <TextFieldWithAddition
                 errors={errors}
                 control={control}
-                name="weight_measurement"
+                name="weight"
                 register={register}
                 additionalItemName="weight_unit"
                 width="234px"
@@ -153,7 +157,7 @@ export default function GpsTrackingModule() {
               <TextFieldWithAddition
                 errors={errors}
                 control={control}
-                name="volume_measurement"
+                name="volume"
                 register={register}
                 width="234px"
                 placeholder={t("Объем")}
@@ -224,13 +228,13 @@ export default function GpsTrackingModule() {
                              lineHeight="20px">{t("gpsTracking.requirements")}</Heading>
                   </Box>
                   <Box display="flex" columnGap="10px" flexGrow={1}>
-                    <Checkbox register={register} name="hitch">
+                    <Checkbox register={register} name="body_dimensions">
                       {t("Сцепка")}
                     </Checkbox>
-                    <Checkbox register={register} name="pneumatic">
+                    <Checkbox register={register} name="negoitable">
                       {t("Пневмоход")}
                     </Checkbox>
-                    <Checkbox register={register} name="bunks">
+                    <Checkbox register={register} name="koniki">
                       {t("Коники")}
                     </Checkbox>
                   </Box>
@@ -250,7 +254,7 @@ export default function GpsTrackingModule() {
                     <Checkbox register={register} name="cmr">
                       {t("CMR")}
                     </Checkbox>
-                    <Checkbox register={register} name="medic_certificate">
+                    <Checkbox register={register} name="med">
                       {t("Медкнижка")}
                     </Checkbox>
                   </Box>
@@ -283,7 +287,7 @@ export default function GpsTrackingModule() {
                       width="135px"
                       type="number"
                       register={register}
-                      name="capacity"
+                      name="load_capacity"
                       additionalItemName="capacity_unit"
                       additionalItemDefaultIndex={0}
                       defaultValue=""
@@ -299,37 +303,9 @@ export default function GpsTrackingModule() {
     </Box>
     </VStack>
     <Box mt={6}>
-      <CarList {...getCarListProps()} />
+      <CarList {...getCarListProps()} showDistance={true}/>
     </Box>
-    {/*<div className={cls.map} id="map" style={{*/}
-    {/*  width: "100%",*/}
-    {/*  height: "500px"*/}
-    {/*}}>*/}
-    {/*  {*/}
-    {/*    (distanceParameters.distance || distanceParameters.duration) && <div className={cls.distanceInfo}>*/}
-    {/*      <div className={cls.locationNames}>*/}
-    {/*        <p>{watch("from")}</p>*/}
-    {/*        <span className={cls.arrow}>*/}
-    {/*          <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><path*/}
-    {/*            d="M19.25 11H2.75M13.75 5.5l5.5 5.5-5.5 5.5" stroke="#000" strokeOpacity=".85" strokeWidth="2"*/}
-    {/*            strokeLinecap="round" strokeLinejoin="round"/></svg>*/}
-    {/*        </span>*/}
-    {/*        <p>{watch("to")}</p>*/}
-    {/*      </div>*/}
-    {/*      <p className={cls.distanceParams}>*/}
-    {/*        <b className={cls.distanceInfoTitle}>*/}
-    {/*          <span><RouteDirectionIcon/></span>*/}
-    {/*          <span>{distanceParameters.distance}</span>*/}
-    {/*        </b>*/}
-    {/*        <br/>*/}
-    {/*        <b className={cls.distanceInfoTitle}>*/}
-    {/*          <span><ClockIcon/></span>*/}
-    {/*          <span>{distanceParameters.duration}</span>*/}
-    {/*        </b>*/}
-    {/*      </p>*/}
-    {/*    </div>*/}
-    {/*  }*/}
-    {/*</div>*/}
+
     <Modal
       isOpen={isModalOpen}
       onClose={handleCloseModal}

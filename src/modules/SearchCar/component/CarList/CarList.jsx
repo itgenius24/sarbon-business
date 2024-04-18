@@ -3,7 +3,10 @@
 import { Heading, VStack } from "@chakra-ui/react";
 import { SingleCar } from "../SingleCar/SingleCar";
 
-export const CarList = ({ data = [] }) => {
+export const CarList = ({
+  data = [],
+  showDistance = false
+}) => {
   if(!data?.length)return null;
 
   return (
@@ -13,7 +16,7 @@ export const CarList = ({ data = [] }) => {
       </Heading>
       <VStack align="stretch" spacing="24px">
         {data.map((item) => {
-          return <SingleCar key={item} carInfo={item} />;
+          return <SingleCar key={item} carInfo={item} showDistance={showDistance} />;
         })}
       </VStack>
     </>

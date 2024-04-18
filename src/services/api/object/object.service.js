@@ -16,6 +16,7 @@ const objectService = {
   getPaymentType: (params) => request.get("/v2/object-slim/get-list/map", { params }),
   getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
   getCarList: (params) => request.get("/v2/object-slim/get-list/route", { params }),
+  getLogistikaGpsTrackingFilterDriver: (data) => request.post("/v1/invoke_function/logistika-gps-tracking-filter-driver", data),
   getOffer: (params) => request.get("/v2/object-slim/get-list/response", { params }),
   getCargoById: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
   getMaps: (params) => request.get("/v2/object-slim/get-list/period", { params }),
@@ -59,6 +60,12 @@ export const useGetManualList = (params = { data: JSON.stringify({}) }, settings
 export const useGetCarListOnSubmit = (mutationSettings) => {
   return useMutation({
     mutationFn: (params) => objectService.getCarList(params),
+    ...mutationSettings,
+  });
+};
+export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.getLogistikaGpsTrackingFilterDriver(data),
     ...mutationSettings,
   });
 };
