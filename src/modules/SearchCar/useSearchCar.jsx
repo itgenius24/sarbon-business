@@ -74,11 +74,12 @@ export const useSearchCar = () => {
   });
 
   const onSubmit = (data) => {
-    const address_id = data.from?.value;
-    const address_id_2 = data.to?.value;
+    const address_id = data.from?.guid;
+    const address_id_2 = data.to?.guid;
     const capacity = Number(data.weight_measurement);
     const volume = Number(data.volume_measurement);
     const date = formatDate(startDate);
+
     const params = {
       data: JSON.stringify(
         // {
@@ -99,8 +100,8 @@ export const useSearchCar = () => {
           order: {},
           search: "",
           limit: 20,
-          address_id: [address_id || ""],
-          address_id_2: [address_id_2 || ""],
+          city_id: [address_id || ""],
+          city_id_2: [address_id_2 || ""],
           ...(capacity ? { capacity } : {}),
           ...(volume ? { volume } : {}),
           ...(date ? { date } : {}),
@@ -134,7 +135,9 @@ export const useSearchCar = () => {
     if(fromValue || toValue || date || weight || volume) {
       reset({
         from: fromValue,
+        from_search: fromValue?.label,
         to: toValue,
+        to_search: toValue?.label,
         weight_measurement: weight,
         volume_measurement: volume,
       });
@@ -151,8 +154,10 @@ export const useSearchCar = () => {
             order: {},
             search: "",
             limit: 20,
-            address_id: [fromValue?.value || ""],
-            address_id_2: [toValue?.value || ""],
+            // address_id: [fromValue?.value || ""],
+            // address_id_2: [toValue?.value || ""],
+            city_id: [fromValue?.value || ""],
+            city_id_2: [toValue?.value || ""],
             ...(capacity ? { capacity } : {}),
             ...(numberVolume ? { numberVolume } : {}),
             ...(date ? { date } : {}),

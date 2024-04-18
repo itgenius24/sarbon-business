@@ -176,12 +176,14 @@ export const LoadsCard = forwardRef(({
               e.stopPropagation();
               const query = new URLSearchParams({
                 from: JSON.stringify({
-                  value: address_id_data?.guid,
-                  label: address_id_data?.name
+                  value: city_id_data?.guid,
+                  label: city_id_data?.name,
+                  guid: city_id_data?.guid,
                 }),
                 to: JSON.stringify({
-                  value: address_id_2_data?.guid,
-                  label: address_id_2_data?.name
+                  value: city_id_2_data?.guid,
+                  label: city_id_2_data?.name,
+                  guid: city_id_2_data?.guid,
                 }),
                 date: load_time,
                 weight: weight,
