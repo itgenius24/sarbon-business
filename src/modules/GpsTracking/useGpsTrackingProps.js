@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useGetCarType, useLoadingTypes } from "@/services/api";
+import { useGetCarType, useGetMeasurement, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
+import { useToast } from "@chakra-ui/react";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -14,6 +15,7 @@ export const useGpsTrackingProps = () => {
     control,
     watch,
     setValue,
+    handleSubmit,
     formState: { errors }
   } = useForm();
 
@@ -193,6 +195,72 @@ export const useGpsTrackingProps = () => {
     label: item?.name,
     value: item?.guid
   }));
+  const getMeasurement = useGetMeasurement();
+
+  const weightMeasurementOptions = getMeasurement.data?.response
+    ?.filter(item => !item?.base_unit.includes("meter"))
+    ?.map(item => ({
+      label: item.Symbol,
+      value: item.guid
+    }));
+  useEffect(() => {
+
+    if (getMeasurement.isSuccess) {
+      setValue("weight_unit", weightMeasurementOptions[0]);
+    }
+
+  }, [getMeasurement.isSuccess]);
+  const [carsArr, setCarsArr] = useState([]);
+  const toast = useToast();
+  const {
+    mutate
+  } = useLogistikaGpsTrackingFilterDriver({
+    onSuccess(data) {
+      if (data?.response?.length) {
+        setCarsArr(data?.response);
+      } else {
+        setCarsArr([]);
+        toast({
+          title: t("Не найдено"),
+          description: t("К сожалений ничего не найдено"),
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      }
+    },
+  });
+  const getCarListProps = () => {
+    return { data: carsArr };
+  };
+
+  const onSubmit = (data) => {
+    console.log('data', data);
+    const [lat, long] = data.cor.split(",");
+    const load_type_id = data?.load_type?.value;
+    const weight = Number(data.weight);
+    const volume = Number(data.volume);
+    const permission = data?.permission?.value;
+    const load_capacity = Number(data.load_capacity);
+    const straps_number = Number(data.straps_number);
+    const result = {
+      data: {
+        object_data: {
+          ...data,
+          lat,
+          long,
+          load_type_id,
+          weight,
+          permission,
+          volume,
+          load_capacity,
+          straps_number,
+        }
+      }
+    };
+    mutate(result);
+  };
 
 
   return {
@@ -222,6 +290,10 @@ export const useGpsTrackingProps = () => {
     setYMaps,
     yandexMapRef,
     setIsModalOpen,
-    control
+    weightMeasurementOptions,
+    control,
+    getCarListProps,
+    onSubmit,
+    handleSubmit
   };
 };
