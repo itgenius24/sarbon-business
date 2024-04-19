@@ -1,14 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useGetCarType, useGetMeasurement, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
+import { useGetLang } from "@/hooks/useGetLang";
+
 
 /* eslint no-undef: 0 */ // --> OFF
-
 export const useGpsTrackingProps = () => {
 
-  const [distanceParameters, setDistanceParameters] = React.useState({});
-  const [locationNames, setLocationNames] = React.useState([]);
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
+
+  const [distanceParameters, setDistanceParameters] = useState({});
+  const [locationNames, setLocationNames] = useState([]);
 
   const {
     register,
@@ -131,15 +137,15 @@ export const useGpsTrackingProps = () => {
   };
 
 
-  const yandexMapRef = React.useRef(undefined);
+  const yandexMapRef = useRef(undefined);
 
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [formAddressName, setFormAddressName] = React.useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formAddressName, setFormAddressName] = useState({});
 
-  const [yMaps, setYMaps] = React.useState(null);
+  const [yMaps, setYMaps] = useState(null);
 
-  const [coordinates, setCoordinates] = React.useState([41.40587471972005, 69.46086540238926]);
-  const [placeMarkGeometry, setPlaceMarkGeometry] = React.useState([41.34908881486223, 69.3374228085318]);
+  const [coordinates, setCoordinates] = useState([41.40587471972005, 69.46086540238926]);
+  const [placeMarkGeometry, setPlaceMarkGeometry] = useState([41.34908881486223, 69.3374228085318]);
 
   function handleOpenModal(index) {
 
@@ -212,9 +218,7 @@ export const useGpsTrackingProps = () => {
   }, [getMeasurement.isSuccess]);
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
-  const {
-    mutate
-  } = useLogistikaGpsTrackingFilterDriver({
+  const { mutate } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
       if (data?.response?.length) {
         setCarsArr(data?.response);
@@ -236,7 +240,7 @@ export const useGpsTrackingProps = () => {
   };
 
   const onSubmit = (data) => {
-    console.log('data', data);
+    console.log("data", data);
     const [lat, long] = data.cor.split(",");
     const load_type_id = data?.load_type?.value;
     const weight = Number(data.weight);

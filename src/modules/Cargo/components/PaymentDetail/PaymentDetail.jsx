@@ -1,3 +1,4 @@
+import cls from "./styles.module.scss";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { DeleteIcon, PlusIcon } from "@/assets/icons/icons";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
@@ -6,6 +7,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { usePaymentDetailProps } from "./usePaymentDetailProps";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
+import { DeleteButton } from "@/components/DeleteButton";
 
 export const PaymentDetail = () => {
   const { control, register, errors, setValue } = useAddCargoContext();
@@ -24,7 +26,7 @@ export const PaymentDetail = () => {
 
   return <Box py="24px">
     {
-      watch("payment_type")?.value === "269551bf-09f5-4ebe-936b-889ba5ae1c10" && <Box display="flex" columnGap="32px" mb="24px" >
+      watch("payment_type")?.value === "269551bf-09f5-4ebe-936b-889ba5ae1c10" && <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
         <Box width="280px" flexShrink={0}>
           <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t("Оплата через")}</Heading>
         </Box>
@@ -42,7 +44,7 @@ export const PaymentDetail = () => {
         />
       </Box>
     }
-    <Box display="flex" columnGap="32px" pb="24px" >
+    <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" pb="24px" >
       <Box width="280px" flexShrink={0}>
         <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
@@ -57,19 +59,17 @@ export const PaymentDetail = () => {
       </Box>
     </Box>
     {
-      prepaymentFuelOpen && <Box borderTop="1px solid" borderColor="brand.200" display="flex" alignItems="center" columnGap="32px" pt="24px">
+      prepaymentFuelOpen && <Box className={cls.fieldsWrapper} borderTop="1px solid" borderColor="brand.200" display="flex" alignItems="center" columnGap="32px" pt="24px">
         <Box width="280px" flexShrink={0}>
-          <Button
+          <DeleteButton
             isDisabled={!canEdit}
             variant="reset"
             onClick={() => setPrepaymentFuelOpen(false)}
-            color="brand.700"
-            leftIcon={<DeleteIcon color="#344054" />}
           >
             {t("Предоплата")}
-          </Button>
+          </DeleteButton>
         </Box>
-        <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
+        <Box className={cls.fieldsWrapper} flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
           <TextFieldWithAddition
             disabled={!canEdit}
             name="prepayment_interest"
@@ -96,17 +96,15 @@ export const PaymentDetail = () => {
       </Box>
     }
     {
-      directContractOpen && <Box display="flex" alignItems="center" columnGap="32px" pt="24px">
+      directContractOpen && <Box className={cls.fieldsWrapper} display="flex" alignItems="center" columnGap="32px" pt="24px">
         <Box width="280px" flexShrink={0}>
-          <Button
+          <DeleteButton
             isDisabled={!canEdit}
             variant="reset"
             onClick={() => setDirectContractOpen(false)}
-            color="brand.700"
-            leftIcon={<DeleteIcon />}
           >
             {t("Прямой договор")}
-          </Button>
+          </DeleteButton>
         </Box>
         <Box flexGrow={1} display="flex" flexDirection="column" rowGap="16px">
           <Checkbox disabled={!canEdit} name="company_contract" register={register}>

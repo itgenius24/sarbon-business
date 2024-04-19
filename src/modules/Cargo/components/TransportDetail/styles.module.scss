@@ -1,0 +1,17 @@
+@include breakpoint-down(780px) {
+  .transportDetail {
+    flex-direction: column;
+    row-gap: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .transportDetailFields {
+    flex-direction: column;
+    row-gap: 8px;
+  }
+
+  .field {
+    width: 100% !important;
+  }
+}

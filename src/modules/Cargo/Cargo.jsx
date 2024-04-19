@@ -83,7 +83,7 @@ export const Cargo = ({ id, status, locale }) => {
             </BreadcrumbItem>
           </Breadcrumb>
         }
-        { !isLargerThan1190 && <Heading fontSize="22px">{t("Добавить груз")}</Heading> }
+        { !isLargerThan1190 && !isEditing && <Heading fontSize="22px">{t("Добавить груз")}</Heading> }
         <Box className={cls.contentWrapper} as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
           <Box flexGrow={1} maxW="100%" width="100%" as="form">
             {
@@ -123,7 +123,7 @@ export const Cargo = ({ id, status, locale }) => {
         {
           !isEditing && <Box mt="32px">
             <Checkbox name="accept" register={addCargoProps.register} filled >
-              <Text width="396px">{t("Нажимая кнопку, вы принимаете условия")} <a style={{ color: "#026FE7", fontWeight: "600" }} href="">{t("Пользовательская  соглашения")}</a></Text>
+              <Text fontSize="14px" maxWidth="396px" width="100%">{t("Нажимая кнопку, вы принимаете условия")} <a style={{ color: "#026FE7", fontWeight: "600" }} href="">{t("Пользовательская  соглашения")}</a></Text>
             </Checkbox>
             <Box mt="16px" display="flex" columnGap="12px" justifyContent="flex-start" maxWidth="900px">
               <Button

@@ -4,3 +4,15 @@
   object-fit: cover;
   border-radius: 8px;
 }
+
+@include breakpoint-down(780px) {
+  .cargoSetup {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .fieldsWrapper {
+    flex-direction: column;
+    row-gap: 12px;
+  }
+}

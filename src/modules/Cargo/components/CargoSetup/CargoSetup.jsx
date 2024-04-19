@@ -24,7 +24,7 @@ export const CargoSetup = () => {
     canEdit
   } = userCargoSetupProps();
 
-  return <Box as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
+  return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
       <BargainRadio watch={watch} register={register} disabled={!canEdit} />
       <HelpCircleIcon />
@@ -33,7 +33,7 @@ export const CargoSetup = () => {
       watch("bargain") !== "request" && <>
         <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
           <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">Ставка</Heading>
-          <Box display="flex" columnGap="32px" mb="24px" >
+          <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Предлагаемая сумма</Heading>
             </Box>
@@ -51,7 +51,7 @@ export const CargoSetup = () => {
               additionalItemOptions={currencyOptions}
             />
           </Box>
-          <Box display="flex" columnGap="32px" mb="24px" >
+          <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма предоплаты</Heading>
             </Box>
@@ -69,7 +69,7 @@ export const CargoSetup = () => {
               additionalItemOptions={currencyOptions}
             />
           </Box>
-          <Box display="flex" columnGap="32px" mb="24px" >
+          <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
             </Box>
@@ -88,7 +88,7 @@ export const CargoSetup = () => {
               additionalItemOptions={currencyOptions}
             />
           </Box>
-          <Box display="flex" columnGap="32px" mb="24px" >
+          <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Тип оплаты</Heading>
             </Box>
@@ -101,7 +101,7 @@ export const CargoSetup = () => {
               errors={errors}
             />
           </Box>
-          <Box display="flex" columnGap="32px" >
+          <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" >
             <Box width="280px" flexShrink={0}>
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Встречные предложения</Heading>
             </Box>
@@ -113,7 +113,7 @@ export const CargoSetup = () => {
     <Contacts />
     {
       watch("image")
-        ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" width={"540px"} height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
+        ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" maxWidth={"540px"} width="100%" height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
           <Image className={cls.img} loader={imageLoader} src={watch("image")} alt="cargo" width={150} height={150} />
           <Button isDisabled={!canEdit} onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
         </Box>
@@ -128,7 +128,8 @@ export const CargoSetup = () => {
           borderColor="brand.200"
           borderRadius="12px"
           as="label"
-          width="540px"
+          maxWidth="540px"
+          width="100%"
           height="126px"
           cursor={canEdit ? "pointer" : "not-allowed"}
           opacity={canEdit ? 1 : 0.5}

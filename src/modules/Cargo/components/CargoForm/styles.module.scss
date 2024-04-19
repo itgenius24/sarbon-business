@@ -41,6 +41,7 @@
 
   .textField {
     width: 100% !important;
+    min-width: 60px;
 
     &:last-child {
       grid-column-start: 1;

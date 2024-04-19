@@ -1,3 +1,4 @@
+"use client";
 import GpsTrackingModule from "@/modules/GpsTracking";
 
 export default function GpsTracking() {

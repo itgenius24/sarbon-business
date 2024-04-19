@@ -1,3 +1,4 @@
+import cls from "./styles.module.scss";
 import { Box, Heading, Text, Textarea } from "@chakra-ui/react";
 import { useAddCargoContext } from "../../providers";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
@@ -11,7 +12,7 @@ export const Contacts = () => {
   const { value: userData } = useGetStoreData(authStore, "userData");
 
   return <Box pt="24px" borderTop="1px solid" borderColor="brand.200" >
-    <Box display="flex" columnGap="32px" mb="24px">
+    <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Контакты</Heading>
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">укажите, к кому обратиться по объявлению</Text>
@@ -32,7 +33,7 @@ export const Contacts = () => {
         }}
       />
     </Box>
-    <Box display="flex" columnGap="32px">
+    <Box className={cls.fieldsWrapper} display="flex" columnGap="32px">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">Примечание</Heading>
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.</Text>

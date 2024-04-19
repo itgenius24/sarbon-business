@@ -1,3 +1,4 @@
+import cls from "./styles.module.scss";
 import { TextField } from "@/components/TextField";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
@@ -8,6 +9,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { ChakraSelect } from "@/components/ChakraSelect";
+import { DeleteButton } from "@/components/DeleteButton";
 
 export const TransportDetail = () => {
   const {
@@ -37,11 +39,11 @@ export const TransportDetail = () => {
   const { t } = useTranslation(locale, "translations");
 
   return <Box>
-    <Box py="24px" display="flex" columnGap="32px" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
+    <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">{t("Транспорт")}</Heading>
       </Box>
-      <Box display="flex" columnGap="24px" flexGrow={1}>
+      <Box className={cls.transportDetailFields} display="flex" columnGap="24px" flexGrow={1}>
         <Dropdown
           disabled={!canEdit}
           placeholder={t("Транспорт")}
@@ -60,11 +62,11 @@ export const TransportDetail = () => {
         />
       </Box>
     </Box>
-    <Box py="24px" display="flex" borderBottom="1px solid" borderColor="brand.200">
+    <Box className={cls.transportDetail} py="24px" display="flex" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Загрузка")}</Heading>
       </Box>
-      <Box display="flex" flexDirection="column" rowGap="12px" maxW={isEditing ? "856px" : "540px"} width="100%" marginLeft="auto">
+      <Box className={cls.transportDetailFields} display="flex" flexDirection="column" rowGap="12px" maxW={isEditing ? "856px" : "540px"} width="100%" marginLeft="auto">
         <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} defaultChecked={!isEditing} name="is_ftl" >
           <Box display="flex" alignItems="center">
             <span>{t("отдельной машиной (FTL)")}</span><HelpCircleIcon />
@@ -75,7 +77,7 @@ export const TransportDetail = () => {
         </Checkbox>
       </Box>
     </Box>
-    <Box py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
+    <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
@@ -158,19 +160,18 @@ export const TransportDetail = () => {
         py="24px"
         display="flex"
         justifyContent="space-between"
+        className={cls.transportDetail}
       >
         <Box width="280px" flexShrink="0">
-          <Button
+          <DeleteButton
             variant="reset"
             isDisabled={!canEdit}
             onClick={handleCloseRequirement}
-            color="brand.700"
-            leftIcon={<DeleteIcon />}
           >
             {t("Требования")}
-          </Button>
+          </DeleteButton>
         </Box>
-        <Box display="flex" columnGap="10px" flexGrow={1}>
+        <Box className={cls.transportDetailFields} display="flex" columnGap="10px" flexGrow={1}>
           <Checkbox disabled={!canEdit} register={register} name="hitch">
             {t("Сцепка")}
           </Checkbox>
@@ -184,19 +185,17 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isAccessOpen && <Box py="24px" display="flex" justifyContent="space-between">
+      isAccessOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
         <Box width="280px" flexShrink="0">
-          <Button
+          <DeleteButton
             isDisabled={!canEdit}
             variant="reset"
             onClick={handleCloseAccess}
-            color="brand.700"
-            leftIcon={<DeleteIcon />}
           >
             {t("Разрешения")}
-          </Button>
+          </DeleteButton>
         </Box>
-        <Box display="flex" columnGap="10px" flexGrow={1}>
+        <Box className={cls.transportDetailFields} display="flex" columnGap="10px" flexGrow={1}>
           <Checkbox disabled={!canEdit} register={register} name="tir">
             {t("TIR")}
           </Checkbox>
@@ -235,17 +234,15 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isBeltsOpen && <Box py="24px" display="flex" justifyContent="space-between">
+      isBeltsOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
         <Box width="280px" flexShrink="0">
-          <Button
+          <DeleteButton
             isDisabled={!canEdit}
             variant="reset"
             onClick={handleCloseBelts}
-            color="brand.700"
-            leftIcon={<DeleteIcon />}
           >
             {t("Ремней")}
-          </Button>
+          </DeleteButton>
         </Box>
         <Box flexGrow={1}>
           <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="straps_number" />
@@ -253,23 +250,22 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isLiftingCapacityOpen && <Box py="24px" display="flex" justifyContent="space-between">
+      isLiftingCapacityOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
         <Box width="280px" flexShrink="0">
-          <Button
+          <DeleteButton
             isDisabled={!canEdit}
             variant="reset"
             onClick={handleCloseLiftingCapacity}
-            color="brand.700"
-            leftIcon={<DeleteIcon />}
           >
             {t("Грузоподъемность")}
-          </Button>
+          </DeleteButton>
         </Box>
-        <Box flexGrow={1}>
+        <Box className={cls.transportDetail} flexGrow={1}>
           <TextFieldWithAddition
+            className={cls.field}
             disabled={!canEdit}
             additionalItemOptions={[{ label: t("т"), value: "t" }, { label: t("кг"), value: "kg" }]}
-            placeholder={t("Штук")}
+            placeholder={t("Грузоподъемность")}
             width="135px"
             type="number"
             register={register}

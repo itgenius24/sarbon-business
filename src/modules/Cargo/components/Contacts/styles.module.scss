@@ -1,0 +1,6 @@
+@include breakpoint-down(780px) {
+  .fieldsWrapper {
+    flex-direction: column;
+    row-gap: 12px;
+  }
+}

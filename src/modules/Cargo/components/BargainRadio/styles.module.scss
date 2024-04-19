@@ -23,3 +23,9 @@
   background-color: var(--primary);
   color: var(--base-white);
 }
+
+@include breakpoint-down(780px) {
+  .bargainWrapper {
+    background-color: #fff;
+  }
+}
