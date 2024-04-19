@@ -1,7 +1,7 @@
 import { StepDoneIcon } from "@/assets/icons/icons";
 import { Box } from "@chakra-ui/react";
 
-export const Done = ({ title, subtitle }) => <Box display="flex" columnGap="12px" alignItems="flex-start">
+export const Done = ({ title, subtitle, className }) => <Box className={className} display="flex" columnGap="12px" alignItems="flex-start">
   <Box flexShrink={0}>
     <StepDoneIcon />
   </Box>

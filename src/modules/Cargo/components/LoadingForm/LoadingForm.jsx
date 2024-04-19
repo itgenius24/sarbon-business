@@ -13,6 +13,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import Script from "next/script";
 import { DropdownWrapper } from "@/components/DropdownWrapper";
+import { DeleteButton } from "@/components/DeleteButton";
 
 export const LoadingForm = () => {
 
@@ -60,15 +61,13 @@ export const LoadingForm = () => {
                   index === 0 && <h2 className={cls.heading}>{t("Загрузка")}</h2>
                 }
                 {
-                  index !== 0 && <Button
+                  index !== 0 && <DeleteButton
                     isDisabled={!canEdit}
                     variant="reset"
                     onClick={() => handleRemoveLoading(index)}
-                    color="brand.700"
-                    leftIcon={<DeleteIcon />}
                   >
-                    {t("Удалить")}
-                  </Button>
+                    {t("Загрузка")}
+                  </DeleteButton>
                 }
               </div>
               <div className={cls.field}>
@@ -127,15 +126,13 @@ export const LoadingForm = () => {
                 index === 0 && <h2 className={cls.heading}>{t("Разгрузка")}</h2>
               }
               {
-                index !== 0 && <Button
+                index !== 0 && <DeleteButton
                   isDisabled={!canEdit}
                   variant="reset"
                   onClick={() => handleUnloadingRemove(index)}
-                  color="brand.700"
-                  leftIcon={<DeleteIcon />}
                 >
-                  {t("Удалить")}
-                </Button>
+                  {t("Разгрузка")}
+                </DeleteButton>
               }
             </div>
             <div className={cls.field}>

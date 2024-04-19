@@ -88,3 +88,30 @@
   align-items: center;
   column-gap: 4px;
 }
+
+@include breakpoint-down(780px) {
+  .fieldsWrapper {
+    flex-direction: column;
+  }
+
+  .field {
+    margin-left: 0;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+
+  .heading {
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .route {
+    flex-direction: column;
+  }
+
+  .routeContent {
+    width: 100%;
+    margin-left: 0;
+  }
+}

@@ -60,11 +60,11 @@ export const TransportDetail = () => {
         />
       </Box>
     </Box>
-    <Box py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
+    <Box py="24px" display="flex" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Загрузка")}</Heading>
       </Box>
-      <Box display="flex" flexDirection="column" rowGap="12px">
+      <Box display="flex" flexDirection="column" rowGap="12px" maxW={isEditing ? "856px" : "540px"} width="100%" marginLeft="auto">
         <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} defaultChecked={!isEditing} name="is_ftl" >
           <Box display="flex" alignItems="center">
             <span>{t("отдельной машиной (FTL)")}</span><HelpCircleIcon />
@@ -80,7 +80,7 @@ export const TransportDetail = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
       <Box zIndex={30}>
-        <Box display="flex" gap="12px" flexWrap="wrap">
+        <Box display="flex" gap="12px" flexWrap="wrap" maxW={isEditing ? "856px" : "540px"} width="100%">
           {
             !isAccessOpen && <Button
               isDisabled={!canEdit}

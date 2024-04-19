@@ -274,7 +274,7 @@ export const CloseIcon = () => (
   </svg>
 );
 
-export const CircleCloseIcon = () => (
+export const CircleCloseIcon = ({ color = "#667085" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -285,7 +285,7 @@ export const CircleCloseIcon = () => (
     <g clipPath="url(#clip0_834_47235)">
       <path
         d="M12.4998 7.49935L7.49984 12.4993M7.49984 7.49935L12.4998 12.4993M18.3332 9.99935C18.3332 14.6017 14.6022 18.3327 9.99984 18.3327C5.39746 18.3327 1.6665 14.6017 1.6665 9.99935C1.6665 5.39698 5.39746 1.66602 9.99984 1.66602C14.6022 1.66602 18.3332 5.39698 18.3332 9.99935Z"
-        stroke="#667085"
+        stroke={color}
         strokeWidth="1.66667"
         strokeLinecap="round"
         strokeLinejoin="round"

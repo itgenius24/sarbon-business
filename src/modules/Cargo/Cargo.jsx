@@ -1,6 +1,7 @@
+import cls from "./styles.module.scss";
 import { DeleteIcon, PencilIcon, PlusIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text } from "@chakra-ui/react";
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text, useMediaQuery } from "@chakra-ui/react";
 import { CargoDetail } from "./components/CargoDetail";
 import { CargoSetup } from "./components/CargoSetup";
 import { Stages } from "./components/Stages";
@@ -21,6 +22,8 @@ export const Cargo = ({ id, status, locale }) => {
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
+
+  const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
 
   function getTopContent () {
     if(status === "in_moderation") {
@@ -61,7 +64,7 @@ export const Cargo = ({ id, status, locale }) => {
   }
 
   return <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
-    <Box pt="48px" pb="128px">
+    <Box pt={isLargerThan1190 ? "48px" : "24px"} pb="128px">
       <Container height="100%">
         {
           isEditing && <Breadcrumb
@@ -80,22 +83,33 @@ export const Cargo = ({ id, status, locale }) => {
             </BreadcrumbItem>
           </Breadcrumb>
         }
-        <Box as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
-          <Box flexGrow={1} maxW={id ? "100%" : "900px"} as="form">
+        { !isLargerThan1190 && <Heading fontSize="22px">{t("Добавить груз")}</Heading> }
+        <Box className={cls.contentWrapper} as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
+          <Box flexGrow={1} maxW="100%" width="100%" as="form">
             {
               isEditing
               ? getTopContent()
               : <Box display="flex" justifyContent="space-between" alignItems="center" mb="32px">
-                <Heading size="md">{t("Добавить груз")}</Heading>
-                <Box display="flex" columnGap="12px">
-                  <Button onClick={addCargoProps.handleOpenModal} leftIcon={<PlusIcon />} size="sm" >Заполнить из шаблона</Button>
+                { isLargerThan1190 && <Heading size="md">{t("Добавить груз")}</Heading> }
+                <Box className={cls.topButtons} display="flex" columnGap="12px">
                   <Button
+                    className={cls.topButton}
+                    onClick={addCargoProps.handleOpenModal}
+                    leftIcon={<PlusIcon />}
+                    size="sm"
+                  >
+                    {t("Заполнить из шаблона")}
+                  </Button>
+                  <Button
+                    className={cls.topButton}
                     leftIcon={<DeleteIcon color="#344054" />}
                     onClick={() => addCargoProps.handleResetForm()}
                     variant="secondaryWhite"
                     size="sm"
                     border="1px solid #D0D5DD"
-                  >{t("Очистить форму")}</Button>
+                  >
+                    {t("Очистить форму")}
+                  </Button>
                 </Box>
               </Box>
             }

@@ -20,3 +20,45 @@
     background-color: var(--primary);
   }
 }
+
+@include breakpoint-down(1190px) {
+  .stages {
+    position: static;
+    width: 100%;
+    background-color: transparent;
+    margin-bottom: 24px;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .stagesList {
+    flex-direction: row;
+    overflow: auto;
+  }
+
+  .statusItem {
+    flex-direction: column;
+    margin-top: 4px;
+  }
+
+  .stageItem {
+    min-width: 107px;
+
+    &:not(:last-child) {
+      &::after {
+        width: 2px;
+        height: calc(100% - 8px);
+        position: absolute;
+        left: 54px;
+        top: -16px;
+        transform: rotate(90deg);
+        transform-origin: center;
+        background-color: #E5E5E5;
+        content: "";
+      }
+    }
+  }
+
+}

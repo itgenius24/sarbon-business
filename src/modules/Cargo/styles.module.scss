@@ -1,0 +1,18 @@
+@include breakpoint-down(1190px) {
+  .contentWrapper {
+    flex-direction: column-reverse;
+  }
+
+  .topButtons {
+    
+  }
+}
+
+@include breakpoint-down(450px) {
+
+  .topButton {
+    font-size: 12px;
+    padding: 10px;
+  }
+  
+}

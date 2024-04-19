@@ -27,6 +27,12 @@ $screen-xl-max: 1280px;
   }
 }
 
+@mixin breakpoint-down($screen) {
+  @media (max-width: #{$screen}) {
+    @content;
+  }
+}
+
 @mixin primary-btn {
   padding: 8px 12px;
   font-size: 14px;

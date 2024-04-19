@@ -1,7 +1,7 @@
 import cls from "./styles.module.scss";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, useMediaQuery } from "@chakra-ui/react";
 import { useCargoFormProps } from "./useCargoFormProps";
 import { DeleteIcon, PlusIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
@@ -10,6 +10,8 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { DeleteButton } from "@/components/DeleteButton";
 
 export const CargoForm = () => {
+
+  const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
 
   const {
     errors,
@@ -26,6 +28,7 @@ export const CargoForm = () => {
     volumeMeasurementOptions,
     packageOptions,
     canEdit,
+    isEditing,
   } = useCargoFormProps();
 
   const locale = useGetLang();
@@ -33,13 +36,30 @@ export const CargoForm = () => {
   const { t } = useTranslation(locale, "translations");
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
-    <Box display="flex" alignItems="start" columnGap="32px">
-      <Box width="280px" flexShrink="0">
-        <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">{t("Груз")}</Heading>
-        <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{t("В рассчёте на одну машину")}</Text>
+    <Box className={cls.fieldsWrapper} display="flex" alignItems="start" columnGap="32px">
+      <Box
+        width="280px"
+        flexShrink="0"
+      >
+        <Heading
+          color="brand.700"
+          fontSize="14px"
+          fontWeight="600"
+          lineHeight="20px"
+        >
+          {t("Груз")}
+        </Heading>
+        <Text
+          color="brand.600"
+          fontSize="14px"
+          fontWeight="400"
+          lineHeight="20px"
+        >
+          {t("В рассчёте на одну машину")}
+        </Text>
       </Box>
-      <Box display="flex" flexDirection="column" rowGap="16px" maxW="540px" width="100%" ml="auto">
-        <Box display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
+      <Box className={cls.fields} display="flex" flexDirection="column" rowGap="16px" maxW={isEditing ? "856px" : "540px"} width="100%" ml="auto">
+        <Box className={cls.cargoFields} display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
           <Dropdown
             control={control}
             required
@@ -50,8 +70,10 @@ export const CargoForm = () => {
             errors={errors}
             disabled={!canEdit}
             className={cls.dropdown}
+            placeholder={t("Выберите тип груза")}
           />
           <TextFieldWithAddition
+            className={cls.textField}
             errors={errors}
             control={control}
             name="weight_measurement"
@@ -64,6 +86,7 @@ export const CargoForm = () => {
             type="number"
           />
           <TextFieldWithAddition
+            className={cls.textField}
             errors={errors}
             control={control}
             name="volume_measurement"
@@ -104,7 +127,7 @@ export const CargoForm = () => {
       </Box>
     </Box>
     {
-      isPackagingAndQuantity && <Box display="flex" alignItems="flex-start" mt="24px" key="packaging">
+      isPackagingAndQuantity && <Box className={cls.additionalFields} display="flex" alignItems="center" mt="24px" key="packaging">
         <DeleteButton
           isDisabled={!canEdit}
           visibility={canEdit ? "visible" : "hidden"}
@@ -112,7 +135,7 @@ export const CargoForm = () => {
         >
           {t("Упаковка и количество")}
         </DeleteButton>
-        <Box display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
+        <Box className={cls.fields} display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
           <Dropdown
             errors={errors}
             searchable
@@ -127,6 +150,7 @@ export const CargoForm = () => {
             disabled={!canEdit}
           />
           <TextFieldWithAddition
+            className={cls.textField}
             control={control}
             errors={errors}
             name="packaging_quantity"
@@ -142,16 +166,17 @@ export const CargoForm = () => {
       </Box>
     }
     {
-      isDimensionsAndDiameter && <Box display="flex" alignItems="flex-start" mt="24px" key="dimensions">
+      isDimensionsAndDiameter && <Box className={cls.additionalFields} display="flex" alignItems="flex-start" mt="24px" key="dimensions">
         <DeleteButton
           visibility={canEdit ? "visible" : "hidden"}
           onClick={handleDimensionsAndDiameter}
         >
           {t("Габариты и диаметр")}
         </DeleteButton>
-        <Box display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
+        <Box className={cls.fields} display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
+              className={cls.textField}
               control={control}
               name="length"
               register={register}
@@ -164,6 +189,7 @@ export const CargoForm = () => {
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
+              className={cls.textField}
               control={control}
               name="width"
               register={register}
@@ -176,6 +202,7 @@ export const CargoForm = () => {
           </Box>
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
+              className={cls.textField}
               disabled={!canEdit}
               control={control}
               name="height"
@@ -187,6 +214,7 @@ export const CargoForm = () => {
             {/* <Checkbox register={register} name="isSpecial3">{t("особые")}</Checkbox> */}
           </Box>
           <TextFieldWithAddition
+            className={cls.textField}
             control={control}
             disabled={!canEdit}
             name="diameter"

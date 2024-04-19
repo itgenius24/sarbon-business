@@ -1,11 +1,11 @@
-import { DeleteIcon } from "@/assets/icons/icons";
+import { CircleCloseIcon, DeleteIcon } from "@/assets/icons/icons";
 import { Button } from "@chakra-ui/react";
 
 export const DeleteButton = ({
   isDisabled,
   visibility,
   variant = "reset",
-  color = "brand.700",
+  color = "brand.400",
   children,
   onClick = () => {},
 }) => {
@@ -16,7 +16,7 @@ export const DeleteButton = ({
     variant={variant}
     onClick={onClick}
     color={color}
-    leftIcon={<DeleteIcon />}
+    rightIcon={<CircleCloseIcon color="#98A2B3" />}
   >
     {children}
   </Button>;

@@ -30,12 +30,13 @@ export const TextFieldWithAddition = ({
   onlyFieldDisabled,
   onClick,
   rules = {},
+  className,
   ...props
 }) => {
 
   const { dropdownControl, isOpen, handleToggle, handleClose, additionalDropdownRef, } = useTextFieldWithAdditionProps();
 
-  return <div className={clsx(cls.field, { [cls.disabled]: disabled })} style={{ width }}>
+  return <div className={clsx(cls.field, className, { [cls.disabled]: disabled })} style={{ width }}>
     {
       label || additionalItemLabel && <div className={clsx(cls.fieldTop)}>
         {label && <span className={cls.fieldLabel}>{label}</span>}

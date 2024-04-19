@@ -1,7 +1,3 @@
-.dropdown {
-  max-width: 224px;
-}
-
 @include breakpoint-down(1190px) {
   .fieldsWrapper {
     display: flex;
@@ -12,24 +8,6 @@
 
   .fields {
     margin-left: 0;
-  }
-}
-
-@include breakpoint-down(780px) {
-  .additionalFields {
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 12px;
-  }
-
-  .fields {
-    flex-direction: column;
-    align-items: stretch;
-    row-gap: 16px;
-  }
-
-  .textField {
-    width: 100% !important;
   }
 }
 

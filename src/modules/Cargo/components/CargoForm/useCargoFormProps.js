@@ -77,5 +77,6 @@ export const useCargoFormProps = () => {
     volumeMeasurementOptions,
     packageOptions,
     canEdit,
+    isEditing,
   };
 };
