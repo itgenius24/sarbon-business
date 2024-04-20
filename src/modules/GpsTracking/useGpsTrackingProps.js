@@ -266,7 +266,32 @@ export const useGpsTrackingProps = () => {
     mutate(result);
   };
 
-
+  const infoList = (carInfo) => ([
+    {
+      title: "Транспорт:",
+      value: carInfo?.trailer_type_id_data?.name || "Нет данных",
+    },
+    {
+      title: "Разрешение:",
+      value: Array.isArray(carInfo?.users_id_data?.adr) ? carInfo?.users_id_data?.adr.join(" ") : carInfo?.users_id_data?.adr || "Нет данных",
+    },
+    {
+      title: "Детали:",
+      value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
+    },
+    {
+      title: "Номер транспорта:",
+      value: carInfo?.car_number || "Нет данных",
+    },
+    {
+      title: "Водитель:",
+      value: carInfo?.users_id_data?.full_name || "Нет данных",
+    },
+    {
+      title: "Тип загрузки:",
+      value: carInfo?.load_type_id_3_data?.name || "Нет данных",
+    }
+  ]);
   return {
     register,
     locations,
@@ -298,6 +323,7 @@ export const useGpsTrackingProps = () => {
     control,
     getCarListProps,
     onSubmit,
+    infoList,
     handleSubmit
   };
 };
