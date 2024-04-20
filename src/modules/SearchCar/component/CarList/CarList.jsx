@@ -5,7 +5,10 @@ import { SingleCar } from "../SingleCar/SingleCar";
 
 export const CarList = ({
   data = [],
-  showDistance = false
+  showDistance = false,
+  oneDir,
+  infoList,
+  phoneBtn
 }) => {
   if(!data?.length)return null;
 
@@ -16,7 +19,14 @@ export const CarList = ({
       </Heading>
       <VStack align="stretch" spacing="24px">
         {data.map((item) => {
-          return <SingleCar key={item} carInfo={item} showDistance={showDistance} />;
+          return <SingleCar
+            key={item}
+            carInfo={item}
+            infoList={infoList}
+            showDistance={showDistance}
+            oneDir={oneDir}
+            phoneBtn={phoneBtn}
+          />;
         })}
       </VStack>
     </>

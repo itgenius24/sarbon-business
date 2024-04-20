@@ -34,18 +34,9 @@ import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
 export default function GpsTrackingModule() {
   const {
     register,
-    locations,
-    handleAppend,
-    handleRemove,
     initYmaps,
-    onAdditionalAddressChange,
-    distanceParameters,
-    watch,
     errors,
     handleCalculate,
-    handleDragOver,
-    handleDragStart,
-    handleDragEnter,
     handleOpenModal,
     isModalOpen,
     handleCloseModal,
@@ -61,6 +52,7 @@ export default function GpsTrackingModule() {
     control,
     getCarListProps,
     onSubmit,
+    infoList,
     handleSubmit
   } = useGpsTrackingProps();
 
@@ -303,7 +295,7 @@ export default function GpsTrackingModule() {
       </Box>
     </VStack>
     <Box mt={6}>
-      <CarList {...getCarListProps()} showDistance={true}/>
+      <CarList {...getCarListProps()} showDistance={true} oneDir={true} infoList={infoList} phoneBtn={true} />
     </Box>
 
     <Modal

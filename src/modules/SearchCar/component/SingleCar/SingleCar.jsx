@@ -26,7 +26,10 @@ import Link from "next/link";
 
 export const SingleCar = ({
   carInfo,
-  showDistance = false
+  showDistance = false,
+  oneDir,
+  infoList,
+  phoneBtn
 }) => {
 
   const userId = authStore.userData.id;
@@ -35,12 +38,17 @@ export const SingleCar = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [phoneBtnText, setPhoneBtnText] = useState("Предложить груз");
 
+  function handleClickPhoneBtn() {
+    setPhoneBtnText(carInfo.users_id_data.phone);
+
+  }
   function handleClosePopup() {
     setPopupOpen(false);
   }
 
-  const newList = [
+  const newList = infoList ? infoList(carInfo) : [
     {
       title: "Транспорт",
       value: carInfo?.short_name || "Нет данных",
@@ -103,15 +111,19 @@ export const SingleCar = ({
         <div className={cls.cardTopContent}>
           <h2 className={cls.address}>
             <span className={cls.addressText}>
-              <span className={cls.addressCountry}>
+              {oneDir ? (
+                <span className={cls.addressCountry}>
+                    <span className={cls.addressCity}>{carInfo.address_id_data?.name}</span>
+                </span>
+              ) : (<><span className={cls.addressCountry}>
                 <span className={cls.addressCity}>{carInfo.city_id_data?.name}</span>
                 <span>{carInfo.address_id_data?.name}</span>
               </span>
-              <span>-&gt;</span>
-              <span className={cls.addressCountry}>
+                <span>-&gt;</span>
+                <span className={cls.addressCountry}>
                 <span className={cls.addressCity}>{carInfo.city_id_2_data?.name}</span>
                 <span>{carInfo.address_id_2_data?.name}</span>
-              </span>
+              </span></>)}
               {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
           </h2>
@@ -127,6 +139,9 @@ export const SingleCar = ({
       </Box>
       <div className={cls.cardBottom}>
         <Button onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
+        {!phoneBtn ? null : (
+          <Button onClick={handleClickPhoneBtn} variant={"solid"} width="278px">{phoneBtnText}</Button>)
+        }
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalOverlay />
