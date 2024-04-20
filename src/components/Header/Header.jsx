@@ -59,6 +59,15 @@ const Header = observer(({ elements }) => {
             <Box className={cls.logo}>
               <Logo />
             </Box>
+            {!isAuth && (
+              <Link
+                className={clsx(cls.registerLink, cls.registerLinkMobile)}
+                title={t("Зарегистрироваться")}
+                href={`/${locale}/auth`}
+              >
+                {t("Зарегистрироваться")}
+              </Link>
+            )}
             <Box className={cls.content}>
               <UnorderedList className={cls.list}>
                 {elements?.map((element, index) => {
@@ -87,6 +96,14 @@ const Header = observer(({ elements }) => {
                     }
                   </ListItem>;
                 })}
+                <ListItem className={clsx(cls.listItem, cls.profile)} key="profile">
+                  <Link
+                    href={`/${locale}/profile`}
+                    className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
+                  >
+                    {t("Профиль")}
+                  </Link>
+                </ListItem>
               </UnorderedList>
               <Box className={cls.rightBox}>
                 <Box className={cls.buttonBox}>
