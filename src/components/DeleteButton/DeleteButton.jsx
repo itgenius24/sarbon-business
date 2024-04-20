@@ -8,6 +8,7 @@ export const DeleteButton = ({
   color = "brand.400",
   children,
   onClick = () => {},
+  ...props
 }) => {
 
   return <Button
@@ -17,6 +18,7 @@ export const DeleteButton = ({
     onClick={onClick}
     color={color}
     rightIcon={<CircleCloseIcon color="#98A2B3" />}
+    {...props}
   >
     {children}
   </Button>;

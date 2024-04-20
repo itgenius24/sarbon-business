@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -7,6 +8,8 @@ export const useDistanceCalculationProps = () => {
 
   const [distanceParameters, setDistanceParameters] = React.useState({});
   const [locationNames, setLocationNames] = React.useState([]);
+
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const { register, control, watch } = useForm();
 
@@ -79,7 +82,9 @@ export const useDistanceCalculationProps = () => {
       }
     });
 
-    const searchControl = new ymaps.control.SearchControl({ options: { float: "right", } });
+    const position = isLargerThan845 ? { right: 0, top: 0 } : { right: 0, bottom: 50 };
+
+    const searchControl = new ymaps.control.SearchControl({ options: { float: "none", position } });
 
     // Creating the map with the button added to it.
     var myMap = new ymaps.Map("map", {
@@ -126,5 +131,6 @@ export const useDistanceCalculationProps = () => {
     handleDragStart,
     handleDragOver,
     handleDragEnter,
+    isLargerThan845,
   };
 };
