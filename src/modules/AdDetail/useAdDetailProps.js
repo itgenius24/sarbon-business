@@ -91,7 +91,7 @@ export const useAdDetailProps = ({ id }) => {
         description: desc,
         contact: contact, // (97) 897-98-79
         currency_id: currency_id?.value || currencyOptions[0]?.value,
-        photo: photo ? process.env.NEXT_PUBLIC_MEDIA_URL + photo : "",
+        photo: photo?.includes("http") ? photo : process.env.NEXT_PUBLIC_MEDIA_URL + photo,
         status: ["active"],
         users_id: userId,
         made_date: new Date(),

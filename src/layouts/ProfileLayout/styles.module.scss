@@ -1,0 +1,13 @@
+.contentWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  column-gap: 24px;
+}
+
+@include breakpoint-down(845px) {
+  .contentWrapper {
+    justify-content: center;
+  }
+}

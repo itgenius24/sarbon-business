@@ -1,17 +1,32 @@
 "use client";
 
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import { MainContentHeader } from "../../(components)/MainContentHeader";
 import { SearchList } from "../../(components)/SearchList";
 import { useWantBuyProps } from "./useWantBuyProps";
 import { MainContentCard } from "@/components/MainContentCard";
+import { BackArrow } from "@/assets/icons/icons";
 
 export default function WantBuy() {
 
-  const { dropDownProps, carsList, isLoading, } = useWantBuyProps();
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
+  const {
+    dropDownProps,
+    carsList,
+    isLoading,
+    router,
+  } = useWantBuyProps();
 
   return <Box>
-    <MainContentHeader title="Хочу купить" />
+    <MainContentHeader title={
+      <Box display={isLargerThan845 ? "block" : "flex"} alignItems="center">
+        <button onClick={router.back}>
+          <BackArrow />
+        </button>
+        <span>Хочу купить</span>
+      </Box>
+    } />
 
     <MainContentCard as="form">
       <SearchList

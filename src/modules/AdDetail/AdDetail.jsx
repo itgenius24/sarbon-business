@@ -2,7 +2,7 @@ import { Dropdown } from "@/components/Dropdown";
 import FileUpload from "@/components/FileUpload";
 import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { useAdDetailProps } from "./useAdDetailProps";
 import { MainContentCard } from "@/components/MainContentCard";
 
@@ -23,6 +23,8 @@ export const AdDetail = ({ id }) => {
     router,
     statusOptions,
   } = useAdDetailProps({ id });
+
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   return (
     <MainContentCard
@@ -55,7 +57,7 @@ export const AdDetail = ({ id }) => {
 
       }
     >
-      <Flex gap="24px">
+      <Flex gap="24px" flexDirection={isLargerThan845 ? "row" : "column"}>
         <Dropdown
           label="Выберите тип ТС"
           control={control}
@@ -126,7 +128,7 @@ export const AdDetail = ({ id }) => {
           errors={errors}
         />
       </Box>
-      <Flex gap="24px" mt="16px">
+      <Flex gap="24px" mt="16px" flexDirection={isLargerThan845 ? "row" : "column"}>
         <TextFieldWithAddition
           additionalItemLabel="Стоимость"
           name="price"
@@ -156,13 +158,14 @@ export const AdDetail = ({ id }) => {
 };
 
 function FileUploadPlaceholder() {
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
-    <Box fontSize="14px" lineHeight="20px">
+    <Box fontSize={isLargerThan845 ? "14px" : "10px"} lineHeight={isLargerThan845 ? "20px" : "16px"}>
         Нажмите, чтобы изменить фото{" "}
       <Text as="span" color="brand.600">
           или перетащите
       </Text>
-      <Text color="brand.600" fontSize="12px">
+      <Text color="brand.600" fontSize={isLargerThan845 ? "14px" : "8px"}>
           SVG, PNG, JPG or GIF (max. 800x400px)
       </Text>
     </Box>

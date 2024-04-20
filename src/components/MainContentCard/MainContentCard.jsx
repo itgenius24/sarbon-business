@@ -1,7 +1,8 @@
-import { Card, CardBody, CardFooter, Divider } from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, Divider, useMediaQuery } from "@chakra-ui/react";
 import React from "react";
 
 export const MainContentCard = ({ children, footer, ...rest }) => {
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <Card
       mt="32px"
@@ -11,7 +12,7 @@ export const MainContentCard = ({ children, footer, ...rest }) => {
       borderColor="brand.200"
       {...rest}
     >
-      {children && <CardBody p="24px">{children}</CardBody>}
+      {children && <CardBody p={isLargerThan845 ? "24px" : "10px"}>{children}</CardBody>}
       {footer && (
         <>
           <Divider />

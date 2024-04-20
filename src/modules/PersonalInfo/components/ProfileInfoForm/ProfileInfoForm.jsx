@@ -1,4 +1,5 @@
-import { Email } from "@/assets/icons/icons";
+import cls from "./styles.module.scss";
+import { Email, PhotoIcon } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
 import { Box, Flex, Text } from "@chakra-ui/react";
 
@@ -19,8 +20,20 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   if (isLoading) return <SkeletonComp/>;
 
   return (
-    <div>
-      <Flex gap="24px">
+    <div className={cls.profileInfo}>
+      <label className={cls.profilePhoto}>
+        <img className={cls.profileImg} src={process.env.NEXT_PUBLIC_MEDIA_URL + photo} width="104" height="104" />
+        <span className={cls.profileIcon}>
+          <PhotoIcon />
+        </span>
+        <input
+          className="visually-hidden"
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
+      </label>
+      <div className={cls.fields}>
         <TextField
           register={register}
           errors={errors}
@@ -29,7 +42,6 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           rules={rules}
           defaultValue={full_name?.split(" ")?.[0]}
         />
-
         <TextField
           register={register}
           errors={errors}
@@ -37,7 +49,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           label="Фамилия"
           defaultValue={full_name?.split(" ")?.[1]}
         />
-      </Flex>
+      </div>
 
       <Box mt="24px">
         <TextField
@@ -51,7 +63,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           defaultValue={email}
         />
       </Box>
-      <Box mt="24px">
+      <Box mt="24px" className={cls.fileUpload}>
         <FileUpload
           defaultValue={photo}
           profilePlaceholder={<FileUploadPlaceholder />}

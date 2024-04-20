@@ -1,4 +1,4 @@
-import { Box, Button, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import { SkeletonComp } from "@/components/Skeleton";
 import { TopFilter } from "@/components/TopFilter";
 import { NoAdFound } from "../NoAdFound";
@@ -14,6 +14,8 @@ export const AdList = ({
   locale
 }) => {
 
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
   return (
     <Box minH="250px">
       <TopFilter
@@ -27,7 +29,7 @@ export const AdList = ({
       ) : (
         <>
           {!!list?.length && (
-            <SimpleGrid columns={2} spacing={4} mt="16px">
+            <SimpleGrid columns={isLargerThan845 ? 2 : 1} spacing={isLargerThan845 ? 4 : 2} mt="16px">
               {list?.map((item) => (
                 <CarItem key={item?.name} data={item} path={`/${locale || "ru"}/profile/my-ad/detail/${item?.guid}`}/>
               ))}

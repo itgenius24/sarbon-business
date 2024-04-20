@@ -1,8 +1,11 @@
 import { useGetCarsOnSale } from "@/services/api";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useWantBuyProps = () => {
+
+  const router = useRouter();
 
   const {
     register,
@@ -43,7 +46,7 @@ export const useWantBuyProps = () => {
     return () => clearTimeout(id);
   }, [searchVal]);
 
-  return { dropDownProps, carsList, isLoading };
+  return { dropDownProps, carsList, isLoading, router };
 };
 
 function getParams(val) {
