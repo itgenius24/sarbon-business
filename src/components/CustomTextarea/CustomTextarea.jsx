@@ -1,3 +1,5 @@
+import clsx from "clsx";
+import cls from "./styles.module.scss";
 import { Box, Text, Textarea } from "@chakra-ui/react";
 
 export const CustomTextarea = ({
@@ -13,7 +15,7 @@ export const CustomTextarea = ({
 
   return <Box display="flex" flexDirection="column" rowGap="6px" alignItems="flex-start" flexGrow={1}>
     <Textarea
-      className={className}
+      className={clsx(cls.textarea, className)}
       isDisabled={disabled}
       height="154px"
       width="100%"

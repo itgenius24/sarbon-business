@@ -5,6 +5,7 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import authStore from "@/store/auth.store";
 import { useGetStoreData } from "@/hooks/useGetStoreData";
 import { CustomTextarea } from "@/components/CustomTextarea";
+import { allowOnlyNumbers } from "@/utils/allowOnlyNumbers";
 
 export const Contacts = () => {
 
@@ -22,6 +23,7 @@ export const Contacts = () => {
         additionalItemPosition="left"
         additionalItemTheme="light"
         additionalItemPlaceholder={userData?.login}
+        onKeyDown={allowOnlyNumbers}
         placeholder="+998 (99) 999-99-99"
         name="contact"
         register={register}

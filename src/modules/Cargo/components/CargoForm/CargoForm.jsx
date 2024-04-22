@@ -58,8 +58,8 @@ export const CargoForm = () => {
           {t("В рассчёте на одну машину")}
         </Text>
       </Box>
-      <Box className={cls.fields} display="flex" flexDirection="column" rowGap="16px" maxW={isEditing ? "856px" : "540px"} width="100%" ml="auto">
-        <Box className={cls.cargoFields} display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
+      <Box className={cls.fields} display="flex" flexDirection="column" rowGap="16px" maxW={isEditing ? "856px" : "540px"} width="100%">
+        <Box className={cls.cargoFields} display="grid" gridTemplateColumns="1fr 1fr 1fr" columnGap="24px" flexGrow="1">
           <Dropdown
             control={control}
             required
@@ -79,7 +79,7 @@ export const CargoForm = () => {
             name="weight_measurement"
             register={register}
             additionalItemName="weight_unit"
-            width="134px"
+            // width="134px"
             placeholder={t("Вес")}
             additionalItemOptions={weightMeasurementOptions}
             disabled={!canEdit}
@@ -91,7 +91,7 @@ export const CargoForm = () => {
             control={control}
             name="volume_measurement"
             register={register}
-            width="134px"
+            // width="134px"
             placeholder={t("Объем")}
             additionalItemPlaceholder="m³"
             disabled={!canEdit}
@@ -100,7 +100,7 @@ export const CargoForm = () => {
             // additionalItemOptions={volumeMeasurementOptions}
           />
         </Box>
-        <Box display="flex" columnGap="24px">
+        <Box display="grid" gridTemplateColumns="1fr 1fr" columnGap="24px">
           {
             !isPackagingAndQuantity && <Button
               key="dimensionsBtn"
