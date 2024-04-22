@@ -11,7 +11,7 @@ import { DeleteButton } from "@/components/DeleteButton";
 
 export const CargoForm = () => {
 
-  const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
+  const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
 
   const {
     errors,
@@ -100,7 +100,7 @@ export const CargoForm = () => {
             // additionalItemOptions={volumeMeasurementOptions}
           />
         </Box>
-        <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" columnGap="24px">
+        <Box display="grid" gridTemplateColumns={isLargerThan600 ? "1fr 1fr 1fr" : "1fr"} columnGap="24px">
           {
             !isPackagingAndQuantity && <Button
               justifyContent="flex-start"
