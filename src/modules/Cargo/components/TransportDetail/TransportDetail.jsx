@@ -32,6 +32,7 @@ export const TransportDetail = () => {
     canEdit,
     handleCheckboxChange,
     isEditing,
+    watch,
   } = useTransportDetailProps();
 
   const locale = useGetLang();
@@ -209,11 +210,13 @@ export const TransportDetail = () => {
             {t("Медкнижка")}
           </Checkbox>
           <Box flexGrow={1}>
-            <ChakraSelect
+            <Dropdown
               isMulti
               name="permission"
               isDisabled={!canEdit}
+              register={register}
               control={control}
+              watch={watch}
               options={[
                 { label: "ADR 1", value: "adr_1" },
                 { label: "ADR 2", value: "adr_2" },

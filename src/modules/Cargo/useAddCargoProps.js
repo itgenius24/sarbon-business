@@ -506,6 +506,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function onSubmit(data) {
+    console.log(data);
 
     if(!authStore.isAuth) {
       toast({

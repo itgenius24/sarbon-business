@@ -14,6 +14,7 @@ export const ChakraSelect = ({ control, size="sm", name = "select", ...props }) 
       return (
         <Select
           {...options}
+          menuIsOpen
           menuPortalTarget={document.body}
           classNamePrefix="chakra-select"
           useBasicStyles

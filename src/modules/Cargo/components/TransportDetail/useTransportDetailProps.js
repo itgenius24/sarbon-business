@@ -121,5 +121,6 @@ export const useTransportDetailProps = () => {
     canEdit,
     handleCheckboxChange,
     isEditing,
+    watch,
   };
 };

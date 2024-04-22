@@ -29,6 +29,7 @@ export const Dropdown = ({
   className,
   onSearchChange = () => {},
   index,
+  isMulti,
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
 
@@ -97,7 +98,25 @@ export const Dropdown = ({
                   </div>
                   : <>
                     {
-                      (value?.label || !isNaN(defaultValueIndex))
+                      isMulti
+                      ? <div className={cls.multiValueWrap}>
+                        {
+                          watch(name)?.length
+                          ? watch(name)?.map((item, index) => <span className={cls.multiValue} key={index}>
+                            <span>{item?.label}</span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onChange(watch(name)?.filter(selected => selected?.value !== item?.value ));
+                              }}>
+                              <CircleCloseIcon />
+                            </button>
+                          </span>)
+                          : <span className={cls.placeholder}>{placeholder}</span>
+                        }
+                      </div>
+                      : (value?.label || !isNaN(defaultValueIndex))
                         ? <span className={cls.value}>{value?.label || options[defaultValueIndex]?.label}</span>
                         : <span className={cls.placeholder}>{placeholder}</span>
                     }
@@ -128,8 +147,19 @@ export const Dropdown = ({
                       if(searchable) {
                         setValue(searchName, option.label);
                       }
-                      onChange(option);
-                      handleToggle();
+
+                      if(isMulti) {
+                        if(watch(name)?.find(item => item.value === option.value)) {
+                          onChange(watch(name).filter(item => item.value !== option.value));
+                          return;
+                        } else {
+                          const value = watch(name) ? [...watch(name), option] : [option];
+                          onChange(value);
+                        }
+                      } else {
+                        onChange(option);
+                        handleToggle();
+                      }
                     }}
                   >
                     {option.label}
