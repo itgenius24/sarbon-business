@@ -1,5 +1,5 @@
 import cls from "./styles.module.scss";
-import { Box, Button, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
 import { BargainRadio } from "../BargainRadio";
 import { DeleteIcon, HelpCircleIcon, UploadCloudIcon } from "@/assets/icons/icons";
 import { userCargoSetupProps } from "./useCargoSetupProps";
@@ -23,6 +23,8 @@ export const CargoSetup = () => {
     setValue,
     canEdit
   } = userCargoSetupProps();
+
+  const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
@@ -113,7 +115,7 @@ export const CargoSetup = () => {
     <Contacts />
     {
       watch("image")
-        ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="304px" maxWidth={"540px"} width="100%" height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
+        ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" maxWidth={"540px"} width="100%" height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
           <Image className={cls.img} loader={imageLoader} src={watch("image")} alt="cargo" width={150} height={150} />
           <Button isDisabled={!canEdit} onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
         </Box>
@@ -127,7 +129,8 @@ export const CargoSetup = () => {
           borderColor="brand.200"
           borderRadius="12px"
           as="label"
-          maxWidth="540px"
+          maxWidth={islargerThan768 ? "540px" : "100%"}
+          ml="auto"
           width="100%"
           height="126px"
           cursor={canEdit ? "pointer" : "not-allowed"}
