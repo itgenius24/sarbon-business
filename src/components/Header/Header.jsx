@@ -84,6 +84,7 @@ const Header = observer(({ elements }) => {
                        {t(element.label)}
                      </a>
                      : <Link
+                       onClick={() => setNavOpen(false)}
                        href={element.path}
                        className={clsx(cls.itemLink, {
                          [cls.activeLink]: index

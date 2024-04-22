@@ -52,7 +52,7 @@
 
 .fieldActions {
   max-width: 540px;
-  margin-left: auto;
+  margin-left: 312px;
   margin-top: 24px;
   margin-bottom: 24px;
   padding: 16px 24px;
@@ -113,5 +113,10 @@
   .routeContent {
     width: 100%;
     margin-left: 0;
+  }
+
+  .fieldActions {
+    margin-left: 0;
+    background-color: #fff;
   }
 }

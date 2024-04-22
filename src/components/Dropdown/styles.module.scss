@@ -135,9 +135,11 @@
 }
 
 .errorText {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
+  // position: absolute;
+  // top: calc(100% + 4px);
+  // left: 0;
+  display: inline-block;
+  margin-top: 4px;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;

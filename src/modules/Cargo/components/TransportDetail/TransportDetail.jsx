@@ -159,7 +159,7 @@ export const TransportDetail = () => {
       isRequirementOpen && <Box
         py="24px"
         display="flex"
-        justifyContent="space-between"
+        columnGap="32px"
         className={cls.transportDetail}
       >
         <Box width="280px" flexShrink="0">
@@ -234,7 +234,7 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isBeltsOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
+      isBeltsOpen && <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px">
         <Box width="280px" flexShrink="0">
           <DeleteButton
             isDisabled={!canEdit}
@@ -250,7 +250,7 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isLiftingCapacityOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
+      isLiftingCapacityOpen && <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px">
         <Box width="280px" flexShrink="0">
           <DeleteButton
             isDisabled={!canEdit}
