@@ -113,14 +113,14 @@ export const SingleCar = ({
             <span className={cls.addressText}>
               {oneDir ? (
                 <span className={cls.addressCountry}>
-                    <span className={cls.addressCity}>{carInfo.address_id_data?.name}</span>
+                  <span className={cls.addressCity}>{carInfo.address_id_data?.name}</span>
                 </span>
               ) : (<><span className={cls.addressCountry}>
                 <span className={cls.addressCity}>{carInfo.city_id_data?.name}</span>
                 <span>{carInfo.address_id_data?.name}</span>
               </span>
-                <span>-&gt;</span>
-                <span className={cls.addressCountry}>
+              <span>-&gt;</span>
+              <span className={cls.addressCountry}>
                 <span className={cls.addressCity}>{carInfo.city_id_2_data?.name}</span>
                 <span>{carInfo.address_id_2_data?.name}</span>
               </span></>)}

@@ -34,7 +34,6 @@
 }
 
 @include breakpoint-down(630px) {
-
   .dropdown {
     max-width: 100%;
   }
@@ -51,6 +50,27 @@
 
   .cargoFields {
     grid-template-columns: 2fr 1fr;
+    gap: 8px;
+  }
+}
+
+@include breakpoint-down(575px) {
+  .dropdown {
+    max-width: 100%;
+  }
+
+  .textField {
+    width: 100% !important;
+    min-width: 60px;
+
+    &:last-child {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
+
+  .cargoFields {
+    grid-template-columns: 1fr;
     gap: 8px;
   }
 }

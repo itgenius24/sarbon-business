@@ -99,6 +99,7 @@ const Header = observer(({ elements }) => {
                 })}
                 <ListItem className={clsx(cls.listItem, cls.profile)} key="profile">
                   <Link
+                    onClick={() => setNavOpen(false)}
                     href={`/${locale}/profile`}
                     className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
                   >

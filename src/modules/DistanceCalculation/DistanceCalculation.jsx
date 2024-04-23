@@ -73,7 +73,7 @@ export const DistanceCalculation = () => {
         }
         <TextField register={register} name="to" label={t("Куда")} placeholder={t("Введите город, страну")} />
       </Box>
-      <Button className={cls.distanceCount}  mt="20px" onClick={handleCalculate}>{t("Рассчитать расстояние")}</Button>
+      <Button className={cls.distanceCount} mt="20px" onClick={handleCalculate}>{t("Рассчитать расстояние")}</Button>
     </Box>
     <div className={cls.map} id="map" style={{ width: "100%", height: isLargerThan845 ? "500px" : "300px" }}>
       {
