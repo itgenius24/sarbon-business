@@ -23,7 +23,7 @@ export const PhoneForm = ({
 
   const { t } = useTranslation(locale, "translation");
 
-  return <Box as="form" onSubmit={onSubmit}>
+  return <Box height={'650px'} as="form" onSubmit={onSubmit}>
     <div className={cls.buttonWrapper}>
       <Button
         onClick={navigateLogin}
