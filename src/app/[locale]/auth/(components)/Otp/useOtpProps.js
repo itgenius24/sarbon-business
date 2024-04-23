@@ -23,8 +23,23 @@ export const useOtpProps = () => {
   const { smsId, phone } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
-    onSuccess: () => {
-      router.push(`/${locale}/auth/registration-form`);
+    onSuccess: (data) => {
+      if(!data?.user_found) {
+        toast({
+          status: "error",
+          title: t("Пользователь не найден"),
+          duration: 3000,
+          position: "top right",
+        });
+        router.back();
+      } else {
+        if(authStore.authData.isForgot) {
+          authStore.setAuthData("userId", data?.user_id);
+          router.push(`/${locale}/auth/new-password`);
+        } else {
+          router.push(`/${locale}/auth/registration-form`);
+        }
+      }
     },
     onError: () => {
       setError(true);
@@ -44,20 +59,16 @@ export const useOtpProps = () => {
   }
 
   function handleSendOtp () {
-    if(authStore.authData.isForgot) {
-      router.push(`/${locale}/auth/new-password`);
-    } else {
-      registrationMutation.mutate({
-        data:{
-          sms_id: smsId,
-          otp: value,
-          phone: phone,
-          client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-          role_id: "921464fa-8308-46b7-9b66-363acf654e40"
-        },
-        login_strategy: "PHONE_OTP"
-      });
-    }
+    registrationMutation.mutate({
+      data:{
+        sms_id: smsId,
+        otp: value,
+        phone: phone,
+        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+        role_id: "921464fa-8308-46b7-9b66-363acf654e40"
+      },
+      login_strategy: "PHONE_OTP"
+    });
   }
 
   const phoneMutation = usePhoneMutation({

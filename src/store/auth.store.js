@@ -60,6 +60,7 @@ class Store {
     smsId: "",
     clientTypeId: "",
     isForgot: false,
+    userId: "",
   }
 
   async clearStoredDate() {

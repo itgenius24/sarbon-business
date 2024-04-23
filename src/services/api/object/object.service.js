@@ -24,6 +24,7 @@ const objectService = {
   getPartners: (params) => request.get("/v2/object-slim/get-list/partners_company", { params }),
   getCityList: (params) => request.get("/v2/object-slim/get-list/city", { params }),
   getLoadingTypes: (params) => request.get("/v2/object-slim/get-list/load_type", { params }),
+  getUsers: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users", { params }),
 };
 
 
@@ -230,6 +231,14 @@ export const useGetCityList = (params, settings) => {
   return useQuery({
     queryKey: ["object/getCityList", params],
     queryFn: () => objectService.getCityList(params),
+    ...settings,
+  });
+};
+
+export const useGetUsers = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/users", params],
+    queryFn: () => objectService.getUsers(params),
     ...settings,
   });
 };

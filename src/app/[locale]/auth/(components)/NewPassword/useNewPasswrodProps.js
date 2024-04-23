@@ -1,5 +1,7 @@
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useGetUsers, useUpdateUserInfo } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { yupResolver } from "@/utils/yupResolver";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +16,11 @@ export const useNewPasswordProps = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
+  const getUsers = useGetUsers(
+    { data: JSON.stringify({ guid: authStore.getAuthData.userId, }) },
+    { enabled: false, }
+  );
+
   const scheme = yup
     .object({
       password: yup.string().required("Обязательное поле").min(8, t("Минимальная длина пароля 8 символов")),
@@ -22,6 +29,12 @@ export const useNewPasswordProps = () => {
 
   const { register, handleSubmit, watch, formState: { errors }, setError } = useForm({ resolver: yupResolver(scheme), });
 
+  const updateUserPassword = useUpdateUserInfo({
+    onSuccess(data) {
+      console.log({ data });
+      getUsers.refetch();
+    }
+  });
 
   function handleTogglePasswordVisibility() {
     setIsPasswordVisible(!isPasswordVisible);
@@ -40,8 +53,35 @@ export const useNewPasswordProps = () => {
       setError("confirm_password", { type: "custom", message: t("Пароли не совпадают") });
       return;
     }
-    console.log(data);
+    updateUserPassword.mutate({
+      data:{
+        guid: authStore.authData.userId,
+        password: data.password
+      }
+    });
   }
+
+  useEffect(() => {
+    if(getUsers.isSuccess) {
+      const data = getUsers.data?.response?.[0];
+      authStore.login(
+        {
+          user: {
+            firm_id: data?.firm_id,
+            company_id: data?.company_id,
+            email: data?.email,
+            id: data?.guid,
+            login: data?.login,
+            password: data?.password,
+            phone: data?.phone,
+          },
+          token: data?.token,
+          role: data?.role,
+        }
+      );
+      router.push(`/${locale}`);
+    }
+  }, [getUsers.data]);
 
   return {
     t,

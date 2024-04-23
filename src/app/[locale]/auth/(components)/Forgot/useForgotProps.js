@@ -24,12 +24,12 @@ export const useForgotProps = () => {
     mode: "onSubmit",
   });
 
-  // const phoneMutation = usePhoneMutation({
-  //   onSuccess: (data) => {
-  //     authStore.setAuthData("smsId", data.sms_id);
-  //     router.push(`/${locale}/auth/otp`);
-  //   }
-  // });
+  const phoneMutation = usePhoneMutation({
+    onSuccess: (data) => {
+      authStore.setAuthData("smsId", data.sms_id);
+      router.push(`/${locale}/auth/otp`);
+    }
+  });
 
   const navigateLogin = () => {
     router.back();
@@ -38,12 +38,11 @@ export const useForgotProps = () => {
   function onSubmit(data) {
     authStore.setAuthData("phone", data.phone);
     authStore.setAuthData("isForgot", true);
-    router.push(`/${locale}/auth/otp`);
-    // phoneMutation.mutate({
-    //   recipient: data.phone,
-    //   text: "code",
-    //   type: "PHONE"
-    // });
+    phoneMutation.mutate({
+      recipient: data.phone,
+      text: "code",
+      type: "PHONE"
+    });
   }
 
   return {
