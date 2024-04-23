@@ -935,5 +935,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setPrepaymentFuelOpen,
     directContractOpen,
     setDirectContractOpen,
+    userId2: data?.users_id_2
   };
 };

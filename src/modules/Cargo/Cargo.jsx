@@ -57,6 +57,7 @@ export const Cargo = ({ id, status, locale }) => {
         permission={addCargoProps.permission}
         currency={addCargoProps.currency}
         distance={addCargoProps.distance}
+        userId2={addCargoProps.userId2}
       />;
     }
 

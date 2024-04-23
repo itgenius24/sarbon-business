@@ -128,7 +128,13 @@ const Header = observer(({ elements }) => {
                     <>
                       <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
                         <Image
-                          src={(photo && photo?.includes("http")) ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : UserImg}
+                          src={
+                            photo === "photo"
+                              ? UserImg
+                              : !photo?.includes("http")
+                                ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}`
+                                : photo
+                          }
                           alt="ww"
                           width={40}
                           height={40}

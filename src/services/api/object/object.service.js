@@ -25,6 +25,8 @@ const objectService = {
   getCityList: (params) => request.get("/v2/object-slim/get-list/city", { params }),
   getLoadingTypes: (params) => request.get("/v2/object-slim/get-list/load_type", { params }),
   getUsers: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users", { params }),
+  getGPSHistory: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/gps_history", { params }),
+  getDriverLocation: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users_gps", { params }),
 };
 
 
@@ -239,6 +241,22 @@ export const useGetUsers = (params, settings) => {
   return useQuery({
     queryKey: ["object/users", params],
     queryFn: () => objectService.getUsers(params),
+    ...settings,
+  });
+};
+
+export const useGetGPSHistory = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getGPSHistory", params],
+    queryFn: () => objectService.getGPSHistory(params),
+    ...settings,
+  });
+};
+
+export const useGetDriverLocation = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getDriverLocation", params],
+    queryFn: () => objectService.getDriverLocation(params),
     ...settings,
   });
 };

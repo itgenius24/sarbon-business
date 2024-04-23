@@ -24,7 +24,7 @@ export const useOtpProps = () => {
 
   const registrationMutation = useOtpMutation({
     onSuccess: (data) => {
-      if(!data?.user_found) {
+      if(!data?.user_found && authStore.getAuthData.isForgot) {
         toast({
           status: "error",
           title: t("Пользователь не найден"),
