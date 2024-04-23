@@ -20,7 +20,7 @@ export const DeadlineForm = () => {
         <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px">{t("Когда")}</Heading>
         <Text color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{t("до")} {endDate ? `${endDate.getDate()} ${endDate.toLocaleString("ru-RU", { month: "short" })} ${t("затем переместится в архив")}` : ""}</Text>
       </Box>
-      <Box display="flex">
+      <Box className={cls.dateInput} display="flex">
         <DatePicker
           minDate={new Date()}
           disabled={!canEdit}
@@ -28,7 +28,7 @@ export const DeadlineForm = () => {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
-          inputWidth="258px"
+          inputWidth="100%"
           monthsShown={isLargerThan600 ? 2 : 1}
           range
         />

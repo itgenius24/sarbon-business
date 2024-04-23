@@ -29,9 +29,9 @@ export const MyLoadsMain = () => {
   const { t } = useTranslation(locale, "translations");
 
   return (
-    <Box py="40px">
-      <Container>
-        <Heading fontSize={isLargerThan768 ? "30px" : "22px"} size="md" mb="24px">
+    <Box px={"20px"} >
+      <Container >
+        <Heading p={3} fontSize={isLargerThan768 ? "30px" : "22px"} size="md" mb="24px">
           {t("Мои грузы")}
         </Heading>
         <TopFilter onChange={onFilterChange} filterList={filterTabs} />

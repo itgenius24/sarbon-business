@@ -66,3 +66,13 @@
     margin-left: 0;
   }
 }
+
+.mobileContainer {
+  margin-bottom: 96px;
+
+
+  @media screen and (max-width: 775px) {
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
+}
