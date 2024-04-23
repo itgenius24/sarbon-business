@@ -38,7 +38,7 @@ export const SingleCar = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [phoneBtnText, setPhoneBtnText] = useState("Предложить груз");
+  const [phoneBtnText, setPhoneBtnText] = useState("Показать номер");
 
   function handleClickPhoneBtn() {
     setPhoneBtnText(carInfo.users_id_data.phone);
