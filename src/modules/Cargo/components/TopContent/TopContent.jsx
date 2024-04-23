@@ -167,12 +167,6 @@ export const TopContent = ({
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    if(status === "performed") {
-      router.refresh();
-    }
-  }, []);
-
   return <Box>
     {
       status === "performed" && <>
