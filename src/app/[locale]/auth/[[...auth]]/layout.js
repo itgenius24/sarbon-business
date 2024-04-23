@@ -9,7 +9,7 @@ import { LocaleDropdown } from "@/components/LocaleDropdown";
 import { Container } from "@/components/Container";
 
 export default function AuthLayout({ children, params: { locale } }) {
-  return <Box bgColor="baseWhite" maxHeight="100vh" overflow={'hidden'}>
+  return <Box bgColor="baseWhite" height={'100%'}>
     <Box borderBottom="1px solid #EAECF0">
       <Container>
         <Box display="flex" justifyContent="space-between" py="16px">
