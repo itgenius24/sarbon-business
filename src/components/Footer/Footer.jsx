@@ -57,12 +57,11 @@ export const Footer = () => {
   return (
     <Box
       as="footer"
-      pt="64px"
-      pb="48px"
       bgColor={pathname.includes("/auth") ? "gray" : "baseWhite"}
       id="footer"
+      className={cls.footer}
     >
-      <Container>
+      <Container className={cls.footerContainer}>
         <div className={cls.footerContent}>
           <div className={cls.infoListWrapper}>
             <p className={cls.infoListTitle}>{t("Полезное")}</p>

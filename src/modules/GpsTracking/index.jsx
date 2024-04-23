@@ -80,7 +80,7 @@ export default function GpsTrackingModule() {
           {/*<Button onClick={handleAppend} variant="reset"*/}
           {/*  leftIcon={<PlusIcon color="#007aff"/>}>{t("Добавить доп. адрес")}</Button>*/}
         </Box>
-        <Box display="flex" gap="20px" mb={"20px"}>
+        <Box display="flex" gap="20px" mb={"20px"} flexWrap={'wrap'}>
 
           <TextFieldWithAddition
             placeholder={t("Адрес")}
@@ -102,7 +102,7 @@ export default function GpsTrackingModule() {
             }
           />
 
-          <Box maxWidth="234px" width={"100%"}>
+          <Box className={cls.kuzov} maxWidth="234px" width={"100%"}>
             <Dropdown
               required={true}
               placeholder={t("Введите тип кузова")}
@@ -110,10 +110,11 @@ export default function GpsTrackingModule() {
               name="car_type"
               options={carTypeOptions}
               errors={errors}
+              width='100%'
               control={control}
             />
           </Box>
-          <Box maxWidth="234px" width={"100%"}>
+          <Box className={cls.kuzov} maxWidth="234px" width={"100%"}>
             <Dropdown
               required={true}
               placeholder={t("Введите тип загрузки")}
@@ -134,14 +135,15 @@ export default function GpsTrackingModule() {
                 </Heading>
                 <AccordionIcon/>
               </AccordionButton>
-              <Flex mt={"16px"} gap={3}>
+              <Flex className={cls.paramters} flexWrap={"wrap"} mt={"16px"} gap={3}>
                 <TextFieldWithAddition
                   errors={errors}
                   control={control}
                   name="weight"
+                  className={cls.paramtersItem}
                   register={register}
                   additionalItemName="weight_unit"
-                  width="234px"
+                  // width="100%"
                   placeholder={t("Вес")}
                   additionalItemOptions={weightMeasurementOptions}
                   type="number"
@@ -150,8 +152,9 @@ export default function GpsTrackingModule() {
                   errors={errors}
                   control={control}
                   name="volume"
+                  className={cls.paramtersItem}
                   register={register}
-                  width="234px"
+                  // width="100%"
                   placeholder={t("Объем")}
                   additionalItemPlaceholder="m³"
                   type="number"
@@ -161,7 +164,7 @@ export default function GpsTrackingModule() {
               </Flex>
               <AccordionPanel mt={4} p={0}>
                 <Flex flexDirection={"column"} gap={6}>
-                  <Flex gap={3}>
+                  <Flex flexWrap={"wrap"} gap={3}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500" lineHeight="20px">{t("ADR")}</Heading>
                     </Box>
@@ -214,12 +217,12 @@ export default function GpsTrackingModule() {
                       </Box>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex flexWrap={"wrap"} gap={3}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("gpsTracking.requirements")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" flexGrow={1}>
+                    <Box className={cls.requirements} display="flex" flexWrap={'wrap'} columnGap="10px" flexGrow={1}>
                       <Checkbox register={register} name="body_dimensions">
                         {t("Сцепка")}
                       </Checkbox>
@@ -231,42 +234,42 @@ export default function GpsTrackingModule() {
                       </Checkbox>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex flexWrap={'wrap'} gap={3}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("gpsTracking.permissions")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" flexGrow={1}>
-                      <Checkbox register={register} name="tir">
-                        {t("TIR")}
-                      </Checkbox>
-                      <Checkbox register={register} name="t1">
-                        {t("T1")}
-                      </Checkbox>
-                      <Checkbox register={register} name="cmr">
-                        {t("CMR")}
-                      </Checkbox>
-                      <Checkbox register={register} name="med">
-                        {t("Медкнижка")}
-                      </Checkbox>
+                    <Box  display="flex" flexWrap={"wrap"} columnGap="10px" flexGrow={1}>
+                        <Checkbox register={register} name="tir">
+                          {t("TIR")}
+                        </Checkbox>
+                        <Checkbox register={register} name="t1">
+                          {t("T1")}
+                        </Checkbox>
+                        <Checkbox register={register} name="cmr">
+                          {t("CMR")}
+                        </Checkbox>
+                        <Checkbox register={register} name="med">
+                          {t("Медкнижка")}
+                        </Checkbox>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
-                    <Box width="234px" flexShrink="0">
+                  <Flex flexWrap={"wrap"} gap={3}>
+                    <Box width="240px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("Ремней")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" maxW={"234px"} flexGrow={1}>
+                    <Box display="flex" columnGap="10px" className={cls.belts} flexGrow={1}>
                       <TextField placeholder={t("Штук")} type="number" register={register}
                         name="straps_number"/>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex flexWrap={"wrap"} gap={3}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px"> {t("Грузоподъемность")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" maxW={"234px"} flexGrow={1}>
+                    <Box display="flex" columnGap="10px" className={cls.belts}  flexGrow={1}>
                       <TextFieldWithAddition
                         additionalItemOptions={[{
                           label: t("т"),
@@ -276,7 +279,7 @@ export default function GpsTrackingModule() {
                           value: "kg"
                         }]}
                         placeholder={t("Штук")}
-                        width="135px"
+                        // width="135px"
                         type="number"
                         register={register}
                         name="load_capacity"
@@ -291,7 +294,7 @@ export default function GpsTrackingModule() {
             </AccordionItem>
           </Accordion>
         </Box>
-        <Button type={"submit"} width="234px" mt="20px" onClick={handleCalculate}>{t("gpsTracking.searchCars")}</Button>
+        <Button type={"submit"} className={cls.findBtn} mt="20px" onClick={handleCalculate}>{t("gpsTracking.searchCars")}</Button>
       </Box>
     </VStack>
     <Box mt={6}>

@@ -1,7 +1,21 @@
+.footer {
+  padding: 64px 0 48px 0;
+
+
+  @media screen and (max-width: 775px) {
+    padding: 34px 0 24px 0;
+  }
+}
+
 .footerContent {
   display: flex;
   justify-content: space-between;
   margin-bottom: 64px;
+
+
+  @media screen and (max-width: 775px) {
+    margin-bottom: 24px;
+  }
 }
 
 .infoListWrapper {
