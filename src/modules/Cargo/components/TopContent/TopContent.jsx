@@ -8,6 +8,7 @@ import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useAddCargoContext } from "../../providers";
+import { useRouter } from "next/navigation";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -34,6 +35,8 @@ export const TopContent = ({
   const { watch } = useAddCargoContext();
 
   const [showNumber, setShowNumber] = useState(false);
+
+  const router = useRouter();
 
   const locale = useGetLang();
 
@@ -85,45 +88,47 @@ export const TopContent = ({
   const gpsHistory = getGPSHistory.data?.response?.map(item => [item?.lat, item?.long]);
   const driverPosition = [getDriverLocation.data?.response?.[0]?.lat, getDriverLocation.data?.response?.[0]?.long];
 
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
   var myMap = useRef(null);
   var multiRoute = useRef(null);
   var myPolyline = useRef(null);
   var myPlaceMark = useRef(null);
 
   function initYmaps() {
-    if(ymaps) {
-      myPolyline.current = new ymaps.Polyline(
-        [],
-        { balloonContent: "Polyline" },
-        {
-          balloonCloseButton: false,
-          strokeColor: "#009241",
-          strokeWidth: 4,
-          strokeOpacity: 1
-        });
 
-      multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
-        editorMidPointsType: "via",
-        routeActiveStrokeColor: "#007AFF",
-        editorDrawOver: false,
+    myPolyline.current = new ymaps.Polyline(
+      [],
+      { balloonContent: "Polyline" },
+      {
+        balloonCloseButton: false,
+        strokeColor: "#009241",
+        strokeWidth: 4,
+        strokeOpacity: 1
       });
 
-      myMap.current = new ymaps.Map("topContentMap", {
-        center: [41.40587471972005, 69.46086540238926],
-        zoom: 15,
-        controls: [],
-      }, { buttonMaxWidth: 300 });
+    multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
+      editorMidPointsType: "via",
+      routeActiveStrokeColor: "#007AFF",
+      editorDrawOver: false,
+    });
 
-      myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
-        iconLayout: "default#image",
-        iconImageHref: "/images/navigation.png",
-        iconImageSize: [37, 37],
-        iconImageOffset: [-5, -38]
-      }),
-      myMap.current.geoObjects.add(myPolyline.current);
-      myMap.current.geoObjects.add(multiRoute.current);
-      myMap.current.geoObjects.add(myPlaceMark.current);
-    }
+    myMap.current = new ymaps.Map("topContentMap", {
+      center: [41.40587471972005, 69.46086540238926],
+      zoom: 15,
+      controls: [],
+    }, { buttonMaxWidth: 300 });
+
+    myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
+      iconLayout: "default#image",
+      iconImageHref: "/images/navigation.png",
+      iconImageSize: [37, 37],
+      iconImageOffset: [-5, -38]
+    }),
+    myMap.current.geoObjects.add(myPolyline.current);
+    myMap.current.geoObjects.add(multiRoute.current);
+    myMap.current.geoObjects.add(myPlaceMark.current);
+
   }
 
   useEffect(() => {
@@ -162,7 +167,11 @@ export const TopContent = ({
     return () => clearInterval(timer);
   }, []);
 
-  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  useEffect(() => {
+    if(status === "performed") {
+      router.refresh();
+    }
+  }, []);
 
   return <Box>
     {
