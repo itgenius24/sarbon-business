@@ -27,7 +27,7 @@ export const Login = () => {
     locale,
   } = useLoginProps();
 
-  return <Box height={'650px'} as="form" onSubmit={handleSubmit(onSubmit)}>
+  return <Box height={"650px"} as="form" onSubmit={handleSubmit(onSubmit)}>
     <div className={cls.buttonWrapper}>
       <Button
         onClick={navigateToMain}
