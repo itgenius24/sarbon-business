@@ -34,8 +34,6 @@ export const FileUpload = ({
     return `${baseUrl}${src}?w=${width}&q=${quality}`;
   }
 
-  console.log({ variant, src });
-
   if (src && variant === "cargo") {
     return (
       <Box
