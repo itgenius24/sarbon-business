@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
-import cls from './style.module.scss'
+import cls from "./style.module.scss";
 
 export const DigitalFacts = ({
   completed,
@@ -13,7 +13,7 @@ export const DigitalFacts = ({
     <Heading textAlign="center" mb={isLargerThan768 ? "20px" : "4px"} fontSize={isLargerThan768 ? "36px" : "24px"} lineHeight={isLargerThan768 ? "44px" : "32px"}>{t("Мы в цифрах")}</Heading>
     <Text color="brand.600" textAlign="center" fontSize={isLargerThan768 ? "20px" : "16px"} lineHeight={isLargerThan768 ? "30px" : "24px"}>{t("Наши данные в цифрах для более точного информации")}</Text>
     <Box
-    className={cls.digitalFacts}
+      className={cls.digitalFacts}
       maxW="906px"
       mx="auto"
       mt={isLargerThan768 ? "64px" : "24px"}

@@ -80,7 +80,7 @@ export default function GpsTrackingModule() {
           {/*<Button onClick={handleAppend} variant="reset"*/}
           {/*  leftIcon={<PlusIcon color="#007aff"/>}>{t("Добавить доп. адрес")}</Button>*/}
         </Box>
-        <Box display="flex" gap="20px" mb={"20px"} flexWrap={'wrap'}>
+        <Box display="flex" gap="20px" mb={"20px"} flexWrap={"wrap"}>
 
           <TextFieldWithAddition
             placeholder={t("Адрес")}
@@ -110,7 +110,7 @@ export default function GpsTrackingModule() {
               name="car_type"
               options={carTypeOptions}
               errors={errors}
-              width='100%'
+              width="100%"
               control={control}
             />
           </Box>
@@ -222,7 +222,7 @@ export default function GpsTrackingModule() {
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("gpsTracking.requirements")}</Heading>
                     </Box>
-                    <Box className={cls.requirements} display="flex" flexWrap={'wrap'} columnGap="10px" flexGrow={1}>
+                    <Box className={cls.requirements} display="flex" flexWrap={"wrap"} columnGap="10px" flexGrow={1}>
                       <Checkbox register={register} name="body_dimensions">
                         {t("Сцепка")}
                       </Checkbox>
@@ -234,24 +234,24 @@ export default function GpsTrackingModule() {
                       </Checkbox>
                     </Box>
                   </Flex>
-                  <Flex flexWrap={'wrap'} gap={3}>
+                  <Flex flexWrap={"wrap"} gap={3}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("gpsTracking.permissions")}</Heading>
                     </Box>
-                    <Box  display="flex" flexWrap={"wrap"} columnGap="10px" flexGrow={1}>
-                        <Checkbox register={register} name="tir">
-                          {t("TIR")}
-                        </Checkbox>
-                        <Checkbox register={register} name="t1">
-                          {t("T1")}
-                        </Checkbox>
-                        <Checkbox register={register} name="cmr">
-                          {t("CMR")}
-                        </Checkbox>
-                        <Checkbox register={register} name="med">
-                          {t("Медкнижка")}
-                        </Checkbox>
+                    <Box display="flex" flexWrap={"wrap"} columnGap="10px" flexGrow={1}>
+                      <Checkbox register={register} name="tir">
+                        {t("TIR")}
+                      </Checkbox>
+                      <Checkbox register={register} name="t1">
+                        {t("T1")}
+                      </Checkbox>
+                      <Checkbox register={register} name="cmr">
+                        {t("CMR")}
+                      </Checkbox>
+                      <Checkbox register={register} name="med">
+                        {t("Медкнижка")}
+                      </Checkbox>
                     </Box>
                   </Flex>
                   <Flex flexWrap={"wrap"} gap={3}>
@@ -269,7 +269,7 @@ export default function GpsTrackingModule() {
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px"> {t("Грузоподъемность")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" className={cls.belts}  flexGrow={1}>
+                    <Box display="flex" columnGap="10px" className={cls.belts} flexGrow={1}>
                       <TextFieldWithAddition
                         additionalItemOptions={[{
                           label: t("т"),
