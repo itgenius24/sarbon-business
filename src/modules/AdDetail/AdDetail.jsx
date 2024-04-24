@@ -5,6 +5,7 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Box, Button, ButtonGroup, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { useAdDetailProps } from "./useAdDetailProps";
 import { MainContentCard } from "@/components/MainContentCard";
+import { CustomTextarea } from "@/components/CustomTextarea";
 
 export const AdDetail = ({ id }) => {
   const {
@@ -105,13 +106,22 @@ export const AdDetail = ({ id }) => {
         </Box>
       }
       <Box mt="24px">
-        <TextField
+        <CustomTextarea
+          maxHeight="46px"
+          value={watch("desc")}
+          watch={watch}
+          withLimit
           placeholder="Введите"
           register={register}
           errors={errors}
           name="desc"
           label="Описание"
-          rules={rules}
+          onChange={(e) => {
+            const value = e.target.value;
+            if(value.length <= 1000) {
+              setValue("desc", value.replace(/\d/g, ""));
+            }
+          }}
         />
       </Box>
       <Box mt="24px">

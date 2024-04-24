@@ -1,3 +1,4 @@
+"use client";
 import cls from "./styles.module.scss";
 import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
@@ -168,12 +169,13 @@ export const TopContent = ({
   }, []);
 
   return <Box>
+    <Script
+      async
+      onLoad={() => ymaps.ready(initYmaps)}
+      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
+    />
     {
       status === "performed" && <>
-        <Script
-          onLoad={() => ymaps.ready(initYmaps)}
-          src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
-        />
         <div id="topContentMap" style={{ width: "100%", height: isLargerThan845 ? "419px" : "300px" }} />
       </>
     }
