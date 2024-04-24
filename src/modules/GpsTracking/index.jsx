@@ -80,7 +80,11 @@ export default function GpsTrackingModule() {
           {/*<Button onClick={handleAppend} variant="reset"*/}
           {/*  leftIcon={<PlusIcon color="#007aff"/>}>{t("Добавить доп. адрес")}</Button>*/}
         </Box>
-        <Box display="flex" gap="20px" mb={"20px"}>
+        <Box display="flex" gap="20px" mb={"20px"} flexDirection={{
+          base: "column",
+          sm: "column",
+          md: "row",
+        }}>
 
           <TextFieldWithAddition
             placeholder={t("Адрес")}
@@ -134,7 +138,12 @@ export default function GpsTrackingModule() {
                 </Heading>
                 <AccordionIcon/>
               </AccordionButton>
-              <Flex mt={"16px"} gap={3}>
+              <Flex mt={"16px"} gap={3} flexDirection={{
+                base: "column",
+                sm: "column",
+                md: "row",
+              }}
+              >
                 <TextFieldWithAddition
                   errors={errors}
                   control={control}
@@ -161,13 +170,17 @@ export default function GpsTrackingModule() {
               </Flex>
               <AccordionPanel mt={4} p={0}>
                 <Flex flexDirection={"column"} gap={6}>
-                  <Flex gap={3}>
+                  <Flex gap={3} flexDirection={{
+                    base: "column",
+                    sm: "column",
+                    md: "row",
+                  }}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500" lineHeight="20px">{t("ADR")}</Heading>
                     </Box>
                     <Box display="flex" flexDirection="column" gap="16px" maxW="540px" width="100%">
                       <Box maxW={"234px"}>
-                        {/* <ChakraSelect
+                        <Dropdown
                         name="permission"
                         size={"md"}
                         control={control}
@@ -209,12 +222,20 @@ export default function GpsTrackingModule() {
                             value: "adr_9"
                           },
                         ]}
-                      /> */}
-                        <Text fontSize={"14px"} color="#344054" fontWeight={500}>Класс опасности груза</Text>
+                        />
+                        <Text display={{
+                          base: "none",
+                          sm: "none",
+                          md: "block"
+                        }} fontSize={"14px"} color="#344054" fontWeight={500}>Класс опасности груза</Text>
                       </Box>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex gap={3} flexDirection={{
+                    base: "column",
+                    sm: "column",
+                    md: "row",
+                  }}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("gpsTracking.requirements")}</Heading>
@@ -231,7 +252,11 @@ export default function GpsTrackingModule() {
                       </Checkbox>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex gap={3} flexDirection={{
+                    base: "column",
+                    sm: "column",
+                    md: "row",
+                  }}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("gpsTracking.permissions")}</Heading>
@@ -251,7 +276,11 @@ export default function GpsTrackingModule() {
                       </Checkbox>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex gap={3} flexDirection={{
+                    base: "column",
+                    sm: "column",
+                    md: "row",
+                  }}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("Ремней")}</Heading>
@@ -261,7 +290,11 @@ export default function GpsTrackingModule() {
                         name="straps_number"/>
                     </Box>
                   </Flex>
-                  <Flex gap={3}>
+                  <Flex gap={3} flexDirection={{
+                    base: "column",
+                    sm: "column",
+                    md: "row",
+                  }}>
                     <Box width="234px" flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px"> {t("Грузоподъемность")}</Heading>
