@@ -32,7 +32,9 @@ export const userCargoSetupProps = () => {
 
   useEffect(() => {
 
-    if(!watch("price" || !watch("price_prepayment"))) {
+    if(!watch("price_prepayment")) {
+      setValue("price_after_order", 0);
+    } else if(!watch("price" || !watch("price_prepayment"))) {
       setValue("price_after_order", 0);
     } else if(watch("price") && watch("price_prepayment") && canEdit) {
       setValue("price_after_order", watch("price") - watch("price_prepayment"));

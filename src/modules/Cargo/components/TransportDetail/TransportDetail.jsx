@@ -46,6 +46,7 @@ export const TransportDetail = () => {
       </Box>
       <Box className={cls.transportDetailFields} display="flex" columnGap="24px" flexGrow={1}>
         <Dropdown
+          className={cls.transportDropdown}
           disabled={!canEdit}
           placeholder={t("Транспорт")}
           name="car_type"

@@ -76,7 +76,6 @@ export const CargoSetup = () => {
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
             </Box>
             <TextFieldWithAddition
-
               disabled={!canEdit}
               name="price_after_order"
               register={register}
