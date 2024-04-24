@@ -97,6 +97,10 @@ class Store {
     this.remember = remember;
   }
 
+  changeToken() {
+    this.token.access_token = this.token.refresh_token;
+  }
+
   get getAuthData() {
     return this.authData;
   }

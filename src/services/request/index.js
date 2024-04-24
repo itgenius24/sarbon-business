@@ -7,23 +7,12 @@ const request = axios.create({
 });
 
 export const errorHandlerHttp = (error) => {
-  // if (error?.response?.status === 401) {
-  //   (async() => {
-  //     try {
-  //       const result = await refreshToken(
-  //         { refresh_token: authStore.token.refresh_token }
-  //       );
-  //       const data = {
-  //         token: result?.token,
-  //         user: authStore.userData
-  //       };
-  //       authStore.login(data);
-  //     } catch(err) {
-  //       authStore.logout();
-  //     }
-  //   })();
-  //   return;
-  // }
+  if (error?.response?.status === 401 && authStore.token.refresh_token === authStore.token.access_token) {
+    authStore.logout();
+    return;
+  } else if (error?.response?.status === 401) {
+    authStore.changeToken();
+  }
 
   return Promise.reject(error);
 };
@@ -31,12 +20,8 @@ export const errorHandlerHttp = (error) => {
 request.interceptors.request.use((config) => {
   const token = authStore.token.access_token;
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
-
-  config.headers["X-API-KEY"] = "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT";
-  config.headers["Authorization"] = "API-KEY";
-
   return config;
 });
 
