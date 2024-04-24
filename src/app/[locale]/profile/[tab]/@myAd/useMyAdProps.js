@@ -13,7 +13,7 @@ const carParam = {
   archive: { status: ["in_active"], },
 };
 export const useMyAdProps = () => {
-  const { push } = useRouter();
+  const { push, back } = useRouter();
 
   const userId = authStore.userData.id;
   const locale = useGetLang();
@@ -54,5 +54,6 @@ export const useMyAdProps = () => {
     isLoading,
     openCreateAdCard,
     tabState,
+    back,
   };
 };

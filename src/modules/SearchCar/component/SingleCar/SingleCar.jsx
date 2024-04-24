@@ -38,7 +38,7 @@ export const SingleCar = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [phoneBtnText, setPhoneBtnText] = useState("Предложить груз");
+  const [phoneBtnText, setPhoneBtnText] = useState("Показать номер");
 
   function handleClickPhoneBtn() {
     setPhoneBtnText(carInfo.users_id_data.phone);
@@ -113,14 +113,14 @@ export const SingleCar = ({
             <span className={cls.addressText}>
               {oneDir ? (
                 <span className={cls.addressCountry}>
-                    <span className={cls.addressCity}>{carInfo.address_id_data?.name}</span>
+                  <span className={cls.addressCity}>{carInfo.address_id_data?.name}</span>
                 </span>
               ) : (<><span className={cls.addressCountry}>
                 <span className={cls.addressCity}>{carInfo.city_id_data?.name}</span>
                 <span>{carInfo.address_id_data?.name}</span>
               </span>
-                <span>-&gt;</span>
-                <span className={cls.addressCountry}>
+              <span>-&gt;</span>
+              <span className={cls.addressCountry}>
                 <span className={cls.addressCity}>{carInfo.city_id_2_data?.name}</span>
                 <span>{carInfo.address_id_2_data?.name}</span>
               </span></>)}

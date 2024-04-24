@@ -7,7 +7,7 @@
 
 .distanceInfo {
   position: absolute;
-  z-index: 1000;
+  z-index: 1;
   top: 20px;
   left: 20px;
   padding: 20px;
@@ -36,4 +36,32 @@
   align-items: center;
   column-gap: 4px;
   color: var(--primary);
+}
+
+@include breakpoint-down(845px) {
+  .map {
+    height: 300px;
+  }
+
+  .distanceInfo {
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .locationNames {
+    font-size: 16px;
+    line-height: 18px;
+    margin-bottom: 10px;
+  }
+}
+
+.distanceCount {
+
+  width: 253px;
+
+  @media screen and (max-width: 775px) {
+      width: 100%;
+  }
 }

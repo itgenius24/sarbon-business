@@ -59,6 +59,8 @@ class Store {
     role: "",
     smsId: "",
     clientTypeId: "",
+    isForgot: false,
+    userId: "",
   }
 
   async clearStoredDate() {

@@ -1,11 +1,13 @@
 .infoBox {
   width: 100%;
-  max-width: 696px;
+  max-width: 640px;
+  height: 772px;
+  margin-right: 12px;
 }
 
 .infoWrap {
   width: 100%;
-  height: 700px;
+  height: 550px;
   background-color: var(--primary);
   border-radius: 28px;
   display: flex;

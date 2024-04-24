@@ -17,8 +17,12 @@
 .stageItem.done,
 .stageItem.process {
   &::after {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
   }
+}
+
+.stageItem.process {
+  color: var(--primary);
 }
 
 @include breakpoint-down(1190px) {
@@ -40,7 +44,10 @@
 
   .statusItem {
     flex-direction: column;
+    row-gap: 8px;
     margin-top: 4px;
+    height: 94px;
+    overflow: hidden;
   }
 
   .stageItem {
@@ -49,10 +56,10 @@
     &:not(:last-child) {
       &::after {
         width: 2px;
-        height: calc(100% - 8px);
+        height: 70px;
         position: absolute;
-        left: 54px;
-        top: -16px;
+        left: 60px;
+        top: -18px;
         transform: rotate(90deg);
         transform-origin: center;
         background-color: #E5E5E5;

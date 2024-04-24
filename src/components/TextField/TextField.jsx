@@ -40,10 +40,10 @@ export const TextField = ({
           {...register(name, rules)}
           {...props}
         />
-        {!errors?.[name] && addonAfter && (
+        {addonAfter && (
           <span className={cls.after}>{addonAfter}</span>
         )}
-        {errors?.[name] && (
+        {/* {errors?.[name] && (
           <span className={cls.after}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -61,14 +61,14 @@ export const TextField = ({
               />
             </svg>
           </span>
-        )}
+        )} */}
         {errors?.[name] && (
           <span className={clsx(cls.errorMessage, errorClassName)}>
             {errors?.[name]?.message}
           </span>
         )}
       </div>
-      {bottomText && <span className={cls.bottomText}>{bottomText}</span>}
+      {bottomText && !errors?.[name] && <span className={cls.bottomText}>{bottomText}</span>}
     </div>
   );
 };

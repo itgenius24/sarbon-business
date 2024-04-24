@@ -16,3 +16,18 @@
   }
   
 }
+
+@include breakpoint-down(575px) {
+
+
+  .topButtons {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    
+  }
+
+  .topButton {
+    width: 100% !important;
+  }
+}

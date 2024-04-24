@@ -98,7 +98,7 @@ export const RegistrationForm = () => {
         bottomText={t("мин. 8 символов")}
         name="password"
         register={register}
-        placeholder={isPasswordVisible ? "Введите свой пароль" : "••••••••"}
+        placeholder={"Введите свой пароль"}
         type={isPasswordVisible ? "text" : "password"}
         errors={errors}
         addonAfter={

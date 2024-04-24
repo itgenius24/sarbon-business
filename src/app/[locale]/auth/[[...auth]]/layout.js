@@ -9,7 +9,7 @@ import { LocaleDropdown } from "@/components/LocaleDropdown";
 import { Container } from "@/components/Container";
 
 export default function AuthLayout({ children, params: { locale } }) {
-  return <Box bgColor="baseWhite" height="100vh">
+  return <Box bgColor="baseWhite" height={"100%"}>
     <Box borderBottom="1px solid #EAECF0">
       <Container>
         <Box display="flex" justifyContent="space-between" py="16px">
@@ -19,7 +19,7 @@ export default function AuthLayout({ children, params: { locale } }) {
       </Container>
     </Box>
     <Box pt="24px" pb="26px">
-      <Box maxW="1440px" mx="auto" display="flex" alignItems="center" justifyContent="space-between">
+      <Box maxW="1440px" mx="auto" display="flex" alignItems="center" justifyContent="center" columnGap="180px">
         <div className={cls.formWrapper}>
           {children}
         </div>

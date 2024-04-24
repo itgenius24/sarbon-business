@@ -94,11 +94,11 @@ export const TextFieldWithAddition = ({
           </div>;
         }}
       />
-      {
+    </div>
+    {
         error
           ? <span className={cls.errorText}>{error?.message}</span>
           : errors?.[name] && <span className={cls.errorText}>{errors?.[name]?.message}</span>
-      }
-    </div>
+    }
   </div>;
 };

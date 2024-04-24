@@ -32,6 +32,7 @@ export const TransportDetail = () => {
     canEdit,
     handleCheckboxChange,
     isEditing,
+    watch,
   } = useTransportDetailProps();
 
   const locale = useGetLang();
@@ -45,6 +46,7 @@ export const TransportDetail = () => {
       </Box>
       <Box className={cls.transportDetailFields} display="flex" columnGap="24px" flexGrow={1}>
         <Dropdown
+          className={cls.transportDropdown}
           disabled={!canEdit}
           placeholder={t("Транспорт")}
           name="car_type"
@@ -62,11 +64,11 @@ export const TransportDetail = () => {
         />
       </Box>
     </Box>
-    <Box className={cls.transportDetail} py="24px" display="flex" borderBottom="1px solid" borderColor="brand.200">
+    <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px" borderBottom="1px solid" borderColor="brand.200">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Загрузка")}</Heading>
       </Box>
-      <Box className={cls.transportDetailFields} display="flex" flexDirection="column" rowGap="12px" maxW={isEditing ? "856px" : "540px"} width="100%" marginLeft="auto">
+      <Box className={cls.transportDetailFields} display="flex" flexDirection="column" rowGap="12px" maxW={isEditing ? "856px" : "540px"} width="100%">
         <Checkbox disabled={!canEdit} register={register} onChange={handleCheckboxChange} defaultChecked={!isEditing} name="is_ftl" >
           <Box display="flex" alignItems="center">
             <span>{t("отдельной машиной (FTL)")}</span><HelpCircleIcon />
@@ -77,7 +79,7 @@ export const TransportDetail = () => {
         </Checkbox>
       </Box>
     </Box>
-    <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between" borderBottom="1px solid" borderColor="brand.200">
+    <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px">
       <Box width="280px" flexShrink="0">
         <Heading color="brand.700" fontSize="14px" fontWeight="500" lineHeight="20px">{t("Добавить")}</Heading>
       </Box>
@@ -159,7 +161,7 @@ export const TransportDetail = () => {
       isRequirementOpen && <Box
         py="24px"
         display="flex"
-        justifyContent="space-between"
+        columnGap="32px"
         className={cls.transportDetail}
       >
         <Box width="280px" flexShrink="0">
@@ -185,7 +187,7 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isAccessOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
+      isAccessOpen && <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px">
         <Box width="280px" flexShrink="0">
           <DeleteButton
             isDisabled={!canEdit}
@@ -209,11 +211,13 @@ export const TransportDetail = () => {
             {t("Медкнижка")}
           </Checkbox>
           <Box flexGrow={1}>
-            <ChakraSelect
+            <Dropdown
               isMulti
               name="permission"
               isDisabled={!canEdit}
+              register={register}
               control={control}
+              watch={watch}
               options={[
                 { label: "ADR 1", value: "adr_1" },
                 { label: "ADR 2", value: "adr_2" },
@@ -234,7 +238,7 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isBeltsOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
+      isBeltsOpen && <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px">
         <Box width="280px" flexShrink="0">
           <DeleteButton
             isDisabled={!canEdit}
@@ -250,7 +254,7 @@ export const TransportDetail = () => {
       </Box>
     }
     {
-      isLiftingCapacityOpen && <Box className={cls.transportDetail} py="24px" display="flex" justifyContent="space-between">
+      isLiftingCapacityOpen && <Box className={cls.transportDetail} py="24px" display="flex" columnGap="32px">
         <Box width="280px" flexShrink="0">
           <DeleteButton
             isDisabled={!canEdit}

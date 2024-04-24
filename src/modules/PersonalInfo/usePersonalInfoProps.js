@@ -1,10 +1,12 @@
 import { useUpdateUserInfo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export const usePersonalInfoProps = () => {
+
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -61,5 +63,11 @@ export const usePersonalInfoProps = () => {
       ...otherProps,
     };
   };
-  return { getProfileFormProps, handleSubmit, submitForm, isPending };
+  return {
+    getProfileFormProps,
+    handleSubmit,
+    submitForm,
+    isPending,
+    router,
+  };
 };

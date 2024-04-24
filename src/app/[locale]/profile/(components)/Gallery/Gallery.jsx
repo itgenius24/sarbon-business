@@ -2,7 +2,7 @@ import { Box, Button, ListItem, UnorderedList } from "@chakra-ui/react";
 import Image from "next/image";
 import { useState } from "react";
 
-export const Gallery = ({ data }) => {
+export const Gallery = ({ data, isLargerThan845 }) => {
   const [activeId, setActiveId] = useState(0);
   const [isActive, setIsActive] = useState(false);
 
@@ -18,7 +18,7 @@ export const Gallery = ({ data }) => {
   return (
     <Box>
       {/* main container */}
-      <Box width="287px" rounded="8px" overflow="hidden">
+      <Box width={isLargerThan845 ? "287px" : "100%"} rounded="8px" overflow="hidden">
         {/* sub container */}
         {resultImgs.map((item) => (
           <Image
@@ -28,7 +28,7 @@ export const Gallery = ({ data }) => {
             style={{
               aspectRatio: "287 / 203",
               objectFit: "cover",
-              width: "inherit",
+              width: isLargerThan845 ? "inherit" : "100%",
             }}
             key={item}
             alt="image"

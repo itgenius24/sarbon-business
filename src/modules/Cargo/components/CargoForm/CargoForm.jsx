@@ -11,7 +11,7 @@ import { DeleteButton } from "@/components/DeleteButton";
 
 export const CargoForm = () => {
 
-  const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
+  const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
 
   const {
     errors,
@@ -58,8 +58,8 @@ export const CargoForm = () => {
           {t("В рассчёте на одну машину")}
         </Text>
       </Box>
-      <Box className={cls.fields} display="flex" flexDirection="column" rowGap="16px" maxW={isEditing ? "856px" : "540px"} width="100%" ml="auto">
-        <Box className={cls.cargoFields} display="grid" gridTemplateColumns="1fr 134px 134px" columnGap="24px" flexGrow="1">
+      <Box className={cls.fields} display="flex" flexDirection="column" rowGap="16px" maxW={isEditing ? "856px" : "540px"} width="100%">
+        <Box className={cls.cargoFields} display="grid" gridTemplateColumns="1fr 1fr 1fr" columnGap="24px" flexGrow="1">
           <Dropdown
             control={control}
             required
@@ -79,7 +79,7 @@ export const CargoForm = () => {
             name="weight_measurement"
             register={register}
             additionalItemName="weight_unit"
-            width="134px"
+            // width="134px"
             placeholder={t("Вес")}
             additionalItemOptions={weightMeasurementOptions}
             disabled={!canEdit}
@@ -91,7 +91,7 @@ export const CargoForm = () => {
             control={control}
             name="volume_measurement"
             register={register}
-            width="134px"
+            // width="134px"
             placeholder={t("Объем")}
             additionalItemPlaceholder="m³"
             disabled={!canEdit}
@@ -100,9 +100,10 @@ export const CargoForm = () => {
             // additionalItemOptions={volumeMeasurementOptions}
           />
         </Box>
-        <Box display="flex" columnGap="24px">
+        <Box display="grid" gridTemplateColumns={isLargerThan600 ? "1fr 1fr 1fr" : "1fr"} columnGap="24px">
           {
             !isPackagingAndQuantity && <Button
+              justifyContent="flex-start"
               key="dimensionsBtn"
               isDisabled={!canEdit}
               leftIcon={<PlusIcon color="#007AFF" />}
@@ -114,6 +115,7 @@ export const CargoForm = () => {
           }
           {
             !isDimensionsAndDiameter && <Button
+              justifyContent="flex-start"
               key="diameterBtn"
               isDisabled={!canEdit}
               leftIcon={<PlusIcon color="#007AFF" />}
@@ -127,15 +129,17 @@ export const CargoForm = () => {
       </Box>
     </Box>
     {
-      isPackagingAndQuantity && <Box className={cls.additionalFields} display="flex" alignItems="center" mt="24px" key="packaging">
+      isPackagingAndQuantity && <Box className={cls.additionalFields} display="flex" columnGap="32px" alignItems="center" mt="24px" key="packaging">
         <DeleteButton
+          width="280px"
+          justifyContent="flex-start"
           isDisabled={!canEdit}
           visibility={canEdit ? "visible" : "hidden"}
           onClick={handlePackagingAndQuantity}
         >
           {t("Упаковка и количество")}
         </DeleteButton>
-        <Box className={cls.fields} display="flex" columnGap="24px" maxW="540px" width="100%" ml="auto">
+        <Box className={cls.fields} display="flex" columnGap="24px" maxW="540px" width="100%">
           <Dropdown
             errors={errors}
             searchable
@@ -166,14 +170,16 @@ export const CargoForm = () => {
       </Box>
     }
     {
-      isDimensionsAndDiameter && <Box className={cls.additionalFields} display="flex" alignItems="flex-start" mt="24px" key="dimensions">
+      isDimensionsAndDiameter && <Box className={cls.additionalFields} display="flex" columnGap="32px" alignItems="flex-start" mt="24px" key="dimensions">
         <DeleteButton
+          width="280px"
+          justifyContent="flex-start"
           visibility={canEdit ? "visible" : "hidden"}
           onClick={handleDimensionsAndDiameter}
         >
           {t("Габариты и диаметр")}
         </DeleteButton>
-        <Box className={cls.fields} display="flex" columnGap="16px" maxW="540px" width="100%" ml="auto">
+        <Box className={cls.fields} display="flex" columnGap="16px" maxW="540px" width="100%">
           <Box display="flex" flexDirection="column" rowGap="10px">
             <TextFieldWithAddition
               className={cls.textField}

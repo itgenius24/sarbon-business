@@ -59,6 +59,15 @@ const Header = observer(({ elements }) => {
             <Box className={cls.logo}>
               <Logo />
             </Box>
+            {!isAuth && (
+              <Link
+                className={clsx(cls.registerLink, cls.registerLinkMobile)}
+                title={t("Зарегистрироваться")}
+                href={`/${locale}/auth`}
+              >
+                {t("Зарегистрироваться")}
+              </Link>
+            )}
             <Box className={cls.content}>
               <UnorderedList className={cls.list}>
                 {elements?.map((element, index) => {
@@ -75,6 +84,7 @@ const Header = observer(({ elements }) => {
                        {t(element.label)}
                      </a>
                      : <Link
+                       onClick={() => setNavOpen(false)}
                        href={element.path}
                        className={clsx(cls.itemLink, {
                          [cls.activeLink]: index
@@ -87,6 +97,15 @@ const Header = observer(({ elements }) => {
                     }
                   </ListItem>;
                 })}
+                <ListItem className={clsx(cls.listItem, cls.profile)} key="profile">
+                  <Link
+                    onClick={() => setNavOpen(false)}
+                    href={`/${locale}/profile`}
+                    className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
+                  >
+                    {t("Профиль")}
+                  </Link>
+                </ListItem>
               </UnorderedList>
               <Box className={cls.rightBox}>
                 <Box className={cls.buttonBox}>
@@ -109,7 +128,13 @@ const Header = observer(({ elements }) => {
                     <>
                       <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
                         <Image
-                          src={photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}` : UserImg}
+                          src={
+                            photo === "photo"
+                              ? UserImg
+                              : !photo?.includes("http")
+                                ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}`
+                                : photo
+                          }
                           alt="ww"
                           width={40}
                           height={40}

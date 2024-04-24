@@ -26,6 +26,7 @@ export const useLoadsCardProps = ({
   short_name,
   distance,
   currency_id_data,
+  currency_id_2_data
 }) => {
 
   const locale = useGetLang();
@@ -100,7 +101,7 @@ export const useLoadsCardProps = ({
     },
     {
       title: t("Предлагаемая сумма: "),
-      value: formatSum(currency_id_data?.code, driver_cash),
+      value: formatSum(currency_id_2_data?.code, driver_cash),
     },
     {
       title: t("Рейтинг водителя: "),

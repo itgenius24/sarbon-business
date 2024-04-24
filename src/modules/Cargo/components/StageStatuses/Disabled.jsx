@@ -1,8 +1,13 @@
 import { StepProcessIcon } from "@/assets/icons/icons";
 import { Box } from "@chakra-ui/react";
 
-export const Disabled = ({ title, subtitle, className }) => <Box className={className} display="flex" columnGap="12px" alignItems="flex-start" >
-  <Box flexShrink={0}>
+export const Disabled = ({ title, subtitle, className, circleClassName }) => <Box
+  className={className}
+  display="flex"
+  columnGap="12px"
+  alignItems="flex-start"
+>
+  <Box className={circleClassName} flexShrink={0} >
     <StepProcessIcon color="#D0D5DD" />
   </Box>
   <Box display="flex" flexDirection="column">

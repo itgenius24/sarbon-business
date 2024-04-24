@@ -95,6 +95,10 @@
   margin-right: 16px;
 }
 
+.registerLinkMobile {
+  display: none;
+}
+
 .burgerBtn {
   width: 24px;
   height: 24px;
@@ -111,6 +115,10 @@
 	transform-origin: center;
 }
 
+.profile {
+  display: none;
+}
+
 @include lg {
 
   .header {
@@ -125,6 +133,7 @@
     background-color: #fff;
     display: none;
     flex-direction: column;
+    height: 100vh;
   }
 
   .nav.open .content {
@@ -140,6 +149,19 @@
     margin: 0;
     margin-bottom: 10px;
     padding-top: 24px;
+  }
+
+  .registerLink {
+    display: none;
+  }
+
+  .registerLinkMobile {
+    display: block;
+    margin-left: auto;
+  }
+
+  .profile {
+    display: inline-block;
   }
 
   .burgerBtn {

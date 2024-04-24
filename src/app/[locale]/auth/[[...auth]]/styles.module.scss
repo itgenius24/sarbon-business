@@ -2,8 +2,10 @@
   max-width: 360px;
   flex-grow: 1;
   flex-shrink: 0;
-  margin-left: auto;
-  margin-right: 180px;
+  max-height: 726px;
+  overflow: auto;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 @include lg {

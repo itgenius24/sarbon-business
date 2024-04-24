@@ -2,7 +2,9 @@
   display: flex;
   margin-bottom: 24px;
   background-color: rgba(242, 243, 245, 1);
-  border-radius: 12px;
+  // border-radius: 12px;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .tabWrap {

@@ -11,7 +11,7 @@ export const MobileApp = ({
   description1
 }) => {
   return (
-    <Container mt={"96px"} mb={"96px"}>
+    <Container className={cls.mobileContainer} mt={"96px"} mb={"96px"}>
       <Box className={cls.mobileApp} bg="white" borderRadius={24}>
         <Heading className={cls.mobileAppHeading} fontSize={36} lineHeight="44px" mb={20.5}>
           Мобильное приложение

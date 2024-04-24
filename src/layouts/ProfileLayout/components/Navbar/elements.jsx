@@ -11,7 +11,7 @@ const nestedList = [
 ];
 
 export const navList = [
-  { id: 0, title: "Личные данные", icon: <User />, path: "/profile" },
+  { id: 0, title: "Личные данные", icon: <User />, path: "/profile/personal-data" },
   // { id: 1, title: "Добавить карту", icon: <AddCard /> },
   // { id: 2, title: "Пополнить баланс", icon: <TopUpBalance /> },
   { title: "Продажа авто", icon: <Car />, children: nestedList },

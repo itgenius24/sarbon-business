@@ -1,20 +1,30 @@
 "use client";
 
 import React from "react";
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { SkeletonComp } from "@/components/Skeleton";
 import { useHandbookProps } from "./useHandbookProps";
 import { MainContentHeader } from "../../(components)/MainContentHeader";
 import { MainContentCard } from "@/components/MainContentCard";
+import { BackArrow } from "@/assets/icons/icons";
+import { useRouter } from "next/navigation";
 
 export default function Handbook() {
+  const router = useRouter();
   const { data, isLoading } = useHandbookProps();
+
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   if (isLoading) return <SkeletonComp />;
 
   return (
     <Box>
-      <MainContentHeader title="Справочники" />
+      <MainContentHeader title={
+        <Flex onClick={!isLargerThan845 ? router.back : () => {}} as="button" alignItems="center">
+          <BackArrow />
+          <span>Справочники</span>
+        </Flex>
+      } />
       <MainContentCard>
         <Accordion defaultIndex={[0]} allowMultiple>
           {data.map((d) => (

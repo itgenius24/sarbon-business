@@ -27,6 +27,7 @@ export const useRegistrationProps = () => {
   const phoneMutation = usePhoneMutation({
     onSuccess: (data) => {
       authStore.setAuthData("smsId", data.sms_id);
+      authStore.setAuthData("isForgot", false);
       router.push(`/${locale}/auth/otp`);
     }
   });

@@ -12,9 +12,19 @@ import { MobileLogo } from "../MobileLogo";
 
 export const Otp = observer(() => {
 
-  const { onChange, handleSendOtp, navigateBack, value, phone, t, error } = useOtpProps();
+  const {
+    onChange,
+    handleSendOtp,
+    navigateBack,
+    value,
+    phone,
+    t,
+    error,
+    timer,
+    handleResendOtp,
+  } = useOtpProps();
 
-  return <Box>
+  return <Box height={"650px"}>
     <div className={cls.buttonWrapper}>
       <Button
         onClick={navigateBack}
@@ -57,9 +67,15 @@ export const Otp = observer(() => {
       }}
     />
     <Button mt="44px" onClick={handleSendOtp}>{t("Подтвердить")}</Button>
-    <Box mt="32px" display="flex" columnGap="4px">
-      <Text fontSize="14px" color="brand.600" lineHeight="20px">{t("Не пришло сообщение?")}</Text>
-      <Button onClick={handleSendOtp} variant="reset">{t("Отправить ещё раз")}</Button>
+    <Box display="flex" flexDirection="column" justifyContent="center" textAlign="center" alignItems="center" mt="32px">
+      {timer > 0 && <Text fontSize="14px" color="brand.600" lineHeight="20px">00:{timer < 10 ? `0${timer}` : timer}</Text>}
+      <Box mt="16px" display="flex" columnGap="4px">
+        <Text fontSize="14px" color="brand.600" lineHeight="20px">{t("Не пришло сообщение?")}</Text>
+        <Box display="flex" columnGap="4px" alignItems="center">
+          <Button isDisabled={timer > 0} onClick={handleResendOtp} variant="reset">{t("Отправить ещё раз")}</Button>
+        </Box>
+      </Box>
     </Box>
+
   </Box>;
 });

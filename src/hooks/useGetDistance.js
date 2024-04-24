@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 /* eslint no-undef: 0 */ // --> OFF
-export const useGetDistance = ({ origin, destination }) => {
+export const useGetDistance = ({ origin, destination, referencePoints }) => {
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
   useEffect(() => {
@@ -17,15 +17,15 @@ export const useGetDistance = ({ origin, destination }) => {
     return () => {
       document.body.removeChild(yandexMapsScript);
     };
-  }, [origin, destination]);
+  }, [origin, destination, referencePoints]);
 
   const calculateDistance = () => {
     ymaps.ready(() => {
-      if(origin && destination) {
+      if(origin && destination || referencePoints) {
         const ymaps = window.ymaps;
         const route = new ymaps.multiRouter.MultiRoute(
           {
-            referencePoints: [
+            referencePoints: referencePoints ? referencePoints : [
               [origin.lat, origin.lng],
               [destination.lat, destination.lng],
             ],
@@ -46,7 +46,7 @@ export const useGetDistance = ({ origin, destination }) => {
         });
 
         const map = new ymaps.Map("map", {
-          center: [origin.lat, origin.lng],
+          center: referencePoints ? referencePoints[0] : [origin.lat, origin.lng],
           zoom: 10,
         });
 

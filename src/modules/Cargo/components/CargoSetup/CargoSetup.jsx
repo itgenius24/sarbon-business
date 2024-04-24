@@ -1,5 +1,5 @@
 import cls from "./styles.module.scss";
-import { Box, Button, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
 import { BargainRadio } from "../BargainRadio";
 import { DeleteIcon, HelpCircleIcon, UploadCloudIcon } from "@/assets/icons/icons";
 import { userCargoSetupProps } from "./useCargoSetupProps";
@@ -23,6 +23,8 @@ export const CargoSetup = () => {
     setValue,
     canEdit
   } = userCargoSetupProps();
+
+  const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
@@ -74,7 +76,6 @@ export const CargoSetup = () => {
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
             </Box>
             <TextFieldWithAddition
-
               disabled={!canEdit}
               name="price_after_order"
               register={register}
@@ -122,13 +123,13 @@ export const CargoSetup = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          ml="auto"
           mt="24px"
           border="1px solid"
           borderColor="brand.200"
           borderRadius="12px"
           as="label"
-          maxWidth="540px"
+          maxWidth={islargerThan768 ? "540px" : "100%"}
+          ml="auto"
           width="100%"
           height="126px"
           cursor={canEdit ? "pointer" : "not-allowed"}

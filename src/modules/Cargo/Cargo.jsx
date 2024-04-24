@@ -24,11 +24,12 @@ export const Cargo = ({ id, status, locale }) => {
   const { t } = useTranslation(locale, "translations");
 
   const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   function getTopContent () {
     if(status === "in_moderation") {
-      return <Box display="flex" justifyContent="space-between" alignItems="center" mb="18px">
-        <Heading size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">{addCargoProps.distance} km</Text></Heading>
+      return <Box display="flex" flexDirection={!isLargerThan800 ? "column" : "row"} justifyContent="space-between" alignItems={!isLargerThan800 ? "start" : "center"} mb="18px">
+        <Heading fontSize={!isLargerThan800 ? "24px" : "30px" } size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">{addCargoProps.distance} km</Text></Heading>
         <Box Box display="flex" columnGap="8px">
           <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleEditToggle}>
             {t("Изменить")}
@@ -56,6 +57,7 @@ export const Cargo = ({ id, status, locale }) => {
         permission={addCargoProps.permission}
         currency={addCargoProps.currency}
         distance={addCargoProps.distance}
+        userId2={addCargoProps.userId2}
       />;
     }
 
@@ -177,42 +179,46 @@ export const Cargo = ({ id, status, locale }) => {
     >
       <Box display="flex" flexDirection="column" rowGap="20px">
         {
-          addCargoProps.templates?.map((item) => (
-            <Box
-              onClick={() => addCargoProps.handleSelectTemplate(item)}
-              p="20px"
-              w={"100%"}
-              borderRadius="20px"
-              border="1px solid #EAECF0"
-              as="button"
-              key={item?.guid}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box display="flex" columnGap="12px">
-                <Box display="flex" flexDirection="column" rowGap="8px" flexWrap="wrap">
-                  <Text as="span" fontWeight={600} fontSize="24px">
-                    {item?.city_id_data?.name}
-                  </Text>
-                  <span>{item?.address_id_data?.name}</span>
-                </Box>
+          addCargoProps.templates?.length
+            ? addCargoProps.templates?.map((item) => (
+              <Box
+                onClick={() => addCargoProps.handleSelectTemplate(item)}
+                p={isLargerThan800 ? "20px" : "12px"}
+                w={"100%"}
+                borderRadius={isLargerThan800 ? "20px" : "8px"}
+                border="1px solid #EAECF0"
+                as="button"
+                key={item?.guid}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box display="flex" columnGap="12px">
+                  <Box display="flex" flexDirection="column" rowGap="8px" flexWrap="wrap">
+                    <Text as="span" fontWeight={600} fontSize={isLargerThan800 ? "24px" : "16px"}>
+                      {item?.city_id_data?.name}
+                    </Text>
+                    <span>{item?.address_id_data?.name}</span>
+                  </Box>
+                  <Box as="span" alignSelf="center">
                   -{">"}
-                <Box display="flex" flexDirection="column" rowGap="8px">
-                  <Text as="span" fontWeight={600} fontSize="24px">
-                    {item?.city_id_2_data?.name}
-                  </Text>
-                  <span>{item?.address_id_2_data?.name}</span>
+                  </Box>
+                  <Box display="flex" flexDirection="column" rowGap="8px">
+                    <Text as="span" fontWeight={600} fontSize={isLargerThan800 ? "24px" : "16px"}>
+                      {item?.city_id_2_data?.name}
+                    </Text>
+                    <span>{item?.address_id_2_data?.name}</span>
+                  </Box>
                 </Box>
+                <Button onClick={(e) => {
+                  e.stopPropagation();
+                  addCargoProps.handleDeleteTemplate(item);
+                }} variant="reset" width="36px" height="36px" border="1px solid #F04438">
+                  <DeleteIcon width="16" height="16" color="#F04438" />
+                </Button>
               </Box>
-              <Button onClick={(e) => {
-                e.stopPropagation();
-                addCargoProps.handleDeleteTemplate(item);
-              }} variant="reset" width="36px" height="36px" border="1px solid #F04438">
-                <DeleteIcon width="16" height="16" color="#F04438" />
-              </Button>
-            </Box>
-          ))
+            ))
+          : <Text>{t("Нет шаблонов")}</Text>
         }
       </Box>
     </Modal>

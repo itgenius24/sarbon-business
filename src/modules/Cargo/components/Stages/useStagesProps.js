@@ -59,8 +59,8 @@ export const useStagesProps = () => {
         else return "disabled";
       }
       case "payment": {
-        if((price && pricePrepayment && priceAfter && paymentType?.value) || watch("bargain") === "request") return "done";
-        else if(price || pricePrepayment || priceAfter || paymentType?.value) return "process";
+        if((price && pricePrepayment && paymentType?.value) || watch("bargain") === "request") return "done";
+        else if(price || pricePrepayment || paymentType?.value) return "process";
         else return "disabled";
       }
       case "contact": {
