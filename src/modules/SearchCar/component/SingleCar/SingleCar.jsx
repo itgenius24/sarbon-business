@@ -138,7 +138,7 @@ export const SingleCar = ({
         <DataList list={newList} />
       </Box>
       <div className={cls.cardBottom}>
-        <Button onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
+        <Button onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Показать номер</Button>
         {!phoneBtn ? null : (
           <Button onClick={handleClickPhoneBtn} variant={"solid"} width="278px">{phoneBtnText}</Button>)
         }
