@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { useAddCargoContext } from "../../providers";
-import { useGetDistance } from "@/hooks/useGetDistance";
 
 export const useLoadingFormProps = () => {
 

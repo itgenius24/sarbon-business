@@ -222,13 +222,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     }
   });
 
-  const getLoadings = Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.[0]?.cor : watch("loadings")?.[0]?.cor?.split(",");
-  const getUnloading = Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.[0]?.cor : watch("unloading")?.[0]?.cor?.split(",");
+  const getLoadings = (Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.map(item => item?.cor) : watch("loadings")?.map(item => item?.cor?.split(","))) || [];
+  const getUnloading = (Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.map(item => item?.cor) : watch("unloading")?.map(item => item?.cor?.split(","))) || [];
 
-  const distance = useGetDistance({
-    origin: { lat: getLoadings?.[0], lng: getLoadings?.[1] },
-    destination: { lat: getUnloading?.[0], lng: getUnloading?.[1] }
-  });
+  const distance = useGetDistance({ referencePoints: [...getLoadings, ...getUnloading] });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -559,7 +556,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         users_id: authStore.userData.id,
         phone: data.contact,
         comment: data.note,
-        photo:  process.env.NEXT_PUBLIC_MEDIA_URL + data.image,
+        photo: data.image?.includes("http") ? data.image : process.env.NEXT_PUBLIC_MEDIA_URL + data.image,
         map_id: data?.payment_type?.value,
         order_status: ["in_moderation"],
         negotiable: data.bargain === "negotiable",

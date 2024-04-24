@@ -19,7 +19,7 @@ export const userCargoSetupProps = () => {
   };
 
   function imageLoader() {
-    return process.env.NEXT_PUBLIC_MEDIA_URL + watch("image");
+    return watch("image")?.includes("http") ? watch("image") : process.env.NEXT_PUBLIC_MEDIA_URL + watch("image");
   }
 
   useEffect(() => {

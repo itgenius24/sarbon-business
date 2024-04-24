@@ -31,7 +31,7 @@ export const FileUpload = ({
 
   function imageLoader({ _src, width, quality = 75 }) {
     const baseUrl = process.env.NEXT_PUBLIC_MEDIA_URL;
-    return `${baseUrl}${src}?w=${width}&q=${quality}`;
+    return `${src?.includes("https") ? "" : baseUrl}${src}?w=${width}&q=${quality}`;
   }
 
   if (src && variant === "cargo") {
