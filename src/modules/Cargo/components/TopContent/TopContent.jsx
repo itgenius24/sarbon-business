@@ -118,7 +118,7 @@ export const TopContent = ({
       center: [41.40587471972005, 69.46086540238926],
       zoom: 15,
       controls: [],
-    }, { buttonMaxWidth: 300 });
+    }, { buttonMaxWidth: 300, minZoom: 5 });
 
     myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
       iconLayout: "default#image",

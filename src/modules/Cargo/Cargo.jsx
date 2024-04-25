@@ -15,10 +15,31 @@ import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
 import { Modal } from "@/components/Modal";
 import { Checkbox } from "@/components/Checkbox";
+import clsx from "clsx";
 
-export const Cargo = ({ id, status, locale }) => {
+export const Cargo = ({
+  id,
+  status,
+  locale,
+  loadingsWatch,
+  getLoadingsValues,
+  setLoadingsValue,
+  resetLoadings,
+  canEdit,
+  setCanEdit,
+}) => {
 
-  const addCargoProps = useAddCargoProps({ id, status, locale });
+  const addCargoProps = useAddCargoProps({
+    id,
+    status,
+    locale,
+    loadingsWatch,
+    getLoadingsValues,
+    setLoadingsValue,
+    resetLoadings,
+    canEdit,
+    setCanEdit,
+  });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
@@ -28,16 +49,34 @@ export const Cargo = ({ id, status, locale }) => {
 
   function getTopContent () {
     if(status === "in_moderation") {
-      return <Box display="flex" flexDirection={!isLargerThan800 ? "column" : "row"} justifyContent="space-between" alignItems={!isLargerThan800 ? "start" : "center"} mb="18px">
-        <Heading fontSize={!isLargerThan800 ? "24px" : "30px" } size="md">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">{addCargoProps.distance} km</Text></Heading>
-        <Box Box display="flex" columnGap="8px">
-          <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleEditToggle}>
-            {t("Изменить")}
-          </LoadBtn>
-          <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={addCargoProps.handleOpenDeletePopup}>
-            {t("Удалить")}
-          </LoadBtn>
+      return <Box position="absolute" top={!isLargerThan800 ? "-90px" : "-60px"}>
+        <Box display="flex" flexDirection={!isLargerThan800 ? "column" : "row"} justifyContent="space-between" alignItems={!isLargerThan800 ? "start" : "center"} mb="18px">
+          <Heading fontSize={!isLargerThan800 ? "18px" : "30px" } size="md" mr="20px">{addCargoProps.address1} - {addCargoProps.address2} <Text as="span" color="brand.500">{addCargoProps.distance} km</Text></Heading>
+          <Box Box display="flex" columnGap="8px">
+            <LoadBtn icon={<PencilIcon />} onClick={addCargoProps.handleEditToggle}>
+              {t("Изменить")}
+            </LoadBtn>
+            <LoadBtn icon={<DeleteIcon color="#F04438" />} type="delete" onClick={addCargoProps.handleOpenDeletePopup}>
+              {t("Удалить")}
+            </LoadBtn>
+          </Box>
         </Box>
+        <Breadcrumb
+          className={cls.breadCrumb}
+          mb="16px"
+          separator={
+            <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4" fill="none">
+              <circle cx="2" cy="2" r="2" fill="#98A2B3"/>
+            </svg>
+          }
+        >
+          <BreadcrumbItem color="#98A2B3">
+            <Link href="/my-loads">{t("Мои грузы")}</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink color="#344054">{t(statuses[status])}</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
       </Box>;
     } else if(status === "new" || status === "performed"){
       return <TopContent
@@ -66,33 +105,34 @@ export const Cargo = ({ id, status, locale }) => {
   }
 
   return <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
-    <Box pt={isLargerThan1190 ? "48px" : "24px"} pb="128px">
-      <Container height="100%">
-        {
-          isEditing && <Breadcrumb
-            mb="16px"
-            separator={
-              <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4" fill="none">
-                <circle cx="2" cy="2" r="2" fill="#98A2B3"/>
-              </svg>
-            }
-          >
-            <BreadcrumbItem color="#98A2B3">
-              <Link href="/my-loads">{t("Мои грузы")}</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <BreadcrumbLink color="#344054">{t(statuses[status])}</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-        }
-        { !isLargerThan1190 && !isEditing && <Heading fontSize="22px">{t("Добавить груз")}</Heading> }
-        <Box className={cls.contentWrapper} as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
-          <Box flexGrow={1} maxW="100%" width="100%" as="form">
-            {
+    <Box mt="24px" pb="128px">
+      {/* <Container height="100%"> */}
+      {
+        isEditing && status !== "in_moderation" && <Breadcrumb
+          className={cls.breadCrumb}
+          mb="16px"
+          separator={
+            <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4" fill="none">
+              <circle cx="2" cy="2" r="2" fill="#98A2B3"/>
+            </svg>
+          }
+        >
+          <BreadcrumbItem color="#98A2B3">
+            <Link href="/my-loads">{t("Мои грузы")}</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink color="#344054">{t(statuses[status])}</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      }
+      {/* { !isLargerThan1190 && !isEditing && <Heading fontSize="22px">{t("Добавить груз")}</Heading> } */}
+      <Box className={clsx(cls.contentWrapper, { [cls.editing]: isEditing })} as="article" height="100%" display="flex" alignItems="flex-start" columnGap="32px">
+        <Box flexGrow={1} maxW="100%" width="100%" as="form">
+          {
               isEditing
               ? getTopContent()
-              : <Box display="flex" justifyContent="space-between" alignItems="center" mb="32px">
-                { isLargerThan1190 && <Heading size="md">{t("Добавить груз")}</Heading> }
+              : <Box className={cls.topButtonsWrapper} display="flex" justifyContent="space-between" alignItems="center" mb="32px">
+                <Heading size="md" fontSize={isLargerThan1190 ? "24px" : "22px"}>{t("Добавить груз")}</Heading>
                 <Box className={cls.topButtons} display="flex" columnGap="12px">
                   <Button
                     className={cls.topButton}
@@ -114,54 +154,56 @@ export const Cargo = ({ id, status, locale }) => {
                   </Button>
                 </Box>
               </Box>
-            }
-            <CargoDetail />
-            <CargoSetup />
-          </Box>
-          {
-            !isEditing && <Stages />
           }
+          <CargoDetail />
+          <CargoSetup />
         </Box>
         {
-          !isEditing && <Box mt="32px">
-            <Checkbox name="accept" register={addCargoProps.register} filled >
-              <Text fontSize="14px" maxWidth="396px" width="100%">{t("Нажимая кнопку, вы принимаете условия")} <a style={{ color: "#026FE7", fontWeight: "600" }} href="">{t("Пользовательская  соглашения")}</a></Text>
-            </Checkbox>
-            <Box mt="16px" display="flex" columnGap="12px" justifyContent="flex-start" maxWidth="900px">
-              <Button
-                onClick={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
-                isLoading={addCargoProps.loading}
-                size="sm"
-                maxWidth="223px"
-                variant="secondaryWhite"
-              >
-                {t("Сохранить как шаблон")}
-              </Button>
-              <Button
-                isDisabled={!addCargoProps.watch("accept")}
-                isLoading={addCargoProps.loading}
-                size="sm"
-                maxWidth="223px"
-                onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
-              >
-                {t("Опубликовать груз")}
-              </Button>
-            </Box>
-          </Box>
+          !isEditing && <Stages
+            loadingsWatch={loadingsWatch}
+          />
         }
-        {
-          (addCargoProps.isDirty && addCargoProps.canEdit && isEditing) && <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
-            <Button size="sm" maxWidth="223px" variant="secondaryWhite" onClick={addCargoProps.onCancelClick}>Отменить</Button>
-            <Button isLoading={addCargoProps.loading} size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>{t("Сохранить изменение")}</Button>
+      </Box>
+      {
+        !isEditing && <Box mt="32px">
+          <Checkbox name="accept" register={addCargoProps.register} filled >
+            <Text fontSize="14px" maxWidth="396px" width="100%">{t("Нажимая кнопку, вы принимаете условия")} <a style={{ color: "#026FE7", fontWeight: "600" }} href="">{t("Пользовательская  соглашения")}</a></Text>
+          </Checkbox>
+          <Box mt="16px" display="flex" columnGap="12px" justifyContent="flex-start" maxWidth="900px">
+            <Button
+              onClick={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
+              isLoading={addCargoProps.loading}
+              size="sm"
+              maxWidth="223px"
+              variant="secondaryWhite"
+            >
+              {t("Сохранить как шаблон")}
+            </Button>
+            <Button
+              isDisabled={!addCargoProps.watch("accept")}
+              isLoading={addCargoProps.loading}
+              size="sm"
+              maxWidth="223px"
+              onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
+            >
+              {t("Опубликовать груз")}
+            </Button>
           </Box>
-        }
-        {
-          status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
-            <Button variant="outlineError" onClick={() => addCargoProps.handleCancel()}>{t("Отказать")}</Button>
-            <Button onClick={() => addCargoProps.handleAccept()}>{t("Принять")}</Button>
-          </Box>
-        }
-      </Container>
+        </Box>
+      }
+      {
+        (addCargoProps.isDirty && addCargoProps.canEdit && isEditing) && <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
+          <Button size="sm" maxWidth="223px" variant="secondaryWhite" onClick={addCargoProps.onCancelClick}>Отменить</Button>
+          <Button isLoading={addCargoProps.loading} size="sm" maxWidth="223px" onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}>{t("Сохранить изменение")}</Button>
+        </Box>
+      }
+      {
+        status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
+          <Button variant="outlineError" onClick={() => addCargoProps.handleCancel()}>{t("Отказать")}</Button>
+          <Button onClick={() => addCargoProps.handleAccept()}>{t("Принять")}</Button>
+        </Box>
+      }
+      {/* </Container> */}
     </Box>
     <Popup
       isOpen={addCargoProps.isPopupOpen}

@@ -1,6 +1,7 @@
+import { yupResolver } from "@/utils/yupResolver";
 import React from "react";
-import { useFieldArray } from "react-hook-form";
-import { useAddCargoContext } from "../../providers";
+import { useFieldArray, useForm } from "react-hook-form";
+import * as yup from "yup";
 
 export const useLoadingFormProps = () => {
 
@@ -14,7 +15,47 @@ export const useLoadingFormProps = () => {
   const [coordinates, setCoordinates] = React.useState([41.40587471972005, 69.46086540238926]);
   const [placeMarkGeometry, setPlaceMarkGeometry] = React.useState([41.34908881486223, 69.3374228085318]);
 
-  const { control, register, watch, setValue, errors, canEdit } = useAddCargoContext();
+  const schema = yup
+    .object({
+      loadings: yup.array(),
+      unloading: yup.array(),
+    });
+
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+    getValues,
+    reset
+  } = useForm(
+    {
+      resolver: yupResolver(schema),
+      defaultValues: {
+        loadings: [
+          {
+            location: {
+              value: "",
+              label: ""
+            },
+            address: "",
+            cor: "",
+          }
+        ],
+        unloading: [
+          {
+            location: {
+              value: "",
+              label: ""
+            },
+            address: "",
+            cor: "",
+          }
+        ]
+      }
+    }
+  );
 
   // const getCity = useGetCityList({
   //   data: JSON.stringify({
@@ -156,7 +197,7 @@ export const useLoadingFormProps = () => {
   }
 
   function onMapClick (e) {
-    const coordinates = [Number(e.get("coords")[0].toPrecision(18)), Number(e.get("coords")[1].toPrecision(18))];
+    const coordinates = e.get("coords");
 
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
@@ -225,7 +266,7 @@ export const useLoadingFormProps = () => {
     coordinates,
     // getAddressOptions,
     errors,
-    canEdit,
+    canEdit: true,
     placeMarkGeometry,
     setPlaceMarkGeometry,
     onMapClick,
@@ -234,5 +275,7 @@ export const useLoadingFormProps = () => {
     handleClearLocation,
     setIsModalOpen,
     initYmaps,
+    getValues,
+    reset,
   };
 };

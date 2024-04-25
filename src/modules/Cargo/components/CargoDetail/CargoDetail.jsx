@@ -19,7 +19,7 @@ export const CargoDetail = () => {
     <Heading fontSize={isLargerThan1190 ? "20px" : "17px"} size="sm">{t("Детали груза")}</Heading>
     <CargoForm />
     <DeadlineForm />
-    <LoadingForm />
+    {/* <LoadingForm /> */}
     <TransportDetail />
   </Box>;
 };

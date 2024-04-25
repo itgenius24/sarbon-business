@@ -20,7 +20,17 @@ import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 
-export const useAddCargoProps = ({ id, status, locale }) => {
+export const useAddCargoProps = ({
+  id,
+  status,
+  locale,
+  loadingsWatch,
+  getLoadingsValues,
+  setLoadingsValue,
+  resetLoadings,
+  canEdit,
+  setCanEdit,
+}) => {
 
   const isAuth = authStore.isAuth;
 
@@ -50,7 +60,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [endDate, setEndDate] = useState();
 
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [canEdit, setCanEdit] = useState(!id);
 
   const [templateId, setTemplateId] = useState("");
 
@@ -83,16 +92,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setIsOpen(false);
   }
 
-  const emptyCargoFields = {
-    cargo_type: {
-      value: "",
-      label: "",
-    },
-    weight_measurement: "",
-    weight_unit: {
-      value: "",
-      label: "",
-    },
+  const emptyLoadingFields = {
     loadings: [{
       location: {
         value: "",
@@ -111,6 +111,18 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         cor: [],
       }
     ],
+  };
+
+  const emptyCargoFields = {
+    cargo_type: {
+      value: "",
+      label: "",
+    },
+    weight_measurement: "",
+    weight_unit: {
+      value: "",
+      label: "",
+    },
     volume_measurement: "",
     packaging: {
       value: "",
@@ -169,8 +181,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       packaging_quantity: yup.string(),
       // loadings: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
       // unloading: yup.array().of(yup.object().shape({ location: yup.object({ value: yup.string().min(2, "Обязательное поле"), label: yup.string().min(2, "Обязательное поле") }).required("Обязательное поле"), address: yup.string().required("Обязательное поле") })).required("Обязательное поле"),
-      loadings: yup.array(),
-      unloading: yup.array(),
+      // loadings: yup.array(),
+      // unloading: yup.array(),
       gps_monitoring: yup.string().required("Обязательное поле"),
       car_type: yup.object().required("Обязательное поле"),
       transport_count: yup.string().required("Обязательное поле"),
@@ -198,32 +210,32 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     formState: { errors, isDirty, }
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      loadings: [
-        {
-          location: {
-            value: "",
-            label: ""
-          },
-          address: "",
-          cor: "",
-        }
-      ],
-      unloading: [
-        {
-          location: {
-            value: "",
-            label: ""
-          },
-          address: "",
-          cor: "",
-        }
-      ]
-    }
+    // defaultValues: {
+    //   loadings: [
+    //     {
+    //       location: {
+    //         value: "",
+    //         label: ""
+    //       },
+    //       address: "",
+    //       cor: "",
+    //     }
+    //   ],
+    //   unloading: [
+    //     {
+    //       location: {
+    //         value: "",
+    //         label: ""
+    //       },
+    //       address: "",
+    //       cor: "",
+    //     }
+    //   ]
+    // }
   });
 
-  const getLoadings = (Array.isArray(watch("loadings")?.[0]?.cor) ? watch("loadings")?.map(item => item?.cor) : watch("loadings")?.map(item => item?.cor?.split(","))) || [];
-  const getUnloading = (Array.isArray(watch("unloading")?.[0]?.cor) ? watch("unloading")?.map(item => item?.cor) : watch("unloading")?.map(item => item?.cor?.split(","))) || [];
+  const getLoadings = (Array.isArray(loadingsWatch("loadings")?.[0]?.cor) ? loadingsWatch("loadings")?.map(item => item?.cor) : loadingsWatch("loadings")?.map(item => item?.cor?.split(","))) || [];
+  const getUnloading = (Array.isArray(loadingsWatch("unloading")?.[0]?.cor) ? loadingsWatch("unloading")?.map(item => item?.cor) : loadingsWatch("unloading")?.map(item => item?.cor?.split(","))) || [];
 
   const distance = useGetDistance({ referencePoints: [...getLoadings, ...getUnloading] });
 
@@ -297,7 +309,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     let loadingsData = [];
     let unloading = [];
 
-    getValues("loadings").forEach(item => {
+    getLoadingsValues("loadings").forEach(item => {
       if(item.address && item.cor) {
 
         const cor = item.cor;
@@ -311,7 +323,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       }
     });
 
-    const unloadingValues = getValues("unloading");
+    const unloadingValues = getLoadingsValues("unloading");
 
     unloadingValues.reverse().forEach(item => {
       if(item.address && item.cor) {
@@ -369,7 +381,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       let unloading = [];
 
 
-      getValues("loadings").forEach(item => {
+      getLoadingsValues("loadings").forEach(item => {
         if(item.address && item.cor) {
           const cor = item.cor;
           if(Array.isArray(cor)) {
@@ -380,7 +392,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         }
       });
 
-      getValues("unloading").forEach(item => {
+      getLoadingsValues("unloading").forEach(item => {
         if(item.address && item.cor) {
           const cor = item.cor;
           if(Array.isArray(cor)) {
@@ -503,7 +515,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function onSubmit(data) {
-    console.log(data);
 
     if(!authStore.isAuth) {
       toast({
@@ -537,11 +548,11 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         package_quantity: +data.packaging_quantity || 0,
         load_time: startDate,
         date: endDate,
-        address_id: data.loadings[0].location.value,
+        address_id: loadingsWatch("loadings")?.[0].location.value,
         address_ids: [],
-        address_id_2: data.unloading[0].location.value,
-        city_id: data.loadings[0].location.guid,
-        city_id_2: data.unloading[0].location.guid,
+        address_id_2: loadingsWatch("unloading")[0].location.value,
+        city_id: loadingsWatch("loadings")?.[0].location.guid,
+        city_id_2: loadingsWatch("unloading")[0].location.guid,
         gps_monitoring: data.gps_monitoring,
         vehicle_type_id: data.car_type.value,
         number_of_cars: data.transport_count,
@@ -692,6 +703,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function handleResetForm () {
     reset(emptyCargoFields);
+    resetLoadings(emptyLoadingFields);
     setStartDate("");
     setEndDate("");
     setPackagingAndQuantity(false);
@@ -763,7 +775,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         capacity: data.load_capacity ?? "",
         price: data.bid_cash,
         price_prepayment: data.prepayment_percentage,
-        price_after_order: data?.dim_length_special ?? 0,
+        price_after_order: data?.payment_unloading ?? 0,
         price_prepayment_unit: {
           label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
           value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
@@ -861,8 +873,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
       // unloadingRef.current.push(unloadingRef.current.shift());
 
-      setValue("loadings", loadingsRef.current);
-      setValue("unloading", unloadingRef.current);
+      setLoadingsValue("loadings", loadingsRef.current);
+      setLoadingsValue("unloading", unloadingRef.current);
     }
 
   }, [getMaps.data]);

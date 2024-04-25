@@ -91,7 +91,7 @@ export const useDistanceCalculationProps = () => {
       center: [41.40587471972005, 69.46086540238926],
       zoom: 7,
       controls: [searchControl],
-    }, { buttonMaxWidth: 300 });
+    }, { buttonMaxWidth: 300, minZoom: 5 });
 
     // Adding a multiroute to the map.
     myMap.geoObjects.add(multiRoute);
