@@ -18,7 +18,7 @@ const LoadingMap = React.memo(({
     width="100%"
     modules={["Placemark", "geocode", "control.SearchControl"]}
     options={{ minZoom: 5 }}
-    style={{ width: "100%", height: "100%" }}
+    style={{ width: "100%", height: "100%", minHeight: '300px' }}
   >
     <SearchControl options={{ float: "right" }} />
     <TypeSelector options={{ float: "left" }} defaultMapTypes={["yandex#satellite", "yandex#map", "yandex#hybrid", "yandex#publicMap"]} />

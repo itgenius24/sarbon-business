@@ -23,7 +23,15 @@ export const ProfileLayout = ({ children }) => {
 
   const { t } = useTranslation(locale, "translations");
 
-  return <Container my="40px">
+  return <Container my={{
+    base: "20px",
+    sm: "20px",
+    md: "40px"
+  }} px={{
+    base: "0",
+    sm: "0",
+    md: "20px"
+  }}>
     {
       isLargerThan845 && <Heading size="md" mb="24px">
         {t("Профиль")}

@@ -21,6 +21,7 @@ export const CustomTextarea = ({
       width="100%"
       borderRadius="8px"
       borderColor="brand.200"
+      backgroundColor={'#fff'}
       _placeholder={{ color: "brand.300" }}
       resize="none"
       name={name}

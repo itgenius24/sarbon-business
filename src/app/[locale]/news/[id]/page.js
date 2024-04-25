@@ -42,14 +42,16 @@ export default function NewsPage({ params }) {
             {data?.title}
           </Heading>
         }
-        <Box maxH={514} borderRadius="10px" overflow="hidden" mb={!isLargerThan768 ? "8px" : "64px"}>
-          <Image
+        <Box maxH={514} overflow="hidden" mb={!isLargerThan768 ? "8px" : "64px"}>
+          <Box borderRadius="10px" overflow={'hidden'}>
+            <Image
             src={data?.news_photo}
             alt={data?.title}
             width={908}
             height={514}
             style={{ maxHeight: "inherit" }}
           />
+          </Box>
           {
             !isLargerThan768 && <Heading fontSize={20} lineHeight="25px" mt="16px">
               {data?.title}
