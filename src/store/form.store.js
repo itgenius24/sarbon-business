@@ -80,7 +80,7 @@ const formData = {
   diameter: "",
   hitch: "",
   pneumatic: "",
-  bunks: "",
+  bunks: false,
   tir: false,
   t1: false,
   cmr: false,
