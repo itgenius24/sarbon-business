@@ -883,6 +883,15 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }, [getValues()]);
 
   useEffect(() => {
+    if(!status || status === "in_moderation") {
+      if(formStore.formData.loadings || formStore.formData.unloading) {
+        setValue("loadings", formStore.formData.loadings);
+        setValue("unloading", formStore.formData.unloading);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if(!isFirstRender.current && (!status || status === "in_moderation")) {
       formStore.isPackagingAndQuantity = isPackagingAndQuantity;
       formStore.isDimensionsAndDiameter = isDimensionsAndDiameter;
