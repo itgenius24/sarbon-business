@@ -763,7 +763,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         capacity: data.load_capacity ?? "",
         price: data.bid_cash,
         price_prepayment: data.prepayment_percentage,
-        price_after_order: data?.dim_length_special ?? 0,
+        price_after_order: data?.payment_unloading ?? 0,
         price_prepayment_unit: {
           label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
           value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
