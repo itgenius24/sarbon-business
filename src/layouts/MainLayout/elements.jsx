@@ -1,8 +1,10 @@
 import { useGetLang } from "@/hooks/useGetLang";
+import authStore from "@/store/auth.store";
 
 export const useElements = () => {
 
   const lang = useGetLang();
+  const isAuth = authStore.getIsAuth;
 
   return [
     {
@@ -10,11 +12,11 @@ export const useElements = () => {
       label: "Главный",
     },
     {
-      path: `/${lang || "ru"}/add-cargo`,
+      path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
       label: "Добавить груз",
     },
     {
-      path: `/${lang || "ru"}/my-loads`,
+      path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
       label: "Мои грузы",
     },
     {

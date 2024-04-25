@@ -31,7 +31,6 @@ export const useNewPasswordProps = () => {
 
   const updateUserPassword = useUpdateUserInfo({
     onSuccess(data) {
-      console.log({ data });
       getUsers.refetch();
     }
   });

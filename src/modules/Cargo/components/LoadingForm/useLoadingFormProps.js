@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 import { useAddCargoContext } from "../../providers";
+import { useRouter } from "next/navigation";
 
 export const useLoadingFormProps = () => {
 
   const yandexMapRef = React.useRef(undefined);
+
+  const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [formAddressName, setFormAddressName] = React.useState({});
@@ -234,5 +237,6 @@ export const useLoadingFormProps = () => {
     handleClearLocation,
     setIsModalOpen,
     initYmaps,
+    router,
   };
 };

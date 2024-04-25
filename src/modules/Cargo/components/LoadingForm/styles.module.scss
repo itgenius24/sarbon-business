@@ -40,6 +40,11 @@
   }
 }
 
+.addressLinkWrapper {
+  width: 100%;
+  flex-grow: 1;
+}
+
 .fieldsWrapperActions {
   width: 280px;
 }
@@ -87,6 +92,25 @@
   display: flex;
   align-items: center;
   column-gap: 4px;
+}
+
+.addressLinkWrapper {
+  position: relative;
+}
+
+.addressLink {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.addressLink.disabledLink {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @include breakpoint-down(780px) {

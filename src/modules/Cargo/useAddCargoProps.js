@@ -19,21 +19,22 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
+import formStore from "@/store/form.store";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
 
   const isAuth = authStore.isAuth;
 
-  const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(false);
-  const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(false);
+  const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(formStore.isPackagingAndQuantity);
+  const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(formStore.isDimensionsAndDiameter);
 
-  const [isRequirementOpen, setRequirementOpen] = useState(false);
-  const [isAccessOpen, setAccessOpen] = useState(false);
-  const [isBeltsOpen, setBeltsOpen] = useState(false);
-  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(false);
+  const [isRequirementOpen, setRequirementOpen] = useState(formStore.isRequirementOpen);
+  const [isAccessOpen, setAccessOpen] = useState(formStore.isAccessOpen);
+  const [isBeltsOpen, setBeltsOpen] = useState(formStore.isBeltsOpen);
+  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(formStore.isLiftingCapacityOpen);
 
-  const [prepaymentFuelOpen, setPrepaymentFuelOpen] = useState(false);
-  const [directContractOpen, setDirectContractOpen] = useState(false);
+  const [prepaymentFuelOpen, setPrepaymentFuelOpen] = useState(formStore.prepaymentFuelOpen);
+  const [directContractOpen, setDirectContractOpen] = useState(formStore.directContractOpen);
 
   const isCargo = status === "active" || status === "in_moderation" || status === "in_active";
 
@@ -46,8 +47,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const loadingsRef = useRef([]);
   const unloadingRef = useRef([]);
 
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState(formStore.startDate ? new Date(formStore.startDate) : "");
+  const [endDate, setEndDate] = useState(formStore.endDate ? new Date(formStore.endDate) : "");
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(!id);
@@ -339,6 +340,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       {
         onSuccess() {
           setLoading(false);
+          formStore.clearFormData();
           toast({
             position: "top-right",
             title: isTemplate ? t("Шаблон успешно создан") : t("Груз успешно создан"),
@@ -414,6 +416,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           }
         }
       );
+      formStore.clearFormData();
       setLoading(false);
     },
     onError() {
@@ -503,7 +506,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function onSubmit(data) {
-    console.log(data);
 
     if(!authStore.isAuth) {
       toast({
@@ -691,6 +693,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function handleResetForm () {
+    formStore.clearFormData();
     reset(emptyCargoFields);
     setStartDate("");
     setEndDate("");
@@ -763,7 +766,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         capacity: data.load_capacity ?? "",
         price: data.bid_cash,
         price_prepayment: data.prepayment_percentage,
-        price_after_order: data?.payment_unloading ?? 0,
+        price_after_order: isCargo ? data?.dim_length_special : data?.payment_unloading ?? 0,
         price_prepayment_unit: {
           label: status === "new" ? data.dim_height_special?.name : data.currency_id_data?.name,
           value: status === "new" ? data.dim_height_special?.guid : data.currency_id_data?.guid,
@@ -866,6 +869,66 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     }
 
   }, [getMaps.data]);
+
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if(!isFirstRender.current && (!status || status === "in_moderation")) {
+      formStore.setFormData(getValues());
+    } else {
+      isFirstRender.current = false;
+    }
+
+  }, [getValues()]);
+
+  useEffect(() => {
+    if(!isFirstRender.current && (!status || status === "in_moderation")) {
+      formStore.isPackagingAndQuantity = isPackagingAndQuantity;
+      formStore.isDimensionsAndDiameter = isDimensionsAndDiameter;
+      formStore.isRequirementOpen = isRequirementOpen;
+      formStore.isAccessOpen = isAccessOpen;
+      formStore.isBeltsOpen = isBeltsOpen;
+      formStore.isLiftingCapacityOpen = isLiftingCapacityOpen;
+      formStore.prepaymentFuelOpen = prepaymentFuelOpen;
+      formStore.directContractOpen = directContractOpen;
+    }
+  }, [
+    isPackagingAndQuantity,
+    isDimensionsAndDiameter,
+    isRequirementOpen,
+    isAccessOpen,
+    isBeltsOpen,
+    isLiftingCapacityOpen,
+    prepaymentFuelOpen,
+    directContractOpen,
+    status,
+  ]);
+
+  useEffect(() => {
+    if(formStore.isNotEmpty && (!status || status === "in_moderation")) {
+      reset(formStore.formData);
+    }
+
+    if(status && status !== "in_moderation") {
+      formStore.clearFormData();
+    }
+
+    if(status === "in_moderation") {
+      return () => {
+        formStore.clearFormData();
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+
+    if(!isFirstRender.current && (!status || status === "in_moderation")) {
+      formStore.startDate = startDate;
+      formStore.endDate = endDate;
+    }
+
+  }, [startDate, endDate]);
 
   const data = getData();
 
