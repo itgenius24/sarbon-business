@@ -138,24 +138,24 @@ export const useLoadingFormProps = () => {
   }
 
   function getPlaceMarkAddress(coords) {
-    yMaps?.geocode(coords).then(function (res) {
-      var firstGeoObject = res.geoObjects.get(0);
-      if(formAddressName?.name === "loadings") {
-        updateLoading(formAddressName?.index, {
-          location: watch(`loadings.${formAddressName?.index}.location`),
-          address: firstGeoObject.getAddressLine(),
-          cor: `${coords[0]},${coords[1]}`,
-          search: watch(`loadings.${formAddressName?.index}.search`)
-        });
-      } else {
-        updateUnloading(formAddressName?.index, {
-          location: watch(`unloading.${formAddressName?.index}.location`),
-          address: firstGeoObject.getAddressLine(),
-          cor: `${coords[0]},${coords[1]}`,
-          search: watch(`unloading.${formAddressName?.index}.search`)
-        });
-      }
-    });
+    // yMaps?.geocode(coords).then(function (res) {
+    //   var firstGeoObject = res.geoObjects.get(0);
+    //   if(formAddressName?.name === "loadings") {
+    //     updateLoading(formAddressName?.index, {
+    //       location: watch(`loadings.${formAddressName?.index}.location`),
+    //       address: firstGeoObject.getAddressLine(),
+    //       cor: `${coords[0]},${coords[1]}`,
+    //       search: watch(`loadings.${formAddressName?.index}.search`)
+    //     });
+    //   } else {
+    //     updateUnloading(formAddressName?.index, {
+    //       location: watch(`unloading.${formAddressName?.index}.location`),
+    //       address: firstGeoObject.getAddressLine(),
+    //       cor: `${coords[0]},${coords[1]}`,
+    //       search: watch(`unloading.${formAddressName?.index}.search`)
+    //     });
+    //   }
+    // });
   }
 
   function onMapClick (e) {
@@ -164,30 +164,30 @@ export const useLoadingFormProps = () => {
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
 
-    if(formAddressName.name === "loadings") {
-      updateLoading(formAddressName?.index, {
-        location: watch(`loadings.${formAddressName?.index}.location`),
-        address: watch(`loadings.${formAddressName?.index}.address`),
-        cor: coordinates.join(","),
-        search: watch(`loadings.${formAddressName?.index}.search`)
-      });
+    // if(formAddressName.name === "loadings") {
+    //   updateLoading(formAddressName?.index, {
+    //     location: watch(`loadings.${formAddressName?.index}.location`),
+    //     address: watch(`loadings.${formAddressName?.index}.address`),
+    //     cor: coordinates.join(","),
+    //     search: watch(`loadings.${formAddressName?.index}.search`)
+    //   });
 
-    } else {
+    // } else {
 
-      updateUnloading(formAddressName?.index, {
-        location: watch(`unloading.${formAddressName?.index}.location`),
-        address: watch(`unloading.${formAddressName?.index}.address`),
-        cor: coordinates.join(","),
-        search: watch(`unloading.${formAddressName?.index}.search`)
-      });
+    //   updateUnloading(formAddressName?.index, {
+    //     location: watch(`unloading.${formAddressName?.index}.location`),
+    //     address: watch(`unloading.${formAddressName?.index}.address`),
+    //     cor: coordinates.join(","),
+    //     search: watch(`unloading.${formAddressName?.index}.search`)
+    //   });
 
-    }
+    // }
 
   }
 
   function handleClearLocation() {
-    setValue(`${formAddressName?.name}.${formAddressName?.index}.address`, "");
-    setValue(`${formAddressName?.name}.${formAddressName?.index}.cor`, "");
+    // setValue(`${formAddressName?.name}.${formAddressName?.index}.address`, "");
+    // setValue(`${formAddressName?.name}.${formAddressName?.index}.cor`, "");
     handleCloseModal();
   }
 

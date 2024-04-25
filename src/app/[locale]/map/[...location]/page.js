@@ -5,7 +5,7 @@ import { Map, Placemark, SearchControl, TypeSelector } from "@pbe/react-yandex-m
 import { useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import formStore from "@/store/form.store";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/components/Container";
 
@@ -34,19 +34,31 @@ export default function MapPage({ params }) {
     ymaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
       if(type === "loadings") {
-        setLoadings({
+        formStore.updateLoadings(index, {
           location: formStore.formData.loadings[index].location,
           address: firstGeoObject.getAddressLine(),
           cor: `${coords[0]},${coords[1]}`,
           search: formStore.formData.loadings[index].search
         });
+        // setLoadings({
+        //   location: formStore.formData.loadings[index].location,
+        //   address: firstGeoObject.getAddressLine(),
+        //   cor: `${coords[0]},${coords[1]}`,
+        //   search: formStore.formData.loadings[index].search
+        // });
       } else {
-        setUnloading({
+        formStore.updateUnloading(index, {
           location: formStore.formData.unloading[index].location,
           address: firstGeoObject.getAddressLine(),
           cor: `${coords[0]},${coords[1]}`,
           search: formStore.formData.unloading[index].search
         });
+        // setUnloading({
+        //   location: formStore.formData.unloading[index].location,
+        //   address: firstGeoObject.getAddressLine(),
+        //   cor: `${coords[0]},${coords[1]}`,
+        //   search: formStore.formData.unloading[index].search
+        // });
       }
     });
   }
@@ -58,13 +70,13 @@ export default function MapPage({ params }) {
   }
 
   function savePlaceMark() {
-    if(type === "loadings") {
-      formStore.updateLoadings(index, loadings);
-    } else if(type === "unloading") {
-      formStore.updateUnloading(index, unloading);
-    }
-    router.back();
-    router.refresh();
+    // router.back();
+    router.push(`/${locale}/add-cargo`);
+    // if(type === "loadings") {
+    //   formStore.updateLoadings(index, loadings);
+    // } else if(type === "unloading") {
+    //   formStore.updateUnloading(index, unloading);
+    // }
   }
 
   return <Container>

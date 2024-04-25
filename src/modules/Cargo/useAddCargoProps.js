@@ -15,13 +15,16 @@ import {
 } from "@/services/api";
 import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
+  const searchParams = useSearchParams();
+
+  const pathname = usePathname();
 
   const isAuth = authStore.isAuth;
 
@@ -60,6 +63,13 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const router = useRouter();
 
   const toast = useToast();
+
+  useEffect(() => {
+    if(searchParams.get("isFirst") !== "true") {
+      router.push(pathname + "?isFirst=true");
+      router.refresh();
+    }
+  }, []);
 
   function handleEditToggle() {
     setCanEdit(!canEdit);
@@ -369,7 +379,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     onSuccess(data) {
       let loadingsData = [];
       let unloading = [];
-
 
       getValues("loadings").forEach(item => {
         if(item.address && item.cor) {
@@ -883,11 +892,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }, [getValues()]);
 
   useEffect(() => {
-    if(!status || status === "in_moderation") {
-      if(formStore.formData.loadings || formStore.formData.unloading) {
-        setValue("loadings", formStore.formData.loadings);
-        setValue("unloading", formStore.formData.unloading);
-      }
+    if(formStore.isNotEmpty) {
+      setValue("loadings", formStore.formData.loadings);
+      setValue("unloading", formStore.formData.unloading);
     }
   }, []);
 
@@ -1004,6 +1011,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setPrepaymentFuelOpen,
     directContractOpen,
     setDirectContractOpen,
-    userId2: data?.users_id_2
+    userId2: data?.users_id_2,
   };
 };
