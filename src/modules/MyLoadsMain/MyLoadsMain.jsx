@@ -29,7 +29,7 @@ export const MyLoadsMain = () => {
   const { t } = useTranslation(locale, "translations");
 
   return (
-    <Box px={"20px"} >
+    <Box px={"20px"} py="24px" >
       <Container >
         <Heading p={3} fontSize={isLargerThan768 ? "30px" : "22px"} size="md" mb="24px">
           {t("Мои грузы")}

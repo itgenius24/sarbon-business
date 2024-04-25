@@ -14,7 +14,7 @@ export default function MapPage({ params }) {
 
   let placeMarCors = formStore.formData[type][index].cor;
 
-  if(typeof placeMarCors === "string") {
+  if(typeof placeMarCors === "string" && placeMarCors) {
     placeMarCors = placeMarCors.split(",");
   }
 
@@ -63,8 +63,8 @@ export default function MapPage({ params }) {
     } else if(type === "unloading") {
       formStore.updateUnloading(index, unloading);
     }
-
     router.back();
+    router.refresh();
   }
 
   return <Container>
