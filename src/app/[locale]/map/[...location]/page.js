@@ -12,7 +12,7 @@ import { Container } from "@/components/Container";
 export default function MapPage({ params }) {
   const { location: [type, index], locale } = params;
 
-  let placeMarCors = formStore.formData[type][index].cor || null;
+  let placeMarCors = formStore.formData[type][index].cor;
 
   if(typeof placeMarCors === "string") {
     placeMarCors = placeMarCors.split(",");
@@ -73,7 +73,7 @@ export default function MapPage({ params }) {
         onClick={onMapClick}
         onLoad={(ymaps) => setYMaps(ymaps)}
         defaultState={{
-          center: placeMarCors || [41.40587471972005, 69.46086540238926],
+          center: placeMarCors?.length ? placeMarCors : [41.40587471972005, 69.46086540238926],
           zoom: 15,
         }}
         instanceRef={yandexMapRef}

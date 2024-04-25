@@ -15,8 +15,9 @@ import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
 import { Modal } from "@/components/Modal";
 import { Checkbox } from "@/components/Checkbox";
+import { observer } from "mobx-react-lite";
 
-export const Cargo = ({ id, status, locale }) => {
+export const Cargo = observer(({ id, status, locale }) => {
 
   const addCargoProps = useAddCargoProps({ id, status, locale });
   const isEditing = !!id;
@@ -223,4 +224,4 @@ export const Cargo = ({ id, status, locale }) => {
       </Box>
     </Modal>
   </AddCargoProvider>;
-};
+});
