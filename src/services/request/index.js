@@ -22,6 +22,20 @@ request.interceptors.request.use((config) => {
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
+
+  if(
+    config.url.includes("client_type") ||
+    config.url.includes("get-list/role") ||
+    config.url.includes("get-list/firm") ||
+    config.url.includes("get-list/news") ||
+    config.url.includes("get-list/partners_company")
+  ) {
+    if(!token) {
+      config.headers["Authorization"] = "API-KEY";
+    }
+    config.headers["X-API-KEY"] = "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT";
+  }
+
   return config;
 });
 
