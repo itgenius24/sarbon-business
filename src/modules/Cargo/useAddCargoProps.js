@@ -160,7 +160,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     diameter: "",
     hitch: "",
     pneumatic: "",
-    bunks: "",
+    bunks: false,
     tir: false,
     t1: false,
     cmr: false,
