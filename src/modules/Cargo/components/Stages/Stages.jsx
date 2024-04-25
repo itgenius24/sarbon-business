@@ -5,18 +5,18 @@ import clsx from "clsx";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 
-export const Stages = () => {
+export const Stages = ({ loadingsWatch }) => {
 
   const {
     stages,
     statuses
-  } = useStagesProps();
+  } = useStagesProps({ loadingsWatch });
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 
-  return <Box className={cls.stages} as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="sticky" top="48px" flexShrink={0}>
+  return <Box className={cls.stages} as="article" p="16px" bgColor="baseWhite" borderRadius="12px" width="284px" position="absolute" right="0" top="0" flexShrink={0}>
     <Box className={cls.title} pb="20px" borderBottom="1px solid" borderColor="brand.200">
       <Heading className={cls.heading} size="sm">{t("Этапы добавление груза")}</Heading>
       <Text className={cls.text} color="brand.600" fontSize="14px" fontWeight="400" lineHeight="20px">{t("Вы можете следить за своими действия в этом поле")}</Text>

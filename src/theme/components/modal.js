@@ -10,6 +10,15 @@ const sizes = definePartsStyle({
       width: "100%",
       maxWidth: "805px"
     }
+  }),
+  xxl: definePartsStyle({
+    dialog: {
+      width: "100%",
+      maxWidth: "1100px",
+      maxHeight: "80vh",
+      overflow: "auto",
+      height: "100%"
+    }
   })
 });
 

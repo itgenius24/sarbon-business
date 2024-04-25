@@ -1,0 +1,18 @@
+.cargo {
+  max-width: 1258px;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 86px;
+  padding: 0 16px;
+}
+
+.moderation {
+  margin-top: 120px;
+}
+
+@include breakpoint-down(800px) {
+  .moderation {
+    margin-top: 160px;
+  }
+}

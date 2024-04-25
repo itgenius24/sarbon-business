@@ -6,7 +6,7 @@ import { useGetStoreData } from "@/hooks/useGetStoreData";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 
-export const useStagesProps = () => {
+export const useStagesProps = ({ loadingsWatch }) => {
 
   const { watch, startDate, endDate } = useAddCargoContext();
 
@@ -19,8 +19,8 @@ export const useStagesProps = () => {
   const cargoType = watch("cargo_type");
   const volumeMeasurement = watch("volume_measurement");
 
-  const loadings = watch("loadings")[0];
-  const unloading = watch("unloading")[0];
+  const loadings = loadingsWatch("loadings")[0];
+  const unloading = loadingsWatch("unloading")[0];
 
   const transportType = watch("car_type");
   const transportCount = watch("transport_count");
