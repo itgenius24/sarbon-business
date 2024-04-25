@@ -26,6 +26,11 @@ export const CargoSetup = () => {
 
   const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
+  function formatNumber(n) {
+    // format number 1000000 to 1,234,567
+    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
+
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
       <BargainRadio watch={watch} register={register} disabled={!canEdit} />
@@ -42,6 +47,12 @@ export const CargoSetup = () => {
             <TextFieldWithAddition
               disabled={!canEdit}
               name="price"
+              onChange={(e) => {
+                console.log(e.target.value);
+                // format the value to currency and setValue the price
+                const currencyValue = formatNumber(e.target.value);
+                setValue("price", currencyValue);
+              }}
               register={register}
               control={control}
               additionalItemName="price_prepayment_unit"
@@ -52,6 +63,8 @@ export const CargoSetup = () => {
               width="100%"
               additionalItemOptions={currencyOptions}
             />
+
+
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>

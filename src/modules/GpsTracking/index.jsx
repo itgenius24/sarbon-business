@@ -106,7 +106,11 @@ export default function GpsTrackingModule() {
             }
           />
 
-          <Box maxWidth="234px" width={"100%"}>
+          <Box maxWidth={{
+            base: "100%",
+            sm: "100%",
+            md: "234px",
+          }} width={"100%"}>
             <Dropdown
               required={true}
               placeholder={t("Введите тип кузова")}
@@ -117,7 +121,11 @@ export default function GpsTrackingModule() {
               control={control}
             />
           </Box>
-          <Box maxWidth="234px" width={"100%"}>
+          <Box maxWidth={{
+            base: "100%",
+            sm: "100%",
+            md: "234px",
+          }} width={"100%"}>
             <Dropdown
               required={true}
               placeholder={t("Введите тип загрузки")}
@@ -138,7 +146,11 @@ export default function GpsTrackingModule() {
                 </Heading>
                 <AccordionIcon/>
               </AccordionButton>
-              <Flex mt={"16px"} gap={3} flexDirection={{
+              <Flex mt={"16px"} gap={3} maxWidth={{
+                base: "100%",
+                sm: "100%",
+                md: "500px",
+              }} flexDirection={{
                 base: "column",
                 sm: "column",
                 md: "row",
@@ -150,7 +162,6 @@ export default function GpsTrackingModule() {
                   name="weight"
                   register={register}
                   additionalItemName="weight_unit"
-                  width="234px"
                   placeholder={t("Вес")}
                   additionalItemOptions={weightMeasurementOptions}
                   type="number"
@@ -160,7 +171,6 @@ export default function GpsTrackingModule() {
                   control={control}
                   name="volume"
                   register={register}
-                  width="234px"
                   placeholder={t("Объем")}
                   additionalItemPlaceholder="m³"
                   type="number"
@@ -175,11 +185,19 @@ export default function GpsTrackingModule() {
                     sm: "column",
                     md: "row",
                   }}>
-                    <Box width="234px" flexShrink="0">
+                    <Box width={{
+                      base: "100%",
+                      sm: "100%",
+                      md: "234px",
+                    }} flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500" lineHeight="20px">{t("ADR")}</Heading>
                     </Box>
                     <Box display="flex" flexDirection="column" gap="16px" maxW="540px" width="100%">
-                      <Box maxW={"234px"}>
+                      <Box maxWidth={{
+                        base: "100%",
+                        sm: "100%",
+                        md: "234px",
+                      }}>
                         <Dropdown
                         name="permission"
                         size={"md"}
@@ -285,7 +303,11 @@ export default function GpsTrackingModule() {
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px">{t("Ремней")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" maxW={"234px"} flexGrow={1}>
+                    <Box display="flex" columnGap="10px" maxWidth={{
+                      base: "100%",
+                      sm: "100%",
+                      md: "234px",
+                    }} flexGrow={1}>
                       <TextField placeholder={t("Штук")} type="number" register={register}
                         name="straps_number"/>
                     </Box>
@@ -295,11 +317,19 @@ export default function GpsTrackingModule() {
                     sm: "column",
                     md: "row",
                   }}>
-                    <Box width="234px" flexShrink="0">
+                    <Box width={{
+                      base: "100%",
+                      sm: "100%",
+                      md: "234px",
+                    }} flexShrink="0">
                       <Heading color="brand.700" fontSize="16px" fontWeight="500"
                         lineHeight="20px"> {t("Грузоподъемность")}</Heading>
                     </Box>
-                    <Box display="flex" columnGap="10px" maxW={"234px"} flexGrow={1}>
+                    <Box display="flex" columnGap="10px" maxWidth={{
+                      base: "100%",
+                      sm: "100%",
+                      md: "234px",
+                    }} flexGrow={1}>
                       <TextFieldWithAddition
                         additionalItemOptions={[{
                           label: t("т"),
@@ -309,7 +339,6 @@ export default function GpsTrackingModule() {
                           value: "kg"
                         }]}
                         placeholder={t("Штук")}
-                        width="135px"
                         type="number"
                         register={register}
                         name="load_capacity"
@@ -324,7 +353,11 @@ export default function GpsTrackingModule() {
             </AccordionItem>
           </Accordion>
         </Box>
-        <Button type={"submit"} width="234px" mt="20px" onClick={handleCalculate}>{t("gpsTracking.searchCars")}</Button>
+        <Button type={"submit"} width={{
+          base: "100%",
+          sm: "100%",
+          md: "234px",
+        }} mt="20px" onClick={handleCalculate}>{t("gpsTracking.searchCars")}</Button>
       </Box>
     </VStack>
     <Box mt={6}>

@@ -97,3 +97,8 @@ a {
 .chakra-select__menu-portal {
   z-index: 100;
 }
+.chakra-select__wrapper{
+  select{
+    padding: 0 20px 0 10px;
+  }
+}
