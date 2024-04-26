@@ -24,7 +24,7 @@ export const Popup = ({
   hideButtons,
 }) => {
 
-  return <Modal isOpen={isOpen} onClose={onClose}>
+  return <Modal isOpen={isOpen} onClose={onClose} isCentered>
     <ModalOverlay />
     <ModalContent className={cls.modalContent}>
       <ModalHeader>

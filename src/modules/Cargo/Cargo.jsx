@@ -167,7 +167,7 @@ export const Cargo = observer(({ id, status, locale }) => {
     <Popup
       isOpen={addCargoProps.isPopupOpen}
       onClose={addCargoProps.handleCloseDeletePopup}
-      mainText={t("Вы уверены что хотите удалить груз “Ташкент-Бухара” ?")}
+      mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName })}
       status="delete"
       btn2Callback={addCargoProps.handleDelete}
     />
