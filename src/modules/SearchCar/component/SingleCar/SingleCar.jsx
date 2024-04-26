@@ -99,7 +99,8 @@ export const SingleCar = ({
       data: {
         object_data: {
           user_id: body.user_id,
-          guid: id
+          guid: id,
+          cargo_type:["cargo"]
         }
       }
     });

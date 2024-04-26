@@ -9,7 +9,7 @@ import { PaymentDetail } from "../PaymentDetail";
 import { Contacts } from "../Contacts";
 import Image from "next/image";
 
-export const CargoSetup = () => {
+export const CargoSetup = ({ setIsPhotoChanged }) => {
 
   const {
     register,
@@ -29,7 +29,7 @@ export const CargoSetup = () => {
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
       <BargainRadio watch={watch} register={register} disabled={!canEdit} />
-      <HelpCircleIcon />
+      {/* <HelpCircleIcon /> */}
     </Box>
     {
       watch("bargain") !== "request" && <>
@@ -116,7 +116,19 @@ export const CargoSetup = () => {
       watch("image")
         ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" maxWidth={"540px"} width="100%" height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
           <Image className={cls.img} loader={imageLoader} src={watch("image")} alt="cargo" width={150} height={150} />
-          <Button isDisabled={!canEdit} onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
+          <Button
+            isDisabled={!canEdit}
+            onClick={() => {
+              setValue("image", null);
+              setIsPhotoChanged(true);
+            }}
+            position="absolute"
+            top="10px"
+            left="10px"
+            variant="reset"
+          >
+            <DeleteIcon />
+          </Button>
         </Box>
         : <Box
           padding="16px 24px"
@@ -135,7 +147,10 @@ export const CargoSetup = () => {
           cursor={canEdit ? "pointer" : "not-allowed"}
           opacity={canEdit ? 1 : 0.5}
         >
-          <input disabled={!canEdit} className="visually-hidden" type="file" accept="image/*" onChange={handleImageUpload} />
+          <input disabled={!canEdit} className="visually-hidden" type="file" accept="image/*" onChange={(e) => {
+            handleImageUpload(e);
+            setIsPhotoChanged(true);
+          }} />
           <Box>
             <Box mx="auto" mb="12px" width="40px" height="40px" p="10px" boxShadow="0px 1px 2px 0px #1018280D" borderRadius="8px" background="white" border="1px solid" borderColor="brand.200">
               <UploadCloudIcon />

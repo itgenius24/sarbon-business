@@ -31,6 +31,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(formStore.isPackagingAndQuantity);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(formStore.isDimensionsAndDiameter);
 
+  const [isPhotoChanged, setIsPhotoChanged] = useState(false);
+
   const [isRequirementOpen, setRequirementOpen] = useState(formStore.isRequirementOpen);
   const [isAccessOpen, setAccessOpen] = useState(formStore.isAccessOpen);
   const [isBeltsOpen, setBeltsOpen] = useState(formStore.isBeltsOpen);
@@ -206,7 +208,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     watch,
     reset,
     getValues,
-    formState: { errors, isDirty, }
+    formState: { errors, isDirty }
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -976,7 +978,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     transportModel: data?.short_name,
     canEdit,
     handleEditToggle,
-    isDirty,
+    isDirty: isDirty || isPhotoChanged,
     onCancelClick,
     handleOpenDeletePopup,
     handleCloseDeletePopup,
@@ -1012,5 +1014,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     directContractOpen,
     setDirectContractOpen,
     userId2: data?.users_id_2,
+    setIsPhotoChanged,
+    isAcceptRejectLoading: updateResponseMutation.isPending,
   };
 };

@@ -4,7 +4,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetDriverLocation, useGetGPSHistory } from "@/services/api";
+import { useGetDriverLocation, useGetGPSHistory, useGetSortedGPSHistory } from "@/services/api";
 import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
@@ -54,7 +54,7 @@ export const TopContent = ({
     },
     {
       title: t("Предлагаемая сумма: "),
-      value: proposedAmount ? proposedAmount + " " + currency : "",
+      value: proposedAmount ? proposedAmount + " " + (currency ? currency : "") : "",
     },
     {
       title: t("Рейтинг водителя: "),
@@ -80,13 +80,19 @@ export const TopContent = ({
     { enabled: !!(status === "performed" && userId2) }
   );
 
-  const getGPSHistory = useGetGPSHistory(
-    { data: JSON.stringify({ user_id: userId2 }) },
-    { enabled: !!(status === "performed" && userId2) }
-  );
+  // const getGPSHistory = useGetGPSHistory(
+  //   { data: JSON.stringify({ user_id: userId2 }) },
+  //   { enabled: !!(status === "performed" && userId2) }
+  // );
+  const [gpsHistory, setGpsHistory] = useState([]);
+  const getGPSHistory = useGetSortedGPSHistory({
+    onSuccess(data) {
+      setGpsHistory(data?.response?.map(item => [item?.lat, item?.long]));
+    }
+  });
 
 
-  const gpsHistory = getGPSHistory.data?.response?.map(item => [item?.lat, item?.long]);
+  // const gpsHistory = getGPSHistory.data?.response?.map(item => [item?.lat, item?.long]);
   const driverPosition = [getDriverLocation.data?.response?.[0]?.lat, getDriverLocation.data?.response?.[0]?.long];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -95,6 +101,12 @@ export const TopContent = ({
   var multiRoute = useRef(null);
   var myPolyline = useRef(null);
   var myPlaceMark = useRef(null);
+
+  useEffect(() => {
+    if(status === "performed" && userId2) {
+      getGPSHistory.mutate({ data: { object_data:{ user_id: "b7191b92-8c91-43f8-8b98-35da4699af30" } } });
+    }
+  }, [status, userId2]);
 
   function initYmaps() {
 

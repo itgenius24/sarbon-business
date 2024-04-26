@@ -31,6 +31,7 @@ export const TextFieldWithAddition = ({
   onClick,
   rules = {},
   className,
+  zIndex = 9,
   ...props
 }) => {
 
@@ -43,7 +44,10 @@ export const TextFieldWithAddition = ({
         {additionalItemLabel && <span className={cls.additionalItemLabel}>{additionalItemLabel}</span>}
       </div>
     }
-    <div className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}>
+    <div
+      className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}
+      style={{ zIndex }}
+    >
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
         <input className={cls.fieldInput} onClick={onClick} {...register(name, rules)} disabled={onClick ? false : disabled || onlyFieldDisabled} type={type} placeholder={placeholder} {...props} />

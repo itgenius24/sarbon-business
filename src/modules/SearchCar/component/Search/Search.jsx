@@ -74,7 +74,7 @@ export const Search = (props={}) => {
         </>
         <>
           <Heading size="sm" fontSize={isLargerThan845 ? "20px" : "16px"}>Параметры машин</Heading>
-          <SimpleGrid columns={isLargerThan845 ? [2, null, 5] : [1, null, 3]} spacing={isLargerThan845 ? "24px" : "12px"}>
+          <Box display="flex" flexDirection={isLargerThan845 ? "row" : "column"} columnGap={isLargerThan845 ? "24px" : "0"} rowGap={isLargerThan845 ? "0" : "12px"}>
             <TextFieldWithAddition
               errors={errors}
               control={control}
@@ -102,7 +102,7 @@ export const Search = (props={}) => {
               additionalItemOptions={volumeMeasurementOptions}
               type="number"
             />
-          </SimpleGrid>
+          </Box>
         </>
         <>
           <Button isLoading={isPending} type="submit" maxW={isLargerThan845 ? "180px" : "100%"}>

@@ -18,7 +18,6 @@ import { Checkbox } from "@/components/Checkbox";
 import { observer } from "mobx-react-lite";
 
 export const Cargo = observer(({ id, status, locale }) => {
-
   const addCargoProps = useAddCargoProps({ id, status, locale });
   const isEditing = !!id;
 
@@ -117,7 +116,7 @@ export const Cargo = observer(({ id, status, locale }) => {
               </Box>
             }
             <CargoDetail />
-            <CargoSetup />
+            <CargoSetup setIsPhotoChanged={addCargoProps.setIsPhotoChanged} />
           </Box>
           {
             !isEditing && <Stages />
@@ -158,8 +157,8 @@ export const Cargo = observer(({ id, status, locale }) => {
         }
         {
           status === "new" && <Box display="flex" width="570px" columnGap="12px" mt="32px">
-            <Button variant="outlineError" onClick={() => addCargoProps.handleCancel()}>{t("Отказать")}</Button>
-            <Button onClick={() => addCargoProps.handleAccept()}>{t("Принять")}</Button>
+            <Button isLoading={addCargoProps.isAcceptRejectLoading} variant="outlineError" onClick={() => addCargoProps.handleCancel()}>{t("Отказать")}</Button>
+            <Button isLoading={addCargoProps.isAcceptRejectLoading} onClick={() => addCargoProps.handleAccept()}>{t("Принять")}</Button>
           </Box>
         }
       </Container>

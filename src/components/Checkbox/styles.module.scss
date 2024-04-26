@@ -22,6 +22,11 @@
   background-position: center center;
 }
 
+.checkboxInput:disabled + .checkbox,
+.checkboxInput:disabled ~ .checkboxText {
+  cursor: not-allowed;
+}
+
 .checkboxLabel.filled .checkboxInput:checked + .checkbox {
   background-color: #2688EB;
   background-image: url('/svg/check-white.svg');

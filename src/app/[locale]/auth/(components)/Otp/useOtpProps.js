@@ -64,8 +64,8 @@ export const useOtpProps = () => {
         sms_id: smsId,
         otp: value,
         phone: phone,
-        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-        role_id: "921464fa-8308-46b7-9b66-363acf654e40"
+        client_type_id: "9bb1227a-0c90-4c70-bcee-b2563d32f7a0",
+        role_id: "48871d27-7361-4f69-8fe4-b54daf270739"
       },
       login_strategy: "PHONE_OTP"
     });

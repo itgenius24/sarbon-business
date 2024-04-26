@@ -84,6 +84,7 @@ export const CargoForm = () => {
             additionalItemOptions={weightMeasurementOptions}
             disabled={!canEdit}
             type="number"
+            zIndex={90}
           />
           <TextFieldWithAddition
             className={cls.textField}
