@@ -38,7 +38,7 @@ export const DistanceCalculation = () => {
   return <Container py={isLargerThan845 ? "40px" : "24px"}>
     <Script
       onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
+      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&lang=ru_RU`}
     />
     <Heading size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
     <Box p={isLargerThan845 ? "24px" : "0"} bgColor={isLargerThan845 ? "baseWhite" : "transparent"} borderRadius={isLargerThan845 ? "16px" : "0"}>

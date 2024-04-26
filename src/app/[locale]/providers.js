@@ -18,6 +18,7 @@ export function Providers({ children }) {
             query={{
               load: "Map,Placemark",
               apikey: process.env.NEXT_PUBLIC_YANDEX_MAP_KEY,
+              suggest_apikey: process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY,
             }}>
             {children}
           </YMaps>

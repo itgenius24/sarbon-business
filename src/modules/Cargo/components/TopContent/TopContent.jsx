@@ -104,7 +104,7 @@ export const TopContent = ({
 
   useEffect(() => {
     if(status === "performed" && userId2) {
-      getGPSHistory.mutate({ data: { object_data:{ user_id: "b7191b92-8c91-43f8-8b98-35da4699af30" } } });
+      getGPSHistory.mutate({ data: { object_data:{ user_id: userId2 } } });
     }
   }, [status, userId2]);
 
@@ -184,7 +184,7 @@ export const TopContent = ({
     <Script
       async
       onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
+      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&lang=ru_RU`}
     />
     {
       status === "performed" && <>

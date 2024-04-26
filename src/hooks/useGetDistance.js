@@ -7,7 +7,7 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
   const [duration, setDuration] = useState(null);
   useEffect(() => {
     const yandexMapsScript = document.createElement("script");
-    yandexMapsScript.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&load=package.full&lang=en_US`;
+    yandexMapsScript.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`;
     yandexMapsScript.async = true;
     yandexMapsScript.onload = () => {
       calculateDistance();
