@@ -116,7 +116,7 @@ class Store {
         "prepaymentFuelOpen",
         "directContractOpen",
       ],
-      storage: storage("localStorage")
+      storage: storage("sessionStorage")
     });
 
   }
