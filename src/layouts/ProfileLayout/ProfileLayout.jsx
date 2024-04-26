@@ -42,7 +42,7 @@ export const ProfileLayout = ({ children }) => {
     }
     <div className={cls.contentWrapper}>
       {
-        pathname === defaultPath && <Box flexGrow={isLargerThan845 ? 0 : 1}>
+        (pathname === defaultPath || isLargerThan845) && <Box flexGrow={isLargerThan845 ? 0 : 1}>
           <Flex justifyContent={isLargerThan845 ? "flex-start" : "center"} gap={4} mb="16px">
             <LeftHeaderCard title="Ваш ID:" value={data?.your_id} />
             <LeftHeaderCard title="Баланс" value={data?.balance} />

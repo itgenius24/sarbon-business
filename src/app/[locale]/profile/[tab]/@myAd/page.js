@@ -23,7 +23,7 @@ export default function MyAd ({ params: { locale } }) {
     <Box>
       <MainContentHeader
         title={
-          <Flex as="button" onClick={!isLargerThan845 ? back : () => {}} alignItems="center" >
+          !isLargerThan845 && <Flex as="button" onClick={!isLargerThan845 ? back : () => {}} alignItems="center" >
             <BackArrow />
             <span>Мои обьявления</span>
           </Flex>

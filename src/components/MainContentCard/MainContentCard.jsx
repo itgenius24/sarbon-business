@@ -5,7 +5,6 @@ export const MainContentCard = ({ children, footer, ...rest }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <Card
-      mt="32px"
       variant="outline"
       rounded="12px"
       bg="white"
