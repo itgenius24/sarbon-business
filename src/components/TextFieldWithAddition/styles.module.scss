@@ -116,6 +116,9 @@
   border-left: none;
   border-radius: 0 8px 8px 0;
   background-color: var(--brand-50);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .additionalItem.lightTheme {

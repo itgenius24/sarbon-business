@@ -51,6 +51,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               type="number"
               width="100%"
               additionalItemOptions={currencyOptions}
+              zIndex={20}
             />
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
@@ -69,6 +70,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               type="number"
               width="100%"
               additionalItemOptions={currencyOptions}
+              zIndex={19}
             />
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
@@ -87,6 +89,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               type="number"
               width="100%"
               additionalItemOptions={currencyOptions}
+              zIndex={18}
             />
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
