@@ -193,9 +193,9 @@ export const Cargo = observer(({ id, status, locale }) => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Box display="flex" columnGap="12px">
-                  <Box display="flex" flexDirection="column" textAlign="left" rowGap="8px" flexWrap="wrap">
-                    <Text as="span" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"}>
+                <Box display="flex" columnGap="12px" flexGrow={1} maxWidth="calc(100% - 40px)">
+                  <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" textAlign="left" rowGap="8px" >
+                    <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                       {item?.city_id_data?.name}
                     </Text>
                     <span>{item?.address_id_data?.name}</span>
@@ -203,8 +203,8 @@ export const Cargo = observer(({ id, status, locale }) => {
                   <Box as="span" alignSelf="center">
                   -{">"}
                   </Box>
-                  <Box display="flex" flexDirection="column" rowGap="8px" textAlign="left" pr="10px">
-                    <Text as="span" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"}>
+                  <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" rowGap="8px" textAlign="left" pr="10px">
+                    <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                       {item?.city_id_2_data?.name}
                     </Text>
                     <span>{item?.address_id_2_data?.name}</span>

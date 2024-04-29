@@ -61,6 +61,7 @@
 
 .placeholder {
   max-width: calc(100% - 20px);
+  width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -147,6 +148,7 @@
 }
 
 .multiValueWrap {
+  width: 100%;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
