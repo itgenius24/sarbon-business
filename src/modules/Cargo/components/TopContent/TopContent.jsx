@@ -175,11 +175,11 @@ export const TopContent = ({
   useEffect(() => {
     const timer = setInterval(() => {
       getDriverLocation.refetch();
-    }, 5000);
+    }, 50000);
 
     const historyTimer = setInterval(() => {
       getDriverLocation.refetch();
-    }, 5000);
+    }, 50000);
 
     return () => {
       clearInterval(timer);
