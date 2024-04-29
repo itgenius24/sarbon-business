@@ -31,6 +31,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(formStore.isPackagingAndQuantity);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(formStore.isDimensionsAndDiameter);
 
+  const [isCreated, setIsCreated] = useState(false);
+
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
 
   const [isRequirementOpen, setRequirementOpen] = useState(formStore.isRequirementOpen);
@@ -351,8 +353,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       },
       {
         onSuccess() {
+          setIsCreated(true);
           setLoading(false);
-          formStore.clearFormData();
           toast({
             position: "top-right",
             title: isTemplate ? t("Шаблон успешно создан") : t("Груз успешно создан"),
@@ -885,13 +887,19 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if(!isFirstRender.current && (!status || status === "in_moderation")) {
+    if(!isFirstRender.current && (!status || status === "in_moderation") && !isCreated) {
       formStore.setFormData(getValues());
     } else {
       isFirstRender.current = false;
     }
 
-  }, [getValues()]);
+    return () => {
+      if(isCreated) {
+        formStore.clearFormData();
+      }
+    };
+
+  }, [getValues(), isCreated]);
 
   useEffect(() => {
     if(formStore.isNotEmpty) {
@@ -932,12 +940,12 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       formStore.clearFormData();
     }
 
-    if(status === "in_moderation") {
+    if(status) {
       return () => {
         formStore.clearFormData();
       };
     }
-  }, []);
+  }, [formStore.isNotEmpty]);
 
   useEffect(() => {
 

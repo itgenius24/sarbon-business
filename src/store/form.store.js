@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from "mobx";
-import { makePersistable } from "mobx-persist-store";
+import { clearPersistedStore, makePersistable } from "mobx-persist-store";
 import { enableStaticRendering } from "mobx-react-lite";
 
 enableStaticRendering(typeof window === "undefined");
@@ -14,80 +14,82 @@ function storage (store = "sessionStorage") {
   }
 }
 
-const formData = {
-  cargo_type: {
-    value: "",
-    label: "",
-  },
-  weight_measurement: "",
-  weight_unit: {
-    value: "",
-    label: "",
-  },
-  loadings: [{
-    location: {
+function getEmptyFormData() {
+  return {
+    cargo_type: {
       value: "",
       label: "",
     },
-    address: "",
-    cor: [],
-  }],
-  unloading: [
-    {
+    weight_measurement: "",
+    weight_unit: {
+      value: "",
+      label: "",
+    },
+    loadings: [{
       location: {
         value: "",
         label: "",
       },
       address: "",
       cor: [],
-    }
-  ],
-  volume_measurement: "",
-  packaging: {
-    value: "",
-    label: "",
-  },
-  packagingSearch: "",
-  packaging_quantity: "",
-  gps_monitoring: "",
-  car_type: {
-    value: "",
-    label: "",
-  },
-  transport_count: "",
-  is_ftl: false,
-  is_ltl: false,
-  capacity: "",
-  price: "",
-  price_prepayment: "",
-  price_after_order: 0,
-  price_prepayment_unit: {
-    label: "",
-    value: "",
-  },
-  payment_deadline: "",
-  contact: "",
-  note: "",
-  image: "",
-  payment_type: {
-    label: "",
-    value: "",
-  },
-  bargain: "",
-  length: "",
-  width: "",
-  height: "",
-  diameter: "",
-  hitch: "",
-  pneumatic: "",
-  bunks: false,
-  tir: false,
-  t1: false,
-  cmr: false,
-  medic_certificate: false,
-  permission: [],
-  straps_number: "",
-};
+    }],
+    unloading: [
+      {
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
+      }
+    ],
+    volume_measurement: "",
+    packaging: {
+      value: "",
+      label: "",
+    },
+    packagingSearch: "",
+    packaging_quantity: "",
+    gps_monitoring: "",
+    car_type: {
+      value: "",
+      label: "",
+    },
+    transport_count: "",
+    is_ftl: false,
+    is_ltl: false,
+    capacity: "",
+    price: "",
+    price_prepayment: "",
+    price_after_order: 0,
+    price_prepayment_unit: {
+      label: "",
+      value: "",
+    },
+    payment_deadline: "",
+    contact: "",
+    note: "",
+    image: "",
+    payment_type: {
+      label: "",
+      value: "",
+    },
+    bargain: "",
+    length: "",
+    width: "",
+    height: "",
+    diameter: "",
+    hitch: "",
+    pneumatic: "",
+    bunks: false,
+    tir: false,
+    t1: false,
+    cmr: false,
+    medic_certificate: false,
+    permission: [],
+    straps_number: "",
+  };
+}
 
 class Store {
   constructor() {
@@ -98,6 +100,7 @@ class Store {
       setFormData: action,
       updateFormData: action,
       resetBooleanFields: action,
+      clearStoredData: action
     });
 
     makePersistable(this, {
@@ -122,7 +125,7 @@ class Store {
   }
 
   isNotEmpty = false;
-  formData = formData
+  formData = getEmptyFormData()
   startDate = ""
   endDate = ""
   isPackagingAndQuantity = false
@@ -135,8 +138,6 @@ class Store {
   directContractOpen = false
 
   resetBooleanFields() {
-    this.isNotEmpty = false;
-    this.formData = formData;
     this.isPackagingAndQuantity = false;
     this.isDimensionsAndDiameter = false;
     this.isRequirementOpen = false;
@@ -166,9 +167,87 @@ class Store {
     this.formData.unloading[index] = value;
   }
 
+  async clearStoredData() {
+    await clearPersistedStore(this);
+  }
+
   clearFormData() {
+    console.log("first");
     this.isNotEmpty = false;
-    this.formData = formData;
+    this.formData = {
+      cargo_type: {
+        value: "",
+        label: "",
+      },
+      weight_measurement: "",
+      weight_unit: {
+        value: "",
+        label: "",
+      },
+      loadings: [{
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
+      }],
+      unloading: [
+        {
+          location: {
+            value: "",
+            label: "",
+          },
+          address: "",
+          cor: [],
+        }
+      ],
+      volume_measurement: "",
+      packaging: {
+        value: "",
+        label: "",
+      },
+      packagingSearch: "",
+      packaging_quantity: "",
+      gps_monitoring: "",
+      car_type: {
+        value: "",
+        label: "",
+      },
+      transport_count: "",
+      is_ftl: false,
+      is_ltl: false,
+      capacity: "",
+      price: "",
+      price_prepayment: "",
+      price_after_order: 0,
+      price_prepayment_unit: {
+        label: "",
+        value: "",
+      },
+      payment_deadline: "",
+      contact: "",
+      note: "",
+      image: "",
+      payment_type: {
+        label: "",
+        value: "",
+      },
+      bargain: "",
+      length: "",
+      width: "",
+      height: "",
+      diameter: "",
+      hitch: "",
+      pneumatic: "",
+      bunks: false,
+      tir: false,
+      t1: false,
+      cmr: false,
+      medic_certificate: false,
+      permission: [],
+      straps_number: "",
+    };
     this.startDate = "";
     this.endDate = "";
     this.resetBooleanFields();
