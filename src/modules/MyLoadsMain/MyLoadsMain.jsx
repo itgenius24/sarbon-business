@@ -20,6 +20,8 @@ export const MyLoadsMain = () => {
     handleCancel,
     ref,
     isLoading,
+    driverCount,
+    waitingDriverCount,
   } = useMyLoadsMainProps();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -34,7 +36,12 @@ export const MyLoadsMain = () => {
         <Heading p={3} fontSize={isLargerThan768 ? "30px" : "22px"} size="md" mb="24px">
           {t("Мои грузы")}
         </Heading>
-        <TopFilter onChange={onFilterChange} filterList={filterTabs} />
+        <TopFilter
+          driverCount={driverCount}
+          waitingDriverCount={waitingDriverCount}
+          onChange={onFilterChange}
+          filterList={filterTabs}
+        />
         <Box display="flex" flexDirection="column" rowGap="16px">
           {
             cargos?.length > 0 && cargos?.map((cargo, index) => {

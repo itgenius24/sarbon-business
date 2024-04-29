@@ -80,6 +80,38 @@ export const useMyLoadsMainProps = () => {
     }
   );
 
+  const getOfferCount = useGetOffer(
+    {
+      limit,
+      offset: 0,
+      data: JSON.stringify({
+        users_id_3: userId,
+        with_relations: true,
+        provisions: ["new"],
+      })
+    },
+    { enabled: false, }
+  );
+
+  const getWaitingDriverCount = useGetOffer(
+    {
+      limit,
+      offset: 0,
+      data: JSON.stringify({
+        users_id_3: userId,
+        with_relations: true,
+        response_status: ["approve_from_driver"],
+        provisions: ["new"],
+      })
+    },
+    { enabled: false, }
+  );
+
+  useEffect(() => {
+    getOfferCount.refetch();
+    getWaitingDriverCount.refetch();
+  }, []);
+
   const deleteCargo = useDeleteCargo({
     onSuccess() {
       setTimeout(() => {
@@ -234,5 +266,7 @@ export const useMyLoadsMainProps = () => {
     handleCancel,
     ref,
     handleLoadMore,
+    driverCount: getOfferCount.data?.count,
+    waitingDriverCount: getWaitingDriverCount.data?.count,
   };
 };

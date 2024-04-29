@@ -37,6 +37,17 @@
   opacity: 0.6; /* Reduce opacity to visually show disabled state */
 }
 
+.count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 4px;
+  background-color: #F5F5F5;
+}
+
 @include lg {
   .topFilter {
     overflow: auto;
