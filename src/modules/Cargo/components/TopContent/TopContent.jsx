@@ -4,7 +4,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetDriverLocation, useGetGPSHistory, useGetSortedGPSHistory } from "@/services/api";
+import { useGetDriverLocation, useGetSortedGPSHistory } from "@/services/api";
 import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
@@ -76,7 +76,7 @@ export const TopContent = ({
   ];
 
   const getDriverLocation = useGetDriverLocation(
-    { data: JSON.stringify({ user_id: userId2 }), },
+    { data: JSON.stringify({ users_id: userId2 }), },
     { enabled: !!(status === "performed" && userId2) }
   );
 
@@ -111,7 +111,7 @@ export const TopContent = ({
   function initYmaps() {
 
     myPolyline.current = new ymaps.Polyline(
-      [],
+      abs,
       { balloonContent: "Polyline" },
       {
         balloonCloseButton: false,
@@ -145,9 +145,9 @@ export const TopContent = ({
   }
 
   useEffect(() => {
-    if(myPolyline.current) {
-      myPolyline.current.geometry.setCoordinates(gpsHistory ? gpsHistory : []);
-    }
+    // if(myPolyline.current) {
+    //   myPolyline.current.geometry.setCoordinates(gpsHistory ? gpsHistory : []);
+    // }
     if(multiRoute.current) {
       if(watch("loadings")?.[0]?.cor && watch("unloading")?.[0]?.cor) {
         multiRoute.current.model.setReferencePoints([
@@ -175,9 +175,16 @@ export const TopContent = ({
   useEffect(() => {
     const timer = setInterval(() => {
       getDriverLocation.refetch();
-    }, 10000);
+    }, 5000);
 
-    return () => clearInterval(timer);
+    const historyTimer = setInterval(() => {
+      getDriverLocation.refetch();
+    }, 5000);
+
+    return () => {
+      clearInterval(timer);
+      clearInterval(historyTimer);
+    };
   }, []);
 
   return <Box>
