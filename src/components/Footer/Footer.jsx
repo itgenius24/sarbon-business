@@ -69,9 +69,13 @@ export const Footer = () => {
               {data.left.map((item) => {
                 return (
                   <li className={cls.infoItem} key={item.title}>
-                    <Link className={cls.infoLink} href={item.link}>
-                      {item.title}
-                    </Link>
+                    {
+                      item?.link?.includes("distance-calculation") ? (
+                        <a className={cls.infoLink} href={item.link}>{item.title}</a>
+                      ) : <Link className={cls.infoLink} href={item.link}>
+                        {item.title}
+                      </Link>
+                    }
                   </li>
                 );
               })}
