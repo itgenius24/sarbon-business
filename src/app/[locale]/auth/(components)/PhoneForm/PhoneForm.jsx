@@ -31,7 +31,6 @@ export const PhoneForm = ({
         size="sm"
         color="brand.600"
         leftIcon={<ArrowLeft />}
-        isLoading={isPending}
       >
         {backText}
       </Button>
@@ -49,7 +48,7 @@ export const PhoneForm = ({
         onKeyDown={allowOnlyNumbers}
       />
     </Box>
-    <Button size="md" type="submit">{firstBtnText}</Button>
+    <Button size="md" type="submit" isLoading={isPending}>{firstBtnText}</Button>
     <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">{t("Нажимая кнопку «Продолжить», вы принимаете условия")} <a className={cls.link} href="#">{t("Пользовательского соглашения")}</a></Text>
   </Box>;
 };

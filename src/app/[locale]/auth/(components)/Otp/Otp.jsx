@@ -22,6 +22,7 @@ export const Otp = observer(() => {
     error,
     timer,
     handleResendOtp,
+    isLoading,
   } = useOtpProps();
 
   return <Box height={"650px"}>
@@ -66,7 +67,7 @@ export const Otp = observer(() => {
         characterSelected: cls.characterSelected,
       }}
     />
-    <Button mt="44px" onClick={handleSendOtp}>{t("Подтвердить")}</Button>
+    <Button mt="44px" onClick={handleSendOtp} isLoading={isLoading}>{t("Подтвердить")}</Button>
     <Box display="flex" flexDirection="column" justifyContent="center" textAlign="center" alignItems="center" mt="32px">
       {timer > 0 && <Text fontSize="14px" color="brand.600" lineHeight="20px">00:{timer < 10 ? `0${timer}` : timer}</Text>}
       <Box mt="16px" display="flex" columnGap="4px">

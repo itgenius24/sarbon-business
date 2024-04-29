@@ -1,3 +1,3 @@
-export default function LoadingAuth() {
-  return <h1>Loading...</h1>;
+export default function Loader() {
+  return <div className="loader" />;
 }

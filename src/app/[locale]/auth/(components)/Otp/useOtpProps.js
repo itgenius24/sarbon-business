@@ -111,5 +111,6 @@ export const useOtpProps = () => {
     error,
     handleResendOtp,
     timer,
+    isLoading: registrationMutation.isPending,
   };
 };

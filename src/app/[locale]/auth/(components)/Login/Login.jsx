@@ -64,10 +64,10 @@ export const Login = () => {
       <Checkbox onChange={onRememberChange}>{t("Запомнить")}</Checkbox>
       <Link className={cls.forgotLink} href={`/${locale}/auth/forgot`}>{t("Забыли логин или пароль?")}</Link>
     </div>
-    <Button mt="24px" size="md" type="submit">{t("Войти")}</Button>
+    <Button mt="24px" size="md" type="submit" isLoading={isPending}>{t("Войти")}</Button>
     <Box mt="32px" display="flex" justifyContent="center" columnGap="4px">
       <Text fontSize="14px" color="brand.600" lineHeight="20px">{t("У вас нет аккаунта?")}</Text>
-      <Button isLoading={isPending} variant="reset" onClick={navigateRegistration}>{t("Зарегистрироваться")}</Button>
+      <Button variant="reset" onClick={navigateRegistration}>{t("Зарегистрироваться")}</Button>
     </Box>
   </Box>;
 };

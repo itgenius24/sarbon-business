@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
 import { useElements } from "./elements";
+import clsx from "clsx";
 
 export const MainLayout = ({ children }) => {
 
@@ -15,7 +16,7 @@ export const MainLayout = ({ children }) => {
 
   const isAuthPage = pathname.includes("auth");
 
-  return <div className={cls.layout}>
+  return <div className={clsx(cls.layout, "fade-in")}>
     {
       !isAuthPage && <Header elements={elements} />
     }
