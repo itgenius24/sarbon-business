@@ -111,7 +111,7 @@ export const TopContent = ({
   function initYmaps() {
 
     myPolyline.current = new ymaps.Polyline(
-      abs,
+      [],
       { balloonContent: "Polyline" },
       {
         balloonCloseButton: false,
@@ -145,9 +145,9 @@ export const TopContent = ({
   }
 
   useEffect(() => {
-    // if(myPolyline.current) {
-    //   myPolyline.current.geometry.setCoordinates(gpsHistory ? gpsHistory : []);
-    // }
+    if(myPolyline.current) {
+      myPolyline.current.geometry.setCoordinates(gpsHistory ? gpsHistory : []);
+    }
     if(multiRoute.current) {
       if(watch("loadings")?.[0]?.cor && watch("unloading")?.[0]?.cor) {
         multiRoute.current.model.setReferencePoints([
