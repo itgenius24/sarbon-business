@@ -60,6 +60,7 @@ export const useMyLoadsMainProps = () => {
 
     const data = JSON.parse(getCargoFilterParams.data);
     data.provisions = [orderStatus];
+    data.response_status = ["approve_by_customer"];
     getCargoFilterParams.data = JSON.stringify(data);
 
   }
@@ -88,6 +89,7 @@ export const useMyLoadsMainProps = () => {
         users_id_3: userId,
         with_relations: true,
         provisions: ["new"],
+        response_status: ["approve_by_customer"]
       })
     },
     { enabled: false, }
