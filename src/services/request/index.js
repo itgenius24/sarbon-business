@@ -27,7 +27,8 @@ request.interceptors.request.use((config) => {
     config.url.includes("client_type") ||
     config.url.includes("get-list/role") ||
     config.url.includes("get-list/firm") ||
-    config.url.includes("get-list/news") ||
+    config.url.includes("/news") ||
+    config.url.includes("/directory") ||
     config.url.includes("get-list/partners_company")
   ) {
     if(!token) {
