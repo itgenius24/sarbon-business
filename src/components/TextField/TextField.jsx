@@ -29,6 +29,7 @@ export const TextField = ({
       >
         {addonBefore && <span className={cls.before}>{addonBefore}</span>}
         <input
+          onWheel={(e) => e.target.blur()}
           className={clsx(
             cls.fieldInput,
             inputClassName,
