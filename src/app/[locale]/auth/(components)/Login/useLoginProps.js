@@ -19,6 +19,10 @@ export const useLoginProps = () => {
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
 
+  const [remember, setRemember] = useState(false);
+
+  const defaultUserData = localStorage.getItem("loginData") ? JSON.parse(localStorage.getItem("loginData")).username : "";
+
   const toast = useToast();
 
   const {
@@ -27,7 +31,12 @@ export const useLoginProps = () => {
     watch,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({
+    defaultValues:{
+      username: defaultUserData?.username,
+      password: defaultUserData?.password,
+    }
+  });
 
   const login = useLoginMutation({
     onSuccess: (data) => {
@@ -36,6 +45,14 @@ export const useLoginProps = () => {
         token: data?.token,
         role: data?.role,
       });
+
+      if(remember) {
+        localStorage.setItem("loginData", JSON.stringify({
+          username: watch("username"),
+          password: watch("password"),
+        }));
+      }
+
       router.push(`/${locale}`);
     },
     onError: (error) => {
@@ -90,7 +107,7 @@ export const useLoginProps = () => {
   }
 
   function onRememberChange (e) {
-    authStore.setRemember(e.target.checked);
+    setRemember(e.target.checked);
   }
 
   function handleTogglePasswordVisibility(){

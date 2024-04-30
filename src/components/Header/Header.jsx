@@ -97,15 +97,17 @@ const Header = observer(({ elements }) => {
                     }
                   </ListItem>;
                 })}
-                <ListItem className={clsx(cls.listItem, cls.profile)} key="profile">
-                  <Link
-                    onClick={() => setNavOpen(false)}
-                    href={`/${locale}/profile`}
-                    className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
-                  >
-                    {t("Профиль")}
-                  </Link>
-                </ListItem>
+                {
+                  isAuth && <ListItem className={clsx(cls.listItem, cls.profile)} key="profile">
+                    <Link
+                      onClick={() => setNavOpen(false)}
+                      href={`/${locale}/profile`}
+                      className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
+                    >
+                      {t("Профиль")}
+                    </Link>
+                  </ListItem>
+                }
               </UnorderedList>
               <Box className={cls.rightBox}>
                 <Box className={cls.buttonBox}>

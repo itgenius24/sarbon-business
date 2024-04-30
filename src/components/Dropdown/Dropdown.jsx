@@ -82,7 +82,7 @@ export const Dropdown = ({
               {
                 searchable
                   ? <div className={cls.inputWrap}>
-                    <input className={cls.input} {...register(searchName)} defaultValue={watch(searchName)} onInput={(e) => onSearchChange(e, searchName, index)} placeholder={inputPlaceholder} disabled={disabled} />
+                    <input className={cls.input} {...register(searchName)} defaultValue={watch(searchName)} onInput={(e) => onSearchChange(e, searchName, index)} placeholder={inputPlaceholder} disabled={disabled} autoComplete="off" />
                     <span className={cls.leftIcon}><SearchIcon /></span>
                     {
                       watch(searchName) && <span
