@@ -50,7 +50,16 @@ export const TextFieldWithAddition = ({
     >
       <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
         {after && <span className={cls.after}>{after}</span>}
-        <input className={cls.fieldInput} onClick={onClick} {...register(name, rules)} disabled={onClick ? false : disabled || onlyFieldDisabled} type={type} placeholder={placeholder} {...props} />
+        <input
+          className={cls.fieldInput}
+          onClick={onClick}
+          {...register(name, rules)}
+          disabled={onClick ? false : disabled || onlyFieldDisabled}
+          type={type}
+          placeholder={placeholder}
+          onWheel={(e) => e.target.blur()}
+          {...props}
+        />
         {before && <span className={cls.before}>{before}</span>}
       </div>
       <Controller
