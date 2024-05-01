@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useGetCarType, useGetMeasurement, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
+import { useGetCarType, useGetMeasurement, useGetVehicle, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -240,57 +240,49 @@ export const useGpsTrackingProps = () => {
   };
 
   const onSubmit = (data) => {
-    console.log("data", data);
     const [lat, long] = data.cor.split(",");
-    const load_type_id = data?.load_type?.value;
-    const weight = Number(data.weight);
-    const volume = Number(data.volume);
-    const permission = data?.permission?.value;
-    const load_capacity = Number(data.load_capacity);
-    const straps_number = Number(data.straps_number);
-    const result = {
-      data: {
-        object_data: {
-          ...data,
+    // const load_type_id = data?.load_type?.value;
+    // const weight = Number(data.weight);
+    // const volume = Number(data.volume);
+    // const permission = data?.permission?.value;
+    // const load_capacity = Number(data.load_capacity);
+    // const straps_number = Number(data.straps_number);
+    mutate({
+      data:{
+        object_data:{
           lat,
-          long,
-          load_type_id,
-          weight,
-          permission,
-          volume,
-          load_capacity,
-          straps_number,
+          long
         }
       }
-    };
-    mutate(result);
+    });
   };
 
-  const infoList = (carInfo) => ([
-    {
-      title: "Транспорт:",
-      value: carInfo?.trailer_type_id_data?.name || "Нет данных",
-    },
-    {
-      title: "Разрешение:",
-      value: Array.isArray(carInfo?.users_id_data?.adr) ? carInfo?.users_id_data?.adr.join(" ") : carInfo?.users_id_data?.adr || "Нет данных",
-    },
-    {
-      title: "Детали:",
-      value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
-    },
-    {
-      title: "Номер транспорта:",
-      value: carInfo?.car_number || "Нет данных",
-    },
+
+  const infoList = () => ([
     // {
-    //   title: "Водитель:",
-    //   value: carInfo?.users_id_data?.full_name || "Нет данных",
+    //   title: "Транспорт:",
+    //   value: carInfo?.trailer_type_id_data?.name || "Нет данных",
     // },
-    {
-      title: "Тип загрузки:",
-      value: carInfo?.load_type_id_3_data?.name || "Нет данных",
-    }
+    // {
+    //   title: "Разрешение:",
+    //   value: Array.isArray(carInfo?.users_id_data?.adr) ? carInfo?.users_id_data?.adr.join(" ") : carInfo?.users_id_data?.adr || "Нет данных",
+    // },
+    // {
+    //   title: "Детали:",
+    //   value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
+    // },
+    // {
+    //   title: "Номер транспорта:",
+    //   value: carInfo?.car_number || "Нет данных",
+    // },
+    // // {
+    // //   title: "Водитель:",
+    // //   value: carInfo?.users_id_data?.full_name || "Нет данных",
+    // // },
+    // {
+    //   title: "Тип загрузки:",
+    //   value: carInfo?.load_type_id_3_data?.name || "Нет данных",
+    // }
   ]);
   return {
     register,

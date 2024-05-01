@@ -22,9 +22,10 @@ export const CarList = ({
       <VStack align="stretch" spacing="24px">
         {data.map((item) => {
           return <SingleCar
+            withAddress={true}
             key={item}
             carInfo={item}
-            infoList={infoList}
+            // infoList={infoList}
             showDistance={showDistance}
             oneDir={oneDir}
             phoneBtn={phoneBtn}

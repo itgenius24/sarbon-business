@@ -11,6 +11,7 @@ const objectService = {
   getMeasurement: (params) => request.get("/v2/object-slim/get-list/measurement", { params }),
   getAddress: (params) => request.get("/v2/object-slim/get-list/address", { params }),
   getCarType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+  getVehicle: (params) => request.get("/v2/object-slim/get-list/vehicle", { params }),
   getCurrency: (params) => request.get("/v2/object-slim/get-list/currency", { params }),
   getPackage: (params) => request.get("/v2/object-slim/get-list/packages", { params }),
   getPaymentType: (params) => request.get("/v2/object-slim/get-list/map", { params }),
@@ -121,6 +122,14 @@ export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = 
   return useQuery({
     queryKey: ["object/getCarType", params],
     queryFn: () => objectService.getCarType(params),
+    ...settings,
+  });
+};
+
+export const useGetVehicle = (params = { data: JSON.stringify({}) }, settings = {}) => {
+  return useQuery({
+    queryKey: ["object/getVehicle", params],
+    queryFn: () => objectService.getVehicle(params),
     ...settings,
   });
 };

@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { DataList } from "@/components/DataList";
 import authStore from "@/store/auth.store";
-import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
+import { useGetUserCargo, useGetVehicle, useOfferFromCustomerMutation } from "@/services/api";
 import { useState } from "react";
 import { Rating } from "@/components/Rating";
 import { Popup } from "@/components/Popup";
@@ -37,6 +37,7 @@ export const SingleCar = ({
   phoneBtn,
   dataAccordion,
   additionalData,
+  withAddress,
 }) => {
 
   const userId = authStore.userData.id;
@@ -62,7 +63,7 @@ export const SingleCar = ({
     },
     {
       title: "Разрешение:",
-      value: address[carInfo?.users_id_data?.adr] || "Нет данных",
+      value:  address[carInfo?.users_id_data?.adr] || "Нет данных",
     },
     {
       title: "Детали:",
@@ -73,6 +74,53 @@ export const SingleCar = ({
       value: carInfo?.date || "Нет данных",
     },
   ];
+
+  const getVehicle = useGetVehicle(
+    { data: JSON.stringify({ users_id: carInfo.users_id_data?.guid, with_relations: true }) },
+    { enabled: false, }
+  );
+
+  const newListDraggable = () => {
+    const data = getVehicle.data?.response;
+    return [
+      {
+        title: "Транспорт:",
+        value: <Box display="flex" flexDirection="column" rowGap="5px">
+          {
+            data?.map((item, index) => <p key={index}>{index + 1}: {item?.trailer_type_id_data?.name || "Нет данных"}{index === data?.length - 1 ? "" : ","}</p>)
+          }
+        </Box>,
+      },
+      {
+        title: "Разрешение:",
+        value: <Box display="flex" flexDirection="column" rowGap="5px">
+          {
+            data?.map((item, index) => <p key={index}>{index + 1}: {address[item?.users_id_data?.adr] || "Нет данных"}</p>)
+          }
+        </Box>
+      },
+      {
+        title: "Детали:",
+        value: <Box display="flex" flexDirection="column" rowGap="5px">
+          {
+            data?.map((item, index) => <p key={index}>{index + 1}: ${item?.capacity || 0}т, {item?.volume || 0} м3</p>)
+          }
+        </Box>
+      },
+      {
+        title: "Тип загрузки:",
+        value: <Box display="flex" flexDirection="column" rowGap="5px">
+          {data?.map((item, index) => <p key={index}>{index + 1}: {item?.load_type_id_3_data?.name || "Нет данных"}</p>)}
+        </Box>
+      },
+      {
+        title: "Номер транспорта:",
+        value: <Box display="flex" flexDirection="column" rowGap="5px">
+          {data?.map((item, index) => <p key={index}>{index + 1}: {item?.car_number || "Нет данных"}</p>)}
+        </Box>
+      },
+    ];
+  };
 
   const getAllUserCargoParams = {
     data: JSON.stringify({
@@ -135,7 +183,12 @@ export const SingleCar = ({
               {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
           </h2>
-          <span><Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} /></span>
+          <span>
+            {
+              withAddress && <Box mb="10px">{carInfo?.location_name}</Box>
+            }
+            <Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} />
+          </span>
           {/* <span className={cls.distance}>724 км</span> */}
         </div>
         {showDistance && <div className={cls.distance}>
@@ -147,7 +200,7 @@ export const SingleCar = ({
           Водитель: {carInfo?.users_id_data?.full_name}
         </Box>}
         {
-          dataAccordion ? <Accordion allowMultiple>
+          dataAccordion ? <Accordion allowMultiple onChange={() => getVehicle.refetch()}>
             <AccordionItem borderBottom="1px solid" borderColor="brand.200" borderTop="none">
               <h2>
                 <AccordionButton pl="0">
@@ -158,7 +211,12 @@ export const SingleCar = ({
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <DataList list={newList} />
+                {
+                  newListDraggable()?.map((item, index) => <Box key={index}>
+                    <Box>{item?.title}</Box>
+                    <Box ml="10px" color="rgba(132, 145, 154, 0.8)">{item?.value}</Box>
+                  </Box>)
+                }
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
