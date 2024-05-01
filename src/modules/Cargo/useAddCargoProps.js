@@ -113,6 +113,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       value: "",
       label: "",
     },
+    cargo_type_search: "",
     weight_measurement: "",
     weight_unit: {
       value: "",
@@ -779,7 +780,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           value: data.cargo_type_id_data?.guid,
           label: data.cargo_type_id_data?.name,
         },
-        // cargo_type_search: data.cargo_type_id_data?.name,
+        cargo_type_search: data.cargo_type_id_data?.name,
         weight_measurement: data.weight,
         weight_unit: {
           value: data.measurement_id_data?.guid,
