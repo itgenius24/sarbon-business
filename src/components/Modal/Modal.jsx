@@ -23,6 +23,8 @@ export const Modal = ({
   width,
   withFooter = true,
   isDisabled,
+  firstBtnProps = {},
+  secondBtnProps = {},
   ...props
 }) => {
 
@@ -41,14 +43,17 @@ export const Modal = ({
       {
         withFooter && <ModalFooter>
           {
-            !oneBtn && <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose}>
+            !oneBtn && <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose} {...firstBtnProps}>
               {firstBtnText || "Закрыть"}
             </Button>
           }
-          <Button isDisabled={isDisabled} onClick={(e) => {
-            e.stopPropagation();
-            secondBtnCallback();
-          }}>
+          <Button
+            {...secondBtnProps}
+            isDisabled={isDisabled}
+            onClick={(e) => {
+              e.stopPropagation();
+              secondBtnCallback();
+            }}>
             {secondBtnText}
           </Button>
         </ModalFooter>

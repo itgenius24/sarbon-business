@@ -638,8 +638,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         onSuccess(data) {
           if(data.isTemp) {
             getTempCargo.refetch();
-            handleCloseTemplateModal();
           }
+          handleCloseTemplateModal();
           onCreateCargoSuccess(data);
         }
       });

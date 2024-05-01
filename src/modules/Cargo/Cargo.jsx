@@ -178,6 +178,7 @@ export const Cargo = observer(({ id, status, locale }) => {
       onClose={addCargoProps.handleCloseTemplateModal}
       secondBtnCallback={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
       isDisabled={!addCargoProps.watch("template_name")}
+      secondBtnProps={{ isLoading: addCargoProps.loading }}
     >
       <TextField
         register={addCargoProps.register}
