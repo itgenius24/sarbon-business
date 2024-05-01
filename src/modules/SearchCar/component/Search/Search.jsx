@@ -37,7 +37,7 @@ export const Search = (props={}) => {
               searchable
               label="Откуда"
               control={control}
-              required
+              // required
               register={register}
               watch={watch}
               name="from"
@@ -51,7 +51,7 @@ export const Search = (props={}) => {
               searchable
               label="Куда"
               control={control}
-              required
+              // required
               register={register}
               watch={watch}
               name="to"

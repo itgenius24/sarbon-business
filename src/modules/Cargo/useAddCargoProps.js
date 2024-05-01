@@ -35,6 +35,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [isCreated, setIsCreated] = useState(false);
 
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
 
   const [isRequirementOpen, setRequirementOpen] = useState(formStore.isRequirementOpen);
   const [isAccessOpen, setAccessOpen] = useState(formStore.isAccessOpen);
@@ -86,6 +87,14 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function handleCloseDeletePopup() {
     setPopupOpen(false);
+  }
+
+  function handleOpenTemplateModal() {
+    setIsTemplateModalOpen(true);
+  }
+
+  function handleCloseTemplateModal() {
+    setIsTemplateModalOpen(false);
   }
 
   function handleOpenModal() {
@@ -610,6 +619,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         payment_upon_unloading: data?.payment_upon_unloading,
         company_contract: data?.company_contract,
         load_type_id: data?.load_type_id?.value,
+        template_name: data?.template_name,
       }
     };
 
@@ -628,6 +638,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         onSuccess(data) {
           if(data.isTemp) {
             getTempCargo.refetch();
+            handleCloseTemplateModal();
           }
           onCreateCargoSuccess(data);
         }
@@ -1042,5 +1053,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setIsPhotoChanged,
     isAcceptRejectLoading: updateResponseMutation.isPending,
     loadingOptions,
+    handleOpenTemplateModal,
+    handleCloseTemplateModal,
+    isTemplateModalOpen,
   };
 };

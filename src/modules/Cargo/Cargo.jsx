@@ -16,6 +16,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { Modal } from "@/components/Modal";
 import { Checkbox } from "@/components/Checkbox";
 import { observer } from "mobx-react-lite";
+import { TextField } from "@/components/TextField";
 
 export const Cargo = observer(({ id, status, locale }) => {
   const addCargoProps = useAddCargoProps({ id, status, locale });
@@ -129,7 +130,7 @@ export const Cargo = observer(({ id, status, locale }) => {
             </Checkbox>
             <Box mt="16px" display="flex" columnGap="12px" justifyContent="flex-start" maxWidth="900px">
               <Button
-                onClick={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
+                onClick={addCargoProps.handleOpenTemplateModal}
                 isLoading={addCargoProps.loading}
                 size="sm"
                 maxWidth="223px"
@@ -171,6 +172,21 @@ export const Cargo = observer(({ id, status, locale }) => {
       btn2Callback={addCargoProps.handleDelete}
     />
     <Modal
+      oneBtn
+      isOpen={addCargoProps.isTemplateModalOpen}
+      title={t("Назовите шаблон")}
+      onClose={addCargoProps.handleCloseTemplateModal}
+      secondBtnCallback={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
+      isDisabled={!addCargoProps.watch("template_name")}
+    >
+      <TextField
+        register={addCargoProps.register}
+        errors={addCargoProps.errors}
+        name="template_name"
+        label={t("Название шаблона")}
+      />
+    </Modal>
+    <Modal
       isOpen={addCargoProps.isOpen}
       title={t("Выберите шаблон")}
       onClose={addCargoProps.handleCloseModal}
@@ -189,33 +205,39 @@ export const Cargo = observer(({ id, status, locale }) => {
                 border="1px solid #EAECF0"
                 as="button"
                 key={item?.guid}
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
               >
-                <Box display="flex" columnGap="12px" flexGrow={1} maxWidth="calc(100% - 40px)">
-                  <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" textAlign="left" rowGap="8px" >
-                    <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                      {item?.city_id_data?.name}
-                    </Text>
-                    <span>{item?.address_id_data?.name}</span>
-                  </Box>
-                  <Box as="span" alignSelf="center">
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Box display="flex" columnGap="12px" flexGrow={1} maxWidth="calc(100% - 40px)">
+                    <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" textAlign="left" rowGap="8px" >
+                      <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+                        {item?.city_id_data?.name}
+                      </Text>
+                      <span>{item?.address_id_data?.name}</span>
+                    </Box>
+                    <Box as="span" alignSelf="center">
                   -{">"}
+                    </Box>
+                    <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" rowGap="8px" textAlign="left" pr="10px">
+                      <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+                        {item?.city_id_2_data?.name}
+                      </Text>
+                      <span>{item?.address_id_2_data?.name}</span>
+                    </Box>
                   </Box>
-                  <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" rowGap="8px" textAlign="left" pr="10px">
-                    <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                      {item?.city_id_2_data?.name}
-                    </Text>
-                    <span>{item?.address_id_2_data?.name}</span>
-                  </Box>
+                  <Button onClick={(e) => {
+                    e.stopPropagation();
+                    addCargoProps.handleDeleteTemplate(item);
+                  }} variant="reset" width="36px" height="36px" border="1px solid #F04438">
+                    <DeleteIcon width="16" height="16" color="#F04438" />
+                  </Button>
                 </Box>
-                <Button onClick={(e) => {
-                  e.stopPropagation();
-                  addCargoProps.handleDeleteTemplate(item);
-                }} variant="reset" width="36px" height="36px" border="1px solid #F04438">
-                  <DeleteIcon width="16" height="16" color="#F04438" />
-                </Button>
+                <Box fontWeight={400} fontSize={isLargerThan800 ? "16px" : "14px"} mt="5px" pt="5px" borderTop="1px solid #EAECF0" textAlign="left">
+                  {t("Название")}: {item?.template_name}
+                </Box>
               </Box>
             ))
           : <Text>{t("Нет шаблонов")}</Text>

@@ -68,7 +68,8 @@ export const SingleCar = ({
     data: JSON.stringify({
       users_id: userId,
       with_relations: true,
-      order_status: ["active"]
+      order_status: ["active"],
+      cargo_type: ["cargo"],
     })
   };
 
@@ -97,7 +98,6 @@ export const SingleCar = ({
         object_data: {
           user_id: body.user_id,
           guid: id,
-          cargo_type:["cargo"]
         }
       }
     });

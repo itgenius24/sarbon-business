@@ -80,34 +80,23 @@ export const useSearchCar = () => {
     const volume = Number(data.volume_measurement);
     const date = formatDate(startDate);
 
-    const params = {
-      data: JSON.stringify(
-        // {
-        //   with_relations: true,
-        //   offset: 0,
-        //   order: {},
-        //   search: "",
-        //   limit: 20,
-        //   address_id: ["9c8d3e8d-c699-4c8a-a0e2-8889b0f1490d"],
-        //   address_id_2: ["c4da468c-7270-4e67-bedc-ce16dc2bac41"],
-        //   capacity: 5,
-        //   volume: 5,
-        //   date: "12.03.2024 00:00",
-        // }
-        {
-          with_relations: true,
-          offset: 0,
-          order: {},
-          search: "",
-          limit: 20,
-          city_id: [address_id || ""],
-          city_id_2: [address_id_2 || ""],
-          ...(capacity ? { capacity } : {}),
-          ...(volume ? { volume } : {}),
-          ...(date ? { date } : {}),
-        }
-      ),
+    const requestData = {
+      with_relations: true,
+      offset: 0,
+      order: {},
+      search: "",
+      limit: 20,
+      city_id: [address_id || ""],
+      city_id_2: [address_id_2 || ""],
+      ...(capacity ? { capacity } : {}),
+      ...(volume ? { volume } : {}),
+      ...(date ? { date } : {}),
     };
+
+    if(!address_id) delete requestData.city_id;
+    if(!address_id_2) delete requestData.city_id_2;
+
+    const params = { data: JSON.stringify(requestData), };
     mutate(params);
   };
 
