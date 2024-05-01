@@ -167,7 +167,7 @@ export const useGetUserCargoPagination = (params, settings) => {
   return useInfiniteQuery({
     queryKey: ["object/getUserCargoPagination", params],
     queryFn: () => objectService.getUserCargo(params),
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
     ...settings
   });
 };
@@ -184,7 +184,7 @@ export const useGetOfferPagination = (params, settings) => {
   return useInfiniteQuery({
     queryKey: ["object/getOfferPagination", params],
     queryFn: () => objectService.getOffer(params),
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
     ...settings
   });
 };

@@ -14,7 +14,6 @@ import {
   ModalOverlay,
   Spinner,
   Text,
-  useToast
 } from "@chakra-ui/react";
 import { DataList } from "@/components/DataList";
 import authStore from "@/store/auth.store";
@@ -33,8 +32,6 @@ export const SingleCar = ({
 }) => {
 
   const userId = authStore.userData.id;
-
-  const toast = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);

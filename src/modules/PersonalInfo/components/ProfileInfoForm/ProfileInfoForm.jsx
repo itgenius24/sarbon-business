@@ -1,11 +1,12 @@
 import cls from "./styles.module.scss";
 import { Email, PhotoIcon } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import UserImg from "@/assets/images/user.png";
 import FileUpload from "@/components/FileUpload";
 import { SkeletonComp } from "@/components/Skeleton";
 import { useProfileInfoFormProps } from "./useProfileInfoFormProps";
+import Image from "next/image";
 
 export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   const {
@@ -22,7 +23,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   return (
     <div className={cls.profileInfo}>
       <label className={cls.profilePhoto}>
-        <img className={cls.profileImg} src={process.env.NEXT_PUBLIC_MEDIA_URL + photo} width="104" height="104" />
+        <Image className={cls.profileImg} src={process.env.NEXT_PUBLIC_MEDIA_URL + photo} width="104" height="104" alt="profile" />
         <span className={cls.profileIcon}>
           <PhotoIcon />
         </span>

@@ -1,6 +1,5 @@
 "use client";
 import { DatePicker } from "@/components/DatePicker";
-import { Dropdown } from "@/components/Dropdown";
 import { DropdownWrapper } from "@/components/DropdownWrapper";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 
@@ -13,7 +12,6 @@ export const Search = (props={}) => {
     control,
     register,
     watch,
-    getAddressOptions,
     errors,
     isPending,
     startDate,

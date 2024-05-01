@@ -147,7 +147,7 @@ export const useGpsTrackingProps = () => {
   const [coordinates, setCoordinates] = useState([41.40587471972005, 69.46086540238926]);
   const [placeMarkGeometry, setPlaceMarkGeometry] = useState([41.34908881486223, 69.3374228085318]);
 
-  function handleOpenModal(index) {
+  function handleOpenModal() {
 
     setIsModalOpen(true);
   }
