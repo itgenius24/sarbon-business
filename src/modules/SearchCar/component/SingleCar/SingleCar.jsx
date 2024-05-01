@@ -14,6 +14,7 @@ import {
   ModalOverlay,
   Spinner,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { DataList } from "@/components/DataList";
 import authStore from "@/store/auth.store";
@@ -36,6 +37,8 @@ export const SingleCar = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [phoneBtnText, setPhoneBtnText] = useState("Показать номер");
+
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   function handleClickPhoneBtn() {
     setPhoneBtnText(carInfo.users_id_data.phone);
@@ -162,23 +165,24 @@ export const SingleCar = ({
                     cursor="pointer"
                   >
                     <CardBody p="20px">
-                      <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <Box>
-                          <span className={cls.addressText}>
-                            <span className={cls.addressCountry}>
-                              <span className={cls.addressCity}>{item.city_id_data?.name}</span>
-                              <span>{item.address_id_data?.name}</span>
-                            </span>
-                            <span>-&gt;</span>
-                            <span className={cls.addressCountry}>
-                              <span className={cls.addressCity}>{item.city_id_2_data?.name}</span>
-                              <span>{item.address_id_2_data?.name}</span>
-                            </span>
-                            {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
-                          </span>
+                      <Box display="flex" columnGap="12px" flexGrow={1} maxWidth="calc(100% - 40px)">
+                        <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" textAlign="left" rowGap="8px" >
+                          <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+                            {item.city_id_data?.name}
+                          </Text>
+                          <span>{item.address_id_data?.name}</span>
                         </Box>
-                        <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>
+                        <Box as="span" alignSelf="center">
+                          -{">"}
+                        </Box>
+                        <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" rowGap="8px" textAlign="left" pr="10px">
+                          <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+                            {item.city_id_2_data?.name}
+                          </Text>
+                          <span>{item.address_id_2_data?.name}</span>
+                        </Box>
                       </Box>
+                      <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>
                     </CardBody>
                   </Card>;
                 }) : (

@@ -172,7 +172,6 @@ class Store {
   }
 
   clearFormData() {
-    console.log("first");
     this.isNotEmpty = false;
     this.formData = {
       cargo_type: {
