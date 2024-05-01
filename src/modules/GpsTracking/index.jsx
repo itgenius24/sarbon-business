@@ -146,6 +146,7 @@ export default function GpsTrackingModule() {
                   placeholder={t("Вес")}
                   additionalItemOptions={weightMeasurementOptions}
                   type="number"
+                  zIndex={10}
                 />
                 <TextFieldWithAddition
                   errors={errors}
