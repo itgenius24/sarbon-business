@@ -13,7 +13,7 @@ export const useRegistrationFormProps = () => {
 
   const { t } = useTranslation(locale, "translations");
 
-  const { phone } = authStore.getAuthData;
+  const { phone, firm_id } = authStore.getAuthData;
 
   const { control, register, handleSubmit, watch, formState: { errors }, setError } = useForm();
 
@@ -24,7 +24,7 @@ export const useRegistrationFormProps = () => {
   const registerMutation = useRegisterMutation({
     onSuccess: (data) => {
       authStore.login({
-        user: { firm_id: authStore.authData.firm_id, ...data?.user },
+        user: { firm_id, ...data?.user },
         token: data?.token,
         role: data?.role
       });

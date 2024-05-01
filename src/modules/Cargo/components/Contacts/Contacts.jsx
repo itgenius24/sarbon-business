@@ -1,5 +1,5 @@
 import cls from "./styles.module.scss";
-import { Box, Heading, Text, Textarea } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { useAddCargoContext } from "../../providers";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import authStore from "@/store/auth.store";
@@ -22,7 +22,7 @@ export const Contacts = () => {
         disabled={!canEdit}
         additionalItemPosition="left"
         additionalItemTheme="light"
-        additionalItemPlaceholder={userData?.login}
+        additionalItemPlaceholder={userData?.full_name || userData?.login}
         onKeyDown={allowOnlyNumbers}
         placeholder="+998 (99) 999-99-99"
         name="contact"

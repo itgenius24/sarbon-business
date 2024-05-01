@@ -41,7 +41,7 @@ export const useLoginProps = () => {
   const login = useLoginMutation({
     onSuccess: (data) => {
       authStore.login({
-        user: { firm_id: data.user_data?.firm_id, ...data?.user },
+        user: { firm_id: data.user_data?.firm_id, full_name: data.user_data?.full_name, ...data?.user },
         token: data?.token,
         role: data?.role,
       });
