@@ -5,14 +5,14 @@ import { Map, Placemark, SearchControl, TypeSelector } from "@pbe/react-yandex-m
 import { useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import formStore from "@/store/form.store";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/components/Container";
 
 export default function MapPage({ params }) {
   const { location: [type, index], locale } = params;
 
-  let placeMarCors = formStore.formData[type][index].cor;
+  let placeMarCors = formStore.formData?.[type]?.[index]?.cor;
 
   if(typeof placeMarCors === "string" && placeMarCors) {
     placeMarCors = placeMarCors.split(",");
@@ -24,9 +24,6 @@ export default function MapPage({ params }) {
 
   const [ymaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(null);
-
-  const [loadings, setLoadings] = useState({});
-  const [unloading, setUnloading] = useState({});
 
   const { t } = useTranslation(locale, "translations");
 
