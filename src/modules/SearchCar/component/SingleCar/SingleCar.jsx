@@ -1,5 +1,10 @@
 import cls from "./styles.module.scss";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
   Card,
@@ -29,7 +34,9 @@ export const SingleCar = ({
   showDistance = false,
   oneDir,
   infoList,
-  phoneBtn
+  phoneBtn,
+  dataAccordion,
+  additionalData,
 }) => {
 
   const userId = authStore.userData.id;
@@ -136,7 +143,27 @@ export const SingleCar = ({
         </div>}
       </div>
       <Box borderBottom="1px solid" borderColor="brand.200">
-        <DataList list={newList} />
+        {additionalData && <Box my="5px">
+          Водитель: {carInfo?.users_id_data?.full_name}
+        </Box>}
+        {
+          dataAccordion ? <Accordion allowMultiple>
+            <AccordionItem borderColor="brand.200">
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="left">
+                    <span>Дополнительная информация</span>
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <DataList list={newList} />
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+          : <DataList list={newList} />
+        }
       </Box>
       <div className={cls.cardBottom}>
         <Button onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>

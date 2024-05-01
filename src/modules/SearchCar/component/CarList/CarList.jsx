@@ -8,7 +8,9 @@ export const CarList = ({
   showDistance = false,
   oneDir,
   infoList,
-  phoneBtn
+  phoneBtn,
+  dataAccordion,
+  additionalData,
 }) => {
   if(!data?.length)return null;
 
@@ -26,6 +28,8 @@ export const CarList = ({
             showDistance={showDistance}
             oneDir={oneDir}
             phoneBtn={phoneBtn}
+            dataAccordion={dataAccordion}
+            additionalData={additionalData}
           />;
         })}
       </VStack>

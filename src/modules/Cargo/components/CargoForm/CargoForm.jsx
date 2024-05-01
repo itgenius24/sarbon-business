@@ -72,6 +72,9 @@ export const CargoForm = () => {
             disabled={!canEdit}
             className={cls.dropdown}
             placeholder={t("Выберите тип груза")}
+            searchable
+            searchName="cargo_type_search"
+            setValue={setValue}
           />
           <TextFieldWithAddition
             className={cls.textField}

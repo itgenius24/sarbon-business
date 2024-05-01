@@ -53,7 +53,8 @@ export default function GpsTrackingModule() {
     getCarListProps,
     onSubmit,
     infoList,
-    handleSubmit
+    handleSubmit,
+    driverName,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -104,7 +105,6 @@ export default function GpsTrackingModule() {
 
           <Box className={cls.kuzov} maxWidth="234px" width={"100%"}>
             <Dropdown
-              required={true}
               placeholder={t("Введите тип кузова")}
               label={t("Тип кузова")}
               name="car_type"
@@ -116,7 +116,6 @@ export default function GpsTrackingModule() {
           </Box>
           <Box className={cls.kuzov} maxWidth="234px" width={"100%"}>
             <Dropdown
-              required={true}
               placeholder={t("Введите тип загрузки")}
               label={t("Тип загрузки")}
               name="load_type_id"
@@ -170,49 +169,6 @@ export default function GpsTrackingModule() {
                     </Box>
                     <Box display="flex" flexDirection="column" gap="16px" maxW="540px" width="100%">
                       <Box maxW={"234px"}>
-                        {/* <ChakraSelect
-                        name="permission"
-                        size={"md"}
-                        control={control}
-                        options={[
-                          {
-                            label: "1",
-                            value: "adr_1"
-                          },
-                          {
-                            label: "2",
-                            value: "adr_2"
-                          },
-                          {
-                            label: "3",
-                            value: "adr_3"
-                          },
-                          {
-                            label: "4",
-                            value: "adr_4"
-                          },
-                          {
-                            label: "5",
-                            value: "adr_5"
-                          },
-                          {
-                            label: "6",
-                            value: "adr_6"
-                          },
-                          {
-                            label: "7",
-                            value: "adr_7"
-                          },
-                          {
-                            label: "8",
-                            value: "adr_8"
-                          },
-                          {
-                            label: "9",
-                            value: "adr_9"
-                          },
-                        ]}
-                      /> */}
                         <Text fontSize={"14px"} color="#344054" fontWeight={500}>Класс опасности груза</Text>
                       </Box>
                     </Box>
@@ -298,7 +254,15 @@ export default function GpsTrackingModule() {
       </Box>
     </VStack>
     <Box mt={6}>
-      <CarList {...getCarListProps()} showDistance={true} oneDir={true} infoList={infoList} phoneBtn={true} />
+      <CarList
+        {...getCarListProps()}
+        dataAccordion={true}
+        showDistance={true}
+        oneDir={true}
+        infoList={infoList}
+        phoneBtn={true}
+        additionalData={driverName}
+      />
     </Box>
 
     <Modal
@@ -307,7 +271,7 @@ export default function GpsTrackingModule() {
       firstBtnCallback={handleCloseModal}
       secondBtnCallback={() => setIsModalOpen(false)}
       title={t("Точка маршрута")}
-      size="xl"
+      size="xxl"
     >
       <LoadingMap
         onMapClick={onMapClick}

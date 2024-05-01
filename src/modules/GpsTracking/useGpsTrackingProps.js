@@ -283,10 +283,10 @@ export const useGpsTrackingProps = () => {
       title: "Номер транспорта:",
       value: carInfo?.car_number || "Нет данных",
     },
-    {
-      title: "Водитель:",
-      value: carInfo?.users_id_data?.full_name || "Нет данных",
-    },
+    // {
+    //   title: "Водитель:",
+    //   value: carInfo?.users_id_data?.full_name || "Нет данных",
+    // },
     {
       title: "Тип загрузки:",
       value: carInfo?.load_type_id_3_data?.name || "Нет данных",
@@ -324,6 +324,7 @@ export const useGpsTrackingProps = () => {
     getCarListProps,
     onSubmit,
     infoList,
-    handleSubmit
+    handleSubmit,
+    driverName: true,
   };
 };

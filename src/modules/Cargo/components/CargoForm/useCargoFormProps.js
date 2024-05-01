@@ -18,7 +18,7 @@ export const useCargoFormProps = () => {
     loadingOptions,
   } = useAddCargoContext();
 
-  const getCargoTypes = useGetCargoType();
+  const getCargoTypes = useGetCargoType({ limit: 100, offset: 0, data: JSON.stringify({}) });
   const getMeasurement = useGetMeasurement();
   const getPackages = useGetPackage();
 
