@@ -148,9 +148,9 @@ export const SingleCar = ({
         </Box>}
         {
           dataAccordion ? <Accordion allowMultiple>
-            <AccordionItem borderColor="brand.200">
+            <AccordionItem borderBottom="1px solid" borderColor="brand.200" borderTop="none">
               <h2>
-                <AccordionButton>
+                <AccordionButton pl="0">
                   <Box as="span" flex="1" textAlign="left">
                     <span>Дополнительная информация</span>
                   </Box>
