@@ -128,7 +128,7 @@ export const useSearchCar = () => {
   };
 
   const getCarListProps = () => {
-    return { data: carsArr };
+    return { data: carsArr, phoneBtn: true };
   };
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAddCargoContext } from "../../providers";
 import { useGetCargoType, useGetMeasurement, useGetPackage } from "@/services/api";
 
@@ -15,6 +15,7 @@ export const useCargoFormProps = () => {
     setPackagingAndQuantity,
     isDimensionsAndDiameter,
     setDimensionsAndDiameter,
+    loadingOptions,
   } = useAddCargoContext();
 
   const getCargoTypes = useGetCargoType();
@@ -78,5 +79,6 @@ export const useCargoFormProps = () => {
     packageOptions,
     canEdit,
     isEditing,
+    loadingOptions,
   };
 };

@@ -10,6 +10,7 @@ import {
   useGetMaps,
   useGetOfferById,
   useGetUserCargo,
+  useLoadingTypes,
   useUpdateCargo,
   useUpdateResponse
 } from "@/services/api";
@@ -171,6 +172,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     medic_certificate: false,
     permission: [],
     straps_number: "",
+    load_type_id: {
+      label: "",
+      value: "",
+    }
   };
 
   const schema = yup
@@ -305,6 +310,13 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       setLoading(false);
     }
   });
+
+  const getLoadingTypes = useLoadingTypes();
+
+  const loadingOptions = getLoadingTypes.data?.response?.map(item => ({
+    label: item?.name,
+    value: item?.guid
+  }));
 
   function onCreateCargoSuccess(data) {
     const isTemplate = data.cargo_type[0] === "template";
@@ -597,6 +609,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         prepayment_interest: data?.prepayment_interest,
         payment_upon_unloading: data?.payment_upon_unloading,
         company_contract: data?.company_contract,
+        load_type_id: data?.load_type_id?.value,
       }
     };
 
@@ -811,6 +824,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         prepayment_interest: data?.prepayment_interest,
         payment_upon_unloading: data?.payment_upon_unloading,
         company_contract: data?.company_contract,
+        load_type_id: {
+          value: data?.load_type_id_data?.guid,
+          label: data?.load_type_id_data?.name,
+        }
       });
     }
   }
@@ -1024,5 +1041,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     userId2: data?.users_id_2,
     setIsPhotoChanged,
     isAcceptRejectLoading: updateResponseMutation.isPending,
+    loadingOptions,
   };
 };

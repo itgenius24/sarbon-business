@@ -29,6 +29,7 @@ export const CargoForm = () => {
     packageOptions,
     canEdit,
     isEditing,
+    loadingOptions,
   } = useCargoFormProps();
 
   const locale = useGetLang();
@@ -126,6 +127,18 @@ export const CargoForm = () => {
               {t("Габариты и диаметр")}
             </Button>
           }
+        </Box>
+        <Box>
+          <Dropdown
+            required={true}
+            placeholder={t("Введите тип загрузки")}
+            // label={t("Тип загрузки")}
+            name="load_type_id"
+            options={loadingOptions}
+            errors={errors}
+            control={control}
+            disabled={!canEdit}
+          />
         </Box>
       </Box>
     </Box>
