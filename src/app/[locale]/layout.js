@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "Furgo",
-  description: "Furgo - Cargo",
+  description: "питак, pitak, tent, тент, фурго, перевозка, перевозки, автоперевозки, юк ташиш, фурада юк ташиш, ставка, транзит, реф, рефрижератор, погрузка, груз, аванс, затаможка, растаможка, догруз, глонасс, запрос, ref, adr, адр, грузовые перевозки",
   icons: { icon: "/favicon.ico" }
 };
 
