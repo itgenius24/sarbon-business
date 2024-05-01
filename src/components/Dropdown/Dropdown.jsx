@@ -50,6 +50,7 @@ export const Dropdown = ({
     dropdownControl,
     handleToggle,
     handleClose,
+    dropdownRef,
   } = useDropdownProps();
 
   return <Controller
@@ -73,10 +74,12 @@ export const Dropdown = ({
             }
             onClick={(e) => {
               if(!disabled) {
-                e.stopPropagation();
-                handleToggle();
+                // e.stopPropagation();
+                handleToggle(e);
               }
             }}
+            id={name}
+            ref={dropdownRef}
           >
             <>
               {
