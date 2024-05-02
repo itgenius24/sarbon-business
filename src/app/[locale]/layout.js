@@ -4,6 +4,7 @@ import { Providers } from "./providers";
 import { MainLayout } from "@/layouts/MainLayout";
 import { dir } from "i18next";
 import { languages } from "../i18n/settings";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,10 @@ export default function RootLayout({ children, params: { locale } }) {
             {children}
           </MainLayout>
         </Providers>
+        <Script
+          async
+          src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
+        />
       </body>
     </html>
   );

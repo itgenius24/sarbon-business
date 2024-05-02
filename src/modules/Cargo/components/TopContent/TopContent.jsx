@@ -109,39 +109,39 @@ export const TopContent = ({
   }, [status, userId2]);
 
   function initYmaps() {
+    ymaps.ready(() => {
+      myPolyline.current = new ymaps.Polyline(
+        [],
+        { balloonContent: "Polyline" },
+        {
+          balloonCloseButton: false,
+          strokeColor: "#009241",
+          strokeWidth: 4,
+          strokeOpacity: 1
+        });
 
-    myPolyline.current = new ymaps.Polyline(
-      [],
-      { balloonContent: "Polyline" },
-      {
-        balloonCloseButton: false,
-        strokeColor: "#009241",
-        strokeWidth: 4,
-        strokeOpacity: 1
+      multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
+        editorMidPointsType: "via",
+        routeActiveStrokeColor: "#007AFF",
+        editorDrawOver: false,
       });
 
-    multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
-      editorMidPointsType: "via",
-      routeActiveStrokeColor: "#007AFF",
-      editorDrawOver: false,
+      myMap.current = new ymaps.Map("topContentMap", {
+        center: [41.40587471972005, 69.46086540238926],
+        zoom: 15,
+        controls: [],
+      }, { buttonMaxWidth: 300 });
+
+      myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
+        iconLayout: "default#image",
+        iconImageHref: "/images/navigation.png",
+        iconImageSize: [37, 37],
+        iconImageOffset: [-5, -38]
+      }),
+      myMap.current.geoObjects.add(myPolyline.current);
+      myMap.current.geoObjects.add(multiRoute.current);
+      myMap.current.geoObjects.add(myPlaceMark.current);
     });
-
-    myMap.current = new ymaps.Map("topContentMap", {
-      center: [41.40587471972005, 69.46086540238926],
-      zoom: 15,
-      controls: [],
-    }, { buttonMaxWidth: 300 });
-
-    myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
-      iconLayout: "default#image",
-      iconImageHref: "/images/navigation.png",
-      iconImageSize: [37, 37],
-      iconImageOffset: [-5, -38]
-    }),
-    myMap.current.geoObjects.add(myPolyline.current);
-    myMap.current.geoObjects.add(multiRoute.current);
-    myMap.current.geoObjects.add(myPlaceMark.current);
-
   }
 
   useEffect(() => {
@@ -187,12 +187,13 @@ export const TopContent = ({
     };
   }, []);
 
+  useEffect(() => {
+    if(ymaps) {
+      ymaps.ready(initYmaps);
+    }
+  }, [ymaps]);
+
   return <Box>
-    <Script
-      async
-      onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&lang=ru_RU`}
-    />
     {
       status === "performed" && <>
         <div id="topContentMap" style={{ width: "100%", height: isLargerThan845 ? "419px" : "300px" }} />

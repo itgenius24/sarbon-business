@@ -26,7 +26,6 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Modal } from "@/components/Modal";
 import LoadingMap from "@/modules/Cargo/components/LoadingMap";
 import { Dropdown } from "@/components/Dropdown";
-// import { ChakraSelect } from "@/components/ChakraSelect";
 import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
 
 /* eslint no-undef: 0 */ // --> OFF
@@ -34,7 +33,6 @@ import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
 export default function GpsTrackingModule() {
   const {
     register,
-    initYmaps,
     errors,
     handleCalculate,
     handleOpenModal,
@@ -62,11 +60,6 @@ export default function GpsTrackingModule() {
   const { t } = useTranslation(locale, "translations");
 
   return <Container py="40px">
-    <Script
-      onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&lang=ru_RU`}
-    />
-
     <Heading size="md" mb="24px">{t("gpsTracking.title")}</Heading>
     <VStack
       as="form"

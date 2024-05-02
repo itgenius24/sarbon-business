@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
 import cls from "./styles.module.scss";
-import { ClockIcon, DeleteIcon, PlusIcon, RouteDirectionIcon } from "@/assets/icons/icons";
+import { ClockIcon, PlusIcon, RouteDirectionIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { TextField } from "@/components/TextField";
-import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { useDistanceCalculationProps } from "./useDistanceCalculationProps";
-import Script from "next/script";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DeleteButton } from "@/components/DeleteButton";
@@ -20,7 +19,6 @@ export const DistanceCalculation = () => {
     locations,
     handleAppend,
     handleRemove,
-    initYmaps,
     onAdditionalAddressChange,
     distanceParameters,
     watch,
@@ -36,10 +34,6 @@ export const DistanceCalculation = () => {
   const { t } = useTranslation(locale, "translations");
 
   return <Container py={isLargerThan845 ? "40px" : "24px"}>
-    <Script
-      onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&lang=ru_RU`}
-    />
     <Heading size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
     <Box p={isLargerThan845 ? "24px" : "0"} bgColor={isLargerThan845 ? "baseWhite" : "transparent"} borderRadius={isLargerThan845 ? "16px" : "0"}>
       <Box display="flex" mb="20px" alignItems="center" justifyContent="space-between">
@@ -67,7 +61,15 @@ export const DistanceCalculation = () => {
               >
                 {t("Удалить")}
               </DeleteButton>
-              <TextField register={register} onChange={(event) => onAdditionalAddressChange(event, index)} label={t("Дополнительный адрес")} name={`locations.${index}.name`} placeholder={t("Введите город, страну")} />
+              <Box flexGrow={1} cursor="grab">
+                <TextField
+                  register={register}
+                  onChange={(event) => onAdditionalAddressChange(event, index)}
+                  label={t("Дополнительный адрес")}
+                  name={`locations.${index}.name`}
+                  placeholder={t("Введите город, страну")}
+                />
+              </Box>
             </Box>
           ))
         }

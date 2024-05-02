@@ -6,23 +6,12 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
   useEffect(() => {
-    const yandexMapsScript = document.createElement("script");
-    yandexMapsScript.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`;
-    yandexMapsScript.async = true;
-    yandexMapsScript.onload = () => {
-      calculateDistance();
-    };
-    document.body.appendChild(yandexMapsScript);
-
-    return () => {
-      document.body.removeChild(yandexMapsScript);
-    };
+    if(ymaps) calculateDistance();
   }, [origin, destination, referencePoints]);
 
   const calculateDistance = () => {
     ymaps.ready(() => {
       if(origin && destination || referencePoints) {
-        const ymaps = window.ymaps;
         const route = new ymaps.multiRouter.MultiRoute(
           {
             referencePoints: referencePoints ? referencePoints : [
@@ -45,12 +34,12 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
           console.error("Failed to calculate distance:", event);
         });
 
-        const map = new ymaps.Map("map", {
-          center: referencePoints ? referencePoints[0] : [origin.lat, origin.lng],
-          zoom: 10,
-        });
+        // const map = new ymaps.Map("map", {
+        //   center: referencePoints ? referencePoints[0] : [origin.lat, origin.lng],
+        //   zoom: 10,
+        // });
 
-        map.geoObjects.add(route);
+        // map.geoObjects.add(route);
       }
     });
   };

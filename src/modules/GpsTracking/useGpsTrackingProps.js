@@ -85,37 +85,40 @@ export const useGpsTrackingProps = () => {
      * Creating a multiroute.
      * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
      */
-    var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
-      editorMidPointsType: "via",
-      routeActiveStrokeColor: "#175CD3",
-      editorDrawOver: false,
+
+    ymaps.ready(() => {
+      var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
+        editorMidPointsType: "via",
+        routeActiveStrokeColor: "#175CD3",
+        editorDrawOver: false,
+      });
+
+      multiRoute.events.add("update", function () {
+        if (multiRoute.getRoutes().get(0)) {
+          const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
+          const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
+          setDistanceParameters({
+            duration,
+            distance
+          });
+        }
+      });
+
+      const searchControl = new ymaps.control.SearchControl({ options: { float: "right", } });
+
+      // Creating the map with the button added to it.
+      var myMap = new ymaps.Map("map", {
+        center: [41.40587471972005, 69.46086540238926],
+        zoom: 7,
+        controls: [searchControl],
+      }, { buttonMaxWidth: 300 });
+
+      // Adding a multiroute to the map.
+      myMap.geoObjects.add(multiRoute);
+
+      mapRef.current = myMap;
+      multiRouteRef.current = multiRoute;
     });
-
-    multiRoute.events.add("update", function () {
-      if (multiRoute.getRoutes().get(0)) {
-        const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-        const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-        setDistanceParameters({
-          duration,
-          distance
-        });
-      }
-    });
-
-    const searchControl = new ymaps.control.SearchControl({ options: { float: "right", } });
-
-    // Creating the map with the button added to it.
-    var myMap = new ymaps.Map("map", {
-      center: [41.40587471972005, 69.46086540238926],
-      zoom: 7,
-      controls: [searchControl],
-    }, { buttonMaxWidth: 300 });
-
-    // Adding a multiroute to the map.
-    myMap.geoObjects.add(multiRoute);
-
-    mapRef.current = myMap;
-    multiRouteRef.current = multiRoute;
   }
 
   let draggingIndex = null;
@@ -160,24 +163,8 @@ export const useGpsTrackingProps = () => {
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
-      console.log("firstGeoObject", firstGeoObject.getAddressLine());
       setValue("address", firstGeoObject.getAddressLine());
       setValue("cor", coords.join(","));
-      // if(formAddressName?.name === "loadings") {
-      //   updateLoading(formAddressName?.index, {
-      //     location: watch(`loadings.${formAddressName?.index}.location`),
-      //     address: firstGeoObject.getAddressLine(),
-      //     cor: `${coords[0]},${coords[1]}`,
-      //     search: watch(`loadings.${formAddressName?.index}.search`)
-      //   });
-      // } else {
-      //   updateUnloading(formAddressName?.index, {
-      //     location: watch(`unloading.${formAddressName?.index}.location`),
-      //     address: firstGeoObject.getAddressLine(),
-      //     cor: `${coords[0]},${coords[1]}`,
-      //     search: watch(`unloading.${formAddressName?.index}.search`)
-      //   });
-      // }
     });
   }
 
@@ -186,8 +173,6 @@ export const useGpsTrackingProps = () => {
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
     setValue("cor", coordinates.join(","));
-
-
   }
 
   const getCarType = useGetCarType();
@@ -241,12 +226,6 @@ export const useGpsTrackingProps = () => {
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
-    // const load_type_id = data?.load_type?.value;
-    // const weight = Number(data.weight);
-    // const volume = Number(data.volume);
-    // const permission = data?.permission?.value;
-    // const load_capacity = Number(data.load_capacity);
-    // const straps_number = Number(data.straps_number);
     mutate({
       data:{
         object_data:{
@@ -257,40 +236,18 @@ export const useGpsTrackingProps = () => {
     });
   };
 
+  useEffect(() => {
+    if(ymaps) {
+      initYmaps();
+    }
+  }, [ymaps]);
 
-  const infoList = () => ([
-    // {
-    //   title: "Транспорт:",
-    //   value: carInfo?.trailer_type_id_data?.name || "Нет данных",
-    // },
-    // {
-    //   title: "Разрешение:",
-    //   value: Array.isArray(carInfo?.users_id_data?.adr) ? carInfo?.users_id_data?.adr.join(" ") : carInfo?.users_id_data?.adr || "Нет данных",
-    // },
-    // {
-    //   title: "Детали:",
-    //   value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
-    // },
-    // {
-    //   title: "Номер транспорта:",
-    //   value: carInfo?.car_number || "Нет данных",
-    // },
-    // // {
-    // //   title: "Водитель:",
-    // //   value: carInfo?.users_id_data?.full_name || "Нет данных",
-    // // },
-    // {
-    //   title: "Тип загрузки:",
-    //   value: carInfo?.load_type_id_3_data?.name || "Нет данных",
-    // }
-  ]);
   return {
     register,
     locations,
     errors,
     handleAppend,
     handleRemove,
-    initYmaps,
     onAdditionalAddressChange,
     distanceParameters,
     watch,
@@ -298,8 +255,6 @@ export const useGpsTrackingProps = () => {
     handleDragStart,
     handleDragOver,
     handleDragEnter,
-
-
     loadingOptions,
     carTypeOptions,
     handleOpenModal,
