@@ -2,7 +2,6 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/components/Container";
-import Script from "next/script";
 import {
   Accordion,
   AccordionButton,
@@ -50,7 +49,6 @@ export default function GpsTrackingModule() {
     control,
     getCarListProps,
     onSubmit,
-    infoList,
     handleSubmit,
     driverName,
   } = useGpsTrackingProps();
@@ -253,7 +251,7 @@ export default function GpsTrackingModule() {
         dataAccordion={true}
         showDistance={true}
         oneDir={true}
-        infoList={infoList}
+        // infoList={infoList}
         phoneBtn={true}
         additionalData={driverName}
       />

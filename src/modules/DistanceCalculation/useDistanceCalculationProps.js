@@ -103,7 +103,7 @@ export const useDistanceCalculationProps = () => {
     if(ymaps) {
       initYmaps();
     }
-  }, [ymaps]);
+  }, []);
 
   return {
     register,

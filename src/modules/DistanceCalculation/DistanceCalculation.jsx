@@ -10,8 +10,6 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DeleteButton } from "@/components/DeleteButton";
 
-/* eslint no-undef: 0 */ // --> OFF
-
 export const DistanceCalculation = () => {
 
   const {

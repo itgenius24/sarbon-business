@@ -33,7 +33,7 @@ export const ProfileLayout = ({ children }) => {
       {
         !isLargerThan845 && pathname === defaultPath && <Box display="flex" alignItems="center" justifyContent="space-between" p="12px" borderRadius="16px" bgColor="baseWhite" maxWidth="316px" margin="0 auto" mb="8px">
           <Box display="flex" alignItems="center" columnGap="8px">
-            <Image width={64} height={64} src={data?.photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${data?.photo}` : "/images/avatar.png"} alt="avatar"/>
+            <Image width={64} height={64} src={data?.photo ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${data?.photo || ""}` : "/images/avatar.png"} alt="avatar"/>
             <Text>{data?.full_name}</Text>
           </Box>
           <Link href={`/${locale}/profile/personal-data`}>

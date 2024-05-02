@@ -53,7 +53,7 @@ export const FileUpload = ({
         <Image
           // className={cls.img}
           loader={imageLoader}
-          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`}
+          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src || ""}`}
           alt="cargo"
           width={150}
           height={150}
@@ -79,7 +79,7 @@ export const FileUpload = ({
           // className={cls.img}
           priority={priority}
           loader={imageLoader}
-          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`}
+          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src || ""}`}
           alt="profile img"
           width={150}
           height={150}

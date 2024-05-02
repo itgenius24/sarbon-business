@@ -69,13 +69,16 @@ export const Footer = () => {
               {data.left.map((item) => {
                 return (
                   <li className={cls.infoItem} key={item.title}>
-                    {
+                    <Link className={cls.infoLink} href={item.link}>
+                      {item.title}
+                    </Link>
+                    {/* {
                       item?.link?.includes("distance-calculation") ? (
                         <a className={cls.infoLink} href={item.link}>{item.title}</a>
                       ) : <Link className={cls.infoLink} href={item.link}>
                         {item.title}
                       </Link>
-                    }
+                    } */}
                   </li>
                 );
               })}
@@ -117,7 +120,7 @@ export const Footer = () => {
             </p>
             <ul className={cls.mobileAppList}>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"/"} target="_blank">
+                <a className={cls.mobileAppLink} href={"https://apps.apple.com/uz/app/furgo/id6475668788"} target="_blank">
                   <Image
                     src={AppStore}
                     alt="App store"
@@ -127,7 +130,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"/"} target="_blank">
+                <a className={cls.mobileAppLink} href={"https://play.google.com/store/apps/details?id=uz.udevs.xlogistic_driver_mobile"} target="_blank">
                   <Image
                     src={GooglePlay}
                     alt="Google play"
@@ -136,7 +139,7 @@ export const Footer = () => {
                   />
                 </a>
               </li>
-              <li className={cls.mobileAppItem}>
+              {/* <li className={cls.mobileAppItem}>
                 <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
                     src={GalaxyStore}
@@ -145,7 +148,7 @@ export const Footer = () => {
                     height={40}
                   />
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <ul className={cls.socialList}>

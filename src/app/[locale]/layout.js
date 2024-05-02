@@ -32,11 +32,10 @@ export default function RootLayout({ children, params: { locale } }) {
             {children}
           </MainLayout>
         </Providers>
-        <Script
-          async
-          src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
-        />
       </body>
+      <Script
+        src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
+      />
     </html>
   );
 }

@@ -191,7 +191,7 @@ export const TopContent = ({
     if(ymaps) {
       ymaps.ready(initYmaps);
     }
-  }, [ymaps]);
+  }, []);
 
   return <Box>
     {

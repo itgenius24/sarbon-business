@@ -72,7 +72,18 @@ const Header = observer(({ elements }) => {
               <UnorderedList className={cls.list}>
                 {elements?.map((element, index) => {
                   return <ListItem className={cls.listItem} key={element.path}>
-                    {
+                    <Link
+                      onClick={() => setNavOpen(false)}
+                      href={element.path}
+                      className={clsx(cls.itemLink, {
+                        [cls.activeLink]: index
+                        ? pathname.includes(element.path)
+                        : pathname === element.path,
+                      })}
+                    >
+                      {t(element.label)}
+                    </Link>
+                    {/* {
                     element.path.includes("distance-calculation")
                      ? <a className={clsx(cls.itemLink, {
                        [cls.activeLink]: index
@@ -94,7 +105,7 @@ const Header = observer(({ elements }) => {
                      >
                        {t(element.label)}
                      </Link>
-                    }
+                    } */}
                   </ListItem>;
                 })}
                 {
@@ -134,7 +145,7 @@ const Header = observer(({ elements }) => {
                             photo === "photo"
                               ? UserImg
                               : !photo?.includes("http")
-                                ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo}`
+                                ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo || ""}`
                                 : photo
                           }
                           alt="ww"

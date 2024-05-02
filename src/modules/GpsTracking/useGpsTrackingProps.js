@@ -240,7 +240,7 @@ export const useGpsTrackingProps = () => {
     if(ymaps) {
       initYmaps();
     }
-  }, [ymaps]);
+  }, []);
 
   return {
     register,
@@ -270,7 +270,6 @@ export const useGpsTrackingProps = () => {
     control,
     getCarListProps,
     onSubmit,
-    infoList,
     handleSubmit,
     driverName: true,
   };
