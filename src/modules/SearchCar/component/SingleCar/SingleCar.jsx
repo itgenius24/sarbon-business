@@ -82,44 +82,31 @@ export const SingleCar = ({
 
   const newListDraggable = () => {
     const data = getVehicle.data?.response;
-    return [
-      {
-        title: "Транспорт:",
-        value: <Box display="flex" flexDirection="column" rowGap="5px">
-          {
-            data?.map((item, index) => <p key={index}>{index + 1}: {item?.trailer_type_id_data?.name || "Нет данных"}{index === data?.length - 1 ? "" : ","}</p>)
-          }
-        </Box>,
-      },
-      {
-        title: "Разрешение:",
-        value: <Box display="flex" flexDirection="column" rowGap="5px">
-          {
-            data?.map((item, index) => <p key={index}>{index + 1}: {address[item?.users_id_data?.adr] || "Нет данных"}</p>)
-          }
-        </Box>
-      },
-      {
-        title: "Детали:",
-        value: <Box display="flex" flexDirection="column" rowGap="5px">
-          {
-            data?.map((item, index) => <p key={index}>{index + 1}: ${item?.capacity || 0}т, {item?.volume || 0} м3</p>)
-          }
-        </Box>
-      },
-      {
-        title: "Тип загрузки:",
-        value: <Box display="flex" flexDirection="column" rowGap="5px">
-          {data?.map((item, index) => <p key={index}>{index + 1}: {item?.load_type_id_3_data?.name || "Нет данных"}</p>)}
-        </Box>
-      },
-      {
-        title: "Номер транспорта:",
-        value: <Box display="flex" flexDirection="column" rowGap="5px">
-          {data?.map((item, index) => <p key={index}>{index + 1}: {item?.car_number || "Нет данных"}</p>)}
-        </Box>
-      },
-    ];
+
+    return (data?.map?.((item) => {
+      return [
+        {
+          title: "Транспорт:",
+          value: item?.trailer_type_id_data?.name || "Нет данных"
+        },
+        {
+          title: "Разрешение:",
+          value: address[item?.users_id_data?.adr] || "Нет данных"
+        },
+        {
+          title: "Детали:",
+          value: `${item?.capacity || 0}т, ${item?.volume || 0} м3`
+        },
+        {
+          title: "Тип загрузки:",
+          value: item?.load_type_id_3_data?.name || "Нет данных"
+        },
+        {
+          title: "Номер транспорта:",
+          value: item?.car_number || "Нет данных"
+        },
+      ];
+    }) || []);
   };
 
   const getAllUserCargoParams = {
@@ -210,12 +197,9 @@ export const SingleCar = ({
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <AccordionPanel pb={4}>
+              <AccordionPanel pb={0}>
                 {
-                  newListDraggable()?.map((item, index) => <Box key={index}>
-                    <Box>{item?.title}</Box>
-                    <Box ml="10px" color="rgba(132, 145, 154, 0.8)">{item?.value}</Box>
-                  </Box>)
+                  newListDraggable()?.map((item, index) => <DataList list={item} index={index} key={index} />)
                 }
               </AccordionPanel>
             </AccordionItem>
