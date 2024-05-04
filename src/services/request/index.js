@@ -29,7 +29,8 @@ request.interceptors.request.use((config) => {
     config.url.includes("get-list/firm") ||
     config.url.includes("/news") ||
     config.url.includes("/directory") ||
-    config.url.includes("get-list/partners_company")
+    config.url.includes("get-list/partners_company") ||
+    config.url.includes("/users")
   ) {
     if(!token) {
       config.headers["Authorization"] = "API-KEY";
