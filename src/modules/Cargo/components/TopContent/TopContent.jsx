@@ -96,8 +96,6 @@ export const TopContent = ({
     }
   });
 
-
-  // const gpsHistory = getGPSHistory.data?.response?.map(item => [item?.lat, item?.long]);
   const driverPosition = [getDriverLocation.data?.response?.[0]?.lat, getDriverLocation.data?.response?.[0]?.long];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
