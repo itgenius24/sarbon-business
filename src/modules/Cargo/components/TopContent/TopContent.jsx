@@ -85,9 +85,14 @@ export const TopContent = ({
   //   { enabled: !!(status === "performed" && userId2) }
   // );
   const [gpsHistory, setGpsHistory] = useState([]);
+  const [page, setPage] = useState(0);
+
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
-      setGpsHistory(data?.response?.map(item => [item?.lat, item?.long]));
+      if(data?.response?.length === 100) {
+        setPage(page + 1);
+      }
+      setGpsHistory(prev => [...prev, ...data.response.map(item => [item?.lat, item?.long])]);
     }
   });
 
@@ -104,9 +109,18 @@ export const TopContent = ({
 
   useEffect(() => {
     if(status === "performed" && userId2) {
-      getGPSHistory.mutate({ data: { object_data:{ user_id: userId2 } } });
+      getGPSHistory.mutate({
+        data: {
+          object_data:
+        {
+          user_id: userId2,
+          page,
+          offset: 100
+        }
+        }
+      });
     }
-  }, [status, userId2]);
+  }, [status, userId2, page]);
 
   function initYmaps() {
     ymaps.ready(() => {
