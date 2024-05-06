@@ -115,7 +115,7 @@ export const TopContent = ({
         {
           user_id: userId2,
           page,
-          offset: 100
+          limit: 100
         }
         }
       });
