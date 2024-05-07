@@ -203,7 +203,7 @@ export const useGpsTrackingProps = () => {
   }, [getMeasurement.isSuccess]);
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
-  const { mutate } = useLogistikaGpsTrackingFilterDriver({
+  const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
       if (data?.response?.length) {
         setCarsArr(data?.response);
@@ -231,7 +231,7 @@ export const useGpsTrackingProps = () => {
         object_data:{
           lat,
           long,
-          number: data.distance,
+          number: data.distance || "100",
         }
       }
     });
@@ -273,5 +273,6 @@ export const useGpsTrackingProps = () => {
     onSubmit,
     handleSubmit,
     driverName: true,
+    isLoading: isPending,
   };
 };

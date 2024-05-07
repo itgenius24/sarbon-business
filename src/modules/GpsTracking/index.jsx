@@ -27,6 +27,7 @@ import { Modal } from "@/components/Modal";
 import LoadingMap from "@/modules/Cargo/components/LoadingMap";
 import { Dropdown } from "@/components/Dropdown";
 import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -52,6 +53,7 @@ export default function GpsTrackingModule() {
     onSubmit,
     handleSubmit,
     driverName,
+    isLoading,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -265,15 +267,19 @@ export default function GpsTrackingModule() {
       </Box>
     </VStack>
     <Box mt={6}>
-      <CarList
-        {...getCarListProps()}
-        dataAccordion={true}
-        showDistance={true}
-        oneDir={true}
-        // infoList={infoList}
-        phoneBtn={true}
-        additionalData={driverName}
-      />
+      {
+        isLoading
+        ? <LoadingSpinner />
+        : <CarList
+          {...getCarListProps()}
+          dataAccordion={true}
+          showDistance={true}
+          oneDir={true}
+          // infoList={infoList}
+          phoneBtn={true}
+          additionalData={driverName}
+        />
+      }
     </Box>
 
     <Modal
