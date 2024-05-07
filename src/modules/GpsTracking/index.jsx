@@ -13,7 +13,8 @@ import {
   Flex,
   Heading,
   Text,
-  VStack
+  VStack,
+  useMediaQuery
 } from "@chakra-ui/react";
 import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
@@ -55,6 +56,8 @@ export default function GpsTrackingModule() {
 
   const locale = useGetLang();
 
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+
   const { t } = useTranslation(locale, "translations");
 
   return <Container py="40px">
@@ -72,48 +75,64 @@ export default function GpsTrackingModule() {
           {/*<Button onClick={handleAppend} variant="reset"*/}
           {/*  leftIcon={<PlusIcon color="#007aff"/>}>{t("Добавить доп. адрес")}</Button>*/}
         </Box>
-        <Box display="flex" gap="20px" mb={"20px"} flexWrap={"wrap"}>
+        <Box mb={"20px"}>
 
-          <TextFieldWithAddition
-            placeholder={t("Адрес")}
-            // required={true}
-            rules={{ required: true }}
-            label={t("Адрес")}
-            additionalItemTheme="white"
-            register={register}
-            name={"address"}
-            additionalOnclick={() => handleOpenModal()}
-            onClick={() => handleOpenModal()}
-            error={errors["address"]}
-            onlyFieldDisabled={true}
-            // disabled={!canEdit}
-            additionalItemPlaceholder={
-              <span className={cls.additionalIcons}>
-                <LocationMarkIcon/>
-              </span>
-            }
-          />
-
-          <Box className={cls.kuzov} maxWidth="234px" width={"100%"}>
-            <Dropdown
-              placeholder={t("Введите тип кузова")}
-              label={t("Тип кузова")}
-              name="car_type"
-              options={carTypeOptions}
-              errors={errors}
-              width="100%"
-              control={control}
+          <Box display="flex" flexDirection={isLargerThan768 ? "row" : "column"} gap="20px">
+            <TextFieldWithAddition
+              placeholder={t("Адрес")}
+              // required={true}
+              rules={{ required: true }}
+              label={t("Адрес")}
+              additionalItemTheme="white"
+              register={register}
+              name={"address"}
+              additionalOnclick={() => handleOpenModal()}
+              onClick={() => handleOpenModal()}
+              error={errors["address"]}
+              onlyFieldDisabled={true}
+              // disabled={!canEdit}
+              additionalItemPlaceholder={
+                <span className={cls.additionalIcons}>
+                  <LocationMarkIcon/>
+                </span>
+              }
+            />
+            <TextFieldWithAddition
+              placeholder={t("Дистанция")}
+              label={t("Дистанция")}
+              additionalItemTheme="white"
+              register={register}
+              name={"distance"}
+              additionalOnclick={() => handleOpenModal()}
+              additionalItemPlaceholder={
+                <span className={cls.additionalIcons}>
+                  km
+                </span>
+              }
             />
           </Box>
-          <Box className={cls.kuzov} maxWidth="234px" width={"100%"}>
-            <Dropdown
-              placeholder={t("Введите тип загрузки")}
-              label={t("Тип загрузки")}
-              name="load_type_id"
-              options={loadingOptions}
-              errors={errors}
-              control={control}
-            />
+          <Box display="flex" flexDirection={isLargerThan768 ? "row" : "column"} gap="20px" mt="20px">
+            <Box className={cls.kuzov} width={"100%"}>
+              <Dropdown
+                placeholder={t("Введите тип кузова")}
+                label={t("Тип кузова")}
+                name="car_type"
+                options={carTypeOptions}
+                errors={errors}
+                width="100%"
+                control={control}
+              />
+            </Box>
+            <Box className={cls.kuzov} width={"100%"}>
+              <Dropdown
+                placeholder={t("Введите тип загрузки")}
+                label={t("Тип загрузки")}
+                name="load_type_id"
+                options={loadingOptions}
+                errors={errors}
+                control={control}
+              />
+            </Box>
           </Box>
         </Box>
         <Box>
@@ -125,7 +144,7 @@ export default function GpsTrackingModule() {
                 </Heading>
                 <AccordionIcon/>
               </AccordionButton>
-              <Flex className={cls.paramters} flexWrap={"wrap"} mt={"16px"} gap={3}>
+              <Box display="flex" flexDirection={isLargerThan768 ? "row" : "column"} gap="20px" mt="20px">
                 <TextFieldWithAddition
                   errors={errors}
                   control={control}
@@ -152,7 +171,7 @@ export default function GpsTrackingModule() {
                 // additionalItemName="volume_unit"
                 // additionalItemOptions={volumeMeasurementOptions}
                 />
-              </Flex>
+              </Box>
               <AccordionPanel mt={4} p={0}>
                 <Flex flexDirection={"column"} gap={6}>
                   <Flex flexWrap={"wrap"} gap={3}>
