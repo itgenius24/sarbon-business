@@ -26,7 +26,8 @@ export const useLoadsCardProps = ({
   short_name,
   distance,
   currency_id_data,
-  currency_id_2_data
+  currency_id_2_data,
+  handleDelete,
 }) => {
 
   const locale = useGetLang();
@@ -35,6 +36,8 @@ export const useLoadsCardProps = ({
 
   const [isEstimateModalOpen, setIsEstimateModalOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(5);
+
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
   const toast = useToast();
 
@@ -155,6 +158,11 @@ export const useLoadsCardProps = ({
     setRatingValue(value);
   }
 
+  function onDeleteAccept(id) {
+    handleDelete(id);
+    setIsDeletePopupOpen(false);
+  }
+
   return {
     list,
     newStatusList,
@@ -172,6 +180,9 @@ export const useLoadsCardProps = ({
     locale,
     setValue,
     watch,
+    isDeletePopupOpen,
+    setIsDeletePopupOpen,
+    onDeleteAccept,
   };
 
 };

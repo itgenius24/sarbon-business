@@ -12,6 +12,7 @@ import { Rating } from "@/components/Rating";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { Checkbox } from "@/components/Checkbox";
 import { forwardRef } from "react";
+import { Popup } from "@/components/Popup";
 
 export const LoadsCard = forwardRef(({
   guid,
@@ -66,6 +67,9 @@ export const LoadsCard = forwardRef(({
     locale,
     setValue,
     watch,
+    isDeletePopupOpen,
+    onDeleteAccept,
+    setIsDeletePopupOpen
   } = useLoadsCardProps({
     order_status,
     provisions,
@@ -84,6 +88,7 @@ export const LoadsCard = forwardRef(({
     distance,
     currency_id_data,
     currency_id_2_data,
+    handleDelete,
   });
 
   return <div>
@@ -205,7 +210,7 @@ export const LoadsCard = forwardRef(({
             type="delete"
             onClick={(e) => {
               e.stopPropagation();
-              handleDelete(guid);
+              setIsDeletePopupOpen(true);
             }}
           >
             {t("Удалить")}
@@ -316,6 +321,13 @@ export const LoadsCard = forwardRef(({
           />
         </Box>
       </Modal>
+      <Popup
+        isOpen={isDeletePopupOpen}
+        onClose={() => setIsDeletePopupOpen(false)}
+        mainText={t("Вы уверены что хотите удалить груз ?", { name: short_name })}
+        status="delete"
+        btn2Callback={() => onDeleteAccept(guid)}
+      />
     </div>
     <span className={clsx(cls.addressStatusMobile, cls[status])}>{statuses[status]}</span>
   </div>;

@@ -75,7 +75,7 @@ export const DistanceCalculation = () => {
       </Box>
       <Button className={cls.distanceCount} mt="20px" onClick={handleCalculate}>{t("Рассчитать расстояние")}</Button>
     </Box>
-    <div className={cls.map} id="map" style={{ width: "100%", height: isLargerThan845 ? "500px" : "300px" }}>
+    <div className={cls.map} id="map" style={{ width: "100%", height: "500px" }}>
       {
         (distanceParameters.distance || distanceParameters.duration) && <div className={cls.distanceInfo}>
           <div className={cls.locationNames}>

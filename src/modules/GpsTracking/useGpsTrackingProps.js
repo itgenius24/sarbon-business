@@ -274,5 +274,6 @@ export const useGpsTrackingProps = () => {
     handleSubmit,
     driverName: true,
     isLoading: isPending,
+    setValue,
   };
 };

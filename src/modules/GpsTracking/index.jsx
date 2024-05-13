@@ -54,6 +54,8 @@ export default function GpsTrackingModule() {
     handleSubmit,
     driverName,
     isLoading,
+    watch,
+    setValue
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -123,6 +125,9 @@ export default function GpsTrackingModule() {
                 errors={errors}
                 width="100%"
                 control={control}
+                watch={watch}
+                setValue={setValue}
+                clearable
               />
             </Box>
             <Box className={cls.kuzov} width={"100%"}>

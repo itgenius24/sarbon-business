@@ -30,6 +30,7 @@ export const Dropdown = ({
   onSearchChange = () => {},
   index,
   isMulti,
+  clearable,
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
 
@@ -127,6 +128,17 @@ export const Dropdown = ({
                     <span className={clsx(cls.arrow, { [cls.open]: isOpen })}>
                       {<SelectionArrow />}
                     </span>
+                    {
+                      clearable && watch(name)?.value && <span className={cls.rightIcon}
+                        onClick={(e) => {
+                          console.log("first");
+                          e.stopPropagation();
+                          setValue(name, {});
+                        }}
+                      >
+                        <CircleCloseIcon />
+                      </span>
+                    }
                   </>
               }
             </>
