@@ -47,7 +47,7 @@ export default function RootLayout({ children, params: { locale } }) {
           `
         }
       </Script>
-      <Script type="text/javascript" >
+      <Script type="text/javascript" id="mcjs" >
         {
           `
           (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -67,7 +67,7 @@ export default function RootLayout({ children, params: { locale } }) {
       <Script
         src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
       />
-      <noscript noscript><div><img src="https://mc.yandex.ru/watch/97265981" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+      {/* <noscript noscript><div><img src="https://mc.yandex.ru/watch/97265981" style="position:absolute; left:-9999px;" alt="" /></div></noscript> */}
     </html>
   );
 }

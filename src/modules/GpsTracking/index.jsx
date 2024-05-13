@@ -148,12 +148,12 @@ export default function GpsTrackingModule() {
         <Box>
           <Accordion allowToggle>
             <AccordionItem border={"none"}>
-              <AccordionButton _hover={{ background: "#fff" }} width={"auto"} gap={3} alignItems={"center"} p={0}>
+              {/* <AccordionButton _hover={{ background: "#fff" }} width={"auto"} gap={3} alignItems={"center"} p={0}>
                 <Heading fontSize={"18px"}>
                   {t("gpsTracking.machineSettings")}
                 </Heading>
                 <AccordionIcon/>
-              </AccordionButton>
+              </AccordionButton> */}
               <Box display="flex" flexDirection={isLargerThan768 ? "row" : "column"} gap="20px" mt="20px">
                 <TextFieldWithAddition
                   errors={errors}
@@ -182,7 +182,7 @@ export default function GpsTrackingModule() {
                 // additionalItemOptions={volumeMeasurementOptions}
                 />
               </Box>
-              <AccordionPanel mt={4} p={0}>
+              {/* <AccordionPanel mt={4} p={0}>
                 <Flex flexDirection={"column"} gap={6}>
                   <Flex flexWrap={"wrap"} gap={3}>
                     <Box width="234px" flexShrink="0">
@@ -267,7 +267,7 @@ export default function GpsTrackingModule() {
                     </Box>
                   </Flex>
                 </Flex>
-              </AccordionPanel>
+              </AccordionPanel> */}
             </AccordionItem>
           </Accordion>
         </Box>
