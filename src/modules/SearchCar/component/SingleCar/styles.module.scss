@@ -4,6 +4,10 @@
   background-color: #fff;
 }
 
+.loadsCard.withData {
+  background-color: #D1E9FF;
+}
+
 .cardTop {
   display: flex;
   justify-content: space-between;
@@ -53,4 +57,12 @@
   padding-top: 16px;
   display: flex;
   column-gap: 8px;
+}
+
+.loadsCard.withData .button {
+  background-color: #fff;
+}
+
+.loadsCard.withData .button:hover {
+  color: #007AFF;
 }

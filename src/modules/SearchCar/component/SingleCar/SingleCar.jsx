@@ -28,6 +28,7 @@ import { useState } from "react";
 import { Rating } from "@/components/Rating";
 import { Popup } from "@/components/Popup";
 import Link from "next/link";
+import clsx from "clsx";
 
 export const SingleCar = ({
   carInfo,
@@ -38,6 +39,10 @@ export const SingleCar = ({
   dataAccordion,
   additionalData,
   withAddress,
+  carType,
+  loadType,
+  capacity,
+  height,
 }) => {
 
   const userId = authStore.userData.id;
@@ -75,8 +80,32 @@ export const SingleCar = ({
     },
   ];
 
+  const requestBody = {};
+
+  if(carType) {
+    requestBody.trailer_type_id = carType;
+  }
+
+  if(loadType) {
+    requestBody.load_type_id_3 = loadType;
+  }
+
+  if(height) {
+    requestBody.height = height;
+  }
+
+  if(capacity) {
+    requestBody.capacity = Number(capacity);
+  }
+
   const getVehicle = useGetVehicle(
-    { data: JSON.stringify({ users_id: carInfo.users_id_data?.guid, with_relations: true }) },
+    {
+      data: JSON.stringify({
+        users_id: carInfo.users_id_data?.guid,
+        with_relations: true,
+        ...requestBody
+      })
+    },
     { enabled: true, }
   );
 
@@ -149,7 +178,7 @@ export const SingleCar = ({
   }
 
   return (
-    <div className={cls.loadsCard}>
+    <div className={clsx(cls.loadsCard, { [cls.withData]: !!newListDraggable()?.length })}>
       <div className={cls.cardTop}>
         <div className={cls.cardTopContent}>
           <h2 className={cls.address}>
@@ -191,8 +220,9 @@ export const SingleCar = ({
             <AccordionItem borderBottom="1px solid" borderColor="brand.200" borderTop="none">
               <h2>
                 <AccordionButton pl="0">
-                  <Box as="span" flex="1" textAlign="left">
+                  <Box as="span" flex="1" textAlign="left" display="flex" justifyContent="space-between">
                     <span>Дополнительная информация</span>
+                    <span>{newListDraggable()?.length}</span>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
@@ -208,7 +238,7 @@ export const SingleCar = ({
         }
       </Box>
       <div className={cls.cardBottom}>
-        <Button onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
+        <Button className={cls.button} onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
         {!phoneBtn ? null : (
           <Button onClick={handleClickPhoneBtn} variant={"solid"} width="278px">{phoneBtnText}</Button>)
         }

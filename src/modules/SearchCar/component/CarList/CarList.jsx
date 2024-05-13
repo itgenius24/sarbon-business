@@ -11,6 +11,10 @@ export const CarList = ({
   phoneBtn,
   dataAccordion,
   additionalData,
+  carType,
+  loadType,
+  capacity,
+  height,
 }) => {
   if(!data?.length)return null;
 
@@ -23,6 +27,10 @@ export const CarList = ({
         {data.map((item) => {
           return <SingleCar
             withAddress={true}
+            carType={carType}
+            loadType={loadType}
+            capacity={capacity}
+            height={height}
             key={item}
             carInfo={item}
             // infoList={infoList}

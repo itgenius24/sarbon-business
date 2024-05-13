@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useGetCarType, useGetMeasurement, useGetVehicle, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
+import { useGetMeasurement, useGetTrailerType, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -175,9 +175,9 @@ export const useGpsTrackingProps = () => {
     setValue("cor", coordinates.join(","));
   }
 
-  const getCarType = useGetCarType();
+  const getTrailerType = useGetTrailerType();
   const getLoadingTypes = useLoadingTypes();
-  const carTypeOptions = getCarType.data?.response?.map(item => ({
+  const carTypeOptions = getTrailerType.data?.response?.map(item => ({
     label: item?.name,
     value: item?.guid
   }));

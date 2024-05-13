@@ -138,6 +138,9 @@ export default function GpsTrackingModule() {
                 options={loadingOptions}
                 errors={errors}
                 control={control}
+                watch={watch}
+                setValue={setValue}
+                clearable
               />
             </Box>
           </Box>
@@ -277,6 +280,10 @@ export default function GpsTrackingModule() {
         ? <LoadingSpinner />
         : <CarList
           {...getCarListProps()}
+          capacity={watch("weight")}
+          height={watch("volume")}
+          carType={watch("car_type")?.value}
+          loadType={watch("load_type_id")?.value}
           dataAccordion={true}
           showDistance={true}
           oneDir={true}
