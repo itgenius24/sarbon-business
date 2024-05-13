@@ -36,6 +36,21 @@ export default function RootLayout({ children, params: { locale } }) {
       <Script
         src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
       />
+      <Script
+        async={true}
+        src="https://www.googletagmanager.com/gtag/js?id=G-B2SWXD4SK3"
+      />
+      <Script id="gtag" strategy="afterInteractive">
+        {
+          `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-B2SWXD4SK3');
+          `
+        }
+      </Script>
+
     </html>
   );
 }
