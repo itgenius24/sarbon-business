@@ -270,7 +270,7 @@ export const TransportDetail = () => {
             disabled={!canEdit}
             additionalItemOptions={[{ label: t("т"), value: "t" }, { label: t("кг"), value: "kg" }]}
             placeholder={t("Грузоподъемность")}
-            width="135px"
+            width="220px"
             type="number"
             register={register}
             name="capacity"

@@ -225,7 +225,14 @@ export const SingleCar = ({
               ? getAllUserCargo.data?.response?.length > 0
                 ? getAllUserCargo.data?.response?.map((item) => {
                   return <Card
-                    onClick={() => handleOffer(item.guid)}
+                    onClick={
+                      () => {
+                        if(!offerFromCustomer.isPending) {
+                          handleOffer(item.guid);
+                        }
+                      }
+                    }
+                    style={{ cursor: offerFromCustomer.isPending ? "progress" : "pointer" }}
                     key={item.guid}
                     mb="20px"
                     borderRadius="20px"
