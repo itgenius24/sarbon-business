@@ -45,6 +45,8 @@ export const SingleCar = ({
   height,
 }) => {
 
+  console.log({ carInfo });
+
   const userId = authStore.userData.id;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -101,7 +103,7 @@ export const SingleCar = ({
   const getVehicle = useGetVehicle(
     {
       data: JSON.stringify({
-        users_id: carInfo.users_id_data?.guid,
+        users_id: carInfo.users_id,
         with_relations: true,
         ...requestBody
       })
