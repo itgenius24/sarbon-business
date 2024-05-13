@@ -87,12 +87,29 @@ export const TopContent = ({
   const [gpsHistory, setGpsHistory] = useState([]);
   const [page, setPage] = useState(0);
 
+  const [breakRequest, setBreakRequest] = useState(false);
+
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
       if(data?.response?.length === 100) {
         setPage(page + 1);
       }
-      setGpsHistory(prev => [...prev, ...data.response.map(item => [item?.lat, item?.long])]);
+      if(data.response) {
+        setGpsHistory(prev => [...prev, ...data.response.map(item => [item?.lat, item?.long])]);
+      }
+      if(data.response === null && !breakRequest) {
+        setBreakRequest(true);
+        getGPSHistory.mutate({
+          data: {
+            object_data: {
+              user_id: userId2,
+              page,
+              limit: 100
+            }
+          }
+        });
+      }
+
     }
   });
 

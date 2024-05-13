@@ -609,7 +609,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         duration: distance.duration,
         straps_number: data.straps_number,
         hitch: data.hitch,
-        pneumatic: data.pneumatic,
+        pneumatic: data.pneumatic || false,
         bunks: data.bunks || false,
         width: data.width,
         height: data.height,

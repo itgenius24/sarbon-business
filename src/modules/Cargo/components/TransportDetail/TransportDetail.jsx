@@ -214,7 +214,7 @@ export const TransportDetail = () => {
             <Dropdown
               isMulti
               name="permission"
-              isDisabled={!canEdit}
+              disabled={!canEdit}
               register={register}
               control={control}
               watch={watch}

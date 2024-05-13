@@ -109,6 +109,7 @@ export const Dropdown = ({
                             <span>{item?.label}</span>
                             <button
                               type="button"
+                              disabled={disabled}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 onChange(watch(name)?.filter(selected => selected?.value !== item?.value ));

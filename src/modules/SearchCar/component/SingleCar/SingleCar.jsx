@@ -77,7 +77,7 @@ export const SingleCar = ({
 
   const getVehicle = useGetVehicle(
     { data: JSON.stringify({ users_id: carInfo.users_id_data?.guid, with_relations: true }) },
-    { enabled: false, }
+    { enabled: true, }
   );
 
   const newListDraggable = () => {
@@ -187,7 +187,7 @@ export const SingleCar = ({
           Водитель: {carInfo?.users_id_data?.full_name}
         </Box>}
         {
-          dataAccordion ? <Accordion allowMultiple onChange={() => getVehicle.refetch()}>
+          dataAccordion ? <Accordion allowMultiple >
             <AccordionItem borderBottom="1px solid" borderColor="brand.200" borderTop="none">
               <h2>
                 <AccordionButton pl="0">
