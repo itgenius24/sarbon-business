@@ -34,23 +34,40 @@ export default function RootLayout({ children, params: { locale } }) {
         </Providers>
       </body>
       <Script
-        src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
-      />
-      <Script
         async={true}
         src="https://www.googletagmanager.com/gtag/js?id=G-B2SWXD4SK3"
       />
       <Script id="gtag" strategy="afterInteractive">
         {
           `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-B2SWXD4SK3');
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-B2SWXD4SK3');
           `
         }
       </Script>
-
+      <Script type="text/javascript" >
+        {
+          `
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      
+          ym(97265981, "init", {
+              clickmap:true,
+              trackLinks:true,
+              accurateTrackBounce:true
+          });
+          `
+        }
+      </Script>
+      <Script
+        src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&suggest_apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY}&load=package.full&lang=en_US`}
+      />
+      <noscript noscript><div><img src="https://mc.yandex.ru/watch/97265981" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     </html>
   );
 }
