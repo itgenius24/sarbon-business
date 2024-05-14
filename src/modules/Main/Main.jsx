@@ -1,24 +1,36 @@
-"use client";
 import clsx from "clsx";
 import { MobileApp } from "./components/MobileApp";
 import { News } from "./components/News";
 import styles from "./styles.module.scss";
-import { useMainProps } from "./useMainProps";
-import { useGetLang } from "@/hooks/useGetLang";
-import { useTranslation } from "@/app/i18n/client";
 
-export function Main() {
+export async function Main() {
 
-  const { banner } = useMainProps();
+  const params = {
+    data: JSON.stringify({
+      status: ["banner"],
+      with_relations: true,
+    })
+  };
 
-  const locale = useGetLang();
+  const searchParams = new URLSearchParams(params);
 
-  const { t } = useTranslation(locale, "translations");
+  const res = await fetch("https://api.admin.u-code.io/v2/object-slim/get-list/partners_company?" + searchParams.toString(), {
+    method: "GET",
+    headers: {
+      Authorization: "API-KEY",
+      "X-API-KEY": "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT"
+    }
+  });
+
+  const data = await res.json();
+
+  const banner = data?.data?.data?.response?.[0];
 
   return (
     <article className={clsx(styles.main, "fade-in")}>
+      <h1 className="visually-hidden">Logistika, Cargo, Transport, Logistics, Warehousing, Packaging, Warehousing, питак ,pitak, tent, тент, фурго, перевозка , перевозки ,автоперевозки, юк ташиш, фурада юк ташиш ,ставка, транзит,реф, рефрижератор, погрузка,груз,аванс,затаможка , растаможка ,догруз,глонасс, запрос ,ref,adr,адр,грузовые перевозки</h1>
       <MobileApp description={banner?.description} description1={banner?.description_1} photo={banner?.photo} />
-      <News t={t} />
+      <News />
     </article>
   );
 }
