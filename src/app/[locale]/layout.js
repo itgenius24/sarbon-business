@@ -16,7 +16,26 @@ const inter = Inter({
 export const metadata = {
   title: "Furgo",
   description: "питак, pitak, tent, тент, фурго, перевозка, перевозки, автоперевозки, юк ташиш, фурада юк ташиш, ставка, транзит, реф, рефрижератор, погрузка, груз, аванс, затаможка, растаможка, догруз, глонасс, запрос, ref, adr, адр, грузовые перевозки",
-  icons: { icon: "/favicon.ico" }
+  icons: { icon: "/favicon.ico" },
+  openGraph: {
+    title: "Furgo",
+    description: "Добро пожаловать в Furgo, вашего надежного партнера в сфере безупречных логистических решений. Мы специализируемся на транспортировке, складировании и управлении цепочкой поставок с акцентом на эффективности и надежности. Наша высококвалифицированная команда применяет передовые технологии для оптимизации операций, гарантируя своевременную и безопасную доставку вашего груза.",
+    url: "https://furgo.uz/",
+    siteName: "Furgo",
+    images: [
+      {
+        url: "https://furgo.uz/_next/static/media/logo.56cc9102.svg", // Must be an absolute URL
+        width: 800,
+        height: 800,
+      },
+      {
+        url: "https://furgo.uz/_next/static/media/logo.56cc9102.svg", // Must be an absolute URL
+        width: 1600,
+        height: 1600,
+      },
+    ]
+  },
+  type: "website",
 };
 
 export async function generateStaticParams() {
