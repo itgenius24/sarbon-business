@@ -231,7 +231,7 @@ export const useGpsTrackingProps = () => {
         object_data:{
           lat,
           long,
-          number: data.distance || "100",
+          number: data.distance || "0",
         }
       }
     });
