@@ -210,7 +210,7 @@ export const SingleCar = ({
           {/* <span className={cls.distance}>724 км</span> */}
         </div>
         {showDistance && <div className={cls.distance}>
-          {carInfo?.distance} км от адреса
+          {carInfo?.differance?.toFixed(2)} км от адреса
         </div>}
       </div>
       <Box borderBottom="1px solid" borderColor="brand.200">
