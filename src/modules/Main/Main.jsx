@@ -28,7 +28,7 @@ export async function Main() {
 
   return (
     <article className={clsx(styles.main, "fade-in")}>
-      <h1 className="visually-hidden">Logistika, Cargo, Transport, Logistics, Warehousing, Packaging, Warehousing, питак ,pitak, tent, тент, фурго, перевозка , перевозки ,автоперевозки, юк ташиш, фурада юк ташиш ,ставка, транзит,реф, рефрижератор, погрузка,груз,аванс,затаможка , растаможка ,догруз,глонасс, запрос ,ref,adr,адр,грузовые перевозки</h1>
+      <h1 className="visually-hidden">{banner?.description}</h1>
       <MobileApp description={banner?.description} description1={banner?.description_1} photo={banner?.photo} />
       <News />
     </article>
