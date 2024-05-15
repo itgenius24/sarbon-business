@@ -126,7 +126,7 @@ export const SingleCar = ({
         },
         {
           title: "Детали:",
-          value: `${item?.capacity || 0}т, ${item?.volume || 0} м3`
+          value: `${item?.capacity || 0}т, ${item?.height || 0} м3`
         },
         {
           title: "Тип загрузки:",
