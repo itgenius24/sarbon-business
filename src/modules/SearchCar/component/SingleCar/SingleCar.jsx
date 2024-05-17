@@ -29,6 +29,7 @@ import { Rating } from "@/components/Rating";
 import { Popup } from "@/components/Popup";
 import Link from "next/link";
 import clsx from "clsx";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const SingleCar = ({
   carInfo,
@@ -45,7 +46,7 @@ export const SingleCar = ({
   height,
 }) => {
 
-  console.log({ carInfo });
+  const locale = useGetLang();
 
   const userId = authStore.userData.id;
 
@@ -187,16 +188,16 @@ export const SingleCar = ({
             <span className={cls.addressText}>
               {oneDir ? (
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>{carInfo.address_id_data?.name}</span>
+                  <span className={cls.addressCity}>{carInfo.address_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
                 </span>
               ) : (<><span className={cls.addressCountry}>
-                <span className={cls.addressCity}>{carInfo.city_id_data?.name}</span>
-                <span>{carInfo.address_id_data?.name}</span>
+                <span className={cls.addressCity}>{carInfo.city_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
+                <span>{carInfo.address_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
               </span>
               <span>-&gt;</span>
               <span className={cls.addressCountry}>
-                <span className={cls.addressCity}>{carInfo.city_id_2_data?.name}</span>
-                <span>{carInfo.address_id_2_data?.name}</span>
+                <span className={cls.addressCity}>{carInfo.city_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
+                <span>{carInfo.address_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
               </span></>)}
               {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
@@ -276,18 +277,18 @@ export const SingleCar = ({
                       <Box display="flex" columnGap="12px" flexGrow={1} maxWidth="calc(100% - 40px)">
                         <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" textAlign="left" rowGap="8px" >
                           <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                            {item.city_id_data?.name}
+                            {item.city_id_data?.["name_" + (locale === "uz" ? "en" : "ru")] || item.city_id_data?.name}
                           </Text>
-                          <span>{item.address_id_data?.name}</span>
+                          <span>{item.address_id_data?.["name_" + (locale === "uz" ? "en" : "ru")] || item.address_id_data?.name}</span>
                         </Box>
                         <Box as="span" alignSelf="center">
                           -{">"}
                         </Box>
                         <Box flexGrow={1} maxWidth={"calc(50% - 40px)"} flexWrap="wrap" display="flex" flexDirection="column" rowGap="8px" textAlign="left" pr="10px">
                           <Text as="span" maxWidth="100%" fontWeight={600} fontSize={isLargerThan800 ? "20px" : "16px"} overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                            {item.city_id_2_data?.name}
+                            {item.city_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")] || item.city_id_2_data?.name}
                           </Text>
-                          <span>{item.address_id_2_data?.name}</span>
+                          <span>{item.address_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")] || item.address_id_2_data?.name}</span>
                         </Box>
                       </Box>
                       <Box as="span" fontSize="14px" color="brand.400">{item?.number_of_order}</Box>

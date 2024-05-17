@@ -217,7 +217,8 @@ export const TopContent = ({
   }, []);
 
   useEffect(() => {
-    if(ymaps) {
+    const ymapsScript = document.getElementById("yandex-maps-script");
+    if(ymapsScript) {
       ymaps.ready(initYmaps);
     }
   }, []);

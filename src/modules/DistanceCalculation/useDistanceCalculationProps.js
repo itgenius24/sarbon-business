@@ -100,7 +100,8 @@ export const useDistanceCalculationProps = () => {
   };
 
   useEffect(() => {
-    if(ymaps) {
+    const ymapsScript = document.getElementById("yandex-maps-script");
+    if(ymapsScript) {
       initYmaps();
     }
   }, []);

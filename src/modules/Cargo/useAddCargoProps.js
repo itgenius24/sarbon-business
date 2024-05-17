@@ -21,6 +21,7 @@ import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
+import { useGetLang } from "@/hooks/useGetLang";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
   const searchParams = useSearchParams();
@@ -1004,10 +1005,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleDelete,
     handleCancel,
     handleAccept,
-    address1: data?.address_id_data?.name,
-    address2: data?.address_id_2_data?.name,
-    city1: data?.city_id_data?.name,
-    city2: data?.city_id_2_data?.name,
+    address1: data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
+    address2: data?.address_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
+    city1: data?.city_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
+    city2: data?.city_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
     userName: data?.users_id_2_data?.full_name,
     phoneNumber: data?.users_id_2_data?.phone,
     rating: data?.users_id_2_data?.rating,

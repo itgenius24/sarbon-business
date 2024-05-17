@@ -45,7 +45,7 @@ export const Dropdown = ({
 
   }, [watch(searchName), options]);
 
-  const optionLen = !!checkedOptions?.length;
+  const optionLen = !!options?.length;
   const {
     isOpen,
     dropdownControl,
@@ -155,7 +155,7 @@ export const Dropdown = ({
               onClick={handleClose}
             >
               {
-                checkedOptions.map((option, index) => (
+                options.map((option, index) => (
                   <div
                     className={clsx(cls.option, { [cls.selected]: option.value === value?.value })}
                     key={index}

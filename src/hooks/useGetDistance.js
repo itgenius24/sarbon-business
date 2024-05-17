@@ -6,7 +6,10 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
   useEffect(() => {
-    if(ymaps) calculateDistance();
+    const ymapsScript = document.getElementById("yandex-maps-script");
+    if(ymapsScript) {
+      calculateDistance();
+    }
   }, [origin, destination, referencePoints]);
 
   const calculateDistance = () => {

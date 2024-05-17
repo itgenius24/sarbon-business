@@ -103,13 +103,13 @@ export const LoadsCard = forwardRef(({
           <h2 className={cls.address}>
             <span className={cls.addressText}>
               <span className={cls.addressCountry}>
-                <span className={cls.addressCity}>{city_id_data?.name}</span>
-                <span>{address_id_data?.name}</span>
+                <span className={cls.addressCity}>{city_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
+                <span>{address_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
               </span>
               <span>-&gt;</span>
               <span className={cls.addressCountry}>
-                <span className={cls.addressCity}>{city_id_2_data?.name}</span>
-                <span>{address_id_2_data?.name}</span>
+                <span className={cls.addressCity}>{city_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
+                <span>{address_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
               </span>
               {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
