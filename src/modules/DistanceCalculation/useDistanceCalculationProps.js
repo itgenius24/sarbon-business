@@ -101,12 +101,14 @@ export const useDistanceCalculationProps = () => {
     e.preventDefault();
   };
 
+  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
+
   useEffect(() => {
     const ymapsScript = document.getElementById("yandex-maps-script");
     if(ymapsScript) {
       initYmaps();
     }
-  }, []);
+  }, depArr);
 
   return {
     register,
