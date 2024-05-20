@@ -47,38 +47,40 @@ export const useDistanceCalculationProps = () => {
   }
 
   function initYmaps() {
-    ymaps.ready(() => {
-      var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
-        editorMidPointsType: "via",
-        routeActiveStrokeColor: "#175CD3",
-        editorDrawOver: false,
+    if(window?.ymaps) {
+      ymaps.ready(() => {
+        var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
+          editorMidPointsType: "via",
+          routeActiveStrokeColor: "#175CD3",
+          editorDrawOver: false,
+        });
+
+        multiRoute.events.add("update", function () {
+          if(multiRoute.getRoutes().get(0)) {
+            const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
+            const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
+            setDistanceParameters({ duration, distance });
+          }
+        });
+
+        const position = isLargerThan845 ? { right: 0, top: 0 } : { right: 0, bottom: 50 };
+
+        const searchControl = new ymaps.control.SearchControl({ options: { float: "none", position } });
+
+        // Creating the map with the button added to it.
+        var myMap = new ymaps.Map("map", {
+          center: [41.40587471972005, 69.46086540238926],
+          zoom: 7,
+          controls: [searchControl],
+        }, { buttonMaxWidth: 300, minZoom: 5 });
+
+        // Adding a multiroute to the map.
+        myMap.geoObjects.add(multiRoute);
+
+        mapRef.current = myMap;
+        multiRouteRef.current = multiRoute;
       });
-
-      multiRoute.events.add("update", function () {
-        if(multiRoute.getRoutes().get(0)) {
-          const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-          const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-          setDistanceParameters({ duration, distance });
-        }
-      });
-
-      const position = isLargerThan845 ? { right: 0, top: 0 } : { right: 0, bottom: 50 };
-
-      const searchControl = new ymaps.control.SearchControl({ options: { float: "none", position } });
-
-      // Creating the map with the button added to it.
-      var myMap = new ymaps.Map("map", {
-        center: [41.40587471972005, 69.46086540238926],
-        zoom: 7,
-        controls: [searchControl],
-      }, { buttonMaxWidth: 300, minZoom: 5 });
-
-      // Adding a multiroute to the map.
-      myMap.geoObjects.add(multiRoute);
-
-      mapRef.current = myMap;
-      multiRouteRef.current = multiRoute;
-    });
+    }
   }
 
   let draggingIndex = null;

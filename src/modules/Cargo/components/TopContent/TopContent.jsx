@@ -138,39 +138,41 @@ export const TopContent = ({
   }, [status, userId2, page]);
 
   function initYmaps() {
-    ymaps.ready(() => {
-      myPolyline.current = new ymaps.Polyline(
-        [],
-        { balloonContent: "Polyline" },
-        {
-          balloonCloseButton: false,
-          strokeColor: "#009241",
-          strokeWidth: 4,
-          strokeOpacity: 1
+    if(window?.ymaps) {
+      ymaps.ready(() => {
+        myPolyline.current = new ymaps.Polyline(
+          [],
+          { balloonContent: "Polyline" },
+          {
+            balloonCloseButton: false,
+            strokeColor: "#009241",
+            strokeWidth: 4,
+            strokeOpacity: 1
+          });
+
+        multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
+          editorMidPointsType: "via",
+          routeActiveStrokeColor: "#007AFF",
+          editorDrawOver: false,
         });
 
-      multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
-        editorMidPointsType: "via",
-        routeActiveStrokeColor: "#007AFF",
-        editorDrawOver: false,
+        myMap.current = new ymaps.Map("topContentMap", {
+          center: [41.40587471972005, 69.46086540238926],
+          zoom: 15,
+          controls: [],
+        }, { buttonMaxWidth: 300 });
+
+        myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
+          iconLayout: "default#image",
+          iconImageHref: "/images/navigation.png",
+          iconImageSize: [37, 37],
+          iconImageOffset: [-5, -38]
+        }),
+        myMap.current.geoObjects.add(myPolyline.current);
+        myMap.current.geoObjects.add(multiRoute.current);
+        myMap.current.geoObjects.add(myPlaceMark.current);
       });
-
-      myMap.current = new ymaps.Map("topContentMap", {
-        center: [41.40587471972005, 69.46086540238926],
-        zoom: 15,
-        controls: [],
-      }, { buttonMaxWidth: 300 });
-
-      myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
-        iconLayout: "default#image",
-        iconImageHref: "/images/navigation.png",
-        iconImageSize: [37, 37],
-        iconImageOffset: [-5, -38]
-      }),
-      myMap.current.geoObjects.add(myPolyline.current);
-      myMap.current.geoObjects.add(multiRoute.current);
-      myMap.current.geoObjects.add(myPlaceMark.current);
-    });
+    }
   }
 
   useEffect(() => {
@@ -219,7 +221,7 @@ export const TopContent = ({
   useEffect(() => {
     const ymapsScript = document.getElementById("yandex-maps-script");
     if(ymapsScript) {
-      ymaps.ready(initYmaps);
+      initYmaps();
     }
   }, []);
 
