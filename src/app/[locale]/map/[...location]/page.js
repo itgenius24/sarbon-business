@@ -13,12 +13,14 @@ export default function MapPage({ params }) {
   const { location: [type, index], locale } = params;
 
   let placeMarCors = formStore.formData?.[type]?.[index]?.cor;
+  let placeMarAddress = formStore.formData?.[type]?.[index]?.address;
 
   if(typeof placeMarCors === "string" && placeMarCors) {
     placeMarCors = placeMarCors.split(",");
   }
 
   const [placeMarkGeometry, setPlaceMarkGeometry] = useState(placeMarCors || []);
+  const [locationName, setLocationName] = useState(placeMarAddress || "");
 
   const router = useRouter();
 
@@ -37,12 +39,6 @@ export default function MapPage({ params }) {
           cor: `${coords[0]},${coords[1]}`,
           search: formStore.formData.loadings[index].search
         });
-        // setLoadings({
-        //   location: formStore.formData.loadings[index].location,
-        //   address: firstGeoObject.getAddressLine(),
-        //   cor: `${coords[0]},${coords[1]}`,
-        //   search: formStore.formData.loadings[index].search
-        // });
       } else {
         formStore.updateUnloading(index, {
           location: formStore.formData.unloading[index].location,
@@ -50,12 +46,6 @@ export default function MapPage({ params }) {
           cor: `${coords[0]},${coords[1]}`,
           search: formStore.formData.unloading[index].search
         });
-        // setUnloading({
-        //   location: formStore.formData.unloading[index].location,
-        //   address: firstGeoObject.getAddressLine(),
-        //   cor: `${coords[0]},${coords[1]}`,
-        //   search: formStore.formData.unloading[index].search
-        // });
       }
     });
   }
@@ -64,16 +54,14 @@ export default function MapPage({ params }) {
     const coordinates = e.get("coords");
     setPlaceMarkGeometry(coordinates);
     getPlaceMarkAddress(coordinates);
+    ymaps?.geocode(coordinates).then(function (res) {
+      var firstGeoObject = res.geoObjects.get(0);
+      setLocationName(firstGeoObject.getAddressLine());
+    });
   }
 
   function savePlaceMark() {
-    // router.back();
     router.push(`/${locale}/add-cargo`);
-    // if(type === "loadings") {
-    //   formStore.updateLoadings(index, loadings);
-    // } else if(type === "unloading") {
-    //   formStore.updateUnloading(index, unloading);
-    // }
   }
 
   return <Container>
@@ -92,7 +80,15 @@ export default function MapPage({ params }) {
         options={{ minZoom: 5, }}
       >
         <SearchControl options={{ float: "right" }} />
-        <Placemark geometry={placeMarkGeometry} />
+        <Placemark
+          options={{
+            openBalloonOnClick: true,
+            balloonContent: "test",
+            openEmptyBalloon: true,
+            hasBalloon: true,
+          }}
+          properties={{ balloonContent: locationName }}
+          geometry={placeMarkGeometry} />
         <TypeSelector
           mapTypes={["yandex#map", "yandex#satellite", "yandex#hybrid", "yandex#publicMap"]}
         />
