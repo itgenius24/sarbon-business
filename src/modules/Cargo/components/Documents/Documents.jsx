@@ -16,14 +16,14 @@ export const Documents = ({ handleUploadDocument = () => {}, getEmptyFileName = 
       {documents.map((doc, idx, arr) => {
         if(!doc) return;
         const isLast = arr.length === (idx+1);
-        const text = doc.split?.("/")?.at(-1) ;
+        const text = doc.split?.("/")?.at(-1).split("_")?.at(-1);
         return <>
           <Flex justifyContent="space-between" align="center" p="12px 16px" bgColor="baseWhite" borderRadius="12px" mb={isLast ? "20px" : "10px"} shadow="0px 0px 10px 0px #0000001A">
             <Flex align="center" justifyContent="center" width="42px" height="42px" bg="#F2F4F7" borderRadius="12px">
               <DocumentFileIcon />
             </Flex>
             <Text m="0 auto 0 16px">{text}</Text>
-            <a href={doc} target="_blank" rel="noopener noreferrer">
+            <a href={doc} download target="_blank" rel="noopener noreferrer">
               <DocumentUploadIcon />
             </a>
           </Flex>

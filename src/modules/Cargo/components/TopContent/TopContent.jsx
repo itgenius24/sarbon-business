@@ -252,11 +252,13 @@ export const TopContent = ({
       </h2>
       <DataList list={list} />
       {
-        status === "performed" && <Button maxW="278px" mt="20px" onClick={() => setShowNumber(!showNumber)}>
-          { showNumber ? phoneNumber : t("Показать номер") }
-        </Button>
+        status === "performed" && <>
+          <Button maxW="278px" mt="20px" onClick={() => setShowNumber(!showNumber)}>
+            { showNumber ? phoneNumber : t("Показать номер") }
+          </Button>
+        </>
       }
     </Box>
-    <Documents handleUploadDocument={handleUploadDocument} getEmptyFileName={getEmptyFileName} getValues={getValues} />
+    {status === "performed" && <Documents handleUploadDocument={handleUploadDocument} getEmptyFileName={getEmptyFileName} getValues={getValues} />}
   </Box>;
 };
