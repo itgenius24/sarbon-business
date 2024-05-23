@@ -512,7 +512,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         duration: 2000,
         isClosable: true,
       });
-      router.push(`/${locale}/my-loads`);
+      if(status !== "performed") router.push(`/${locale}/my-loads`);
     },
     onError(res) {
       console.error(res);
@@ -539,6 +539,29 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         response_status:["approve_from_driver"]
       }
     });
+  }
+
+  function handleUploadDocument(link, fileKey) {
+    if(fileKey) {
+      setValue(fileKey, link);
+      updateResponseMutation.mutate({
+        data:{
+          guid: id,
+          [fileKey]: link
+        }
+      });
+    }
+  }
+
+  function getEmptyFileName() {
+    if(!data) return;
+    let key;
+    if(!data["file_5"]) key = "file_5";
+    else if(!data["file_4"]) key = "file_4";
+    else if(!data["file_3"]) key = "file_3";
+    else if(!data["file_2"]) key = "file_2";
+    else if(!data["file_1"]) key = "file_1";
+    return key;
   }
 
   function onSubmit(data) {
@@ -777,6 +800,11 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       setStartDate(new Date(data?.load_time || new Date()));
       setEndDate(new Date(data?.date || new Date()));
       reset({
+        file_1: data.file_1,
+        file_2: data.file_2,
+        file_3: data.file_3,
+        file_4: data.file_4,
+        file_5: data.file_5,
         cargo_type: {
           value: data.cargo_type_id_data?.guid,
           label: data.cargo_type_id_data?.name,
@@ -992,6 +1020,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     register,
     control,
     setValue,
+    getValues,
     handleSubmit,
     onSubmit,
     watch,
@@ -1058,5 +1087,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleOpenTemplateModal,
     handleCloseTemplateModal,
     isTemplateModalOpen,
+    handleUploadDocument,
+    getEmptyFileName,
   };
 };

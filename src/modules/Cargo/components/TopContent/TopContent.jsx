@@ -10,6 +10,7 @@ import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import { useRouter } from "next/navigation";
+import { Documents } from "../Documents/Documents";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -33,7 +34,7 @@ export const TopContent = ({
   userId2,
 }) => {
 
-  const { watch } = useAddCargoContext();
+  const { watch, handleUploadDocument, getEmptyFileName, getValues } = useAddCargoContext();
 
   const [showNumber, setShowNumber] = useState(false);
 
@@ -256,5 +257,6 @@ export const TopContent = ({
         </Button>
       }
     </Box>
+    <Documents handleUploadDocument={handleUploadDocument} getEmptyFileName={getEmptyFileName} getValues={getValues} />
   </Box>;
 };

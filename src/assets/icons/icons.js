@@ -1,3 +1,20 @@
+export const DocumentUploadIcon = ({ style }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={style}>
+    <path d="M15.5573 11.1094L11.9999 14.6669L8.44238 11.1094" stroke="#98A2B3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12.0002 3.99609V14.6675" stroke="#98A2B3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20.0037 16.4453C20.0037 18.4101 18.411 20.0028 16.4463 20.0028H7.55455C5.58981 20.0028 3.99707 18.4101 3.99707 16.4453" stroke="#98A2B3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+export const DocumentFileIcon = ({ style }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={style}>
+    <path d="M21 17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7V17Z" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 13H12" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 17H16" stroke="#111126" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 export const SelectionArrow = ({ style }) => (
   <svg
     width="20"
