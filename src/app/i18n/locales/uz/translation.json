@@ -22,5 +22,8 @@
   "Новости": "Yangiliklar",
   "Изменить": "O'zgartirish",
   "Удалить": "O'chirish",
-  "Очистить форму": "Formani tozalash"
+  "Очистить форму": "Formani tozalash",
+  "Загрузить": "Yuklab olish",
+  "Фото или документы до 10 МБ. Не более 5 файлов": "10 MB gacha bo'lgan foto yoki hujjatlar. 5 ta fayldan oshmasligi kerak",
+  "Документация": "Hujjatlar"
 }

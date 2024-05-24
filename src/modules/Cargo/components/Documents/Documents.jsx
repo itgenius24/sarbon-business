@@ -57,7 +57,7 @@ export const Documents = ({ handleUploadDocument = () => {}, getEmptyFileName = 
             {t("Загрузить")}
           </Box>
           <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">
-            {t("Фото или документы до 10 МБ. Не более 10 файлов")}
+            {t("Фото или документы до 10 МБ. Не более 5 файлов")}
           </Box>
         </Box>
       </Box>
