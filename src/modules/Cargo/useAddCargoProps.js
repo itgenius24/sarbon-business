@@ -544,13 +544,17 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   function handleUploadDocument(link, fileKey) {
     if(fileKey) {
       setValue(fileKey, link);
-      updateResponseMutation.mutate({
+      updateResponseMutation.mutateAsync({
         data:{
           guid: id,
           [fileKey]: link
         }
-      });
+      }).then(() => window.location.reload());
     }
+  }
+
+  function handleDeleteDocument(fileKey) {
+    handleUploadDocument("", fileKey);
   }
 
   function getEmptyFileName() {
@@ -1088,6 +1092,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleCloseTemplateModal,
     isTemplateModalOpen,
     handleUploadDocument,
+    handleDeleteDocument,
     getEmptyFileName,
   };
 };
