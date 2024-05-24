@@ -149,7 +149,8 @@ export const useMyLoadsMainProps = () => {
       {
         data:{
           guid: id,
-          provisions:["cancellation"]
+          provisions:["cancellation"],
+          who_cancellation:["customer"],
         }
       },
       {

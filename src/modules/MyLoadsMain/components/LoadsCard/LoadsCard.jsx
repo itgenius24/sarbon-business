@@ -4,7 +4,7 @@ import { DeleteIcon, TruckIcon } from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
 import { DataList } from "@/components/DataList";
 import { Box, Button, Heading } from "@chakra-ui/react";
-import { statuses } from "@/utils/constants";
+import { cancelBy, statuses } from "@/utils/constants";
 import { formatSum } from "@/utils/formatSum";
 import { useLoadsCardProps } from "./useLoadsCardProps";
 import { Modal } from "@/components/Modal";
@@ -48,6 +48,7 @@ export const LoadsCard = forwardRef(({
   distance,
   number_of_order,
   isLargerThan768,
+  who_cancellation,
 }, ref) => {
 
   const {
@@ -113,7 +114,7 @@ export const LoadsCard = forwardRef(({
               </span>
               {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
             </span>
-            <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
+            <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}{" "}{cancelBy[who_cancellation?.[0]]}</span>
           </h2>
           <span className={cls.distance}>{number_of_order}</span>
         </div>
@@ -329,6 +330,6 @@ export const LoadsCard = forwardRef(({
         btn2Callback={() => onDeleteAccept(guid)}
       />
     </div>
-    <span className={clsx(cls.addressStatusMobile, cls[status])}>{statuses[status]}</span>
+    <span className={clsx(cls.addressStatusMobile, cls[status])}>{statuses[status]}hey</span>
   </div>;
 });
