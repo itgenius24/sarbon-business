@@ -57,6 +57,7 @@ export default function MapPage({ params }) {
     });
   }
 
+
   function onMapClick(e) {
     const coordinates = e.get("coords");
     setPlaceMarkGeometry(coordinates);
