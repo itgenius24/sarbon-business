@@ -43,6 +43,14 @@ function getEmptyFormData() {
         cor: [],
       }
     ],
+    receipts: [{
+      location: {
+        value: "",
+        label: "",
+      },
+      address: "",
+      cor: [],
+    }],
     volume_measurement: "",
     packaging: {
       value: "",
@@ -96,6 +104,7 @@ class Store {
     makeAutoObservable(this, {
       updateLoadings: action,
       updateUnloading: action,
+      receiptPlace: action,
       clearFormData: action,
       setFormData: action,
       updateFormData: action,
@@ -166,6 +175,9 @@ class Store {
     this.isNotEmpty = true;
     this.formData.unloading[index] = value;
   }
+  receiptPlace(index,value) {
+    this.formData.receipts[index] = value;
+  }
 
   async clearStoredData() {
     await clearPersistedStore(this);
@@ -201,6 +213,14 @@ class Store {
           cor: [],
         }
       ],
+      receipts: [{
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
+      }],
       volume_measurement: "",
       packaging: {
         value: "",

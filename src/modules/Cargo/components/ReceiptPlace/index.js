@@ -1,0 +1,1 @@
+export { ReceiptPlace } from "./ReceiptPlace";

@@ -569,7 +569,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function onSubmit(data) {
+  
 
+    console.log("data",data);
     if(!authStore.isAuth) {
       toast({
         position: "top-right",
@@ -607,6 +609,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         address_id_2: data.unloading[0].location.value,
         city_id: data.loadings[0].location.guid,
         city_id_2: data.unloading[0].location.guid,
+        location_name:data.receipts[0].cor,
         gps_monitoring: data.gps_monitoring,
         vehicle_type_id: data.car_type.value,
         number_of_cars: data.transport_count,
@@ -967,6 +970,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     if(formStore.isNotEmpty) {
       setValue("loadings", formStore.formData.loadings);
       setValue("unloading", formStore.formData.unloading);
+      setValue("receipts", formStore.formData.receipts);
     }
   }, []);
 

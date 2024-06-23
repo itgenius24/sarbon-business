@@ -39,6 +39,13 @@ export default function MapPage({ params }) {
           cor: `${coords[0]},${coords[1]}`,
           search: formStore.formData.loadings[index].search
         });
+      }else if(type === "receipts") {
+        formStore.receiptPlace(index, {
+          location: formStore.formData.receipts[index].location,
+          address: firstGeoObject.getAddressLine(),
+          cor: `${coords[0]},${coords[1]}`,
+          search: formStore.formData.receipts[index].search
+        });
       } else {
         formStore.updateUnloading(index, {
           location: formStore.formData.unloading[index].location,

@@ -6,6 +6,7 @@ import { TransportDetail } from "../TransportDetail";
 import { LoadingForm } from "../LoadingForm";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { ReceiptPlace } from "../ReceiptPlace";
 
 export const CargoDetail = () => {
 
@@ -19,6 +20,7 @@ export const CargoDetail = () => {
     <Heading fontSize={isLargerThan1190 ? "20px" : "17px"} size="sm">{t("Детали груза")}</Heading>
     <CargoForm />
     <DeadlineForm />
+    <ReceiptPlace />
     <LoadingForm />
     <TransportDetail />
   </Box>;
