@@ -7,7 +7,7 @@ export const CarList = ({
   data = [],
   showDistance = false,
   oneDir,
-  infoList,
+
   phoneBtn,
   dataAccordion,
   additionalData,

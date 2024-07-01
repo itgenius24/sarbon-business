@@ -1033,7 +1033,7 @@ viewBox="0 0 2048 2048"
   <path class="fil2" d="M591.872 737.966c27.2055,-9.91182 63.3674,29.2358 80.7875,87.4335 17.4201,58.2048 9.48544,113.42 -17.7201,123.331 -27.1984,9.90473 -63.3745,-29.2429 -80.7804,-87.4383 -17.4189,-58.2071 -9.48544,-113.421 17.713,-123.326z"/>
  </g>
 </svg>
-`
+`;
 
 export const UseIcon = `
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2048px" height="2048px" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
@@ -1073,4 +1073,4 @@ viewBox="0 0 2048 2048"
   <path class="fil2" d="M591.872 737.966c27.2055,-9.91182 63.3674,29.2358 80.7875,87.4335 17.4201,58.2048 9.48544,113.42 -17.7201,123.331 -27.1984,9.90473 -63.3745,-29.2429 -80.7804,-87.4383 -17.4189,-58.2071 -9.48544,-113.421 17.713,-123.326z"/>
  </g>
 </svg>
-`
+`;

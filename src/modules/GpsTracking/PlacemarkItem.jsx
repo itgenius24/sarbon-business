@@ -1,10 +1,9 @@
-import { UseIcon,UseIconRed } from "@/assets/icons/icons";
+import { UseIcon, UseIconRed } from "@/assets/icons/icons";
 import { useGetVehicle } from "@/services/api";
 import { Placemark } from "@pbe/react-yandex-maps";
 import React from "react";
 
-const PlacemarkItem = ({ carType, loadType, capacity, height,carInfo }) => {
-
+const PlacemarkItem = ({ carType, loadType, capacity, height, carInfo }) => {
   const requestBody = {};
 
   if (carType) {
@@ -33,7 +32,6 @@ const PlacemarkItem = ({ carType, loadType, capacity, height,carInfo }) => {
     },
     { enabled: true }
   );
-
 
   const newListDraggable = () => {
     const data = getVehicle.data?.response;
@@ -68,41 +66,51 @@ const PlacemarkItem = ({ carType, loadType, capacity, height,carInfo }) => {
 
   // console.log("getVehicle", getVehicle,newListDraggable());
 
-
-  return <>{
-    !!newListDraggable()?.length ?  <Placemark
-      key={carInfo?.id}
-      geometry={[carInfo?.lat, carInfo?.long]}
-      properties={{ balloonContent: carInfo?.users_id_data?.full_name + " " + carInfo?.users_id_data?.phone }}
-      options={{
-        iconLayout: "default#image",
-        iconImageHref: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIconRed),
-        iconImageSize: [50, 62],
-        iconImageOffset: [-15, -42]
-
-      }}
-    />:  <Placemark
-      key={carInfo?.id}
-      geometry={[carInfo?.lat, carInfo?.long]}
-      properties={{ balloonContent: carInfo?.users_id_data?.full_name + " " + carInfo?.users_id_data?.phone }}
-      options={{
-        iconLayout: "default#image",
-        iconImageHref: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
-        iconImageSize: [50, 62],
-        iconImageOffset: [-15, -42]
-
-      }}
-    />
-  }
-   
-
-
-
-  </>;
+  return (
+    <>
+      {newListDraggable()?.length ? (
+        <Placemark
+          key={carInfo?.id}
+          geometry={[carInfo?.lat, carInfo?.long]}
+          properties={{
+            balloonContent:
+              carInfo?.users_id_data?.full_name +
+              " " +
+              carInfo?.users_id_data?.phone,
+          }}
+          options={{
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," +
+              encodeURIComponent(UseIconRed),
+            iconImageSize: [50, 62],
+            iconImageOffset: [-15, -42],
+          }}
+        />
+      ) : (
+        <Placemark
+          key={carInfo?.id}
+          geometry={[carInfo?.lat, carInfo?.long]}
+          properties={{
+            balloonContent:
+              carInfo?.users_id_data?.full_name +
+              " " +
+              carInfo?.users_id_data?.phone,
+          }}
+          options={{
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
+            iconImageSize: [50, 62],
+            iconImageOffset: [-15, -42],
+          }}
+        />
+      )}
+    </>
+  );
 };
 
 export default PlacemarkItem;
-
 
 const address = {
   adr_1: "adr-1",
