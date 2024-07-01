@@ -128,3 +128,11 @@ a {
 @keyframes l13{ 
   100%{transform: rotate(1turn)}
 }
+
+.css-1dyuvm3{
+  background-color: #cadef7;
+}
+
+.css-1dyuvm3[aria-checked=true], .css-1dyuvm3[data-checked] {
+  background-color:#007AFF;
+}

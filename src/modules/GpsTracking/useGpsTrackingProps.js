@@ -15,6 +15,7 @@ export const useGpsTrackingProps = () => {
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
+  const [checked,setChecked] = useState(false);
 
   const {
     register,
@@ -280,5 +281,7 @@ export const useGpsTrackingProps = () => {
     driverName: true,
     isLoading: isPending,
     setValue,
+    setChecked,
+    checked
   };
 };

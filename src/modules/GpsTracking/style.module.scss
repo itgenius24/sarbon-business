@@ -1,47 +1,51 @@
 .kuzov {
-    
-
-    @media screen and (max-width: 775px) {
-        max-width: 772px;
-    }
+  @media screen and (max-width: 775px) {
+    max-width: 772px;
+  }
 }
-
 
 .paramtersItem {
-
-
-    @media screen and (max-width: 587px) {
-        width: 100% !important;
-    }
+  @media screen and (max-width: 587px) {
+    width: 100% !important;
+  }
 }
-
 
 .belts {
+  max-width: 234px;
 
-    max-width: 234px;
-    
-    @media screen and (max-width: 587px) {
-        max-width: 100% !important;
-    }
+  @media screen and (max-width: 587px) {
+    max-width: 100% !important;
+  }
 }
 
-
 .findBtn {
-    width: 234px;
+  width: 234px;
 
-    @media screen and (max-width: 587px) {
-        width: 100% !important;
-    }
-
+  @media screen and (max-width: 587px) {
+    width: 100% !important;
+  }
 }
 
 .permissions {
-
-
-    @media screen and (max-width: 587px) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  @media screen and (max-width: 587px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    // background-color: rgb(255, 0, 0);
+  }
 }
 
+
+.mapInputsWrap{
+  width: 50%;
+  margin: 0 auto;
+  right: 0;
+  left: 0;
+  position: absolute;
+  top: 1%;
+  z-index: 1;
+  .accordionItem{
+    border: 0px;
+    border-radius: 8px;
+  }
+}
