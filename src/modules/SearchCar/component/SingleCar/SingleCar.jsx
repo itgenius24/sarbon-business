@@ -104,48 +104,10 @@ export const SingleCar = ({
     requestBody.capacity = Number(capacity);
   }
 
-  const getVehicle = useGetVehicle(
-    {
-      data: JSON.stringify({
-        users_id: carInfo.users_id,
-        with_relations: true,
-        ...requestBody
-      })
-    },
-    { enabled: true, }
-  );
 
 
 
 
-  const newListDraggable = () => {
-    const data = getVehicle.data?.response;
-
-    return (data?.map?.((item) => {
-      return [
-        {
-          title: "Транспорт:",
-          value: item?.trailer_type_id_data?.name || "Нет данных"
-        },
-        {
-          title: "Разрешение:",
-          value: address[item?.users_id_data?.adr] || "Нет данных"
-        },
-        {
-          title: "Детали:",
-          value: `${item?.capacity || 0}т, ${item?.height || 0} м3`
-        },
-        {
-          title: "Тип загрузки:",
-          value: item?.load_type_id_3_data?.name || "Нет данных"
-        },
-        {
-          title: "Номер транспорта:",
-          value: item?.car_number || "Нет данных"
-        },
-      ];
-    }) || []);
-  };
 
   const getAllUserCargoParams = {
     data: JSON.stringify({
@@ -191,7 +153,7 @@ export const SingleCar = ({
   if(!isMap)
     return (
       <>
-        <div className={clsx(cls.loadsCard, { [cls.withData]: !!newListDraggable()?.length })}>
+        <div className={clsx(cls.loadsCard, { [cls.withData]: carInfo?.vehicle_type_id_data})}>
           <div className={cls.cardTop}>
             <div className={cls.cardTopContent}>
               <h2 className={cls.address}>
@@ -235,15 +197,15 @@ export const SingleCar = ({
                 <AccordionButton pl="0">
                   <Box as="span" flex="1" textAlign="left" display="flex" justifyContent="space-between">
                     <span>Дополнительная информация</span>
-                    <span>{newListDraggable()?.length}</span>
+                    {/* <span>{newListDraggable()?.length}</span> */}
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={0}>
-                {
-                  newListDraggable()?.map((item, index) => <DataList list={item} index={index} key={index} />)
-                }
+                
+                  <DataList list={carInfo.users_id_data} />
+                
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
@@ -335,7 +297,7 @@ export const SingleCar = ({
   else
     return(
       <>
-        {newListDraggable()?.length ? (
+   
         <Placemark
           key={carInfo?.id}
           geometry={[carInfo?.lat, carInfo?.long]}
@@ -343,26 +305,7 @@ export const SingleCar = ({
             balloonContent:
               carInfo?.users_id_data?.full_name +
               " " +
-              carInfo?.users_id_data?.phone,
-          }}
-          options={{
-            iconLayout: "default#image",
-            iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(UseIconRed),
-            iconImageSize: [50, 62],
-            iconImageOffset: [-15, -42],
-          }}
-        />
-      ) : (
-        <Placemark
-          key={carInfo?.id}
-          geometry={[carInfo?.lat, carInfo?.long]}
-          properties={{
-            balloonContent:
-              carInfo?.users_id_data?.full_name +
-              " " +
-              carInfo?.users_id_data?.phone + (carInfo?.vehicle_type_id_data?.name || ""),
+              carInfo?.users_id_data?.phone + " " + (carInfo?.users_id_data?.vehicle_type_id_data?.name || ""),
           }}
           options={{
             iconLayout: "default#image",
@@ -372,7 +315,7 @@ export const SingleCar = ({
             iconImageOffset: [-15, -42],
           }}
         />
-      )}
+      
       </>
     );
 };

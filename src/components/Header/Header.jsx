@@ -40,7 +40,7 @@ const Header = observer(({ elements }) => {
 
   const photo = userData.data?.photo;
 
-  // console.log(photo);
+  console.log(userData);
 
   const [isNavOpen, setNavOpen] = useState(false);
 
@@ -144,10 +144,7 @@ const Header = observer(({ elements }) => {
                       <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
                         <Image
                           src={
-                            photo === "photo"
-                              ? UserImg
-                              : !photo?.includes("http")
-                                ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo || ""}`
+                            photo === "photo" || photo === "" ? UserImg : !photo?.includes("http") ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo || ""}`
                                 : UserImg
                           }
                           alt="ww"

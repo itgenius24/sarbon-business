@@ -180,7 +180,7 @@ export const useGpsTrackingProps = () => {
 
   const getTrailerType = useGetTrailerType();
   const getUserData = useGetUserData();
-  console.log(`getUserData`, getUserData);
+  // console.log(`getUserData`, getUserData);
   const getLoadingTypes = useLoadingTypes();
   const carTypeOptions = getTrailerType.data?.response?.map(item => ({
     label: item?.name,
@@ -217,41 +217,63 @@ export const useGpsTrackingProps = () => {
   const toast = useToast();
   const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
-      if (data?.response?.length) {
-        setCarsArr(data?.response);
-      } else {
-        setCarsArr([]);
-        toast({
-          title: t("Не найдено"),
-          description: t("К сожалений ничего не найдено"),
-          status: "info",
-          duration: 5000,
-          isClosable: true,
-          position: "top-right",
-        });
+      if(watch("address")){
+        if (data?.response?.length) {
+          setCarsArr(data?.response?.filter(item => item?.users_id_data?.vehicle_type_id_data));
+        } else {
+          setCarsArr([]);
+          toast({
+            title: t("Не найдено"),
+            description: t("К сожалений ничего не найдено"),
+            status: "info",
+            duration: 5000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      } else{
+        if (data?.data?.response?.length) {
+          // console.log("data",)
+          setCarsArr(data?.data?.response?.filter(item => item?.users_id_data?.vehicle_type_id_data));
+        } else {
+          setCarsArr([]);
+          toast({
+            title: t("Не найдено"),
+            description: t("К сожалений ничего не найдено"),
+            status: "info",
+            duration: 5000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
       }
+
     },
   });
 
- 
+
 
   const dataUserID = useMemo(() => {
-    let id = '';
+    let id = "";
     if(watch("users_id")?.value && watch("users_id2")?.value) {
       id = watch("users_id")?.value;
     } else if(watch("users_id")?.value) {
       id = watch("users_id2")?.value;
-    }
-    else if(watch("users_id2")?.value) {
+    } else if(watch("users_id2")?.value) {
       id = watch("users_id2")?.value;
     }
-    
-      return carsArr?.filter(item => item?.users_id === id);
+
+    return carsArr?.filter(item => item?.users_id === id);
   },[watch("users_id")?.value,watch("users_id2")?.value]);
- 
+
   const getCarListProps = () => {
-    return { data: watch("users_id")?.value ||  watch("users_id2")?.value ? dataUserID :   carsArr };
+    return { data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr };
   };
+  useEffect(() => {
+    if(!watch("aaddress")){
+      mutate({ data:{} });
+    }
+  }, []);
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
