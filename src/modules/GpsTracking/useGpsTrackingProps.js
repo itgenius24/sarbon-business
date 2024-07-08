@@ -264,7 +264,10 @@ export const useGpsTrackingProps = () => {
     }
 
     return carsArr?.filter(item => item?.users_id === id);
+
   },[watch("users_id")?.value,watch("users_id2")?.value]);
+
+  console.log("dataUserID",dataUserID);
 
   const getCarListProps = () => {
     return { data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr };
