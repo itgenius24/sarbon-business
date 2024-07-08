@@ -9,7 +9,7 @@ export const useDropdownProps = () => {
   const dropdownRef = useRef(null);
 
   function handleToggle (e) {
-    if(e.target.closest(`[data-id='${dropdownRef?.current?.dataset?.id}']`)) {
+    if(e?.target?.closest(`[data-id='${dropdownRef?.current?.dataset?.id}']`)) {
       setOpen(!isOpen);
     }
   }

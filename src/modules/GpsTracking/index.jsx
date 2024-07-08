@@ -38,6 +38,7 @@ import {
 } from "@pbe/react-yandex-maps";
 import styled from "@emotion/styled";
 import PlacemarkItem from "./PlacemarkItem";
+import { SingleCar } from "../SearchCar/component/SingleCar/SingleCar";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -68,6 +69,8 @@ export default function GpsTrackingModule() {
     setValue,
     setChecked,
     checked,
+    getUserNameOptions,
+    getUserPhoneOptions 
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -91,7 +94,7 @@ export default function GpsTrackingModule() {
       </Container>
       {checked ? (
         <>
-          <Box width={"100%"} height={"70vh"} position={"relative"}>
+          <Box className={cls.mapWrap} width={"80%"} margin={`0 auto`} height={"70vh"} position={"relative"}>
             <Map
               defaultState={{
                 center: coordinates,
@@ -264,6 +267,40 @@ export default function GpsTrackingModule() {
                               </AccordionItem>
                             </Accordion>
                           </Box>
+                          <Box
+                    display="flex"
+                    flexDirection={isLargerThan768 ? "row" : "column"}
+                    gap="20px"
+                    mt="20px"
+                  >
+                    <Box className={cls.kuzov} width={"100%"}>
+                      <Dropdown
+                        placeholder={t("Введите тип имя")}
+                        // label={t("Тип кузова")}
+                        name="users_id"
+                        options={getUserNameOptions}
+                        errors={errors}
+                        width="100%"
+                        control={control}
+                        watch={watch}
+                        setValue={setValue}
+                        clearable
+                      />
+                    </Box>
+                    <Box className={cls.kuzov} width={"100%"}>
+                      <Dropdown
+                        placeholder={t("Введите тип номер телефона ")}
+                        // label={t("Тип загрузки")}
+                        name="users_id2"
+                        options={getUserPhoneOptions}
+                        errors={errors}
+                        control={control}
+                        watch={watch}
+                        setValue={setValue}
+                        clearable
+                      />
+                    </Box>
+                  </Box>
                           <Button
                             type={"submit"}
                             className={cls.findBtn}
@@ -282,19 +319,23 @@ export default function GpsTrackingModule() {
           ...getCarListProps()?.data?.map(item => {
             return(
               <>
-                <PlacemarkItem
+                <SingleCar
+                  withAddress={true}
                   capacity={watch("weight")}
                   height={watch("volume")}
                   carType={watch("car_type")?.value}
                   loadType={watch("load_type_id")?.value}
-                  dataAccordion={true}
+                  key={item}
+                  carInfo={item}
+                  // infoList={infoList}
                   showDistance={true}
                   oneDir={true}
-                  // infoList={infoList}
                   phoneBtn={true}
+                  dataAccordion={true}
                   additionalData={driverName}
-                  carInfo={item}
+                  isMap={true}
                 />
+
               </>
             );
           })
@@ -440,6 +481,40 @@ export default function GpsTrackingModule() {
                     </AccordionItem>
                   </Accordion>
                 </Box>
+                <Box
+                    display="flex"
+                    flexDirection={isLargerThan768 ? "row" : "column"}
+                    gap="20px"
+                    mt="20px"
+                  >
+                    <Box className={cls.kuzov} width={"100%"}>
+                      <Dropdown
+                        placeholder={t("Введите тип имя")}
+                        // label={t("Тип кузова")}
+                        name="users_id"
+                        options={getUserNameOptions}
+                        errors={errors}
+                        width="100%"
+                        control={control}
+                        watch={watch}
+                        setValue={setValue}
+                        clearable
+                      />
+                    </Box>
+                    <Box className={cls.kuzov} width={"100%"}>
+                      <Dropdown
+                        placeholder={t("Введите тип номер телефона ")}
+                        // label={t("Тип загрузки")}
+                        name="users_id2"
+                        options={getUserPhoneOptions}
+                        errors={errors}
+                        control={control}
+                        watch={watch}
+                        setValue={setValue}
+                        clearable
+                      />
+                    </Box>
+                  </Box>
                 <Button
                   type={"submit"}
                   className={cls.findBtn}

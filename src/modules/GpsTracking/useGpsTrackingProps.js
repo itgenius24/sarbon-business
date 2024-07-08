@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useGetMeasurement, useGetTrailerType, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
+import { useGetMeasurement, useGetTrailerType, useGetUserData, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -179,12 +179,21 @@ export const useGpsTrackingProps = () => {
   }
 
   const getTrailerType = useGetTrailerType();
+  const getUserData = useGetUserData();
+  console.log(`getUserData`, getUserData);
   const getLoadingTypes = useLoadingTypes();
   const carTypeOptions = getTrailerType.data?.response?.map(item => ({
     label: item?.name,
     value: item?.guid
   }));
-
+  const getUserNameOptions = getUserData.data?.response?.map(item => ({
+    label: item?.full_name,
+    value: item?.guid
+  }));
+  const getUserPhoneOptions = getUserData.data?.response?.map(item => ({
+    label: item?.phone,
+    value: item?.guid
+  }));
   const loadingOptions = getLoadingTypes.data?.response?.map(item => ({
     label: item?.name,
     value: item?.guid
@@ -223,8 +232,25 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
+
+ 
+
+  const dataUserID = useMemo(() => {
+    let id = '';
+    if(watch("users_id")?.value && watch("users_id2")?.value) {
+      id = watch("users_id")?.value;
+    } else if(watch("users_id")?.value) {
+      id = watch("users_id2")?.value;
+    }
+    else if(watch("users_id2")?.value) {
+      id = watch("users_id2")?.value;
+    }
+    
+      return carsArr?.filter(item => item?.users_id === id);
+  },[watch("users_id")?.value,watch("users_id2")?.value]);
+ 
   const getCarListProps = () => {
-    return { data: carsArr };
+    return { data: watch("users_id")?.value ||  watch("users_id2")?.value ? dataUserID :   carsArr };
   };
 
   const onSubmit = (data) => {
@@ -235,6 +261,8 @@ export const useGpsTrackingProps = () => {
           lat,
           long,
           number: data.distance || "0",
+          // users_id: watch("users_id")?.value
+
         }
       }
     });
@@ -282,6 +310,8 @@ export const useGpsTrackingProps = () => {
     isLoading: isPending,
     setValue,
     setChecked,
-    checked
+    checked,
+    getUserNameOptions,
+    getUserPhoneOptions
   };
 };

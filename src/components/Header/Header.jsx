@@ -40,6 +40,8 @@ const Header = observer(({ elements }) => {
 
   const photo = userData.data?.photo;
 
+  // console.log(photo);
+
   const [isNavOpen, setNavOpen] = useState(false);
 
   function handleToggleNav() {
@@ -146,7 +148,7 @@ const Header = observer(({ elements }) => {
                               ? UserImg
                               : !photo?.includes("http")
                                 ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo || ""}`
-                                : photo
+                                : UserImg
                           }
                           alt="ww"
                           width={40}

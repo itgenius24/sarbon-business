@@ -12,6 +12,7 @@ const objectService = {
   getAddress: (params) => request.get("/v2/object-slim/get-list/address", { params }),
   getCarType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
   getTrailerType: (params) => request.get("/v2/object-slim/get-list/trailer_type", { params }),
+  getUserData: (params) => request.get("/v2/object-slim/get-list/users?data={}", { params }),
   getVehicle: (params) => request.get("/v2/object-slim/get-list/vehicle", { params }),
   getCurrency: (params) => request.get("/v2/object-slim/get-list/currency", { params }),
   getPackage: (params) => request.get("/v2/object-slim/get-list/packages", { params }),
@@ -134,7 +135,13 @@ export const useGetTrailerType = (params = { data: JSON.stringify({}) }, setting
     ...settings,
   });
 };
-
+export const useGetUserData = (params, settings = {}) => {
+  return useQuery({
+    queryKey: ["object/getUserDta", params],
+    queryFn: () => objectService.getUserData(params),
+    ...settings,
+  });
+};
 export const useGetVehicle = (params = { data: JSON.stringify({}) }, settings = {}) => {
   return useQuery({
     queryKey: ["object/getVehicle", params],

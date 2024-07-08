@@ -30,6 +30,8 @@ import { Popup } from "@/components/Popup";
 import Link from "next/link";
 import clsx from "clsx";
 import { useGetLang } from "@/hooks/useGetLang";
+import { Placemark } from "@pbe/react-yandex-maps";
+import { UseIcon, UseIconRed } from "@/assets/icons/icons";
 
 export const SingleCar = ({
   carInfo,
@@ -44,6 +46,7 @@ export const SingleCar = ({
   loadType,
   capacity,
   height,
+  isMap=false
 }) => {
 
   const locale = useGetLang();
@@ -172,6 +175,8 @@ export const SingleCar = ({
     setBody({ user_id: carInfo?.users_id });
   }
 
+  console.log(`carInfo`, carInfo);
+
   function handleOffer(id) {
     offerFromCustomer.mutate({
       data: {
@@ -183,13 +188,15 @@ export const SingleCar = ({
     });
   }
 
-  return (
-    <div className={clsx(cls.loadsCard, { [cls.withData]: !!newListDraggable()?.length })}>
-      <div className={cls.cardTop}>
-        <div className={cls.cardTopContent}>
-          <h2 className={cls.address}>
-            <span className={cls.addressText}>
-              {oneDir ? (
+  if(!isMap)
+    return (
+      <>
+        <div className={clsx(cls.loadsCard, { [cls.withData]: !!newListDraggable()?.length })}>
+          <div className={cls.cardTop}>
+            <div className={cls.cardTopContent}>
+              <h2 className={cls.address}>
+                <span className={cls.addressText}>
+                  {oneDir ? (
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>{carInfo.address_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
                 </span>
@@ -202,26 +209,26 @@ export const SingleCar = ({
                 <span className={cls.addressCity}>{carInfo.city_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
                 <span>{carInfo.address_id_2_data?.["name_" + (locale === "uz" ? "en" : "ru")]}</span>
               </span></>)}
-              {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
-            </span>
-          </h2>
-          <span>
-            {
-              withAddress && <Box mb="10px">{carInfo?.location_name}</Box>
-            }
-            <Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} />
-          </span>
-          {/* <span className={cls.distance}>724 км</span> */}
-        </div>
-        {showDistance && <div className={cls.distance}>
-          {carInfo?.differance?.toFixed(2)} км от адреса
-        </div>}
-      </div>
-      <Box borderBottom="1px solid" borderColor="brand.200">
-        {additionalData && <Box my="5px">
+                  {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
+                </span>
+              </h2>
+              <span>
+                {
+                  withAddress && <Box mb="10px">{carInfo?.location_name}</Box>
+                }
+                <Rating value={carInfo?.users_id_data?.rating} title={carInfo?.users_id_data?.rating} />
+              </span>
+              {/* <span className={cls.distance}>724 км</span> */}
+            </div>
+            {showDistance && <div className={cls.distance}>
+              {carInfo?.differance?.toFixed(2)} км от адреса
+            </div>}
+          </div>
+          <Box borderBottom="1px solid" borderColor="brand.200">
+            {additionalData && <Box my="5px">
           Водитель: {carInfo?.users_id_data?.full_name}
-        </Box>}
-        {
+            </Box>}
+            {
           dataAccordion ? <Accordion allowMultiple >
             <AccordionItem borderBottom="1px solid" borderColor="brand.200" borderTop="none">
               <h2>
@@ -241,23 +248,23 @@ export const SingleCar = ({
             </AccordionItem>
           </Accordion>
           : <DataList list={newList} />
-        }
-      </Box>
-      <div className={cls.cardBottom}>
-        <Button className={cls.button} onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
-        {!phoneBtn ? null : (
+            }
+          </Box>
+          <div className={cls.cardBottom}>
+            <Button className={cls.button} onClick={handleOpenModal} bgColor="#E0F2FE" width="278px" color="primary">Предложить груз</Button>
+            {!phoneBtn ? null : (
           <Button onClick={handleClickPhoneBtn} variant={"solid"} width="278px">{phoneBtnText}</Button>)
-        }
-      </div>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Heading size="sm">Выберите груз</Heading>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody p="20px">
-            {!getAllUserCargo?.isLoading
+            }
+          </div>
+          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <Heading size="sm">Выберите груз</Heading>
+                <ModalCloseButton />
+              </ModalHeader>
+              <ModalBody p="20px">
+                {!getAllUserCargo?.isLoading
               ? getAllUserCargo.data?.response?.length > 0
                 ? getAllUserCargo.data?.response?.map((item) => {
                   return <Card
@@ -307,20 +314,67 @@ export const SingleCar = ({
                   <Spinner/>
                 </Flex>
               )
-            }
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      <Popup
-        isOpen={isPopupOpen}
-        onClose={handleClosePopup}
-        status="success"
-        mainText="Успешно предложен"
-        subText="Груз успешно предложен водителю"
-        hideButtons
-      />
-    </div>
-  );
+                }
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+          <Popup
+            isOpen={isPopupOpen}
+            onClose={handleClosePopup}
+            status="success"
+            mainText="Успешно предложен"
+            subText="Груз успешно предложен водителю"
+            hideButtons
+          />
+        </div>
+      </>
+
+
+    );
+
+  else
+    return(
+      <>
+        {newListDraggable()?.length ? (
+        <Placemark
+          key={carInfo?.id}
+          geometry={[carInfo?.lat, carInfo?.long]}
+          properties={{
+            balloonContent:
+              carInfo?.users_id_data?.full_name +
+              " " +
+              carInfo?.users_id_data?.phone,
+          }}
+          options={{
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," +
+              encodeURIComponent(UseIconRed),
+            iconImageSize: [50, 62],
+            iconImageOffset: [-15, -42],
+          }}
+        />
+      ) : (
+        <Placemark
+          key={carInfo?.id}
+          geometry={[carInfo?.lat, carInfo?.long]}
+          properties={{
+            balloonContent:
+              carInfo?.users_id_data?.full_name +
+              " " +
+              carInfo?.users_id_data?.phone + (carInfo?.vehicle_type_id_data?.name || ""),
+          }}
+          options={{
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
+            iconImageSize: [50, 62],
+            iconImageOffset: [-15, -42],
+          }}
+        />
+      )}
+      </>
+    );
 };
 
 const address = {
