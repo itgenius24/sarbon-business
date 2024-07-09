@@ -286,8 +286,10 @@ export const useGpsTrackingProps = () => {
           lat,
           long,
           number: data.distance || "0",
-          car_type:watch("car_type"),
-          load_type_id:watch("load_type_id"),
+          car_type: {
+            label:watch("car_type"),
+            value:watch("load_type_id")
+          },
           weight:watch("weight"),
           volume:watch("volume")
 
