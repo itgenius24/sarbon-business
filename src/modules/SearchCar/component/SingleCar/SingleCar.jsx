@@ -315,7 +315,6 @@ export const SingleCar = ({
             iconImageOffset: [-15, -42],
           }}
         />
-      
       </>
     );
 };

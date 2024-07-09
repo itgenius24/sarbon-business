@@ -39,6 +39,7 @@ import {
 import styled from "@emotion/styled";
 import PlacemarkItem from "./PlacemarkItem";
 import { SingleCar } from "../SearchCar/component/SingleCar/SingleCar";
+import { ChakraSelect } from "@/components/ChakraSelect";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -89,12 +90,230 @@ export default function GpsTrackingModule() {
           justifyContent={"space-between"}
         >
           <Heading size="md">{t("gpsTracking.title")}</Heading>
-          <Switch onChange={(e) => setChecked(e.target.checked)}>Map</Switch>
+          <Switch defaultChecked={true} onChange={(e) => setChecked(e.target.checked)}>Map</Switch>
         </Flex>
       </Container>
-      {!checked ? (
+      {checked ? (
         <>
           <Box className={cls.mapWrap} width={"80%"} margin={"0 auto"} height={"70vh"} position={"relative"}>
+            <Box className={cls.mapInputsWrap}>
+              <Box className={cls.accordionItem}>
+                <VStack
+                  as="form"
+                  onSubmit={handleSubmit(onSubmit)}
+                  align="stretch"
+                  spacing="24px"
+                >
+                  <Box p="24px" bgColor="baseWhite" borderRadius="12px">
+                    <Box
+                      display="flex"
+                      mb="20px"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Heading
+                        size="sm"
+                        fontSize="18px"
+                        lineHeight="28px"
+                        fontWeight="600"
+                      >
+                        {t("gpsTracking.machineDetails")}
+                      </Heading>
+                    </Box>
+                    <Box mb={"20px"}>
+                      <Box
+                        display="flex"
+                        flexDirection={isLargerThan768 ? "column" : "column"}
+                        gap="20px"
+                      >
+                        <TextFieldWithAddition
+                          placeholder={t("Адрес")}
+                          // required={true}
+                          rules={{ required: true }}
+                          label={t("Адрес")}
+                          additionalItemTheme="white"
+                          register={register}
+                          name={"address"}
+                          additionalOnclick={() => handleOpenModal()}
+                          onClick={() => handleOpenModal()}
+                          error={errors["address"]}
+                          onlyFieldDisabled={true}
+                          // disabled={!canEdit}
+                          additionalItemPlaceholder={
+                            <span className={cls.additionalIcons}>
+                              <LocationMarkIcon />
+                            </span>
+                          }
+                        />
+                        <TextFieldWithAddition
+                          placeholder={t("Дистанция")}
+                          label={t("Дистанция")}
+                          additionalItemTheme="white"
+                          register={register}
+                          name={"distance"}
+                          additionalOnclick={() => handleOpenModal()}
+                          additionalItemPlaceholder={
+                            <span className={cls.additionalIcons}>
+                                    km
+                            </span>
+                          }
+                        />
+                      </Box>
+                      <Box
+                        display="flex"
+                        flexDirection={isLargerThan768 ? "column" : "column"}
+                        gap="20px"
+                        mt="20px"
+                      >
+                        <Box className={cls.kuzov} width={"100%"}>
+                          <Dropdown
+                            placeholder={t("Введите тип кузова")}
+                            label={t("Тип кузова")}
+                            name="car_type"
+                            options={carTypeOptions}
+                            errors={errors}
+                            width="100%"
+                            control={control}
+                            watch={watch}
+                            setValue={setValue}
+                            clearable
+                          />
+                        </Box>
+                        <Box className={cls.kuzov} width={"100%"}>
+                          <Dropdown
+                            placeholder={t("Введите тип загрузки")}
+                            label={t("Тип загрузки")}
+                            name="load_type_id"
+                            options={loadingOptions}
+                            errors={errors}
+                            control={control}
+                            watch={watch}
+                            setValue={setValue}
+                            clearable
+                          />
+                        </Box>
+                      </Box>
+                    </Box>
+                    <Box>
+                      <Accordion allowToggle>
+                        <AccordionItem border={"none"}>
+                          <Box
+                            display="flex"
+                            flexDirection={
+                              isLargerThan768 ? "column" : "column"
+                            }
+                            gap="20px"
+                            mt="20px"
+                          >
+                            <TextFieldWithAddition
+                              errors={errors}
+                              control={control}
+                              name="weight"
+                              className={cls.paramtersItem}
+                              register={register}
+                              additionalItemName="weight_unit"
+                              // width="100%"
+                              placeholder={t("Вес")}
+                              additionalItemOptions={
+                                weightMeasurementOptions
+                              }
+                              type="number"
+                              zIndex={10}
+                            />
+                            <TextFieldWithAddition
+                              errors={errors}
+                              control={control}
+                              name="volume"
+                              className={cls.paramtersItem}
+                              register={register}
+                              // width="100%"
+                              placeholder={t("Объем")}
+                              additionalItemPlaceholder="m³"
+                              type="number"
+                              // additionalItemName="volume_unit"
+                              // additionalItemOptions={volumeMeasurementOptions}
+                            />
+                          </Box>
+                        </AccordionItem>
+                      </Accordion>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection={isLargerThan768 ? "column" : "column"}
+                      gap="20px"
+                      mt="20px"
+                    >
+                      <Box className={cls.kuzov} width={"100%"}>
+                        <ChakraSelect
+                          options={getUserNameOptions}
+                          name="users_id"
+                          placeholder={t("Введите тип имя")}
+                          control={control}
+                        />
+                        {/* <Dropdown
+                          placeholder={t("Введите тип имя")}
+                          // label={t("Тип кузова")}
+                          name="users_id"
+                          options={getUserNameOptions}
+                          errors={errors}
+                          width="100%"
+                          control={control}
+                          watch={watch}
+                          setValue={setValue}
+                          clearable
+                          // searchable={true}
+                        /> */}
+                      </Box>
+                      <Box className={cls.kuzov} width={"100%"}>
+                        <ChakraSelect
+                          options={getUserPhoneOptions}
+                          name="users_id2"
+                          placeholder={t("Введите тип номер")}
+                          control={control}
+                        />
+                        {/* <Dropdown
+                          placeholder={t("Введите тип номер телефона ")}
+                          // label={t("Тип загрузки")}
+                          name="users_id2"
+                          options={getUserPhoneOptions}
+                          errors={errors}
+                          control={control}
+                          // searchable={true}
+
+                          watch={watch}
+                          setValue={setValue}
+                          clearable
+                        /> */}
+                      </Box>
+                    </Box>
+                    <Button
+                      type={"submit"}
+                      className={cls.findBtn}
+                      mt="20px"
+                      onClick={handleCalculate}
+                    >
+                      {t("gpsTracking.searchCars")}
+                    </Button>
+                  </Box>
+                </VStack>
+              </Box>
+              {/* <Accordion defaultIndex={[0]} allowMultiple>
+                  <AccordionItem
+                    className={cls.accordionItem}
+                    backgroundColor={"white"}
+                    opacity={"0.9"}
+                  >
+                    <AccordionButton>
+
+                      <AccordionIcon />
+                    </AccordionButton>
+
+                    <AccordionPanel>
+
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion> */}
+            </Box>
             <Map
               defaultState={{
                 center: coordinates,
@@ -113,208 +332,7 @@ export default function GpsTrackingModule() {
                 ]}
               />
               <SearchControl options={{ float: "right" }} />
-              <Box className={cls.mapInputsWrap}>
-                <Accordion defaultIndex={[0]} allowMultiple>
-                  <AccordionItem
-                    className={cls.accordionItem}
-                    backgroundColor={"white"}
-                    opacity={"0.9"}
-                  >
-                    <AccordionButton>
-                      {/* <Box as="span" flex="1" textAlign="left" >
-                         Section 1 title
-                    </Box> */}
-                      <AccordionIcon />
-                    </AccordionButton>
 
-                    <AccordionPanel>
-                      <VStack
-                        as="form"
-                        onSubmit={handleSubmit(onSubmit)}
-                        align="stretch"
-                        spacing="24px"
-                      >
-                        <Box p="24px" bgColor="baseWhite" borderRadius="12px">
-                          <Box
-                            display="flex"
-                            mb="20px"
-                            alignItems="center"
-                            justifyContent="space-between"
-                          >
-                            <Heading
-                              size="sm"
-                              fontSize="18px"
-                              lineHeight="28px"
-                              fontWeight="600"
-                            >
-                              {t("gpsTracking.machineDetails")}
-                            </Heading>
-                          </Box>
-                          <Box mb={"20px"}>
-                            <Box
-                              display="flex"
-                              flexDirection={isLargerThan768 ? "row" : "column"}
-                              gap="20px"
-                            >
-                              <TextFieldWithAddition
-                                placeholder={t("Адрес")}
-                                // required={true}
-                                rules={{ required: true }}
-                                label={t("Адрес")}
-                                additionalItemTheme="white"
-                                register={register}
-                                name={"address"}
-                                additionalOnclick={() => handleOpenModal()}
-                                onClick={() => handleOpenModal()}
-                                error={errors["address"]}
-                                onlyFieldDisabled={true}
-                                // disabled={!canEdit}
-                                additionalItemPlaceholder={
-                                  <span className={cls.additionalIcons}>
-                                    <LocationMarkIcon />
-                                  </span>
-                                }
-                              />
-                              <TextFieldWithAddition
-                                placeholder={t("Дистанция")}
-                                label={t("Дистанция")}
-                                additionalItemTheme="white"
-                                register={register}
-                                name={"distance"}
-                                additionalOnclick={() => handleOpenModal()}
-                                additionalItemPlaceholder={
-                                  <span className={cls.additionalIcons}>
-                                    km
-                                  </span>
-                                }
-                              />
-                            </Box>
-                            <Box
-                              display="flex"
-                              flexDirection={isLargerThan768 ? "row" : "column"}
-                              gap="20px"
-                              mt="20px"
-                            >
-                              <Box className={cls.kuzov} width={"100%"}>
-                                <Dropdown
-                                  placeholder={t("Введите тип кузова")}
-                                  label={t("Тип кузова")}
-                                  name="car_type"
-                                  options={carTypeOptions}
-                                  errors={errors}
-                                  width="100%"
-                                  control={control}
-                                  watch={watch}
-                                  setValue={setValue}
-                                  clearable
-                                />
-                              </Box>
-                              <Box className={cls.kuzov} width={"100%"}>
-                                <Dropdown
-                                  placeholder={t("Введите тип загрузки")}
-                                  label={t("Тип загрузки")}
-                                  name="load_type_id"
-                                  options={loadingOptions}
-                                  errors={errors}
-                                  control={control}
-                                  watch={watch}
-                                  setValue={setValue}
-                                  clearable
-                                />
-                              </Box>
-                            </Box>
-                          </Box>
-                          <Box>
-                            <Accordion allowToggle>
-                              <AccordionItem border={"none"}>
-                                <Box
-                                  display="flex"
-                                  flexDirection={
-                                    isLargerThan768 ? "row" : "column"
-                                  }
-                                  gap="20px"
-                                  mt="20px"
-                                >
-                                  <TextFieldWithAddition
-                                    errors={errors}
-                                    control={control}
-                                    name="weight"
-                                    className={cls.paramtersItem}
-                                    register={register}
-                                    additionalItemName="weight_unit"
-                                    // width="100%"
-                                    placeholder={t("Вес")}
-                                    additionalItemOptions={
-                                      weightMeasurementOptions
-                                    }
-                                    type="number"
-                                    zIndex={10}
-                                  />
-                                  <TextFieldWithAddition
-                                    errors={errors}
-                                    control={control}
-                                    name="volume"
-                                    className={cls.paramtersItem}
-                                    register={register}
-                                    // width="100%"
-                                    placeholder={t("Объем")}
-                                    additionalItemPlaceholder="m³"
-                                    type="number"
-                                    // additionalItemName="volume_unit"
-                                    // additionalItemOptions={volumeMeasurementOptions}
-                                  />
-                                </Box>
-                              </AccordionItem>
-                            </Accordion>
-                          </Box>
-                          <Box
-                            display="flex"
-                            flexDirection={isLargerThan768 ? "row" : "column"}
-                            gap="20px"
-                            mt="20px"
-                          >
-                            <Box className={cls.kuzov} width={"100%"}>
-                              <Dropdown
-                                placeholder={t("Введите тип имя")}
-                                // label={t("Тип кузова")}
-                                name="users_id"
-                                options={getUserNameOptions}
-                                errors={errors}
-                                width="100%"
-                                control={control}
-                                watch={watch}
-                                setValue={setValue}
-                                clearable
-                              />
-                            </Box>
-                            <Box className={cls.kuzov} width={"100%"}>
-                              <Dropdown
-                                placeholder={t("Введите тип номер телефона ")}
-                                // label={t("Тип загрузки")}
-                                name="users_id2"
-                                options={getUserPhoneOptions}
-                                errors={errors}
-                                control={control}
-                                watch={watch}
-                                setValue={setValue}
-                                clearable
-                              />
-                            </Box>
-                          </Box>
-                          <Button
-                            type={"submit"}
-                            className={cls.findBtn}
-                            mt="20px"
-                            onClick={handleCalculate}
-                          >
-                            {t("gpsTracking.searchCars")}
-                          </Button>
-                        </Box>
-                      </VStack>
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-              </Box>
         {
           ...getCarListProps()?.data?.map(item => {
             return(

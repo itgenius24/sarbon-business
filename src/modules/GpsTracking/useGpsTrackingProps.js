@@ -15,7 +15,7 @@ export const useGpsTrackingProps = () => {
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
-  const [checked,setChecked] = useState(false);
+  const [checked,setChecked] = useState(true);
 
   const {
     register,
@@ -286,7 +286,10 @@ export const useGpsTrackingProps = () => {
           lat,
           long,
           number: data.distance || "0",
-          // users_id: watch("users_id")?.value
+          car_type:watch("car_type"),
+          load_type_id:watch("load_type_id"),
+          weight:watch("weight"),
+          volume:watch("volume")
 
         }
       }

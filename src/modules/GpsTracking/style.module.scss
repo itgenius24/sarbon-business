@@ -37,17 +37,19 @@
 
 .mapWrap{
  width: 80%;
+ display: flex;
+ gap: 20px;
   @media (max-width: 768px) {
     width: 95%;
   }
 }
 .mapInputsWrap{
-  width: 50%;
+  width: 30%;
   // margin: 0 auto;
   right: 0;
   left: 0.5%;
-  position: absolute;
-  top: 1%;
+  position: relative;
+  // top: 1%;
   z-index: 1;
   @media (max-width: 768px) {
     width: 95%;
@@ -60,5 +62,7 @@
     border: 0px;
     border-radius: 8px;
     box-sizing: border-box;
+    height: 100%;
+    overflow-y: scroll;
   }
 }
