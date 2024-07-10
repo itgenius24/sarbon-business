@@ -11,7 +11,7 @@ const objectService = {
   getMeasurement: (params) => request.get("/v2/object-slim/get-list/measurement", { params }),
   getAddress: (params) => request.get("/v2/object-slim/get-list/address", { params }),
   getCarType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
-  getTrailerType: (params) => request.get("/v2/object-slim/get-list/trailer_type", { params }),
+  getTrailerType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
   getUserData: (params) => request.get("/v2/object-slim/get-list/users?data={}", { params }),
   getVehicle: (params) => request.get("/v2/object-slim/get-list/vehicle", { params }),
   getCurrency: (params) => request.get("/v2/object-slim/get-list/currency", { params }),
