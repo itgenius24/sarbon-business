@@ -190,6 +190,8 @@ export const useGpsTrackingProps = () => {
     label: item?.full_name,
     value: item?.guid
   }));
+
+
   const getUserPhoneOptions = getUserData.data?.response?.map(item => ({
     label: item?.phone,
     value: item?.guid
@@ -198,6 +200,9 @@ export const useGpsTrackingProps = () => {
     label: item?.name,
     value: item?.guid
   }));
+
+  // console.log("getUserNameOptions", getUserNameOptions,loadingOptions)
+
   const getMeasurement = useGetMeasurement();
 
   const weightMeasurementOptions = getMeasurement.data?.response
