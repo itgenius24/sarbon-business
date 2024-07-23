@@ -29,7 +29,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const pathname = usePathname();
 
   const isAuth = authStore.isAuth;
-  const [isClicked, setIsClicked] = useState(false);
+
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(formStore.isPackagingAndQuantity);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(formStore.isDimensionsAndDiameter);
 
@@ -64,7 +64,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [canEdit, setCanEdit] = useState(!id);
 
   const [templateId, setTemplateId] = useState("");
-
+  const [isClicked, setIsClicked] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -397,8 +397,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   const createCargo = useCreateCargoMutation({
-    onSuccess:()=>{
-        setIsClicked(false);
+    onSuccess:() =>{
+      setIsClicked(false);
     },
     onError() {
       setLoading(false);
@@ -573,7 +573,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function onSubmit(data) {
   
-
+    setIsClicked(true);
     console.log("data",data);
     if(!authStore.isAuth) {
       toast({
@@ -1030,12 +1030,11 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   return {
     register,
     control,
-    isClicked,
-    setIsClicked,
     setValue,
     getValues,
     handleSubmit,
     onSubmit,
+    isClicked,
     watch,
     errors,
     startDate,
