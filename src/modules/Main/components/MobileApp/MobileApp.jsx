@@ -4,7 +4,7 @@ import { useTranslation } from "@/app/i18n/client";
 import cls from "./styles.module.scss";
 import { RoundCheckIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
-import { useGetLang } from "@/hooks/useGetLang";
+// import { useGetLang } from "@/hooks/useGetLang";
 import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import React from "react";
@@ -14,10 +14,10 @@ export const MobileApp = ({
   description,
   description1
 }) => {
-
-  const locale = useGetLang();
-
-  const { t } = useTranslation(locale, "translations");
+  //  console.log(`description`,description,description1);
+  // const locale = useGetLang();
+  // console.log(`description`,locale);
+  const { t } = useTranslation();
 
   return (
     <Container className={cls.mobileContainer} mt={"96px"} mb={"96px"}>
