@@ -1,6 +1,10 @@
+"use client"
+
+import { useTranslation } from "@/app/i18n/client";
 import cls from "./styles.module.scss";
 import { RoundCheckIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
+import { useGetLang } from "@/hooks/useGetLang";
 import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import React from "react";
@@ -10,11 +14,16 @@ export const MobileApp = ({
   description,
   description1
 }) => {
+
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
+
   return (
     <Container className={cls.mobileContainer} mt={"96px"} mb={"96px"}>
       <Box className={cls.mobileApp} bg="white" borderRadius={24}>
         <Heading className={cls.mobileAppHeading} fontSize={36} lineHeight="44px" mb={20.5}>
-          Мобильное приложение
+          {t("Мобильное приложение")}
         </Heading>
         <Box className={cls.contentWrapper} display="flex" alignItems="center">
           <LeftContent description={description} description1={description1} />

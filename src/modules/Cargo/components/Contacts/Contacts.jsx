@@ -48,7 +48,7 @@ export const Contacts = () => {
         onChange={(e) => {
           const value = e.target.value;
           if(value.length <= 1000) {
-            setValue("note", value.replace(/\d/g, ""));
+            setValue("note", value);
           }
         }}
         value={watch("note")}

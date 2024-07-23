@@ -29,7 +29,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const pathname = usePathname();
 
   const isAuth = authStore.isAuth;
-
+  const [isClicked, setIsClicked] = useState(false);
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(formStore.isPackagingAndQuantity);
   const [isDimensionsAndDiameter, setDimensionsAndDiameter] = useState(formStore.isDimensionsAndDiameter);
 
@@ -397,6 +397,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   const createCargo = useCreateCargoMutation({
+    onSuccess:()=>{
+        setIsClicked(false);
+    },
     onError() {
       setLoading(false);
     }
@@ -1027,6 +1030,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   return {
     register,
     control,
+    isClicked,
+    setIsClicked,
     setValue,
     getValues,
     handleSubmit,

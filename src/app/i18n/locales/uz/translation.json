@@ -25,5 +25,25 @@
   "Очистить форму": "Formani tozalash",
   "Загрузить": "Yuklab olish",
   "Фото или документы до 10 МБ. Не более 5 файлов": "10 MB gacha bo'lgan foto yoki hujjatlar. 5 ta fayldan oshmasligi kerak",
-  "Документация": "Hujjatlar"
+  "Документация": "Hujjatlar",
+  "Вернуться на Войти": "Login sahifasiga qaytish",
+  "Вернуться на Главную": "Asosiy sahifaga qayting",
+  "Вход в Furgo":"Furgo-ga kiring",
+  "Это поле обязательно для заполнения":"Ushbu qator to'ldirilishi shart",
+  "Логин":"Kirish",
+  "Введите свой логин":"Loginingizni kiriting",
+  "Запомнить":"Eslab qoling",
+  "Забыли логин или пароль?":"Foydalanuvchi nomingiz yoki parolingizni unutdingizmi?",
+  "Войти":"Kirish",
+  "Введите свий пароль":"Parolingizni kiriting",
+  "У вас нет аккаунта?":"Hisobingiz yo'qmi?",
+  "Furgo — биржа грузоперевозок и крупнейшая экосистема сервисов для транспортной логистики в Узбекистане”":"Furgo – yuk birjasi va O‘zbekistondagi transport logistikasi xizmatlarining eng yirik ekotizimidir”",
+  "Впервые у нас?":"Bu yerda birinchi martami?",
+  "Зарегистрируйтесь и сможете размещать свои грузы и машины, общаться на форуме и многое другое":"Ro'yxatdan o'ting va siz yuk va transport vositalarini joylashtirishingiz, forumda suhbatlashishingiz va boshqa ko'p narsalarni qilishingiz mumkin",
+  "Регистрация нового участника на Furgo":"Furgo-da yangi a'zoni ro'yxatdan o'tkazish",
+  "Мобильный телефон":"Mobil telefon",
+  "Нажимая кнопку «Продолжить», вы принимаете условия":"Davom etish tugmasini bosish orqali siz shartlarni qabul qilasiz",
+  "Пользовательского соглашения":"Foydalanuvchi shartnomasi",
+  "Мобильное приложение":"Mobil ilova"
+
 }

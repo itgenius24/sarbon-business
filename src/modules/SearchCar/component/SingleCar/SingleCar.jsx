@@ -311,7 +311,7 @@ export const SingleCar = ({
             iconLayout: "default#image",
             iconImageHref:
               "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
-            iconImageSize: [50, 62],
+            iconImageSize: [40, 52],
             iconImageOffset: [-15, -42],
           }}
         />
