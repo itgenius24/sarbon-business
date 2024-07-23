@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useTranslation } from "@/app/i18n/client";
 import cls from "./styles.module.scss";
