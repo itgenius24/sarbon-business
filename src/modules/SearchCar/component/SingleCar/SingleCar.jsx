@@ -419,7 +419,7 @@ export const SingleCar = ({
   else
     return (
       <>
-        {console.log("carInfo", carInfo )}
+   
         <Placemark
           key={carInfo?.id}
           geometry={[carInfo?.lat, carInfo?.long]}
@@ -448,34 +448,7 @@ export const SingleCar = ({
           }
         />
 
-        {
-          carInfo.location_name && <Placemark
-            key={carInfo?.id}
-            geometry={[carInfo.location_name.split(",")[0] *1, carInfo.location_name.split(",")[1] *1]}
-            // properties={{
-            //   balloonContent:
-            //   carInfo?.users_id_data?.full_name +
-            //   " " +
-            //   carInfo?.users_id_data?.phone +
-            //   " " +
-            //   (carInfo?.users_id_data?.vehicle_type_id_data?.name || "") +
-            //   " " +
-            //   carInfo?.update_time,
-            // }}
-            options={{
-              iconLayout: "default#image",
-              iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(loadIcon),
-              iconImageSize: [40, 52],
-              iconImageOffset: [-15, -42],
-            }}
-            onClick={(e) =>
-              handlePlacemarkClick(e.get("target").getMap(), [
-                [carInfo.location_name.split(",")[0] *1, carInfo.location_name.split(",")[1] *1]
-              ])
-            }
-          />
-        }
+      
       </>
     );
 };

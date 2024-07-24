@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useGetMeasurement, useGetTrailerType, useGetUserData, useLoadingTypes, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
+import { useGetLocation, useGetMeasurement, useGetTrailerType, useGetUserData, useLoadingTypes, useLocation, useLogistikaGpsTrackingFilterDriver } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -16,6 +16,7 @@ export const useGpsTrackingProps = () => {
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked,setChecked] = useState(true);
+  const [locationData,setLocationData] = useState()
 
   const {
     register,
@@ -272,7 +273,16 @@ export const useGpsTrackingProps = () => {
 
   },[watch("users_id")?.value,watch("users_id2")?.value]);
 
-  console.log("dataUserID",dataUserID);
+const {mutate:getLocation} = useLocation({
+  onSuccess:(res) =>{
+   
+    setLocationData(res?.data?.response);
+
+  },
+  
+});
+
+
 
   const getCarListProps = () => {
     return { data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr };
@@ -281,7 +291,12 @@ export const useGpsTrackingProps = () => {
     if(!watch("aaddress")){
       mutate({ data:{} });
     }
+    getLocation({
+      data:{}
+    });
   }, []);
+
+console.log(locationData);
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
@@ -313,6 +328,8 @@ export const useGpsTrackingProps = () => {
   return {
     register,
     locations,
+    
+locationData,
     errors,
     handleAppend,
     handleRemove,

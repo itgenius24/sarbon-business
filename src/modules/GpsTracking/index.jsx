@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
-import { LocationMarkIcon } from "@/assets/icons/icons";
+import { LocationMarkIcon, loadIcon } from "@/assets/icons/icons";
 import React from "react";
 import { useGpsTrackingProps } from "@/modules/GpsTracking/useGpsTrackingProps";
 import cls from "./style.module.scss";
@@ -70,6 +70,7 @@ export default function GpsTrackingModule() {
     setValue,
     setChecked,
     checked,
+    locationData,
     getUserNameOptions,
     getUserPhoneOptions
   } = useGpsTrackingProps();
@@ -77,10 +78,13 @@ export default function GpsTrackingModule() {
   const locale = useGetLang();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const handlePlacemarkClick = (map, location) => {
+    map.setCenter(location, 15); // 15 darajadagi zoom
+  };
 
 
   const { t } = useTranslation(locale, "translations");
-  console.log("getCarListProps", getCarListProps());
+  // console.log("getCarListProps", getCarListProps());
   return (
     <>
       <Container py="40px">
@@ -358,6 +362,37 @@ export default function GpsTrackingModule() {
             );
           })
         }
+
+        {
+          locationData && locationData.map(item => <Placemark
+            key={item?.id}
+            geometry={[item.location_name.split(",")[0] *1, item.location_name.split(",")[1] *1]}
+            // properties={{
+            //   balloonContent:
+            //   item?.users_id_data?.full_name +
+            //   " " +
+            //   item?.users_id_data?.phone +
+            //   " " +
+            //   (item?.users_id_data?.vehicle_type_id_data?.name || "") +
+            //   " " +
+            //   item?.update_time,
+            // }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(loadIcon),
+              iconImageSize: [40, 52],
+              iconImageOffset: [-15, -42],
+            }}
+            onClick={(e) =>
+              handlePlacemarkClick(e.get("target").getMap(), 
+                [item.location_name.split(",")[0] *1, item.location_name.split(",")[1] *1]
+              )
+            }
+          />)
+        }
+
+
 
 
             </Map>

@@ -2,36 +2,80 @@ import request from "@/services/request";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
-  getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
-  getManualList: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
-  getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
-  getCompanyList: (params) => request.get("/v2/object-slim/get-list/firm", { params }),
-  getRoleList: (params) => request.get("/v2/object-slim/get-list/role", { params }),
-  getCargoType: (params) => request.get("/v2/object-slim/get-list/cargo_type", { params }),
-  getMeasurement: (params) => request.get("/v2/object-slim/get-list/measurement", { params }),
-  getAddress: (params) => request.get("/v2/object-slim/get-list/address", { params }),
-  getCarType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
-  getTrailerType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
-  getUserData: (params) => request.get("/v2/object-slim/get-list/users?data={}", { params }),
-  getVehicle: (params) => request.get("/v2/object-slim/get-list/vehicle", { params }),
-  getCurrency: (params) => request.get("/v2/object-slim/get-list/currency", { params }),
-  getPackage: (params) => request.get("/v2/object-slim/get-list/packages", { params }),
-  getPaymentType: (params) => request.get("/v2/object-slim/get-list/map", { params }),
-  getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
-  getCarList: (params) => request.get("/v2/object-slim/get-list/route", { params }),
-  getLogistikaGpsTrackingFilterDriver: (data) => request.post("/v1/invoke_function/logistika-gps-tracking-filter-driver", data),
-  getOffer: (params) => request.get("/v2/object-slim/get-list/response", { params }),
-  getCargoById: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
-  getMaps: (params) => request.get("/v2/object-slim/get-list/period", { params }),
-  getDirectory: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
-  getPartners: (params) => request.get("/v2/object-slim/get-list/partners_company", { params }),
-  getCityList: (params) => request.get("/v2/object-slim/get-list/city", { params }),
-  getLoadingTypes: (params) => request.get("/v2/object-slim/get-list/load_type", { params }),
-  getUsers: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users", { params }),
-  getGPSHistory: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/gps_history", { params }),
-  getDriverLocation: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users_gps", { params }),
-};
+  getCarsOnSale: (params) =>
+    request.get("/v2/object-slim/get-list/car_sale", { params }),
+  getManualList: (params) =>
+    request.get("/v2/object-slim/get-list/directory", { params }),
+  getNewsList: (params) =>
+    request.get("/v2/object-slim/get-list/news", { params }),
 
+  getCompanyList: (params) =>
+    request.get("/v2/object-slim/get-list/firm", { params }),
+  getRoleList: (params) =>
+    request.get("/v2/object-slim/get-list/role", { params }),
+  getCargoType: (params) =>
+    request.get("/v2/object-slim/get-list/cargo_type", { params }),
+  getMeasurement: (params) =>
+    request.get("/v2/object-slim/get-list/measurement", { params }),
+  getAddress: (params) =>
+    request.get("/v2/object-slim/get-list/address", { params }),
+  getCarType: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+  getTrailerType: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+  getUserData: (params) =>
+    request.get("/v2/object-slim/get-list/users?data={}", { params }),
+  getVehicle: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle", { params }),
+  getCurrency: (params) =>
+    request.get("/v2/object-slim/get-list/currency", { params }),
+  getPackage: (params) =>
+    request.get("/v2/object-slim/get-list/packages", { params }),
+  getPaymentType: (params) =>
+    request.get("/v2/object-slim/get-list/map", { params }),
+  getUserCargo: (params) =>
+    request.get("/v2/object-slim/get-list/cargo", { params }),
+  getCarList: (params) =>
+    request.get("/v2/object-slim/get-list/route", { params }),
+  getLogistikaGpsTrackingFilterDriver: (data) =>
+    request.post(
+      "/v1/invoke_function/logistika-gps-tracking-filter-driver",
+      data
+    ),
+    getLocation: (data) =>
+      request.post(
+        "v1/invoke_function/logistika-get-cargo-for-map",
+        data
+      ),
+  getOffer: (params) =>
+    request.get("/v2/object-slim/get-list/response", { params }),
+  getCargoById: (params) =>
+    request.get("/v2/object-slim/get-list/cargo", { params }),
+  getMaps: (params) =>
+    request.get("/v2/object-slim/get-list/period", { params }),
+  getDirectory: (params) =>
+    request.get("/v2/object-slim/get-list/directory", { params }),
+  getPartners: (params) =>
+    request.get("/v2/object-slim/get-list/partners_company", { params }),
+  getCityList: (params) =>
+    request.get("/v2/object-slim/get-list/city", { params }),
+  getLoadingTypes: (params) =>
+    request.get("/v2/object-slim/get-list/load_type", { params }),
+  getUsers: (params) =>
+    request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users", {
+      params,
+    }),
+  getGPSHistory: (params) =>
+    request.get(
+      "https://api.admin.u-code.io/v2/object-slim/get-list/gps_history",
+      { params }
+    ),
+  getDriverLocation: (params) =>
+    request.get(
+      "https://api.admin.u-code.io/v2/object-slim/get-list/users_gps",
+      { params }
+    ),
+};
 
 export const useGetCarById = (
   params = { data: JSON.stringify({}) },
@@ -55,7 +99,10 @@ export const useGetCarsOnSale = (
   });
 };
 
-export const useGetManualList = (params = { data: JSON.stringify({}) }, settings) => {
+export const useGetManualList = (
+  params = { data: JSON.stringify({}) },
+  settings
+) => {
   return useQuery({
     queryKey: ["object/getManualList", params],
     queryFn: () => objectService.getManualList(params),
@@ -71,15 +118,38 @@ export const useGetCarListOnSubmit = (mutationSettings) => {
 };
 export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
   return useMutation({
-    mutationFn: (data) => objectService.getLogistikaGpsTrackingFilterDriver(data),
+    mutationFn: (data) =>
+      objectService.getLogistikaGpsTrackingFilterDriver(data),
     ...mutationSettings,
   });
 };
 
-export const useGetNewsList = (params = { data: JSON.stringify({}) }, settings) => {
+export const useLocation = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) =>
+      objectService.getLocation(data),
+    ...mutationSettings,
+  });
+};
+export const useGetNewsList = (
+  params = { data: JSON.stringify({}) },
+  settings
+) => {
   return useQuery({
     queryKey: ["object/getNewsList", params],
     queryFn: () => objectService.getNewsList(params),
+    ...settings,
+  });
+};
+export const useGetLocation = (
+  params = {
+    data: JSON.stringify({ cargo_type: ["cargo"], order_status: ["active"] }),
+  },
+  settings
+) => {
+  return useQuery({
+    queryKey: ["object/location", params],
+    queryFn: () => objectService.getLocation(params),
     ...settings,
   });
 };
@@ -95,7 +165,7 @@ export const useGetRoleList = (params, props) => {
   return useQuery({
     queryKey: ["object/getRoleList", params],
     queryFn: () => objectService.getRoleList(params),
-    ...props
+    ...props,
   });
 };
 
@@ -120,7 +190,10 @@ export const useGetAddress = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetCarType = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object/getCarType", params],
     queryFn: () => objectService.getCarType(params),
@@ -128,7 +201,10 @@ export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = 
   });
 };
 
-export const useGetTrailerType = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetTrailerType = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object/getTrailerType", params],
     queryFn: () => objectService.getTrailerType(params),
@@ -142,7 +218,10 @@ export const useGetUserData = (params, settings = {}) => {
     ...settings,
   });
 };
-export const useGetVehicle = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetVehicle = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object/getVehicle", params],
     queryFn: () => objectService.getVehicle(params),
@@ -150,7 +229,10 @@ export const useGetVehicle = (params = { data: JSON.stringify({}) }, settings = 
   });
 };
 
-export const useLoadingTypes = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useLoadingTypes = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object-slim/get-list/load_type", params],
     queryFn: () => objectService.getLoadingTypes(params),
@@ -158,7 +240,10 @@ export const useLoadingTypes = (params = { data: JSON.stringify({}) }, settings 
   });
 };
 
-export const useGetCurrency = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetCurrency = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object/getCurrency", params],
     queryFn: () => objectService.getCurrency(params),
@@ -184,7 +269,7 @@ export const useGetUserCargo = (params, settings) => {
   return useQuery({
     queryKey: ["object/getUserCargo", params],
     queryFn: () => objectService.getUserCargo(params),
-    ...settings
+    ...settings,
   });
 };
 
@@ -193,7 +278,7 @@ export const useGetUserCargoPagination = (params, settings) => {
     queryKey: ["object/getUserCargoPagination", params],
     queryFn: () => objectService.getUserCargo(params),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    ...settings
+    ...settings,
   });
 };
 
@@ -201,7 +286,7 @@ export const useGetOffer = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOffer", params],
     queryFn: () => objectService.getOffer(params),
-    ...settings
+    ...settings,
   });
 };
 
@@ -210,7 +295,7 @@ export const useGetOfferPagination = (params, settings) => {
     queryKey: ["object/getOfferPagination", params],
     queryFn: () => objectService.getOffer(params),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    ...settings
+    ...settings,
   });
 };
 
@@ -218,7 +303,7 @@ export const useGetOfferById = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOfferById", params],
     queryFn: () => objectService.getOffer(params),
-    ...settings
+    ...settings,
   });
 };
 
