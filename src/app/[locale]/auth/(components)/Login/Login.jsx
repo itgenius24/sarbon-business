@@ -40,7 +40,7 @@ export const Login = () => {
         </Button>
       </div>
       <MobileLogo />
-      <AuthTitle mb="32px" title={'Вход в Furgo'} subtitle="" />
+      <AuthTitle mb="32px" title={t('Вход в Furgo')} subtitle="" />
       <Box mb="24px" display="flex" flexDirection="column" rowGap="20px">
         <TextField
           register={register}

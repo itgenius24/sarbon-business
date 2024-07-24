@@ -44,6 +44,26 @@
   "Мобильный телефон":"Mobil telefon",
   "Нажимая кнопку «Продолжить», вы принимаете условия":"Davom etish tugmasini bosish orqali siz shartlarni qabul qilasiz",
   "Пользовательского соглашения":"Foydalanuvchi shartnomasi",
-  "Мобильное приложение":"Mobil ilova"
+  "Мобильное приложение":"Mobil ilova",
+"Введите свое имя":"Ismingizni kiriting",
+  "Профиль деятельности":"Faoliyat profili",
+  "Компания":"Kompaniya",
+  "Это поле обязательно":"Ushbu qator to'ldirilishi shart",
+  "Введите свой email":"Emailingizni kiriting",
+  "Пароль":"Parol",
+  "Подтвердите пароль":"Elektron pochtangizni kiriting",
+  "Сохранить":"Saqlash",
+  "Выход":"Chiqish",
+  "мин. 8 символов":"Kamida 8 ta belgi",
+  "Введите свой пароль":"Parolingizni kiriting",
+  "Нажимая кнопку, вы принимаете условия Пользовательского соглашения":"Tugmani bosish orqali siz foydalanuvchi shartnomasi shartlarini qabul qilasiz",
+  "Подтвердить":"Tasdiqlash",
+  "Назад":"Orqaga",
+  "Проверьте свой телефон":"Telefoningizni tekshiring",
+  "Мы отправили вам код подтверждения на ваш указанный номер":"Biz sizga ko'rsatilgan raqamingizga tasdiqlash kodini yubordik",
+  "СМС-код":"SMS kodi",
+  "Не пришло сообщение?":"Xabar olmadingizmi?",
+  "Отправить ещё раз":"Qayta yuborish"
+
 
 }

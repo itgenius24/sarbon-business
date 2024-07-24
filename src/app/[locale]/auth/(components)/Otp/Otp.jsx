@@ -40,7 +40,7 @@ export const Otp = observer(() => {
     <MobileLogo />
     <AuthTitle
       mb="32px"
-      title="Проверьте свой телефон"
+      title={t("Проверьте свой телефон")}
       subtitle={
         <p>
           {t("Мы отправили вам код подтверждения на ваш указанный номер")}

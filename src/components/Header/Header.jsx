@@ -32,7 +32,7 @@ const Header = observer(({ elements }) => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
 
-  const goToProfile=()=>{
+  const goToProfile = () => {
     router.push(`/${locale}/profile`);
   };
 
@@ -62,30 +62,41 @@ const Header = observer(({ elements }) => {
               <Logo />
             </Box>
             {!isAuth && (
-              <Link
-                className={clsx(cls.registerLink, cls.registerLinkMobile)}
-                title={t("Зарегистрироваться")}
-                href={`/${locale}/auth`}
-              >
-                {t("Зарегистрироваться")}
-              </Link>
+              <>
+                <Link
+                  className={clsx(cls.registerLink, cls.registerLinkMobile)}
+                  title={t("Зарегистрироваться")}
+                  href={`/${locale}/auth/registration`}
+
+                >
+                  {t("Зарегистрироваться")}
+                </Link>
+                <Link
+                  className={clsx(cls.registerLink, cls.registerLinkMobile)}
+                  title={t("Войти")}
+                  href={`/${locale}/auth`}
+                >
+                  {t("Войти")}
+                </Link>
+              </>
             )}
             <Box className={cls.content}>
               <UnorderedList className={cls.list}>
                 {elements?.map((element, index) => {
-                  return <ListItem className={cls.listItem} key={element.path}>
-                    <Link
-                      onClick={() => setNavOpen(false)}
-                      href={element.path}
-                      className={clsx(cls.itemLink, {
-                        [cls.activeLink]: index
-                        ? pathname.includes(element.path)
-                        : pathname === element.path,
-                      })}
-                    >
-                      {t(element.label)}
-                    </Link>
-                    {/* {
+                  return (
+                    <ListItem className={cls.listItem} key={element.path}>
+                      <Link
+                        onClick={() => setNavOpen(false)}
+                        href={element.path}
+                        className={clsx(cls.itemLink, {
+                          [cls.activeLink]: index
+                            ? pathname.includes(element.path)
+                            : pathname === element.path,
+                        })}
+                      >
+                        {t(element.label)}
+                      </Link>
+                      {/* {
                     element.path.includes("distance-calculation")
                      ? <a className={clsx(cls.itemLink, {
                        [cls.activeLink]: index
@@ -108,30 +119,45 @@ const Header = observer(({ elements }) => {
                        {t(element.label)}
                      </Link>
                     } */}
-                  </ListItem>;
+                    </ListItem>
+                  );
                 })}
-                {
-                  isAuth && <ListItem className={clsx(cls.listItem, cls.profile)} key="profile">
+                {isAuth && (
+                  <ListItem
+                    className={clsx(cls.listItem, cls.profile)}
+                    key="profile"
+                  >
                     <Link
                       onClick={() => setNavOpen(false)}
                       href={`/${locale}/profile`}
-                      className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
+                      className={clsx(cls.itemLink, {
+                        [cls.activeLink]: pathname === `/${locale}/profile`,
+                      })}
                     >
                       {t("Профиль")}
                     </Link>
                   </ListItem>
-                }
+                )}
               </UnorderedList>
               <Box className={cls.rightBox}>
                 <Box className={cls.buttonBox}>
                   {!isAuth && (
-                    <Link
-                      className={clsx(cls.registerLink)}
-                      title={t("Зарегистрироваться")}
-                      href={`/${locale}/auth`}
-                    >
-                      {t("Зарегистрироваться")}
-                    </Link>
+                    <>
+                      <Link
+                        className={clsx(cls.registerLink)}
+                        title={t("Зарегистрироваться")}
+                        href={`/${locale}/auth/registration`}
+                      >
+                        {t("Зарегистрироваться")}
+                      </Link>
+                      <Link
+                        className={clsx(cls.registerLink)}
+                        title={t("Войти")}
+                        href={`/${locale}/auth`}
+                      >
+                        {t("Войти")}
+                      </Link>
+                    </>
                   )}
                   <Box className={cls.localeBox} display="flex" columnGap="4px">
                     <LocaleDropdown locale={locale} />
@@ -141,11 +167,20 @@ const Header = observer(({ elements }) => {
                   </Box>
                   {isAuth && (
                     <>
-                      <Box onClick={goToProfile} className={cls.userIcon} ml="16px">
+                      <Box
+                        onClick={goToProfile}
+                        className={cls.userIcon}
+                        ml="16px"
+                      >
                         <Image
                           src={
-                            photo === "photo" || photo === "" ? UserImg : !photo?.includes("http") ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${photo || ""}`
-                                : UserImg
+                            photo === "photo" || photo === ""
+                              ? UserImg
+                              : !photo?.includes("http")
+                              ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
+                                  photo || ""
+                                }`
+                              : UserImg
                           }
                           alt="ww"
                           width={40}
@@ -164,10 +199,27 @@ const Header = observer(({ elements }) => {
             </Box>
             <button className={cls.burgerBtn} onClick={handleToggleNav}>
               <svg id="hamburger" viewBox="0 0 60 40">
-                <g stroke="#70707B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                  <path className={cls.topLine} id="top-line" d="M10,10 L50,10 Z"></path>
-                  <path className={cls.middleLine} id="middle-line" d="M10,20 L50,20 Z"></path>
-                  <path className={cls.bottomLine} id="bottom-line" d="M10,30 L50,30 Z"></path>
+                <g
+                  stroke="#70707B"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path
+                    className={cls.topLine}
+                    id="top-line"
+                    d="M10,10 L50,10 Z"
+                  ></path>
+                  <path
+                    className={cls.middleLine}
+                    id="middle-line"
+                    d="M10,20 L50,20 Z"
+                  ></path>
+                  <path
+                    className={cls.bottomLine}
+                    id="bottom-line"
+                    d="M10,30 L50,30 Z"
+                  ></path>
                 </g>
               </svg>
             </button>
@@ -180,11 +232,7 @@ const Header = observer(({ elements }) => {
 
 export default Header;
 
-
-
-
 export const LogOutBtn = ({ locale = "ru" }) => {
-
   const { t } = useTranslation(locale, "translations");
 
   const logout = () => {
@@ -203,4 +251,3 @@ export const LogOutBtn = ({ locale = "ru" }) => {
     </Button>
   );
 };
-
