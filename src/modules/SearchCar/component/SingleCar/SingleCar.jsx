@@ -429,9 +429,9 @@ export const SingleCar = ({
               " " +
               carInfo?.users_id_data?.phone +
               " " +
-              (carInfo?.users_id_data?.vehicle_type_id_data?.name || "") +
+              (carInfo?.users_id_data?.vehicle_type_id_data?.name || " ") +
               " " +
-              (carInfo?.update_time || '' )+ "" +( carInfo?.battery ?  carInfo?.battery + "%":'') + (carInfo?.gps || ''),
+              (carInfo?.update_time || '' )+ " " +( carInfo?.battery ?  carInfo?.battery + "%":' ') + (carInfo?.gps || ' '),
           }}
           options={{
             iconLayout: "default#image",
