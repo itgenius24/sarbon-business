@@ -36,6 +36,7 @@ import clsx from "clsx";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Placemark } from "@pbe/react-yandex-maps";
 import { UseIcon, loadIcon } from "@/assets/icons/icons";
+import { format } from "date-fns";
 
 export const SingleCar = ({
   carInfo,
@@ -419,19 +420,17 @@ export const SingleCar = ({
   else
     return (
       <>
-   
+
         <Placemark
           key={carInfo?.id}
           geometry={[carInfo?.lat, carInfo?.long]}
           properties={{
             balloonContent:
-              carInfo?.users_id_data?.full_name +
-              " " +
-              carInfo?.users_id_data?.phone +
-              " " +
-              (carInfo?.users_id_data?.vehicle_type_id_data?.name || " ") +
-              " " +
-              (carInfo?.update_time || '' )+ " " +( carInfo?.battery ?  carInfo?.battery + "%":' ') + (carInfo?.gps || ' '),
+         `   <p>
+              ${carInfo?.users_id_data?.full_name || ""}
+              ${carInfo?.users_id_data?.phone || ""}
+              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps || ""}
+            </p>`
           }}
           options={{
             iconLayout: "default#image",
@@ -447,8 +446,6 @@ export const SingleCar = ({
             ])
           }
         />
-
-      
       </>
     );
 };
