@@ -1,0 +1,118 @@
+.performed {
+    margin-bottom: 20px;
+  .performedCard {
+    width: 100%;
+
+    .performedXeader {
+      background-color: rgba(0, 122, 255, 1);
+      padding: 18px 24px;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .leftContend {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        h3 {
+          font-size: 24px;
+          font-weight: 600;
+        }
+        p {
+          font-weight: 700;
+          font-size: 14px;
+          span {
+            font-weight: 400;
+          }
+        }
+      }
+      .rightContend {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        .rightTitle {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+    .cardBody {
+      background-color: white;
+      padding: 0px 24px 24px 24px;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      .card {
+        display: flex;
+        justify-content: flex-start;
+        gap: 40px;
+        border-bottom: 1px solid rgba(150, 148, 158, 0.363);
+        .cardItem {
+          padding: 24px 0;
+          .cardBodyTitle {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            color: rgba(126, 123, 134, 1);
+          }
+          .cardName {
+            font-weight: 500;
+            font-size: 18px;
+            .cardNameDate {
+              font-size: 14px;
+              font-weight: 400;
+              color: rgba(126, 123, 134, 1);
+            }
+          }
+        }
+      }
+      .cardFooter {
+        padding: 16px 0px 0px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .cardFooterLeft {
+          display: flex;
+          align-items: center;
+          gap: 60px;
+          .cardBodyTitle {
+            font-size: 14px;
+            color: rgba(126, 123, 134, 1);
+          }
+          .cardName {
+            font-weight: 600;
+            font-size: 18px;
+            span {
+              color: rgba(0, 122, 255, 1);
+            }
+          }
+
+          .btn {
+            border: 1px solid rgba(0, 122, 255, 1);
+            padding: 11px;
+            border-radius: 6px;
+            background-color: rgba(0, 122, 255, 0.07);
+            color: rgba(0, 122, 255, 1);
+            cursor: pointer;
+            display: flex;
+             gap: 10px;
+
+          }
+        }
+        .rightContend{
+            .cardBodyTitle{
+                font-size: 14px;
+                color: rgba(126, 123, 134, 1);
+            }
+            .date{
+                font-size: 14px;
+                font-weight: 500;
+            color: rgba(0, 122, 255, 1);
+
+            }
+        }
+      }
+    }
+  }
+}

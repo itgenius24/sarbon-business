@@ -98,6 +98,7 @@ export const LoadsCard = forwardRef(({
       className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })}
       onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}
     >
+
       <a className={clsx(cls.stretchedLink, { [cls.isShow]: status === "performed" })} href={`/${locale}/my-loads/${status}/${guid}`}></a>
       <div className={cls.cardTop}>
         <div className={cls.cardTopContent}>

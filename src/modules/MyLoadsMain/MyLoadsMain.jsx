@@ -8,6 +8,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Empty } from "./components/Empty";
+import { Performed } from "./components/Performed";
 
 export const MyLoadsMain = () => {
 
@@ -30,6 +31,8 @@ export const MyLoadsMain = () => {
 
   const { t } = useTranslation(locale, "translations");
 
+  console.log("orderStatus",orderStatus);
+
   return (
     <Box px={"20px"} py="24px" >
       <Container >
@@ -43,8 +46,15 @@ export const MyLoadsMain = () => {
           filterList={filterTabs}
         />
         <Box display="flex" flexDirection="column" rowGap="16px">
+
+
           {
-            cargos?.length > 0 && cargos?.map((cargo, index) => {
+            orderStatus == "performed" ? <>
+             
+             <Performed />
+             <Performed />
+            </>
+            : cargos?.length > 0 && cargos?.map((cargo, index) => {
               if(index === cargos.length -1) {
                 return (
                   <LoadsCard

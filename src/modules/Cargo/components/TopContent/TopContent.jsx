@@ -5,12 +5,13 @@ import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetDriverLocation, useGetSortedGPSHistory } from "@/services/api";
-import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Avatar, Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import { useRouter } from "next/navigation";
 import { Documents } from "../Documents/Documents";
+import { AppleIcon, BatareyIcon, BluetoothIcon, FurIcon, LocationMobileIcon } from "@/assets/icons/icons";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -231,7 +232,70 @@ export const TopContent = ({
   return <Box>
     {
       status === "performed" && <>
-        <div id="topContentMap" style={{ width: "100%", height: isLargerThan845 ? "419px" : "300px" }} />
+
+        <Accordion defaultIndex={[0]} onChange={(e) => console.log(e)} allowMultiple>
+          <AccordionItem
+            className={cls.accordionItem}>
+            <AccordionButton className={cls.accordionButton}>
+              <div className={cls.userDataWarp}>
+                <div className={cls.userWrap}>
+                <Avatar color={`white`} name="Aердийев Сирожиддин"  src="" />
+                  <div className={cls.user}>
+                    <p className={cls.userName}>
+                          Бердийев Сирожиддин
+                    </p>
+                    <p className={cls.userTel}>
+                         +998 93 0776161
+                    </p>
+                  </div>
+                </div>
+
+                <div className={cls.phoneDataWrap}>
+                    <div className={cls.item}>
+                        <LocationMobileIcon />
+                        <div className={cls.itemText}>
+                          <p className={cls.phoneItemTitle}>Геолокация</p> 
+                          <p className={cls.phoneItemName}>Выкл  <span className={cls.phoneItemTitle}> 24 июня, 09:26</span></p>
+                        </div>
+                    </div>
+                    <div className={cls.item}>
+                        <AppleIcon />
+                        <div className={cls.itemText}>
+                          <p className={cls.phoneItemTitle}>Смартфон</p> 
+                          <p className={cls.phoneItemName}>iOS 17.5 </p>
+                        </div>
+                    </div>
+                    <div className={cls.item}>
+                        <FurIcon />
+                        <div className={cls.itemText}>
+                          <p className={cls.phoneItemTitle}>Версия Furgo</p> 
+                          <p className={cls.phoneItemName}>1.1.9 </p>
+                        </div>
+                    </div>
+                    <div className={cls.item}>
+                        <BluetoothIcon />
+                        <div className={cls.itemText}>
+                          <p className={cls.phoneItemTitle}>Bluetooth</p> 
+                          <p className={cls.phoneItemName}>Выкл </p>
+                        </div>
+                    </div>
+                    <div className={cls.item}>
+                        <BatareyIcon />
+                        <div className={cls.itemText}>
+                          <p className={cls.phoneItemTitle}>Батарея</p> 
+                          <p className={cls.phoneItemName}>19% </p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <AccordionIcon />
+            </AccordionButton>
+
+            <AccordionPanel>
+              <div id="topContentMap" style={{ width: "100%", height: isLargerThan845 ? "419px" : "300px" }} />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </>
     }
     <Box p="24px" bgColor="baseWhite" borderRadius="12px" mb="16px">
