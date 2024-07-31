@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
-import { Box, Button, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Box, Button, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
@@ -62,7 +62,7 @@ const Header = observer(({ elements }) => {
               <Logo />
             </Box>
             {!isAuth && (
-              <>
+              <Flex>
                 <Link
                   className={clsx(cls.registerLink, cls.registerLinkMobile)}
                   title={t("Зарегистрироваться")}
@@ -78,7 +78,7 @@ const Header = observer(({ elements }) => {
                 >
                   {t("Войти")}
                 </Link>
-              </>
+              </Flex>
             )}
             <Box className={cls.content}>
               <UnorderedList className={cls.list}>

@@ -324,7 +324,7 @@ export default function GpsTrackingModule() {
                 zoom: 6,
               }}
               width="100%"
-              height={"100%"}
+              height={"600px"}
               modules={["Placemark", "geocode", "control.SearchControl"]}
             >
               <TypeSelector

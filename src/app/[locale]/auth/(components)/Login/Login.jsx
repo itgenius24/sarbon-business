@@ -67,7 +67,7 @@ export const Login = () => {
           name="password"
           type={isPasswordVisible ? "text" : "password"}
           label={t("Пароль")}
-          placeholder={t("Введите свий пароль")}
+          placeholder={t("Введите свой пароль")}
           addonAfter={
             <button type="button" onClick={handleTogglePasswordVisibility}>
               {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}

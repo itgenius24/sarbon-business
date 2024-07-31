@@ -28,13 +28,13 @@ import {
   useGetVehicle,
   useOfferFromCustomerMutation,
 } from "@/services/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rating } from "@/components/Rating";
 import { Popup } from "@/components/Popup";
 import Link from "next/link";
 import clsx from "clsx";
 import { useGetLang } from "@/hooks/useGetLang";
-import { Placemark } from "@pbe/react-yandex-maps";
+import { Placemark,map } from "@pbe/react-yandex-maps";
 import { UseIcon, loadIcon } from "@/assets/icons/icons";
 import { format } from "date-fns";
 
@@ -136,6 +136,28 @@ export const SingleCar = ({
 
   const handlePlacemarkClick = (map, location) => {
     map.setCenter(location, 15); // 15 darajadagi zoom
+  };
+  function refreshMap() {
+
+    map.setBounds(map.getBounds()); // Refresh map bounds to ensure all elements are visible
+}
+
+
+  useEffect(() => {
+
+  window.addEventListener('scroll', refreshMap);
+  },[window.scroll]);
+
+
+  const handleMouseEnter = (e) => {
+    console.log("eee",e);
+    const placemark = e.get('target');
+    placemark.balloon.open();
+  };
+
+  const handleMouseLeave = (e) => {
+    const placemark = e.get('target');
+    placemark.balloon.close();
   };
 
   function handleOffer(id) {
@@ -429,7 +451,7 @@ export const SingleCar = ({
          `   <p>
               ${carInfo?.users_id_data?.full_name || ""}
               ${carInfo?.users_id_data?.phone || ""}
-              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps || ""}
+              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps ? "on"  : "off"|| ""}
             </p>`
           }}
           options={{
@@ -439,12 +461,14 @@ export const SingleCar = ({
             iconImageSize: [40, 52],
             iconImageOffset: [-15, -42],
           }}
-          onClick={(e) =>
-            handlePlacemarkClick(e.get("target").getMap(), [
-              carInfo?.lat,
-              carInfo?.long,
-            ])
-          }
+          // onClick={(e) =>
+          //   handlePlacemarkClick(e.get("target").getMap(), [
+          //     carInfo?.lat,
+          //     carInfo?.long,
+          //   ])
+          // }
+          onMouseEnter={handleMouseEnter}
+          // onMouseLeave={handleMouseLeave}
         />
       </>
     );
