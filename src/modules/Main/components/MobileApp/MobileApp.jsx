@@ -14,9 +14,6 @@ export const MobileApp = ({
   description,
   description1
 }) => {
-  //  console.log(`description`,description,description1);
-  // const locale = useGetLang();
-  // console.log(`description`,locale);
   const { t } = useTranslation();
 
   return (

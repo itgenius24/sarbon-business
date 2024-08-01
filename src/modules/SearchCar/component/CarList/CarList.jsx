@@ -2,6 +2,7 @@
 
 import { Heading, VStack } from "@chakra-ui/react";
 import { SingleCar } from "../SingleCar/SingleCar";
+import { useTranslation } from "react-i18next";
 
 export const CarList = ({
   data = [],
@@ -17,11 +18,11 @@ export const CarList = ({
   height,
 }) => {
   if(!data?.length)return null;
-  console.log({ data });
+   const {t} = useTranslation();
   return (
     <>
       <Heading size="md" mt="40px" mb="24px">
-        {data?.length} машин найдено
+        {data?.length} {t("машин найдено")}
       </Heading>
       <VStack align="stretch" spacing="24px">
         {data.map((item) => {

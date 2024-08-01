@@ -76,6 +76,7 @@ export const LoadingForm = () => {
                     watch={watch}
                     name={`loadings[${index}].location`}
                     placeholder={t("Населённый пункт")}
+                    inputPlaceholder={t("Населённый пункт")}
                     error={errors["loadings"]?.[index]?.["location"]}
                     searchName={`loadings[${index}].search`}
                     setValue={setValue}
