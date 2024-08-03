@@ -8,13 +8,14 @@ import { MainContentHeader } from "../../(components)/MainContentHeader";
 import { MainContentCard } from "@/components/MainContentCard";
 import { BackArrow } from "@/assets/icons/icons";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export default function Handbook() {
   const router = useRouter();
   const { data, isLoading } = useHandbookProps();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
+  const {t} = useTranslation();
   if (isLoading) return <SkeletonComp />;
 
   return (
@@ -22,7 +23,7 @@ export default function Handbook() {
       <MainContentHeader title={
         <Flex onClick={!isLargerThan845 ? router.back : () => {}} as="button" alignItems="center">
           <BackArrow />
-          <span>Справочники</span>
+          <span>{t(`Справочники`)}</span>
         </Flex>
       } />
       <MainContentCard>

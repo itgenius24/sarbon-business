@@ -39,7 +39,7 @@
   "Сохранить как шаблон": "Shablon sifatida saqlash",
   "Сохранить": "Saqlash",
   "Водитель: ": "Haydovchi: ",
-  "Модель транспорта: ": "Transport modeli: ",
+  "Модель Возможен торга: ": "Transport modeli: ",
   "Предлагаемая сумма: ": "Taklif qilingan summa: ",
   "Рейтинг водителя: ": "Haydovchining reytingi: ",
   "Предоплата: ": "Oldindan to'lov: ",
@@ -248,7 +248,71 @@
   "Мобильное приложение":"Mobil ilova",
   "Выберите":"Tanlash",
   "В рассчёте на одну машину":"Bir mashina uchun",
-  "Место получения груза":"Yukni qabul qilish joyi"
+  "Место получения груза":"Yukni qabul qilish joyi",
+  "В исполнение":"Ijro etilmoqda",
+  "Без торга":"Savdolashish yo'q",
+  "Ставка":"Taklif",
+  "Предлагаемая сумма":"Tavsiya etilgan miqdor",
+  "Сумма предоплаты":"Oldindan to'lov miqdori",
+  "Сумма после завершения заказа":"Buyurtma tugagandan keyingi summa",
+  "Тип оплаты":"To'lov turi",
+  "Встречные предложения":"Counter takliflari",
+  "Загрузить":"Yuklash",
+  "Фото до 10 МБ.":"10 MB gacha bo'lgan fotosuratlar.",
+  "Введите сумму":"Miqdorni kiriting",
+  "Контакты":"Kontaktlar",
+  "укажите, к кому обратиться по объявлению":"indicate kimga murojaat qilish reklama bo'yicha",
+  "Примечание":"Eslatma",
+  "Пишите здесь":"Bu yerga yozing",
+  "Введите тип номер":"Tur raqamini kiriting",
+  "Ваш ID:":"Sizning identifikatoringiz",
+  "Баланс":"Balans",
+
+  "Хочу купить":"Men sotib olmoqchiman",
+  "Мои обьявления":"Mening reklamalarim",
+  "Личные данные":"Shaxsiy ma'lumotlar",
+  "Продажа авто":"Avtomobil savdosi",
+   "Справочники": "Kataloglar",
+   "Отмена": "Bekor qilish",
+   "Создать":"Yaratish",
+   "Имя":"Ism",
+   "Фамилия":"Familiya",
+   "Добавить публикацию":"Nashr qo'shish",
+
+   "Выберите тип ТС": "TS turini tanlang",
+   "Марка": "Brend",
+   "Информация о ТС": "TS haqida ma'lumot",
+   "Статус": "Holat",
+   "Введите": "Kiriting",
+   "Описание": "Tavsif",
+   "Стоимость": "Narx",
+   "Контакт": "Aloqa",
+
+
+
+   "Опубликованные":"Chop etilgan",
+
+
+   "или перетащите":"yoki torting",
+   "SVG, PNG, JPG or GIF (max. 800x400px)":"SVG, PNG, JPG yoki GIF (maksimal 800x400px)",
+   "Нажмите, чтобы изменить фото":"Rasmni o'zgartirish uchun bosing",
+
+
+  "Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.":"Kontaktlarni (telefonlar, Skype va boshqalar) ko'rsatmang, aks holda yukingiz moderator tomonidan o'chiriladi"
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
   
 
 

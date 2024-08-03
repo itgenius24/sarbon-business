@@ -99,7 +99,7 @@ export default function GpsTrackingModule() {
       </Container>
       {checked ? (
         <>
-          <Box className={cls.mapWrap} width={"80%"} margin={"0 auto"} height={"70vh"} position={"relative"}>
+          <Box className={cls.mapWrap} width={"80%"} margin={"0 auto"} mb={`29px`} height={"70vh"} position={"relative"}>
             <Box className={cls.mapInputsWrap}>
               <Box className={cls.accordionItem}>
                 <VStack
@@ -282,7 +282,7 @@ export default function GpsTrackingModule() {
                 zoom: 6,
               }}
               width="100%"
-              height={"600px"}
+              height={"60v"}
               modules={["Placemark", "geocode", "control.SearchControl"]}
             >
               <TypeSelector
