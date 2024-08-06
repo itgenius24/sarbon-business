@@ -72,6 +72,7 @@ export const CargoForm = () => {
             disabled={!canEdit}
             className={cls.dropdown}
             placeholder={t("Выберите тип груза")}
+            inputPlaceholder={t("Выберите тип груза")}
             searchable
             searchName="cargo_type_search"
             setValue={setValue}
@@ -166,6 +167,8 @@ export const CargoForm = () => {
             watch={watch}
             setValue={setValue}
             searchName="packagingSearch"
+            inputPlaceholder={t(`Выберите`)}
+            placeholder={t(`Выберите`)}
             name="packaging"
             options={packageOptions}
             disabled={!canEdit}

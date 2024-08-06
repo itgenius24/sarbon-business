@@ -216,6 +216,9 @@ export const TransportDetail = () => {
               name="permission"
               disabled={!canEdit}
               register={register}
+              inputPlaceholder={t(`Выберите`)}
+            placeholder={t(`Выберите`)}
+
               control={control}
               watch={watch}
               options={[

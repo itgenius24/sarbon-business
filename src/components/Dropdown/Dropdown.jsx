@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { CircleCloseIcon, SearchIcon, SelectionArrow } from "@/assets/icons/icons";
 import { useMemo } from "react";
 import { convertLatinToCyril } from "@/utils/convertLatinToCyril";
+import { useTranslation } from "react-i18next";
 
 
 export const Dropdown = ({
@@ -35,7 +36,7 @@ export const Dropdown = ({
   const height = Math.floor(options && options.length * 50 / 2);
 
   const optionsHeight = `${height > 200 ? 200 : height}px`;
-
+ const {t} = useTranslation();
   const checkedOptions = useMemo(() => {
     if(searchable && watch(searchName)) {
       return options.filter(option => option.label.toLowerCase().includes(convertLatinToCyril(watch(searchName)).toLowerCase()));
@@ -86,7 +87,7 @@ export const Dropdown = ({
               {
                 searchable
                   ? <div className={cls.inputWrap}>
-                    <input className={cls.input} {...register(searchName)} defaultValue={watch(searchName)} onInput={(e) => onSearchChange(e, searchName, index)} placeholder={inputPlaceholder} disabled={disabled} autoComplete="off" />
+                    <input className={cls.input} {...register(searchName)} defaultValue={watch(searchName)} onInput={(e) => onSearchChange(e, searchName, index)} placeholder={inputPlaceholder ? inputPlaceholder : t(inputPlaceholder)} disabled={disabled} autoComplete="off" />
                     <span className={cls.leftIcon}><SearchIcon /></span>
                     {
                       watch(searchName) && <span
@@ -118,12 +119,12 @@ export const Dropdown = ({
                               <CircleCloseIcon />
                             </button>
                           </span>)
-                          : <span className={cls.placeholder}>{placeholder}</span>
+                          : <span className={cls.placeholder}>{ placeholder ? placeholder: t(placeholder)}</span>
                         }
                       </div>
                       : (value?.label || !isNaN(defaultValueIndex))
                         ? <span className={cls.value}>{value?.label || options[defaultValueIndex]?.label}</span>
-                        : <span className={cls.placeholder}>{placeholder}</span>
+                        : <span className={cls.placeholder}>{placeholder ? placeholder: t(placeholder)}</span>
                     }
                     <span className={clsx(cls.arrow, { [cls.open]: isOpen })}>
                       {<SelectionArrow />}
