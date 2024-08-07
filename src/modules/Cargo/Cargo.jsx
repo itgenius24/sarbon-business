@@ -164,6 +164,7 @@ export const Cargo = observer(({ id, status, locale }) => {
         }
       </Container>
     </Box>
+    
     <Popup
       isOpen={addCargoProps.isPopupOpen}
       onClose={addCargoProps.handleCloseDeletePopup}
