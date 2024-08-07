@@ -85,12 +85,12 @@ export const Login = () => {
         {t("Войти")}
       </Button>
       <Box mt="32px" display="flex" justifyContent="center" columnGap="4px">
-        <Text fontSize="14px" color="brand.600" lineHeight="20px">
+        {/* <Text fontSize="14px" color="brand.600" lineHeight="20px">
           {t("У вас нет аккаунта?")}
-        </Text>
-        <Button variant="reset" onClick={navigateRegistration}>
+        </Text> */}
+        {/* <Button variant="reset" onClick={navigateRegistration}>
           {t("Зарегистрироваться")}
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );

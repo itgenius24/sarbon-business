@@ -124,19 +124,21 @@ const Header = observer(({ elements }) => {
                   {!isAuth && (
                     <>
                     <Link
-                        className={clsx(cls.loginLink)}
+                        // className={clsx(cls.loginLink)}
+                        className={clsx(cls.registerLink)}
+
                         title={t("Войти")}
                         href={`/${locale}/auth`}
                       >
                         {t("Войти")}
                       </Link>
-                      <Link
+                      {/* <Link
                         className={clsx(cls.registerLink)}
                         title={t("Зарегистрироваться")}
                         href={`/${locale}/auth/registration`}
                       >
                         {t("Зарегистрироваться")}
-                      </Link>
+                      </Link> */}
                  
                     </>
                   )}
@@ -183,20 +185,22 @@ const Header = observer(({ elements }) => {
                 <Flex>
 
                 <Link
-                    className={clsx(cls.loginLink,cls.registerLinkMobile2)}
+                    // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
+                    className={clsx(cls.registerLink, cls.registerLinkMobile)}
+
                     title={t("Войти")}
                     href={`/${locale}/auth`}
                   >
                     {t("Войти")}
                   </Link>
-                  <Link
+                  {/* <Link
                     className={clsx(cls.registerLink, cls.registerLinkMobile)}
                     title={t("Зарегистрироваться")}
                     href={`/${locale}/auth/registration`}
 
                   >
                     {t("Зарегистрироваться")}
-                  </Link>
+                  </Link> */}
                
                 </Flex>
               )}

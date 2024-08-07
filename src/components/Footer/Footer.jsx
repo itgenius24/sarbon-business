@@ -8,7 +8,7 @@ import GooglePlay from "@/assets/images/google-play.svg";
 import AppStore from "@/assets/images/app-store.svg";
 import GalaxyStore from "@/assets/images/galaxy-store.svg";
 import { Logo } from "../Logo";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -269,7 +269,17 @@ export const Footer = () => {
           </ul>
         </div>
         <div className={cls.footerBottom}>
-          <Logo width={32} height={32} />
+         <Flex alignItems={`center`} gap={2}>
+             <Logo width={32} height={32} />
+                <Link
+                    className={cls.link}
+                    title={t("Зарегистрироваться")}
+                    href={`/${locale}/auth/registration`}
+
+                  >
+                    {t("Зарегистрироваться")}
+                  </Link>
+         </Flex>
           <p className={cls.copyright}>{t("copyright")}</p>
         </div>
       </Container>
