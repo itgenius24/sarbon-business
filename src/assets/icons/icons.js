@@ -1475,4 +1475,5 @@ export const BatareyFullIcon = () => (
       fill="#007AFF"
     />
   </svg>
+  
 );
