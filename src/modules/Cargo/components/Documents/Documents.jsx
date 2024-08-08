@@ -10,7 +10,7 @@ export const Documents = () => {
 
   return (
     <Box p="24px" bgColor="baseWhite" borderRadius="12px" mb="16px">
-      <Heading fontSize="30px" lineHeight="38px" mb="20px">{t("Документация")}</Heading>
+    
       {documents.map((doc, idx, arr) => {
         if(!doc.value) return;
         const isLast = arr.length === (idx+1);

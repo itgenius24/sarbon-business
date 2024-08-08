@@ -99,7 +99,7 @@ export default function GpsTrackingModule() {
       </Container>
       {checked ? (
         <>
-          <Box className={cls.mapWrap} width={"80%"} margin={"0 auto"} height={"70vh"} position={"relative"}>
+          <Box className={cls.mapWrap} width={"80%"} margin={"0 auto"} mb={`29px`} height={"70vh"} position={"relative"}>
             <Box className={cls.mapInputsWrap}>
               <Box className={cls.accordionItem}>
                 <VStack
@@ -254,19 +254,6 @@ export default function GpsTrackingModule() {
                           placeholder={t("Введите тип имя")}
                           control={control}
                         />
-                        {/* <Dropdown
-                          placeholder={t("Введите тип имя")}
-                          // label={t("Тип кузова")}
-                          name="users_id"
-                          options={getUserNameOptions}
-                          errors={errors}
-                          width="100%"
-                          control={control}
-                          watch={watch}
-                          setValue={setValue}
-                          clearable
-                          // searchable={true}
-                        /> */}
                       </Box>
                       <Box className={cls.kuzov} width={"100%"}>
                         <ChakraSelect
@@ -275,19 +262,6 @@ export default function GpsTrackingModule() {
                           placeholder={t("Введите тип номер")}
                           control={control}
                         />
-                        {/* <Dropdown
-                          placeholder={t("Введите тип номер телефона ")}
-                          // label={t("Тип загрузки")}
-                          name="users_id2"
-                          options={getUserPhoneOptions}
-                          errors={errors}
-                          control={control}
-                          // searchable={true}
-
-                          watch={watch}
-                          setValue={setValue}
-                          clearable
-                        /> */}
                       </Box>
                     </Box>
                     <Button
@@ -301,22 +275,6 @@ export default function GpsTrackingModule() {
                   </Box>
                 </VStack>
               </Box>
-              {/* <Accordion defaultIndex={[0]} allowMultiple>
-                  <AccordionItem
-                    className={cls.accordionItem}
-                    backgroundColor={"white"}
-                    opacity={"0.9"}
-                  >
-                    <AccordionButton>
-
-                      <AccordionIcon />
-                    </AccordionButton>
-
-                    <AccordionPanel>
-
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion> */}
             </Box>
             <Map
               defaultState={{
@@ -324,7 +282,7 @@ export default function GpsTrackingModule() {
                 zoom: 6,
               }}
               width="100%"
-              height={"100%"}
+              height={"60v"}
               modules={["Placemark", "geocode", "control.SearchControl"]}
             >
               <TypeSelector
@@ -556,7 +514,7 @@ export default function GpsTrackingModule() {
                   </Box>
                   <Box className={cls.kuzov} width={"100%"}>
                     <Dropdown
-                      placeholder={t("Введите тип номер телефона ")}
+                      placeholder={t("Введите тип номер телефона")}
                       // label={t("Тип загрузки")}
                       name="users_id2"
                       options={getUserPhoneOptions}

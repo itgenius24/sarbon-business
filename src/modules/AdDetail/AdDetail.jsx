@@ -6,6 +6,7 @@ import { Box, Button, ButtonGroup, Flex, Text, useMediaQuery } from "@chakra-ui/
 import { useAdDetailProps } from "./useAdDetailProps";
 import { MainContentCard } from "@/components/MainContentCard";
 import { CustomTextarea } from "@/components/CustomTextarea";
+import { useTranslation } from "react-i18next";
 
 export const AdDetail = ({ id }) => {
   const {
@@ -22,11 +23,12 @@ export const AdDetail = ({ id }) => {
     handleSubmit,
     onSubmit,
     router,
+    disabled,
     statusOptions,
   } = useAdDetailProps({ id });
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
+ const {t} = useTranslation();
   return (
     <MainContentCard
       as="form"
@@ -41,9 +43,10 @@ export const AdDetail = ({ id }) => {
           fontSize="16px"
           onClick={() => router.push("/profile/my-ad")}
         >
-          Отмена
+          {t(`Отмена`)}
         </Button>
         <Button
+         isDisabled={disabled}
           type="submit"
           fontSize="16px"
           h="40px"
@@ -51,7 +54,7 @@ export const AdDetail = ({ id }) => {
           variant="solid"
         >
           {
-            id ? "Сохранить" : "Создать"
+            id ? t("Сохранить") : t("Создать")
           }
         </Button>
       </ButtonGroup>
@@ -60,34 +63,34 @@ export const AdDetail = ({ id }) => {
     >
       <Flex gap="24px" flexDirection={isLargerThan845 ? "row" : "column"}>
         <Dropdown
-          label="Выберите тип ТС"
+          label={t("Выберите тип ТС")}
           control={control}
           required
           register={register}
           watch={watch}
           name="vehicle_type_id"
-          placeholder="Выберите тип ТС"
+          placeholder={t("Выберите тип ТС")}
           options={TCOptions}
           errors={errors}
         />
         <TextField
-          placeholder="Марка"
+          placeholder={t("Марка")}
           register={register}
           errors={errors}
           name="name"
-          label="Информация о ТС"
+          label={t("Информация о ТС")}
           rules={rules}
         />
       </Flex>
       <Box mt="24px">
         <Dropdown
-          label="Выберите город, страну"
+          label={t("Выберите город, страну")}
           control={control}
           required
           register={register}
           watch={watch}
           name="address"
-          placeholder="Выберите город, страну"
+          placeholder={t("Выберите город, страну")}
           options={addressOptions}
           errors={errors}
         />
@@ -95,12 +98,12 @@ export const AdDetail = ({ id }) => {
       {
         id && <Box mt="24px">
           <Dropdown
-            label="Статус"
+            label={t("Статус")}
             control={control}
             register={register}
             watch={watch}
             name="status"
-            placeholder="Статус"
+            placeholder={t("Статус")}
             options={statusOptions}
           />
         </Box>
@@ -111,11 +114,11 @@ export const AdDetail = ({ id }) => {
           value={watch("desc")}
           watch={watch}
           withLimit
-          placeholder="Введите"
+          placeholder={t("Введите")}
           register={register}
           errors={errors}
           name="desc"
-          label="Описание"
+          label={t("Описание")}
           onChange={(e) => {
             const value = e.target.value;
             if(value.length <= 1000) {
@@ -140,13 +143,13 @@ export const AdDetail = ({ id }) => {
       </Box>
       <Flex gap="24px" mt="16px" flexDirection={isLargerThan845 ? "row" : "column"}>
         <TextFieldWithAddition
-          additionalItemLabel="Стоимость"
+          additionalItemLabel={t("Стоимость")}
           name="price"
           register={register}
           control={control}
           additionalItemName="currency_id"
           additionalItemDefaultIndex={0}
-          placeholder="Введите сумму"
+          placeholder={t("Введите сумму")}
           errors={errors}
           type="number"
           width="100%"
@@ -159,7 +162,7 @@ export const AdDetail = ({ id }) => {
           type="phone"
           errors={errors}
           name="contact"
-          label="Контакт"
+          label={t("Контакт")}
           rules={rules}
         />
       </Flex>

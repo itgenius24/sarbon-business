@@ -67,7 +67,7 @@ export const Login = () => {
           name="password"
           type={isPasswordVisible ? "text" : "password"}
           label={t("Пароль")}
-          placeholder={t("Введите свий пароль")}
+          placeholder={t("Введите свой пароль")}
           addonAfter={
             <button type="button" onClick={handleTogglePasswordVisibility}>
               {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
@@ -85,12 +85,12 @@ export const Login = () => {
         {t("Войти")}
       </Button>
       <Box mt="32px" display="flex" justifyContent="center" columnGap="4px">
-        <Text fontSize="14px" color="brand.600" lineHeight="20px">
+        {/* <Text fontSize="14px" color="brand.600" lineHeight="20px">
           {t("У вас нет аккаунта?")}
-        </Text>
-        <Button variant="reset" onClick={navigateRegistration}>
+        </Text> */}
+        {/* <Button variant="reset" onClick={navigateRegistration}>
           {t("Зарегистрироваться")}
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );

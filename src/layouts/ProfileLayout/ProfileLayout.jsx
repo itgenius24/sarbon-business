@@ -45,8 +45,8 @@ export const ProfileLayout = ({ children }) => {
         {
           (pathname === defaultPath || isLargerThan845) && <Box flexGrow={isLargerThan845 ? 0 : 1}>
             <Flex justifyContent={isLargerThan845 ? "flex-start" : "center"} gap={4} mb="16px">
-              <LeftHeaderCard title="Ваш ID:" value={data?.your_id} />
-              <LeftHeaderCard title="Баланс" value={data?.balance} />
+              <LeftHeaderCard title={t("Ваш ID:")} value={data?.your_id} />
+              <LeftHeaderCard title={t("Баланс")} value={data?.balance} />
             </Flex>
             <Flex justifyContent={isLargerThan845 ? "flex-start" : "center"}>
               <Navbar locale={locale} />

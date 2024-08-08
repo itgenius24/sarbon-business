@@ -3,13 +3,14 @@ import { useCreateAdMutation, useGetAddress, useGetCarById, useGetCarType, useGe
 import { fileUpload } from "@/services/fileUpload";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useAdDetailProps = ({ id }) => {
 
   const router = useRouter();
   const toast = useToast();
+  const [disabled,setDisabled] = useState(false);
 
   const userId = authStore.userData.id;
 
@@ -66,13 +67,17 @@ export const useAdDetailProps = ({ id }) => {
   const createAd = useCreateAdMutation({
     onSuccess(data) {
       displayFormSuccessInfo(data?.data?.name);
+      setDisabled(false);
       router.back();
+      
     },
   });
 
   const updateAd = useUpdateAdMutation({
     onSuccess(data) {
       displayFormSuccessInfo(data?.data?.name);
+      setDisabled(false);
+
       router.back();
     },
   });
@@ -98,7 +103,7 @@ export const useAdDetailProps = ({ id }) => {
         address_id: data.address.value,
       },
     };
-
+    setDisabled(true);
     if(id) {
       body.data.guid = id;
       body.data.status = [data.status?.value];
@@ -159,6 +164,7 @@ export const useAdDetailProps = ({ id }) => {
     setValue,
     register,
     TCOptions,
+    disabled,
     currencyOptions,
     handleImageUpload,
     rules,

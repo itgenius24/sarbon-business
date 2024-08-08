@@ -1,7 +1,7 @@
 import cls from "./styles.module.scss";
 import { DeleteIcon, PencilIcon, PlusIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text, useMediaQuery } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Text, useMediaQuery } from "@chakra-ui/react";
 import { CargoDetail } from "./components/CargoDetail";
 import { CargoSetup } from "./components/CargoSetup";
 import { Stages } from "./components/Stages";
@@ -116,8 +116,26 @@ export const Cargo = observer(({ id, status, locale }) => {
                 </Box>
               </Box>
             }
-            <CargoDetail />
-            <CargoSetup setIsPhotoChanged={addCargoProps.setIsPhotoChanged} />
+
+            {
+              status === "performed" ? <Accordion mt={4} allowToggle>
+                <AccordionItem className={cls.accordionItem}>
+                  <AccordionButton className={cls.accordionButton}>
+                    <Heading fontSize="24px" mb="10px">{t("Детали груза")}</Heading>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <CargoDetail />
+                    <CargoSetup setIsPhotoChanged={addCargoProps.setIsPhotoChanged} />
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>:<>
+                <CargoDetail />
+                <CargoSetup setIsPhotoChanged={addCargoProps.setIsPhotoChanged} />
+              </>
+            }
+
+
           </Box>
           {
             !isEditing && <Stages />
@@ -179,6 +197,7 @@ export const Cargo = observer(({ id, status, locale }) => {
       secondBtnCallback={addCargoProps.handleSubmit((data) => addCargoProps.onSubmit({ ...data, isTemp: true }))}
       isDisabled={!addCargoProps.watch("template_name")}
       secondBtnProps={{ isLoading: addCargoProps.loading }}
+      secondBtnText={t("Сохранить")}
     >
       <TextField
         register={addCargoProps.register}

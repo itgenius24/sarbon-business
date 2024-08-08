@@ -3,6 +3,7 @@ import { SkeletonComp } from "@/components/Skeleton";
 import { TopFilter } from "@/components/TopFilter";
 import { NoAdFound } from "../NoAdFound";
 import { CarItem } from "../CarItem";
+import { useTranslation } from "react-i18next";
 
 export const AdList = ({
   list,
@@ -15,7 +16,7 @@ export const AdList = ({
 }) => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
+ const {t} = useTranslation();
   return (
     <Box minH="250px">
       <TopFilter
@@ -40,7 +41,7 @@ export const AdList = ({
               ? <NoAdFound handleNoData={handleNoData} status={tabState} />
               : tabState !== "archive"
                 ? <Button onClick={handleNoData} type="button" maxW="320px" mt="24px">
-                    Добавить публикацию
+                    {t(`Добавить публикацию`)}
                 </Button>
                 : null
           }

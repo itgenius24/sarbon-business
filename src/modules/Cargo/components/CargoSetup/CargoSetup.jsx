@@ -8,6 +8,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { PaymentDetail } from "../PaymentDetail";
 import { Contacts } from "../Contacts";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 export const CargoSetup = ({ setIsPhotoChanged }) => {
 
@@ -23,7 +24,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
     setValue,
     canEdit
   } = userCargoSetupProps();
-
+  const {t} = useTranslation();
   const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
@@ -34,10 +35,10 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
     {
       watch("bargain") !== "request" && <>
         <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
-          <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">Ставка</Heading>
+          <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">{t(`Ставка`)}</Heading>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Предлагаемая сумма</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Предлагаемая сумма`)}</Heading>
             </Box>
             <TextFieldWithAddition
               disabled={!canEdit}
@@ -46,7 +47,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               control={control}
               additionalItemName="price_prepayment_unit"
               additionalItemDefaultIndex={0}
-              placeholder="Введите сумму"
+              placeholder={t("Введите сумму")}
               errors={errors}
               type="number"
               width="100%"
@@ -56,7 +57,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма предоплаты</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Сумма предоплаты`)}</Heading>
             </Box>
             <TextFieldWithAddition
               disabled={!canEdit}
@@ -65,7 +66,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               control={control}
               additionalItemName="price_prepayment_unit"
               additionalItemDefaultIndex={0}
-              placeholder="Введите сумму"
+              placeholder={t("Введите сумму")}
               errors={errors}
               type="number"
               width="100%"
@@ -75,7 +76,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Сумма после завершения заказа`)} </Heading>
             </Box>
             <TextFieldWithAddition
               disabled={!canEdit}
@@ -84,7 +85,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               control={control}
               additionalItemName="price_prepayment_unit"
               additionalItemDefaultIndex={0}
-              placeholder="Введите сумму"
+              placeholder={t("Введите сумму")}
               errors={errors}
               type="number"
               width="100%"
@@ -94,11 +95,11 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Тип оплаты</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Тип оплаты`)}</Heading>
             </Box>
             <Dropdown
               disabled={!canEdit}
-              placeholder="Выберите"
+              placeholder={t("Выберите")}
               options={paymentOptions}
               name="payment_type"
               control={control}
@@ -107,7 +108,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Встречные предложения</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Встречные предложения`)}</Heading>
             </Box>
           </Box>
         </Box>
@@ -159,9 +160,9 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               <UploadCloudIcon />
             </Box>
             <Box color="primaryText" textAlign="center">
-            Загрузить
+            {t(`Загрузить`)}
             </Box>
-            <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">Фото до 10 МБ.</Box>
+            <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">{t(`Фото до 10 МБ.`)}</Box>
           </Box>
         </Box>
 

@@ -7,6 +7,7 @@ import FileUpload from "@/components/FileUpload";
 import { SkeletonComp } from "@/components/Skeleton";
 import { useProfileInfoFormProps } from "./useProfileInfoFormProps";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   const {
@@ -17,7 +18,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
     isLoading,
     handleImageUpload
   } = useProfileInfoFormProps(setValue);
-
+  const {t} = useTranslation();
   if (isLoading) return <SkeletonComp/>;
 
   return (
@@ -39,7 +40,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           register={register}
           errors={errors}
           name="name"
-          label="Имя"
+          label={t("Имя")}
           rules={rules}
           defaultValue={full_name?.split(" ")?.[0]}
         />
@@ -47,7 +48,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           register={register}
           errors={errors}
           name="fName"
-          label="Фамилия"
+          label={t("Фамилия")}
           defaultValue={full_name?.split(" ")?.[1]}
         />
       </div>
@@ -59,7 +60,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           errors={errors}
           type="email"
           name="email"
-          label="Почта"
+          label={t("Почта")}
           rules={rules}
           defaultValue={email}
         />
@@ -68,7 +69,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
         <FileUpload
           defaultImg={UserImg}
           defaultValue={photo}
-          profilePlaceholder={<FileUploadPlaceholder />}
+          profilePlaceholder={<FileUploadPlaceholder t={t} />}
           variant="profile"
           name="photo"
           register={register}
@@ -81,16 +82,16 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   );
 };
 
-function FileUploadPlaceholder() {
+function FileUploadPlaceholder({t}) {
   return (
     <>
       <Box fontSize="14px" lineHeight="20px">
-        Нажмите, чтобы изменить фото{" "}
+        {t(`Нажмите, чтобы изменить фото`)}
         <Text as="span" color="brand.600">
-          или перетащите
+          {t(`или перетащите`)}
         </Text>
         <Text color="brand.600" fontSize="12px">
-          SVG, PNG, JPG or GIF (max. 800x400px)
+          {t(`SVG, PNG, JPG or GIF (max. 800x400px)`)}
         </Text>
       </Box>
     </>

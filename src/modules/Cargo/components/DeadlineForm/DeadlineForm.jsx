@@ -23,6 +23,7 @@ export const DeadlineForm = () => {
       <Box className={cls.dateInput} display="flex">
         <DatePicker
           minDate={new Date()}
+          placeholder={t("Выберите")}
           disabled={!canEdit}
           startDate={startDate}
           setStartDate={setStartDate}

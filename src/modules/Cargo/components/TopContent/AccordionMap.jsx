@@ -1,12 +1,11 @@
-import { Map,YMaps } from "@pbe/react-yandex-maps";
+import { Map, Polyline, YMaps } from "@pbe/react-yandex-maps";
 import { useEffect, useRef } from "react";
-
 
 export const AccordionMap = ({ startPoint, endPoint }) => {
   const map = useRef(null);
   const mapState = {
     center: [55.739625, 37.5412],
-    zoom: 10
+    zoom: 6,
   };
 
   const addRoute = (ymaps) => {
@@ -16,7 +15,7 @@ export const AccordionMap = ({ startPoint, endPoint }) => {
     const multiRoute = new ymaps.multiRouter.MultiRoute(
       {
         referencePoints: [pointA, pointB],
-        params: { routingMode: "pedestrian" }
+        params: { routingMode: "pedestrian" },
       },
       { boundsAutoApply: true }
     );
@@ -24,14 +23,29 @@ export const AccordionMap = ({ startPoint, endPoint }) => {
     map.current.geoObjects.add(multiRoute);
   };
 
-  return <YMaps query={{ apikey:"5f706e9b-f2ba-421c-a085-c08246bfecd3" }}>
-    <Map
-    width={`100%`}
-    height={`600px`}
-      modules={["multiRouter.MultiRoute"]}
-      state={mapState}
-      instanceRef={map}
-      onLoad={addRoute}
-    ></Map>
-  </YMaps>;
+  const polylineGeometry = [
+    [55.75, 37.57], // Coordinates of the first point
+    [55.76, 37.64], // Coordinates of the second point
+    [55.73, 37.67], // Coordinates of the third point, etc.
+  ];
+
+  const polylineOptions = {
+    strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline
+    strokeWidth: 4, // Width of the polyline
+    strokeOpacity: 1, // Opacity of the polyline
+  };
+  return (
+    <YMaps>
+      <Map
+        width={`100%`}
+        height={`600px`}
+        modules={["multiRouter.MultiRoute"]}
+        state={mapState}
+        instanceRef={map}
+        onLoad={addRoute}
+      >
+        <Polyline geometry={polylineGeometry} options={polylineOptions} />
+      </Map>
+    </YMaps>
+  );
 };

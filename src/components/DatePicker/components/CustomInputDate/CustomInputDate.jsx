@@ -1,6 +1,7 @@
 import { CloseIcon } from "@/assets/icons/icons";
 import cls from "./styles.module.scss";
 import { forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export const CustomInputDate = forwardRef(
   ({
@@ -10,6 +11,7 @@ export const CustomInputDate = forwardRef(
     cPlaceholder,
     disabled,
   }, ref) => {
+    const {t} = useTranslation();
     return (
       <button
         type="button"
@@ -43,7 +45,7 @@ export const CustomInputDate = forwardRef(
             </span>
           ) : (
             <span className={cls.placeholder}>
-              {cPlaceholder || "Выберите"}
+              {cPlaceholder || t("Выберите")}
             </span>
           )}
         </span>

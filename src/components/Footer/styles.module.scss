@@ -131,3 +131,11 @@
     font-size: 8px;
   }
 }
+
+.link{
+  opacity: 0;
+  &:hover{
+    opacity: 1;
+    color: white;
+  }
+}

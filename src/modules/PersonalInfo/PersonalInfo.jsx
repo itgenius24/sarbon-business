@@ -12,6 +12,7 @@ import { MainContentHeader } from "./components/MainContentHeader";
 import { ProfileInfoForm } from "./components/ProfileInfoForm";
 import { MainContentCard } from "@/components/MainContentCard";
 import { BackArrow } from "@/assets/icons/icons";
+import { useTranslation } from "react-i18next";
 
 export const PersonalInfo = () => {
 
@@ -24,6 +25,7 @@ export const PersonalInfo = () => {
     isPending,
     router,
   } = usePersonalInfoProps();
+  const {t} = useTranslation();
 
   return (
     <Box>
@@ -34,7 +36,7 @@ export const PersonalInfo = () => {
           </button>
         }
         <MainContentHeader
-          title="Личные данные"
+          title={t("Личные данные")}
         // subtitle="Обновите свою фотографию и личные данные."
         />
       </Box>
@@ -58,7 +60,7 @@ export const PersonalInfo = () => {
               borderColor="brand.300"
               fontSize={isLargerThan845 ? "16px" : "15px"}
             >
-              Отмена
+              {t(`Отмена`)}
             </Button>
             <Button
               isLoading={isPending}
@@ -68,7 +70,7 @@ export const PersonalInfo = () => {
               p="10px 16px"
               variant="solid"
             >
-              Сохранить
+              {t(`Сохранить`)}
             </Button>
           </ButtonGroup>
         }

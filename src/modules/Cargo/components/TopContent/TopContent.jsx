@@ -4,7 +4,11 @@ import { useTranslation } from "@/app/i18n/client";
 import { DataList } from "@/components/DataList";
 import { Rating } from "@/components/Rating";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetDriverLocation, useGetSortedGPSHistory } from "@/services/api";
+import {
+  useGetDriverLocation,
+  useGetSortedGPSHistory,
+  useGetWithLocation,
+} from "@/services/api";
 import {
   Accordion,
   AccordionButton,
@@ -14,19 +18,23 @@ import {
   Avatar,
   Box,
   Button,
+  Heading,
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useAddCargoContext } from "../../providers";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Documents } from "../Documents/Documents";
 import {
+  AndroidIcon,
   AppleIcon,
+  BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
   FurIcon,
+  LocationActiveIcon,
   LocationMobileIcon,
 } from "@/assets/icons/icons";
 import {
@@ -38,6 +46,8 @@ import {
   YMaps,
 } from "@pbe/react-yandex-maps";
 import { AccordionMap } from "./AccordionMap";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { format } from "date-fns";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -63,10 +73,12 @@ export const TopContent = ({
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
 
-  const [showNumber, setShowNumber] = useState(false);
-
+  const [userId, setUserId] = useState("");
+  const [userData, setUserData] = useState([]);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const paramsId = searchParams.get(`car_id`);
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -139,7 +151,7 @@ export const TopContent = ({
         getGPSHistory.mutate({
           data: {
             object_data: {
-              user_id: userId2,
+              user_id: userId,
               page,
               limit: 100,
             },
@@ -156,24 +168,41 @@ export const TopContent = ({
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
+  const { mutate: dataLocation, isPending } = useGetWithLocation({
+    onSuccess: (res) => {
+      setUserData(res?.response);
+    },
+  });
+  console.log("LoadingSpinner", isPending);
+  useEffect(() => {
+    if (paramsId) {
+      dataLocation({
+        data: {
+          object_data: {
+            cargo_id: paramsId,
+          },
+        },
+      });
+    }
+  }, [paramsId]);
   var myMap = useRef(null);
   var multiRoute = useRef(null);
   var myPolyline = useRef(null);
   var myPlaceMark = useRef(null);
 
   useEffect(() => {
-    if (status === "performed" && userId2) {
+    if (status === "performed" && userId) {
       getGPSHistory.mutate({
         data: {
           object_data: {
-            user_id: userId2,
+            user_id: userId,
             page,
             limit: 100,
           },
         },
       });
     }
-  }, [status, userId2, page]);
+  }, [status, userId, page]);
 
   // function initYmaps() {
   //   if (window?.ymaps) {
@@ -280,21 +309,7 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
-  const users = [
-    {
-      id: 1,
-      name: 'User 1',
-      startPoint: { lat: 55.751244, lng: 37.618423 },
-      endPoint: { lat: 55.759244, lng: 37.629423 },
-    },
-    {
-      id: 2,
-      name: 'User 2',
-      startPoint: { lat: 59.934280, lng: 30.335099 },
-      endPoint: { lat: 59.945280, lng: 30.345099 },
-    },
-    // Qo‘shimcha foydalanuvchilar
-  ];
+  console.log("dd", userData);
 
   return (
     <Box>
@@ -333,92 +348,135 @@ export const TopContent = ({
             )} */}
           </Box>
 
-          <Accordion>
-            {users.map((user, index) => {
-              return (
-                <>
-                  {" "}
-                  <AccordionItem key={index} className={cls.accordionItem}>
-                    <AccordionButton className={cls.accordionButton}>
-                      <div className={cls.userDataWarp}>
-                        <div className={cls.userWrap}>
-                          <Avatar
-                            color={"white"}
-                            name="Aердийев Сирожиддин"
-                            src=""
-                          />
-                          <div className={cls.user}>
-                            <p className={cls.userName}>Бердийев Сирожиддин</p>
-                            <p className={cls.userTel}>+998 93 0776161</p>
-                          </div>
-                        </div>
-
-                        <div className={cls.phoneDataWrap}>
-                          <div className={cls.item}>
-                            <LocationMobileIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Геолокация</p>
-                              <p className={cls.phoneItemName}>
-                                Выкл{" "}
-                                <span className={cls.phoneItemTitle}>
-                                  {" "}
-                                  24 июня, 09:26
-                                </span>
+          {isPending ? (
+            <LoadingSpinner />
+          ) : (
+            <Accordion allowToggle>
+              {userData.map((user, index) => {
+                return (
+                  <>
+                    <AccordionItem key={index} className={cls.accordionItem}>
+                      <AccordionButton
+                        onClick={() => setUserId(user?.users_id)}
+                        className={cls.accordionButton}
+                      >
+                        <div className={cls.userDataWarp}>
+                          <div className={cls.userWrap}>
+                            <Avatar
+                              color={"white"}
+                              name={user?.users_id_data?.full_name}
+                              src={user?.users_id_data?.photo}
+                            />
+                            <div className={cls.user}>
+                              <p className={cls.userName}>
+                                {user?.users_id_data?.full_name}
+                              </p>
+                              <p className={cls.userTel}>
+                                {user?.users_id_data?.phone}
                               </p>
                             </div>
                           </div>
-                          <div className={cls.item}>
-                            <AppleIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Смартфон</p>
-                              <p className={cls.phoneItemName}>iOS 17.5 </p>
+
+                          <div className={cls.phoneDataWrap}>
+                            <div className={cls.item}>
+                              {user.gps ? (
+                                <LocationActiveIcon />
+                              ) : (
+                                <LocationMobileIcon />
+                              )}
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>Геолокация</p>
+                                <p className={cls.phoneItemName}>
+                                  {user.gps ? "Выкл " : "Откл "}
+                                  <span className={cls.phoneItemTitle}>
+                                    {format(
+                                      user?.update_time,
+                                      "dd MMMM HH:HH "
+                                    )}
+                                  </span>
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          <div className={cls.item}>
-                            <FurIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Версия Furgo</p>
-                              <p className={cls.phoneItemName}>1.1.9 </p>
+                            <div className={cls.item}>
+                              {user?.os === "android" ? (
+                                <AndroidIcon />
+                              ) : (
+                                <AppleIcon />
+                              )}
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>Смартфон</p>
+                                <p className={cls.phoneItemName}>{user?.os} </p>
+                              </div>
                             </div>
-                          </div>
-                          <div className={cls.item}>
+                            <div className={cls.item}>
+                              <FurIcon />
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>
+                                  Версия Furgo
+                                </p>
+                                <p className={cls.phoneItemName}>
+                                  {user?.version}{" "}
+                                </p>
+                              </div>
+                            </div>
+                            {/* <div className={cls.item}>
                             <BluetoothIcon />
                             <div className={cls.itemText}>
                               <p className={cls.phoneItemTitle}>Bluetooth</p>
                               <p className={cls.phoneItemName}>Выкл </p>
                             </div>
-                          </div>
-                          <div className={cls.item}>
-                            <BatareyIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Батарея</p>
-                              <p className={cls.phoneItemName}>19% </p>
+                          </div> */}
+                            <div className={cls.item}>
+                              {user.battery > 19 ? (
+                                <BatareyFullIcon />
+                              ) : (
+                                <BatareyIcon />
+                              )}
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>Батарея</p>
+                                <p className={cls.phoneItemName}>
+                                  {user.battery}%{" "}
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <AccordionIcon />
-                    </AccordionButton>
+                        <AccordionIcon />
+                      </AccordionButton>
 
-                    <AccordionPanel>
-                      <YMaps>
-                        <AccordionMap  startPoint={user.startPoint} endPoint={user.endPoint} />
-                      </YMaps>
-                    </AccordionPanel>
-                  </AccordionItem>
-                </>
-              );
-            })}
-          </Accordion>
+                      <AccordionPanel>
+                        <YMaps>
+                          <AccordionMap
+                            startPoint={user.startPoint}
+                            endPoint={user.endPoint}
+                          />
+                        </YMaps>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </>
+                );
+              })}
+            </Accordion>
+          )}
         </>
       )}
 
       {status === "performed" && (
-        <Documents
-          handleUploadDocument={handleUploadDocument}
-          getEmptyFileName={getEmptyFileName}
-          getValues={getValues}
-        />
+        <Accordion mt={4} allowToggle>
+          <AccordionItem  className={cls.accordionItem}>
+          <AccordionButton  className={cls.accordionButton}>
+          <Heading fontSize="24px"   mb="10px">{t("Документация")}</Heading>
+          <AccordionIcon />
+          </AccordionButton>
+            <AccordionPanel>
+            <Documents
+              handleUploadDocument={handleUploadDocument}
+              getEmptyFileName={getEmptyFileName}
+              getValues={getValues}
+            />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       )}
     </Box>
   );

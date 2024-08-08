@@ -11,7 +11,6 @@ import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
 
 export const MyLoadsMain = () => {
-
   const {
     cargos,
     onFilterChange,
@@ -31,12 +30,17 @@ export const MyLoadsMain = () => {
 
   const { t } = useTranslation(locale, "translations");
 
-  console.log("orderStatus",orderStatus);
+  console.log("orderStatus", orderStatus);
 
   return (
-    <Box px={"20px"} py="24px" >
-      <Container >
-        <Heading p={3} fontSize={isLargerThan768 ? "30px" : "22px"} size="md" mb="24px">
+    <Box px={"20px"} py="24px">
+      <Container>
+        <Heading
+          p={3}
+          fontSize={isLargerThan768 ? "30px" : "22px"}
+          size="md"
+          mb="24px"
+        >
           {t("Мои грузы")}
         </Heading>
         <TopFilter
@@ -46,16 +50,17 @@ export const MyLoadsMain = () => {
           filterList={filterTabs}
         />
         <Box display="flex" flexDirection="column" rowGap="16px">
-
-
-          {
-            orderStatus == "performed" ? <>
-             
-             <Performed />
-             <Performed />
+          {orderStatus == "performed" ? (
+            <>
+              {cargos?.length > 0 &&
+                cargos?.map((cargo, index) => {
+                  return <Performed key={index} cargo={cargo} />;
+                })}
             </>
-            : cargos?.length > 0 && cargos?.map((cargo, index) => {
-              if(index === cargos.length -1) {
+          ) : (
+            cargos?.length > 0 &&
+            cargos?.map((cargo, index) => {
+              if (index === cargos.length - 1) {
                 return (
                   <LoadsCard
                     ref={ref}
@@ -82,13 +87,9 @@ export const MyLoadsMain = () => {
                 );
               }
             })
-          }
-          {
-            (!cargos?.length && !isLoading) && <Empty t={t} />
-          }
-          {
-            isLoading && <LoadingSpinner />
-          }
+          )}
+          {!cargos?.length && !isLoading && <Empty t={t} />}
+          {isLoading && <LoadingSpinner />}
         </Box>
       </Container>
     </Box>

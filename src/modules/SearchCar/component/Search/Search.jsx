@@ -4,6 +4,7 @@ import { DropdownWrapper } from "@/components/DropdownWrapper";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 
 import { Box, Button, Heading, SimpleGrid, VStack, useMediaQuery } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 export const Search = (props={}) => {
   const {
@@ -21,6 +22,7 @@ export const Search = (props={}) => {
   } = props;
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  const {t} = useTranslation();
 
   return (
     <Box as="article" borderRadius="12px" padding={isLargerThan845 ? "24px" : "10px"} bgColor="baseWhite">
@@ -31,17 +33,18 @@ export const Search = (props={}) => {
         spacing={isLargerThan845 ? "24px" : "12px"}
       >
         <>
-          <Heading size="sm" fontSize={isLargerThan845 ? "20px" : "16px"}>Детали маршрута</Heading>
+          <Heading size="sm" fontSize={isLargerThan845 ? "20px" : "16px"}>{t("Детали маршрута")}</Heading>
           <SimpleGrid columns={isLargerThan845 ? [2, null, 3] : [1, null, 2]} spacing={isLargerThan845 ? "24px" : "12px"}>
             <DropdownWrapper
               searchable
-              label="Откуда"
+              label={t("Откуда")}
               control={control}
               // required
               register={register}
               watch={watch}
               name="from"
-              placeholder="Выберите город, страну"
+              placeholder={t("Выберите город, страну")}
+              inputPlaceholder={t("Выберите город, страну")}
               // options={getAddressOptions}
               searchName="from_search"
               errors={errors}
@@ -49,21 +52,23 @@ export const Search = (props={}) => {
             />
             <DropdownWrapper
               searchable
-              label="Куда"
+              label={t("Куда")}
               control={control}
               // required
               register={register}
               watch={watch}
               name="to"
-              placeholder="Выберите город, страну"
+              placeholder={t("Выберите город, страну")}
+              inputPlaceholder={t("Выберите город, страну")}
+
               searchName="to_search"
               // options={getAddressOptions}
               errors={errors}
               setValue={setValue}
             />
             <DatePicker
-              label="Дата"
-              placeholder="Выберите дату"
+              label={t("Дата")}
+              placeholder={t("Выберите дату")}
               startDate={startDate}
               setStartDate={setStartDate}
               isClearable
@@ -71,7 +76,7 @@ export const Search = (props={}) => {
           </SimpleGrid>
         </>
         <>
-          <Heading size="sm" fontSize={isLargerThan845 ? "20px" : "16px"}>Параметры машин</Heading>
+          <Heading size="sm" fontSize={isLargerThan845 ? "20px" : "16px"}>{t("Параметры машин")}</Heading>
           <Box display="flex" flexDirection={isLargerThan845 ? "row" : "column"} columnGap={isLargerThan845 ? "24px" : "0"} rowGap={isLargerThan845 ? "0" : "12px"}>
             <TextFieldWithAddition
               errors={errors}
@@ -80,7 +85,7 @@ export const Search = (props={}) => {
               register={register}
               additionalItemName="weight_unit"
               width={isLargerThan845 ? "224px" : "100%"}
-              placeholder="Вес"
+              placeholder={t("Вес")}
               additionalItemPlaceholder="T"
               type="number"
             />
@@ -90,7 +95,7 @@ export const Search = (props={}) => {
               name="volume_measurement"
               register={register}
               width={isLargerThan845 ? "224px" : "100%"}
-              placeholder="Объем"
+              placeholder={t("Объем")}
               additionalItemPlaceholder={
                 <span>
                   м<sup>3</sup>
@@ -104,7 +109,9 @@ export const Search = (props={}) => {
         </>
         <>
           <Button isLoading={isPending} type="submit" maxW={isLargerThan845 ? "180px" : "100%"}>
-            Найти машину
+           {t(
+            "Найти машину"
+           )}
           </Button>
         </>
       </VStack>

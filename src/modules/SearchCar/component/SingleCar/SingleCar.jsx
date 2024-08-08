@@ -28,15 +28,16 @@ import {
   useGetVehicle,
   useOfferFromCustomerMutation,
 } from "@/services/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rating } from "@/components/Rating";
 import { Popup } from "@/components/Popup";
 import Link from "next/link";
 import clsx from "clsx";
 import { useGetLang } from "@/hooks/useGetLang";
-import { Placemark } from "@pbe/react-yandex-maps";
+import { Placemark,map } from "@pbe/react-yandex-maps";
 import { UseIcon, loadIcon } from "@/assets/icons/icons";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export const SingleCar = ({
   carInfo,
@@ -54,12 +55,12 @@ export const SingleCar = ({
   isMap = false,
 }) => {
   const locale = useGetLang();
-
+ const {t} = useTranslation();
   const userId = authStore.userData.id;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [phoneBtnText, setPhoneBtnText] = useState("Показать номер");
+  const [phoneBtnText, setPhoneBtnText] = useState(t("Показать номер"));
 
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
@@ -74,20 +75,20 @@ export const SingleCar = ({
     ? infoList(carInfo)
     : [
       {
-        title: "Транспорт",
-        value: carInfo?.short_name || "Нет данных",
+        title: t("Транспорт"),
+        value: carInfo?.short_name || t("Нет данных"),
       },
       {
-        title: "Разрешение:",
-        value: address[carInfo?.users_id_data?.adr] || "Нет данных",
+        title: t("Разрешение:"),
+        value: address[carInfo?.users_id_data?.adr] || t("Нет данных"),
       },
       {
-        title: "Детали:",
+        title: t("Детали:"),
         value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
       },
       {
-        title: "Дата загрузки:",
-        value: carInfo?.date || "Нет данных",
+        title: t("Дата загрузки:"),
+        value: carInfo?.date || t("Нет данных"),
       },
     ];
 
@@ -136,6 +137,28 @@ export const SingleCar = ({
 
   const handlePlacemarkClick = (map, location) => {
     map.setCenter(location, 15); // 15 darajadagi zoom
+  };
+  function refreshMap() {
+
+    map.setBounds(map.getBounds()); // Refresh map bounds to ensure all elements are visible
+}
+
+
+  useEffect(() => {
+
+  window.addEventListener('scroll', refreshMap);
+  },[window.scroll]);
+
+
+  const handleMouseEnter = (e) => {
+    console.log("eee",e);
+    const placemark = e.get('target');
+    placemark.balloon.open();
+  };
+
+  const handleMouseLeave = (e) => {
+    const placemark = e.get('target');
+    placemark.balloon.close();
   };
 
   function handleOffer(id) {
@@ -220,13 +243,13 @@ export const SingleCar = ({
             </div>
             {showDistance && (
               <div className={cls.distance}>
-                {carInfo?.differance?.toFixed(2)} км от адреса
+                {carInfo?.differance?.toFixed(2)} {t(`км от адреса`)}
               </div>
             )}
           </div>
           <Box borderBottom="1px solid" borderColor="brand.200">
             {additionalData && (
-              <Box my="5px">Водитель: {carInfo?.users_id_data?.full_name}</Box>
+              <Box my="5px">{t(`Водитель:`)} {carInfo?.users_id_data?.full_name}</Box>
             )}
             {dataAccordion ? (
               <Accordion allowMultiple>
@@ -244,7 +267,7 @@ export const SingleCar = ({
                         display="flex"
                         justifyContent="space-between"
                       >
-                        <span>Дополнительная информация</span>
+                        <span>{t(`Дополнительная информация`)}</span>
                         {/* <span>{newListDraggable()?.length}</span> */}
                       </Box>
                       <AccordionIcon />
@@ -267,7 +290,7 @@ export const SingleCar = ({
               width="278px"
               color="primary"
             >
-              Предложить груз
+              {t(`Предложить груз`)}
             </Button>
             {!phoneBtn ? null : (
               <Button
@@ -283,7 +306,7 @@ export const SingleCar = ({
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>
-                <Heading size="sm">Выберите груз</Heading>
+                <Heading size="sm">{t(`Выберите груз`)}</Heading>
                 <ModalCloseButton />
               </ModalHeader>
               <ModalBody p="20px">
@@ -391,10 +414,10 @@ export const SingleCar = ({
                       gap={"30px"}
                     >
                       <Text color={"blackAlpha.400"} fontSize={"18px"}>
-                        У вас нет существующих грузов
+                        {t(`У вас нет существующих грузов`)}
                       </Text>
                       <Link href={"/add-cargo"} variant={"outline"}>
-                        Добавить груз
+                        {t(`Добавить груз`)}
                       </Link>
                     </Flex>
                   )
@@ -410,8 +433,8 @@ export const SingleCar = ({
             isOpen={isPopupOpen}
             onClose={handleClosePopup}
             status="success"
-            mainText="Успешно предложен"
-            subText="Груз успешно предложен водителю"
+            mainText={t("Успешно предложен")}
+            subText={t("Груз успешно предложен водителю")}
             hideButtons
           />
         </div>
@@ -429,7 +452,7 @@ export const SingleCar = ({
          `   <p>
               ${carInfo?.users_id_data?.full_name || ""}
               ${carInfo?.users_id_data?.phone || ""}
-              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps || ""}
+              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps ? "on"  : "off"|| ""}
             </p>`
           }}
           options={{
@@ -439,12 +462,14 @@ export const SingleCar = ({
             iconImageSize: [40, 52],
             iconImageOffset: [-15, -42],
           }}
-          onClick={(e) =>
-            handlePlacemarkClick(e.get("target").getMap(), [
-              carInfo?.lat,
-              carInfo?.long,
-            ])
-          }
+          // onClick={(e) =>
+          //   handlePlacemarkClick(e.get("target").getMap(), [
+          //     carInfo?.lat,
+          //     carInfo?.long,
+          //   ])
+          // }
+          onMouseEnter={handleMouseEnter}
+          // onMouseLeave={handleMouseLeave}
         />
       </>
     );

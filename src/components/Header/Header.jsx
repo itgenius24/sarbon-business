@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
-import { Box, Button, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Box, Button, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
@@ -59,27 +59,9 @@ const Header = observer(({ elements }) => {
         <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
-              {/* <Logo /> */}
+              <Logo />
             </Box>
-            {!isAuth && (
-              <>
-                <Link
-                  className={clsx(cls.registerLink, cls.registerLinkMobile)}
-                  title={t("Зарегистрироваться")}
-                  href={`/${locale}/auth/registration`}
 
-                >
-                  {t("Зарегистрироваться")}
-                </Link>
-                <Link
-                  className={clsx(cls.registerLink, cls.registerLinkMobile)}
-                  title={t("Войти")}
-                  href={`/${locale}/auth`}
-                >
-                  {t("Войти")}
-                </Link>
-              </>
-            )}
             <Box className={cls.content}>
               <UnorderedList className={cls.list}>
                 {elements?.map((element, index) => {
@@ -130,9 +112,7 @@ const Header = observer(({ elements }) => {
                     <Link
                       onClick={() => setNavOpen(false)}
                       href={`/${locale}/profile`}
-                      className={clsx(cls.itemLink, {
-                        [cls.activeLink]: pathname === `/${locale}/profile`,
-                      })}
+                      className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
                     >
                       {t("Профиль")}
                     </Link>
@@ -143,20 +123,23 @@ const Header = observer(({ elements }) => {
                 <Box className={cls.buttonBox}>
                   {!isAuth && (
                     <>
-                      <Link
+                    <Link
+                        // className={clsx(cls.loginLink)}
                         className={clsx(cls.registerLink)}
-                        title={t("Зарегистрироваться")}
-                        href={`/${locale}/auth/registration`}
-                      >
-                        {t("Зарегистрироваться")}
-                      </Link>
-                      <Link
-                        className={clsx(cls.registerLink)}
+
                         title={t("Войти")}
                         href={`/${locale}/auth`}
                       >
                         {t("Войти")}
                       </Link>
+                      {/* <Link
+                        className={clsx(cls.registerLink)}
+                        title={t("Зарегистрироваться")}
+                        href={`/${locale}/auth/registration`}
+                      >
+                        {t("Зарегистрироваться")}
+                      </Link> */}
+                 
                     </>
                   )}
                   <Box className={cls.localeBox} display="flex" columnGap="4px">
@@ -178,8 +161,8 @@ const Header = observer(({ elements }) => {
                               ? UserImg
                               : !photo?.includes("http")
                               ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
-                                  photo || ""
-                                }`
+                                photo || ""
+                              }`
                               : UserImg
                           }
                           alt="ww"
@@ -197,32 +180,57 @@ const Header = observer(({ elements }) => {
                 </Box>
               </Box>
             </Box>
-            <button className={cls.burgerBtn} onClick={handleToggleNav}>
-              <svg id="hamburger" viewBox="0 0 60 40">
-                <g
-                  stroke="#70707B"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path
-                    className={cls.topLine}
-                    id="top-line"
-                    d="M10,10 L50,10 Z"
-                  ></path>
-                  <path
-                    className={cls.middleLine}
-                    id="middle-line"
-                    d="M10,20 L50,20 Z"
-                  ></path>
-                  <path
-                    className={cls.bottomLine}
-                    id="bottom-line"
-                    d="M10,30 L50,30 Z"
-                  ></path>
-                </g>
-              </svg>
-            </button>
+            <Flex alignItems="center">
+              {!isAuth && (
+                <Flex>
+
+                <Link
+                    // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
+                    className={clsx(cls.registerLink, cls.registerLinkMobile)}
+
+                    title={t("Войти")}
+                    href={`/${locale}/auth`}
+                  >
+                    {t("Войти")}
+                  </Link>
+                  {/* <Link
+                    className={clsx(cls.registerLink, cls.registerLinkMobile)}
+                    title={t("Зарегистрироваться")}
+                    href={`/${locale}/auth/registration`}
+
+                  >
+                    {t("Зарегистрироваться")}
+                  </Link> */}
+               
+                </Flex>
+              )}
+              <button className={cls.burgerBtn} onClick={handleToggleNav}>
+                <svg id="hamburger" viewBox="0 0 60 40">
+                  <g
+                    stroke="#70707B"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path
+                      className={cls.topLine}
+                      id="top-line"
+                      d="M10,10 L50,10 Z"
+                    ></path>
+                    <path
+                      className={cls.middleLine}
+                      id="middle-line"
+                      d="M10,20 L50,20 Z"
+                    ></path>
+                    <path
+                      className={cls.bottomLine}
+                      id="bottom-line"
+                      d="M10,30 L50,30 Z"
+                    ></path>
+                  </g>
+                </svg>
+              </button>
+            </Flex>
           </Box>
         </Box>
       </Container>

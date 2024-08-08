@@ -2,48 +2,63 @@ import { ArrowNextIcon, MapIcon } from "@/assets/icons/icons";
 import styles from "./style.module.scss";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "react-i18next";
+import { format } from "date-fns";
 
-export const Performed = () => {
-  const router  = useRouter();
+export const Performed = ({ cargo }) => {
+  const { t } = useTranslation();
+  console.log(`cargo`, cargo);
+  const router = useRouter();
   const locale = useGetLang();
-  return(
+  const performedStatuses = {
+    no_status: t("нет статуса"),
+    go_to_load: t("иду на загрузку"),
+    wait_for_the_download: t("жду загрузку"),
+    loading: t("загружаюсь"),
+    go_to_unload: t("иду на разгрузку"),
+    unloading: t("разгружаюсь"),
+    unloaded: t("разгрузился"),
+    complete_the_order: t("завершить заказ"),
+    breaking: t("Поломка"),
+    road_accident: t("ДТП"),
+    in_active: t("неактивен"),
+  };
+  return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
         <div className={styles.performedXeader}>
           <div className={styles.leftContend}>
             <div className={styles.text}>
-              <h3>
-                         Екатеринбург
-              </h3>
+              <h3>{cargo?.city_id_data?.name}</h3>
               <p>
-                     RUS <span>/ 18 июля</span>
+                {cargo?.address_id_data?.name}
+                <span> { format(cargo?.load_time,"MMMM dd") }</span>
               </p>
             </div>
             <ArrowNextIcon />
             <div className={styles.text}>
-              <h3>
-                     Таш. область
-              </h3>
+              <h3>{cargo?.city_id_2_data?.name}</h3>
               <p>
-                     UZB <span>/ 29 июля (через 9 дней)</span>
+                {cargo?.address_id_2_data?.name}
+
+                <span> {format(cargo?.date,"MMMM dd")}</span>
               </p>
             </div>
           </div>
           <div className={styles.rightContend}>
             <div className={styles.text}>
               <p className={styles.rightTitle}>
-                Тип оплаты: Перечисление
+                {/* Тип оплаты: Перечисление */}
               </p>
               <p className={styles.rightTitle}>
-                Предоплата: Нет
+                Предоплата:{" "}
+                {cargo?.requirements[0] === "no_prepayment" ? `Нет` : `Да`}
               </p>
             </div>
             <div className={styles.text}>
-              <p className={styles.rightTitle}>
-                Общая сумма
-              </p>
+              <p className={styles.rightTitle}>Общая сумма</p>
               <p className={styles.totalSum}>
-                3600 EUR
+                {cargo?.bid_amount || 0} {cargo?.currency_id_data?.code}
               </p>
             </div>
           </div>
@@ -53,67 +68,67 @@ export const Performed = () => {
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Водитель</span>
               <p className={styles.cardName}>
-               Зафарбек Мухамадов +3
+                {cargo?.users_id_2_data?.full_name} +3
               </p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Телефон</span>
-              <p className={styles.cardName}>
-               +998 93 0776161
-              </p>
+              <p className={styles.cardName}>{cargo?.users_id_2_data?.phone}</p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Статус</span>
               <p className={styles.cardName}>
-                  Все идет по плану  <span className={styles.cardNameDate}> (Сегодня, 12:36)</span>
+                {performedStatuses[cargo?.indicate_status[0]]}
+                {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
               </p>
             </div>
-
           </div>
           <div className={styles.card}>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Товары</span>
               <p className={styles.cardName}>
-               Стройматериалы, Трубы
+                {cargo?.cargo_type_id_data?.name}
               </p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Транспорт</span>
               <p className={styles.cardName}>
-               Тентованный
+                {cargo?.vehicle_type_id_data?.name}
               </p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Вес, объём</span>
               <p className={styles.cardName}>
-               22т / 56 m³
+                {cargo?.weight}
+                {cargo?.measurement_id_data?.Symbol} / {cargo?.volume_m3} m³
               </p>
             </div>
-
           </div>
           <div className={styles.cardFooter}>
             <div className={styles.cardFooterLeft}>
               <div className={styles.cardItem}>
                 <span className={styles.cardBodyTitle}>Пройдено</span>
                 <p className={styles.cardName}>
-                  <span>1357 км </span> / 2380км
+                  <span>1357 км </span> / {cargo?.distance} км
                 </p>
               </div>
-              <div className={styles.btn}  
-               
-               onClick={() => router.push(`/${locale}/my-loads/performed/4dcaab11-e749-48fd-8a0b-0821d0d3e5fb?isFirst=true`)}
-              
+              <div
+                className={styles.btn}
+                onClick={() =>
+                  router.push(
+                    `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                  )
+                }
               >
-                <MapIcon />  Показать на карте
+                <MapIcon /> Показать на карте
               </div>
             </div>
-      <div className={styles.rightContend}>
-      <span className={styles.cardBodyTitle}>Пройдено</span>
-      <p className={styles.date}>23 июня, 12:36</p>
-      </div>
+            <div className={styles.rightContend}>
+              {/* <span className={styles.cardBodyTitle}>Пройдено</span> */}
+              {/* <p className={styles.date}>23 июня, 12:36</p> */}
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );
