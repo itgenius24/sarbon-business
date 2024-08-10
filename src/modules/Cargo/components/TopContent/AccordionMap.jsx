@@ -1,11 +1,14 @@
-import { Map, Polyline, YMaps } from "@pbe/react-yandex-maps";
+import { LoadSvgIcon } from "@/assets/icons/icons";
+import { Map, Placemark, Polyline, YMaps } from "@pbe/react-yandex-maps";
+
 import { useEffect, useRef } from "react";
 
-export const AccordionMap = ({ startPoint, endPoint }) => {
+export const AccordionMap = ({ startPoint, endPoint,gpsHistory }) => {
+  console.log("gpsHistory",gpsHistory);
   const map = useRef(null);
   const mapState = {
-    center: [55.739625, 37.5412],
-    zoom: 6,
+    center: gpsHistory.length > 1 ? gpsHistory[0] :  [41.3405737, 69.2928081],
+    zoom: 11,
   };
 
   const addRoute = (ymaps) => {
@@ -31,7 +34,7 @@ export const AccordionMap = ({ startPoint, endPoint }) => {
 
   const polylineOptions = {
     strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline
-    strokeWidth: 4, // Width of the polyline
+    strokeWidth: 6, // Width of the polyline
     strokeOpacity: 1, // Opacity of the polyline
   };
   return (
@@ -44,7 +47,19 @@ export const AccordionMap = ({ startPoint, endPoint }) => {
         instanceRef={map}
         onLoad={addRoute}
       >
-        <Polyline geometry={polylineGeometry} options={polylineOptions} />
+        <Polyline geometry={gpsHistory} options={polylineOptions} />
+       {
+        gpsHistory.length > 0 &&    <Placemark 
+             geometry={gpsHistory.length > 1 ? gpsHistory[0] : []}
+           options={{
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(LoadSvgIcon),
+            iconImageSize: [60, 72],
+            iconImageOffset: [-15, -42],
+          }}
+         /> 
+       }
       </Map>
     </YMaps>
   );

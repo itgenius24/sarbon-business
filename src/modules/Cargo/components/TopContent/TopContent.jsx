@@ -49,8 +49,6 @@ import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 
-/* eslint no-undef: 0 */ // --> OFF
-
 export const TopContent = ({
   address1,
   address2,
@@ -78,7 +76,7 @@ export const TopContent = ({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const paramsId = searchParams.get(`car_id`);
+  const paramsId = searchParams.get("car_id");
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -161,6 +159,7 @@ export const TopContent = ({
     },
   });
 
+
   const driverPosition = [
     getDriverLocation.data?.response?.[0]?.lat,
     getDriverLocation.data?.response?.[0]?.long,
@@ -176,13 +175,7 @@ export const TopContent = ({
   console.log("LoadingSpinner", isPending);
   useEffect(() => {
     if (paramsId) {
-      dataLocation({
-        data: {
-          object_data: {
-            cargo_id: paramsId,
-          },
-        },
-      });
+      dataLocation({ data: { object_data: { cargo_id: paramsId, }, }, });
     }
   }, [paramsId]);
   var myMap = useRef(null);
@@ -192,15 +185,18 @@ export const TopContent = ({
 
   useEffect(() => {
     if (status === "performed" && userId) {
+
       getGPSHistory.mutate({
         data: {
           object_data: {
             user_id: userId,
             page,
-            limit: 100,
+            limit: 500,
           },
         },
       });
+
+
     }
   }, [status, userId, page]);
 
@@ -357,7 +353,10 @@ export const TopContent = ({
                   <>
                     <AccordionItem key={index} className={cls.accordionItem}>
                       <AccordionButton
-                        onClick={() => setUserId(user?.users_id)}
+                        onClick={() => {
+                          setUserId(user?.users_id);
+                          setGpsHistory([]);
+                        }}
                         className={cls.accordionButton}
                       >
                         <div className={cls.userDataWarp}>
@@ -445,12 +444,18 @@ export const TopContent = ({
                       </AccordionButton>
 
                       <AccordionPanel>
-                        <YMaps>
+                        {
+                        getGPSHistory.isPending ? <Box height={"600px"}>
+                          <LoadingSpinner />
+                        </Box> :<YMaps>
                           <AccordionMap
                             startPoint={user.startPoint}
                             endPoint={user.endPoint}
+                            gpsHistory={gpsHistory}
                           />
                         </YMaps>
+                        }
+
                       </AccordionPanel>
                     </AccordionItem>
                   </>
@@ -463,17 +468,19 @@ export const TopContent = ({
 
       {status === "performed" && (
         <Accordion mt={4} allowToggle>
-          <AccordionItem  className={cls.accordionItem}>
-          <AccordionButton  className={cls.accordionButton}>
-          <Heading fontSize="24px"   mb="10px">{t("Документация")}</Heading>
-          <AccordionIcon />
-          </AccordionButton>
+          <AccordionItem className={cls.accordionItem}>
+            <AccordionButton className={cls.accordionButton}>
+              <Heading fontSize="24px" mb="10px">
+                {t("Документация")}
+              </Heading>
+              <AccordionIcon />
+            </AccordionButton>
             <AccordionPanel>
-            <Documents
-              handleUploadDocument={handleUploadDocument}
-              getEmptyFileName={getEmptyFileName}
-              getValues={getValues}
-            />
+              <Documents
+                handleUploadDocument={handleUploadDocument}
+                getEmptyFileName={getEmptyFileName}
+                getValues={getValues}
+              />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

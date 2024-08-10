@@ -281,6 +281,10 @@ export default function GpsTrackingModule() {
                 center: coordinates,
                 zoom: 6,
               }}
+              options={{
+                maxZoom:17,
+                minZoom:2
+              }}
               width="100%"
               height={"60v"}
               modules={["Placemark", "geocode", "control.SearchControl"]}
