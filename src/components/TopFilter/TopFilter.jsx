@@ -34,8 +34,8 @@ export const TopFilter = ({
             }}
           >
             {t(label)}
-            {value === "new" && <span className={cls.count}>{driverCount}</span>}
-            {value === "approve_from_driver" && <span className={cls.count}>{waitingDriverCount}</span>}
+            {value === "new" && <div className={cls.count}>{driverCount}</div>}
+            {value === "approve_from_driver" && <div className={cls.count}>{waitingDriverCount}</div>}
           </button>
         </div>;
       })

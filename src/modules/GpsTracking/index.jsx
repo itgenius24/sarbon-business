@@ -35,6 +35,7 @@ import {
   Placemark,
   SearchControl,
   TypeSelector,
+  ZoomControl,
 } from "@pbe/react-yandex-maps";
 import styled from "@emotion/styled";
 import PlacemarkItem from "./PlacemarkItem";
@@ -72,7 +73,7 @@ export default function GpsTrackingModule() {
     checked,
     locationData,
     getUserNameOptions,
-    getUserPhoneOptions
+    getUserPhoneOptions,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -82,24 +83,31 @@ export default function GpsTrackingModule() {
     map.setCenter(location, 15); // 15 darajadagi zoom
   };
 
-
   const { t } = useTranslation(locale, "translations");
   // console.log("getCarListProps", getCarListProps());
   return (
     <>
       <Container py="40px">
-        <Flex
-          mb={"0px"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
+        <Flex mb={"0px"} alignItems={"center"} justifyContent={"space-between"}>
           <Heading size="md">{t("gpsTracking.title")}</Heading>
-          <Switch defaultChecked={true} onChange={(e) => setChecked(e.target.checked)}>Map</Switch>
+          <Switch
+            defaultChecked={true}
+            onChange={(e) => setChecked(e.target.checked)}
+          >
+            Map
+          </Switch>
         </Flex>
       </Container>
       {checked ? (
         <>
-          <Box className={cls.mapWrap} width={"80%"} margin={"0 auto"} mb={`29px`} height={"70vh"} position={"relative"}>
+          <Box
+            className={cls.mapWrap}
+            width={"80%"}
+            margin={"0 auto"}
+            mb={`29px`}
+            height={"70vh"}
+            position={"relative"}
+          >
             <Box className={cls.mapInputsWrap}>
               <Box className={cls.accordionItem}>
                 <VStack
@@ -157,9 +165,7 @@ export default function GpsTrackingModule() {
                           name={"distance"}
                           additionalOnclick={() => handleOpenModal()}
                           additionalItemPlaceholder={
-                            <span className={cls.additionalIcons}>
-                                    km
-                            </span>
+                            <span className={cls.additionalIcons}>km</span>
                           }
                         />
                       </Box>
@@ -218,9 +224,7 @@ export default function GpsTrackingModule() {
                               additionalItemName="weight_unit"
                               // width="100%"
                               placeholder={t("Вес")}
-                              additionalItemOptions={
-                                weightMeasurementOptions
-                              }
+                              additionalItemOptions={weightMeasurementOptions}
                               type="number"
                               zIndex={10}
                             />
@@ -282,8 +286,8 @@ export default function GpsTrackingModule() {
                 zoom: 6,
               }}
               options={{
-                maxZoom:17,
-                minZoom:2
+                maxZoom: 17,
+                minZoom: 2,
               }}
               width="100%"
               height={"60v"}
@@ -298,65 +302,67 @@ export default function GpsTrackingModule() {
                 ]}
               />
               <SearchControl options={{ float: "right" }} />
+              <ZoomControl
+                options={{ position: { bottom: "30vh", right: 4 } }}
+              />
 
-        {
-          ...getCarListProps()?.data?.map(item => {
-            return(
-              <>
-                <SingleCar
-                  withAddress={true}
-                  capacity={watch("weight")}
-                  height={watch("volume")}
-                  carType={watch("car_type")?.value}
-                  loadType={watch("load_type_id")?.value}
-                  key={item}
-                  carInfo={item}
-                  // infoList={infoList}
-                  showDistance={true}
-                  oneDir={true}
-                  phoneBtn={true}
-                  dataAccordion={true}
-                  additionalData={driverName}
-                  isMap={true}
-                />
+              {...getCarListProps()?.data?.map((item) => {
+                return (
+                  <>
+                    <SingleCar
+                      withAddress={true}
+                      capacity={watch("weight")}
+                      height={watch("volume")}
+                      carType={watch("car_type")?.value}
+                      loadType={watch("load_type_id")?.value}
+                      key={item}
+                      carInfo={item}
+                      // infoList={infoList}
+                      showDistance={true}
+                      oneDir={true}
+                      phoneBtn={true}
+                      dataAccordion={true}
+                      additionalData={driverName}
+                      isMap={true}
+                    />
+                  </>
+                );
+              })}
 
-              </>
-            );
-          })
-        }
-
-        {
-          locationData && locationData.map(item => <Placemark
-            key={item?.id}
-            geometry={[item.location_name.split(",")[0] *1, item.location_name.split(",")[1] *1]}
-            // properties={{
-            //   balloonContent:
-            //   item?.users_id_data?.full_name +
-            //   " " +
-            //   item?.users_id_data?.phone +
-            //   " " +
-            //   (item?.users_id_data?.vehicle_type_id_data?.name || "") +
-            //   " " +
-            //   item?.update_time,
-            // }}
-            options={{
-              iconLayout: "default#image",
-              iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(loadIcon),
-              iconImageSize: [40, 52],
-              iconImageOffset: [-15, -42],
-            }}
-            onClick={(e) =>
-              handlePlacemarkClick(e.get("target").getMap(), 
-                [item.location_name.split(",")[0] *1, item.location_name.split(",")[1] *1]
-              )
-            }
-          />)
-        }
-
-
-
-
+              {locationData &&
+                locationData.map((item) => (
+                  <Placemark
+                    key={item?.id}
+                    geometry={[
+                      item.location_name.split(",")[0] * 1,
+                      item.location_name.split(",")[1] * 1,
+                    ]}
+                    // properties={{
+                    //   balloonContent:
+                    //   item?.users_id_data?.full_name +
+                    //   " " +
+                    //   item?.users_id_data?.phone +
+                    //   " " +
+                    //   (item?.users_id_data?.vehicle_type_id_data?.name || "") +
+                    //   " " +
+                    //   item?.update_time,
+                    // }}
+                    options={{
+                      iconLayout: "default#image",
+                      iconImageHref:
+                        "data:image/svg+xml;charset=UTF-8," +
+                        encodeURIComponent(loadIcon),
+                      iconImageSize: [40, 52],
+                      iconImageOffset: [-15, -42],
+                    }}
+                    onClick={(e) =>
+                      handlePlacemarkClick(e.get("target").getMap(), [
+                        item.location_name.split(",")[0] * 1,
+                        item.location_name.split(",")[1] * 1,
+                      ])
+                    }
+                  />
+                ))}
             </Map>
           </Box>
         </>

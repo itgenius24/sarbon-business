@@ -1,5 +1,5 @@
 import { LoadSvgIcon } from "@/assets/icons/icons";
-import { Map, Placemark, Polyline, YMaps } from "@pbe/react-yandex-maps";
+import { Map, Placemark, Polyline, TypeSelector, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
 
 import { useEffect, useRef } from "react";
 
@@ -46,8 +46,24 @@ export const AccordionMap = ({ startPoint, endPoint,gpsHistory,driverPosition })
         state={mapState}
         instanceRef={map}
         onLoad={addRoute}
+        options={{
+                maxZoom: 17,
+                minZoom: 2,
+              }}
       >
         <Polyline geometry={gpsHistory} options={polylineOptions} />
+        <ZoomControl
+                options={{ position: { bottom: "30vh", right: 4 } }}
+              />
+
+<TypeSelector
+                mapTypes={[
+                  "yandex#map",
+                  "yandex#satellite",
+                  "yandex#hybrid",
+                  "yandex#publicMap",
+                ]}
+              />
        {
         gpsHistory.length > 0 &&    <Placemark 
              geometry={gpsHistory.length > 1 ? driverPosition: []}
