@@ -348,7 +348,7 @@ export const TopContent = ({
             <LoadingSpinner />
           ) : (
             <Accordion allowToggle>
-              {userData.map((user, index) => {
+              {userData?.map((user, index) => {
                 return (
                   <>
                     <AccordionItem key={index} className={cls.accordionItem}>

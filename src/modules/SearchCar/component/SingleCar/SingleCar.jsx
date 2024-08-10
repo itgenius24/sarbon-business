@@ -51,6 +51,7 @@ export const SingleCar = ({
   carType,
   loadType,
   capacity,
+  watch,
   height,
   isMap = false,
 }) => {
@@ -449,17 +450,20 @@ export const SingleCar = ({
           geometry={[carInfo?.lat, carInfo?.long]}
           properties={{
             balloonContent:
-         `   <p>
+         `
+            <p>
               ${carInfo?.users_id_data?.full_name || ""}
               ${carInfo?.users_id_data?.phone || ""}
               ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps ? "on"  : "off"|| ""}
-            </p>`
+            </p>
+            
+            `
           }}
           options={{
             iconLayout: "default#image",
             iconImageHref:
               "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
-            iconImageSize: [40, 52],
+            iconImageSize: (watch('users_id')?.value || watch('users_id2')?.value) ? [45,105] : [ 40,52],
             iconImageOffset: [-15, -42],
           }}
           // onClick={(e) =>

@@ -316,6 +316,7 @@ export default function GpsTrackingModule() {
                       carType={watch("car_type")?.value}
                       loadType={watch("load_type_id")?.value}
                       key={item}
+                      watch={watch}
                       carInfo={item}
                       // infoList={infoList}
                       showDistance={true}
