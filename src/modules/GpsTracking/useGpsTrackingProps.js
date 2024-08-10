@@ -228,15 +228,15 @@ export const useGpsTrackingProps = () => {
     label: item?.name,
     value: item?.guid,
   }));
-  const getUserNameOptions = getUserData.data?.response?.map((item) => ({
-    label: item?.full_name,
-    value: item?.guid,
-  }));
+  // const getUserNameOptions = getUserData.data?.response?.map((item) => ({
+  //   label: item?.full_name,
+  //   value: item?.guid,
+  // }));
 
-  const getUserPhoneOptions = getUserData.data?.response?.map((item) => ({
-    label: item?.phone,
-    value: item?.guid,
-  }));
+  // const getUserPhoneOptions = getUserData.data?.response?.map((item) => ({
+  //   label: item?.phone,
+  //   value: item?.guid,
+  // }));
   const loadingOptions = getLoadingTypes.data?.response?.map((item) => ({
     label: item?.name,
     value: item?.guid,
@@ -329,6 +329,20 @@ export const useGpsTrackingProps = () => {
           : carsArr,
     };
   };
+
+
+  const getUserNameOptions = getCarListProps().data?.map((item) => ({
+    label: item?.users_id_data?.full_name,
+    value: item?.users_id_data?.guid,
+  }));
+
+  const getUserPhoneOptions = getCarListProps().data?.map((item) => ({
+    label:  item?.users_id_data?.phone,
+    value:  item?.users_id_data?.guid,
+  }));
+
+
+
   useEffect(() => {
     if (!watch("aaddress")) {
       mutate({ data: {} });
@@ -338,7 +352,7 @@ export const useGpsTrackingProps = () => {
     });
   }, []);
 
-  console.log(locationData);
+
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
