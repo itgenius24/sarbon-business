@@ -120,8 +120,8 @@ export const TopContent = ({
   ];
 
   const getDriverLocation = useGetDriverLocation(
-    { data: JSON.stringify({ users_id: userId2 }) },
-    { enabled: !!(status === "performed" && userId2) }
+    { data: JSON.stringify({ users_id: userId }) },
+    { enabled: !!(status === "performed" && userId) }
   );
 
   // const getGPSHistory = useGetGPSHistory(
@@ -452,6 +452,7 @@ export const TopContent = ({
                             startPoint={user.startPoint}
                             endPoint={user.endPoint}
                             gpsHistory={gpsHistory}
+                            driverPosition={driverPosition}
                           />
                         </YMaps>
                         }

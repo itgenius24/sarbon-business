@@ -304,29 +304,28 @@ export const useGpsTrackingProps = () => {
 
   const dataUserID = useMemo(() => {
     let id = "";
-    if (watch("users_id")?.value && watch("users_id2")?.value) {
+    if (watch("users_id")?.value) {
       id = watch("users_id")?.value;
-    } else if (watch("users_id")?.value) {
-      id = watch("users_id2")?.value;
-    } else if (watch("users_id2")?.value) {
+    }  else if (watch("users_id2")?.value) {
       id = watch("users_id2")?.value;
     }
-
+   
+    console.log('id',id);
+     
     return carsArr?.filter((item) => item?.users_id === id);
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
+
+  console.log(dataUserID);
 
   const { mutate: getLocation } = useLocation({
     onSuccess: (res) => {
       setLocationData(res?.data?.response);
     },
   });
-
+ 
   const getCarListProps = () => {
     return {
-      data:
-        watch("users_id")?.value || watch("users_id2")?.value
-          ? dataUserID
-          : carsArr,
+      data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr,
     };
   };
 

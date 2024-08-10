@@ -3,7 +3,7 @@ import { Map, Placemark, Polyline, YMaps } from "@pbe/react-yandex-maps";
 
 import { useEffect, useRef } from "react";
 
-export const AccordionMap = ({ startPoint, endPoint,gpsHistory }) => {
+export const AccordionMap = ({ startPoint, endPoint,gpsHistory,driverPosition }) => {
   console.log("gpsHistory",gpsHistory);
   const map = useRef(null);
   const mapState = {
@@ -50,7 +50,7 @@ export const AccordionMap = ({ startPoint, endPoint,gpsHistory }) => {
         <Polyline geometry={gpsHistory} options={polylineOptions} />
        {
         gpsHistory.length > 0 &&    <Placemark 
-             geometry={gpsHistory.length > 1 ? gpsHistory[0] : []}
+             geometry={gpsHistory.length > 1 ? driverPosition: []}
            options={{
             iconLayout: "default#image",
             iconImageHref:
