@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import cls from "./styles.module.scss";
-import { DeleteIcon, TruckIcon } from "@/assets/icons/icons";
+import { DeleteIcon, PencilIcon, TruckIcon } from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
 import { DataList } from "@/components/DataList";
-import { Box, Button, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { cancelBy, statuses } from "@/utils/constants";
 import { formatSum } from "@/utils/formatSum";
 import { useLoadsCardProps } from "./useLoadsCardProps";
@@ -181,30 +181,36 @@ export const LoadsCard = forwardRef(({
       }
       <div className={cls.cardBottom}>
         {
-          status === "active" && <LoadBtn
-            onClick={(e) => {
-              e.stopPropagation();
-              const query = new URLSearchParams({
-                from: JSON.stringify({
-                  value: city_id_data?.guid,
-                  label: city_id_data?.name,
-                  guid: city_id_data?.guid,
-                }),
-                to: JSON.stringify({
-                  value: city_id_2_data?.guid,
-                  label: city_id_2_data?.name,
-                  guid: city_id_2_data?.guid,
-                }),
-                date: load_time,
-                weight: weight,
-                volume: volume_m3,
-              });
-              router.push(`/${locale}/search-car?` + query.toString());
-            }}
-            icon={<TruckIcon />}
-          >
-            {t("Поиск машин")}
+          status === "active" && <Flex width={'400px'} alignItems={'center'} justifyContent={'flex-start'} gap={3}>
+            <LoadBtn
+           
+              onClick={(e) => {
+                e.stopPropagation();
+                const query = new URLSearchParams({
+                  from: JSON.stringify({
+                    value: city_id_data?.guid,
+                    label: city_id_data?.name,
+                    guid: city_id_data?.guid,
+                  }),
+                  to: JSON.stringify({
+                    value: city_id_2_data?.guid,
+                    label: city_id_2_data?.name,
+                    guid: city_id_2_data?.guid,
+                  }),
+                  date: load_time,
+                  weight: weight,
+                  volume: volume_m3,
+                });
+                router.push(`/${locale}/search-car?` + query.toString());
+              }}
+              icon={<TruckIcon />}
+            >
+              {t("Поиск машин")}
+            </LoadBtn>
+            <LoadBtn icon={<PencilIcon />} >
+            {t("Изменить")}
           </LoadBtn>
+          </Flex>
         }
         {
           status === "in_moderation" && <LoadBtn

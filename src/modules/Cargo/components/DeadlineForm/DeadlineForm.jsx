@@ -6,13 +6,15 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 
 export const DeadlineForm = () => {
-  const { startDate, setStartDate, endDate, setEndDate, canEdit } = useAddCargoContext();
+  const { startDate, setStartDate, endDate, setEndDate, canEdit,canEditActive } = useAddCargoContext();
 
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
+
+  const status = canEdit ? canEdit : canEditActive ? canEditActive : canEdit ;
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box className={cls.fieldsWrapper} display="flex" alignItems="center" columnGap="32px">
@@ -24,7 +26,7 @@ export const DeadlineForm = () => {
         <DatePicker
           minDate={new Date()}
           placeholder={t("Выберите")}
-          disabled={!canEdit}
+          disabled={!status }
           startDate={startDate}
           setStartDate={setStartDate}
           endDate={endDate}

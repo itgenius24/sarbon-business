@@ -34,7 +34,7 @@ import { Popup } from "@/components/Popup";
 import Link from "next/link";
 import clsx from "clsx";
 import { useGetLang } from "@/hooks/useGetLang";
-import { Placemark,map } from "@pbe/react-yandex-maps";
+import { Placemark, map } from "@pbe/react-yandex-maps";
 import { UseIcon, loadIcon } from "@/assets/icons/icons";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
@@ -56,7 +56,7 @@ export const SingleCar = ({
   isMap = false,
 }) => {
   const locale = useGetLang();
- const {t} = useTranslation();
+  const { t } = useTranslation();
   const userId = authStore.userData.id;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -75,23 +75,23 @@ export const SingleCar = ({
   const newList = infoList
     ? infoList(carInfo)
     : [
-      {
-        title: t("Транспорт"),
-        value: carInfo?.short_name || t("Нет данных"),
-      },
-      {
-        title: t("Разрешение:"),
-        value: address[carInfo?.users_id_data?.adr] || t("Нет данных"),
-      },
-      {
-        title: t("Детали:"),
-        value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
-      },
-      {
-        title: t("Дата загрузки:"),
-        value: carInfo?.date || t("Нет данных"),
-      },
-    ];
+        {
+          title: t("Транспорт"),
+          value: carInfo?.short_name || t("Нет данных"),
+        },
+        {
+          title: t("Разрешение:"),
+          value: address[carInfo?.users_id_data?.adr] || t("Нет данных"),
+        },
+        {
+          title: t("Детали:"),
+          value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
+        },
+        {
+          title: t("Дата загрузки:"),
+          value: carInfo?.date || t("Нет данных"),
+        },
+      ];
 
   const requestBody = {};
 
@@ -120,7 +120,9 @@ export const SingleCar = ({
     }),
   };
 
-  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, { enabled: !!userId && isOpen, });
+  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
+    enabled: !!userId && isOpen,
+  });
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
@@ -140,25 +142,21 @@ export const SingleCar = ({
     map.setCenter(location, 15); // 15 darajadagi zoom
   };
   function refreshMap() {
-
     map.setBounds(map.getBounds()); // Refresh map bounds to ensure all elements are visible
-}
-
+  }
 
   useEffect(() => {
-
-  window.addEventListener('scroll', refreshMap);
-  },[window.scroll]);
-
+    window.addEventListener("scroll", refreshMap);
+  }, [window.scroll]);
 
   const handleMouseEnter = (e) => {
-    console.log("eee",e);
-    const placemark = e.get('target');
+    console.log("eee", e);
+    const placemark = e.get("target");
     placemark.balloon.open();
   };
 
   const handleMouseLeave = (e) => {
-    const placemark = e.get('target');
+    const placemark = e.get("target");
     placemark.balloon.close();
   };
 
@@ -177,7 +175,9 @@ export const SingleCar = ({
     return (
       <>
         <div
-          className={clsx(cls.loadsCard, { [cls.withData]: carInfo?.vehicle_type_id_data, })}
+          className={clsx(cls.loadsCard, {
+            [cls.withData]: carInfo?.vehicle_type_id_data,
+          })}
         >
           <div className={cls.cardTop}>
             <div className={cls.cardTopContent}>
@@ -244,13 +244,15 @@ export const SingleCar = ({
             </div>
             {showDistance && (
               <div className={cls.distance}>
-                {carInfo?.differance?.toFixed(2)} {t(`км от адреса`)}
+                {carInfo?.differance?.toFixed(2)} {t("км от адреса")}
               </div>
             )}
           </div>
           <Box borderBottom="1px solid" borderColor="brand.200">
             {additionalData && (
-              <Box my="5px">{t(`Водитель:`)} {carInfo?.users_id_data?.full_name}</Box>
+              <Box my="5px">
+                {t("Водитель:")} {carInfo?.users_id_data?.full_name}
+              </Box>
             )}
             {dataAccordion ? (
               <Accordion allowMultiple>
@@ -268,7 +270,7 @@ export const SingleCar = ({
                         display="flex"
                         justifyContent="space-between"
                       >
-                        <span>{t(`Дополнительная информация`)}</span>
+                        <span>{t("Дополнительная информация")}</span>
                         {/* <span>{newListDraggable()?.length}</span> */}
                       </Box>
                       <AccordionIcon />
@@ -291,7 +293,7 @@ export const SingleCar = ({
               width="278px"
               color="primary"
             >
-              {t(`Предложить груз`)}
+              {t("Предложить груз")}
             </Button>
             {!phoneBtn ? null : (
               <Button
@@ -307,7 +309,7 @@ export const SingleCar = ({
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>
-                <Heading size="sm">{t(`Выберите груз`)}</Heading>
+                <Heading size="sm">{t("Выберите груз")}</Heading>
                 <ModalCloseButton />
               </ModalHeader>
               <ModalBody p="20px">
@@ -415,10 +417,10 @@ export const SingleCar = ({
                       gap={"30px"}
                     >
                       <Text color={"blackAlpha.400"} fontSize={"18px"}>
-                        {t(`У вас нет существующих грузов`)}
+                        {t("У вас нет существующих грузов")}
                       </Text>
                       <Link href={"/add-cargo"} variant={"outline"}>
-                        {t(`Добавить груз`)}
+                        {t("Добавить груз")}
                       </Link>
                     </Flex>
                   )
@@ -444,26 +446,31 @@ export const SingleCar = ({
   else
     return (
       <>
-
         <Placemark
           key={carInfo?.id}
           geometry={[carInfo?.lat, carInfo?.long]}
           properties={{
-            balloonContent:
-         `
+            balloonContent: `
             <p>
               ${carInfo?.users_id_data?.full_name || ""}
               ${carInfo?.users_id_data?.phone || ""}
-              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${ format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "} <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${carInfo?.gps ? "on"  : "off"|| ""}
+              ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${
+              format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "
+            } <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${
+              carInfo?.gps ? "on" : "off" || ""
+            }
             </p>
             
-            `
+            `,
           }}
           options={{
             iconLayout: "default#image",
             iconImageHref:
               "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
-            iconImageSize: (watch('users_id')?.value || watch('users_id2')?.value) ? [45,105] : [ 40,52],
+            iconImageSize:
+              watch("users_id")?.value || watch("users_id2")?.value
+                ? [45, 105]
+                : [40, 52],
             iconImageOffset: [-15, -42],
           }}
           // onClick={(e) =>

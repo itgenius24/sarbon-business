@@ -62,6 +62,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(!id);
+  const [canEditActive, setCanEditActive] = useState(!id);
 
   const [templateId, setTemplateId] = useState("");
   const [isClicked, setIsClicked] = useState(false);
@@ -81,6 +82,12 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   function handleEditToggle() {
     setCanEdit(!canEdit);
   }
+
+  function handleEditActiveToggle() {
+    setCanEditActive(true);
+  }
+  console.log("canEditActive",canEdit);
+
 
   function handleOpenDeletePopup() {
     setPopupOpen(true);
@@ -684,6 +691,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   function onCancelClick() {
     getOfferCargoById.refetch();
     handleEditToggle();
+    handleEditActiveToggle();
   }
 
   function handleSelectTemplate(item) {
@@ -1056,7 +1064,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     proposedAmount: data?.driver_cash,
     transportModel: data?.short_name,
     canEdit,
+    canEditActive,
     handleEditToggle,
+    handleEditActiveToggle,
     isDirty: isDirty || isPhotoChanged,
     onCancelClick,
     handleOpenDeletePopup,

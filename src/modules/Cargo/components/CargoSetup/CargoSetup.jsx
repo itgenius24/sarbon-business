@@ -22,14 +22,19 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
     paymentOptions,
     imageLoader,
     setValue,
-    canEdit
+    canEdit,
+    canEditActive
   } = userCargoSetupProps();
   const {t} = useTranslation();
   const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
+  const status = canEdit ? canEdit : canEditActive ? canEditActive : canEdit ;
+
+  console.log("status",status,canEditActive);
+
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
-      <BargainRadio watch={watch} register={register} disabled={!canEdit} />
+      <BargainRadio watch={watch} register={register} disabled={!canEdit } />
       {/* <HelpCircleIcon /> */}
     </Box>
     {
@@ -41,7 +46,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Предлагаемая сумма`)}</Heading>
             </Box>
             <TextFieldWithAddition
-              disabled={!canEdit}
+              disabled={!status}
               name="price"
               register={register}
               control={control}
@@ -60,7 +65,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Сумма предоплаты`)}</Heading>
             </Box>
             <TextFieldWithAddition
-              disabled={!canEdit}
+              disabled={!status}
               name="price_prepayment"
               register={register}
               control={control}
@@ -79,7 +84,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Сумма после завершения заказа`)} </Heading>
             </Box>
             <TextFieldWithAddition
-              disabled={!canEdit}
+              disabled={!status}
               name="price_after_order"
               register={register}
               control={control}
