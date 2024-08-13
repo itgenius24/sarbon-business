@@ -71,6 +71,7 @@ export const MyLoadsMain = () => {
                     handleCancel={handleCancel}
                     isLargerThan768={isLargerThan768}
                     {...cargo}
+                    cargo={cargo}
                   />
                 );
               } else {
@@ -83,6 +84,8 @@ export const MyLoadsMain = () => {
                     handleCancel={handleCancel}
                     isLargerThan768={isLargerThan768}
                     {...cargo}
+                    cargo={cargo}
+
                   />
                 );
               }

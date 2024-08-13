@@ -278,7 +278,7 @@ export const Cargo = observer(({ id, status, locale }) => {
           )}
 
           {
-            addCargoProps.canEditActive &&  <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
+            addCargoProps.canEditActive  && status === `active` &&  <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
               <Button
                 size="sm"
                 maxWidth="223px"

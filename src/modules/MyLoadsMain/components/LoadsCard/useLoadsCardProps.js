@@ -28,7 +28,9 @@ export const useLoadsCardProps = ({
   currency_id_data,
   currency_id_2_data,
   handleDelete,
+  cargo //cargoda yuk nomi user ismlari bor
 }) => {
+  console.log("cargo_type_id_data",cargo);
 
   const locale = useGetLang();
 
@@ -67,6 +69,7 @@ export const useLoadsCardProps = ({
   };
 
   const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];
+
 
   const router = useRouter();
 
@@ -107,8 +110,8 @@ export const useLoadsCardProps = ({
       value: formatSum(currency_id_2_data?.code, driver_cash),
     },
     {
-      title: t("Рейтинг водителя: "),
-      value: <Rating title={users_id_2_data?.rating} value={users_id_2_data?.rating} />,
+      title: t("Мобильный телефон: "),
+      value: cargo?.users_id_2_data?.phone ,
     },
   ];
 
