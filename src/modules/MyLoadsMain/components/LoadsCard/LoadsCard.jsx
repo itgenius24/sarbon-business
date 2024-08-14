@@ -178,7 +178,7 @@ export const LoadsCard = forwardRef(
             </div>
           </div>
           <Box borderBottom="1px solid" borderColor="brand.200">
-            <DataList status={status} list={status === "new" ? newStatusList : list} />
+            <DataList status={status} list={(status === "new"  || status === `approve_from_driver`)? newStatusList : list} />
             {status === "rejected" && (
               <p className={cls.moderatorComment}>
                 <span className={cls.moderatorCommentTitle}>
