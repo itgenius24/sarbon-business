@@ -68,7 +68,7 @@ export const Performed = ({ cargo }) => {
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Водитель</span>
               <p className={styles.cardName}>
-                {cargo?.users_id_2_data?.full_name} +3
+                {cargo?.users_id_2_data?.full_name} +{cargo?.users_id_2_data?.rating || 0}
               </p>
             </div>
             <div className={styles.cardItem}>
