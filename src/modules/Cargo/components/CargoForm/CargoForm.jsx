@@ -24,17 +24,22 @@ export const CargoForm = () => {
     isDimensionsAndDiameter,
     isPackagingAndQuantity,
     cargoTypeOptions,
+    optionCargoType,
     weightMeasurementOptions,
     volumeMeasurementOptions,
     packageOptions,
     canEdit,
     isEditing,
     loadingOptions,
+    setSearchCargo,
   } = useCargoFormProps();
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
+
+ console.log("cargoTypeOptions",optionCargoType);
+
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box className={cls.fieldsWrapper} display="flex" alignItems="start" columnGap="32px">
@@ -67,10 +72,11 @@ export const CargoForm = () => {
             register={register}
             watch={watch}
             name="cargo_type"
-            options={cargoTypeOptions}
+            options={optionCargoType}
             errors={errors}
             disabled={!canEdit}
             className={cls.dropdown}
+            onSearchChange={(e)=> setSearchCargo(e.target.value)}
             placeholder={t("Выберите тип груза")}
             inputPlaceholder={t("Выберите тип груза")}
             searchable
