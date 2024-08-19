@@ -50,11 +50,11 @@ export const MyLoadsMain = () => {
           filterList={filterTabs}
         />
         <Box display="flex" flexDirection="column" rowGap="16px">
-          {orderStatus == "performed" ? (
+          {orderStatus == "performed" || orderStatus == "new" || orderStatus == "approve_from_driver" || orderStatus == "cancellation" || orderStatus == "archive"  ? (
             <>
               {cargos?.length > 0 &&
                 cargos?.map((cargo, index) => {
-                  return <Performed key={index} cargo={cargo} />;
+                  return <Performed orderStatus={orderStatus} key={index} cargo={cargo} />;
                 })}
             </>
           ) : (

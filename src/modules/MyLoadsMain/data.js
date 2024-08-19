@@ -24,7 +24,12 @@ export const filterTabs = [
     value: "cancellation",
   },
   {
-    label: "Архив",
+    label: "Завершение",
     value: "archive",
   },
+  {
+    label: "Архив",
+    value: "in_active",
+  },
+
 ];

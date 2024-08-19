@@ -35,7 +35,7 @@ export const useMyLoadsMainProps = () => {
     })
   };
 
-  const isCargo = !orderStatus || orderStatus === "in_moderation";
+  const isCargo = !orderStatus || orderStatus === "in_moderation" || orderStatus === `in_active`;
 
   if(orderStatus === "approve_from_driver") {
 
@@ -56,7 +56,15 @@ export const useMyLoadsMainProps = () => {
     data.order_status = [orderStatus, "rejected"];
     getAllUserCargoParams.data = JSON.stringify(data);
 
-  } else if(orderStatus === "new") {
+  } else if(orderStatus === "in_active") {
+
+    const data = JSON.parse(getAllUserCargoParams.data);
+    data.order_status = [orderStatus];
+    getAllUserCargoParams.data = JSON.stringify(data);
+
+  }
+  
+  else if(orderStatus === "new") {
 
     const data = JSON.parse(getCargoFilterParams.data);
     data.provisions = [orderStatus];

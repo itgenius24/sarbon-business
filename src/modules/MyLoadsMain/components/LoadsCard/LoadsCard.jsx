@@ -144,7 +144,7 @@ export const LoadsCard = forwardRef(
                       }
                     </span>
                     {
-                      console.log(`address_id_2_data`,address_id_2_data)
+                     
                     }<span>
 
                       {

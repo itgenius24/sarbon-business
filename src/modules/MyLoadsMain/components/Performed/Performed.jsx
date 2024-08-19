@@ -5,7 +5,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 
-export const Performed = ({ cargo }) => {
+export const Performed = ({ cargo,orderStatus }) => {
   const { t } = useTranslation();
   console.log(`cargo`, cargo);
   const router = useRouter();
@@ -104,7 +104,8 @@ export const Performed = ({ cargo }) => {
               </p>
             </div>
           </div>
-          <div className={styles.cardFooter}>
+          {
+            orderStatus == "performed" && <div className={styles.cardFooter}>
             <div className={styles.cardFooterLeft}>
               <div className={styles.cardItem}>
                 <span className={styles.cardBodyTitle}>Пройдено</span>
@@ -124,10 +125,11 @@ export const Performed = ({ cargo }) => {
               </div>
             </div>
             <div className={styles.rightContend}>
-              {/* <span className={styles.cardBodyTitle}>Пройдено</span> */}
-              {/* <p className={styles.date}>23 июня, 12:36</p> */}
+             
             </div>
           </div>
+          }
+         
         </div>
       </div>
     </div>

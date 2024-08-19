@@ -636,7 +636,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         comment: data.note,
         photo: data.image?.includes("http") ? data.image : process.env.NEXT_PUBLIC_MEDIA_URL + data.image,
         map_id: data?.payment_type?.value,
-        order_status: ["in_moderation"],
+        order_status: id ?  [data.order_status.value] :   ["in_moderation"],
         negotiable: data.bargain === "negotiable",
         no_haggling: data.bargain === "no_haggling",
         request: data.bargain === "request",
@@ -667,7 +667,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
     if(id) {
       requestData.data.guid = id;
-      requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
+      // requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
 
       updateCargo.mutate(requestData);
 

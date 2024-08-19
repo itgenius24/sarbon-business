@@ -8,7 +8,7 @@ export const DataList = ({ list,status }) => {
     <dl className={cls.cardList}>
 
     {
-      status === `new` ?  
+    
      
         list.map((item, index) => (
           <div  key={index} className={cls.cardListItem}>
@@ -17,11 +17,7 @@ export const DataList = ({ list,status }) => {
           </dt>
           </div>
         ))
-      :   <div className={cls.cardListItem}>
-        <dt>
-          {t("Транспорт")}:{list.vehicle_type_id_data?.name}
-        </dt>
-      </div>
+    
     }
     
     </dl>
