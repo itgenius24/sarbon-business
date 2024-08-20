@@ -237,7 +237,7 @@ export const LoadsCard = forwardRef(
             </Box>
           )}
           <div className={cls.cardBottom}>
-            {status === "active" && (
+            {(status === "active" || status === "in_active" || status=== "in_moderation") && (
               <Flex
                 width={"400px"}
                 alignItems={"center"}

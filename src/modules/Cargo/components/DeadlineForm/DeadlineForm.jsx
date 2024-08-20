@@ -68,10 +68,9 @@ export const DeadlineForm = () => {
             placeholder={t("Status")}
             name="order_status"
             options={[
-              { label: `Active`, value: `active` },
-              { label: `In active`, value: `in_active` },
-              { label: `Rejected`, value: `rejected` },
-              { label: `In moderation`, value: `in_moderation` },
+              { label: t(`Активный`), value: `active` },
+              { label: t(`Не активен`), value: `in_active` },
+
             ]}
             control={control}
           />

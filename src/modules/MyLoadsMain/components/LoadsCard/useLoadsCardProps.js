@@ -44,7 +44,7 @@ export const useLoadsCardProps = ({
   const toast = useToast();
 
   const responseStatuses = {
-    "": order_status,
+    "": order_status ,
     in_moderation: order_status,
     new: provisions,
     performed: provisions,
@@ -70,7 +70,7 @@ export const useLoadsCardProps = ({
 
   const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];
 
-
+console.log(`actve`,status);
   const router = useRouter();
 
   const list = [

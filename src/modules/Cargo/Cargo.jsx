@@ -43,7 +43,7 @@ export const Cargo = observer(({ id, status, locale }) => {
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   useEffect(() => {
-    if (status === "active") {
+    if (status === "active" || status === "in_active"|| status === "in_moderation") {
       addCargoProps.handleEditActiveToggle();
     }
   }, []);
@@ -278,7 +278,7 @@ export const Cargo = observer(({ id, status, locale }) => {
           )}
 
           {
-            addCargoProps.canEditActive  && status === `active` &&  <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
+            addCargoProps.canEditActive  && (status === `active` || status === `in_active` || status === `in_moderation` ) &&  <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
               <Button
                 size="sm"
                 maxWidth="223px"
