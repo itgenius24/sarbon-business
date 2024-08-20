@@ -1,5 +1,5 @@
 import cls from "./styles.module.scss";
-import { DeleteIcon, PencilIcon, PlusIcon } from "@/assets/icons/icons";
+import { DeleteIcon, PencilIcon, PlusIcon, SearchIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import {
   Accordion,
@@ -13,6 +13,9 @@ import {
   BreadcrumbLink,
   Button,
   Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -278,7 +281,7 @@ export const Cargo = observer(({ id, status, locale }) => {
           )}
 
           {
-            addCargoProps.canEditActive  && (status === `active` || status === `in_active` || status === `in_moderation` ) &&  <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
+            addCargoProps.canEditActive && (status === "active" || status === "in_active" || status === "in_moderation" ) && <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
               <Button
                 size="sm"
                 maxWidth="223px"
@@ -319,9 +322,7 @@ export const Cargo = observer(({ id, status, locale }) => {
       <Popup
         isOpen={addCargoProps.isPopupOpen}
         onClose={addCargoProps.handleCloseDeletePopup}
-        mainText={t("Вы уверены что хотите удалить груз ?", {
-          name: addCargoProps.cargoName,
-        })}
+        mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName, })}
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />
@@ -352,6 +353,12 @@ export const Cargo = observer(({ id, status, locale }) => {
         withFooter={false}
       >
         <Box display="flex" flexDirection="column" rowGap="20px">
+          <InputGroup>
+            <InputLeftElement>
+              <SearchIcon />
+            </InputLeftElement>
+            <Input onChange={(e) =>addCargoProps.setTemplateVal(e.target.value)} />
+          </InputGroup>
           {addCargoProps.templates?.length ? (
             addCargoProps.templates?.map((item) => (
               <Box

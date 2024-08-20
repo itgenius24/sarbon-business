@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   useCreateAddressMutation,
@@ -63,7 +63,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(!id);
   const [canEditActive, setCanEditActive] = useState(!id);
-
+  const [temlateVal,setTemplateVal] = useState();
   const [templateId, setTemplateId] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -1034,6 +1034,16 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }, [startDate, endDate]);
 
   const data = getData();
+  const tempalteData = useMemo(() => {
+    if(temlateVal){
+      return getTempCargo.data?.response.filter(item => item.city_id_data.name.includes(temlateVal));
+
+    }else{
+      return getTempCargo.data?.response;
+    }
+  },[temlateVal,getTempCargo.data?.response]);
+
+  console.log(`getTempCargo.data?.response`,tempalteData);
 
   return {
     register,
@@ -1083,7 +1093,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleCloseModal,
     handleSelectTemplate,
     isOpen,
-    templates: getTempCargo.data?.response ?? [],
+    templates: tempalteData,
     handleDeleteTemplate,
     distance: data?.distance,
     isRequirementOpen,
@@ -1112,5 +1122,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleUploadDocument,
     handleDeleteDocument,
     getEmptyFileName,
+    setTemplateVal
   };
 };
