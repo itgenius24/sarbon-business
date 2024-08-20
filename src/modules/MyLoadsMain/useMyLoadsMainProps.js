@@ -76,7 +76,7 @@ export const useMyLoadsMainProps = () => {
   const getAllUserCargo = useGetUserCargo(
     getAllUserCargoParams,
     {
-      enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore,
+      enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation" || orderStatus === "in_active") && hasMore,
       placeholderData: keepPreviousData
     }
   );
