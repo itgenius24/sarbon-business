@@ -51,14 +51,14 @@ export const Performed = ({ cargo,orderStatus }) => {
                 {/* Тип оплаты: Перечисление */}
               </p>
               <p className={styles.rightTitle}>
-                Предоплата:{" "}
+                Предоплата:
                 {cargo?.requirements[0] === "no_prepayment" ? `Нет` : `Да`}
               </p>
             </div>
             <div className={styles.text}>
               <p className={styles.rightTitle}>Общая сумма</p>
               <p className={styles.totalSum}>
-                {cargo?.bid_amount || 0} {cargo?.currency_id_data?.code}
+                {cargo?.bid_cash || 0} {cargo?.currency_id_data?.code}
               </p>
             </div>
           </div>
