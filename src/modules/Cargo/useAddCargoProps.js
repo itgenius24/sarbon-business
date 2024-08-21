@@ -845,7 +845,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           value: data.vehicle_type_id_data?.guid,
           label: data.vehicle_type_id_data?.name,
         },
-        order_status: data.order_status[0] === `in_active` ? { label: t(`Не активен`), value: `in_active` } :  { label: t(`Активный`), value: `active` } ,
+        order_status: data.order_status?.[0] === `in_active` ? { label: t(`Не активен`), value: `in_active` } :  { label: t(`Активный`), value: `active` } ,
         transport_count: data.number_of_cars,
         is_ftl: data.take_all_unloads ?? false,
         is_ltl: data.load_around_the_clock ?? false,
