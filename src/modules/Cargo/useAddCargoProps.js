@@ -1043,7 +1043,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     }
   },[temlateVal,getTempCargo.data?.response]);
 
-  console.log(`getTempCargo.data?.response`,tempalteData);
+  
 
   return {
     register,
@@ -1074,6 +1074,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     proposedAmount: data?.driver_cash,
     transportModel: data?.short_name,
     canEdit,
+    getMaps,
     canEditActive,
     handleEditToggle,
     handleEditActiveToggle,

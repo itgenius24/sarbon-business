@@ -23,7 +23,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import Script from "next/script";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Documents } from "../Documents/Documents";
@@ -67,6 +67,7 @@ export const TopContent = ({
   city1,
   city2,
   userId2,
+  getMaps
 }) => {
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
@@ -160,10 +161,13 @@ export const TopContent = ({
   });
 
 
-  const driverPosition = [
-    getDriverLocation.data?.response?.[0]?.lat,
-    getDriverLocation.data?.response?.[0]?.long,
-  ];
+  const driverPosition = useMemo(() => {
+    return [
+      getDriverLocation?.data?.response?.[0]?.lat,
+      getDriverLocation?.data?.response?.[0]?.long,
+    ];
+  },[getDriverLocation?.data?.response?.[0]]);
+
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -305,7 +309,7 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
-  console.log("dd", userData);
+
 
   return (
     <Box>
@@ -453,6 +457,7 @@ export const TopContent = ({
                             endPoint={user.endPoint}
                             gpsHistory={gpsHistory}
                             driverPosition={driverPosition}
+                            getMaps={getMaps}
                           />
                         </YMaps>
                         }

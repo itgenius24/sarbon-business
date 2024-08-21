@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import cls from "./styles.module.scss";
 
-export const DataList = ({ list,status }) => {
+export const DataList = ({ list = [],status }) => {
   const { t } = useTranslation();
 
   return (
@@ -10,10 +10,10 @@ export const DataList = ({ list,status }) => {
     {
     
      
-        list.map((item, index) => (
+        list?.map((item, index) => (
           <div  key={index} className={cls.cardListItem}>
           <dt>
-            {item.title} {item.value}
+            {item?.title} {item?.value}
           </dt>
           </div>
         ))

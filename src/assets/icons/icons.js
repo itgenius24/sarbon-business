@@ -1489,3 +1489,18 @@ export const LoadSvgIcon = `
 
 
 `;
+
+export const EndIcon = `
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="14.7604" cy="14.7131" r="13.9948" fill="#211F26" stroke="#211F26"/>
+</svg>
+
+
+`;
+
+export const StartIcon = `
+<svg width="40" height="49" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="9.95833" cy="9.73909" r="7.22396" fill="white" stroke="#007AFF" stroke-width="4"/>
+</svg>
+
+`;

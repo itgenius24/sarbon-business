@@ -104,6 +104,7 @@ export const Cargo = observer(({ id, status, locale }) => {
           currency={addCargoProps.currency}
           distance={addCargoProps.distance}
           userId2={addCargoProps.userId2}
+          getMaps={addCargoProps.getMaps}
         />
       );
     }
