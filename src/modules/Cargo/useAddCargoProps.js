@@ -1036,7 +1036,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   const data = getData();
   const tempalteData = useMemo(() => {
     if(temlateVal){
-      return getTempCargo.data?.response.filter(item => item.city_id_data.name.includes(temlateVal));
+      return getTempCargo?.data?.response?.filter(item => item?.template_name?.includes(temlateVal));
 
     }else{
       return getTempCargo.data?.response;
