@@ -22,8 +22,11 @@ export const AccordionMap = ({
     center: gpsHistory.length > 1 ? gpsHistory[0] : [41.3405737, 69.2928081],
     zoom: 11,
   };
-  const startLocation = getMaps?.data?.response[getMaps?.data?.response?.length -1];
+
+
+  const startLocation = getMaps?.data?.response[getMaps?.data?.response.length - 1];
   const endLocation = getMaps?.data?.response[0];
+  const line  = getMaps?.data?.response.map(item => [item.lat,item.long]);
 
 
   const addRoute = (ymaps) => {
@@ -41,15 +44,16 @@ export const AccordionMap = ({
     map.current.geoObjects.add(multiRoute);
   };
 
-  const polylineGeometry = [
-    [55.75, 37.57], // Coordinates of the first point
-    [55.76, 37.64], // Coordinates of the second point
-    [55.73, 37.67], // Coordinates of the third point, etc.
-  ];
 
   const polylineOptions = {
     strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline
     strokeWidth: 6, // Width of the polyline
+    strokeOpacity: 1, // Opacity of the polyline
+  };
+
+  const polylineGeruzOptions = {
+    strokeColor: "#000000", // Color of the polyline
+    strokeWidth: 4, // Width of the polyline
     strokeOpacity: 1, // Opacity of the polyline
   };
   return (
@@ -67,6 +71,7 @@ export const AccordionMap = ({
         }}
       >
         <Polyline geometry={gpsHistory} options={polylineOptions} />
+        <Polyline geometry={line} options={polylineGeruzOptions} />
         <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
 
         <TypeSelector
@@ -95,8 +100,8 @@ export const AccordionMap = ({
             iconImageHref:
               "data:image/svg+xml;charset=UTF-8," +
               encodeURIComponent(StartIcon),
-            iconImageSize: [60, 72],
-            iconImageOffset: [-15, -42],
+            iconImageSize: [30, 42],
+            iconImageOffset: [-10, -22],
           }}
         />
         <Placemark
@@ -106,8 +111,8 @@ export const AccordionMap = ({
             iconImageHref:
               "data:image/svg+xml;charset=UTF-8," +
               encodeURIComponent(EndIcon),
-            iconImageSize: [60, 72],
-            iconImageOffset: [-15, -42],
+              iconImageSize: [30, 42],
+            iconImageOffset: [-12, -38],
           }}
         />
       </Map>

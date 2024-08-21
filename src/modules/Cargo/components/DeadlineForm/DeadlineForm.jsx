@@ -62,7 +62,8 @@ export const DeadlineForm = () => {
           </Text>
         </Box>
         <Box className={cls.dateInput} display="flex" gap={3}>{
-          params.includes(`/ru/my-loads`) &&    <Dropdown
+          params.includes(`/ru/my-loads`) &&    
+          <Dropdown
             className={cls.transportDropdown}
             disabled={!status}
             placeholder={t("Status")}
