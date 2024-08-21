@@ -54,6 +54,8 @@ import { ChakraSelect } from "@/components/ChakraSelect";
 import Filter from "./components/Filter";
 import DriverFree from "./components/DriverFree";
 import SelectCargo from "./components/SelectCargo";
+import ChangeIconModal from "./components/ChangeIconModal";
+import DriverCheck from "./components/DriverCheck";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -92,8 +94,8 @@ export default function GpsTrackingModule() {
   const locale = useGetLang();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const [modalType, setModalType] = useState("driverFree");
-  const [centerModalType, setCenterModalType] = useState(`selectCargo`);
+  const [modalType, setModalType] = useState("driverCheck");
+  const [centerModalType, setCenterModalType] = useState(``);
   const handlePlacemarkClick = (map, location) => {
     map.setCenter(location, 15); // 15 darajadagi zoom
   };
@@ -189,9 +191,9 @@ export default function GpsTrackingModule() {
             ))}
         </Map>
         <div className={cls.modalWrap}>
-          <Flex width={`100%`} height={`100%`}>
+          <Flex>
             <Box width={`20%`}>
-              {modalType === "btn" && (
+              {modalType === "" && (
                 <div
                   onClick={() => setModalType("filter")}
                   className={cls.filterBtn}
@@ -216,13 +218,20 @@ export default function GpsTrackingModule() {
                 />
               )}
               {modalType === "driverFree" && <DriverFree cls={cls} />}
+              {modalType === "driverCheck" && <DriverCheck cls={cls} />}
             </Box>
-    {
-      centerModalType === "selectCargo" &&  <div className={cls.leftModal}>
-        <SelectCargo cls={cls} />
-      </div>
-
-    }
+            {centerModalType === "selectCargo" && (
+              <div className={cls.leftModal}>
+                <SelectCargo cls={cls} />
+              </div>
+            )}
+            {
+              centerModalType === "changeIcon" && (
+                <div className={cls.leftModal}>
+                <ChangeIconModal cls={cls} />
+              </div>
+              )
+            }
           </Flex>
         </div>
       </Box>
