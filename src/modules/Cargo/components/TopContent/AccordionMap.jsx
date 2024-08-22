@@ -35,8 +35,10 @@ export const AccordionMap = ({
 
     const ymaps = window.ymaps;
 
+
     setTimeout(() => {
       if (map.current && ymaps) {
+        
         ymaps.route([
           [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
           [endLocation.lat,endLocation.long], // Tugash nuqtasi
