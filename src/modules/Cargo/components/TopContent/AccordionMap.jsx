@@ -1,4 +1,4 @@
-import { LoadSvgIcon, EndIcon, StartIcon } from "@/assets/icons/icons";
+import { LoadSvgIcon, EndIcon, StartIcon, StopIcon } from "@/assets/icons/icons";
 import {
   Map,
   Placemark,
@@ -19,51 +19,60 @@ export const AccordionMap = ({
 }) => {
   const map = useRef(null);
   const mapState = {
-    center: gpsHistory.length > 1 ? gpsHistory[0] : [41.3405737, 69.2928081],
+    center:driverPosition ? driverPosition : [41.3405737, 69.2928081],
     zoom: 11,
   };
 
 
   const startLocation = getMaps?.data?.response[getMaps?.data?.response.length - 1];
   const endLocation = getMaps?.data?.response[0];
-  const line  = getMaps?.data?.response.map(item => [item.lat,item.long]);
+  const line = getMaps?.data?.response.slice(1,-1).map(item => [item.lat,item.long]);
 
 
 
 
   useEffect(() => {
-    
+
     const ymaps = window.ymaps;
 
-    if (map.current && ymaps) {
-      ymaps.route([
-        [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
-        [endLocation.lat,endLocation.long], // Tugash nuqtasi
+    setTimeout(() => {
+      if (map.current && ymaps) {
+        ymaps.route([
+          [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
+          [endLocation.lat,endLocation.long], // Tugash nuqtasi
         ])
-        .then((route) => {
-          map.current.geoObjects.add(route);
-          const startPoint = route.getWayPoints().get(0);
-          const endPoint = route.getWayPoints().get(1);
-          startPoint.options.set({
-            iconLayout: "default#image",
-            iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(StartIcon),
-            iconImageSize: [30, 42],
-            iconImageOffset: [-10, -22],
-          });
-
-          // B nuqtasi uchun ikona
-          endPoint.options.set({
-            iconLayout: "default#image",
-            iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(EndIcon),
+          .then((route) => {
+            map.current.geoObjects.add(route);
+            const startPoint = route.getWayPoints().get(0);
+            const endPoint = route.getWayPoints().get(1);
+            startPoint.options.set({
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(StartIcon),
               iconImageSize: [30, 42],
-            iconImageOffset: [-12, -38],
+              iconImageOffset: [-10, -22],
+            });
+
+            // B nuqtasi uchun ikona
+            endPoint.options.set({
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(EndIcon),
+              iconImageSize: [30, 42],
+              iconImageOffset: [-12, -38],
+            });
+            const routePaths = route.getPaths();
+            routePaths.options.set({
+              strokeColor: "#000000", // Black color
+              strokeWidth: 4, // Adjust thickness if needed
+              strokeOpacity: 1, // Adjust opacity if needed
+              strokeStyle: "dash",
+            });
           });
-        });
-    }
+      }
+    },3000);
   }, [gpsHistory]);
 
   const polylineOptions = {
@@ -102,7 +111,7 @@ export const AccordionMap = ({
             "yandex#publicMap",
           ]}
         />
-          <Placemark
+        <Placemark
           geometry={driverPosition ? driverPosition: []}
           options={{
             iconLayout: "default#image",
@@ -113,28 +122,25 @@ export const AccordionMap = ({
             iconImageOffset: [-15, -42],
           }}
         />
-        {/* <Placemark
-          geometry={startLocation ? [startLocation.lat,startLocation.long] : []}
-          options={{
-            iconLayout: "default#image",
-            iconImageHref:
+
+        {
+          line.length > 0 && line.map(item => (
+            <Placemark
+              key={item.lat}
+              geometry={item}
+              options={{
+                iconLayout: "default#image",
+                iconImageHref:
               "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(StartIcon),
-            iconImageSize: [30, 42],
-            iconImageOffset: [-10, -22],
-          }}
-        />
-        <Placemark
-          geometry={endLocation ? [endLocation.lat,endLocation.long] : []}
-          options={{
-            iconLayout: "default#image",
-            iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(EndIcon),
+              encodeURIComponent(StopIcon),
               iconImageSize: [30, 42],
-            iconImageOffset: [-12, -38],
-          }}
-        /> */}
+              iconImageOffset: [-10, -22],
+              }}
+            />
+          ))
+        }
+
+
       </Map>
     </YMaps>
   );
