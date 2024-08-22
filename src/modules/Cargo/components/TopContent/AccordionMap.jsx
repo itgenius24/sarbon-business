@@ -29,21 +29,42 @@ export const AccordionMap = ({
   const line  = getMaps?.data?.response.map(item => [item.lat,item.long]);
 
 
-  const addRoute = (ymaps) => {
-    const pointA = [55.749, 37.524]; // Москва
-    const pointB = [59.918072, 30.304908]; // Санкт-Петербург
 
-    const multiRoute = new ymaps.multiRouter.MultiRoute(
-      {
-        referencePoints: [pointA, pointB],
-        params: { routingMode: "pedestrian" },
-      },
-      { boundsAutoApply: true }
-    );
 
-    map.current.geoObjects.add(multiRoute);
-  };
+  useEffect(() => {
+    
+    const ymaps = window.ymaps;
 
+    if (map.current && ymaps) {
+      ymaps.route([
+        [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
+        [endLocation.lat,endLocation.long], // Tugash nuqtasi
+        ])
+        .then((route) => {
+          map.current.geoObjects.add(route);
+          const startPoint = route.getWayPoints().get(0);
+          const endPoint = route.getWayPoints().get(1);
+          startPoint.options.set({
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," +
+              encodeURIComponent(StartIcon),
+            iconImageSize: [30, 42],
+            iconImageOffset: [-10, -22],
+          });
+
+          // B nuqtasi uchun ikona
+          endPoint.options.set({
+            iconLayout: "default#image",
+            iconImageHref:
+              "data:image/svg+xml;charset=UTF-8," +
+              encodeURIComponent(EndIcon),
+              iconImageSize: [30, 42],
+            iconImageOffset: [-12, -38],
+          });
+        });
+    }
+  }, [gpsHistory]);
 
   const polylineOptions = {
     strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline
@@ -64,14 +85,13 @@ export const AccordionMap = ({
         modules={["multiRouter.MultiRoute"]}
         state={mapState}
         instanceRef={map}
-        onLoad={addRoute}
         options={{
           maxZoom: 17,
           minZoom: 2,
         }}
       >
         <Polyline geometry={gpsHistory} options={polylineOptions} />
-        <Polyline geometry={line} options={polylineGeruzOptions} />
+        {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
         <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
 
         <TypeSelector
@@ -93,7 +113,7 @@ export const AccordionMap = ({
             iconImageOffset: [-15, -42],
           }}
         />
-        <Placemark
+        {/* <Placemark
           geometry={startLocation ? [startLocation.lat,startLocation.long] : []}
           options={{
             iconLayout: "default#image",
@@ -114,7 +134,7 @@ export const AccordionMap = ({
               iconImageSize: [30, 42],
             iconImageOffset: [-12, -38],
           }}
-        />
+        /> */}
       </Map>
     </YMaps>
   );

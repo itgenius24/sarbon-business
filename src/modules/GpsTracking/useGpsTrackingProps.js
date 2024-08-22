@@ -17,11 +17,14 @@ export const useGpsTrackingProps = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
+  console.log(`translations`,locale);
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState();
+  const [offset, setOffset] = useState(0);
+  const [closeRes, setCLoseRes] = useState(0);
 
   useEffect(() => {
     if (checked) {
@@ -258,16 +261,21 @@ export const useGpsTrackingProps = () => {
     }
   }, [getMeasurement.isSuccess]);
   const [carsArr, setCarsArr] = useState([]);
+
   const toast = useToast();
   const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
+      if (data?.data?.response?.length === 40) {
+        setOffset(offset + 1);
+      }
       if (watch("address")) {
         if (data?.response?.length) {
-          setCarsArr(
+          setCarsArr((res) => [
+            ...res,
             data?.response?.filter(
               (item) => item?.users_id_data?.vehicle_type_id_data
-            )
-          );
+            ),
+          ]);
         } else {
           setCarsArr([]);
           toast({
@@ -281,12 +289,10 @@ export const useGpsTrackingProps = () => {
         }
       } else {
         if (data?.data?.response?.length) {
-          // console.log("data",)
-          setCarsArr(
-            data?.data?.response?.filter(
-              (item) => item?.users_id_data?.vehicle_type_id_data
-            )
+          const data2 = data?.data?.response?.filter(
+            (item) => item?.users_id_data?.vehicle_type_id_data
           );
+          setCarsArr((res) => [...res, ...data2]);
         } else {
           setCarsArr([]);
           toast({
@@ -298,6 +304,10 @@ export const useGpsTrackingProps = () => {
             position: "top-right",
           });
         }
+        if (data?.data?.response?.length === null && !closeRes) {
+          setCLoseRes(true);
+          mutate({ data: { object_data: { limit: 40, page: offset } } });
+        }
       }
     },
   });
@@ -306,29 +316,27 @@ export const useGpsTrackingProps = () => {
     let id = "";
     if (watch("users_id")?.value) {
       id = watch("users_id")?.value;
-    }  else if (watch("users_id2")?.value) {
+    } else if (watch("users_id2")?.value) {
       id = watch("users_id2")?.value;
     }
-   
-    console.log('id',id);
-     
+
     return carsArr?.filter((item) => item?.users_id === id);
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
-
-  console.log(dataUserID);
 
   const { mutate: getLocation } = useLocation({
     onSuccess: (res) => {
       setLocationData(res?.data?.response);
     },
   });
- 
+
   const getCarListProps = () => {
     return {
-      data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr,
+      data:
+        watch("users_id")?.value || watch("users_id2")?.value
+          ? dataUserID
+          : carsArr,
     };
   };
-
 
   const getUserNameOptions = getCarListProps().data?.map((item) => ({
     label: item?.users_id_data?.full_name,
@@ -336,22 +344,18 @@ export const useGpsTrackingProps = () => {
   }));
 
   const getUserPhoneOptions = getCarListProps().data?.map((item) => ({
-    label:  item?.users_id_data?.phone,
-    value:  item?.users_id_data?.guid,
+    label: item?.users_id_data?.phone,
+    value: item?.users_id_data?.guid,
   }));
-
-
 
   useEffect(() => {
     if (!watch("aaddress")) {
-      mutate({ data: {} });
+      mutate({ data: { object_data: { limit: 40, page: offset } } });
     }
     getLocation({
       data: {},
     });
-  }, []);
-
-
+  }, [offset]);
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
@@ -365,6 +369,8 @@ export const useGpsTrackingProps = () => {
           load_type_id: watch("load_type_id")?.value,
           weight: watch("weight"),
           volume: watch("volume"),
+          limit: 40,
+          page: offset,
         },
       },
     });
@@ -382,7 +388,6 @@ export const useGpsTrackingProps = () => {
   return {
     register,
     locations,
-
     locationData,
     errors,
     handleAppend,

@@ -83,6 +83,8 @@ export default function GpsTrackingModule() {
     map.setCenter(location, 15); // 15 darajadagi zoom
   };
 
+
+
   const { t } = useTranslation(locale, "translations");
   // console.log("getCarListProps", getCarListProps());
   return (
@@ -104,7 +106,7 @@ export default function GpsTrackingModule() {
             className={cls.mapWrap}
             width={"80%"}
             margin={"0 auto"}
-            mb={`29px`}
+            mb={"29px"}
             height={"70vh"}
             position={"relative"}
           >
@@ -306,29 +308,32 @@ export default function GpsTrackingModule() {
                 options={{ position: { bottom: "30vh", right: 4 } }}
               />
 
-              {...getCarListProps()?.data?.map((item) => {
-                return (
-                  <>
-                    <SingleCar
-                      withAddress={true}
-                      capacity={watch("weight")}
-                      height={watch("volume")}
-                      carType={watch("car_type")?.value}
-                      loadType={watch("load_type_id")?.value}
-                      key={item}
-                      watch={watch}
-                      carInfo={item}
-                      // infoList={infoList}
-                      showDistance={true}
-                      oneDir={true}
-                      phoneBtn={true}
-                      dataAccordion={true}
-                      additionalData={driverName}
-                      isMap={true}
-                    />
-                  </>
-                );
-              })}
+              { 
+                 ...getCarListProps()?.data?.map((item) => {
+                  return (
+                    <>
+                      <SingleCar
+                        withAddress={true}
+                        capacity={watch("weight")}
+                        height={watch("volume")}
+                        carType={watch("car_type")?.value}
+                        loadType={watch("load_type_id")?.value}
+                        key={item}
+                        watch={watch}
+                        carInfo={item}
+                        // infoList={infoList}
+                        showDistance={true}
+                        oneDir={true}
+                        phoneBtn={true}
+                        dataAccordion={true}
+                        additionalData={driverName}
+                        isMap={true}
+                      />
+                    </>
+                  );
+                })
+
+              }
 
               {locationData &&
                 locationData.map((item) => (
