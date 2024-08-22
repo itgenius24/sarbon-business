@@ -93,6 +93,7 @@
       padding: 21px 12px;
       background-color: white;
       height: 100vh;
+  
       .filterText {
         font-weight: 600;
         font-size: 24px;
@@ -177,6 +178,18 @@
         display: flex;
         justify-content: space-between;
       }
+      .chatCard{
+        width: 100%;
+        border: 1px solid  rgba(219, 216, 227, 1);
+        background-color: rgba(255, 255, 255, 1);
+        text-align: left !important;
+        color: rgba(33, 31, 38, 1);
+        border-radius: 12px !important;
+        padding: 15px 14px !important;
+        font-size: 16px !important;
+        font-weight: 400;
+      
+      }
       .btngreen {
         background-color: rgba(21, 186, 77, 1);
         text-align: left !important;
@@ -207,6 +220,27 @@
         align-items: center;
         justify-content: center;
       }
+      .startAGreenIcon{
+        width: 24px;
+        height: 24px;
+        background-color: rgba(21, 186, 77, 1);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+     
+      .startBGreenIcon{
+        width: 24px;
+        height: 24px;
+        background-color: rgba(21, 186, 77, 1);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
       .gruz{
         border-bottom:  1px solid rgba(219, 216, 227, 1);
         padding-bottom: 20px;
@@ -215,10 +249,20 @@
         font-weight: 600;
         font-size: 16px;
       }
+      .cardStartTitleAdd{
+        font-weight: 500;
+        font-size: 14px;
+        color: rgba(0, 122, 255, 1);
+        text-decoration:dotted;
+        cursor: pointer;
+      }
       .sum{
         font-weight: 600;
-
         color: rgba(0, 122, 255, 1);
+      }
+      .sumGreen{
+        font-weight: 600;
+        color: rgba(21, 186, 77, 1);
       }
       .name{
         font-size: 14px;
@@ -236,6 +280,7 @@
           
         }
       }
+    
     }
     .leftModal {
       width: 80%;

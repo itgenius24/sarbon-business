@@ -2,10 +2,8 @@ import {
   AppleIcon,
   BatareyFullIcon,
   BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   FurIcon,
-  GreenCheckIcon,
   GruzIcon,
   LoadgreenIcon,
   LoadOulineIcon,
@@ -17,7 +15,7 @@ import {
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import React from "react";
 
-const DriverCheck = ({ cls }) => {
+const DriverExpectation = ({ cls }) => {
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -27,6 +25,7 @@ const DriverCheck = ({ cls }) => {
             <Box>
               <p className={cls.userName}>Абдуллаев Умиджон Рахмонбердиевич</p>
               <p className={cls.version}>
+                {" "}
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
             </Box>
@@ -37,15 +36,14 @@ const DriverCheck = ({ cls }) => {
             icon={<CloseIconM />}
           />
         </Flex>
-        <Box
+        <Button
           mt={`17px`}
           rightIcon={<NextBtnIcon />}
           size={`lg`}
-          className={cls.chatCard}
+          className={cls.btnBlueOutline}
         >
-        <p className={cls.smallText}>Сегодня, 12:36</p>
-         Я в пути, все идет по плану
-        </Box>
+          Ждём подтверждение водителя
+        </Button>
         <Box className={cls.cardWrap}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
@@ -136,9 +134,6 @@ const DriverCheck = ({ cls }) => {
              <p className={cls.cardStartSubTitle}>Предоплата: <span>Нет</span></p>
           </Flex>
         </Box>
-        <Button leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
-          Машина cвободна
-        </Button>
         <Box className={cls.cardWrap}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
             <Avatar  name="B"  />
@@ -157,4 +152,4 @@ const DriverCheck = ({ cls }) => {
   );
 };
 
-export default DriverCheck;
+export default DriverExpectation;

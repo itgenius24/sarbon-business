@@ -17,7 +17,7 @@ import {
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import React from "react";
 
-const DriverCheck = ({ cls }) => {
+const DriverQuestion = ({ cls }) => {
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -37,15 +37,7 @@ const DriverCheck = ({ cls }) => {
             icon={<CloseIconM />}
           />
         </Flex>
-        <Box
-          mt={`17px`}
-          rightIcon={<NextBtnIcon />}
-          size={`lg`}
-          className={cls.chatCard}
-        >
-        <p className={cls.smallText}>Сегодня, 12:36</p>
-         Я в пути, все идет по плану
-        </Box>
+  
         <Box className={cls.cardWrap}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
@@ -101,10 +93,10 @@ const DriverCheck = ({ cls }) => {
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
             <Box>
-              <p className={cls.cardStartTitle}>Ташкент</p>
-              <p className={cls.cardStartSubTitle}>
-                UZB / <span>29 августа (через 11 дней)</span>{" "}
-              </p>
+              <p className={cls.cardStartTitleAdd}>  Добавить адрес</p>
+              {/* <p className={cls.cardStartSubTitle}>
+            
+              </p> */}
             </Box>
           </Flex>
 
@@ -137,7 +129,7 @@ const DriverCheck = ({ cls }) => {
           </Flex>
         </Box>
         <Button leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
-          Машина cвободна
+            Занята чужим грузом
         </Button>
         <Box className={cls.cardWrap}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
@@ -157,4 +149,4 @@ const DriverCheck = ({ cls }) => {
   );
 };
 
-export default DriverCheck;
+export default DriverQuestion;
