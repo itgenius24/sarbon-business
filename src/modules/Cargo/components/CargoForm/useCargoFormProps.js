@@ -23,8 +23,10 @@ export const useCargoFormProps = () => {
   } = useAddCargoContext();
 
   const [searchCargo, setSearchCargo] = useState("");
-  const [offset,setOffset] = useState(0);
-  const [refesh,setRefesh] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const [refesh, setRefesh] = useState(0);
+  const [getCargoData,setGetCargoData] = useState([]);
+
 
   const getCargoTypes = useGetCargoType({
     params: {
@@ -32,24 +34,42 @@ export const useCargoFormProps = () => {
       limit: 40,
       data: JSON.stringify({}),
     },
-    querySettings:{
-      enabled:true
-    }
+    querySettings: {
+      enabled: true,
+    },
   });
 
-  console.log(`getCargoTypes`,getCargoTypes.isSuccess);
   const getMeasurement = useGetMeasurement();
   const getPackages = useGetPackage();
 
   useEffect(() => {
-     if(getCargoTypes?.getCargoTypes?.data?.response?.length  === 40){
+
+    if (getCargoTypes?.data?.response?.length === 40) {
       setOffset(offset + 40);
       setRefesh(refesh + 1);
-     }
-     else{
-     setRefesh(0);
-     }
-  },[!getCargoTypes.isSucces, refesh]);
+      const data = getCargoTypes?.data?.response?.map((item) => ({
+        label: item?.name,
+        value: item?.guid,
+      }));
+      setGetCargoData((res) => [
+        ...res,
+        ...data
+      ]);
+    } else {
+      setRefesh(0);
+      if(getCargoTypes?.data?.response){
+        const data = getCargoTypes?.data?.response?.map((item) => ({
+          label: item?.name,
+          value: item?.guid,
+        }));
+        setGetCargoData((res) => [
+          ...res,
+          ...data
+        ]);
+      }
+  
+    }
+  }, [!getCargoTypes.isSuccess, refesh]);
 
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
@@ -64,17 +84,17 @@ export const useCargoFormProps = () => {
     value: item?.guid,
   }));
 
-  // console.log("salom",cargoTypeOptions?.filter((item) => item.label !== searchCargo));
+  console.log("salom",getCargoData);
 
   const optionCargoType = useMemo(() => {
     if (searchCargo) {
-      return cargoTypeOptions?.filter((item) =>
+      return getCargoData?.filter((item) =>
         item?.label?.toLowerCase()?.includes(searchCargo.toLowerCase())
       );
     } else {
-      return cargoTypeOptions;
+      return getCargoData;
     }
-  }, [searchCargo, cargoTypeOptions]);
+  }, [searchCargo, getCargoData]);
 
   const packageOptions = getPackages.data?.response?.map((item) => ({
     label: item?.name,
