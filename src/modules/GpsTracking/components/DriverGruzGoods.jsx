@@ -2,11 +2,13 @@ import {
   AppleIcon,
   BatareyFullIcon,
   BluetoothIcon,
+  CeckGoodsIcon,
   CheckBlueIcon,
   CloseIconM,
   FurIcon,
   GreenCheckIcon,
   GruzGeenIcon,
+  GruzGoodsIcon,
   GruzIcon,
   LoadgreenIcon,
   LoadOulineIcon,
@@ -19,7 +21,7 @@ import {
 import { Avatar, Box, Button, Flex, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import React from "react";
 
-const DriverGruz = ({ cls }) => {
+const DriverGruzGoods = ({ cls }) => {
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -44,7 +46,7 @@ const DriverGruz = ({ cls }) => {
        
         <Box mt={3} className={cls.cardWrap}>
           <Flex gap={2}>
-            <div className={cls.startAGreenIcon}>A</div>
+            <div className={cls.startAGoodsIcon}>A</div>
             <Box>
               <p className={cls.cardStartTitle}>Екатеринбург</p>
               <p className={cls.cardStartSubTitle}>
@@ -53,7 +55,7 @@ const DriverGruz = ({ cls }) => {
             </Box>
           </Flex>
           <Flex mt={5} gap={2}>
-            <div className={cls.startBGreenIcon}>B</div>
+            <div className={cls.startBGoodsIcon}>B</div>
             <Box>
               <p className={cls.cardStartTitle}> Ташкент</p>
               <p className={cls.cardStartSubTitle}>
@@ -63,7 +65,7 @@ const DriverGruz = ({ cls }) => {
           </Flex>
 
           <Flex className={cls.gruz} mt={5} gap={2}>
-            <GruzGeenIcon />
+            <GruzGoodsIcon   />
             <Box>
               <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
               <p className={cls.cardStartSubTitle}>
@@ -86,13 +88,26 @@ const DriverGruz = ({ cls }) => {
              <p className={cls.cardStartSubTitle}>Тип оплаты: <span>Перечисление</span></p>
           </Flex>
           <Flex mt={3} justifyContent={'space-between'} alignItems={'center'}>
-             <p className={cls.sumGreen}>3600 EUR </p>
+             <p className={cls.sum2}>3600 EUR </p>
              <p className={cls.cardStartSubTitle}>Предоплата: <span>Нет</span></p>
           </Flex>
         </Box>
-        <Button   size={`lg`} className={cls.btngreen}>
+       <Box className={cls.cardWrap}>
+       <Flex gap={2} mb={3}>
+        <CeckGoodsIcon />
+        <Box>
+          <p className={cls.armorTitle}>Этот груз забронирован за вами</p>
+          <p className={cls.armorDate}>
+          До снятия брони: <span>
+          12:36:59 
+          </span>
+          </p>
+        </Box>
+       </Flex>
+       <Button   size={`lg`} className={cls.btngoods}>
           Машина cвободна
         </Button>
+       </Box>
       
       </Flex>
       <Modal isOpen={false} isCentered>
@@ -121,4 +136,4 @@ const DriverGruz = ({ cls }) => {
   );
 };
 
-export default DriverGruz;
+export default DriverGruzGoods;

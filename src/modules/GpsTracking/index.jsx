@@ -60,6 +60,7 @@ import DriverExpectation from "./components/DriverExpectation";
 import DriverCheck from "./components/DriverCheck";
 import DriverQuestion from "./components/DriverQuestion";
 import DriverGruz from "./components/DriverGruz";
+import DriverGruzGoods from "./components/DriverGruzGoods";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -98,11 +99,12 @@ export default function GpsTrackingModule() {
   const locale = useGetLang();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const [modalType, setModalType] = useState("driverGruz");
+  const [modalType, setModalType] = useState("driverGruzGoods");
   const [centerModalType, setCenterModalType] = useState(``);
   const handlePlacemarkClick = (map, location) => {
     map.setCenter(location, 15); // 15 darajadagi zoom
   };
+
 
   const { t } = useTranslation(locale, "translations");
   console.log("getCarListProps", getCarListProps());
@@ -196,7 +198,7 @@ export default function GpsTrackingModule() {
         </Map>
         <div className={cls.modalWrap}>
           <Flex>
-            <Box width={`20%`}>
+            <Box width={`100%`}>
               {modalType === "" && (
                 <div
                   onClick={() => setModalType("filter")}
@@ -225,8 +227,12 @@ export default function GpsTrackingModule() {
               {modalType === "driverCheck" && <DriverCheck cls={cls} />}
               {modalType === "driverQuestion" && <DriverQuestion cls={cls} />}
               {modalType === "driverGruz" && <DriverGruz cls={cls} />}
+              {modalType === "driverGruzGoods" && <DriverGruzGoods cls={cls} />}
             </Box>
-            {centerModalType === "selectCargo" && (
+       
+          </Flex>
+        </div>
+        {centerModalType === "selectCargo" && (
               <div className={cls.leftModal}>
                 <SelectCargo cls={cls} />
               </div>
@@ -238,8 +244,6 @@ export default function GpsTrackingModule() {
               </div>
               )
             }
-          </Flex>
-        </div>
       </Box>
       {/* <Container py="40px">
           <Flex mb={"0px"} alignItems={"center"} justifyContent={"space-between"}>
