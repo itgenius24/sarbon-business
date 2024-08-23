@@ -86,7 +86,7 @@ export default function GpsTrackingModule() {
 
 
   const { t } = useTranslation(locale, "translations");
-  // console.log("getCarListProps", getCarListProps());
+  
   return (
     <>
       <Container py="40px">

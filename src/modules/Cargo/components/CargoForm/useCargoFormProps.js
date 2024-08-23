@@ -22,14 +22,34 @@ export const useCargoFormProps = () => {
     loadingOptions,
   } = useAddCargoContext();
 
- const [searchCargo,setSearchCargo] = useState('');
+  const [searchCargo, setSearchCargo] = useState("");
+  const [offset,setOffset] = useState(0);
+  const [refesh,setRefesh] = useState(0);
+
   const getCargoTypes = useGetCargoType({
-    limit: 100,
-    offset: 0,
-    data: JSON.stringify({}),
+    params: {
+      offset: offset,
+      limit: 40,
+      data: JSON.stringify({}),
+    },
+    querySettings:{
+      enabled:true
+    }
   });
+
+  console.log(`getCargoTypes`,getCargoTypes.isSuccess);
   const getMeasurement = useGetMeasurement();
   const getPackages = useGetPackage();
+
+  useEffect(() => {
+     if(getCargoTypes?.getCargoTypes?.data?.response?.length  === 40){
+      setOffset(offset + 40);
+      setRefesh(refesh + 1);
+     }
+     else{
+     setRefesh(0);
+     }
+  },[!getCargoTypes.isSucces, refesh]);
 
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
@@ -44,18 +64,17 @@ export const useCargoFormProps = () => {
     value: item?.guid,
   }));
 
-  
   // console.log("salom",cargoTypeOptions?.filter((item) => item.label !== searchCargo));
 
   const optionCargoType = useMemo(() => {
     if (searchCargo) {
-      return cargoTypeOptions?.filter(item =>
+      return cargoTypeOptions?.filter((item) =>
         item?.label?.toLowerCase()?.includes(searchCargo.toLowerCase())
       );
-    }else{
+    } else {
       return cargoTypeOptions;
     }
-  }, [searchCargo,cargoTypeOptions]);
+  }, [searchCargo, cargoTypeOptions]);
 
   const packageOptions = getPackages.data?.response?.map((item) => ({
     label: item?.name,

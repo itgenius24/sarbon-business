@@ -14,7 +14,7 @@ const objectService = {
   getRoleList: (params) =>
     request.get("/v2/object-slim/get-list/role", { params }),
   getCargoType: (params) =>
-    request.get("/v2/object-slim/get-list/cargo_type", { params }),
+    request.get(`/v2/object-slim/get-list/cargo_type`, { params }),
   getMeasurement: (params) =>
     request.get("/v2/object-slim/get-list/measurement", { params }),
   getAddress: (params) =>
@@ -169,10 +169,11 @@ export const useGetRoleList = (params, props) => {
   });
 };
 
-export const useGetCargoType = (params = { data: JSON.stringify({}) }) => {
+export const useGetCargoType = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  console.log(`querySettings`,querySettings,params);
   return useQuery({
     queryKey: ["object/getCargoType", params],
-    queryFn: () => objectService.getCargoType(params),
+    queryFn: () => objectService.getCargoType(params),...querySettings
   });
 };
 
