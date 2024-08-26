@@ -35,7 +35,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Placemark, map } from "@pbe/react-yandex-maps";
-import { UseIcon, loadIcon } from "@/assets/icons/icons";
+import { GreenMapIcon, UseIcon, loadIcon } from "@/assets/icons/icons";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 
@@ -466,7 +466,7 @@ export const SingleCar = ({
           options={{
             iconLayout: "default#image",
             iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(UseIcon),
+              "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(GreenMapIcon),
             iconImageSize:
               watch("users_id")?.value || watch("users_id2")?.value
                 ? [45, 105]

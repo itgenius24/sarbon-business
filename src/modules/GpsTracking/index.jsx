@@ -99,18 +99,17 @@ export default function GpsTrackingModule() {
   const locale = useGetLang();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const [modalType, setModalType] = useState("driverGruzGoods");
-  const [centerModalType, setCenterModalType] = useState(``);
+  const [modalType, setModalType] = useState("filter");
+  const [centerModalType, setCenterModalType] = useState("");
+
   const handlePlacemarkClick = (map, location) => {
     map.setCenter(location, 15); // 15 darajadagi zoom
   };
 
-
   const { t } = useTranslation(locale, "translations");
-  console.log("getCarListProps", getCarListProps());
   return (
     <>
-      <Box className={cls.box} width={"100$"} height={"400vh"}>
+      <Box className={cls.box} width={"100%"} height={"400vh"}>
         <Map
           defaultState={{
             center: coordinates,
@@ -135,31 +134,43 @@ export default function GpsTrackingModule() {
           <SearchControl options={{ float: "right" }} />
           <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
 
-          <Clusterer>
-            {...getCarListProps()?.data?.map((item) => {
-              return (
-                <>
-                  <SingleCar
-                    withAddress={true}
-                    capacity={watch("weight")}
-                    height={watch("volume")}
-                    carType={watch("car_type")?.value}
-                    loadType={watch("load_type_id")?.value}
-                    key={item}
-                    watch={watch}
-                    carInfo={item}
-                    // infoList={infoList}
-                    showDistance={true}
-                    oneDir={true}
-                    phoneBtn={true}
-                    dataAccordion={true}
-                    additionalData={driverName}
-                    isMap={true}
-                  />
-                </>
-              );
-            })}
-          </Clusterer>
+          <Placemark
+            geometry={[41.309886, 69.28193]}
+            options={{
+              iconLayout: `<div>fer</div>`,
+              iconShape: {
+                type: "Circle",
+                coordinates: [30, 30], // The center of the icon
+                radius: 30,
+              },
+            }}
+          />
+
+          {/* <Clusterer> */}
+          {...getCarListProps()?.data?.map((item) => {
+            return (
+              <>
+                <SingleCar
+                  withAddress={true}
+                  capacity={watch("weight")}
+                  height={watch("volume")}
+                  carType={watch("car_type")?.value}
+                  loadType={watch("load_type_id")?.value}
+                  key={item}
+                  watch={watch}
+                  carInfo={item}
+                  // infoList={infoList}
+                  showDistance={true}
+                  oneDir={true}
+                  phoneBtn={true}
+                  dataAccordion={true}
+                  additionalData={driverName}
+                  isMap={true}
+                />
+              </>
+            );
+          })}
+          {/* </Clusterer> */}
 
           {locationData &&
             locationData.map((item) => (
@@ -169,16 +180,6 @@ export default function GpsTrackingModule() {
                   item.location_name.split(",")[0] * 1,
                   item.location_name.split(",")[1] * 1,
                 ]}
-                // properties={{
-                //   balloonContent:
-                //   item?.users_id_data?.full_name +
-                //   " " +
-                //   item?.users_id_data?.phone +
-                //   " " +
-                //   (item?.users_id_data?.vehicle_type_id_data?.name || "") +
-                //   " " +
-                //   item?.update_time,
-                // }}
                 options={{
                   iconLayout: "default#image",
                   iconImageHref:
@@ -198,13 +199,13 @@ export default function GpsTrackingModule() {
         </Map>
         <div className={cls.modalWrap}>
           <Flex>
-            <Box width={`100%`}>
+            <Box width={"100%"}>
               {modalType === "" && (
                 <div
                   onClick={() => setModalType("filter")}
                   className={cls.filterBtn}
                 >
-                <FilterIcon /> Фильтр
+                  <FilterIcon /> Фильтр
                 </div>
               )}
               {modalType === "filter" && (
@@ -223,27 +224,26 @@ export default function GpsTrackingModule() {
                 />
               )}
               {modalType === "driverFree" && <DriverFree cls={cls} />}
-              {modalType === "driverExpectation" && <DriverExpectation cls={cls} />}
+              {modalType === "driverExpectation" && (
+                <DriverExpectation cls={cls} />
+              )}
               {modalType === "driverCheck" && <DriverCheck cls={cls} />}
               {modalType === "driverQuestion" && <DriverQuestion cls={cls} />}
               {modalType === "driverGruz" && <DriverGruz cls={cls} />}
               {modalType === "driverGruzGoods" && <DriverGruzGoods cls={cls} />}
             </Box>
-       
           </Flex>
         </div>
         {centerModalType === "selectCargo" && (
-              <div className={cls.leftModal}>
-                <SelectCargo cls={cls} />
-              </div>
-            )}
-            {
-              centerModalType === "changeIcon" && (
-                <div className={cls.leftModal}>
-                <ChangeIconModal cls={cls} />
-              </div>
-              )
-            }
+          <div className={cls.leftModal}>
+            <SelectCargo cls={cls} />
+          </div>
+        )}
+        {centerModalType === "changeIcon" && (
+          <div className={cls.leftModal}>
+            <ChangeIconModal cls={cls} />
+          </div>
+        )}
       </Box>
       {/* <Container py="40px">
           <Flex mb={"0px"} alignItems={"center"} justifyContent={"space-between"}>

@@ -32,6 +32,7 @@ export const Dropdown = ({
   index,
   isMulti,
   clearable,
+  isTop=false
 }) => {
   const height = Math.floor(options && options.length * 50 / 2);
 
@@ -151,7 +152,7 @@ export const Dropdown = ({
           }
           {isOpen && optionLen && (
             <div
-              className={cls.options}
+              className={`${cls.options} ${isTop ?  cls.top : ''}`}
               style={{ maxHeight: options.length > 2 ? optionsHeight : "auto" }}
               onClick={handleClose}
             >

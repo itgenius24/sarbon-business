@@ -120,6 +120,35 @@ const Filter = ({
               clearable
             />
           </Flex>
+          <p className={cls.label}>
+          Параметры груза
+          </p>
+          <Flex gap={4}>
+        
+          <TextFieldWithAddition
+            className={cls.textField}
+            errors={errors}
+            control={control}
+            name="weight_measurement"
+            register={register}
+            additionalItemName="weight_unit"
+            // width="134px"
+            placeholder={t("Вес")}
+            type="number"
+            zIndex={90}
+          />
+          <TextFieldWithAddition
+            className={cls.textField}
+            errors={errors}
+            control={control}
+            name="volume_measurement"
+            register={register}
+            // width="134px"
+            placeholder={t("Объем")}
+            additionalItemPlaceholder="m³"
+            type="number"
+          />
+          </Flex>
         </Box>
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>Поиск по водителю</p>
