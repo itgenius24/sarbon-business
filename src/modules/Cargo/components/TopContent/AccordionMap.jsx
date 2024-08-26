@@ -126,7 +126,7 @@ export const AccordionMap = ({
         />
 
         {
-          line.length > 0 && line.map(item => (
+          line?.length > 0 && line?.map(item => (
             <Placemark
               key={item.lat}
               geometry={item}
