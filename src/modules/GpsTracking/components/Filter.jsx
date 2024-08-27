@@ -23,8 +23,10 @@ const Filter = ({
   setValue,
   handleOpenModal,
   errors,
+  setDistance,
   carTypeOptions,
-  getUserNameOptions,
+  getUserOption,
+  distance
 }) => {
   return (
     <div className={cls.filter}>
@@ -65,9 +67,9 @@ const Filter = ({
           />
           <Flex mt={5} justifyContent={"space-between"} width={"100%"}>
             <p>{t("Дистанция")}</p>
-            <span className={cls.disNum}>250 km</span>
+            <span className={cls.disNum}>{distance * 2} km</span>
           </Flex>
-          <Slider mt={1} aria-label="slider-ex-1" defaultValue={30}>
+          <Slider onChange={(e) => setDistance(e*2)} mt={1} aria-label="slider-ex-1" defaultValue={30}>
             <SliderTrack bg="rgba(0, 122, 255, 0.3)">
               <SliderFilledTrack bg={"rgba(0, 122, 255, 1)"} />
             </SliderTrack>
@@ -129,7 +131,7 @@ const Filter = ({
             className={cls.textField}
             errors={errors}
             control={control}
-            name="weight_measurement"
+            name="weight"
             register={register}
             additionalItemName="weight_unit"
             // width="134px"
@@ -141,7 +143,7 @@ const Filter = ({
             className={cls.textField}
             errors={errors}
             control={control}
-            name="volume_measurement"
+             name="volume"
             register={register}
             // width="134px"
             placeholder={t("Объем")}
@@ -153,7 +155,7 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>Поиск по водителю</p>
           <ChakraSelect
-            options={getUserNameOptions}
+            options={getUserOption}
             name="users_id"
             placeholder={t("Введите тип имя")}
             control={control}

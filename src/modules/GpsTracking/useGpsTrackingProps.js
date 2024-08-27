@@ -22,6 +22,7 @@ export const useGpsTrackingProps = () => {
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState();
+  const [distance, setDistance] = useState(50);
 
   useEffect(() => {
     if (checked) {
@@ -221,8 +222,7 @@ export const useGpsTrackingProps = () => {
   }
 
   const getTrailerType = useGetTrailerType();
-  const getUserData = useGetUserData();
-  // console.log(`getUserData`, getUserData);
+
   const getLoadingTypes = useLoadingTypes();
   const carTypeOptions = getTrailerType.data?.response?.map((item) => ({
     label: item?.name,
@@ -281,12 +281,13 @@ export const useGpsTrackingProps = () => {
         }
       } else {
         if (data?.data?.response?.length) {
-          // console.log("data",)
+
           setCarsArr(
             data?.data?.response?.filter(
               (item) => item?.users_id_data?.vehicle_type_id_data
             )
           );
+
         } else {
           setCarsArr([]);
           toast({
@@ -306,12 +307,12 @@ export const useGpsTrackingProps = () => {
     let id = "";
     if (watch("users_id")?.value) {
       id = watch("users_id")?.value;
-    }  else if (watch("users_id2")?.value) {
+    } else if (watch("users_id2")?.value) {
       id = watch("users_id2")?.value;
     }
-   
-    console.log('id',id);
-     
+
+    console.log("id", id);
+
     return carsArr?.filter((item) => item?.users_id === id);
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
 
@@ -322,13 +323,15 @@ export const useGpsTrackingProps = () => {
       setLocationData(res?.data?.response);
     },
   });
- 
+
   const getCarListProps = () => {
     return {
-      data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr,
+      data:
+        watch("users_id")?.value || watch("users_id2")?.value
+          ? dataUserID
+          : carsArr,
     };
   };
-
 
   const getUserNameOptions = getCarListProps().data?.map((item) => ({
     label: item?.users_id_data?.full_name,
@@ -336,22 +339,44 @@ export const useGpsTrackingProps = () => {
   }));
 
   const getUserPhoneOptions = getCarListProps().data?.map((item) => ({
-    label:  item?.users_id_data?.phone,
-    value:  item?.users_id_data?.guid,
+    label: item?.users_id_data?.phone,
+    value: item?.users_id_data?.guid,
   }));
 
+  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
+  console.log(`getUserOption`,getUserOption);
 
 
   useEffect(() => {
-    if (!watch("aaddress")) {
-      mutate({ data: {} });
-    }
     getLocation({
       data: {},
     });
   }, []);
 
-
+  useEffect(() => {
+    if (!watch("aaddress")) {
+      mutate({
+        data: {
+          object_data: {
+            lat: watch("cor")?.split(",")[0],
+            long: watch("cor")?.split(",")[1],
+            number: distance * 2 || 100,
+            car_type_id: watch("car_type")?.value,
+            load_type_id: watch("load_type_id")?.value,
+            weight: watch("weight"),
+            volume: watch("volume"),
+          },
+        },
+      });
+    }
+  }, [
+    watch("cor")?.split(",")[0],
+    distance,
+    watch("car_type")?.value,
+    watch("load_type_id")?.value,
+    watch("weight"),
+    watch("volume"),
+  ]);
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
@@ -360,7 +385,7 @@ export const useGpsTrackingProps = () => {
         object_data: {
           lat,
           long,
-          number: data.distance || "0",
+          number: distance || "100",
           car_type_id: watch("car_type")?.value,
           load_type_id: watch("load_type_id")?.value,
           weight: watch("weight"),
@@ -415,7 +440,8 @@ export const useGpsTrackingProps = () => {
     setValue,
     setChecked,
     checked,
-    getUserNameOptions,
-    getUserPhoneOptions,
+    getUserOption,
+    setDistance,
+    distance,
   };
 };

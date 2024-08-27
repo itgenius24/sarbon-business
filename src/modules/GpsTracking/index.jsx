@@ -92,8 +92,9 @@ export default function GpsTrackingModule() {
     setChecked,
     checked,
     locationData,
-    getUserNameOptions,
-    getUserPhoneOptions,
+    getUserOption,
+    setDistance,
+    distance
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -213,14 +214,17 @@ export default function GpsTrackingModule() {
                   cls={cls}
                   watch={watch}
                   setValue={setValue}
-                  getUserNameOptions={getUserNameOptions}
+                  getUserOption={getUserOption}
                   loadingOptions={loadingOptions}
                   register={register}
+                  setDistance={setDistance}
+                  distance={distance}
                   t={t}
                   control={control}
                   handleOpenModal={handleOpenModal}
                   errors={errors}
                   carTypeOptions={carTypeOptions}
+
                 />
               )}
               {modalType === "driverFree" && <DriverFree cls={cls} />}
@@ -728,7 +732,11 @@ export default function GpsTrackingModule() {
           </>
         )}
         <Container py="40px">
-          <Modal
+
+        </Container> */}
+
+
+        <Modal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             firstBtnCallback={handleCloseModal}
@@ -747,7 +755,6 @@ export default function GpsTrackingModule() {
               }}
             />
           </Modal>
-        </Container> */}
     </>
   );
 }
