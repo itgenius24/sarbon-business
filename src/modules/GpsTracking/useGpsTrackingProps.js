@@ -287,7 +287,6 @@ export const useGpsTrackingProps = () => {
       } else {
         if (data?.data?.response?.length) {
            const data2 =  data?.data?.response?.filter((item) => item?.users_id_data?.vehicle_type_id_data);
-       
           setCarsArr((res) => [...res,...data2]);
 
         } else {
