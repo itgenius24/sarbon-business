@@ -24,6 +24,7 @@ export const useGpsTrackingProps = () => {
   const [locationData, setLocationData] = useState();
   const [distance, setDistance] = useState(50);
   const [closeRes,setCLoseRes] = useState(false);
+  const [offset,setOffset] = useState(0);
 
   useEffect(() => {
     if (checked) {
@@ -262,6 +263,9 @@ export const useGpsTrackingProps = () => {
   const toast = useToast();
   const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
+      if (data?.data?.response?.length === 40) {
+        setOffset(offset + 1);
+      }
       if (watch("address")) {
         if (data?.response?.length) {
           setCarsArr(
@@ -282,8 +286,9 @@ export const useGpsTrackingProps = () => {
         }
       } else {
         if (data?.data?.response?.length) {
-           const data =  data?.data?.response?.filter((item) => item?.users_id_data?.vehicle_type_id_data);
-          setCarsArr((res) => [...res,...data]);
+           const data2 =  data?.data?.response?.filter((item) => item?.users_id_data?.vehicle_type_id_data);
+       
+          setCarsArr((res) => [...res,...data2]);
 
         } else {
           setCarsArr([]);
@@ -296,12 +301,12 @@ export const useGpsTrackingProps = () => {
             position: "top-right",
           });
         }
-       
+        if (data?.data?.response?.length === null && !closeRes) {
+          setCLoseRes(true);
+          mutate({ data: { object_data: { limit: 40, page: offset } } });
+        }
       }
-      if (data?.data?.response?.length === null && !closeRes) {
-        setCLoseRes(true);
-        mutate({ data: { object_data: { limit: 40, page: offset } } });
-      }
+     
     },
   });
 
@@ -378,7 +383,7 @@ export const useGpsTrackingProps = () => {
     watch("load_type_id")?.value,
     watch("weight"),
     watch("volume"),
-    closeRes
+    offset
   ]);
 
   const onSubmit = (data) => {
