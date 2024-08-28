@@ -26,7 +26,8 @@ const Filter = ({
   setDistance,
   carTypeOptions,
   getUserOption,
-  distance
+  distance,
+  handleClear
 }) => {
   return (
     <div className={cls.filter}>
@@ -37,11 +38,11 @@ const Filter = ({
           justifyContent={"space-between"}
           width={"100%"}
         >
-          <Flex alignItems={"center"} gap={"10px"}>
-            {" "}
+          <Flex onClick={() => handleClear()} alignItems={"center"} gap={"10px"}>
+         
             <FilterIconBlack /> <span className={cls.filterText}>
               Фильтр
-            </span>{" "}
+            </span>
           </Flex>
           <p className={cls.clearBtn}>Сбросить</p>
         </Flex>
@@ -97,7 +98,7 @@ const Filter = ({
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
-          <Flex flexDirection={"column"} rowGap={3}>
+          <Flex flexDirection={"column"} rowGap={2}>
             <Dropdown
               placeholder={t("Введите тип кузова")}
               label={t("Тип кузова")}
@@ -121,45 +122,49 @@ const Filter = ({
               setValue={setValue}
               clearable
             />
+            <Box>
+              <p className={cls.checkCardTitle}>Поиск по водителю</p>
+              <ChakraSelect
+                options={getUserOption}
+                name="users_id"
+                placeholder={t("Введите тип имя")}
+                control={control}
+              />
+
+            </Box>
           </Flex>
+
+        </Box>
+        <Box className={cls.cardWrap}>
           <p className={cls.label}>
           Параметры груза
           </p>
           <Flex gap={4}>
-        
-          <TextFieldWithAddition
-            className={cls.textField}
-            errors={errors}
-            control={control}
-            name="weight"
-            register={register}
-            additionalItemName="weight_unit"
-            // width="134px"
-            placeholder={t("Вес")}
-            type="number"
-            zIndex={90}
-          />
-          <TextFieldWithAddition
-            className={cls.textField}
-            errors={errors}
-            control={control}
-             name="volume"
-            register={register}
-            // width="134px"
-            placeholder={t("Объем")}
-            additionalItemPlaceholder="m³"
-            type="number"
-          />
+
+            <TextFieldWithAddition
+              className={cls.textField}
+              errors={errors}
+              control={control}
+              name="weight"
+              register={register}
+              additionalItemName="weight_unit"
+              // width="134px"
+              placeholder={t("Вес")}
+              type="number"
+              zIndex={90}
+            />
+            <TextFieldWithAddition
+              className={cls.textField}
+              errors={errors}
+              control={control}
+              name="volume"
+              register={register}
+              // width="134px"
+              placeholder={t("Объем")}
+              additionalItemPlaceholder="m³"
+              type="number"
+            />
           </Flex>
-        </Box>
-        <Box className={cls.cardWrap}>
-          <p className={cls.checkCardTitle}>Поиск по водителю</p>
-          <ChakraSelect
-            options={getUserOption}
-            name="users_id"
-            placeholder={t("Введите тип имя")}
-            control={control}
-          />
         </Box>
       </Flex>
     </div>

@@ -94,7 +94,8 @@ export default function GpsTrackingModule() {
     locationData,
     getUserOption,
     setDistance,
-    distance
+    distance,
+    handleClear
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -219,6 +220,7 @@ export default function GpsTrackingModule() {
                   register={register}
                   setDistance={setDistance}
                   distance={distance}
+                  handleClear={handleClear}
                   t={t}
                   control={control}
                   handleOpenModal={handleOpenModal}

@@ -23,8 +23,8 @@ export const useGpsTrackingProps = () => {
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState();
   const [distance, setDistance] = useState(50);
-  const [closeRes,setCLoseRes] = useState(false);
-  const [offset,setOffset] = useState(0);
+  const [closeRes, setCLoseRes] = useState(false);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     if (checked) {
@@ -267,6 +267,7 @@ export const useGpsTrackingProps = () => {
         setOffset(offset + 1);
       }
       if (watch("address")) {
+        console.log(`data?.data?.response?.length`, data?.response?.length);
         if (data?.response?.length) {
           setCarsArr(
             data?.response?.filter(
@@ -286,9 +287,10 @@ export const useGpsTrackingProps = () => {
         }
       } else {
         if (data?.data?.response?.length) {
-           const data2 =  data?.data?.response?.filter((item) => item?.users_id_data?.vehicle_type_id_data);
-          setCarsArr((res) => [...res,...data2]);
-
+          const data2 = data?.data?.response?.filter(
+            (item) => item?.users_id_data?.vehicle_type_id_data
+          );
+          setCarsArr((res) => [...res, ...data2]);
         } else {
           setCarsArr([]);
           toast({
@@ -305,7 +307,6 @@ export const useGpsTrackingProps = () => {
           mutate({ data: { object_data: { limit: 40, page: offset } } });
         }
       }
-     
     },
   });
 
@@ -350,12 +351,11 @@ export const useGpsTrackingProps = () => {
   }));
 
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
-  console.log(`getUserOption`,getUserOption);
-
+  console.log(`getUserOption`, getUserOption);
 
   useEffect(() => {
     getLocation({
-      data: {},
+      data: { object_data: {} },
     });
   }, []);
 
@@ -371,6 +371,8 @@ export const useGpsTrackingProps = () => {
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
+            limit: 40,
+            page: offset,
           },
         },
       });
@@ -382,9 +384,17 @@ export const useGpsTrackingProps = () => {
     watch("load_type_id")?.value,
     watch("weight"),
     watch("volume"),
-    offset
+    offset,
   ]);
 
+  const handleClear = () => {
+    setValue("cor", ``);
+    setValue("address", ``);
+    setValue("car_type", null);
+    setValue("weight", null);
+    setValue("load_type_id", null);
+    setValue("volume", null);
+  };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
     mutate({
@@ -397,6 +407,8 @@ export const useGpsTrackingProps = () => {
           load_type_id: watch("load_type_id")?.value,
           weight: watch("weight"),
           volume: watch("volume"),
+          limit: 40,
+          page: offset,
         },
       },
     });
@@ -450,5 +462,6 @@ export const useGpsTrackingProps = () => {
     getUserOption,
     setDistance,
     distance,
+    handleClear,
   };
 };
