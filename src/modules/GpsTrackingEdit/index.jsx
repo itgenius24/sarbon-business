@@ -49,15 +49,11 @@ import {
   loadIcon,
 } from "@/assets/icons/icons";
 import React, { useCallback, useRef, useState } from "react";
-import { useGpsTrackingProps } from "@/modules/GpsTracking/useGpsTrackingProps";
+
 import cls from "./style.module.scss";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Modal } from "@/components/Modal";
 import LoadingMap from "@/modules/Cargo/components/LoadingMap";
-import { Dropdown } from "@/components/Dropdown";
-import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { UseIcon } from "@/assets/icons/icons";
+
 import ReactDOMServer from "react-dom/server";
 import {
   Clusterer,
@@ -82,10 +78,11 @@ import DriverQuestion from "./components/DriverQuestion";
 import DriverGruz from "./components/DriverGruz";
 import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
+import {useGpsTrackingProps}  from "./useGpsTrackingProps";
 
 /* eslint no-undef: 0 */ // --> OFF
 
-export default function GpsTrackingModule() {
+export default function GpsTrackingModuleTets() {
   const {
     register,
     errors,

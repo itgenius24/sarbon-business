@@ -25,12 +25,29 @@ export const useGpsTrackingProps = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`translations`,locale);
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
-  const [locationData, setLocationData] = useState();
+  const [locationData, setLocationData] = useState([]);
+  const [distance, setDistance] = useState(50);
+  const [closeRes, setCLoseRes] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [offsetCar, setOffsetCAr] = useState(0);
+  const [contendSingle, setContendSingle] = useState();
+  const [iconStatus, setIconStatus] = useState(``);
+  const [modalType, setModalType] = useState("");
+  const [centerModalType, setCenterModalType] = useState("");
+  const [loadState,setLoadState] = useState({});
+  const [stateMap,setStateMap] = useState(false)
+  const [addressAdd,setAddressAdd] = useState()
+  const [checkboxStatuses, setCheckboxStatuses] = useState({
+    empty: true,
+    our_cargo: true,
+    someone_cargo: true,
+    broke_down: true,
+    waiting_for_driver: true,
+  });
 
   useEffect(() => {
     if (checked) {
@@ -274,7 +291,6 @@ export const useGpsTrackingProps = () => {
   }, [getMeasurement.isSuccess]);
 
   const [carsArr, setCarsArr] = useState([]);
-
   const toast = useToast();
 
   const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
@@ -285,12 +301,11 @@ export const useGpsTrackingProps = () => {
       if (watch("address")) {
         console.log(`data?.data?.response?.length`, data?.response?.length);
         if (data?.response?.length) {
-          setCarsArr((res) => [
-            ...res,
+          setCarsArr(
             data?.response?.filter(
               (item) => item?.users_id_data?.vehicle_type_id_data
-            ),
-          ]);
+            )
+          );
         } else {
           setCarsArr([]);
           toast({
@@ -353,37 +368,104 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
- 
-  const getCarListProps = () => {
-    return {
-      data: watch("users_id")?.value || watch("users_id2")?.value ? dataUserID : carsArr,
-    };
-  };
 
+  // const filterData = (data, checkboxStatuses) => {
+  //   return data?.filter(item => {
+  //     console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
+
+  //     return item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]);
+  //   });
+  // };
+
+  // const filteredData = filterData(carsArr, checkboxStatuses);
+
+  const getCarListProps = useMemo(() => {
+    return {
+      data: watch("users_id")?.value ? dataUserID : carsArr,
+    };
+  }, [watch("users_id")?.value, dataUserID, carsArr]);
+
+
+  
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.users_id_data?.full_name,
     value: item?.users_id_data?.guid,
   }));
 
-  const getUserPhoneOptions = getCarListProps().data?.map((item) => ({
-    label:  item?.users_id_data?.phone,
-    value:  item?.users_id_data?.guid,
+  const getUserPhoneOptions = getCarListProps.data?.map((item) => ({
+    label: item?.users_id_data?.phone,
+    value: item?.users_id_data?.guid,
   }));
+  const { mutate: userUpdate } = useUpdateUserInfo({
+    onSuccess() {
+      setCenterModalType(``);
+      toast({
+        title: "Успешно изменено!",
+        description: "Вы успешно обновили этого пользователя",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+    onError() {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить пользователя!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+  });
 
-  const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
+  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    if (!watch("aaddress")) {
-      mutate({ data: {} });
-    }
     getLocation({
       data: { object_data: { limit: 20, page: offsetCar } },
     });
   }, []);
 
+  useEffect(() => {
+    if (!watch("aaddress")) {
+      mutate({
+        data: {
+          object_data: {
+            lat: watch("cor")?.split(",")[0],
+            long: watch("cor")?.split(",")[1],
+            number: distance * 2 || 100,
+            car_type_id: watch("car_type")?.value,
+            load_type_id: watch("load_type_id")?.value,
+            weight: watch("weight"),
+            volume: watch("volume"),
+            limit: 40,
+            page: offset,
+          },
+        },
+      });
+    }
+  }, [
+    watch("cor")?.split(",")[0],
+    distance,
+    watch("car_type")?.value,
+    watch("load_type_id")?.value,
+    watch("weight"),
+    watch("volume"),
+    offset,
+  ]);
 
-
+  const handleClear = () => {
+    setValue("cor", ``);
+    setValue("address", ``);
+    setValue("car_type", null);
+    setValue("weight", null);
+    setValue("load_type_id", null);
+    setValue("volume", null);
+    // setModalType('');
+  };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
     mutate({
