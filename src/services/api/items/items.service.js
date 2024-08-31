@@ -5,9 +5,9 @@ const itemsService = {
   createAd: (data) => request.post("/v2/items/car_sale", data),
   updateAd: (data) => request.put("/v2/items/car_sale", data),
   updateUserInfo: (data) => request.put("/v2/items/users", data),
+  updateLoad: (data) => request.put("/v2/items/cargo", data),
   getUserInfo: (id) => request.get(`/v2/items/users/${id}`),
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
-  createCargo: (data) => request.post("/v2/items/cargo", data),
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`,{data:JSON.stringify({data:{}})}),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
@@ -56,6 +56,7 @@ export const useGetClientType = (params = {}) => {
 export const useCreateCargoMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createCargo(data), ...mutationSettings });
 };
+
 
 export const useDeleteCargo = (mutationSettings) => {
   return useMutation({ mutationFn: ({ id }) => itemsService.deleteCargo(id), ...mutationSettings });

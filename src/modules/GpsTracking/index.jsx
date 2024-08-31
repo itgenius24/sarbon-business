@@ -12,15 +12,43 @@ import {
   Button,
   Flex,
   Heading,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   Switch,
   Text,
+  Tooltip,
   VStack,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
-import { LocationMarkIcon, loadIcon } from "@/assets/icons/icons";
-import React from "react";
+import {
+  BlueFuraIcon,
+  BluePendingIcon,
+  BluePhoneIcon,
+  CencelMapIcon,
+  CheckBlueIcon,
+  FilterIcon,
+  FilterIconBlack,
+  GoodsFuraIcon,
+  GoodsPhoneIcon,
+  GreenCarIcon,
+  GreenFuraIcon,
+  GreenMapIcon,
+  GreenPhoneIcon,
+  LoadOulineIcon,
+  LocationMarkIcon,
+  MapCargoGreenIcon,
+  MapCargoLoadGoodsIcon,
+  MapLoadGreenIcon,
+  MapLoadIcon,
+  QuestionBlueIcon,
+  StoneIcon,
+  loadIcon,
+} from "@/assets/icons/icons";
+import React, { useCallback, useRef, useState } from "react";
 import { useGpsTrackingProps } from "@/modules/GpsTracking/useGpsTrackingProps";
 import cls from "./style.module.scss";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
@@ -30,7 +58,9 @@ import { Dropdown } from "@/components/Dropdown";
 import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { UseIcon } from "@/assets/icons/icons";
+import ReactDOMServer from "react-dom/server";
 import {
+  Clusterer,
   Map,
   Placemark,
   SearchControl,
@@ -41,6 +71,17 @@ import styled from "@emotion/styled";
 import PlacemarkItem from "./PlacemarkItem";
 import { SingleCar } from "../SearchCar/component/SingleCar/SingleCar";
 import { ChakraSelect } from "@/components/ChakraSelect";
+import Filter from "./components/Filter";
+import DriverFree from "./components/DriverFree";
+import SelectCargo from "./components/SelectCargo";
+import ChangeIconModal from "./components/ChangeIconModal";
+import { format } from "date-fns";
+import DriverExpectation from "./components/DriverExpectation";
+import DriverCheck from "./components/DriverCheck";
+import DriverQuestion from "./components/DriverQuestion";
+import DriverGruz from "./components/DriverGruz";
+import DriverGruzGoods from "./components/DriverGruzGoods";
+import Cmap from "./components/Cmap";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -72,529 +113,534 @@ export default function GpsTrackingModule() {
     setChecked,
     checked,
     locationData,
-    getUserNameOptions,
-    getUserPhoneOptions,
+    getUserOption,
+    setDistance,
+    distance,
+    mapIcon,
+    handleClear,
+    setContendSingle,
+    contendSingle,
+    setIconStatus,
+    iconStatus,
+    statusIconChange,
+    modalType,
+    setModalType,
+    centerModalType,
+    setCenterModalType,
+    setLoadState,
+    loadState,
+    checkboxStatuses,
+    handleCheckboxChange,
+    setStateMap
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
 
-  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const handlePlacemarkClick = (map, location) => {
-    map.setCenter(location, 15); // 15 darajadagi zoom
+  // const handlePlacemarkClick = (map, location) => {
+  //   map.setCenter(location, 15); // 15 darajadagi zoom
+  // };
+  const cargoRef = useRef(null);
+
+  const handleMouseEnter = (e, carInfo) => {
+    e.preventDefault();
+    const placemark = e.get("target");
+    placemark.balloon.open();
+    // cargoRef.current = carInfo;
+    setContendSingle(carInfo);
   };
 
+  // console.log("cargoRef",cargoRef);
 
+  const handleMouseEnterCargo = (e, carInfo) => {
+    e.preventDefault();
+    const placemark = e.get("target");
+    placemark.balloon.open();
+    setLoadState(carInfo);
+  };
 
-  const { t } = useTranslation(locale, "translations");
-  
-  return (
-    <>
-      <Container py="40px">
-        <Flex mb={"0px"} alignItems={"center"} justifyContent={"space-between"}>
-          <Heading size="md">{t("gpsTracking.title")}</Heading>
-          <Switch
-            defaultChecked={true}
-            onChange={(e) => setChecked(e.target.checked)}
-          >
-            Map
-          </Switch>
-        </Flex>
-      </Container>
-      {checked ? (
-        <>
-          <Box
-            className={cls.mapWrap}
-            width={"80%"}
-            margin={"0 auto"}
-            mb={"29px"}
-            height={"70vh"}
-            position={"relative"}
-          >
-            <Box className={cls.mapInputsWrap}>
-              <Box className={cls.accordionItem}>
-                <VStack
-                  as="form"
-                  onSubmit={handleSubmit(onSubmit)}
-                  align="stretch"
-                  spacing="24px"
-                >
-                  <Box p="24px" bgColor="baseWhite" borderRadius="12px">
-                    <Box
-                      display="flex"
-                      mb="20px"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <Heading
-                        size="sm"
-                        fontSize="18px"
-                        lineHeight="28px"
-                        fontWeight="600"
-                      >
-                        {t("gpsTracking.machineDetails")}
-                      </Heading>
-                    </Box>
-                    <Box mb={"20px"}>
-                      <Box
-                        display="flex"
-                        flexDirection={isLargerThan768 ? "column" : "column"}
-                        gap="20px"
-                      >
-                        <TextFieldWithAddition
-                          placeholder={t("Адрес")}
-                          // required={true}
-                          rules={{ required: true }}
-                          label={t("Адрес")}
-                          additionalItemTheme="white"
-                          register={register}
-                          name={"address"}
-                          additionalOnclick={() => handleOpenModal()}
-                          onClick={() => handleOpenModal()}
-                          error={errors["address"]}
-                          onlyFieldDisabled={true}
-                          // disabled={!canEdit}
-                          additionalItemPlaceholder={
-                            <span className={cls.additionalIcons}>
-                              <LocationMarkIcon />
-                            </span>
-                          }
-                        />
-                        <TextFieldWithAddition
-                          placeholder={t("Дистанция")}
-                          label={t("Дистанция")}
-                          additionalItemTheme="white"
-                          register={register}
-                          name={"distance"}
-                          additionalOnclick={() => handleOpenModal()}
-                          additionalItemPlaceholder={
-                            <span className={cls.additionalIcons}>km</span>
-                          }
-                        />
-                      </Box>
-                      <Box
-                        display="flex"
-                        flexDirection={isLargerThan768 ? "column" : "column"}
-                        gap="20px"
-                        mt="20px"
-                      >
-                        <Box className={cls.kuzov} width={"100%"}>
-                          <Dropdown
-                            placeholder={t("Введите тип кузова")}
-                            label={t("Тип кузова")}
-                            name="car_type"
-                            options={carTypeOptions}
-                            errors={errors}
-                            width="100%"
-                            control={control}
-                            watch={watch}
-                            setValue={setValue}
-                            clearable
-                          />
-                        </Box>
-                        <Box className={cls.kuzov} width={"100%"}>
-                          <Dropdown
-                            placeholder={t("Введите тип загрузки")}
-                            label={t("Тип загрузки")}
-                            name="load_type_id"
-                            options={loadingOptions}
-                            errors={errors}
-                            control={control}
-                            watch={watch}
-                            setValue={setValue}
-                            clearable
-                          />
-                        </Box>
-                      </Box>
-                    </Box>
-                    <Box>
-                      <Accordion allowToggle>
-                        <AccordionItem border={"none"}>
-                          <Box
-                            display="flex"
-                            flexDirection={
-                              isLargerThan768 ? "column" : "column"
-                            }
-                            gap="20px"
-                            mt="20px"
-                          >
-                            <TextFieldWithAddition
-                              errors={errors}
-                              control={control}
-                              name="weight"
-                              className={cls.paramtersItem}
-                              register={register}
-                              additionalItemName="weight_unit"
-                              // width="100%"
-                              placeholder={t("Вес")}
-                              additionalItemOptions={weightMeasurementOptions}
-                              type="number"
-                              zIndex={10}
-                            />
-                            <TextFieldWithAddition
-                              errors={errors}
-                              control={control}
-                              name="volume"
-                              className={cls.paramtersItem}
-                              register={register}
-                              // width="100%"
-                              placeholder={t("Объем")}
-                              additionalItemPlaceholder="m³"
-                              type="number"
-                              // additionalItemName="volume_unit"
-                              // additionalItemOptions={volumeMeasurementOptions}
-                            />
-                          </Box>
-                        </AccordionItem>
-                      </Accordion>
-                    </Box>
-                    <Box
-                      display="flex"
-                      flexDirection={isLargerThan768 ? "column" : "column"}
-                      gap="20px"
-                      mt="20px"
-                    >
-                      <Box className={cls.kuzov} width={"100%"}>
-                        <ChakraSelect
-                          options={getUserNameOptions}
-                          name="users_id"
-                          placeholder={t("Введите тип имя")}
-                          control={control}
-                        />
-                      </Box>
-                      <Box className={cls.kuzov} width={"100%"}>
-                        <ChakraSelect
-                          options={getUserPhoneOptions}
-                          name="users_id2"
-                          placeholder={t("Введите тип номер")}
-                          control={control}
-                        />
-                      </Box>
-                    </Box>
-                    <Button
-                      type={"submit"}
-                      className={cls.findBtn}
-                      mt="20px"
-                      onClick={handleCalculate}
-                    >
-                      {t("gpsTracking.searchCars")}
-                    </Button>
-                  </Box>
-                </VStack>
-              </Box>
-            </Box>
-            <Map
-              defaultState={{
-                center: coordinates,
-                zoom: 6,
-              }}
-              options={{
-                maxZoom: 17,
-                minZoom: 2,
-              }}
-              width="100%"
-              height={"60v"}
-              modules={["Placemark", "geocode", "control.SearchControl"]}
+  const type = contendSingle?.users_id_data?.provisions?.[0];
+  const typeCargo = loadState?.order_status?.[0];
+
+  const BalloonContent = () => (
+    <div id="balloon-content" className={cls.balloon_content_empty}>
+      <div className={cls.wrap} style={{ height: "45px" }}>
+        {type === "empty" ? (
+          <>
+            {" "}
+            <GreenCarIcon /> <span className={cls.balloonName}>Свободен</span>
+          </>
+        ) : type === "waiting_for_driver" ? (
+          <>
+            {" "}
+            <BluePendingIcon />{" "}
+            <span
+              style={{ color: "rgba(0, 122, 255, 1)" }}
+              className={cls.balloonName}
             >
-              <TypeSelector
-                mapTypes={[
-                  "yandex#map",
-                  "yandex#satellite",
-                  "yandex#hybrid",
-                  "yandex#publicMap",
-                ]}
-              />
-              <SearchControl options={{ float: "right" }} />
-              <ZoomControl
-                options={{ position: { bottom: "30vh", right: 4 } }}
-              />
+              Ожидание
+            </span>
+          </>
+        ) : type === "our_cargo" ? (
+          <>
+            {" "}
+            <CheckBlueIcon />{" "}
+            <span
+              style={{ color: "rgba(0, 122, 255, 1)" }}
+              className={cls.balloonName}
+            >
+              Занят
+            </span>
+          </>
+        ) : type === "someone_cargo" ? (
+          <>
+            {" "}
+            <QuestionBlueIcon />{" "}
+            <span
+              style={{ color: "rgba(0, 122, 255, 1)" }}
+              className={cls.balloonName}
+            >
+              Занят
+            </span>
+          </>
+        ) : type === "broke_down" ? (
+          <>
+            {" "}
+            <CencelMapIcon />{" "}
+            <span
+              style={{ color: "rgba(126, 123, 134, 1)" }}
+              className={cls.balloonName}
+            >
+              Сломалась
+            </span>
+          </>
+        ) : (
+          <>
+            {" "}
+            <GreenCarIcon /> <span className={cls.balloonName}>Свободен</span>
+          </>
+        )}
 
-              { 
-                 ...getCarListProps()?.data?.map((item) => {
-                  return (
-                    <>
-                      <SingleCar
-                        withAddress={true}
-                        capacity={watch("weight")}
-                        height={watch("volume")}
-                        carType={watch("car_type")?.value}
-                        loadType={watch("load_type_id")?.value}
-                        key={item}
-                        watch={watch}
-                        carInfo={item}
-                        // infoList={infoList}
-                        showDistance={true}
-                        oneDir={true}
-                        phoneBtn={true}
-                        dataAccordion={true}
-                        additionalData={driverName}
-                        isMap={true}
-                      />
-                    </>
-                  );
-                })
-
-              }
-
-              {locationData &&
-                locationData.map((item) => (
-                  <Placemark
-                    key={item?.id}
-                    geometry={[
-                      item.location_name.split(",")[0] * 1,
-                      item.location_name.split(",")[1] * 1,
-                    ]}
-                    // properties={{
-                    //   balloonContent:
-                    //   item?.users_id_data?.full_name +
-                    //   " " +
-                    //   item?.users_id_data?.phone +
-                    //   " " +
-                    //   (item?.users_id_data?.vehicle_type_id_data?.name || "") +
-                    //   " " +
-                    //   item?.update_time,
-                    // }}
-                    options={{
-                      iconLayout: "default#image",
-                      iconImageHref:
-                        "data:image/svg+xml;charset=UTF-8," +
-                        encodeURIComponent(loadIcon),
-                      iconImageSize: [40, 52],
-                      iconImageOffset: [-15, -42],
-                    }}
-                    onClick={(e) =>
-                      handlePlacemarkClick(e.get("target").getMap(), [
-                        item.location_name.split(",")[0] * 1,
-                        item.location_name.split(",")[1] * 1,
-                      ])
-                    }
-                  />
-                ))}
-            </Map>
-          </Box>
+        <Flex>
+          <p
+            className={cls.conWrap}
+            gap={1}
+            alignItems={"center"}
+            flexWrap={"nowrap"}
+          >
+            <StoneIcon /> <span>22 т</span>
+          </p>
+          <p className={cls.conWrap} gap={1} alignItems={"center"}>
+            <LoadOulineIcon /> 86m3
+          </p>
+        </Flex>
+      </div>
+      <p className={cls.balloon_fulName}>
+        {contendSingle?.users_id_data?.full_name}
+      </p>
+      {type === "empty" ? (
+        <>
+          <p className={cls.footerBox}>
+            <GreenPhoneIcon /> {contendSingle?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <GreenFuraIcon />
+            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      ) : type === "waiting_for_driver" ? (
+        <>
+          {" "}
+          <p className={cls.footerBox}>
+            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <BlueFuraIcon />
+            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      ) : type === "our_cargo" ? (
+        <>
+          {" "}
+          <p className={cls.footerBox}>
+            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <BlueFuraIcon />
+            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      ) : type === "someone_cargo" ? (
+        <>
+          {" "}
+          <p className={cls.footerBox}>
+            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <BlueFuraIcon />
+            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      ) : type === "broke_down" ? (
+        <>
+          {" "}
+          <p className={cls.footerBox}>
+            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <BlueFuraIcon />
+            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+          </p>
         </>
       ) : (
         <>
-          <Container py="40px">
-            <VStack
-              as="form"
-              onSubmit={handleSubmit(onSubmit)}
-              align="stretch"
-              spacing="24px"
+          <p className={cls.footerBox}>
+            <GreenPhoneIcon /> {contendSingle?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <GreenFuraIcon />
+            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      )}
+    </div>
+  );
+
+  const BalloonContentCargo = () => (
+    <div id="balloon-content_cargo" className={cls.balloon_content_empty}>
+      <div className={cls.wrap} style={{ height: "45px" }}>
+        {typeCargo === "occupied_cargo" ? (
+          <>
+            {" "}
+            <MapCargoLoadGoodsIcon />{" "}
+            <span
+              style={{ color: "rgba(193, 187, 32, 1)" }}
+              className={cls.balloonName}
             >
-              <Box p="24px" bgColor="baseWhite" borderRadius="12px">
-                <Box
-                  display="flex"
-                  mb="20px"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Heading
-                    size="sm"
-                    fontSize="18px"
-                    lineHeight="28px"
-                    fontWeight="600"
-                  >
-                    {t("gpsTracking.machineDetails")}
-                  </Heading>
-                </Box>
-                <Box mb={"20px"}>
-                  <Box
-                    display="flex"
-                    flexDirection={isLargerThan768 ? "row" : "column"}
-                    gap="20px"
-                  >
-                    <TextFieldWithAddition
-                      placeholder={t("Адрес")}
-                      // required={true}
-                      rules={{ required: true }}
-                      label={t("Адрес")}
-                      additionalItemTheme="white"
-                      register={register}
-                      name={"address"}
-                      additionalOnclick={() => handleOpenModal()}
-                      onClick={() => handleOpenModal()}
-                      error={errors["address"]}
-                      onlyFieldDisabled={true}
-                      // disabled={!canEdit}
-                      additionalItemPlaceholder={
-                        <span className={cls.additionalIcons}>
-                          <LocationMarkIcon />
-                        </span>
+              {loadState?.bid_cash}
+            </span>
+          </>
+        ) : (
+          <>
+            {" "}
+            <MapCargoGreenIcon />{" "}
+            <span className={cls.balloonName}>
+              {loadState?.bid_cash} {loadState?.currency_id_data?.code}
+            </span>
+          </>
+        )}
+
+        <Flex>
+          <p
+            className={cls.conWrap}
+            gap={1}
+            alignItems={"center"}
+            flexWrap={"nowrap"}
+          >
+            <StoneIcon /> <span>22 т</span>
+          </p>
+          <p className={cls.conWrap} gap={1} alignItems={"center"}>
+            <LoadOulineIcon /> 86m3
+          </p>
+        </Flex>
+      </div>
+      <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
+      {typeCargo === "occupied_cargo" ? (
+        <>
+          <p className={cls.footerBox}>
+            <GoodsPhoneIcon /> {loadState?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <GoodsFuraIcon />
+            {loadState?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      ) : (
+        <>
+          {" "}
+          <p className={cls.footerBox}>
+            <GreenPhoneIcon /> {loadState?.users_id_data?.phone}
+          </p>
+          <p className={cls.footerBox}>
+            <GreenFuraIcon />
+            {loadState?.vehicle_type_id_data?.name}
+          </p>
+        </>
+      )}
+    </div>
+  );
+
+  const balloonContent = ReactDOMServer.renderToString(<BalloonContent />);
+  const balloonContentCargo = ReactDOMServer.renderToString(
+    <BalloonContentCargo />
+  );
+
+  const { t } = useTranslation(locale, "translations");
+  return (
+    <>
+      <Box className={cls.box} width={"100%"} height={"400vh"}>
+        <Cmap
+          getCarListProps={getCarListProps}
+          coordinates={coordinates}
+          balloonContent={balloonContent}
+          balloonContentCargo={balloonContentCargo}
+          handleMouseEnter={handleMouseEnter}
+          locationData={locationData}
+          setLoadState={setLoadState}
+          setModalType={setModalType}
+          handleMouseEnterCargo={handleMouseEnterCargo}
+          mapIcon={mapIcon}
+          watch={watch}
+        />
+        <Map
+          defaultState={{
+            center: coordinates,
+            zoom: 6,
+          }}
+          options={{
+            maxZoom: 17,
+            minZoom: 2,
+          }}
+          width="100%"
+          height={"100%"}
+          modules={["Placemark", "geocode", "control.SearchControl"]}
+        >
+          <TypeSelector
+            mapTypes={[
+              "yandex#map",
+              "yandex#satellite",
+              "yandex#hybrid",
+              "yandex#publicMap",
+            ]}
+          />
+          <SearchControl options={{ float: "right" }} />
+          <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
+
+          {getCarListProps?.data?.map((carInfo) => {
+            return (
+              <>
+                <Placemark
+                  key={carInfo?.id}
+                  geometry={[carInfo?.lat, carInfo?.long]}
+                  properties={{ balloonContent: balloonContent }}
+                  options={{
+                    iconLayout: "default#image",
+                    iconImageHref:
+                      "data:image/svg+xml;charset=UTF-8," +
+                      encodeURIComponent(
+                        mapIcon[carInfo?.users_id_data?.provisions?.[0]] ||
+                          GreenMapIcon
+                      ),
+                    iconImageSize:
+                      watch("users_id")?.value || watch("users_id2")?.value
+                        ? [45, 105]
+                        : [40, 52],
+                    iconImageOffset: [-15, -42],
+                  }}
+                  modules={["geoObject.addon.balloon"]}
+                  onBalloonOpen={(e) => {
+                    const placemark = e.get("target");
+                    const balloonInstance = placemark.balloon;
+                    balloonInstance.events.add("click", () => {
+                      cargoRef.current = carInfo;
+                      // setContendSingle(carInfo);
+                      if (
+                        carInfo?.users_id_data?.provisions?.[0] === "our_cargo"
+                      ) {
+                        setModalType("driverCheck");
+                      } else if (
+                        carInfo?.users_id_data?.provisions?.[0] ===
+                        "someone_cargo"
+                      ) {
+                        setModalType("driverQuestion");
+                      } else if (
+                        carInfo?.users_id_data?.provisions?.[0] ===
+                        "waiting_for_driver"
+                      ) {
+                        setModalType("driverExpectation");
+                      } else {
+                        setModalType("driverQuestion");
                       }
-                    />
-                    <TextFieldWithAddition
-                      placeholder={t("Дистанция")}
-                      label={t("Дистанция")}
-                      additionalItemTheme="white"
-                      register={register}
-                      name={"distance"}
-                      additionalOnclick={() => handleOpenModal()}
-                      additionalItemPlaceholder={
-                        <span className={cls.additionalIcons}>km</span>
-                      }
-                    />
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection={isLargerThan768 ? "row" : "column"}
-                    gap="20px"
-                    mt="20px"
-                  >
-                    <Box className={cls.kuzov} width={"100%"}>
-                      <Dropdown
-                        placeholder={t("Введите тип кузова")}
-                        label={t("Тип кузова")}
-                        name="car_type"
-                        options={carTypeOptions}
-                        errors={errors}
-                        width="100%"
-                        control={control}
-                        watch={watch}
-                        setValue={setValue}
-                        clearable
-                      />
-                    </Box>
-                    <Box className={cls.kuzov} width={"100%"}>
-                      <Dropdown
-                        placeholder={t("Введите тип загрузки")}
-                        label={t("Тип загрузки")}
-                        name="load_type_id"
-                        options={loadingOptions}
-                        errors={errors}
-                        control={control}
-                        watch={watch}
-                        setValue={setValue}
-                        clearable
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-                <Box>
-                  <Accordion allowToggle>
-                    <AccordionItem border={"none"}>
-                      <Box
-                        display="flex"
-                        flexDirection={isLargerThan768 ? "row" : "column"}
-                        gap="20px"
-                        mt="20px"
-                      >
-                        <TextFieldWithAddition
-                          errors={errors}
-                          control={control}
-                          name="weight"
-                          className={cls.paramtersItem}
-                          register={register}
-                          additionalItemName="weight_unit"
-                          // width="100%"
-                          placeholder={t("Вес")}
-                          additionalItemOptions={weightMeasurementOptions}
-                          type="number"
-                          zIndex={10}
-                        />
-                        <TextFieldWithAddition
-                          errors={errors}
-                          control={control}
-                          name="volume"
-                          className={cls.paramtersItem}
-                          register={register}
-                          // width="100%"
-                          placeholder={t("Объем")}
-                          additionalItemPlaceholder="m³"
-                          type="number"
-                          // additionalItemName="volume_unit"
-                          // additionalItemOptions={volumeMeasurementOptions}
-                        />
-                      </Box>
-                    </AccordionItem>
-                  </Accordion>
-                </Box>
-                <Box
-                  display="flex"
-                  flexDirection={isLargerThan768 ? "row" : "column"}
-                  gap="20px"
-                  mt="20px"
+                    });
+                  }}
+                  onMouseEnter={(e) => handleMouseEnter(e, carInfo)}
+                />
+              </>
+            );
+          })}
+          {/* </Clusterer> */}
+
+          {locationData &&
+            locationData.map((item) => (
+              <Placemark
+                key={item?.id}
+                geometry={[
+                  item.location_name.split(",")[0] * 1,
+                  item.location_name.split(",")[1] * 1,
+                ]}
+                properties={{
+                  balloonContent: balloonContentCargo,
+                }}
+                options={{
+                  iconLayout: "default#image",
+
+                  iconImageHref:
+                    "data:image/svg+xml;charset=UTF-8," +
+                    encodeURIComponent(
+                      item?.order_status[0] === "occupied_cargo"
+                        ? MapLoadIcon
+                        : MapLoadGreenIcon
+                    ),
+                  iconImageSize: [40, 52],
+                  iconImageOffset: [-15, -42],
+                }}
+                onBalloonOpen={(e) => {
+                  const placemark = e.get("target");
+                  const balloonInstance = placemark.balloon;
+                  balloonInstance.events.add("click", () => {
+                    setLoadState(item);
+                    if (item?.order_status[0] === "occupied_cargo") {
+                      setModalType("driverGruzGoods");
+                    } else {
+                      setModalType("driverGruz");
+                    }
+                  });
+                }}
+                onMouseEnter={(e) => handleMouseEnterCargo(e, item)}
+
+                // onClick={(e) => {
+
+                //   // handlePlacemarkClick(e.get("target").getMap(), [
+                //   //   item.location_name.split(",")[0] * 1,
+                //   //   item.location_name.split(",")[1] * 1,
+                //   // ]);
+                // }}
+              />
+            ))}
+        </Map>
+        <div className={cls.modalWrap}>
+          <Flex>
+            <Box width={"100%"}>
+              {modalType === "" && (
+                <div
+                  onClick={() => setModalType("filter")}
+                  className={cls.filterBtn}
                 >
-                  <Box className={cls.kuzov} width={"100%"}>
-                    <Dropdown
-                      placeholder={t("Введите тип имя")}
-                      // label={t("Тип кузова")}
-                      name="users_id"
-                      options={getUserNameOptions}
-                      errors={errors}
-                      width="100%"
-                      control={control}
-                      watch={watch}
-                      setValue={setValue}
-                      clearable
-                    />
-                  </Box>
-                  <Box className={cls.kuzov} width={"100%"}>
-                    <Dropdown
-                      placeholder={t("Введите тип номер телефона")}
-                      // label={t("Тип загрузки")}
-                      name="users_id2"
-                      options={getUserPhoneOptions}
-                      errors={errors}
-                      control={control}
-                      watch={watch}
-                      setValue={setValue}
-                      clearable
-                    />
-                  </Box>
-                </Box>
-                <Button
-                  type={"submit"}
-                  className={cls.findBtn}
-                  mt="20px"
-                  onClick={handleCalculate}
-                >
-                  {t("gpsTracking.searchCars")}
-                </Button>
-              </Box>
-            </VStack>
-            <Box mt={6}>
-              {isLoading ? (
-                <LoadingSpinner />
-              ) : (
-                <CarList
-                  {...getCarListProps()}
-                  capacity={watch("weight")}
-                  height={watch("volume")}
-                  carType={watch("car_type")?.value}
-                  loadType={watch("load_type_id")?.value}
-                  dataAccordion={true}
-                  showDistance={true}
-                  oneDir={true}
-                  // infoList={infoList}
-                  phoneBtn={true}
-                  additionalData={driverName}
+                  <FilterIcon /> Фильтр
+                </div>
+              )}
+              {modalType === "filter" && (
+                <Filter
+                  cls={cls}
+                  watch={watch}
+                  setValue={setValue}
+                  getUserOption={getUserOption}
+                  loadingOptions={loadingOptions}
+                  register={register}
+                  setDistance={setDistance}
+                  distance={distance}
+                  handleClear={handleClear}
+                  t={t}
+                  control={control}
+                  handleOpenModal={handleOpenModal}
+                  errors={errors}
+                  carTypeOptions={carTypeOptions}
+                  checkboxStatuses={checkboxStatuses}
+                  handleCheckboxChange={handleCheckboxChange}
+                />
+              )}
+              {modalType === "driverFree" && (
+                <DriverFree
+                  cls={cls}
+                  setModalType={setModalType}
+                  contendSingle={contendSingle}
+                  setCenterModalType={setCenterModalType}
+                />
+              )}
+              {modalType === "driverExpectation" && (
+                <DriverExpectation
+                  setModalType={setModalType}
+                  cls={cls}
+                  contendSingle={contendSingle}
+                  setCenterModalType={setCenterModalType}
+                />
+              )}
+              {modalType === "driverCheck" && (
+                <DriverCheck
+                  cls={cls}
+                  contendSingle={contendSingle}
+                  setCenterModalType={setCenterModalType}
+                  setModalType={setModalType}
+                />
+              )}
+              {modalType === "driverQuestion" && (
+                <DriverQuestion
+                  setModalType={setModalType}
+                  cls={cls}
+                  contendSingle={contendSingle}
+                  setCenterModalType={setCenterModalType}
+                  setStateMap={setStateMap}
+                  handleOpenModal={handleOpenModal}
+                  handleCloseModal={handleCloseModal}
+                />
+              )}
+              {modalType === "driverGruz" && (
+                <DriverGruz
+                  cls={cls}
+                  setModalType={setModalType}
+                  loadState={loadState}
+                />
+              )}
+              {modalType === "driverGruzGoods" && (
+                <DriverGruzGoods
+                  setModalType={setModalType}
+                  loadState={loadState}
+                  cls={cls}
                 />
               )}
             </Box>
-          </Container>
-        </>
-      )}
-      <Container py="40px">
-        <Modal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          firstBtnCallback={handleCloseModal}
-          secondBtnCallback={() => setIsModalOpen(false)}
-          title={t("Точка маршрута")}
-          size="xxl"
-        >
-          <LoadingMap
-            onMapClick={onMapClick}
-            setYMaps={setYMaps}
-            yandexMapRef={yandexMapRef}
-            placeMarkGeometry={placeMarkGeometry}
-            defaultState={{
-              center: coordinates,
-              zoom: 15,
-            }}
-          />
-        </Modal>
-      </Container>
+          </Flex>
+        </div>
+        {centerModalType === "selectCargo" && (
+          <div className={cls.leftModal}>
+            <SelectCargo
+              cls={cls}
+              contendSingle={contendSingle}
+              setCenterModalType={setCenterModalType}
+            />
+          </div>
+        )}
+        {centerModalType === "changeIcon" && (
+          <div className={cls.leftModal}>
+            <ChangeIconModal
+              setCenterModalType={setCenterModalType}
+              statusIconChange={statusIconChange}
+              iconStatus={iconStatus}
+              setIconStatus={setIconStatus}
+              cls={cls}
+            />
+          </div>
+        )}
+      </Box>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        firstBtnCallback={handleCloseModal}
+        secondBtnCallback={() => setIsModalOpen(false)}
+        title={t("Точка маршрута")}
+        size="xxl"
+      >
+        <LoadingMap
+          onMapClick={onMapClick}
+          setYMaps={setYMaps}
+          yandexMapRef={yandexMapRef}
+          placeMarkGeometry={placeMarkGeometry}
+          defaultState={{
+            center: coordinates,
+            zoom: 15,
+          }}
+        />
+      </Modal>
     </>
   );
 }

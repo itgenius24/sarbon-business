@@ -1,4 +1,4 @@
-import { DeleteIcon, PaymentIcon, SuccessIcon, WaringIcon } from "@/assets/icons/icons";
+import { DeleteIcon, LoadIconModal, PaymentIcon, SuccessIcon, WaringIcon } from "@/assets/icons/icons";
 import cls from "./styles.module.scss";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
 import clsx from "clsx";
@@ -8,7 +8,8 @@ const icons = {
   delete: <DeleteIcon />,
   warning: <WaringIcon />,
   success: <SuccessIcon />,
-  payment: <PaymentIcon />
+  payment: <PaymentIcon />,
+  load:<LoadIconModal />
 };
 
 export const Popup = ({

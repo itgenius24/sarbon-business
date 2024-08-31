@@ -7,7 +7,7 @@ import { format } from "date-fns";
 
 export const Performed = ({ cargo,orderStatus }) => {
   const { t } = useTranslation();
-  console.log(`cargo`, cargo);
+
   const router = useRouter();
   const locale = useGetLang();
   const performedStatuses = {

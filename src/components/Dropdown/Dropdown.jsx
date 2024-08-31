@@ -35,6 +35,7 @@ export const Dropdown = ({
   index,
   isMulti,
   clearable,
+  isTop=false
 }) => {
   const height = Math.floor(options && (options.length * 50) / 2);
 
