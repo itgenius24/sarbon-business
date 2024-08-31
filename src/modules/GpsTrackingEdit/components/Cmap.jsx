@@ -38,8 +38,8 @@ const Cmap = memo(
           minZoom: 2,
         }}
         width="100%"
-        height={"100%"}
-        modules={["Placemark", "geocode", "control.SearchControl"]}
+        height={"100vh"}
+        modules={["Placemark", "geocode", "control.SearchControl","control.ZoomControl"]}
       >
         <TypeSelector
           mapTypes={[
@@ -53,7 +53,8 @@ const Cmap = memo(
         <ZoomControl
                 options={{
                   position: {
-                    bottom: "30vh",
+                    // bottom: "0vh",
+                    top:350,
                     right: 4,
                   },
                   size: "40px",
