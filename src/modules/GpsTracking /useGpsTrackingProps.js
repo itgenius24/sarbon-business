@@ -22,8 +22,9 @@ export const useGpsTrackingProps = () => {
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
-  const [locationData, setLocationData] = useState();
+  const [locationData, setLocationData] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [offsetCar, setOffsetCAr] = useState(0);
   const [closeRes, setCLoseRes] = useState(0);
 
   useEffect(() => {
@@ -324,8 +325,18 @@ export const useGpsTrackingProps = () => {
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
 
   const { mutate: getLocation } = useLocation({
-    onSuccess: (res) => {
-      setLocationData(res?.data?.response);
+    onSuccess: (data) => {
+      const data2 = data?.data?.response;
+      console.log(`dats`, data2);
+      if (data?.data?.response?.length === 20) {
+        setOffsetCAr(offsetCar + 1);
+      }
+      if (data?.data?.response?.length) {
+        setLocationData((res) => [...res, ...data2]);
+      }
+      if (data?.data?.response?.length === null && !closeRes) {
+        getLocation({ data: { object_data: { limit: 20, page: offsetCar } } });
+      }
     },
   });
 
@@ -352,10 +363,14 @@ export const useGpsTrackingProps = () => {
     if (!watch("aaddress")) {
       mutate({ data: { object_data: { limit: 40, page: offset } } });
     }
-    getLocation({
-      data: {},
-    });
+ 
   }, [offset]);
+
+  useEffect(() => {
+    getLocation({
+      data: { object_data: { limit: 20, page: offsetCar } },
+    });
+  }, [offsetCar]);
 
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");

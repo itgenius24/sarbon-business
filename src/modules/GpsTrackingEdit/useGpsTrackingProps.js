@@ -369,21 +369,21 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-  // const filterData = (data, checkboxStatuses) => {
-  //   return data?.filter(item => {
-  //     console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
+  const filterData = (data, checkboxStatuses) => {
+    return data?.filter(item => {
+      console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
 
-  //     return item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]);
-  //   });
-  // };
+      return item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]);
+    });
+  };
 
-  // const filteredData = filterData(carsArr, checkboxStatuses);
+  const filteredData = filterData(carsArr, checkboxStatuses);
 
   const getCarListProps = useMemo(() => {
     return {
-      data: watch("users_id")?.value ? dataUserID : carsArr,
+      data: watch("users_id")?.value ? dataUserID : filteredData,
     };
-  }, [watch("users_id")?.value, dataUserID, carsArr]);
+  }, [watch("users_id")?.value, dataUserID, filteredData]);
 
 
   
@@ -427,7 +427,7 @@ export const useGpsTrackingProps = () => {
     getLocation({
       data: { object_data: { limit: 20, page: offsetCar } },
     });
-  }, []);
+  }, [offsetCar]);
 
   useEffect(() => {
     if (!watch("aaddress")) {
