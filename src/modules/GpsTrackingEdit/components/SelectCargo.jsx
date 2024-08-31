@@ -24,7 +24,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 const SelectCargo = ({ cls, contendSingle, setCenterModalType }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState("");
-  const [search,setSearch] = useState('')
+  const [search,setSearch] = useState('');
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
@@ -41,12 +41,12 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType }) => {
 
   const cargoData = useMemo(() => {
       if(search){
-        return  getAllUserCargo.data?.response?.filter(item => item.cargo_type_id_data?.name.toLowerCase().includes(search?.toLowerCase()))
+        return  getAllUserCargo.data?.response?.filter(item => item.cargo_type_id_data?.name.toLowerCase().includes(search?.toLowerCase()));
       }
       else{
-        return getAllUserCargo.data?.response
+        return getAllUserCargo.data?.response;
       }
-  },[search,getAllUserCargo,getAllUserCargo.data?.response])
+  },[search,getAllUserCargo,getAllUserCargo.data?.response]);
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {

@@ -39,8 +39,8 @@ export const useGpsTrackingProps = () => {
   const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
   const [loadState,setLoadState] = useState({});
-  const [stateMap,setStateMap] = useState(false)
-  const [addressAdd,setAddressAdd] = useState()
+  const [stateMap,setStateMap] = useState(false);
+  const [addressAdd,setAddressAdd] = useState();
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -232,7 +232,7 @@ export const useGpsTrackingProps = () => {
 
   function handleCloseModal() {
     setIsModalOpen(false);
-    setStateMap(false)
+    setStateMap(false);
     setFormAddressName({});
   }
 
@@ -243,7 +243,7 @@ export const useGpsTrackingProps = () => {
         setAddressAdd({
           address: firstGeoObject.getAddressLine(),
           cor:coords.join(",")
-        })
+        });
       });
      
     }else{
