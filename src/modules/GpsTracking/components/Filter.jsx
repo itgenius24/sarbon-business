@@ -27,7 +27,9 @@ const Filter = ({
   carTypeOptions,
   getUserOption,
   distance,
-  handleClear
+  handleClear,
+  checkboxStatuses,
+  handleCheckboxChange
 }) => {
   return (
     <div className={cls.filter}>
@@ -80,21 +82,50 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>Отображать на карте</p>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
-            <Checkbox width={"16px"} height={"16px"}>
-              {t("Свободные машины")}
-            </Checkbox>
-            <Checkbox width={"16px"} height={"16px"}>
-              {t("Занятые с нашим грузом")}
-            </Checkbox>
-            <Checkbox width={"16px"} height={"16px"}>
-              {t("Занятые с чужим грузом")}
-            </Checkbox>
-            <Checkbox width={"16px"} height={"16px"}>
-              {t("Сломанные машины")}
-            </Checkbox>
-            <Checkbox width={"16px"} height={"16px"}>
-              {t("Грузы")}
-            </Checkbox>
+          <Checkbox
+        width={"16px"}
+        height={"16px"}
+        defaultChecked={checkboxStatuses.empty}
+        onChange={() => handleCheckboxChange('empty')}
+      >
+        Свободные машины
+      </Checkbox>
+      
+      <Checkbox
+        width={"16px"}
+        height={"16px"}
+        defaultChecked={checkboxStatuses.our_cargo}
+        onChange={() => handleCheckboxChange('our_cargo')}
+      >
+        Занятые с нашим грузом
+      </Checkbox>
+      
+      <Checkbox
+        width={"16px"}
+        height={"16px"}
+        defaultChecked={checkboxStatuses.someone_cargo}
+        onChange={() => handleCheckboxChange('someone_cargo')}
+      >
+        Занятые с чужим грузом
+      </Checkbox>
+      
+      <Checkbox
+        width={"16px"}
+        height={"16px"}
+        defaultChecked={checkboxStatuses.broke_down}
+        onChange={() => handleCheckboxChange('broke_down')}
+      >
+        Сломанные машины
+      </Checkbox>
+      
+      <Checkbox
+        width={"16px"}
+        height={"16px"}
+        defaultChecked={checkboxStatuses.waiting_for_driver}
+        onChange={() => handleCheckboxChange('waiting_for_driver')}
+      >
+        Грузы
+      </Checkbox>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>

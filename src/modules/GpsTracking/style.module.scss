@@ -161,7 +161,7 @@
       }
       .btnOutline {
         width: 100%;
-        border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
+        border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1)) !important;
         padding: 16px 14px;
         border-radius: 12px;
       }
@@ -337,9 +337,46 @@
           
         }
       }
-    
+
+      
+   
     }
  
+  }
+   .balloon_content_empty{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .wrap{
+      display:flex;
+      align-items: center;
+      justify-items: center;
+      gap: 3px;
+      width:250px;
+    }
+     .balloonName{
+      color: rgba(21, 186, 77, 1);
+      font-size: 14px;
+      font-weight: 600;
+     }
+     .conWrap{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+       gap: 10px;
+     }
+     .balloon_fulName{
+      font-weight: 600;
+      font-size: 15px;
+      color: rgba(33, 31, 38, 1);
+     }
+     .footerBox{
+      display: flex;
+      align-items: center;
+        font-size: 14px;
+      gap: 10px;
+      line-height: 28px;
+     }
   }
   .leftModal {
     width: 80%;
@@ -401,7 +438,7 @@
     }
     .selectedIcon{
       width: 35%;
-      height: 410px;
+      height: 420px;
       background-color: rgb(255, 255, 255);
       border-radius: 14px;
       padding: 24px;

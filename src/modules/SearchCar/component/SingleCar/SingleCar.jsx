@@ -75,23 +75,23 @@ export const SingleCar = ({
   const newList = infoList
     ? infoList(carInfo)
     : [
-        {
-          title: t("Транспорт"),
-          value: carInfo?.short_name || t("Нет данных"),
-        },
-        {
-          title: t("Разрешение:"),
-          value: address[carInfo?.users_id_data?.adr] || t("Нет данных"),
-        },
-        {
-          title: t("Детали:"),
-          value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
-        },
-        {
-          title: t("Дата загрузки:"),
-          value: carInfo?.date || t("Нет данных"),
-        },
-      ];
+      {
+        title: t("Транспорт"),
+        value: carInfo?.short_name || t("Нет данных"),
+      },
+      {
+        title: t("Разрешение:"),
+        value: address[carInfo?.users_id_data?.adr] || t("Нет данных"),
+      },
+      {
+        title: t("Детали:"),
+        value: `${carInfo?.capacity}т, ${carInfo?.volume} м3`,
+      },
+      {
+        title: t("Дата загрузки:"),
+        value: carInfo?.date || t("Нет данных"),
+      },
+    ];
 
   const requestBody = {};
 
@@ -120,9 +120,7 @@ export const SingleCar = ({
     }),
   };
 
-  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!userId && isOpen,
-  });
+  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, { enabled: !!userId && isOpen, });
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
@@ -175,9 +173,7 @@ export const SingleCar = ({
     return (
       <>
         <div
-          className={clsx(cls.loadsCard, {
-            [cls.withData]: carInfo?.vehicle_type_id_data,
-          })}
+          className={clsx(cls.loadsCard, { [cls.withData]: carInfo?.vehicle_type_id_data, })}
         >
           <div className={cls.cardTop}>
             <div className={cls.cardTopContent}>
@@ -455,10 +451,10 @@ export const SingleCar = ({
               ${carInfo?.users_id_data?.full_name || ""}
               ${carInfo?.users_id_data?.phone || ""}
               ${carInfo?.users_id_data?.vehicle_type_id_data?.name || " "} ${
-              format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "
-            } <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${
+        format(carInfo?.update_time, "dd.MM.yyyy HH:mm") || " "
+      } <br />  Battery: ${carInfo?.battery || ""} <br /> gps: ${
               carInfo?.gps ? "on" : "off" || ""
-            }
+      }
             </p>
             
             `,
@@ -473,14 +469,7 @@ export const SingleCar = ({
                 : [40, 52],
             iconImageOffset: [-15, -42],
           }}
-          // onClick={(e) =>
-          //   handlePlacemarkClick(e.get("target").getMap(), [
-          //     carInfo?.lat,
-          //     carInfo?.long,
-          //   ])
-          // }
           onMouseEnter={handleMouseEnter}
-          // onMouseLeave={handleMouseLeave}
         />
       </>
     );

@@ -14,119 +14,148 @@ import {
   LoadOulineIcon,
   LocationActiveIcon,
   ModalGruzIcon,
+  ModalOodsIcon,
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
+import { useUpdateCargo } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
-import React from "react";
+import { format } from "date-fns";
+import React, { useState } from "react";
 
-const DriverGruzGoods = ({ cls }) => {
+const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
+  console.log("loadState",loadState);
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  function handleClosePopup() {
+    setPopupOpen(false);
+  }
+
+  const { mutate } = useUpdateCargo({
+    onSuccess:(res) => {
+      setPopupOpen(false);
+      setModalType("filter")
+    },
+  });
+
+  const updateCar = () => {
+    mutate({
+      data:{
+        guid: loadState?.guid,//yukni guidisi
+        order_status: ["free_cargo"],
+        users_id_3: ""
+      }
+    });
+  };
   return (
     <div className={cls.filter}>
-      <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
-        <Flex justifyContent={'space-between' } width={'100%'}  alignItems={"center"}>
+      <Flex flexDirection={"column"} rowGap={"10px"} alignItems={"flex-start"}>
+        <Flex justifyContent={"space-between" } width={"100%"} alignItems={"center"}>
           <Flex gap={3}>
             <Avatar name="Bobur Nimatllayey" src="#" />
             <Box>
-            <p className={cls.version}>
+              <p className={cls.version}>
                 <span>Груз добавил: </span>
               </p>
-              <p className={cls.userName}>Абдуллаев Умиджон</p>
-             
+              <p className={cls.userName}>{loadState?.users_id_data?.full_name}</p>
+
             </Box>
           </Flex>
           <IconButton
             width={"fit-content"}
             style={{ background: "transparent" }}
-            icon={<CloseIconM />}
+            icon={<CloseIconM />  }
+            onClick={() => setModalType(`filter`)}
+          
           />
         </Flex>
-  
-       
+
+
         <Box mt={3} className={cls.cardWrap}>
           <Flex gap={2}>
             <div className={cls.startAGoodsIcon}>A</div>
             <Box>
-              <p className={cls.cardStartTitle}>Екатеринбург</p>
+            <p className={cls.cardStartTitle}>{loadState?.city_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
-                RUS / <span>18 августа</span>
+                {loadState?.city_id_data?.address_id_data?.name} / <span>{format(loadState?.load_time,"yyyy-mm-dd")}</span>
               </p>
             </Box>
           </Flex>
           <Flex mt={5} gap={2}>
             <div className={cls.startBGoodsIcon}>B</div>
             <Box>
-              <p className={cls.cardStartTitle}> Ташкент</p>
+            <p className={cls.cardStartTitle}> {loadState?.city_id_2_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
-              UZB /<span> 29 августа (через 11 дней)</span>
+                {loadState?.city_id_2_data?.address_id_data?.name} /<span> {format(loadState?.date,"yyyy-mm-dd")}</span>
               </p>
             </Box>
           </Flex>
 
           <Flex className={cls.gruz} mt={5} gap={2}>
-            <GruzGoodsIcon   />
+            <GruzGoodsIcon />
             <Box>
               <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
-                  <span>Контейнеровоз</span>
+                <span>{loadState?.cargo_type_id_data?.name}</span>
+
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
-                      <StoneIcon /> 22 т.
+                      <StoneIcon /> {loadState?.weight} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
-                      <LoadOulineIcon /> 86m3
+                      <LoadOulineIcon /> {loadState?.volume_m3}m3
                     </Flex>
                   </Flex>
                 </Flex>
               </p>
             </Box>
           </Flex>
-          <Flex mt={3} justifyContent={'space-between'}>
-             <p className={cls.cardStartSubTitle}>Cумма</p>
-             <p className={cls.cardStartSubTitle}>Тип оплаты: <span>Перечисление</span></p>
+          <Flex mt={3} justifyContent={"space-between"}>
+            <p className={cls.cardStartSubTitle}>Cумма</p>
+            <p className={cls.cardStartSubTitle}>Тип оплаты: <span>{loadState?.map_id_data?.payment_type}</span></p>
           </Flex>
-          <Flex mt={3} justifyContent={'space-between'} alignItems={'center'}>
-             <p className={cls.sum2}>3600 EUR </p>
-             <p className={cls.cardStartSubTitle}>Предоплата: <span>Нет</span></p>
+          <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
+            <p className={cls.sum2}>{loadState?.bid_cash} {loadState?.currency_id_data?.code}</p>
+            <p className={cls.cardStartSubTitle}>Предоплата: <span>{loadState?.prepayment_percentage > 0 ?"Da" : "Нет" }</span></p>
           </Flex>
         </Box>
-       <Box className={cls.cardWrap}>
-       <Flex gap={2} mb={3}>
-        <CeckGoodsIcon />
-        <Box>
-          <p className={cls.armorTitle}>Этот груз забронирован за вами</p>
-          <p className={cls.armorDate}>
+        <Box className={cls.cardWrap}>
+          <Flex gap={2} mb={3}>
+            <CeckGoodsIcon />
+            <Box>
+              <p className={cls.armorTitle}>Этот груз забронирован за вами</p>
+              <p className={cls.armorDate}>
           До снятия брони: <span>
-          12:36:59 
-          </span>
-          </p>
-        </Box>
-       </Flex>
-       <Button   size={`lg`} className={cls.btngoods}>
+          12:36:59
+                </span>
+              </p>
+            </Box>
+          </Flex>
+          <Button  onClick={() => setPopupOpen(true)} size={"lg"} className={cls.btngoods}>
           Машина cвободна
-        </Button>
-       </Box>
-      
+          </Button>
+        </Box>
+
       </Flex>
-      <Modal isOpen={false} isCentered>
+      <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-         <ModalHeader>
-         <ModalGruzIcon />
-         </ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader>
+            <ModalOodsIcon />
+          </ModalHeader>
+          <ModalCloseButton onClick={handleClosePopup} />
           <ModalBody>
-            <p style={{fontWeight:600,fontSize:'18px'}}>Забронировать груз?</p>
-            <p style={{fontWeight:500,fontSize:'14px'}}>Груз будет забронирован и недоступен для других диспетчеров.</p>
+            <p style={{ fontWeight:600,fontSize:"18px" }}>Забронировать груз?</p>
+            <p style={{ fontWeight:500,fontSize:"14px" }}>Груз будет забронирован и недоступен для других диспетчеров.</p>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={''}>
+            <Button  style={{background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black'}} onClick={handleClosePopup} colorScheme="blue" mr={3} >
               Close
             </Button>
-            <Button   size={`lg`} className={cls.btngreen}>
+            <Button style={{background:'rgba(193, 187, 32, 1)'}} onClick={updateCar} className={cls.btngreen}>
               Машина cвободна
             </Button>
           </ModalFooter>

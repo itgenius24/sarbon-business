@@ -7,10 +7,18 @@ import {
   useLoadingTypes,
   useLocation,
   useLogistikaGpsTrackingFilterDriver,
+  useUpdateUserInfo,
 } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
+import {
+  BrokeDownIcon,
+  GreenMapIcon,
+  OurCargoIcon,
+  SomeoneCargoIcon,
+  WaitingForDriverIcon,
+} from "@/assets/icons/icons";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
@@ -21,10 +29,25 @@ export const useGpsTrackingProps = () => {
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
-  const [locationData, setLocationData] = useState();
+  const [locationData, setLocationData] = useState([]);
   const [distance, setDistance] = useState(50);
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [offsetCar, setOffsetCAr] = useState(0);
+  const [contendSingle, setContendSingle] = useState();
+  const [iconStatus, setIconStatus] = useState(``);
+  const [modalType, setModalType] = useState("");
+  const [centerModalType, setCenterModalType] = useState("");
+  const [loadState,setLoadState] = useState({});
+  const [stateMap,setStateMap] = useState(false)
+  const [addressAdd,setAddressAdd] = useState()
+  const [checkboxStatuses, setCheckboxStatuses] = useState({
+    empty: true,
+    our_cargo: true,
+    someone_cargo: true,
+    broke_down: true,
+    waiting_for_driver: true,
+  });
 
   useEffect(() => {
     if (checked) {
@@ -57,6 +80,14 @@ export const useGpsTrackingProps = () => {
     name: "locations",
   });
 
+  const mapIcon = {
+    empty: GreenMapIcon,
+    waiting_for_driver: WaitingForDriverIcon,
+    our_cargo: OurCargoIcon,
+    someone_cargo: SomeoneCargoIcon,
+    broke_down: BrokeDownIcon,
+  };
+
   function handleAppend() {
     setLocationNames([...locationNames, ""]);
     append({ name: "" });
@@ -80,10 +111,6 @@ export const useGpsTrackingProps = () => {
 
   const multiRouteRef = useRef(null);
   const mapRef = useRef(null);
-
-  // useEffect(() => {
-
-  // }, [locationNames, watch("from"), watch("to")]);
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
@@ -205,15 +232,28 @@ export const useGpsTrackingProps = () => {
 
   function handleCloseModal() {
     setIsModalOpen(false);
+    setStateMap(false)
     setFormAddressName({});
   }
 
   function getPlaceMarkAddress(coords) {
-    yMaps?.geocode(coords).then(function (res) {
-      var firstGeoObject = res.geoObjects.get(0);
-      setValue("address", firstGeoObject.getAddressLine());
-      setValue("cor", coords.join(","));
-    });
+    if(stateMap){
+      yMaps?.geocode(coords).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0);
+        setAddressAdd({
+          address: firstGeoObject.getAddressLine(),
+          cor:coords.join(",")
+        })
+      });
+     
+    }else{
+      yMaps?.geocode(coords).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0);
+        setValue("address", firstGeoObject.getAddressLine());
+        setValue("cor", coords.join(","));
+      });
+    }
+  
   }
 
   function onMapClick(e) {
@@ -230,21 +270,11 @@ export const useGpsTrackingProps = () => {
     label: item?.name,
     value: item?.guid,
   }));
-  // const getUserNameOptions = getUserData.data?.response?.map((item) => ({
-  //   label: item?.full_name,
-  //   value: item?.guid,
-  // }));
 
-  // const getUserPhoneOptions = getUserData.data?.response?.map((item) => ({
-  //   label: item?.phone,
-  //   value: item?.guid,
-  // }));
   const loadingOptions = getLoadingTypes.data?.response?.map((item) => ({
     label: item?.name,
     value: item?.guid,
   }));
-
-  // console.log("getUserNameOptions", getUserNameOptions,loadingOptions)
 
   const getMeasurement = useGetMeasurement();
 
@@ -259,8 +289,10 @@ export const useGpsTrackingProps = () => {
       setValue("weight_unit", weightMeasurementOptions[0]);
     }
   }, [getMeasurement.isSuccess]);
+
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
+
   const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
     onSuccess(data) {
       if (data?.data?.response?.length === 40) {
@@ -318,44 +350,82 @@ export const useGpsTrackingProps = () => {
       id = watch("users_id2")?.value;
     }
 
-    console.log("id", id);
-
     return carsArr?.filter((item) => item?.users_id === id);
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
 
-  console.log(dataUserID);
-
   const { mutate: getLocation } = useLocation({
-    onSuccess: (res) => {
-      setLocationData(res?.data?.response);
+    onSuccess: (data) => {
+      const data2 = data?.data?.response;
+      console.log(`dats`, data2);
+      if (data?.data?.response?.length === 20) {
+        setOffsetCAr(offsetCar + 1);
+      }
+      if (data?.data?.response?.length) {
+        setLocationData((res) => [...res, ...data2]);
+      }
+      if (data?.data?.response?.length === null && !closeRes) {
+        getLocation({ data: { object_data: { limit: 20, page: offsetCar } } });
+      }
     },
   });
 
-  const getCarListProps = () => {
-    return {
-      data:
-        watch("users_id")?.value || watch("users_id2")?.value
-          ? dataUserID
-          : carsArr,
-    };
-  };
+  // const filterData = (data, checkboxStatuses) => {
+  //   return data?.filter(item => {
+  //     console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
 
-  const getUserNameOptions = getCarListProps().data?.map((item) => ({
+  //     return item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]);
+  //   });
+  // };
+
+  // const filteredData = filterData(carsArr, checkboxStatuses);
+
+  const getCarListProps = useMemo(() => {
+    return {
+      data: watch("users_id")?.value ? dataUserID : carsArr,
+    };
+  }, [watch("users_id")?.value, dataUserID, carsArr]);
+
+
+  
+
+  const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.users_id_data?.full_name,
     value: item?.users_id_data?.guid,
   }));
 
-  const getUserPhoneOptions = getCarListProps().data?.map((item) => ({
+  const getUserPhoneOptions = getCarListProps.data?.map((item) => ({
     label: item?.users_id_data?.phone,
     value: item?.users_id_data?.guid,
   }));
+  const { mutate: userUpdate } = useUpdateUserInfo({
+    onSuccess() {
+      setCenterModalType(``);
+      toast({
+        title: "Успешно изменено!",
+        description: "Вы успешно обновили этого пользователя",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+    onError() {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить пользователя!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+  });
 
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
-  console.log(`getUserOption`, getUserOption);
 
   useEffect(() => {
     getLocation({
-      data: { object_data: {} },
+      data: { object_data: { limit: 20, page: offsetCar } },
     });
   }, []);
 
@@ -394,6 +464,7 @@ export const useGpsTrackingProps = () => {
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
+    // setModalType('');
   };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
@@ -414,6 +485,22 @@ export const useGpsTrackingProps = () => {
     });
   };
 
+  const statusIconChange = () => {
+    const body = {
+      guid:contendSingle.users_id_data.guid,
+      provisions:[iconStatus]
+     
+    };
+    userUpdate({ data: body });
+  };
+
+  const handleCheckboxChange = (status) => {
+    setCheckboxStatuses(prevState => ({
+      ...prevState,
+      [status]: !prevState[status],
+    }));
+  };
+
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
   useEffect(() => {
@@ -426,7 +513,6 @@ export const useGpsTrackingProps = () => {
   return {
     register,
     locations,
-
     locationData,
     errors,
     handleAppend,
@@ -458,10 +544,22 @@ export const useGpsTrackingProps = () => {
     isLoading: isPending,
     setValue,
     setChecked,
+    mapIcon,
     checked,
     getUserOption,
     setDistance,
     distance,
     handleClear,
+    setContendSingle,
+    contendSingle,
+    setIconStatus,
+    iconStatus,
+    statusIconChange,
+    modalType,setModalType,centerModalType,setCenterModalType,
+    setLoadState,
+    loadState,
+    checkboxStatuses,
+    handleCheckboxChange,
+    setStateMap
   };
 };

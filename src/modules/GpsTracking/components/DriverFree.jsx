@@ -1,6 +1,8 @@
 import {
+  AndroidIcon,
     AppleIcon,
     BatareyFullIcon,
+    BatareyIcon,
     BluetoothIcon,
   CloseIconM,
   FurIcon,
@@ -14,17 +16,17 @@ import {
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import React from "react";
 
-const DriverFree = ({ cls }) => {
+const DriverFree = ({ cls,setModalType,contendSingle,setCenterModalType }) => {
+  
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
-        <Flex   alignItems={"center"}>
+        <Flex   width={`100%`} justifyContent={`space-between`} alignItems={"center"}>
           <Flex gap={3}>
-            <Avatar name="Bobur Nimatllayey" src="#" />
+            <Avatar name={contendSingle?.users_id_data?.full_name} src={contendSingle?.users_id_data?.photo} />
             <Box>
-              <p className={cls.userName}>Абдуллаев Умиджон Рахмонбердиевич</p>
+              <p className={cls.userName}>{contendSingle?.users_id_data?.full_name}</p>
               <p className={cls.version}>
-                {" "}
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
             </Box>
@@ -32,6 +34,7 @@ const DriverFree = ({ cls }) => {
           <IconButton
             width={"fit-content"}
             style={{ background: "transparent" }}
+            onClick={() => setModalType('filter')}
             icon={<CloseIconM />}
           />
         </Flex>
@@ -52,43 +55,49 @@ const DriverFree = ({ cls }) => {
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-              <BatareyFullIcon />
+            {
+              contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />
+            }
+            
               <Box>
                 <p className={cls.smallText}>Батарея </p>
-                <p className={cls.bigTitle}>78%</p>
+                <p className={cls.bigTitle}>{contendSingle?.battery}%</p>
               </Box>
             </Flex>
           </Flex>
           <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
             <Flex alignItems={"center"} gap={2}>
-              <AppleIcon />
+            {
+              contendSingle?.os === "android" ? <AndroidIcon /> : <AppleIcon />
+            }
+        
               <Box>
                 <p className={cls.smallText}>Смартфон </p>
-                <p className={cls.bigTitle}>iOS 17.5</p>
+                <p className={cls.bigTitle}>{contendSingle?.os}</p>
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
               <FurIcon />
               <Box>
                 <p className={cls.smallText}>Версия </p>
-                <p className={cls.bigTitle}>1.1.9</p>
+                <p className={cls.bigTitle}>{contendSingle?.version}</p>
               </Box>
             </Flex>
           </Flex>
         </Box>
         <Box className={cls.btnOutline}>
            <Flex width={'100%'} justifyContent={'space-between'}>
-              <span>Контейнеровоз</span>
+              <span>{contendSingle?.users_id_data?.vehicle_type_id_data?.name}</span>
               <Flex gap={3}>
                <Flex gap={1} alignItems={'center'}> <StoneIcon /> 22 т.</Flex>
                <Flex  gap={1} alignItems={'center'}> <LoadOulineIcon /> 86m3</Flex>
               </Flex>
            </Flex>
         </Box>
-        <Button leftIcon={<LoadgreenIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btngreenOutline}>
+        <Button onClick={() => setCenterModalType("changeIcon")} leftIcon={<LoadgreenIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btngreenOutline}>
           Машина cвободна
         </Button>
-        <Button   size={`lg`} className={cls.btngreen}>
+        <Button  onClick={() => setCenterModalType(`selectCargo`)}  size={`lg`} className={cls.btngreen}>
           Машина cвободна
         </Button>
       </Flex>
