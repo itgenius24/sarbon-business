@@ -157,7 +157,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType }) => 
           </Flex>
         </Box>
         <Button  onClick={() => setCenterModalType("changeIcon")}  leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
-          Машина cвободна
+        Занята нашим грузом
         </Button>
         <Box className={cls.cardWrap}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>

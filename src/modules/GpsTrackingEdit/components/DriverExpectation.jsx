@@ -210,10 +210,10 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
 
           <ModalFooter>
             <Button style={{background:'white',color:'black',border:` 1px solid rgba(208, 213, 221, 1)`}} onClick={handleClosePopup} className={cls.btnOutline} mr={3}>
-              Close
+            Подождем
             </Button>
             <Button onClick={handleMutation}  style={{background:'rgba(254, 228, 226, 1)',color:'rgba(217, 45, 32, 1)'}} className={cls.btngreen}>
-              Машина cвободна
+            Отменить предложение
             </Button>
           </ModalFooter>
         </ModalContent>

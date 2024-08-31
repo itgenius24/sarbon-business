@@ -328,14 +328,14 @@ export const useGpsTrackingProps = () => {
     onSuccess: (data) => {
       const data2 = data?.data?.response;
       console.log(`dats`, data2);
-      if (data?.data?.response?.length === 20) {
+      if (data?.data?.response?.length === 40) {
         setOffsetCAr(offsetCar + 1);
       }
       if (data?.data?.response?.length) {
         setLocationData((res) => [...res, ...data2]);
       }
       if (data?.data?.response?.length === null && !closeRes) {
-        getLocation({ data: { object_data: { limit: 20, page: offsetCar } } });
+        getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
       }
     },
   });
@@ -368,7 +368,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     getLocation({
-      data: { object_data: { limit: 20, page: offsetCar } },
+      data: { object_data: { limit: 40, page: offsetCar } },
     });
   }, [offsetCar]);
 

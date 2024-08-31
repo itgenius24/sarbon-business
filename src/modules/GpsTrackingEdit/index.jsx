@@ -416,6 +416,8 @@ export default function GpsTrackingModuleTets() {
                   distance={distance}
                   handleClear={handleClear}
                   t={t}
+                  setModalType={setModalType}
+
                   control={control}
                   handleOpenModal={handleOpenModal}
                   errors={errors}

@@ -26,7 +26,7 @@ const Cmap = memo(
     setLoadState,
     handleMouseEnterCargo,
   }) => {
-    console.log("getCarListProps",getCarListProps)
+    
     return (
       <Map
         defaultState={{
@@ -50,7 +50,19 @@ const Cmap = memo(
           ]}
         />
         <SearchControl options={{ float: "right" }} />
-        <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
+        <ZoomControl
+                options={{
+                  position: {
+                    bottom: "30vh",
+                    right: 4,
+                  },
+                  size: "40px",
+                  marginBottom: "50%",
+                  width: "40px",
+                  height: "40px",
+                  cornerRadius: "50%",
+                }}
+              />
 
         {getCarListProps?.data?.map((carInfo) => {
           return (

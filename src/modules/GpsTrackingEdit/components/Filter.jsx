@@ -29,7 +29,8 @@ const Filter = ({
   distance,
   handleClear,
   checkboxStatuses,
-  handleCheckboxChange
+  handleCheckboxChange,
+  setModalType
 }) => {
   return (
     <div className={cls.filter}>
@@ -40,7 +41,7 @@ const Filter = ({
           justifyContent={"space-between"}
           width={"100%"}
         >
-          <Flex onClick={() => handleClear()} alignItems={"center"} gap={"10px"}>
+          <Flex onClick={() => {handleClear();setModalType(``)}} alignItems={"center"} gap={"10px"}>
          
             <FilterIconBlack /> <span className={cls.filterText}>
               Фильтр

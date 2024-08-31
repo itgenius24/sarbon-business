@@ -129,9 +129,9 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <ModalGruzIcon />
+            <ModalGruzIcon  />
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={handleClosePopup} />
           <ModalBody>
             <p style={{ fontWeight:600,fontSize:"18px" }}>Забронировать груз?</p>
             <p style={{ fontWeight:500,fontSize:"14px" }}>Груз будет забронирован и недоступен для других диспетчеров.</p>
@@ -139,10 +139,10 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
 
           <ModalFooter>
             <Button style={{background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black'}} onClick={handleClosePopup} className={cls.btnOutline} mr={3}>
-              Close
+            Нет
             </Button>
             <Button style={{background:'rgba(21, 186, 77, 1)'}} onClick={updateCar} className={cls.btngreen}>
-              Машина cвободна
+            Забронировать
             </Button>
           </ModalFooter>
         </ModalContent>

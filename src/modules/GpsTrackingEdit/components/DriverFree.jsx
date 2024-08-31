@@ -98,7 +98,7 @@ const DriverFree = ({ cls,setModalType,contendSingle,setCenterModalType }) => {
           Машина cвободна
         </Button>
         <Button  onClick={() => setCenterModalType(`selectCargo`)}  size={`lg`} className={cls.btngreen}>
-          Машина cвободна
+          Предложить груз
         </Button>
       </Flex>
     </div>

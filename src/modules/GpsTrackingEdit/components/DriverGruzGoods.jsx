@@ -134,7 +134,7 @@ const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
             </Box>
           </Flex>
           <Button  onClick={() => setPopupOpen(true)} size={"lg"} className={cls.btngoods}>
-          Машина cвободна
+          Отменить бронь
           </Button>
         </Box>
 
@@ -153,10 +153,10 @@ const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
 
           <ModalFooter>
             <Button  style={{background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black'}} onClick={handleClosePopup} colorScheme="blue" mr={3} >
-              Close
+            Нет
             </Button>
             <Button style={{background:'rgba(193, 187, 32, 1)'}} onClick={updateCar} className={cls.btngreen}>
-              Машина cвободна
+            Отменить бронь
             </Button>
           </ModalFooter>
         </ModalContent>
