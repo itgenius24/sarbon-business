@@ -1,5 +1,7 @@
 "use client";
-import GpsTrackingModule from "@/modules/GpsTracking";
+
+import GpsTrackingModule from "@/modules/GpsTracking ";
+
 
 export default function GpsTracking() {
   return <GpsTrackingModule/>;

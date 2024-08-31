@@ -371,7 +371,7 @@ export const useGpsTrackingProps = () => {
     value:  item?.users_id_data?.guid,
   }));
 
-
+  const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
     if (!watch("aaddress")) {

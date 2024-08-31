@@ -21,7 +21,7 @@ import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
 import { LocationMarkIcon, loadIcon } from "@/assets/icons/icons";
 import React from "react";
-import { useGpsTrackingProps } from "@/modules/GpsTracking/useGpsTrackingProps";
+
 import cls from "./style.module.scss";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Modal } from "@/components/Modal";
@@ -41,6 +41,7 @@ import styled from "@emotion/styled";
 import PlacemarkItem from "./PlacemarkItem";
 import { SingleCar } from "../SearchCar/component/SingleCar/SingleCar";
 import { ChakraSelect } from "@/components/ChakraSelect";
+import { useGpsTrackingProps } from "./useGpsTrackingProps";
 
 /* eslint no-undef: 0 */ // --> OFF
 
