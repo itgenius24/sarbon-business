@@ -109,6 +109,7 @@ export default function GpsTrackingModuleTets() {
     handleSubmit,
     driverName,
     isLoading,
+    locationPending,
     watch,
     setValue,
     setChecked,
@@ -375,17 +376,19 @@ export default function GpsTrackingModuleTets() {
     <BalloonContentCargo />
   );
 
+  console.log(`getCarListProps`,  getCarListProps?.data)
+
   const { t } = useTranslation(locale, "translations");
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
         <Cmap
-          getCarListProps={getCarListProps}
+          getCarListProps={ !isLoading ?  getCarListProps : []}
           coordinates={coordinates}
           balloonContent={balloonContent}
           balloonContentCargo={balloonContentCargo}
           handleMouseEnter={handleMouseEnter}
-          locationData={locationData}
+          locationData={ !isLoading  ? locationData : []}
           setLoadState={setLoadState}
           setModalType={setModalType}
           handleMouseEnterCargo={handleMouseEnterCargo}

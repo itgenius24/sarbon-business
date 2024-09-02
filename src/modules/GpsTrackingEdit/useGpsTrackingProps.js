@@ -353,7 +353,7 @@ export const useGpsTrackingProps = () => {
     return carsArr?.filter((item) => item?.users_id === id);
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
 
-  const { mutate: getLocation } = useLocation({
+  const { mutate: getLocation,isPending:locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
       console.log(`dats`, data2);
@@ -371,7 +371,7 @@ export const useGpsTrackingProps = () => {
 
   const filterData = (data, checkboxStatuses) => {
     return data?.filter(item => {
-      console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
+      // console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
 
       return item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]);
     });
@@ -542,6 +542,7 @@ export const useGpsTrackingProps = () => {
     handleSubmit,
     driverName: true,
     isLoading: isPending,
+    locationPending,
     setValue,
     setChecked,
     mapIcon,
