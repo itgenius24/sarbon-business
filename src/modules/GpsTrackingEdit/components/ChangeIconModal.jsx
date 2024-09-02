@@ -1,4 +1,5 @@
 import {
+  BluePendingIcon,
   CencelMapIcon,
   CheckBlueIcon,
   CloseIconModal,
@@ -8,32 +9,44 @@ import {
 import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import CheckBoxComponent from "./CheckBoxComponent";
 
-const ChangeIconModal = ({ cls, setIconStatus,iconStatus,statusIconChange,setCenterModalType }) => {
+const ChangeIconModal = ({
+  cls,
+  setIconStatus,
+  iconStatus,
+  statusIconChange,
+  setCenterModalType,
+}) => {
   const data = [
     {
-      id:1,
-      type:"empty",
-      icon:GreenCarIcon,
-      title:"Свободная",
+      id: 1,
+      type: "empty",
+      icon: GreenCarIcon,
+      title: "Свободная",
     },
     {
-      id:2,
-      type:"our_cargo",
-      icon:CheckBlueIcon,
-      title:"Занята нашим грузом",
+      id: 2,
+      type: "our_cargo",
+      icon: CheckBlueIcon,
+      title: "Занята нашим грузом",
     },
     {
-      id:3,
-      type:"someone_cargo",
-      icon:QuestionBlueIcon,
-      title:"Занята чужим грузом",
+      id: 3,
+      type: "someone_cargo",
+      icon: QuestionBlueIcon,
+      title: "Занята чужим грузом",
     },
     {
-      id:4,
-      type:"broke_down",
-      icon:CencelMapIcon,
-      title:"Занята Cencel",
-    }
+      id: 4,
+      type: "waiting_for_driver",
+      icon: BluePendingIcon,
+      title: "В ожидании ответа",
+    },
+    {
+      id: 5,
+      type: "broke_down",
+      icon: CencelMapIcon,
+      title: "Неисправна",
+    },
   ];
   return (
     <div className={cls.selectedIcon}>
@@ -49,21 +62,21 @@ const ChangeIconModal = ({ cls, setIconStatus,iconStatus,statusIconChange,setCen
         />
       </Flex>
       <Box>
-
-        {
-          data.map(item => (
-            <CheckBoxComponent key={item.id}  onClick={() => setIconStatus(item.type)}   active={item.type === iconStatus}>
-              <Flex gap={3} alignItems={"center"}>
-                <item.icon /> <spa>{item.title}</spa>
-              </Flex>
-            </CheckBoxComponent>
-          ))
-        }
-
+        {data.map((item) => (
+          <CheckBoxComponent
+            key={item.id}
+            onClick={() => setIconStatus(item.type)}
+            active={item.type === iconStatus}
+          >
+            <Flex gap={3} alignItems={"center"}>
+              <item.icon /> <spa>{item.title}</spa>
+            </Flex>
+          </CheckBoxComponent>
+        ))}
       </Box>
       <Flex mt={3} gap={2}>
         <Button
-          onClick={() =>setCenterModalType(``) }
+          onClick={() => setCenterModalType(``)}
           className={cls.topButton}
           variant="secondaryWhite"
           size="md"
@@ -71,8 +84,13 @@ const ChangeIconModal = ({ cls, setIconStatus,iconStatus,statusIconChange,setCen
         >
           Отменить
         </Button>
-        <Button isDisabled={Boolean(!iconStatus)} onClick={statusIconChange} className={cls.topButton} size="md">
-          Предложить
+        <Button
+          isDisabled={Boolean(!iconStatus)}
+          onClick={statusIconChange}
+          className={cls.topButton}
+          size="md"
+        >
+          Сохранить
         </Button>
       </Flex>
     </div>

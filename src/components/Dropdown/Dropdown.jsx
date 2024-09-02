@@ -31,7 +31,7 @@ export const Dropdown = ({
   error,
   disabled,
   className,
-  onSearchChange = () => {},
+  onSearchChange = () => {},handleInputClear= () => {},
   index,
   isMulti,
   clearable,
@@ -164,6 +164,7 @@ export const Dropdown = ({
                           console.log("first");
                           e.stopPropagation();
                           setValue(name, {});
+                          handleInputClear();
                         }}
                       >
                         <CircleCloseIcon />

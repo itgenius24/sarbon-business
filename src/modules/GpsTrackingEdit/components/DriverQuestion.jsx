@@ -13,18 +13,19 @@ import {
   LoadOulineIcon,
   LocationActiveIcon,
   NextBtnIcon,
+  QuestionBlueIcon,
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
 import { Avatar, Box, Button, Flex, IconButton,setModalType } from "@chakra-ui/react";
 import React from "react";
 
-const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setStateMap,handleOpenModal,handleCloseModal }) => {
+const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setStateMap,handleOpenModal,handleCloseModal,setIconStatus }) => {
   
   return (
     <div className={cls.filter}>
-      <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
-        <Flex alignItems={"center"}>
+      <Flex  flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
+        <Flex width={'100%'} alignItems={"center"} justifyContent={'space-between'}>
           <Flex gap={3}>
             <Avatar name={contendSingle?.users_id_data?.full_name} src={contendSingle?.users_id_data?.photo} />
             <Box>
@@ -38,7 +39,9 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType("filter")}
+            onClick={() => {setModalType("filter");
+              setIconStatus('');  
+            }}
           />
         </Flex>
   
@@ -50,7 +53,8 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
               <p className={cls.bigTitle}>{contendSingle?.location_name}</p>
             </Box>
           </Flex>
-          <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
+         <Flex justifyContent={'space-between'}>
+         <Flex mt={3} alignItems={"flex-start"} rowGap={'15px'}  flexDirection={'column'}>
             <Flex alignItems={"center"} gap={2}>
               <BluetoothIcon />
               <Box>
@@ -59,19 +63,20 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-            { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
-              <Box>
-                <p className={cls.smallText}>Батарея </p>
-                <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
-              </Box>
-            </Flex>
-          </Flex>
-          <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
-            <Flex alignItems={"center"} gap={2}>
             {contendSingle?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
               <Box>
                 <p className={cls.smallText}>Смартфон </p>
                 <p className={cls.bigTitle}>{contendSingle?.os}</p>
+              </Box>
+            </Flex>
+       
+          </Flex>
+          <Flex mt={3}  alignItems={"flex-start"} rowGap={'15px'}  flexDirection={'column'}>
+          <Flex alignItems={"center"} gap={2}>
+            { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
+              <Box>
+                <p className={cls.smallText}>Батарея </p>
+                <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
@@ -82,10 +87,11 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
               </Box>
             </Flex>
           </Flex>
+         </Flex>
         </Box>
         <Box className={cls.cardWrap}>
           <Flex gap={2}>
-            <div className={cls.startAIcon}>A</div>
+            <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
             <Box>
               <p className={cls.cardStartTitle}>Екатеринбург</p>
               <p className={cls.cardStartSubTitle}>
@@ -94,6 +100,7 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
               </p>
             </Box>
           </Flex>
+         
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
             <Box onClick={() => {
@@ -107,7 +114,7 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
             </Box>
           </Flex>
 
-          <Flex className={cls.gruz} mt={5} gap={2}>
+          <Flex className={cls.gruz2} mt={5} gap={2}>
             <GruzIcon />
             <Box>
               <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
@@ -126,16 +133,9 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
               </p>
             </Box>
           </Flex>
-          <Flex mt={3} justifyContent={'space-between'}>
-             <p className={cls.cardStartSubTitle}>Cумма</p>
-             <p className={cls.cardStartSubTitle}>Тип оплаты: <span>Перечисление</span></p>
-          </Flex>
-          <Flex mt={3} justifyContent={'space-between'} alignItems={'center'}>
-             <p className={cls.sum}>3600 EUR </p>
-             <p className={cls.cardStartSubTitle}>Предоплата: <span>Нет</span></p>
-          </Flex>
+      
         </Box>
-        <Button onClick={() => setCenterModalType("changeIcon")} leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
+        <Button onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.users_id_data?.provisions?.[0])}} leftIcon={<QuestionBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
             Занята чужим грузом
         </Button>
         {/* <Box className={cls.cardWrap}>

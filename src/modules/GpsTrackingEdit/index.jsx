@@ -83,6 +83,7 @@ import DriverGruz from "./components/DriverGruz";
 import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -133,7 +134,14 @@ export default function GpsTrackingModuleTets() {
     loadState,
     checkboxStatuses,
     handleCheckboxChange,
-    setStateMap
+    setStateMap,
+    handleInputClear,
+    setConHoverState,
+    contendHoverState,
+    setLoadCheck,
+    loadCheck,
+    setOffset,
+    setHoverLoadState,loadHoverState
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -148,7 +156,7 @@ export default function GpsTrackingModuleTets() {
     const placemark = e.get("target");
     placemark.balloon.open();
     // cargoRef.current = carInfo;
-    setContendSingle(carInfo);
+    setConHoverState(carInfo);
   };
 
   // console.log("cargoRef",cargoRef);
@@ -157,24 +165,22 @@ export default function GpsTrackingModuleTets() {
     e.preventDefault();
     const placemark = e.get("target");
     placemark.balloon.open();
-    setLoadState(carInfo);
+    setHoverLoadState(carInfo);
   };
 
-  const type = contendSingle?.users_id_data?.provisions?.[0];
-  const typeCargo = loadState?.order_status?.[0];
+  const type = contendHoverState?.users_id_data?.provisions?.[0];
+  const typeCargo = loadHoverState?.order_status?.[0];
 
   const BalloonContent = () => (
     <div id="balloon-content" className={cls.balloon_content_empty}>
       <div className={cls.wrap} style={{ height: "45px" }}>
         {type === "empty" ? (
           <>
-            {" "}
             <GreenCarIcon /> <span className={cls.balloonName}>Свободен</span>
           </>
         ) : type === "waiting_for_driver" ? (
           <>
-            {" "}
-            <BluePendingIcon />{" "}
+            <BluePendingIcon />
             <span
               style={{ color: "rgba(0, 122, 255, 1)" }}
               className={cls.balloonName}
@@ -184,8 +190,7 @@ export default function GpsTrackingModuleTets() {
           </>
         ) : type === "our_cargo" ? (
           <>
-            {" "}
-            <CheckBlueIcon />{" "}
+            <CheckBlueIcon />
             <span
               style={{ color: "rgba(0, 122, 255, 1)" }}
               className={cls.balloonName}
@@ -195,8 +200,7 @@ export default function GpsTrackingModuleTets() {
           </>
         ) : type === "someone_cargo" ? (
           <>
-            {" "}
-            <QuestionBlueIcon />{" "}
+            <QuestionBlueIcon />
             <span
               style={{ color: "rgba(0, 122, 255, 1)" }}
               className={cls.balloonName}
@@ -206,8 +210,7 @@ export default function GpsTrackingModuleTets() {
           </>
         ) : type === "broke_down" ? (
           <>
-            {" "}
-            <CencelMapIcon />{" "}
+            <CencelMapIcon />
             <span
               style={{ color: "rgba(126, 123, 134, 1)" }}
               className={cls.balloonName}
@@ -217,90 +220,81 @@ export default function GpsTrackingModuleTets() {
           </>
         ) : (
           <>
-            {" "}
             <GreenCarIcon /> <span className={cls.balloonName}>Свободен</span>
           </>
         )}
 
-        <Flex>
-          <p
-            className={cls.conWrap}
-            gap={1}
-            alignItems={"center"}
-            flexWrap={"nowrap"}
-          >
-            <StoneIcon /> <span>22 т</span>
-          </p>
+        <Flex  style={{gap:"4px"}}  alignItems={"center"}>
+          <Box className={cls.conWrap}>
+            <StoneIcon /> <span> 22 т.</span>
+          </Box>
+             <p className={cls.conWrap}> </p>  
           <p className={cls.conWrap} gap={1} alignItems={"center"}>
-            <LoadOulineIcon /> 86m3
+            <LoadOulineIcon /> <span>86 m3</span>
           </p>
         </Flex>
       </div>
       <p className={cls.balloon_fulName}>
-        {contendSingle?.users_id_data?.full_name}
+        {contendHoverState?.users_id_data?.full_name}
       </p>
       {type === "empty" ? (
         <>
           <p className={cls.footerBox}>
-            <GreenPhoneIcon /> {contendSingle?.users_id_data?.phone}
+            <GreenPhoneIcon /> { formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
-            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+            {contendHoverState?.users_id_data?.vehicle_type_id_data?.name}
           </p>
         </>
       ) : type === "waiting_for_driver" ? (
         <>
-          {" "}
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
-            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+            {contendHoverState?.users_id_data?.vehicle_type_id_data?.name}
           </p>
         </>
       ) : type === "our_cargo" ? (
         <>
-          {" "}
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
-            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+            {contendHoverState?.users_id_data?.vehicle_type_id_data?.name}
           </p>
         </>
       ) : type === "someone_cargo" ? (
         <>
-          {" "}
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
-            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+            {contendHoverState?.users_id_data?.vehicle_type_id_data?.name}
           </p>
         </>
       ) : type === "broke_down" ? (
         <>
-          {" "}
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {contendSingle?.users_id_data?.phone}
+            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
-            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+            {contendHoverState?.users_id_data?.vehicle_type_id_data?.name}
           </p>
         </>
       ) : (
         <>
           <p className={cls.footerBox}>
-            <GreenPhoneIcon /> {contendSingle?.users_id_data?.phone}
+            <GreenPhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
-            {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+            {contendHoverState?.users_id_data?.vehicle_type_id_data?.name}
           </p>
         </>
       )}
@@ -312,36 +306,30 @@ export default function GpsTrackingModuleTets() {
       <div className={cls.wrap} style={{ height: "45px" }}>
         {typeCargo === "occupied_cargo" ? (
           <>
-            {" "}
-            <MapCargoLoadGoodsIcon />{" "}
+            <MapCargoLoadGoodsIcon />
             <span
               style={{ color: "rgba(193, 187, 32, 1)" }}
               className={cls.balloonName}
             >
-              {loadState?.bid_cash}
+              {loadHoverState?.bid_cash}
             </span>
           </>
         ) : (
           <>
-            {" "}
-            <MapCargoGreenIcon />{" "}
+            <MapCargoGreenIcon />
             <span className={cls.balloonName}>
-              {loadState?.bid_cash} {loadState?.currency_id_data?.code}
+              {loadHoverState?.bid_cash} {loadHoverState?.currency_id_data?.code}
             </span>
           </>
         )}
 
-        <Flex>
-          <p
-            className={cls.conWrap}
-            gap={1}
-            alignItems={"center"}
-            flexWrap={"nowrap"}
-          >
-            <StoneIcon /> <span>22 т</span>
-          </p>
+        <Flex  style={{gap:"4px"}}  alignItems={"center"}>
+          <Box className={cls.conWrap}>
+            <StoneIcon /> <span> 22 т.</span>
+          </Box>
+             <p className={cls.conWrap}> </p>  
           <p className={cls.conWrap} gap={1} alignItems={"center"}>
-            <LoadOulineIcon /> 86m3
+            <LoadOulineIcon /> <span>86 m3</span>
           </p>
         </Flex>
       </div>
@@ -349,18 +337,17 @@ export default function GpsTrackingModuleTets() {
       {typeCargo === "occupied_cargo" ? (
         <>
           <p className={cls.footerBox}>
-            <GoodsPhoneIcon /> {loadState?.users_id_data?.phone}
+            <GoodsPhoneIcon /> {formatPhoneNumber(loadHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GoodsFuraIcon />
-            {loadState?.vehicle_type_id_data?.name}
+            {loadHoverState?.vehicle_type_id_data?.name}
           </p>
         </>
       ) : (
         <>
-          {" "}
           <p className={cls.footerBox}>
-            <GreenPhoneIcon /> {loadState?.users_id_data?.phone}
+            <GreenPhoneIcon /> { formatPhoneNumber(loadHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
@@ -376,26 +363,29 @@ export default function GpsTrackingModuleTets() {
     <BalloonContentCargo />
   );
 
-  console.log(`getCarListProps`,  getCarListProps?.data)
+
 
   const { t } = useTranslation(locale, "translations");
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
         <Cmap
-          getCarListProps={ !isLoading ?  getCarListProps : []}
+          getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}
           balloonContent={balloonContent}
           balloonContentCargo={balloonContentCargo}
           handleMouseEnter={handleMouseEnter}
-          locationData={ !isLoading  ? locationData : []}
+          locationData={loadCheck ? (!isLoading ? locationData : []) : []}
           setLoadState={setLoadState}
           setModalType={setModalType}
           handleMouseEnterCargo={handleMouseEnterCargo}
           mapIcon={mapIcon}
           watch={watch}
+          isLoading={isLoading}
+          setContendSingle={setContendSingle}
+     
         />
-    
+
         <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>
@@ -418,9 +408,11 @@ export default function GpsTrackingModuleTets() {
                   setDistance={setDistance}
                   distance={distance}
                   handleClear={handleClear}
+                  setLoadCheck={setLoadCheck}
+                  loadCheck={loadCheck}
                   t={t}
                   setModalType={setModalType}
-
+                  handleInputClear={handleInputClear}
                   control={control}
                   handleOpenModal={handleOpenModal}
                   errors={errors}
@@ -435,6 +427,7 @@ export default function GpsTrackingModuleTets() {
                   setModalType={setModalType}
                   contendSingle={contendSingle}
                   setCenterModalType={setCenterModalType}
+                  setIconStatus={setIconStatus}
                 />
               )}
               {modalType === "driverExpectation" && (
@@ -451,6 +444,7 @@ export default function GpsTrackingModuleTets() {
                   contendSingle={contendSingle}
                   setCenterModalType={setCenterModalType}
                   setModalType={setModalType}
+                  setIconStatus={setIconStatus}
                 />
               )}
               {modalType === "driverQuestion" && (
@@ -462,6 +456,7 @@ export default function GpsTrackingModuleTets() {
                   setStateMap={setStateMap}
                   handleOpenModal={handleOpenModal}
                   handleCloseModal={handleCloseModal}
+                  setIconStatus={setIconStatus}
                 />
               )}
               {modalType === "driverGruz" && (
@@ -487,6 +482,7 @@ export default function GpsTrackingModuleTets() {
               cls={cls}
               contendSingle={contendSingle}
               setCenterModalType={setCenterModalType}
+              setOffset={setOffset}
             />
           </div>
         )}

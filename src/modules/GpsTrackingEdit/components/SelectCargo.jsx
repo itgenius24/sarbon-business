@@ -21,10 +21,11 @@ import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 
-const SelectCargo = ({ cls, contendSingle, setCenterModalType }) => {
+const SelectCargo = ({ cls, contendSingle, setCenterModalType,setOffset }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState("");
   const [search,setSearch] = useState('');
+  const [disabled,setDisabled] = useState(false);
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
@@ -41,7 +42,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType }) => {
 
   const cargoData = useMemo(() => {
       if(search){
-        return  getAllUserCargo.data?.response?.filter(item => item.cargo_type_id_data?.name.toLowerCase().includes(search?.toLowerCase()));
+        return  getAllUserCargo.data?.response?.filter(item => item.city_id_data?.name.toLowerCase().includes(search?.toLowerCase()) || item.city_id_2_data?.name.toLowerCase().includes(search?.toLowerCase()));
       }
       else{
         return getAllUserCargo.data?.response;
@@ -51,12 +52,14 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType }) => {
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
       setCenterModalType("");
+      setDisabled(false)
+      setOffset(0)
     },
   });
 
-  console.log("selectCargo", contendSingle);
 
   function handleOffer() {
+    setDisabled(true)
     offerFromCustomer.mutate({
       data: {
         object_data: {
@@ -154,7 +157,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType }) => {
             Отменить
           </Button>
           <Button
-            isDisabled={!selectCargo}
+            isDisabled={!selectCargo || disabled}
             onClick={() => handleOffer()}
             className={cls.topButton}
             size="md"

@@ -3,6 +3,7 @@ import {
   MapLoadGreenIcon,
   MapLoadIcon,
 } from "@/assets/icons/icons";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import {
   Map,
   Placemark,
@@ -25,6 +26,8 @@ const Cmap = memo(
     locationData,
     setLoadState,
     handleMouseEnterCargo,
+    setContendSingle,
+    isLoading
   }) => {
     
     return (
@@ -65,7 +68,7 @@ const Cmap = memo(
                 }}
               />
 
-        {getCarListProps?.data?.map((carInfo) => {
+        { getCarListProps?.data?.length >  0  ?   getCarListProps?.data?.map((carInfo) => {
           return (
             <>
               <Placemark
@@ -91,7 +94,7 @@ const Cmap = memo(
                   const placemark = e.get("target");
                   const balloonInstance = placemark.balloon;
                   balloonInstance.events.add("click", () => {
-                    // setContendSingle(carInfo);
+                    setContendSingle(carInfo);
                     if (carInfo?.users_id_data?.provisions?.[0] === "our_cargo") {
                       setModalType("driverCheck");
                     } else if (
@@ -112,7 +115,7 @@ const Cmap = memo(
               />
             </>
           );
-        })}
+        }): <LoadingSpinner />}
         {/* </Clusterer> */}
 
         {locationData &&

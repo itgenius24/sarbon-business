@@ -17,6 +17,6 @@ export const Checkbox = ({
   return <label className={clsx(cls.checkboxLabel, className, { [cls.filled]: filled })}>
     <input className={clsx("visually-hidden", cls.checkboxInput)} {...register(name)} defaultChecked={defaultChecked} type={type} {...props}/>
     <span className={cls.checkbox} style={{ width, height, backgroundSize: iconSize }}></span>
-    <span className={cls.checkboxText}>{children}</span>
+    <span className={ defaultChecked ?  cls.checkboxText : cls.checkboxTextNone}>{children}</span>
   </label>;
 };

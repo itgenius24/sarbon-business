@@ -74,7 +74,7 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
 
         <Box mt={3} className={cls.cardWrap}>
           <Flex gap={2}>
-            <div className={cls.startAGreenIcon}>A</div>
+          <div className={cls.startAIconWrap}><div  className={cls.startAGreenIcon}>A</div> <div className={cls.line}></div> </div>
             <Box>
               <p className={cls.cardStartTitle}>{loadState?.city_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
@@ -113,7 +113,7 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
           </Flex>
           <Flex mt={3} justifyContent={"space-between"}>
             <p className={cls.cardStartSubTitle}>Cумма</p>
-            <p className={cls.cardStartSubTitle}>Тип оплаты: <span>{loadState?.map_id_data?.payment_type}</span></p>
+            <p className={cls.cardStartSubTitle}>Тип оплаты: <span>{loadState?.map_id_data?.payment_type?.length > 15 ?  `${loadState?.map_id_data?.payment_type?.slice(0,15)}...`:loadState?.map_id_data?.payment_type }</span></p>
           </Flex>
           <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
             <p className={cls.sumGreen}>{loadState?.bid_cash} {loadState?.currency_id_data?.code} </p>

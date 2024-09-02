@@ -19,6 +19,7 @@ import {
   SomeoneCargoIcon,
   WaitingForDriverIcon,
 } from "@/assets/icons/icons";
+import { useDebounce } from "use-debounce";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
@@ -38,9 +39,12 @@ export const useGpsTrackingProps = () => {
   const [iconStatus, setIconStatus] = useState(``);
   const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
-  const [loadState,setLoadState] = useState({});
-  const [stateMap,setStateMap] = useState(false);
-  const [addressAdd,setAddressAdd] = useState();
+  const [loadState, setLoadState] = useState({});
+  const [loadHoverState, setHoverLoadState] = useState({});
+  const [contendHoverState, setConHoverState] = useState();
+  const [stateMap, setStateMap] = useState(false);
+  const [addressAdd, setAddressAdd] = useState();
+  const [loadCheck,setLoadCheck] = useState(true)
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -48,6 +52,10 @@ export const useGpsTrackingProps = () => {
     broke_down: true,
     waiting_for_driver: true,
   });
+
+  const [debouncedValue] = useDebounce(distance, 500);
+
+  console.log("debouncedValue",debouncedValue)
 
   useEffect(() => {
     if (checked) {
@@ -237,23 +245,21 @@ export const useGpsTrackingProps = () => {
   }
 
   function getPlaceMarkAddress(coords) {
-    if(stateMap){
+    if (stateMap) {
       yMaps?.geocode(coords).then(function (res) {
         var firstGeoObject = res.geoObjects.get(0);
         setAddressAdd({
           address: firstGeoObject.getAddressLine(),
-          cor:coords.join(",")
+          cor: coords.join(","),
         });
       });
-     
-    }else{
+    } else {
       yMaps?.geocode(coords).then(function (res) {
         var firstGeoObject = res.geoObjects.get(0);
         setValue("address", firstGeoObject.getAddressLine());
         setValue("cor", coords.join(","));
       });
     }
-  
   }
 
   function onMapClick(e) {
@@ -322,7 +328,16 @@ export const useGpsTrackingProps = () => {
           const data2 = data?.data?.response?.filter(
             (item) => item?.users_id_data?.vehicle_type_id_data
           );
-          setCarsArr((res) => [...res, ...data2]);
+          if (
+            watch(`car_type`)?.value ||
+            watch(`load_type_id`)?.value ||
+            watch("weight") ||
+            watch("volume")
+          ) {
+            setCarsArr(data2);
+          } else {
+            setCarsArr((res) => [...res, ...data2]);
+          }
         } else {
           setCarsArr([]);
           toast({
@@ -342,6 +357,8 @@ export const useGpsTrackingProps = () => {
     },
   });
 
+  console.log(`watch`, watch(`car_type`)?.value);
+
   const dataUserID = useMemo(() => {
     let id = "";
     if (watch("users_id")?.value) {
@@ -353,7 +370,7 @@ export const useGpsTrackingProps = () => {
     return carsArr?.filter((item) => item?.users_id === id);
   }, [watch("users_id")?.value, watch("users_id2")?.value]);
 
-  const { mutate: getLocation,isPending:locationPending } = useLocation({
+  const { mutate: getLocation, isPending: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
       console.log(`dats`, data2);
@@ -370,10 +387,12 @@ export const useGpsTrackingProps = () => {
   });
 
   const filterData = (data, checkboxStatuses) => {
-    return data?.filter(item => {
+    return data?.filter((item) => {
       // console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
 
-      return item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]);
+      return item?.users_id_data?.provisions?.some(
+        (status) => checkboxStatuses[status]
+      );
     });
   };
 
@@ -384,9 +403,6 @@ export const useGpsTrackingProps = () => {
       data: watch("users_id")?.value ? dataUserID : filteredData,
     };
   }, [watch("users_id")?.value, dataUserID, filteredData]);
-
-
-  
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.users_id_data?.full_name,
@@ -436,7 +452,7 @@ export const useGpsTrackingProps = () => {
           object_data: {
             lat: watch("cor")?.split(",")[0],
             long: watch("cor")?.split(",")[1],
-            number: distance * 2 || 100,
+            number: distance * 4 || 100,
             car_type_id: watch("car_type")?.value,
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
@@ -449,7 +465,7 @@ export const useGpsTrackingProps = () => {
     }
   }, [
     watch("cor")?.split(",")[0],
-    distance,
+    debouncedValue,
     watch("car_type")?.value,
     watch("load_type_id")?.value,
     watch("weight"),
@@ -458,13 +474,23 @@ export const useGpsTrackingProps = () => {
   ]);
 
   const handleClear = () => {
+    // console.log("clear")
+    setOffset(0)
     setValue("cor", ``);
     setValue("address", ``);
     setValue("car_type", null);
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
-    // setModalType('');
+    setDistance(30)
+   setCheckboxStatuses({
+    empty: true,
+    our_cargo: true,
+    someone_cargo: true,
+    broke_down: true,
+    waiting_for_driver: true,
+  }) 
+    setLoadCheck(true)
   };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
@@ -487,18 +513,21 @@ export const useGpsTrackingProps = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid:contendSingle.users_id_data.guid,
-      provisions:[iconStatus]
-     
+      guid: contendSingle.users_id_data.guid,
+      provisions: [iconStatus],
     };
     userUpdate({ data: body });
   };
 
   const handleCheckboxChange = (status) => {
-    setCheckboxStatuses(prevState => ({
+    setCheckboxStatuses((prevState) => ({
       ...prevState,
       [status]: !prevState[status],
     }));
+  };
+
+  const handleInputClear = () => {
+    setOffset(0);
   };
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
@@ -556,11 +585,20 @@ export const useGpsTrackingProps = () => {
     setIconStatus,
     iconStatus,
     statusIconChange,
-    modalType,setModalType,centerModalType,setCenterModalType,
+    modalType,
+    setModalType,
+    centerModalType,
+    setCenterModalType,
     setLoadState,
     loadState,
     checkboxStatuses,
     handleCheckboxChange,
-    setStateMap
+    setStateMap,
+    handleInputClear,
+    setConHoverState,
+    contendHoverState,
+    setLoadCheck,
+    loadCheck,
+    setOffset,setHoverLoadState,loadHoverState
   };
 };

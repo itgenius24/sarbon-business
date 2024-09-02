@@ -64,7 +64,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
-        <Flex alignItems={"center"}>
+        <Flex width={'100%'} justifyContent={'space-between'} alignItems={"center"}>
           <Flex gap={3}>
             <Avatar name={contendSingle?.users_id_data?.full_name} src={contendSingle?.users_id_data?.photo} />
             <Box>
@@ -99,7 +99,8 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               <p className={cls.bigTitle}>{contendSingle?.location_name}</p>
             </Box>
           </Flex>
-          <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
+          <Flex justifyContent={'space-between'}>
+          <Flex mt={3} alignItems={"center"} flexDirection={'column'} rowGap={'15px'}>
             <Flex alignItems={"center"} gap={2}>
               <BluetoothIcon />
               <Box>
@@ -108,19 +109,20 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-            { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
-              <Box>
-                <p className={cls.smallText}>Батарея </p>
-                <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
-              </Box>
-            </Flex>
-          </Flex>
-          <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
-            <Flex alignItems={"center"} gap={2}>
             {contendSingle?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
               <Box>
                 <p className={cls.smallText}>Смартфон </p>
                 <p className={cls.bigTitle}>{contendSingle?.os}</p>
+              </Box>
+            </Flex>
+          
+          </Flex>
+          <Flex mt={3} alignItems={"center"} flexDirection={'column'} rowGap={'15px'}>
+          <Flex alignItems={"center"} gap={2}>
+            { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
+              <Box>
+                <p className={cls.smallText}>Батарея </p>
+                <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
@@ -131,11 +133,12 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               </Box>
             </Flex>
           </Flex>
+          </Flex>
         </Box>
         <Box className={cls.cardWrap}>
           <Flex gap={2}>
-            <div className={cls.startAIcon}>A</div>
-            <Box>
+          <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
+          <Box>
               <p className={cls.cardStartTitle}>{getOfferCount?.data?.response?.[0]?.city_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
                 {" "}

@@ -11,7 +11,7 @@ import {
   SliderThumb,
   SliderTrack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 
 const Filter = ({
   cls,
@@ -30,7 +30,10 @@ const Filter = ({
   handleClear,
   checkboxStatuses,
   handleCheckboxChange,
-  setModalType
+  setModalType,
+  handleInputClear,
+  setLoadCheck,
+  loadCheck
 }) => {
   return (
     <div className={cls.filter}>
@@ -41,13 +44,18 @@ const Filter = ({
           justifyContent={"space-between"}
           width={"100%"}
         >
-          <Flex onClick={() => {handleClear();setModalType(``)}} alignItems={"center"} gap={"10px"}>
-         
-            <FilterIconBlack /> <span className={cls.filterText}>
-              Фильтр
-            </span>
+          <Flex
+   
+            onClick={() => {
+        
+              setModalType(``);
+            }}
+            alignItems={"center"}
+            gap={"10px"}
+          >
+            <FilterIconBlack /> <span className={cls.filterText}>Фильтр</span>
           </Flex>
-          <p className={cls.clearBtn}>Сбросить</p>
+          <p onClick={() =>      handleClear()} className={cls.clearBtn}>Сбросить</p>
         </Flex>
         <Box className={cls.cardWrap}>
           <TextFieldWithAddition
@@ -71,9 +79,15 @@ const Filter = ({
           />
           <Flex mt={5} justifyContent={"space-between"} width={"100%"}>
             <p>{t("Дистанция")}</p>
-            <span className={cls.disNum}>{distance * 2} km</span>
+            <span className={cls.disNum}>{distance * 4} km</span>
           </Flex>
-          <Slider onChange={(e) => setDistance(e*2)} mt={1} aria-label="slider-ex-1" defaultValue={30}>
+          <Slider
+            onChange={(e) => setDistance(e)}
+            mt={1}
+            aria-label="slider-ex-1"
+            value={distance}
+            defaultValue={30}
+          >
             <SliderTrack bg="rgba(0, 122, 255, 0.3)">
               <SliderFilledTrack bg={"rgba(0, 122, 255, 1)"} />
             </SliderTrack>
@@ -83,50 +97,59 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>Отображать на карте</p>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
-          <Checkbox
-        width={"16px"}
-        height={"16px"}
-        defaultChecked={checkboxStatuses.empty}
-        onChange={() => handleCheckboxChange('empty')}
-      >
-        Свободные машины
-      </Checkbox>
-      
-      <Checkbox
-        width={"16px"}
-        height={"16px"}
-        defaultChecked={checkboxStatuses.our_cargo}
-        onChange={() => handleCheckboxChange('our_cargo')}
-      >
-        Занятые с нашим грузом
-      </Checkbox>
-      
-      <Checkbox
-        width={"16px"}
-        height={"16px"}
-        defaultChecked={checkboxStatuses.someone_cargo}
-        onChange={() => handleCheckboxChange('someone_cargo')}
-      >
-        Занятые с чужим грузом
-      </Checkbox>
-      
-      <Checkbox
-        width={"16px"}
-        height={"16px"}
-        defaultChecked={checkboxStatuses.broke_down}
-        onChange={() => handleCheckboxChange('broke_down')}
-      >
-        Сломанные машины
-      </Checkbox>
-      
-      <Checkbox
-        width={"16px"}
-        height={"16px"}
-        defaultChecked={checkboxStatuses.waiting_for_driver}
-        onChange={() => handleCheckboxChange('waiting_for_driver')}
-      >
-        Грузы
-      </Checkbox>
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={checkboxStatuses.empty}
+              onChange={() => handleCheckboxChange("empty")}
+            >
+              Свободные машины
+            </Checkbox>
+
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={checkboxStatuses.our_cargo}
+              onChange={() => handleCheckboxChange("our_cargo")}
+            >
+              Занятые с нашим грузом
+            </Checkbox>
+
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={checkboxStatuses.someone_cargo}
+              onChange={() => handleCheckboxChange("someone_cargo")}
+            >
+              Занятые с чужим грузом
+            </Checkbox>
+
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={checkboxStatuses.broke_down}
+              onChange={() => handleCheckboxChange("broke_down")}
+            >
+              Сломанные машины
+            </Checkbox>
+{/* 
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={checkboxStatuses.waiting_for_driver}
+              onChange={() => handleCheckboxChange("waiting_for_driver")}
+            >
+              В ожидании ответа
+            </Checkbox> */}
+
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={loadCheck}
+              onChange={() => setLoadCheck(!loadCheck)}
+            >
+              Грузы
+            </Checkbox>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
@@ -140,6 +163,7 @@ const Filter = ({
               width="100%"
               control={control}
               watch={watch}
+              handleInputClear={handleInputClear}
               setValue={setValue}
               clearable
             />
@@ -152,6 +176,7 @@ const Filter = ({
               control={control}
               watch={watch}
               setValue={setValue}
+              handleInputClear={handleInputClear}
               clearable
             />
             <Box>
@@ -159,20 +184,15 @@ const Filter = ({
               <ChakraSelect
                 options={getUserOption}
                 name="users_id"
-                placeholder={t("Введите тип имя")}
+                placeholder={t("Имя или номер телефона...")}
                 control={control}
               />
-
             </Box>
           </Flex>
-
         </Box>
         <Box className={cls.cardWrap}>
-          <p className={cls.label}>
-          Параметры груза
-          </p>
+          <p className={cls.label}>Параметры груза</p>
           <Flex gap={4}>
-
             <TextFieldWithAddition
               className={cls.textField}
               errors={errors}

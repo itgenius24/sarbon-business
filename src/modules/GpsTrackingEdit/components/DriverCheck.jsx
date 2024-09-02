@@ -21,7 +21,7 @@ import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
 
-const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType }) => {
+const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIconStatus }) => {
 
   const getOfferCount = useGetOffer(
     {
@@ -39,7 +39,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType }) => 
   return (
     <div className={cls.filter}>
         {!getOfferCount.isLoading && <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
-        <Flex alignItems={"center"}>
+        <Flex width={'100%'} justifyContent={'space-between'} alignItems={"center"}>
           <Flex gap={3}>
             <Avatar name="Bobur Nimatllayey" src="#" />
             <Box>
@@ -53,7 +53,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType }) => 
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType("filter")}
+            onClick={() => {setModalType("filter");setIconStatus('')}}
           />
         </Flex>
         <Box
@@ -108,8 +108,8 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType }) => 
         </Box>
         <Box className={cls.cardWrap}>
           <Flex gap={2}>
-            <div className={cls.startAIcon}>A</div>
-            <Box>
+          <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
+          <Box>
               <p className={cls.cardStartTitle}>{getOfferCount?.data?.response?.[0]?.city_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
                 {" "}
@@ -156,7 +156,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType }) => 
              <p className={cls.cardStartSubTitle}>Предоплата: <span>{getOfferCount?.data?.response?.[0]?.prepayment_percentage > 0 ?"Da" : "Нет" }</span></p>
           </Flex>
         </Box>
-        <Button  onClick={() => setCenterModalType("changeIcon")}  leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
+        <Button  onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.users_id_data?.provisions?.[0])}}  leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
         Занята нашим грузом
         </Button>
         <Box className={cls.cardWrap}>
