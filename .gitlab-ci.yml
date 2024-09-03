@@ -23,7 +23,7 @@ deploy-prod:
   variables:
     NAMESPACE: xlogistics
     VALUES_FILE: .helm/values-prod.yml
-    K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
+    K8SCONFIGJSON: $FURGO_KUBECONFIG
   only:
     - master
 
