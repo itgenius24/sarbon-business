@@ -78,7 +78,7 @@ service:
       name: https
 
 ingress:
-  enabled: true
+  enabled: false
   rules:
     - annotations:
         kubernetes.io/ingress.class: nginx
@@ -127,7 +127,7 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: kubernetes.io/ucode-dev
+            - key: kubernetes.io/furgo
               operator: In
               values:
                 - "true"
