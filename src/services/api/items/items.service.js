@@ -11,6 +11,7 @@ const itemsService = {
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`,{data:JSON.stringify({data:{}})}),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
+  createCargo: (data) => request.post("/v2/items/cargo", data),
   updateResponse: (data) => request.put("/v2/items/response", data),
   createFeedback: (data) => request.post("/v2/items/review", data),
 };

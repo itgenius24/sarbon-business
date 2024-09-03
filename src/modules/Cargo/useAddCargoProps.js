@@ -623,7 +623,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
   function onSubmit(data) {
     setIsClicked(true);
-    console.log("data", data);
     if (!authStore.isAuth) {
       toast({
         position: "top-right",
@@ -719,6 +718,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         requestData.data.cargo_type = ["template"];
       }
       requestData.data.firm_id = authStore.userData.firm_id;
+    console.log("data222", requestData);
+
       createCargo.mutate(requestData, {
         onSuccess(data) {
           if (data.isTemp) {

@@ -73,7 +73,7 @@ const Cmap = memo(
           }}
         />
 
-        {/* <Clusterer
+        <Clusterer
           options={{
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
@@ -82,7 +82,7 @@ const Cmap = memo(
               borderRadius: "50%",
             },
           }}
-        > */}
+        >
           {getCarListProps?.data?.map((carInfo) => {
             return (
               <>
@@ -134,7 +134,7 @@ const Cmap = memo(
               </>
             );
           })}
-        {/* </Clusterer> */}
+        </Clusterer>
 
         {locationData &&
           locationData.map((item) => (
