@@ -1,81 +1,41 @@
 "use client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
-import { Container } from "@/components/Container";
+
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Box,
-  Button,
   Flex,
-  Heading,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
-  Switch,
-  Text,
-  Tooltip,
-  VStack,
-  useMediaQuery,
 } from "@chakra-ui/react";
-import { TextField } from "@/components/TextField";
-import { Checkbox } from "@/components/Checkbox";
-import {
+import{
   BlueFuraIcon,
   BluePendingIcon,
   BluePhoneIcon,
   CencelMapIcon,
   CheckBlueIcon,
   FilterIcon,
-  FilterIconBlack,
   GoodsFuraIcon,
   GoodsPhoneIcon,
   GreenCarIcon,
   GreenFuraIcon,
-  GreenMapIcon,
   GreenPhoneIcon,
   LoadOulineIcon,
-  LocationMarkIcon,
   MapCargoGreenIcon,
   MapCargoLoadGoodsIcon,
-  MapLoadGreenIcon,
-  MapLoadIcon,
   QuestionBlueIcon,
   StoneIcon,
-  loadIcon,
+
 } from "@/assets/icons/icons";
-import React, { useCallback, useRef, useState } from "react";
+import React, {  useRef } from "react";
 
 import cls from "./style.module.scss";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Modal } from "@/components/Modal";
-import LoadingMap from "@/modules/Cargo/components/LoadingMap";
-import { Dropdown } from "@/components/Dropdown";
-import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { UseIcon } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
-import {
-  Clusterer,
-  Map,
-  Placemark,
-  SearchControl,
-  TypeSelector,
-  ZoomControl,
-} from "@pbe/react-yandex-maps";
-import styled from "@emotion/styled";
-import PlacemarkItem from "./PlacemarkItem";
-import { SingleCar } from "../SearchCar/component/SingleCar/SingleCar";
-import { ChakraSelect } from "@/components/ChakraSelect";
+
 import Filter from "./components/Filter";
 import DriverFree from "./components/DriverFree";
 import SelectCargo from "./components/SelectCargo";
 import ChangeIconModal from "./components/ChangeIconModal";
-import { format } from "date-fns";
+
 import DriverExpectation from "./components/DriverExpectation";
 import DriverCheck from "./components/DriverCheck";
 import DriverQuestion from "./components/DriverQuestion";
@@ -84,6 +44,8 @@ import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
+import LoadingMap from "../Cargo/components/LoadingMap";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -141,7 +103,7 @@ export default function GpsTrackingModuleTets() {
     setLoadCheck,
     loadCheck,
     setOffset,
-    setHoverLoadState,loadHoverState
+    setHoverLoadState,loadHoverState,addressAdd,stateMap,addAdress
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -369,7 +331,8 @@ export default function GpsTrackingModuleTets() {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-        <Cmap
+      {/* { isLoading &&  <LoadingSpinnerMap />} */}
+     <Cmap
           getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}
           balloonContent={balloonContent}
@@ -385,6 +348,10 @@ export default function GpsTrackingModuleTets() {
           setContendSingle={setContendSingle}
      
         />
+        
+    
+      
+        
 
         <div className={cls.modalWrap}>
           <Flex>
@@ -450,6 +417,7 @@ export default function GpsTrackingModuleTets() {
               {modalType === "driverQuestion" && (
                 <DriverQuestion
                   setModalType={setModalType}
+                  addressAdd={addressAdd}
                   cls={cls}
                   contendSingle={contendSingle}
                   setCenterModalType={setCenterModalType}
@@ -457,6 +425,7 @@ export default function GpsTrackingModuleTets() {
                   handleOpenModal={handleOpenModal}
                   handleCloseModal={handleCloseModal}
                   setIconStatus={setIconStatus}
+                  stateMap={stateMap}
                 />
               )}
               {modalType === "driverGruz" && (
@@ -483,6 +452,10 @@ export default function GpsTrackingModuleTets() {
               contendSingle={contendSingle}
               setCenterModalType={setCenterModalType}
               setOffset={setOffset}
+              statusIconChange={statusIconChange}
+              setIconStatus={setIconStatus}
+
+
             />
           </div>
         )}
@@ -503,7 +476,12 @@ export default function GpsTrackingModuleTets() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         firstBtnCallback={handleCloseModal}
-        secondBtnCallback={() => setIsModalOpen(false)}
+        secondBtnCallback={() => {
+          setIsModalOpen(false);
+          if(stateMap){
+            addAdress();
+          }
+        }}
         title={t("Точка маршрута")}
         size="xxl"
       >

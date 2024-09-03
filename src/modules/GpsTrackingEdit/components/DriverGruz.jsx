@@ -74,7 +74,7 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
 
         <Box mt={3} className={cls.cardWrap}>
           <Flex gap={2}>
-          <div className={cls.startAIconWrap}><div  className={cls.startAGreenIcon}>A</div> <div className={cls.line}></div> </div>
+          <div className={cls.startAIconWrapGreen}><div  className={cls.startAGreenIcon}>A</div> <div className={cls.line}></div> </div>
             <Box>
               <p className={cls.cardStartTitle}>{loadState?.city_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>

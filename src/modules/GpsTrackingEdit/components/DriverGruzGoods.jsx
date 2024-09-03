@@ -75,7 +75,7 @@ const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
         <Box mt={3} className={cls.cardWrap}>
           <Flex gap={2}>
             {/* <div className={cls.startAGoodsIcon}>A</div> */}
-          <div className={cls.startAIconWrap}><div  className={cls.startAGoodsIcon}>A</div> <div className={cls.line}></div> </div>
+          <div className={cls.startAIconWrapGoods}><div  className={cls.startAGoodsIcon}>A</div> <div className={cls.line}></div> </div>
 
             <Box>
             <p className={cls.cardStartTitle}>{loadState?.city_id_data?.name}</p>

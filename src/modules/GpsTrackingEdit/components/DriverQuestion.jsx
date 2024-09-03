@@ -18,10 +18,11 @@ import {
   StoneIcon,
 } from "@/assets/icons/icons";
 import { Avatar, Box, Button, Flex, IconButton,setModalType } from "@chakra-ui/react";
+import { format } from "date-fns";
 import React from "react";
 
-const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setStateMap,handleOpenModal,handleCloseModal,setIconStatus }) => {
-  
+const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalType,setModalType,setStateMap,handleOpenModal,handleCloseModal,setIconStatus }) => {
+   console.log("addressAdd",contendSingle)
   return (
     <div className={cls.filter}>
       <Flex  flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -93,25 +94,31 @@ const DriverQuestion = ({ cls,contendSingle,setCenterModalType,setModalType,setS
           <Flex gap={2}>
             <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
             <Box>
-              <p className={cls.cardStartTitle}>Екатеринбург</p>
+              <p className={cls.cardStartTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
               <p className={cls.cardStartSubTitle}>
-                {" "}
-                RUS / <span>18 августа</span>{" "}
+                 {format(contendSingle?.update_time,"yyyy-mm-dd")}
               </p>
             </Box>
           </Flex>
          
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
+            {
+              addressAdd ?    <Box>
+              <p className={cls.cardStartTitle}>{`${addressAdd?.address.slice(0,17)}...`}</p>
+              <p className={cls.cardStartSubTitle}>
+               
+                {/* RUS / <span>18 августа</span> */}
+              </p>
+            </Box> :    
             <Box onClick={() => {
               setStateMap(true)
               handleOpenModal()
             }} >
               <p className={cls.cardStartTitleAdd}>  Добавить адрес</p>
-              {/* <p className={cls.cardStartSubTitle}>
-            
-              </p> */}
             </Box>
+            }
+        
           </Flex>
 
           <Flex className={cls.gruz2} mt={5} gap={2}>

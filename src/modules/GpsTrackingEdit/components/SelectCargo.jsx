@@ -21,11 +21,11 @@ import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 
-const SelectCargo = ({ cls, contendSingle, setCenterModalType,setOffset }) => {
+const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState("");
-  const [search,setSearch] = useState('');
-  const [disabled,setDisabled] = useState(false);
+  const [search, setSearch] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
@@ -41,25 +41,33 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType,setOffset }) => {
   });
 
   const cargoData = useMemo(() => {
-      if(search){
-        return  getAllUserCargo.data?.response?.filter(item => item.city_id_data?.name.toLowerCase().includes(search?.toLowerCase()) || item.city_id_2_data?.name.toLowerCase().includes(search?.toLowerCase()));
-      }
-      else{
-        return getAllUserCargo.data?.response;
-      }
-  },[search,getAllUserCargo,getAllUserCargo.data?.response]);
+    if (search) {
+      return getAllUserCargo.data?.response?.filter(
+        (item) =>
+          item.city_id_data?.name
+            .toLowerCase()
+            .includes(search?.toLowerCase()) ||
+          item.city_id_2_data?.name
+            .toLowerCase()
+            .includes(search?.toLowerCase())
+      );
+    } else {
+      return getAllUserCargo.data?.response;
+    }
+  }, [search, getAllUserCargo, getAllUserCargo.data?.response]);
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
       setCenterModalType("");
-      setDisabled(false)
-      setOffset(0)
+      setDisabled(false);
+      setOffset(0);
+      setIconStatus("waiting_for_driver");
+      statusIconChange()
     },
   });
 
-
   function handleOffer() {
-    setDisabled(true)
+    setDisabled(true);
     offerFromCustomer.mutate({
       data: {
         object_data: {
@@ -79,7 +87,11 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType,setOffset }) => {
       >
         <p className={cls.topTitle}>Выберите груз</p>
         <InputGroup className={cls.inputWrap}>
-          <Input placeholder="Поиск" className={cls.input} onChange={(e) => setSearch(e.target.value)} />
+          <Input
+            placeholder="Поиск"
+            className={cls.input}
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <InputRightElement>
             <SearchIcon />
           </InputRightElement>
@@ -87,7 +99,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType,setOffset }) => {
       </Flex>
       <Box className={cls.modalContend}>
         {!getAllUserCargo?.isLoading ? (
-         cargoData.length > 0 ? (
+          cargoData.length > 0 ? (
             cargoData.map((item) => {
               return (
                 <CheckBoxComponent

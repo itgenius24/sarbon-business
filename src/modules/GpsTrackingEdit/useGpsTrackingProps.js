@@ -244,6 +244,8 @@ export const useGpsTrackingProps = () => {
     setFormAddressName({});
   }
 
+
+
   function getPlaceMarkAddress(coords) {
     if (stateMap) {
       yMaps?.geocode(coords).then(function (res) {
@@ -416,6 +418,9 @@ export const useGpsTrackingProps = () => {
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
       setCenterModalType(``);
+      setAddressAdd('')
+      setModalType("filter")
+      offset(0)
       toast({
         title: "Успешно изменено!",
         description: "Вы успешно обновили этого пользователя",
@@ -436,6 +441,14 @@ export const useGpsTrackingProps = () => {
       });
     },
   });
+
+  const addAdress = () => {
+    const body = {
+      guid: contendSingle.users_id_data.guid,
+      address_name:addressAdd?.address
+    };
+    userUpdate({ data: body });
+  }
 
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
@@ -599,6 +612,6 @@ export const useGpsTrackingProps = () => {
     contendHoverState,
     setLoadCheck,
     loadCheck,
-    setOffset,setHoverLoadState,loadHoverState
+    setOffset,setHoverLoadState,loadHoverState,addressAdd,stateMap,addAdress
   };
 };
