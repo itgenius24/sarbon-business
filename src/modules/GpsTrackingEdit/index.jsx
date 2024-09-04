@@ -111,6 +111,7 @@ export default function GpsTrackingModuleTets() {
   // const handlePlacemarkClick = (map, location) => {
   //   map.setCenter(location, 15); // 15 darajadagi zoom
   // };
+
   const cargoRef = useRef(null);
 
   const handleMouseEnter = (e, carInfo) => {
@@ -188,7 +189,7 @@ export default function GpsTrackingModuleTets() {
           </>
         )}
 
-        <Flex  style={{gap:"4px"}}  alignItems={"center"}>
+        <Flex style={{gap:"4px"}}  alignItems={"center"}>
           <Box className={cls.conWrap}>
             <StoneIcon /> <span> 22 т.</span>
           </Box>
