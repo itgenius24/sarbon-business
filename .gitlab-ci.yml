@@ -21,9 +21,9 @@ deploy-prod:
   stage: deploy
   extends: .deploy_template
   variables:
-    NAMESPACE: xlogistics
+    NAMESPACE: furgo
     VALUES_FILE: .helm/values-prod.yml
-    K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
+    K8SCONFIGJSON: $FURGO_KUBECONFIG
   only:
     - master
 
