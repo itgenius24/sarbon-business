@@ -268,7 +268,12 @@ export const useGpsTrackingProps = () => {
     const coordinates = e.get("coords");
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
-    setValue("cor", coordinates.join(","));
+    if(stateMap){
+      return
+    }else{
+      setValue("cor", coordinates.join(","));
+    }
+  
   }
 
   const getTrailerType = useGetTrailerType();
@@ -421,24 +426,24 @@ export const useGpsTrackingProps = () => {
       setAddressAdd('')
       setModalType("filter")
       offset(0)
-      toast({
-        title: "Успешно изменено!",
-        description: "Вы успешно обновили этого пользователя",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "top-right",
-      });
+      // toast({
+      //   title: "Успешно изменено!",
+      //   description: "Вы успешно обновили этого пользователя",
+      //   status: "success",
+      //   duration: 5000,
+      //   isClosable: true,
+      //   position: "top-right",
+      // });
     },
     onError() {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось обновить пользователя!",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "top-right",
-      });
+      // toast({
+      //   title: "Ошибка",
+      //   description: "Не удалось обновить пользователя!",
+      //   status: "error",
+      //   duration: 5000,
+      //   isClosable: true,
+      //   position: "top-right",
+      // });
     },
   });
 

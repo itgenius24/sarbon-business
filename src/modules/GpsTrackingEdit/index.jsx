@@ -115,16 +115,18 @@ export default function GpsTrackingModuleTets() {
 
   const handleMouseEnter = (e, carInfo) => {
     e.preventDefault();
+
     const placemark = e.get("target");
     placemark.balloon.open();
     // cargoRef.current = carInfo;
     setConHoverState(carInfo);
   };
 
-  // console.log("cargoRef",cargoRef);
+  console.log("contendSingle",contendSingle);
 
   const handleMouseEnterCargo = (e, carInfo) => {
     e.preventDefault();
+    console.log("car",carInfo)
     const placemark = e.get("target");
     placemark.balloon.open();
     setHoverLoadState(carInfo);
