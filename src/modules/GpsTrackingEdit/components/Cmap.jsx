@@ -134,7 +134,7 @@ const svgStringGreen =`
           }}
         />
 
-        {/* <Clusterer
+        <Clusterer
           options={{
             groupByCoordinates: false,
             clusterIconColor: "rgba(52, 199, 89, 1)",
@@ -144,7 +144,7 @@ const svgStringGreen =`
               borderRadius: "50%",
             },
           }}
-        > */}
+        >
           {getCarListProps?.data?.map((carInfo) => {
             return (
               <>
@@ -196,7 +196,7 @@ const svgStringGreen =`
               </>
             );
           })}
-        {/* </Clusterer>  */}
+        </Clusterer> 
 
         {locationData &&
           locationData.map((item) => (
