@@ -296,9 +296,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       ? watch("unloading")?.map((item) => item?.cor)
       : watch("unloading")?.map((item) => item?.cor?.split(","))) || [];
 
-  const distance = useGetDistance({
-    referencePoints: [...getLoadings, ...getUnloading],
-  });
+  const distance = useGetDistance({ referencePoints: [...getLoadings, ...getUnloading], });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -331,9 +329,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         id ? (isAllCargo ? allCargoParams : allResponseParams) : templateParams
       ),
     },
-    {
-      enabled: !!templateId,
-    }
+    { enabled: !!templateId, }
   );
 
   console.log("getMaps222", getMaps?.data);
@@ -368,6 +364,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     label: item?.name,
     value: item?.guid,
   }));
+  console.log(`!canEdit`,canEdit)
+
 
   function onCreateCargoSuccess(data) {
     const isTemplate = data.cargo_type[0] === "template";
@@ -403,37 +401,43 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       }
     });
 
-    createAddress.mutate(
-      {
-        data: {
-          object_data: {
-            name: loadingsData.concat(unloading),
-            cargo_id: data?.guid,
+    console.log(`!canEdit`,!canEdit)
+
+    // if(canEdit){
+    //   router.push(`/${locale}/my-loads`);
+    // }else{
+      createAddress.mutate(
+        {
+          data: {
+            object_data: {
+              name: loadingsData.concat(unloading),
+              cargo_id: data?.guid,
+            },
           },
         },
-      },
-      {
-        onSuccess() {
-          setIsCreated(true);
-          setLoading(false);
-          toast({
-            position: "top-right",
-            title: isTemplate
-              ? t("Шаблон успешно создан")
-              : t("Груз успешно создан"),
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
+        {
+          onSuccess() {
+            setIsCreated(true);
+            setLoading(false);
+            toast({
+              position: "top-right",
+              title: isTemplate
+                ? t("Шаблон успешно создан")
+                : t("Груз успешно создан"),
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
 
-          if (!isTemplate) {
-            router.push(`/${locale}/my-loads`);
-          } else {
-            handleResetForm();
-          }
-        },
-      }
-    );
+            if (!isTemplate) {
+              router.push(`/${locale}/my-loads`);
+            } else {
+              handleResetForm();
+            }
+          },
+        }
+      );
+    // }
   }
 
   const createCargo = useCreateCargoMutation({
@@ -480,29 +484,34 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         }
       });
 
-      createAddress.mutate(
-        {
-          data: {
-            object_data: {
-              name: loadingsData.concat(unloading),
-              cargo_id: data?.guid,
+      if(!canEditActive){
+        createAddress.mutate(
+          {
+            data: {
+              object_data: {
+                name: loadingsData.concat(unloading),
+                cargo_id: data?.guid,
+              },
             },
           },
-        },
-        {
-          onSuccess() {
-            setLoading(false);
-            toast({
-              position: "top-right",
-              title: t("Груз успешно обновлен"),
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-            });
-            router.push(`/${locale}/my-loads`);
-          },
-        }
-      );
+          {
+            onSuccess() {
+              setLoading(false);
+              toast({
+                position: "top-right",
+                title: t("Груз успешно обновлен"),
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+              });
+              router.push(`/${locale}/my-loads`);
+            },
+          }
+        );
+      
+      }else{
+        router.push(`/${locale}/my-loads`);
+      }
       formStore.clearFormData();
       setLoading(false);
     },
@@ -718,7 +727,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         requestData.data.cargo_type = ["template"];
       }
       requestData.data.firm_id = authStore.userData.firm_id;
-    console.log("data222", requestData);
+      console.log("data222", requestData);
 
       createCargo.mutate(requestData, {
         onSuccess(data) {
