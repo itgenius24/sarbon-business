@@ -55,7 +55,7 @@ const Cmap = memo(
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2001_4347" result="shape"/>
 </filter>
 </defs>
-   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">${tempValue}</text>
+   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">$${tempValue}</text>
 </svg>
 `;
 
@@ -80,7 +80,7 @@ const svgStringGreen =`
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_274_4505" result="shape"/>
 </filter>
 </defs>
-   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">${tempValue}</text>
+   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">$${tempValue}</text>
 
 </svg>
 
