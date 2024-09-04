@@ -122,7 +122,7 @@ export default function GpsTrackingModuleTets() {
     setConHoverState(carInfo);
   };
 
-  // console.log("cargoRef",cargoRef);
+  console.log("contendSingle",contendSingle);
 
   const handleMouseEnterCargo = (e, carInfo) => {
     e.preventDefault();

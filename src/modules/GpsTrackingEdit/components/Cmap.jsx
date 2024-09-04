@@ -89,6 +89,16 @@ const svgStringGreen =`
   
       return `data:image/svg+xml;charset=utf-8,${encodeURIComponent( type === "occupied_cargo" ? svgStringBlue : svgStringGreen)}`;
     };
+    const CustomBalloonLayout = `
+  <div style="width: 200px;">
+    {% for geoObject in properties.geoObjects %}
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <img src="{{ geoObject.properties.iconImageHref }}" alt="image" style="width: 50px; height: 50px; margin-right: 10px;" />
+        <div>{{ geoObject.properties.hintContent }}</div>
+      </div>
+    {% endfor %}
+  </div>
+`;
 
 
     return (
@@ -135,6 +145,7 @@ const svgStringGreen =`
         />
 
         <Clusterer
+        
           options={{
             groupByCoordinates: false,
             clusterIconColor: "rgba(52, 199, 89, 1)",
@@ -143,6 +154,12 @@ const svgStringGreen =`
               color: "white",
               borderRadius: "50%",
             },
+            preset: 'islands#invertedVioletClusterIcons',
+      
+            clusterDisableClickZoom: true,
+            clusterOpenBalloonOnHover: true,
+            balloonContentLayout: CustomBalloonLayout,
+            clusterBalloonPanelMaxMapArea: 0,
           }}
         >
           {getCarListProps?.data?.map((carInfo) => {
