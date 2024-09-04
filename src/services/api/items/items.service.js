@@ -14,6 +14,7 @@ const itemsService = {
   createCargo: (data) => request.post("/v2/items/cargo", data),
   updateResponse: (data) => request.put("/v2/items/response", data),
   createFeedback: (data) => request.post("/v2/items/review", data),
+  sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
 };
 
 export const useCreateAdMutation = (mutationSettings) => {
@@ -71,6 +72,12 @@ export const useUpdateResponse = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateResponse(data), ...mutationSettings });
 };
 
+
+
 export const useCreateFeedback = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createFeedback(data), ...mutationSettings });
+};
+
+export const useSendNotification = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.sendNotification(data), ...mutationSettings });
 };

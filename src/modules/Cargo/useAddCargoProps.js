@@ -11,6 +11,7 @@ import {
   useGetOfferById,
   useGetUserCargo,
   useLoadingTypes,
+  useSendNotification,
   useUpdateCargo,
   useUpdateResponse,
 } from "@/services/api";
@@ -406,39 +407,41 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     // if(canEdit){
     //   router.push(`/${locale}/my-loads`);
     // }else{
-      createAddress.mutate(
-        {
-          data: {
-            object_data: {
-              name: loadingsData.concat(unloading),
-              cargo_id: data?.guid,
-            },
+    createAddress.mutate(
+      {
+        data: {
+          object_data: {
+            name: loadingsData.concat(unloading),
+            cargo_id: data?.guid,
           },
         },
-        {
-          onSuccess() {
-            setIsCreated(true);
-            setLoading(false);
-            toast({
-              position: "top-right",
-              title: isTemplate
+      },
+      {
+        onSuccess() {
+          setIsCreated(true);
+          setLoading(false);
+          toast({
+            position: "top-right",
+            title: isTemplate
                 ? t("Шаблон успешно создан")
                 : t("Груз успешно создан"),
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-            });
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
 
-            if (!isTemplate) {
-              router.push(`/${locale}/my-loads`);
-            } else {
-              handleResetForm();
-            }
-          },
-        }
-      );
+          if (!isTemplate) {
+            router.push(`/${locale}/my-loads`);
+          } else {
+            handleResetForm();
+          }
+        },
+      }
+    );
     // }
   }
+
+  const { mutate:sendNotification } = useSendNotification()
 
   const createCargo = useCreateCargoMutation({
     onSuccess: () => {
@@ -508,7 +511,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
             },
           }
         );
-      
+
       }else{
         router.push(`/${locale}/my-loads`);
       }
@@ -519,6 +522,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       setLoading(false);
     },
   });
+
+
 
   const deleteTemplate = useDeleteCargo({
     onSuccess() {
@@ -722,12 +727,25 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       // requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
 
       updateCargo.mutate(requestData);
+
+      if(watch("order_status")?.value === "active"){
+        sendNotification({
+          data:{
+            object_data:{
+              order_status: "active",
+              vehicle_type_id:data.car_type.value, //gruzdagi vehicle_type_id
+              guid: authStore.userData.id//cargoni guid
+            }
+          }
+        })
+      }
+
     } else {
       if (data.isTemp) {
         requestData.data.cargo_type = ["template"];
       }
       requestData.data.firm_id = authStore.userData.firm_id;
-      console.log("data222", requestData);
+
 
       createCargo.mutate(requestData, {
         onSuccess(data) {
