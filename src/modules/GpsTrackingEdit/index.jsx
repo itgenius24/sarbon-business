@@ -116,12 +116,20 @@ export default function GpsTrackingModuleTets() {
 
   const handleMouseEnter = (e, carInfo) => {
     e.preventDefault();
-
     const placemark = e.get("target");
-    placemark.balloon.open();
-    // cargoRef.current = carInfo;
-    setConHoverState(carInfo);
-  };
+
+    if (placemark && placemark.balloon) {
+        placemark.balloon.open();
+    } else {
+        console.error("Placemark or balloon is undefined");
+    }
+
+    if (carInfo) {
+        setConHoverState(carInfo);
+    } else {
+        console.error("carInfo is undefined");
+    }
+};
 
   console.log("contendSingle",contendSingle);
 

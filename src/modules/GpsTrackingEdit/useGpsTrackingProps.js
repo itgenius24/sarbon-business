@@ -178,9 +178,7 @@ export const useGpsTrackingProps = () => {
           }
         });
 
-        const searchControl = new ymaps.control.SearchControl({
-          options: { float: "right" },
-        });
+        const searchControl = new ymaps.control.SearchControl({ options: { float: "right" }, });
 
         // Creating the map with the button added to it.
         var myMap = new ymaps.Map(
@@ -273,7 +271,7 @@ export const useGpsTrackingProps = () => {
     }else{
       setValue("cor", coordinates.join(","));
     }
-  
+
   }
 
   const getTrailerType = useGetTrailerType();
@@ -346,15 +344,15 @@ export const useGpsTrackingProps = () => {
             setCarsArr((res) => [...res, ...data2]);
           }
         } else {
-          setCarsArr([]);
-          toast({
-            title: t("Не найдено"),
-            description: t("К сожалений ничего не найдено"),
-            status: "info",
-            duration: 5000,
-            isClosable: true,
-            position: "top-right",
-          });
+          // setCarsArr([]);
+          // toast({
+          //   title: t("Не найдено"),
+          //   description: t("К сожалений ничего не найдено"),
+          //   status: "info",
+          //   duration: 5000,
+          //   isClosable: true,
+          //   position: "top-right",
+          // });
         }
         if (data?.data?.response?.length === null && !closeRes) {
           setCLoseRes(true);
@@ -406,9 +404,7 @@ export const useGpsTrackingProps = () => {
   const filteredData = filterData(carsArr, checkboxStatuses);
 
   const getCarListProps = useMemo(() => {
-    return {
-      data: watch("users_id")?.value ? dataUserID : filteredData,
-    };
+    return { data: watch("users_id")?.value ? dataUserID : filteredData, };
   }, [watch("users_id")?.value, dataUserID, filteredData]);
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
@@ -458,9 +454,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    getLocation({
-      data: { object_data: { limit: 40, page: offsetCar } },
-    });
+    getLocation({ data: { object_data: { limit: 40, page: offsetCar } }, });
   }, [offsetCar]);
 
   useEffect(() => {
@@ -501,13 +495,13 @@ export const useGpsTrackingProps = () => {
     setValue("load_type_id", null);
     setValue("volume", null);
     setDistance(30)
-   setCheckboxStatuses({
-    empty: true,
-    our_cargo: true,
-    someone_cargo: true,
-    broke_down: true,
-    waiting_for_driver: true,
-  }) 
+    setCheckboxStatuses({
+      empty: true,
+      our_cargo: true,
+      someone_cargo: true,
+      broke_down: true,
+      waiting_for_driver: true,
+    })
     setLoadCheck(true)
   };
   const onSubmit = (data) => {
@@ -617,6 +611,11 @@ export const useGpsTrackingProps = () => {
     contendHoverState,
     setLoadCheck,
     loadCheck,
-    setOffset,setHoverLoadState,loadHoverState,addressAdd,stateMap,addAdress
+    setOffset,
+    setHoverLoadState,
+    loadHoverState,
+    addressAdd,
+    stateMap,
+    addAdress
   };
 };
