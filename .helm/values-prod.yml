@@ -127,7 +127,7 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: kubernetes.io/furgo
+            - key: kubernetes.io/ucode-dev
               operator: In
               values:
                 - "true"
