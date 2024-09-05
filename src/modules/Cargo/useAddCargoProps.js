@@ -333,21 +333,23 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     { enabled: !!templateId, }
   );
 
-  console.log("getMaps222", getMaps?.data);
+  // console.log("getMaps222", getMaps?.data);
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
-      unloadingRef.current = [
-        ...unloadingRef.current,
-        ...data.response.map((item) => ({
-          location: {
-            value: item?.guid,
-            label: item?.name,
-          },
-          address: "",
-          search: item?.name,
-          cor: [],
-        })),
-      ];
+      if(data.response?.length > 2){
+        unloadingRef.current = [
+          ...unloadingRef.current,
+          ...data.response.map((item) => ({
+            location: {
+              value: item?.guid,
+              label: item?.name,
+            },
+            address: "",
+            search: item?.name,
+            cor: [],
+          })),
+        ];
+      }
 
       getMaps.refetch();
     },
@@ -1022,10 +1024,13 @@ export const useAddCargoProps = ({ id, status, locale }) => {
           unloadingRef.current[0].address = item?.name;
           return;
         }
-        unloadingRef.current.push({
-          cor: [item?.lat, item?.long],
-          address: item?.name,
-        });
+        if(data.length > 2){
+          unloadingRef.current.push({
+            cor: [item?.lat, item?.long],
+            address: item?.name,
+          });
+        }
+    
       });
 
       // unloadingRef.current?.forEach((item, index) => {
