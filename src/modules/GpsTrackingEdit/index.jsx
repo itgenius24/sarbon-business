@@ -111,16 +111,25 @@ export default function GpsTrackingModuleTets() {
   // const handlePlacemarkClick = (map, location) => {
   //   map.setCenter(location, 15); // 15 darajadagi zoom
   // };
+
   const cargoRef = useRef(null);
 
   const handleMouseEnter = (e, carInfo) => {
     e.preventDefault();
-
     const placemark = e.get("target");
-    placemark.balloon.open();
-    // cargoRef.current = carInfo;
-    setConHoverState(carInfo);
-  };
+
+    if (placemark && placemark.balloon) {
+        placemark.balloon.open();
+    } else {
+        console.error("Placemark or balloon is undefined");
+    }
+
+    if (carInfo) {
+        setConHoverState(carInfo);
+    } else {
+        console.error("carInfo is undefined");
+    }
+};
 
   console.log("contendSingle",contendSingle);
 
@@ -188,7 +197,7 @@ export default function GpsTrackingModuleTets() {
           </>
         )}
 
-        <Flex  style={{gap:"4px"}}  alignItems={"center"}>
+        <Flex style={{gap:"4px"}}  alignItems={"center"}>
           <Box className={cls.conWrap}>
             <StoneIcon /> <span> 22 т.</span>
           </Box>

@@ -147,19 +147,13 @@ const svgStringGreen =`
         <Clusterer
         
           options={{
-            groupByCoordinates: false,
+         
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
               backgroundColor: "rgba(52, 199, 89, 1)",
               color: "white",
               borderRadius: "50%",
-            },
-            preset: 'islands#invertedVioletClusterIcons',
-      
-            clusterDisableClickZoom: true,
-            clusterOpenBalloonOnHover: true,
-            balloonContentLayout: CustomBalloonLayout,
-            clusterBalloonPanelMaxMapArea: 0,
+            },        
           }}
         >
           {getCarListProps?.data?.map((carInfo) => {

@@ -15,6 +15,7 @@ import {
   StoneIcon,
 } from "@/assets/icons/icons";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
+import { format } from "date-fns";
 import React from "react";
 
 const DriverFree = ({
@@ -24,6 +25,8 @@ const DriverFree = ({
   setCenterModalType,
   setIconStatus,
 }) => {
+
+  console.log("contendSingle",contendSingle)
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -60,8 +63,8 @@ const DriverFree = ({
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-              <p className={cls.smallText}>Вкл: сегодня / 12:38 </p>
-              <p className={cls.bigTitle}>г. Нукус, Каракалпакстан</p>
+              <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-mm-dd, hh:mm")} </p>
+              <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
           <Flex justifyContent={"space-between"}>
