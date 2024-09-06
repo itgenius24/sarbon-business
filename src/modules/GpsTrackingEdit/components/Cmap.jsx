@@ -118,7 +118,7 @@ const Cmap = memo(
           zoom: 6,
         }}
         options={{
-          maxZoom: 17,
+          maxZoom: 19,
           minZoom: 2,
         }}
         width="100%"
