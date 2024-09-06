@@ -24,7 +24,7 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DriverGruz = ({ cls,loadState,setModalType }) => {
+const DriverGruz = ({ cls,loadState,setModalType,setOffset }) => {
   console.log("loadState",loadState);
   const { t } = useTranslation();
 
@@ -37,8 +37,11 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
     onSuccess:(res) => {
       setPopupOpen(false);
       setModalType("filter")
+      // setOffset(0)
+      
     },
   });
+ 
 
   const updateCar = () => {
     mutate({

@@ -40,8 +40,7 @@ const Cmap = memo(
 
     const getSVGIcon = (tempValue = "$2000", type) => {
 
-      const svgStringBlue = `balloon
-
+      const svgStringBlue = `
        <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2001_4093)">
 <mask id="path-1-outside-1_2001_4093" maskUnits="userSpaceOnUse" x="2" y="1" width="46" height="31" fill="black">
@@ -243,6 +242,8 @@ const Cmap = memo(
                 iconImageOffset: [-15, -42],
               }}
               onBalloonOpen={(e) => {
+                console.log(`item`, item?.new_status?.[0])
+
                 const placemark = e.get("target");
                 const balloonInstance = placemark.balloon;
                 balloonInstance.events.add("click", () => {

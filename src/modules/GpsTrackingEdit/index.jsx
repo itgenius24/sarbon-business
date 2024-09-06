@@ -443,6 +443,7 @@ export default function GpsTrackingModuleTets() {
                   cls={cls}
                   setModalType={setModalType}
                   loadState={loadState}
+                  setOffset={setOffset}
                 />
               )}
               {modalType === "driverGruzGoods" && (
