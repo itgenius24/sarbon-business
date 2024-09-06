@@ -50,7 +50,7 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-mm-dd, hh:mm")} </p>
+            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-MM-dd, hh:mm")} </p>
             <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
@@ -96,7 +96,7 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
             <Box>
               <p className={cls.cardStartTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
               <p className={cls.cardStartSubTitle}>
-                 {format(contendSingle?.update_time,"yyyy-mm-dd")}
+                 {format(contendSingle?.update_time,"yyyy-MM-dd")}
               </p>
             </Box>
           </Flex>

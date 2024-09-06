@@ -237,7 +237,7 @@ const Cmap = memo(
                 iconLayout: "default#image",
                 iconImageHref: getSVGIcon(
                   item?.bid_cash,
-                  item?.order_status[0]
+                  item?.new_status?.[0]
                 ),
                 iconImageSize: [60, 72],
                 iconImageOffset: [-15, -42],
@@ -247,7 +247,7 @@ const Cmap = memo(
                 const balloonInstance = placemark.balloon;
                 balloonInstance.events.add("click", () => {
                   setLoadState(item);
-                  if (item?.order_status[0] === "occupied_cargo") {
+                  if (item?.new_status?.[0] === "occupied_cargo") {
                     setModalType("driverGruzGoods");
                   } else {
                     setModalType("driverGruz");

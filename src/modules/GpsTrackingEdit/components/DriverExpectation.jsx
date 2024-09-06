@@ -95,7 +95,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-mm-dd, hh:mm")} </p>
+            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-MM-dd, hh:mm")} </p>
             <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
