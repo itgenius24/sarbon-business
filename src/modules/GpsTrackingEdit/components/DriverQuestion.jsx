@@ -104,8 +104,8 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
             {
-              addressAdd ?    <Box>
-              <p className={cls.cardStartTitle}>{`${addressAdd?.address.slice(0,17)}...`}</p>
+              addressAdd  ||  contendSingle?.users_id_data?.address_name ?    <Box>
+              <p className={cls.cardStartTitle}>{ addressAdd  ? `${addressAdd?.address.slice(0,17)}...`: `${contendSingle?.users_id_data?.address_name.slice(0,17)}...` }</p>
               <p className={cls.cardStartSubTitle}>
                
                 {/* RUS / <span>18 августа</span> */}

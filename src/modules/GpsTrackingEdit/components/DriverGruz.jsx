@@ -44,7 +44,7 @@ const DriverGruz = ({ cls,loadState,setModalType }) => {
     mutate({
       data:{
         guid: loadState?.guid,//yukni guidisi
-        order_status: ["occupied_cargo"],
+        new_status: ["occupied_cargo"],
         users_id_3: authStore.userData.id
       }
     });
