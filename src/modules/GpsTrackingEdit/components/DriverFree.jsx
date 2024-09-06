@@ -14,7 +14,7 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, IconButton, Tooltip } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
 
@@ -63,7 +63,7 @@ const DriverFree = ({
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-              <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-mm-dd, hh:mm")} </p>
+              <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-MM-dd, hh:mm")} </p>
               <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
@@ -126,15 +126,13 @@ const DriverFree = ({
         </Box>
         <Box className={cls.btnOutline}>
           <Flex width={"100%"} justifyContent={"space-between"}>
-            <span>
-              {contendSingle?.users_id_data?.vehicle_type_id_data?.name
-                ?.length < 17
-                ? contendSingle?.users_id_data?.vehicle_type_id_data?.name
-                : `${contendSingle?.users_id_data?.vehicle_type_id_data?.name.slice(
-                    0,
-                    14
-                  )}...`}
-            </span>
+          <Tooltip border={`1px solid rgba(219, 216, 227, 1)`} background={`white`} color={`black`} placement='top-end' label={contendSingle?.users_id_data?.vehicle_type_id_data?.name}>
+          <p>
+              {contendSingle?.users_id_data?.vehicle_type_id_data?.name}
+                
+            </p>
+          </Tooltip>
+          
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
                 {" "}
@@ -161,7 +159,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenCanseleOutline}
           >
-            Машина cвободна
+           Сломалась
           </Button>
         ) : (
           <Button

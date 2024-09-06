@@ -35,14 +35,14 @@ const ChangeIconModal = ({
       icon: QuestionBlueIcon,
       title: "Занята чужим грузом",
     },
+    // {
+    //   id: 4,
+    //   type: "waiting_for_driver",
+    //   icon: BluePendingIcon,
+    //   title: "В ожидании ответа",
+    // },
     {
       id: 4,
-      type: "waiting_for_driver",
-      icon: BluePendingIcon,
-      title: "В ожидании ответа",
-    },
-    {
-      id: 5,
       type: "broke_down",
       icon: CencelMapIcon,
       title: "Неисправна",

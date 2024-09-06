@@ -164,6 +164,15 @@
         border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1)) !important;
         padding: 16px 14px;
         border-radius: 12px;
+        p{
+          width: 7vw;
+          white-space: nowrap;      /* Matnni bitta qatorda saqlaydi */
+          overflow: hidden;         /* Ortiqcha matnni yashiradi */
+          text-overflow: ellipsis; 
+          @media (max-width:1556px) {
+             width: 4vw;
+          }
+        }
       }
       .btngreenCanseleOutline{
         border: 1px solid rgba(184, 184, 184, 0.25);
@@ -409,9 +418,19 @@
     .wrap{
       display:flex;
       align-items: center;
-      justify-items: center;
-      gap: 3px;
-      width:300px;
+      // justify-content: space-between;
+      // justify-items: spa;
+      gap: 10px;
+      width:320px;
+      // background-color: red;
+    }
+    .loadIconWrap{
+      width: 200px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 5px;
+
     }
      .balloonName{
       color: rgba(21, 186, 77, 1);
@@ -497,7 +516,7 @@
     }
     .selectedIcon{
       width: 35%;
-      height: 495px;
+      height: auto;
       background-color: rgb(255, 255, 255);
       border-radius: 14px;
       padding: 24px;

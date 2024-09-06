@@ -25,7 +25,7 @@ import{
   StoneIcon,
 
 } from "@/assets/icons/icons";
-import React, {  useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import cls from "./style.module.scss";
 import { Modal } from "@/components/Modal";
@@ -118,24 +118,23 @@ export default function GpsTrackingModuleTets() {
     e.preventDefault();
     const placemark = e.get("target");
 
+
     if (placemark && placemark.balloon) {
-        placemark.balloon.open();
+      placemark.balloon.open();
     } else {
-        console.error("Placemark or balloon is undefined");
+      console.error("Placemark or balloon is undefined");
     }
 
     if (carInfo) {
-        setConHoverState(carInfo);
+      setConHoverState(carInfo);
     } else {
-        console.error("carInfo is undefined");
+      console.error("carInfo is undefined");
     }
-};
+  };
 
-  console.log("contendSingle",contendSingle);
-
+  
   const handleMouseEnterCargo = (e, carInfo) => {
     e.preventDefault();
-    console.log("car",carInfo)
     const placemark = e.get("target");
     placemark.balloon.open();
     setHoverLoadState(carInfo);
@@ -197,15 +196,15 @@ export default function GpsTrackingModuleTets() {
           </>
         )}
 
-        <Flex style={{gap:"4px"}}  alignItems={"center"}>
+        <div className={cls.loadIconWrap}>
           <Box className={cls.conWrap}>
             <StoneIcon /> <span> 22 т.</span>
           </Box>
-             <p className={cls.conWrap}> </p>  
-          <p className={cls.conWrap} gap={1} alignItems={"center"}>
+
+          <Box className={cls.conWrap} gap={1} alignItems={"center"}>
             <LoadOulineIcon /> <span>86 m3</span>
-          </p>
-        </Flex>
+          </Box>
+        </div>
       </div>
       <p className={cls.balloon_fulName}>
         {contendHoverState?.users_id_data?.full_name}
@@ -296,11 +295,11 @@ export default function GpsTrackingModuleTets() {
           </>
         )}
 
-        <Flex  style={{gap:"4px"}}  alignItems={"center"}>
+        <Flex style={{ gap:"4px" }} alignItems={"center"}>
           <Box className={cls.conWrap}>
             <StoneIcon /> <span> 22 т.</span>
           </Box>
-             <p className={cls.conWrap}> </p>  
+          <p className={cls.conWrap}> </p>
           <p className={cls.conWrap} gap={1} alignItems={"center"}>
             <LoadOulineIcon /> <span>86 m3</span>
           </p>
@@ -324,7 +323,7 @@ export default function GpsTrackingModuleTets() {
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
-            {loadState?.vehicle_type_id_data?.name}
+            {loadHoverState?.vehicle_type_id_data?.name}
           </p>
         </>
       )}
@@ -342,8 +341,8 @@ export default function GpsTrackingModuleTets() {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-      {/* { isLoading &&  <LoadingSpinnerMap />} */}
-     <Cmap
+        {/* { isLoading &&  <LoadingSpinnerMap />} */}
+        <Cmap
           getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}
           balloonContent={balloonContent}
@@ -357,12 +356,12 @@ export default function GpsTrackingModuleTets() {
           watch={watch}
           isLoading={isLoading}
           setContendSingle={setContendSingle}
-     
+
         />
-        
-    
-      
-        
+
+
+
+
 
         <div className={cls.modalWrap}>
           <Flex>

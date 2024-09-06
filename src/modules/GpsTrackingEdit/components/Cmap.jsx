@@ -12,7 +12,7 @@ import {
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import React, { memo } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 const Cmap = memo(
   ({
@@ -30,8 +30,17 @@ const Cmap = memo(
     setContendSingle,
     isLoading,
   }) => {
+
+    const [activePlacemark, setActivePlacemark] = useState(null);
+    const mapRef = useRef(null);
+
+
+
+
+
     const getSVGIcon = (tempValue = "$2000", type) => {
-      const svgStringBlue = `
+
+      const svgStringBlue = `balloon
 
        <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2001_4093)">
@@ -88,19 +97,23 @@ const Cmap = memo(
         type === "occupied_cargo" ? svgStringBlue : svgStringGreen
       )}`;
     };
-    const CustomBalloonLayout = `
-  <div style="width: 200px;">
-    {% for geoObject in properties.geoObjects %}
-      <div style="display: flex; align-items: center; margin-bottom: 10px;">
-        <img src="{{ geoObject.properties.iconImageHref }}" alt="image" style="width: 50px; height: 50px; margin-right: 10px;" />
-        <div>{{ geoObject.properties.hintContent }}</div>
-      </div>
-    {% endfor %}
-  </div>
-`;
+
+
+    const onMapClick = () => {
+      console.log(`asxas`)
+      setActivePlacemark(null); // Close balloon when clicking on the map
+    };
+
+    console.log(`asxas`,activePlacemark)
 
     return (
       <Map
+        // onClick = {onMapClick}
+        // onLoad={(ymaps) => {
+        //   const map = mapRef.current;
+        //   map.events.add('click', onMapClick); // Add click event to the map
+        // }}
+        instanceRef={mapRef}
         defaultState={{
           center: coordinates,
           zoom: 6,
@@ -158,7 +171,9 @@ const Cmap = memo(
                 <Placemark
                   key={carInfo?.guid}
                   geometry={[carInfo?.lat, carInfo?.long]}
-                  properties={{ balloonContent: balloonContent }}
+                  properties={ { balloonContent:  balloonContent }}
+
+
                   options={{
                     iconLayout: "default#image",
                     iconImageHref:
@@ -198,7 +213,8 @@ const Cmap = memo(
                       }
                     });
                   }}
-                  onMouseEnter={(e) => handleMouseEnter(e, carInfo)}
+                  onMouseEnter={(e) => {handleMouseEnter(e, carInfo)}}
+
                 />
               </>
             );
