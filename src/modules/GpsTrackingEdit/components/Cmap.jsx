@@ -125,10 +125,12 @@ const Cmap = memo(
     };
 
     let click = document.getElementById(`click`);
-    click?.addEventListener(`click`,() => {
+
+    click?.addEventListener(`click`,(e) => {
+      e.stopPropagation()
+      // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone)
     })
-   
 
     return (
       <Map
@@ -265,7 +267,7 @@ const Cmap = memo(
                   </p>
                   {type === "empty" ? (
                     <>
-                      <p  id="click" className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox1}>
                         <GreenPhoneIcon />
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -276,7 +278,7 @@ const Cmap = memo(
                     </>
                   ) : type === "waiting_for_driver" ? (
                     <>
-                      <p id="click" className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -287,7 +289,7 @@ const Cmap = memo(
                     </>
                   ) : type === "our_cargo" ? (
                     <>
-                      <p id="click" className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -298,7 +300,7 @@ const Cmap = memo(
                     </>
                   ) : type === "someone_cargo" ? (
                     <>
-                      <p id="click" className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -309,7 +311,7 @@ const Cmap = memo(
                     </>
                   ) : type === "broke_down" ? (
                     <>
-                      <p id="click" className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -320,7 +322,7 @@ const Cmap = memo(
                     </>
                   ) : (
                     <>
-                      <p id="click" className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox1}>
                         <GreenPhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>

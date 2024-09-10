@@ -369,11 +369,6 @@ export default function GpsTrackingModuleTets() {
           contendHoverState={contendHoverState}
 
         />
-
-
-
-
-
         <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>

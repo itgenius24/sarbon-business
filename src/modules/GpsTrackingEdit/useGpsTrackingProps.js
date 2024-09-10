@@ -333,6 +333,8 @@ export const useGpsTrackingProps = () => {
           const data2 = data?.data?.response?.filter(
             (item) => item?.users_id_data?.vehicle_type_id_data
           );
+        
+       
           if (
             watch(`car_type`)?.value ||
             watch(`load_type_id`)?.value ||
@@ -393,8 +395,6 @@ export const useGpsTrackingProps = () => {
 
   const filterData = (data, checkboxStatuses) => {
     return data?.filter((item) => {
-      // console.log("carsArr",item?.users_id_data?.provisions?.some(status => checkboxStatuses[status]))
-
       return item?.users_id_data?.provisions?.some(
         (status) => checkboxStatuses[status]
       );
@@ -403,9 +403,30 @@ export const useGpsTrackingProps = () => {
 
   const filteredData = filterData(carsArr, checkboxStatuses);
 
+  const uniqueData = filteredData.reduce((acc, current) => {
+    const xistingItem = acc.find(item => item?.guid === current?.guid);
+    if (!xistingItem) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+
+  const dataUserDataID = dataUserID.reduce((acc, current) => {
+    const xistingItem = acc.find(item => item?.guid === current?.guid);
+    if (!xistingItem) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+ 
+
+
   const getCarListProps = useMemo(() => {
-    return { data: watch("users_id")?.value ? dataUserID : filteredData, };
-  }, [watch("users_id")?.value, dataUserID, filteredData,carsArr]);
+    return { data: watch("users_id")?.value ? dataUserDataID : uniqueData, };
+  }, [watch("users_id")?.value, dataUserID, filteredData,carsArr,uniqueData]);
+
+  console.log(`salom`,getCarListProps?.data?.filter(item => item?.users_id_data?.full_name === `Pardayev Ozodjon`))
+
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.users_id_data?.full_name,
@@ -468,7 +489,7 @@ export const useGpsTrackingProps = () => {
 
   const addAdress = () => {
     const body = {
-      ...contendSingle.users_id_data,
+      guid:contendSingle.users_id_data?.guid,
       address_name:addressAdd?.address
     };
     userUpdate({ data: body });
@@ -548,7 +569,7 @@ export const useGpsTrackingProps = () => {
 
   const statusIconChange = () => {
     const body = {
-      ...contendSingle.users_id_data,
+      guid:contendSingle.users_id_data?.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
