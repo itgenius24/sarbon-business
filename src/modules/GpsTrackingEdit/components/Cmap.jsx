@@ -1,3 +1,4 @@
+"use client"
 import {
   BlueFuraIcon,
   BluePendingIcon,
@@ -31,6 +32,7 @@ import {
 } from "@pbe/react-yandex-maps";
 import React, { memo, useEffect, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import copy from "copy-to-clipboard";
 
 const Cmap = memo(
   ({
@@ -48,6 +50,8 @@ const Cmap = memo(
     setLoadState,
     handleMouseEnterCargo,
     setContendSingle,
+    contendHoverState,
+
     isLoading,
   }) => {
     const [activePlacemark, setActivePlacemark] = useState(null);
@@ -111,6 +115,12 @@ const Cmap = memo(
       )}`;
     };
 
+    let click = document.getElementById(`click`);
+    click?.addEventListener(`click`,() => {
+      copy(contendHoverState?.users_id_data?.phone)
+    })
+   
+
     return (
       <Map
         instanceRef={mapRef}
@@ -156,10 +166,10 @@ const Cmap = memo(
         />
 
         <Clusterer
-          modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
+          // modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
           options={{
-            clusterDisableClickZoom: true,
-            clusterCaption:`wdwdw`,
+            // clusterDisableClickZoom: true,
+            // clusterCaption:`wdwdw`,
             // customBalloonContentLayout:,
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
@@ -171,6 +181,7 @@ const Cmap = memo(
         >
           {getCarListProps?.data &&
             getCarListProps?.data?.map((carInfo) => {
+
               const BalloonContent = () => (
                 <div id="balloon-content" className={cls.balloon_content_empty}>
                   <div className={cls.wrap} style={{ height: "45px" }}>
@@ -245,8 +256,8 @@ const Cmap = memo(
                   </p>
                   {type === "empty" ? (
                     <>
-                      <p className={cls.footerBox}>
-                        <GreenPhoneIcon />{" "}
+                      <p  id="click" className={cls.footerBox}>
+                        <GreenPhoneIcon />
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
                       <p className={cls.footerBox}>
@@ -256,7 +267,7 @@ const Cmap = memo(
                     </>
                   ) : type === "waiting_for_driver" ? (
                     <>
-                      <p className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -267,7 +278,7 @@ const Cmap = memo(
                     </>
                   ) : type === "our_cargo" ? (
                     <>
-                      <p className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -278,7 +289,7 @@ const Cmap = memo(
                     </>
                   ) : type === "someone_cargo" ? (
                     <>
-                      <p className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -289,7 +300,7 @@ const Cmap = memo(
                     </>
                   ) : type === "broke_down" ? (
                     <>
-                      <p className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox}>
                         <BluePhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>
@@ -300,7 +311,7 @@ const Cmap = memo(
                     </>
                   ) : (
                     <>
-                      <p className={cls.footerBox}>
+                      <p id="click" className={cls.footerBox}>
                         <GreenPhoneIcon />{" "}
                         {formatPhoneNumber(carInfo?.users_id_data?.phone)}
                       </p>

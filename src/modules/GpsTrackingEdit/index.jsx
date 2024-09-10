@@ -46,6 +46,7 @@ import { useGpsTrackingProps } from "./useGpsTrackingProps";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
 import LoadingMap from "../Cargo/components/LoadingMap";
+import copy from "copy-to-clipboard";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -140,8 +141,15 @@ export default function GpsTrackingModuleTets() {
     setHoverLoadState(carInfo);
   };
 
+
+
   const type = contendHoverState?.users_id_data?.provisions?.[0];
   const typeCargo = loadHoverState?.new_status?.[0];
+  // function copyFunction() {
+  // }
+
+
+
 
   const BalloonContent = () => (
     <div id="balloon-content" className={cls.balloon_content_empty}>
@@ -211,7 +219,7 @@ export default function GpsTrackingModuleTets() {
       </p>
       {type === "empty" ? (
         <>
-          <p className={cls.footerBox}>
+          <p  className={cls.footerBox}>
             <GreenPhoneIcon /> { formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
@@ -231,7 +239,7 @@ export default function GpsTrackingModuleTets() {
         </>
       ) : type === "our_cargo" ? (
         <>
-          <p className={cls.footerBox}>
+          <p onClick={() => copy(contendHoverState?.users_id_data?.phone)} className={cls.footerBox}>
             <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
@@ -358,6 +366,7 @@ export default function GpsTrackingModuleTets() {
           watch={watch}
           isLoading={isLoading}
           setContendSingle={setContendSingle}
+          contendHoverState={contendHoverState}
 
         />
 

@@ -468,7 +468,7 @@ export const useGpsTrackingProps = () => {
 
   const addAdress = () => {
     const body = {
-      guid: contendSingle.users_id_data.guid,
+      ...contendSingle.users_id_data,
       address_name:addressAdd?.address
     };
     userUpdate({ data: body });
@@ -548,7 +548,7 @@ export const useGpsTrackingProps = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid: contendSingle.users_id_data.guid,
+      ...contendSingle.users_id_data,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
