@@ -343,6 +343,8 @@ export default function GpsTrackingModuleTets() {
       <Box className={cls.box} width={"100%"} height={"400vh"}>
         {/* { isLoading &&  <LoadingSpinnerMap />} */}
         <Cmap
+          cls={cls}
+          type={type}
           getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}
           balloonContent={balloonContent}

@@ -405,7 +405,7 @@ export const useGpsTrackingProps = () => {
 
   const getCarListProps = useMemo(() => {
     return { data: watch("users_id")?.value ? dataUserID : filteredData, };
-  }, [watch("users_id")?.value, dataUserID, filteredData]);
+  }, [watch("users_id")?.value, dataUserID, filteredData,carsArr]);
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.users_id_data?.full_name,
@@ -416,12 +416,35 @@ export const useGpsTrackingProps = () => {
     label: item?.users_id_data?.phone,
     value: item?.users_id_data?.guid,
   }));
+ 
+
+
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
       setCenterModalType(``);
       setAddressAdd('')
-      setModalType("filter")
-      offset(0)
+      if(iconStatus === "empty"){
+        setModalType("driverFree")
+      }else if(iconStatus === "our_cargo"){
+        setModalType("driverCheck")
+
+      }else if(iconStatus === "someone_cargo"){
+        setModalType("driverQuestion")
+      }
+      else if(iconStatus === "broke_down"){
+        setModalType("driverFree")
+      }
+      
+      // offset(0)
+      const find = getCarListProps?.data?.map(item => {
+        if (item?.guid === contendSingle.guid) {
+          return { ...item,...item.users_id_data.provisions = [iconStatus]}; 
+        }
+        return item; 
+      });
+
+      setCarsArr(find)
+
       // toast({
       //   title: "Успешно изменено!",
       //   description: "Вы успешно обновили этого пользователя",

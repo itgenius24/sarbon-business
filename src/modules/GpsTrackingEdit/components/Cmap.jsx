@@ -1,23 +1,42 @@
 import {
-  GreenMapIcon,
-  MapLoadGreenIcon,
-  MapLoadIcon,
+  BlueFuraIcon,
+  BluePendingIcon,
+  BluePhoneIcon,
+  CencelMapIcon,
+  CheckBlueIcon,
+  FilterIcon,
+  GoodsFuraIcon,
+  GoodsPhoneIcon,
+  GreenCarIcon,
+  GreenFuraIcon,
+  GreenPhoneIcon,
+  LoadOulineIcon,
+  MapCargoGreenIcon,
+  MapCargoLoadGoodsIcon,
+  QuestionBlueIcon,
+  StoneIcon,
 } from "@/assets/icons/icons";
+import ReactDOMServer from "react-dom/server";
+import { Box, Flex } from "@chakra-ui/react";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import {
   Clusterer,
   Map,
+  ObjectManager,
   Placemark,
   SearchControl,
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
 import React, { memo, useEffect, useRef, useState } from "react";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
 const Cmap = memo(
   ({
     getCarListProps,
     coordinates,
+    cls,
+    type,
     balloonContent,
     mapIcon,
     watch,
@@ -30,16 +49,10 @@ const Cmap = memo(
     setContendSingle,
     isLoading,
   }) => {
-
     const [activePlacemark, setActivePlacemark] = useState(null);
     const mapRef = useRef(null);
 
-
-
-
-
     const getSVGIcon = (tempValue = "$2000", type) => {
-
       const svgStringBlue = `
        <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2001_4093)">
@@ -97,28 +110,15 @@ const Cmap = memo(
       )}`;
     };
 
-
-    const onMapClick = () => {
-      console.log(`asxas`)
-      setActivePlacemark(null); // Close balloon when clicking on the map
-    };
-
-    console.log(`asxas`,activePlacemark)
-
     return (
       <Map
-        // onClick = {onMapClick}
-        // onLoad={(ymaps) => {
-        //   const map = mapRef.current;
-        //   map.events.add('click', onMapClick); // Add click event to the map
-        // }}
         instanceRef={mapRef}
         defaultState={{
           center: coordinates,
           zoom: 6,
         }}
         options={{
-          maxZoom: 19,
+          maxZoom: 22,
           minZoom: 2,
         }}
         width="100%"
@@ -155,7 +155,11 @@ const Cmap = memo(
         />
 
         <Clusterer
+          modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
           options={{
+            clusterDisableClickZoom: true,
+            clusterCaption:`wdwdw`,
+            // customBalloonContentLayout:,
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
               backgroundColor: "rgba(52, 199, 89, 1)",
@@ -164,60 +168,206 @@ const Cmap = memo(
             },
           }}
         >
-          {getCarListProps?.data?.map((carInfo) => {
-            return (
-              <>
-                <Placemark
-                  key={carInfo?.guid}
-                  geometry={[carInfo?.lat, carInfo?.long]}
-                  properties={ { balloonContent:  balloonContent }}
+          {getCarListProps?.data &&
+            getCarListProps?.data?.map((carInfo) => {
+              const BalloonContent = () => (
+                <div id="balloon-content" className={cls.balloon_content_empty}>
+                  <div className={cls.wrap} style={{ height: "45px" }}>
+                    {type === "empty" ? (
+                      <>
+                        <GreenCarIcon />{" "}
+                        <span className={cls.balloonName}>Свободен</span>
+                      </>
+                    ) : type === "waiting_for_driver" ? (
+                      <>
+                        <BluePendingIcon />
+                        <span
+                          style={{ color: "rgba(0, 122, 255, 1)" }}
+                          className={cls.balloonName}
+                        >
+                          Ожидание
+                        </span>
+                      </>
+                    ) : type === "our_cargo" ? (
+                      <>
+                        <CheckBlueIcon />
+                        <span
+                          style={{ color: "rgba(0, 122, 255, 1)" }}
+                          className={cls.balloonName}
+                        >
+                          Занят
+                        </span>
+                      </>
+                    ) : type === "someone_cargo" ? (
+                      <>
+                        <QuestionBlueIcon />
+                        <span
+                          style={{ color: "rgba(0, 122, 255, 1)" }}
+                          className={cls.balloonName}
+                        >
+                          Занят
+                        </span>
+                      </>
+                    ) : type === "broke_down" ? (
+                      <>
+                        <CencelMapIcon />
+                        <span
+                          style={{ color: "rgba(126, 123, 134, 1)" }}
+                          className={cls.balloonName}
+                        >
+                          Сломалась
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <GreenCarIcon />{" "}
+                        <span className={cls.balloonName}>Свободен</span>
+                      </>
+                    )}
 
+                    <div className={cls.loadIconWrap}>
+                      <Box className={cls.conWrap}>
+                        <StoneIcon /> <span> 22 т.</span>
+                      </Box>
 
-                  options={{
-                    iconLayout: "default#image",
-                    iconImageHref:
-                      "data:image/svg+xml;charset=UTF-8," +
-                      encodeURIComponent(
-                        mapIcon[carInfo?.users_id_data?.provisions?.[0]] ||
-                          GreenMapIcon
-                      ),
-                    iconImageSize:
-                      watch("users_id")?.value || watch("users_id2")?.value
-                        ? [45, 105]
-                        : [40, 52],
-                    iconImageOffset: [-15, -42],
-                  }}
-                  modules={["geoObject.addon.balloon"]}
-                  onBalloonOpen={(e) => {
-                    const placemark = e.get("target");
-                    const balloonInstance = placemark.balloon;
-                    balloonInstance.events.add("click", () => {
-                      setContendSingle(carInfo);
-                      if (
-                        carInfo?.users_id_data?.provisions?.[0] === "our_cargo"
-                      ) {
-                        setModalType("driverCheck");
-                      } else if (
-                        carInfo?.users_id_data?.provisions?.[0] ===
-                        "someone_cargo"
-                      ) {
-                        setModalType("driverQuestion");
-                      } else if (
-                        carInfo?.users_id_data?.provisions?.[0] ===
-                        "waiting_for_driver"
-                      ) {
-                        setModalType("driverExpectation");
-                      } else {
-                        setModalType("driverFree");
-                      }
-                    });
-                  }}
-                  onMouseEnter={(e) => {handleMouseEnter(e, carInfo)}}
+                      <Box
+                        className={cls.conWrap}
+                        gap={1}
+                        alignItems={"center"}
+                      >
+                        <LoadOulineIcon /> <span>86 m3</span>
+                      </Box>
+                    </div>
+                  </div>
+                  <p className={cls.balloon_fulName}>
+                    {carInfo?.users_id_data?.full_name}
+                  </p>
+                  {type === "empty" ? (
+                    <>
+                      <p className={cls.footerBox}>
+                        <GreenPhoneIcon />{" "}
+                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                      </p>
+                      <p className={cls.footerBox}>
+                        <GreenFuraIcon />
+                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  ) : type === "waiting_for_driver" ? (
+                    <>
+                      <p className={cls.footerBox}>
+                        <BluePhoneIcon />{" "}
+                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                      </p>
+                      <p className={cls.footerBox}>
+                        <BlueFuraIcon />
+                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  ) : type === "our_cargo" ? (
+                    <>
+                      <p className={cls.footerBox}>
+                        <BluePhoneIcon />{" "}
+                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                      </p>
+                      <p className={cls.footerBox}>
+                        <BlueFuraIcon />
+                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  ) : type === "someone_cargo" ? (
+                    <>
+                      <p className={cls.footerBox}>
+                        <BluePhoneIcon />{" "}
+                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                      </p>
+                      <p className={cls.footerBox}>
+                        <BlueFuraIcon />
+                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  ) : type === "broke_down" ? (
+                    <>
+                      <p className={cls.footerBox}>
+                        <BluePhoneIcon />{" "}
+                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                      </p>
+                      <p className={cls.footerBox}>
+                        <BlueFuraIcon />
+                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className={cls.footerBox}>
+                        <GreenPhoneIcon />{" "}
+                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                      </p>
+                      <p className={cls.footerBox}>
+                        <GreenFuraIcon />
+                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  )}
+                </div>
+              );
+              const balloonContent2 = ReactDOMServer.renderToString(
+                <BalloonContent />
+              );
 
-                />
-              </>
-            );
-          })}
+              return (
+                <>
+                  <Placemark
+                    key={carInfo?.guid}
+                    geometry={[carInfo?.lat, carInfo?.long]}
+                    properties={{ balloonContent: balloonContent2, }}
+                    options={{
+                      iconLayout: "default#image",
+                      iconImageHref:
+                        "data:image/svg+xml;charset=UTF-8," +
+                        encodeURIComponent(
+                          mapIcon[carInfo?.users_id_data?.provisions?.[0]] ||
+                            GreenMapIcon
+                        ),
+                      iconImageSize:
+                        watch("users_id")?.value || watch("users_id2")?.value
+                          ? [45, 105]
+                          : [40, 52],
+                      iconImageOffset: [-15, -42],
+                    }}
+                    modules={["geoObject.addon.balloon"]}
+                    onBalloonOpen={(e) => {
+                      const placemark = e.get("target");
+                      const balloonInstance = placemark.balloon;
+                      balloonInstance.events.add("click", () => {
+                        setContendSingle(carInfo);
+                        if (
+                          carInfo?.users_id_data?.provisions?.[0] ===
+                          "our_cargo"
+                        ) {
+                          setModalType("driverCheck");
+                        } else if (
+                          carInfo?.users_id_data?.provisions?.[0] ===
+                          "someone_cargo"
+                        ) {
+                          setModalType("driverQuestion");
+                        } else if (
+                          carInfo?.users_id_data?.provisions?.[0] ===
+                          "waiting_for_driver"
+                        ) {
+                          setModalType("driverExpectation");
+                        } else {
+                          setModalType("driverFree");
+                        }
+                      });
+                    }}
+                    onMouseEnter={(e) => {
+                      handleMouseEnter(e, carInfo);
+                    }}
+                  />
+                </>
+              );
+            })}
         </Clusterer>
 
         {locationData &&
@@ -242,7 +392,7 @@ const Cmap = memo(
                 iconImageOffset: [-15, -42],
               }}
               onBalloonOpen={(e) => {
-                console.log(`item`, item?.new_status?.[0])
+                console.log(`item`, item?.new_status?.[0]);
 
                 const placemark = e.get("target");
                 const balloonInstance = placemark.balloon;
