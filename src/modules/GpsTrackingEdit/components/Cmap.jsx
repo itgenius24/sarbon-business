@@ -15,6 +15,7 @@ import {
   MapCargoLoadGoodsIcon,
   QuestionBlueIcon,
   StoneIcon,
+  GreenMapIcon
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
