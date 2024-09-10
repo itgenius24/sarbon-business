@@ -54,8 +54,17 @@ const Cmap = memo(
 
     isLoading,
   }) => {
-    const [activePlacemark, setActivePlacemark] = useState(null);
+   
     const mapRef = useRef(null);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+      setIsClient(true);
+    }, []);
+  
+    if (!isClient) {
+      return null; // Render nothing during SSR
+    }
 
     const getSVGIcon = (tempValue = "$2000", type) => {
       const svgStringBlue = `
