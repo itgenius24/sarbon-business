@@ -79,6 +79,7 @@
 
 .inputWrapper:has(.fieldInput:focus) {
   box-shadow: 0px 0px 0px 4px #E3F0FF;
+  background-color: white;
 }
 
 .after {
@@ -110,7 +111,10 @@
   padding: 10px;
   padding-right: 0;
   outline: none;
-
+  background-color: rgba(246, 247, 248, 1);
+ &:focus{
+  background-color: white;
+ }
   &::placeholder {
     color: var(--brand-500);
     font-weight: 400;

@@ -25,6 +25,7 @@
   border: 1px solid var(--brand-300);
   background-color: var(--base-white);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  // background-color: red;
   cursor: pointer;
 }
 
@@ -138,7 +139,10 @@
   padding: 12px 20px 12px 42px ;
   border: 1px solid var(--brand-300);
   border-radius: 8px;
-
+  background-color: rgba(246, 247, 248, 1);
+  &:focus{
+    background-color: rgb(255, 255, 255);
+  }
   &::placeholder {
     color: var(--brand-500);
   }

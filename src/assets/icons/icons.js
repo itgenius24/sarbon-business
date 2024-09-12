@@ -347,6 +347,8 @@ export const CloseIcon = () => (
   </svg>
 );
 
+
+
 export const CircleCloseIcon = ({ color = "#667085" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -2047,3 +2049,42 @@ export const BrokeDownIcon = `
 </svg>
 
 `;
+
+export const CricleIcon = () => (
+  <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="15.2217" cy="15" r="14" stroke="#DBD8E3" stroke-width="2"/>
+</svg>
+
+)
+
+export const CricleBlueIcon = () => (
+  <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="15.9293" cy="15" r="10" fill="#007AFF"/>
+<rect x="1.96301" y="1" width="28" height="28" rx="14" stroke="white" stroke-width="2"/>
+<circle cx="15.963" cy="15" r="4" fill="white"/>
+</svg>
+)
+
+export const LoadStepIcon = () => (
+<svg width="33" height="38" viewBox="0 0 33 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19.5225 19.654L17.8389 20.6135V37.862L32.9997 29.2416V11.9932L19.5225 19.654Z" fill="#007AFF"/>
+<path d="M22.271 4.18512L16.4405 0.861328L0.858704 9.71966L6.69701 13.0435L22.271 4.18512Z" fill="#007AFF"/>
+<path d="M32.0163 9.71921L25.2971 5.9502L9.72314 14.8085L10.6118 15.2614L16.4423 18.5775L22.2416 15.2845L32.0163 9.71921Z" fill="#007AFF"/>
+<path d="M8.5431 21.1496L5.75256 19.7372V15.3464L0 12.084V29.2096L15.0518 37.7685V20.6429L8.5431 16.9507V21.1496Z" fill="#007AFF"/>
+</svg>
+
+);
+
+export const NextArrowIcon  = () => (
+  <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M23.5607 8.06077L18.2461 13.3754C17.9532 13.6683 17.5693 13.8147 17.1854 13.8147C16.8015 13.8147 16.4176 13.6683 16.1247 13.3754C15.539 12.7896 15.539 11.8398 16.1247 11.254L18.8787 8.50013H1.5C0.671578 8.50013 0 7.82855 0 7.00013C0 6.17171 0.671578 5.50013 1.5 5.50013H18.8787L16.1247 2.74622C15.539 2.16043 15.539 1.21069 16.1247 0.624894C16.7106 0.0390976 17.6602 0.0390976 18.2461 0.624894L23.5607 5.93949C24.1464 6.52524 24.1464 7.47502 23.5607 8.06077Z" fill="white"/>
+</svg>
+
+);
+
+export const CloseStepIcon = () => (
+  <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.864 8.13642L8.13604 20.8643M8.13604 8.13642L20.864 20.8643" stroke="#7E7B86" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+)

@@ -38,7 +38,7 @@ export const CargoForm = () => {
 
   const { t } = useTranslation(locale, "translations");
 
- console.log("cargoTypeOptions",optionCargoType);
+
 
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
