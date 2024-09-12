@@ -3,22 +3,15 @@ import {
   CricleBlueIcon,
   CricleIcon,
   DeleteIcon,
-  LoadStepIcon,
-  PencilIcon,
+
   PlusIcon,
   SearchIcon,
 } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
+
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
+
   Button,
   Flex,
   Heading,
@@ -28,19 +21,14 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { CargoDetail } from "./components/CargoDetail";
-import { CargoSetup } from "./components/CargoSetup";
-import { Stages } from "./components/Stages";
+
 import { AddCargoProvider } from "./providers";
 import { useAddCargoProps } from "./useAddCargoProps";
-import Link from "next/link";
-import { LoadBtn } from "@/components/LoadBtn";
-import { statuses } from "@/utils/constants";
-import { TopContent } from "./components/TopContent";
+
 import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
 import { Modal } from "@/components/Modal";
-import { Checkbox } from "@/components/Checkbox";
+
 import { observer } from "mobx-react-lite";
 import { TextField } from "@/components/TextField";
 import { useEffect, useState } from "react";

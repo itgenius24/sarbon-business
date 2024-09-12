@@ -2,7 +2,7 @@ import React from "react";
 import cls from "./style.module.scss";
 import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import {
-  CloseIcon,
+
   CloseStepIcon,
   LoadStepIcon,
   NextArrowIcon,
@@ -21,7 +21,7 @@ const StepOne = () => {
     setValue,
     watch,
     setSearchCargo,
-    weightMeasurementOptions,
+    // weightMeasurementOptions,
     isPackagingAndQuantity,
     isDimensionsAndDiameter,
     handleDimensionsAndDiameter,
@@ -65,7 +65,7 @@ const StepOne = () => {
                 </Flex>
               </Box>
               <Box>
-                <p className={cls.textFieldName}>В расчёте на одну машину</p>
+                <p className={cls.textFieldName}>В расчёте на одну машину</p>
                 <TextFieldWithAddition
                   className={cls.textField}
                   errors={errors}
