@@ -34,6 +34,7 @@ import { TextField } from "@/components/TextField";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import StepOne from "./components/StepOne/StepOne";
+import StepTwo from "./components/StepTwo/StepTwo";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const addCargoProps = useAddCargoProps({ id, status, locale });
@@ -138,8 +139,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
 
               {
                 cargoIndex === 1 && 
-                <StepOne />
+                <StepOne setCargoIndex={setCargoIndex} />
               }
+              {cargoIndex === 2 && <StepTwo />}
             </Box>
           </Box>
         </Container>

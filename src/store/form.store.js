@@ -121,6 +121,7 @@ class Store {
         "isNotEmpty",
         "isPackagingAndQuantity",
         "isDimensionsAndDiameter",
+        "isFileUploader",
         "isRequirementOpen",
         "isAccessOpen",
         "isBeltsOpen",
@@ -139,6 +140,7 @@ class Store {
   endDate = ""
   isPackagingAndQuantity = false
   isDimensionsAndDiameter = false
+  isFileUploader = false
   isRequirementOpen = false
   isAccessOpen = false
   isBeltsOpen = false
@@ -149,6 +151,7 @@ class Store {
   resetBooleanFields() {
     this.isPackagingAndQuantity = false;
     this.isDimensionsAndDiameter = false;
+    this.isFileUploader = false;
     this.isRequirementOpen = false;
     this.isAccessOpen = false;
     this.isBeltsOpen = false;

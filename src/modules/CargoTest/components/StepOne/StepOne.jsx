@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import cls from "./style.module.scss";
 import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import {
-
   CloseStepIcon,
+  DeleteIcon,
   LoadStepIcon,
   NextArrowIcon,
   PlusIcon,
+  UploadCloudBlueIcon,
+  UploadCloudIcon,
 } from "@/assets/icons/icons";
 import useStepOneProps from "./useStepOneProps";
 import { Dropdown } from "@/components/Dropdown";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-const StepOne = () => {
+import Image from "next/image";
+
+const StepOne = ({setCargoIndex}) => {
   const {
     control,
     errors,
@@ -21,20 +25,27 @@ const StepOne = () => {
     setValue,
     watch,
     setSearchCargo,
-    // weightMeasurementOptions,
     isPackagingAndQuantity,
     isDimensionsAndDiameter,
+    isFileUploader,
+    handleIsFileUploader,
     handleDimensionsAndDiameter,
     handlePackagingAndQuantity,
+    optionCargoType,
+    setImg,
+    img,
+    handleImageUpload,
   } = useStepOneProps();
-  const locale = useGetLang();
 
+  const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
+
+  console.log(`optionCargoType`,optionCargoType)
   return (
     <>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
-          <LoadStepIcon />{" "}
+          <LoadStepIcon />
           <Box width={"100%"}>
             <p className={cls.stepTitle}>Ваш груз</p>
             <Flex gap={"24px"} mt={"10px"}>
@@ -46,7 +57,7 @@ const StepOne = () => {
                   register={register}
                   watch={watch}
                   name="cargo_type"
-                  options={[]}
+                  options={optionCargoType}
                   errors={errors}
                   // disabled={!canEdit}
                   className={cls.dropdown}
@@ -59,9 +70,9 @@ const StepOne = () => {
                 />
                 <Flex gap={2} mt={2}>
                   <span className={cls.subTitle}>Например: </span>
-                  <p className={cls.quickWord}>Пиломатериалы,</p>
-                  <p className={cls.quickWord}>ДСП,</p>
-                  <p className={cls.quickWord}>Овощи и фрукты</p>
+                  <p onClick={() => setValue(`cargo_type`,{label:"Пиломатериалы",value:"1a9ffa9a-6472-4d76-a07a-d7db8e7acb15"})} className={cls.quickWord}>Пиломатериалы,</p>
+                  <p onClick={() => setValue(`cargo_type`,{label:"ДСП",value:"b059f178-1cc2-4867-a9c2-81f483e3fe39"})} className={cls.quickWord}>ДСП,</p>
+                  <p o className={cls.quickWord}>Овощи и фрукты</p>
                 </Flex>
               </Box>
               <Box>
@@ -82,9 +93,9 @@ const StepOne = () => {
                   zIndex={90}
                 />
                 <Flex ml={4} gap={2} mt={2}>
-                  <p className={cls.quickWord}>20т,</p>
-                  <p className={cls.quickWord}>22т,</p>
-                  <p className={cls.quickWord}>23т</p>
+                  <p onClick={() => setValue(`weight_measurement`,`20`)} className={cls.quickWord}>20т,</p>
+                  <p onClick={() => setValue(`weight_measurement`,`22`)} className={cls.quickWord}>22т,</p>
+                  <p onClick={() => setValue(`weight_measurement`,`23`)} className={cls.quickWord}>23т</p>
                 </Flex>
               </Box>
               <Box>
@@ -104,32 +115,17 @@ const StepOne = () => {
                   // additionalItemOptions={volumeMeasurementOptions}
                 />
                 <Flex ml={4} gap={2} mt={2}>
-                  <p className={cls.quickWord}>40м³,</p>
-                  <p className={cls.quickWord}>42м³,</p>
-                  <p className={cls.quickWord}>43м³</p>
+                  <p onClick={() => setValue(`volume_measurement`,`40`)} className={cls.quickWord}>40м³,</p>
+                  <p onClick={() => setValue(`volume_measurement`,`42`)} className={cls.quickWord}>42м³,</p>
+                  <p onClick={() => setValue(`volume_measurement`,`43`)} className={cls.quickWord}>43м³</p>
                 </Flex>
               </Box>
             </Flex>
+
             <Flex mt={"30px"} gap={2}>
-              {!isDimensionsAndDiameter && (
-                <Button
-                  justifyContent="flex-start"
-                  key="diameterBtn"
-                  //   isDisabled={!canEdit}
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handleDimensionsAndDiameter}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("Габариты и диаметр")}
-                </Button>
-              )}
               {!isPackagingAndQuantity && (
                 <Button
-                  justifyContent="flex-start"
-                  key="dimensionsBtn"
-                  //   isDisabled={!canEdit}
+                  key="packagingBtn"
                   leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
                   variant="reset"
                   onClick={handlePackagingAndQuantity}
@@ -139,7 +135,33 @@ const StepOne = () => {
                   {t("Упаковка")}
                 </Button>
               )}
+
+              {!isDimensionsAndDiameter && (
+                <Button
+                  key="dimensionsBtn"
+                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                  variant="reset"
+                  onClick={handleDimensionsAndDiameter}
+                  color="rgba(126, 123, 134, 1)"
+                  fontWeight={400}
+                >
+                  {t("Габариты и диаметр")}
+                </Button>
+              )}
+              {!isFileUploader && (
+                <Button
+                  key="dimensionsBtn2"
+                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                  variant="reset"
+                  onClick={handleIsFileUploader}
+                  color="rgba(126, 123, 134, 1)"
+                  fontWeight={400}
+                >
+                  {t("Фото груза")}
+                </Button>
+              )}
             </Flex>
+
             {isPackagingAndQuantity && (
               <Box
                 className={cls.additionalFields}
@@ -148,10 +170,10 @@ const StepOne = () => {
                 alignItems="center"
                 mt="24px"
                 justifyContent={"space-between"}
-                key="packaging"
+                key="packagingBtn"
               >
                 <Box>
-                  <p className={cls.stepTitle2}>Упаковка</p>
+                  <p className={cls.stepTitle2}>{t("Упаковка")}</p>
                   <Box
                     className={cls.fields}
                     display="flex"
@@ -163,19 +185,13 @@ const StepOne = () => {
                       errors={errors}
                       searchable
                       control={control}
-                      required
                       register={register}
                       watch={watch}
                       setValue={setValue}
-                      searchName="packagingSearch"
-                      inputPlaceholder={t(`Выберите`)}
-                      placeholder={t(`Выберите`)}
                       name="packaging"
-                      options={[]}
-                      // disabled={!canEdit}
+                      placeholder={t("Выберите")}
                     />
                     <TextFieldWithAddition
-                      className={cls.textField}
                       control={control}
                       errors={errors}
                       name="packaging_quantity"
@@ -183,9 +199,6 @@ const StepOne = () => {
                       width="196px"
                       placeholder={t("Кол-во")}
                       additionalItemPlaceholder={t("шт.")}
-                      additionalItemDefaultIndex={0}
-                      additionalItemOptions={[]}
-                      // disabled={!canEdit}
                     />
                   </Box>
                 </Box>
@@ -193,60 +206,48 @@ const StepOne = () => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
-                  onClick={handlePackagingAndQuantity}
+                  onClick={handlePackagingAndQuantity} // Toggles the packaging section
                   variant={"outline"}
                 />
               </Box>
             )}
+
             {isDimensionsAndDiameter && (
               <Box
-               className={cls.additionalFields}
+                className={cls.additionalFields}
                 display="flex"
                 width={"100%"}
                 alignItems="center"
                 mt="24px"
                 justifyContent={"space-between"}
-                key="packaging"
+                key="dimensionsBtn"
               >
-                 <Box>
-                 <p className={cls.stepTitle2}>Габариты и диаметр</p>
-                <Box
-                  className={cls.fields}
-                  display="flex"
-                  columnGap="16px"
-                  maxW="740px"
-                  width="100%"
-                >
-                  <Box display="flex" flexDirection="column" rowGap="10px">
+                <Box>
+                  <p className={cls.stepTitle2}>{t("Габариты и диаметр")}</p>
+                  <Box
+                    className={cls.fields}
+                    display="flex"
+                    columnGap="16px"
+                    maxW="740px"
+                    width="100%"
+                  >
                     <TextFieldWithAddition
-                      className={cls.textField}
                       control={control}
                       name="length"
                       register={register}
                       width="153px"
                       placeholder={t("Длина")}
                       additionalItemPlaceholder={t("м")}
-                      //   disabled={!canEdit}
                     />
-                    {/* <Checkbox register={register} name="isSpecial1" disabled={!canEdit}>{t("особые")}</Checkbox> */}
-                  </Box>
-                  <Box display="flex" flexDirection="column" rowGap="10px">
                     <TextFieldWithAddition
-                      className={cls.textField}
                       control={control}
                       name="width"
                       register={register}
                       width="153px"
                       placeholder={t("Ширина")}
                       additionalItemPlaceholder={t("м")}
-                      //   disabled={!canEdit}
                     />
-                    {/* <Checkbox register={register} name="isSpecial2" disabled={!canEdit}>{t("особые")}</Checkbox> */}
-                  </Box>
-                  <Box display="flex" flexDirection="column" rowGap="10px">
                     <TextFieldWithAddition
-                      className={cls.textField}
-                      //   disabled={!canEdit}
                       control={control}
                       name="height"
                       register={register}
@@ -254,25 +255,140 @@ const StepOne = () => {
                       placeholder={t("Высота")}
                       additionalItemPlaceholder={t("м")}
                     />
-                    {/* <Checkbox register={register} name="isSpecial3">{t("особые")}</Checkbox> */}
                   </Box>
-                  <TextFieldWithAddition
-                    className={cls.textField}
-                    control={control}
-                    // disabled={!canEdit}
-                    name="diameter"
-                    register={register}
-                    width="153px"
-                    placeholder={t("Диаметр")}
-                    additionalItemPlaceholder={t("м")}
-                  />
                 </Box>
-                 </Box>
                 <IconButton
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
-                  onClick={handleDimensionsAndDiameter}
+                  onClick={handleDimensionsAndDiameter} // Toggles the dimensions section
+                  variant={"outline"}
+                />
+              </Box>
+            )}
+
+            {isFileUploader && (
+              <Box
+                className={cls.additionalFields}
+                display="flex"
+                width={"100%"}
+                alignItems="center"
+                mt="24px"
+                justifyContent={"space-between"}
+                key="dimensionsBtn2"
+              >
+                {/* <Box width={"100%"} justifyContent={"space-between"} display={"flex"} alignItems={"center"}> */}
+
+                  <p className={cls.stepTitle2}>
+                    {t("Прикрепить фото")} <br />{" "}
+                    <span>Фото груза или документа до 10 МБ.</span>
+                  </p>
+                  <Box
+                    className={cls.fields}
+                    display="flex"
+                    columnGap="24px"
+                    maxW="540px"
+                    width="100%"
+                  >
+                    {img ? (
+                      <Box
+                        display="flex"
+                        position="relative"
+                        alignItems="center"
+                        justifyContent="center"
+                        ml="auto"
+                        maxWidth={"540px"}
+                        width="100%"
+                        height="150px"
+                        borderRadius="12px"
+                        border="1px solid"
+                        borderColor="brand.200"
+                        padding="16px 24px"
+                      >
+                        <Image
+                          className={cls.img}
+                          src={img}
+                          alt="cargo"
+                          width={150}
+                          height={150}
+                        />
+                        <Button
+                          // isDisabled={!canEdit}
+                          onClick={() => {
+                            setValue("image", null);
+                          }}
+                          position="absolute"
+                          top="10px"
+                          left="10px"
+                          variant="reset"
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </Box>
+                    ) : (
+                      <Box
+                        padding="16px 24px"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        mt="24px"
+                        border= '1px dashed var(--quat_grey, rgba(219, 216, 227, 1))'
+                        borderRadius="8px"
+                        background={"rgba(16, 24, 40, 0.05)"}
+                        as="label"
+                        // maxWidth={islargerThan768 ? "540px" : "100%"}
+                        ml="auto"
+                        width="100%"
+                        // height="126px"
+                        cursor={"pointer"}
+                        // opacity={canEdit ? 1 : 0.5}
+                      >
+                        <input
+                          className="visually-hidden"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            handleImageUpload(e);
+                            // setIsPhotoChanged(true);
+                          }}
+                        />
+                        <Box>
+                          <Box
+                            mx="auto"
+                            mb="12px"
+                            width="40px"
+                            height="40px"
+                            p="10px"
+                            // boxShadow="0px 1px 2px 0px #1018280D"
+                            borderRadius="8px"
+                            // background="white"
+                            // border="1px solid"
+                            // borderColor="brand.200"
+                          >
+                            <UploadCloudBlueIcon />
+                          </Box>
+                          <Box fontSize={"14px"}  fontWeight={400} color="rgba(126, 123, 134, 1)" textAlign="center">
+                            {t(`Загрузите или перетащите изображения сюда`)}
+                          </Box>
+                          {/* <Box
+                            textAlign="center"
+                            fontWeight="400"
+                            fontSize="14px"
+                            lineHeight="18px"
+                            color="brand.600"
+                          >
+                            {t(`Фото до 10 МБ.`)}
+                          </Box> */}
+                        </Box>
+                      </Box>
+                    )}
+                  {/* </Box> */}
+                </Box>
+                <IconButton
+                  border={"none"}
+                  width={"fit-content"}
+                  icon={<CloseStepIcon />}
+                  onClick={handleIsFileUploader} // Toggles the packaging section
                   variant={"outline"}
                 />
               </Box>
@@ -280,7 +396,7 @@ const StepOne = () => {
           </Box>
         </Flex>
       </Box>
-      <Button rightIcon={<NextArrowIcon />} className={cls.nextBtn}>
+      <Button onClick={() => setCargoIndex(2) } rightIcon={<NextArrowIcon />} className={cls.nextBtn}>
         Далее
       </Button>
     </>

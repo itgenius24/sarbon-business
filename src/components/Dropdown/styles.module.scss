@@ -140,8 +140,9 @@
   border: 1px solid var(--brand-300);
   border-radius: 8px;
   background-color: rgba(246, 247, 248, 1);
-  &:focus{
-    background-color: rgb(255, 255, 255);
+  &:not(:placeholder-shown) {
+    background-color: white; 
+   
   }
   &::placeholder {
     color: var(--brand-500);

@@ -38,6 +38,10 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     formStore.isDimensionsAndDiameter
   );
 
+  const [isFileUploader, setIsFileUploader] = useState(
+    formStore.isFileUploader
+  );
+
   const [isCreated, setIsCreated] = useState(false);
 
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
@@ -1077,6 +1081,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     if (!isFirstRender.current && (!status || status === "in_moderation")) {
       formStore.isPackagingAndQuantity = isPackagingAndQuantity;
       formStore.isDimensionsAndDiameter = isDimensionsAndDiameter;
+      formStore.isFileUploader = isFileUploader;
       formStore.isRequirementOpen = isRequirementOpen;
       formStore.isAccessOpen = isAccessOpen;
       formStore.isBeltsOpen = isBeltsOpen;
@@ -1087,6 +1092,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }, [
     isPackagingAndQuantity,
     isDimensionsAndDiameter,
+    isFileUploader,
     isRequirementOpen,
     isAccessOpen,
     isBeltsOpen,
@@ -1195,6 +1201,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     isPackagingAndQuantity,
     setPackagingAndQuantity,
     isDimensionsAndDiameter,
+    isFileUploader,setIsFileUploader,
     setDimensionsAndDiameter,
     prepaymentFuelOpen,
     setPrepaymentFuelOpen,
