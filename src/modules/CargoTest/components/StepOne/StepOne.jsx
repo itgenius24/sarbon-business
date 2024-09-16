@@ -40,7 +40,6 @@ const StepOne = ({setCargoIndex}) => {
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
 
-  console.log(`optionCargoType`,optionCargoType)
   return (
     <>
       <Box className={cls.step1}>

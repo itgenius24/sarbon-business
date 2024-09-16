@@ -141,7 +141,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 cargoIndex === 1 && 
                 <StepOne setCargoIndex={setCargoIndex} />
               }
-              {cargoIndex === 2 && <StepTwo />}
+              {cargoIndex === 2 && <StepTwo setCargoIndex={setCargoIndex} />}
             </Box>
           </Box>
         </Container>
