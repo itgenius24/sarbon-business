@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import Image from "next/image";
 
-const StepOne = ({setCargoIndex}) => {
+const StepOne = ({ setCargoIndex }) => {
   const {
     control,
     errors,
@@ -69,9 +69,38 @@ const StepOne = ({setCargoIndex}) => {
                 />
                 <Flex gap={2} mt={2}>
                   <span className={cls.subTitle}>Например: </span>
-                  <p onClick={() => setValue(`cargo_type`,{label:"Пиломатериалы",value:"1a9ffa9a-6472-4d76-a07a-d7db8e7acb15"})} className={cls.quickWord}>Пиломатериалы,</p>
-                  <p onClick={() => setValue(`cargo_type`,{label:"ДСП",value:"b059f178-1cc2-4867-a9c2-81f483e3fe39"})} className={cls.quickWord}>ДСП,</p>
-                  <p o className={cls.quickWord}>Овощи и фрукты</p>
+                  <p
+                    onClick={() => {
+                      setValue(`cargo_type_search`, "Пиломатериалы",
+                      )
+                      setValue(`cargo_type`,{
+                        label: "Пиломатериалы",
+                        value: "1a9ffa9a-6472-4d76-a07a-d7db8e7acb15",
+                      })
+                    }
+
+                    }
+                    className={cls.quickWord}
+                  >
+                    Пиломатериалы,
+                  </p>
+                  <p
+                    onClick={() => {
+                      setValue(`cargo_type_search`, "ДСП")
+
+                      setValue(`cargo_type`, {
+                        label: "ДСП",
+                        value: "b059f178-1cc2-4867-a9c2-81f483e3fe39",
+                      })
+                    }
+                    }
+                    className={cls.quickWord}
+                  >
+                    ДСП,
+                  </p>
+                  <p o className={cls.quickWord}>
+                    Овощи и фрукты
+                  </p>
                 </Flex>
               </Box>
               <Box>
@@ -92,9 +121,24 @@ const StepOne = ({setCargoIndex}) => {
                   zIndex={90}
                 />
                 <Flex ml={4} gap={2} mt={2}>
-                  <p onClick={() => setValue(`weight_measurement`,`20`)} className={cls.quickWord}>20т,</p>
-                  <p onClick={() => setValue(`weight_measurement`,`22`)} className={cls.quickWord}>22т,</p>
-                  <p onClick={() => setValue(`weight_measurement`,`23`)} className={cls.quickWord}>23т</p>
+                  <p
+                    onClick={() => setValue(`weight_measurement`, `20`)}
+                    className={cls.quickWord}
+                  >
+                    20т,
+                  </p>
+                  <p
+                    onClick={() => setValue(`weight_measurement`, `22`)}
+                    className={cls.quickWord}
+                  >
+                    22т,
+                  </p>
+                  <p
+                    onClick={() => setValue(`weight_measurement`, `23`)}
+                    className={cls.quickWord}
+                  >
+                    23т
+                  </p>
                 </Flex>
               </Box>
               <Box>
@@ -114,9 +158,24 @@ const StepOne = ({setCargoIndex}) => {
                   // additionalItemOptions={volumeMeasurementOptions}
                 />
                 <Flex ml={4} gap={2} mt={2}>
-                  <p onClick={() => setValue(`volume_measurement`,`40`)} className={cls.quickWord}>40м³,</p>
-                  <p onClick={() => setValue(`volume_measurement`,`42`)} className={cls.quickWord}>42м³,</p>
-                  <p onClick={() => setValue(`volume_measurement`,`43`)} className={cls.quickWord}>43м³</p>
+                  <p
+                    onClick={() => setValue(`volume_measurement`, `40`)}
+                    className={cls.quickWord}
+                  >
+                    40м³,
+                  </p>
+                  <p
+                    onClick={() => setValue(`volume_measurement`, `42`)}
+                    className={cls.quickWord}
+                  >
+                    42м³,
+                  </p>
+                  <p
+                    onClick={() => setValue(`volume_measurement`, `43`)}
+                    className={cls.quickWord}
+                  >
+                    43м³
+                  </p>
                 </Flex>
               </Box>
             </Flex>
@@ -278,98 +337,103 @@ const StepOne = ({setCargoIndex}) => {
               >
                 {/* <Box width={"100%"} justifyContent={"space-between"} display={"flex"} alignItems={"center"}> */}
 
-                  <p className={cls.stepTitle2}>
-                    {t("Прикрепить фото")} <br />{" "}
-                    <span>Фото груза или документа до 10 МБ.</span>
-                  </p>
-                  <Box
-                    className={cls.fields}
-                    display="flex"
-                    columnGap="24px"
-                    maxW="540px"
-                    width="100%"
-                  >
-                    {img ? (
-                      <Box
-                        display="flex"
-                        position="relative"
-                        alignItems="center"
-                        justifyContent="center"
-                        ml="auto"
-                        maxWidth={"540px"}
-                        width="100%"
-                        height="150px"
-                        borderRadius="12px"
-                        border="1px solid"
-                        borderColor="brand.200"
-                        padding="16px 24px"
+                <p className={cls.stepTitle2}>
+                  {t("Прикрепить фото")} <br />{" "}
+                  <span>Фото груза или документа до 10 МБ.</span>
+                </p>
+                <Box
+                  className={cls.fields}
+                  display="flex"
+                  columnGap="24px"
+                  maxW="540px"
+                  width="100%"
+                >
+                  {img ? (
+                    <Box
+                      display="flex"
+                      position="relative"
+                      alignItems="center"
+                      justifyContent="center"
+                      ml="auto"
+                      maxWidth={"540px"}
+                      width="100%"
+                      height="150px"
+                      borderRadius="12px"
+                      border="1px solid"
+                      borderColor="brand.200"
+                      padding="16px 24px"
+                    >
+                      <Image
+                        className={cls.img}
+                        src={img}
+                        alt="cargo"
+                        width={150}
+                        height={150}
+                      />
+                      <Button
+                        // isDisabled={!canEdit}
+                        onClick={() => {
+                          setValue("image", null);
+                        }}
+                        position="absolute"
+                        top="10px"
+                        left="10px"
+                        variant="reset"
                       >
-                        <Image
-                          className={cls.img}
-                          src={img}
-                          alt="cargo"
-                          width={150}
-                          height={150}
-                        />
-                        <Button
-                          // isDisabled={!canEdit}
-                          onClick={() => {
-                            setValue("image", null);
-                          }}
-                          position="absolute"
-                          top="10px"
-                          left="10px"
-                          variant="reset"
+                        <DeleteIcon />
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Box
+                      padding="16px 24px"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      mt="24px"
+                      border="1px dashed var(--quat_grey, rgba(219, 216, 227, 1))"
+                      borderRadius="8px"
+                      background={"rgba(16, 24, 40, 0.05)"}
+                      as="label"
+                      // maxWidth={islargerThan768 ? "540px" : "100%"}
+                      ml="auto"
+                      width="100%"
+                      // height="126px"
+                      cursor={"pointer"}
+                      // opacity={canEdit ? 1 : 0.5}
+                    >
+                      <input
+                        className="visually-hidden"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          handleImageUpload(e);
+                          // setIsPhotoChanged(true);
+                        }}
+                      />
+                      <Box>
+                        <Box
+                          mx="auto"
+                          mb="12px"
+                          width="40px"
+                          height="40px"
+                          p="10px"
+                          // boxShadow="0px 1px 2px 0px #1018280D"
+                          borderRadius="8px"
+                          // background="white"
+                          // border="1px solid"
+                          // borderColor="brand.200"
                         >
-                          <DeleteIcon />
-                        </Button>
-                      </Box>
-                    ) : (
-                      <Box
-                        padding="16px 24px"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        mt="24px"
-                        border= '1px dashed var(--quat_grey, rgba(219, 216, 227, 1))'
-                        borderRadius="8px"
-                        background={"rgba(16, 24, 40, 0.05)"}
-                        as="label"
-                        // maxWidth={islargerThan768 ? "540px" : "100%"}
-                        ml="auto"
-                        width="100%"
-                        // height="126px"
-                        cursor={"pointer"}
-                        // opacity={canEdit ? 1 : 0.5}
-                      >
-                        <input
-                          className="visually-hidden"
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            handleImageUpload(e);
-                            // setIsPhotoChanged(true);
-                          }}
-                        />
-                        <Box>
-                          <Box
-                            mx="auto"
-                            mb="12px"
-                            width="40px"
-                            height="40px"
-                            p="10px"
-                            // boxShadow="0px 1px 2px 0px #1018280D"
-                            borderRadius="8px"
-                            // background="white"
-                            // border="1px solid"
-                            // borderColor="brand.200"
-                          >
-                            <UploadCloudBlueIcon />
-                          </Box>
-                          <Box fontSize={"14px"}  fontWeight={400} color="rgba(126, 123, 134, 1)" textAlign="center">
-                            {t(`Загрузите или перетащите изображения сюда`)}
-                          </Box>
-                          {/* <Box
+                          <UploadCloudBlueIcon />
+                        </Box>
+                        <Box
+                          fontSize={"14px"}
+                          fontWeight={400}
+                          color="rgba(126, 123, 134, 1)"
+                          textAlign="center"
+                        >
+                          {t(`Загрузите или перетащите изображения сюда`)}
+                        </Box>
+                        {/* <Box
                             textAlign="center"
                             fontWeight="400"
                             fontSize="14px"
@@ -378,9 +442,9 @@ const StepOne = ({setCargoIndex}) => {
                           >
                             {t(`Фото до 10 МБ.`)}
                           </Box> */}
-                        </Box>
                       </Box>
-                    )}
+                    </Box>
+                  )}
                   {/* </Box> */}
                 </Box>
                 <IconButton
@@ -395,7 +459,11 @@ const StepOne = ({setCargoIndex}) => {
           </Box>
         </Flex>
       </Box>
-      <Button onClick={() => setCargoIndex(2) } rightIcon={<NextArrowIcon />} className={cls.nextBtn}>
+      <Button
+        onClick={() => setCargoIndex(2)}
+        rightIcon={<NextArrowIcon />}
+        className={cls.nextBtn}
+      >
         Далее
       </Button>
     </>

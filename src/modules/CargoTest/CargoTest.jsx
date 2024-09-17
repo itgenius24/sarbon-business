@@ -35,6 +35,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import StepOne from "./components/StepOne/StepOne";
 import StepTwo from "./components/StepTwo/StepTwo";
+import StepThere from "./components/StepThere/StepThere";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const addCargoProps = useAddCargoProps({ id, status, locale });
@@ -142,6 +143,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 <StepOne setCargoIndex={setCargoIndex} />
               }
               {cargoIndex === 2 && <StepTwo setCargoIndex={setCargoIndex} />}
+              {cargoIndex === 3 && <StepThere setCargoIndex={setCargoIndex} />}
             </Box>
           </Box>
         </Container>
