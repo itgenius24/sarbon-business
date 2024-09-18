@@ -61,6 +61,7 @@ export const TextFieldWithAddition = ({
           {...props}
         />
         {before && <span className={cls.before}>{before}</span>}
+        {after && <span className={cls.after}>{after}</span>}
       </div>
       <Controller
         name={additionalItemName}

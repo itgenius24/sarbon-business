@@ -17,12 +17,12 @@ export const CustomTextarea = ({
     <Textarea
       className={clsx(cls.textarea, className)}
       isDisabled={disabled}
-      height="154px"
+      height="24px"
       width="100%"
       borderRadius="8px"
       borderColor="brand.200"
       _placeholder={{ color: "brand.300" }}
-      resize="none"
+      // resize="none"
       name={name}
       placeholder={placeholder}
       {...register(name)}

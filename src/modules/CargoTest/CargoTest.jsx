@@ -36,6 +36,9 @@ import clsx from "clsx";
 import StepOne from "./components/StepOne/StepOne";
 import StepTwo from "./components/StepTwo/StepTwo";
 import StepThere from "./components/StepThere/StepThere";
+import StepFour from "./components/StepFour/StepFour";
+import StepFive from "./components/StepFive/StepFive";
+import { Checkbox } from "@/components/Checkbox";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const addCargoProps = useAddCargoProps({ id, status, locale });
@@ -144,6 +147,48 @@ export const CargoTest = observer(({ id, status, locale }) => {
               }
               {cargoIndex === 2 && <StepTwo setCargoIndex={setCargoIndex} />}
               {cargoIndex === 3 && <StepThere setCargoIndex={setCargoIndex} />}
+              {cargoIndex === 4 && <StepFour setCargoIndex={setCargoIndex} />}
+              {cargoIndex === 5 && <StepFive setCargoIndex={setCargoIndex} />}
+              { 
+                cargoIndex === 5 && <Box mt="32px">
+              <Checkbox name="accept" register={addCargoProps.register} filled>
+                <Text fontSize="14px" maxWidth="396px" width="100%">
+                  {t("Нажимая кнопку, вы принимаете условия")}{" "}
+                  <a style={{ color: "#026FE7", fontWeight: "600" }} href="">
+                    {t("Пользовательская  соглашения")}
+                  </a>
+                </Text>
+              </Checkbox>
+              <Box
+                mt="16px"
+                display="flex"
+                columnGap="12px"
+                justifyContent="flex-start"
+                maxWidth="900px"
+              >
+                <Button
+                  onClick={addCargoProps.handleOpenTemplateModal}
+                  // isLoading={addCargoProps.loading}
+                  size="sm"
+                  maxWidth="223px"
+                  variant="secondaryWhite"
+                >
+                  {t("Сохранить как шаблон")}
+                </Button>
+                <Button
+                  isDisabled={
+                    !addCargoProps.watch("accept") || addCargoProps?.isClicked
+                  }
+                  isLoading={addCargoProps.loading}
+                  size="sm"
+                  maxWidth="223px"
+                  onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
+                >
+                  {t("Опубликовать груз")}
+                </Button>
+              </Box>
+            </Box>
+              }
             </Box>
           </Box>
         </Container>

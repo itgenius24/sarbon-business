@@ -97,6 +97,13 @@
   transform: translateY(-50%);
   color: var(--icon-base);
 }
+.after {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  color: var(--icon-base);
+}
 
 .additionalItemLabelText {
   max-width: 100%;

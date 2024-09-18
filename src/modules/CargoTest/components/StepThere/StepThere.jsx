@@ -58,6 +58,7 @@ const StepThere = ({ setCargoIndex }) => {
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
 
+  console.log("carTypeOptions",carTypeOptions)
 
   return (
     <>
@@ -70,9 +71,6 @@ const StepThere = ({ setCargoIndex }) => {
                 <p className={cls.stepTitle}>Машина</p>
                 <Flex gap={"24px"} mt={"10px"}>
                   <Box width={"90%"}>
-                  {
-                    console.log("car_type",carTypeOptions,1)
-                  }
                     <Dropdown
                       control={control}
                       required
@@ -297,7 +295,7 @@ const StepThere = ({ setCargoIndex }) => {
                 alignItems="center"
                 mt="24px"
                 justifyContent={"space-between"}
-                key="packagingBtn2"
+                key="packagingBtn3"
               >
                 <Box>
                   <p className={cls.stepTitle2}>{t("ADR")}</p>
@@ -335,7 +333,7 @@ const StepThere = ({ setCargoIndex }) => {
         </Flex>
       </Box>
       <Button
-        onClick={() => setCargoIndex(2)}
+        onClick={() => setCargoIndex(4)}
         rightIcon={<NextArrowIcon />}
         className={cls.nextBtn}
       >
