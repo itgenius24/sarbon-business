@@ -358,7 +358,7 @@ export default function GpsTrackingModuleTets() {
           balloonContent={balloonContent}
           balloonContentCargo={balloonContentCargo}
           handleMouseEnter={handleMouseEnter}
-          locationData={loadCheck ? (!isLoading ? locationData : []) : []}
+          locationData={ locationData }
           setLoadState={setLoadState}
           setModalType={setModalType}
           handleMouseEnterCargo={handleMouseEnterCargo}

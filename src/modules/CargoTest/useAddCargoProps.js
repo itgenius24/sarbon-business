@@ -24,7 +24,7 @@ import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
 import { useGetLang } from "@/hooks/useGetLang";
 
-export const useAddCargoProps = ({ id, status, locale }) => {
+export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   const searchParams = useSearchParams();
 
   const pathname = usePathname();
@@ -680,7 +680,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         address_id_2: data.unloading[0].location.value,
         city_id: data.loadings[0].location.guid,
         city_id_2: data.unloading[0].location.guid,
-        location_name: data.receipts[0].cor,
+        location_name: data?.receipts?.[0]?.cor || '',
         gps_monitoring: data.gps_monitoring,
         vehicle_type_id: data.car_type.value,
         number_of_cars: data.transport_count,
@@ -772,7 +772,9 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function handleSelectTemplate(item) {
+    
     resetForm(item, item.guid);
+    setCargoIndex(5)
 
     if (item?.tir || item?.cmr || item?.t1 || item?.medic_certificate) {
       setAccessOpen(true);
@@ -856,6 +858,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setLiftingCapacityOpen(false);
     setPrepaymentFuelOpen(false);
     setDirectContractOpen(false);
+    setCargoIndex(1)
   }
 
   function resetForm(data, id) {

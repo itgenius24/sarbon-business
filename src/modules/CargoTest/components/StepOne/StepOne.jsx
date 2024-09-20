@@ -71,29 +71,25 @@ const StepOne = ({ setCargoIndex }) => {
                   <span className={cls.subTitle}>Например: </span>
                   <p
                     onClick={() => {
-                      setValue(`cargo_type_search`, "Пиломатериалы",
-                      )
-                      setValue(`cargo_type`,{
+                      setValue(`cargo_type_search`, "Пиломатериалы");
+                      setValue(`cargo_type`, {
                         label: "Пиломатериалы",
                         value: "1a9ffa9a-6472-4d76-a07a-d7db8e7acb15",
-                      })
-                    }
-
-                    }
+                      });
+                    }}
                     className={cls.quickWord}
                   >
                     Пиломатериалы,
                   </p>
                   <p
                     onClick={() => {
-                      setValue(`cargo_type_search`, "ДСП")
+                      setValue(`cargo_type_search`, "ДСП");
 
                       setValue(`cargo_type`, {
                         label: "ДСП",
                         value: "b059f178-1cc2-4867-a9c2-81f483e3fe39",
-                      })
-                    }
-                    }
+                      });
+                    }}
                     className={cls.quickWord}
                   >
                     ДСП,
@@ -460,6 +456,9 @@ const StepOne = ({ setCargoIndex }) => {
         </Flex>
       </Box>
       <Button
+        isDisabled={
+          !watch("cargo_type")?.label && !watch("weight_measurement") && !watch("volume_measurement") ? true :false
+        }
         onClick={() => setCargoIndex(2)}
         rightIcon={<NextArrowIcon />}
         className={cls.nextBtn}

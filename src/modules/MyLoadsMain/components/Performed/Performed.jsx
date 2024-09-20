@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
+import { Box, Button } from "@chakra-ui/react";
 
-export const Performed = ({ cargo,orderStatus }) => {
+export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
   const { t } = useTranslation();
 
   const router = useRouter();
@@ -128,6 +129,39 @@ export const Performed = ({ cargo,orderStatus }) => {
              
             </div>
           </div>
+          }
+          
+          {
+            orderStatus === `new` &&    <Box
+            width={`30%`}
+              display="flex"
+              // width={isLargerThan768 ? "570px" : "100%"}
+              columnGap="12px"
+              mt="32px"
+            >
+              <Button
+                // fontSize={isLargerThan768 ? "16px" : "12px"}
+                // fontWeight={isLargerThan768 ? 600 : 500}
+                variant="outlineError"
+                bgColor="rgba(254, 228, 226, 1)"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCancel(cargo.guid);
+                }}
+              >
+                {t("Отказать")}
+              </Button>
+              <Button
+                // fontSize={isLargerThan768 ? "16px" : "12px"}
+                // fontWeight={isLargerThan768 ? 600 : 500}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAccept(cargo.guid, cargo.users_id_2);
+                }}
+              >
+                {t("Принять")}
+              </Button>
+            </Box>
           }
          
         </div>

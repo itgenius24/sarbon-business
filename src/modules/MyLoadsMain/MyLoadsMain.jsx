@@ -50,11 +50,23 @@ export const MyLoadsMain = () => {
           filterList={filterTabs}
         />
         <Box display="flex" flexDirection="column" rowGap="16px">
-          {orderStatus == "performed" || orderStatus == "new" || orderStatus == "approve_from_driver" || orderStatus == "cancellation" || orderStatus == "archive"  ? (
+          {orderStatus == "performed" ||
+          orderStatus == "new" ||
+          orderStatus == "approve_from_driver" ||
+          orderStatus == "cancellation" ||
+          orderStatus == "archive" ? (
             <>
               {cargos?.length > 0 &&
                 cargos?.map((cargo, index) => {
-                  return <Performed orderStatus={orderStatus} key={index} cargo={cargo} />;
+                  return (
+                    <Performed
+                      orderStatus={orderStatus}
+                      key={index}
+                      handleAccept={handleAccept}
+                      handleCancel={handleCancel}
+                      cargo={cargo}
+                    />
+                  );
                 })}
             </>
           ) : (
@@ -85,7 +97,6 @@ export const MyLoadsMain = () => {
                     isLargerThan768={isLargerThan768}
                     {...cargo}
                     cargo={cargo}
-
                   />
                 );
               }

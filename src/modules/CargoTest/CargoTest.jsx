@@ -1,17 +1,15 @@
 import cls from "./styles.module.scss";
 import {
+  CheckIconStep,
   CricleBlueIcon,
   CricleIcon,
   DeleteIcon,
-
   PlusIcon,
   SearchIcon,
 } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import {
-
   Box,
-
   Button,
   Flex,
   Heading,
@@ -41,11 +39,12 @@ import StepFive from "./components/StepFive/StepFive";
 import { Checkbox } from "@/components/Checkbox";
 
 export const CargoTest = observer(({ id, status, locale }) => {
-  const addCargoProps = useAddCargoProps({ id, status, locale });
+  const [cargoIndex, setCargoIndex] = useState(1);
+  const addCargoProps = useAddCargoProps({ id, status, locale,setCargoIndex });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
-  const [cargoIndex,setCargoIndex] = useState(1)
+
   const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
@@ -102,18 +101,41 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   </Button>
                 </Box>
               </Box>
-              <Flex gap={2} mb={'50px'} mt={"50px"}>
+              <Flex gap={2} mb={"50px"} mt={"50px"}>
                 <div className={cls.arrowWrap}>
-                  <div  onClick={() => setCargoIndex(1)} className={clsx(cls.arrow, { [cls.active]: cargoIndex === 1 })}>
-                    {cargoIndex === 1 ? <CricleBlueIcon /> : <CricleIcon />}
+                  <div
+                    onClick={() => setCargoIndex(1)}
+                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 1, })}
+                  >
+                    {cargoIndex === 1 ? (
+                      <CricleBlueIcon />
+                    ) : addCargoProps.watch("cargo_type")?.label &&
+                      addCargoProps.watch("weight_measurement") &&
+                      addCargoProps.watch("volume_measurement") ? (
+                      <CheckIconStep />
+                    ) : (
+                      <CricleIcon />
+                    )}
                     <div className={cls.text}>
                       <p>1. Груз</p>
-                      <span>не заполнено</span>
+                      <span>
+                        {addCargoProps.watch("cargo_type")?.label &&
+                        addCargoProps.watch("weight_measurement") &&
+                        addCargoProps.watch("volume_measurement")
+                          ? `${
+                            addCargoProps.watch("cargo_type").label
+                          } ${addCargoProps.watch("weight_measurement")}T 
+                          ${addCargoProps.watch("volume_measurement")}m³`
+                          : "не заполнено"}
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div className={cls.arrowWrap}>
-                <div  onClick={() => setCargoIndex(2)} className={clsx(cls.arrow, { [cls.active]: cargoIndex === 2 })}>
+                  <div
+                    onClick={() => setCargoIndex(2)}
+                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 2, })}
+                  >
                     {cargoIndex === 2 ? <CricleBlueIcon /> : <CricleIcon />}
                     <div className={cls.text}>
                       <p>2. Маршрут и время</p>
@@ -122,17 +144,33 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   </div>
                 </div>
                 <div className={cls.arrowWrap}>
-                <div  onClick={() => setCargoIndex(3)} className={clsx(cls.arrow, { [cls.active]: cargoIndex === 3 })}>
-                {cargoIndex === 3 ? <CricleBlueIcon /> : <CricleIcon />}
+                  <div
+                    onClick={() => setCargoIndex(3)}
+                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 3, })}
+                  >
+                    {cargoIndex === 3 ? (
+                      <CricleBlueIcon />
+                    ) : addCargoProps.watch("car_type")?.label ? (
+                      <CheckIconStep />
+                    ) : (
+                      <CricleIcon />
+                    )}
                     <div className={cls.text}>
                       <p>3. Транспорт</p>
-                      <span>не заполнено</span>
+                      <span>
+                        {addCargoProps.watch("car_type")?.label
+                          ? addCargoProps.watch("car_type")?.label
+                          : "не заполнено"}{" "}
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div className={cls.arrowWrap}>
-                <div  onClick={() => setCargoIndex(4)} className={clsx(cls.arrow, { [cls.active]: cargoIndex === 4 })}>
-                {cargoIndex === 4 ? <CricleBlueIcon /> : <CricleIcon />}
+                  <div
+                    onClick={() => setCargoIndex(4)}
+                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 4, })}
+                  >
+                    {cargoIndex === 4 ? <CricleBlueIcon /> : <CricleIcon />}
                     <div className={cls.text}>
                       <p>4. Оплата</p>
                       <span>не заполнено</span>
@@ -141,54 +179,61 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 </div>
               </Flex>
 
-              {
-                cargoIndex === 1 && 
-                <StepOne setCargoIndex={setCargoIndex} />
-              }
+              {cargoIndex === 1 && <StepOne setCargoIndex={setCargoIndex} />}
               {cargoIndex === 2 && <StepTwo setCargoIndex={setCargoIndex} />}
               {cargoIndex === 3 && <StepThere setCargoIndex={setCargoIndex} />}
               {cargoIndex === 4 && <StepFour setCargoIndex={setCargoIndex} />}
               {cargoIndex === 5 && <StepFive setCargoIndex={setCargoIndex} />}
-              { 
-                cargoIndex === 5 && <Box mt="32px">
-              <Checkbox name="accept" register={addCargoProps.register} filled>
-                <Text fontSize="14px" maxWidth="396px" width="100%">
-                  {t("Нажимая кнопку, вы принимаете условия")}{" "}
-                  <a style={{ color: "#026FE7", fontWeight: "600" }} href="">
-                    {t("Пользовательская  соглашения")}
-                  </a>
-                </Text>
-              </Checkbox>
-              <Box
-                mt="16px"
-                display="flex"
-                columnGap="12px"
-                justifyContent="flex-start"
-                maxWidth="900px"
-              >
-                <Button
-                  onClick={addCargoProps.handleOpenTemplateModal}
-                  // isLoading={addCargoProps.loading}
-                  size="sm"
-                  maxWidth="223px"
-                  variant="secondaryWhite"
-                >
-                  {t("Сохранить как шаблон")}
-                </Button>
-                <Button
-                  isDisabled={
-                    !addCargoProps.watch("accept") || addCargoProps?.isClicked
-                  }
-                  isLoading={addCargoProps.loading}
-                  size="sm"
-                  maxWidth="223px"
-                  onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
-                >
-                  {t("Опубликовать груз")}
-                </Button>
-              </Box>
-            </Box>
-              }
+              {cargoIndex === 5 && (
+                <Box mt="32px">
+                  <Checkbox
+                    name="accept"
+                    register={addCargoProps.register}
+                    filled
+                  >
+                    <Text fontSize="14px" maxWidth="396px" width="100%">
+                      {t("Нажимая кнопку, вы принимаете условия")}{" "}
+                      <a
+                        style={{ color: "#026FE7", fontWeight: "600" }}
+                        href=""
+                      >
+                        {t("Пользовательская  соглашения")}
+                      </a>
+                    </Text>
+                  </Checkbox>
+                  <Box
+                    mt="16px"
+                    display="flex"
+                    columnGap="12px"
+                    justifyContent="flex-start"
+                    maxWidth="900px"
+                  >
+                    <Button
+                      onClick={addCargoProps.handleOpenTemplateModal}
+                      // isLoading={addCargoProps.loading}
+                      size="sm"
+                      maxWidth="223px"
+                      variant="secondaryWhite"
+                    >
+                      {t("Сохранить как шаблон")}
+                    </Button>
+                    <Button
+                      isDisabled={
+                        !addCargoProps.watch("accept") ||
+                        addCargoProps?.isClicked
+                      }
+                      isLoading={addCargoProps.loading}
+                      size="sm"
+                      maxWidth="223px"
+                      onClick={addCargoProps.handleSubmit(
+                        addCargoProps.onSubmit
+                      )}
+                    >
+                      {t("Опубликовать груз")}
+                    </Button>
+                  </Box>
+                </Box>
+              )}
             </Box>
           </Box>
         </Container>
@@ -196,9 +241,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
       <Popup
         isOpen={addCargoProps.isPopupOpen}
         onClose={addCargoProps.handleCloseDeletePopup}
-        mainText={t("Вы уверены что хотите удалить груз ?", {
-          name: addCargoProps.cargoName,
-        })}
+        mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName, })}
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />

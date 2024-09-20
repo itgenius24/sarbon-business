@@ -110,6 +110,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
 }
 
 .fieldInput {
@@ -130,7 +131,7 @@
 }
 
 .additionalItem {
-  max-width: 161px;
+  max-width: 261px;
   height: 100%;
   position: relative;
   padding: 10px 7px;
@@ -139,6 +140,9 @@
   border-left: none;
   border-radius: 0 8px 8px 0;
   background-color: var(--brand-50);
+
+
+
 }
 
 .additionalItem.lightTheme {
@@ -150,19 +154,21 @@
   min-width: 30px;
   font-weight: 400;
   white-space: nowrap;
-
+  position: relative;
   color: var(--brand-500);
+
+
 }
 
 .additionalItemLabelWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
 .additionalItemOptions {
   position: absolute;
-  z-index: 100;
   top: calc(100% + 8px);
   left: 0;
   padding: 6px;
@@ -171,6 +177,8 @@
   border: 1px solid var(--brand-200);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   user-select: none;
+  // background-color: red;
+  z-index: 323232;
 }
 
 .additionalItemOption {

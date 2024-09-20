@@ -54,7 +54,7 @@ const StepFour = ({ setCargoIndex }) => {
                             size={"md"}
                           >
                             {
-                              item.label
+                              item?.label?.charAt(0).toUpperCase() + item?.label?.slice(1).toLowerCase()
                             }
                           </Radio>
                         ))
@@ -91,7 +91,7 @@ const StepFour = ({ setCargoIndex }) => {
                     errors={errors}
                     type="number"
                     width="100%"
-                    additionalItemOptions={currencyOptions}
+                    additionalItemOptions={paymentOptions}
                     zIndex={20}
                     after={value}
                   />
@@ -114,7 +114,7 @@ const StepFour = ({ setCargoIndex }) => {
                     errors={errors}
                     type="number"
                     width="100%"
-                    additionalItemOptions={currencyOptions}
+                    additionalItemOptions={paymentOptions}
                     zIndex={20}
                     after={value}
 
@@ -137,8 +137,8 @@ const StepFour = ({ setCargoIndex }) => {
                     errors={errors}
                     type="number"
                     width="100%"
-                    additionalItemOptions={currencyOptions}
-                    zIndex={20}
+                    additionalItemOptions={paymentOptions}
+                    zIndex={10}
                     after={value}
 
                   />

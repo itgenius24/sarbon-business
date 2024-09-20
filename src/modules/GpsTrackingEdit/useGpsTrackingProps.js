@@ -392,6 +392,9 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
+  console.log(`dats`, locationData);
+
+  
 
   const filterData = (data, checkboxStatuses) => {
     return data?.filter((item) => {
@@ -498,6 +501,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
+    console.log("offsetCar")
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } }, });
   }, [offsetCar]);
 
