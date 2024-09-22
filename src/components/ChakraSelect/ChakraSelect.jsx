@@ -8,7 +8,8 @@ export const ChakraSelect = ({
   control,
   size = "sm",
   name = "select",
-  isClearable = true,
+  isClearable = true,options,
+  customOnChange = () => {},
   ...props
 
 }) => {
@@ -18,10 +19,16 @@ export const ChakraSelect = ({
     <Controller
       name={name}
       control={control || control2}
-      render={({ field: { ...options } }) => {
+      render={({ field: {onChange, value} }) => {
         return (
           <Select
-            {...options}
+            onChange={(val) => {
+            console.log(val);
+            onChange(val ? val?.value : '');
+            customOnChange(val ? val : {});
+          }}
+          options={options}
+            value={options.find((option) => option.value === value)}
             // menuIsOpen
             menuPortalTarget={ typeof document !== "undefined" && document.body}
             classNamePrefix="chakra-select"

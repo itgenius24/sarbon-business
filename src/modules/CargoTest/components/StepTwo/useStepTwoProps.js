@@ -56,12 +56,12 @@ const useStepTwoProps = () => {
 
 
   useEffect(() => {
-    if(watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement") ){
+    if(watch(`loadings[0].address`) && watch("unloading[0].address") && watch(`loadings[0].loading_num`) ){
       setDisabled(false)
     } else{
-      true
+      setDisabled(true)
     }
-  },[watch("cargo_type")?.labe, watch("weight_measurement") , watch("volume_measurement")])
+  },[watch("loadings[0].address")?.label, watch("unloading[0].address")?.length , watch("loadings[0].loading_num`")?.length])
   function onCreateCargoSuccess() {
 
     setValue(`cargoIndex`,3)
@@ -104,23 +104,25 @@ const useStepTwoProps = () => {
     // setStateMap(false);
     // setFormAddressName({});
   }
+  // console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
+
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
+      console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
       setValue(nameState, firstGeoObject.getAddressLine());
       if (type === "loading") {
         updateLoading(index, {
-          location: { value: "", label: "" },
+          ...loadings[index],
           address: firstGeoObject.getAddressLine(),
-          cor: location?.Point?.pos,
-          search: firstGeoObject.getAddressLine(),
+          cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
+          from_date: watch(`loadings[${index}].from_date`) || "",
         });
       } else {
         updateUnloading(index, {
-          location: { value: "", label: "" },
           address: firstGeoObject.getAddressLine(),
-          cor: location?.Point?.pos,
-          search: firstGeoObject.getAddressLine(),
+          cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
+          to_date: watch(`unloading.${index}.to_date`) || "",
         });
       }
       // setValue(nameState, firstGeoObject.getAddressLine());
@@ -131,6 +133,8 @@ const useStepTwoProps = () => {
     });
   }
 
+  console.log(`loading`,loadings)
+
   const hanleAdress = (location, name, index, type) => {
     setValue(name, location?.GeoObject?.name);
     if (type === "loading") {
@@ -138,7 +142,7 @@ const useStepTwoProps = () => {
         address: watch(`loadings.${index}.address`),
         cor: location?.GeoObject?.Point?.pos,
         from_date: watch(`loadings[${index}].from_date`) || "",
-        loading_num:`loadings[${index}].loading_num`,
+        ...loadings[index],
       });
     } else {
       updateUnloading(index, {
@@ -150,6 +154,13 @@ const useStepTwoProps = () => {
 
     setResults([]);
   };
+
+  const loadingNumF = (num,index) => {
+    updateLoading(index, {
+      ...loadings[index],
+      loading_num:num,
+    });
+  }
 
   const lodingChangeDate = (type, date, index) => {
     if (type === "loading") {
@@ -229,6 +240,7 @@ const useStepTwoProps = () => {
     lodingChangeDate,
     onCreateCargoSuccess,
     canEdit,
+    loadingNumF
   };
 };
 

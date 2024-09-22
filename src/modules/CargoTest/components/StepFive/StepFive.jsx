@@ -102,7 +102,7 @@ console.log(`getValues("loadings")`,getValues("loadings"),getValues("unloading")
   const shablonF = () => {
     const requestData = {
       data:{
-        load_time: getValues("loadings")[0].from_date,
+        load_time: addDaysToDate(getValues("loadings")[0].from_date,getValues("loadings")[0].loading_num),
         date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
