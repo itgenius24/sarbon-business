@@ -147,7 +147,7 @@ export const LoadsCard = (cargo) => {
               </span>
               <span
                 className={cls.moderatorCommentText}
-                dangerouslySetInnerHTML={{ __html: moderator_comment }}
+                dangerouslySetInnerHTML={{ __html:  cargo?.cargo?.moderator_comment }}
               />
             </p>
           )}
@@ -158,7 +158,7 @@ export const LoadsCard = (cargo) => {
               {formatSum(cargo?.cargo?.currency_id_data?.code, cargo?.cargo?.bid_cash)}
             </span>
           </div>
-          <span className={cls.paymentInfoMobileComment}>
+          <span className={cls.paymentInfoMobileComment}> cargo?.cargo?.
             {cargo?.cargo?.request
               ? t("Запросить")
               : cargo?.cargo?.no_haggling
@@ -169,28 +169,28 @@ export const LoadsCard = (cargo) => {
         {status === "new" && (
           <Box
             display="flex"
-            width={isLargerThan768 ? "570px" : "100%"}
+            width={ cargo?.isLargerThan768 ? "570px" : "100%"}
             columnGap="12px"
             mt="32px"
           >
             <Button
-              fontSize={isLargerThan768 ? "16px" : "12px"}
-              fontWeight={isLargerThan768 ? 600 : 500}
+              fontSize={ cargo?.isLargerThan768 ? "16px" : "12px"}
+              fontWeight={ cargo?.isLargerThan768 ? 600 : 500}
               variant="outlineError"
               bgColor="rgba(254, 228, 226, 1)"
               onClick={(e) => {
                 e.stopPropagation();
-                handleCancel(guid);
+                cargo?.handleCancel( cargo?.cargo?.guid);
               }}
             >
               {t("Отказать")}
             </Button>
             <Button
-              fontSize={isLargerThan768 ? "16px" : "12px"}
-              fontWeight={isLargerThan768 ? 600 : 500}
+              fontSize={ cargo?.isLargerThan768 ? "16px" : "12px"}
+              fontWeight={ cargo?.isLargerThan768 ? 600 : 500}
               onClick={(e) => {
                 e.stopPropagation();
-                handleAccept(guid, users_id_2);
+                cargo?.handleAccept( cargo?.cargo?.guid,  cargo?.cargo?.users_id_2);
               }}
             >
               {t("Принять")}
@@ -212,18 +212,18 @@ export const LoadsCard = (cargo) => {
                   e.stopPropagation();
                   const query = new URLSearchParams({
                     from: JSON.stringify({
-                      value: city_id_data?.guid,
-                      label: city_id_data?.name,
-                      guid: city_id_data?.guid,
+                      value:  cargo?.cargo?.city_id_data?.guid,
+                      label:  cargo?.cargo?.city_id_data?.name,
+                      guid:  cargo?.cargo?.city_id_data?.guid,
                     }),
                     to: JSON.stringify({
-                      value: city_id_2_data?.guid,
-                      label: city_id_2_data?.name,
-                      guid: city_id_2_data?.guid,
+                      value:  cargo?.cargo?.city_id_2_data?.guid,
+                      label:  cargo?.cargo?.city_id_2_data?.name,
+                      guid:  cargo?.cargo?.city_id_2_data?.guid,
                     }),
-                    date: load_time,
-                    weight: weight,
-                    volume: volume_m3,
+                    date:  cargo?.cargo?.load_time,
+                    weight:  cargo?.cargo?.weight,
+                    volume:  cargo?.cargo?.volume_m3,
                   });
                   router.push(`/${locale}/search-car?` + query.toString());
                 }}

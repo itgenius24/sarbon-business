@@ -24,7 +24,7 @@ import React from "react";
 
 import cls from "./style.module.scss";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { Modal } from "@/components/Modal";
+
 import LoadingMap from "@/modules/Cargo/components/LoadingMap";
 import { Dropdown } from "@/components/Dropdown";
 import { CarList } from "@/modules/SearchCar/component/CarList/CarList";
@@ -42,6 +42,7 @@ import PlacemarkItem from "./PlacemarkItem";
 import { SingleCar } from "../SearchCar/component/SingleCar/SingleCar";
 import { ChakraSelect } from "@/components/ChakraSelect";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
+import { ModalS } from "@/components/Modal";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -576,7 +577,7 @@ export default function GpsTrackingModule() {
         </>
       )}
       <Container py="40px">
-        <Modal
+        <ModalS
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           firstBtnCallback={handleCloseModal}
@@ -594,7 +595,7 @@ export default function GpsTrackingModule() {
               zoom: 15,
             }}
           />
-        </Modal>
+        </ModalS>
       </Container>
     </>
   );

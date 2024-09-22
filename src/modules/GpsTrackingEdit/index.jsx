@@ -28,7 +28,7 @@ import{
 import React, { useEffect, useRef } from "react";
 
 import cls from "./style.module.scss";
-import { Modal } from "@/components/Modal";
+
 import ReactDOMServer from "react-dom/server";
 
 import Filter from "./components/Filter";
@@ -47,6 +47,7 @@ import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
 import LoadingMap from "../Cargo/components/LoadingMap";
 import copy from "copy-to-clipboard";
+import { ModalS } from "@/components/Modal";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -489,7 +490,7 @@ export default function GpsTrackingModuleTets() {
         )}
       </Box>
 
-      <Modal
+      <ModalS
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         firstBtnCallback={handleCloseModal}
@@ -512,7 +513,7 @@ export default function GpsTrackingModuleTets() {
             zoom: 15,
           }}
         />
-      </Modal>
+      </ModalS>
     </>
   );
 }
