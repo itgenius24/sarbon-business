@@ -23,7 +23,7 @@ import useStepThereProps from "./useSteThereProps";
 import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
 
-const StepThere = ({ setCargoIndex }) => {
+const StepThere = ({status }) => {
   const {
     control,
     setValue,
@@ -52,13 +52,15 @@ const StepThere = ({ setCargoIndex }) => {
     boxes,
     onMouseLeave,
     onMouseEnter,
-    handleNumClick
+    disabled,
+    handleNumClick,
+    onSubmit,
   } = useStepThereProps();
 
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
 
-  console.log("carTypeOptions",carTypeOptions)
+  console.log("carTypeOptions", carTypeOptions);
 
   return (
     <>
@@ -81,7 +83,7 @@ const StepThere = ({ setCargoIndex }) => {
                       options={carTypeOptions}
                       errors={errors}
                       width={"300px"}
-                      // disabled={!canEdit}
+                      disabled={!canEdit}
                       className={cls.dropdown}
                       // placeholder={t("Выберите тип груза")}
                       // inputPlaceholder={t("Выберите тип груза")}
@@ -89,6 +91,8 @@ const StepThere = ({ setCargoIndex }) => {
                       searchName="cargo_type_search"
                       // setValue={setValue}
                     />
+                   {
+                    canEdit && 
                     <Flex gap={2} mt={2}>
                       <span className={cls.subTitle}>Частые:: </span>
                       <p
@@ -114,6 +118,7 @@ const StepThere = ({ setCargoIndex }) => {
                         Рефрижератор
                       </p>
                     </Flex>
+                   }
                   </Box>
                 </Flex>
               </Box>
@@ -136,16 +141,20 @@ const StepThere = ({ setCargoIndex }) => {
                         paddingRight={2}
                         cursor={"pointer"}
                         key={index}
-                        onMouseLeave={onMouseLeave}
-                        onMouseEnter={() => onMouseEnter(item)}
-                        onClick={() => handleNumClick(item)}
+                        onMouseLeave={ () => canEdit ? onMouseLeave(): {}}
+                        onMouseEnter={() => canEdit ? onMouseEnter(item): {}}
+                        onClick={() => canEdit ?  handleNumClick(item):{}}
                       >
                         <FurStepIcon
-                          num={watch("transport_count") > 10 ? item === 10 ?  '10+' : item : item}
+                          num={
+                            watch("transport_count") > 10
+                              ? item === 10
+                                ? "10+"
+                                : item
+                              : item
+                          }
                           color={
-                            item <= hoverIndex
-                              ? "rgba(0, 122, 255, 1)"
-                              : item <= clickIndex ? 'rgba(0, 122, 255, 1)':  "#B2B0B6"
+                            item <= hoverIndex ? !canEdit ? `rgba(0, 122, 255, 0.4)` :  "rgba(0, 122, 255, 1)" : item <= clickIndex ? !canEdit ? `rgba(0, 122, 255, 0.4)` :  "rgba(0, 122, 255, 1)":"#B2B0B6"
                           }
                         />
                       </Box>
@@ -154,7 +163,8 @@ const StepThere = ({ setCargoIndex }) => {
                 </Flex>
               </Box>
             </Flex>
-            <Flex mt="30px" gap={2}>
+            {
+              canEdit && <Flex mt="30px" gap={2}>
               {!isAccessOpen && (
                 <Button
                   key="packagingBtn1"
@@ -192,6 +202,7 @@ const StepThere = ({ setCargoIndex }) => {
                 </Button>
               )}
             </Flex>
+            }
             {isAccessOpen && (
               <Box
                 className={cls.additionalFields}
@@ -332,13 +343,17 @@ const StepThere = ({ setCargoIndex }) => {
           </Box>
         </Flex>
       </Box>
-      <Button
-        onClick={() => setCargoIndex(4)}
+      {
+        !status &&    <Button
+        isDisabled={disabled}
+        onClick={() => onSubmit()}
         rightIcon={<NextArrowIcon />}
         className={cls.nextBtn}
       >
         Далее
       </Button>
+      }
+     
     </>
   );
 };

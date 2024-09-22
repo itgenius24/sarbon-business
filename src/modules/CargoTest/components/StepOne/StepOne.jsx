@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import Image from "next/image";
 
-const StepOne = ({ setCargoIndex }) => {
+const StepOne = ({status }) => {
   const {
     control,
     errors,
@@ -31,15 +31,19 @@ const StepOne = ({ setCargoIndex }) => {
     handleIsFileUploader,
     handleDimensionsAndDiameter,
     handlePackagingAndQuantity,
+    weightMeasurementOptions,
     optionCargoType,
-    setImg,
-    img,
+    packageOptions,
+    canEdit,
+    imageLoader,
+    disabledBtn,
     handleImageUpload,
+    onSubmit
   } = useStepOneProps();
 
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
-
+ 
   return (
     <>
       <Box className={cls.step1}>
@@ -58,7 +62,7 @@ const StepOne = ({ setCargoIndex }) => {
                   name="cargo_type"
                   options={optionCargoType}
                   errors={errors}
-                  // disabled={!canEdit}
+                  disabled={!canEdit}
                   className={cls.dropdown}
                   onSearchChange={(e) => setSearchCargo(e.target.value)}
                   placeholder={t("Выберите тип груза")}
@@ -67,7 +71,8 @@ const StepOne = ({ setCargoIndex }) => {
                   searchName="cargo_type_search"
                   setValue={setValue}
                 />
-                <Flex gap={2} mt={2}>
+                {
+                  canEdit &&  <Flex gap={2} mt={2}>
                   <span className={cls.subTitle}>Например: </span>
                   <p
                     onClick={() => {
@@ -98,6 +103,8 @@ const StepOne = ({ setCargoIndex }) => {
                     Овощи и фрукты
                   </p>
                 </Flex>
+                }
+               
               </Box>
               <Box>
                 <p className={cls.textFieldName}>В расчёте на одну машину</p>
@@ -111,12 +118,13 @@ const StepOne = ({ setCargoIndex }) => {
                   width="160px"
                   placeholder={t("Вес")}
                   additionalItemPlaceholder="T"
-                  // additionalItemOptions={weightMeasurementOptions}
-                  // disabled={!canEdit}
+                  additionalItemOptions={weightMeasurementOptions}
+                  disabled={!canEdit}
                   type="number"
                   zIndex={90}
                 />
-                <Flex ml={4} gap={2} mt={2}>
+              {
+                canEdit && <Flex ml={4} gap={2} mt={2}>
                   <p
                     onClick={() => setValue(`weight_measurement`, `20`)}
                     className={cls.quickWord}
@@ -136,6 +144,7 @@ const StepOne = ({ setCargoIndex }) => {
                     23т
                   </p>
                 </Flex>
+              }
               </Box>
               <Box>
                 <p className={cls.textFieldName}></p>
@@ -148,12 +157,13 @@ const StepOne = ({ setCargoIndex }) => {
                   width="160px"
                   placeholder={t("Объем")}
                   additionalItemPlaceholder="m³"
-                  // disabled={!canEdit}
+                  disabled={!canEdit}
                   type="number"
                   // additionalItemName="volume_unit"
                   // additionalItemOptions={volumeMeasurementOptions}
                 />
-                <Flex ml={4} gap={2} mt={2}>
+               {
+                canEdit &&  <Flex ml={4} gap={2} mt={2}>
                   <p
                     onClick={() => setValue(`volume_measurement`, `40`)}
                     className={cls.quickWord}
@@ -173,12 +183,15 @@ const StepOne = ({ setCargoIndex }) => {
                     43м³
                   </p>
                 </Flex>
+               }
               </Box>
             </Flex>
 
-            <Flex mt={"30px"} gap={2}>
+           {
+            canEdit &&  <Flex mt={"30px"} gap={2}>
               {!isPackagingAndQuantity && (
                 <Button
+                  isDisabled={!canEdit}
                   key="packagingBtn"
                   leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
                   variant="reset"
@@ -192,6 +205,7 @@ const StepOne = ({ setCargoIndex }) => {
 
               {!isDimensionsAndDiameter && (
                 <Button
+                  isDisabled={!canEdit}
                   key="dimensionsBtn"
                   leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
                   variant="reset"
@@ -204,6 +218,7 @@ const StepOne = ({ setCargoIndex }) => {
               )}
               {!isFileUploader && (
                 <Button
+                  isDisabled={!canEdit}
                   key="dimensionsBtn2"
                   leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
                   variant="reset"
@@ -215,6 +230,7 @@ const StepOne = ({ setCargoIndex }) => {
                 </Button>
               )}
             </Flex>
+           }
 
             {isPackagingAndQuantity && (
               <Box
@@ -243,7 +259,9 @@ const StepOne = ({ setCargoIndex }) => {
                       watch={watch}
                       setValue={setValue}
                       name="packaging"
+                      options={packageOptions}
                       placeholder={t("Выберите")}
+                      disabled={!canEdit}
                     />
                     <TextFieldWithAddition
                       control={control}
@@ -253,6 +271,7 @@ const StepOne = ({ setCargoIndex }) => {
                       width="196px"
                       placeholder={t("Кол-во")}
                       additionalItemPlaceholder={t("шт.")}
+                      disabled={!canEdit}
                     />
                   </Box>
                 </Box>
@@ -292,6 +311,7 @@ const StepOne = ({ setCargoIndex }) => {
                       width="153px"
                       placeholder={t("Длина")}
                       additionalItemPlaceholder={t("м")}
+                      disabled={!canEdit}
                     />
                     <TextFieldWithAddition
                       control={control}
@@ -300,6 +320,7 @@ const StepOne = ({ setCargoIndex }) => {
                       width="153px"
                       placeholder={t("Ширина")}
                       additionalItemPlaceholder={t("м")}
+                      disabled={!canEdit}
                     />
                     <TextFieldWithAddition
                       control={control}
@@ -308,6 +329,7 @@ const StepOne = ({ setCargoIndex }) => {
                       width="153px"
                       placeholder={t("Высота")}
                       additionalItemPlaceholder={t("м")}
+                      disabled={!canEdit}
                     />
                   </Box>
                 </Box>
@@ -344,7 +366,7 @@ const StepOne = ({ setCargoIndex }) => {
                   maxW="540px"
                   width="100%"
                 >
-                  {img ? (
+                  {watch("image") ? (
                     <Box
                       display="flex"
                       position="relative"
@@ -360,8 +382,9 @@ const StepOne = ({ setCargoIndex }) => {
                       padding="16px 24px"
                     >
                       <Image
+                        loader={imageLoader} 
                         className={cls.img}
-                        src={img}
+                        src={watch("image")}
                         alt="cargo"
                         width={150}
                         height={150}
@@ -455,16 +478,18 @@ const StepOne = ({ setCargoIndex }) => {
           </Box>
         </Flex>
       </Box>
-      <Button
-        isDisabled={
-          !watch("cargo_type")?.label && !watch("weight_measurement") && !watch("volume_measurement") ? true :false
-        }
-        onClick={() => setCargoIndex(2)}
+
+      {
+    !status &&  <Button
+        isDisabled={disabledBtn}
+        onClick={() =>onSubmit()}
         rightIcon={<NextArrowIcon />}
         className={cls.nextBtn}
       >
         Далее
-      </Button>
+      </Button> 
+      }
+     
     </>
   );
 };

@@ -2,16 +2,25 @@ import { useFieldArray } from "react-hook-form";
 import { useAddCargoContext } from "../../providers";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
+import {
+  useCreateAddressMutation,
+  useCreatePeriodMutation,
+  useUpdateCargo,
+} from "@/services/api";
+import { addDaysToDate } from "@/utils/addDaysToDate";
 
 const useStepTwoProps = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [index, setIndex] = useState();
-  const [type,setType] = useState('')
+  const [requestLoadingIndex, setRequestLoadingIndex] = useState(0);
+  const [requestUnLoadingIndex, setRequestUnLoadingIndex] = useState(0);
+  const [type, setType] = useState("");
   const [results, setResults] = useState([]);
   const [debouncedValue] = useDebounce(address, 500);
   const [activeIndex, setActiveIndex] = useState(null);
   const [nameState, setNameState] = useState("");
+  const [disabled,setDisabled] = useState(true)
   const [placeMarkGeometry, setPlaceMarkGeometry] = useState([
     41.34908881486223, 69.3374228085318,
   ]);
@@ -20,8 +29,9 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const { control, register, watch, setValue, errors, canEdit } =
+  const { control, register, watch, setValue, errors, canEdit, getValues } =
     useAddCargoContext();
+
 
   const {
     fields: loadings,
@@ -34,7 +44,6 @@ const useStepTwoProps = () => {
     // rules: { minLength: 1, }
   });
 
-  console.log("loadings", loadings);
   const {
     fields: unloading,
     append: appendUnloading,
@@ -45,14 +54,25 @@ const useStepTwoProps = () => {
     name: "unloading",
   });
 
+
+  useEffect(() => {
+    if(watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement") ){
+      setDisabled(false)
+    } else{
+      true
+    }
+  },[watch("cargo_type")?.labe, watch("weight_measurement") , watch("volume_measurement")])
+  function onCreateCargoSuccess() {
+
+    setValue(`cargoIndex`,3)
+  }
+
   function handleAppendLoading() {
     appendLoading({
-      location: {
-        label: "",
-        value: "",
-      },
       address: "",
       cor: "",
+      from_date: "",
+      loading_num:""
     });
   }
 
@@ -62,12 +82,9 @@ const useStepTwoProps = () => {
 
   function handleUnloadingAppend() {
     appendUnloading({
-      location: {
-        label: "",
-        value: "",
-      },
       address: "",
       cor: "",
+      to_date: "",
     });
   }
 
@@ -75,11 +92,11 @@ const useStepTwoProps = () => {
     removeUnloading(index);
   }
 
-  function handleOpenModal(name, index,type) {
+  function handleOpenModal(name, index, type) {
     setNameState(name);
     setIsModalOpen(true);
     setIndex(index);
-    setType(type)
+    setType(type);
   }
 
   function handleCloseModal() {
@@ -88,8 +105,6 @@ const useStepTwoProps = () => {
     // setFormAddressName({});
   }
   function getPlaceMarkAddress(coords) {
-     
-
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
       setValue(nameState, firstGeoObject.getAddressLine());
@@ -118,24 +133,30 @@ const useStepTwoProps = () => {
 
   const hanleAdress = (location, name, index, type) => {
     setValue(name, location?.GeoObject?.name);
-
     if (type === "loading") {
       updateLoading(index, {
-        location: { value: "", label: "" },
         address: watch(`loadings.${index}.address`),
-        cor: location?.Point?.pos,
-        search: watch(`loadings.${index}.address`),
+        cor: location?.GeoObject?.Point?.pos,
+        from_date: watch(`loadings[${index}].from_date`) || "",
+        loading_num:`loadings[${index}].loading_num`,
       });
     } else {
       updateUnloading(index, {
-        location: { value: "", label: "" },
         address: watch(`unloading.${index}.address`),
-        cor: location?.Point?.pos,
-        search: watch(`unloading.${index}.address`),
+        cor: location?.GeoObject?.Point?.pos,
+        to_date: watch(`unloading.${index}.to_date`) || "",
       });
     }
 
     setResults([]);
+  };
+
+  const lodingChangeDate = (type, date, index) => {
+    if (type === "loading") {
+      updateLoading(index, { ...loadings[index], from_date: date });
+    } else {
+      updateUnloading(index, { ...unloading[index], to_date: date });
+    }
   };
 
   function onMapClick(e) {
@@ -182,6 +203,7 @@ const useStepTwoProps = () => {
     loadings,
     register,
     control,
+    disabled,
     watch,
     setValue,
     handleAppendLoading,
@@ -204,6 +226,9 @@ const useStepTwoProps = () => {
     activeIndex,
     hanleAdress,
     address,
+    lodingChangeDate,
+    onCreateCargoSuccess,
+    canEdit,
   };
 };
 

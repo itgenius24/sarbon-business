@@ -166,8 +166,8 @@
         border-radius: 12px;
         p{
           width: 7vw;
-          white-space: nowrap;      /* Matnni bitta qatorda saqlaydi */
-          overflow: hidden;         /* Ortiqcha matnni yashiradi */
+          white-space: nowrap;     
+          overflow: hidden;         
           text-overflow: ellipsis; 
           @media (max-width:1556px) {
              width: 4vw;

@@ -260,6 +260,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   const {
     register,
     control,
+    setError,
     setValue,
     handleSubmit,
     watch,
@@ -667,84 +668,73 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
 
     const requestData = {
       data: {
-        cargo_type_id: data.cargo_type.value,
-        weight: +data.weight_measurement,
-        measurement_id: data.weight_unit.value,
-        volume_m3: +data.volume_measurement,
-        packages_id: data.packaging?.value || "",
-        package_quantity: +data.packaging_quantity || 0,
-        load_time: startDate,
-        date: endDate,
-        address_id: data.loadings[0].location.value,
-        address_ids: [],
-        address_id_2: data.unloading[0].location.value,
-        city_id: data.loadings[0].location.guid,
-        city_id_2: data.unloading[0].location.guid,
-        location_name: data?.receipts?.[0]?.cor || '',
-        gps_monitoring: data.gps_monitoring,
-        vehicle_type_id: data.car_type.value,
-        number_of_cars: data.transport_count,
-        take_all_unloads: data.is_ftl,
-        load_around_the_clock: data.is_ltl,
-        load_capacity: +data.capacity,
-        bid_cash: +data.price,
-        prepayment_percentage: +data.price_prepayment,
-        dim_length_special: data.price_after_order,
-        currency_id: data.price_prepayment_unit.value,
-        payment_within_days: +data.payment_deadline,
-        users_id: authStore.userData.id,
-        phone: data.contact,
-        comment: data.note,
-        photo: data.image?.includes("http")
-          ? data.image
-          : process.env.NEXT_PUBLIC_MEDIA_URL + data.image,
-        map_id: data?.payment_type?.value,
-        order_status: id ? [data.order_status.value] : ["in_moderation"],
-        negotiable: data.bargain === "negotiable",
-        no_haggling: data.bargain === "no_haggling",
-        request: data.bargain === "request",
-        tir: data.tir,
-        t1: data.t1,
-        cmr: data.cmr,
-        med: data?.medic_certificate,
-        cargo_type: ["cargo"],
-        permission: data?.permission?.map((item) => item.value),
-        distance: Math.floor(distance.distance || 0),
-        duration: distance.duration,
-        straps_number: data.straps_number,
-        hitch: data.hitch,
-        pneumatic: data.pneumatic || false,
-        bunks: data.bunks || false,
-        width: data.width,
-        height: data.height,
-        length: data.length,
-        diameter: data.diameter,
-        prepayment_of_fuel: data.prepayment_of_fuel,
-        prepayment_interest: data?.prepayment_interest,
-        payment_upon_unloading: data?.payment_upon_unloading,
-        company_contract: data?.company_contract,
-        load_type_id: data?.load_type_id?.value,
-        template_name: data?.template_name,
+        cargo_type_id: watch(`cargo_type`)?.value,
+        weight: +watch(`weight_measurement`),
+        measurement_id: watch(`weight_unit`)?.value,
+        volume_m3: +watch(`volume_measurement`),
+        packages_id: watch(`packaging`)?.value || "",
+        package_quantity: +watch(`packaging_quantity`) || 0,
+        length: +watch(`length`),
+        width: watch(`width`),
+        height: +watch(`height`),
+        photo: watch(`image`),
+        // guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
+        order_status: watch(`loadResId`)
+          ? [watch(`order_status`)?.value]
+          : ["in_moderation"],
+          // guid: watch(`loadResId`),
+          vehicle_type_id: watch("car_type")?.value,
+          number_of_cars: watch("transport_count"),
+          tir: watch("tir"),
+          t1: watch("t1"),
+          cmr: watch("cmr"),
+          med: watch(`medic_certificate`),
+          straps_number: watch("straps_number"),
+          hitch: watch("hitch") || false,
+          pneumatic: watch("pneumatic") || false,
+          bunks: watch("bunks") || false,
+          // guid: watch(`loadResId`),
+          bid_cash: +watch("price"),
+          prepayment_percentage: +watch(`price_prepayment`),
+          dim_length_special: watch("price_after_order"),
+          payment_description: watch("payment_description"),
+          currency_id:watch("price_prepayment_unit").value,
+          map_id: watch("payment_type")?.value,
+          map_id_2: watch("payment_type_1")?.value,
+          map_id_3: watch("payment_type_2")?.value,
+
+          // guid: watch(`loadResId`),
+          
+          load_time: getValues("loadings")[0].from_date,
+          date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
+          phone: watch(`contact`),
+          comment: watch(`note`),
+           cargo_type: ["cargo"],
+         
+          template_name: watch(`template_name`)
+        
       },
     };
+  console.log(`data2222`,requestData)
+
 
     if (id) {
       requestData.data.guid = id;
       // requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
 
-      updateCargo.mutate(requestData);
+      // updateCargo.mutate(requestData);
 
-      if(watch("order_status")?.value === "active"){
-        sendNotification({
-          data:{
-            object_data:{
-              order_status: "active",
-              vehicle_type_id:data.car_type.value, //gruzdagi vehicle_type_id
-              guid: authStore.userData.id//cargoni guid
-            }
-          }
-        })
-      }
+      // if(watch("order_status")?.value === "active"){
+      //   sendNotification({
+      //     data:{
+      //       object_data:{
+      //         order_status: "active",
+      //         vehicle_type_id:data.car_type.value, //gruzdagi vehicle_type_id
+      //         guid: authStore.userData.id//cargoni guid
+      //       }
+      //     }
+      //   })
+      // }
 
     } else {
       if (data.isTemp) {
@@ -772,7 +762,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   }
 
   function handleSelectTemplate(item) {
-    
+
     resetForm(item, item.guid);
     setCargoIndex(5)
 
@@ -858,7 +848,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
     setLiftingCapacityOpen(false);
     setPrepaymentFuelOpen(false);
     setDirectContractOpen(false);
-    setCargoIndex(1)
+    setValue(`cargoIndex`,1)
   }
 
   function resetForm(data, id) {
@@ -990,7 +980,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
       const data = getData();
-
+  console.log(`data2222`,data)
       resetForm(data, id);
     }
   }, [getCargo.data, getOfferCargoById.data]);
@@ -1015,8 +1005,10 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
 
   useEffect(() => {
     if (getMaps.isSuccess) {
-      const data = getMaps.data.response;
+      const data = getMaps.data.response; 
       const reversedData = data;
+
+      console.log(`data222`,data)
 
       const loadingData = reversedData[reversedData.length - 1];
 
@@ -1037,7 +1029,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
             address: item?.name,
           });
         }
-    
+
       });
 
       // unloadingRef.current?.forEach((item, index) => {
@@ -1142,6 +1134,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   return {
     register,
     control,
+    setError,
     setValue,
     getValues,
     handleSubmit,
@@ -1204,7 +1197,8 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
     isPackagingAndQuantity,
     setPackagingAndQuantity,
     isDimensionsAndDiameter,
-    isFileUploader,setIsFileUploader,
+    isFileUploader,
+    setIsFileUploader,
     setDimensionsAndDiameter,
     prepaymentFuelOpen,
     setPrepaymentFuelOpen,

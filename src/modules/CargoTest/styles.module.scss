@@ -137,6 +137,16 @@
         font-size: 16px;
         line-height: 20px;
       }
+      .locationText{
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(126, 123, 134, 1);
+
+        width: 4vw;
+        white-space: nowrap;     
+        overflow: hidden;         
+        text-overflow: ellipsis; 
+      }
       span{
         font-size: 14px;
         font-weight: 400;
@@ -149,10 +159,21 @@
     color: white;
      transition: .2s ease-in-out;
     .text{
+     
       p{
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
+      }
+      .locationText{
+        font-size: 14px;
+        font-weight: 400;
+        color: rgb(255, 255, 255);
+      
+        width: 4vw;
+        white-space: nowrap;     
+        overflow: hidden;         
+        text-overflow: ellipsis; 
       }
       span{
         font-size: 14px;

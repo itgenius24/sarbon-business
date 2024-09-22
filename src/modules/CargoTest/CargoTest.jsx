@@ -25,7 +25,7 @@ import { useAddCargoProps } from "./useAddCargoProps";
 
 import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
-import { Modal } from "@/components/Modal";
+// import { Modal } from "@/components/Modal";
 
 import { observer } from "mobx-react-lite";
 import { TextField } from "@/components/TextField";
@@ -37,10 +37,11 @@ import StepThere from "./components/StepThere/StepThere";
 import StepFour from "./components/StepFour/StepFour";
 import StepFive from "./components/StepFive/StepFive";
 import { Checkbox } from "@/components/Checkbox";
+import { ModalS } from "@/components/Modal";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const [cargoIndex, setCargoIndex] = useState(1);
-  const addCargoProps = useAddCargoProps({ id, status, locale,setCargoIndex });
+  const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
@@ -55,6 +56,10 @@ export const CargoTest = observer(({ id, status, locale }) => {
       status === "in_moderation"
     ) {
       addCargoProps.handleEditActiveToggle();
+    }
+
+    if (!addCargoProps.watch(`cargoIndex`)) {
+      addCargoProps.setValue(`cargoIndex`, 1);
     }
   }, []);
 
@@ -104,10 +109,13 @@ export const CargoTest = observer(({ id, status, locale }) => {
               <Flex gap={2} mb={"50px"} mt={"50px"}>
                 <div className={cls.arrowWrap}>
                   <div
-                    onClick={() => setCargoIndex(1)}
-                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 1, })}
+                    onClick={() =>
+                      addCargoProps.watch(`cargoIndex`) > 1 &&
+                      addCargoProps.setValue(`cargoIndex`, 1)
+                    }
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 1, })}
                   >
-                    {cargoIndex === 1 ? (
+                    {addCargoProps.watch(`cargoIndex`) === 1 ? (
                       <CricleBlueIcon />
                     ) : addCargoProps.watch("cargo_type")?.label &&
                       addCargoProps.watch("weight_measurement") &&
@@ -133,24 +141,53 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 </div>
                 <div className={cls.arrowWrap}>
                   <div
-                    onClick={() => setCargoIndex(2)}
-                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 2, })}
+                    onClick={() =>
+
+                      addCargoProps. watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`, 2)
+                    }
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 2, })}
                   >
-                    {cargoIndex === 2 ? <CricleBlueIcon /> : <CricleIcon />}
+                    {addCargoProps.watch(`cargoIndex`) === 2 ? (
+                      <CricleBlueIcon />
+                    ) : addCargoProps.watch(`loadings[0].address`) &&
+                      addCargoProps.watch("unloading[0].address") ? (
+                      <CheckIconStep />
+                    ) : (
+                      <CricleIcon />
+                    )}
                     <div className={cls.text}>
                       <p>2. Маршрут и время</p>
-                      <span>Москва Ташкент</span>
+                      {addCargoProps.watch(`loadings[0].address`) &&
+                      addCargoProps.watch("unloading[0].address") ? (
+                        <Flex alignItems={`center`} gap={`5px`}>
+                          <p className={cls.locationText}>
+                            {addCargoProps.watch(`loadings[0].address`)}
+                          </p>
+                          <p className={cls.locationText}>
+                            {" "}
+                            {addCargoProps.watch("unloading[0].address")}
+                          </p>
+                        </Flex>
+                      ) : (
+                        <Flex alignItems={`center`} gap={`5px`}>
+                          <span>
+                        не заполнено
+                          </span>
+
+                        </Flex>
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className={cls.arrowWrap}>
                   <div
-                    onClick={() => setCargoIndex(3)}
-                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 3, })}
+                    onClick={() => addCargoProps. watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`,3)}
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 3, })}
                   >
-                    {cargoIndex === 3 ? (
+                    {addCargoProps.watch(`cargoIndex`) === 3 ? (
                       <CricleBlueIcon />
-                    ) : addCargoProps.watch("car_type")?.label ? (
+                    ) : addCargoProps.watch("car_type")?.label &&
+                      addCargoProps.watch(`transport_count`) ? (
                       <CheckIconStep />
                     ) : (
                       <CricleIcon />
@@ -167,73 +204,37 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 </div>
                 <div className={cls.arrowWrap}>
                   <div
-                    onClick={() => setCargoIndex(4)}
-                    className={clsx(cls.arrow, { [cls.active]: cargoIndex === 4, })}
+                    // onClick={() => setCargoIndex(4)}
+                    onClick={() => addCargoProps.watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`,4)}
+
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 4, })}
                   >
-                    {cargoIndex === 4 ? <CricleBlueIcon /> : <CricleIcon />}
+                    {addCargoProps.watch(`cargoIndex`) === 4 ? (
+                      <CricleBlueIcon />
+                    ) : addCargoProps.watch("price_prepayment_unit") &&
+                      addCargoProps.watch("price") &&
+                      addCargoProps.watch("price_prepayment") ? (
+                      <CheckIconStep />
+                    ) : (
+                      <CricleIcon />
+                    )}
                     <div className={cls.text}>
                       <p>4. Оплата</p>
-                      <span>не заполнено</span>
+                      <span>
+                        {addCargoProps.watch(`price_after_order`)
+                          ? addCargoProps.watch(`price_after_order`)
+                          : `не заполнено`}
+                      </span>
                     </div>
                   </div>
                 </div>
               </Flex>
 
-              {cargoIndex === 1 && <StepOne setCargoIndex={setCargoIndex} />}
-              {cargoIndex === 2 && <StepTwo setCargoIndex={setCargoIndex} />}
-              {cargoIndex === 3 && <StepThere setCargoIndex={setCargoIndex} />}
-              {cargoIndex === 4 && <StepFour setCargoIndex={setCargoIndex} />}
-              {cargoIndex === 5 && <StepFive setCargoIndex={setCargoIndex} />}
-              {cargoIndex === 5 && (
-                <Box mt="32px">
-                  <Checkbox
-                    name="accept"
-                    register={addCargoProps.register}
-                    filled
-                  >
-                    <Text fontSize="14px" maxWidth="396px" width="100%">
-                      {t("Нажимая кнопку, вы принимаете условия")}{" "}
-                      <a
-                        style={{ color: "#026FE7", fontWeight: "600" }}
-                        href=""
-                      >
-                        {t("Пользовательская  соглашения")}
-                      </a>
-                    </Text>
-                  </Checkbox>
-                  <Box
-                    mt="16px"
-                    display="flex"
-                    columnGap="12px"
-                    justifyContent="flex-start"
-                    maxWidth="900px"
-                  >
-                    <Button
-                      onClick={addCargoProps.handleOpenTemplateModal}
-                      // isLoading={addCargoProps.loading}
-                      size="sm"
-                      maxWidth="223px"
-                      variant="secondaryWhite"
-                    >
-                      {t("Сохранить как шаблон")}
-                    </Button>
-                    <Button
-                      isDisabled={
-                        !addCargoProps.watch("accept") ||
-                        addCargoProps?.isClicked
-                      }
-                      isLoading={addCargoProps.loading}
-                      size="sm"
-                      maxWidth="223px"
-                      onClick={addCargoProps.handleSubmit(
-                        addCargoProps.onSubmit
-                      )}
-                    >
-                      {t("Опубликовать груз")}
-                    </Button>
-                  </Box>
-                </Box>
-              )}
+              {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
+              {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
+              {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
+              {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
+              {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
             </Box>
           </Box>
         </Container>
@@ -245,26 +246,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />
-      <Modal
-        oneBtn
-        isOpen={addCargoProps.isTemplateModalOpen}
-        title={t("Назовите шаблон")}
-        onClose={addCargoProps.handleCloseTemplateModal}
-        secondBtnCallback={addCargoProps.handleSubmit((data) =>
-          addCargoProps.onSubmit({ ...data, isTemp: true })
-        )}
-        isDisabled={!addCargoProps.watch("template_name")}
-        secondBtnProps={{ isLoading: addCargoProps.loading }}
-        secondBtnText={t("Сохранить")}
-      >
-        <TextField
-          register={addCargoProps.register}
-          errors={addCargoProps.errors}
-          name="template_name"
-          label={t("Название шаблона")}
-        />
-      </Modal>
-      <Modal
+
+      <ModalS
         isOpen={addCargoProps.isOpen}
         title={t("Выберите шаблон")}
         onClose={addCargoProps.handleCloseModal}
@@ -392,7 +375,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
             <Text>{t("Нет шаблонов")}</Text>
           )}
         </Box>
-      </Modal>
+      </ModalS>
     </AddCargoProvider>
   );
 });

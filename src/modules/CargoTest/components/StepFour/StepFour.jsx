@@ -1,5 +1,14 @@
-import { Box, Button, Flex, Heading, Radio, RadioGroup, Switch } from "@chakra-ui/react";
-import React from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Radio,
+  RadioGroup,
+  Switch,
+  Text,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
 import { LoadStepIcon, NextArrowIcon, NoteIcon } from "@/assets/icons/icons";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
@@ -8,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { Checkbox } from "@/components/Checkbox";
 import { CustomTextarea } from "@/components/CustomTextarea";
 
-const StepFour = ({ setCargoIndex }) => {
+const StepFour = ({ status }) => {
   const [value, setValueR] = React.useState("");
   const {
     register,
@@ -19,192 +28,306 @@ const StepFour = ({ setCargoIndex }) => {
     setCheck,
     check,
     currencyOptions,
-    // handleImageUpload,
     paymentOptions,
-    // imageLoader,
-    // canEdit,
+    disabled,
+    canEdit,
     canEditActive,
-  } = useFourProps()
+    onSubmit,
+  } = useFourProps({});
   const { t } = useTranslation();
+ 
+  const [disabledP,setDisabledP] = useState(true)
+
+  useEffect(() => {
+    console.log(`disabledP`,canEdit && watch(`prepayment`))
+
+      if(canEdit && watch(`prepayment`)){
+
+        setDisabledP(false)
+        
+      }
+      else{
+        setDisabledP(true)
+      }
+  },[canEdit,watch(`prepayment`)])
+
+  const negotiableOption = [
+    {
+      label:"Без торга",
+      value:`negotiable`,
+    },
+    {
+      label:"Возможен торг",
+      value:`no_negotiable`,
+    },
+    {
+      label:"Запросить",
+      value:`request`,
+    },
+  ]
 
   const onChange = (e) => {
-    setValueR(e)
+    setValueR(e);
+   const selectedOption =  currencyOptions?.filter((item) => item.label === e)[0];
+    setValue(`price_prepayment_unit`, selectedOption);
+  };
+
+  const onChangeNa = (e) => {
+    console.log(`negotiable`,e)
+  if(e === `negotiable`) {
+    setValue(`negotiable`,true)
+    setCheck(false)
+  }else if(e === `no_negotiable`){
+    setValue(`negotiable`,false)
+    setCheck(false)
+  }else{
+    setCheck(true)
   }
+    setValueR(e);
+  //  const selectedOption =  currencyOptions?.filter((item) => item.label === e)[0];
+  //   setValue(`price_prepayment_unit`, selectedOption);
+  };
+
+  
 
   return (
     <>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
           <NoteIcon />
-          <Box width={'100%'}>
-            <Flex width={'100%'} alignItems={"center"} justifyContent={"space-between"}>
+          <Box width={"100%"}>
+            <Flex
+              width={"100%"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
               <Flex gap={"50px"}>
                 <p className={cls.stepTitle}>Оплата</p>
-                {
-                  !check && <RadioGroup onChange={ (e) => onChange(e) } value={value}>
+                {!check && 
+                   !status ? 
+                  <RadioGroup onChange={(e) => onChange(e)} value={watch(`price_prepayment_unit`)?.label}>
                     <Flex gap={"10px"}>
-                      {
-                        currencyOptions && currencyOptions.map(item => (
+                      {currencyOptions &&
+                        currencyOptions.map((item) => (
                           <Radio
                             key={item.value}
                             border={"1px solid rgba(208, 213, 221, 1)"}
-
-
                             value={item.label}
                             size={"md"}
                           >
-                            {
-                              item?.label?.charAt(0).toUpperCase() + item?.label?.slice(1).toLowerCase()
-                            }
+                          <span className={ watch(`price_prepayment_unit`)?.label === item.label ? cls.ActiveRadio :  cls.radio}>
+                          {item?.label?.charAt(0).toUpperCase() +
+                              item?.label?.slice(1).toLowerCase()
+                              }
+                          </span>
                           </Radio>
-                        ))
-                      }
+                        ))}
+                    </Flex>
+                  </RadioGroup> : 
 
+                  <RadioGroup isDisabled={!canEdit} onChange={(e) => onChangeNa(e)} value={value}>
+                    <Flex gap={"10px"}>
+                      {negotiableOption &&
+                        negotiableOption.map((item) => (
+                          <Radio
+                            key={item.value}
+                            border={"1px solid rgba(208, 213, 221, 1)"}
+                            value={item.value}
+                            size={"md"}
+                          >
+                             <span className={value === item.value ? cls.ActiveRadio :  cls.radio}>
+                            {item?.label?.charAt(0).toUpperCase() +
+                              item?.label?.slice(1).toLowerCase()
+                              }
+                          </span>
+                          </Radio>
+                        ))}
                     </Flex>
                   </RadioGroup>
                 }
-
               </Flex>
-              <Flex alignItems={"center"} gap={3}>
-                <p>Запросить цену</p>
-                <Switch onChange={(e) => setCheck(e.target.checked)} size={'md'} />
-              </Flex>
+              {!status && (
+                <Flex alignItems={"center"} gap={3}>
+                  <p>Запросить цену</p>
+                  <Switch
+                    onChange={(e) => setCheck(e.target.checked)}
+                    size={"md"}
+                  />
+                </Flex>
+              )}
             </Flex>
-            {
-            !check ? <Box width={'100%'} mt={'50px'}>
-              <Flex gap={10} width={'100%'}>
-                <Box width={'100%'}>
-                  <Flex mb={2} alignItems={'center'} gap={'10px'}>
-                    <p className={cls.label} >{t(`Общая сумма`)}</p>
-                    <Checkbox>
-                     Возможен торг
-                    </Checkbox>
-                  </Flex>
-                  <TextFieldWithAddition
-                    //   disabled={!status}
-                    name="price"
-                    register={register}
-                    control={control}
-                    additionalItemName="price_prepayment_unit"
-                    additionalItemDefaultIndex={0}
-                    placeholder={t("Введите сумму")}
-                    errors={errors}
-                    type="number"
-                    width="100%"
-                    additionalItemOptions={paymentOptions}
-                    zIndex={20}
-                    after={value}
-                  />
-                </Box>
-                <Box width={'100%'}>
-                  <Flex mb={2} alignItems={'center'} gap={'10px'}>
-
-                    <Checkbox>
-                  Предоплата
-                    </Checkbox>
-                  </Flex>
-                  <TextFieldWithAddition
-                    //   disabled={!status}
-                    name="price_prepayment"
-                    register={register}
-                    control={control}
-                    additionalItemName="price_prepayment_unit"
-                    additionalItemDefaultIndex={0}
-                    placeholder={t("Введите сумму")}
-                    errors={errors}
-                    type="number"
-                    width="100%"
-                    additionalItemOptions={paymentOptions}
-                    zIndex={20}
-                    after={value}
-
-                  />
-                </Box>
-              </Flex>
-              <Flex mt={5} gap={10} width={'100%'}>
-                <Box width={'100%'}>
-                  <Flex mb={2} alignItems={'center'} gap={'10px'}>
-                    <p className={cls.label} >{t(`Сумма после завершения заказа`)}</p>
-                  </Flex>
-                  <TextFieldWithAddition
-                    //   disabled={!status}
-                    name="price_after_order"
-                    register={register}
-                    control={control}
-                    additionalItemName="price_prepayment_unit"
-                    additionalItemDefaultIndex={0}
-                    placeholder={t("Введите сумму")}
-                    errors={errors}
-                    type="number"
-                    width="100%"
-                    additionalItemOptions={paymentOptions}
-                    zIndex={10}
-                    after={value}
-
-                  />
-                </Box>
-                <Box width={'100%'}>
-                  <Flex mb={2} alignItems={'center'} gap={'10px'}>
-                    <p className={cls.label} >{t(`Заметки по оплате (видно только вам)`)}</p>
-                  </Flex>
-                  <CustomTextarea
-                  // disabled={!canEdit}
-                    name={"note1"}
-                    watch={watch}
-                    placeholder={t("Пишите здесь")}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if(value.length <= 1000) {
-                        setValue("note1", value);
-                      }
-                    }}
-                    value={watch("note1")}
-                    height={'10px'}
-                  />
-                </Box>
-              </Flex>
-            </Box>:<Box mt={'40px'}>
-              <h2 className={cls.title}>
-                Водители FURGO смогут предложить свою ставку
-
-              </h2>
-              <p className={cls.subTitle2}>Можно предлагать</p>
-              <Flex mt={2} gap={"22px"}>
-                <Checkbox>
+            {!check ? (
+              <Box width={"100%"} mt={"50px"}>
+                <Flex gap={10} width={"100%"}>
+                  <Box width={"100%"}>
+                    <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                      <p className={cls.label}>{t(`Общая сумма`)}</p>
+                    {
+                      !status &&   <Checkbox
+                        isDisabled={!canEdit}
+                        register={register}
+                        name="negotiable"
+                      >
+                        Возможен торг
+                      </Checkbox>
+                    }
+                    </Flex>
+                    <TextFieldWithAddition
+                      disabled={!canEdit}
+                      name="price"
+                      register={register}
+                      control={control}
+                      additionalItemName="payment_type"
+                      additionalItemDefaultIndex={0}
+                      placeholder={t("Введите сумму")}
+                      errors={errors}
+                      type="number"
+                      width="100%"
+                      additionalItemOptions={paymentOptions}
+                      zIndex={20}
+                      after={watch(`price_prepayment_unit`)?.label}
+                    />
+                  </Box>
+                  <Box width={"100%"}>
+                    <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                        
+                        
+                        <Checkbox register={register}  name={`prepayment`} isDisabled={!canEdit}>Предоплата</Checkbox>
+                    </Flex>
+                    <TextFieldWithAddition
+                      disabled={disabledP}
+                      name="price_prepayment"
+                      register={register}
+                      control={control}
+                      additionalItemName="payment_type_1"
+                      additionalItemDefaultIndex={0}
+                      placeholder={t("Введите сумму")}
+                      errors={errors}
+                      type="number"
+                      width="100%"
+                      additionalItemOptions={paymentOptions}
+                      zIndex={20}
+                      after={watch(`price_prepayment_unit`)?.label}
+                    />
+                  </Box>
+                </Flex>
+                <Flex mt={5} gap={10} width={"100%"}>
+                  {!status ? (
+                    <Box width={"100%"}>
+                      <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                        <p className={cls.label}>
+                          {t(`Сумма после завершения заказа`)}
+                        </p>
+                      </Flex>
+                      <TextFieldWithAddition
+                        disabled={!canEdit}
+                        name="price_after_order"
+                        register={register}
+                        control={control}
+                        additionalItemName="payment_type_2"
+                        additionalItemDefaultIndex={0}
+                        placeholder={t("Введите сумму")}
+                        errors={errors}
+                        type="number"
+                        width="100%"
+                        additionalItemOptions={paymentOptions}
+                        zIndex={10}
+                        after={watch(`price_prepayment_unit`)?.label}
+                      />
+                    </Box>
+                  ) : (
+                    <Box width={`100%`}>
+                      <p className={cls.totalTEet}>
+                        Сумма после завершения заказа
+                      </p>
+                      <p className={cls.totalSum}>
+                        {watch(`price_after_order`)}{" "}
+                        {watch(`price_prepayment_unit`)
+                          ?.label?.charAt(0)
+                          .toUpperCase() +
+                          watch(`price_prepayment_unit`)
+                            ?.label?.slice(1)
+                            .toLowerCase()}
+                      </p>
+                    </Box>
+                  )}
+                  <Box width={"100%"}>
+                    <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                      <p className={cls.label}>
+                        {t(`Заметки по оплате (видно только вам)`)}
+                      </p>
+                    </Flex>
+                    <textarea
+                    className={cls.textarea}
+                       disabled={!canEdit}
+                       value={watch(`payment_description`)}
+                      name={"payment_description"}
+                      watch={watch}
+                      placeholder={t("Пишите здесь")}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 1000) {
+                          setValue("payment_description", value);
+                        }
+                      }}
+                    >
+                      
+                    </textarea>
+                    <Text
+          color="brand.600"
+          fontSize="14px"
+          fontWeight="400"
+          lineHeight="20px"
+        >
+          {watch(`payment_description`)?.length || 0}/1000
+        </Text>
+                  </Box>
+                </Flex>
+              </Box>
+            ) : (
+              <Box mt={"40px"}>
+                <h2 className={cls.title}>
+                  Водители FURGO смогут предложить свою ставку
+                </h2>
+                <p className={cls.subTitle2}>Можно предлагать</p>
+                <Flex mt={2} gap={"22px"}>
+                  <Checkbox register={register} name="usd">
                     USD
-                </Checkbox>
-                <Checkbox>
+                  </Checkbox>
+                  <Checkbox register={register} name="uzs">
                     UZS
-                </Checkbox>
-                <Checkbox>
+                  </Checkbox>
+                  <Checkbox register={register} name="rub">
                     RUB
-                </Checkbox>
-                <Checkbox>
+                  </Checkbox>
+                  <Checkbox register={register} name="eur">
                     EUR
-                </Checkbox>
-                <Checkbox>
-                 Наличными
-                </Checkbox>
-                <Checkbox>
-                 С НДС, безнал
-                </Checkbox>
-                <Checkbox>
-                 Без НДС, безнал
-                </Checkbox>
-              </Flex>
-            </Box>
-            }
-
+                  </Checkbox>
+                  <Checkbox register={register} name="spot">
+                    Наличными
+                  </Checkbox>
+                  <Checkbox register={register} name="with_nds">
+                    С НДС, безнал
+                  </Checkbox>
+                  <Checkbox register={register} name="free_nds">
+                    Без НДС, безнал
+                  </Checkbox>
+                </Flex>
+              </Box>
+            )}
           </Box>
         </Flex>
       </Box>
-      <Button
-        onClick={() => setCargoIndex(5)}
-        rightIcon={<NextArrowIcon />}
-        className={cls.nextBtn}
-      >
-        Далее
-      </Button>
+      {!status && (
+        <Button
+          isDisabled={disabled}
+          onClick={() => onSubmit()}
+          rightIcon={<NextArrowIcon />}
+          className={cls.nextBtn}
+        >
+          Далее
+        </Button>
+      )}
     </>
   );
 };

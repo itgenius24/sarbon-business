@@ -1,0 +1,6 @@
+@include breakpoint-down(1190px) {
+  .cargoDetail {
+    background-color: transparent;
+    padding: 0;
+  }
+}

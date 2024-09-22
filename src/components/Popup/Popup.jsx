@@ -28,14 +28,14 @@ export const Popup = ({
  const {t} = useTranslation();
   return <Modal isOpen={isOpen} onClose={onClose} isCentered>
     <ModalOverlay />
-    <ModalContent className={cls.modalContent}>
+    <ModalContent className={status !== `second` ? cls.modalContent:cls.modalContent2}>
       <ModalHeader>
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody className={cls.modalBody}>
-        <span className={clsx(cls.modalIcon, cls[status])}>
+       { status !== `second` && <span className={clsx(cls.modalIcon, cls[status])}>
           {icon || icons[status]}
-        </span>
+        </span>}
         <Text fontSize="18px" lineHeight="28px" fontWeight="600" color="brand.900">{t(mainText)}</Text>
         {subText && <Text mt="16" fontSize="16px" lineHeight="24px" fontWeight="500" color="brand.600">{t(subText)}</Text>}
       </ModalBody>

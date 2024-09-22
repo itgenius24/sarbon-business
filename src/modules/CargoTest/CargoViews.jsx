@@ -1,5 +1,14 @@
 import cls from "./styles.module.scss";
-import { DeleteIcon, PencilIcon, PlusIcon, SearchIcon } from "@/assets/icons/icons";
+import {
+  CheckIconStep,
+  CricleBlueIcon,
+  CricleIcon,
+  DeleteIcon,
+  PencilIcon,
+  PencilIconW,
+  PlusIcon,
+  SearchIcon,
+} from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import {
   Accordion,
@@ -12,6 +21,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  Flex,
   Heading,
   Input,
   InputGroup,
@@ -19,26 +29,36 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { CargoDetail } from "./components/CargoDetail";
-import { CargoSetup } from "./components/CargoSetup";
-import { Stages } from "./components/Stages";
+
 import { AddCargoProvider } from "./providers";
 import { useAddCargoProps } from "./useAddCargoProps";
-import Link from "next/link";
-import { LoadBtn } from "@/components/LoadBtn";
-import { statuses } from "@/utils/constants";
-import { TopContent } from "./components/TopContent";
+
 import { Popup } from "@/components/Popup";
 import { useTranslation } from "@/app/i18n/client";
 // import { Modal } from "@/components/Modal";
-import { Checkbox } from "@/components/Checkbox";
+
 import { observer } from "mobx-react-lite";
 import { TextField } from "@/components/TextField";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+import StepOne from "./components/StepOne/StepOne";
+import StepTwo from "./components/StepTwo/StepTwo";
+import StepThere from "./components/StepThere/StepThere";
+import StepFour from "./components/StepFour/StepFour";
+import StepFive from "./components/StepFive/StepFive";
+import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
+import { CargoDetail } from "./components/CargoDetail";
+import { TopContent } from "../Cargo/components/TopContent";
+import Link from "next/link";
+import { statuses } from "@/utils/constants";
+import { LoadBtn } from "@/components/LoadBtn";
 
-export const Cargo = observer(({ id, status, locale }) => {
-  const addCargoProps = useAddCargoProps({ id, status, locale });
+export const CargoViews = observer(({ id, status, locale }) => {
+  const [cargoIndex, setCargoIndex] = useState(1);
+  const [btnSavaText, setBtnSaveText] = useState(`Редактировать`);
+  const [open, setOpen] = useState(false);
+  const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
@@ -47,13 +67,21 @@ export const Cargo = observer(({ id, status, locale }) => {
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   useEffect(() => {
-    if (status === "active" || status === "in_active"|| status === "in_moderation") {
+    if (
+      status === "active" ||
+      status === "in_active" ||
+      status === "in_moderation"
+    ) {
       addCargoProps.handleEditActiveToggle();
     }
   }, []);
 
+  const closePopup = () => {
+    setOpen(false);
+  };
+
   function getTopContent() {
-    if (status === "in_moderation" ) {
+    if (status === "in_moderation") {
       return (
         <Box
           display="flex"
@@ -63,26 +91,68 @@ export const Cargo = observer(({ id, status, locale }) => {
           mb="18px"
         >
           <Heading fontSize={!isLargerThan800 ? "24px" : "30px"} size="md">
-            {addCargoProps.address1} - {addCargoProps.address2}{" "}
-            <Text as="span" color="brand.500">
-              {addCargoProps.distance} km
-            </Text>
+            {!addCargoProps.canEdit ? (
+              <>
+                {" "}
+                {addCargoProps.address1} - {addCargoProps.address2}
+                <Text as="span" color="brand.500">
+                  {addCargoProps.distance} km
+                </Text>
+              </>
+            ) : (
+              `Редактировать груз`
+            )}
           </Heading>
-          <Box Box display="flex" columnGap="8px">
-            <LoadBtn
-              icon={<PencilIcon />}
-              onClick={addCargoProps.handleEditToggle}
-            >
-              {t("Изменить")}
-            </LoadBtn>
-            <LoadBtn
-              icon={<DeleteIcon color="#F04438" />}
-              type="delete"
-              onClick={addCargoProps.handleOpenDeletePopup}
-            >
-              {t("Удалить")}
-            </LoadBtn>
-          </Box>
+          {!addCargoProps.canEdit ? (
+            <Box display="flex" columnGap="8px">
+              <Button
+                leftIcon={<DeleteIcon />}
+                size="sm"
+                maxWidth="323px"
+                variant="secondaryWhite"
+                onClick={addCargoProps.handleOpenDeletePopup}
+                border="1px solid #D0D5DD"
+              >
+                {t("Удалить")}
+              </Button>
+
+              <Button
+                leftIcon={<PencilIconW />}
+                size="sm"
+                maxWidth="323px"
+                paddingLeft={`30px`}
+                paddingRight={`30px`}
+                onClick={() => setOpen(true)}
+              >
+                {t("Редактировать")}
+              </Button>
+            </Box>
+          ) : (
+            <Box display="flex" columnGap="8px">
+              <Button
+                //  leftIcon={<DeleteIcon  />}
+                size="sm"
+                maxWidth="323px"
+                variant="secondaryWhite"
+                paddingRight={`30px`}
+                onClick={addCargoProps.handleEditToggle}
+                border="1px solid #D0D5DD"
+              >
+                {t("Отменить изменения")}
+              </Button>
+
+              <Button
+                leftIcon={<PencilIconW />}
+                size="sm"
+                maxWidth="323px"
+                paddingLeft={`30px`}
+                paddingRight={`30px`}
+                onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
+              >
+                {t("Сохранить изменения")}
+              </Button>
+            </Box>
+          )}
         </Box>
       );
     } else if (status === "new" || status === "performed") {
@@ -203,23 +273,16 @@ export const Cargo = observer(({ id, status, locale }) => {
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel>
-                      <CargoDetail />
-                      <CargoSetup
-                        setIsPhotoChanged={addCargoProps.setIsPhotoChanged}
-                      />
+                      <CargoDetail status={status} />
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>
               ) : (
                 <>
-                  <CargoDetail />
-                  <CargoSetup
-                    setIsPhotoChanged={addCargoProps.setIsPhotoChanged}
-                  />
+                  <CargoDetail status={status} />
                 </>
               )}
             </Box>
-            {!isEditing && <Stages />}
           </Box>
           {!isEditing && (
             <Box mt="32px">
@@ -282,26 +345,71 @@ export const Cargo = observer(({ id, status, locale }) => {
             </Box>
           )}
 
-          {
-            addCargoProps.canEditActive && (status === "active" || status === "in_active" || status === "in_moderation" ) && <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
-              <Button
-                size="sm"
-                maxWidth="223px"
-                variant="secondaryWhite"
-                onClick={addCargoProps.onCancelClick}
+          {addCargoProps.canEditActive &&
+            (status === "active" ||
+              status === "in_active" ||
+              status === "in_moderation") && (
+              <Box
+                display="flex"
+                justifyContent={`flex-end`}
+                columnGap="12px"
+                mt="32px"
+                width={`100%`}
               >
-                Отменить
-              </Button>
-              <Button
-                isLoading={addCargoProps.loading}
-                size="sm"
-                maxWidth="223px"
-                onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
-              >
-                {t("Сохранить изменение")}
-              </Button>
-            </Box>
-          }
+                {!addCargoProps.canEdit ? (
+                  <Box display={`flex`} columnGap="8px">
+                    <Button
+                      leftIcon={<DeleteIcon />}
+                      size="sm"
+                      maxWidth="323px"
+                      variant="secondaryWhite"
+                      onClick={addCargoProps.handleOpenDeletePopup}
+                      border="1px solid #D0D5DD"
+                    >
+                      {t("Удалить")}
+                    </Button>
+
+                    <Button
+                      leftIcon={<PencilIconW />}
+                      size="sm"
+                      maxWidth="323px"
+                      paddingLeft={`30px`}
+                      paddingRight={`30px`}
+                      onClick={() => setOpen(true)}
+                    >
+                      {t("Редактировать")}
+                    </Button>
+                  </Box>
+                ) : (
+                  <Box display="flex" columnGap="8px">
+                    <Button
+                      //  leftIcon={<DeleteIcon  />}
+                      size="sm"
+                      maxWidth="323px"
+                      variant="secondaryWhite"
+                      paddingRight={`30px`}
+                      onClick={addCargoProps.handleEditToggle}
+                      border="1px solid #D0D5DD"
+                    >
+                      {t("Отменить изменения")}
+                    </Button>
+
+                    <Button
+                      leftIcon={<PencilIconW />}
+                      size="sm"
+                      maxWidth="323px"
+                      paddingLeft={`30px`}
+                      paddingRight={`30px`}
+                      onClick={addCargoProps.handleSubmit(
+                        addCargoProps.onSubmit
+                      )}
+                    >
+                      {t("Сохранить изменения")}
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+            )}
           {status === "new" && (
             <Box display="flex" width="570px" columnGap="12px" mt="32px">
               <Button
@@ -324,156 +432,26 @@ export const Cargo = observer(({ id, status, locale }) => {
       <Popup
         isOpen={addCargoProps.isPopupOpen}
         onClose={addCargoProps.handleCloseDeletePopup}
-        mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName, })}
+        mainText={t("Вы уверены что хотите удалить груз ?", {
+          name: addCargoProps.cargoName,
+        })}
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />
-      <ModalS
-        oneBtn
-        isOpen={addCargoProps.isTemplateModalOpen}
-        title={t("Назовите шаблон")}
-        onClose={addCargoProps.handleCloseTemplateModal}
-        secondBtnCallback={addCargoProps.handleSubmit((data) =>
-          addCargoProps.onSubmit({ ...data, isTemp: true })
-        )}
-        isDisabled={!addCargoProps.watch("template_name")}
-        secondBtnProps={{ isLoading: addCargoProps.loading }}
-        secondBtnText={t("Сохранить")}
-      >
-        <TextField
-          register={addCargoProps.register}
-          errors={addCargoProps.errors}
-          name="template_name"
-          label={t("Название шаблона")}
-        />
-      </ModalS>
-      <ModalS
-        isOpen={addCargoProps.isOpen}
-        title={t("Выберите шаблон")}
-        onClose={addCargoProps.handleCloseModal}
-        withCloseBtn
-        withFooter={false}
-      >
-        <Box display="flex" flexDirection="column" rowGap="20px">
-          <InputGroup>
-            <InputLeftElement>
-              <SearchIcon />
-            </InputLeftElement>
-            <Input onChange={(e) =>addCargoProps.setTemplateVal(e.target.value)} />
-          </InputGroup>
-          {addCargoProps.templates?.length ? (
-            addCargoProps.templates?.map((item) => (
-              <Box
-                onClick={() => addCargoProps.handleSelectTemplate(item)}
-                p={isLargerThan800 ? "20px" : "12px"}
-                w={"100%"}
-                borderRadius={isLargerThan800 ? "20px" : "8px"}
-                border="1px solid #EAECF0"
-                as="button"
-                key={item?.guid}
-              >
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Box
-                    display="flex"
-                    columnGap="12px"
-                    flexGrow={1}
-                    maxWidth="calc(100% - 40px)"
-                  >
-                    <Box
-                      flexGrow={1}
-                      maxWidth={"calc(50% - 40px)"}
-                      flexWrap="wrap"
-                      display="flex"
-                      flexDirection="column"
-                      textAlign="left"
-                      rowGap="8px"
-                    >
-                      <Text
-                        as="span"
-                        maxWidth="100%"
-                        fontWeight={600}
-                        fontSize={isLargerThan800 ? "20px" : "16px"}
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                      >
-                        {item?.city_id_data?.[
-                          "name_" + (locale === "uz" ? "en" : locale)
-                        ] || item?.city_id_data?.name}
-                      </Text>
-                      <span>
-                        {item?.address_id_data?.[
-                          "name_" + (locale === "uz" ? "en" : locale)
-                        ] || item?.address_id_data?.name}
-                      </span>
-                    </Box>
-                    <Box as="span" alignSelf="center">
-                      -{">"}
-                    </Box>
-                    <Box
-                      flexGrow={1}
-                      maxWidth={"calc(50% - 40px)"}
-                      flexWrap="wrap"
-                      display="flex"
-                      flexDirection="column"
-                      rowGap="8px"
-                      textAlign="left"
-                      pr="10px"
-                    >
-                      <Text
-                        as="span"
-                        maxWidth="100%"
-                        fontWeight={600}
-                        fontSize={isLargerThan800 ? "20px" : "16px"}
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                      >
-                        {item?.city_id_2_data?.[
-                          "name_" + (locale === "uz" ? "en" : locale)
-                        ] || item?.city_id_2_data?.name}
-                      </Text>
-                      <span>
-                        {item?.address_id_2_data?.[
-                          "name_" + (locale === "uz" ? "en" : locale)
-                        ] || item?.address_id_2_data?.name}
-                      </span>
-                    </Box>
-                  </Box>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addCargoProps.handleDeleteTemplate(item);
-                    }}
-                    variant="reset"
-                    width="36px"
-                    height="36px"
-                    border="1px solid #F04438"
-                  >
-                    <DeleteIcon width="16" height="16" color="#F04438" />
-                  </Button>
-                </Box>
-                <Box
-                  fontWeight={400}
-                  fontSize={isLargerThan800 ? "16px" : "14px"}
-                  mt="5px"
-                  pt="5px"
-                  borderTop="1px solid #EAECF0"
-                  textAlign="left"
-                >
-                  {t("Название")}: {item?.template_name}
-                </Box>
-              </Box>
-            ))
-          ) : (
-            <Text>{t("Нет шаблонов")}</Text>
-          )}
-        </Box>
-      </ModalS>
+      <Popup
+        isOpen={open}
+        onClose={closePopup}
+        mainText={t("Хотите перейти в режим редактирования?", {
+          name: addCargoProps.cargoName,
+        })}
+        status="second"
+        btn2Callback={() => {
+          addCargoProps.handleEditToggle();
+          closePopup();
+        }}
+        btn2Text="Редактировать"
+        btn1Text="Отмена"
+      />
     </AddCargoProvider>
   );
 });

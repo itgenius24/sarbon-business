@@ -18,14 +18,15 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import LoadingMap from "@/modules/Cargo/components/LoadingMap";
-import { Modal } from "@/components/Modal";
+// import { Modal } from "@/components/ModalS";
 import { ModalMap } from "@/components/ModalMap/Modal";
 import { DatePickerComponent } from "@/components/DatePickerStep/DatePicker";
 import { Dropdown } from "@/components/Dropdown";
 import { ChakraSelect } from "@/components/ChakraSelect";
 import { Checkbox } from "@/components/Checkbox";
+import { ModalS } from "@/components/Modal";
 
-const StepTwo = ({setCargoIndex}) => {
+const StepTwo = ({status }) => {
   const {
     loadings,
     register,
@@ -43,15 +44,19 @@ const StepTwo = ({setCargoIndex}) => {
     setIsModalOpen,
     onMapClick,
     setYMaps,
+    disabled,
     yandexMapRef,
     placeMarkGeometry,
     coordinates,
     setAddress,
     results,
+    canEdit,
     setActiveIndex,
     activeIndex,
     hanleAdress,
     address,
+    lodingChangeDate,
+    onCreateCargoSuccess,
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -80,19 +85,19 @@ const StepTwo = ({setCargoIndex}) => {
                       ? ` Адрес загрузки груза`
                       : `${index + 1}-й адрес загрузки груза `}
                   </p>
-                  <p className={cls.adressBtn}>Выбрать на карте</p>
+                  {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>}
                 </Flex>
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAddition
                       // onlyFieldDisabled={true}
-                      // disabled={!canEdit}
+                      disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
-                        setAddress(e.target.value);
+                          setAddress(e.target.value);
                       }}
                       name={`loadings[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -115,30 +120,30 @@ const StepTwo = ({setCargoIndex}) => {
                     {activeIndex === `loadings[${index}].address` &&
                       results.length > 0 &&
                       address?.length > 0 && (
-                      <Box className={cls.optionsWrap}>
-                        {results?.map((location, idx) => (
-                          <Flex
-                            onClick={() =>
-                              hanleAdress(
-                                location,
-                                `loadings[${index}].address`,
-                                index,
-                                "loading"
-                              )
-                            }
-                            key={idx}
-                            gap={3}
-                            alignItems={"center"}
-                          >
-                            <LocationIconStep />
+                        <Box className={cls.optionsWrap}>
+                          {results?.map((location, idx) => (
+                            <Flex
+                              onClick={() =>
+                                hanleAdress(
+                                  location,
+                                  `loadings[${index}].address`,
+                                  index,
+                                  "loading"
+                                )
+                              }
+                              key={idx}
+                              gap={3}
+                              alignItems={"center"}
+                            >
+                              <LocationIconStep />
 
-                            <p className={cls.item}>
-                              {location?.GeoObject?.name}
-                            </p>
-                          </Flex>
-                        ))}
-                      </Box>
-                    )}
+                              <p className={cls.item}>
+                                {location?.GeoObject?.name}
+                              </p>
+                            </Flex>
+                          ))}
+                        </Box>
+                      )}
                   </Box>
                   <Flex
                     alignItems={"center"}
@@ -149,8 +154,12 @@ const StepTwo = ({setCargoIndex}) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда забрать</span>
                       <DatePickerComponent
+                        isDisabled={!canEdit}
+                        onChange={(date) => {
+                          lodingChangeDate("loading", date, index);
+                        }}
                         control={control}
-                        name={`loadings[${index}].to_date`}
+                        name={`loadings[${index}].from_date`}
                       />
                     </Box>
                     <Box mt={5}>
@@ -159,20 +168,26 @@ const StepTwo = ({setCargoIndex}) => {
                     <Box width={"12 4px"}>
                       <span className={cls.label}>Ожидание</span>
                       <ChakraSelect
-                        options={[]}
-                        name="ojidaniya"
+                        isDisabled={!canEdit}
+                        options={[
+                          { label: 1, value: 1 },
+                          { label: 2, value: 2 },
+                        ]}
+                        name={`loadings[${index}].loading_num`}
                         placeholder={t("5 дн. ")}
                         control={control}
+                        isClearable={false}
                       />
                     </Box>
-                    <Box mt={5} >
+                    <Box mt={5}>
                       <Checkbox
+                        isDisabled={!canEdit}
                         width={"16px"}
                         height={"16px"}
                         // defaultChecked={checkboxStatuses.broke_down}
                         onChange={() => {}}
                       >
-                         Как можно скорее
+                        Как можно скорее
                       </Checkbox>
                     </Box>
                   </Flex>
@@ -180,17 +195,19 @@ const StepTwo = ({setCargoIndex}) => {
               </Box>
             </Flex>
           ))}
-          <Button
-            // key="packagingBtn"
-            leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-            variant="reset"
-            onClick={handleAppendLoading}
-            color="rgba(126, 123, 134, 1)"
-            fontWeight={400}
-            marginLeft={"40px"}
-          >
-            {t("Еще адрес ")}
-          </Button>
+          {!status && (
+            <Button
+              // key="packagingBtn"
+              leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+              variant="reset"
+              onClick={handleAppendLoading}
+              color="rgba(126, 123, 134, 1)"
+              fontWeight={400}
+              marginLeft={"40px"}
+            >
+              {t("Еще адрес ")}
+            </Button>
+          )}
         </Box>
 
         <Box className={cls.centerIcon}>
@@ -218,19 +235,19 @@ const StepTwo = ({setCargoIndex}) => {
                       ? ` Адрес доставки груза`
                       : `${index + 1}-й адрес доставки груза `}
                   </p>
-                  <p className={cls.adressBtn}>Выбрать на карте</p>
+                  {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>}
                 </Flex>
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAddition
                       // onlyFieldDisabled={true}
-                      // disabled={!canEdit}
+                      disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
                       onChange={(e) => {
                         setActiveIndex(`unloading[${index}].address`),
-                        setAddress(e.target.value);
+                          setAddress(e.target.value);
                       }}
                       name={`unloading[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -253,29 +270,29 @@ const StepTwo = ({setCargoIndex}) => {
                     {activeIndex === `unloading[${index}].address` &&
                       results.length > 0 &&
                       address?.length && (
-                      <Box className={cls.optionsWrap}>
-                        {results?.map((location, idx) => (
-                          <Flex
-                            onClick={() =>
-                              hanleAdress(
-                                location,
-                                `unloading[${index}].address`,
-                                index,
-                                "unloading"
-                              )
-                            }
-                            key={idx}
-                            gap={3}
-                            alignItems={"center"}
-                          >
-                            <LocationIconStep />
-                            <p className={cls.item}>
-                              {location?.GeoObject?.name}
-                            </p>
-                          </Flex>
-                        ))}
-                      </Box>
-                    )}
+                        <Box className={cls.optionsWrap}>
+                          {results?.map((location, idx) => (
+                            <Flex
+                              onClick={() =>
+                                hanleAdress(
+                                  location,
+                                  `unloading[${index}].address`,
+                                  index,
+                                  "unloading"
+                                )
+                              }
+                              key={idx}
+                              gap={3}
+                              alignItems={"center"}
+                            >
+                              <LocationIconStep />
+                              <p className={cls.item}>
+                                {location?.GeoObject?.name}
+                              </p>
+                            </Flex>
+                          ))}
+                        </Box>
+                      )}
                   </Box>
                   <Flex
                     alignItems={"center"}
@@ -286,20 +303,24 @@ const StepTwo = ({setCargoIndex}) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда доставить</span>
                       <DatePickerComponent
+                        isDisabled={!canEdit}
+                        onChange={(date) => {
+                          lodingChangeDate("unLoading", date, index);
+                        }}
                         control={control}
                         name={`unloading[${index}].to_date`}
                       />
                     </Box>
-                 
-              
-                    <Box mt={5} >
+
+                    <Box mt={5}>
                       <Checkbox
+                        isDisabled={!canEdit}
                         width={"16px"}
                         height={"16px"}
                         // defaultChecked={checkboxStatuses.broke_down}
                         onChange={() => {}}
                       >
-                         Как можно скорее
+                        Как можно скорее
                       </Checkbox>
                     </Box>
                   </Flex>
@@ -307,17 +328,19 @@ const StepTwo = ({setCargoIndex}) => {
               </Box>
             </Flex>
           ))}
-          <Button
-            // key="packagingBtn"
-            leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-            variant="reset"
-            onClick={handleUnloadingAppend}
-            color="rgba(126, 123, 134, 1)"
-            fontWeight={400}
-            marginLeft={"40px"}
-          >
-            {t("Еще адрес ")}
-          </Button>
+          {!status && (
+            <Button
+              // key="packagingBtn"
+              leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+              variant="reset"
+              onClick={handleUnloadingAppend}
+              color="rgba(126, 123, 134, 1)"
+              fontWeight={400}
+              marginLeft={"40px"}
+            >
+              {t("Еще адрес ")}
+            </Button>
+          )}
         </Box>
       </Flex>
       {/* {
@@ -334,7 +357,7 @@ const StepTwo = ({setCargoIndex}) => {
           />
         </ModalMap>
       } */}
-      <Modal
+      <ModalS
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         firstBtnCallback={handleCloseModal}
@@ -354,10 +377,17 @@ const StepTwo = ({setCargoIndex}) => {
             zoom: 15,
           }}
         />
-      </Modal>
-      <Button onClick={() => setCargoIndex(3) } rightIcon={<NextArrowIcon />} className={cls.nextBtn}>
-        Далее
-      </Button>
+      </ModalS>
+      {!status && (
+        <Button
+          isDisabled={disabled}
+          onClick={() => onCreateCargoSuccess()}
+          rightIcon={<NextArrowIcon />}
+          className={cls.nextBtn}
+        >
+          Далее
+        </Button>
+      )}
     </>
   );
 };

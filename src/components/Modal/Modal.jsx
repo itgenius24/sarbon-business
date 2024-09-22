@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
-export const Modal = ({
+export const ModalS = ({
   isOpen,
   onClose,
   children,

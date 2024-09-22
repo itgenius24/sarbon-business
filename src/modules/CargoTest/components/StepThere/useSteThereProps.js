@@ -4,6 +4,7 @@ import {
   useGetCargoType,
   useGetCarType,
   useGetMeasurement,
+  useUpdateCargo,
 } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
 
@@ -25,7 +26,14 @@ const useStepThereProps = () => {
     isBeltsOpen,
     isLiftingCapacityOpen,
   } = useAddCargoContext();
-
+  const [disabled,setDisabled] = useState(true)
+  useEffect(() => {
+    if(watch("car_type")?.value && watch("transport_count")){
+      setDisabled(false)
+    } else{
+      true
+    }
+  },[watch("car_type")?.value, watch("transport_count")])
   const getCarType = useGetCarType();
   const carTypeOptions = getCarType.data?.response?.map((item) => ({
     label: item?.name,
@@ -111,8 +119,8 @@ const useStepThereProps = () => {
     watch("bunks"),
   ]);
 
-  const [hoverIndex, setHoverIndex] = useState(0);
-  const [clickIndex,setClickIndex] = useState(0)
+  const [hoverIndex, setHoverIndex] = useState('');
+  const [clickIndex,setClickIndex] = useState('')
   const boxes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
@@ -138,6 +146,30 @@ const useStepThereProps = () => {
   const handleNumClick = (num) => {
     setClickIndex(num);
     setValue("transport_count",num)
+  }
+  const updateCargo = useUpdateCargo({
+    onSuccess: () => {
+      setValue(`cargoIndex`,4)
+    },
+  });
+
+  const onSubmit = () => {
+    const requestData = {
+      data: {
+        guid: watch(`loadResId`),
+        vehicle_type_id: watch("car_type")?.value,
+        number_of_cars: watch("transport_count"),
+        tir: watch("tir"),
+        t1: watch("t1"),
+        cmr: watch("cmr"),
+        med: watch(`medic_certificate`),
+        straps_number: watch("straps_number"),
+        hitch: watch("hitch") || false,
+        pneumatic: watch("pneumatic") || false,
+        bunks: watch("bunks") || false,
+      },
+    };
+    updateCargo.mutate(requestData)
   }
   return {
     control,
@@ -168,6 +200,8 @@ const useStepThereProps = () => {
     watch,
     handleNumClick,
     clickIndex,
+    onSubmit,
+    disabled
   };
 };
 

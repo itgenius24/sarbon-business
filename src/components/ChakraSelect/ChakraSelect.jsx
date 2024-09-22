@@ -8,7 +8,9 @@ export const ChakraSelect = ({
   control,
   size = "sm",
   name = "select",
+  isClearable = true,
   ...props
+
 }) => {
   const { control: control2 } = useForm();
 
@@ -24,7 +26,7 @@ export const ChakraSelect = ({
             menuPortalTarget={ typeof document !== "undefined" && document.body}
             classNamePrefix="chakra-select"
             useBasicStyles
-            isClearable={true}
+            isClearable={isClearable}
             size={size}
             chakraStyles={{
               control: (base, state) => ({
