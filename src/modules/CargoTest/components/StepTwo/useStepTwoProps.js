@@ -29,30 +29,13 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const { control, register, watch, setValue, errors, canEdit, getValues } =
+  const { control, register, watch, setValue, errors, canEdit, getValues, loadings,appendLoading,removeLoading,updateLoading,unloading,appendUnloading,removeUnloading,updateUnloading} =
     useAddCargoContext();
 
 
-  const {
-    fields: loadings,
-    append: appendLoading,
-    remove: removeLoading,
-    update: updateLoading,
-  } = useFieldArray({
-    control,
-    name: "loadings",
-    // rules: { minLength: 1, }
-  });
+ 
 
-  const {
-    fields: unloading,
-    append: appendUnloading,
-    remove: removeUnloading,
-    update: updateUnloading,
-  } = useFieldArray({
-    control,
-    name: "unloading",
-  });
+ 
 
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import {
   useCreateAddressMutation,
   useCreateCargoMutation,
@@ -89,6 +89,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const [templateId, setTemplateId] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [loading, setLoading] = useState(false);
+
+
 
   const router = useRouter();
 
@@ -293,6 +295,30 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
+
+  const {
+    fields: loadings,
+    append: appendLoading,
+    remove: removeLoading,
+    update: updateLoading,
+  } = useFieldArray({
+    control,
+    name: "loadings",
+    // rules: { minLength: 1, }
+  });
+
+  const {
+    fields: unloading,
+    append: appendUnloading,
+    remove: removeUnloading,
+    update: updateUnloading,
+  } = useFieldArray({
+    control,
+    name: "unloading",
+  });
+
+
+
   const getLoadings =
     (Array.isArray(watch("loadings")?.[0]?.cor)
       ? watch("loadings")?.map((item) => item?.cor)
@@ -302,9 +328,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ? watch("unloading")?.map((item) => item?.cor)
       : watch("unloading")?.map((item) => item?.cor?.split(","))) || [];
 
-  const distance = useGetDistance({
-    referencePoints: [...getLoadings, ...getUnloading],
-  });
+  const distance = useGetDistance({ referencePoints: [...getLoadings, ...getUnloading], });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -1009,39 +1033,52 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
       setTemplateId("");
 
+
+
       shipper?.forEach((item, index) => {
         if (index === 0) {
-          loadingsRef.current[0].cor = `${item.lat} ${item.long}`;
-          loadingsRef.current[0].address = item?.name;
-          loadingsRef.current[0].from_date = item?.date;
-        } else {
-          loadingsRef.current.push({
+          setValue(`loadings[0]`, {
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             from_date: item?.date,
           });
+        } if(index > 0) {
+          appendLoading({
+            cor: `${item.lat} ${item.long}`,
+            address: item?.name,
+            from_date: item?.date,
+          })
         }
+
       });
 
       consignee.forEach((item, index) => {
         if (index === 0) {
-          unloadingRef.current[0].cor = `${item.lat} ${item.long}`;
-          unloadingRef.current[0].address = item?.name;
-          unloadingRef.current[0].to_date = item?.date;
-        } else {
-          unloadingRef.current.push({
+          setValue(`unloading[0]`, {
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             to_date: item?.date,
           });
+        } if(index > 0) {
+          appendUnloading({
+            cor: `${item.lat} ${item.long}`,
+            address: item?.name,
+            to_date: item?.date,
+          })
         }
-      });
-      console.log(`data222`, loadingsRef.current, unloadingRef.current);
 
-      setValue("loadings", loadingsRef.current);
-      setValue("unloading", unloadingRef.current);
+      });
+
+      removeLoading(1)
+      // console.log(`data222`, loadingsRef.current, unloadingRef.current);
+
+      // setValue("loadings", loadingsRef.current);
+      // setValue("unloading", unloadingRef.current);
     }
   }, [getMaps.data]);
+ 
+  console.log(`data222`, loadings,unloading);
+
 
   const isFirstRender = useRef(true);
 
@@ -1214,5 +1251,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDeleteDocument,
     getEmptyFileName,
     setTemplateVal,
+
+    loadings,
+    appendLoading,
+    removeLoading,
+    updateLoading,
+    unloading,
+    appendUnloading,
+    removeUnloading,
+    updateUnloading
   };
 };
