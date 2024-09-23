@@ -122,7 +122,7 @@ const useStepTwoProps = () => {
         updateUnloading(index, {
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
-          to_date: watch(`unloading.${index}.to_date`) || "",
+          to_date: watch(`unloading[${index}].to_date`) || "",
         });
       }
       // setValue(nameState, firstGeoObject.getAddressLine());
@@ -133,22 +133,23 @@ const useStepTwoProps = () => {
     });
   }
 
-  console.log(`loading`,loadings)
+  console.log(`loading2323`,loadings,unloading)
 
   const hanleAdress = (location, name, index, type) => {
     setValue(name, location?.GeoObject?.name);
     if (type === "loading") {
       updateLoading(index, {
-        address: watch(`loadings.${index}.address`),
+        ...loadings[index],
+        address: watch(`loadings[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
         from_date: watch(`loadings[${index}].from_date`) || "",
-        ...loadings[index],
+       
       });
     } else {
       updateUnloading(index, {
-        address: watch(`unloading.${index}.address`),
+        address: watch(`unloading[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
-        to_date: watch(`unloading.${index}.to_date`) || "",
+        to_date: watch(`unloading[${index}].to_date`) || "",
       });
     }
 

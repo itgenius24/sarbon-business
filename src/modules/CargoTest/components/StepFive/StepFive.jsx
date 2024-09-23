@@ -62,17 +62,14 @@ const StepFive = ({status}) => {
         comment: watch(`note`),
         guid: watch(`loadResId`),
         cargo_type: ["cargo"],
+        users_id:authStore.userData.id
       }
     }
-    updateCargo.mutate(requestData,{
-      // onSuccess:(res) => {
-      //   setGuid(data.guid)
-      // }
-    })
+    updateCargo.mutate(requestData)
 
     let loadingsData =  getValues("loadings").map((item,index) => ({
       address:item?.address,
-      date: addDaysToDate(item.from_date,item.loading_num?.value),
+      date: addDaysToDate(item.from_date,item.loading_num),
       lat: item?.cor.split(" ")[0],
       long: item?.cor.split(" ")[1],
       step:index+1,
@@ -87,6 +84,8 @@ const StepFive = ({status}) => {
       type:["consignee"]
 
     }));
+    // console.log(`loadingsData`,getValues("loadings"))
+
     createAddress.mutate(
       {
         data: {
@@ -98,7 +97,7 @@ const StepFive = ({status}) => {
       },
     );
   }
-console.log(`getValues("loadings")`,getValues("loadings"),getValues("unloading"))
+
   const shablonF = () => {
     const requestData = {
       data:{
@@ -109,11 +108,13 @@ console.log(`getValues("loadings")`,getValues("loadings"),getValues("unloading")
         guid: watch(`loadResId`),
         cargo_type: ["template"],
         template_name: watch(`template_name`),
+        users_id:authStore.userData.id
+
       }
     }
     updateCargo.mutate(requestData)
 
-    let loadingsData =   getValues("loadings").map((item,index) => ({
+    let loadingsData =  getValues("loadings").map((item,index) => ({
       address:item?.address,
       date: addDaysToDate(item.from_date,item.loading_num?.value),
       lat: item?.cor.split(" ")[0],
@@ -121,6 +122,7 @@ console.log(`getValues("loadings")`,getValues("loadings"),getValues("unloading")
       step:index+1,
       type:["shipper"]
     }));
+
     let unloadinData = getValues("unloading").map((item,index) => ({
       address:item?.address,
       date: new Date(item.to_date),

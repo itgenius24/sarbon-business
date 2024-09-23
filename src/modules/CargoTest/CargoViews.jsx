@@ -324,7 +324,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
               </Box>
             </Box>
           )}
-          {addCargoProps.isDirty && addCargoProps.canEdit && isEditing && (
+          {/* {addCargoProps.isDirty && addCargoProps.canEdit && isEditing && (
             <Box display="flex" columnGap="12px" mt="32px" maxWidth="900px">
               <Button
                 size="sm"
@@ -343,7 +343,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 {t("Сохранить изменение")}
               </Button>
             </Box>
-          )}
+          )} */}
 
           {addCargoProps.canEditActive &&
             (status === "active" ||

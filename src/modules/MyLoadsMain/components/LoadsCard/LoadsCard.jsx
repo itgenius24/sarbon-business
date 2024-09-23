@@ -158,7 +158,7 @@ export const LoadsCard = (cargo) => {
               {formatSum(cargo?.cargo?.currency_id_data?.code, cargo?.cargo?.bid_cash)}
             </span>
           </div>
-          <span className={cls.paymentInfoMobileComment}> cargo?.cargo?.
+          <span className={cls.paymentInfoMobileComment}> 
             {cargo?.cargo?.request
               ? t("Запросить")
               : cargo?.cargo?.no_haggling

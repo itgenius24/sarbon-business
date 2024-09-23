@@ -125,12 +125,7 @@ const StepTwo = ({status }) => {
                           {results?.map((location, idx) => (
                             <Flex
                               onClick={() =>
-                                hanleAdress(
-                                  location,
-                                  `loadings[${index}].address`,
-                                  index,
-                                  "loading"
-                                )
+                                hanleAdress(location,`loadings[${index}].address`,index,"loading")
                               }
                               key={idx}
                               gap={3}
@@ -391,7 +386,7 @@ const StepTwo = ({status }) => {
       </ModalS>
       {!status && (
         <Button
-          isDisabled={disabled}
+          // isDisabled={}
           onClick={() => onCreateCargoSuccess()}
           rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}

@@ -24,7 +24,7 @@ import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
 import { useGetLang } from "@/hooks/useGetLang";
 
-export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
+export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const searchParams = useSearchParams();
 
   const pathname = usePathname();
@@ -302,7 +302,9 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
       ? watch("unloading")?.map((item) => item?.cor)
       : watch("unloading")?.map((item) => item?.cor?.split(","))) || [];
 
-  const distance = useGetDistance({ referencePoints: [...getLoadings, ...getUnloading], });
+  const distance = useGetDistance({
+    referencePoints: [...getLoadings, ...getUnloading],
+  });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -335,13 +337,13 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
         id ? (isAllCargo ? allCargoParams : allResponseParams) : templateParams
       ),
     },
-    { enabled: !!templateId, }
+    { enabled: !!templateId }
   );
 
   // console.log("getMaps222", getMaps?.data);
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
-      if(data.response?.length > 2){
+      if (data.response?.length > 2) {
         unloadingRef.current = [
           ...unloadingRef.current,
           ...data.response.map((item) => ({
@@ -372,8 +374,6 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
     label: item?.name,
     value: item?.guid,
   }));
-  console.log(`!canEdit`,canEdit)
-
 
   function onCreateCargoSuccess(data) {
     const isTemplate = data.cargo_type[0] === "template";
@@ -409,7 +409,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
       }
     });
 
-    console.log(`!canEdit`,!canEdit)
+    console.log(`!canEdit`, !canEdit);
 
     // if(canEdit){
     //   router.push(`/${locale}/my-loads`);
@@ -430,8 +430,8 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
           toast({
             position: "top-right",
             title: isTemplate
-                ? t("Шаблон успешно создан")
-                : t("Груз успешно создан"),
+              ? t("Шаблон успешно создан")
+              : t("Груз успешно создан"),
             status: "success",
             duration: 2000,
             isClosable: true,
@@ -448,7 +448,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
     // }
   }
 
-  const { mutate:sendNotification } = useSendNotification()
+  const { mutate: sendNotification } = useSendNotification();
 
   const createCargo = useCreateCargoMutation({
     onSuccess: () => {
@@ -494,7 +494,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
         }
       });
 
-      if(!canEditActive){
+      if (!canEditActive) {
         createAddress.mutate(
           {
             data: {
@@ -518,8 +518,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
             },
           }
         );
-
-      }else{
+      } else {
         router.push(`/${locale}/my-loads`);
       }
       formStore.clearFormData();
@@ -529,8 +528,6 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
       setLoading(false);
     },
   });
-
-
 
   const deleteTemplate = useDeleteCargo({
     onSuccess() {
@@ -682,47 +679,47 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
         order_status: watch(`loadResId`)
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
-          // guid: watch(`loadResId`),
-          vehicle_type_id: watch("car_type")?.value,
-          number_of_cars: watch("transport_count"),
-          tir: watch("tir"),
-          t1: watch("t1"),
-          cmr: watch("cmr"),
-          med: watch(`medic_certificate`),
-          straps_number: watch("straps_number"),
-          hitch: watch("hitch") || false,
-          pneumatic: watch("pneumatic") || false,
-          bunks: watch("bunks") || false,
-          // guid: watch(`loadResId`),
-          bid_cash: +watch("price"),
-          prepayment_percentage: +watch(`price_prepayment`),
-          dim_length_special: watch("price_after_order"),
-          payment_description: watch("payment_description"),
-          currency_id:watch("price_prepayment_unit").value,
-          map_id: watch("payment_type")?.value,
-          map_id_2: watch("payment_type_1")?.value,
-          map_id_3: watch("payment_type_2")?.value,
+        // guid: watch(`loadResId`),
+        vehicle_type_id: watch("car_type")?.value,
+        number_of_cars: watch("transport_count"),
+        tir: watch("tir"),
+        t1: watch("t1"),
+        cmr: watch("cmr"),
+        med: watch(`medic_certificate`),
+        straps_number: watch("straps_number"),
+        hitch: watch("hitch") || false,
+        pneumatic: watch("pneumatic") || false,
+        bunks: watch("bunks") || false,
+        // guid: watch(`loadResId`),
+        bid_cash: +watch("price"),
+        prepayment_percentage: +watch(`price_prepayment`),
+        dim_length_special: watch("price_after_order"),
+        payment_description: watch("payment_description"),
+        currency_id: watch("price_prepayment_unit").value,
+        map_id: watch("payment_type")?.value,
+        map_id_2: watch("payment_type_1")?.value,
+        map_id_3: watch("payment_type_2")?.value,
 
-          // guid: watch(`loadResId`),
-          
-          load_time: getValues("loadings")[0].from_date,
-          date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
-          phone: watch(`contact`),
-          comment: watch(`note`),
-           cargo_type: ["cargo"],
-         
-          template_name: watch(`template_name`)
-        
+        // guid: watch(`loadResId`),
+
+        load_time: getValues("loadings")[0].from_date,
+        date: new Date(
+          getValues("unloading")[getValues("unloading").length - 1].to_date
+        ),
+        phone: watch(`contact`),
+        comment: watch(`note`),
+        cargo_type: ["cargo"],
+
+        template_name: watch(`template_name`),
       },
     };
-  console.log(`data2222`,requestData)
-
+    console.log(`data2222`, requestData);
 
     if (id) {
       requestData.data.guid = id;
       // requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
 
-      // updateCargo.mutate(requestData);
+      updateCargo.mutate(requestData);
 
       // if(watch("order_status")?.value === "active"){
       //   sendNotification({
@@ -735,13 +732,11 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
       //     }
       //   })
       // }
-
     } else {
       if (data.isTemp) {
         requestData.data.cargo_type = ["template"];
       }
       requestData.data.firm_id = authStore.userData.firm_id;
-
 
       createCargo.mutate(requestData, {
         onSuccess(data) {
@@ -762,9 +757,8 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   }
 
   function handleSelectTemplate(item) {
-
     resetForm(item, item.guid);
-    setCargoIndex(5)
+    setCargoIndex(5);
 
     if (item?.tir || item?.cmr || item?.t1 || item?.medic_certificate) {
       setAccessOpen(true);
@@ -848,7 +842,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
     setLiftingCapacityOpen(false);
     setPrepaymentFuelOpen(false);
     setDirectContractOpen(false);
-    setValue(`cargoIndex`,1)
+    setValue(`cargoIndex`, 1);
   }
 
   function resetForm(data, id) {
@@ -980,7 +974,7 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
       const data = getData();
-  console.log(`data2222`,data)
+      console.log(`data2222`, data);
       resetForm(data, id);
     }
   }, [getCargo.data, getOfferCargoById.data]);
@@ -1005,39 +999,44 @@ export const useAddCargoProps = ({ id, status, locale,setCargoIndex }) => {
 
   useEffect(() => {
     if (getMaps.isSuccess) {
-      const data = getMaps.data.response; 
+      const data = getMaps.data.response;
       const reversedData = data;
 
-      console.log(`data222`,data)
-
-      const loadingData = reversedData[reversedData.length - 1];
+      const shipper = reversedData.filter((item) => item.type?.[0] === `shipper`);
+      const consignee = reversedData.filter(
+        (item) => item?.type?.[0] === `consignee`
+      );
 
       setTemplateId("");
 
-      loadingsRef.current[0].cor = [loadingData?.lat, loadingData?.long];
-      loadingsRef.current[0].address = loadingData?.name;
-
-      reversedData?.forEach((item, index) => {
+      shipper?.forEach((item, index) => {
         if (index === 0) {
-          unloadingRef.current[0].cor = [item?.lat, item?.long];
-          unloadingRef.current[0].address = item?.name;
-          return;
-        }
-        if(data.length > 2){
-          unloadingRef.current.push({
-            cor: [item?.lat, item?.long],
+          loadingsRef.current[0].cor = `${item.lat} ${item.long}`;
+          loadingsRef.current[0].address = item?.name;
+          loadingsRef.current[0].from_date = item?.date;
+        } else {
+          loadingsRef.current.push({
+            cor: `${item.lat} ${item.long}`,
             address: item?.name,
+            from_date: item?.date,
           });
         }
-
       });
 
-      // unloadingRef.current?.forEach((item, index) => {
-      //   item.cor = [reversedData?.[index]?.lat, reversedData?.[index]?.long];
-      //   item.address = reversedData?.[index]?.name;
-      // });
-
-      // unloadingRef.current.push(unloadingRef.current.shift());
+      consignee.forEach((item, index) => {
+        if (index === 0) {
+          unloadingRef.current[0].cor = `${item.lat} ${item.long}`;
+          unloadingRef.current[0].address = item?.name;
+          unloadingRef.current[0].to_date = item?.date;
+        } else {
+          unloadingRef.current.push({
+            cor: `${item.lat} ${item.long}`,
+            address: item?.name,
+            to_date: item?.date,
+          });
+        }
+      });
+      console.log(`data222`, loadingsRef.current, unloadingRef.current);
 
       setValue("loadings", loadingsRef.current);
       setValue("unloading", unloadingRef.current);
