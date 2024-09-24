@@ -139,11 +139,14 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     </div>
                   </div>
                 </div>
+                {
+                  console.log(`load`,addCargoProps.watch(`loadResId`))
+                }
                 <div className={cls.arrowWrap}>
                   <div
                     onClick={() =>
 
-                      addCargoProps. watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`, 2)
+                      addCargoProps.watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`, 2)
                     }
                     className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 2, })}
                   >
@@ -163,8 +166,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
                           <p className={cls.locationText}>
                             {addCargoProps.watch(`loadings[0].address`)}
                           </p>
+                          -{`>`}
                           <p className={cls.locationText}>
-                            {" "}
+                            
                             {addCargoProps.watch("unloading[0].address")}
                           </p>
                         </Flex>
@@ -211,9 +215,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   >
                     {addCargoProps.watch(`cargoIndex`) === 4 ? (
                       <CricleBlueIcon />
-                    ) : addCargoProps.watch("price_prepayment_unit") &&
-                      addCargoProps.watch("price") &&
-                      addCargoProps.watch("price_prepayment") ? (
+                    ) : 
+                      addCargoProps.watch("price")  ? (
                       <CheckIconStep />
                     ) : (
                       <CricleIcon />
@@ -221,9 +224,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     <div className={cls.text}>
                       <p>4. Оплата</p>
                       <span>
-                        {addCargoProps.watch(`price_after_order`)
-                          ? addCargoProps.watch(`price_after_order`)
-                          : `не заполнено`}
+                        {addCargoProps.watch(`price_after_order`) ? addCargoProps.watch(`price_after_order`): `не заполнено`}
                       </span>
                     </div>
                   </div>
@@ -274,6 +275,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 as="button"
                 key={item?.guid}
               >
+              
                 <Box
                   display="flex"
                   justifyContent="space-between"
@@ -303,12 +305,13 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                       >
-                        {item?.city_id_data?.[
+                      { item.address_name ? item.address_name.split('|')[0].charAt(0).toUpperCase() +
+                          item.address_name.split('|')[0].slice(1).toLowerCase() : item?.city_id_data?.[
                           "name_" + (locale === "uz" ? "en" : locale)
                         ] || item?.city_id_data?.name}
                       </Text>
                       <span>
-                        {item?.address_id_data?.[
+                        { item?.address_id_data?.[
                           "name_" + (locale === "uz" ? "en" : locale)
                         ] || item?.address_id_data?.name}
                       </span>
@@ -335,7 +338,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                       >
-                        {item?.city_id_2_data?.[
+                      { item.address_name ? item.address_name.split('|')[1].charAt(0).toUpperCase() +
+                          item.address_name.split('|')[1].slice(1).toLowerCase() : item?.city_id_2_data?.[
                           "name_" + (locale === "uz" ? "en" : locale)
                         ] || item?.city_id_2_data?.name}
                       </Text>

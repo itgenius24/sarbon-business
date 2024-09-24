@@ -25,8 +25,31 @@ const useStepThereProps = () => {
     isAccessOpen,
     isBeltsOpen,
     isLiftingCapacityOpen,
+    isFtlOpen,
+    isReymenOpen,
+    setIsFtlOpen,
+    setIsReymenOpen,
   } = useAddCargoContext();
   const [disabled,setDisabled] = useState(true)
+  const [load, setLoad] = useState({});
+
+  useEffect(() => {
+    setLoad({
+      top: watch(`top`),
+      side: watch(`side`),
+      back: watch(`back`),
+      with_removal: watch(`with_removal`),
+    });
+  }, [
+    watch(`top`),
+    watch(`side`),
+    watch(`back`),
+    watch(`with_removal`),
+  ]);
+  const getTrueKeys = (obj) => {
+    return Object.keys(obj).filter((key) => obj[key] === true);
+  };
+
   useEffect(() => {
     if(watch("car_type")?.value && watch("transport_count")){
       setDisabled(false)
@@ -40,24 +63,32 @@ const useStepThereProps = () => {
     value: item?.guid,
   }));
 
-  function handleCheckboxChange(e) {
-    const name = e.target.name;
-    const checked = e.target.checked;
 
-    if (checked) {
-      if (name === "is_ftl") {
-        setValue("is_ftl", true);
-        setValue("is_ltl", false);
-      } else if (name === "is_ltl") {
-        setValue("is_ltl", true);
-        setValue("is_ftl", false);
-      }
-    }
-  }
 
   function handleOpenRequirement() {
     setRequirementOpen(true);
   }
+
+  function handleIsFtlOpen() {
+    setIsFtlOpen(true);
+  }
+
+  function handleCloseIsFtlOpen() {
+    setIsFtlOpen(false);
+  }
+
+
+
+  function handleIsReymenOpen() {
+    setIsReymenOpen(true);
+  }
+
+  function handleCloseIsReymenOpen() {
+    setIsReymenOpen(false);
+  }
+
+
+
 
   function handleCloseRequirement() {
     setRequirementOpen(false);
@@ -121,30 +152,41 @@ const useStepThereProps = () => {
 
   const [hoverIndex, setHoverIndex] = useState('');
   const [clickIndex,setClickIndex] = useState('')
+  const [clickNum,setClickNum] = useState('')
+
   const boxes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  useEffect(() =>{
+   if(!watch(`transport_count`)){
+    setValue(`transport_count`,1)
+   }
+  },[])
 
   useEffect(() => {
     setClickIndex(Number(watch("transport_count") || 0));
     
   },[watch("transport_count")])
+
   const onMouseLeave = () => {
     setHoverIndex(-1);
     if(clickIndex){
-      setValue("transport_count",hoverIndex)
+      setValue("transport_count",clickNum)
     } else{
       setValue("transport_count",0)
-
     }
 
   };
   const onMouseEnter = (num) => {
-    setHoverIndex(num);
+     if(clickIndex < num ){
+      setHoverIndex(num);
+     }
     setClickIndex(null);
     setValue("transport_count",num)
   };
 
   const handleNumClick = (num) => {
     setClickIndex(num);
+    setClickNum(num)
     setValue("transport_count",num)
   }
   const updateCargo = useUpdateCargo({
@@ -167,9 +209,28 @@ const useStepThereProps = () => {
         hitch: watch("hitch") || false,
         pneumatic: watch("pneumatic") || false,
         bunks: watch("bunks") || false,
+        load_type:getTrueKeys(load),
+        take_all_unloads:watch(`is_ftl`),
+        load_around_the_clock:watch(`is_ltl`)
       },
     };
     updateCargo.mutate(requestData)
+  }
+
+  function handleCheckboxChange(e){
+    const name = e.target.name;
+    const checked = e.target.checked;
+
+    if(checked) {
+      if(name === "is_ftl") {
+        setValue("is_ftl", true);
+        setValue("is_ltl", false);
+      } else if(name === "is_ltl") {
+        setValue("is_ltl", true);
+        setValue("is_ftl", false);
+      }
+    }
+
   }
   return {
     control,
@@ -183,6 +244,7 @@ const useStepThereProps = () => {
     isBeltsOpen,
     isLiftingCapacityOpen,
     carTypeOptions,
+    clickNum,
     handleOpenRequirement,
     handleCloseRequirement,
     handleOpenAccess,
@@ -191,6 +253,14 @@ const useStepThereProps = () => {
     handleCloseBelts,
     handleOpenLiftingCapacity,
     handleCloseLiftingCapacity,
+
+    isFtlOpen,
+    isReymenOpen,
+    handleIsFtlOpen,
+    handleCloseIsFtlOpen,
+    handleIsReymenOpen,
+    handleCloseIsReymenOpen,
+
     register,
     errors,
     canEdit,

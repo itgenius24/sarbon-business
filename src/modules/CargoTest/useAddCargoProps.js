@@ -52,13 +52,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   );
   const [isAccessOpen, setAccessOpen] = useState(formStore.isAccessOpen);
   const [isBeltsOpen, setBeltsOpen] = useState(formStore.isBeltsOpen);
-  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(
-    formStore.isLiftingCapacityOpen
-  );
+  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(formStore.isLiftingCapacityOpen);
 
   const [prepaymentFuelOpen, setPrepaymentFuelOpen] = useState(
     formStore.prepaymentFuelOpen
   );
+  const [isFtlOpen,setIsFtlOpen] = useState(formStore.isFtlOpen)
+  const [isReymenOpen,setIsReymenOpen] = useState(formStore.isReymenOpen)
+
   const [directContractOpen, setDirectContractOpen] = useState(
     formStore.directContractOpen
   );
@@ -723,6 +724,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         map_id: watch("payment_type")?.value,
         map_id_2: watch("payment_type_1")?.value,
         map_id_3: watch("payment_type_2")?.value,
+     
+        take_all_unloads:watch(`is_ftl`),
+        load_around_the_clock:watch(`is_ltl`),
 
         // guid: watch(`loadResId`),
 
@@ -781,7 +785,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   }
 
   function handleSelectTemplate(item) {
+    setValue("loadResId", item.guid)
+    console.log(`load`, item.guid)
+
     resetForm(item, item.guid);
+    setValue(`cargoIndex`,1)
     setCargoIndex(5);
 
     if (item?.tir || item?.cmr || item?.t1 || item?.medic_certificate) {
@@ -862,6 +870,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     setDimensionsAndDiameter(false);
     setRequirementOpen(false);
     setAccessOpen(false);
+    setIsFtlOpen(false)
+    setIsReymenOpen(false)
     setBeltsOpen(false);
     setLiftingCapacityOpen(false);
     setPrepaymentFuelOpen(false);
@@ -1116,6 +1126,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       formStore.isRequirementOpen = isRequirementOpen;
       formStore.isAccessOpen = isAccessOpen;
       formStore.isBeltsOpen = isBeltsOpen;
+      formStore.isFtlOpen = isFtlOpen;
+      formStore.isReymenOpen = isReymenOpen;
       formStore.isLiftingCapacityOpen = isLiftingCapacityOpen;
       formStore.prepaymentFuelOpen = prepaymentFuelOpen;
       formStore.directContractOpen = directContractOpen;
@@ -1127,6 +1139,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     isRequirementOpen,
     isAccessOpen,
     isBeltsOpen,
+    isFtlOpen,
+    isReymenOpen,
     isLiftingCapacityOpen,
     prepaymentFuelOpen,
     directContractOpen,
@@ -1167,6 +1181,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
   }, [temlateVal, getTempCargo.data?.response]);
 
+  console.log(`addCargoProps.address2`,getCargo);
+
+
   return {
     register,
     control,
@@ -1187,9 +1204,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDelete,
     handleCancel,
     handleAccept,
-    address1:
-      data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
-    address2:
+    address1: data?.address_name ? data?.address_name.split('|')[0].charAt(0).toUpperCase() +
+    data?.address_name.split('|')[0].slice(1).toLowerCase() : data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
+
+    address2:data?.address_name ? data?.address_name.split('|')[1].charAt(0).toUpperCase() +
+    data?.address_name.split('|')[1].slice(1).toLowerCase() :
       data?.address_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
     city1: data?.city_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
     city2: data?.city_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
@@ -1225,7 +1244,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     isRequirementOpen,
     setRequirementOpen,
     isAccessOpen,
+
     setAccessOpen,
+    isFtlOpen,
+    isReymenOpen,
+    setIsFtlOpen,
+    setIsReymenOpen,
     isBeltsOpen,
     setBeltsOpen,
     isLiftingCapacityOpen,

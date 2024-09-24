@@ -125,6 +125,8 @@ class Store {
         "isRequirementOpen",
         "isAccessOpen",
         "isBeltsOpen",
+        "isFtlOpen",
+        "isReymenOpen",
         "isLiftingCapacityOpen",
         "prepaymentFuelOpen",
         "directContractOpen",
@@ -144,6 +146,8 @@ class Store {
   isRequirementOpen = false
   isAccessOpen = false
   isBeltsOpen = false
+  isFtlOpen= false
+  isReymenOpen = false
   isLiftingCapacityOpen = false
   prepaymentFuelOpen = false
   directContractOpen = false
@@ -155,6 +159,8 @@ class Store {
     this.isRequirementOpen = false;
     this.isAccessOpen = false;
     this.isBeltsOpen = false;
+    this.isFtlOpen= false
+    this.isReymenOpen = false
     this.isLiftingCapacityOpen = false;
     this.prepaymentFuelOpen = false;
     this.directContractOpen = false;

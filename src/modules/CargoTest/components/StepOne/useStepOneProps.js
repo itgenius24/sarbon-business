@@ -26,7 +26,6 @@ const useStepOneProps = () => {
     setDimensionsAndDiameter,
     isFileUploader,
     setIsFileUploader,
-    loadingOptions,
   } = useAddCargoContext();
   const [searchCargo, setSearchCargo] = useState("");
   const [img, setImg] = useState("");

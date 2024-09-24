@@ -80,7 +80,9 @@ export const LoadsCard = (cargo) => {
               <span className={cls.addressText}>
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
-                    {cargo?.cargo?.city_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}
+                    { 
+   cargo?.cargo?.address_name ? cargo?.cargo?.address_name.split('|')[0].charAt(0).toUpperCase() +
+    cargo?.cargo?.address_name.split('|')[0].slice(1).toLowerCase() : cargo?.cargo?.city_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}
                   </span>
                   <span>
                     {
@@ -93,7 +95,8 @@ export const LoadsCard = (cargo) => {
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
-                    {
+                    {    cargo?.cargo?.address_name ? cargo?.cargo?.address_name.split('|')?.[1]?.charAt(0)?.toUpperCase() +
+                      cargo?.cargo?.address_name?.split('|')?.[1]?.slice(1)?.toLowerCase() : 
                       cargo?.cargo?.city_id_2_data?.[
                         "name_" + (locale === "uz" ? "en" : "ru")
                       ]

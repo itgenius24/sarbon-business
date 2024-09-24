@@ -16,7 +16,7 @@ import {
 import useStepTwoProps from "./useStepTwoProps";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+// import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import LoadingMap from "@/modules/Cargo/components/LoadingMap";
 // import { Modal } from "@/components/ModalS";
 import { ModalMap } from "@/components/ModalMap/Modal";
@@ -25,6 +25,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { ChakraSelect } from "@/components/ChakraSelect";
 import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
+import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
 
 const StepTwo = ({status }) => {
   const {
@@ -54,10 +55,14 @@ const StepTwo = ({status }) => {
     setActiveIndex,
     activeIndex,
     hanleAdress,
+    disabledUnlo,
     loadingNumF,
     address,
     lodingChangeDate,
+    disabledLo,
     onCreateCargoSuccess,
+    handLeCheck,handLeCheck2
+    
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -90,12 +95,13 @@ const StepTwo = ({status }) => {
                 </Flex>
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
-                    <TextFieldWithAddition
+                    <TextFieldWithAdditionMap
                       // onlyFieldDisabled={true}
                       disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
+                    
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
                           setAddress(e.target.value);
@@ -110,6 +116,7 @@ const StepTwo = ({status }) => {
                           "loading"
                         )
                       }
+                      
                       // onClick={() => router.push(`/${locale}/map/unloading/${index}`)}
                       // error={errors["unloading"]?.[index]?.["address"]}
                       additionalItemPlaceholder={
@@ -150,7 +157,7 @@ const StepTwo = ({status }) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда забрать</span>
                       <DatePickerComponent
-                        isDisabled={!canEdit}
+                        isDisabled={disabledLo}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index);
                         }}
@@ -190,8 +197,8 @@ const StepTwo = ({status }) => {
                         isDisabled={!canEdit}
                         width={"16px"}
                         height={"16px"}
-                        // defaultChecked={checkboxStatuses.broke_down}
-                        onChange={() => {}}
+                        checked={watch(`disabledLo`)}
+                        onChange={(e) => handLeCheck(e)}
                       >
                         Как можно скорее
                       </Checkbox>
@@ -245,7 +252,7 @@ const StepTwo = ({status }) => {
                 </Flex>
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
-                    <TextFieldWithAddition
+                    <TextFieldWithAdditionMap
                       // onlyFieldDisabled={true}
                       disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
@@ -309,7 +316,7 @@ const StepTwo = ({status }) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда доставить</span>
                       <DatePickerComponent
-                        isDisabled={!canEdit}
+                        isDisabled={!disabledUnlo}
                         onChange={(date) => {
                           lodingChangeDate("unLoading", date, index);
                         }}
@@ -323,8 +330,8 @@ const StepTwo = ({status }) => {
                         isDisabled={!canEdit}
                         width={"16px"}
                         height={"16px"}
-                        // defaultChecked={checkboxStatuses.broke_down}
-                        onChange={() => {}}
+                        checked={watch(`disabledUnlo`)}
+                        onChange={(e) => handLeCheck2(e)}
                       >
                         Как можно скорее
                       </Checkbox>
@@ -386,7 +393,7 @@ const StepTwo = ({status }) => {
       </ModalS>
       {!status && (
         <Button
-          // isDisabled={}
+          isDisabled={disabled}
           onClick={() => onCreateCargoSuccess()}
           rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}

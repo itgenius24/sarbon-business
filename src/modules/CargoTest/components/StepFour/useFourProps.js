@@ -10,7 +10,7 @@ const useFourProps = () => {
   const [check, setCheck] = useState();
   const { register, control, errors, setValue, watch, canEdit, canEditActive } =
     useAddCargoContext();
-    const [disabled,setDisabled] = useState(true)
+  const [disabled,setDisabled] = useState(true)
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
   const [mone, setMoney] = useState({});
@@ -47,53 +47,63 @@ const useFourProps = () => {
     label: item?.payment_type,
     value: item?.guid,
   }));
+
+
   useEffect(() => {
-    if(watch("price_prepayment_unit") && watch("price") && watch("price_prepayment")){
+    if(watch("price_after_order")|| check) {
       setDisabled(false)
     } else{
       setDisabled(true)
     }
-  },[watch("price_prepayment_unit")?.length,watch("price")?.length, watch("price_prepayment")?.length])
+  },[watch("price_after_order"),check])
+
+
   useEffect(() => {
-    if (!watch("price_prepayment")) {
-      setValue("price_after_order", 0);
-    } else if (!watch("price" || !watch("price_prepayment"))) {
-      setValue("price_after_order", 0);
+    if(watch("price") && !watch("prepayment")) {
+      setValue("price_after_order", watch("price"));
+    } else if (!watch("price") || !watch("price_prepayment")) {
+      setValue("price_after_order", ``);
+
     } else if (watch("price") && watch("price_prepayment") && canEdit) {
       setValue("price_after_order", watch("price") - watch("price_prepayment"));
     }
+     if(!watch("prepayment")){
+      setValue("price_prepayment", ``)
+     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch("price"), watch("price_prepayment")]);
+  }, [watch("price")?.length, watch("price_prepayment"),watch("prepayment")]);
+
+
 
   const updateCargo = useUpdateCargo({
     onSuccess: () => {
       setValue(`cargoIndex`,5)
-  
+
     },
   });
 
   const onSubmit = () => {
     const requestData = check
       ? {
-          data: {
-            guid: watch(`loadResId`),
-            money_code: getTrueKeys(mone),
-          },
-        }
+        data: {
+          guid: watch(`loadResId`),
+          money_code: getTrueKeys(mone),
+        },
+      }
       : {
-          data: {
-            guid: watch(`loadResId`),
-            bid_cash: +watch("price"),
-            prepayment_percentage: +watch(`price_prepayment`),
-            dim_length_special: watch("price_after_order"),
-            payment_description: watch("payment_description"),
-            currency_id:watch("price_prepayment_unit").value,
-            map_id: watch("payment_type")?.value,
-            map_id_2: watch("payment_type_1")?.value,
-            map_id_3: watch("payment_type_2")?.value,
-          },
-        };
+        data: {
+          guid: watch(`loadResId`),
+          bid_cash: +watch("price"),
+          prepayment_percentage: +watch(`price_prepayment`),
+          dim_length_special: watch("price_after_order"),
+          payment_description: watch("payment_description"),
+          currency_id:watch("price_prepayment_unit").value,
+          map_id: watch("payment_type")?.value,
+          map_id_2: watch("payment_type_1")?.value,
+          map_id_3: watch("payment_type_2")?.value,
+        },
+      };
     updateCargo.mutate(requestData);
   };
   return {

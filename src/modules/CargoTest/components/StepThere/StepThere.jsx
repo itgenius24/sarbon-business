@@ -6,6 +6,7 @@ import {
   CloseStepIcon,
   DeleteIcon,
   FurStepIcon,
+  HelpCircleIcon,
   LoadStepIcon,
   NextArrowIcon,
   PlusIcon,
@@ -23,7 +24,7 @@ import useStepThereProps from "./useSteThereProps";
 import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
 
-const StepThere = ({status }) => {
+const StepThere = ({ status }) => {
   const {
     control,
     setValue,
@@ -41,11 +42,20 @@ const StepThere = ({status }) => {
     handleCloseBelts,
     handleOpenLiftingCapacity,
     handleCloseLiftingCapacity,
+
+    isFtlOpen,
+    isReymenOpen,
+    handleIsFtlOpen,
+    handleCloseIsFtlOpen,
+    handleIsReymenOpen,
+    handleCloseIsReymenOpen,
+
     errors,
     canEdit,
     handleCheckboxChange,
     isEditing,
     watch,
+    clickNum,
     setHoverIndex,
     hoverIndex,
     clickIndex,
@@ -71,7 +81,7 @@ const StepThere = ({status }) => {
             <Flex width={"100%"}>
               <Box width={"100%"}>
                 <p className={cls.stepTitle}>Машина</p>
-                <Flex gap={"24px"} mt={"10px"}>
+                <Flex gap={"24px"} mt={"24px"}>
                   <Box width={"90%"}>
                     <Dropdown
                       control={control}
@@ -91,40 +101,39 @@ const StepThere = ({status }) => {
                       searchName="cargo_type_search"
                       // setValue={setValue}
                     />
-                   {
-                    canEdit && 
-                    <Flex gap={2} mt={2}>
-                      <span className={cls.subTitle}>Частые:: </span>
-                      <p
-                        onClick={() =>
-                          setValue("car_type", {
-                            label: "Тентованный полуприцеп",
-                            value: "3be76fbd-ec69-42c6-ac16-23a9ab454826",
-                          })
-                        }
-                        className={cls.quickWord}
-                      >
-                        Тентованный полуприцеп,
-                      </p>
-                      <p
-                        onClick={() =>
-                          setValue("car_type", {
-                            label: "Рефрижератор",
-                            value: "c16ddeb4-2d7c-47b6-a82e-d8ba567128e8",
-                          })
-                        }
-                        className={cls.quickWord}
-                      >
-                        Рефрижератор
-                      </p>
-                    </Flex>
-                   }
+                    {canEdit && (
+                      <Flex gap={2} mt={2}>
+                        <span className={cls.subTitle}>Частые: </span>
+                        <p
+                          onClick={() =>
+                            setValue("car_type", {
+                              label: "Тентованный полуприцеп",
+                              value: "3be76fbd-ec69-42c6-ac16-23a9ab454826",
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          Тентованный полуприцеп,
+                        </p>
+                        <p
+                          onClick={() =>
+                            setValue("car_type", {
+                              label: "Рефрижератор",
+                              value: "c16ddeb4-2d7c-47b6-a82e-d8ba567128e8",
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          Рефрижератор
+                        </p>
+                      </Flex>
+                    )}
                   </Box>
                 </Flex>
               </Box>
               <Box width={"100%"}>
                 <p className={cls.stepTitle}>Количество машин</p>
-                <Flex gap={"24px"} mt={"10px"} alignItems={"center"}>
+                <Flex gap={"24px"} mt={"24px"} alignItems={"center"}>
                   <Box width={"80px"}>
                     <TextField
                       disabled={!canEdit}
@@ -141,9 +150,9 @@ const StepThere = ({status }) => {
                         paddingRight={2}
                         cursor={"pointer"}
                         key={index}
-                        onMouseLeave={ () => canEdit ? onMouseLeave(): {}}
-                        onMouseEnter={() => canEdit ? onMouseEnter(item): {}}
-                        onClick={() => canEdit ?  handleNumClick(item):{}}
+                        onMouseLeave={() => (canEdit ? onMouseLeave() : {})}
+                        onMouseEnter={() => (canEdit ? onMouseEnter(item) : {})}
+                        onClick={() => (canEdit ? handleNumClick(item) : {})}
                       >
                         <FurStepIcon
                           num={
@@ -154,7 +163,15 @@ const StepThere = ({status }) => {
                               : item
                           }
                           color={
-                            item <= hoverIndex ? !canEdit ? `rgba(0, 122, 255, 0.4)` :  "rgba(0, 122, 255, 1)" : item <= clickIndex ? !canEdit ? `rgba(0, 122, 255, 0.4)` :  "rgba(0, 122, 255, 1)":"#B2B0B6"
+                            item <= hoverIndex
+                              ? !canEdit
+                                ? `rgba(0, 122, 255, 0.4)`
+                                : "rgba(0, 122, 255, 1)"
+                              : item <= clickIndex
+                              ? !canEdit
+                                ? `rgba(0, 122, 255, 0.4)`
+                                : "rgba(0, 122, 255, 1)"
+                              : "#B2B0B6"
                           }
                         />
                       </Box>
@@ -163,47 +180,83 @@ const StepThere = ({status }) => {
                 </Flex>
               </Box>
             </Flex>
-            {
-              canEdit && <Flex mt="30px" gap={2}>
-              {!isAccessOpen && (
-                <Button
-                  key="packagingBtn1"
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handleOpenAccess}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("FTL/LTL")}
-                </Button>
-              )}
-              {!isRequirementOpen && (
-                <Button
-                  key="packagingBtn2"
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handleOpenRequirement}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("TIR, CMR, T1, Медкнижка")}
-                </Button>
-              )}
-              {!isBeltsOpen && (
-                <Button
-                  key="packagingBtn3"
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handleOpenBelts}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("Ремней (шт)")}
-                </Button>
-              )}
-            </Flex>
-            }
-            {isAccessOpen && (
+            {canEdit && (
+              <Flex mt="30px" gap={2}>
+                {!isLiftingCapacityOpen && (
+                  <Button
+                    key="packagingBtn1"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleOpenLiftingCapacity}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("Тип загрузки")}
+                  </Button>
+                )}
+                {!isRequirementOpen && (
+                  <Button
+                    key="packagingBtn2"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleOpenRequirement}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("Сцепка,Пневмоход, Коники")}
+                  </Button>
+                )}
+                {!isBeltsOpen && (
+                  <Button
+                    key="packagingBtn3"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleOpenBelts}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("ADR")}
+                  </Button>
+                )}
+                {!isAccessOpen && (
+                  <Button
+                    key="packagingBtn4"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleOpenAccess}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("TIR, CMR, T1, Медкнижка")}
+                  </Button>
+                )}
+                {!isFtlOpen && (
+                  <Button
+                    key="packagingBtn5"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleIsFtlOpen}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("FTL/LTL")}
+                  </Button>
+                )}
+                {!isReymenOpen && (
+                  <Button
+                    key="packagingBtn6"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleIsReymenOpen}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("Ремней, шт")}
+                  </Button>
+                )}
+              </Flex>
+            )}
+            {isLiftingCapacityOpen && (
               <Box
                 className={cls.additionalFields}
                 display="flex"
@@ -219,24 +272,28 @@ const StepThere = ({status }) => {
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
-                      name="tir"
+                      name="top"
                     >
                       {t("Верхняя")}
                     </Checkbox>
-                    <Checkbox disabled={!canEdit} register={register} name="t1">
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      name="side"
+                    >
                       {t("Боковая")}
                     </Checkbox>
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
-                      name="cmr"
+                      name="back"
                     >
                       {t("Задняя")}
                     </Checkbox>
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
-                      name="medic_certificate"
+                      name="with_removal"
                     >
                       {t("Со снятием стоек")}
                     </Checkbox>
@@ -247,7 +304,7 @@ const StepThere = ({status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
-                  onClick={handleCloseAccess} // Toggles the packaging section
+                  onClick={handleCloseLiftingCapacity} // Toggles the packaging section
                   variant={"outline"}
                 />
               </Box>
@@ -340,20 +397,148 @@ const StepThere = ({status }) => {
                 />
               </Box>
             )}
+            {isAccessOpen && (
+              <Box
+                className={cls.additionalFields}
+                display="flex"
+                width={"100%"}
+                alignItems="center"
+                mt="24px"
+                justifyContent={"space-between"}
+                key="packagingBtn4"
+              >
+                <Box>
+                  <p className={cls.stepTitle2}>
+                    {t("TIR, CMR, T1, Медкнижка")}
+                  </p>
+                  <Box display="flex" columnGap="10px" alignItems={"center"}>
+                    <Box display="flex" columnGap="10px" flexGrow={1}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="tir"
+                      >
+                        {t("TIR")}
+                      </Checkbox>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="t1"
+                      >
+                        {t("T1")}
+                      </Checkbox>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="cmr"
+                      >
+                        {t("CMR")}
+                      </Checkbox>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="medic_certificate"
+                      >
+                        {t("Медкнижка")}
+                      </Checkbox>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <IconButton
+                  border={"none"}
+                  width={"fit-content"}
+                  icon={<CloseStepIcon />}
+                  onClick={handleCloseAccess} // Toggles the packaging section
+                  variant={"outline"}
+                />
+              </Box>
+            )}
+            {isFtlOpen && (
+              <Box
+                className={cls.additionalFields}
+                display="flex"
+                width={"100%"}
+                alignItems="center"
+                mt="24px"
+                justifyContent={"space-between"}
+                key="packagingBtn5"
+              >
+                <Box>
+                  <p className={cls.stepTitle2}>{t("FTL/LTL")}</p>
+                  <Box  width={"100%"} display="flex" flexDirection={`column`} rowGap={`10px`} columnGap="10px" >
+                  
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        onChange={handleCheckboxChange}
+                        defaultChecked={!canEdit}
+                        name="is_ftl"
+                      >
+                        <Box display="flex" alignItems="center">
+                          <span>{t("отдельной машиной (FTL)")}</span>
+                          <HelpCircleIcon />
+                        </Box>
+                      </Checkbox>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        onChange={handleCheckboxChange}
+                        name="is_ltl"
+                      >
+                        {t("отдельной машиной или догрузом (FTL или LTL)")}
+                      </Checkbox>
+                   
+                  </Box>
+                </Box>
+
+                <IconButton
+                  border={"none"}
+                  width={"fit-content"}
+                  icon={<CloseStepIcon />}
+                  onClick={handleCloseIsFtlOpen} // Toggles the packaging section
+                  variant={"outline"}
+                />
+              </Box>
+            )}
+            {isReymenOpen && (
+              <Box
+                className={cls.additionalFields}
+                display="flex"
+                width={"100%"}
+                alignItems="center"
+                mt="24px"
+                justifyContent={"space-between"}
+                key="packagingBtn6"
+              >
+                <Box>
+                  <p className={cls.stepTitle2}>{t("Ремней, шт")}</p>
+             <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="straps_number" />
+                  
+                </Box>
+
+                <IconButton
+                  border={"none"}
+                  width={"fit-content"}
+                  icon={<CloseStepIcon />}
+                  onClick={handleCloseIsReymenOpen} // Toggles the packaging section
+                  variant={"outline"}
+                />
+              </Box>
+            )}
           </Box>
         </Flex>
       </Box>
-      {
-        !status &&    <Button
-        isDisabled={disabled}
-        onClick={() => onSubmit()}
-        rightIcon={<NextArrowIcon />}
-        className={cls.nextBtn}
-      >
-        Далее
-      </Button>
-      }
-     
+      {!status && (
+        <Button
+          isDisabled={disabled}
+          onClick={() => onSubmit()}
+          rightIcon={<NextArrowIcon />}
+          className={cls.nextBtn}
+        >
+          Далее
+        </Button>
+      )}
     </>
   );
 };

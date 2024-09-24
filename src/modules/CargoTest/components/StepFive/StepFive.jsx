@@ -16,7 +16,7 @@ import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-const StepFive = ({status}) => {
+const StepFive = ({ status }) => {
   const { t } = useTranslation();
   const {
     register,
@@ -29,45 +29,55 @@ const StepFive = ({status}) => {
     handleResetForm,
     isClicked,
     loading,
+    loadings,
+    unloading,
     getValues,errors
   } = useAddCargoContext();
   const { value: userData } = useGetStoreData(authStore, "userData");
   const [isPopupOpen,setIsPopupOpen] = useState(false)
+  const [isPopupOpen2,setIsPopupOpen2] = useState(false)
+  const [isUpdate,setIsUpdate] = useState(true)
   const [guid,setGuid] = useState();
   const router = useRouter()
   const locale = useGetLang();
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
       setGuid(data.guid)
-     
+
     },
   });
   const createAddress = useCreateAddressMutation({
     onSuccess:(res) => {
-      setIsPopupOpen(true)
+      if(isUpdate){
+        setIsPopupOpen(true)
       
+      }else{
+        setIsPopupOpen2(true)
+        handleCloseTemplateModal()
+      }
     },
     onError() {
-      
+
     },
   });
-  console.log(`updateCargo`,guid)
+console.log(`loadinss`,unloading)
 
   const onSubmitF = () =>{
     const requestData = {
       data:{
-        load_time: getValues("loadings")[0].from_date,
+        load_time: addDaysToDate(getValues("loadings")[0].from_date || new Date(),getValues("loadings")[0].loading_num),
         date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
         guid: watch(`loadResId`),
         cargo_type: ["cargo"],
-        users_id:authStore.userData.id
+        users_id:authStore.userData.id,
+        address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`
       }
     }
     updateCargo.mutate(requestData)
 
-    let loadingsData =  getValues("loadings").map((item,index) => ({
+    let loadingsData = getValues("loadings").map((item,index) => ({
       address:item?.address,
       date: addDaysToDate(item.from_date,item.loading_num),
       lat: item?.cor.split(" ")[0],
@@ -99,22 +109,24 @@ const StepFive = ({status}) => {
   }
 
   const shablonF = () => {
+    setIsUpdate(false)
     const requestData = {
       data:{
-        load_time: addDaysToDate(getValues("loadings")[0].from_date,getValues("loadings")[0].loading_num),
+        load_time: addDaysToDate(getValues("loadings")[0].from_date || new Date(),getValues("loadings")[0].loading_num),
         date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
         guid: watch(`loadResId`),
         cargo_type: ["template"],
         template_name: watch(`template_name`),
-        users_id:authStore.userData.id
+        users_id:authStore.userData.id,
+        address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`
 
       }
     }
     updateCargo.mutate(requestData)
 
-    let loadingsData =  getValues("loadings").map((item,index) => ({
+    let loadingsData = getValues("loadings").map((item,index) => ({
       address:item?.address,
       date: addDaysToDate(item.from_date,item.loading_num?.value),
       lat: item?.cor.split(" ")[0],
@@ -146,12 +158,13 @@ const StepFive = ({status}) => {
 
   const clearF = () => {
     handleResetForm()
+    setIsPopupOpen2(false)
     setValue(`cargoIndex`,1)
   }
 
   const routerClick = () => {
-     handleResetForm()
-      router.push(`/${locale}/my-loads/in_moderation/${guid}?isFirst=true`)
+    handleResetForm()
+    router.push(`/${locale}/my-loads/in_moderation/${guid}?isFirst=true`)
   }
   return (
     <>
@@ -207,44 +220,45 @@ const StepFive = ({status}) => {
         </Flex>
       </Box>
       {
-        !status &&  <Box mt="32px">
-        <Checkbox name="accept" register={register} filled>
-          <Text fontSize="14px" maxWidth="396px" width="100%">
-            {t("Нажимая кнопку, вы принимаете условия")}{" "}
-            <a style={{ color: "#026FE7", fontWeight: "600" }} href="">
-              {t("Пользовательская  соглашения")}
-            </a>
-          </Text>
-        </Checkbox>
-        <Box
-          mt="16px"
-          display="flex"
-          columnGap="12px"
-          justifyContent="flex-start"
-          maxWidth="900px"
-        >
-          <Button
-            onClick={handleOpenTemplateModal}
-            // isLoading={loading}
-            size="sm"
-            maxWidth="223px"
-            variant="secondaryWhite"
+        !status && <Box mt="32px">
+          <Checkbox name="accept" register={register} filled>
+            <Text fontSize="14px" maxWidth="396px" width="100%">
+              {t("Нажимая кнопку, вы принимаете условия")}{" "}
+              <a style={{ color: "#026FE7", fontWeight: "600" }} href="">
+                {t("Пользовательская  соглашения")}
+              </a>
+            </Text>
+          </Checkbox>
+          <Box
+            mt="16px"
+            display="flex"
+            columnGap="12px"
+            justifyContent="flex-start"
+            maxWidth="900px"
           >
-            {t("Сохранить как шаблон")}
-          </Button>
-          <Button
-            isDisabled={!watch("accept") || isClicked}
-            isLoading={loading}
-            size="sm"
-            maxWidth="223px"
-            onClick={onSubmitF}
-          >
-            {t("Опубликовать груз")}
-          </Button>
+
+            <Button
+              isDisabled={!watch("accept") || isClicked}
+              isLoading={loading}
+              size="md"
+              maxWidth="223px"
+              onClick={onSubmitF}
+            >
+              {t("Опубликовать груз")}
+            </Button>
+            <Button
+              onClick={handleOpenTemplateModal}
+              // isLoading={loading}
+              size="md"
+              maxWidth="223px"
+              variant="secondaryWhite"
+            >
+              {t("Сохранить как шаблон")}
+            </Button>
+          </Box>
         </Box>
-      </Box>
       }
-     
+
       <ModalS
         oneBtn
         isOpen={isTemplateModalOpen}
@@ -266,7 +280,7 @@ const StepFive = ({status}) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <CheckModalIcon  />
+            <CheckModalIcon />
           </ModalHeader>
           <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
           <ModalBody>
@@ -275,13 +289,26 @@ const StepFive = ({status}) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={() => routerClick()} style={{background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black'}} className={cls.btnOutline} mr={3}>
+            <Button onClick={() => routerClick()} style={{ background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black' }} className={cls.btnOutline} mr={3}>
                Посмотреть детали
             </Button>
-           <Button  onClick={() => clearF()} style={{background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black'}} className={cls.btngreen}>
+            <Button onClick={() => clearF()} style={{ background:'white',border:'1px solid rgba(208, 213, 221, 1)',color:'black' }} className={cls.btngreen}>
                Добавить новый груз
-           </Button>
+            </Button>
           </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isPopupOpen2} isCentered>
+        <ModalOverlay onClick={() => clearF()} />
+        <ModalContent>
+          <ModalHeader>
+            <CheckModalIcon />
+          </ModalHeader>
+          <ModalCloseButton onClick={() => clearF()} />
+          <ModalBody paddingBottom={`40px`}>
+            <p style={{ fontWeight:600,fontSize:"18px" }}>Шаблон успешно добавлен</p>
+          </ModalBody>
+
         </ModalContent>
       </Modal>
     </>

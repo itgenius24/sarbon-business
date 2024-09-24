@@ -35,60 +35,58 @@ const StepFour = ({ status }) => {
     onSubmit,
   } = useFourProps({});
   const { t } = useTranslation();
- 
-  const [disabledP,setDisabledP] = useState(true)
+
+  const [disabledP, setDisabledP] = useState(true);
 
   useEffect(() => {
-    console.log(`disabledP`,canEdit && watch(`prepayment`))
+    console.log(`disabledP`, canEdit && watch(`prepayment`));
 
-      if(canEdit && watch(`prepayment`)){
-
-        setDisabledP(false)
-        
-      }
-      else{
-        setDisabledP(true)
-      }
-  },[canEdit,watch(`prepayment`)])
+    if (canEdit && watch(`prepayment`)) {
+      setDisabledP(false);
+    } else {
+      setDisabledP(true);
+    }
+  }, [canEdit, watch(`prepayment`)]);
 
   const negotiableOption = [
     {
-      label:"Без торга",
-      value:`negotiable`,
+      label: "Без торга",
+      value: `negotiable`,
     },
     {
-      label:"Возможен торг",
-      value:`no_negotiable`,
+      label: "Возможен торг",
+      value: `no_negotiable`,
     },
     {
-      label:"Запросить",
-      value:`request`,
+      label: "Запросить",
+      value: `request`,
     },
-  ]
+  ];
 
   const onChange = (e) => {
     setValueR(e);
-   const selectedOption =  currencyOptions?.filter((item) => item.label === e)[0];
+    const selectedOption = currencyOptions?.filter(
+      (item) => item.label === e
+    )[0];
     setValue(`price_prepayment_unit`, selectedOption);
+    console.log(`elem`, e);
   };
 
   const onChangeNa = (e) => {
-    console.log(`negotiable`,e)
-  if(e === `negotiable`) {
-    setValue(`negotiable`,true)
-    setCheck(false)
-  }else if(e === `no_negotiable`){
-    setValue(`negotiable`,false)
-    setCheck(false)
-  }else{
-    setCheck(true)
-  }
+    console.log(`negotiable`, e);
+    if (e === `negotiable`) {
+      setValue(`negotiable`, true);
+      setCheck(false);
+    } else if (e === `no_negotiable`) {
+      setValue(`negotiable`, false);
+      setCheck(false);
+    } else {
+      setCheck(true);
+    }
     setValueR(e);
-  //  const selectedOption =  currencyOptions?.filter((item) => item.label === e)[0];
-  //   setValue(`price_prepayment_unit`, selectedOption);
+    //  const selectedOption =  currencyOptions?.filter((item) => item.label === e)[0];
+    //   setValue(`price_prepayment_unit`, selectedOption);
   };
-
-  
 
   return (
     <>
@@ -103,48 +101,73 @@ const StepFour = ({ status }) => {
             >
               <Flex gap={"50px"}>
                 <p className={cls.stepTitle}>Оплата</p>
-                {!check && 
-                   !status ? 
-                  <RadioGroup onChange={(e) => onChange(e)} value={watch(`price_prepayment_unit`)?.label}>
-                    <Flex gap={"10px"}>
+                {!check && !status ? (
+                  <RadioGroup
+                    defaultValue={`доллар`}
+                    onChange={(e) => onChange(e)}
+                  >
+                    <Flex gap={"19px"}>
                       {currencyOptions &&
                         currencyOptions.map((item) => (
                           <Radio
-                            key={item.value}
+                            key={item.label}
                             border={"1px solid rgba(208, 213, 221, 1)"}
                             value={item.label}
                             size={"md"}
+                            _checked={{
+                              bg: "white", // Custom background color
+                        
+                               border:`5px solid rgba(0, 122, 255, 1)`
+                            }}
                           >
-                          <span className={ watch(`price_prepayment_unit`)?.label === item.label ? cls.ActiveRadio :  cls.radio}>
-                          {item?.label?.charAt(0).toUpperCase() +
-                              item?.label?.slice(1).toLowerCase()
+                            {console.log(`item.label`, item.label)}
+                            <span
+                              className={
+                                watch(`price_prepayment_unit`)?.label ===
+                                item.label
+                                  ? cls.ActiveRadio
+                                  : cls.radio
                               }
-                          </span>
-                          </Radio>
-                        ))}
-                    </Flex>
-                  </RadioGroup> : 
-
-                  <RadioGroup isDisabled={!canEdit} onChange={(e) => onChangeNa(e)} value={value}>
-                    <Flex gap={"10px"}>
-                      {negotiableOption &&
-                        negotiableOption.map((item) => (
-                          <Radio
-                            key={item.value}
-                            border={"1px solid rgba(208, 213, 221, 1)"}
-                            value={item.value}
-                            size={"md"}
-                          >
-                             <span className={value === item.value ? cls.ActiveRadio :  cls.radio}>
-                            {item?.label?.charAt(0).toUpperCase() +
-                              item?.label?.slice(1).toLowerCase()
-                              }
-                          </span>
+                            >
+                              {item?.label?.charAt(0).toUpperCase() +
+                                item?.label?.slice(1).toLowerCase()}
+                            </span>
                           </Radio>
                         ))}
                     </Flex>
                   </RadioGroup>
-                }
+                ) : (
+                  status && (
+                    <RadioGroup
+                      isDisabled={!canEdit}
+                      onChange={(e) => onChangeNa(e)}
+                      value={value}
+                    >
+                      <Flex gap={"10px"}>
+                        {negotiableOption &&
+                          negotiableOption.map((item) => (
+                            <Radio
+                              key={item.value}
+                              border={"1px solid rgba(208, 213, 221, 1)"}
+                              value={item.value}
+                              size={"md"}
+                            >
+                              <span
+                                className={
+                                  value === item.value
+                                    ? cls.ActiveRadio
+                                    : cls.radio
+                                }
+                              >
+                                {item?.label?.charAt(0).toUpperCase() +
+                                  item?.label?.slice(1).toLowerCase()}
+                              </span>
+                            </Radio>
+                          ))}
+                      </Flex>
+                    </RadioGroup>
+                  )
+                )}
               </Flex>
               {!status && (
                 <Flex alignItems={"center"} gap={3}>
@@ -162,15 +185,15 @@ const StepFour = ({ status }) => {
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
                       <p className={cls.label}>{t(`Общая сумма`)}</p>
-                    {
-                      !status &&   <Checkbox
-                        isDisabled={!canEdit}
-                        register={register}
-                        name="negotiable"
-                      >
-                        Возможен торг
-                      </Checkbox>
-                    }
+                      {!status && (
+                        <Checkbox
+                          isDisabled={!canEdit}
+                          register={register}
+                          name="negotiable"
+                        >
+                          Возможен торг
+                        </Checkbox>
+                      )}
                     </Flex>
                     <TextFieldWithAddition
                       disabled={!canEdit}
@@ -190,9 +213,13 @@ const StepFour = ({ status }) => {
                   </Box>
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
-                        
-                        
-                        <Checkbox register={register}  name={`prepayment`} isDisabled={!canEdit}>Предоплата</Checkbox>
+                      <Checkbox
+                        register={register}
+                        name={`prepayment`}
+                        isDisabled={!canEdit}
+                      >
+                        Предоплата
+                      </Checkbox>
                     </Flex>
                     <TextFieldWithAddition
                       disabled={disabledP}
@@ -258,9 +285,9 @@ const StepFour = ({ status }) => {
                       </p>
                     </Flex>
                     <textarea
-                    className={cls.textarea}
-                       disabled={!canEdit}
-                       value={watch(`payment_description`)}
+                      className={cls.textarea}
+                      disabled={!canEdit}
+                      value={watch(`payment_description`)}
                       name={"payment_description"}
                       watch={watch}
                       placeholder={t("Пишите здесь")}
@@ -270,17 +297,15 @@ const StepFour = ({ status }) => {
                           setValue("payment_description", value);
                         }
                       }}
-                    >
-                      
-                    </textarea>
+                    ></textarea>
                     <Text
-          color="brand.600"
-          fontSize="14px"
-          fontWeight="400"
-          lineHeight="20px"
-        >
-          {watch(`payment_description`)?.length || 0}/1000
-        </Text>
+                      color="brand.600"
+                      fontSize="14px"
+                      fontWeight="400"
+                      lineHeight="20px"
+                    >
+                      {watch(`payment_description`)?.length || 0}/1000
+                    </Text>
                   </Box>
                 </Flex>
               </Box>
@@ -291,25 +316,53 @@ const StepFour = ({ status }) => {
                 </h2>
                 <p className={cls.subTitle2}>Можно предлагать</p>
                 <Flex mt={2} gap={"22px"}>
-                  <Checkbox register={register} name="usd">
-                    USD
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="usd"
+                  >
+                    Доллар
                   </Checkbox>
-                  <Checkbox register={register} name="uzs">
-                    UZS
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="uzs"
+                  >
+                    Сум
                   </Checkbox>
-                  <Checkbox register={register} name="rub">
-                    RUB
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="rub"
+                  >
+                    Рубль
                   </Checkbox>
-                  <Checkbox register={register} name="eur">
-                    EUR
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="eur"
+                  >
+                    Евро
                   </Checkbox>
-                  <Checkbox register={register} name="spot">
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="spot"
+                  >
                     Наличными
                   </Checkbox>
-                  <Checkbox register={register} name="with_nds">
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="with_nds"
+                  >
                     С НДС, безнал
                   </Checkbox>
-                  <Checkbox register={register} name="free_nds">
+                  <Checkbox
+                    defaultChecked={true}
+                    register={register}
+                    name="free_nds"
+                  >
                     Без НДС, безнал
                   </Checkbox>
                 </Flex>

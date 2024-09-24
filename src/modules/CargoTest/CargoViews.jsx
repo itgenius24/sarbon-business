@@ -93,11 +93,13 @@ export const CargoViews = observer(({ id, status, locale }) => {
           <Heading fontSize={!isLargerThan800 ? "24px" : "30px"} size="md">
             {!addCargoProps.canEdit ? (
               <>
-                {" "}
+                {
+                  console.log(`addCargoProps.address2`,addCargoProps.address2)
+                }
                 {addCargoProps.address1} - {addCargoProps.address2}
-                <Text as="span" color="brand.500">
+                {/* <Text as="span" color="brand.500">
                   {addCargoProps.distance} km
-                </Text>
+                </Text> */}
               </>
             ) : (
               `Редактировать груз`
@@ -400,9 +402,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                       maxWidth="323px"
                       paddingLeft={`30px`}
                       paddingRight={`30px`}
-                      onClick={addCargoProps.handleSubmit(
-                        addCargoProps.onSubmit
-                      )}
+                      onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
                     >
                       {t("Сохранить изменения")}
                     </Button>

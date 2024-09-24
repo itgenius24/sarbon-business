@@ -21,6 +21,11 @@ const useStepTwoProps = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [nameState, setNameState] = useState("");
   const [disabled,setDisabled] = useState(true)
+
+  const [disabledUnlo,setDisabledUnlo] = useState(true)
+  const [disabledLo,setDisabledLo] = useState(false)
+
+
   const [placeMarkGeometry, setPlaceMarkGeometry] = useState([
     41.34908881486223, 69.3374228085318,
   ]);
@@ -29,22 +34,46 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const { control, register, watch, setValue, errors, canEdit, getValues, loadings,appendLoading,removeLoading,updateLoading,unloading,appendUnloading,removeUnloading,updateUnloading} =
+  const { control, register, watch, setValue, errors, canEdit, getValues, loadings,appendLoading,removeLoading,updateLoading,unloading,appendUnloading,removeUnloading,updateUnloading } =
     useAddCargoContext();
 
-
- 
-
- 
+  // useEffect(() => {
+  //   if(canEdit && watch(`disabledlo`)){
+  //     setDisabledLo(true)
+      
+  //   } else{
+  //     setDisabledLo(false)
+  //   }
+  // },[canEdit,watch(`disabledlo`)])
 
 
   useEffect(() => {
-    if(watch(`loadings[0].address`) && watch("unloading[0].address") && watch(`loadings[0].loading_num`) ){
+    if(canEdit && watch(`disabledUnlo`)){
+      setDisabledUnlo(false)
+    } else{
+      setDisabledUnlo(true)
+    }
+  },[canEdit,watch(`disabledUnlo`)])
+
+
+
+const handLeCheck = (e) => {
+  setDisabledLo(e.target.checked)
+  setValue(`disabledLo`,e.target.checked)
+}
+
+const handLeCheck2 = (e) => {
+  setDisabledUnlo(e.target.checked)
+  setValue(`disabledUnlo`,e.target.checked)
+}
+
+  useEffect(() => {
+    if(watch(`loadings[0].address`) && watch("unloading[0].address") ){
       setDisabled(false)
     } else{
       setDisabled(true)
     }
-  },[watch("loadings[0].address")?.label, watch("unloading[0].address")?.length , watch("loadings[0].loading_num`")?.length])
+  },[watch("loadings[0].address")?.length, watch("unloading[0].address")?.length])
   function onCreateCargoSuccess() {
 
     setValue(`cargoIndex`,3)
@@ -126,7 +155,7 @@ const useStepTwoProps = () => {
         address: watch(`loadings[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
         from_date: watch(`loadings[${index}].from_date`) || "",
-       
+
       });
     } else {
       updateUnloading(index, {
@@ -220,11 +249,14 @@ const useStepTwoProps = () => {
     results,
     activeIndex,
     hanleAdress,
+    disabledUnlo,
+    disabledLo,
     address,
     lodingChangeDate,
     onCreateCargoSuccess,
     canEdit,
-    loadingNumF
+    loadingNumF,
+    handLeCheck,handLeCheck2
   };
 };
 
