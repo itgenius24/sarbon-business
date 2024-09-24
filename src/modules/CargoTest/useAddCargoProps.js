@@ -698,6 +698,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         package_quantity: +watch(`packaging_quantity`) || 0,
         length: +watch(`length`),
         width: watch(`width`),
+        
         height: +watch(`height`),
         photo: watch(`image`),
         // guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
