@@ -194,3 +194,35 @@ a {
   background-color: red !important;
 }
 
+
+.inputStyles {
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--brand-300);
+  // background-color: var(--base-white);
+  // background-color: rgba(246, 247, 248, 1);
+
+  // box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  // transition: box-shadow 0.3s ease;
+
+  button {
+    min-height: 44px;
+    background: #fcfcfd;
+  }
+
+  input {
+    font-size: 16px !important;
+    font-weight: 400;
+    width: 100%;
+    min-height: 44px;
+    background-color: rgba(246, 247, 248, 1);
+    &:not(:placeholder-shown) {
+      background-color: white; 
+     
+    }
+    &::placeholder {
+      color: var(--brand-500);
+      font-weight: 400;
+    }
+  }
+}

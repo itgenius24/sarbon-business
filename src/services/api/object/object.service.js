@@ -22,9 +22,11 @@ const objectService = {
   getCarType: (params) =>
     request.get("/v2/object-slim/get-list/vehicle_type", { params }),
   getTrailerType: (params) =>
-    request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+    request.get("/v2/object-slim/get-list/trailer_type", { params }),
   getUserData: (params) =>
-    request.get("/v2/object-slim/get-list/users?data={}", { params }),
+    request.get("/v2/object-slim/get-list/users", { params }),
+  getUserGpsData: (params) =>
+    request.get("/v2/object-slim/get-list/users_gps", { params }),
   getVehicle: (params) =>
     request.get("/v2/object-slim/get-list/vehicle", { params }),
   getCurrency: (params) =>
@@ -59,6 +61,8 @@ const objectService = {
     request.get("/v2/object-slim/get-list/partners_company", { params }),
   getCityList: (params) =>
     request.get("/v2/object-slim/get-list/city", { params }),
+  getCityCar: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle_type", { params }),
   getLoadingTypes: (params) =>
     request.get("/v2/object-slim/get-list/load_type", { params }),
   getUsers: (params) =>
@@ -212,13 +216,36 @@ export const useGetTrailerType = (
     ...settings,
   });
 };
-export const useGetUserData = (params, settings = {}) => {
+// export const useGetUserData = ({params, settings = {}}) => {
+//   return useQuery({
+//     queryKey: ["object/getUserDta", params],
+//     queryFn: () => objectService.getUserData({params}),
+//     ...settings,
+//   });
+// };
+
+
+export const useGetUserData = ({params = { data: JSON.stringify({}) },querySettings}) => {
   return useQuery({
-    queryKey: ["object/getUserDta", params],
-    queryFn: () => objectService.getUserData(params),
-    ...settings,
+    queryKey: ["object/getCargo", params],
+    queryFn: () => objectService.getUserData(params),querySettings
   });
 };
+
+export const useGetUserGpsData = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  return useQuery({
+    queryKey: ["object/getCargoGps", params],
+    queryFn: () => objectService.getUserGpsData(params),querySettings
+  });
+};
+
+export const useGetVehicleSingle = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  return useQuery({
+    queryKey: ["object/getCargo", params],
+    queryFn: () => objectService.getVehicle(params),querySettings
+  });
+};
+
 export const useGetVehicle = (
   params = { data: JSON.stringify({}) },
   settings = {}
@@ -344,6 +371,14 @@ export const useGetCityList = (params, settings) => {
   return useQuery({
     queryKey: ["object/getCityList", params],
     queryFn: () => objectService.getCityList(params),
+    ...settings,
+  });
+};
+
+export const useGetCarList = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getCarList", params],
+    queryFn: () => objectService.getCityCar(params),
     ...settings,
   });
 };

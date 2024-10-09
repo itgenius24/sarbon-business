@@ -60,6 +60,7 @@ export const TextFieldWithAddition = ({
           onWheel={(e) => e.target.blur()}
           {...props}
         />
+    
         {before && <span className={cls.before}>{before}</span>}
         {after && <span className={cls.after}>{after}</span>}
       </div>

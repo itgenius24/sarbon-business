@@ -15,8 +15,26 @@ const itemsService = {
   createPeriod: (data) => request.post("/v2/items/period", data),
   updateResponse: (data) => request.put("/v2/items/response", data),
   createFeedback: (data) => request.post("/v2/items/review", data),
+  createVehicle: (data) => request.post("/v2/items/vehicle", data),
+  updateVehicle: (data) => request.put("/v2/items/vehicle", data),
+  deleteVehicle: (data) => request.delete(`/v2/items/vehicle/${data.id}`, {data:JSON.stringify({data:{}})}),
+  createUser: (data) => request.post("/v2/items/users", data),
+  updateUser: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
+  getCargo: (params) =>
+    request.get("/v2/object-slim/get-list/cargo", { params }),
+
 };
+
+// items/vehicle
+
+export const useGetCargoList = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  return useQuery({
+    queryKey: ["object/getCargo", params],
+    queryFn: () => itemsService.getCargo(params),...querySettings
+  });
+};
+
 
 export const useCreateAdMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createAd(data), ...mutationSettings });
@@ -82,6 +100,25 @@ export const useCreateFeedback = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createFeedback(data), ...mutationSettings });
 };
 
+export const useCreateVehicle = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.createVehicle(data), ...mutationSettings });
+};
+
+export const useUpdateVehicle = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateVehicle(data), ...mutationSettings });
+};
+
+export const useDeleteVehicle = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.deleteVehicle(data), ...mutationSettings });
+};
+
+export const useCreateUser = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.createUser(data), ...mutationSettings });
+};
+
+export const useUpdateUser = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateUser(data), ...mutationSettings });
+};
 export const useSendNotification = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.sendNotification(data), ...mutationSettings });
 };

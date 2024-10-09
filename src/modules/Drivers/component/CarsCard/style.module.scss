@@ -1,0 +1,51 @@
+.cardWrap{
+    width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 12px;
+    border-left: 4px solid var(--Blue, rgba(0, 122, 255, 1));
+    box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    position: relative;
+    .title{
+     font-weight: 600;
+     font-size: 14px;
+     color: rgba(33, 31, 38, 1);
+    }
+    .subTitle{
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(126, 123, 134, 1);
+    }
+    .subBlueTitle{
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(0, 122, 255, 1);
+    }
+    .statusWrap{
+        background-color: rgba(0, 122, 255, 0.08);
+        border-radius: 10px;
+        padding: 7px 15px;
+        margin-top: 14px;
+    }
+    .popup{
+        position: absolute;
+        right: 10px;
+        top: 20px;
+    }
+    .profileWrap{
+        padding: 16px 12px;
+        background-color: rgba(0, 122, 255, 0.08);
+        border-radius: 10px;
+        width: 100%;
+        margin-top: 8px;
+    }
+    .popoverCon{
+        border: 1px solid rgba(234, 236, 240, 1) !important;
+    }
+    .menuItem{
+        padding: 10px 8px;
+        font-weight: 500;
+        font-size: 14px;
+        background-color: rgba(0, 122, 255, 1);
+    }
+}

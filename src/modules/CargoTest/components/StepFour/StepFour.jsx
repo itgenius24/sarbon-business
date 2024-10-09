@@ -69,8 +69,9 @@ const StepFour = ({ status }) => {
       (item) => item.label === e
     )[0];
     setValue(`price_prepayment_unit`, selectedOption);
-    console.log(`elem`, e);
   };
+
+  console.log(`currrenyOption`, currencyOptions);
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
@@ -103,7 +104,7 @@ const StepFour = ({ status }) => {
                 <p className={cls.stepTitle}>Оплата</p>
                 {!check && !status ? (
                   <RadioGroup
-                    defaultValue={`доллар`}
+                    defaultValue="доллар" // Set the default value
                     onChange={(e) => onChange(e)}
                   >
                     <Flex gap={"19px"}>
@@ -116,11 +117,10 @@ const StepFour = ({ status }) => {
                             size={"md"}
                             _checked={{
                               bg: "white", // Custom background color
-                        
-                               border:`5px solid rgba(0, 122, 255, 1)`
+                              border: `5px solid rgba(0, 122, 255, 1)`,
                             }}
                           >
-                            {console.log(`item.label`, item.label)}
+                            {console.log(`item.label`, item)}
                             <span
                               className={
                                 watch(`price_prepayment_unit`)?.label ===

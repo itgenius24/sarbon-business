@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useGetMeasurement,
   useGetTrailerType,
-  useGetUserData,
+  
   useLoadingTypes,
   useLocation,
   useLogistikaGpsTrackingFilterDriver,
@@ -225,7 +225,6 @@ export const useGpsTrackingProps = () => {
   }
 
   const getTrailerType = useGetTrailerType();
-  const getUserData = useGetUserData();
   // console.log(`getUserData`, getUserData);
   const getLoadingTypes = useLoadingTypes();
   const carTypeOptions = getTrailerType.data?.response?.map((item) => ({

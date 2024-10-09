@@ -353,7 +353,6 @@ const StepOne = ({status }) => {
                 justifyContent={"space-between"}
                 key="dimensionsBtn2"
               >
-                {/* <Box width={"100%"} justifyContent={"space-between"} display={"flex"} alignItems={"center"}> */}
 
                 <p className={cls.stepTitle2}>
                   {t("Прикрепить фото")} <br />{" "}
@@ -390,7 +389,6 @@ const StepOne = ({status }) => {
                         height={150}
                       />
                       <Button
-                        // isDisabled={!canEdit}
                         onClick={() => {
                           setValue("image", null);
                         }}
@@ -413,12 +411,9 @@ const StepOne = ({status }) => {
                       borderRadius="8px"
                       background={"rgba(16, 24, 40, 0.05)"}
                       as="label"
-                      // maxWidth={islargerThan768 ? "540px" : "100%"}
                       ml="auto"
                       width="100%"
-                      // height="126px"
                       cursor={"pointer"}
-                      // opacity={canEdit ? 1 : 0.5}
                     >
                       <input
                         className="visually-hidden"
@@ -426,7 +421,6 @@ const StepOne = ({status }) => {
                         accept="image/*"
                         onChange={(e) => {
                           handleImageUpload(e);
-                          // setIsPhotoChanged(true);
                         }}
                       />
                       <Box>
@@ -436,11 +430,7 @@ const StepOne = ({status }) => {
                           width="40px"
                           height="40px"
                           p="10px"
-                          // boxShadow="0px 1px 2px 0px #1018280D"
                           borderRadius="8px"
-                          // background="white"
-                          // border="1px solid"
-                          // borderColor="brand.200"
                         >
                           <UploadCloudBlueIcon />
                         </Box>
@@ -452,15 +442,6 @@ const StepOne = ({status }) => {
                         >
                           {t(`Загрузите или перетащите изображения сюда`)}
                         </Box>
-                        {/* <Box
-                            textAlign="center"
-                            fontWeight="400"
-                            fontSize="14px"
-                            lineHeight="18px"
-                            color="brand.600"
-                          >
-                            {t(`Фото до 10 МБ.`)}
-                          </Box> */}
                       </Box>
                     </Box>
                   )}

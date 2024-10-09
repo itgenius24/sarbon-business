@@ -1,0 +1,78 @@
+.box{
+    box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+    padding: 50px 35px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 1);
+    .left{
+        width: 50%;
+    }
+
+}
+
+.stepTitle{
+    font-weight: 600;
+    font-size: 20px;
+    color: rgba(16, 24, 40, 1);
+    margin-top: 9px;
+  }
+  .stepTitle2{
+      font-weight: 600;
+    font-size: 20px;
+    color: rgba(16, 24, 40, 1);
+    margin-bottom: 12px;
+    span{
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+  .subTitle{
+      color: rgba(126, 123, 134, 1);
+      font-size: 14px;
+     font-weight: 400;
+
+  }
+  .quickWord{
+     color: rgba(0, 122, 255, 1);
+     font-size: 14px;
+     font-weight: 400;
+     cursor: pointer;
+     border-bottom: 1.5px dashed rgba(0, 122, 255, 1);
+  //    text-decoration: underline dotted;
+  }
+  .textFieldName{
+      font-weight: 400;
+      font-size: 14px;
+      // margin-bottom: 5px;
+      height: 30px;
+  }
+  .additionalFields{
+      border-top: 1px solid rgba(219, 216, 227, 1);
+      padding-top:25px ;
+      padding-bottom:25px ;
+  }
+  .ImgWrap{
+     margin-top: 15px;
+     width: 100%;
+     padding: 35px;
+     border-radius: 12px;
+     background-color: rgba(246, 247, 248, 1);
+  }
+  .link{
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(126, 123, 134, 1);
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    a{
+      text-decoration: underline solid !important;
+    }
+  }
+  .nextBtn{
+    width: fit-content;
+    padding: 27px 28px !important;
+    font-size: 18px;
+    font-weight: 600;
+     background-color: rgba(0, 122, 255, 1) !important;
+     margin-top: 30px;
+  }

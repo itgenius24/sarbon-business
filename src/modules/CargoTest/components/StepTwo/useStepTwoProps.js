@@ -20,11 +20,10 @@ const useStepTwoProps = () => {
   const [debouncedValue] = useDebounce(address, 500);
   const [activeIndex, setActiveIndex] = useState(null);
   const [nameState, setNameState] = useState("");
-  const [disabled,setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
 
-  const [disabledUnlo,setDisabledUnlo] = useState(true)
-  const [disabledLo,setDisabledLo] = useState(false)
-
+  const [disabledUnlo, setDisabledUnlo] = useState(true);
+  const [disabledLo, setDisabledLo] = useState(false);
 
   const [placeMarkGeometry, setPlaceMarkGeometry] = useState([
     41.34908881486223, 69.3374228085318,
@@ -34,49 +33,63 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const { control, register, watch, setValue, errors, canEdit, getValues, loadings,appendLoading,removeLoading,updateLoading,unloading,appendUnloading,removeUnloading,updateUnloading } =
-    useAddCargoContext();
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    errors,
+    canEdit,
+    getValues,
+    loadings,
+    appendLoading,
+    removeLoading,
+    updateLoading,
+    unloading,
+    appendUnloading,
+    removeUnloading,
+    updateUnloading,
+  } = useAddCargoContext();
 
   // useEffect(() => {
   //   if(canEdit && watch(`disabledlo`)){
   //     setDisabledLo(true)
-      
+
   //   } else{
   //     setDisabledLo(false)
   //   }
   // },[canEdit,watch(`disabledlo`)])
 
+  useEffect(() => {
+    if (canEdit && watch(`disabledUnlo`)) {
+      setDisabledUnlo(false);
+    } else {
+      setDisabledUnlo(true);
+    }
+  }, [canEdit, watch(`disabledUnlo`)]);
+
+  const handLeCheck = (e) => {
+    setDisabledLo(e.target.checked);
+    setValue(`disabledLo`, e.target.checked);
+  };
+
+  const handLeCheck2 = (e) => {
+    setDisabledUnlo(e.target.checked);
+    setValue(`disabledUnlo`, e.target.checked);
+  };
 
   useEffect(() => {
-    if(canEdit && watch(`disabledUnlo`)){
-      setDisabledUnlo(false)
-    } else{
-      setDisabledUnlo(true)
+    if (watch(`loadings[0].address`) && watch("unloading[0].address")) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
     }
-  },[canEdit,watch(`disabledUnlo`)])
-
-
-
-const handLeCheck = (e) => {
-  setDisabledLo(e.target.checked)
-  setValue(`disabledLo`,e.target.checked)
-}
-
-const handLeCheck2 = (e) => {
-  setDisabledUnlo(e.target.checked)
-  setValue(`disabledUnlo`,e.target.checked)
-}
-
-  useEffect(() => {
-    if(watch(`loadings[0].address`) && watch("unloading[0].address") ){
-      setDisabled(false)
-    } else{
-      setDisabled(true)
-    }
-  },[watch("loadings[0].address")?.length, watch("unloading[0].address")?.length])
+  }, [
+    watch("loadings[0].address")?.length,
+    watch("unloading[0].address")?.length,
+  ]);
   function onCreateCargoSuccess() {
-
-    setValue(`cargoIndex`,3)
+    setValue(`cargoIndex`, 3);
   }
 
   function handleAppendLoading() {
@@ -84,7 +97,7 @@ const handLeCheck2 = (e) => {
       address: "",
       cor: "",
       from_date: "",
-      loading_num:""
+      loading_num: "",
     });
   }
 
@@ -121,7 +134,10 @@ const handLeCheck2 = (e) => {
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
-      console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
+      var countryCode = firstGeoObject.getCountryCode()
+      var flagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
+
+      console.log(`countryCode`, flagUrl);
       setValue(nameState, firstGeoObject.getAddressLine());
       if (type === "loading") {
         updateLoading(index, {
@@ -145,8 +161,6 @@ const handLeCheck2 = (e) => {
     });
   }
 
-  console.log(`loading2323`,loadings,unloading)
-
   const hanleAdress = (location, name, index, type) => {
     setValue(name, location?.GeoObject?.name);
     if (type === "loading") {
@@ -155,7 +169,6 @@ const handLeCheck2 = (e) => {
         address: watch(`loadings[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
         from_date: watch(`loadings[${index}].from_date`) || "",
-
       });
     } else {
       updateUnloading(index, {
@@ -168,12 +181,12 @@ const handLeCheck2 = (e) => {
     setResults([]);
   };
 
-  const loadingNumF = (num,index) => {
+  const loadingNumF = (num, index) => {
     updateLoading(index, {
       ...loadings[index],
-      loading_num:num,
+      loading_num: num,
     });
-  }
+  };
 
   const lodingChangeDate = (type, date, index) => {
     if (type === "loading") {
@@ -185,13 +198,6 @@ const handLeCheck2 = (e) => {
 
   function onMapClick(e) {
     const coordinates = e.get("coords");
-    // if (yandexMapRef.current) {
-    //   const map = yandexMapRef.current;
-    //   console.log("map",map)
-
-    //   const coords = map.setCenter(e.get('clientX'), e.get('clientY'));
-    //   onMapClick(coords);
-    // }
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
 
@@ -256,7 +262,8 @@ const handLeCheck2 = (e) => {
     onCreateCargoSuccess,
     canEdit,
     loadingNumF,
-    handLeCheck,handLeCheck2
+    handLeCheck,
+    handLeCheck2,
   };
 };
 

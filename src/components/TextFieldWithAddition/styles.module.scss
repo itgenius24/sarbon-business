@@ -15,12 +15,14 @@
   justify-content: space-between;
   color: var(--brand-700);
   margin-bottom: 10px;
+
 }
 
 .fieldLabel {
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
+ 
   // margin-bottom: px;
 }
 
@@ -31,6 +33,7 @@
     font-weight: 500;
     line-height: 20px;
     color: var(--brand-700);
+    
     // margin-bottom: 10px;
 }
 
@@ -156,6 +159,7 @@
   white-space: nowrap;
   position: relative;
   color: var(--brand-500);
+  
 
 
 }

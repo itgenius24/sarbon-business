@@ -135,11 +135,9 @@ const DriverFree = ({
           
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                {" "}
                 <StoneIcon /> 22 т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                {" "}
                 <LoadOulineIcon /> 86m3
               </Flex>
             </Flex>

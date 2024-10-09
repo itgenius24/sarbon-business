@@ -4,11 +4,11 @@ import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { setCookie } from "nookies";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useLoginProps = () => {
-
   const router = useRouter();
 
   const locale = useGetLang();
@@ -21,7 +21,9 @@ export const useLoginProps = () => {
 
   const [remember, setRemember] = useState(false);
 
-  const defaultUserData = localStorage.getItem("loginData") ? JSON.parse(localStorage.getItem("loginData")).username : "";
+  const defaultUserData = localStorage.getItem("loginData")
+    ? JSON.parse(localStorage.getItem("loginData")).username
+    : "";
 
   const toast = useToast();
 
@@ -32,26 +34,36 @@ export const useLoginProps = () => {
     formState: { errors },
     setError,
   } = useForm({
-    defaultValues:{
+    defaultValues: {
       username: defaultUserData?.username,
       password: defaultUserData?.password,
-    }
+    },
   });
 
   const login = useLoginMutation({
     onSuccess: (data) => {
-      console.log(`data2`,data);
+      console.log(`data2`, data);
       authStore.login({
-        user: { firm_id: data.user_data?.firm_id, full_name: data.user_data?.full_name, ...data?.user },
+        user: {
+          firm_id: data.user_data?.firm_id,
+          full_name: data.user_data?.full_name,
+          ...data?.user,
+          client_id: data?.role?.id,
+        },
         token: data?.token,
         role: data?.role,
       });
 
-      if(remember) {
-        localStorage.setItem("loginData", JSON.stringify({
-          username: watch("username"),
-          password: watch("password"),
-        }));
+    
+
+      if (remember) {
+        localStorage.setItem(
+          "loginData",
+          JSON.stringify({
+            username: watch("username"),
+            password: watch("password"),
+          })
+        );
       }
 
       router.push(`/${locale}`);
@@ -63,23 +75,20 @@ export const useLoginProps = () => {
 
   const loginOne = useOneLoginMutation({
     onSuccess: (data) => {
+      const clientTypeId =
+        data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
+          ?.client_types?.response?.[0]?.guid;
 
-      const clientTypeId = data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]?.client_types?.response?.[0]?.guid;
-
-      if(clientTypeId === customerTypeId || clientTypeId === expeditorTypeId) {
-        login.mutate(
-          {
-            username: watch("username"),
-            password: watch("password"),
-            company_id: "b8367a10-5699-4e91-8c1c-71578ca5448e",
-            project_id: "f539f64b-961e-4c6c-8534-140091f7f27b",
-            environment_id: "11b59b25-8772-456a-84e1-20bdfdd32506",
-            client_type: clientTypeId,
-            environment_ids: [
-              "11b59b25-8772-456a-84e1-20bdfdd32506"
-            ]
-          }
-        );
+      if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId) {
+        login.mutate({
+          username: watch("username"),
+          password: watch("password"),
+          company_id: "b8367a10-5699-4e91-8c1c-71578ca5448e",
+          project_id: "f539f64b-961e-4c6c-8534-140091f7f27b",
+          environment_id: "11b59b25-8772-456a-84e1-20bdfdd32506",
+          client_type: clientTypeId,
+          environment_ids: ["11b59b25-8772-456a-84e1-20bdfdd32506"],
+        });
       } else {
         toast({
           title: t("Этот пользователь не заказчик"),
@@ -95,23 +104,23 @@ export const useLoginProps = () => {
     },
   });
 
-  function navigateRegistration () {
+  function navigateRegistration() {
     router.push(`/${locale}/auth/registration`);
   }
 
-  function navigateToMain () {
+  function navigateToMain() {
     router.push(`/${locale}`);
   }
 
-  function onSubmit (data) {
+  function onSubmit(data) {
     loginOne.mutate(data);
   }
 
-  function onRememberChange (e) {
+  function onRememberChange(e) {
     setRemember(e.target.checked);
   }
 
-  function handleTogglePasswordVisibility(){
+  function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
 
@@ -129,5 +138,4 @@ export const useLoginProps = () => {
     navigateToMain,
     locale,
   };
-
 };
