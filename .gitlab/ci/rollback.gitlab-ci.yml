@@ -1,6 +1,6 @@
 .rollback_template:
   stage: rollback
-  image: gitlab.udevs.io:5050/docker/docker:dind
+  image: registry.furgo.uz/devops/docker:dind
   script:
     - echo "$KUBECONFIGJSON" | yq -P - > ~/.kube/config
     - kubectl config set-context --current --namespace=$NAMESPACE

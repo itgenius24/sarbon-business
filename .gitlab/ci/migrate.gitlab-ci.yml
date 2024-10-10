@@ -1,5 +1,5 @@
 .migrate_template:
   stage: migrate
-  image: gitlab.udevs.io:5050/docker/docker:dind
+  image: registry.furgo.uz/devops/docker:dind
   script:
-    - migrate -path=$PWD/$PATH_MIGRATION -database="$POSTGRES_LINK?sslmode=disable&x-migrations-table=migrations_$CI_PROJECT_NAME" up
+    - migrate -path=$PWD/$PATH_MIGRATION -database="${POSTGRES_LINK}?sslmode=disable&x-migrations-table=migrations_$CI_PROJECT_NAME" up

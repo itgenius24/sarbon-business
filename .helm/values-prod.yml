@@ -11,17 +11,17 @@ global:
 replicaCount: 1
 
 image:
-  registry: gitlab.udevs.io:5050/
-  repository: xlogistic/xlogistic_frontend
+  registry: registry.furgo.uz
+  repository: /xlogistic/xlogistic_frontend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets: "gitlab-registry"
+imagePullSecrets: "furgo-registry"
 nameOverride: ""
 fullnameOverride: ""
 labels:
-  app: react_admin
+  app: xlogistic_frontend
 # command: ["/bin/sh","-c"]
 # args: ["echo 'consuming a message'; sleep 5"]
 
@@ -35,7 +35,7 @@ serviceAccount:
   name: "vault-auth"
 
 podLabels:
-  app: react_admin
+  app: xlogistic_frontend
 
 podSecurityContext:
   {}
@@ -95,13 +95,13 @@ ingress:
           path: /
           servicePort: 8080
       tls:
-        - secretName: xlogistic-frontent-tls
+        - secretName: xlog-frontent-tls
           hosts:
             - "furalar.uz"
-        - secretName: furgo-frontent-tls
+        - secretName: furgo-fron-tls
           hosts:
             - "furgo.uz"
- 
+
 resources:
   {}
   #  limits:
@@ -127,9 +127,8 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: kubernetes.io/ucode-dev
+            - key: kubernetes.io/furgo
               operator: In
               values:
                 - "true"
-
 #
