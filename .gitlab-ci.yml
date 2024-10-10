@@ -21,7 +21,7 @@ deploy-prod:
   stage: deploy
   extends: .deploy_template
   variables:
-    NAMESPACE: xlogistics
+    NAMESPACE: furgo
     VALUES_FILE: .helm/values-prod.yml
     K8SCONFIGJSON: $FURGO_KUBECONFIG
   only:
@@ -31,6 +31,6 @@ rollback-prod:
   stage: rollback
   extends: .rollback_template
   variables:
-    NAMESPACE: xlogistics
+    NAMESPACE: furgo
     K8SCONFIGJSON: $FURGO_KUBECONFIG
   when: manual
