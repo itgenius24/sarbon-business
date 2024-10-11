@@ -88,19 +88,9 @@ ingress:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       type: web
       hosts:
-        - host: "furalar.uz"
-          path: /
-          servicePort: 8080
         - host: "furgo.uz"
           path: /
           servicePort: 8080
-      tls:
-        - secretName: xlog-frontent-tls
-          hosts:
-            - "furalar.uz"
-        - secretName: furgo-fron-tls
-          hosts:
-            - "furgo.uz"
 
 resources:
   {}
