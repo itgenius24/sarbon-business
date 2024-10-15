@@ -1,0 +1,73 @@
+.registerWrap{
+    border-radius: 12px;
+    box-shadow: 0 2px 0px 0 #00000014;
+    padding: 35px;
+    background-color: white;
+    .title{
+        color: #101828;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 28px;
+        
+    }
+    .box{
+        background-color: #EBF0F8;
+        padding: 30px;
+        margin-top: 13px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+    .tabWrap{
+        padding: 6px 8px;
+        width: 100%;
+        background-color: #F6F7F8;
+        border-radius: 38px;
+        display: flex;
+        div{
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0);
+            // box-shadow: 0px 2px 4px 0px #0000002E;
+            font-weight: 500;
+            font-size: 14px;
+ 
+            padding: 10px;
+            cursor: pointer;
+            color: #7E7B86;
+        }
+        .active{
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0px 2px 4px 0px #0000002E;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 10px;
+            cursor: pointer;
+            color:#211F26;
+            border-radius: 20px;
+        }
+    }
+
+    .ActiveRadio{
+        font-weight: 500;
+        font-size: 14px;
+        color: rgba(33, 31, 38, 1);
+      }
+      .radio{
+        font-weight: 500;
+        font-size: 14px;
+        color: rgba(126, 123, 134, 1);
+      }
+   
+   
+      .label {
+        display: inline-block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        color: #211F26;
+      }
+
+}

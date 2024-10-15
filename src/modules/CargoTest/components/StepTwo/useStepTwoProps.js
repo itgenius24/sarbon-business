@@ -134,7 +134,7 @@ const useStepTwoProps = () => {
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
-      var countryCode = firstGeoObject.getCountryCode()
+      var countryCode = firstGeoObject.getCountryCode();
       var flagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
 
       console.log(`countryCode`, flagUrl);
@@ -146,12 +146,14 @@ const useStepTwoProps = () => {
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           from_date: watch(`loadings[${index}].from_date`) || "",
         });
+        setValue(`flag_ot`, flagUrl);
       } else {
         updateUnloading(index, {
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           to_date: watch(`unloading[${index}].to_date`) || "",
         });
+        setValue(`flag_do`, flagUrl);
       }
       // setValue(nameState, firstGeoObject.getAddressLine());
       // setAddressAdd({
@@ -163,6 +165,10 @@ const useStepTwoProps = () => {
 
   const hanleAdress = (location, name, index, type) => {
     setValue(name, location?.GeoObject?.name);
+    const country_code =
+      location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
+    var flagUrl = `https://flagcdn.com/w320/${country_code.toLowerCase()}.png`;
+
     if (type === "loading") {
       updateLoading(index, {
         ...loadings[index],
@@ -170,12 +176,16 @@ const useStepTwoProps = () => {
         cor: location?.GeoObject?.Point?.pos,
         from_date: watch(`loadings[${index}].from_date`) || "",
       });
+      if (index === 0) {
+        setValue(`flag_ot`, flagUrl);
+      }
     } else {
       updateUnloading(index, {
         address: watch(`unloading[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
         to_date: watch(`unloading[${index}].to_date`) || "",
       });
+      setValue(`flag_do`, flagUrl);
     }
 
     setResults([]);
@@ -205,12 +215,13 @@ const useStepTwoProps = () => {
   }
 
   const handleGeocode = async () => {
-    const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY; // Yandex API kalitini bu yerga qo'ying
+    const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY;
     const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${debouncedValue}`;
 
     try {
       const response = await fetch(geocodeUrl);
       const data = await response.json();
+
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         console.log("data", data.response.GeoObjectCollection.featureMember);

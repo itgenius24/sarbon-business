@@ -15,11 +15,12 @@ export const useRegistrationFormProps = () => {
 
   const { phone, firm_id } = authStore.getAuthData;
 
-  const { control, register, handleSubmit, watch, formState: { errors }, setError } = useForm();
+  const { control, register, handleSubmit, setValue, watch, formState: { errors }, setError } = useForm();
 
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const toast = useToast();
+  const [status,setStatus] = useState(1)
 
   const registerMutation = useRegisterMutation({
     onSuccess: (data) => {
@@ -106,5 +107,6 @@ export const useRegistrationFormProps = () => {
     handleTogglePasswordVisibility,
     isPasswordVisible,
     watch,
+    setStatus,status,setValue
   };
 };

@@ -32,12 +32,25 @@ import { useState } from "react";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 
 export const DriversModule = () => {
-  const { t, control, watch, setValue, register, errors,handleSubmit,onSubmit,id,isPopupOpen,setIsPopupOpen,  router,
-    locale, } = useMyCars();
+  const {
+    t,
+    control,
+    watch,
+    setValue,
+    register,
+    errors,
+    handleSubmit,
+    onSubmit,
+    id,
+    isPopupOpen,
+    setIsPopupOpen,
+    router,
+    locale,
+  } = useMyCars();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
-  function handleTogglePasswordVisibility(){
+  function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
   const formatPhoneNumber = (value) => {
@@ -79,29 +92,32 @@ export const DriversModule = () => {
               <p className={cls.textFieldName}> Телефон водителя *</p>
               <FormInternationInput control={control} name={`phone`} />
             </Box>
-           {
-            !id &&   <Box>
-              <p className={cls.textFieldName}> Придумайте пароль *</p>
-              <TextField
-                register={register}
-                rules={{
-                  required: {
-                    value: true,
-                    message: t("Это поле обязательно для заполнения"),
-                  },
-                }}
-                errors={errors}
-                name="password"
-                type={isPasswordVisible ? "text" : "password"}
-                placeholder={t("Минимум 6 символов...")}
-                addonAfter={
-                  <button type="button" onClick={handleTogglePasswordVisibility}>
-                    {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
-                  </button>
-                }
-              />
-            </Box> 
-           }
+            {!id && (
+              <Box>
+                <p className={cls.textFieldName}> Придумайте пароль *</p>
+                <TextField
+                  register={register}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: t("Это поле обязательно для заполнения"),
+                    },
+                  }}
+                  errors={errors}
+                  name="password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  placeholder={t("Минимум 6 символов...")}
+                  addonAfter={
+                    <button
+                      type="button"
+                      onClick={handleTogglePasswordVisibility}
+                    >
+                      {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
+                    </button>
+                  }
+                />
+              </Box>
+            )}
           </Flex>
           <Flex flexDirection={"column"} rowGap={"20px"} width={"100%"}>
             <Box>
@@ -120,7 +136,7 @@ export const DriversModule = () => {
                       validate: (value) =>
                         value.length === 2 || "Faqat ikkita harf kiriting",
                       onChange: (e) => {
-                        console.log(`value`,e)
+                        console.log(`value`, e);
                         e.target.value = e.target.value
                           .toUpperCase()
                           .slice(0, 2);
@@ -136,10 +152,11 @@ export const DriversModule = () => {
                   rules={{
                     required: "Telefon raqami majburiy",
                     validate: (value) =>
-                      /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) || "Format noto‘g‘ri",
+                      /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
+                      "Format noto‘g‘ri",
                     onChange: (e) => {
                       e.target.value = formatPhoneNumber(e.target.value);
-                    }
+                    },
                   }}
                 />
               </Flex>
@@ -197,25 +214,25 @@ export const DriversModule = () => {
                 Водитель успешно добавлен в систему
               </p>
               <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                 Передайти ему данные для входа в приложение Furgo:
+                Передайти ему данные для входа в приложение Furgo:
               </p>
               <Flex gap={`20px`}>
-               <Box>
-               <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                  Его логин:
-              </p>
-              <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                 {watch(`phone`)}
-              </p>
-               </Box>
-               <Box>
-               <p style={{ fontWeight: 400, fontSize: "14px" }}>
-               Его пароль:
-              </p>
-              <p style={{ fontWeight: 400, fontSize: "14px" }}>
-              {watch(`password`)}
-              </p>
-               </Box>
+                <Box>
+                  <p style={{ fontWeight: 400, fontSize: "14px" }}>
+                    Его логин:
+                  </p>
+                  <p style={{ fontWeight: 400, fontSize: "14px" }}>
+                    {watch(`phone`)}
+                  </p>
+                </Box>
+                <Box>
+                  <p style={{ fontWeight: 400, fontSize: "14px" }}>
+                    Его пароль:
+                  </p>
+                  <p style={{ fontWeight: 400, fontSize: "14px" }}>
+                    {watch(`password`)}
+                  </p>
+                </Box>
               </Flex>
             </ModalBody>
 

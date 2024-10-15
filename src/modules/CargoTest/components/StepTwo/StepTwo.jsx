@@ -27,7 +27,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
 import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
 
-const StepTwo = ({status }) => {
+const StepTwo = ({ status }) => {
   const {
     loadings,
     register,
@@ -62,7 +62,7 @@ const StepTwo = ({status }) => {
     disabledLo,
     onCreateCargoSuccess,
     handLeCheck,handLeCheck2
-    
+
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -101,10 +101,10 @@ const StepTwo = ({status }) => {
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
-                    
+
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
-                          setAddress(e.target.value);
+                        setAddress(e.target.value);
                       }}
                       name={`loadings[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -116,7 +116,7 @@ const StepTwo = ({status }) => {
                           "loading"
                         )
                       }
-                      
+
                       // onClick={() => router.push(`/${locale}/map/unloading/${index}`)}
                       // error={errors["unloading"]?.[index]?.["address"]}
                       additionalItemPlaceholder={
@@ -128,25 +128,25 @@ const StepTwo = ({status }) => {
                     {activeIndex === `loadings[${index}].address` &&
                       results.length > 0 &&
                       address?.length > 0 && (
-                        <Box className={cls.optionsWrap}>
-                          {results?.map((location, idx) => (
-                            <Flex
-                              onClick={() =>
-                                hanleAdress(location,`loadings[${index}].address`,index,"loading")
-                              }
-                              key={idx}
-                              gap={3}
-                              alignItems={"center"}
-                            >
-                              <LocationIconStep />
+                      <Box className={cls.optionsWrap}>
+                        {results?.map((location, idx) => (
+                          <Flex
+                            onClick={() =>
+                              hanleAdress(location,`loadings[${index}].address`,index,"loading")
+                            }
+                            key={idx}
+                            gap={3}
+                            alignItems={"center"}
+                          >
+                            <LocationIconStep />
 
-                              <p className={cls.item}>
-                                {location?.GeoObject?.name}
-                              </p>
-                            </Flex>
-                          ))}
-                        </Box>
-                      )}
+                            <p className={cls.item}>
+                              {location?.GeoObject?.name}
+                            </p>
+                          </Flex>
+                        ))}
+                      </Box>
+                    )}
                   </Box>
                   <Flex
                     alignItems={"center"}
@@ -172,7 +172,7 @@ const StepTwo = ({status }) => {
                       <span className={cls.label}>Ожидание</span>
                       <ChakraSelect
                         isDisabled={!canEdit}
-                  
+
                         options={[
                           { label: 1, value: 1 },
                           { label: 2, value: 2 },
@@ -260,7 +260,7 @@ const StepTwo = ({status }) => {
                       register={register}
                       onChange={(e) => {
                         setActiveIndex(`unloading[${index}].address`),
-                          setAddress(e.target.value);
+                        setAddress(e.target.value);
                       }}
                       name={`unloading[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -283,29 +283,29 @@ const StepTwo = ({status }) => {
                     {activeIndex === `unloading[${index}].address` &&
                       results.length > 0 &&
                       address?.length && (
-                        <Box className={cls.optionsWrap}>
-                          {results?.map((location, idx) => (
-                            <Flex
-                              onClick={() =>
-                                hanleAdress(
-                                  location,
-                                  `unloading[${index}].address`,
-                                  index,
-                                  "unloading"
-                                )
-                              }
-                              key={idx}
-                              gap={3}
-                              alignItems={"center"}
-                            >
-                              <LocationIconStep />
-                              <p className={cls.item}>
-                                {location?.GeoObject?.name}
-                              </p>
-                            </Flex>
-                          ))}
-                        </Box>
-                      )}
+                      <Box className={cls.optionsWrap}>
+                        {results?.map((location, idx) => (
+                          <Flex
+                            onClick={() =>
+                              hanleAdress(
+                                location,
+                                `unloading[${index}].address`,
+                                index,
+                                "unloading"
+                              )
+                            }
+                            key={idx}
+                            gap={3}
+                            alignItems={"center"}
+                          >
+                            <LocationIconStep />
+                            <p className={cls.item}>
+                              {location?.GeoObject?.name}
+                            </p>
+                          </Flex>
+                        ))}
+                      </Box>
+                    )}
                   </Box>
                   <Flex
                     alignItems={"center"}

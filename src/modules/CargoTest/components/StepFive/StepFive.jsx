@@ -72,7 +72,9 @@ console.log(`loadinss`,unloading)
         guid: watch(`loadResId`),
         cargo_type: ["cargo"],
         users_id:authStore.userData.id,
-        address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`
+        address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`,
+        flag_ot:watch(`flag_ot`),
+        flag_do:watch(`flag_do`)
       }
     }
     updateCargo.mutate(requestData)
@@ -120,8 +122,9 @@ console.log(`loadinss`,unloading)
         cargo_type: ["template"],
         template_name: watch(`template_name`),
         users_id:authStore.userData.id,
-        address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`
-
+        address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`,
+        flag_ot:watch(`flag_ot`),
+        flag_do:watch(`flag_do`)
       }
     }
     updateCargo.mutate(requestData)
