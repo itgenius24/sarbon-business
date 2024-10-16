@@ -15,26 +15,25 @@
   justify-content: space-between;
   color: var(--brand-700);
   margin-bottom: 10px;
-
 }
 
 .fieldLabel {
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
- 
+
   // margin-bottom: px;
 }
 
 .additionalItemLabel {
-    display: inline-block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-    color: var(--brand-700);
-    
-    // margin-bottom: 10px;
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--brand-700);
+
+  // margin-bottom: 10px;
 }
 
 .contentWrapper {
@@ -97,7 +96,7 @@
 }
 
 .inputWrapper:has(.fieldInput:focus) {
-  box-shadow: 0px 0px 0px 4px #E3F0FF;
+  box-shadow: 0px 0px 0px 4px #e3f0ff;
   background-color: white;
 }
 
@@ -129,7 +128,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
 }
 
 .fieldInput {
@@ -140,8 +138,7 @@
   outline: none;
   background-color: rgba(246, 247, 248, 1);
   &:not(:placeholder-shown) {
-    background-color: white; 
-   
+    background-color: white;
   }
   &::placeholder {
     color: var(--brand-500);
@@ -163,14 +160,16 @@
 
 .additionalItem2 {
   max-width: 261px;
+  width: 120px;
   height: 100%;
   position: relative;
-  padding: 10px 7px;
+  padding: 10px 14px;
   color: var(--brand-500);
   border: 1px solid var(--brand-300);
   border-right: none;
   border-radius: 8px 0 0 8px;
   background-color: var(--brand-50);
+  
 }
 
 .additionalItem.lightTheme {
@@ -181,7 +180,6 @@
   background-color: var(--base-white);
 }
 
-
 .additionalItemContent {
   width: 100%;
   min-width: 30px;
@@ -189,19 +187,21 @@
   white-space: nowrap;
   position: relative;
   color: var(--brand-500);
-  
-
-
 }
 
 .additionalItemLabelWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
+.additionalItemLabelWrapper2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .additionalItemOptions {
+  width: 100%;
   position: absolute;
   top: calc(100% + 8px);
   left: 0;

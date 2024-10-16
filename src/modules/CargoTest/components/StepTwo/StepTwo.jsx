@@ -157,7 +157,7 @@ const StepTwo = ({ status }) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда забрать</span>
                       <DatePickerComponent
-                        isDisabled={disabledLo}
+                        isDisabled={watch("disabledLo")}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index);
                         }}
@@ -316,7 +316,7 @@ const StepTwo = ({ status }) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда доставить</span>
                       <DatePickerComponent
-                        isDisabled={!disabledUnlo}
+                        isDisabled={watch(`disabledUnlo`)}
                         onChange={(date) => {
                           lodingChangeDate("unLoading", date, index);
                         }}

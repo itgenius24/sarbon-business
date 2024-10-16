@@ -1045,8 +1045,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       setTemplateId("");
 
 
-
-      shipper?.forEach((item, index) => {
+console.log("shipper",shipper)
+      shipper?.sort((a,b) => a?.step - b?.step)?.forEach((item, index) => {
         if (index === 0) {
           setValue(`loadings[0]`, {
             cor: `${item.lat} ${item.long}`,
@@ -1063,7 +1063,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
       });
 
-      consignee.forEach((item, index) => {
+      consignee.sort((a,b) => a?.step - b?.step)?.forEach((item, index) => {
         if (index === 0) {
           setValue(`unloading[0]`, {
             cor: `${item.lat} ${item.long}`,

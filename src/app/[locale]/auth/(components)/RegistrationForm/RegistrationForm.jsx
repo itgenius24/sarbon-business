@@ -7,12 +7,13 @@ import {
   Heading,
   Radio,
   RadioGroup,
+  Tooltip,
 } from "@chakra-ui/react";
 import { AuthTitle } from "../AuthTitle";
 import { Dropdown } from "@/components/Dropdown";
 import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
-import { EyeIcon, EyeIconOff, HelpCircleIcon } from "@/assets/icons/icons";
+import { EyeIcon, EyeIconOff, HelpCircleIcon, QuestionIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 import { MobileLogo } from "../MobileLogo";
 import cls from "./style.module.scss";
@@ -21,6 +22,7 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/TextFieldWithAdditionAut";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { UploadImg } from "@/components/UploadImg";
+import { UploadImgRigister } from "@/components/UploadImgRigister";
 
 export const RegistrationForm = () => {
   const {
@@ -41,7 +43,7 @@ export const RegistrationForm = () => {
     status,
   } = useRegistrationFormProps();
 
-  const [value, setValueR] = useState("");
+  const [value, setValueR] = useState("C1");
   return (
     <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <MobileLogo />
@@ -62,55 +64,73 @@ export const RegistrationForm = () => {
           <Box>
             <p className={cls.title}>Учётные данные для входа</p>
             <Box className={cls.box}>
-              <TextField
-                label="Имя"
-                name="fullName"
-                register={register}
-                placeholder={t("Введите свое имя")}
-                errors={errors}
-                rules={{
-                  required: {
-                    value: true,
-                    message: t("Это поле обязательно"),
-                  },
-                }}
-              />
-              <TextField
-                label="Придумайте пароль *"
-                register={register}
-                rules={{
-                  required: {
-                    value: true,
-                    message: t("Это поле обязательно для заполнения"),
-                  },
-                }}
-                errors={errors}
-                name="password"
-                type={isPasswordVisible ? "text" : "password"}
-                placeholder={t("Минимум 6 символов...")}
-                addonAfter={
-                  <button
-                    type="button"
-                    onClick={handleTogglePasswordVisibility}
-                  >
-                    {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
-                  </button>
-                }
-              />
+              <Box>
+                <Flex gap={1} >
+                  <p className={cls.label}>Логин</p>
+                  <Tooltip
+                    background={`rgba(21, 186, 77, 1)`}
+                    borderRadius={`6px`}
+                    lineHeight={`18px`}
+                    color={`#fff`}
+                    fontSize={`14px`}
+                    placement="top"
+                     top={`10px`}
+                    label={<p className={cls.label}>Вы можете использовать для логина номер телефона, email или уникальное имя пользователя</p>}
+                  ><div><QuestionIcon /></div></Tooltip>
+                </Flex>
+                <TextField
+                  label=""
+                  name="login"
+                  register={register}
+                  placeholder={t("Введите свое логин")}
+                  errors={errors}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: t("Это поле обязательно"),
+                    },
+                  }}
+                />
+              </Box>
+              <Box>
+                <p className={cls.label}>Придумайте пароль *</p>
+                <TextField
+                  label=""
+                  register={register}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: t("Это поле обязательно для заполнения"),
+                    },
+                  }}
+                  errors={errors}
+                  name="password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  placeholder={t("Минимум 6 символов...")}
+                  addonAfter={
+                    <button
+                      type="button"
+                      onClick={handleTogglePasswordVisibility}
+                    >
+                      {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
+                    </button>
+                  }
+                />
+              </Box>
             </Box>
-            <Box mt={`30px`}>
+            <Box mt={`35px`}>
               <TextField
                 label="Email"
                 name="email"
                 register={register}
                 placeholder={t("Введите свое имя")}
                 errors={errors}
-                rules={{
-                  required: {
-                    value: true,
-                    message: t("Это поле обязательно"),
-                  },
-                }}
+                // rules={{
+                //   required: {
+                //     value: true,
+                //     message: t("Это поле обязательно"),
+                //   },
+                // }}
               />
             </Box>
             <Box mt={`30px`}>
@@ -133,7 +153,7 @@ export const RegistrationForm = () => {
         <Box width={`100%`}>
           <Box>
             <p className={cls.title}>Тип аккаунта</p>
-            <Flex flexDirection={`column`} rowGap={`25px`} mt={`13px`}>
+            <Flex flexDirection={`column`} rowGap={`24px`} mt={`13px`}>
               <div className={cls.tabWrap}>
                 <div
                   onClick={() => setStatus(1)}
@@ -151,7 +171,7 @@ export const RegistrationForm = () => {
 
               <Box>
                 <p className={cls.label}>Профиль деятельности</p>
-                <RadioGroup onChange={setValueR}>
+                <RadioGroup value={value} onChange={setValueR}>
                   <Flex gap={"40px"}>
                     <Radio
                       border={"1px solid rgba(208, 213, 221, 1)"}
@@ -182,7 +202,7 @@ export const RegistrationForm = () => {
               {status === 1 ? (
                 <>
                   <Box>
-                    <p className={cls.label}>Профиль деятельности</p>
+                    <p className={cls.label}>Название орзанизации *</p>
                     <TextFieldWithAdditionAut
                       // disabled={!canEdit}
                       name="companyName"
@@ -194,6 +214,12 @@ export const RegistrationForm = () => {
                       errors={errors}
                       type="text"
                       width="100%"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: t("Это поле обязательно"),
+                        },
+                      }}
                       additionalItemOptions={[{ label: `OOO`, value: `OOO` }]}
                       zIndex={20}
                       // after={watch(`price_prepayment_unit`)?.label}
@@ -206,7 +232,7 @@ export const RegistrationForm = () => {
                       // label="Имя"
                       name="inn"
                       register={register}
-                      placeholder={t("Введите свое имя")}
+                      placeholder={t("Введите номер ИНН...")}
                       errors={errors}
                       rules={{
                         required: {
@@ -221,9 +247,9 @@ export const RegistrationForm = () => {
                     <p className={cls.label}>Имя и фамилия руководителя </p>
                     <TextField
                       // label="Имя"
-                      name="inn"
+                      name="full_name"
                       register={register}
-                      placeholder={t("Введите свое имя")}
+                      placeholder={t("Имя фамилия...")}
                       errors={errors}
                       rules={{
                         required: {
@@ -240,7 +266,7 @@ export const RegistrationForm = () => {
                       // label="Имя"
                       name="adress"
                       register={register}
-                      placeholder={t("Введите свое имя")}
+                      placeholder={t("Страна, город улица, дом...")}
                       errors={errors}
                       rules={{
                         required: {
@@ -276,7 +302,7 @@ export const RegistrationForm = () => {
                           name="passport_scan"
                           placeholder="AA"
                           rules={{
-                            required: "Ism kiritish majburiy",
+                            required: "Это поле обязательно",
                             validate: (value) =>
                               value.length === 2 ||
                               "Faqat ikkita harf kiriting",
@@ -295,7 +321,7 @@ export const RegistrationForm = () => {
                         name="passport_code"
                         placeholder="000 00 00"
                         rules={{
-                          required: "Telefon raqami majburiy",
+                          required: "Это поле обязательно",
                           validate: (value) =>
                             /^\d{3} \d{2} \d{2}$/.test(
                               formatPhoneNumber(value)
@@ -316,15 +342,11 @@ export const RegistrationForm = () => {
           <Box>
             <p className={cls.title}>Логотип компании</p>
             <Flex
-              flexDirection={"column"}
-              alignItems={`center`}
-              justifyContent={`center`}
-              rowGap={"10px"}
-              textAlign={"center"}
               width={"100%"}
               mt={`15px`}
+              // background={'red'}
             >
-              <UploadImg
+              <UploadImgRigister
                 watch={watch}
                 setValue={setValue}
                 name={`imd`}
@@ -338,9 +360,9 @@ export const RegistrationForm = () => {
       </Box>
       <Box display="flex" justifyContent={`space-between`} mt="30px">
         <Box mb="16px">
-          <Checkbox filled register={register} name="acceptTerms">
+          <Checkbox width={"20px"} height={"20px"} filled register={register} name="acceptTerms">
             Нажимая кнопку “Сохранить профиль”, вы принимаете <br /> условия
-            Пользовательская соглашения
+            <span style={{color:"rgba(0, 122, 255, 1)"}}> Пользовательская соглашения</span>
           </Checkbox>
         </Box>
         <Button

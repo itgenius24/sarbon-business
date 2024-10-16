@@ -71,6 +71,10 @@ const useStepTwoProps = () => {
   const handLeCheck = (e) => {
     setDisabledLo(e.target.checked);
     setValue(`disabledLo`, e.target.checked);
+    // updateLoading(index, {
+    //   ...loadings[index],
+    //   from_date:"",
+    // });
   };
 
   const handLeCheck2 = (e) => {

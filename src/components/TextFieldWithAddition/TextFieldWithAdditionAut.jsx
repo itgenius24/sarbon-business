@@ -64,12 +64,12 @@ export const TextFieldWithAdditionAut = ({
                 additionalOnclick();
               }}
             >
-              <span className={cls.additionalItemLabelWrapper}>
+              <div className={cls.additionalItemLabelWrapper2}>
                 <span className={cls.additionalItemLabelText}>{field.value?.label || additionalItemOptions?.[additionalItemDefaultIndex]?.label || additionalItemPlaceholder}</span>
                 {
                   additionalItemOptions.length > 0 && <span><SelectionArrow /></span>
                 }
-              </span>
+              </div>
             </button>
             {
               additionalItemOptions.length > 0 && isOpen && <div className={cls.additionalItemOptions}>
