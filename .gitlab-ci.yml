@@ -6,6 +6,14 @@ stages:
   - deploy
   - rollback
 
+build-test:
+  stage: build
+  extends: .build_template
+  variables:
+    ENV_TAG: test
+    DOCKERFILE: Dockerfile
+  only:
+    - staging
 
 build-prod:
   stage: build
@@ -16,23 +24,38 @@ build-prod:
   only:
     - master
 
+deploy-test:
+  stage: deploy
+  extends: .deploy_template
+  variables:
+    NAMESPACE: furgo-test
+    VALUES_FILE: .helm/values-test.yml
+    K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
+  only:
+    - staging
 
 deploy-prod:
   stage: deploy
   extends: .deploy_template
   variables:
-    NAMESPACE: xlogistics
+    NAMESPACE: furgo
     VALUES_FILE: .helm/values-prod.yml
     K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
   only:
     - master
 
-
+rollback-test:
+  stage: rollback
+  extends: .rollback_template
+  variables:
+    NAMESPACE: furgo-staging
+    K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
+  when: manual
 
 rollback-prod:
   stage: rollback
   extends: .rollback_template
   variables:
-    NAMESPACE: xlogistics
+    NAMESPACE: furgo
     K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
   when: manual
