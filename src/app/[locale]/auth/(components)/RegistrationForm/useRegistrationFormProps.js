@@ -73,8 +73,14 @@ export const useRegistrationFormProps = () => {
 
   const registerUserMutation = useRegisterUserMutation({
     onSuccess: (data) => {
+      console.log(`data`,data)
       authStore.login({
-        user: { firm_id, ...data?.user },
+        user: {
+          firm_id: data?.firm_id,
+          // full_name: data.full_name,
+          ...data,
+          client_id: data?.role?.id,
+        },
         token: data?.token,
         role: data?.role,
       });

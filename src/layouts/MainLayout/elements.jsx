@@ -5,11 +5,11 @@ export const useElements = () => {
 
   const lang = useGetLang();
   const isAuth = authStore.getIsAuth;
-  const client_id = authStore.userData.client_id
+  const role_id = authStore.userData.role_id
 
-console.log(`client_id`,client_id)
+console.log(`role_id`,role_id)
 
-  if(client_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`){
+  if(role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`){
     return [
       {
         path: `/${lang || "ru"}/`,
