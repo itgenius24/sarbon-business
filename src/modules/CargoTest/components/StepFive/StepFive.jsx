@@ -60,9 +60,11 @@ const StepFive = ({ status }) => {
 
     },
   });
+
 console.log(`loadinss`,unloading)
 
   const onSubmitF = () =>{
+    setIsUpdate(true)
     const requestData = {
       data:{
         load_time: addDaysToDate(getValues("loadings")[0].from_date || new Date(),getValues("loadings")[0].loading_num),
@@ -302,12 +304,12 @@ console.log(`loadinss`,unloading)
         </ModalContent>
       </Modal>
       <Modal isOpen={isPopupOpen2} isCentered>
-        <ModalOverlay onClick={() => clearF()} />
+        <ModalOverlay onClick={() => setIsPopupOpen2(false)} />
         <ModalContent>
           <ModalHeader>
             <CheckModalIcon />
           </ModalHeader>
-          <ModalCloseButton onClick={() => clearF()} />
+          <ModalCloseButton onClick={() => setIsPopupOpen2(false) } />
           <ModalBody paddingBottom={`40px`}>
             <p style={{ fontWeight:600,fontSize:"18px" }}>Шаблон успешно добавлен</p>
           </ModalBody>

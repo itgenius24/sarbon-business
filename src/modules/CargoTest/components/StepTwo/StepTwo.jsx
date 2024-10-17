@@ -198,9 +198,10 @@ const StepTwo = ({ status }) => {
                         width={"16px"}
                         height={"16px"}
                         checked={watch(`disabledLo`)}
+                        defaultChecked={watch(`disabledLo`)}
                         onChange={(e) => handLeCheck(e)}
                       >
-                        Как можно скорее
+                         Как можно скорее
                       </Checkbox>
                     </Box>
                   </Flex>
@@ -331,6 +332,8 @@ const StepTwo = ({ status }) => {
                         width={"16px"}
                         height={"16px"}
                         checked={watch(`disabledUnlo`)}
+                        defaultChecked={watch(`disabledUnlo`)}
+
                         onChange={(e) => handLeCheck2(e)}
                       >
                         Как можно скорее

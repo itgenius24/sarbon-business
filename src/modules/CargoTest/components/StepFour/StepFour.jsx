@@ -62,6 +62,14 @@ const StepFour = ({ status }) => {
       value: `request`,
     },
   ];
+  console.log(`salom`,watch(`price_prepayment_unit`)?.label)
+
+  useEffect(() => {
+    if(!watch(`price_prepayment_unit`)?.label){
+      setValue(`price_prepayment_unit`, currencyOptions?.[2]);
+
+    }
+  },[currencyOptions?.length])
 
   const onChange = (e) => {
     setValueR(e);
@@ -102,9 +110,9 @@ const StepFour = ({ status }) => {
             >
               <Flex gap={"50px"}>
                 <p className={cls.stepTitle}>Оплата</p>
-                {!check && !status ? (
+                {!check && !status && currencyOptions ? (
                   <RadioGroup
-                    defaultValue="доллар" // Set the default value
+                    defaultValue={watch(`price_prepayment_unit`)?.label|| `доллар`}// Set the default value
                     onChange={(e) => onChange(e)}
                   >
                     <Flex gap={"19px"}>
@@ -120,7 +128,7 @@ const StepFour = ({ status }) => {
                               border: `5px solid rgba(0, 122, 255, 1)`,
                             }}
                           >
-                            {console.log(`item.label`, item)}
+                            
                             <span
                               className={
                                 watch(`price_prepayment_unit`)?.label ===
@@ -188,6 +196,7 @@ const StepFour = ({ status }) => {
                       {!status && (
                         <Checkbox
                           isDisabled={!canEdit}
+                          defaultChecked={watch(`negotiable`)}
                           register={register}
                           name="negotiable"
                         >
@@ -216,6 +225,8 @@ const StepFour = ({ status }) => {
                       <Checkbox
                         register={register}
                         name={`prepayment`}
+                        defaultChecked={watch(`prepayment`)}
+
                         isDisabled={!canEdit}
                       >
                         Предоплата

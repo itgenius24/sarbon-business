@@ -20,7 +20,7 @@ import cls from "./style.module.scss";
 import { useState } from "react";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/TextFieldWithAdditionAut";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+
 import { UploadImg } from "@/components/UploadImg";
 import { UploadImgRigister } from "@/components/UploadImgRigister";
 
@@ -44,6 +44,13 @@ export const RegistrationForm = () => {
   } = useRegistrationFormProps();
 
   const [value, setValueR] = useState("C1");
+  const formatPhoneNumber = (value) => {
+    let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
+    if (input.length > 3) input = input.slice(0, 3) + " " + input.slice(3);
+    if (input.length > 6) input = input.slice(0, 6) + " " + input.slice(6, 8);
+    if (input.length > 9) input = input.slice(0, 9); // Qo'shimcha raqamlarni olib tashlash
+    return input;
+  };
   return (
     <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <MobileLogo />
@@ -74,7 +81,7 @@ export const RegistrationForm = () => {
                     color={`#fff`}
                     fontSize={`14px`}
                     placement="top"
-                     top={`10px`}
+                    top={`10px`}
                     label={<p className={cls.label}>Вы можете использовать для логина номер телефона, email или уникальное имя пользователя</p>}
                   ><div><QuestionIcon /></div></Tooltip>
                 </Flex>
@@ -137,14 +144,15 @@ export const RegistrationForm = () => {
               <TextField
                 label="Номер телефона *"
                 name="tel"
+                disabled={true}
                 register={register}
                 placeholder={t("+998 99 123 4567")}
                 errors={errors}
                 rules={{
-                  required: {
-                    value: true,
-                    message: t("Это поле обязательно"),
-                  },
+                  // required: {
+                  //   value: true,
+                  //   message: t("Это поле обязательно"),
+                  // },
                 }}
               />
             </Box>
@@ -293,6 +301,15 @@ export const RegistrationForm = () => {
                     />
                   )}
                   <Box>
+                    <p style={{marginBottom:`10px`}} className={cls.textFieldName}>Ваше имя и фамилия *</p>
+                    <TextField
+                      register={register}
+                      errors={errors}
+                      name="full_name"
+                      placeholder="Ваше имя..."
+                    />
+                  </Box>
+                  <Box>
                     <p className={cls.label}>Серия и номер паспорта *</p>
                     <Flex gap={`20px`}>
                       <Box width={`30%`}>
@@ -321,11 +338,10 @@ export const RegistrationForm = () => {
                         name="passport_code"
                         placeholder="000 00 00"
                         rules={{
-                          required: "Это поле обязательно",
+                          required: "Telefon raqami majburiy",
                           validate: (value) =>
-                            /^\d{3} \d{2} \d{2}$/.test(
-                              formatPhoneNumber(value)
-                            ) || "Format noto‘g‘ri",
+                            /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
+                      "Format noto‘g‘ri",
                           onChange: (e) => {
                             e.target.value = formatPhoneNumber(e.target.value);
                           },
@@ -349,7 +365,7 @@ export const RegistrationForm = () => {
               <UploadImgRigister
                 watch={watch}
                 setValue={setValue}
-                name={`imd`}
+                name={`img`}
                 icon={`YOUR LOO`}
                 text={`Загрузить лого`}
                 isColor
@@ -362,7 +378,7 @@ export const RegistrationForm = () => {
         <Box mb="16px">
           <Checkbox width={"20px"} height={"20px"} filled register={register} name="acceptTerms">
             Нажимая кнопку “Сохранить профиль”, вы принимаете <br /> условия
-            <span style={{color:"rgba(0, 122, 255, 1)"}}> Пользовательская соглашения</span>
+            <span style={{ color:"rgba(0, 122, 255, 1)" }}> Пользовательская соглашения</span>
           </Checkbox>
         </Box>
         <Button

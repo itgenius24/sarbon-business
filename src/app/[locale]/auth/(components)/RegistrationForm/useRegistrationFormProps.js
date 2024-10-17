@@ -3,7 +3,9 @@ import {
   useGetClientType,
   useGetCompanyList,
   useGetRoleList,
+  useRegisterFirmMutation,
   useRegisterMutation,
+  useRegisterUserMutation,
 } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -35,7 +37,41 @@ export const useRegistrationFormProps = () => {
   const toast = useToast();
   const [status, setStatus] = useState(1);
 
-  const registerMutation = useRegisterMutation({
+  // const registerMutation = useRegisterMutation({
+  //   onSuccess: (data) => {
+  //     authStore.login({
+  //       user: { firm_id, ...data?.user },
+  //       token: data?.token,
+  //       role: data?.role,
+  //     });
+  //     router.push(`/${locale}`);
+  //   },
+  //   onError(error) {
+  //     if (error.data?.data?.includes("user_unq_login")) {
+  //       toast({
+  //         title: t("Такой логин уже зарегистрирован"),
+  //         status: "error",
+  //         position: "top right",
+  //       });
+  //       setError("login", { message: t("Такой логин уже зарегистрирован") });
+  //       // router.push(`/${locale}/auth/login`);
+  //     } else if (error.data?.data?.includes("user_project_idx_unique")) {
+  //       toast({
+  //         title: t("Такой номер уже зарегистрирован"),
+  //         status: "error",
+  //         position: "top right",
+  //       });
+  //     } else {
+  //       toast({
+  //         title: t("Произошла ошибка при регистрации"),
+  //         status: "error",
+  //         position: "top right",
+  //       });
+  //     }
+  //   },
+  // });
+
+  const registerUserMutation = useRegisterUserMutation({
     onSuccess: (data) => {
       authStore.login({
         user: { firm_id, ...data?.user },
@@ -53,6 +89,48 @@ export const useRegistrationFormProps = () => {
         });
         setError("login", { message: t("Такой логин уже зарегистрирован") });
         // router.push(`/${locale}/auth/login`);
+      } else if (error.data?.data?.includes("user_project_idx_unique")) {
+        toast({
+          title: t("Такой номер уже зарегистрирован"),
+          status: "error",
+          position: "top right",
+        });
+      } else {
+        toast({
+          title: t("Произошла ошибка при регистрации"),
+          status: "error",
+          position: "top right",
+        });
+      }
+    },
+  });
+
+  const registerFirmMutation = useRegisterFirmMutation({
+    onSuccess: (data) => {
+      console.log(`data`, data);
+      registerUserMutation.mutate({
+        data: {
+          role_id: "f81d3c3d-228d-479e-a2b1-9948c98640f2",
+          client_type_id: "a25d605c-d153-4ddf-8590-e4cda176ef93",
+          phone: phone,
+          full_name: watch(`fullName`),
+          login: watch(`login`),
+          password: watch(`password`),
+          firm_id: data?.guid,
+          email: watch(`email`),
+          passport_code: status === 1 ? watch(`passport_code`) : undefined,
+          passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
+        },
+      });
+    },
+    onError(error) {
+      if (error.data?.data?.includes("user_unq_login")) {
+        toast({
+          title: t("Такой логин уже зарегистрирован"),
+          status: "error",
+          position: "top right",
+        });
+        setError("login", { message: t("Такой логин уже зарегистрирован") });
       } else if (error.data?.data?.includes("user_project_idx_unique")) {
         toast({
           title: t("Такой номер уже зарегистрирован"),
@@ -91,19 +169,15 @@ export const useRegistrationFormProps = () => {
 
   function onSubmit(data) {
     authStore.setAuthData("firm_id", data.company?.value);
-    registerMutation.mutate({
+    registerFirmMutation.mutate({
       data: {
-        type: "phone",
-        client_type_id: data.clientType?.value,
-        role_id: getRoles.data?.response?.find(
-          (item) => item.client_type_id === watch("clientType")?.value
-        )?.guid,
-        phone: phone,
-        full_name: data.fullName,
-        login: data.login,
-        password: data.password,
-        firm_id: data.company?.value,
-        email: data.email,
+        company_direction: ["company_customer"],
+        tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
+        full_name: data.full_name,
+        tin: data.inn,
+        building_address: data.adress,
+        phone_number: phone,
+        logo: data.img,
       },
     });
   }
@@ -118,6 +192,7 @@ export const useRegistrationFormProps = () => {
 
   useEffect(() => {
     setValue("login", phone);
+    setValue("tel", phone);
   }, []);
 
   return {
