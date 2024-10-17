@@ -34,3 +34,4 @@ rollback-prod:
     NAMESPACE: furgo
     K8SCONFIGJSON: $FURGO_KUBECONFIG
   when: manual
+
