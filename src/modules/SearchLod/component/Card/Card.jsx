@@ -9,10 +9,11 @@ import { Avatar, Box, Flex, Tooltip } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
 import TooltipComponets from "../TooltipComponets";
+import Image from "next/image";
 
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
-  console.log(`item`,item)
+  console.log(`item`, item);
   return (
     <Flex
       {...props}
@@ -21,31 +22,42 @@ export const Card = ({ item, cls, ...props }) => {
       className={cls.card}
       width={"100%"}
       justifyContent={"space-between"}
+      alignItems={`center`}
     >
       {/* <TooltipComponets cls={cls} status={`ss`} label={`wqdwe`} color={`red`} /> */}
       <Box className={cls.contend}>
-        <p className={cls.title}>
-          {item.address_name
-            ? item.address_name.split("|")[0].charAt(0).toUpperCase() +
-              item.address_name.split("|")[0].slice(1).toLowerCase()
-            : item?.city_id_data?.[
-              "name_" + (locale === "uz" ? "en" : locale)
-            ] || item?.city_id_data?.name}
-        </p>
-        <span className={cls.subTitle}>
-          {item?.load_time && format(item?.load_time, `yyyy-MM-dd`)} ~ 3450 km
-        </span>
+        <Flex   gap={`14px`} alignItems={`center`}>
+          <Image className={cls.flag} width={30} height={30} src={item.flag_ot} alt="wef" />
+
+          <p className={cls.title}>
+            {item.address_name
+              ? item.address_name.split("|")[0].charAt(0).toUpperCase() +
+                item.address_name.split("|")[0].slice(1).toLowerCase()
+              : item?.city_id_data?.[
+                  "name_" + (locale === "uz" ? "en" : locale)
+                ] || item?.city_id_data?.name} <br />
+                <span className={cls.subTitle}>
+            {item?.load_time && format(item?.load_time, `yyyy-MM-dd`)} ~ 3450 km
+          </span>
+          </p>
+          
+        </Flex>
       </Box>
       <Box className={cls.contend}>
-        <p className={cls.title}>
-          {item?.address_name
-            ? item?.address_name?.split("|")[1]?.charAt(0).toUpperCase() +
-              item?.address_name?.split("|")[1]?.slice(1).toLowerCase()
-            : item?.city_id_2_data?.[
-              "name_" + (locale === "uz" ? "en" : locale)
-            ] || item?.city_id_2_data?.name}
-        </p>
-        <span className={cls.subTitle}>17 июль</span>
+        <Flex gap={`14px`} alignItems={`center`}>
+          <Image className={cls.flag}  width={30} height={30} src={item.flag_do} alt="wef" />
+
+          <p className={cls.title}>
+            {item?.address_name
+              ? item?.address_name?.split("|")[1]?.charAt(0).toUpperCase() +
+                item?.address_name?.split("|")[1]?.slice(1).toLowerCase()
+              : item?.city_id_2_data?.[
+                  "name_" + (locale === "uz" ? "en" : locale)
+                ] || item?.city_id_2_data?.name} <br />
+                <span className={cls.subTitle}>{format(item?.date, `yyyy-MM-dd`)}</span>
+          </p>
+        
+        </Flex>
       </Box>
       <Box className={cls.contend}>
         <Flex gap={`11px`}>
@@ -67,7 +79,9 @@ export const Card = ({ item, cls, ...props }) => {
         <p className={cls.title}>
           {item?.bid_cash} {item.currency_id_data?.code}
           <span className={cls.subTitle1}>
-            {item?.map_id_data?.payment_type ? ` ${item?.map_id_data?.payment_type }` : ` Безнал`}
+            {item?.map_id_data?.payment_type
+              ? ` ${item?.map_id_data?.payment_type}`
+              : ` Безнал`}
           </span>
         </p>
         {/* <span className={cls.subTitle}>Предопл. Нет</span> */}
@@ -82,7 +96,7 @@ export const Card = ({ item, cls, ...props }) => {
             name={item?.users_id_data?.full_name}
           />
           <Box>
-            <Flex  alignItems={`center`}  gap={2}>
+            <Flex alignItems={`center`} gap={2}>
               <span className={cls.subTitle}>
                 {item?.users_id_data?.full_name}
               </span>

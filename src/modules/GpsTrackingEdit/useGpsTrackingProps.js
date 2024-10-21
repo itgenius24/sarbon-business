@@ -368,14 +368,12 @@ export const useGpsTrackingProps = () => {
 
   const dataUserID = useMemo(() => {
     let id = "";
-    if (watch("users_id")?.value) {
-      id = watch("users_id")?.value;
-    } else if (watch("users_id2")?.value) {
-      id = watch("users_id2")?.value;
+    if (watch("users_id")) {
+      id = watch("users_id");
     }
 
     return carsArr?.filter((item) => item?.users_id === id);
-  }, [watch("users_id")?.value, watch("users_id2")?.value]);
+  }, [watch("users_id")]);
 
   const { mutate: getLocation, isPending: locationPending } = useLocation({
     onSuccess: (data) => {
@@ -392,7 +390,7 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
-  console.log(`dats`, locationData);
+  console.log(`dats`, dataUserID);
 
   
 
@@ -422,13 +420,13 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
  
+  console.log(`salom`,dataUserDataID)
 
 
   const getCarListProps = useMemo(() => {
-    return { data: watch("users_id")?.value ? dataUserDataID : uniqueData, };
-  }, [watch("users_id")?.value, dataUserID, filteredData,carsArr,uniqueData]);
+    return { data: watch("users_id") ? dataUserDataID : uniqueData, };
+  }, [watch("users_id"), dataUserID, filteredData,carsArr,uniqueData]);
 
-  console.log(`salom`,getCarListProps?.data?.filter(item => item?.users_id_data?.full_name === `Pardayev Ozodjon`))
 
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({

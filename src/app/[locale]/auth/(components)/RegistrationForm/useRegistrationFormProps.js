@@ -79,7 +79,9 @@ export const useRegistrationFormProps = () => {
           firm_id: data?.firm_id,
           // full_name: data.full_name,
           ...data,
-          client_id: data?.role?.id,
+          id:data.guid,
+          client_id: data?.client_type_id,
+
         },
         token: data?.token,
         role: data?.role,

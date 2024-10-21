@@ -12,11 +12,17 @@ const nextConfig = {
         `,
   },
   images: {
-    domains: ["cdn.u-code.io", "media.newyorker.com"],
+    domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com"],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cdn.u-code.io",
+        port: "",
+        pathname: "*/media/*",
+      },
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
         port: "",
         pathname: "*/media/*",
       },

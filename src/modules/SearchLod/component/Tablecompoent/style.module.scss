@@ -4,12 +4,12 @@
   font-size: 13px;
   text-transform: uppercase;
 
-  max-width: 200px;
+  max-width: 250px;
   &:nth-child(1) {
-    width: 200px;
+    width: 250px;
   }
   &:nth-child(2) {
-    width: 200px;
+    width: 250px;
   }
   &:nth-child(3) {
     width: 200px;
@@ -38,6 +38,11 @@
   }
 
   .contend {
+    
+.flag{
+  width: 29px;
+  height:18px
+}
     title {
       font-size: 14px;
       font-weight: 500;
@@ -46,6 +51,8 @@
       white-space: nowrap;     
       overflow: hidden;         
       text-overflow: ellipsis; 
+  
+   
     }
     .subTitle1 {
       font-weight: 400;
@@ -65,10 +72,10 @@
       line-height: 20px;
     }
     &:nth-child(1) {
-      width: 200px;
+      width: 250px;
     }
     &:nth-child(2) {
-      width: 200px;
+      width: 250px;
     }
     &:nth-child(3) {
       width: 200px;
@@ -83,6 +90,7 @@
       width: 200px;
     }
   }
+
   .statusWrap{
     display: inline-block;
     width: 0;
