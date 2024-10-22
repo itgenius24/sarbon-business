@@ -55,6 +55,7 @@ export const useMyCars = () => {
     params: {
       data: JSON.stringify({
         firm_id,
+        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
         with_relations: true,
       }),
     },

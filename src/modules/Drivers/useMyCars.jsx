@@ -41,68 +41,63 @@ export const useMyCars = () => {
     reset,
     setValue,
   } = useForm({});
-  const firm_id = authStore.userData.firm_id
+  const firm_id = authStore.userData.firm_id;
 
   const { mutate } = useCreateUser({
     onSuccess: (res) => {
       // router.push(`/${locale}/drivers`);
-      setIsPopupOpen(true)
+      setIsPopupOpen(true);
     },
   });
 
-  const {mutate:updateDsate} = useUpdateUser({
+  const { mutate: updateDsate } = useUpdateUser({
     onSuccess: (res) => {
-      setIsPopupOpen(true)
+      setIsPopupOpen(true);
       // router.push(`/${locale}/drivers`);
     },
-  })
+  });
 
-  const getUserGps = useGetUserGpsData(
-    {
-     params: {
-       data: JSON.stringify({
-         // client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+  const getUserGps = useGetUserGpsData({
+    params: {
+      data: JSON.stringify({
+        // client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
         //  firm_id,
-         guid: id,
-         with_relations: true,
-       }),
-     },
+        guid: id,
+        with_relations: true,
+      }),
+    },
+  });
 
-    }
-   );
- 
   //  console.log("getUserGps",getUserGps?.data.response)
 
   useEffect(() => {
     if (id) {
       reset({
         ...getUserGps?.data?.response[0]?.users_id_data,
-        password:""
-        
+        password: "",
       });
     }
   }, [getUserGps?.data?.response]);
 
   const onSubmit = (val) => {
-   if(id){
-    updateDsate({
-      data: {
-          full_name:val.full_name,
-        phone:val?.phone,
-        firm_id,
-        // password:val?.password,
-        passport_scan:val?.passport_scan,
-        passport_code:val?.passport_code,
-        drivers_license:val?.drivers_license,
-        photo:val?.photo,
-        login: val?.phone,
-        guid:getUserGps?.data?.response[0]?.users_id,
-        role_id: "921464fa-8308-46b7-9b66-363acf654e40",
-        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-      },
-    })
-   }
-    else{
+    if (id) {
+      updateDsate({
+        data: {
+          full_name: val.full_name,
+          phone: val?.phone,
+          firm_id,
+          // password:val?.password,
+          passport_scan: val?.passport_scan,
+          passport_code: val?.passport_code,
+          drivers_license: val?.drivers_license,
+          photo: val?.photo,
+          login: val?.phone,
+          guid: getUserGps?.data?.response[0]?.users_id,
+          role_id: "921464fa-8308-46b7-9b66-363acf654e40",
+          client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+        },
+      });
+    } else {
       mutate({
         data: {
           ...val,
@@ -128,6 +123,6 @@ export const useMyCars = () => {
     onSubmit,
     setIsPopupOpen,
     isPopupOpen,
-    id
+    id,
   };
 };

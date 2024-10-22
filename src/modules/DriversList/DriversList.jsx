@@ -4,18 +4,17 @@ import { Container } from "@/components/Container";
 
 import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 
-
 import { PlusIcon } from "@/assets/icons/icons";
-import styles from './style.module.scss';
+import styles from "./style.module.scss";
 
-import {CarsCard} from "./component/CarsCard/CarsCard"
+import { CarsCard } from "./component/CarsCard/CarsCard";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useDriversList } from "./useDriversList";
 
 export const DriversList = () => {
-  const { t,data,caroCencel } = useDriversList();
- 
+  const { t, data,useList } = useDriversList();
+
   const router = useRouter();
   const locale = useGetLang();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -29,20 +28,35 @@ export const DriversList = () => {
           >
             {t("Водители")}
           </Heading>
-          <Button onClick={() =>  router.push(`/${locale}/drivers/create`)} width={"fit-content"} leftIcon={<PlusIcon />}>
-            Добавить нового водителя 
+          <Button
+            onClick={() => router.push(`/${locale}/drivers/create`)}
+            width={"fit-content"}
+            leftIcon={<PlusIcon />}
+          >
+            Добавить нового водителя
           </Button>
         </Flex>
         <Box mt={"37px"}>
-          {
-            data?.length > 0 ?
-            data?.map(item => (
-              <CarsCard caroCencel={caroCencel} useList key={item.guid} item={item} />
-            )): <Flex  className={styles.noData} width={`100%`} height={`170px`}  alignItems={`center`} justifyContent={`center`}>
-                   У вас еще нет добавленных водителей
-             </Flex>
-          }
-           
+          {useList?.length > 0 ? (
+            useList?.map((item) => (
+              <CarsCard
+                caroCencel={() => {}}
+                useList
+                key={item.guid}
+                item={item}
+              />
+            ))
+          ) : (
+            <Flex
+              className={styles.noData}
+              width={`100%`}
+              height={`170px`}
+              alignItems={`center`}
+              justifyContent={`center`}
+            >
+              У вас еще нет добавленных водителей
+            </Flex>
+          )}
         </Box>
       </Container>
     </>

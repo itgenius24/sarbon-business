@@ -42,20 +42,34 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useGetUserGpsData } from "@/services/api";
 
-export const CarsCard = ({ t, item, caroCencel, }) => {
+export const CarsCard = ({ t, item, caroCencel }) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [search, setSearch] = useState("");
   const [centerModalType, setCenterModalType] = useState(false);
   const router = useRouter();
   const locale = useGetLang();
-  console.log("item11", item?.users_id_data?.provisions?.[0] === `waiting_for_driver`);
+
+  const {data:response} = useGetUserGpsData({
+    params: {
+      data: JSON.stringify({
+        users_id: item.guid,
+        with_relations: true,
+      }),
+    },
+  });
+
+console.log(`response`,response?.response)
   return (
-    <Box className={cls.cardWrap}   borderLeft={`4px solid  ${
-      item?.users_id_data?.provisions?.[0] === `waiting_for_driver`
-        ? "rgba(0, 122, 255, 1)"
-        : "rgba(21, 186, 77, 1)"
-    } `}>
+    <Box
+      className={cls.cardWrap}
+      borderLeft={`4px solid  ${
+        item.provisions?.[0] === `waiting_for_driver`
+          ? "rgba(0, 122, 255, 1)"
+          : "rgba(21, 186, 77, 1)"
+      } `}
+    >
       <Box className={cls.popup}>
         <Popover placement={"bottom-start"}>
           <PopoverTrigger>
@@ -94,7 +108,6 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
                 <Box
                   style={{ padding: `10px 8px` }}
                   cursor={`pointer`}
-
                   _hover={{
                     backgroundColor: `rgba(0, 122, 255, 1)`,
                     borderRadius: `6px`,
@@ -103,11 +116,10 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
                   className={cls.menuItem}
                   onClick={() => caroCencel(item.guid)}
                 >
-                 Открепить машину
+                  Открепить машину
                 </Box>
                 <Box
                   cursor={`pointer`}
-
                   style={{ padding: `10px 8px`, color: `red` }}
                   _hover={{
                     backgroundColor: `rgba(0, 122, 255, 1)`,
@@ -129,12 +141,12 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
         // background={"rgba(219, 216, 227, 1)"}
         // borderRadius={"6px"}
         >
-
-  
-          {item?.users_id_data &&  item?.users_id_data?.photo !== "photo" && item?.users_id_data?.photo ? (
+          {item &&
+          item?.photo !== "photo" &&
+          item?.photo ? (
             <Image
               style={{ borderRadius: `50%`, width: `130px`, height: `130px` }}
-              src={item?.users_id_data?.photo}
+              src={item?.photo}
               objectFit="cover"
               width={`200`}
               height={`100`}
@@ -147,24 +159,32 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
         <Box width={"60%"}>
           <Flex gap={"50px"}>
             <Box>
-              <p className={cls.title}>{item?.users_id_data?.full_name}</p>
-              <p className={cls.subTitle}>{item?.users_id_data?.phone}</p>
+              <p className={cls.title}>{item?.full_name}</p>
+              <p className={cls.subTitle}>{item?.phone}</p>
             </Box>
           </Flex>
-          {item.users_id_data            ? (
-            <Flex background={ item?.users_id_data?.provisions?.[0] === `waiting_for_driver`
-        ? "rgba(0, 122, 255, 0.08)"
-        : "rgba(21, 186, 77, 1)"} gap={"30px"} alignItems={"center"} className={cls.statusWrap}>
+          {response?.response?.[0]?.users_id_data ? (
+            <Flex
+              background={
+                response?.response?.[0]?.users_id_data?.users_id_data?.provisions?.[0] === `waiting_for_driver`
+                  ? "rgba(0, 122, 255, 0.08)"
+                  : "rgba(21, 186, 77, 1)"
+              }
+              gap={"30px"}
+              alignItems={"center"}
+              className={cls.statusWrap}
+            >
               <Box>
                 <p className={cls.subTitle}>Статус:</p>
                 <p className={cls.subBlueTitle}>
-                  Занята: {item?.users_id_data?.your_id}
+                  Занята: {item?.your_id}
                 </p>
               </Box>
               <Flex gap={2}>
-                <LocationActiveIcon /> <CricleArrovIcon />   <p className={cls.title}> {item?.gps ? "Вкл" : "Откл" } </p>
+                <LocationActiveIcon /> <CricleArrovIcon />{" "}
+                <p className={cls.title}> {response?.response?.[0]?.gps ? "Вкл" : "Откл"} </p>
                 <p className={cls.subBlueTitle}>
-                  {format(item.create_time || new Date(), "yyyy-MM-dd")}
+                  {format(response?.response?.[0]?.create_time || new Date(), "yyyy-MM-dd")}
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -174,13 +194,9 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {item?.battery > 20 ? (
-                  <BatareyFullIcon />
-                ) : (
-                  <BatareyIcon />
-                )}
+                {response?.response?.[0]?.battery > 20 ? <BatareyFullIcon /> : <BatareyIcon />}
                 <p className={cls.subTitle}>
-                  Батарея: <span className={cls.title}>{item?.battery}% </span>
+                  Батарея: <span className={cls.title}>{response?.response?.[0]?.battery}% </span>
                 </p>
               </Flex>
             </Flex>
@@ -195,17 +211,18 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
               <p className={cls.subTitle}>Статус:</p>
               <Flex gap={3} alignItems={`center`}>
                 <p className={cls.title2}>Свободна, без водителя. </p>{" "}
-                <span className={cls.subBlueTitle}>
-                 
+                {/* <span className={cls.subBlueTitle}>
                   berdievsirojiddin@mail.com
-                </span>
+                </span> */}
               </Flex>
             </Box>
           )}
         </Box>
         <Box width={"25%"}>
           <p className={cls.subTitle}>Машина:</p>
-          {item?.users_id_data &&  item?.users_id_data?.photo !== "photo" && item?.users_id_data?.photo? (
+          {item?.users_id_data &&
+          item?.users_id_data?.photo !== "photo" &&
+          item?.users_id_data?.photo ? (
             <Box className={cls.profileWrap}>
               <Flex gap={3}>
                 {/* <Image
@@ -220,7 +237,7 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
                   height={`100`}
                   alt="w"
                 /> */}
-                {/* 
+                {/*
                 <Avatar
                   src={item?.users_id_data?.photo}
                   name={item?.users_id_data?.full_name}
@@ -249,7 +266,6 @@ export const CarsCard = ({ t, item, caroCencel, }) => {
           )}
         </Box>
       </Flex>
-   
     </Box>
   );
 };

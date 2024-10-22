@@ -43,10 +43,11 @@ export const TableComponent = ({ watch }) => {
     params: {
       data: JSON.stringify({
         cargo_type: ["cargo"],
-        with_relations: true,
         // firm_id,
         // map_id:watch(`checkbox1`)
-        // order_status: ["active"]
+        order_status: ["active"],
+        with_relations: true,
+
       }),
     },
     querySettings: { enabled: true },

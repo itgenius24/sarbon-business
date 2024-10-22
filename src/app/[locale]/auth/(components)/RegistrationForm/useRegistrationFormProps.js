@@ -3,6 +3,7 @@ import {
   useGetClientType,
   useGetCompanyList,
   useGetRoleList,
+  useGetUsers,
   useRegisterFirmMutation,
   useRegisterMutation,
   useRegisterUserMutation,
@@ -36,6 +37,7 @@ export const useRegistrationFormProps = () => {
 
   const toast = useToast();
   const [status, setStatus] = useState(1);
+  const [enab, setEnab] = useState(false);
 
   // const registerMutation = useRegisterMutation({
   //   onSuccess: (data) => {
@@ -71,22 +73,37 @@ export const useRegistrationFormProps = () => {
   //   },
   // });
 
-  const registerUserMutation = useRegisterUserMutation({
-    onSuccess: (data) => {
-      console.log(`data`,data)
+  const getUsers = useGetUsers(
+    {
+      data: JSON.stringify({
+        client_type_id: `a25d605c-d153-4ddf-8590-e4cda176ef93`,
+      }),
+    },
+    { enabled: Boolean(enab), onSuccess: (res) => console.log(`response`, res) }
+  );
+  console.log(`getUsers`, getUsers);
+
+  useEffect(() => {
+    if (getUsers.data) {
       authStore.login({
         user: {
-          firm_id: data?.firm_id,
-          // full_name: data.full_name,
-          ...data,
-          id:data.guid,
-          client_id: data?.client_type_id,
-
+          firm_id: getUsers?.data?.response?.[0]?.firm_id,
+          // full_name: getUsers?.data.full_name,
+          ...getUsers?.data?.response?.[0],
+          id: getUsers?.data.response?.[0]?.guid,
+          client_id: getUsers?.data?.response?.[0]?.client_type_id,
         },
-        token: data?.token,
-        role: data?.role,
+        token: getUsers?.data?.response?.[0]?.token,
+        role: getUsers?.data?.response?.[0]?.role,
       });
       router.push(`/${locale}`);
+      setEnab(false);
+    }
+  }, [getUsers.data]);
+  
+  const registerUserMutation = useRegisterUserMutation({
+    onSuccess: (data) => {
+      setEnab(true);
     },
     onError(error) {
       if (error.data?.data?.includes("user_unq_login")) {
@@ -115,7 +132,6 @@ export const useRegistrationFormProps = () => {
 
   const registerFirmMutation = useRegisterFirmMutation({
     onSuccess: (data) => {
-      console.log(`data`, data);
       registerUserMutation.mutate({
         data: {
           role_id: "f81d3c3d-228d-479e-a2b1-9948c98640f2",

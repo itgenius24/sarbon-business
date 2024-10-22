@@ -38,17 +38,7 @@ export const useDriversList = () => {
   } = useForm({});
 
 const firm_id = authStore.userData.firm_id
-  const getUserGps = useGetUserGpsData(
-   {
-    params: {
-      data: JSON.stringify({
-        firm_id,
-        guid:'b28d3079-7b07-49d0-8b74-8cff6f6bb888',
-        with_relations: true,
-      }),
-    },
-   }
-  );
+
 
   const { data: useList } = useGetUserData({
     params: {
@@ -64,15 +54,12 @@ const firm_id = authStore.userData.firm_id
     },
   });
 
-  const caroCencel = (id) => {
 
-  }
- 
   
   return {
-    data:getUserGps?.data?.response,
+    data:useList?.response,
     useList:useList?.response,
     t,
-    caroCencel,
+  
   };
 };

@@ -66,17 +66,17 @@ const objectService = {
   getLoadingTypes: (params) =>
     request.get("/v2/object-slim/get-list/load_type", { params }),
   getUsers: (params) =>
-    request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users", {
+    request.get("/v2/object-slim/get-list/users", {
       params,
     }),
   getGPSHistory: (params) =>
     request.get(
-      "https://api.admin.u-code.io/v2/object-slim/get-list/gps_history",
+      "/v2/object-slim/get-list/gps_history",
       { params }
     ),
   getDriverLocation: (params) =>
     request.get(
-      "https://api.admin.u-code.io/v2/object-slim/get-list/users_gps",
+      "/v2/object-slim/get-list/users_gps",
       { params }
     ),
 };

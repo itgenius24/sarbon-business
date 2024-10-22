@@ -10,7 +10,7 @@ const authService = {
   phone: (data) => authRequest.post(`/v2/auth/send-code?project_id=${projectId}`, data ),
   otp: (data) => authRequest.post(`/v2/login/with-option?project-id=${projectId}`, data),
   register: (data) => authRequest.post(`/v2/register?project-id=${projectId}`, data),
-  registerUser: (data) => request.post(`/v2/items/users?project-id=${projectId}`, data),
+  registerUser: (data) => request.post(`/v2/items/users`, data),
   registerFirm: (data) => request.post(`/v2/items/firm`, data),
 };
 

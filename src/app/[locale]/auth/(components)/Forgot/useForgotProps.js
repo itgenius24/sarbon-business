@@ -28,6 +28,10 @@ export const useForgotProps = () => {
     onSuccess: (data) => {
       authStore.setAuthData("smsId", data.sms_id);
       router.push(`/${locale}/auth/otp`);
+
+    },
+    onError:() => {
+      router.push(`/${locale}/auth/otp`);
     }
   });
 

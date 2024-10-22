@@ -20,10 +20,12 @@ import {
   WaitingForDriverIcon,
 } from "@/assets/icons/icons";
 import { useDebounce } from "use-debounce";
+import authStore from "@/store/auth.store";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
+  const firm_id = authStore.userData.firm_id;
 
   const { t } = useTranslation(locale, "translations");
 
@@ -312,6 +314,7 @@ export const useGpsTrackingProps = () => {
       if (watch("address")) {
         console.log(`data?.data?.response?.length`, data?.response?.length);
         if (data?.response?.length) {
+          console.log(`dats`, data?.response);
           setCarsArr(
             data?.response?.filter(
               (item) => item?.users_id_data?.vehicle_type_id_data
@@ -358,13 +361,12 @@ export const useGpsTrackingProps = () => {
         }
         if (data?.data?.response?.length === null && !closeRes) {
           setCLoseRes(true);
-          mutate({ data: { object_data: { limit: 40, page: offset } } });
+          mutate({ data: { object_data: { limit: 40, page: offset, firm_id } } });
         }
       }
     },
   });
 
-  console.log(`watch`, watch(`car_type`)?.value);
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -390,7 +392,7 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
-  console.log(`dats`, dataUserID);
+
 
   
 
@@ -420,7 +422,8 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
  
-  console.log(`salom`,dataUserDataID)
+  console.log(`salom`,carsArr)
+
 
 
   const getCarListProps = useMemo(() => {
@@ -439,6 +442,7 @@ export const useGpsTrackingProps = () => {
     value: item?.users_id_data?.guid,
   }));
  
+
 
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -517,6 +521,7 @@ export const useGpsTrackingProps = () => {
             volume: watch("volume"),
             limit: 40,
             page: offset,
+            firm_id
           },
         },
       });
