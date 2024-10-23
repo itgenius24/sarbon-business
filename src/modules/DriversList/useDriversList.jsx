@@ -45,6 +45,7 @@ const firm_id = authStore.userData.firm_id
       data: JSON.stringify({
         firm_id,
         with_relations: true,
+        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
       }),
     },
     querySettings: {
