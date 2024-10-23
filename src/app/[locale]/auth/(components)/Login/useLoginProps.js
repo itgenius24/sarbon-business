@@ -47,16 +47,14 @@ export const useLoginProps = () => {
         user: {
           firm_id: data.user_data?.firm_id,
           full_name: data.user_data?.full_name,
-          ...data?.user,
+          id:data?.user_data.guid,
+          ...data?.user_data,
           client_id: data?.client_type?.id,
           role_id: data?.role?.id,
         },
         token: data?.token,
         role: data?.role,
       });
-
-    
-
       if (remember) {
         localStorage.setItem(
           "loginData",

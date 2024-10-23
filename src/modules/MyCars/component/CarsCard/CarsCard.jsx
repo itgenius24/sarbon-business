@@ -29,6 +29,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { translateArray } from "@/utils/translateArray";
+import { useGetUserGpsData } from "@/services/api";
 
 export const CarsCard = ({
   item,
@@ -39,8 +40,21 @@ export const CarsCard = ({
 }) => {
   const router = useRouter();
   const locale = useGetLang();
-  // item?.users_id_data?.provisions[0] === `our_cargo` || item?.users_id_data?.provisions[0] ===
-  //                       `waiting_for_driver`
+
+  const { data: response } = useGetUserGpsData({
+    params: {
+      data: JSON.stringify({
+        users_id: item.users_id,
+        with_relations: true,
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(item.users_id_data),
+    },
+  });
+
+  console.log(`response`, response);
+
   return (
     <Box
       className={cls.cardWrap}
@@ -76,7 +90,7 @@ export const CarsCard = ({
                     backgroundColor: `rgba(0, 122, 255, 1)`,
                     borderRadius: `6px`,
                     color: `rgba(255, 255, 255, 1)`,
-                    cursor:`pointer`
+                    cursor: `pointer`,
                   }}
                   className={cls.menuItem}
                   onClick={() =>
@@ -91,7 +105,7 @@ export const CarsCard = ({
                     backgroundColor: `rgba(0, 122, 255, 1)`,
                     borderRadius: `6px`,
                     color: `rgba(255, 255, 255, 1)`,
-                    cursor:`pointer`
+                    cursor: `pointer`,
                   }}
                   className={cls.menuItem}
                   onClick={() => handleUpdateId(item.guid)}
@@ -104,10 +118,10 @@ export const CarsCard = ({
                     backgroundColor: `rgba(0, 122, 255, 1)`,
                     borderRadius: `6px`,
                     color: `rgba(255, 255, 255, 1)`,
-                    cursor:`pointer`
+                    cursor: `pointer`,
                   }}
                   className={cls.menuItem}
-                  onClick={()=> handleDelete(item?.guid)}
+                  onClick={() => handleDelete(item?.guid)}
                 >
                   Удалить машину
                 </Box>
@@ -134,7 +148,7 @@ export const CarsCard = ({
         <Box width={"60%"}>
           <Flex gap={"50px"}>
             <p className={cls.title}>
-              {item?.marka}  <br /> {item?.car_number}
+              {item?.marka} <br /> {item?.car_number}
             </p>
             <Flex
               flexDirection={`column`}
@@ -165,11 +179,11 @@ export const CarsCard = ({
               </p>
             </Box>
           </Flex>
-          {item.users_id_data ? (
+          {response?.response ? (
             <Flex
               style={{
                 background: `${
-                  item?.users_id_data?.provisions[0] === `waiting_for_driver`
+                  response?.response?.[0]?.users_id_data?.provisions[0] === `waiting_for_driver`
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,
@@ -181,13 +195,14 @@ export const CarsCard = ({
               <Box>
                 <p className={cls.subTitle}>Статус:</p>
                 <p className={cls.subBlueTitle}>
-                  Занята: {item?.users_id_data?.your_id}
+                  Занята: {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>
               <Flex alignItems={`center`} gap={2}>
-                <LocationActiveIcon /> <CricleArrovIcon /> <p className={cls.title}>Вкл. </p>
+                <LocationActiveIcon /> <CricleArrovIcon />{" "}
+                <p className={cls.title}>Вкл. </p>
                 <p className={cls.subBlueTitle}>
-                  {format(item?.create_time || new Date(), "yyyy-MM-dd")}
+                  {format(response?.response?.[0]?.create_time || new Date(), "yyyy-MM-dd")}
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -197,13 +212,13 @@ export const CarsCard = ({
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {item?.users_id_data?.battery > 20 ? (
+                {response?.response?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
                   <BatareyIcon />
                 )}
                 <p className={cls.subTitle}>
-                  Батарея: <span className={cls.title}>19% </span>
+                  Батарея: <span className={cls.title}>{response?.response?.[0]?.battery } % </span>
                 </p>
               </Flex>
             </Flex>
@@ -220,16 +235,19 @@ export const CarsCard = ({
             </Box>
           )}
         </Box>
-        <Box  width={"25%"}>
+        <Box width={"25%"}>
           <p className={cls.subTitle}>Водитель:</p>
           {item.users_id_data ? (
-            <Box  style={{
+            <Box
+              style={{
                 background: `${
                   item?.users_id_data?.provisions[0] === `waiting_for_driver`
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,
-              }} className={cls.profileWrap}>
+              }}
+              className={cls.profileWrap}
+            >
               <Flex gap={3}>
                 <Avatar
                   src={item?.users_id_data?.photo}

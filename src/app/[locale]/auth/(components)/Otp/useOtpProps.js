@@ -42,16 +42,16 @@ export const useOtpProps = () => {
       }
     },
     onError: () => {
-      router.push(`/${locale}/auth/registration-form`);
+      // router.push(`/${locale}/auth/registration-form`);
 
       setError(true);
-      // toast({
-      //   title: t("Неправильный код"),
-      //   status: "error",
-      //   duration: 3000,
-      //   isClosable: true,
-      //   position: "top right",
-      // });
+      toast({
+        title: t("Неправильный код"),
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top right",
+      });
     }
   });
 

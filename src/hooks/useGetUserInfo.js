@@ -5,7 +5,7 @@ export const useGetUserInfoHook = () => {
   const id = authStore.userData.id;
 
   return useGetUserInfo(id, {
-    enabled: !!id,
+    enabled: Boolean(id),
     select: (res) => {
       if (!res.response) return {};
       return res?.response || {};

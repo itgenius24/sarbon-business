@@ -40,10 +40,11 @@ export const RegistrationForm = () => {
     watch,
     setStatus,
     setValue,
+    value,
+    setValueR,
     status,
   } = useRegistrationFormProps();
 
-  const [value, setValueR] = useState("C1");
   const formatPhoneNumber = (value) => {
     let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
     if (input.length > 3) input = input.slice(0, 3) + " " + input.slice(3);

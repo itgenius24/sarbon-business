@@ -31,7 +31,7 @@ export const useRegistrationProps = () => {
       router.push(`/${locale}/auth/otp`);
     },
     onError:() => {
-      router.push(`/${locale}/auth/otp`);
+      // router.push(`/${locale}/auth/otp`);
     }
   });
 

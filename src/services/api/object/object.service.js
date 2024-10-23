@@ -235,7 +235,7 @@ export const useGetUserData = ({params = { data: JSON.stringify({}) },querySetti
 export const useGetUserGpsData = ({params = { data: JSON.stringify({}) },querySettings}) => {
   return useQuery({
     queryKey: ["object/getCargoGps", params],
-    queryFn: () => objectService.getUserGpsData(params),querySettings
+    queryFn: () => objectService.getUserGpsData(params),...querySettings
   });
 };
 

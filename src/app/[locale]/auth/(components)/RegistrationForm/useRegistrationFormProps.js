@@ -18,6 +18,8 @@ import { useToast } from "@chakra-ui/react";
 export const useRegistrationFormProps = () => {
   const locale = useGetLang();
   const router = useRouter();
+  const [value, setValueR] = useState("C1");
+
 
   const { t } = useTranslation(locale, "translations");
 
@@ -38,6 +40,15 @@ export const useRegistrationFormProps = () => {
   const toast = useToast();
   const [status, setStatus] = useState(1);
   const [enab, setEnab] = useState(false);
+
+  const getClientTypes = useGetClientType();
+  
+  const clientTypeOptions = getClientTypes.data?.response
+    ?.filter(
+      (client) =>
+        client?.name === t("Заказчик") || client?.name === t("Экспидетор")
+    )
+    ?.map((role) => ({ label: role?.name, value: role?.guid }));
 
   // const registerMutation = useRegisterMutation({
   //   onSuccess: (data) => {
@@ -76,12 +87,12 @@ export const useRegistrationFormProps = () => {
   const getUsers = useGetUsers(
     {
       data: JSON.stringify({
-        client_type_id: `a25d605c-d153-4ddf-8590-e4cda176ef93`,
+        client_type_id:value === `C2` ? clientTypeOptions?.[1]?.value : "a25d605c-d153-4ddf-8590-e4cda176ef93",
       }),
     },
     { enabled: Boolean(enab), onSuccess: (res) => console.log(`response`, res) }
   );
-  console.log(`getUsers`, getUsers);
+
 
   useEffect(() => {
     if (getUsers.data) {
@@ -134,10 +145,10 @@ export const useRegistrationFormProps = () => {
     onSuccess: (data) => {
       registerUserMutation.mutate({
         data: {
-          role_id: "f81d3c3d-228d-479e-a2b1-9948c98640f2",
-          client_type_id: "a25d605c-d153-4ddf-8590-e4cda176ef93",
+          role_id: value === `C2` ? "48871d27-7361-4f69-8fe4-b54daf270739" : "f81d3c3d-228d-479e-a2b1-9948c98640f2",
+          client_type_id: value === `C2` ? clientTypeOptions[1].value : "a25d605c-d153-4ddf-8590-e4cda176ef93",
           phone: phone,
-          full_name: watch(`fullName`),
+          full_name: watch(`full_name`),
           login: watch(`login`),
           password: watch(`password`),
           firm_id: data?.guid,
@@ -175,13 +186,7 @@ export const useRegistrationFormProps = () => {
     data: JSON.stringify({ client_type_id: "" }),
   });
 
-  const getClientTypes = useGetClientType();
-  const clientTypeOptions = getClientTypes.data?.response
-    ?.filter(
-      (client) =>
-        client?.name === t("Заказчик") || client?.name === t("Экспидетор")
-    )
-    ?.map((role) => ({ label: role?.name, value: role?.guid }));
+ 
 
   const getCompanyList = useGetCompanyList({
     data: JSON.stringify({ company_direction: ["logistic_company"] }),
@@ -219,6 +224,8 @@ export const useRegistrationFormProps = () => {
     setValue("tel", phone);
   }, []);
 
+  console.log(`clientTypeOptions`,clientTypeOptions)
+
   return {
     clientTypeOptions,
     control,
@@ -236,5 +243,6 @@ export const useRegistrationFormProps = () => {
     setStatus,
     status,
     setValue,
+    setValueR,value
   };
 };
