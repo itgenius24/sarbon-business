@@ -195,7 +195,7 @@ export const CarsCard = ({
               <Box>
                 <p className={cls.subTitle}>Статус:</p>
                 <p className={cls.subBlueTitle}>
-                  Занята: {response?.response?.[0]?.users_id_data?.your_id}
+                Свободна: {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>
               <Flex alignItems={`center`} gap={2}>

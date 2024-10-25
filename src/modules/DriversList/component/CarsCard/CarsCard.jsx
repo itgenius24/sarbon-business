@@ -44,7 +44,7 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetUserGpsData } from "@/services/api";
 
-export const CarsCard = ({ t, item, caroCencel }) => {
+export const CarsCard = ({ t, item, caroCencel,handleDelete }) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [search, setSearch] = useState("");
   const [centerModalType, setCenterModalType] = useState(false);
@@ -127,6 +127,7 @@ console.log(`response`,response?.response)
                     color: `rgba(255, 255, 255, 1)`,
                   }}
                   className={cls.menuItem}
+                  onClick={() => handleDelete(item.guid)}
                 >
                   Удалить водителя
                 </Box>

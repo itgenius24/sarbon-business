@@ -29,6 +29,8 @@ const objectService = {
     request.get("/v2/object-slim/get-list/users_gps", { params }),
   getVehicle: (params) =>
     request.get("/v2/object-slim/get-list/vehicle", { params }),
+  getVehicleSin: (params) =>
+    request.get(`/v2/items/vehicle/${params.id}`),
   getCurrency: (params) =>
     request.get("/v2/object-slim/get-list/currency", { params }),
   getPackage: (params) =>
@@ -242,7 +244,7 @@ export const useGetUserGpsData = ({params = { data: JSON.stringify({}) },querySe
 export const useGetVehicleSingle = ({params = { data: JSON.stringify({}) },querySettings}) => {
   return useQuery({
     queryKey: ["object/getCargo", params],
-    queryFn: () => objectService.getVehicle(params),querySettings
+    queryFn: () => objectService.getVehicleSin(params),querySettings
   });
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useDeleteUsers,
   useGetAddress,
   useGetCarListOnSubmit,
   useGetUserData,
@@ -40,7 +41,7 @@ export const useDriversList = () => {
 const firm_id = authStore.userData.firm_id
 
 
-  const { data: useList } = useGetUserData({
+  const { data: useList,refetch } = useGetUserData({
     params: {
       data: JSON.stringify({
         firm_id,
@@ -55,12 +56,26 @@ const firm_id = authStore.userData.firm_id
     },
   });
 
+  const { mutate: dalete } = useDeleteUsers({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  const handleDelete = (id) => {
+    const data = {
+      id: id,
+    };
+    dalete(data);
+  };
+
 
   
   return {
     data:useList?.response,
     useList:useList?.response,
     t,
+    handleDelete
   
   };
 };

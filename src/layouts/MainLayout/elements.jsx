@@ -20,13 +20,14 @@ console.log(`role_id`,role_id)
         label: "Поиск грузов",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/my-cars` : `/${lang || "ru"}/auth`,
-        label: "Мои машины",
-      },
-      {
         path: isAuth ? `/${lang || "ru"}/drivers` : `/${lang || "ru"}/auth`,
         label: "Водители",
       },
+      {
+        path: isAuth ? `/${lang || "ru"}/my-cars` : `/${lang || "ru"}/auth`,
+        label: "Мои машины",
+      },
+   
       {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",

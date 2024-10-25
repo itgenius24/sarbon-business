@@ -16,6 +16,7 @@ import { isValidJSON } from "@/utils/isValidJSON";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
+import useClipboard from "react-use-clipboard";
 
 export const useMyCars = () => {
   const searchParams = useSearchParams();
@@ -41,6 +42,8 @@ export const useMyCars = () => {
     reset,
     setValue,
   } = useForm({});
+const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`));
+
   const firm_id = authStore.userData.firm_id;
 
   const { mutate } = useCreateUser({
@@ -109,7 +112,11 @@ export const useMyCars = () => {
       });
     }
   };
-
+  const copyFunction = () => {
+    setCopied();
+    setIsPopupOpen(false);
+    router.push(`/${locale}/drivers`);
+  };
   return {
     t,
     control,
@@ -124,5 +131,8 @@ export const useMyCars = () => {
     setIsPopupOpen,
     isPopupOpen,
     id,
+    copyFunction,
   };
 };
+
+"Его логин: +998999654132;  Его пароль: 123456"

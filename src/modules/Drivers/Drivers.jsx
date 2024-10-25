@@ -46,6 +46,7 @@ export const DriversModule = () => {
     setIsPopupOpen,
     router,
     locale,
+    copyFunction
   } = useMyCars();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -238,7 +239,8 @@ export const DriversModule = () => {
 
             <ModalFooter>
               <Button
-                onClick={() => setIsPopupOpen(false)}
+                onClick={() =>     copyFunction
+()                }
                 style={{
                   background: "white",
                   border: "1px solid rgba(208, 213, 221, 1)",

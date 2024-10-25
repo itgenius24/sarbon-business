@@ -98,33 +98,29 @@ export const useSearchCargo = () => {
 
   const { data: useList } = useGetVehicleSingle({
     params: {
-      data: JSON.stringify({
-        client_type_id: id,
-        firm_id: "",
-        // with_relations: true,
-      }),
+      id
     },
     querySettings: {
       enabled: Boolean(id),
     },
   });
+  console.log(`useList`,useList)
 
   useEffect(() => {
     if (id) {
       const trilerVal = carTypeOptions?.filter(
-        (item) => item?.value === useList?.response?.[0].trailer_type_id
+        (item) => item?.value === useList?.response?.trailer_type_id
       );
       const adrVal = adrOptions?.filter(
-        (item) => item?.value === useList?.response?.[0].adr
+        (item) => item?.value === useList?.response?.adr
       );
-      console.log(`trilerVal`, adrVal);
 
-      useList?.response?.[0]?.download_type.forEach((name) => {
+      useList?.response?.download_type.forEach((name) => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
 
       reset({
-        ...useList?.response?.[0],
+        ...useList?.response,
         trailer_type_id: trilerVal?.[0],
         adr: adrVal?.[0],
       });
@@ -133,6 +129,7 @@ export const useSearchCargo = () => {
 
   const { mutate } = useCreateVehicle({
     onSuccess: (res) => {
+      reset()
       setIsPopupOpen(true)
       // router.push(`/${locale}/my-cars`);
     },
@@ -140,6 +137,7 @@ export const useSearchCargo = () => {
   const { mutate: updateW } = useUpdateVehicle({
     onSuccess: () => {
       // setIsPopupOpen(true)
+      reset()
       router.push(`/${locale}/my-cars`);
     },
   });
@@ -150,7 +148,7 @@ export const useSearchCargo = () => {
         trailer_type_id: val.trailer_type_id.value,
         capacity: +val.capacity,
         height: +val.height,
-        car_number: +val.car_number,
+        car_number: val.car_number,
         marka: val.marka,
         cemt: val.cemt, //or false
         tir: val.tir, // or true

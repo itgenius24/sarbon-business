@@ -320,7 +320,7 @@ export const SearchCargoModule = () => {
                 <Checkbox
                   defaultChecked={watch(`tir`)}
                   register={register}
-                  name="tir"
+                  name="tir" 
                 >
                   {t("TIR")}
                 </Checkbox>
@@ -397,7 +397,7 @@ export const SearchCargoModule = () => {
                   setValue={setValue}
                   name={"car_photo"}
                   icon={<ImgUload2 />}
-                  text={"Загрузить фото спереди"}
+                  text={"Загрузить фото машины"}
                 />
               </Flex>
             </Box>

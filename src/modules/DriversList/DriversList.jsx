@@ -13,7 +13,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useDriversList } from "./useDriversList";
 
 export const DriversList = () => {
-  const { t, data,useList } = useDriversList();
+  const { t, data,useList,handleDelete } = useDriversList();
 
   const router = useRouter();
   const locale = useGetLang();
@@ -44,6 +44,7 @@ export const DriversList = () => {
                 useList
                 key={item.guid}
                 item={item}
+                handleDelete={handleDelete}
               />
             ))
           ) : (
