@@ -61,7 +61,7 @@ const StepFive = ({ status }) => {
     },
   });
 
-console.log(`loadinss`,unloading)
+console.log(`loadinss`,unloading,loadings)
 
   const onSubmitF = () =>{
     setIsUpdate(true)
@@ -87,7 +87,7 @@ console.log(`loadinss`,unloading)
 
     let loadingsData = getValues("loadings").map((item,index) => ({
       address:item?.address,
-      date: addDaysToDate(item.from_date,item.loading_num),
+      date: new Date(item.from_date),
       lat: item?.cor.split(" ")[0],
       long: item?.cor.split(" ")[1],
       step:index+1,
@@ -141,7 +141,7 @@ console.log(`loadinss`,unloading)
 
     let loadingsData = getValues("loadings").map((item,index) => ({
       address:item?.address,
-      date: addDaysToDate(item.from_date,item.loading_num?.value),
+      date: new Date(item.from_date),
       lat: item?.cor.split(" ")[0],
       long: item?.cor.split(" ")[1],
       step:index+1,

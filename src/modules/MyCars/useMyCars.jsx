@@ -72,6 +72,9 @@ export const useMyCars = () => {
     onSuccess: () => {
       getVehicle.refetch();
       setCenterModalType(false);
+      setStatus(true);
+      setUserId(null)
+
     },
   });
 
@@ -106,6 +109,7 @@ export const useMyCars = () => {
       },
     };
     mutate(data);
+    
   };
 
   const { mutate: dataMutate } = useGetCar({
@@ -126,7 +130,7 @@ export const useMyCars = () => {
     dataMutate(data);
   }, [status]);
 
-  console.log(`data22`,data)
+
 
   return {
     data: getVehicle?.data?.response,

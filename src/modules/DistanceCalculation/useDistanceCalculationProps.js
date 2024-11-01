@@ -58,7 +58,8 @@ export const useDistanceCalculationProps = () => {
         multiRoute.events.add("update", function () {
           if(multiRoute.getRoutes().get(0)) {
             const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-            const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
+            const distance = multiRoute.getRoutes().get(0).properties.get("distance").value;
+            console.log(`multiRoute`,multiRoute.getRoutes().get(0).properties.get("distance"))
             setDistanceParameters({ duration, distance });
           }
         });

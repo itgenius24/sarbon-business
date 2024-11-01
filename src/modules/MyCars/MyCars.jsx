@@ -31,7 +31,7 @@ export const MyCarsModule = () => {
     dataModal
   } = useMyCars();
 
-  console.log(`data`, useList);
+  console.log(` dataModal`,  dataModal);
   const router = useRouter();
   const locale = useGetLang();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -111,16 +111,16 @@ export const MyCarsModule = () => {
                             className={cls.subTitle2}
                           >
                             <p className={cls.loadType}>
-                              {`${item?.vehicles?.[0]?.marka} ${item?.vehicles?.[0]?.car_number}`}
+                              {`${item?.vehicles?.[0]?.marka} ${item?.vehicles?.[0]?.car_number ? item?.vehicles?.[0]?.car_number  : `` }`}
                             </p>
                             <Flex gap={2}>
                               <Flex gap={1} alignItems={"center"}>
                                 <StoneIcon />
-                                {item?.vehicles?.[0]?.weight} т.
+                                {item?.vehicles?.[0]?.height} т.
                               </Flex>
                               <Flex gap={1} alignItems={"center"}>
                                 <LoadOulineIcon />
-                                {item?.vehicles?.[0]?.width} m3
+                                {item?.vehicles?.[0]?.capacity} m3
                               </Flex>
                             </Flex>
                           </Flex>

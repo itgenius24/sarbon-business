@@ -217,7 +217,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <Box>
                 <p className={cls.subTitle}>Статус:</p>
                 <Flex gap={3} alignItems={`center`}>
-                  <p className={cls.title2}>Свободна, без водителя. </p>{" "}
+                  <p className={cls.title2}> {item?.vehicles?.[0] ? `Свободна, без груза.` : `Свободна, без машины` }   </p>
                 </Flex>
               </Box>
 

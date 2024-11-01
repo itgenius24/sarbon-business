@@ -31,6 +31,8 @@ export const DistanceCalculation = () => {
 
   const { t } = useTranslation(locale, "translations");
 
+  console.log(`distanceParameters.distance `,distanceParameters?.distance )
+
   return <Container py={isLargerThan845 ? "40px" : "24px"}>
     <Heading size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
     <Box p={isLargerThan845 ? "24px" : "0"} bgColor={isLargerThan845 ? "baseWhite" : "transparent"} borderRadius={isLargerThan845 ? "16px" : "0"}>
@@ -88,7 +90,7 @@ export const DistanceCalculation = () => {
           <p className={cls.distanceParams}>
             <b className={cls.distanceInfoTitle}>
               <span><RouteDirectionIcon /></span>
-              <span>{distanceParameters.distance}</span>
+              <span>{Math.floor(distanceParameters.distance / 1000)} km</span>
             </b>
             <br />
             <b className={cls.distanceInfoTitle}>
