@@ -28,9 +28,9 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
       <Flex  flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
         <Flex width={'100%'} alignItems={"center"} justifyContent={'space-between'}>
           <Flex gap={3}>
-            <Avatar name={contendSingle?.users_id_data?.full_name} src={contendSingle?.users_id_data?.photo} />
+            <Avatar name={contendSingle?.user?.full_name} src={contendSingle?.user?.photo} />
             <Box>
-            <p className={cls.userName}>{contendSingle?.users_id_data?.full_name}</p>
+            <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -50,8 +50,8 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-MM-dd, hh:mm")} </p>
-            <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
+            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd, hh:mm")} </p>
+            <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
          <Flex justifyContent={'space-between'}>
@@ -64,17 +64,17 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-            {contendSingle?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
+            {contendSingle?.users_gps?.[0]?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
               <Box>
                 <p className={cls.smallText}>Смартфон </p>
-                <p className={cls.bigTitle}>{contendSingle?.os}</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.os}</p>
               </Box>
             </Flex>
        
           </Flex>
           <Flex mt={3}  alignItems={"flex-start"} rowGap={'15px'}  flexDirection={'column'}>
           <Flex alignItems={"center"} gap={2}>
-            { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
+            { contendSingle?.users_gps?.[0]?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
               <Box>
                 <p className={cls.smallText}>Батарея </p>
                 <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
@@ -84,7 +84,7 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
               <FurIcon />
               <Box>
                 <p className={cls.smallText}>Версия </p>
-                <p className={cls.bigTitle}>{contendSingle?.version}</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.version}</p>
               </Box>
             </Flex>
           </Flex>
@@ -94,9 +94,9 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
           <Flex gap={2}>
             <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
             <Box>
-              <p className={cls.cardStartTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
+              <p className={cls.cardStartTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
               <p className={cls.cardStartSubTitle}>
-                 {format(contendSingle?.update_time,"yyyy-MM-dd")}
+                 {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd")}
               </p>
             </Box>
           </Flex>
@@ -104,8 +104,8 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
             {
-              addressAdd  ||  contendSingle?.users_id_data?.address_name ?    <Box>
-              <p className={cls.cardStartTitle}>{ addressAdd  ? `${addressAdd?.address.slice(0,17)}...`: `${contendSingle?.users_id_data?.address_name.slice(0,17)}...` }</p>
+              addressAdd  ||  contendSingle?.user?.address_name ?    <Box>
+              <p className={cls.cardStartTitle}>{ addressAdd  ? `${addressAdd?.address.slice(0,17)}...`: `${contendSingle?.user?.address_name.slice(0,17)}...` }</p>
               <p className={cls.cardStartSubTitle}>
                
                 {/* RUS / <span>18 августа</span> */}
@@ -142,7 +142,7 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
           </Flex>
       
         </Box>
-        <Button onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.users_id_data?.provisions?.[0])}} leftIcon={<QuestionBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
+        <Button onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.user?.provisions?.[0])}} leftIcon={<QuestionBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
             Занята чужим грузом
         </Button>
         {/* <Box className={cls.cardWrap}>

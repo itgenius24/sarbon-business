@@ -268,11 +268,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 {item?.vehicles?.[0]?.car_photo !== "photo" &&
                   item?.vehicles?.[0]?.car_photo ? (
                     <Image
-                      // style={{
-                      //   borderRadius: `6px`,
-                      //   width: `60px`,
-                      //   height: `45px`,
-                      // }}
+                      style={{
+                        borderRadius: `6px`,
+                        width: `60px`,
+                        height: `45px`,
+                      }}
                       src={item?.vehicles?.[0]?.car_photo}
                       // objectFit="cover"
                       width={`100`}

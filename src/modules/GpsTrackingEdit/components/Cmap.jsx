@@ -51,7 +51,6 @@ const Cmap = memo(
     handleMouseEnterCargo,
     setContendSingle,
     contendHoverState,
-
     isLoading,
   }) => {
    
@@ -131,6 +130,7 @@ const Cmap = memo(
       // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone)
     })
+
 
     return (
       <Map
@@ -263,72 +263,72 @@ const Cmap = memo(
                     </div>
                   </div>
                   <p className={cls.balloon_fulName}>
-                    {carInfo?.users_id_data?.full_name}
+                    {carInfo?.user?.full_name}
                   </p>
                   {type === "empty" ? (
                     <>
                       <p id="click" className={cls.footerBox1}>
                         <GreenPhoneIcon />
-                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                        {formatPhoneNumber(carInfo?.user?.phone)}
                       </p>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
                   ) : type === "waiting_for_driver" ? (
                     <>
                       <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                        {formatPhoneNumber(carInfo?.user?.phone)}
                       </p>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
                   ) : type === "our_cargo" ? (
                     <>
                       <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                        {formatPhoneNumber(carInfo?.user?.phone)}
                       </p>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
                   ) : type === "someone_cargo" ? (
                     <>
                       <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                        {formatPhoneNumber(carInfo?.user?.phone)}
                       </p>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
                   ) : type === "broke_down" ? (
                     <>
                       <p id="click" className={cls.footerBox1}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                        {formatPhoneNumber(carInfo?.user?.phone)}
                       </p>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
                   ) : (
                     <>
                       <p id="click" className={cls.footerBox1}>
                         <GreenPhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.users_id_data?.phone)}
+                        {formatPhoneNumber(carInfo?.user?.phone)}
                       </p>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.users_id_data?.vehicle_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
                   )}
@@ -337,19 +337,18 @@ const Cmap = memo(
               const balloonContent2 = ReactDOMServer.renderToString(
                 <BalloonContent />
               );
-
-              return (
+       return (
                 <>
                   <Placemark
-                    key={carInfo?.guid}
-                    geometry={[carInfo?.lat, carInfo?.long]}
+                    key={carInfo?.user?.guid}
+                    geometry={[carInfo?.users_gps?.[0]?.lat, carInfo?.users_gps?.[0]?.long]}
                     properties={{ balloonContent: balloonContent2, }}
                     options={{
                       iconLayout: "default#image",
                       iconImageHref:
                         "data:image/svg+xml;charset=UTF-8," +
                         encodeURIComponent(
-                          mapIcon[carInfo?.users_id_data?.provisions?.[0]] ||
+                          mapIcon[carInfo?.user?.provisions?.[0]] ||
                             GreenMapIcon
                         ),
                       iconImageSize:
@@ -365,17 +364,17 @@ const Cmap = memo(
                       balloonInstance.events.add("click", () => {
                         setContendSingle(carInfo);
                         if (
-                          carInfo?.users_id_data?.provisions?.[0] ===
+                          carInfo?.user?.provisions?.[0] ===
                           "our_cargo"
                         ) {
                           setModalType("driverCheck");
                         } else if (
-                          carInfo?.users_id_data?.provisions?.[0] ===
+                          carInfo?.user?.provisions?.[0] ===
                           "someone_cargo"
                         ) {
                           setModalType("driverQuestion");
                         } else if (
-                          carInfo?.users_id_data?.provisions?.[0] ===
+                          carInfo?.user?.provisions?.[0] ===
                           "waiting_for_driver"
                         ) {
                           setModalType("driverExpectation");
@@ -398,8 +397,8 @@ const Cmap = memo(
             <Placemark
               key={item?.id}
               geometry={[
-                item.location_name.split(",")[0] * 1,
-                item.location_name.split(",")[1] * 1,
+                item.location_name.split(" ")[0] * 1,
+                item.location_name.split(" ")[1] * 1,
               ]}
               properties={{
                 balloonContent: balloonContentCargo,

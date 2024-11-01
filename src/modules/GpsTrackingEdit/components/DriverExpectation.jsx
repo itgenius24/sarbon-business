@@ -31,11 +31,11 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
-        users_id_2: contendSingle?.users_id,
+        users_id_2: contendSingle?.users?.guid,
         with_relations: true,
       })
     },
-    { enabled: Boolean(contendSingle?.users_id), }
+    { enabled: Boolean(contendSingle?.users?.guid), }
   );
 
   const updateResponseMutation = useUpdateResponse({
@@ -66,9 +66,9 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
         <Flex width={'100%'} justifyContent={'space-between'} alignItems={"center"}>
           <Flex gap={3}>
-            <Avatar name={contendSingle?.users_id_data?.full_name} src={contendSingle?.users_id_data?.photo} />
+            <Avatar name={contendSingle?.user?.full_name} src={contendSingle?.user?.photo} />
             <Box>
-            <p className={cls.userName}>{contendSingle?.users_id_data?.full_name}</p>
+            <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
               <p className={cls.version}>
                 {" "}
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
@@ -95,8 +95,8 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-MM-dd, hh:mm")} </p>
-            <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
+            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd, hh:mm")} </p>
+            <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
           <Flex justifyContent={'space-between'}>
@@ -109,17 +109,17 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-            {contendSingle?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
+            {contendSingle?.users_gps?.[0]?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
               <Box>
                 <p className={cls.smallText}>Смартфон </p>
-                <p className={cls.bigTitle}>{contendSingle?.os}</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.os}</p>
               </Box>
             </Flex>
           
           </Flex>
           <Flex mt={3} alignItems={"center"} flexDirection={'column'} rowGap={'15px'}>
           <Flex alignItems={"center"} gap={2}>
-            { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
+            { contendSingle?.users_gps?.[0]?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
               <Box>
                 <p className={cls.smallText}>Батарея </p>
                 <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
@@ -129,7 +129,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               <FurIcon />
               <Box>
                 <p className={cls.smallText}>Версия </p>
-                <p className={cls.bigTitle}>{contendSingle?.version}</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.version}</p>
               </Box>
             </Flex>
           </Flex>

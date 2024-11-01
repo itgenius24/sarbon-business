@@ -144,7 +144,7 @@ export default function GpsTrackingModuleTets() {
 
 
 
-  const type = contendHoverState?.users_id_data?.provisions?.[0];
+  const type = contendHoverState?.user?.provisions?.[0];
   const typeCargo = loadHoverState?.new_status?.[0];
   // function copyFunction() {
   // }

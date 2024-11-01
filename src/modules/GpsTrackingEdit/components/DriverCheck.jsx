@@ -26,11 +26,11 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
-        users_id_2: contendSingle?.users_id,
+        users_id_2: contendSingle?.users?.guid,
         with_relations: true,
       })
     },
-    { enabled: Boolean(contendSingle?.users_id), }
+    { enabled: Boolean(contendSingle?.users?.guid), }
   );
 
 
@@ -43,7 +43,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Flex gap={3}>
             <Avatar name="Bobur Nimatllayey" src="#" />
             <Box>
-              <p className={cls.userName}>{contendSingle?.users_id_data?.full_name}</p>
+              <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -69,8 +69,8 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.update_time,"yyyy-mm-dd, hh:mm")} </p>
-            <p className={cls.bigTitle}>{contendSingle?.location_name || "Нет адреса"}</p>
+            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-mm-dd, hh:mm")} </p>
+            <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
           <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
@@ -82,7 +82,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-              { contendSingle?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
+              { contendSingle?.users_gps?.[0]?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
               <Box>
                 <p className={cls.smallText}>Батарея </p>
                 <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
@@ -91,17 +91,17 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           </Flex>
           <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
             <Flex alignItems={"center"} gap={2}>
-             {contendSingle?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
+             {contendSingle?.users_gps?.[0]?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
               <Box>
                 <p className={cls.smallText}>Смартфон </p>
-                <p className={cls.bigTitle}>{contendSingle?.os}</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.os}</p>
               </Box>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
               <FurIcon />
               <Box>
                 <p className={cls.smallText}>Версия </p>
-                <p className={cls.bigTitle}>{contendSingle?.version}</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.version}</p>
               </Box>
             </Flex>
           </Flex>
@@ -112,9 +112,9 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Box>
               <p className={cls.cardStartTitle}>{getOfferCount?.data?.response?.[0]?.city_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
-                {" "}
+                
                 {getOfferCount?.data?.response?.[0]?.city_id_data?.address_id_data?.name} / <span>{format(getOfferCount?.data?.response?.[0]?.load_time ? getOfferCount?.data?.response?.[0]?.load_time : new Date(),"yyyy-mm-dd")}
-                </span>{" "}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -156,7 +156,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
              <p className={cls.cardStartSubTitle}>Предоплата: <span>{getOfferCount?.data?.response?.[0]?.prepayment_percentage > 0 ?"Da" : "Нет" }</span></p>
           </Flex>
         </Box>
-        <Button  onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.users_id_data?.provisions?.[0])}}  leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
+        <Button  onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.user?.provisions?.[0])}}  leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
         Занята нашим грузом
         </Button>
         <Box className={cls.cardWrap}>

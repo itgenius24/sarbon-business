@@ -787,7 +787,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   function handleSelectTemplate(item) {
     setValue("loadResId", item.guid)
-    console.log(`load`, item.guid)
+    console.log(`load`, item)
 
     resetForm(item, item.guid);
     setValue(`cargoIndex`,1)
@@ -1044,8 +1044,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
       setTemplateId("");
 
-
-console.log("shipper",shipper)
       shipper?.sort((a,b) => a?.step - b?.step)?.forEach((item, index) => {
         if (index === 0) {
           setValue(`loadings[0]`, {

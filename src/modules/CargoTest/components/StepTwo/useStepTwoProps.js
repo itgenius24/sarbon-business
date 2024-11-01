@@ -135,13 +135,14 @@ const useStepTwoProps = () => {
   }
   // console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
 
+  console.log(`countryCode`, loadings,unloading);
+
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
       var countryCode = firstGeoObject.getCountryCode();
       var flagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
 
-      console.log(`countryCode`, flagUrl);
       setValue(nameState, firstGeoObject.getAddressLine());
       if (type === "loading") {
         updateLoading(index, {

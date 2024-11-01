@@ -67,11 +67,12 @@ console.log(`loadinss`,unloading,loadings)
     setIsUpdate(true)
     const requestData = {
       data:{
-        load_time: addDaysToDate(getValues("loadings")[0].from_date || new Date(),getValues("loadings")[0].loading_num),
-        date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
+        load_time: addDaysToDate(loadings[0].from_date || new Date(),loadings[0].loading_num),
+        date: new Date(unloading[unloading.length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
         guid: watch(`loadResId`),
+        location_name:loadings[0].cor,
         cargo_type: ["cargo"],
         users_id:authStore.userData.id,
         address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`,
@@ -85,15 +86,16 @@ console.log(`loadinss`,unloading,loadings)
     }
     updateCargo.mutate(requestData)
 
-    let loadingsData = getValues("loadings").map((item,index) => ({
+    let loadingsData = loadings.map((item,index) => ({
       address:item?.address,
       date: new Date(item.from_date),
       lat: item?.cor.split(" ")[0],
       long: item?.cor.split(" ")[1],
       step:index+1,
-      type:["shipper"]
+      type:["shipper"],
+      expectations:+item.loading_num || 0,
     }));
-    let unloadinData = getValues("unloading").map((item,index) => ({
+    let unloadinData = unloading.map((item,index) => ({
       address:item?.address,
       date: new Date(item.to_date),
       lat: item?.cor.split(" ")[0],
@@ -120,11 +122,12 @@ console.log(`loadinss`,unloading,loadings)
     setIsUpdate(false)
     const requestData = {
       data:{
-        load_time: addDaysToDate(getValues("loadings")[0].from_date || new Date(),getValues("loadings")[0].loading_num),
-        date: new Date(getValues("unloading")[getValues("unloading").length - 1].to_date),
+        load_time: addDaysToDate(loadings[0].from_date || new Date(),loadings[0].loading_num),
+        date: new Date(unloading[unloading.length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
         guid: watch(`loadResId`),
+        location_name:loadings[0].cor,
         cargo_type: ["template"],
         template_name: watch(`template_name`),
         users_id:authStore.userData.id,
@@ -139,16 +142,17 @@ console.log(`loadinss`,unloading,loadings)
     }
     updateCargo.mutate(requestData)
 
-    let loadingsData = getValues("loadings").map((item,index) => ({
+    let loadingsData = loadings.map((item,index) => ({
       address:item?.address,
       date: new Date(item.from_date),
       lat: item?.cor.split(" ")[0],
       long: item?.cor.split(" ")[1],
       step:index+1,
-      type:["shipper"]
+      type:["shipper"],
+      expectations:+item.loading_num || 0,
     }));
 
-    let unloadinData = getValues("unloading").map((item,index) => ({
+    let unloadinData = unloading.map((item,index) => ({
       address:item?.address,
       date: new Date(item.to_date),
       lat: item?.cor.split(" ")[0],

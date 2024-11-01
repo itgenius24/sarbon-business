@@ -67,9 +67,9 @@ const useFourProps = () => {
     } else if (watch("price") && watch("price_prepayment") && canEdit) {
       setValue("price_after_order", watch("price") - watch("price_prepayment"));
     }
-     if(!watch("prepayment")){
-      setValue("price_prepayment", ``)
-     }
+    //  if(!watch("prepayment")){
+    //   setValue("price_prepayment", watch("prepayment"))
+    //  }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("price")?.length, watch("price_prepayment"),watch("prepayment")]);

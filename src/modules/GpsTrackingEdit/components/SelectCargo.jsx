@@ -29,7 +29,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
-      users_id: contendSingle.users_id,
+      users_id: contendSingle.user.guid,
       with_relations: true,
       order_status: ["active"],
       cargo_type: ["cargo"],
@@ -37,7 +37,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   };
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!contendSingle.users_id_data.guid,
+    enabled: !!contendSingle.user.guid,
   });
 
   const cargoData = useMemo(() => {
@@ -71,7 +71,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          user_id: contendSingle.users_id,
+          user_id: contendSingle?.user?.users_id,
           guid: selectCargo,
         },
       },

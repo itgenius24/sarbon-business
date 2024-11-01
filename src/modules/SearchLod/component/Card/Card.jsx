@@ -105,7 +105,7 @@ export const Card = ({ item, cls, ...props }) => {
               : ` Безнал`}
           </span>
         </p>
-        {/* <span className={cls.subTitle}>Предопл. Нет</span> */}
+        <span className={cls.subTitle}>Предопл. {item?.prepayment_percentage > 0 ? `${item?.prepayment_percentage} ${item?.currency_id_data?.code}` : `Нет`}  </span>
       </Box>
       <Box className={cls.contend}>
         <Flex alignItems={`flex-start`} gap={1}>
