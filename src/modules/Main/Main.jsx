@@ -14,7 +14,7 @@ export async function Main() {
 
   const searchParams = new URLSearchParams(params);
 
-  const res = await fetch("https://api.admin.u-code.io/v2/object-slim/get-list/partners_company?" + searchParams.toString(), {
+  const res = await fetch("https://api.admin.furgo.uz/v2/object-slim/get-list/partners_company?" + searchParams.toString(), {
     method: "GET",
     headers: {
       Authorization: "API-KEY",
