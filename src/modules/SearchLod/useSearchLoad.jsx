@@ -28,7 +28,7 @@ export const useSearchLoad = () => {
     register,
     formState: { errors },
     reset,
-    setValue,
+    setValue,formState
   } = useForm({});
 
 
@@ -37,6 +37,7 @@ export const useSearchLoad = () => {
     t,
     setValue,control,
     register,
-    watch
+    watch,
+    formState
   };
 };

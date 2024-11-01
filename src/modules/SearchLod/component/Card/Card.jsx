@@ -26,8 +26,17 @@ export const Card = ({ item, cls, ...props }) => {
     >
       {/* <TooltipComponets cls={cls} status={`ss`} label={`wqdwe`} color={`red`} /> */}
       <Box className={cls.contend}>
-        <Flex   gap={`14px`} alignItems={`center`}>
-          <Image className={cls.flag} width={30} height={30} src={item.flag_ot} alt="wef" />
+        <Flex gap={`14px`} alignItems={`center`}>
+          <Box>
+            <Image
+              className={cls.flag}
+              width={30}
+              height={30}
+              src={item.flag_ot}
+              alt="wef"
+            />
+            <p className={cls.country_code}>{item?.country_code_from}</p>
+          </Box>
 
           <p className={cls.title}>
             {item.address_name
@@ -35,17 +44,27 @@ export const Card = ({ item, cls, ...props }) => {
                 item.address_name.split("|")[0].slice(1).toLowerCase()
               : item?.city_id_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
-                ] || item?.city_id_data?.name} <br />
-                <span className={cls.subTitle}>
-            {item?.load_time && format(item?.load_time, `yyyy-MM-dd`)} ~ 3450 km
-          </span>
+                ] || item?.city_id_data?.name}{" "}
+            <br />
+            <span className={cls.subTitle}>
+              {item?.load_time && format(item?.load_time, `yyyy-MM-dd`)} ~ 3450
+              km
+            </span>
           </p>
-          
         </Flex>
       </Box>
       <Box className={cls.contend}>
         <Flex gap={`14px`} alignItems={`center`}>
-          <Image className={cls.flag}  width={30} height={30} src={item.flag_do} alt="wef" />
+          <Box >
+            <Image
+              className={cls.flag}
+              width={30}
+              height={30}
+              src={item?.flag_do}
+              alt={item?.flag_do}
+            />
+            <p className={cls.country_code}>{item?.country_code_to}</p>
+          </Box>
 
           <p className={cls.title}>
             {item?.address_name
@@ -53,10 +72,12 @@ export const Card = ({ item, cls, ...props }) => {
                 item?.address_name?.split("|")[1]?.slice(1).toLowerCase()
               : item?.city_id_2_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
-                ] || item?.city_id_2_data?.name} <br />
-                <span className={cls.subTitle}>{format(item?.date, `yyyy-MM-dd`)}</span>
+                ] || item?.city_id_2_data?.name}{" "}
+            <br />
+            <span className={cls.subTitle}>
+              { item?.date && format(item?.date, `yyyy-MM-dd`)}
+            </span>
           </p>
-        
         </Flex>
       </Box>
       <Box className={cls.contend}>

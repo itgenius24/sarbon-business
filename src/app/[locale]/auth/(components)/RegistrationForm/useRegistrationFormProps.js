@@ -50,40 +50,6 @@ export const useRegistrationFormProps = () => {
     )
     ?.map((role) => ({ label: role?.name, value: role?.guid }));
 
-  // const registerMutation = useRegisterMutation({
-  //   onSuccess: (data) => {
-  //     authStore.login({
-  //       user: { firm_id, ...data?.user },
-  //       token: data?.token,
-  //       role: data?.role,
-  //     });
-  //     router.push(`/${locale}`);
-  //   },
-  //   onError(error) {
-  //     if (error.data?.data?.includes("user_unq_login")) {
-  //       toast({
-  //         title: t("Такой логин уже зарегистрирован"),
-  //         status: "error",
-  //         position: "top right",
-  //       });
-  //       setError("login", { message: t("Такой логин уже зарегистрирован") });
-  //       // router.push(`/${locale}/auth/login`);
-  //     } else if (error.data?.data?.includes("user_project_idx_unique")) {
-  //       toast({
-  //         title: t("Такой номер уже зарегистрирован"),
-  //         status: "error",
-  //         position: "top right",
-  //       });
-  //     } else {
-  //       toast({
-  //         title: t("Произошла ошибка при регистрации"),
-  //         status: "error",
-  //         position: "top right",
-  //       });
-  //     }
-  //   },
-  // });
-
   const getUsers = useGetUsers(
     {
       data: JSON.stringify({
@@ -96,6 +62,7 @@ export const useRegistrationFormProps = () => {
 
   useEffect(() => {
     if (getUsers.data) {
+      console.log(`getUsers`,getUsers)
       authStore.login({
         user: {
           firm_id: getUsers?.data?.response?.[0]?.firm_id,
@@ -104,7 +71,7 @@ export const useRegistrationFormProps = () => {
           id: getUsers?.data.response?.[0]?.guid,
           client_id: getUsers?.data?.response?.[0]?.client_type_id,
         },
-        token: getUsers?.data?.response?.[0]?.token,
+        token: {},
         role: getUsers?.data?.response?.[0]?.role,
       });
       router.push(`/${locale}`);

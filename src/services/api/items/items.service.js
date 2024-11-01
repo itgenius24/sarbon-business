@@ -20,6 +20,7 @@ const itemsService = {
   deleteVehicle: (data) => request.delete(`/v2/items/vehicle/${data.id}`, {data:JSON.stringify({data:{}})}),
   deleteUsers: (data) => request.delete(`/v2/items/users/${data.id}`, {data:JSON.stringify({data:{}})}),
   createUser: (data) => request.post("/v2/items/users", data),
+  getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
   updateUser: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) =>
@@ -40,6 +41,10 @@ export const useGetCargoList = ({params = { data: JSON.stringify({}) },querySett
 export const useCreateAdMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createAd(data), ...mutationSettings });
 };
+export const useGetCargoPost = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.getCargoPost(data), ...mutationSettings });
+};
+
 
 export const useUpdateAdMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateAd(data), ...mutationSettings });

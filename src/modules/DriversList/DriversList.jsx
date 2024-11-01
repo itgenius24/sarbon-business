@@ -13,7 +13,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useDriversList } from "./useDriversList";
 
 export const DriversList = () => {
-  const { t, data,useList,handleDelete } = useDriversList();
+  const { t, data,handleDelete } = useDriversList();
 
   const router = useRouter();
   const locale = useGetLang();
@@ -37,11 +37,9 @@ export const DriversList = () => {
           </Button>
         </Flex>
         <Box mt={"37px"}>
-          {useList?.length > 0 ? (
-            useList?.map((item) => (
+          {data?.length > 0 ? (
+            data?.map((item) => (
               <CarsCard
-                caroCencel={() => {}}
-                useList
                 key={item.guid}
                 item={item}
                 handleDelete={handleDelete}

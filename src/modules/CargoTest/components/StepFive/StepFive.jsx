@@ -76,7 +76,11 @@ console.log(`loadinss`,unloading)
         users_id:authStore.userData.id,
         address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`,
         flag_ot:watch(`flag_ot`),
-        flag_do:watch(`flag_do`)
+        flag_do:watch(`flag_do`),
+        country_code_from:watch(`country_code_from`),
+        country_code_to:watch(`country_code_to`),
+        from:loadings[0].address,
+        to:unloading[unloading.length -1].address
       }
     }
     updateCargo.mutate(requestData)
@@ -126,7 +130,11 @@ console.log(`loadinss`,unloading)
         users_id:authStore.userData.id,
         address_name: `${loadings[0].address}|${unloading[unloading.length -1].address}`,
         flag_ot:watch(`flag_ot`),
-        flag_do:watch(`flag_do`)
+        flag_do:watch(`flag_do`),
+        country_code_from:watch(`country_code_from`),
+        country_code_to:watch(`country_code_to`),
+        from:loadings[0].address,
+        to:unloading[unloading.length -1].address
       }
     }
     updateCargo.mutate(requestData)

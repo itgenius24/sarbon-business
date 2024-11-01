@@ -3,6 +3,7 @@
 import {
   useDeleteUsers,
   useGetAddress,
+  useGetCar,
   useGetCarListOnSubmit,
   useGetUserData,
   useGetUserGpsData,
@@ -19,15 +20,16 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
 export const useDriversList = () => {
-
-  const searchParams = useSearchParams();
+ 
 
   const locale = useGetLang();
+  const [data,setData] = useState()
+  const [status,setStatus] = useState(false)
 
   const { t } = useTranslation(locale, "translations");
 
-  const toast = useToast();
 
+  const toast = useToast();
   const {
     handleSubmit,
     control,
@@ -38,27 +40,30 @@ export const useDriversList = () => {
     setValue,
   } = useForm({});
 
-const firm_id = authStore.userData.firm_id
+  const firm_id = authStore.userData.firm_id;
 
-
-  const { data: useList,refetch } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        firm_id,
-        with_relations: true,
-        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-      }),
-    },
-    querySettings: {
-      onSuccess: (res) => {
-        console.log(`res`, res);
-      },
-    },
+  
+  const { mutate } = useGetCar({
+    onSuccess:(res) => {
+      setData(res?.response)
+      setStatus(false)
+    }
   });
+
+  useEffect(() => {
+    const data = {
+      data: {
+        object_data: {
+          firm_id
+        },
+      },
+    };
+    mutate(data);
+  }, [status]);
 
   const { mutate: dalete } = useDeleteUsers({
     onSuccess: () => {
-      refetch();
+      setStatus(true)
     },
   });
 
@@ -70,12 +75,11 @@ const firm_id = authStore.userData.firm_id
   };
 
 
-  
+  console.log(`res`,data)
+
   return {
-    data:useList?.response,
-    useList:useList?.response,
+    data: data,
     t,
-    handleDelete
-  
+    handleDelete,
   };
 };

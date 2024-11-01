@@ -22,7 +22,12 @@ export const CustomLogOutButton = () => {
   const [isOpen, setIsOut] = useState(false);
   const handleLogOut = () => {
     authStore.logout();
-    router.push(`/${locale}/auth`);
+    // router.push(`/${locale}/auth`);
+    window.location.href = `${window.location.origin}/${`${locale}/auth`}`;
+    // window.location.replace('https://new-url.com');
+    // setTimeout(() => {
+    //     window.location.reload()    
+    // },200)
   };
 
   if (!isAuth) return null;

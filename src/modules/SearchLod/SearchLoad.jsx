@@ -8,7 +8,7 @@ import { TableComponent } from "./component/Tablecompoent/TableComponent";
 import { useState } from "react";
 
 export const SearchLoadModule = () => {
-  const { t, setValue, control, register, watch } = useSearchLoad();
+  const { t, setValue, control, register, watch,formState } = useSearchLoad();
   const [checkbox1,setCheckbox1] = useState(false)
   const [checkbox2,setCheckbox2] = useState(false)
   const [checkbox3,setCheckbox3] = useState(false)
@@ -36,7 +36,7 @@ export const SearchLoadModule = () => {
             watch={watch}
           />
         </Box>
-        <TableComponent watch={watch} />
+        <TableComponent watch={watch} formState={formState} />
       </Container>
     </>
   );

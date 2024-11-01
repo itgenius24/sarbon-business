@@ -27,7 +27,8 @@ export const MyCarsModule = () => {
     userId,
     centerModalType,
     setCenterModalType,
-    carId
+    carId,
+    dataModal
   } = useMyCars();
 
   console.log(`data`, useList);
@@ -82,43 +83,44 @@ export const MyCarsModule = () => {
                 </p>
               </Flex>
               <Box className={cls.modalContend}>
-                {useList.length > 0 ? (
-                useList.map((item) => {
+                {dataModal.length > 0 ? (
+                dataModal.map((item) => {
                   return (
                     <CheckBoxComponent
-                      key={item}
+                      key={item?.user?.guid}
                       onClick={() =>
-                        setUserId(item.guid)
+                        item?.vehicles?.[0]  ? null : 
+                        setUserId(item?.user?.guid)
                       }
-                      active={item.guid === userId}
+                      active={item?.user?.guid === userId}
 
                     >
                       <Box className={cls.countryWrap}>
                         <Flex gap={3}>
-                          <Avatar name={item?.full_name} src={item?.photo} />
+                          <Avatar name={item?.user?.full_name} src={item?.user?.photo} />
                           <Box>
-                            <p className={cls.name}>{item?.full_name}</p>
-                            <p className={cls.subTitle}>{item?.phone}</p>
+                            <p className={cls.name}>{item?.user?.full_name}</p>
+                            <p className={cls.subTitle}>{item?.user?.phone}</p>
                           </Box>
                         </Flex>
                         {
-                          item?.vehicle_type_id_data?.name && <Flex
+                          item?.vehicles?.[0] && <Flex
                             flexDirection={`column`}
                             mr={5}
                             alignItems={`flex-end`}
                             className={cls.subTitle2}
                           >
                             <p className={cls.loadType}>
-                              {item?.vehicle_type_id_data?.name}
+                              {`${item?.vehicles?.[0]?.marka} ${item?.vehicles?.[0]?.car_number}`}
                             </p>
                             <Flex gap={2}>
                               <Flex gap={1} alignItems={"center"}>
                                 <StoneIcon />
-                                {item?.weight} т.
+                                {item?.vehicles?.[0]?.weight} т.
                               </Flex>
                               <Flex gap={1} alignItems={"center"}>
                                 <LoadOulineIcon />
-                                {item?.width} m3
+                                {item?.vehicles?.[0]?.width} m3
                               </Flex>
                             </Flex>
                           </Flex>

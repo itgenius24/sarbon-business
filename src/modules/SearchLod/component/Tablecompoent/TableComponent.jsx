@@ -6,12 +6,16 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
 
-import { useGetCargoList, useGetUserData } from "@/services/api";
+import {
+  useGetCar,
+  useGetCargoList,
+  useGetCargoPost,
+  useGetUserData,
+} from "@/services/api";
 
 import { Card } from "../Card/Card";
 import {
@@ -27,7 +31,7 @@ import { Checkbox } from "@/components/Checkbox";
 import TooltipComponets from "../TooltipComponets";
 import authStore from "@/store/auth.store";
 
-export const TableComponent = ({ watch }) => {
+export const TableComponent = ({ watch, formState }) => {
   const [selectCargo, setSelectCargo] = useState([]);
   const [dataRes, setDataRes] = useState([]);
   const [search, setSearch] = useState("");
@@ -37,8 +41,12 @@ export const TableComponent = ({ watch }) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const [centerModalType, setCenterModalType] = useState();
+  const [dataUser, setDataUser] = useState();
+  const [status, setStatus] = useState(false);
+
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
+
   const { data } = useGetCargoList({
     params: {
       data: JSON.stringify({
@@ -47,22 +55,62 @@ export const TableComponent = ({ watch }) => {
         // map_id:watch(`checkbox1`)
         order_status: ["active"],
         with_relations: true,
-
       }),
     },
     querySettings: { enabled: true },
   });
 
+  const { mutate: getCargoPost } = useGetCargoPost({
+    onSuccess: (res) => {
+      console.log(`res`, res);
+      setDataRes(res?.response);
+    },
+  });
+
+  const { dirtyFields } = formState;
+
+  console.log(`watchedFields`, watch(`from`));
   useEffect(() => {
-    if (!dataRes?.length) {
-      setDataRes(data?.response);
-    }
-  }, [data?.response]);
+    const dataCargo = {
+      data: {
+        object_data: {
+          from: watch(`from`) || ``,
+          to: watch(`to`) || ``,
+          prepayment: watch(`prepayment`) ? `true` : ``,
+          spot: watch(`spot`) ? `true` : ``,
+          in_spot: watch(`in_spot`) ? `true` : ``,
+          vehicle_type_id: watch(`vehicle_type_id`)?.value,
+          min_volume: +watch(`min_volume`) || 0,
+          max_volume: +watch(`max_volume`) || 0,
+          min_weight: +watch(`min_weight`) || 0,
+          max_weight: +watch(`max_weight`) || 0,
+          only_for_me: watch(`only_for_me`) || 0,
+        },
+      },
+    };
+    getCargoPost(dataCargo);
+    // if (!dataRes?.length) {
+    //   setDataRes(data?.response);
+    // }
+  }, [
+    watch(`from`)?.length,
+    watch(`to`)?.length,
+    watch(`prepayment`),
+    watch(`spot`),
+    watch(`in_spot`),
+    watch(`vehicle_type_id`)?.value,
+    watch(`min_volume`),
+    watch(`max_volume`),
+    watch(`min_weight`),
+    watch(`max_weight`),
+    watch(`only_for_me`)
+  ]);
 
   const { data: useList } = useGetUserData({
     params: {
       data: JSON.stringify({
         firm_id: firm_id,
+        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
         with_relations: true,
       }),
     },
@@ -74,6 +122,24 @@ export const TableComponent = ({ watch }) => {
     },
   });
 
+  const { mutate } = useGetCar({
+    onSuccess: (res) => {
+      setDataUser(res?.response);
+      setStatus(false);
+    },
+  });
+
+  useEffect(() => {
+    const data = {
+      data: {
+        object_data: {
+          firm_id,
+        },
+      },
+    };
+    mutate(data);
+  }, [status]);
+
   const handleSelect = (guid) => {
     if (selectCargo.includes(guid)) {
       // Agar ID allaqachon tanlangan bo'lsa, uni olib tashlaymiz
@@ -84,21 +150,20 @@ export const TableComponent = ({ watch }) => {
     }
   };
 
-  const filteredData = useList?.response?.filter((item) => {
+  const filteredData = dataUser?.filter((item) => {
     // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
     if (isCheckboxChecked) {
       return (
-        item?.users_id_data?.provisions[0] === `empty` &&
-        item?.users_id_data?.full_name
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        item?.provisions[0] === `empty` &&
+        item?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
     // Agar checkbox tanlanmagan bo'lsa, faqat search natijasini ko'rsatish
-    return item?.users_id_data?.full_name
-      .toLowerCase()
-      .includes(search.toLowerCase());
+    return item?.user?.full_name.toLowerCase().includes(search.toLowerCase());
   });
+
+  console.log(`useList2`, filteredData);
+
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (sortOrder === "asc") {
@@ -110,8 +175,6 @@ export const TableComponent = ({ watch }) => {
     setDataRes(sortedData);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
-
-  console.log(`useList`, data?.response);
 
   return (
     <>
@@ -176,20 +239,20 @@ export const TableComponent = ({ watch }) => {
                     <CheckBoxComponent
                       key={item}
                       onClick={() =>
-                        item?.users_id_data?.provisions[0] === `our_cargo` ||
-                        item?.users_id_data?.provisions[0] ===
-                          `waiting_for_driver`
+                        item?.user?.provisions[0] === `our_cargo` ||
+                        item?.user?.provisions[0] === `waiting_for_driver`
                           ? () => {}
-                          : handleSelect(item?.guid)
+                          : handleSelect(item?.user?.guid)
                       }
-                      active={selectCargo.includes(item.guid) ? true : false}
+                      active={
+                        selectCargo.includes(item?.user?.guid) ? true : false
+                      }
                       status={
-                        item?.users_id_data?.provisions[0] === `our_cargo` ||
-                        item?.users_id_data?.provisions[0] ===
-                          `waiting_for_driver`
+                        item?.user?.provisions[0] === `our_cargo` ||
+                        item?.user?.provisions[0] === `waiting_for_driver`
                       }
                     >
-                      {item?.users_id_data?.provisions[0] === `our_cargo` && (
+                      {item?.user?.provisions[0] === `our_cargo` && (
                         <TooltipComponets
                           cls={cls}
                           status={`check`}
@@ -198,8 +261,7 @@ export const TableComponent = ({ watch }) => {
                         />
                       )}
 
-                      {item?.users_id_data?.provisions[0] ===
-                        `waiting_for_driver` && (
+                      {item?.user?.provisions[0] === `waiting_for_driver` && (
                         <TooltipComponets
                           cls={cls}
                           status={`waiting_for_driver`}
@@ -210,16 +272,12 @@ export const TableComponent = ({ watch }) => {
                       <Box className={cls.countryWrap}>
                         <Flex gap={3}>
                           <Avatar
-                            name={item?.users_id_data?.full_name}
-                            src={item?.users_id_data?.photo}
+                            name={item?.user?.full_name}
+                            src={item?.user?.photo}
                           />
                           <Box>
-                            <p className={cls.name}>
-                              {item?.users_id_data?.full_name}
-                            </p>
-                            <p className={cls.subTitle}>
-                              {item?.users_id_data?.phone}
-                            </p>
+                            <p className={cls.name}>{item?.user?.full_name}</p>
+                            <p className={cls.subTitle}>{item?.user?.phone}</p>
                           </Box>
                         </Flex>
                         <Flex
@@ -229,14 +287,14 @@ export const TableComponent = ({ watch }) => {
                           className={cls.subTitle2}
                         >
                           <p className={cls.loadType}>
-                            {item?.trailer_type_id_data?.name}
+                            {item?.vehicles?.[0]?.trailer_type_id_data?.name}
                           </p>
                           <Flex gap={2}>
                             <Flex gap={1} alignItems={"center"}>
-                              <StoneIcon /> {item?.weight} т.
+                              <StoneIcon /> {item?.vehicles?.[0]?.weight} т.
                             </Flex>
                             <Flex gap={1} alignItems={"center"}>
-                              <LoadOulineIcon /> {item?.width} м³
+                              <LoadOulineIcon /> {item?.vehicles?.[0]?.width} м³
                             </Flex>
                           </Flex>
                         </Flex>

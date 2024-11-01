@@ -46,44 +46,41 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         justifyContent={"space-between"}
         gap={"30px"}
       >
-        <Box width={"100%"}  className={cls.locationWrap}>
+        <Box width={"100%"} className={cls.locationWrap}>
           <TextFieldWithAdditionMap
             label="Откуда"
-            
             placeholder={t("Укажите пункт назначения")}
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`from_address`), setAddress(e.target.value);
+              setActiveIndex(`from`), setAddress(e.target.value);
             }}
-            name={`from_address`}
-            additionalOnclick={() => handleOpenModal(`from_address`, "loading")}
+            name={`from`}
+            additionalOnclick={() => handleOpenModal(`from`, "loading")}
             additionalItemPlaceholder={
               <span className={cls.additionalIcons}>
                 <LocationMarkIcon />
               </span>
             }
           />
-          {activeIndex === `from_address` &&
+          {activeIndex === `from` &&
             results.length > 0 &&
             address?.length > 0 && (
-            <Box className={cls.optionsWrap}>
-              {results?.map((location, idx) => (
-                <Flex
-                  onClick={() =>
-                    hanleAdress(location, `from_address`, "loading")
-                  }
-                  key={idx}
-                  gap={3}
-                  alignItems={"center"}
-                >
-                  <LocationIconStep />
+              <Box className={cls.optionsWrap}>
+                {results?.map((location, idx) => (
+                  <Flex
+                    onClick={() => hanleAdress(location, `from`, "loading")}
+                    key={idx}
+                    gap={3}
+                    alignItems={"center"}
+                  >
+                    <LocationIconStep />
 
-                  <p className={cls.item}>{location?.GeoObject?.name}</p>
-                </Flex>
-              ))}
-            </Box>
-          )}
+                    <p className={cls.item}>{location?.GeoObject?.name}</p>
+                  </Flex>
+                ))}
+              </Box>
+            )}
         </Box>
 
         <Box width={"100%"} className={cls.locationWrap}>
@@ -93,53 +90,62 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`to_address`), setAddress(e.target.value);
+              setActiveIndex(`to`), setAddress(e.target.value);
             }}
-            name={`to_address`}
-            additionalOnclick={() => handleOpenModal(`to_address`, "loading")}
+            name={`to`}
+            additionalOnclick={() => handleOpenModal(`to`, "loading")}
             additionalItemPlaceholder={
               <span className={cls.additionalIcons}>
                 <LocationMarkIcon />
               </span>
             }
           />
-          {activeIndex === `to_address` &&
+          {activeIndex === `to` &&
             results.length > 0 &&
             address?.length > 0 && (
-            <Box className={cls.optionsWrap}>
-              {results?.map((location, idx) => (
-                <Flex
-                  onClick={() =>
-                    hanleAdress(location, `to_address`, "loading")
-                  }
-                  key={idx}
-                  gap={3}
-                  alignItems={"center"}
-                >
-                  <LocationIconStep />
+              <Box className={cls.optionsWrap}>
+                {results?.map((location, idx) => (
+                  <Flex
+                    onClick={() => hanleAdress(location, `to`, "loading")}
+                    key={idx}
+                    gap={3}
+                    alignItems={"center"}
+                  >
+                    <LocationIconStep />
 
-                  <p className={cls.item}>{location?.GeoObject?.name}</p>
-                </Flex>
-              ))}
-            </Box>
-          )}
+                    <p className={cls.item}>{location?.GeoObject?.name}</p>
+                  </Flex>
+                ))}
+              </Box>
+            )}
         </Box>
 
-        <Box width={"100%"} >
+        <Box width={"100%"}>
           <p>Тип оплаты</p>
           <Flex mt={1} gap={3}>
-            <Checkbox  defaultChecked={watch(`checkbox1`)}  register={register} name={`checkbox1`}>
+            <Checkbox
+              defaultChecked={watch(`prepayment`)}
+              register={register}
+              name={`prepayment`}
+            >
               Только с предоплатой
             </Checkbox>
-            <Checkbox defaultChecked={watch(`checkbox2`)} register={register} name={`checkbox2`}>
+            <Checkbox
+              defaultChecked={watch(`spot`)}
+              register={register}
+              name={`spot`}
+            >
               Наличными
             </Checkbox>
-            <Checkbox defaultChecked={watch(`checkbox3`)} register={register} name={`checkbox3`}>
+            <Checkbox
+              defaultChecked={watch(`in_spot`)}
+              register={register}
+              name={`in_spot`}
+            >
               Безналичными
             </Checkbox>
           </Flex>
         </Box>
-
       </Flex>
 
       <Flex gap={"30px"} mt={"25px"}>
@@ -150,7 +156,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             register={register}
             watch={watch}
             label={"Транспорт"}
-            name="cargo_type"
+            name="vehicle_type_id"
             // options={[]}
             // errors={errors}
             // disabled={!canEdit}
@@ -169,7 +175,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             label="Объём от:"
             // errors={errors}
             control={control}
-            name="weight_measurement"
+            name="min_volume"
             register={register}
             additionalItemName="weight_unit"
             additionalItemTheme={`light`}
@@ -186,7 +192,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             // errors={errors}
             control={control}
             label="Объём до:"
-            name="volume_measurement"
+            name="max_volume"
             register={register}
             width="100%"
             placeholder={t("максимум")}
@@ -204,7 +210,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             label="Вес до:"
             // errors={errors}
             control={control}
-            name="weight_measurement"
+            name="min_weight"
             register={register}
             additionalItemName="weight_unit"
             additionalItemPlaceholder="т"
@@ -221,7 +227,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             // errors={errors}
             control={control}
             label="Вес до:"
-            name="volume_measurement"
+            name="max_weight"
             register={register}
             // width="134px"
             placeholder={t("максимум")}
@@ -236,7 +242,11 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         </Flex>
       </Flex>
       <Box mt={`24px`}>
-        <Checkbox defaultChecked={watch(`checkbox4`)} register={register} name={`checkbox4`}>
+        <Checkbox
+          defaultChecked={watch(`only_for_me`)}
+          register={register}
+          name={`only_for_me`}
+        >
           <Flex gap={1}>
             <FurgoIconLoad /> Только грузы, подходящие под параметры моих машин
           </Flex>

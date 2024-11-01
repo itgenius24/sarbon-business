@@ -151,6 +151,7 @@ const useStepTwoProps = () => {
           from_date: watch(`loadings[${index}].from_date`) || "",
         });
         setValue(`flag_ot`, flagUrl);
+        setValue(`country_code_from`, countryCode);
       } else {
         updateUnloading(index, {
           address: firstGeoObject.getAddressLine(),
@@ -158,6 +159,7 @@ const useStepTwoProps = () => {
           to_date: watch(`unloading[${index}].to_date`) || "",
         });
         setValue(`flag_do`, flagUrl);
+        setValue(`country_code_to`, countryCode);
       }
       // setValue(nameState, firstGeoObject.getAddressLine());
       // setAddressAdd({
@@ -182,6 +184,7 @@ const useStepTwoProps = () => {
       });
       if (index === 0) {
         setValue(`flag_ot`, flagUrl);
+        setValue(`country_code_from`, country_code);
       }
     } else {
       updateUnloading(index, {
@@ -190,6 +193,8 @@ const useStepTwoProps = () => {
         to_date: watch(`unloading[${index}].to_date`) || "",
       });
       setValue(`flag_do`, flagUrl);
+      setValue(`country_code_to`, country_code);
+      
     }
 
     setResults([]);

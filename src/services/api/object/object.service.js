@@ -29,8 +29,8 @@ const objectService = {
     request.get("/v2/object-slim/get-list/users_gps", { params }),
   getVehicle: (params) =>
     request.get("/v2/object-slim/get-list/vehicle", { params }),
-  getVehicleSin: (params) =>
-    request.get(`/v2/items/vehicle/${params.id}`),
+
+  getVehicleSin: (params) => request.get(`/v2/items/vehicle/${params.id}`),
   getCurrency: (params) =>
     request.get("/v2/object-slim/get-list/currency", { params }),
   getPackage: (params) =>
@@ -46,11 +46,10 @@ const objectService = {
       "/v1/invoke_function/logistika-gps-tracking-filter-driver",
       data
     ),
-    getLocation: (data) =>
-      request.post(
-        "v1/invoke_function/logistika-get-cargo-for-map",
-        data
-      ),
+  getCar: (data) =>
+    request.post("/v1/invoke_function/logistika-get-cargo-list", data),
+  getLocation: (data) =>
+    request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
   getOffer: (params) =>
     request.get("/v2/object-slim/get-list/response", { params }),
   getCargoById: (params) =>
@@ -72,15 +71,9 @@ const objectService = {
       params,
     }),
   getGPSHistory: (params) =>
-    request.get(
-      "/v2/object-slim/get-list/gps_history",
-      { params }
-    ),
+    request.get("/v2/object-slim/get-list/gps_history", { params }),
   getDriverLocation: (params) =>
-    request.get(
-      "/v2/object-slim/get-list/users_gps",
-      { params }
-    ),
+    request.get("/v2/object-slim/get-list/users_gps", { params }),
 };
 
 export const useGetCarById = (
@@ -122,6 +115,14 @@ export const useGetCarListOnSubmit = (mutationSettings) => {
     ...mutationSettings,
   });
 };
+
+export const useGetCar = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (params) => objectService.getCar(params),
+    ...mutationSettings,
+  });
+};
+
 export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) =>
@@ -132,8 +133,7 @@ export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
 
 export const useLocation = (mutationSettings) => {
   return useMutation({
-    mutationFn: (data) =>
-      objectService.getLocation(data),
+    mutationFn: (data) => objectService.getLocation(data),
     ...mutationSettings,
   });
 };
@@ -175,11 +175,15 @@ export const useGetRoleList = (params, props) => {
   });
 };
 
-export const useGetCargoType = ({params = { data: JSON.stringify({}) },querySettings}) => {
-  console.log(`querySettings`,querySettings,params);
+export const useGetCargoType = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  console.log(`querySettings`, querySettings, params);
   return useQuery({
     queryKey: ["object/getCargoType", params],
-    queryFn: () => objectService.getCargoType(params),...querySettings
+    queryFn: () => objectService.getCargoType(params),
+    ...querySettings,
   });
 };
 
@@ -226,27 +230,40 @@ export const useGetTrailerType = (
 //   });
 // };
 
-
-export const useGetUserData = ({params = { data: JSON.stringify({}) },querySettings}) => {
+export const useGetUserData = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
   return useQuery({
     queryKey: ["object/getCargo", params],
-    queryFn: () => objectService.getUserData(params),querySettings
+    queryFn: () => objectService.getUserData(params),
+    querySettings,
   });
 };
 
-export const useGetUserGpsData = ({params = { data: JSON.stringify({}) },querySettings}) => {
+export const useGetUserGpsData = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
   return useQuery({
     queryKey: ["object/getCargoGps", params],
-    queryFn: () => objectService.getUserGpsData(params),...querySettings
+    queryFn: () => objectService.getUserGpsData(params),
+    ...querySettings,
   });
 };
 
-export const useGetVehicleSingle = ({params = { data: JSON.stringify({}) },querySettings}) => {
+export const useGetVehicleSingle = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
   return useQuery({
     queryKey: ["object/getCargo", params],
-    queryFn: () => objectService.getVehicleSin(params),querySettings
+    queryFn: () => objectService.getVehicleSin(params),
+    querySettings,
   });
 };
+
+
 
 export const useGetVehicle = (
   params = { data: JSON.stringify({}) },

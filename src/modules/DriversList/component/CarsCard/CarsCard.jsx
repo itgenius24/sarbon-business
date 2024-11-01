@@ -44,30 +44,15 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetUserGpsData } from "@/services/api";
 
-export const CarsCard = ({ t, item, caroCencel,handleDelete }) => {
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-  const [search, setSearch] = useState("");
-  const [centerModalType, setCenterModalType] = useState(false);
+export const CarsCard = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const {data:response} = useGetUserGpsData({
-    params: {
-      data: JSON.stringify({
-        users_id: item.guid,
-        with_relations: true,
-      }),
-    },
-  });
-
-console.log(`response`,response?.response)
   return (
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-        item.provisions?.[0] === `waiting_for_driver`
-          ? "rgba(0, 122, 255, 1)"
-          : "rgba(21, 186, 77, 1)"
+        item?.orders?.[0] ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Box className={cls.popup}>
@@ -100,12 +85,14 @@ console.log(`response`,response?.response)
                   }}
                   className={cls.menuItem}
                   onClick={() =>
-                    router.push(`/${locale}/drivers/create?id=${item.guid}`)
+                    router.push(
+                      `/${locale}/drivers/create?id=${item?.user?.guid}`
+                    )
                   }
                 >
                   Изменить данные водителя
                 </Box>
-                <Box
+                {/* <Box
                   style={{ padding: `10px 8px` }}
                   cursor={`pointer`}
                   _hover={{
@@ -114,10 +101,10 @@ console.log(`response`,response?.response)
                     color: `rgba(255, 255, 255, 1)`,
                   }}
                   className={cls.menuItem}
-                  onClick={() => caroCencel(item.guid)}
+                  onClick={() => caroCencel(item?.user?.guid)}
                 >
                   Открепить машину
-                </Box>
+                </Box> */}
                 <Box
                   cursor={`pointer`}
                   style={{ padding: `10px 8px`, color: `red` }}
@@ -127,7 +114,7 @@ console.log(`response`,response?.response)
                     color: `rgba(255, 255, 255, 1)`,
                   }}
                   className={cls.menuItem}
-                  onClick={() => handleDelete(item.guid)}
+                  onClick={() => handleDelete(item?.user?.guid)}
                 >
                   Удалить водителя
                 </Box>
@@ -142,12 +129,10 @@ console.log(`response`,response?.response)
         // background={"rgba(219, 216, 227, 1)"}
         // borderRadius={"6px"}
         >
-          {item &&
-          item?.photo !== "photo" &&
-          item?.photo ? (
+          {item && item?.user?.photo !== "photo" && item?.user?.photo ? (
             <Image
               style={{ borderRadius: `50%`, width: `130px`, height: `130px` }}
-              src={item?.photo}
+              src={item?.user?.photo}
               objectFit="cover"
               width={`200`}
               height={`100`}
@@ -160,14 +145,14 @@ console.log(`response`,response?.response)
         <Box width={"60%"}>
           <Flex gap={"50px"}>
             <Box>
-              <p className={cls.title}>{item?.full_name}</p>
-              <p className={cls.subTitle}>{item?.phone}</p>
+              <p className={cls.title}>{item?.user?.full_name}</p>
+              <p className={cls.subTitle}>{item?.user?.phone}</p>
             </Box>
           </Flex>
-          {response?.response?.[0]?.users_id_data ? (
+          {item?.orders?.[0] ? (
             <Flex
               background={
-                response?.response?.[0]?.users_id_data?.users_id_data?.provisions?.[0] === `waiting_for_driver`
+                item?.orders?.[0]
                   ? "rgba(0, 122, 255, 0.08)"
                   : "rgba(21, 186, 77, 1)"
               }
@@ -178,28 +163,45 @@ console.log(`response`,response?.response)
               <Box>
                 <p className={cls.subTitle}>Статус:</p>
                 <p className={cls.subBlueTitle}>
-                  Занята: {item?.your_id}
+                  Занята: {item?.orders?.[0]?.offer_number}
                 </p>
               </Box>
-              <Flex gap={2}>
-                <LocationActiveIcon /> <CricleArrovIcon />{" "}
-                <p className={cls.title}> {response?.response?.[0]?.gps ? "Вкл" : "Откл"} </p>
-                <p className={cls.subBlueTitle}>
-                  {format(response?.response?.[0]?.create_time || new Date(), "yyyy-MM-dd")}
-                </p>
-              </Flex>
-              <Flex alignItems={"center"} gap={2}>
-                <BluetoothIcon />
-                <p className={cls.subTitle}>
-                  Bluetooth: <span className={cls.title}>Вкл. </span>
-                </p>
-              </Flex>
-              <Flex alignItems={"center"} gap={2}>
-                {response?.response?.[0]?.battery > 20 ? <BatareyFullIcon /> : <BatareyIcon />}
-                <p className={cls.subTitle}>
-                  Батарея: <span className={cls.title}>{response?.response?.[0]?.battery}% </span>
-                </p>
-              </Flex>
+              {item?.users_gps?.[0] && (
+                <>
+                  <Flex gap={2}>
+                    <LocationActiveIcon /> <CricleArrovIcon />{" "}
+                    <p className={cls.title}>
+                      {" "}
+                      {item?.users_gps?.[0]?.gps ? "Вкл" : "Откл"}{" "}
+                    </p>
+                    <p className={cls.subBlueTitle}>
+                      {format(
+                        item?.users_gps?.[0]?.create_time || new Date(),
+                        "yyyy-MM-dd"
+                      )}
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    <BluetoothIcon />
+                    <p className={cls.subTitle}>
+                      Bluetooth: <span className={cls.title}>Вкл. </span>
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    {item?.users_gps?.[0]?.battery > 20 ? (
+                      <BatareyFullIcon />
+                    ) : (
+                      <BatareyIcon />
+                    )}
+                    <p className={cls.subTitle}>
+                      Батарея:{" "}
+                      <span className={cls.title}>
+                        {item?.users_gps?.[0]?.battery}%
+                      </span>
+                    </p>
+                  </Flex>
+                </>
+              )}
             </Flex>
           ) : (
             <Box
@@ -208,36 +210,77 @@ console.log(`response`,response?.response)
               border={`1px solid var(--quat_grey, rgba(219, 216, 227, 1))`}
               padding={`4px 14px`}
               width={`100%`}
+              display={`flex`}
+              alignItems={`center`}
+              justifyContent={`space-between`}
             >
-              <p className={cls.subTitle}>Статус:</p>
-              <Flex gap={3} alignItems={`center`}>
-                <p className={cls.title2}>Свободна, без водителя. </p>{" "}
-                {/* <span className={cls.subBlueTitle}>
-                  berdievsirojiddin@mail.com
-                </span> */}
-              </Flex>
+              <Box>
+                <p className={cls.subTitle}>Статус:</p>
+                <Flex gap={3} alignItems={`center`}>
+                  <p className={cls.title2}>Свободна, без водителя. </p>{" "}
+                </Flex>
+              </Box>
+
+              {item?.users_gps?.[0] && (
+                <>
+                  <Flex gap={2}>
+                    <LocationActiveIcon /> <CricleArrovIcon />{" "}
+                    <p className={cls.title}>
+                      {" "}
+                      {item?.users_gps?.[0]?.gps ? "Вкл" : "Откл"}
+                    </p>
+                    <p className={cls.subBlueTitle}>
+                      {format(
+                        item?.users_gps?.[0]?.update_time || new Date(),
+                        "yyyy-MM-dd"
+                      )}
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    <BluetoothIcon />
+                    <p className={cls.subTitle}>
+                      Bluetooth: <span className={cls.title}>Вкл. </span>
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    {item?.users_gps?.[0]?.battery > 20 ? (
+                      <BatareyFullIcon />
+                    ) : (
+                      <BatareyIcon />
+                    )}
+                    <p className={cls.subTitle}>
+                      Батарея:
+                      <span className={cls.title}>
+                        {item?.users_gps?.[0]?.battery}%
+                      </span>
+                    </p>
+                  </Flex>
+                </>
+              )}
             </Box>
           )}
         </Box>
         <Box width={"25%"}>
           <p className={cls.subTitle}>Машина:</p>
-          {item?.users_id_data &&
-          item?.users_id_data?.photo !== "photo" &&
-          item?.users_id_data?.photo ? (
+          {item?.vehicles?.[0] ? (
             <Box className={cls.profileWrap}>
               <Flex gap={3}>
-                {/* <Image
-                  // style={{
-                  //   borderRadius: `6px`,
-                  //   width: `60px`,
-                  //   height: `45px`,
-                  // }}
-                  src={item?.users_id_data?.photo}
-                  // objectFit="cover"
-                  width={`200`}
-                  height={`100`}
-                  alt="w"
-                /> */}
+                {item?.vehicles?.[0]?.car_photo !== "photo" &&
+                  item?.vehicles?.[0]?.car_photo ? (
+                    <Image
+                      // style={{
+                      //   borderRadius: `6px`,
+                      //   width: `60px`,
+                      //   height: `45px`,
+                      // }}
+                      src={item?.vehicles?.[0]?.car_photo}
+                      // objectFit="cover"
+                      width={`100`}
+                      height={`100`}
+                      alt="w"
+                    />
+                  ) :<NoImFur /> }
+
                 {/*
                 <Avatar
                   src={item?.users_id_data?.photo}

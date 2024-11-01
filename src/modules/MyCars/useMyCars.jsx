@@ -3,6 +3,7 @@
 import {
   useDeleteVehicle,
   useGetAddress,
+  useGetCar,
   useGetCarListOnSubmit,
   useGetUserData,
   useGetVehicle,
@@ -20,7 +21,8 @@ import authStore from "@/store/auth.store";
 
 export const useMyCars = () => {
   const searchParams = useSearchParams();
-
+  const [data, setData] = useState();
+  const [status, setStatus] = useState(false);
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -39,7 +41,7 @@ export const useMyCars = () => {
     reset,
     setValue,
   } = useForm({});
-   const firm_id = authStore.userData.firm_id
+  const firm_id = authStore.userData.firm_id;
   const getVehicle = useGetVehicle(
     {
       data: JSON.stringify({
@@ -93,7 +95,6 @@ export const useMyCars = () => {
   const handleDelete = (id) => {
     const data = {
       id: id,
-    
     };
     dalete(data);
   };
@@ -107,9 +108,30 @@ export const useMyCars = () => {
     mutate(data);
   };
 
+  const { mutate: dataMutate } = useGetCar({
+    onSuccess: (res) => {
+      setData(res?.response);
+      setStatus(false);
+    },
+  });
+
+  useEffect(() => {
+    const data = {
+      data: {
+        object_data: {
+          firm_id,
+        },
+      },
+    };
+    dataMutate(data);
+  }, [status]);
+
+  console.log(`data22`,data)
+
   return {
     data: getVehicle?.data?.response,
     useList: useList?.response,
+    dataModal:data,
     setCarId,
     setUserId,
     handleUpdate,
