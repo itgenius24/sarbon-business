@@ -9,7 +9,7 @@ const CheckBoxComponent = ({ children, active,status, ...props }) => {
       position={`relative`}
       justifyContent={"space-between"}
       background={active ? `rgba(240, 237, 246, 1)` : status ? `rgba(240, 237, 246, 1)` : `` }
-      cursor={status ? `not-allowed` : `pointer`}
+      cursor={`pointer`}
       p={`14px 21px`}
       border={`1px solid rgba(219, 216, 227, 1)`}
       borderRadius={`16px`}
@@ -18,6 +18,7 @@ const CheckBoxComponent = ({ children, active,status, ...props }) => {
       width={`100%`}
       alignItems={`center`}
     >
+    
       {children}
       {active ? <GreenCheckIcon /> : status ? <GreenCheckIcon /> :  <CircleCheckIcon />}
     </Flex>

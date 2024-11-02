@@ -160,7 +160,7 @@ export const useSearchCargo = () => {
         front_side_trailer: val.front_side_trailer, //url cdn
         car_photo: val.car_photo, //url cdn
         download_type: getTrueKeys(load),
-        status: [`active`],
+        status: [`in_active`],
         firm_id,
         guid: id ? id : undefined,
       },

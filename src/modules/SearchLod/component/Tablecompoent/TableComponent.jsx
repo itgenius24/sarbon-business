@@ -6,6 +6,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
@@ -194,14 +195,16 @@ export const TableComponent = ({ watch, formState }) => {
       data: {
         object_data: {
           firm_id,
-          cargo_id: carId?.guid,
+          cargo_id: carId?.cargo?.guid,
           driver_ids: selectCargo,
-          cargo_number: carId?.number_of_order,
+          cargo_number: carId?.cargo?.number_of_order,
         },
       },
     };
     pridlojetData(data);
   };
+
+  console.log(`carId`, carId?.cargo);
 
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
@@ -222,15 +225,14 @@ export const TableComponent = ({ watch, formState }) => {
         `approve_from_driver`
     );
 
-    console.log(`order`,data)
+    console.log(`order`, data);
     if (order?.length > 0) {
-    
       deleteOrderData({ id: order?.[0]?.guid });
 
       updateUer({
         data: {
-            guid: data?.user?.guid,
-            provisions: ["empty"],
+          guid: data?.user?.guid,
+          provisions: ["empty"],
         },
       });
     }
@@ -315,56 +317,111 @@ export const TableComponent = ({ watch, formState }) => {
                         item?.user?.provisions[0] === `waiting_for_driver`
                       }
                     >
-                      {item?.user?.provisions[0] === `our_cargo` && (
-                        <TooltipComponets
-                          cls={cls}
-                          status={`check`}
-                          label={`Водитель подтвердил`}
-                          color={`rgba(21, 186, 77, 1)`}
-                        />
-                      )}
+                      {item?.user?.provisions[0] === `our_cargo` ||
+                      item?.user?.provisions[0] === `waiting_for_driver` ? (
+                        <>
+                          {item?.user?.provisions[0] === `our_cargo` && (
+                            <TooltipComponets
+                              cls={cls}
+                              status={`check`}
+                              label={`Водитель подтвердил`}
+                              color={`rgba(21, 186, 77, 1)`}
+                            />
+                          )}
 
-                      {item?.user?.provisions[0] === `waiting_for_driver` && (
-                        <TooltipComponets
-                          cls={cls}
-                          status={`waiting_for_driver`}
-                          label={`Ждем подтверждение водителя`}
-                          color={`rgba(193, 187, 32, 1)`}
-                        />
-                      )}
-                      <Box className={cls.countryWrap}>
-                        <Flex gap={3}>
-                          <Avatar
-                            name={item?.user?.full_name}
-                            src={item?.user?.photo}
-                          />
-                          <Box>
-                            <p className={cls.name}>{item?.user?.full_name}</p>
-                            <p className={cls.subTitle}>{item?.user?.phone}</p>
-                          </Box>
-                        </Flex>
-                        {item?.vehicles?.[0] && (
-                          <Flex
-                            flexDirection={`column`}
-                            mr={5}
-                            alignItems={`flex-end`}
-                            className={cls.subTitle2}
-                          >
-                            <p className={cls.loadType}>
-                              {item?.vehicles?.[0]?.trailer_type_id_data?.name}
-                            </p>
-                            <Flex gap={2}>
-                              <Flex gap={1} alignItems={"center"}>
-                                <StoneIcon /> {item?.vehicles?.[0]?.height} т.
+                          {item?.user?.provisions[0] ===
+                            `waiting_for_driver` && (
+                            <TooltipComponets
+                              cls={cls}
+                              status={`waiting_for_driver`}
+                              label={`Ждем подтверждение водителя`}
+                              color={`rgba(193, 187, 32, 1)`}
+                            />
+                          )}
+                          <Box className={cls.countryWrap}>
+                            <Flex gap={3}>
+                              <Avatar
+                                name={item?.user?.full_name}
+                                src={item?.user?.photo}
+                              />
+                              <Box>
+                                <p className={cls.name}>
+                                  {item?.user?.full_name}
+                                </p>
+                                <p className={cls.subTitle}>
+                                  {item?.user?.phone}
+                                </p>
+                              </Box>
+                            </Flex>
+                            {item?.vehicles?.[0] && (
+                              <Flex
+                                flexDirection={`column`}
+                                mr={5}
+                                alignItems={`flex-end`}
+                                className={cls.subTitle2}
+                              >
+                                <p className={cls.loadType}>
+                                  {
+                                    item?.vehicles?.[0]?.trailer_type_id_data
+                                      ?.name
+                                  }
+                                </p>
+                                <Flex gap={2}>
+                                  <Flex gap={1} alignItems={"center"}>
+                                    <StoneIcon /> {item?.vehicles?.[0]?.height}{" "}
+                                    т.
+                                  </Flex>
+                                  <Flex gap={1} alignItems={"center"}>
+                                    <LoadOulineIcon />{" "}
+                                    {item?.vehicles?.[0]?.capacity} м³
+                                  </Flex>
+                                </Flex>
                               </Flex>
-                              <Flex gap={1} alignItems={"center"}>
-                                <LoadOulineIcon />{" "}
-                                {item?.vehicles?.[0]?.capacity} м³
+                            )}
+                          </Box>
+                        </>
+                      ) : (
+                        <Box className={cls.countryWrap}>
+                          <Flex gap={3}>
+                            <Avatar
+                              name={item?.user?.full_name}
+                              src={item?.user?.photo}
+                            />
+                            <Box>
+                              <p className={cls.name}>
+                                {item?.user?.full_name}
+                              </p>
+                              <p className={cls.subTitle}>
+                                {item?.user?.phone}
+                              </p>
+                            </Box>
+                          </Flex>
+                          {item?.vehicles?.[0] && (
+                            <Flex
+                              flexDirection={`column`}
+                              mr={5}
+                              alignItems={`flex-end`}
+                              className={cls.subTitle2}
+                            >
+                              <p className={cls.loadType}>
+                                {
+                                  item?.vehicles?.[0]?.trailer_type_id_data
+                                    ?.name
+                                }
+                              </p>
+                              <Flex gap={2}>
+                                <Flex gap={1} alignItems={"center"}>
+                                  <StoneIcon /> {item?.vehicles?.[0]?.height} т.
+                                </Flex>
+                                <Flex gap={1} alignItems={"center"}>
+                                  <LoadOulineIcon />{" "}
+                                  {item?.vehicles?.[0]?.capacity} м³
+                                </Flex>
                               </Flex>
                             </Flex>
-                          </Flex>
-                        )}
-                      </Box>
+                          )}
+                        </Box>
+                      )}
                     </CheckBoxComponent>
                   );
                 })

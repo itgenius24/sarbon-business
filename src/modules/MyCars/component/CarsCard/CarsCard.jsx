@@ -53,7 +53,7 @@ export const CarsCard = ({
     },
   });
 
-  console.log(`response`, response);
+  console.log(`response`, item);
 
   return (
     <Box
@@ -139,9 +139,17 @@ export const CarsCard = ({
           alignItems={`center`}
           justifyContent={`center`}
         >
-          {item?.car_photo ? (
-            <Image src={item?.car_photo} width={250} height={250} alt="w" />
-          ) : (
+          {item?.car_photo ? <>
+          <Box position={`relative`}>
+                <Image src={item?.car_photo} width={250} height={250} alt="w" />
+                {
+                  item.status?.[0] === `in_active` && <Box position={`absolute`} zIndex={11} bottom={`10px`} left={`10px`} color={`white`} borderRadius={`4px`} padding={`8px 10px`} background={`rgba(255, 59, 48, 1)`} >
+                   ждет модерацию
+                </Box>
+                }
+          </Box>
+          </>
+           : (
             <NoImg />
           )}
         </Box>
