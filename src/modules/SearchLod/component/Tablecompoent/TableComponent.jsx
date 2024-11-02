@@ -45,6 +45,7 @@ export const TableComponent = ({ watch, formState }) => {
   const [centerModalType, setCenterModalType] = useState();
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
+  const [status2, setStatus2] = useState(false);
 
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
@@ -64,14 +65,16 @@ export const TableComponent = ({ watch, formState }) => {
 
   const { mutate: getCargoPost } = useGetCargoPost({
     onSuccess: (res) => {
-      console.log(`res`, res);
+   
       setDataRes(res?.response);
+      setStatus2(false)
+
     },
   });
 
   const { dirtyFields } = formState;
 
-  console.log(`watchedFields`, watch(`from`));
+
   useEffect(() => {
     const dataCargo = {
       data: {
@@ -107,6 +110,7 @@ export const TableComponent = ({ watch, formState }) => {
     watch(`min_weight`),
     watch(`max_weight`),
     watch(`only_for_me`),
+    status2
   ]);
 
   const { data: useList } = useGetUserData({
@@ -131,6 +135,7 @@ export const TableComponent = ({ watch, formState }) => {
       setSelectCargo([]);
       setStatus(true);
       setCenterModalType(false);
+      setStatus2(true)
     },
   });
 
@@ -193,16 +198,16 @@ export const TableComponent = ({ watch, formState }) => {
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (sortOrder === "asc") {
-        return a.bid_cash - b.bid_cash;
+        return a?.cargo?.bid_cash - b.cargo?.bid_cash;
       } else {
-        return b.bid_cash - a.bid_cash;
+        return b?.cargo?.bid_cash - a?.cargo?.bid_cash;
       }
     });
     setDataRes(sortedData);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  console.log(`filteredData`,filteredData)
+  console.log(`filteredData`,dataRes)
 
   return (
     <>

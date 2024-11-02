@@ -13,7 +13,8 @@ import Image from "next/image";
 
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
-  console.log(`item`, item);
+  const data = item?.orders?.[0].provisions.filter((item) => (item === `approve_from_driver` || item === `approve_by_customer`))
+
   return (
     <Flex
       {...props}
@@ -24,7 +25,9 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-      {/* <TooltipComponets cls={cls} status={`ss`} label={`wqdwe`} color={`red`} /> */}
+    {
+      data &&  <TooltipComponets cls={cls} status={`ss`} label={data?.[0] === `approve_from_driver` ? `Ждем подтверждение водителя` : `Ждем подтверждение заказчика` } color={data?.[0] === `approve_from_driver` ? `rgba(193, 187, 32, 1)`: `rgba(0, 122, 255, 1)`} /> 
+    }
       <Box className={cls.contend}>
         <Flex gap={`14px`} alignItems={`center`}>
           <Box>
@@ -32,21 +35,21 @@ export const Card = ({ item, cls, ...props }) => {
               className={cls.flag}
               width={30}
               height={30}
-              src={item.flag_ot}
+              src={item?.cargo?.flag_ot}
               alt="wef"
             />
-            <p className={cls.country_code}>{item?.country_code_from}</p>
+            <p className={cls.country_code}>{item?.cargo?.country_code_from}</p>
           </Box>
 
           <p className={cls.title}>
-            {item.from
-              ? item.from
+            {item.cargo?.from
+              ? item.cargo?.from
               : item?.city_id_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
                 ] || item?.city_id_data?.name}{" "}
             <br />
             <span className={cls.subTitle}>
-              {item?.load_time && format(item?.load_time, `yyyy-MM-dd`)} ~ 3450
+              {item?.cargo?.load_time && format(item?.cargo?.load_time, `yyyy-MM-dd`)} ~ 3450
               km
             </span>
           </p>
@@ -59,21 +62,21 @@ export const Card = ({ item, cls, ...props }) => {
               className={cls.flag}
               width={30}
               height={30}
-              src={item?.flag_do}
-              alt={item?.flag_do}
+              src={item?.cargo?.flag_do}
+              alt={item?.cargo?.flag_do}
             />
-            <p className={cls.country_code}>{item?.country_code_to}</p>
+            <p className={cls.country_code}>{item?.cargo?.country_code_to}</p>
           </Box>
 
           <p className={cls.title}>
-            {item?.to
-              ? item?.to
+            {item?.cargo?.to
+              ? item?.cargo?.to
               : item?.city_id_2_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
                 ] || item?.city_id_2_data?.name}{" "}
             <br />
             <span className={cls.subTitle}>
-              { item?.date && format(item?.date, `yyyy-MM-dd`)}
+              { item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
             </span>
           </p>
         </Flex>
@@ -81,47 +84,47 @@ export const Card = ({ item, cls, ...props }) => {
       <Box className={cls.contend}>
         <Flex gap={`11px`}>
           <Flex gap={1} alignItems={"center"}>
-            <StoneIcon /> <p className={cls.title}> {item?.weight}т</p>
+            <StoneIcon /> <p className={cls.title}> {item?.cargo?.weight}т</p>
           </Flex>
           <Flex gap={1} alignItems={"center"}>
-            <LoadOulineIcon /> <p className={cls.title}> {item?.volume_m3}м³</p>
+            <LoadOulineIcon /> <p className={cls.title}> {item?.cargo?.volume_m3}м³</p>
           </Flex>
         </Flex>
 
         <span className={cls.subTitle}>Пиломатериалы</span>
       </Box>
       <Box className={cls.contend}>
-        <p className={cls.title}>{item?.vehicle_type_id_data?.name}</p>
+        <p className={cls.title}>{item?.cargo?.vehicle_type_id_data?.name}</p>
         <span className={cls.subTitle}>Задняя</span>
       </Box>
       <Box className={cls.contend}>
         <p className={cls.title}>
-          {item?.bid_cash} {item.currency_id_data?.code}
+          {item?.cargo?.bid_cash} {item.cargo?.currency_id_data?.code}
           <span className={cls.subTitle1}>
-            {item?.map_id_data?.payment_type
-              ? ` ${item?.map_id_data?.payment_type}`
+            {item?.cargo?.map_id_data?.payment_type
+              ? ` ${item?.cargo?.map_id_data?.payment_type}`
               : ` Безнал`}
           </span>
         </p>
-        <span className={cls.subTitle}>Предопл. {item?.prepayment_percentage > 0 ? `${item?.prepayment_percentage} ${item?.currency_id_data?.code}` : `Нет`}  </span>
+        <span className={cls.subTitle}>Предопл. {item?.cargo?.prepayment_percentage > 0 ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}` : `Нет`}  </span>
       </Box>
       <Box className={cls.contend}>
         <Flex alignItems={`flex-start`} gap={1}>
           <Avatar
             width={`50px`}
             height={`50px`}
-            src={process.env.NEXT_PUBLIC_MEDIA_URL + item?.users_id_data?.photo}
+            src={process.env.NEXT_PUBLIC_MEDIA_URL + item?.cargo?.users_id_data?.photo}
             fontSize={`16px`}
-            name={item?.users_id_data?.full_name}
+            name={item?.cargo?.users_id_data?.full_name}
           />
           <Box>
             <Flex alignItems={`center`} gap={2}>
               <span className={cls.subTitle}>
-                {item?.users_id_data?.full_name}
+                {item?.cargo?.users_id_data?.full_name}
               </span>
               <GalichkaIcon />
             </Flex>
-            <p className={cls.tel}>{item?.users_id_data?.phone}</p>
+            <p className={cls.tel}>{item?.cargo?.users_id_data?.phone}</p>
           </Box>
         </Flex>
       </Box>

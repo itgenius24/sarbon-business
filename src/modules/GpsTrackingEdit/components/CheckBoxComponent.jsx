@@ -12,7 +12,7 @@ const CheckBoxComponent = ({ children, active,status, ...props }) => {
       cursor={status ? `not-allowed` : `pointer`}
       p={`14px 21px`}
       border={`1px solid rgba(219, 216, 227, 1)`}
-      borderRadius={`12px`}
+      borderRadius={`16px`}
       _hover={{ background: `rgba(240, 237, 246, 1)` }}
       _after={{width:`100%`,height:`100%`,position:`absolute`,zIndex:`22343434`,background:`red`,top:0}}
       width={`100%`}
