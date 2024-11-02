@@ -726,6 +726,10 @@ guid:item?.guid,
         cargo_type: ["cargo"],
 
         template_name: watch(`template_name`),
+        country_code_from: watch(`country_code_from`),
+        country_code_to: watch(`country_code_to`),
+        from: watch(`loadings`)?.[0].address,
+        to: watch(`unloading`)[watch(`unloading`).length - 1].address,
       },
     };
   
@@ -1158,14 +1162,12 @@ guid:item?.guid,
     handleDelete,
     handleCancel,
     handleAccept,
-    address1: data?.address_name
-      ? data?.address_name.split("|")[0].charAt(0).toUpperCase() +
-        data?.address_name.split("|")[0].slice(1).toLowerCase()
+    address1: data?.from
+      ? data?.from
       : data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
 
-    address2: data?.address_name
-      ? data?.address_name.split("|")[1].charAt(0).toUpperCase() +
-        data?.address_name.split("|")[1].slice(1).toLowerCase()
+    address2: data?.to
+      ? data?.to
       : data?.address_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
     city1: data?.city_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
     city2: data?.city_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],

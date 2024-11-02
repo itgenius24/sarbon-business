@@ -66,7 +66,9 @@ export const LoadsCard = (cargo) => {
         className={clsx(cls.loadsCard, {
           [cls.rejected]: status === "rejected",
         })}
-        onClick={() => router.push(`/${locale}/my-loads/${status}/${cargo?.cargo?.guid}`)}
+        onClick={() =>
+          router.push(`/${locale}/my-loads/${status}/${cargo?.cargo?.guid}`)
+        }
       >
         <a
           className={clsx(cls.stretchedLink, {
@@ -80,9 +82,11 @@ export const LoadsCard = (cargo) => {
               <span className={cls.addressText}>
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
-                    { 
-   cargo?.cargo?.address_name ? cargo?.cargo?.address_name.split('|')[0].charAt(0).toUpperCase() +
-    cargo?.cargo?.address_name.split('|')[0].slice(1).toLowerCase() : cargo?.cargo?.city_id_data?.["name_" + (locale === "uz" ? "en" : "ru")]}
+                    {cargo?.cargo?.from
+                      ? cargo?.cargo?.from
+                      : cargo?.cargo?.city_id_data?.[
+                          "name_" + (locale === "uz" ? "en" : "ru")
+                        ]}
                   </span>
                   <span>
                     {
@@ -95,17 +99,16 @@ export const LoadsCard = (cargo) => {
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
-                    {    cargo?.cargo?.address_name ? cargo?.cargo?.address_name.split('|')?.[1]?.charAt(0)?.toUpperCase() +
-                      cargo?.cargo?.address_name?.split('|')?.[1]?.slice(1)?.toLowerCase() : 
-                      cargo?.cargo?.city_id_2_data?.[
-                        "name_" + (locale === "uz" ? "en" : "ru")
-                      ]
-                    }
+                    {cargo?.cargo?.to
+                      ? cargo?.cargo?.to
+                      : cargo?.cargo?.city_id_2_data?.[
+                          "name_" + (locale === "uz" ? "en" : "ru")
+                        ]}
                   </span>
                   {}
                   <span>
                     {
-                     cargo?.cargo?.address_id_2_data?.[
+                      cargo?.cargo?.address_id_2_data?.[
                         "name_" + (locale === "uz" ? "en" : "ru")
                       ]
                     }
@@ -114,15 +117,21 @@ export const LoadsCard = (cargo) => {
                 {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
               </span>
               <span className={clsx(cls.addressStatus, cls[status])}>
-                {statuses[status]} {cancelBy[cargo?.cargo?.who_cancellation?.[0]]}
+                {statuses[status]}{" "}
+                {cancelBy[cargo?.cargo?.who_cancellation?.[0]]}
               </span>
             </h2>
-            <span className={cls.distance}>{cargo?.cargo?.number_of_order}</span>
+            <span className={cls.distance}>
+              {cargo?.cargo?.number_of_order}
+            </span>
           </div>
           <div className={cls.paymentInfo}>
             <div className={cls.paymentInfoContent}>
               <span className={cls.paymentInfoText}>
-                {formatSum(cargo?.cargo?.currency_id_data?.code, cargo?.cargo?.bid_cash)}
+                {formatSum(
+                  cargo?.cargo?.currency_id_data?.code,
+                  cargo?.cargo?.bid_cash
+                )}
               </span>
             </div>
             <span className={cls.paymentInfoComment}>
@@ -150,7 +159,9 @@ export const LoadsCard = (cargo) => {
               </span>
               <span
                 className={cls.moderatorCommentText}
-                dangerouslySetInnerHTML={{ __html:  cargo?.cargo?.moderator_comment }}
+                dangerouslySetInnerHTML={{
+                  __html: cargo?.cargo?.moderator_comment,
+                }}
               />
             </p>
           )}
@@ -158,10 +169,13 @@ export const LoadsCard = (cargo) => {
         <div className={cls.paymentInfoMobile}>
           <div className={cls.paymentInfoMobileContent}>
             <span className={cls.paymentInfoMobileText}>
-              {formatSum(cargo?.cargo?.currency_id_data?.code, cargo?.cargo?.bid_cash)}
+              {formatSum(
+                cargo?.cargo?.currency_id_data?.code,
+                cargo?.cargo?.bid_cash
+              )}
             </span>
           </div>
-          <span className={cls.paymentInfoMobileComment}> 
+          <span className={cls.paymentInfoMobileComment}>
             {cargo?.cargo?.request
               ? t("Запросить")
               : cargo?.cargo?.no_haggling
@@ -172,28 +186,31 @@ export const LoadsCard = (cargo) => {
         {status === "new" && (
           <Box
             display="flex"
-            width={ cargo?.isLargerThan768 ? "570px" : "100%"}
+            width={cargo?.isLargerThan768 ? "570px" : "100%"}
             columnGap="12px"
             mt="32px"
           >
             <Button
-              fontSize={ cargo?.isLargerThan768 ? "16px" : "12px"}
-              fontWeight={ cargo?.isLargerThan768 ? 600 : 500}
+              fontSize={cargo?.isLargerThan768 ? "16px" : "12px"}
+              fontWeight={cargo?.isLargerThan768 ? 600 : 500}
               variant="outlineError"
               bgColor="rgba(254, 228, 226, 1)"
               onClick={(e) => {
                 e.stopPropagation();
-                cargo?.handleCancel( cargo?.cargo?.guid);
+                cargo?.handleCancel(cargo?.cargo?.guid);
               }}
             >
               {t("Отказать")}
             </Button>
             <Button
-              fontSize={ cargo?.isLargerThan768 ? "16px" : "12px"}
-              fontWeight={ cargo?.isLargerThan768 ? 600 : 500}
+              fontSize={cargo?.isLargerThan768 ? "16px" : "12px"}
+              fontWeight={cargo?.isLargerThan768 ? 600 : 500}
               onClick={(e) => {
                 e.stopPropagation();
-                cargo?.handleAccept( cargo?.cargo?.guid,  cargo?.cargo?.users_id_2);
+                cargo?.handleAccept(
+                  cargo?.cargo?.guid,
+                  cargo?.cargo?.users_id_2
+                );
               }}
             >
               {t("Принять")}
@@ -215,18 +232,18 @@ export const LoadsCard = (cargo) => {
                   e.stopPropagation();
                   const query = new URLSearchParams({
                     from: JSON.stringify({
-                      value:  cargo?.cargo?.city_id_data?.guid,
-                      label:  cargo?.cargo?.city_id_data?.name,
-                      guid:  cargo?.cargo?.city_id_data?.guid,
+                      value: cargo?.cargo?.city_id_data?.guid,
+                      label: cargo?.cargo?.city_id_data?.name,
+                      guid: cargo?.cargo?.city_id_data?.guid,
                     }),
                     to: JSON.stringify({
-                      value:  cargo?.cargo?.city_id_2_data?.guid,
-                      label:  cargo?.cargo?.city_id_2_data?.name,
-                      guid:  cargo?.cargo?.city_id_2_data?.guid,
+                      value: cargo?.cargo?.city_id_2_data?.guid,
+                      label: cargo?.cargo?.city_id_2_data?.name,
+                      guid: cargo?.cargo?.city_id_2_data?.guid,
                     }),
-                    date:  cargo?.cargo?.load_time,
-                    weight:  cargo?.cargo?.weight,
-                    volume:  cargo?.cargo?.volume_m3,
+                    date: cargo?.cargo?.load_time,
+                    weight: cargo?.cargo?.weight,
+                    volume: cargo?.cargo?.volume_m3,
                   });
                   router.push(`/${locale}/search-car?` + query.toString());
                 }}

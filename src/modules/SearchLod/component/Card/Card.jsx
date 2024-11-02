@@ -39,9 +39,8 @@ export const Card = ({ item, cls, ...props }) => {
           </Box>
 
           <p className={cls.title}>
-            {item.address_name
-              ? item.address_name.split("|")[0].charAt(0).toUpperCase() +
-                item.address_name.split("|")[0].slice(1).toLowerCase()
+            {item.from
+              ? item.from
               : item?.city_id_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
                 ] || item?.city_id_data?.name}{" "}
@@ -67,9 +66,8 @@ export const Card = ({ item, cls, ...props }) => {
           </Box>
 
           <p className={cls.title}>
-            {item?.address_name
-              ? item?.address_name?.split("|")[1]?.charAt(0).toUpperCase() +
-                item?.address_name?.split("|")[1]?.slice(1).toLowerCase()
+            {item?.to
+              ? item?.to
               : item?.city_id_2_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
                 ] || item?.city_id_2_data?.name}{" "}

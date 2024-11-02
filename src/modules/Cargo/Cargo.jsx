@@ -401,8 +401,7 @@ export const Cargo = observer(({ id, status, locale }) => {
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                       >
-                        { item.address_name ? item.address_name.split('|')[0].charAt(0).toUpperCase() +
-                          item.address_name.split('|')[0].slice(1).toLowerCase() : item?.city_id_data?.[
+                        { item.from ? item.from : item?.city_id_data?.[
                           "name_" + (locale === "uz" ? "en" : locale)
                         ] || item?.city_id_data?.name}
                       </Text>
@@ -434,8 +433,7 @@ export const Cargo = observer(({ id, status, locale }) => {
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                       >
-                        { item.address_name ? item.address_name.split('|')[1].charAt(0).toUpperCase() +
-                          item.address_name.split('|')[1].slice(1).toLowerCase() : item?.city_id_2_data?.[
+                        { item.to ? item.to : item?.city_id_2_data?.[
                           "name_" + (locale === "uz" ? "en" : locale)
                         ] || item?.city_id_2_data?.name}
                       </Text>
