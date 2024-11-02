@@ -23,8 +23,9 @@ const itemsService = {
   getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
   updateUser: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
-  getCargo: (params) =>
-    request.get("/v2/object-slim/get-list/cargo", { params }),
+  getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
+  deleteOrder: (id) => request.delete(`/v2/items/order/${id}`,{data:JSON.stringify({data:{}})}),
+
 
 };
 
@@ -90,6 +91,10 @@ export const useCreatePeriodMutation = (mutationSettings) => {
 };
 export const useDeleteCargo = (mutationSettings) => {
   return useMutation({ mutationFn: ({ id }) => itemsService.deleteCargo(id), ...mutationSettings });
+};
+
+export const useDeleteOrder = (mutationSettings) => {
+  return useMutation({ mutationFn: ({ id }) => itemsService.deleteOrder(id), ...mutationSettings });
 };
 
 export const useUpdateCargo = (mutationSettings) => {

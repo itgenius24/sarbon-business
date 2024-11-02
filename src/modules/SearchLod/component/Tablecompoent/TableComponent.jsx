@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
 
 import {
+  useDeleteOrder,
   useGetCar,
   useGetCargoList,
   useGetCargoPost,
@@ -65,15 +66,12 @@ export const TableComponent = ({ watch, formState }) => {
 
   const { mutate: getCargoPost } = useGetCargoPost({
     onSuccess: (res) => {
-   
       setDataRes(res?.response);
-      setStatus2(false)
-
+      setStatus2(false);
     },
   });
 
   const { dirtyFields } = formState;
-
 
   useEffect(() => {
     const dataCargo = {
@@ -110,7 +108,7 @@ export const TableComponent = ({ watch, formState }) => {
     watch(`min_weight`),
     watch(`max_weight`),
     watch(`only_for_me`),
-    status2
+    status2,
   ]);
 
   const { data: useList } = useGetUserData({
@@ -129,15 +127,25 @@ export const TableComponent = ({ watch, formState }) => {
     },
   });
 
-  const { mutate: pridlojetData,isPending } = useLogistikaGpsTrackingFilterDriverPred({
+  const { mutate: deleteOrderData } = useDeleteOrder({
     onSuccess: (res) => {
-      setCarId();
-      setSelectCargo([]);
-      setStatus(true);
+      setStatus(true)
+      setStatus2(true);
       setCenterModalType(false);
-      setStatus2(true)
+
     },
   });
+
+  const { mutate: pridlojetData, isPending } =
+    useLogistikaGpsTrackingFilterDriverPred({
+      onSuccess: (res) => {
+        setCarId();
+        setSelectCargo([]);
+        setStatus(true);
+        setCenterModalType(false);
+        setStatus2(true);
+      },
+    });
 
   const { mutate } = useGetCar({
     onSuccess: (res) => {
@@ -179,8 +187,6 @@ export const TableComponent = ({ watch, formState }) => {
     return item?.user?.full_name.toLowerCase().includes(search.toLowerCase());
   });
 
-
-
   const handlePred = () => {
     const data = {
       data: {
@@ -207,7 +213,16 @@ export const TableComponent = ({ watch, formState }) => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  console.log(`filteredData`,dataRes)
+  const deleteOrder = (data) => {
+    const order = data?.orders?.filter(
+      (item) =>
+        item.provisions?.filter((el) => el === `approve_from_driver`)?.[0] ===
+        `approve_from_driver`
+    );
+     if(order?.length > 0){
+      deleteOrderData({id:order?.[0]?.guid})
+     }
+  };
 
   return (
     <>
@@ -277,7 +292,7 @@ export const TableComponent = ({ watch, formState }) => {
                       onClick={() =>
                         item?.user?.provisions[0] === `our_cargo` ||
                         item?.user?.provisions[0] === `waiting_for_driver`
-                          ? () => {}
+                          ? deleteOrder(item)
                           : handleSelect(item?.user?.guid)
                       }
                       active={
@@ -316,27 +331,27 @@ export const TableComponent = ({ watch, formState }) => {
                             <p className={cls.subTitle}>{item?.user?.phone}</p>
                           </Box>
                         </Flex>
-                        {
-                          item?.vehicles?.[0] &&   <Flex
-                          flexDirection={`column`}
-                          mr={5}
-                          alignItems={`flex-end`}
-                          className={cls.subTitle2}
-                        >
-                          <p className={cls.loadType}>
-                            {item?.vehicles?.[0]?.trailer_type_id_data?.name}
-                          </p>
-                          <Flex gap={2}>
-                            <Flex gap={1} alignItems={"center"}>
-                              <StoneIcon /> {item?.vehicles?.[0]?.height} т.
-                            </Flex>
-                            <Flex gap={1} alignItems={"center"}>
-                              <LoadOulineIcon /> {item?.vehicles?.[0]?.capacity} м³
+                        {item?.vehicles?.[0] && (
+                          <Flex
+                            flexDirection={`column`}
+                            mr={5}
+                            alignItems={`flex-end`}
+                            className={cls.subTitle2}
+                          >
+                            <p className={cls.loadType}>
+                              {item?.vehicles?.[0]?.trailer_type_id_data?.name}
+                            </p>
+                            <Flex gap={2}>
+                              <Flex gap={1} alignItems={"center"}>
+                                <StoneIcon /> {item?.vehicles?.[0]?.height} т.
+                              </Flex>
+                              <Flex gap={1} alignItems={"center"}>
+                                <LoadOulineIcon />{" "}
+                                {item?.vehicles?.[0]?.capacity} м³
+                              </Flex>
                             </Flex>
                           </Flex>
-                        </Flex>
-                        }
-                      
+                        )}
                       </Box>
                     </CheckBoxComponent>
                   );
