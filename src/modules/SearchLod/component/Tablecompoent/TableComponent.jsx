@@ -179,6 +179,7 @@ export const TableComponent = ({ watch, formState }) => {
     const data = {
       data: {
         object_data: {
+          firm_id,
           cargo_id: carId?.guid,
           driver_ids: selectCargo,
           cargo_number: carId?.number_of_order,
