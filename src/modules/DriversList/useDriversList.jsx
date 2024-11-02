@@ -43,7 +43,7 @@ export const useDriversList = () => {
   const firm_id = authStore.userData.firm_id;
 
   
-  const { mutate } = useGetCar({
+  const { mutate,isPending } = useGetCar({
     onSuccess:(res) => {
       setData(res?.response)
       setStatus(false)
@@ -75,10 +75,11 @@ export const useDriversList = () => {
   };
 
 
-  console.log(`res`,data)
+ 
 
   return {
     data: data,
+    isPending,
     t,
     handleDelete,
   };

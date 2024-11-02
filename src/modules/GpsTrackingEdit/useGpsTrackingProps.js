@@ -26,7 +26,11 @@ import authStore from "@/store/auth.store";
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
-  const firm_id = authStore.userData.firm_id;
+  const role_id = authStore.userData.role_id;
+  const firm_id =
+    role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
+      ? authStore.userData.firm_id
+      : ``;
 
   const { t } = useTranslation(locale, "translations");
 

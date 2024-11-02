@@ -168,7 +168,8 @@ const useStepTwoProps = () => {
       // });
     });
   }
-  console.log(`countryCode`, watch(`period_ids`));
+  
+  console.log(`countryCode`, watch(`unloading`),watch(`unloading`));
 
 
   const hanleAdress = (location, name, index, type,id) => {
