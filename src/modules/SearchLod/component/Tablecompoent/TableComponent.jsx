@@ -15,6 +15,8 @@ import {
   useGetCargoList,
   useGetCargoPost,
   useGetUserData,
+  useLogistikaGpsTrackingFilterDriver,
+  useLogistikaGpsTrackingFilterDriverPred,
 } from "@/services/api";
 
 import { Card } from "../Card/Card";
@@ -35,7 +37,7 @@ export const TableComponent = ({ watch, formState }) => {
   const [selectCargo, setSelectCargo] = useState([]);
   const [dataRes, setDataRes] = useState([]);
   const [search, setSearch] = useState("");
-
+  const [carId, setCarId] = useState();
   const [sortOrder, setSortOrder] = useState("asc"); // "asc" - yuqoridan pastga, "desc" - pastdan yuqoriga
 
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
@@ -103,7 +105,7 @@ export const TableComponent = ({ watch, formState }) => {
     watch(`max_volume`),
     watch(`min_weight`),
     watch(`max_weight`),
-    watch(`only_for_me`)
+    watch(`only_for_me`),
   ]);
 
   const { data: useList } = useGetUserData({
@@ -119,6 +121,15 @@ export const TableComponent = ({ watch, formState }) => {
       onSuccess: (res) => {
         console.log(`res`, res);
       },
+    },
+  });
+
+  const { mutate: pridlojetData,isPending } = useLogistikaGpsTrackingFilterDriverPred({
+    onSuccess: (res) => {
+      setCarId();
+      setSelectCargo([]);
+      setStatus(true);
+      setCenterModalType(false);
     },
   });
 
@@ -154,15 +165,28 @@ export const TableComponent = ({ watch, formState }) => {
     // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
     if (isCheckboxChecked) {
       return (
-        item?.provisions[0] === `empty` &&
-        item?.full_name.toLowerCase().includes(search.toLowerCase())
+        item?.user?.provisions?.[0] === `empty` &&
+        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
     // Agar checkbox tanlanmagan bo'lsa, faqat search natijasini ko'rsatish
     return item?.user?.full_name.toLowerCase().includes(search.toLowerCase());
   });
 
-  console.log(`useList2`, filteredData);
+
+
+  const handlePred = () => {
+    const data = {
+      data: {
+        object_data: {
+          cargo_id: carId?.guid,
+          driver_ids: selectCargo,
+          cargo_number: carId?.number_of_order,
+        },
+      },
+    };
+    pridlojetData(data);
+  };
 
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
@@ -175,6 +199,8 @@ export const TableComponent = ({ watch, formState }) => {
     setDataRes(sortedData);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+
+  console.log(`filteredData`,filteredData)
 
   return (
     <>
@@ -205,7 +231,10 @@ export const TableComponent = ({ watch, formState }) => {
         {dataRes &&
           dataRes.map((item) => (
             <Card
-              onClick={() => setCenterModalType(true)}
+              onClick={() => {
+                setCarId(item);
+                setCenterModalType(true);
+              }}
               key={item?.id}
               cls={cls}
               item={item}
@@ -233,8 +262,8 @@ export const TableComponent = ({ watch, formState }) => {
               </InputGroup>
             </Flex>
             <Box className={cls.modalContend}>
-              {filteredData.length > 0 ? (
-                filteredData.map((item) => {
+              {filteredData?.length > 0 ? (
+                filteredData?.map((item) => {
                   return (
                     <CheckBoxComponent
                       key={item}
@@ -280,7 +309,8 @@ export const TableComponent = ({ watch, formState }) => {
                             <p className={cls.subTitle}>{item?.user?.phone}</p>
                           </Box>
                         </Flex>
-                        <Flex
+                        {
+                          item?.vehicles?.[0] &&   <Flex
                           flexDirection={`column`}
                           mr={5}
                           alignItems={`flex-end`}
@@ -291,13 +321,15 @@ export const TableComponent = ({ watch, formState }) => {
                           </p>
                           <Flex gap={2}>
                             <Flex gap={1} alignItems={"center"}>
-                              <StoneIcon /> {item?.vehicles?.[0]?.weight} т.
+                              <StoneIcon /> {item?.vehicles?.[0]?.height} т.
                             </Flex>
                             <Flex gap={1} alignItems={"center"}>
-                              <LoadOulineIcon /> {item?.vehicles?.[0]?.width} м³
+                              <LoadOulineIcon /> {item?.vehicles?.[0]?.capacity} м³
                             </Flex>
                           </Flex>
                         </Flex>
+                        }
+                      
                       </Box>
                     </CheckBoxComponent>
                   );
@@ -335,7 +367,8 @@ export const TableComponent = ({ watch, formState }) => {
                 </Button>
                 <Button
                   // isDisabled={!selectCargo || disabled}
-                  // onClick={() => handleOffer()}
+                  isLoading={isPending}
+                  onClick={() => handlePred()}
                   className={cls.topButton}
                   size="md"
                 >

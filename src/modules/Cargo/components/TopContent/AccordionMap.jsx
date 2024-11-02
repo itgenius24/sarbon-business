@@ -11,8 +11,7 @@ import {
 import { useEffect, useRef } from "react";
 
 export const AccordionMap = ({
-  startPoint,
-  endPoint,
+
   gpsHistory,
   driverPosition,
   getMaps,

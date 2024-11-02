@@ -46,6 +46,11 @@ const objectService = {
       "/v1/invoke_function/logistika-gps-tracking-filter-driver",
       data
     ),
+    getLogistikaGpsTrackingFilterDriverPred: (data) =>
+      request.post(
+        "/v1/invoke_function/logistika-send-list-of-address-name",
+        data
+      ),
   getCar: (data) =>
     request.post("/v1/invoke_function/logistika-get-cargo-list", data),
   getLocation: (data) =>
@@ -121,7 +126,7 @@ export const useGetCar = (mutationSettings) => {
     mutationFn: (params) => objectService.getCar(params),
     ...mutationSettings,
   });
-};
+  };
 
 export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
   return useMutation({
@@ -131,6 +136,14 @@ export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
   });
 };
 
+
+export const useLogistikaGpsTrackingFilterDriverPred = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) =>
+      objectService.getLogistikaGpsTrackingFilterDriverPred(data),
+    ...mutationSettings,
+  });
+};
 export const useLocation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => objectService.getLocation(data),
