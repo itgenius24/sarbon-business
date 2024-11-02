@@ -48,11 +48,17 @@ export const CarsCard = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
+  const order = item?.orders?.filter(
+    (item) =>
+      item.provisions?.filter((el) => el === `performed`)?.[0] ===
+      `performed`
+  );
+  console.log(`order`,order)
   return (
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-        item?.orders?.[0] ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+       order ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Box className={cls.popup}>
@@ -149,10 +155,10 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <p className={cls.subTitle}>{item?.user?.phone}</p>
             </Box>
           </Flex>
-          {item?.orders?.[0] ? (
+          {order ? (
             <Flex
               background={
-                item?.orders?.[0]
+                order
                   ? "rgba(0, 122, 255, 0.08)"
                   : "rgba(21, 186, 77, 1)"
               }
@@ -163,7 +169,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <Box>
                 <p className={cls.subTitle}>Статус:</p>
                 <p className={cls.subBlueTitle}>
-                  Занята: {item?.orders?.[0]?.offer_number}
+                  Занята: {item?.orders?.[0]?.cargo_id_data?.number_of_order}
                 </p>
               </Box>
               {item?.users_gps?.[0] && (

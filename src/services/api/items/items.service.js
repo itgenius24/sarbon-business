@@ -14,6 +14,7 @@ const itemsService = {
   createCargo: (data) => request.post("/v2/items/cargo", data),
   createPeriod: (data) => request.post("/v2/items/period", data),
   updateResponse: (data) => request.put("/v2/items/response", data),
+  updateUser: (data) => request.put("/v2/items/users", data),
   createFeedback: (data) => request.post("/v2/items/review", data),
   createVehicle: (data) => request.post("/v2/items/vehicle", data),
   updateVehicle: (data) => request.put("/v2/items/vehicle", data),
@@ -101,8 +102,13 @@ export const useUpdateCargo = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateCargo(data), ...mutationSettings });
 };
 
+
 export const useUpdateResponse = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateResponse(data), ...mutationSettings });
+};
+
+export const useUpdateUserData = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateUser(data), ...mutationSettings });
 };
 
 

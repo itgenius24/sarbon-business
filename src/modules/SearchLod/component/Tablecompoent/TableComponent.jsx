@@ -18,6 +18,7 @@ import {
   useGetUserData,
   useLogistikaGpsTrackingFilterDriver,
   useLogistikaGpsTrackingFilterDriverPred,
+  useUpdateUserData,
 } from "@/services/api";
 
 import { Card } from "../Card/Card";
@@ -129,12 +130,13 @@ export const TableComponent = ({ watch, formState }) => {
 
   const { mutate: deleteOrderData } = useDeleteOrder({
     onSuccess: (res) => {
-      setStatus(true)
+      setStatus(true);
       setStatus2(true);
       setCenterModalType(false);
-
     },
   });
+
+  const { mutate: updateUer } = useUpdateUserData({});
 
   const { mutate: pridlojetData, isPending } =
     useLogistikaGpsTrackingFilterDriverPred({
@@ -219,9 +221,19 @@ export const TableComponent = ({ watch, formState }) => {
         item.provisions?.filter((el) => el === `approve_from_driver`)?.[0] ===
         `approve_from_driver`
     );
-     if(order?.length > 0){
-      deleteOrderData({id:order?.[0]?.guid})
-     }
+
+    console.log(`order`,data)
+    if (order?.length > 0) {
+    
+      deleteOrderData({ id: order?.[0]?.guid });
+
+      updateUer({
+        data: {
+            guid: data?.user?.guid,
+            provisions: ["empty"],
+        },
+      });
+    }
   };
 
   return (
