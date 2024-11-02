@@ -65,6 +65,8 @@ const StepFive = ({ status }) => {
   const router = useRouter();
   const locale = useGetLang();
 
+  console.log(`unloading`,unloading)
+
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };

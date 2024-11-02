@@ -29,7 +29,7 @@ import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/Tex
 
 const StepTwo = ({ status }) => {
   const {
-    loadings,
+    // loadings,
     register,
     control,
     watch,
@@ -38,7 +38,7 @@ const StepTwo = ({ status }) => {
     handleRemoveLoading,
     handleUnloadingAppend,
     handleUnloadingRemove,
-    unloading,
+    // unloading,
     handleOpenModal,
     handleCloseModal,
     isModalOpen,
@@ -66,12 +66,12 @@ const StepTwo = ({ status }) => {
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
-
+  console.log(`watc`,watch(`loadings`))
   return (
     <>
       <Flex position={`relative`} width={`100%`} gap={`24px`}>
         <Box className={cls.step}>
-          {loadings?.map((item, index) => (
+          {watch(`loadings`)?.map((item, index) => (
             <Flex key={index} width={"100%"} gap={"13px"}>
               {index === 0 ? (
                 <IconAStep />
@@ -80,7 +80,7 @@ const StepTwo = ({ status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
-                  onClick={() => handleRemoveLoading(index)}
+                  onClick={() => handleRemoveLoading(index,item.guid)}
                   variant={"outline"}
                 />
               )}
@@ -132,7 +132,7 @@ const StepTwo = ({ status }) => {
                         {results?.map((location, idx) => (
                           <Flex
                             onClick={() =>
-                              hanleAdress(location,`loadings[${index}].address`,index,"loading")
+                              hanleAdress(location,`loadings[${index}].address`,index,"loading",item?.guid)
                             }
                             key={idx}
                             gap={3}
@@ -155,11 +155,12 @@ const StepTwo = ({ status }) => {
                     mt={"20px"}
                   >
                     <Box width={"154px"}>
+                   
                       <span className={cls.label}>Когда забрать</span>
                       <DatePickerComponent
                         isDisabled={watch("disabledLo")}
                         onChange={(date) => {
-                          lodingChangeDate("loading", date, index);
+                          lodingChangeDate("loading", date, index,item?.guid);
                         }}
                         control={control}
                         name={`loadings[${index}].from_date`}
@@ -186,7 +187,7 @@ const StepTwo = ({ status }) => {
                           { label: 10, value: 10 },
                         ]}
                         name={`loadings[${index}].loading_num`}
-                        customOnChange={(e) => loadingNumF(e.value,index) }
+                        customOnChange={(e) => loadingNumF(e.value,index,item?.guid) }
                         placeholder={t("5 дн. ")}
                         control={control}
                         isClearable={false}
@@ -229,7 +230,7 @@ const StepTwo = ({ status }) => {
         </Box>
 
         <Box className={cls.step}>
-          {unloading.map((item, index) => (
+          {watch(`unloading`)?.map((item, index) => (
             <Flex key={index} width={"100%"} gap={"13px"}>
               {index === 0 ? (
                 <IconBStep />
@@ -238,7 +239,7 @@ const StepTwo = ({ status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
-                  onClick={() => handleUnloadingRemove(index)}
+                  onClick={() => handleUnloadingRemove(index,item?.guid)}
                   variant={"outline"}
                 />
               )}
@@ -292,7 +293,8 @@ const StepTwo = ({ status }) => {
                                 location,
                                 `unloading[${index}].address`,
                                 index,
-                                "unloading"
+                                "unloading",
+                                item?.guid
                               )
                             }
                             key={idx}
@@ -319,7 +321,7 @@ const StepTwo = ({ status }) => {
                       <DatePickerComponent
                         isDisabled={watch(`disabledUnlo`)}
                         onChange={(date) => {
-                          lodingChangeDate("unLoading", date, index);
+                          lodingChangeDate("unLoading", date, index,item?.guid);
                         }}
                         control={control}
                         name={`unloading[${index}].to_date`}

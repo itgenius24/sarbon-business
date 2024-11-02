@@ -23,6 +23,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
 import { useGetLang } from "@/hooks/useGetLang";
+import { findChangedLogs } from "@/utils/findChangedLogs";
 
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const searchParams = useSearchParams();
@@ -52,13 +53,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   );
   const [isAccessOpen, setAccessOpen] = useState(formStore.isAccessOpen);
   const [isBeltsOpen, setBeltsOpen] = useState(formStore.isBeltsOpen);
-  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(formStore.isLiftingCapacityOpen);
+  const [isLiftingCapacityOpen, setLiftingCapacityOpen] = useState(
+    formStore.isLiftingCapacityOpen
+  );
 
   const [prepaymentFuelOpen, setPrepaymentFuelOpen] = useState(
     formStore.prepaymentFuelOpen
   );
-  const [isFtlOpen,setIsFtlOpen] = useState(formStore.isFtlOpen)
-  const [isReymenOpen,setIsReymenOpen] = useState(formStore.isReymenOpen)
+  const [isFtlOpen, setIsFtlOpen] = useState(formStore.isFtlOpen);
+  const [isReymenOpen, setIsReymenOpen] = useState(formStore.isReymenOpen);
 
   const [directContractOpen, setDirectContractOpen] = useState(
     formStore.directContractOpen
@@ -93,8 +96,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const [load, setLoad] = useState({});
   const [check, setCheck] = useState();
   const [mone, setMoney] = useState({});
-
-
 
   const router = useRouter();
 
@@ -299,29 +300,26 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
+  // const {
+  //   fields: loadings,
+  //   append: appendLoading,
+  //   remove: removeLoading,
+  //   update: updateLoading,
+  // } = useFieldArray({
+  //   control,
+  //   name: "loadings",
+  //   // rules: { minLength: 1, }
+  // });
 
-  const {
-    fields: loadings,
-    append: appendLoading,
-    remove: removeLoading,
-    update: updateLoading,
-  } = useFieldArray({
-    control,
-    name: "loadings",
-    // rules: { minLength: 1, }
-  });
-
-  const {
-    fields: unloading,
-    append: appendUnloading,
-    remove: removeUnloading,
-    update: updateUnloading,
-  } = useFieldArray({
-    control,
-    name: "unloading",
-  });
-
-
+  // const {
+  //   fields: unloading,
+  //   append: appendUnloading,
+  //   remove: removeUnloading,
+  //   update: updateUnloading,
+  // } = useFieldArray({
+  //   control,
+  //   name: "unloading",
+  // });
 
   const getLoadings =
     (Array.isArray(watch("loadings")?.[0]?.cor)
@@ -332,7 +330,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ? watch("unloading")?.map((item) => item?.cor)
       : watch("unloading")?.map((item) => item?.cor?.split(","))) || [];
 
-  const distance = useGetDistance({ referencePoints: [...getLoadings, ...getUnloading], });
+  const distance = useGetDistance({
+    referencePoints: [...getLoadings, ...getUnloading],
+  });
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -489,45 +489,36 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
-      let loadingsData = [];
-      let unloading = [];
 
-      getValues("loadings").forEach((item) => {
-        if (item.address && item.cor) {
-          const cor = item.cor;
-          if (Array.isArray(cor)) {
-            loadingsData.push(
-              item.address,
-              cor[0]?.toString(),
-              cor[1]?.toString()
-            );
-          } else {
-            loadingsData.push(item.address, ...item.cor.split(","));
-          }
-        }
-      });
+    
 
-      getValues("unloading").forEach((item) => {
-        if (item.address && item.cor) {
-          const cor = item.cor;
-          if (Array.isArray(cor)) {
-            unloading.push(
-              item.address,
-              cor[0]?.toString(),
-              cor[1]?.toString()
-            );
-          } else {
-            unloading.push(item.address, ...item.cor.split(","));
-          }
-        }
-      });
 
-      if (!canEditActive) {
+      let loadingsData = watch(`loadings`).map((item, index) => ({
+        address: item?.address,
+        date: new Date(item.from_date),
+        lat: item?.cor.split(" ")[0],
+        long: item?.cor.split(" ")[1],
+        step: index + 1,
+        type: ["shipper"],
+        expectations: +item.loading_num || 0,
+      }));
+      let unloadinData = watch(`unloading`).map((item, index) => ({
+        address: item?.address,
+        date: new Date(item.to_date),
+        lat: item?.cor.split(" ")[0],
+        long: item?.cor.split(" ")[1],
+        step: index + 1,
+        type: ["consignee"],
+      }));
+
+      
+      if (watch(`period_ids`)?.length > 0) {
         createAddress.mutate(
           {
             data: {
               object_data: {
-                name: loadingsData.concat(unloading),
+                period_ids:watch(`period_ids`),
+                name: loadingsData.concat(unloadinData),
                 cargo_id: data?.guid,
               },
             },
@@ -683,13 +674,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
     setLoading(true);
 
-    // const loadingIds = data.loadings.map(item => item.location.value);
-    // const unloadingIds = data.unloading.map(item => item.location.value);
-
-    // loadingIds.splice(0, 1);
-    // unloadingIds.splice(0, 1);
-
-    // const addressIds = [...loadingIds, ...unloadingIds];
 
     const requestData = {
       data: {
@@ -701,7 +685,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         package_quantity: +watch(`packaging_quantity`) || 0,
         length: +watch(`length`),
         width: watch(`width`),
-        
+
         height: +watch(`height`),
         photo: watch(`image`),
         // guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
@@ -728,9 +712,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         map_id: watch("payment_type")?.value,
         map_id_2: watch("payment_type_1")?.value,
         map_id_3: watch("payment_type_2")?.value,
-     
-        take_all_unloads:watch(`is_ftl`),
-        load_around_the_clock:watch(`is_ltl`),
+
+        take_all_unloads: watch(`is_ftl`),
+        load_around_the_clock: watch(`is_ltl`),
 
         // guid: watch(`loadResId`),
 
@@ -745,25 +729,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         template_name: watch(`template_name`),
       },
     };
-    console.log(`data2222`, requestData);
-
+  
     if (id) {
       requestData.data.guid = id;
-      // requestData.data.order_status = getCargo.data?.response?.[0]?.order_status;
 
       updateCargo.mutate(requestData);
-
-      // if(watch("order_status")?.value === "active"){
-      //   sendNotification({
-      //     data:{
-      //       object_data:{
-      //         order_status: "active",
-      //         vehicle_type_id:data.car_type.value, //gruzdagi vehicle_type_id
-      //         guid: authStore.userData.id//cargoni guid
-      //       }
-      //     }
-      //   })
-      // }
     } else {
       if (data.isTemp) {
         requestData.data.cargo_type = ["template"];
@@ -789,11 +759,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   }
 
   function handleSelectTemplate(item) {
-    setValue("loadResId", item.guid)
-    console.log(`load`, item)
+    setValue("loadResId", item.guid);
+    console.log(`load`, item);
 
     resetForm(item, item.guid);
-    setValue(`cargoIndex`,1)
+    setValue(`cargoIndex`, 1);
     setCargoIndex(5);
 
     if (item?.tir || item?.cmr || item?.t1 || item?.medic_certificate) {
@@ -874,8 +844,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     setDimensionsAndDiameter(false);
     setRequirementOpen(false);
     setAccessOpen(false);
-    setIsFtlOpen(false)
-    setIsReymenOpen(false)
+    setIsFtlOpen(false);
+    setIsReymenOpen(false);
     setBeltsOpen(false);
     setLiftingCapacityOpen(false);
     setPrepaymentFuelOpen(false);
@@ -1037,59 +1007,43 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   useEffect(() => {
     if (getMaps.isSuccess) {
+   
       const data = getMaps.data.response;
       const reversedData = data;
+      setTemplateId("");
 
-      const shipper = reversedData.filter((item) => item.type?.[0] === `shipper`);
+      const shipper = reversedData.filter(
+        (item) => item.type?.[0] === `shipper`
+      );
       const consignee = reversedData.filter(
         (item) => item?.type?.[0] === `consignee`
       );
-
-      setTemplateId("");
-
-      shipper?.sort((a,b) => a?.step - b?.step)?.forEach((item, index) => {
-        if (index === 0) {
-          setValue(`loadings[0]`, {
+      setValue(`staticArrayAderss`,shipper.concat(consignee))
+      shipper
+        ?.sort((a, b) => a?.step - b?.step)
+        ?.forEach((item, index) => {
+          setValue(`loadings.${[index]}`, {
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             from_date: item?.date,
+            guid:item.guid
+
           });
-        } if(index > 0) {
-          appendLoading({
-            cor: `${item.lat} ${item.long}`,
-            address: item?.name,
-            from_date: item?.date,
-          })
-        }
+        });
 
-      });
-
-      consignee.sort((a,b) => a?.step - b?.step)?.forEach((item, index) => {
-        if (index === 0) {
-          setValue(`unloading[0]`, {
+      consignee
+        .sort((a, b) => a?.step - b?.step)
+        ?.forEach((item, index) => {
+          setValue(`unloading.${[index]}`, {
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             to_date: item?.date,
+            guid:item.guid
           });
-        } if(index > 0) {
-          appendUnloading({
-            cor: `${item.lat} ${item.long}`,
-            address: item?.name,
-            to_date: item?.date,
-          })
-        }
-
-      });
-
-      removeLoading(1)
-      // console.log(`data222`, loadingsRef.current, unloadingRef.current);
-
-      // setValue("loadings", loadingsRef.current);
-      // setValue("unloading", unloadingRef.current);
+        });
+      
     }
-  }, [getMaps.data]);
- 
-  console.log(`data222`, loadings,unloading);
+  }, [getMaps.isSuccess]);
 
 
   const isFirstRender = useRef(true);
@@ -1183,8 +1137,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
   }, [temlateVal, getTempCargo.data?.response]);
 
-  console.log(`addCargoProps.address2`,getCargo);
-
+  console.log(`addCargoProps.address2`, getCargo);
 
   return {
     register,
@@ -1206,12 +1159,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDelete,
     handleCancel,
     handleAccept,
-    address1: data?.address_name ? data?.address_name.split('|')[0].charAt(0).toUpperCase() +
-    data?.address_name.split('|')[0].slice(1).toLowerCase() : data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
+    address1: data?.address_name
+      ? data?.address_name.split("|")[0].charAt(0).toUpperCase() +
+        data?.address_name.split("|")[0].slice(1).toLowerCase()
+      : data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
 
-    address2:data?.address_name ? data?.address_name.split('|')[1].charAt(0).toUpperCase() +
-    data?.address_name.split('|')[1].slice(1).toLowerCase() :
-      data?.address_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
+    address2: data?.address_name
+      ? data?.address_name.split("|")[1].charAt(0).toUpperCase() +
+        data?.address_name.split("|")[1].slice(1).toLowerCase()
+      : data?.address_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
     city1: data?.city_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
     city2: data?.city_id_2_data?.["name_" + (locale === "uz" ? "en" : locale)],
     userName: data?.users_id_2_data?.full_name,
@@ -1277,16 +1233,19 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDeleteDocument,
     getEmptyFileName,
     setTemplateVal,
-    setLoad,load,
-    mone, setMoney,
-    check, setCheck,
-    loadings,
-    appendLoading,
-    removeLoading,
-    updateLoading,
-    unloading,
-    appendUnloading,
-    removeUnloading,
-    updateUnloading
+    setLoad,
+    load,
+    mone,
+    setMoney,
+    check,
+    setCheck,
+    loadings: watch(`loadings`),
+    // appendLoading,
+    // removeLoading,
+    // updateLoading,
+    unloading: watch(`unloading`),
+    // appendUnloading,
+    // removeUnloading,
+    // updateUnloading,
   };
 };

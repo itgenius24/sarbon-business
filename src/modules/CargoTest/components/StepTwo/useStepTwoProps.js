@@ -33,23 +33,8 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const {
-    control,
-    register,
-    watch,
-    setValue,
-    errors,
-    canEdit,
-    getValues,
-    loadings,
-    appendLoading,
-    removeLoading,
-    updateLoading,
-    unloading,
-    appendUnloading,
-    removeUnloading,
-    updateUnloading,
-  } = useAddCargoContext();
+  const { control, register, watch, setValue, errors, canEdit, getValues } =
+    useAddCargoContext();
 
   // useEffect(() => {
   //   if(canEdit && watch(`disabledlo`)){
@@ -71,7 +56,7 @@ const useStepTwoProps = () => {
   const handLeCheck = (e) => {
     setDisabledLo(e.target.checked);
     setValue(`disabledLo`, e.target.checked);
-    // updateLoading(index, {
+    // setValue(`loadings.${[index]}`, {
     //   ...loadings[index],
     //   from_date:"",
     // });
@@ -97,7 +82,7 @@ const useStepTwoProps = () => {
   }
 
   function handleAppendLoading() {
-    appendLoading({
+    setValue(`loadings.${watch(`loadings`)?.length}`, {
       address: "",
       cor: "",
       from_date: "",
@@ -105,20 +90,35 @@ const useStepTwoProps = () => {
     });
   }
 
-  function handleRemoveLoading(index) {
-    removeLoading(index);
+  function handleRemoveLoading(indx, id) {
+    setValue(
+      `loadings`,
+      watch(`loadings`)?.filter((item, index) => index !== indx)
+    );
+   if (id) {
+      const period_ids = watch(`period_ids`) || [];
+      const data = period_ids?.filter((item) => item === id);
+      if (data?.length === 0 || data === undefined ) {
+        setValue(`period_ids`,[...period_ids,id]);
+      }
+    }
   }
 
   function handleUnloadingAppend() {
-    appendUnloading({
+    setValue(`unloading.${watch(`unloading`)?.length}`, {
       address: "",
       cor: "",
       to_date: "",
     });
   }
 
-  function handleUnloadingRemove(index) {
-    removeUnloading(index);
+  function handleUnloadingRemove(indx) {
+    setValue(
+      `unloading`,
+      watch(`unloading`)?.filter((item, index) => index !== indx)
+    );
+
+    // removeUnloading(index);
   }
 
   function handleOpenModal(name, index, type) {
@@ -135,7 +135,6 @@ const useStepTwoProps = () => {
   }
   // console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
 
-  console.log(`countryCode`, loadings,unloading);
 
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
@@ -145,8 +144,8 @@ const useStepTwoProps = () => {
 
       setValue(nameState, firstGeoObject.getAddressLine());
       if (type === "loading") {
-        updateLoading(index, {
-          ...loadings[index],
+        setValue(`loadings.${[index]}`, {
+          ...watch(`loadings`)[index],
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           from_date: watch(`loadings[${index}].from_date`) || "",
@@ -154,7 +153,7 @@ const useStepTwoProps = () => {
         setValue(`flag_ot`, flagUrl);
         setValue(`country_code_from`, countryCode);
       } else {
-        updateUnloading(index, {
+        setValue(`unloading.${[index]}`, {
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           to_date: watch(`unloading[${index}].to_date`) || "",
@@ -169,16 +168,25 @@ const useStepTwoProps = () => {
       // });
     });
   }
+  console.log(`countryCode`, watch(`period_ids`));
 
-  const hanleAdress = (location, name, index, type) => {
+
+  const hanleAdress = (location, name, index, type,id) => {
+    if (id) {
+      const period_ids = watch(`period_ids`) || [];
+      const data = period_ids?.filter((item) => item === id);
+      if (data?.length === 0 || data === undefined ) {
+        setValue(`period_ids`,[...period_ids,id]);
+      }
+    }
     setValue(name, location?.GeoObject?.name);
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
     var flagUrl = `https://flagcdn.com/w320/${country_code.toLowerCase()}.png`;
 
     if (type === "loading") {
-      updateLoading(index, {
-        ...loadings[index],
+      setValue(`loadings.${[index]}`, {
+        ...watch(`loadings`)[index],
         address: watch(`loadings[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
         from_date: watch(`loadings[${index}].from_date`) || "",
@@ -188,31 +196,52 @@ const useStepTwoProps = () => {
         setValue(`country_code_from`, country_code);
       }
     } else {
-      updateUnloading(index, {
+      setValue(`unloading.${[index]}`, {
         address: watch(`unloading[${index}].address`),
         cor: location?.GeoObject?.Point?.pos,
         to_date: watch(`unloading[${index}].to_date`) || "",
       });
       setValue(`flag_do`, flagUrl);
       setValue(`country_code_to`, country_code);
-      
     }
 
     setResults([]);
   };
 
-  const loadingNumF = (num, index) => {
-    updateLoading(index, {
-      ...loadings[index],
+
+
+  const loadingNumF = (num, index,id) => {
+   if (id) {
+      const period_ids = watch(`period_ids`) || [];
+      const data = period_ids?.filter((item) => item === id);
+      if (data?.length === 0 || data === undefined ) {
+        setValue(`period_ids`,[...period_ids,id]);
+      }
+    }
+    setValue(`loadings.${[index]}`, {
+      ...watch(`loadings`)[index],
       loading_num: num,
     });
   };
 
-  const lodingChangeDate = (type, date, index) => {
+  const lodingChangeDate = (type, date, index,id) => {
+   if (id) {
+      const period_ids = watch(`period_ids`) || [];
+      const data = period_ids?.filter((item) => item === id);
+      if (data?.length === 0 || data === undefined ) {
+        setValue(`period_ids`,[...period_ids,id]);
+      }
+    }
     if (type === "loading") {
-      updateLoading(index, { ...loadings[index], from_date: date });
+      setValue(`loadings.${[index]}`, {
+        ...watch(`loadings`)[index],
+        from_date: date,
+      });
     } else {
-      updateUnloading(index, { ...unloading[index], to_date: date });
+      setValue(`unloading.${[index]}`, {
+        ...watch(`unloading`)[index],
+        to_date: date,
+      });
     }
   };
 
@@ -251,7 +280,7 @@ const useStepTwoProps = () => {
   }, [debouncedValue]);
 
   return {
-    loadings,
+    // loadings,
     register,
     control,
     disabled,
@@ -261,7 +290,7 @@ const useStepTwoProps = () => {
     handleRemoveLoading,
     handleUnloadingAppend,
     handleUnloadingRemove,
-    unloading,
+    // unloading,
     handleOpenModal,
     handleCloseModal,
     setIsModalOpen,

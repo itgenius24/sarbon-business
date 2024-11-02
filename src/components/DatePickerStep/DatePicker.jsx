@@ -30,14 +30,18 @@ export const DatePickerComponent = ({ control,name,onChange,isDisabled }) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <DatePicker
-        disabled={isDisabled}
+        
+      <>
+     
+          <DatePicker
+          disabled={isDisabled}
           selected={field.value}
           onChange={(date) => {field.onChange(date),onChange(date)}}
           placeholderText="Select date"
           dateFormat="dd.MM.yyyy"
           customInput={<CustomInputDate width={'154px'} />}
         />
+      </>
       )}
     />
   );
