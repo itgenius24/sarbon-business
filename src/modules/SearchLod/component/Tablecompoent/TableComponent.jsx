@@ -87,6 +87,7 @@ export const TableComponent = ({ watch, formState }) => {
           min_weight: +watch(`min_weight`) || 0,
           max_weight: +watch(`max_weight`) || 0,
           only_for_me: watch(`only_for_me`) || 0,
+          firm_id,
         },
       },
     };
