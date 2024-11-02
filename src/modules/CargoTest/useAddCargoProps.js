@@ -490,14 +490,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
 
-    
-
-
       let loadingsData = watch(`loadings`).map((item, index) => ({
         address: item?.address,
         date: new Date(item.from_date),
         lat: item?.cor.split(" ")[0],
         long: item?.cor.split(" ")[1],
+guid:item?.guid,
         step: index + 1,
         type: ["shipper"],
         expectations: +item.loading_num || 0,
@@ -509,6 +507,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         long: item?.cor.split(" ")[1],
         step: index + 1,
         type: ["consignee"],
+        guid:item?.guid
       }));
 
       
@@ -518,7 +517,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
             data: {
               object_data: {
                 period_ids:watch(`period_ids`),
-                name: loadingsData.concat(unloadinData),
+                name: loadingsData.concat(unloadinData).filter(item => watch(`period_ids`).includes(item.guid)),
                 cargo_id: data?.guid,
               },
             },
