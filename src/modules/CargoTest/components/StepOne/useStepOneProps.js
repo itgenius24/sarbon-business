@@ -140,53 +140,53 @@ const useStepOneProps = () => {
       watch(`weight_measurement`) &&
       watch("volume_measurement")
     ) {
-      const requestData = {
-        data: {
-          cargo_type_id: watch(`cargo_type`)?.value,
-          weight: +watch(`weight_measurement`),
-          measurement_id: watch(`weight_unit`)?.value,
-          volume_m3: +watch(`volume_measurement`),
-          packages_id: watch(`packaging`)?.value || "",
-          package_quantity: +watch(`packaging_quantity`) || 0,
-          length: +watch(`length`),
-          width: watch(`width`),
-          height: +watch(`height`),
-          photo: watch(`image`),
-          guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
-          order_status: watch(`loadResId`)
-            ? [watch(`order_status`)?.value]
-            : ["in_moderation"],
-            
-          // photo: data.image?.includes("http")
-          //   ? data.image
-          //   : process.env.NEXT_PUBLIC_MEDIA_URL + data.image,
-        },
-      };
+      setValue(`cargoIndex`,2)
 
-      if (!watch(`loadResId`)) {
-        console.log(`(!watch(loadResId)`,watch(`loadResId`))
-        createCargo.mutate(requestData, {
-          onSuccess(requestData) {
-            console.log(`(!watch(loadResId)`,requestData)
-            setValue("loadResId", requestData?.guid);
-             setValue(`cargoIndex`,2)
-            // if (data.isTemp) {
-            // getTempCargo.refetch();
-            // }
-            // handleCloseTemplateModal();
-            // onCreateCargoSuccess(data);
-          },
-        });
-      } else {
-        updateCargo.mutate(requestData,{
-          onSuccess(requestData) {   
-           setValue(`cargoIndex`,2)
+      // const requestData = {
+      //   data: {
+      //     cargo_type_id: watch(`cargo_type`)?.value,
+      //     weight: +watch(`weight_measurement`),
+      //     measurement_id: watch(`weight_unit`)?.value,
+      //     volume_m3: +watch(`volume_measurement`),
+      //     packages_id: watch(`packaging`)?.value || "",
+      //     package_quantity: +watch(`packaging_quantity`) || 0,
+      //     length: +watch(`length`),
+      //     width: watch(`width`),
+      //     height: +watch(`height`),
+      //     photo: watch(`image`),
+      //     guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
+      //     order_status: watch(`loadResId`)
+      //       ? [watch(`order_status`)?.value]
+      //       : ["in_moderation"],
+      //   },
+      // };
 
-            console.log(`requestData`,requestData)
+      // if (!watch(`loadResId`)) {
+      //   console.log(`(!watch(loadResId)`,watch(`loadResId`))
+      //   createCargo.mutate(requestData, {
+      //     onSuccess(requestData) {
+      //       console.log(`(!watch(loadResId)`,requestData)
+      //       // setValue("loadResId", requestData?.guid);
+      //        setValue(`cargoIndex`,2)
+      //       // if (data.isTemp) {
+      //       // getTempCargo.refetch();
+      //       // }
+      //       // handleCloseTemplateModal();
+      //       // onCreateCargoSuccess(data);
+      //     },
+      //   });
+      // }
+      
+      // else {
+      //   updateCargo.mutate(requestData,{
+      //     onSuccess(requestData) {   
+      //     //  setValue(`cargoIndex`,2)
+
+      //       console.log(`requestData`,requestData)
             
-          },
-        });
-      }
+      //     },
+      //   });
+      // }
     } else {
       if (watch(`cargo_type`)?.value) {
         setError(`cargo_type`);
@@ -198,8 +198,6 @@ const useStepOneProps = () => {
         setError(`volume_measurement`);
       }
     }
-
-    // console.log(`requestData`,requestData);
 
   };
 

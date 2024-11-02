@@ -90,6 +90,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const [templateId, setTemplateId] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState({});
+  const [check, setCheck] = useState();
+  const [mone, setMoney] = useState({});
 
 
 
@@ -1274,7 +1277,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDeleteDocument,
     getEmptyFileName,
     setTemplateVal,
-
+    setLoad,load,
+    mone, setMoney,
+    check, setCheck,
     loadings,
     appendLoading,
     removeLoading,

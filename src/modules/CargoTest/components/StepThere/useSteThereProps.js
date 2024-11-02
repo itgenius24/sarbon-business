@@ -29,9 +29,10 @@ const useStepThereProps = () => {
     isReymenOpen,
     setIsFtlOpen,
     setIsReymenOpen,
+    setLoad,load,
   } = useAddCargoContext();
   const [disabled,setDisabled] = useState(true)
-  const [load, setLoad] = useState({});
+
 
   useEffect(() => {
     setLoad({
@@ -46,9 +47,10 @@ const useStepThereProps = () => {
     watch(`back`),
     watch(`with_removal`),
   ]);
-  const getTrueKeys = (obj) => {
-    return Object.keys(obj).filter((key) => obj[key] === true);
-  };
+  
+  // const getTrueKeys = (obj) => {
+  //   return Object.keys(obj).filter((key) => obj[key] === true);
+  // };
 
   useEffect(() => {
     if(watch("car_type")?.value && watch("transport_count")){
@@ -196,25 +198,26 @@ const useStepThereProps = () => {
   });
 
   const onSubmit = () => {
-    const requestData = {
-      data: {
-        guid: watch(`loadResId`),
-        vehicle_type_id: watch("car_type")?.value,
-        number_of_cars: watch("transport_count"),
-        tir: watch("tir"),
-        t1: watch("t1"),
-        cmr: watch("cmr"),
-        med: watch(`medic_certificate`),
-        straps_number: watch("straps_number"),
-        hitch: watch("hitch") || false,
-        pneumatic: watch("pneumatic") || false,
-        bunks: watch("bunks") || false,
-        load_type:getTrueKeys(load),
-        take_all_unloads:watch(`is_ftl`),
-        load_around_the_clock:watch(`is_ltl`)
-      },
-    };
-    updateCargo.mutate(requestData)
+    setValue(`cargoIndex`,4)
+    // const requestData = {
+    //   data: {
+    //     guid: watch(`loadResId`),
+    //     vehicle_type_id: watch("car_type")?.value,
+    //     number_of_cars: watch("transport_count"),
+    //     tir: watch("tir"),
+    //     t1: watch("t1"),
+    //     cmr: watch("cmr"),
+    //     med: watch(`medic_certificate`),
+    //     straps_number: watch("straps_number"),
+    //     hitch: watch("hitch") || false,
+    //     pneumatic: watch("pneumatic") || false,
+    //     bunks: watch("bunks") || false,
+    //     load_type:getTrueKeys(load),
+    //     take_all_unloads:watch(`is_ftl`),
+    //     load_around_the_clock:watch(`is_ltl`)
+    //   },
+    // };
+    // updateCargo.mutate(requestData)
   }
 
   function handleCheckboxChange(e){

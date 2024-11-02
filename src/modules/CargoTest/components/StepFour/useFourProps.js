@@ -7,13 +7,12 @@ import {
 } from "@/services/api";
 
 const useFourProps = () => {
-  const [check, setCheck] = useState();
-  const { register, control, errors, setValue, watch, canEdit, canEditActive } =
+  const { register, control, errors, setValue, watch, canEdit, canEditActive,mone, setMoney,  check, setCheck,} =
     useAddCargoContext();
   const [disabled,setDisabled] = useState(true)
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
-  const [mone, setMoney] = useState({});
+
 
   useEffect(() => {
     setMoney({
@@ -84,27 +83,28 @@ const useFourProps = () => {
   });
 
   const onSubmit = () => {
-    const requestData = check
-      ? {
-        data: {
-          guid: watch(`loadResId`),
-          money_code: getTrueKeys(mone),
-        },
-      }
-      : {
-        data: {
-          guid: watch(`loadResId`),
-          bid_cash: +watch("price"),
-          prepayment_percentage: +watch(`price_prepayment`),
-          dim_length_special: watch("price_after_order"),
-          payment_description: watch("payment_description"),
-          currency_id:watch("price_prepayment_unit").value,
-          map_id: watch("payment_type")?.value,
-          map_id_2: watch("payment_type_1")?.value,
-          map_id_3: watch("payment_type_2")?.value,
-        },
-      };
-    updateCargo.mutate(requestData);
+    setValue(`cargoIndex`,5)
+    // const requestData = check
+    //   ? {
+    //     data: {
+    //       guid: watch(`loadResId`),
+    //       money_code: getTrueKeys(mone),
+    //     },
+    //   }
+    //   : {
+    //     data: {
+    //       guid: watch(`loadResId`),
+    //       bid_cash: +watch("price"),
+    //       prepayment_percentage: +watch(`price_prepayment`),
+    //       dim_length_special: watch("price_after_order"),
+    //       payment_description: watch("payment_description"),
+    //       currency_id:watch("price_prepayment_unit").value,
+    //       map_id: watch("payment_type")?.value,
+    //       map_id_2: watch("payment_type_1")?.value,
+    //       map_id_3: watch("payment_type_2")?.value,
+    //     },
+    //   };
+    // updateCargo.mutate(requestData);
   };
   return {
     register,
