@@ -260,7 +260,7 @@ export const TableComponent = ({ watch, formState }) => {
           justifyContent={`flex-start`}
           alignItems={`center`}
         >
-          <p style={{ color: `rgba(0, 122, 255, 1)` }}>Стомость</p>{" "}
+          <p style={{ color: `rgba(0, 122, 255, 1)` }}>Стомость</p>
           <ArrowIcon />
         </Flex>
         <p className={cls.th}>Заказчик</p>
@@ -343,7 +343,7 @@ export const TableComponent = ({ watch, formState }) => {
                             />
                           )}
 
-                          <Popover >
+                          <Popover>
                             <PopoverTrigger>
                               <Box as="button" className={cls.countryWrap}>
                                 <Flex gap={3}>
@@ -374,10 +374,8 @@ export const TableComponent = ({ watch, formState }) => {
                               <PopoverBody fontWeight={400}>
                                 <PopoverCloseButton />
                                 <Box onClick={() => deleteOrder(item)}>
-                              Отменить предложение
+                                  Отменить предложение
                                 </Box>
-
-
                               </PopoverBody>
                             </PopoverContent>
                           </Popover>

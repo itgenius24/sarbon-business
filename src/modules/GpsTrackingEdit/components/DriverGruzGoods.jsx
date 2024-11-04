@@ -26,7 +26,7 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 
 const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
-  console.log("loadState",loadState,authStore.userData);
+  console.log("loadState",loadState);
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
@@ -125,7 +125,7 @@ const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
           </Flex>
         </Box>
         {
-          loadState?.users_id_3_data.guid === authStore.userData.id ? <Box className={cls.cardWrap}>
+          loadState?.users_id_3_data?.guid === authStore.userData.id ? <Box className={cls.cardWrap}>
             <Flex gap={2} mb={3}>
               <CeckGoodsIcon />
               <Box>
@@ -141,17 +141,17 @@ const DriverGruzGoods = ({ cls,setModalType,loadState }) => {
           Отменить бронь
             </Button>
           </Box>:<Box className={cls.cardWrap}>
-          <Flex width={'100%'} alignItems={'center'} gap={3}>
-            <Avatar  name={loadState?.users_id_3_data?.full_name} src={loadState?.users_id_3_data?.photo}  />
-             <Box>
-             <p className={cls.cardStartSubTitle}>Диспетчер: </p>
-             <p className={cls.name}>
-               {loadState?.users_id_3_data?.full_name} {loadState?.users_id_3_data?.your_id}
-             </p>
-             <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
+            <Flex width={'100%'} alignItems={'center'} gap={3}>
+              <Avatar name={loadState?.users_id_3_data?.full_name} src={loadState?.users_id_3_data?.photo} />
+              <Box>
+                <p className={cls.cardStartSubTitle}>Диспетчер: </p>
+                <p className={cls.name}>
+                  {loadState?.users_id_3_data?.full_name} {loadState?.users_id_3_data?.your_id}
+                </p>
+                <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
 
-             </Box>
-           </Flex>
+              </Box>
+            </Flex>
           </Box>
         }
 

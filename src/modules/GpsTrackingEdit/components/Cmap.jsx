@@ -337,7 +337,7 @@ const Cmap = memo(
               const balloonContent2 = ReactDOMServer.renderToString(
                 <BalloonContent />
               );
-       return (
+              return (
                 <>
                   <Placemark
                     key={carInfo?.user?.guid}

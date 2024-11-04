@@ -1,9 +1,10 @@
 "use client";
 
 import { Cargo } from "@/modules/Cargo";
+import { CargoTest } from "@/modules/CargoTest";
 
 
 export default function AddCargoPage({ params }) {
   const { locale } = params;
-  return <Cargo locale={locale} />;
+  return <CargoTest locale={locale} />;
 }

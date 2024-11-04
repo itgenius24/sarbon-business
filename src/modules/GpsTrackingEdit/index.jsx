@@ -2,11 +2,8 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 
+import { Box, Flex } from "@chakra-ui/react";
 import {
-  Box,
-  Flex,
-} from "@chakra-ui/react";
-import{
   BlueFuraIcon,
   BluePendingIcon,
   BluePhoneIcon,
@@ -23,7 +20,6 @@ import{
   MapCargoLoadGoodsIcon,
   QuestionBlueIcon,
   StoneIcon,
-
 } from "@/assets/icons/icons";
 import React, { useEffect, useRef } from "react";
 
@@ -105,10 +101,16 @@ export default function GpsTrackingModuleTets() {
     setLoadCheck,
     loadCheck,
     setOffset,
-    setHoverLoadState,loadHoverState,addressAdd,stateMap,addAdress
+    setHoverLoadState,
+    loadHoverState,
+    addressAdd,
+    stateMap,
+    addAdress,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
+
+  console.log(`getCarListProps`,getCarListProps)
 
   // const handlePlacemarkClick = (map, location) => {
   //   map.setCenter(location, 15); // 15 darajadagi zoom
@@ -119,7 +121,6 @@ export default function GpsTrackingModuleTets() {
   const handleMouseEnter = (e, carInfo) => {
     e.preventDefault();
     const placemark = e.get("target");
-
 
     if (placemark && placemark.balloon) {
       placemark.balloon.open();
@@ -134,7 +135,6 @@ export default function GpsTrackingModuleTets() {
     }
   };
 
-  
   const handleMouseEnterCargo = (e, carInfo) => {
     e.preventDefault();
     const placemark = e.get("target");
@@ -142,15 +142,10 @@ export default function GpsTrackingModuleTets() {
     setHoverLoadState(carInfo);
   };
 
-
-
   const type = contendHoverState?.user?.provisions?.[0];
   const typeCargo = loadHoverState?.new_status?.[0];
   // function copyFunction() {
   // }
-
-
-
 
   const BalloonContent = () => (
     <div id="balloon-content" className={cls.balloon_content_empty}>
@@ -220,8 +215,9 @@ export default function GpsTrackingModuleTets() {
       </p>
       {type === "empty" ? (
         <>
-          <p  className={cls.footerBox}>
-            <GreenPhoneIcon /> { formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
+          <p className={cls.footerBox}>
+            <GreenPhoneIcon />{" "}
+            {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
@@ -231,7 +227,8 @@ export default function GpsTrackingModuleTets() {
       ) : type === "waiting_for_driver" ? (
         <>
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
+            <BluePhoneIcon />{" "}
+            {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
@@ -240,8 +237,12 @@ export default function GpsTrackingModuleTets() {
         </>
       ) : type === "our_cargo" ? (
         <>
-          <p onClick={() => copy(contendHoverState?.users_id_data?.phone)} className={cls.footerBox}>
-            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
+          <p
+            onClick={() => copy(contendHoverState?.users_id_data?.phone)}
+            className={cls.footerBox}
+          >
+            <BluePhoneIcon />{" "}
+            {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
@@ -251,7 +252,8 @@ export default function GpsTrackingModuleTets() {
       ) : type === "someone_cargo" ? (
         <>
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
+            <BluePhoneIcon />{" "}
+            {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
@@ -261,7 +263,8 @@ export default function GpsTrackingModuleTets() {
       ) : type === "broke_down" ? (
         <>
           <p className={cls.footerBox}>
-            <BluePhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
+            <BluePhoneIcon />{" "}
+            {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <BlueFuraIcon />
@@ -271,7 +274,8 @@ export default function GpsTrackingModuleTets() {
       ) : (
         <>
           <p className={cls.footerBox}>
-            <GreenPhoneIcon /> {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
+            <GreenPhoneIcon />{" "}
+            {formatPhoneNumber(contendHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
@@ -299,12 +303,13 @@ export default function GpsTrackingModuleTets() {
           <>
             <MapCargoGreenIcon />
             <span className={cls.balloonName}>
-              {loadHoverState?.bid_cash} {loadHoverState?.currency_id_data?.code}
+              {loadHoverState?.bid_cash}{" "}
+              {loadHoverState?.currency_id_data?.code}
             </span>
           </>
         )}
 
-        <Flex style={{ gap:"4px" }} alignItems={"center"}>
+        <Flex style={{ gap: "4px" }} alignItems={"center"}>
           <Box className={cls.conWrap}>
             <StoneIcon /> <span> 22 т.</span>
           </Box>
@@ -318,7 +323,8 @@ export default function GpsTrackingModuleTets() {
       {typeCargo === "occupied_cargo" ? (
         <>
           <p className={cls.footerBox}>
-            <GoodsPhoneIcon /> {formatPhoneNumber(loadHoverState?.users_id_data?.phone)}
+            <GoodsPhoneIcon />{" "}
+            {formatPhoneNumber(loadHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GoodsFuraIcon />
@@ -328,7 +334,8 @@ export default function GpsTrackingModuleTets() {
       ) : (
         <>
           <p className={cls.footerBox}>
-            <GreenPhoneIcon /> { formatPhoneNumber(loadHoverState?.users_id_data?.phone)}
+            <GreenPhoneIcon />{" "}
+            {formatPhoneNumber(loadHoverState?.users_id_data?.phone)}
           </p>
           <p className={cls.footerBox}>
             <GreenFuraIcon />
@@ -344,8 +351,6 @@ export default function GpsTrackingModuleTets() {
     <BalloonContentCargo />
   );
 
-
-
   const { t } = useTranslation(locale, "translations");
   return (
     <>
@@ -359,7 +364,7 @@ export default function GpsTrackingModuleTets() {
           balloonContent={balloonContent}
           balloonContentCargo={balloonContentCargo}
           handleMouseEnter={handleMouseEnter}
-          locationData={ locationData }
+          locationData={locationData}
           setLoadState={setLoadState}
           setModalType={setModalType}
           handleMouseEnterCargo={handleMouseEnterCargo}
@@ -368,7 +373,6 @@ export default function GpsTrackingModuleTets() {
           isLoading={isLoading}
           setContendSingle={setContendSingle}
           contendHoverState={contendHoverState}
-
         />
         <div className={cls.modalWrap}>
           <Flex>
@@ -472,8 +476,6 @@ export default function GpsTrackingModuleTets() {
               setOffset={setOffset}
               statusIconChange={statusIconChange}
               setIconStatus={setIconStatus}
-
-
             />
           </div>
         )}
@@ -496,7 +498,7 @@ export default function GpsTrackingModuleTets() {
         firstBtnCallback={handleCloseModal}
         secondBtnCallback={() => {
           setIsModalOpen(false);
-          if(stateMap){
+          if (stateMap) {
             addAdress();
           }
         }}
