@@ -171,3 +171,9 @@
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+
+.react-datepicker__day--disabled{
+  cursor: not-allowed !important;
+  text-decoration:line-through !important ;
+}

@@ -19,7 +19,7 @@ export const useRegistrationProps = () => {
     .object({ phone: yup.string().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Неправильный номер телефона").required("Обязательное поле") })
     .required();
 
-  const { handleSubmit, register, formState: { errors } } = useForm({
+  const { handleSubmit, register, formState: { errors },control } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
   });
@@ -55,6 +55,7 @@ export const useRegistrationProps = () => {
     navigateLogin,
     onSubmit,
     isPending: phoneMutation.isPending,
-    t
+    t,
+    control
   };
 };

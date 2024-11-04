@@ -13,7 +13,12 @@ import { AuthTitle } from "../AuthTitle";
 import { Dropdown } from "@/components/Dropdown";
 import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
-import { EyeIcon, EyeIconOff, HelpCircleIcon, QuestionIcon } from "@/assets/icons/icons";
+import {
+  EyeIcon,
+  EyeIconOff,
+  HelpCircleIcon,
+  QuestionIcon,
+} from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 import { MobileLogo } from "../MobileLogo";
 import cls from "./style.module.scss";
@@ -73,7 +78,7 @@ export const RegistrationForm = () => {
             <p className={cls.title}>Учётные данные для входа</p>
             <Box className={cls.box}>
               <Box>
-                <Flex gap={1} >
+                <Flex gap={1}>
                   <p className={cls.label}>Логин</p>
                   <Tooltip
                     background={`rgba(21, 186, 77, 1)`}
@@ -83,8 +88,17 @@ export const RegistrationForm = () => {
                     fontSize={`14px`}
                     placement="top"
                     top={`10px`}
-                    label={<p className={cls.label}>Вы можете использовать для логина номер телефона, email или уникальное имя пользователя</p>}
-                  ><div><QuestionIcon /></div></Tooltip>
+                    label={
+                      <p className={cls.label}>
+                        Вы можете использовать для логина номер телефона, email
+                        или уникальное имя пользователя
+                      </p>
+                    }
+                  >
+                    <div>
+                      <QuestionIcon />
+                    </div>
+                  </Tooltip>
                 </Flex>
                 <TextField
                   label=""
@@ -149,12 +163,14 @@ export const RegistrationForm = () => {
                 register={register}
                 placeholder={t("+998 99 123 4567")}
                 errors={errors}
-                rules={{
-                  // required: {
-                  //   value: true,
-                  //   message: t("Это поле обязательно"),
-                  // },
-                }}
+                rules={
+                  {
+                    // required: {
+                    //   value: true,
+                    //   message: t("Это поле обязательно"),
+                    // },
+                  }
+                }
               />
             </Box>
           </Box>
@@ -302,7 +318,12 @@ export const RegistrationForm = () => {
                     />
                   )}
                   <Box>
-                    <p style={{marginBottom:`10px`}} className={cls.textFieldName}>Ваше имя и фамилия *</p>
+                    <p
+                      style={{ marginBottom: `10px` }}
+                      className={cls.textFieldName}
+                    >
+                      Ваше имя и фамилия *
+                    </p>
                     <TextField
                       register={register}
                       errors={errors}
@@ -321,15 +342,21 @@ export const RegistrationForm = () => {
                           placeholder="AA"
                           rules={{
                             required: "Это поле обязательно",
-                            validate: (value) =>
-                              value.length === 2 ||
-                              "Faqat ikkita harf kiriting",
-                            onChange: (e) => {
-                              console.log(`value`, e);
-                              e.target.value = e.target.value
-                                .toUpperCase()
-                                .slice(0, 2);
+                            validate: (value) => {
+                              if (!/^[A-Z]*$/.test(value)) {
+                                return "Faqat harflar kiriting";
+                              }
+                              if (value.length !== 2) {
+                                return "Faqat ikkita harf kiriting";
+                              }
+                              return true;
                             },
+                          }}
+                          onChange={(e) => {
+                            e.target.value = e.target.value
+                              .replace(/[^A-Za-z]/g, "") // Remove any non-letter characters
+                              .toUpperCase()
+                              .slice(0, 2); // Limit to 2 characters
                           }}
                         />
                       </Box>
@@ -341,8 +368,9 @@ export const RegistrationForm = () => {
                         rules={{
                           required: "Telefon raqami majburiy",
                           validate: (value) =>
-                            /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
-                      "Format noto‘g‘ri",
+                            /^\d{3} \d{2} \d{2}$/.test(
+                              formatPhoneNumber(value)
+                            ) || "Format noto‘g‘ri",
                           onChange: (e) => {
                             e.target.value = formatPhoneNumber(e.target.value);
                           },
@@ -377,9 +405,18 @@ export const RegistrationForm = () => {
       </Box>
       <Box display="flex" justifyContent={`space-between`} mt="30px">
         <Box mb="16px">
-          <Checkbox width={"20px"} height={"20px"} filled register={register} name="acceptTerms">
+          <Checkbox
+            width={"20px"}
+            height={"20px"}
+            filled
+            register={register}
+            name="acceptTerms"
+          >
             Нажимая кнопку “Сохранить профиль”, вы принимаете <br /> условия
-            <span style={{ color:"rgba(0, 122, 255, 1)" }}> Пользовательская соглашения</span>
+            <span style={{ color: "rgba(0, 122, 255, 1)" }}>
+              {" "}
+              Пользовательская соглашения
+            </span>
           </Checkbox>
         </Box>
         <Button

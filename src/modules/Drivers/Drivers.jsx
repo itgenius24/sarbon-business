@@ -46,7 +46,7 @@ export const DriversModule = () => {
     setIsPopupOpen,
     router,
     locale,
-    copyFunction
+    copyFunction,
   } = useMyCars();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -133,15 +133,22 @@ export const DriversModule = () => {
                     name="passport_scan"
                     placeholder="AA"
                     rules={{
-                      required: "Ism kiritish majburiy",
-                      validate: (value) =>
-                        value.length === 2 || "Faqat ikkita harf kiriting",
-                      onChange: (e) => {
-                        console.log(`value`, e);
-                        e.target.value = e.target.value
-                          .toUpperCase()
-                          .slice(0, 2);
+                      required: "Это поле обязательно",
+                      validate: (value) => {
+                        if (!/^[A-Z]*$/.test(value)) {
+                          return "Faqat harflar kiriting";
+                        }
+                        if (value.length !== 2) {
+                          return "Faqat ikkita harf kiriting";
+                        }
+                        return true;
                       },
+                    }}
+                    onChange={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/[^A-Za-z]/g, "") // Remove any non-letter characters
+                        .toUpperCase()
+                        .slice(0, 2); // Limit to 2 characters
                     }}
                   />
                 </Box>
@@ -239,8 +246,7 @@ export const DriversModule = () => {
 
             <ModalFooter>
               <Button
-                onClick={() =>     copyFunction
-()                }
+                onClick={() => copyFunction()}
                 style={{
                   background: "white",
                   border: "1px solid rgba(208, 213, 221, 1)",

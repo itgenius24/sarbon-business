@@ -139,14 +139,14 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     </div>
                   </div>
                 </div>
-                {
-                  console.log(`load`,addCargoProps.watch(`loadResId`))
-                }
+             
                 <div className={cls.arrowWrap}>
                   <div
                     onClick={() =>
-
-                      addCargoProps.watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`, 2)
+                     ( addCargoProps.watch("cargo_type")?.label &&
+                      addCargoProps.watch("weight_measurement") &&
+                      addCargoProps.watch("volume_measurement")) &&
+                      addCargoProps.setValue(`cargoIndex`, 2)
                     }
                     className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 2, })}
                   >
@@ -185,7 +185,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 </div>
                 <div className={cls.arrowWrap}>
                   <div
-                    onClick={() => addCargoProps. watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`,3)}
+                    onClick={() => (addCargoProps.watch(`loadings[0].address`) &&
+                      addCargoProps.watch("unloading[0].address")) &&
+                     addCargoProps.setValue(`cargoIndex`,3)}
                     className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 3, })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 3 ? (
@@ -209,7 +211,10 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 <div className={cls.arrowWrap}>
                   <div
                     // onClick={() => setCargoIndex(4)}
-                    onClick={() => addCargoProps.watch(`loadResId`) && addCargoProps.setValue(`cargoIndex`,4)}
+                    onClick={() =>
+                     ( addCargoProps.watch("car_type")?.label &&
+                      addCargoProps.watch(`transport_count`) ) &&
+                     addCargoProps.setValue(`cargoIndex`,4)}
 
                     className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 4, })}
                   >

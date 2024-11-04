@@ -173,7 +173,6 @@ const StepTwo = ({ status }) => {
                       <span className={cls.label}>Ожидание</span>
                       <ChakraSelect
                         isDisabled={!canEdit}
-
                         options={[
                           { label: 1, value: 1 },
                           { label: 2, value: 2 },
@@ -325,6 +324,7 @@ const StepTwo = ({ status }) => {
                         }}
                         control={control}
                         name={`unloading[${index}].to_date`}
+                        minDate={new Date(watch(`loadings[${index}].from_date`)) || new Date()}
                       />
                     </Box>
 

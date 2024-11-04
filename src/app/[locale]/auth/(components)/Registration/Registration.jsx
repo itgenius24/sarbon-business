@@ -11,6 +11,7 @@ export const Registration = () => {
     onSubmit,
     isPending,
     t,
+    control
   } = useRegistrationProps();
 
   return <PhoneForm
@@ -22,5 +23,6 @@ export const Registration = () => {
     firstBtnText={t("Зарегистрироваться")}
     title={t("Регистрация нового участника на Furgo")}
     register={register}
+    control={control}
   />;
 };

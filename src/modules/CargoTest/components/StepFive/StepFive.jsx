@@ -99,7 +99,7 @@ const StepFive = ({ status }) => {
         long: item?.cor.split(" ")[0],
         step: index + 1,
         type: ["shipper"],
-        expectations: +item.loading_num || 0,
+        expectations: +item.loading_num?.value || 0,
       }));
       let unloadinData = unloading.map((item, index) => ({
         address: item?.address,
@@ -177,7 +177,7 @@ const StepFive = ({ status }) => {
         // step5
         load_time: addDaysToDate(
           loadings[0].from_date || new Date(),
-          loadings[0].loading_num
+          loadings[0].loading_num?.value
         ),
         date: new Date(unloading[unloading.length - 1].to_date),
         phone: watch(`contact`),
@@ -251,7 +251,7 @@ const StepFive = ({ status }) => {
 
         load_time: addDaysToDate(
           loadings[0].from_date || new Date(),
-          loadings[0].loading_num
+          loadings[0].loading_num?.value
         ),
         date: new Date(unloading[unloading.length - 1].to_date),
         phone: watch(`contact`),

@@ -495,7 +495,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         date: new Date(item.from_date),
         lat: item?.cor.split(" ")[1],
         long: item?.cor.split(" ")[0],
-guid:item?.guid,
+        guid:item?.guid,
         step: index + 1,
         type: ["shipper"],
         expectations: +item.loading_num || 0,
@@ -1018,6 +1018,7 @@ guid:item?.guid,
       const shipper = reversedData.filter(
         (item) => item.type?.[0] === `shipper`
       );
+      
       const consignee = reversedData.filter(
         (item) => item?.type?.[0] === `consignee`
       );
@@ -1029,8 +1030,8 @@ guid:item?.guid,
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             from_date: item?.date,
-            guid:item.guid
-
+            guid:item.guid,
+            loading_num:{value:item?.expectations,label:item?.expectations}
           });
         });
 

@@ -86,7 +86,7 @@ const useStepTwoProps = () => {
       address: "",
       cor: "",
       from_date: "",
-      loading_num: "",
+      loading_num: {},
     });
   }
 
@@ -184,7 +184,8 @@ const useStepTwoProps = () => {
     setValue(name, location?.GeoObject?.name);
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
-    var flagUrl = `https://flagcdn.com/w320/${country_code.toLowerCase()}.png`;
+
+    var flagUrl = `https://flagcdn.com/w320/${country_code?.toLowerCase()}.png`;
 
     if (type === "loading") {
       setValue(`loadings.${[index]}`, {
@@ -222,7 +223,7 @@ const useStepTwoProps = () => {
     }
     setValue(`loadings.${[index]}`, {
       ...watch(`loadings`)[index],
-      loading_num: num,
+      loading_num: {value:num,label:num},
     });
   };
 
