@@ -258,7 +258,7 @@ export const SearchCargoModule = () => {
                   errors={errors}
                   name="marka"
                   register={register}
-                  placeholder={t("Объем")}
+                  placeholder={t("Необъязательно")}
                   type="text"
                 />
                 <Flex ml={4} gap={2} mt={2}>

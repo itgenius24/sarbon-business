@@ -31,11 +31,11 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
-        users_id_2: contendSingle?.users?.guid,
+        users_id_2: contendSingle?.user?.guid,
         with_relations: true,
       })
     },
-    { enabled: Boolean(contendSingle?.users?.guid), }
+    { enabled: Boolean(contendSingle?.user?.guid), }
   );
 
   const updateResponseMutation = useUpdateResponse({
@@ -47,6 +47,8 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
       console.error(res);
     }
   });
+
+  console.log(`getOfferCount`,getOfferCount?.data)
 
 
   const handleMutation = () => {

@@ -26,11 +26,11 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
-        users_id_2: contendSingle?.users?.guid,
+        users_id_2: contendSingle?.user?.guid,
         with_relations: true,
       })
     },
-    { enabled: Boolean(contendSingle?.users?.guid), }
+    { enabled: Boolean(contendSingle?.user?.guid), }
   );
 
 

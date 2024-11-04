@@ -110,16 +110,12 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
                   <Box className={cls.countryWrap}>
                     <Flex gap={3}>
                       <p>
-                        {item.city_id_data?.[
-                          "name_" + (locale === "uz" ? "en" : "ru")
-                        ] || item.city_id_data?.name}
+                        {item.from || item.city_id_data?.name}
                       </p>{" "}
                       <NextCheckIcon />{" "}
                       <p>
-                        {" "}
-                        {item.city_id_2_data?.[
-                          "name_" + (locale === "uz" ? "en" : "ru")
-                        ] || item.city_id_2_data?.name}
+                        
+                        {item.to|| item.city_id_2_data?.name}
                       </p>{" "}
                     </Flex>
                     <Flex className={cls.subTitle} gap={3}>
