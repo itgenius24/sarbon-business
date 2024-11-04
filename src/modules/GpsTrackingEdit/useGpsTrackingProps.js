@@ -487,6 +487,7 @@ export const useGpsTrackingProps = () => {
     console.log("offsetCar");
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
+  
 
   useEffect(() => {
     if (!watch("aaddress")) {
