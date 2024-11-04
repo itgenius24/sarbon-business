@@ -6,7 +6,14 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
@@ -42,6 +49,7 @@ export const TableComponent = ({ watch, formState }) => {
   const [search, setSearch] = useState("");
   const [carId, setCarId] = useState();
   const [sortOrder, setSortOrder] = useState("asc"); // "asc" - yuqoridan pastga, "desc" - pastdan yuqoriga
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
@@ -158,13 +166,7 @@ export const TableComponent = ({ watch, formState }) => {
   });
 
   useEffect(() => {
-    const data = {
-      data: {
-        object_data: {
-          firm_id,
-        },
-      },
-    };
+    const data = { data: { object_data: { firm_id } } };
     mutate(data);
   }, [status]);
 
@@ -302,16 +304,18 @@ export const TableComponent = ({ watch, formState }) => {
                 filteredData?.map((item) => {
                   return (
                     <CheckBoxComponent
-                      key={item}
-                      onClick={() =>
-                        item?.user?.provisions[0] === `our_cargo` ||
-                        item?.user?.provisions[0] === `waiting_for_driver`
-                          ? deleteOrder(item)
-                          : handleSelect(item?.user?.guid)
-                      }
-                      active={
-                        selectCargo.includes(item?.user?.guid) ? true : false
-                      }
+                      key={item?.user?.guid}
+                      onClick={() => {
+                        if (
+                          item?.user?.provisions[0] === `our_cargo` ||
+                          item?.user?.provisions[0] === `waiting_for_driver`
+                        ) {
+                          // deleteOrder(item) emas, faqat onOpen() chaqirildi
+                        } else {
+                          handleSelect(item?.user?.guid);
+                        }
+                      }}
+                      active={selectCargo.includes(item?.user?.guid)}
                       status={
                         item?.user?.provisions[0] === `our_cargo` ||
                         item?.user?.provisions[0] === `waiting_for_driver`
@@ -324,7 +328,7 @@ export const TableComponent = ({ watch, formState }) => {
                             <TooltipComponets
                               cls={cls}
                               status={`check`}
-                              label={`Водитель подтвердил`}
+                              label={`Vodil kelgan`}
                               color={`rgba(21, 186, 77, 1)`}
                             />
                           )}
@@ -334,51 +338,49 @@ export const TableComponent = ({ watch, formState }) => {
                             <TooltipComponets
                               cls={cls}
                               status={`waiting_for_driver`}
-                              label={`Ждем подтверждение водителя`}
+                              label={`Haydovchini kutyapmiz`}
                               color={`rgba(193, 187, 32, 1)`}
                             />
                           )}
-                          <Box className={cls.countryWrap}>
-                            <Flex gap={3}>
-                              <Avatar
-                                name={item?.user?.full_name}
-                                src={item?.user?.photo}
-                              />
-                              <Box>
-                                <p className={cls.name}>
-                                  {item?.user?.full_name}
-                                </p>
-                                <p className={cls.subTitle}>
-                                  {item?.user?.phone}
-                                </p>
-                              </Box>
-                            </Flex>
-                            {item?.vehicles?.[0] && (
-                              <Flex
-                                flexDirection={`column`}
-                                mr={5}
-                                alignItems={`flex-end`}
-                                className={cls.subTitle2}
-                              >
-                                <p className={cls.loadType}>
-                                  {
-                                    item?.vehicles?.[0]?.trailer_type_id_data
-                                      ?.name
-                                  }
-                                </p>
-                                <Flex gap={2}>
-                                  <Flex gap={1} alignItems={"center"}>
-                                    <StoneIcon /> {item?.vehicles?.[0]?.height}{" "}
-                                    т.
-                                  </Flex>
-                                  <Flex gap={1} alignItems={"center"}>
-                                    <LoadOulineIcon />{" "}
-                                    {item?.vehicles?.[0]?.capacity} м³
-                                  </Flex>
+
+                          <Popover >
+                            <PopoverTrigger>
+                              <Box as="button" className={cls.countryWrap}>
+                                <Flex gap={3}>
+                                  <Avatar
+                                    name={item?.user?.full_name}
+                                    src={item?.user?.photo}
+                                  />
+                                  <Box>
+                                    <p className={cls.name}>
+                                      {item?.user?.full_name}
+                                    </p>
+                                    <p className={cls.subTitle}>
+                                      {item?.user?.phone}
+                                    </p>
+                                  </Box>
                                 </Flex>
-                              </Flex>
-                            )}
-                          </Box>
+                              </Box>
+                            </PopoverTrigger>
+
+                            <PopoverContent
+                              background={`white`}
+                              position={`relative`}
+                              border={`none`}
+                              boxShadow={` 0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                              width={`300px`}
+                            >
+                              <PopoverArrow size={`lg`} />
+                              <PopoverBody fontWeight={400}>
+                                <PopoverCloseButton />
+                                <Box onClick={() => deleteOrder(item)}>
+                              Отменить предложение
+                                </Box>
+
+
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
                         </>
                       ) : (
                         <Box className={cls.countryWrap}>
@@ -396,30 +398,6 @@ export const TableComponent = ({ watch, formState }) => {
                               </p>
                             </Box>
                           </Flex>
-                          {item?.vehicles?.[0] && (
-                            <Flex
-                              flexDirection={`column`}
-                              mr={5}
-                              alignItems={`flex-end`}
-                              className={cls.subTitle2}
-                            >
-                              <p className={cls.loadType}>
-                                {
-                                  item?.vehicles?.[0]?.trailer_type_id_data
-                                    ?.name
-                                }
-                              </p>
-                              <Flex gap={2}>
-                                <Flex gap={1} alignItems={"center"}>
-                                  <StoneIcon /> {item?.vehicles?.[0]?.height} т.
-                                </Flex>
-                                <Flex gap={1} alignItems={"center"}>
-                                  <LoadOulineIcon />{" "}
-                                  {item?.vehicles?.[0]?.capacity} м³
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          )}
                         </Box>
                       )}
                     </CheckBoxComponent>
