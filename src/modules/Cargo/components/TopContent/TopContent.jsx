@@ -48,6 +48,7 @@ import {
 import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
+import authStore from "@/store/auth.store";
 
 export const TopContent = ({
   address1,
@@ -67,7 +68,8 @@ export const TopContent = ({
   city1,
   city2,
   userId2,
-  getMaps
+  getMaps,
+  id
 }) => {
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
@@ -76,7 +78,7 @@ export const TopContent = ({
   const [userData, setUserData] = useState([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const firm_id = authStore.userData.firm_id
   const paramsId = searchParams.get("car_id");
   const locale = useGetLang();
 
@@ -129,7 +131,7 @@ export const TopContent = ({
   //   { data: JSON.stringify({ user_id: userId2 }) },
   //   { enabled: !!(status === "performed" && userId2) }
   // );
-  const [gpsHistory, setGpsHistory] = useState([]);
+  const [gpsHistory, setGpsHistory] = useState();
   const [page, setPage] = useState(0);
 
   const [breakRequest, setBreakRequest] = useState(false);
@@ -176,12 +178,15 @@ export const TopContent = ({
       setUserData(res?.response);
     },
   });
-  console.log("LoadingSpinner", isPending);
+  console.log(`id`,id)
+  
+
   useEffect(() => {
-    if (paramsId) {
-      dataLocation({ data: { object_data: { cargo_id: paramsId, }, }, });
+    if (paramsId || id===`performed`) {
+      dataLocation({ data: { object_data: { cargo_id: paramsId ? paramsId : `` ,firm_id:firm_id }, }, });
     }
-  }, [paramsId]);
+  }, [paramsId,id===`performed`]);
+
   var myMap = useRef(null);
   var multiRoute = useRef(null);
   var myPolyline = useRef(null);
@@ -393,7 +398,7 @@ export const TopContent = ({
                                 <p className={cls.phoneItemName}>
                                   {user.gps ? "Выкл " : "Откл "}
                                   <span className={cls.phoneItemTitle}>
-                                    {format(
+                                    { user?.update_time && format(
                                       user?.update_time,
                                       "dd MMMM HH:HH "
                                     )}

@@ -40,23 +40,15 @@ import { useTranslation } from "@/app/i18n/client";
 import { observer } from "mobx-react-lite";
 import { TextField } from "@/components/TextField";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
-import StepOne from "./components/StepOne/StepOne";
-import StepTwo from "./components/StepTwo/StepTwo";
-import StepThere from "./components/StepThere/StepThere";
-import StepFour from "./components/StepFour/StepFour";
-import StepFive from "./components/StepFive/StepFive";
 import { Checkbox } from "@/components/Checkbox";
-import { ModalS } from "@/components/Modal";
 import { CargoDetail } from "./components/CargoDetail";
 import { TopContent } from "../Cargo/components/TopContent";
 import Link from "next/link";
 import { statuses } from "@/utils/constants";
-import { LoadBtn } from "@/components/LoadBtn";
+
 
 export const CargoViews = observer(({ id, status, locale }) => {
   const [cargoIndex, setCargoIndex] = useState(1);
-  const [btnSavaText, setBtnSaveText] = useState(`Редактировать`);
   const [open, setOpen] = useState(false);
   const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
   const isEditing = !!id;
@@ -90,6 +82,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
           alignItems={!isLargerThan800 ? "start" : "center"}
           mb="18px"
         >
+      
           <Heading fontSize={!isLargerThan800 ? "24px" : "30px"} size="md">
             {!addCargoProps.canEdit ? (
               <>
@@ -159,7 +152,10 @@ export const CargoViews = observer(({ id, status, locale }) => {
       );
     } else if (status === "new" || status === "performed") {
       return (
-        <TopContent
+        
+     <>
+ 
+         <TopContent
           status={status}
           address1={addCargoProps.address1}
           address2={addCargoProps.address2}
@@ -178,12 +174,16 @@ export const CargoViews = observer(({ id, status, locale }) => {
           distance={addCargoProps.distance}
           userId2={addCargoProps.userId2}
           getMaps={addCargoProps.getMaps}
+          id={id}
         />
+     </>
       );
     }
 
     return <></>;
   }
+
+  console.log(`getTopContent`,getTopContent())
 
   return (
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
@@ -227,7 +227,9 @@ export const CargoViews = observer(({ id, status, locale }) => {
           >
             <Box flexGrow={1} maxW="100%" width="100%" as="form">
               {isEditing ? (
-                getTopContent()
+                <>
+                  {getTopContent()}
+                </>
               ) : (
                 <Box
                   display="flex"

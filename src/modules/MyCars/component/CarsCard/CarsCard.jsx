@@ -177,7 +177,7 @@ export const CarsCard = ({
             <Box>
               <p className={cls.subTitle}>Тип загрузки:</p>
               <p className={cls.title}>
-                {translateArray(item?.download_type)?.join(",")}
+                { item?.download_type && translateArray(item?.download_type)?.join(",")}
               </p>
             </Box>
             <Box>

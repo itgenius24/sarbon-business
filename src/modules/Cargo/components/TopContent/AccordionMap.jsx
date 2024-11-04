@@ -23,10 +23,17 @@ export const AccordionMap = ({
   };
 
 
-  const startLocation = getMaps?.data?.response[getMaps?.data?.response.length - 1];
-  const endLocation = getMaps?.data?.response[0];
-  const line = getMaps?.data?.response.slice(1,-1).map(item => [item.lat,item.long]);
+  const shipper = getMaps?.data?.response.filter(
+    (item) => item.type?.[0] === `shipper`
+  );
+  
+  const consignee = getMaps?.data?.response.filter(
+    (item) => item?.type?.[0] === `consignee`
+  );
 
+  const startLocation = shipper?.[0];
+  const endLocation = consignee?.[consignee?.length -1];
+  const line = getMaps?.data?.response.slice(1,-1).map(item => [item?.lat,item?.long]);
 
 
 
@@ -40,9 +47,13 @@ export const AccordionMap = ({
         
         ymaps.route([
           [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
-          [endLocation.lat,endLocation.long], // Tugash nuqtasi
+          [endLocation?.lat,endLocation?.long], // Tugash nuqtasi
+          // [41.311158, 69.279737],
+          // [-15.934077, -5.71183]
+
         ])
           .then((route) => {
+            console.log(`route`,route)
             map.current.geoObjects.add(route);
             const startPoint = route.getWayPoints().get(0);
             const endPoint = route.getWayPoints().get(1);
@@ -88,7 +99,7 @@ export const AccordionMap = ({
     strokeOpacity: 1, // Opacity of the polyline
   };
   return (
-    <YMaps>
+    // <YMaps>
       <Map
         width={"100%"}
         height={"600px"}
@@ -143,6 +154,6 @@ export const AccordionMap = ({
 
 
       </Map>
-    </YMaps>
+    // </YMaps>
   );
 };

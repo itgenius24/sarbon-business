@@ -24,25 +24,27 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
     road_accident: t("ДТП"),
     in_active: t("неактивен"),
   };
+
+  console.log(`perfomen`,cargo)
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
         <div className={styles.performedXeader}>
           <div className={styles.leftContend}>
             <div className={styles.text}>
-              <h3>{cargo?.city_id_data?.name}</h3>
+              <h3>{cargo?.cargo_id_data?.from}</h3>
               <p>
-                {cargo?.address_id_data?.name}
-                <span> { format(cargo?.load_time,"MMMM dd") }</span>
+                {cargo?.cargo_id_data?.address_id_data?.name}
+                <span> {cargo?.cargo_id_data?.load_time && format(cargo?.cargo_id_data?.load_time,"MMMM dd") }</span>
               </p>
             </div>
             <ArrowNextIcon />
             <div className={styles.text}>
-              <h3>{cargo?.city_id_2_data?.name}</h3>
+              <h3>{cargo?.cargo_id_data?.to}</h3>
               <p>
-                {cargo?.address_id_2_data?.name}
+                {cargo?.cargo_id_data?.address_id_2_data?.name}
 
-                <span> {format(cargo?.date,"MMMM dd")}</span>
+                <span> { cargo?.cargo_id_data?.date && format(cargo?.cargo_id_data?.date,"MMMM dd")}</span>
               </p>
             </div>
           </div>
@@ -53,13 +55,13 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
               </p>
               <p className={styles.rightTitle}>
                 Предоплата:
-                {cargo?.requirements[0] === "no_prepayment" ? `Нет` : `Да`}
+                {cargo?.payment_type[0] === "prepayment" ? `Да` :`Нет` }
               </p>
             </div>
             <div className={styles.text}>
               <p className={styles.rightTitle}>Общая сумма</p>
               <p className={styles.totalSum}>
-                {cargo?.bid_cash || 0} {cargo?.currency_id_data?.code}
+                {cargo?.offers || 0} {cargo?.currency_id_data?.code}
               </p>
             </div>
           </div>
@@ -79,7 +81,7 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Статус</span>
               <p className={styles.cardName}>
-                {performedStatuses[cargo?.indicate_status[0]]}
+                {performedStatuses[cargo?.order?.[0]?.indicate_status[0]]}
                 {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
               </p>
             </div>
@@ -88,52 +90,52 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Товары</span>
               <p className={styles.cardName}>
-                {cargo?.cargo_type_id_data?.name}
+                {cargo?.cargo_id_data?.cargo_type_id_data?.name}
               </p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Транспорт</span>
               <p className={styles.cardName}>
-                {cargo?.vehicle_type_id_data?.name}
+                {cargo?.car_type}
               </p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Вес, объём</span>
               <p className={styles.cardName}>
-                {cargo?.weight}
-                {cargo?.measurement_id_data?.Symbol} / {cargo?.volume_m3} m³
+                {cargo?.cargo_id_data?.weight}
+                {cargo?.cargo_id_data?.measurement_id_data?.Symbol} / {cargo?.cargo_id_data?.volume_m3} m³
               </p>
             </div>
           </div>
           {
             orderStatus == "performed" && <div className={styles.cardFooter}>
-            <div className={styles.cardFooterLeft}>
-              <div className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Пройдено</span>
-                <p className={styles.cardName}>
-                  <span>1357 км </span> / {cargo?.distance} км
-                </p>
+              <div className={styles.cardFooterLeft}>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>Пройдено</span>
+                  <p className={styles.cardName}>
+                    <span>1357 км </span> / {cargo?.cargo_id_data?.distance} км
+                  </p>
+                </div>
+                <div
+                  className={styles.btn}
+                  onClick={() =>
+                    router.push(
+                      `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                    )
+                  }
+                >
+                  <MapIcon /> Показать на карте
+                </div>
               </div>
-              <div
-                className={styles.btn}
-                onClick={() =>
-                  router.push(
-                    `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
-                  )
-                }
-              >
-                <MapIcon /> Показать на карте
+              <div className={styles.rightContend}>
+
               </div>
             </div>
-            <div className={styles.rightContend}>
-             
-            </div>
-          </div>
           }
-          
+
           {
-            orderStatus === `new` &&    <Box
-            width={`30%`}
+            orderStatus === `new` && <Box
+              width={`30%`}
               display="flex"
               // width={isLargerThan768 ? "570px" : "100%"}
               columnGap="12px"
@@ -163,7 +165,7 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
               </Button>
             </Box>
           }
-         
+
         </div>
       </div>
     </div>

@@ -27,7 +27,10 @@ console.log(`role_id`,role_id)
         path: isAuth ? `/${lang || "ru"}/my-cars` : `/${lang || "ru"}/auth`,
         label: "Мои машины",
       },
-   
+      {
+        path: isAuth ? `/${lang || "ru"}/performed` : `/${lang || "ru"}/auth`,
+        label: "В исполнение",
+      },
       {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",

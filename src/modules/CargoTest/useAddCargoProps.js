@@ -350,9 +350,40 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
+  const getCargo = useGetCargoById(
+    {
+      data: JSON.stringify({
+        guid: id,
+        with_relations: true,
+      }),
+    },
+    { enabled: !!(isCargo && id) }
+  );
+
+  const getOfferCargoById = useGetOfferById(
+    {
+      data: JSON.stringify({
+        guid: id,
+        with_relations: true,
+      }),
+    },
+    { enabled: !!(userId && !isCargo) }
+  );
+
+  const getTempCargo = useGetUserCargo(
+    {
+      data: JSON.stringify({
+        users_id: userId,
+        cargo_type: ["template"],
+        with_relations: true,
+      }),
+    },
+    { enabled: !!userId && !id }
+  );
+
   const allCargoParams = { cargo_id: id };
 
-  const allResponseParams = { response_id: id };
+  const allResponseParams = { cargo_id: getOfferCargoById.data?.response[0]?.cargo_id };
 
   const templateParams = { cargo_id: templateId };
 
@@ -559,36 +590,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
-  const getCargo = useGetCargoById(
-    {
-      data: JSON.stringify({
-        guid: id,
-        with_relations: true,
-      }),
-    },
-    { enabled: !!(isCargo && id) }
-  );
-
-  const getOfferCargoById = useGetOfferById(
-    {
-      data: JSON.stringify({
-        guid: id,
-        with_relations: true,
-      }),
-    },
-    { enabled: !!(userId && !isCargo) }
-  );
-
-  const getTempCargo = useGetUserCargo(
-    {
-      data: JSON.stringify({
-        users_id: userId,
-        cargo_type: ["template"],
-        with_relations: true,
-      }),
-    },
-    { enabled: !!userId && !id }
-  );
+ 
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess() {
@@ -834,7 +836,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       case "active":
         return getCargo.data?.response?.[0];
       default:
-        return getOfferCargoById.data?.response[0];
+        return getOfferCargoById.data?.response[0]?.cargo_id_data
+        ;
     }
   }
 

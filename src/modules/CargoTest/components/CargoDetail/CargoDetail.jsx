@@ -9,20 +9,29 @@ import StepThere from "../StepThere/StepThere";
 import StepFour from "../StepFour/StepFour";
 import StepFive from "../StepFive/StepFive";
 
-export const CargoDetail = ({status}) => {
-
+export const CargoDetail = ({ status }) => {
   const locale = useGetLang();
 
   const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
 
   const { t } = useTranslation(locale, "translations");
 
-  return <Box display={`flex`} flexDirection={`column`} rowGap={`18px`} className={cls.cargoDetail} as="article" borderRadius="12px" padding="24px" >
-     {/* <Heading fontSize={isLargerThan1190 ? "20px" : "17px"} size="sm">{t("Детали груза")}</Heading> */}
-      <StepOne status={status}  />
-      <StepTwo  status={status}/>
-      <StepThere status={status}/>
-      <StepFour status={status}/>
+  return (
+    <Box
+      display={`flex`}
+      flexDirection={`column`}
+      rowGap={`18px`}
+      className={cls.cargoDetail}
+      as="article"
+      borderRadius="12px"
+      padding="24px"
+    >
+      {/* <Heading fontSize={isLargerThan1190 ? "20px" : "17px"} size="sm">{t("Детали груза")}</Heading> */}
+      <StepOne status={status} />
+      <StepTwo status={status} />
+      <StepThere status={status} />
+      <StepFour status={status} />
       <StepFive status={status} />
-  </Box>;
+    </Box>
+  );
 };

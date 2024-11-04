@@ -56,7 +56,7 @@ const objectService = {
   getLocation: (data) =>
     request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
   getOffer: (params) =>
-    request.get("/v2/object-slim/get-list/response", { params }),
+    request.get("/v2/object-slim/get-list/order", { params }),
   getCargoById: (params) =>
     request.get("/v2/object-slim/get-list/cargo", { params }),
   getMaps: (params) =>

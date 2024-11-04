@@ -30,7 +30,7 @@ export const useLoadsCardProps = ({
   handleDelete,
   cargo //cargoda yuk nomi user ismlari bor
 }) => {
-  console.log("cargo_type_id_data",cargo);
+ 
 
   const locale = useGetLang();
 

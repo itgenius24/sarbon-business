@@ -52,7 +52,7 @@ export const SearchCargoModule = () => {
     router,locale
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
+  const rules = { required: { value: true, message: "Это поле обязательно для заполнения" }, };
   return (
     <>
       <Container my="40px">
@@ -246,7 +246,7 @@ export const SearchCargoModule = () => {
                   errors={errors}
                   name="car_number"
                   placeholder="Введите госномер грузовика..."
-                  // rules={rules}
+                  rules={rules}
                 />
                 <Flex ml={4} gap={2} mt={2}>
                   <span className={cls.subTitle}></span>
@@ -255,6 +255,7 @@ export const SearchCargoModule = () => {
               <Box>
                 <p className={cls.textFieldName}>Марка машины</p>
                 <TextField
+                 rules={rules}
                   errors={errors}
                   name="marka"
                   register={register}
