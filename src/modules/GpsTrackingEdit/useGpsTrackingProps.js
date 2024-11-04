@@ -312,7 +312,7 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: dataMutate, isPending } = useGetCar({
     onSuccess: (data) => {
-      if (data?.response?.length === 40) {
+      if (data?.response?.length === 150) {
         setOffset(offset + 1);
       }
       if (data?.response?.length) {
@@ -345,7 +345,7 @@ export const useGpsTrackingProps = () => {
       if (data?.response?.length === null && !closeRes) {
         setCLoseRes(true);
         dataMutate({
-          data: { object_data: { limit: 40, page: offset, firm_id } },
+          data: { object_data: { limit: 150, page: offset, firm_id } },
         });
       }
     },
@@ -500,7 +500,7 @@ export const useGpsTrackingProps = () => {
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
-            limit: 40,
+            limit: 150,
             page: offset,
             firm_id,
           },
