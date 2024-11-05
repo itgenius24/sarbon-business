@@ -14,13 +14,13 @@ import { useDriversList } from "./useDriversList";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const DriversList = () => {
-  const { t, data,handleDelete,isPending } = useDriversList();
+  const { t, data, handleDelete, isPending } = useDriversList();
 
   const router = useRouter();
   const locale = useGetLang();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  console.log(`isPending`,isPending)
+  console.log(`isPending`, isPending);
   return (
     <>
       <Container my="40px">
@@ -40,8 +40,7 @@ export const DriversList = () => {
           </Button>
         </Flex>
         <Box mt={"37px"}>
-
-          { data?.length > 0  ? (
+          {data?.length > 0 ? (
             data?.map((item) => (
               <CarsCard
                 key={item.guid}
@@ -49,9 +48,10 @@ export const DriversList = () => {
                 handleDelete={handleDelete}
               />
             ))
-          ) : 
-            
-              isPending ? <LoadingSpinner /> : <Flex
+          ) : isPending ? (
+            <LoadingSpinner />
+          ) : (
+            <Flex
               className={styles.noData}
               width={`100%`}
               height={`170px`}
@@ -60,9 +60,7 @@ export const DriversList = () => {
             >
               У вас еще нет добавленных водителей
             </Flex>
-            }
-           
-          
+          )}
         </Box>
       </Container>
     </>

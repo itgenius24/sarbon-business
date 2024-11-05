@@ -200,13 +200,14 @@ export const TableComponent = ({ watch, formState }) => {
           cargo_id: carId?.cargo?.guid,
           driver_ids: selectCargo,
           cargo_number: carId?.cargo?.number_of_order,
+          customer_id: carId?.cargo?.users_id
         },
       },
     };
     pridlojetData(data);
   };
 
-  console.log(`carId`, carId?.cargo);
+  console.log(`dataRes`, carId?.cargo);
 
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
