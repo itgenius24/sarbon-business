@@ -71,7 +71,7 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Водитель</span>
               <p className={styles.cardName}>
-                {cargo?.users_id_2_data?.full_name} +{cargo?.users_id_2_data?.rating || 0}
+                {cargo?.users_id_data?.full_name} +{cargo?.users_id_data?.rating || 0}
               </p>
             </div>
             <div className={styles.cardItem}>

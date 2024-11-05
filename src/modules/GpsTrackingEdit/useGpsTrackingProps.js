@@ -426,7 +426,7 @@ export const useGpsTrackingProps = () => {
     value: item?.user?.guid,
   }));
 
-  console.log(`salom`, carsArr);
+  console.log(`salom`, getCarListProps);
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
@@ -487,7 +487,6 @@ export const useGpsTrackingProps = () => {
     console.log("offsetCar");
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
-  
 
   useEffect(() => {
     if (!watch("aaddress")) {

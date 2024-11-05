@@ -71,7 +71,7 @@ export const useMyLoadsMainProps = () => {
     getAllUserCargoParams.data = JSON.stringify(data);
   } else if (orderStatus === "new") {
     const data = JSON.parse(getCargoFilterParams.data);
-    data.provisions = ["new", "approve_by_customer"];
+    data.provisions = ["approve_by_customer"];
     // data.response_status = ["approve_by_customer"];
     getCargoFilterParams.data = JSON.stringify(data);
   }
@@ -96,9 +96,9 @@ export const useMyLoadsMainProps = () => {
       limit,
       offset: 0,
       data: JSON.stringify({
-        users_id_3: userId,
+        users_id_2: userId,
         with_relations: true,
-        provisions: ["new"],
+        // provisions: ["new"],
         response_status: ["approve_by_customer"],
       }),
     },
@@ -196,7 +196,7 @@ export const useMyLoadsMainProps = () => {
       {
         data: {
           guid: id,
-          provisions: ["new", "approve_by_customer"],
+          provisions: ["new", "approve_from_driver"],
           // response_status: ["approve_from_driver"],
         },
       },

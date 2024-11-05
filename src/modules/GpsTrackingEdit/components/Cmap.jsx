@@ -131,6 +131,8 @@ const Cmap = memo(
       copy(contendHoverState?.users_id_data?.phone)
     })
 
+    console.log(`getCarListProps`,getCarListProps)
+
 
     return (
       <Map

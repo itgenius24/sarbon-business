@@ -30,7 +30,7 @@ export const MyLoadsMain = () => {
 
   const { t } = useTranslation(locale, "translations");
 
-  console.log("orderStatus", orderStatus);
+  console.log("orderStatus", cargos);
 
   return (
     <Box px={"20px"} py="24px">

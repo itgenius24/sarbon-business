@@ -14,10 +14,13 @@ import Image from "next/image";
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
   const data = item?.orders?.[0].provisions.filter(
-    (item) => item === `approve_from_driver` || item === `approve_by_customer` || item ===  `new_proposal_from_director`
+    (item) =>
+      item === `approve_from_driver` ||
+      item === `approve_by_customer` ||
+      item === `new_proposal_from_director`
   );
 
-  console.log(`item?.orders?`,item)
+  console.log(`item?.orders?`, item);
 
   return (
     <Flex
@@ -34,20 +37,22 @@ export const Card = ({ item, cls, ...props }) => {
           cls={cls}
           status={`ss`}
           label={
-            (data?.[0] === `approve_from_driver` || data?.[0] === `new_proposal_from_director`)
+            data?.[0] === `approve_from_driver` ||
+            data?.[0] === `new_proposal_from_director`
               ? `Ждем подтверждение водителя`
               : `Ждем подтверждение заказчика`
           }
           color={
-            (data?.[0] === `approve_from_driver` || data?.[0] === `new_proposal_from_director`)
+            data?.[0] === `approve_from_driver` ||
+            data?.[0] === `new_proposal_from_director`
               ? `rgba(193, 187, 32, 1)`
               : `rgba(0, 122, 255, 1)`
           }
         />
       )}
       <Box className={cls.contend}>
-        <Flex gap={`14px`} alignItems={`center`}>
-          <Box>
+        <Flex  gap={`14px`} alignItems={`center`}>
+          <Box  display={`flex`} alignItems={`center`} flexDirection={`column`} width={`40px`}>
             <Image
               className={cls.flag}
               width={30}
@@ -58,12 +63,26 @@ export const Card = ({ item, cls, ...props }) => {
             <p className={cls.country_code}>{item?.cargo?.country_code_from}</p>
           </Box>
 
+          <Box width={`100%`}>
           <p className={cls.title}>
-            {item.cargo?.from
-              ? item.cargo?.from
-              : item?.city_id_data?.[
-                  "name_" + (locale === "uz" ? "en" : locale)
-                ] || item?.city_id_data?.name}{" "}
+            {item.cargo?.from ? (
+              item.cargo?.from.length > 30 ? (
+                <Tooltip
+                  color={`black`}
+                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                  background={`#fff`}
+                  label={`${item.cargo?.from}`}
+                >
+                  <span>{`${item.cargo?.from.slice(0, 30)}...`}</span>
+                </Tooltip>
+              ) : (
+                item.cargo?.from
+              )
+            ) : (
+              item?.city_id_data?.[
+                "name_" + (locale === "uz" ? "en" : locale)
+              ] || item?.city_id_data?.name
+            )}
             <br />
             <span className={cls.subTitle}>
               {item?.cargo?.load_time &&
@@ -71,11 +90,12 @@ export const Card = ({ item, cls, ...props }) => {
               ~ 3450 km
             </span>
           </p>
+          </Box>
         </Flex>
       </Box>
       <Box className={cls.contend}>
         <Flex gap={`14px`} alignItems={`center`}>
-          <Box>
+          <Box display={`flex`} alignItems={`center`} flexDirection={`column`} width={`50px`}>
             <Image
               className={cls.flag}
               width={30}
@@ -85,10 +105,19 @@ export const Card = ({ item, cls, ...props }) => {
             />
             <p className={cls.country_code}>{item?.cargo?.country_code_to}</p>
           </Box>
-
+          <Box width={`100%`}>
           <p className={cls.title}>
             {item?.cargo?.to
-              ? item?.cargo?.to
+              ? item.cargo?.to.length > 30
+                ?   <Tooltip
+                  color={`black`}
+                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                  background={`#fff`}
+                  label={`${item.cargo?.to}`}
+                >
+                  <span>{`${item.cargo?.to.slice(0, 30)}...`}</span>
+                </Tooltip>
+                : item.cargo?.to
               : item?.city_id_2_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
                 ] || item?.city_id_2_data?.name}{" "}
@@ -97,6 +126,7 @@ export const Card = ({ item, cls, ...props }) => {
               {item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
             </span>
           </p>
+          </Box>
         </Flex>
       </Box>
       <Box className={cls.contend}>
