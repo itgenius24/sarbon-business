@@ -178,12 +178,11 @@ export const TopContent = ({
       setUserData(res?.response);
     },
   });
-  console.log(`id`,id)
-  
+
 
   useEffect(() => {
-    if (paramsId || id===`performed`) {
-      dataLocation({ data: { object_data: { cargo_id: paramsId ? paramsId : `` ,firm_id:firm_id }, }, });
+    if (paramsId || id === `performed`) {
+      dataLocation({ data: { object_data: { cargo_id: paramsId ? paramsId : `` ,firm_id:``}, }, });
     }
   }, [paramsId,id===`performed`]);
 
@@ -325,13 +324,13 @@ export const TopContent = ({
             <h2 className={cls.address}>
               <span className={cls.addressText}>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>{city1}</span>
-                  <span>{address1}</span>
+                  <span className={cls.addressCity}>{address1}</span>
+                  {/* <span>{address1}</span> */}
                 </span>
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>{city2}</span>
-                  <span>{address2}</span>
+                  <span className={cls.addressCity}>{address1}</span>
+                  {/* <span>{address2}</span> */}
                 </span>
                 {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
               </span>
@@ -364,7 +363,7 @@ export const TopContent = ({
                     <AccordionItem key={index} className={cls.accordionItem}>
                       <AccordionButton
                         onClick={() => {
-                          setUserId(user?.users_id);
+                          setUserId(user?.users_gps?.[0]?.users_id);
                           setGpsHistory([]);
                         }}
                         className={cls.accordionButton}
@@ -373,15 +372,15 @@ export const TopContent = ({
                           <div className={cls.userWrap}>
                             <Avatar
                               color={"white"}
-                              name={user?.users_id_data?.full_name}
-                              src={user?.users_id_data?.photo}
+                              name={user?.users_gps?.[0]?.users_id_data?.full_name}
+                              src={user?.users_gps?.[0]?.users_id_data?.photo}
                             />
                             <div className={cls.user}>
                               <p className={cls.userName}>
-                                {user?.users_id_data?.full_name}
+                                {user?.users_gps?.[0]?.users_id_data?.full_name}
                               </p>
                               <p className={cls.userTel}>
-                                {user?.users_id_data?.phone}
+                                {user?.users_gps?.[0]?.users_id_data?.phone}
                               </p>
                             </div>
                           </div>
@@ -398,8 +397,8 @@ export const TopContent = ({
                                 <p className={cls.phoneItemName}>
                                   {user.gps ? "Выкл " : "Откл "}
                                   <span className={cls.phoneItemTitle}>
-                                    { user?.update_time && format(
-                                      user?.update_time,
+                                    { user?.users_gps?.[0]?.update_time && format(
+                                      user?.users_gps?.[0]?.update_time,
                                       "dd MMMM HH:HH "
                                     )}
                                   </span>
@@ -407,14 +406,14 @@ export const TopContent = ({
                               </div>
                             </div>
                             <div className={cls.item}>
-                              {user?.os === "android" ? (
+                              {user?.users_gps?.[0]?.os === "android" ? (
                                 <AndroidIcon />
                               ) : (
                                 <AppleIcon />
                               )}
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>Смартфон</p>
-                                <p className={cls.phoneItemName}>{user?.os} </p>
+                                <p className={cls.phoneItemName}>{user?.users_gps?.[0]?.os} </p>
                               </div>
                             </div>
                             <div className={cls.item}>
@@ -424,7 +423,7 @@ export const TopContent = ({
                                   Версия Furgo
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.version}{" "}
+                                  {user?.users_gps?.[0]?.version}{" "}
                                 </p>
                               </div>
                             </div>

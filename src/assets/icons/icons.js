@@ -2031,28 +2031,11 @@ export const loadIcon = `
 `;
 
 export const ArrowNextIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 22 22"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M19.25 11H2.74997"
-      // stroke="white"
-      // stroke-width="2"
-      // stroke-linecap="round"
-      // stroke-linejoin="round"
-    />
-    <path
-      d="M13.75 5.5L19.25 11L13.75 16.5"
-      // stroke="white"
-      // stroke-width="2"
-      // stroke-linecap="round"
-      // stroke-linejoin="round"
-    />
-  </svg>
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19.25 11H2.74997" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.75 5.5L19.25 11L13.75 16.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
 );
 
 export const MapIcon = () => (

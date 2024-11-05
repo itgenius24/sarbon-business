@@ -146,6 +146,9 @@ const StepFive = ({ status }) => {
           : ["in_moderation"],
 
         //  step3
+            
+        car_type:watch("car_type")?.label,
+        product_type:watch(`cargo_type`)?.label,
 
         vehicle_type_id: watch("car_type")?.value,
         number_of_cars: watch("transport_count"),
@@ -217,6 +220,10 @@ const StepFive = ({ status }) => {
         order_status: watch(`loadResId`)
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
+
+
+        car_type:watch("car_type")?.label,
+        product_type:watch(`cargo_type`)?.label,
 
         //  step3
 

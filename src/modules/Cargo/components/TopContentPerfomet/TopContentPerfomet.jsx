@@ -120,7 +120,7 @@ export const TopContentPerfomet = ({
   });
 
   useEffect(() => {
-    dataLocation({ data: { object_data: { firm_id: firm_id } } });
+    dataLocation({ data: { object_data: { firm_id: firm_id,cargo_id:`` } } });
   }, []);
 
 

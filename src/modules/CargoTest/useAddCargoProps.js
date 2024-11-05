@@ -686,6 +686,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         package_quantity: +watch(`packaging_quantity`) || 0,
         length: +watch(`length`),
         width: watch(`width`),
+            
+        car_type:watch("car_type")?.label,
+        product_type:watch(`cargo_type`)?.label,
 
         height: +watch(`height`),
         photo: watch(`image`),

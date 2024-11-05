@@ -99,7 +99,7 @@ export const useMyLoadsMainProps = () => {
         users_id_2: userId,
         with_relations: true,
         // provisions: ["new"],
-        response_status: ["approve_by_customer"],
+        provisions: ["approve_by_customer"],
       }),
     },
     { enabled: false }
@@ -110,7 +110,7 @@ export const useMyLoadsMainProps = () => {
       limit,
       offset: 0,
       data: JSON.stringify({
-        users_id_3: userId,
+        users_id_2: userId,
         with_relations: true,
         response_status: ["approve_from_driver"],
         provisions: ["new"],

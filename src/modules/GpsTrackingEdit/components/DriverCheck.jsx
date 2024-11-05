@@ -85,7 +85,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
               { contendSingle?.users_gps?.[0]?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
               <Box>
                 <p className={cls.smallText}>Батарея </p>
-                <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
+                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
               </Box>
             </Flex>
           </Flex>
@@ -110,10 +110,10 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Flex gap={2}>
           <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
           <Box>
-              <p className={cls.cardStartTitle}>{getOfferCount?.data?.response?.[0]?.city_id_data?.name}</p>
+              <p className={cls.cardStartTitle}>{contendSingle?.order?.[0]?.cargo_id_data?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 
-                {getOfferCount?.data?.response?.[0]?.city_id_data?.address_id_data?.name} / <span>{format(getOfferCount?.data?.response?.[0]?.load_time ? getOfferCount?.data?.response?.[0]?.load_time : new Date(),"yyyy-mm-dd")}
+                {contendSingle?.order?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} / <span>{format(contendSingle?.order?.[0]?.cargo_id_data?.load_time ? contendSingle?.order?.[0]?.cargo_id_data?.load_time : new Date(),"yyyy-mm-dd")}
                 </span>
               </p>
             </Box>
@@ -121,9 +121,9 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
             <Box>
-              <p className={cls.cardStartTitle}>{getOfferCount?.data?.response?.[0]?.city_id_2_data?.name}</p>
+              <p className={cls.cardStartTitle}>{contendSingle?.order?.[0]?.cargo_id_data?.to}</p>
               <p className={cls.cardStartSubTitle}>
-                {getOfferCount?.data?.response?.[0]?.city_id_2_data?.address_id_data?.name} / <span>{format(getOfferCount?.data?.response?.[0]?.date ? getOfferCount?.data?.response?.[0]?.date : new Date(),"yyyy-mm-dd")}</span>{" "}
+                {contendSingle?.order?.[0]?.cargo_id_data?.city_id_2_data?.address_id_data?.name} / <span>{format(contendSingle?.order?.[0]?.cargo_id_data?.date ? contendSingle?.order?.[0]?.cargo_id_data?.date : new Date(),"yyyy-mm-dd")}</span>{" "}
               </p>
             </Box>
           </Flex>
@@ -134,13 +134,13 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
               <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
-                  <span>{getOfferCount?.data?.response?.[0]?.cargo_type_id_data?.name}</span>
+                  <span>{contendSingle?.order?.[0]?.cargo_id_data?.cargo_type_id_data?.name}</span>
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
-                      <StoneIcon /> {getOfferCount?.data?.response?.[0]?.weight} т.
+                      <StoneIcon /> {contendSingle?.order?.[0]?.cargo_id_data?.weight} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
-                      <LoadOulineIcon /> {getOfferCount?.data?.response?.[0]?.volume_m3}m3
+                      <LoadOulineIcon /> {contendSingle?.order?.[0]?.cargo_id_data?.volume_m3}m3
                     </Flex>
                   </Flex>
                 </Flex>
@@ -152,8 +152,8 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
              <p className={cls.cardStartSubTitle}>Тип оплаты: <span>Перечисление</span></p>
           </Flex>
           <Flex mt={3} justifyContent={'space-between'} alignItems={'center'}>
-             <p className={cls.sum}>{getOfferCount?.data?.response?.[0]?.bid_cash} {getOfferCount?.data?.response?.[0]?.currency_id_data?.code} </p>
-             <p className={cls.cardStartSubTitle}>Предоплата: <span>{getOfferCount?.data?.response?.[0]?.prepayment_percentage > 0 ?"Da" : "Нет" }</span></p>
+             <p className={cls.sum}>{contendSingle?.order?.[0]?.cargo_id_data?.bid_cash} {contendSingle?.order?.[0]?.cargo_id_data?.currency_id_data?.code} </p>
+             <p className={cls.cardStartSubTitle}>Предоплата: <span>{contendSingle?.order?.[0]?.cargo_id_data?.prepayment_percentage > 0 ?"Da" : "Нет" }</span></p>
           </Flex>
         </Box>
         <Button  onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.user?.provisions?.[0])}}  leftIcon={<CheckBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
@@ -161,11 +161,11 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
         </Button>
         <Box className={cls.cardWrap}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
-            <Avatar  name={getOfferCount?.data?.response?.[0]?.users_id_3_data?.full_name} src={getOfferCount?.data?.response?.[0]?.users_id_3_data?.photo}  />
+            <Avatar  name={contendSingle?.order?.[0]?.cargo_id_data?.users_id_3_data?.full_name} src={contendSingle?.order?.[0]?.cargo_id_data?.users_id_3_data?.photo}  />
              <Box>
              <p className={cls.cardStartSubTitle}>Диспетчер: </p>
              <p className={cls.name}>
-               {getOfferCount?.data?.response?.[0]?.users_id_3_data?.full_name} {getOfferCount?.data?.response?.[0]?.users_id_3_data?.your_id}
+               {contendSingle?.order?.[0]?.cargo_id_data?.users_id_3_data?.full_name} {contendSingle?.order?.[0]?.cargo_id_data?.users_id_3_data?.your_id}
              </p>
              <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
 
