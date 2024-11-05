@@ -13,7 +13,11 @@ import Image from "next/image";
 
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
-  const data = item?.orders?.[0].provisions.filter((item) => (item === `approve_from_driver` || item === `approve_by_customer`))
+  const data = item?.orders?.[0].provisions.filter(
+    (item) => item === `approve_from_driver` || item === `approve_by_customer` || item ===  `new_proposal_from_director`
+  );
+
+  console.log(`item?.orders?`,item)
 
   return (
     <Flex
@@ -25,9 +29,22 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-    {
-      data &&  <TooltipComponets cls={cls} status={`ss`} label={data?.[0] === `approve_from_driver` ? `Ждем подтверждение водителя` : `Ждем подтверждение заказчика` } color={data?.[0] === `approve_from_driver` ? `rgba(193, 187, 32, 1)`: `rgba(0, 122, 255, 1)`} /> 
-    }
+      {data && (
+        <TooltipComponets
+          cls={cls}
+          status={`ss`}
+          label={
+            (data?.[0] === `approve_from_driver` || data?.[0] === `new_proposal_from_director`)
+              ? `Ждем подтверждение водителя`
+              : `Ждем подтверждение заказчика`
+          }
+          color={
+            (data?.[0] === `approve_from_driver` || data?.[0] === `new_proposal_from_director`)
+              ? `rgba(193, 187, 32, 1)`
+              : `rgba(0, 122, 255, 1)`
+          }
+        />
+      )}
       <Box className={cls.contend}>
         <Flex gap={`14px`} alignItems={`center`}>
           <Box>
@@ -49,15 +66,16 @@ export const Card = ({ item, cls, ...props }) => {
                 ] || item?.city_id_data?.name}{" "}
             <br />
             <span className={cls.subTitle}>
-              {item?.cargo?.load_time && format(item?.cargo?.load_time, `yyyy-MM-dd`)} ~ 3450
-              km
+              {item?.cargo?.load_time &&
+                format(item?.cargo?.load_time, `yyyy-MM-dd`)}{" "}
+              ~ 3450 km
             </span>
           </p>
         </Flex>
       </Box>
       <Box className={cls.contend}>
         <Flex gap={`14px`} alignItems={`center`}>
-          <Box >
+          <Box>
             <Image
               className={cls.flag}
               width={30}
@@ -76,7 +94,7 @@ export const Card = ({ item, cls, ...props }) => {
                 ] || item?.city_id_2_data?.name}{" "}
             <br />
             <span className={cls.subTitle}>
-              { item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
+              {item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
             </span>
           </p>
         </Flex>
@@ -87,7 +105,8 @@ export const Card = ({ item, cls, ...props }) => {
             <StoneIcon /> <p className={cls.title}> {item?.cargo?.weight}т</p>
           </Flex>
           <Flex gap={1} alignItems={"center"}>
-            <LoadOulineIcon /> <p className={cls.title}> {item?.cargo?.volume_m3}м³</p>
+            <LoadOulineIcon />{" "}
+            <p className={cls.title}> {item?.cargo?.volume_m3}м³</p>
           </Flex>
         </Flex>
 
@@ -106,14 +125,22 @@ export const Card = ({ item, cls, ...props }) => {
               : ` Безнал`}
           </span>
         </p>
-        <span className={cls.subTitle}>Предопл. {item?.cargo?.prepayment_percentage > 0 ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}` : `Нет`}  </span>
+        <span className={cls.subTitle}>
+          Предопл.{" "}
+          {item?.cargo?.prepayment_percentage > 0
+            ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}`
+            : `Нет`}{" "}
+        </span>
       </Box>
       <Box className={cls.contend}>
         <Flex alignItems={`flex-start`} gap={1}>
           <Avatar
             width={`50px`}
             height={`50px`}
-            src={process.env.NEXT_PUBLIC_MEDIA_URL + item?.cargo?.users_id_data?.photo}
+            src={
+              process.env.NEXT_PUBLIC_MEDIA_URL +
+              item?.cargo?.users_id_data?.photo
+            }
             fontSize={`16px`}
             name={item?.cargo?.users_id_data?.full_name}
           />

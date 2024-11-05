@@ -329,7 +329,7 @@ export const TableComponent = ({ watch, formState }) => {
                             <TooltipComponets
                               cls={cls}
                               status={`check`}
-                              label={`Vodil kelgan`}
+                              label={`Водитель подтвердил`}
                               color={`rgba(21, 186, 77, 1)`}
                             />
                           )}
@@ -339,7 +339,7 @@ export const TableComponent = ({ watch, formState }) => {
                             <TooltipComponets
                               cls={cls}
                               status={`waiting_for_driver`}
-                              label={`Haydovchini kutyapmiz`}
+                              label={`Ждем подтверждение водителя`}
                               color={`rgba(193, 187, 32, 1)`}
                             />
                           )}
