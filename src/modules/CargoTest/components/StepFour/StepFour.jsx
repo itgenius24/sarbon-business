@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { CustomTextarea } from "@/components/CustomTextarea";
 
 const StepFour = ({ status }) => {
-  const [value, setValueR] = React.useState("");
+  const [value, setValueR] = React.useState("negotiable");
   const {
     register,
     control,
@@ -280,11 +280,13 @@ const StepFour = ({ status }) => {
                     </Box>
                   ) : (
                     <Box width={`100%`}>
+              
                       <p className={cls.totalTEet}>
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
-                        {watch(`price_after_order`)}{" "}
+                        {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`) : 0 )}
+                        
                         {watch(`price_prepayment_unit`)
                           ?.label?.charAt(0)
                           .toUpperCase() +

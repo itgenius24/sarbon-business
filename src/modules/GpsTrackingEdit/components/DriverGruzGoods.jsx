@@ -57,7 +57,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState }) => {
     mutate({
       data: {
         guid: loadState?.guid, //yukni guidisi
-        order_status: ["free_cargo"],
+        new_status: ["free_cargo"],
         users_id_3: "",
       },
     });

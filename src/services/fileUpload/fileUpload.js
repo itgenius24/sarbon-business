@@ -27,7 +27,7 @@ export const fileUpload = async (e) => {
   fileUploadRequest.interceptors.response.use((response) => response.data, () => {});
 
 
-  const fileUpload = await fileUploadRequest.post("https://api.admin.u-code.io/v1/files/folder_upload?folder_name=media", formData).then((res) => res.data);
+  const fileUpload = await fileUploadRequest.post("https://api.admin.furgo.uz/v1/files/folder_upload?folder_name=media", formData).then((res) => res.data);
 
   return fileUpload;
 

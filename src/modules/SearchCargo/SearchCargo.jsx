@@ -40,6 +40,7 @@ export const SearchCargoModule = () => {
     watch,
     control,
     reset,
+    loading,
     errors,
     carTypeOptions,
     weightMeasurementOptions,
@@ -406,6 +407,7 @@ export const SearchCargoModule = () => {
         </Box>
         <Button
           // isDisabled={disabledBtn}
+          isLoading={loading}
           onClick={handleSubmit(onSubmit)}
           // rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}

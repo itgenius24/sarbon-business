@@ -133,8 +133,8 @@ export const Performed = ({
               <p className={styles.cardName}>
                 {
                   performedStatuses[
-                    cargo?.order?.[0]?.indicate_status[0]
-                      ? cargo?.order?.[0]?.indicate_status[0]
+                    cargo?.indicate_status[0]
+                      ? cargo?.indicate_status[0]
                       : `Не cтатус`
                   ]
                 }
@@ -146,7 +146,7 @@ export const Performed = ({
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Товары</span>
               <p className={styles.cardName}>
-                {cargo?.cargo_id_data?.cargo_type_id_data?.name}
+                {cargo?.cargo_id_data?.product_type}
               </p>
             </div>
             <div className={styles.cardItem}>

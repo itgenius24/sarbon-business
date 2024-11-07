@@ -22,8 +22,8 @@ const useStepTwoProps = () => {
   const [nameState, setNameState] = useState("");
   const [disabled, setDisabled] = useState(true);
 
-  const [disabledUnlo, setDisabledUnlo] = useState(true);
-  const [disabledLo, setDisabledLo] = useState(false);
+  const [as_soon_as_b, setas_soon_as_b] = useState(true);
+  const [as_soon_as_a, setas_soon_as_a] = useState(false);
 
   const [placeMarkGeometry, setPlaceMarkGeometry] = useState([
     41.34908881486223, 69.3374228085318,
@@ -37,25 +37,25 @@ const useStepTwoProps = () => {
     useAddCargoContext();
 
   // useEffect(() => {
-  //   if(canEdit && watch(`disabledlo`)){
-  //     setDisabledLo(true)
+  //   if(canEdit && watch(`as_soon_as_a`)){
+  //     setas_soon_as_a(true)
 
   //   } else{
-  //     setDisabledLo(false)
+  //     setas_soon_as_a(false)
   //   }
-  // },[canEdit,watch(`disabledlo`)])
+  // },[canEdit,watch(`as_soon_as_a`)])
 
   useEffect(() => {
-    if (canEdit && watch(`disabledUnlo`)) {
-      setDisabledUnlo(false);
+    if (canEdit && watch(`as_soon_as_b`)) {
+      setas_soon_as_b(false);
     } else {
-      setDisabledUnlo(true);
+      setas_soon_as_b(true);
     }
-  }, [canEdit, watch(`disabledUnlo`)]);
+  }, [canEdit, watch(`as_soon_as_b`)]);
 
   const handLeCheck = (e) => {
-    setDisabledLo(e.target.checked);
-    setValue(`disabledLo`, e.target.checked);
+    setas_soon_as_a(e.target.checked);
+    setValue(`as_soon_as_a`, e.target.checked);
     // setValue(`loadings.${[index]}`, {
     //   ...loadings[index],
     //   from_date:"",
@@ -63,8 +63,8 @@ const useStepTwoProps = () => {
   };
 
   const handLeCheck2 = (e) => {
-    setDisabledUnlo(e.target.checked);
-    setValue(`disabledUnlo`, e.target.checked);
+    setas_soon_as_b(e.target.checked);
+    setValue(`as_soon_as_b`, e.target.checked);
   };
 
   useEffect(() => {
@@ -308,8 +308,8 @@ const useStepTwoProps = () => {
     results,
     activeIndex,
     hanleAdress,
-    disabledUnlo,
-    disabledLo,
+    as_soon_as_b,
+    as_soon_as_a,
     address,
     lodingChangeDate,
     onCreateCargoSuccess,

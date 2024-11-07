@@ -127,17 +127,17 @@ export const useSearchCargo = () => {
     }
   }, [useList]);
 
-  const { mutate } = useCreateVehicle({
+  const { mutate,isPending } = useCreateVehicle({
     onSuccess: (res) => {
-      reset()
+      // reset()
       setIsPopupOpen(true)
       // router.push(`/${locale}/my-cars`);
     },
   });
-  const { mutate: updateW } = useUpdateVehicle({
+  const { mutate: updateW,isPending:upisPending } = useUpdateVehicle({
     onSuccess: () => {
       // setIsPopupOpen(true)
-      reset()
+      // reset()
       router.push(`/${locale}/my-cars`);
     },
   });
@@ -165,7 +165,7 @@ export const useSearchCargo = () => {
         guid: id ? id : undefined,
       },
     };
-    console.log(`val`, data);
+   
     if (id) {
       updateW(data);
     } else {
@@ -180,6 +180,7 @@ export const useSearchCargo = () => {
     watch,
     control,
     reset,
+    loading:isPending ? isPending : upisPending,
     errors,
     carTypeOptions,
     weightMeasurementOptions,

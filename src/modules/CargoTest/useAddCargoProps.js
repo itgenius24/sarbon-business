@@ -954,6 +954,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           label: data?.map_id_data?.payment_type,
           value: data?.map_id_data?.guid,
         },
+        payment_type_1: {
+          label: data?.map_id_2_data?.payment_type,
+          value: data?.map_id_2_data?.guid,
+        },
+        payment_type_2: {
+          label: data?.map_id_3_data?.payment_type,
+          value: data?.map_id_3_data?.guid,
+        },
         bargain: data.request
           ? "request"
           : data.negotiable
@@ -979,7 +987,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         prepayment_interest: data?.prepayment_interest,
         payment_upon_unloading: data?.payment_upon_unloading,
         company_contract: data?.company_contract,
-
+        as_soon_as_a:data?.as_soon_as_a,
+        as_soon_as_b:data?.as_soon_as_b,
         load_type_id: {
           value: data?.load_type_id_data?.guid,
           label: data?.load_type_id_data?.name,

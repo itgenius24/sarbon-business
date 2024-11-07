@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   BlueFuraIcon,
   BluePendingIcon,
@@ -16,7 +16,7 @@ import {
   MapCargoLoadGoodsIcon,
   QuestionBlueIcon,
   StoneIcon,
-  GreenMapIcon
+  GreenMapIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -53,14 +53,13 @@ const Cmap = memo(
     contendHoverState,
     isLoading,
   }) => {
-   
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
       setIsClient(true);
     }, []);
-  
+
     if (!isClient) {
       return null; // Render nothing during SSR
     }
@@ -125,14 +124,13 @@ const Cmap = memo(
 
     let click = document.getElementById(`click`);
 
-    click?.addEventListener(`click`,(e) => {
-      e.stopPropagation()
+    click?.addEventListener(`click`, (e) => {
+      e.stopPropagation();
       // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
-      copy(contendHoverState?.users_id_data?.phone)
-    })
+      copy(contendHoverState?.users_id_data?.phone);
+    });
 
-    console.log(`getCarListProps`,getCarListProps)
-
+    console.log(`getCarListProps`, getCarListProps);
 
     return (
       <Map
@@ -144,6 +142,10 @@ const Cmap = memo(
         options={{
           maxZoom: 22,
           minZoom: 2,
+          restrictMapArea: [
+            [-85, -179], // Chap-past (Antarktika va janubiy qutbga yaqin joy)
+            [85, 179], // O'ng-yuqori (Shimoliy qutbga yaqin joy)
+          ],
         }}
         width="100%"
         height={"90vh"}
@@ -194,7 +196,9 @@ const Cmap = memo(
         >
           {getCarListProps?.data &&
             getCarListProps?.data?.map((carInfo) => {
-
+              {
+                console.log(`carInfo`,carInfo)
+              }
               const BalloonContent = () => (
                 <div id="balloon-content" className={cls.balloon_content_empty}>
                   <div className={cls.wrap} style={{ height: "45px" }}>
@@ -252,7 +256,7 @@ const Cmap = memo(
 
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
-                        <StoneIcon /> <span> 22 т.</span>
+                        <StoneIcon /> <span> {carInfo?.orders?.[0]?.cargo_id_data?.weight} т.</span>
                       </Box>
 
                       <Box
@@ -260,7 +264,7 @@ const Cmap = memo(
                         gap={1}
                         alignItems={"center"}
                       >
-                        <LoadOulineIcon /> <span>86 m3</span>
+                        <LoadOulineIcon /> <span>{carInfo?.orders?.[0]?.cargo_id_data?.volume_m3} m3</span>
                       </Box>
                     </div>
                   </div>
@@ -343,8 +347,11 @@ const Cmap = memo(
                 <>
                   <Placemark
                     key={carInfo?.user?.guid}
-                    geometry={[carInfo?.users_gps?.[0]?.lat, carInfo?.users_gps?.[0]?.long]}
-                    properties={{ balloonContent: balloonContent2, }}
+                    geometry={[
+                      carInfo?.users_gps?.[0]?.lat,
+                      carInfo?.users_gps?.[0]?.long,
+                    ]}
+                    properties={{ balloonContent: balloonContent2 }}
                     options={{
                       iconLayout: "default#image",
                       iconImageHref:
@@ -365,14 +372,10 @@ const Cmap = memo(
                       const balloonInstance = placemark.balloon;
                       balloonInstance.events.add("click", () => {
                         setContendSingle(carInfo);
-                        if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "our_cargo"
-                        ) {
+                        if (carInfo?.user?.provisions?.[0] === "our_cargo") {
                           setModalType("driverCheck");
                         } else if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "someone_cargo"
+                          carInfo?.user?.provisions?.[0] === "someone_cargo"
                         ) {
                           setModalType("driverQuestion");
                         } else if (
@@ -396,49 +399,53 @@ const Cmap = memo(
 
         {locationData &&
           locationData.map((item) => (
-            <Placemark
-              key={item?.id}
-              geometry={[
-                item.location_name.split(" ")[0] * 1,
-                item.location_name.split(" ")[1] * 1,
-              ]}
-              properties={{
-                balloonContent: balloonContentCargo,
-                iconContent: "2000",
-              }}
-              options={{
-                iconLayout: "default#image",
-                iconImageHref: getSVGIcon(
-                  item?.bid_cash,
-                  item?.new_status?.[0]
-                ),
-                iconImageSize: [60, 72],
-                iconImageOffset: [-15, -42],
-              }}
-              onBalloonOpen={(e) => {
-                console.log(`item`, item?.new_status?.[0]);
+            <>
+              {item.location_name && (
+                <Placemark
+                  key={item?.guid}
+                  geometry={[
+                    item.location_name.split(" ")[0] * 1,
+                    item.location_name.split(" ")[1] * 1,
+                  ]}
+                  properties={{
+                    balloonContent: balloonContentCargo,
+                    iconContent: "2000",
+                  }}
+                  options={{
+                    iconLayout: "default#image",
+                    iconImageHref: getSVGIcon(
+                      item?.bid_cash,
+                      item?.new_status?.[0]
+                    ),
+                    iconImageSize: [60, 72],
+                    iconImageOffset: [-15, -42],
+                  }}
+                  onBalloonOpen={(e) => {
+                 
 
-                const placemark = e.get("target");
-                const balloonInstance = placemark.balloon;
-                balloonInstance.events.add("click", () => {
-                  setLoadState(item);
-                  if (item?.new_status?.[0] === "occupied_cargo") {
-                    setModalType("driverGruzGoods");
-                  } else {
-                    setModalType("driverGruz");
-                  }
-                });
-              }}
-              onMouseEnter={(e) => handleMouseEnterCargo(e, item)}
+                    const placemark = e.get("target");
+                    const balloonInstance = placemark.balloon;
+                    balloonInstance.events.add("click", () => {
+                      setLoadState(item);
+                      if (item?.new_status?.[0] === "occupied_cargo") {
+                        setModalType("driverGruzGoods");
+                      } else {
+                        setModalType("driverGruz");
+                      }
+                    });
+                  }}
+                  onMouseEnter={(e) => handleMouseEnterCargo(e, item)}
 
-              // onClick={(e) => {
+                  // onClick={(e) => {
 
-              //   // handlePlacemarkClick(e.get("target").getMap(), [
-              //   //   item.location_name.split(",")[0] * 1,
-              //   //   item.location_name.split(",")[1] * 1,
-              //   // ]);
-              // }}
-            />
+                  //   // handlePlacemarkClick(e.get("target").getMap(), [
+                  //   //   item.location_name.split(",")[0] * 1,
+                  //   //   item.location_name.split(",")[1] * 1,
+                  //   // ]);
+                  // }}
+                />
+              )}
+            </>
           ))}
       </Map>
     );

@@ -47,7 +47,7 @@ export const Documents = () => {
         cursor={fileKey && !isAcceptRejectLoading ? "pointer" : "not-allowed"}
         opacity={fileKey ? 1 : 0.5}
       >
-        <input disabled={!fileKey} className="visually-hidden" type="file" accept="image/*" onChange={(e) => {
+        <input  className="visually-hidden" type="file" accept="image/*" onChange={(e) => {
           handleImageUpload(e);
         }} />
         <Box>

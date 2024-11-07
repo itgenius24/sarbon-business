@@ -182,7 +182,7 @@ const StepFive = ({ status }) => {
           loadings[0].from_date || new Date(),
           loadings[0].loading_num?.value
         ),
-        date: new Date(unloading[unloading.length - 1].to_date),
+        date: new Date(unloading[0].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
         location_name: loadings[0].cor,
@@ -197,6 +197,9 @@ const StepFive = ({ status }) => {
         country_code_to: watch(`country_code_to`),
         from: loadings[0].address,
         to: unloading[unloading.length - 1].address,
+        as_soon_as_a:watch(`as_soon_as_a`),
+        as_soon_as_b:watch(`as_soon_as_b`),
+         
       },
     };
     createCargo.mutate(requestData);

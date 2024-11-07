@@ -55,11 +55,11 @@ const StepTwo = ({ status }) => {
     setActiveIndex,
     activeIndex,
     hanleAdress,
-    disabledUnlo,
+    as_soon_as_b,
     loadingNumF,
     address,
     lodingChangeDate,
-    disabledLo,
+    as_soon_as_a,
     onCreateCargoSuccess,
     handLeCheck,handLeCheck2
 
@@ -158,7 +158,7 @@ const StepTwo = ({ status }) => {
                    
                       <span className={cls.label}>Когда забрать</span>
                       <DatePickerComponent
-                        isDisabled={watch("disabledLo")}
+                        isDisabled={watch("as_soon_as_a")}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index,item?.guid);
                         }}
@@ -197,8 +197,8 @@ const StepTwo = ({ status }) => {
                         isDisabled={!canEdit}
                         width={"16px"}
                         height={"16px"}
-                        checked={watch(`disabledLo`)}
-                        defaultChecked={watch(`disabledLo`)}
+                        checked={watch(`as_soon_as_a`)}
+                        defaultChecked={watch(`as_soon_as_a`)}
                         onChange={(e) => handLeCheck(e)}
                       >
                          Как можно скорее
@@ -318,7 +318,7 @@ const StepTwo = ({ status }) => {
                     <Box width={"154px"}>
                       <span className={cls.label}>Когда доставить</span>
                       <DatePickerComponent
-                        isDisabled={watch(`disabledUnlo`)}
+                        isDisabled={watch(`as_soon_as_b`)}
                         onChange={(date) => {
                           lodingChangeDate("unLoading", date, index,item?.guid);
                         }}
@@ -333,8 +333,8 @@ const StepTwo = ({ status }) => {
                         isDisabled={!canEdit}
                         width={"16px"}
                         height={"16px"}
-                        checked={watch(`disabledUnlo`)}
-                        defaultChecked={watch(`disabledUnlo`)}
+                        checked={watch(`as_soon_as_b`)}
+                        defaultChecked={watch(`as_soon_as_b`)}
 
                         onChange={(e) => handLeCheck2(e)}
                       >

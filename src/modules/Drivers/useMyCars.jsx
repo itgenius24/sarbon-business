@@ -4,6 +4,7 @@ import {
   useCreateUser,
   useGetAddress,
   useGetCarListOnSubmit,
+  useGetUserGpsByIDData,
   useGetUserGpsData,
   useUpdateUser,
 } from "@/services/api";
@@ -60,7 +61,7 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
     },
   });
 
-  const getUserGps = useGetUserGpsData({
+  const getUserGps = useGetUserGpsByIDData({
     params: {
       data: JSON.stringify({
         // client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
@@ -71,12 +72,12 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
     },
   });
 
-  //  console.log("getUserGps",getUserGps?.data.response)
+   console.log("getUserGps",getUserGps)
 
   useEffect(() => {
     if (id) {
       reset({
-        ...getUserGps?.data?.response[0]?.users_id_data,
+        ...getUserGps?.data?.response[0],
         password: "",
       });
     }
@@ -95,7 +96,7 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
           drivers_license: val?.drivers_license,
           photo: val?.photo,
           login: val?.phone,
-          guid: getUserGps?.data?.response[0]?.users_id,
+          guid: getUserGps?.data?.response[0]?.guid,
           role_id: "921464fa-8308-46b7-9b66-363acf654e40",
           client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
         },

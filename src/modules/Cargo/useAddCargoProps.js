@@ -609,6 +609,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function handleUploadDocument(link, fileKey) {
+    console.log(`fileKey`,fileKey)
     if (fileKey) {
       setValue(fileKey, link);
       updateResponseMutation
@@ -1129,6 +1130,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       return getTempCargo.data?.response;
     }
   }, [temlateVal, getTempCargo.data?.response]);
+
 
   return {
     register,

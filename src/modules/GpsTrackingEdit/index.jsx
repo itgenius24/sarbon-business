@@ -147,6 +147,8 @@ export default function GpsTrackingModuleTets() {
   // function copyFunction() {
   // }
 
+  console.log(`loadHoverState`,loadHoverState)
+
   const BalloonContent = () => (
     <div id="balloon-content" className={cls.balloon_content_empty}>
       <div className={cls.wrap} style={{ height: "45px" }}>
@@ -286,6 +288,8 @@ export default function GpsTrackingModuleTets() {
     </div>
   );
 
+  console.log(`loadHoverState`,contendHoverState)
+
   const BalloonContentCargo = () => (
     <div id="balloon-content_cargo" className={cls.balloon_content_empty}>
       <div className={cls.wrap} style={{ height: "45px" }}>
@@ -311,11 +315,11 @@ export default function GpsTrackingModuleTets() {
 
         <Flex style={{ gap: "4px" }} alignItems={"center"}>
           <Box className={cls.conWrap}>
-            <StoneIcon /> <span> 22 т.</span>
+            <StoneIcon /> <span> {loadHoverState?.weight} т.</span>
           </Box>
           <p className={cls.conWrap}> </p>
           <p className={cls.conWrap} gap={1} alignItems={"center"}>
-            <LoadOulineIcon /> <span>86 m3</span>
+            <LoadOulineIcon /> <span>{loadHoverState?.volume_m3} m3</span>
           </p>
         </Flex>
       </div>
