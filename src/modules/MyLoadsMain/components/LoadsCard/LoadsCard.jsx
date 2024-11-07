@@ -3,7 +3,7 @@ import cls from "./styles.module.scss";
 import { DeleteIcon, PencilIcon, TruckIcon } from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
 import { DataList } from "@/components/DataList";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Tooltip } from "@chakra-ui/react";
 import { cancelBy, statuses } from "@/utils/constants";
 import { formatSum } from "@/utils/formatSum";
 import { useLoadsCardProps } from "./useLoadsCardProps";
@@ -83,7 +83,21 @@ export const LoadsCard = (cargo) => {
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
                     {cargo?.cargo?.from
-                      ? cargo?.cargo?.from
+                      ? cargo?.cargo?.from?.length > 10 ? (
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${cargo?.cargo?.from}`}
+                  >
+                    <span>{`${cargo?.cargo?.from.slice(
+                      0,
+                      10
+                    )}...`}</span>
+                  </Tooltip>
+                ) : (
+                  cargo?.cargo?.from
+                )
                       : cargo?.cargo?.city_id_data?.[
                           "name_" + (locale === "uz" ? "en" : "ru")
                         ]}
@@ -100,7 +114,21 @@ export const LoadsCard = (cargo) => {
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
                     {cargo?.cargo?.to
-                      ? cargo?.cargo?.to
+                      ? cargo?.cargo?.to?.length > 10 ? (
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${cargo?.cargo?.to}`}
+                  >
+                    <span>{`${cargo?.cargo?.to.slice(
+                      0,
+                      10
+                    )}...`}</span>
+                  </Tooltip>
+                ) : (
+                  cargo?.cargo?.to
+                )
                       : cargo?.cargo?.city_id_2_data?.[
                           "name_" + (locale === "uz" ? "en" : "ru")
                         ]}

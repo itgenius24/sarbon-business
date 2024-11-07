@@ -11,7 +11,7 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import cls from "./style.module.scss";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useAddCargoContext } from "../../providers";
@@ -65,7 +65,7 @@ const StepFive = ({ status }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  console.log(`unloading`,unloading)
+
 
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
@@ -318,6 +318,14 @@ const StepFive = ({ status }) => {
     handleResetForm();
     router.push(`/${locale}/my-loads/in_moderation/${guid}?isFirst=true`);
   };
+
+  const contact = authStore.userData.phone
+
+  useEffect(() => {
+     if(!watch(`contact`)){
+      setValue(`contact`,contact)
+     }
+  },[])
   return (
     <>
       <Box className={cls.step1}>
@@ -373,14 +381,14 @@ const StepFive = ({ status }) => {
       </Box>
       {!status && (
         <Box mt="32px">
-          <Checkbox name="accept" register={register} filled>
+          {/* <Checkbox name="accept" register={register} filled>
             <Text fontSize="14px" maxWidth="396px" width="100%">
               {t("Нажимая кнопку, вы принимаете условия")}{" "}
               <a style={{ color: "#026FE7", fontWeight: "600" }} href="">
                 {t("Пользовательская  соглашения")}
               </a>
             </Text>
-          </Checkbox>
+          </Checkbox> */}
           <Box
             mt="16px"
             display="flex"
@@ -389,7 +397,7 @@ const StepFive = ({ status }) => {
             maxWidth="900px"
           >
             <Button
-              isDisabled={!watch("accept") || isClicked}
+              // isDisabled={!watch("accept") || isClicked}
               isLoading={loading}
               size="md"
               maxWidth="223px"
@@ -433,7 +441,10 @@ const StepFive = ({ status }) => {
           <ModalHeader>
             <CheckModalIcon />
           </ModalHeader>
-          <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
+          {/* <ModalCloseButton onClick={() => {
+            setIsPopupOpen(false)
+            clearF()
+          }} /> */}
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
               Груз успешно добавлен!

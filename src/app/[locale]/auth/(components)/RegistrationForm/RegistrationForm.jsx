@@ -181,7 +181,9 @@ export const RegistrationForm = () => {
             <Flex flexDirection={`column`} rowGap={`24px`} mt={`13px`}>
               <div className={cls.tabWrap}>
                 <div
-                  onClick={() => setStatus(1)}
+                  onClick={() => {setStatus(1)
+                    setValueR(`C1`)
+                  }}
                   className={status === 1 ? cls.active : ``}
                 >
                   Юридическое лицо
@@ -405,7 +407,7 @@ export const RegistrationForm = () => {
       </Box>
       <Box display="flex" justifyContent={`space-between`} mt="30px">
         <Box mb="16px">
-          <Checkbox
+          {/* <Checkbox
             width={"20px"}
             height={"20px"}
             filled
@@ -417,13 +419,13 @@ export const RegistrationForm = () => {
               {" "}
               Пользовательская соглашения
             </span>
-          </Checkbox>
+          </Checkbox> */}
         </Box>
         <Button
           width={`20%`}
           type="submit"
           mb="16px"
-          isDisabled={!watch("acceptTerms")}
+          // isDisabled={!watch("acceptTerms")}
         >
           {t("Сохранить профиль")}
         </Button>

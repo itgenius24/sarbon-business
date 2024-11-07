@@ -110,7 +110,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Flex gap={2}>
           <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
           <Box>
-              <p className={cls.cardStartTitle}>{contendSingle?.order?.[0]?.cargo_id_data?.from}</p>
+              <p className={cls.cardStartTitle}>{contendSingle?.order?.[0]?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 
                 {contendSingle?.order?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} / <span>{format(contendSingle?.order?.[0]?.cargo_id_data?.load_time ? contendSingle?.order?.[0]?.cargo_id_data?.load_time : new Date(),"yyyy-mm-dd")}
@@ -121,7 +121,7 @@ const DriverCheck = ({ cls,contendSingle, setModalType,setCenterModalType,setIco
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
             <Box>
-              <p className={cls.cardStartTitle}>{contendSingle?.order?.[0]?.cargo_id_data?.to}</p>
+              <p className={cls.cardStartTitle}>{contendSingle?.order?.[0]?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {contendSingle?.order?.[0]?.cargo_id_data?.city_id_2_data?.address_id_data?.name} / <span>{format(contendSingle?.order?.[0]?.cargo_id_data?.date ? contendSingle?.order?.[0]?.cargo_id_data?.date : new Date(),"yyyy-mm-dd")}</span>{" "}
               </p>

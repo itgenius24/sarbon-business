@@ -361,8 +361,8 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 width={`100%`}
               >
                 {!addCargoProps.canEdit ? (
-                  <Box display={`flex`} columnGap="8px">
-                    <Button
+                  <Box display={`flex`} columnGap="8px">{
+                    status !== `active` &&  <Button
                       leftIcon={<DeleteIcon />}
                       size="sm"
                       maxWidth="323px"
@@ -372,6 +372,8 @@ export const CargoViews = observer(({ id, status, locale }) => {
                     >
                       {t("Удалить")}
                     </Button>
+                  }
+                   
 
                     <Button
                       leftIcon={<PencilIconW />}

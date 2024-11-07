@@ -229,7 +229,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     <div className={cls.text}>
                       <p>4. Оплата</p>
                       <span>
-                        {addCargoProps.watch(`price_after_order`) ? addCargoProps.watch(`price_after_order`): `не заполнено`}
+                        {addCargoProps.watch(`price_after_order`) ? +addCargoProps.watch(`price`) - (+addCargoProps.watch(`price_prepayment`) || 0 ) : `не заполнено`}
                       </span>
                     </div>
                   </div>

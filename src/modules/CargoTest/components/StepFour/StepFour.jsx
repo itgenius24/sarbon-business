@@ -48,6 +48,12 @@ const StepFour = ({ status }) => {
     }
   }, [canEdit, watch(`prepayment`)]);
 
+  useEffect(() => {
+   if(!watch(`prepayment_percentage`)){
+    setValue(`prepayment`,true)
+   }
+  },[])
+
   const negotiableOption = [
     {
       label: "Без торга",
@@ -226,7 +232,6 @@ const StepFour = ({ status }) => {
                         register={register}
                         name={`prepayment`}
                         defaultChecked={watch(`prepayment`)}
-
                         isDisabled={!canEdit}
                       >
                         Предоплата

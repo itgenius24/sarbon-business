@@ -383,7 +383,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const allCargoParams = { cargo_id: id };
 
-  const allResponseParams = { cargo_id: getOfferCargoById.data?.response[0]?.cargo_id };
+  const allResponseParams = {
+    cargo_id: getOfferCargoById.data?.response[0]?.cargo_id,
+  };
 
   const templateParams = { cargo_id: templateId };
 
@@ -520,13 +522,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
-
       let loadingsData = watch(`loadings`).map((item, index) => ({
         address: item?.address,
         date: new Date(item.from_date),
         lat: item?.cor.split(" ")[1],
         long: item?.cor.split(" ")[0],
-        guid:item?.guid,
+        guid: item?.guid,
         step: index + 1,
         type: ["shipper"],
         expectations: +item.loading_num || 0,
@@ -538,17 +539,18 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         long: item?.cor.split(" ")[0],
         step: index + 1,
         type: ["consignee"],
-        guid:item?.guid
+        guid: item?.guid,
       }));
 
-      
       if (watch(`period_ids`)?.length > 0) {
         createAddress.mutate(
           {
             data: {
               object_data: {
-                period_ids:watch(`period_ids`),
-                name: loadingsData.concat(unloadinData).filter(item => watch(`period_ids`).includes(item.guid)),
+                period_ids: watch(`period_ids`),
+                name: loadingsData
+                  .concat(unloadinData)
+                  .filter((item) => watch(`period_ids`).includes(item.guid)),
                 cargo_id: data?.guid,
               },
             },
@@ -589,8 +591,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       if (isAuth) getTempCargo.refetch();
     },
   });
-
- 
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess() {
@@ -675,7 +675,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
     setLoading(true);
 
-
     const requestData = {
       data: {
         cargo_type_id: watch(`cargo_type`)?.value,
@@ -686,9 +685,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         package_quantity: +watch(`packaging_quantity`) || 0,
         length: +watch(`length`),
         width: watch(`width`),
-            
-        car_type:watch("car_type")?.label,
-        product_type:watch(`cargo_type`)?.label,
+
+        car_type: watch("car_type")?.label,
+        product_type: watch(`cargo_type`)?.label,
 
         height: +watch(`height`),
         photo: watch(`image`),
@@ -737,7 +736,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         to: watch(`unloading`)[watch(`unloading`).length - 1].address,
       },
     };
-  
+
     if (id) {
       requestData.data.guid = id;
 
@@ -839,8 +838,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       case "active":
         return getCargo.data?.response?.[0];
       default:
-        return getOfferCargoById.data?.response[0]?.cargo_id_data
-        ;
+        return getOfferCargoById.data?.response[0]?.cargo_id_data;
     }
   }
 
@@ -934,6 +932,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         capacity: data.load_capacity ?? "",
         price: data.bid_cash,
         price_prepayment: data.prepayment_percentage,
+        prepayment: data.prepayment_percentage > 0  ? true : false,
         price_after_order: isCargo
           ? data?.dim_length_special
           : data?.payment_unloading ?? 0,
@@ -980,6 +979,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         prepayment_interest: data?.prepayment_interest,
         payment_upon_unloading: data?.payment_upon_unloading,
         company_contract: data?.company_contract,
+
         load_type_id: {
           value: data?.load_type_id_data?.guid,
           label: data?.load_type_id_data?.name,
@@ -987,6 +987,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       });
     }
   }
+
+  console.log(`price_prepayment`,watch(`prepayment`))
 
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
@@ -1016,7 +1018,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   useEffect(() => {
     if (getMaps.isSuccess) {
-   
       const data = getMaps.data.response;
       const reversedData = data;
       setTemplateId("");
@@ -1024,11 +1025,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       const shipper = reversedData.filter(
         (item) => item.type?.[0] === `shipper`
       );
-      
+
       const consignee = reversedData.filter(
         (item) => item?.type?.[0] === `consignee`
       );
-      setValue(`staticArrayAderss`,shipper.concat(consignee))
+      setValue(`staticArrayAderss`, shipper.concat(consignee));
       shipper
         ?.sort((a, b) => a?.step - b?.step)
         ?.forEach((item, index) => {
@@ -1036,8 +1037,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             from_date: item?.date,
-            guid:item.guid,
-            loading_num:{value:item?.expectations,label:item?.expectations}
+            guid: item.guid,
+            loading_num: {
+              value: item?.expectations,
+              label: item?.expectations,
+            },
           });
         });
 
@@ -1048,13 +1052,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
             cor: `${item.lat} ${item.long}`,
             address: item?.name,
             to_date: item?.date,
-            guid:item.guid
+            guid: item.guid,
           });
         });
-      
     }
   }, [getMaps.isSuccess]);
-
 
   const isFirstRender = useRef(true);
 

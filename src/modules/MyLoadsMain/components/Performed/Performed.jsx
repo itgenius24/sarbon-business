@@ -4,9 +4,14 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Tooltip } from "@chakra-ui/react";
 
-export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
+export const Performed = ({
+  cargo,
+  orderStatus,
+  handleAccept,
+  handleCancel,
+}) => {
   const { t } = useTranslation();
 
   const router = useRouter();
@@ -25,26 +30,68 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
     in_active: t("неактивен"),
   };
 
-  console.log(`perfomen`,cargo)
+  console.log(`perfomen`, cargo);
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
         <div className={styles.performedXeader}>
           <div className={styles.leftContend}>
             <div className={styles.text}>
-              <h3>{cargo?.cargo_id_data?.from}</h3>
+              <h3>
+                {
+                  cargo?.cargo_id_data?.from?.length > 10 ? (
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${cargo?.cargo_id_data?.from}`}
+                  >
+                    <span>{`${cargo?.cargo_id_data?.from.slice(
+                      0,
+                      10
+                    )}...`}</span>
+                  </Tooltip>
+                ) : (
+                  cargo?.cargo_id_data?.from
+                )
+                }
+              </h3>
               <p>
                 {cargo?.cargo_id_data?.address_id_data?.name}
-                <span> {cargo?.cargo_id_data?.load_time && format(cargo?.cargo_id_data?.load_time,"MMMM dd") }</span>
+                <span>
+                  {cargo?.cargo_id_data?.load_time &&
+                    format(
+                      new Date(cargo?.cargo_id_data?.load_time),
+                      "dd-MMMM"
+                    )}
+                </span>
               </p>
             </div>
             <ArrowNextIcon />
             <div className={styles.text}>
-              <h3>{cargo?.cargo_id_data?.to}</h3>
+              <h3>{   cargo?.cargo_id_data?.to?.length > 10 ? (
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${cargo?.cargo_id_data?.to}`}
+                  >
+                    <span>{`${cargo?.cargo_id_data?.to.slice(
+                      0,
+                      10
+                    )}...`}</span>
+                  </Tooltip>
+                ) : (
+                  cargo?.cargo_id_data?.to
+                )}</h3>
               <p>
                 {cargo?.cargo_id_data?.address_id_2_data?.name}
 
-                <span> { cargo?.cargo_id_data?.date && format(cargo?.cargo_id_data?.date,"MMMM dd")}</span>
+                <span>
+                  {" "}
+                  {cargo?.cargo_id_data?.date &&
+                    format(cargo?.cargo_id_data?.date, "dd-MMMM")}
+                </span>
               </p>
             </div>
           </div>
@@ -55,7 +102,7 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
               </p>
               <p className={styles.rightTitle}>
                 Предоплата:
-                {cargo?.payment_type[0] === "prepayment" ? `Да` :`Нет` }
+                {cargo?.payment_type[0] === "prepayment" ? `Да` : `Нет`}
               </p>
             </div>
             <div className={styles.text}>
@@ -71,17 +118,26 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Водитель</span>
               <p className={styles.cardName}>
-                {cargo?.users_id_data?.full_name} +{cargo?.users_id_data?.rating || 0}
+                {cargo?.users_id_data?.full_name}{" "}
+                {cargo?.users_id_data?.rating > 0
+                  ? `+${cargo?.users_id_data?.rating}`
+                  : ``}
               </p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Телефон</span>
-              <p className={styles.cardName}>{cargo?.users_id_2_data?.phone}</p>
+              <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Статус</span>
               <p className={styles.cardName}>
-                {performedStatuses[cargo?.order?.[0]?.indicate_status[0]]}
+                {
+                  performedStatuses[
+                    cargo?.order?.[0]?.indicate_status[0]
+                      ? cargo?.order?.[0]?.indicate_status[0]
+                      : `Не cтатус`
+                  ]
+                }
                 {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
               </p>
             </div>
@@ -95,20 +151,19 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Транспорт</span>
-              <p className={styles.cardName}>
-                {cargo?.car_type}
-              </p>
+              <p className={styles.cardName}>{cargo?.car_type}</p>
             </div>
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Вес, объём</span>
               <p className={styles.cardName}>
                 {cargo?.cargo_id_data?.weight}
-                {cargo?.cargo_id_data?.measurement_id_data?.Symbol} / {cargo?.cargo_id_data?.volume_m3} m³
+                {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
+                {cargo?.cargo_id_data?.volume_m3} m³
               </p>
             </div>
           </div>
-          {
-            orderStatus == "performed" && <div className={styles.cardFooter}>
+          {orderStatus == "performed" && (
+            <div className={styles.cardFooter}>
               <div className={styles.cardFooterLeft}>
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>Пройдено</span>
@@ -127,14 +182,12 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
                   <MapIcon /> Показать на карте
                 </div>
               </div>
-              <div className={styles.rightContend}>
-
-              </div>
+              <div className={styles.rightContend}></div>
             </div>
-          }
+          )}
 
-          {
-            orderStatus === `new` && <Box
+          {orderStatus === `new` && (
+            <Box
               width={`30%`}
               display="flex"
               // width={isLargerThan768 ? "570px" : "100%"}
@@ -164,8 +217,7 @@ export const Performed = ({ cargo,orderStatus,handleAccept,handleCancel }) => {
                 {t("Принять")}
               </Button>
             </Box>
-          }
-
+          )}
         </div>
       </div>
     </div>
