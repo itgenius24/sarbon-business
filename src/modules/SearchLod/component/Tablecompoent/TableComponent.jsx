@@ -200,7 +200,7 @@ export const TableComponent = ({ watch, formState }) => {
           cargo_id: carId?.cargo?.guid,
           driver_ids: selectCargo,
           cargo_number: carId?.cargo?.number_of_order,
-          customer_id: carId?.cargo?.users_id
+          customer_id: carId?.cargo?.users_id,
         },
       },
     };
@@ -224,11 +224,13 @@ export const TableComponent = ({ watch, formState }) => {
   const deleteOrder = (data) => {
     const order = data?.orders?.filter(
       (item) =>
-        item.provisions?.filter((el) => el === `approve_from_driver`)?.[0] ===
-        `approve_from_driver`
+        item.provisions?.filter(
+          (el) => el !== `performed`
+        )?.[0] !== `performed`
     );
 
-    console.log(`order`, data);
+
+    console.log(`order`, order,);
     if (order?.length > 0) {
       deleteOrderData({ id: order?.[0]?.guid });
 

@@ -53,7 +53,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
       item.provisions?.filter((el) => el === `performed`)?.[0] ===
       `performed`
   );
-  console.log(`order`,order)
+  console.log(`order`,item?.vehicles?.[0] )
   return (
     <Box
       className={cls.cardWrap}
@@ -293,8 +293,8 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   name={item?.users_id_data?.full_name}
                 /> */}
                 <Box>
-                  <p className={cls.title}>Mercedes Actros</p>
-                  <p className={cls.subTitle}>01 A 123 NN</p>
+                  <p className={cls.title}>{item?.vehicles?.[0]?.marka}</p>
+                  <p className={cls.subTitle}>{item?.vehicles?.[0]?.car_number ? item?.vehicles?.[0]?.car_number  : `` }</p>
                 </Box>
               </Flex>
             </Box>

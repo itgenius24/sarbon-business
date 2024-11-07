@@ -25,10 +25,10 @@ export const Card = ({ item, cls, ...props }) => {
   return (
     <Flex
       {...props}
-      key={item?.id}
-      gap={3}
+      key={item?.orders?.[0]?.guid}
+      p={"10px 36px"}
       className={cls.card}
-      width={"100%"}
+      width={"100%"}  
       justifyContent={"space-between"}
       alignItems={`center`}
     >
@@ -50,7 +50,7 @@ export const Card = ({ item, cls, ...props }) => {
           }
         />
       )}
-      <Box className={cls.contend}>
+      <Box className={`${cls.contend} ${cls.contend1}`}>
         <Flex  gap={`14px`} alignItems={`center`}>
           <Box  display={`flex`} alignItems={`center`} flexDirection={`column`} width={`40px`}>
             <Image
@@ -93,7 +93,7 @@ export const Card = ({ item, cls, ...props }) => {
           </Box>
         </Flex>
       </Box>
-      <Box className={cls.contend}>
+      <Box className={`${cls.contend} ${cls.contend2}`}>
         <Flex gap={`14px`} alignItems={`center`}>
           <Box display={`flex`} alignItems={`center`} flexDirection={`column`} width={`50px`}>
             <Image
@@ -129,7 +129,7 @@ export const Card = ({ item, cls, ...props }) => {
           </Box>
         </Flex>
       </Box>
-      <Box className={cls.contend}>
+      <Box className={`${cls.contend} ${cls.contend3}`}>
         <Flex gap={`11px`}>
           <Flex gap={1} alignItems={"center"}>
             <StoneIcon /> <p className={cls.title}> {item?.cargo?.weight}т</p>
@@ -142,11 +142,11 @@ export const Card = ({ item, cls, ...props }) => {
 
         <span className={cls.subTitle}>Пиломатериалы</span>
       </Box>
-      <Box className={cls.contend}>
+      <Box className={`${cls.contend} ${cls.contend4}`}>
         <p className={cls.title}>{item?.cargo?.vehicle_type_id_data?.name}</p>
         <span className={cls.subTitle}>Задняя</span>
       </Box>
-      <Box className={cls.contend}>
+      <Box className={`${cls.contend} ${cls.contend5}`}>
         <p className={cls.title}>
           {item?.cargo?.bid_cash} {item.cargo?.currency_id_data?.code}
           <span className={cls.subTitle1}>
@@ -162,7 +162,7 @@ export const Card = ({ item, cls, ...props }) => {
             : `Нет`}{" "}
         </span>
       </Box>
-      <Box className={cls.contend}>
+      <Box className={`${cls.contend} ${cls.contend6}`}>
         <Flex alignItems={`flex-start`} gap={1}>
           <Avatar
             width={`50px`}

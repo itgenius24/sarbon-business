@@ -37,12 +37,13 @@
   }
 
   .contend {
+    // background-color: red;
+    // max-width: 250px;
     .flag {
       width: 29px;
       height: 18px;
-    
     }
-    .country_code{
+    .country_code {
       color: rgba(126, 123, 134, 1);
       font-size: 14px;
       font-weight: 500;
@@ -76,25 +77,29 @@
       font-size: 14px;
       line-height: 20px;
     }
-    &:nth-child(1) {
-      width: 250px;
-    }
-    &:nth-child(2) {
-      width: 250px;
-    }
-    &:nth-child(3) {
-      width: 200px;
-    }
-    &:nth-child(4) {
-      width: 200px;
-    }
-    &:nth-child(5) {
-      width: 200px;
-    }
-    &:nth-child(6) {
-      width: 200px;
-    }
   }
+
+  .contend1 {
+    width: 250px !important;
+    // background-color: red;
+  }
+  .contend2 {
+    width: 250px !important;
+    // background-color: red;
+  }
+  .contend3 {
+    width: 200px !important;
+  }
+  .contend4 {
+    width: 200px !important;
+  }
+  .contend5 {
+    width: 200px !important;
+  }
+  .contend6 {
+    width: 200px !important;
+  }
+
 
   .statusWrap {
     display: inline-block;
