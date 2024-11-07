@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
+import { ru } from 'date-fns/locale';
+
 import { Box, Button, Tooltip } from "@chakra-ui/react";
 
 export const Performed = ({
@@ -61,8 +63,8 @@ export const Performed = ({
                 <span>
                   {cargo?.cargo_id_data?.load_time &&
                     format(
-                      new Date(cargo?.cargo_id_data?.load_time),
-                      "dd-MMMM"
+                      new Date(cargo?.cargo_id_data?.load_time).setHours(new Date(cargo?.cargo_id_data?.load_time).getHours() -5),
+                      "dd-MMMM",{ locale: ru }
                     )}
                 </span>
               </p>
@@ -88,9 +90,8 @@ export const Performed = ({
                 {cargo?.cargo_id_data?.address_id_2_data?.name}
 
                 <span>
-                  {" "}
                   {cargo?.cargo_id_data?.date &&
-                    format(cargo?.cargo_id_data?.date, "dd-MMMM")}
+                    format(new Date(cargo?.cargo_id_data?.date).setHours(new Date(cargo?.cargo_id_data?.date).getHours() -5), "dd-MMMM",{ locale: ru })}
                 </span>
               </p>
             </div>
