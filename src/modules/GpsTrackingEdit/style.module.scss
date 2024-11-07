@@ -290,7 +290,7 @@
         }
         .line{ 
           position: absolute;
-          height: 30px;
+          height: 100%;
           // width: 2px;
            border-left: 3px dotted rgba(21, 186, 77, 1);
           // background-color: rgba(21, 186, 77, 1);
@@ -324,7 +324,7 @@
         }
         .line{ 
           position: absolute;
-          height: 30px;
+          height: 100%;
           // width: 2px;
            border-left: 3px dotted rgba(193, 187, 32, 1);
           // background-color: rgba(193, 187, 32, 1);
@@ -355,6 +355,7 @@
       .cardStartTitle{
         font-weight: 600;
         font-size: 16px;
+        line-height: 20px;
       }
       .cardStartTitleAdd{
         font-weight: 500;
