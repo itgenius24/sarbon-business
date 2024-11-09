@@ -28,7 +28,7 @@ export const Card = ({ item, cls, ...props }) => {
       key={item?.orders?.[0]?.guid}
       p={"10px 36px"}
       className={cls.card}
-      width={"100%"}  
+      width={"100%"}
       justifyContent={"space-between"}
       alignItems={`center`}
     >
@@ -51,8 +51,13 @@ export const Card = ({ item, cls, ...props }) => {
         />
       )}
       <Box className={`${cls.contend} ${cls.contend1}`}>
-        <Flex  gap={`14px`} alignItems={`center`}>
-          <Box  display={`flex`} alignItems={`center`} flexDirection={`column`} width={`40px`}>
+        <Flex gap={`14px`} alignItems={`center`}>
+          <Box
+            display={`flex`}
+            alignItems={`center`}
+            flexDirection={`column`}
+            width={`40px`}
+          >
             <Image
               className={cls.flag}
               width={30}
@@ -64,38 +69,43 @@ export const Card = ({ item, cls, ...props }) => {
           </Box>
 
           <Box width={`100%`}>
-          <p className={cls.title}>
-            {item.cargo?.from ? (
-              item.cargo?.from.length > 30 ? (
-                <Tooltip
-                  color={`black`}
-                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                  background={`#fff`}
-                  label={`${item.cargo?.from}`}
-                >
-                  <span>{`${item.cargo?.from.slice(0, 30)}...`}</span>
-                </Tooltip>
+            <p className={cls.title}>
+              {item.cargo?.from ? (
+                item.cargo?.from.length > 30 ? (
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${item.cargo?.from}`}
+                  >
+                    <span>{`${item.cargo?.from.slice(0, 30)}...`}</span>
+                  </Tooltip>
+                ) : (
+                  item.cargo?.from
+                )
               ) : (
-                item.cargo?.from
-              )
-            ) : (
-              item?.city_id_data?.[
-                "name_" + (locale === "uz" ? "en" : locale)
-              ] || item?.city_id_data?.name
-            )}
-            <br />
-            <span className={cls.subTitle}>
-              {item?.cargo?.load_time &&
-                format(item?.cargo?.load_time, `yyyy-MM-dd`)}{" "}
-              ~ 3450 km
-            </span>
-          </p>
+                item?.city_id_data?.[
+                  "name_" + (locale === "uz" ? "en" : locale)
+                ] || item?.city_id_data?.name
+              )}
+              <br />
+              <span className={cls.subTitle}>
+                {item?.cargo?.load_time &&
+                  format(item?.cargo?.load_time, `yyyy-MM-dd`)}{" "}
+                ~ 3450 km
+              </span>
+            </p>
           </Box>
         </Flex>
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
         <Flex gap={`14px`} alignItems={`center`}>
-          <Box display={`flex`} alignItems={`center`} flexDirection={`column`} width={`50px`}>
+          <Box
+            display={`flex`}
+            alignItems={`center`}
+            flexDirection={`column`}
+            width={`50px`}
+          >
             <Image
               className={cls.flag}
               width={30}
@@ -106,26 +116,30 @@ export const Card = ({ item, cls, ...props }) => {
             <p className={cls.country_code}>{item?.cargo?.country_code_to}</p>
           </Box>
           <Box width={`100%`}>
-          <p className={cls.title}>
-            {item?.cargo?.to
-              ? item.cargo?.to.length > 30
-                ?   <Tooltip
-                  color={`black`}
-                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                  background={`#fff`}
-                  label={`${item.cargo?.to}`}
-                >
-                  <span>{`${item.cargo?.to.slice(0, 30)}...`}</span>
-                </Tooltip>
-                : item.cargo?.to
-              : item?.city_id_2_data?.[
+            <p className={cls.title}>
+              {item?.cargo?.to ? (
+                item.cargo?.to.length > 30 ? (
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${item.cargo?.to}`}
+                  >
+                    <span>{`${item.cargo?.to.slice(0, 30)}...`}</span>
+                  </Tooltip>
+                ) : (
+                  item.cargo?.to
+                )
+              ) : (
+                item?.city_id_2_data?.[
                   "name_" + (locale === "uz" ? "en" : locale)
-                ] || item?.city_id_2_data?.name}{" "}
-            <br />
-            <span className={cls.subTitle}>
-              {item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
-            </span>
-          </p>
+                ] || item?.city_id_2_data?.name
+              )}{" "}
+              <br />
+              <span className={cls.subTitle}>
+                {item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
+              </span>
+            </p>
           </Box>
         </Flex>
       </Box>

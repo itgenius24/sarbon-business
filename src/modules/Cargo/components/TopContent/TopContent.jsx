@@ -18,6 +18,7 @@ import {
   Avatar,
   Box,
   Button,
+  Flex,
   Heading,
   Text,
   useMediaQuery,
@@ -33,7 +34,9 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
+  CarIconXM,
   FurIcon,
+  LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
 } from "@/assets/icons/icons";
@@ -69,7 +72,7 @@ export const TopContent = ({
   city2,
   userId2,
   getMaps,
-  id
+  id,
 }) => {
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
@@ -78,7 +81,7 @@ export const TopContent = ({
   const [userData, setUserData] = useState([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const firm_id = authStore.userData.firm_id
+  const firm_id = authStore.userData.firm_id;
   const paramsId = searchParams.get("car_id");
   const locale = useGetLang();
 
@@ -162,14 +165,12 @@ export const TopContent = ({
     },
   });
 
-
   const driverPosition = useMemo(() => {
     return [
       getDriverLocation?.data?.response?.[0]?.lat,
       getDriverLocation?.data?.response?.[0]?.long,
     ];
-  },[getDriverLocation?.data?.response?.[0]]);
-
+  }, [getDriverLocation?.data?.response?.[0]]);
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -179,12 +180,15 @@ export const TopContent = ({
     },
   });
 
-
   useEffect(() => {
     if (paramsId || id === `performed`) {
-      dataLocation({ data: { object_data: { cargo_id: paramsId ? paramsId : `` ,firm_id:``}, }, });
+      dataLocation({
+        data: {
+          object_data: { cargo_id: paramsId ? paramsId : ``, firm_id: `` },
+        },
+      });
     }
-  }, [paramsId,id===`performed`]);
+  }, [paramsId, id === `performed`]);
 
   var myMap = useRef(null);
   var multiRoute = useRef(null);
@@ -193,7 +197,6 @@ export const TopContent = ({
 
   useEffect(() => {
     if (status === "performed" && userId) {
-
       getGPSHistory.mutate({
         data: {
           object_data: {
@@ -203,8 +206,6 @@ export const TopContent = ({
           },
         },
       });
-
-
     }
   }, [status, userId, page]);
 
@@ -313,8 +314,7 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
-  console.log(`userData`,userData)
-
+  console.log(`userData`, userData);
 
   return (
     <Box>
@@ -329,7 +329,7 @@ export const TopContent = ({
                 </span>
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>{address1}</span>
+                  <span className={cls.addressCity}>{address2}</span>
                   {/* <span>{address2}</span> */}
                 </span>
                 {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
@@ -371,8 +371,12 @@ export const TopContent = ({
                         <div className={cls.userDataWarp}>
                           <div className={cls.userWrap}>
                             <Avatar
-                              color={"white"}
-                              name={user?.users_gps?.[0]?.users_id_data?.full_name}
+                              // color={"white"}
+                              background={`rgba(224, 224, 224, 1)`}
+                              name={
+                                user?.users_gps?.[0]?.users_id_data
+                                  ?.full_name || ``
+                              }
                               src={user?.users_gps?.[0]?.users_id_data?.photo}
                             />
                             <div className={cls.user}>
@@ -397,10 +401,11 @@ export const TopContent = ({
                                 <p className={cls.phoneItemName}>
                                   {user.gps ? "Выкл " : "Откл "}
                                   <span className={cls.phoneItemTitle}>
-                                    { user?.users_gps?.[0]?.update_time && format(
-                                      user?.users_gps?.[0]?.update_time,
-                                      "dd MMMM HH:HH "
-                                    )}
+                                    {user?.users_gps?.[0]?.update_time &&
+                                      format(
+                                        user?.users_gps?.[0]?.update_time,
+                                        "dd MMMM HH:HH "
+                                      )}
                                   </span>
                                 </p>
                               </div>
@@ -413,7 +418,9 @@ export const TopContent = ({
                               )}
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>Смартфон</p>
-                                <p className={cls.phoneItemName}>{user?.users_gps?.[0]?.os} </p>
+                                <p className={cls.phoneItemName}>
+                                  {user?.users_gps?.[0]?.os}{" "}
+                                </p>
                               </div>
                             </div>
                             <div className={cls.item}>
@@ -453,20 +460,70 @@ export const TopContent = ({
                       </AccordionButton>
 
                       <AccordionPanel>
-                        {
-                        getGPSHistory.isPending ? <Box height={"600px"}>
-                          <LoadingSpinner />
-                        </Box> :<YMaps>
-                          <AccordionMap
-                            startPoint={user.startPoint}
-                            endPoint={user.endPoint}
-                            gpsHistory={gpsHistory}
-                            driverPosition={driverPosition}
-                            getMaps={getMaps}
-                          />
-                        </YMaps>
-                        }
+                        {getGPSHistory.isPending ? (
+                          <Box height={"600px"}>
+                            <LoadingSpinner />
+                          </Box>
+                        ) : (
+                          <YMaps>
+                            <AccordionMap
+                              startPoint={user.startPoint}
+                              endPoint={user.endPoint}
+                              gpsHistory={gpsHistory}
+                              driverPosition={driverPosition}
+                              getMaps={getMaps}
+                            />
+                          </YMaps>
+                        )}
 
+                        <Flex
+                          justifyContent={`space-between`}
+                          alignItems={`center`}
+                          mt={10}
+                        >
+                          <Flex gap={`40px`} alignItems={`center`}>
+                            <Flex gap={`8px`}>
+                              <CarIconXM />
+                              <Box>
+                                <p className={cls.title}>
+                                  Тентованный полуприцеп: 2/3
+                                </p>
+                                <p className={cls.subTitle}>Volvo, 01A123NN</p>
+                              </Box>
+                            </Flex>
+                            <Flex gap={`8px`}>
+                              <LoadIconXM />
+                              <Box>
+                                <p className={cls.title}>Пиломатериалы</p>
+                                <p className={cls.subTitle}> 20т / 86 м3</p>
+                              </Box>
+                            </Flex>
+                          </Flex>
+                          <Flex
+                            gap={`39px`}
+                            background={`rgba(237, 246, 255, 1)`}
+                            borderRadius={`10px`}
+                            p={`13px 18px`}
+                          >
+                            <Box>
+                              <p className={cls.subTitle}>Тип оплаты: </p>
+                              <p className={cls.title}>Перечисление</p>
+                            </Box>
+                            <Box>
+                              <p className={cls.subTitle}>Преоплата: </p>
+                              <p className={cls.title}>5 000 000 UZS</p>
+                            </Box>
+                            <Box>
+                              <p className={cls.subTitle}>Сумма: </p>
+                              <p
+                                className={cls.title}
+                                style={{ color: `rgba(0, 122, 255, 1)` }}
+                              >
+                                45 000 000 UZS
+                              </p>
+                            </Box>
+                          </Flex>
+                        </Flex>
                       </AccordionPanel>
                     </AccordionItem>
                   </>

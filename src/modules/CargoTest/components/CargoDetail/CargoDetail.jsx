@@ -24,7 +24,8 @@ export const CargoDetail = ({ status }) => {
       className={cls.cargoDetail}
       as="article"
       borderRadius="12px"
-      padding="24px"
+      // padding="24px"
+      mt={`31px`}
     >
       {/* <Heading fontSize={isLargerThan1190 ? "20px" : "17px"} size="sm">{t("Детали груза")}</Heading> */}
       <StepOne status={status} />

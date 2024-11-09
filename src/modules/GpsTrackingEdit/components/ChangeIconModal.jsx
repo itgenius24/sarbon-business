@@ -8,6 +8,7 @@ import {
 } from "@/assets/icons/icons";
 import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import CheckBoxComponent from "./CheckBoxComponent";
+import authStore from "@/store/auth.store";
 
 const ChangeIconModal = ({
   cls,
@@ -16,6 +17,7 @@ const ChangeIconModal = ({
   statusIconChange,
   setCenterModalType,
 }) => {
+  const role_id = authStore.userData.role_id
   const data = [
     {
       id: 1,
@@ -48,6 +50,22 @@ const ChangeIconModal = ({
       title: "Неисправна",
     },
   ];
+
+  const iconStatusData = [
+    {
+      id: 1,
+      type: "empty",
+      icon: GreenCarIcon,
+      title: "Свободная",
+    },
+    {
+      id: 2,
+      type: "broke_down",
+      icon: CencelMapIcon,
+      title: "Неисправна",
+    },
+  ]
+
   return (
     <div className={cls.selectedIcon}>
       <Flex alignItems={"center"} justifyContent={"space-between"}>
@@ -62,7 +80,17 @@ const ChangeIconModal = ({
         />
       </Flex>
       <Box>
-        {data.map((item) => (
+        { role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2` ? iconStatusData.map((item) => (
+          <CheckBoxComponent
+            key={item.id}
+            onClick={() => setIconStatus(item.type)}
+            active={item.type === iconStatus}
+          >
+            <Flex gap={3} alignItems={"center"}>
+              <item.icon /> <spa>{item.title}</spa>
+            </Flex>
+          </CheckBoxComponent>
+        )) : data.map((item) => (
           <CheckBoxComponent
             key={item.id}
             onClick={() => setIconStatus(item.type)}

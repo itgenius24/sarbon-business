@@ -22,6 +22,8 @@ export const AccordionMap = ({
     zoom: 11,
   };
 
+  console.log(`getMaps`,getMaps)
+
 
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`

@@ -18,6 +18,7 @@ import {
   Avatar,
   Box,
   Button,
+  Flex,
   Heading,
   Text,
   useMediaQuery,
@@ -33,7 +34,9 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
+  CarIconXM,
   FurIcon,
+  LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
 } from "@/assets/icons/icons";
@@ -50,9 +53,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
 
-export const TopContentPerfomet = ({
-  getMaps,
-}) => {
+export const TopContentPerfomet = ({ getMaps }) => {
   // const { watch, handleUploadDocument, getEmptyFileName, getValues } =
   //   useAddCargoContext();
 
@@ -120,10 +121,8 @@ export const TopContentPerfomet = ({
   });
 
   useEffect(() => {
-    dataLocation({ data: { object_data: { firm_id: firm_id,cargo_id:`` } } });
+    dataLocation({ data: { object_data: { firm_id: firm_id, cargo_id: `` } } });
   }, []);
-
-
 
   useEffect(() => {
     if (status === "performed" && userId) {
@@ -138,7 +137,7 @@ export const TopContentPerfomet = ({
       });
     }
   }, [status, userId, page]);
-  
+
   console.log(`userData`, userData);
 
   return (
@@ -146,7 +145,7 @@ export const TopContentPerfomet = ({
       <>
         {isPending ? (
           <LoadingSpinner />
-        ) : (
+        ) : userData.length > 0 ? (
           <Accordion allowToggle>
             {userData?.map((user, index) => {
               return (
@@ -163,7 +162,9 @@ export const TopContentPerfomet = ({
                         <div className={cls.userWrap}>
                           <Avatar
                             color={"white"}
-                            name={user?.users_gps?.[0]?.users_id_data?.full_name}
+                            name={
+                              user?.users_gps?.[0]?.users_id_data?.full_name
+                            }
                             src={user?.users_gps?.[0]?.users_id_data?.photo}
                           />
                           <div className={cls.user}>
@@ -189,7 +190,10 @@ export const TopContentPerfomet = ({
                                 {user.gps ? "Выкл " : "Откл "}
                                 <span className={cls.phoneItemTitle}>
                                   {user?.users_gps?.[0]?.update_time &&
-                                    format(user?.users_gps?.[0]?.update_time, "dd MMMM HH:HH ")}
+                                    format(
+                                      user?.users_gps?.[0]?.update_time,
+                                      "dd MMMM HH:HH "
+                                    )}
                                 </span>
                               </p>
                             </div>
@@ -202,7 +206,9 @@ export const TopContentPerfomet = ({
                             )}
                             <div className={cls.itemText}>
                               <p className={cls.phoneItemTitle}>Смартфон</p>
-                              <p className={cls.phoneItemName}>{user?.users_gps?.[0]?.os} </p>
+                              <p className={cls.phoneItemName}>
+                                {user?.users_gps?.[0]?.os}{" "}
+                              </p>
                             </div>
                           </div>
                           <div className={cls.item}>
@@ -214,13 +220,7 @@ export const TopContentPerfomet = ({
                               </p>
                             </div>
                           </div>
-                          {/* <div className={cls.item}>
-                            <BluetoothIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Bluetooth</p>
-                              <p className={cls.phoneItemName}>Выкл </p>
-                            </div>
-                          </div> */}
+
                           <div className={cls.item}>
                             {user?.users_gps?.[0]?.battery > 19 ? (
                               <BatareyFullIcon />
@@ -248,40 +248,76 @@ export const TopContentPerfomet = ({
                         <YMaps>
                           <AccordionMap
                             gpsHistory={gpsHistory}
-                            driverPosition={[user?.users_gps?.[0]?.lat,user?.users_gps?.[0]?.long]}
-                            periods={user?.periods
-                            }
+                            driverPosition={[
+                              user?.users_gps?.[0]?.lat,
+                              user?.users_gps?.[0]?.long,
+                            ]}
+                            periods={user?.periods}
                           />
                         </YMaps>
                       )}
+                      <Flex
+                        justifyContent={`space-between`}
+                        alignItems={`center`}
+                        mt={10}
+                      >
+                        <Flex gap={`40px`} alignItems={`center`}>
+                          <Flex gap={`8px`}>
+                            <CarIconXM />
+                            <Box>
+                              <p className={cls.title}>
+                                Тентованный полуприцеп: 2/3
+                              </p>
+                              <p className={cls.subTitle}>Volvo, 01A123NN</p>
+                            </Box>
+                          </Flex>
+                          <Flex gap={`8px`}>
+                            <LoadIconXM />
+                            <Box>
+                              <p className={cls.title}>Пиломатериалы</p>
+                              <p className={cls.subTitle}> 20т / 86 м3</p>
+                            </Box>
+                          </Flex>
+                        </Flex>
+                        <Flex gap={`39px`}  background={`rgba(237, 246, 255, 1)`} borderRadius={`10px`} p={`13px 18px`}>
+                          <Box>
+                            <p className={cls.subTitle}>Тип оплаты: </p>
+                            <p className={cls.title}>
+                            Перечисление
+                            </p>
+                          </Box>
+                          <Box>
+                            <p className={cls.subTitle}>Преоплата: </p>
+                            <p className={cls.title}>
+                            5 000 000 UZS
+                            </p>
+                          </Box>
+                          <Box>
+                            <p className={cls.subTitle}>Сумма:  </p>
+                            <p className={cls.title} style={{color:`rgba(0, 122, 255, 1)`}}>
+                            45 000 000 UZS
+                            </p>
+                          </Box>
+                        </Flex>
+                      </Flex>
                     </AccordionPanel>
                   </AccordionItem>
                 </>
               );
             })}
           </Accordion>
+        ) : (
+          <Flex
+            className={cls.noData}
+            width={`100%`}
+            height={`170px`}
+            alignItems={`center`}
+            justifyContent={`center`}
+          >
+            No data
+          </Flex>
         )}
       </>
-
-      {/* {status === "performed" && (
-        <Accordion mt={4} allowToggle>
-          <AccordionItem className={cls.accordionItem}>
-            <AccordionButton className={cls.accordionButton}>
-              <Heading fontSize="24px" mb="10px">
-                {t("Документация")}
-              </Heading>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel>
-              <Documents
-                handleUploadDocument={handleUploadDocument}
-                getEmptyFileName={getEmptyFileName}
-                getValues={getValues}
-              />
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      )} */}
     </Box>
   );
 };

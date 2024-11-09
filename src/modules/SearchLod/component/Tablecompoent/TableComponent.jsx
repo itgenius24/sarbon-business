@@ -224,13 +224,10 @@ export const TableComponent = ({ watch, formState }) => {
   const deleteOrder = (data) => {
     const order = data?.orders?.filter(
       (item) =>
-        item.provisions?.filter(
-          (el) => el !== `performed`
-        )?.[0] !== `performed`
+        item.provisions?.filter((el) => el !== `performed`)?.[0] !== `performed`
     );
 
-
-    console.log(`order`, order,);
+    console.log(`order`, order);
     if (order?.length > 0) {
       deleteOrderData({ id: order?.[0]?.guid });
 

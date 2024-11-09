@@ -4,6 +4,7 @@ import {
   CricleBlueIcon,
   CricleIcon,
   DeleteIcon,
+  NavigationBtnLeftIcon,
   PencilIcon,
   PencilIconW,
   PlusIcon,
@@ -45,7 +46,7 @@ import { CargoDetail } from "./components/CargoDetail";
 import { TopContent } from "../Cargo/components/TopContent";
 import Link from "next/link";
 import { statuses } from "@/utils/constants";
-
+import { useRouter } from "next/navigation";
 
 export const CargoViews = observer(({ id, status, locale }) => {
   const [cargoIndex, setCargoIndex] = useState(1);
@@ -57,6 +58,8 @@ export const CargoViews = observer(({ id, status, locale }) => {
 
   const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
+
+  const router = useRouter()
 
   useEffect(() => {
     if (
@@ -82,13 +85,10 @@ export const CargoViews = observer(({ id, status, locale }) => {
           alignItems={!isLargerThan800 ? "start" : "center"}
           mb="18px"
         >
-      
           <Heading fontSize={!isLargerThan800 ? "24px" : "30px"} size="md">
             {!addCargoProps.canEdit ? (
               <>
-                {
-                  console.log(`addCargoProps.address2`,addCargoProps.address2)
-                }
+                {console.log(`addCargoProps.address2`, addCargoProps.address2)}
                 {addCargoProps.address1} - {addCargoProps.address2}
                 {/* <Text as="span" color="brand.500">
                   {addCargoProps.distance} km
@@ -152,44 +152,55 @@ export const CargoViews = observer(({ id, status, locale }) => {
       );
     } else if (status === "new" || status === "performed") {
       return (
-        
-     <>
- 
-         <TopContent
-          status={status}
-          address1={addCargoProps.address1}
-          address2={addCargoProps.address2}
-          city1={addCargoProps.city1}
-          city2={addCargoProps.city2}
-          userName={addCargoProps.userName}
-          proposedAmount={addCargoProps.proposedAmount}
-          rating={addCargoProps.rating}
-          transportModel={addCargoProps.transportModel}
-          phoneNumber={addCargoProps.phoneNumber}
-          prepayment={addCargoProps.prepayment}
-          paymentAfterFinish={addCargoProps.paymentAfterFinish}
-          driverComment={addCargoProps.driverComment}
-          permission={addCargoProps.permission}
-          currency={addCargoProps.currency}
-          distance={addCargoProps.distance}
-          userId2={addCargoProps.userId2}
-          getMaps={addCargoProps.getMaps}
-          id={id}
-        />
-     </>
+        <>
+          <TopContent
+            status={status}
+            address1={addCargoProps.address1}
+            address2={addCargoProps.address2}
+            city1={addCargoProps.city1}
+            city2={addCargoProps.city2}
+            userName={addCargoProps.userName}
+            proposedAmount={addCargoProps.proposedAmount}
+            rating={addCargoProps.rating}
+            transportModel={addCargoProps.transportModel}
+            phoneNumber={addCargoProps.phoneNumber}
+            prepayment={addCargoProps.prepayment}
+            paymentAfterFinish={addCargoProps.paymentAfterFinish}
+            driverComment={addCargoProps.driverComment}
+            permission={addCargoProps.permission}
+            currency={addCargoProps.currency}
+            distance={addCargoProps.distance}
+            userId2={addCargoProps.userId2}
+            getMaps={addCargoProps.getMaps}
+            id={id}
+          />
+        </>
       );
     }
 
     return <></>;
   }
 
-  console.log(`getTopContent`,getTopContent())
+  console.log(`getTopContent`, getTopContent());
 
   return (
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
       <Box pt={isLargerThan1190 ? "48px" : "24px"} pb="128px">
         <Container height="100%">
-          {isEditing && (
+          <Button
+            leftIcon={<NavigationBtnLeftIcon />}
+            borderRadius={`4px`}
+            border={`none`}
+            variant={`outline`}
+            background={`rgba(227, 230, 237, 1)`}
+            color={`rgba(0, 122, 255, 1)`}
+            mb={`26px`}
+            width={`fit-content`}
+            onClick={() => router.push(`/${locale}/my-loads`)}
+          >
+            Вернутся в список
+          </Button>
+          {/* {isEditing && (
             <Breadcrumb
               mb="16px"
               separator={
@@ -213,7 +224,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
-          )}
+          )} */}
           {!isLargerThan1190 && !isEditing && (
             <Heading fontSize="22px">{t("Добавить груз")}</Heading>
           )}
@@ -227,9 +238,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
           >
             <Box flexGrow={1} maxW="100%" width="100%" as="form">
               {isEditing ? (
-                <>
-                  {getTopContent()}
-                </>
+                <>{getTopContent()}</>
               ) : (
                 <Box
                   display="flex"
@@ -361,19 +370,19 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 width={`100%`}
               >
                 {!addCargoProps.canEdit ? (
-                  <Box display={`flex`} columnGap="8px">{
-                    status !== `active` &&  <Button
-                      leftIcon={<DeleteIcon />}
-                      size="sm"
-                      maxWidth="323px"
-                      variant="secondaryWhite"
-                      onClick={addCargoProps.handleOpenDeletePopup}
-                      border="1px solid #D0D5DD"
-                    >
-                      {t("Удалить")}
-                    </Button>
-                  }
-                   
+                  <Box display={`flex`} columnGap="8px">
+                    {status !== `active` && (
+                      <Button
+                        leftIcon={<DeleteIcon />}
+                        size="sm"
+                        maxWidth="323px"
+                        variant="secondaryWhite"
+                        onClick={addCargoProps.handleOpenDeletePopup}
+                        border="1px solid #D0D5DD"
+                      >
+                        {t("Удалить")}
+                      </Button>
+                    )}
 
                     <Button
                       leftIcon={<PencilIconW />}
@@ -406,7 +415,9 @@ export const CargoViews = observer(({ id, status, locale }) => {
                       maxWidth="323px"
                       paddingLeft={`30px`}
                       paddingRight={`30px`}
-                      onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
+                      onClick={addCargoProps.handleSubmit(
+                        addCargoProps.onSubmit
+                      )}
                     >
                       {t("Сохранить изменения")}
                     </Button>

@@ -41,6 +41,8 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
   console.log("loadState", loadState);
   const { t } = useTranslation();
 
+  const role_id = authStore.userData.role_id;
+
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);
@@ -106,12 +108,10 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
           </Flex>
           <Flex mt={5} gap={2}>
             <div className={cls.startAIconWrapGreen}>
-            <div className={cls.startBGreenIcon}>B</div>
+              <div className={cls.startBGreenIcon}>B</div>
             </div>
             <Box>
-              <p className={cls.cardStartTitle}>
-                {loadState?.to}
-              </p>
+              <p className={cls.cardStartTitle}>{loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.to} /
                 <span> {format(loadState?.date, "yyyy-MM-dd")}</span>
@@ -162,13 +162,15 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
             </p>
           </Flex>
         </Box>
-        <Button
-          onClick={() => setPopupOpen(true)}
-          size={"lg"}
-          className={cls.btngreen}
-        >
-          Забронировать груз
-        </Button>
+        {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
+          <Button
+            onClick={() => setPopupOpen(true)}
+            size={"lg"}
+            className={cls.btngreen}
+          >
+            Забронировать груз
+          </Button>
+        )}
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />

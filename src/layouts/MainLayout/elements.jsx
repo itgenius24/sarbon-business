@@ -29,7 +29,7 @@ console.log(`role_id`,role_id)
       },
       {
         path: isAuth ? `/${lang || "ru"}/performed` : `/${lang || "ru"}/auth`,
-        label: "В исполнение",
+        label: "Мои заказы",
       },
       {
         path: `/${lang || "ru"}/distance-calculation`,
