@@ -148,7 +148,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
       <>
         {isPending ? (
           <LoadingSpinner />
-        ) : userData.length > 0 ? (
+        ) : userData?.length > 0 ? (
           <Accordion allowToggle>
             {userData?.map((user, index) => {
               return (
