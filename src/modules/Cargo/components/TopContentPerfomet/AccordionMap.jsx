@@ -36,54 +36,80 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods}) => {
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
-  useEffect(() => {
-    const ymaps = window.ymaps;
-
-    setTimeout(() => {
-    console.log(`startLocation`,startLocation,endLocation)
-
-      if (map.current && ymaps) {
-        ymaps
-          .route([
-            [startLocation?.lat, startLocation?.long], // Boshlanish nuqtasi
-            [endLocation?.lat, endLocation?.long], // Tugash nuqtasi
-            // [41.311017, 69.278981],
-            // [39.654585, 66.975558]
-          ])
-          .then((route) => {
-            console.log(`route`, route);
-            map.current.geoObjects.add(route);
-            const startPoint = route.getWayPoints().get(0);
-            const endPoint = route.getWayPoints().get(1);
-            startPoint.options.set({
-              iconLayout: "default#image",
-              iconImageHref:
-                "data:image/svg+xml;charset=UTF-8," +
-                encodeURIComponent(StartIcon),
-              iconImageSize: [30, 42],
-              iconImageOffset: [-10, -22],
+    useEffect(() => {
+      const ymaps = window.ymaps;
+  
+      setTimeout(() => {
+        if (map.current && ymaps) {
+          // First route: from startLocation to endLocation
+          ymaps
+            .route([
+              [startLocation?.lat, startLocation?.long], // Start point
+              [endLocation?.lat, endLocation?.long], // End point
+            ])
+            .then((route) => {
+              map.current.geoObjects.add(route);
+              const startPoint = route.getWayPoints().get(0);
+              const endPoint = route.getWayPoints().get(1);
+              startPoint.options.set({
+                iconLayout: "default#image",
+                iconImageHref:
+                  "data:image/svg+xml;charset=UTF-8," +
+                  encodeURIComponent(StartIcon),
+                iconImageSize: [30, 42],
+                iconImageOffset: [-10, -22],
+              });
+              endPoint.options.set({
+                iconLayout: "default#image",
+                iconImageHref:
+                  "data:image/svg+xml;charset=UTF-8," +
+                  encodeURIComponent(EndIcon),
+                iconImageSize: [30, 42],
+                iconImageOffset: [-12, -38],
+              });
+              route.getPaths().options.set({
+                strokeColor: "#000000", // Black color
+                strokeWidth: 4,
+                strokeOpacity: 1,
+                strokeStyle: "dash",
+              });
             });
-
-            // B nuqtasi uchun ikona
-            endPoint.options.set({
-              iconLayout: "default#image",
-              iconImageHref:
-                "data:image/svg+xml;charset=UTF-8," +
-                encodeURIComponent(EndIcon),
-              iconImageSize: [30, 42],
-              iconImageOffset: [-12, -38],
+  
+          // Second route: from startLocation to specified location with blue line, independent of the first route
+          ymaps
+            .route([
+              [startLocation?.lat, startLocation?.long], // Start from startLocation
+              driverPosition, // End at specified location
+            ])
+            .then((secondRoute) => {
+              map.current.geoObjects.add(secondRoute);
+              const startPoint = secondRoute.getWayPoints().get(0);
+              const endPoint = secondRoute.getWayPoints().get(1);
+              startPoint.options.set({
+                iconLayout: "default#image",
+                iconImageHref:
+                  "data:image/svg+xml;charset=UTF-8," +
+                  encodeURIComponent(StartIcon),
+                iconImageSize: [30, 42],
+                iconImageOffset: [-10, -22],
+              });
+              endPoint.options.set({
+                iconLayout: "default#image",
+                iconImageHref:
+                  "data:image/svg+xml;charset=UTF-8," +
+                  encodeURIComponent(LoadSvgIcon),
+                iconImageSize: [60, 72],
+                iconImageOffset: [-15, -42],
+              });
+              secondRoute.getPaths().options.set({
+                strokeColor: "#0000FF", // Blue color
+                strokeWidth: 4,
+                strokeOpacity: 1,
+              });
             });
-            const routePaths = route.getPaths();
-            routePaths.options.set({
-              strokeColor: "#000000", // Black color
-              strokeWidth: 4, // Adjust thickness if needed
-              strokeOpacity: 1, // Adjust opacity if needed
-              strokeStyle: "dash",
-            });
-          });
-      }
-    }, 3000);
-  }, [periods]);
+        }
+      }, 3000);
+    }, [periods]);
 
   const polylineOptions = {
     strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline
@@ -121,7 +147,7 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods}) => {
           "yandex#publicMap",
         ]}
       />
-      <Placemark
+      {/* <Placemark
         geometry={driverPosition ? driverPosition : []}
         options={{
           iconLayout: "default#image",
@@ -131,7 +157,7 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods}) => {
           iconImageSize: [60, 72],
           iconImageOffset: [-15, -42],
         }}
-      />
+      /> */}
 
       {line?.length > 0 &&
         line?.map((item) => (

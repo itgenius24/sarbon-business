@@ -98,6 +98,33 @@
     font-weight: 400;
     color: rgba(33, 31, 38, 1);
   }
+  .adressWrap{
+    position:absolute;
+    top: 20px;
+    left: 40px;
+    width: fit-content;
+    background-color: rgb(255, 255, 255);
+    z-index: 1;
+    padding: 15px 16px;
+    border-radius: 12px;
+    .adressTitle{
+      font-size: 22px;
+      color: rgba(33, 31, 38, 1);
+      font-weight: 600;
+      line-height: 38px;
+
+    }
+    .adressDesk{
+      color: rgba(126, 123, 134, 1);
+      font-size: 12px;
+      font-weight: 500;
+   
+      span{
+        font-weight: 600;
+      }
+
+    }
+  }
 }
 
 

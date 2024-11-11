@@ -16,6 +16,7 @@ import useFourProps from "./useFourProps";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "@/components/Checkbox";
 import { CustomTextarea } from "@/components/CustomTextarea";
+import { useParams, usePathname } from "next/navigation";
 
 const StepFour = ({ status }) => {
   const [value, setValueR] = React.useState("negotiable");
@@ -36,11 +37,13 @@ const StepFour = ({ status }) => {
   } = useFourProps({});
   const { t } = useTranslation();
 
+  const params  = usePathname()
+
+
+
   const [disabledP, setDisabledP] = useState(true);
 
   useEffect(() => {
-    console.log(`disabledP`, canEdit && watch(`prepayment`));
-
     if (canEdit && watch(`prepayment`)) {
       setDisabledP(false);
     } else {
@@ -49,9 +52,9 @@ const StepFour = ({ status }) => {
   }, [canEdit, watch(`prepayment`)]);
 
   useEffect(() => {
-   if(!watch(`prepayment_percentage`)){
-    setValue(`prepayment`,true)
-   }
+    if(!watch(`prepayment_percentage`) && params.includes("my-loads")){
+      setValue(`prepayment`,true)
+    }
   },[])
 
   const negotiableOption = [
@@ -134,7 +137,7 @@ const StepFour = ({ status }) => {
                               border: `5px solid rgba(0, 122, 255, 1)`,
                             }}
                           >
-                            
+
                             <span
                               className={
                                 watch(`price_prepayment_unit`)?.label ===
@@ -280,13 +283,13 @@ const StepFour = ({ status }) => {
                     </Box>
                   ) : (
                     <Box width={`100%`}>
-              
+
                       <p className={cls.totalTEet}>
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
                         {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`) : 0 )}
-                        
+
                         {watch(`price_prepayment_unit`)
                           ?.label?.charAt(0)
                           .toUpperCase() +

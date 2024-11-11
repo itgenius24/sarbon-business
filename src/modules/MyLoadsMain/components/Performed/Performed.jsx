@@ -172,6 +172,7 @@ export const Performed = ({
                     <span>1357 км </span> / {cargo?.cargo_id_data?.distance} км
                   </p>
                 </div>
+           
                 <div
                   className={styles.btn}
                   onClick={() =>

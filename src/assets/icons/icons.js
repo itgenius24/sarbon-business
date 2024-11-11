@@ -3603,4 +3603,11 @@ export const NavigationBtnLeftIcon = () =>(
 <path d="M5.25 10.5L1.75 7L5.25 3.5" stroke="#007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 
-)
+);
+
+export const IocnPrev = () => (
+  <svg width="28" height="47" viewBox="0 0 28 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.5 17H4M17.5 11.5L23 17L17.5 22.5" stroke="black" stroke-opacity="0.85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+);

@@ -1,4 +1,9 @@
-import { LoadSvgIcon, EndIcon, StartIcon, StopIcon } from "@/assets/icons/icons";
+import {
+  LoadSvgIcon,
+  EndIcon,
+  StartIcon,
+  StopIcon,
+} from "@/assets/icons/icons";
 import {
   Map,
   Placemark,
@@ -10,52 +15,37 @@ import {
 
 import { useEffect, useRef } from "react";
 
-export const AccordionMap = ({
-
-  gpsHistory,
-  driverPosition,
-  getMaps,
-}) => {
+export const AccordionMap = ({ gpsHistory, driverPosition, getMaps }) => {
   const map = useRef(null);
   const mapState = {
-    center:driverPosition ? driverPosition : [41.3405737, 69.2928081],
+    center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
     zoom: 11,
   };
-
-  console.log(`getMaps`,getMaps)
-
 
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`
   );
-  
   const consignee = getMaps?.data?.response.filter(
     (item) => item?.type?.[0] === `consignee`
   );
-
   const startLocation = shipper?.[0];
-  const endLocation = consignee?.[consignee?.length -1];
-  const line = getMaps?.data?.response.slice(1,-1).map(item => [item?.lat,item?.long]);
-
-
+  const endLocation = consignee?.[consignee?.length - 1];
+  const line = getMaps?.data?.response
+    .slice(1, -1)
+    .map((item) => [item?.lat, item?.long]);
 
   useEffect(() => {
-
     const ymaps = window.ymaps;
-
 
     setTimeout(() => {
       if (map.current && ymaps) {
-        
-        ymaps.route([
-          [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
-          [endLocation?.lat,endLocation?.long], // Tugash nuqtasi
-          // [41.311158, 69.279737],
-          // [-15.934077, -5.71183]
-
-        ])
+        // First route: from startLocation to endLocation
+        ymaps
+          .route([
+            [startLocation?.lat, startLocation?.long], // Start point
+            [endLocation?.lat, endLocation?.long], // End point
+          ])
           .then((route) => {
-            console.log(`route`,route)
             map.current.geoObjects.add(route);
             const startPoint = route.getWayPoints().get(0);
             const endPoint = route.getWayPoints().get(1);
@@ -67,8 +57,6 @@ export const AccordionMap = ({
               iconImageSize: [30, 42],
               iconImageOffset: [-10, -22],
             });
-
-            // B nuqtasi uchun ikona
             endPoint.options.set({
               iconLayout: "default#image",
               iconImageHref:
@@ -77,16 +65,48 @@ export const AccordionMap = ({
               iconImageSize: [30, 42],
               iconImageOffset: [-12, -38],
             });
-            const routePaths = route.getPaths();
-            routePaths.options.set({
+            route.getPaths().options.set({
               strokeColor: "#000000", // Black color
-              strokeWidth: 4, // Adjust thickness if needed
-              strokeOpacity: 1, // Adjust opacity if needed
+              strokeWidth: 4,
+              strokeOpacity: 1,
               strokeStyle: "dash",
             });
           });
+
+        // Second route: from startLocation to specified location with blue line, independent of the first route
+        ymaps
+          .route([
+            [startLocation?.lat, startLocation?.long], // Start from startLocation
+            driverPosition, // End at specified location
+          ])
+          .then((secondRoute) => {
+            map.current.geoObjects.add(secondRoute);
+            const startPoint = secondRoute.getWayPoints().get(0);
+            const endPoint = secondRoute.getWayPoints().get(1);
+            startPoint.options.set({
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(StartIcon),
+              iconImageSize: [30, 42],
+              iconImageOffset: [-10, -22],
+            });
+            endPoint.options.set({
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(LoadSvgIcon),
+              iconImageSize: [60, 72],
+              iconImageOffset: [-15, -42],
+            });
+            secondRoute.getPaths().options.set({
+              strokeColor: "#0000FF", // Blue color
+              strokeWidth: 4,
+              strokeOpacity: 1,
+            });
+          });
       }
-    },3000);
+    }, 3000);
   }, [gpsHistory]);
 
   const polylineOptions = {
@@ -102,60 +122,57 @@ export const AccordionMap = ({
   };
   return (
     // <YMaps>
-      <Map
-        width={"100%"}
-        height={"600px"}
-        modules={["multiRouter.MultiRoute"]}
-        state={mapState}
-        instanceRef={map}
+    <Map
+      width={"100%"}
+      height={"600px"}
+      modules={["multiRouter.MultiRoute"]}
+      state={mapState}
+      instanceRef={map}
+      options={{
+        maxZoom: 17,
+        minZoom: 2,
+      }}
+    >
+      <Polyline geometry={gpsHistory} options={polylineOptions} />
+      {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
+      <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
+
+      <TypeSelector
+        mapTypes={[
+          "yandex#map",
+          "yandex#satellite",
+          "yandex#hybrid",
+          "yandex#publicMap",
+        ]}
+      />
+      {/* <Placemark
+        geometry={driverPosition ? driverPosition : []}
         options={{
-          maxZoom: 17,
-          minZoom: 2,
+          iconLayout: "default#image",
+          iconImageHref:
+            "data:image/svg+xml;charset=UTF-8," +
+            encodeURIComponent(LoadSvgIcon),
+          iconImageSize: [60, 72],
+          iconImageOffset: [-15, -42],
         }}
-      >
-        <Polyline geometry={gpsHistory} options={polylineOptions} />
-        {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
-        <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
+      /> */}
 
-        <TypeSelector
-          mapTypes={[
-            "yandex#map",
-            "yandex#satellite",
-            "yandex#hybrid",
-            "yandex#publicMap",
-          ]}
-        />
-        <Placemark
-          geometry={driverPosition ? driverPosition: []}
-          options={{
-            iconLayout: "default#image",
-            iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(LoadSvgIcon),
-            iconImageSize: [60, 72],
-            iconImageOffset: [-15, -42],
-          }}
-        />
-
-        {
-          line?.length > 0 && line?.map(item => (
-            <Placemark
-              key={item.lat}
-              geometry={item}
-              options={{
-                iconLayout: "default#image",
-                iconImageHref:
-              "data:image/svg+xml;charset=UTF-8," +
-              encodeURIComponent(StopIcon),
+      {line?.length > 0 &&
+        line?.map((item) => (
+          <Placemark
+            key={item.lat}
+            geometry={item}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(StopIcon),
               iconImageSize: [30, 42],
               iconImageOffset: [-10, -22],
-              }}
-            />
-          ))
-        }
-
-
-      </Map>
+            }}
+          />
+        ))}
+    </Map>
     // </YMaps>
   );
 };

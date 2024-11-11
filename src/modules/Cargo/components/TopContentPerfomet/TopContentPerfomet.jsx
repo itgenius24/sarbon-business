@@ -21,6 +21,7 @@ import {
   Flex,
   Heading,
   Text,
+  Tooltip,
   useMediaQuery,
 } from "@chakra-ui/react";
 import Script from "next/script";
@@ -36,6 +37,7 @@ import {
   BluetoothIcon,
   CarIconXM,
   FurIcon,
+  IocnPrev,
   LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
@@ -52,6 +54,7 @@ import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
+import { ru } from "date-fns/locale";
 
 export const TopContentPerfomet = ({ getMaps }) => {
   // const { watch, handleUploadDocument, getEmptyFileName, getValues } =
@@ -239,23 +242,101 @@ export const TopContentPerfomet = ({ getMaps }) => {
                       <AccordionIcon />
                     </AccordionButton>
 
-                    <AccordionPanel>
+                    <AccordionPanel position={`relative`}>
                       {getGPSHistory.isPending ? (
                         <Box height={"600px"}>
                           <LoadingSpinner />
                         </Box>
                       ) : (
-                        <YMaps>
-                          <AccordionMap
-                            gpsHistory={gpsHistory}
-                            driverPosition={[
-                              user?.users_gps?.[0]?.lat,
-                              user?.users_gps?.[0]?.long,
-                            ]}
-                            periods={user?.periods}
-                          />
-                        </YMaps>
+                        <>
+                          <YMaps>
+                            <AccordionMap
+                              gpsHistory={gpsHistory}
+                              driverPosition={[
+                                user?.users_gps?.[0]?.lat,
+                                user?.users_gps?.[0]?.long,
+                              ]}
+                              periods={user?.periods}
+                            />
+                          </YMaps>
+                          <Flex
+                            justifyContent={`space-between`}
+                            gap={`10px`}
+                            alignItems={`center`}
+                            className={cls.adressWrap}
+                          >
+                            <Box>
+                              <p className={cls.adressTitle}>
+                                <Tooltip
+                                  color={`black`}
+                                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                  background={`#fff`}
+                                  label={`${user?.order?.cargo_id_data?.from}`}
+                                >
+                                  <span>{`${user?.order?.cargo_id_data?.from.slice(
+                                    0,
+                                    10
+                                  )}...`}</span>
+                                </Tooltip>
+                              </p>
+                              <p className={cls.adressDesk}>
+                                <span>
+                                  {
+                                    user?.order?.cargo_id_data
+                                      ?.country_code_from
+                                  }
+                                </span>
+                                /
+                                {format(
+                                  new Date(
+                                    user?.order?.cargo_id_data?.load_time
+                                  ).setHours(
+                                    new Date(
+                                      user?.order?.cargo_id_data?.load_time
+                                    ).getHours() - 5
+                                  ),
+                                  "dd-MMMM",
+                                  { locale: ru }
+                                )}
+                              </p>
+                            </Box>
+                            <IocnPrev />
+                            <Box>
+                              <p className={cls.adressTitle}>
+                                <Tooltip
+                                  color={`black`}
+                                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                  background={`#fff`}
+                                  label={`${user?.order?.cargo_id_data?.to}`}
+                                >
+                                  <span>{`${user?.order?.cargo_id_data?.to.slice(
+                                    0,
+                                    10
+                                  )}...`}</span>
+                                </Tooltip>
+                              </p>
+                              <p className={cls.adressDesk}>
+                                <span>
+                                  {user?.order?.cargo_id_data?.country_code_to}
+                                </span>
+                                /
+                                {format(
+                                  new Date(
+                                    user?.order?.cargo_id_data?.date
+                                  ).setHours(
+                                    new Date(
+                                      user?.order?.cargo_id_data?.date
+                                    ).getHours() - 5
+                                  ),
+                                  "dd-MMMM",
+                                  { locale: ru }
+                                )}
+                              </p>
+                            </Box>
+                          </Flex>
+                        </>
                       )}
+
                       <Flex
                         justifyContent={`space-between`}
                         alignItems={`center`}
@@ -266,7 +347,9 @@ export const TopContentPerfomet = ({ getMaps }) => {
                             <CarIconXM />
                             <Box>
                               <p className={cls.title}>
-                                Тентованный полуприцеп: 2/3
+                                {user?.order?.cargo_id_data?.car_type}:
+                                {userData?.length} /{" "}
+                                {user?.order?.cargo_id_data?.number_of_cars}
                               </p>
                               <p className={cls.subTitle}>Volvo, 01A123NN</p>
                             </Box>
@@ -274,28 +357,56 @@ export const TopContentPerfomet = ({ getMaps }) => {
                           <Flex gap={`8px`}>
                             <LoadIconXM />
                             <Box>
-                              <p className={cls.title}>Пиломатериалы</p>
-                              <p className={cls.subTitle}> 20т / 86 м3</p>
+                              <p className={cls.title}>
+                                {user?.order?.cargo_id_data?.product_type}
+                              </p>
+                              <p className={cls.subTitle}>
+                                {" "}
+                                {user?.order?.cargo_id_data?.weight}т /{" "}
+                                {user?.order?.cargo_id_data?.volume_m3} м3
+                              </p>
                             </Box>
                           </Flex>
                         </Flex>
-                        <Flex gap={`39px`}  background={`rgba(237, 246, 255, 1)`} borderRadius={`10px`} p={`13px 18px`}>
+                        <Flex
+                          gap={`39px`}
+                          background={`rgba(237, 246, 255, 1)`}
+                          borderRadius={`10px`}
+                          p={`13px 18px`}
+                        >
                           <Box>
                             <p className={cls.subTitle}>Тип оплаты: </p>
                             <p className={cls.title}>
-                            Перечисление
+                              {
+                                user?.order?.cargo_id_data?.map_id_data
+                                  ?.payment_type
+                              }
                             </p>
                           </Box>
                           <Box>
                             <p className={cls.subTitle}>Преоплата: </p>
                             <p className={cls.title}>
-                            5 000 000 UZS
+                              {
+                                user?.order?.cargo_id_data
+                                  ?.prepayment_percentage
+                              }{" "}
+                              {
+                                user?.order?.cargo_id_data?.currency_id_data
+                                  ?.code
+                              }
                             </p>
                           </Box>
                           <Box>
-                            <p className={cls.subTitle}>Сумма:  </p>
-                            <p className={cls.title} style={{color:`rgba(0, 122, 255, 1)`}}>
-                            45 000 000 UZS
+                            <p className={cls.subTitle}>Сумма: </p>
+                            <p
+                              className={cls.title}
+                              style={{ color: `rgba(0, 122, 255, 1)` }}
+                            >
+                              {user?.order?.cargo_id_data?.bid_cash}{" "}
+                              {
+                                user?.order?.cargo_id_data?.currency_id_data
+                                  ?.code
+                              }
                             </p>
                           </Box>
                         </Flex>

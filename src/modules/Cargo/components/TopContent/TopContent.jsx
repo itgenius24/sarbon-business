@@ -21,10 +21,11 @@ import {
   Flex,
   Heading,
   Text,
+  Tooltip,
   useMediaQuery,
 } from "@chakra-ui/react";
 import Script from "next/script";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { use, useEffect, useMemo, useRef, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Documents } from "../Documents/Documents";
@@ -36,6 +37,7 @@ import {
   BluetoothIcon,
   CarIconXM,
   FurIcon,
+  IocnPrev,
   LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
@@ -52,10 +54,11 @@ import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
+import { ru } from "date-fns/locale";
 
 export const TopContent = ({
-  address1,
-  address2,
+  address1 = "",
+  address2 = "",
   proposedAmount,
   userName,
   rating,
@@ -134,7 +137,7 @@ export const TopContent = ({
   //   { data: JSON.stringify({ user_id: userId2 }) },
   //   { enabled: !!(status === "performed" && userId2) }
   // );
-  const [gpsHistory, setGpsHistory] = useState();
+  const [gpsHistory, setGpsHistory] = useState([]);
   const [page, setPage] = useState(0);
 
   const [breakRequest, setBreakRequest] = useState(false);
@@ -145,9 +148,10 @@ export const TopContent = ({
         setPage(page + 1);
       }
       if (data.response) {
+        const data2 = data?.response?.map((item) => [item?.lat, item?.long])
         setGpsHistory((prev) => [
           ...prev,
-          ...data.response.map((item) => [item?.lat, item?.long]),
+          ...data2
         ]);
       }
       if (data.response === null && !breakRequest) {
@@ -177,6 +181,7 @@ export const TopContent = ({
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
+      setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id)
     },
   });
 
@@ -209,60 +214,7 @@ export const TopContent = ({
     }
   }, [status, userId, page]);
 
-  // function initYmaps() {
-  //   if (window?.ymaps) {
-  //     ymaps.ready(() => {
-  //       myPolyline.current = new ymaps.Polyline(
-  //         [],
-  //         { balloonContent: "Polyline" },
-  //         {
-  //           balloonCloseButton: false,
-  //           strokeColor: "#009241",
-  //           strokeWidth: 4,
-  //           strokeOpacity: 1,
-  //         }
-  //       );
 
-  //       multiRoute.current = new ymaps.multiRouter.MultiRoute(
-  //         {
-  //           referencePoints: [
-  //             watch("loadings")?.[0]?.cor,
-  //             watch("unloading")?.[0]?.cor,
-  //           ],
-  //         },
-  //         {
-  //           editorMidPointsType: "via",
-  //           routeActiveStrokeColor: "#007AFF",
-  //           editorDrawOver: false,
-  //         }
-  //       );
-
-  //       myMap.current = new ymaps.Map(
-  //         "topContentMap",
-  //         {
-  //           center: [41.40587471972005, 69.46086540238926],
-  //           zoom: 15,
-  //           controls: [],
-  //         },
-  //         { buttonMaxWidth: 300 }
-  //       );
-
-  //       (myPlaceMark.current = new ymaps.Placemark(
-  //         [],
-  //         { hintContent: "Driver" },
-  //         {
-  //           iconLayout: "default#image",
-  //           iconImageHref: "/images/navigation.png",
-  //           iconImageSize: [37, 37],
-  //           iconImageOffset: [-5, -38],
-  //         }
-  //       )),
-  //         myMap.current.geoObjects.add(myPolyline.current);
-  //       myMap.current.geoObjects.add(multiRoute.current);
-  //       myMap.current.geoObjects.add(myPlaceMark.current);
-  //     });
-  //   }
-  // }
 
   useEffect(() => {
     if (myPolyline.current) {
@@ -324,39 +276,44 @@ export const TopContent = ({
             <h2 className={cls.address}>
               <span className={cls.addressText}>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>{address1}</span>
+                  <span className={cls.addressCity}>  <Tooltip
+                                    color={`black`}
+                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                    background={`#fff`}
+                                    label={`${address1}`}
+                                  >
+                                    <span>{`${address1?.slice(
+                                      0,
+                                      10
+                                    )}...`}</span>
+                                  </Tooltip></span>
                   {/* <span>{address1}</span> */}
                 </span>
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>{address2}</span>
+                  <span className={cls.addressCity}> <Tooltip
+                                    color={`black`}
+                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                    background={`#fff`}
+                                    label={`${address2}`}
+                                  >
+                                    <span>{`${address2?.slice(
+                                      0,
+                                      10
+                                    )}...`}</span>
+                                  </Tooltip></span>
                   {/* <span>{address2}</span> */}
                 </span>
-                {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
               </span>
-              {/* <Text as="span" color="brand.500">
-                {" "}
-                {distance} km
-              </Text> */}
+          
             </h2>
-            {/* <DataList list={list} /> */}
-            {/* {status === "performed" && (
-              <>
-                <Button
-                  maxW="278px"
-                  mt="20px"
-                  onClick={() => setShowNumber(!showNumber)}
-                >
-                  {showNumber ? phoneNumber : t("Показать номер")}
-                </Button>
-              </>
-            )} */}
+          
           </Box>
 
           {isPending ? (
             <LoadingSpinner />
           ) : (
-            <Accordion allowToggle>
+            <Accordion defaultIndex={[0]}  allowToggle>
               {userData?.map((user, index) => {
                 return (
                   <>
@@ -442,7 +399,7 @@ export const TopContent = ({
                             </div>
                           </div> */}
                             <div className={cls.item}>
-                              {user.battery > 19 ? (
+                              {user?.users_gps?.[0]?.battery > 19 ? (
                                 <BatareyFullIcon />
                               ) : (
                                 <BatareyIcon />
@@ -450,7 +407,7 @@ export const TopContent = ({
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>Батарея</p>
                                 <p className={cls.phoneItemName}>
-                                  {user.battery}%{" "}
+                                  {user?.users_gps?.[0]?.battery}%{" "}
                                 </p>
                               </div>
                             </div>
@@ -459,21 +416,101 @@ export const TopContent = ({
                         <AccordionIcon />
                       </AccordionButton>
 
-                      <AccordionPanel>
+                      <AccordionPanel position={`relative`}>
                         {getGPSHistory.isPending ? (
                           <Box height={"600px"}>
                             <LoadingSpinner />
                           </Box>
                         ) : (
-                          <YMaps>
-                            <AccordionMap
-                              startPoint={user.startPoint}
-                              endPoint={user.endPoint}
-                              gpsHistory={gpsHistory}
-                              driverPosition={driverPosition}
-                              getMaps={getMaps}
-                            />
-                          </YMaps>
+                          <>
+                            <YMaps>
+                              <AccordionMap
+                                startPoint={user.startPoint}
+                                endPoint={user.endPoint}
+                                gpsHistory={gpsHistory}
+                                driverPosition={driverPosition}
+                                getMaps={getMaps}
+                              />
+                            </YMaps>
+                            <Flex
+                              justifyContent={`space-between`}
+                              gap={`10px`}
+                              alignItems={`center`}
+                              className={cls.adressWrap}
+                            >
+                              <Box>
+                                <p className={cls.adressTitle}>
+                                  <Tooltip
+                                    color={`black`}
+                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                    background={`#fff`}
+                                    label={`${user?.order?.cargo_id_data?.from}`}
+                                  >
+                                    <span>{`${user?.order?.cargo_id_data?.from.slice(
+                                      0,
+                                      10
+                                    )}...`}</span>
+                                  </Tooltip>
+                                </p>
+                                <p className={cls.adressDesk}>
+                                  <span>
+                                    {
+                                      user?.order?.cargo_id_data
+                                        ?.country_code_from
+                                    }
+                                  </span>
+                                  /
+                                  {format(
+                                    new Date(
+                                      user?.order?.cargo_id_data?.load_time
+                                    ).setHours(
+                                      new Date(
+                                        user?.order?.cargo_id_data?.load_time
+                                      ).getHours() - 5
+                                    ),
+                                    "dd-MMMM",
+                                    { locale: ru }
+                                  )}
+                                </p>
+                              </Box>
+                              <IocnPrev />
+                              <Box>
+                                <p className={cls.adressTitle}>
+                                  <Tooltip
+                                    color={`black`}
+                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                    background={`#fff`}
+                                    label={`${user?.order?.cargo_id_data?.to}`}
+                                  >
+                                    <span>{`${user?.order?.cargo_id_data?.to.slice(
+                                      0,
+                                      10
+                                    )}...`}</span>
+                                  </Tooltip>
+                                </p>
+                                <p className={cls.adressDesk}>
+                                  <span>
+                                    {
+                                      user?.order?.cargo_id_data
+                                        ?.country_code_to
+                                    }
+                                  </span>
+                                  /
+                                  {format(
+                                    new Date(
+                                      user?.order?.cargo_id_data?.date
+                                    ).setHours(
+                                      new Date(
+                                        user?.order?.cargo_id_data?.date
+                                      ).getHours() - 5
+                                    ),
+                                    "dd-MMMM",
+                                    { locale: ru }
+                                  )}
+                                </p>
+                              </Box>
+                            </Flex>
+                          </>
                         )}
 
                         <Flex
@@ -486,7 +523,9 @@ export const TopContent = ({
                               <CarIconXM />
                               <Box>
                                 <p className={cls.title}>
-                                  Тентованный полуприцеп: 2/3
+                                  {user?.order?.cargo_id_data?.car_type}:{" "}
+                                  {userData?.length} /{" "}
+                                  {user?.order?.cargo_id_data?.number_of_cars}
                                 </p>
                                 <p className={cls.subTitle}>Volvo, 01A123NN</p>
                               </Box>
@@ -494,8 +533,14 @@ export const TopContent = ({
                             <Flex gap={`8px`}>
                               <LoadIconXM />
                               <Box>
-                                <p className={cls.title}>Пиломатериалы</p>
-                                <p className={cls.subTitle}> 20т / 86 м3</p>
+                                <p className={cls.title}>
+                                  {user?.order?.cargo_id_data?.product_type}
+                                </p>
+                                <p className={cls.subTitle}>
+                                  {" "}
+                                  {user?.order?.cargo_id_data?.weight}т /{" "}
+                                  {user?.order?.cargo_id_data?.volume_m3} м3
+                                </p>
                               </Box>
                             </Flex>
                           </Flex>
@@ -507,11 +552,25 @@ export const TopContent = ({
                           >
                             <Box>
                               <p className={cls.subTitle}>Тип оплаты: </p>
-                              <p className={cls.title}>Перечисление</p>
+                              <p className={cls.title}>
+                                {
+                                  user?.order?.cargo_id_data?.map_id_data
+                                    ?.payment_type
+                                }
+                              </p>
                             </Box>
                             <Box>
                               <p className={cls.subTitle}>Преоплата: </p>
-                              <p className={cls.title}>5 000 000 UZS</p>
+                              <p className={cls.title}>
+                                {
+                                  user?.order?.cargo_id_data
+                                    ?.prepayment_percentage
+                                }{" "}
+                                {
+                                  user?.order?.cargo_id_data?.currency_id_data
+                                    ?.code
+                                }
+                              </p>
                             </Box>
                             <Box>
                               <p className={cls.subTitle}>Сумма: </p>
@@ -519,7 +578,11 @@ export const TopContent = ({
                                 className={cls.title}
                                 style={{ color: `rgba(0, 122, 255, 1)` }}
                               >
-                                45 000 000 UZS
+                                {user?.order?.cargo_id_data?.bid_cash}{" "}
+                                {
+                                  user?.order?.cargo_id_data?.currency_id_data
+                                    ?.code
+                                }
                               </p>
                             </Box>
                           </Flex>
