@@ -144,7 +144,7 @@ const Card = ({ item, ...props }) => {
         <span className={cls.subTitle}>
           Предопл.
           {item?.cargo_id_data?.prepayment_percentage > 0
-            ? `${item?.cargo_id_data?.prepayment_percentage} ${item?.currency_id_data?.code}`
+            ? `${item?.cargo_id_data?.prepayment_percentage} ${item?.currency_id_data?.code  || ``}`
             : `Нет`}
         </span>
       </Box>

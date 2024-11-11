@@ -392,7 +392,7 @@ export const SearchCargoModule = () => {
               </Flex>
             </Box>
             <Box width={"100%"} mt={"17px"}>
-              <p className={cls.textFieldName}>{t("Фото Техпаспорта *")}</p>
+              <p className={cls.textFieldName}>{t("Фото машины *")}</p>
               <Flex gap={4} className={cls.ImgWrap}>
                 <UploadImg
                   watch={watch}
