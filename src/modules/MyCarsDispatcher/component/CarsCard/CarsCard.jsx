@@ -76,11 +76,11 @@ export const CarsCard = () => {
               </p>
             </Flex>
             <Flex alignItems={"center"} gap={2}>
-                {true? (
+                {/* {true? ( */}
                   <BatareyFullIcon />
-                ) : (
-                  <BatareyIcon />
-                )}
+                {/* ) : ( */}
+                  {/* <BatareyIcon /> */}
+                {/* )} */}
                 <p className={cls.subTitle}>
                   <span className={cls.title}>50% </span>
                 </p>
