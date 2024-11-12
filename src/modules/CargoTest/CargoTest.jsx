@@ -113,7 +113,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       addCargoProps.watch(`cargoIndex`) > 1 &&
                       addCargoProps.setValue(`cargoIndex`, 1)
                     }
-                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 1, })}
+                    className={clsx(cls.arrow, {
+                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 1,
+                    })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 1 ? (
                       <CricleBlueIcon />
@@ -131,24 +133,26 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         addCargoProps.watch("weight_measurement") &&
                         addCargoProps.watch("volume_measurement")
                           ? `${
-                            addCargoProps.watch("cargo_type").label
-                          } ${addCargoProps.watch("weight_measurement")}T 
+                              addCargoProps.watch("cargo_type").label
+                            } ${addCargoProps.watch("weight_measurement")}T 
                           ${addCargoProps.watch("volume_measurement")}m³`
                           : "не заполнено"}
                       </span>
                     </div>
                   </div>
                 </div>
-             
+
                 <div className={cls.arrowWrap}>
                   <div
                     onClick={() =>
-                     ( addCargoProps.watch("cargo_type")?.label &&
+                      addCargoProps.watch("cargo_type")?.label &&
                       addCargoProps.watch("weight_measurement") &&
-                      addCargoProps.watch("volume_measurement")) &&
+                      addCargoProps.watch("volume_measurement") &&
                       addCargoProps.setValue(`cargoIndex`, 2)
                     }
-                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 2, })}
+                    className={clsx(cls.arrow, {
+                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 2,
+                    })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 2 ? (
                       <CricleBlueIcon />
@@ -168,16 +172,12 @@ export const CargoTest = observer(({ id, status, locale }) => {
                           </p>
                           -{`>`}
                           <p className={cls.locationText}>
-                            
                             {addCargoProps.watch("unloading[0].address")}
                           </p>
                         </Flex>
                       ) : (
                         <Flex alignItems={`center`} gap={`5px`}>
-                          <span>
-                        не заполнено
-                          </span>
-
+                          <span>не заполнено</span>
                         </Flex>
                       )}
                     </div>
@@ -185,10 +185,14 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 </div>
                 <div className={cls.arrowWrap}>
                   <div
-                    onClick={() => (addCargoProps.watch(`loadings[0].address`) &&
-                      addCargoProps.watch("unloading[0].address")) &&
-                     addCargoProps.setValue(`cargoIndex`,3)}
-                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 3, })}
+                    onClick={() =>
+                      addCargoProps.watch(`loadings[0].address`) &&
+                      addCargoProps.watch("unloading[0].address") &&
+                      addCargoProps.setValue(`cargoIndex`, 3)
+                    }
+                    className={clsx(cls.arrow, {
+                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 3,
+                    })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 3 ? (
                       <CricleBlueIcon />
@@ -212,16 +216,17 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   <div
                     // onClick={() => setCargoIndex(4)}
                     onClick={() =>
-                     ( addCargoProps.watch("car_type")?.label &&
-                      addCargoProps.watch(`transport_count`) ) &&
-                     addCargoProps.setValue(`cargoIndex`,4)}
-
-                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 4, })}
+                      addCargoProps.watch("car_type")?.label &&
+                      addCargoProps.watch(`transport_count`) &&
+                      addCargoProps.setValue(`cargoIndex`, 4)
+                    }
+                    className={clsx(cls.arrow, {
+                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 4,
+                    })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 4 ? (
                       <CricleBlueIcon />
-                    ) : 
-                      addCargoProps.watch("price")  ? (
+                    ) : addCargoProps.watch("price") ? (
                       <CheckIconStep />
                     ) : (
                       <CricleIcon />
@@ -229,7 +234,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     <div className={cls.text}>
                       <p>4. Оплата</p>
                       <span>
-                        {addCargoProps.watch(`price_after_order`) ? +addCargoProps.watch(`price`) - (+addCargoProps.watch(`price_prepayment`) || 0 ) : `не заполнено`}
+                        {addCargoProps.watch(`price_after_order`)
+                          ? addCargoProps.watch(`price`) || 0
+                          : `не заполнено`}
                       </span>
                     </div>
                   </div>
@@ -248,7 +255,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
       <Popup
         isOpen={addCargoProps.isPopupOpen}
         onClose={addCargoProps.handleCloseDeletePopup}
-        mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName, })}
+        mainText={t("Вы уверены что хотите удалить груз ?", {
+          name: addCargoProps.cargoName,
+        })}
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />
@@ -280,7 +289,6 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 as="button"
                 key={item?.guid}
               >
-              
                 <Box
                   display="flex"
                   justifyContent="space-between"
@@ -310,12 +318,14 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                       >
-                      { item.from ? item.from : item?.city_id_data?.[
-                          "name_" + (locale === "uz" ? "en" : locale)
-                        ] || item?.city_id_data?.name}
+                        {item.from
+                          ? item.from
+                          : item?.city_id_data?.[
+                              "name_" + (locale === "uz" ? "en" : locale)
+                            ] || item?.city_id_data?.name}
                       </Text>
                       <span>
-                        { item?.address_id_data?.[
+                        {item?.address_id_data?.[
                           "name_" + (locale === "uz" ? "en" : locale)
                         ] || item?.address_id_data?.name}
                       </span>
@@ -342,9 +352,11 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         textOverflow="ellipsis"
                         whiteSpace="nowrap"
                       >
-                      { item.to ? item?.to : item?.city_id_2_data?.[
-                          "name_" + (locale === "uz" ? "en" : locale)
-                        ] || item?.city_id_2_data?.name}
+                        {item.to
+                          ? item?.to
+                          : item?.city_id_2_data?.[
+                              "name_" + (locale === "uz" ? "en" : locale)
+                            ] || item?.city_id_2_data?.name}
                       </Text>
                       <span>
                         {item?.address_id_2_data?.[

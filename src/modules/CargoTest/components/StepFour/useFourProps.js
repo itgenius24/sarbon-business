@@ -42,10 +42,13 @@ const useFourProps = () => {
     label: item?.name,
     value: item?.guid,
   }));
+
   const paymentOptions = getPaymentType.data?.response?.slice(0,2)?.map((item) => ({
     label: item?.payment_type,
     value: item?.guid,
   }));
+
+
 
 
   useEffect(() => {

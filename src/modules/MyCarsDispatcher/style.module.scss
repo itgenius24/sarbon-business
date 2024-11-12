@@ -1,0 +1,37 @@
+.countrWrap{
+
+
+
+  p{
+    font-size: 16px;
+    color: rgba(33, 31, 38, 1);
+    font-weight: 400;
+    line-height: 25px;
+    span{
+      font-weight: 600;
+    }
+  }
+}
+
+.th {
+  font-weight: 600;
+  color: rgba(126, 123, 134, 1);
+  font-size: 13px;
+  text-transform: uppercase;
+  max-width: 100%;
+  // background-color: red;
+//  margin-left: 5px;
+  &:nth-child(1) {
+    width: 500px;
+  }
+  &:nth-child(2) {
+    width: 500px;
+  }
+  &:nth-child(3) {
+    width: 500px;
+  }
+  &:nth-child(4) {
+    width: 100%;
+  }
+  
+}

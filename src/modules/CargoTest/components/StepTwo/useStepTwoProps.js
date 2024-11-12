@@ -62,6 +62,8 @@ const useStepTwoProps = () => {
     // });
   };
 
+  console.log(`salom`,watch(`as_soon_as_b`))
+
   const handLeCheck2 = (e) => {
     setas_soon_as_b(e.target.checked);
     setValue(`as_soon_as_b`, e.target.checked);

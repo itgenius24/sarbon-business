@@ -1,4 +1,3 @@
-
 import cls from "./style.module.scss";
 import { Avatar, Box, Flex, Tooltip } from "@chakra-ui/react";
 import { format } from "date-fns";
@@ -124,16 +123,12 @@ const Card = ({ item, ...props }) => {
 
       <Box className={`${cls.contend} ${cls.contend4}`}></Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
-        <p className={cls.title}>
-          {item?.users_id_data?.full_name}
-        </p>
-        <p className={cls.subTitle}>
-          {item?.users_id_data?.phone}
-        </p>
+        <p className={cls.title}>{item?.users_id_data?.full_name}</p>
+        <p className={cls.subTitle}>{item?.users_id_data?.phone}</p>
       </Box>
 
       <Box className={`${cls.contend} ${cls.contend6}`}>
-      <p className={cls.title}>
+        <p className={cls.title}>
           {item?.cargo_id_data?.bid_cash} {item?.currency_id_data?.code}
           <span className={cls.subTitle1}>
             {item?.cargo_id_data?.map_id_data?.payment_type
@@ -144,18 +139,19 @@ const Card = ({ item, ...props }) => {
         <span className={cls.subTitle}>
           Предопл.
           {item?.cargo_id_data?.prepayment_percentage > 0
-            ? `${item?.cargo_id_data?.prepayment_percentage} ${item?.currency_id_data?.code  || ``}`
+            ? `${item?.cargo_id_data?.prepayment_percentage} ${
+                item?.currency_id_data?.code || ``
+              }`
             : `Нет`}
         </span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend7}`}>
-      <Flex alignItems={`flex-start`} gap={1}>
+        <Flex alignItems={`flex-start`} gap={1}>
           <Avatar
             width={`50px`}
             height={`50px`}
             src={
-              process.env.NEXT_PUBLIC_MEDIA_URL +
-              item?.users_id_2_data?.photo
+              process.env.NEXT_PUBLIC_MEDIA_URL + item?.users_id_2_data?.photo
             }
             fontSize={`16px`}
             name={item?.users_id_2_data?.full_name}

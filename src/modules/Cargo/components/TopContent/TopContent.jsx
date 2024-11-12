@@ -148,11 +148,8 @@ export const TopContent = ({
         setPage(page + 1);
       }
       if (data.response) {
-        const data2 = data?.response?.map((item) => [item?.lat, item?.long])
-        setGpsHistory((prev) => [
-          ...prev,
-          ...data2
-        ]);
+        const data2 = data?.response?.map((item) => [item?.lat, item?.long]);
+        setGpsHistory((prev) => [...prev, ...data2]);
       }
       if (data.response === null && !breakRequest) {
         setBreakRequest(true);
@@ -181,7 +178,7 @@ export const TopContent = ({
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
-      setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id)
+      setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id);
     },
   });
 
@@ -213,8 +210,6 @@ export const TopContent = ({
       });
     }
   }, [status, userId, page]);
-
-
 
   useEffect(() => {
     if (myPolyline.current) {
@@ -276,44 +271,42 @@ export const TopContent = ({
             <h2 className={cls.address}>
               <span className={cls.addressText}>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>  <Tooltip
-                                    color={`black`}
-                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                                    background={`#fff`}
-                                    label={`${address1}`}
-                                  >
-                                    <span>{`${address1?.slice(
-                                      0,
-                                      10
-                                    )}...`}</span>
-                                  </Tooltip></span>
+                  <span className={cls.addressCity}>
+                    {" "}
+                    <Tooltip
+                      color={`black`}
+                      boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                      background={`#fff`}
+                      label={`${address1}`}
+                    >
+                      <span>{`${address1?.slice(0, 10)}...`}</span>
+                    </Tooltip>
+                  </span>
                   {/* <span>{address1}</span> */}
                 </span>
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}> <Tooltip
-                                    color={`black`}
-                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                                    background={`#fff`}
-                                    label={`${address2}`}
-                                  >
-                                    <span>{`${address2?.slice(
-                                      0,
-                                      10
-                                    )}...`}</span>
-                                  </Tooltip></span>
+                  <span className={cls.addressCity}>
+                    {" "}
+                    <Tooltip
+                      color={`black`}
+                      boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                      background={`#fff`}
+                      label={`${address2}`}
+                    >
+                      <span>{`${address2?.slice(0, 10)}...`}</span>
+                    </Tooltip>
+                  </span>
                   {/* <span>{address2}</span> */}
                 </span>
               </span>
-          
             </h2>
-          
           </Box>
 
           {isPending ? (
             <LoadingSpinner />
           ) : (
-            <Accordion defaultIndex={[0]}  allowToggle>
+            <Accordion defaultIndex={[0]} allowToggle>
               {userData?.map((user, index) => {
                 return (
                   <>

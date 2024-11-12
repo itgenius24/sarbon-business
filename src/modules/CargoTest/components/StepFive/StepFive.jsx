@@ -24,6 +24,7 @@ import { Checkbox } from "@/components/Checkbox";
 import {
   useCreateAddressMutation,
   useCreateCargoMutation,
+  useGetPaymentType,
   useUpdateCargo,
 } from "@/services/api";
 import { CheckModalIcon, ModalGruzIcon } from "@/assets/icons/icons";
@@ -70,6 +71,27 @@ const StepFive = ({ status }) => {
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
+  const getPaymentType = useGetPaymentType();
+
+
+  const paymentOptions = getPaymentType.data?.response?.slice(0,2)?.map((item) => ({
+    label: item?.payment_type,
+    value: item?.guid,
+  }));
+
+  useEffect(() => {
+    if(!watch(`payment_type`)?.value){
+      setValue(`payment_type`,paymentOptions?.[0])
+    }
+    if(!watch(`payment_type_1`)?.value){
+      setValue(`payment_type_1`,paymentOptions?.[0])
+    }
+    if(!watch(`payment_type_2`)?.value){
+      setValue(`payment_type_2`,paymentOptions?.[0])
+    }
+  },[paymentOptions])
+
+  console.log(`payment_type`,watch(`payment_type`))
 
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
@@ -279,6 +301,8 @@ const StepFive = ({ status }) => {
         country_code_to: watch(`country_code_to`),
         from: loadings[0].address,
         to: unloading[unloading.length - 1].address,
+        as_soon_as_a:watch(`as_soon_as_a`),
+        as_soon_as_b:watch(`as_soon_as_b`),   
       },
     };
     createCargo.mutate(requestData);
@@ -310,6 +334,8 @@ const StepFive = ({ status }) => {
     //   },
     // });
   };
+
+  console.log(`salom`,watch("payment_type"))
 
   const clearF = () => {
     handleResetForm();

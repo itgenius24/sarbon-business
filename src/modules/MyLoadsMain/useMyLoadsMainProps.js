@@ -11,9 +11,17 @@ import { useToast } from "@chakra-ui/react";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
 import { keepPreviousData } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const useMyLoadsMainProps = () => {
-  const [orderStatus, setOrderStatus] = useState("");
+  const params = useSearchParams()
+  const orderValStatus = params.get(`value`)
+
+  const router = useRouter();
+  const [orderStatus, setOrderStatus] = useState(orderValStatus);
+
+
+  
 
   const userId = authStore.userData.id;
 
@@ -225,10 +233,13 @@ export const useMyLoadsMainProps = () => {
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
-  function onFilterChange({ value }) {
+  function onFilterChange({ label,value }) {
+    router.push(`?value=${value}&label=${label}`);
+
     setOrderStatus(value);
     setLimit(6);
     setHasMore(true);
+   
   }
 
   const ref = useRef(null);
