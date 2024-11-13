@@ -155,7 +155,7 @@ export const useSearchCargo = () => {
         pneumatic: val.pneumatic, //or false
         coupling: val.coupling, // or true
         konika: val.konika, // or false
-        adr: val.adr.value,
+        adr: val?.adr?.value || ``,
         back_side_trailer: val.back_side_trailer, //url cdn
         front_side_trailer: val.front_side_trailer, //url cdn
         car_photo: val.car_photo, //url cdn

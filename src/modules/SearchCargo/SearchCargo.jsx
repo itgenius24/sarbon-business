@@ -337,7 +337,7 @@ export const SearchCargoModule = () => {
             </Box>
 
             <Box width={`100%`} mt={`20px`}>
-              <p className={cls.textFieldName}>{t("ADR")}</p>
+              {/* <p className={cls.textFieldName}>{t("ADR")}</p>
               <Box display="flex" columnGap="22px" alignItems={"center"}>
                 <Box width={"100px"}>
                   <Dropdown
@@ -362,7 +362,7 @@ export const SearchCargoModule = () => {
                   </a>{" "}
                   <StepLinkIcon />
                 </p>
-              </Box>
+              </Box> */}
             </Box>
           </Flex>
 
