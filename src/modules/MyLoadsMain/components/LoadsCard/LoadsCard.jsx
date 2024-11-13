@@ -15,7 +15,7 @@ import { forwardRef } from "react";
 import { Popup } from "@/components/Popup";
 import { ModalS } from "@/components/Modal";
 
-export const LoadsCard = (cargo) => {
+export const LoadsCard = forwardRef(({cargo,orderStatus,handleDelete,handleAccept,handleCancel,isLargerThan768},ref) => {
   const {
     list,
     newStatusList,
@@ -37,44 +37,44 @@ export const LoadsCard = (cargo) => {
     onDeleteAccept,
     setIsDeletePopupOpen,
   } = useLoadsCardProps({
-    order_status: cargo?.cargo?.order_status,
-    provisions: cargo?.cargo?.provisions,
-    response_status: cargo?.cargo?.response_status,
-    orderStatus: cargo?.cargo?.orderStatus,
-    cargo_type_id_data: cargo?.cargo?.cargo_type_id_data,
-    load_around_the_clock: cargo?.cargo?.load_around_the_clock,
-    take_all_unloads: cargo?.cargo?.take_all_unloads,
-    date: cargo?.cargo?.date,
-    load_time: cargo?.cargo?.load_time,
-    indicate_status: cargo?.cargo?.indicate_status,
-    users_id_2: cargo?.cargo?.users_id_2,
-    users_id_2_data: cargo?.cargo?.users_id_2_data,
-    driver_cash: cargo?.cargo?.driver_cash,
-    short_name: cargo?.cargo?.short_name,
-    distance: cargo?.cargo?.distance,
-    currency_id_data: cargo?.cargo?.currency_id_data,
-    currency_id_2_data: cargo?.cargo?.currency_id_2_data,
-    handleDelete: cargo?.handleDelete,
+    order_status: cargo?.order_status,
+    provisions: cargo?.provisions,
+    response_status: cargo?.response_status,
+    orderStatus: orderStatus,
+    cargo_type_id_data: cargo?.cargo_type_id_data,
+    load_around_the_clock: cargo?.load_around_the_clock,
+    take_all_unloads: cargo?.take_all_unloads,
+    date: cargo?.date,
+    load_time: cargo?.load_time,
+    indicate_status: cargo?.indicate_status,
+    users_id_2: cargo?.users_id_2,
+    users_id_2_data: cargo?.users_id_2_data,
+    driver_cash: cargo?.driver_cash,
+    short_name: cargo?.short_name,
+    distance: cargo?.distance,
+    currency_id_data: cargo?.currency_id_data,
+    currency_id_2_data: cargo?.currency_id_2_data,
+    handleDelete: handleDelete,
     cargo,
   });
 
-  console.log("cargo", cargo);
+
   return (
     <div>
       <div
-        ref={cargo?.cargo?.ref}
+        ref={ref}
         className={clsx(cls.loadsCard, {
           [cls.rejected]: status === "rejected",
         })}
         onClick={() =>
-          router.push(`/${locale}/my-loads/${status}/${cargo?.cargo?.guid}`)
+          router.push(`/${locale}/my-loads/${status}/${cargo?.guid}`)
         }
       >
         <a
           className={clsx(cls.stretchedLink, {
             [cls.isShow]: status === "performed",
           })}
-          href={`/${locale}/my-loads/${status}/${cargo?.cargo?.guid}`}
+          href={`/${locale}/my-loads/${status}/${cargo?.guid}`}
         ></a>
         <div className={cls.cardTop}>
           <div className={cls.cardTopContent}>
@@ -82,29 +82,28 @@ export const LoadsCard = (cargo) => {
               <span className={cls.addressText}>
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
-                    {cargo?.cargo?.from
-                      ? cargo?.cargo?.from?.length > 10 ? (
-                  <Tooltip
-                    color={`black`}
-                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                    background={`#fff`}
-                    label={`${cargo?.cargo?.from}`}
-                  >
-                    <span>{`${cargo?.cargo?.from.slice(
-                      0,
-                      10
-                    )}...`}</span>
-                  </Tooltip>
-                ) : (
-                  cargo?.cargo?.from
-                )
-                      : cargo?.cargo?.city_id_data?.[
-                          "name_" + (locale === "uz" ? "en" : "ru")
-                        ]}
+                    {cargo?.from ? (
+                      cargo?.from?.length > 10 ? (
+                        <Tooltip
+                          color={`black`}
+                          boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                          background={`#fff`}
+                          label={`${cargo?.from}`}
+                        >
+                          <span>{`${cargo?.from.slice(0, 10)}...`}</span>
+                        </Tooltip>
+                      ) : (
+                        cargo?.from
+                      )
+                    ) : (
+                      cargo?.city_id_data?.[
+                        "name_" + (locale === "uz" ? "en" : "ru")
+                      ]
+                    )}
                   </span>
                   <span>
                     {
-                      cargo?.cargo?.address_id_data?.[
+                      cargo?.address_id_data?.[
                         "name_" + (locale === "uz" ? "en" : "ru")
                       ]
                     }
@@ -113,30 +112,29 @@ export const LoadsCard = (cargo) => {
                 <span>-&gt;</span>
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
-                    {cargo?.cargo?.to
-                      ? cargo?.cargo?.to?.length > 10 ? (
-                  <Tooltip
-                    color={`black`}
-                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                    background={`#fff`}
-                    label={`${cargo?.cargo?.to}`}
-                  >
-                    <span>{`${cargo?.cargo?.to.slice(
-                      0,
-                      10
-                    )}...`}</span>
-                  </Tooltip>
-                ) : (
-                  cargo?.cargo?.to
-                )
-                      : cargo?.cargo?.city_id_2_data?.[
-                          "name_" + (locale === "uz" ? "en" : "ru")
-                        ]}
+                    {cargo?.to ? (
+                      cargo?.to?.length > 10 ? (
+                        <Tooltip
+                          color={`black`}
+                          boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                          background={`#fff`}
+                          label={`${cargo?.to}`}
+                        >
+                          <span>{`${cargo?.to.slice(0, 10)}...`}</span>
+                        </Tooltip>
+                      ) : (
+                        cargo?.to
+                      )
+                    ) : (
+                      cargo?.city_id_2_data?.[
+                        "name_" + (locale === "uz" ? "en" : "ru")
+                      ]
+                    )}
                   </span>
                   {}
                   <span>
                     {
-                      cargo?.cargo?.address_id_2_data?.[
+                      cargo?.address_id_2_data?.[
                         "name_" + (locale === "uz" ? "en" : "ru")
                       ]
                     }
@@ -146,26 +144,26 @@ export const LoadsCard = (cargo) => {
               </span>
               <span className={clsx(cls.addressStatus, cls[status])}>
                 {statuses[status]}{" "}
-                {cancelBy[cargo?.cargo?.who_cancellation?.[0]]}
+                {cancelBy[cargo?.who_cancellation?.[0]]}
               </span>
             </h2>
             <span className={cls.distance}>
-              {cargo?.cargo?.number_of_order}
+              {cargo?.number_of_order}
             </span>
           </div>
           <div className={cls.paymentInfo}>
             <div className={cls.paymentInfoContent}>
               <span className={cls.paymentInfoText}>
                 {formatSum(
-                  cargo?.cargo?.currency_id_data?.code,
-                  cargo?.cargo?.bid_cash
+                  cargo?.currency_id_data?.code,
+                  cargo?.bid_cash
                 )}
               </span>
             </div>
             <span className={cls.paymentInfoComment}>
-              {cargo?.cargo?.request
+              {cargo?.request
                 ? t("Запросить")
-                : cargo?.cargo?.no_haggling
+                : cargo?.no_haggling
                 ? t("Без торг")
                 : t("Возможен торг")}
             </span>
@@ -188,7 +186,7 @@ export const LoadsCard = (cargo) => {
               <span
                 className={cls.moderatorCommentText}
                 dangerouslySetInnerHTML={{
-                  __html: cargo?.cargo?.moderator_comment,
+                  __html: cargo?.moderator_comment,
                 }}
               />
             </p>
@@ -198,15 +196,15 @@ export const LoadsCard = (cargo) => {
           <div className={cls.paymentInfoMobileContent}>
             <span className={cls.paymentInfoMobileText}>
               {formatSum(
-                cargo?.cargo?.currency_id_data?.code,
-                cargo?.cargo?.bid_cash
+                cargo?.currency_id_data?.code,
+                cargo?.bid_cash
               )}
             </span>
           </div>
           <span className={cls.paymentInfoMobileComment}>
-            {cargo?.cargo?.request
+            {cargo?.request
               ? t("Запросить")
-              : cargo?.cargo?.no_haggling
+              : cargo?.no_haggling
               ? t("Без торг")
               : t("Возможен торг")}
           </span>
@@ -214,30 +212,30 @@ export const LoadsCard = (cargo) => {
         {status === "new" && (
           <Box
             display="flex"
-            width={cargo?.isLargerThan768 ? "570px" : "100%"}
+            width={isLargerThan768 ? "570px" : "100%"}
             columnGap="12px"
             mt="32px"
           >
             <Button
-              fontSize={cargo?.isLargerThan768 ? "16px" : "12px"}
-              fontWeight={cargo?.isLargerThan768 ? 600 : 500}
+              fontSize={isLargerThan768 ? "16px" : "12px"}
+              fontWeight={isLargerThan768 ? 600 : 500}
               variant="outlineError"
               bgColor="rgba(254, 228, 226, 1)"
               onClick={(e) => {
                 e.stopPropagation();
-                cargo?.handleCancel(cargo?.cargo?.guid);
+                handleCancel(cargo?.guid);
               }}
             >
               {t("Отказать")}
             </Button>
             <Button
-              fontSize={cargo?.isLargerThan768 ? "16px" : "12px"}
-              fontWeight={cargo?.isLargerThan768 ? 600 : 500}
+              fontSize={isLargerThan768 ? "16px" : "12px"}
+              fontWeight={isLargerThan768 ? 600 : 500}
               onClick={(e) => {
                 e.stopPropagation();
-                cargo?.handleAccept(
-                  cargo?.cargo?.guid,
-                  cargo?.cargo?.users_id_2
+               handleAccept(
+                  cargo?.guid,
+                  cargo?.users_id_2
                 );
               }}
             >
@@ -260,18 +258,18 @@ export const LoadsCard = (cargo) => {
                   e.stopPropagation();
                   const query = new URLSearchParams({
                     from: JSON.stringify({
-                      value: cargo?.cargo?.city_id_data?.guid,
-                      label: cargo?.cargo?.city_id_data?.name,
-                      guid: cargo?.cargo?.city_id_data?.guid,
+                      value: cargo?.city_id_data?.guid,
+                      label: cargo?.city_id_data?.name,
+                      guid: cargo?.city_id_data?.guid,
                     }),
                     to: JSON.stringify({
-                      value: cargo?.cargo?.city_id_2_data?.guid,
-                      label: cargo?.cargo?.city_id_2_data?.name,
-                      guid: cargo?.cargo?.city_id_2_data?.guid,
+                      value: cargo?.city_id_2_data?.guid,
+                      label: cargo?.city_id_2_data?.name,
+                      guid: cargo?.city_id_2_data?.guid,
                     }),
-                    date: cargo?.cargo?.load_time,
-                    weight: cargo?.cargo?.weight,
-                    volume: cargo?.cargo?.volume_m3,
+                    date: cargo?.load_time,
+                    weight: cargo?.weight,
+                    volume: cargo?.volume_m3,
                   });
                   router.push(`/${locale}/search-car?` + query.toString());
                 }}
@@ -435,10 +433,10 @@ export const LoadsCard = (cargo) => {
           isOpen={isDeletePopupOpen}
           onClose={() => setIsDeletePopupOpen(false)}
           mainText={t("Вы уверены что хотите удалить груз ?", {
-            name: cargo?.cargo?.short_name,
+            name: cargo?.short_name,
           })}
           status="delete"
-          btn2Callback={() => onDeleteAccept(cargo?.cargo?.guid)}
+          btn2Callback={() => onDeleteAccept(cargo?.guid)}
         />
       </div>
       <span className={clsx(cls.addressStatusMobile, cls[status])}>
@@ -446,4 +444,4 @@ export const LoadsCard = (cargo) => {
       </span>
     </div>
   );
-};
+});

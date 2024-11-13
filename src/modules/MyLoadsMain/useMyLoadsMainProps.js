@@ -251,6 +251,8 @@ export const useMyLoadsMainProps = () => {
   }
 
   const handleScroll = () => {
+
+console.log(`ref`,ref)
     if (ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
 
@@ -259,6 +261,7 @@ export const useMyLoadsMainProps = () => {
       }
     }
   };
+
 
   useEffect(() => {
     document.addEventListener("scroll", handleScroll, { capture: true });

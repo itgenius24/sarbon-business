@@ -82,13 +82,14 @@ export const MyLoadsMain = () => {
                     handleAccept={handleAccept}
                     handleCancel={handleCancel}
                     isLargerThan768={isLargerThan768}
-                    // {...cargo}
                     cargo={cargo}
                   />
                 );
               } else {
                 return (
+                  
                   <LoadsCard
+                    // ref={ref}
                     key={cargo?.guid}
                     orderStatus={orderStatus}
                     handleDelete={handleDelete}
