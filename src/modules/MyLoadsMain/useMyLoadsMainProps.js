@@ -15,10 +15,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export const useMyLoadsMainProps = () => {
   const params = useSearchParams()
-  const orderValStatus = params.get(`value`)
+  const orderValStatus = params.get(`value`) || ``
 
   const router = useRouter();
-  const [orderStatus, setOrderStatus] = useState(orderValStatus);
+  const [orderStatus, setOrderStatus] = useState(orderValStatus || ``);
 
 
   

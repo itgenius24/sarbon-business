@@ -107,10 +107,9 @@ const DriverGruzGoods = ({ cls, setModalType, loadState }) => {
             </Box>
           </Flex>
           <Flex mt={5} gap={2}>
-          <div className={cls.startAIconWrapGoods}>
-          <div className={cls.startBGoodsIcon}>B</div>
-
-          </div>
+            <div className={cls.startAIconWrapGoods}>
+              <div className={cls.startBGoodsIcon}>B</div>
+            </div>
             <Box>
               <p className={cls.cardStartTitle}> {loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
@@ -123,11 +122,17 @@ const DriverGruzGoods = ({ cls, setModalType, loadState }) => {
           <Flex className={cls.gruz} mt={5} gap={2}>
             <GruzGoodsIcon />
             <Box>
-              <p className={cls.cardStartTitle}>{loadState?.cargo_type_id_data?.name}</p>
+              <p className={cls.cardStartTitle}>
+                {loadState?.cargo_type_id_data?.name}
+              </p>
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
-                {loadState?.vehicle_type_id_data?.name?.length > 15 ? (
-                    <Tooltip background={`white`} color={`black`} label={loadState?.vehicle_type_id_data?.name}>
+                  {loadState?.vehicle_type_id_data?.name?.length > 15 ? (
+                    <Tooltip
+                      background={`white`}
+                      color={`black`}
+                      label={loadState?.vehicle_type_id_data?.name}
+                    >
                       <span style={{ whiteSpace: `nowrap` }}>
                         {loadState?.vehicle_type_id_data?.name?.slice(0, 15)}...
                       </span>
