@@ -32,6 +32,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useState } from "react";
@@ -114,7 +115,10 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
               <p className={cls.cardStartTitle}>{loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.to} /
-                <span> {format(loadState?.date, "yyyy-MM-dd")}</span>
+                <span>
+                  {" "}
+                  {format(loadState?.date || new Date(), "yyyy-MM-dd")}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -122,10 +126,20 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
           <Flex className={cls.gruz} mt={5} gap={2}>
             <GruzGeenIcon />
             <Box>
-              <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
+              <p className={cls.cardStartTitle}>
+                {loadState?.cargo_type_id_data?.name}
+              </p>
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
-                  <span>{loadState?.cargo_type_id_data?.name}</span>
+                  {loadState?.vehicle_type_id_data?.name?.length > 15 ? (
+                    <Tooltip background={`white`} color={`black`} label={loadState?.vehicle_type_id_data?.name}>
+                      <span style={{ whiteSpace: `nowrap` }}>
+                        {loadState?.vehicle_type_id_data?.name?.slice(0, 15)}...
+                      </span>
+                    </Tooltip>
+                  ) : (
+                    loadState?.vehicle_type_id_data?.name
+                  )}
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
                       <StoneIcon /> {loadState?.weight} т.

@@ -34,6 +34,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useState } from "react";
@@ -122,10 +123,18 @@ const DriverGruzGoods = ({ cls, setModalType, loadState }) => {
           <Flex className={cls.gruz} mt={5} gap={2}>
             <GruzGoodsIcon />
             <Box>
-              <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
+              <p className={cls.cardStartTitle}>{loadState?.cargo_type_id_data?.name}</p>
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
-                  <span>{loadState?.cargo_type_id_data?.name}</span>
+                {loadState?.vehicle_type_id_data?.name?.length > 15 ? (
+                    <Tooltip background={`white`} color={`black`} label={loadState?.vehicle_type_id_data?.name}>
+                      <span style={{ whiteSpace: `nowrap` }}>
+                        {loadState?.vehicle_type_id_data?.name?.slice(0, 15)}...
+                      </span>
+                    </Tooltip>
+                  ) : (
+                    loadState?.vehicle_type_id_data?.name
+                  )}
 
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
