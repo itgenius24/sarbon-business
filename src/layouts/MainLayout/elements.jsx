@@ -7,7 +7,7 @@ export const useElements = () => {
   const isAuth = authStore.getIsAuth;
   const role_id = authStore.userData.role_id
 
-console.log(`role_id`,role_id)
+
 
   if(role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`){
     return [
@@ -63,7 +63,7 @@ console.log(`role_id`,role_id)
         label: "Поиск машин",
       },
       {
-        path: `/${lang || "ru"}/gps-tracking`,
+        path: isAuth ? `/${lang || "ru"}/gps-tracking` : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
     ];

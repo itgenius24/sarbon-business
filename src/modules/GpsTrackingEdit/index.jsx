@@ -106,6 +106,7 @@ export default function GpsTrackingModuleTets() {
     addressAdd,
     stateMap,
     addAdress,
+    setLocationData
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -459,6 +460,8 @@ export default function GpsTrackingModuleTets() {
                   setModalType={setModalType}
                   loadState={loadState}
                   setOffset={setOffset}
+                  setLocationData={setLocationData}
+                  locationData={locationData}
                 />
               )}
               {modalType === "driverGruzGoods" && (
@@ -466,6 +469,8 @@ export default function GpsTrackingModuleTets() {
                   setModalType={setModalType}
                   loadState={loadState}
                   cls={cls}
+                  setLocationData={setLocationData}
+                  locationData={locationData}
                 />
               )}
             </Box>

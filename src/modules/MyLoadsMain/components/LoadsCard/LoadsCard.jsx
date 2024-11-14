@@ -83,14 +83,14 @@ export const LoadsCard = forwardRef(({cargo,orderStatus,handleDelete,handleAccep
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
                     {cargo?.from ? (
-                      cargo?.from?.length > 10 ? (
+                      cargo?.from?.length > 20 ? (
                         <Tooltip
                           color={`black`}
                           boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                           background={`#fff`}
                           label={`${cargo?.from}`}
                         >
-                          <span>{`${cargo?.from.slice(0, 10)}...`}</span>
+                          <span>{`${cargo?.from.slice(0, 20)}...`}</span>
                         </Tooltip>
                       ) : (
                         cargo?.from
@@ -113,14 +113,14 @@ export const LoadsCard = forwardRef(({cargo,orderStatus,handleDelete,handleAccep
                 <span className={cls.addressCountry}>
                   <span className={cls.addressCity}>
                     {cargo?.to ? (
-                      cargo?.to?.length > 10 ? (
+                      cargo?.to?.length > 20 ? (
                         <Tooltip
                           color={`black`}
                           boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                           background={`#fff`}
                           label={`${cargo?.to}`}
                         >
-                          <span>{`${cargo?.to.slice(0, 10)}...`}</span>
+                          <span>{`${cargo?.to.slice(0, 20)}...`}</span>
                         </Tooltip>
                       ) : (
                         cargo?.to

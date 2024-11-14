@@ -27,6 +27,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Radio,
+  RadioGroup,
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -59,7 +61,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
   const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (
@@ -181,50 +183,80 @@ export const CargoViews = observer(({ id, status, locale }) => {
     return <></>;
   }
 
-  console.log(`getTopContent`, getTopContent());
+  const negotiableOption = [
+    {
+      value: `active`,
+      label: t(`Активный`),
+    },
+    {
+      value: `in_active`,
+      label: t(`Не активен`),
+    },
+  ];
+
+  const onChangeNa = (e) => {
+    addCargoProps.setValue(`order_status`, { value: e, label: e });
+    addCargoProps.updateStatus();
+  };
 
   return (
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
       <Box pt={isLargerThan1190 ? "48px" : "24px"} pb="128px">
         <Container height="100%">
-          <Button
-            leftIcon={<NavigationBtnLeftIcon />}
-            borderRadius={`4px`}
-            border={`none`}
-            variant={`outline`}
-            background={`rgba(227, 230, 237, 1)`}
-            color={`rgba(0, 122, 255, 1)`}
-            mb={`26px`}
-            width={`fit-content`}
-            onClick={() => router.push(`/${locale}/my-loads`)}
-          >
-            Вернутся в список
-          </Button>
-          {/* {isEditing && (
-            <Breadcrumb
-              mb="16px"
-              separator={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="4"
-                  height="4"
-                  viewBox="0 0 4 4"
-                  fill="none"
-                >
-                  <circle cx="2" cy="2" r="2" fill="#98A2B3" />
-                </svg>
-              }
+          <Flex alignItems={`center`} justifyContent={`space-between`}>
+            <Button
+              leftIcon={<NavigationBtnLeftIcon />}
+              borderRadius={`4px`}
+              border={`none`}
+              variant={`outline`}
+              background={`rgba(227, 230, 237, 1)`}
+              color={`rgba(0, 122, 255, 1)`}
+              mb={`26px`}
+              width={`fit-content`}
+              onClick={() => router.push(`/${locale}/my-loads`)}
             >
-              <BreadcrumbItem color="#98A2B3">
-                <Link href="/my-loads">{t("Мои грузы")}</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <BreadcrumbLink color="#344054">
-                  {t(statuses[status])}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </Breadcrumb>
-          )} */}
+              Вернутся в список
+            </Button>
+            {status === "in_moderation" && (
+              <Flex gap={`18px`}>
+                <span
+                  style={{ color: `rgba(33, 31, 38, 1)`, fontSize: `14px` }}
+                >
+                  Статус груза:
+                </span>
+                <RadioGroup
+                  // isDisabled={!canEdit}
+                  onChange={(e) => onChangeNa(e)}
+                  value={addCargoProps.watch(`order_status`)?.value}
+                >
+                  <Flex gap={"10px"}>
+                    {negotiableOption &&
+                      negotiableOption.map((item) => (
+                        <Radio
+                          key={item.value}
+                          border={"1px solid rgba(208, 213, 221, 1)"}
+                          value={item.value}
+                          size={"md"}
+                        >
+                          <span
+                            className={
+                              addCargoProps.watch(`order_status`)?.value ===
+                              item.value
+                                ? cls.ActiveRadio
+                                : cls.radio
+                            }
+                          >
+                            {item?.label?.charAt(0).toUpperCase() +
+                              item?.label?.slice(1).toLowerCase()}
+                          </span>
+                        </Radio>
+                      ))}
+                  </Flex>
+                </RadioGroup>
+              </Flex>
+            )}
+          </Flex>
+
           {!isLargerThan1190 && !isEditing && (
             <Heading fontSize="22px">{t("Добавить груз")}</Heading>
           )}

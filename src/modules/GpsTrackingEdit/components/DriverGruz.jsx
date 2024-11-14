@@ -38,8 +38,8 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
-  console.log("loadState", loadState);
+const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,locationData }) => {
+
   const { t } = useTranslation();
 
   const role_id = authStore.userData.role_id;
@@ -49,10 +49,20 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset }) => {
     setPopupOpen(false);
   }
 
+  console.log(`load`,loadState)
+
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
       setPopupOpen(false);
       setModalType("filter");
+      const find = locationData?.map((item) => {
+        if (item?.guid === loadState.guid) {
+          return { ...item, ...(item.new_status = ["occupied_cargo"]) };
+        }
+        return item;
+      });
+
+      setLocationData(find);
       // setOffset(0)
     },
   });

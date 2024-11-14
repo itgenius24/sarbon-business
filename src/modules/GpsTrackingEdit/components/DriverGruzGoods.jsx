@@ -39,7 +39,7 @@ import {
 import { format } from "date-fns";
 import React, { useState } from "react";
 
-const DriverGruzGoods = ({ cls, setModalType, loadState }) => {
+const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocationData }) => {
   console.log("loadState", loadState);
 
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -51,6 +51,14 @@ const DriverGruzGoods = ({ cls, setModalType, loadState }) => {
     onSuccess: (res) => {
       setPopupOpen(false);
       setModalType("filter");
+      const find = locationData?.map((item) => {
+        if (item?.guid === loadState.guid) {
+          return { ...item, ...(item.new_status = ["free_cargo"]) };
+        }
+        return item;
+      });
+
+      setLocationData(find);
     },
   });
 

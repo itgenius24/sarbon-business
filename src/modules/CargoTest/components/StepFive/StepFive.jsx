@@ -200,10 +200,11 @@ const StepFive = ({ status }) => {
         map_id_3: check ? undefined : watch("payment_type_2")?.value,
 
         // step5
-        load_time: addDaysToDate(
-          loadings[0].from_date || new Date(),
-          loadings[0].loading_num?.value
-        ),
+        // load_time: addDaysToDate(
+        //   loadings[0].from_date || new Date(),
+        //   loadings[0].loading_num?.value
+        // ),
+        load_time:loadings[0].from_date || new Date(),
         date: new Date(unloading[0].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
@@ -281,10 +282,11 @@ const StepFive = ({ status }) => {
 
         //step5
 
-        load_time: addDaysToDate(
-          loadings[0].from_date || new Date(),
-          loadings[0].loading_num?.value
-        ),
+        // load_time: addDaysToDate(
+        //   loadings[0].from_date || new Date(),
+        //   loadings[0].loading_num?.value
+        // ),
+        load_time:loadings[0].from_date || new Date(),
         date: new Date(unloading[unloading.length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),

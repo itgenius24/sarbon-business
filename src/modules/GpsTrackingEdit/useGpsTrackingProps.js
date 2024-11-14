@@ -665,5 +665,6 @@ export const useGpsTrackingProps = () => {
     addressAdd,
     stateMap,
     addAdress,
+    setLocationData,
   };
 };

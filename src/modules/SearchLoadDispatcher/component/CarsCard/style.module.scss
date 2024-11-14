@@ -1,0 +1,160 @@
+.cardWrap{
+    width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    // border-radius: 12px;
+    // border-left: 4px solid var(--Blue, rgba(0, 122, 255, 1));
+    // box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+    padding:22px 27px;
+    position: relative;
+   
+    &:first-child{
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .title{
+     font-weight: 600;
+     font-size: 14px;
+     color: rgba(33, 31, 38, 1);
+    }
+    .subTitle{
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(126, 123, 134, 1);
+    }
+    .locationTitle{
+        font-weight: 500;
+        font-size: 14px;
+        color: rgba(0, 122, 255, 1);
+    }
+    .subBlueTitle{
+      font-weight: 400;
+      font-size: 14px;
+      color: rgba(0, 122, 255, 1);
+  }
+    .statusWrap{
+        background-color: rgba(0, 122, 255, 0.08);
+        border-radius: 10px;
+        padding: 7px 15px;
+        margin-top: 14px;
+    }
+    .popup{
+        position: relative;
+        right: -10px;
+        top: -15px;
+      
+    }
+    .profileWrap{
+        padding: 16px 12px;
+        background-color: rgba(0, 122, 255, 0.08);
+        border-radius: 10px;
+        width: 100%;
+        margin-top: 8px;
+    }
+    .profileWrap2{
+        border: 1px solid rgba(219, 216, 227, 1);
+        padding: 16px 12px;
+        border-radius: 10px;
+        width: 100%;
+        margin-top: 8px;
+        background-color: white;
+    }
+    .subTitle2Blue{
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(0, 122, 255, 1);
+        padding-bottom: 3px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .popoverCon{
+        border: 1px solid rgba(234, 236, 240, 1) !important;
+        background-color: red !important;
+        .menuItem{
+            padding: 20px 8px !important;
+            font-weight: 500;
+            font-size: 14px;
+            background-color: rgba(0, 122, 255, 1) !important;
+        }
+    }
+
+
+    
+      
+        .contend {
+         
+          .flag {
+            width: 29px;
+            height: 18px;
+          }
+          .country_code {
+            color: rgba(126, 123, 134, 1);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 4px;
+          }
+          title {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(33, 31, 38, 1);
+            line-height: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .subTitle1 {
+            font-weight: 400;
+            font-size: 14px;
+            color: rgba(126, 123, 134, 1)!important;
+          }
+          .subTitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(33, 31, 38, 1);
+            line-height: 20px;
+          }
+          .tel {
+            color: rgba(33, 31, 38, 1);
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            text-decoration: underline dotted;
+          }
+          .locationWrap{
+            width: 100%;
+            padding: 9px 14px;
+            border-radius: 10px;
+            background: rgba(0, 122, 255, 0.08); 
+            justify-content: space-between;
+          }
+         
+        }
+      
+        .contend1 {
+          width: 300px !important;
+          // background-color: red;
+        }
+        .contend2 {
+          width: 300px !important;
+          // background-color: red;
+        }
+        .contend3 {
+          width: 250px !important;
+        }
+        .contend4 {
+          width: 250px !important;
+        }
+        .contend5 {
+          width: 250px !important;
+        }
+        .contend6 {
+          width: 250px !important;
+        }
+        .contend7 {
+          width: 250px !important;
+        }
+      
+  
+}

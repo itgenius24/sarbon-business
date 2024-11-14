@@ -659,6 +659,17 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     return key;
   }
 
+  const updateStatus = () => {
+    const data = {
+      order_status: watch(`order_status`)?.value
+        ? [watch(`order_status`)?.value]
+        : ["in_moderation"],
+      guid: id,
+    };
+
+    updateCargo.mutate({data});
+  };
+
   function onSubmit(data) {
     setIsClicked(true);
     if (!authStore.isAuth) {
@@ -692,7 +703,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         height: +watch(`height`),
         photo: watch(`image`),
         // guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
-        order_status: watch(`loadResId`)
+        order_status: watch(`order_status`)?.value
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
         // guid: watch(`loadResId`),
@@ -932,8 +943,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         capacity: data.load_capacity ?? "",
         price: data.bid_cash,
         price_prepayment: data.prepayment_percentage,
-        payment_description:data?.payment_description,
-        prepayment: data.prepayment_percentage > 0  ? true : false,
+        payment_description: data?.payment_description,
+        prepayment: data.prepayment_percentage > 0 ? true : false,
         price_after_order: isCargo
           ? data?.dim_length_special
           : data?.payment_unloading ?? 0,
@@ -988,8 +999,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         prepayment_interest: data?.prepayment_interest,
         payment_upon_unloading: data?.payment_upon_unloading,
         company_contract: data?.company_contract,
-        as_soon_as_a:data?.as_soon_as_a,
-        as_soon_as_b:data?.as_soon_as_b,
+        as_soon_as_a: data?.as_soon_as_a,
+        as_soon_as_b: data?.as_soon_as_b,
         load_type_id: {
           value: data?.load_type_id_data?.guid,
           label: data?.load_type_id_data?.name,
@@ -998,7 +1009,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
   }
 
-  console.log(`price_prepayment`,watch(`prepayment`))
+  console.log(`price_prepayment`, watch(`prepayment`));
 
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
@@ -1204,6 +1215,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     onCancelClick,
     handleOpenDeletePopup,
     handleCloseDeletePopup,
+
     isPopupOpen,
     loading,
     prepayment: data?.conditions,
@@ -1260,6 +1272,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     check,
     setCheck,
     loadings: watch(`loadings`),
+    updateStatus,
     // appendLoading,
     // removeLoading,
     // updateLoading,

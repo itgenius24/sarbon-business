@@ -7,6 +7,17 @@
   }
 }
 
+.ActiveRadio{
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+}
+.radio{
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(126, 123, 134, 1);
+}
+
 @include breakpoint-down(450px) {
   .topButton {
     font-size: 12px;

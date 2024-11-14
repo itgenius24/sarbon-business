@@ -102,8 +102,7 @@ const StepFour = ({ status }) => {
       setCheck(true);
     }
     setValueR(e);
-    //  const selectedOption =  currencyOptions?.filter((item) => item.label === e)[0];
-    //   setValue(`price_prepayment_unit`, selectedOption);
+  
   };
 
   return (
