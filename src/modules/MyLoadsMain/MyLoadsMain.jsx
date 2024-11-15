@@ -54,6 +54,7 @@ export const MyLoadsMain = () => {
           orderStatus == "new" ||
           orderStatus == "approve_from_driver" ||
           orderStatus == "cancellation" ||
+          orderStatus == "new" ||
           orderStatus == "archive" ? (
             <>
               {cargos?.length > 0 &&

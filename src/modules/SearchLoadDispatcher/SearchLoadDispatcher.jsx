@@ -131,8 +131,11 @@ export const SearchLoadDispatcherModule = () => {
             <p className={cls.th}>Диспетчер</p>
           </Flex>
         </Box>
-        <Box className={cls.TAbleWrap} background={`white`}  minH={`70vh`}>
+        <Box className={cls.TAbleWrap} background={`white`} minH={`70vh`}>
           <CarsCard />
+        </Box>
+        <Box padding={`30px`} background={`white`}>
+          <Button className={cls.btnLoad}>Загрузить еще 50</Button>
         </Box>
       </Container>
     </>

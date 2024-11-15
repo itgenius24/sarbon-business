@@ -1,6 +1,17 @@
 .TAbleWrap{
   border-top-right-radius: 12px;
   border-top-left-radius: 12px;
+  background: white;
+  height: 100%;
+  padding-bottom: 40px;
+}
+.btnLoad{
+  background: rgba(226, 228, 234, 1);
+  font-size: 18px;
+  color: rgba(33, 31, 38, 1);
+  border-radius: 12px;
+  width: fit-content;
+  
 }
 
 .countrWrap{

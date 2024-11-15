@@ -12,10 +12,11 @@ import {
   YMaps,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
+import { format } from "date-fns";
 
 import { useEffect, useRef } from "react";
 
-export const AccordionMap = ({ gpsHistory, driverPosition, getMaps }) => {
+export const AccordionMap = ({ gpsHistory, driverPosition, getMaps,driver }) => {
   const map = useRef(null);
   const mapState = {
     center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
@@ -56,6 +57,12 @@ export const AccordionMap = ({ gpsHistory, driverPosition, getMaps }) => {
                 encodeURIComponent(StartIcon),
               iconImageSize: [30, 42],
               iconImageOffset: [-10, -22],
+              balloonContentLayout: ymaps.templateLayoutFactory.createClass(
+                `<div style='padding: 10px; font-size: 14px;'> 
+                      <p>Старт:</p>
+                      <p style='font-weight: 600;'>${startLocation?.name}</p>
+                </div>`
+              ),
             });
             endPoint.options.set({
               iconLayout: "default#image",
@@ -64,6 +71,12 @@ export const AccordionMap = ({ gpsHistory, driverPosition, getMaps }) => {
                 encodeURIComponent(EndIcon),
               iconImageSize: [30, 42],
               iconImageOffset: [-12, -38],
+              balloonContentLayout: ymaps.templateLayoutFactory.createClass(
+                `<div style='padding: 10px; font-size: 14px;'> 
+                      <p>Финиш:</p>
+                      <p style='font-weight: 600;'>${endLocation?.name}</p>
+                </div>`
+              ),
             });
             route.getPaths().options.set({
               strokeColor: "#000000", // Black color
@@ -90,6 +103,12 @@ export const AccordionMap = ({ gpsHistory, driverPosition, getMaps }) => {
                 encodeURIComponent(StartIcon),
               iconImageSize: [30, 42],
               iconImageOffset: [-10, -22],
+              balloonContentLayout: ymaps.templateLayoutFactory.createClass(
+                `<div style='padding: 10px; font-size: 14px;'> 
+                      <p>Финиш:</p>
+                      <p style='font-weight: 600;'>${startLocation?.name}</p>
+                </div>`
+              ),
             });
             endPoint.options.set({
               iconLayout: "default#image",
@@ -98,7 +117,16 @@ export const AccordionMap = ({ gpsHistory, driverPosition, getMaps }) => {
                 encodeURIComponent(LoadSvgIcon),
               iconImageSize: [60, 72],
               iconImageOffset: [-15, -42],
+              balloonContentLayout: ymaps.templateLayoutFactory.createClass(
+                `<div style='padding: 10px; font-size: 14px;'> 
+                      <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>${driver?.location_name}</p>
+                      <p>Время в пути:</p>
+                      <p style='font-weight: 600;'>${format(driver?.update_time,'yyyy-MM-dd')}</p>
+
+                </div>`
+              ),
             });
+         
             secondRoute.getPaths().options.set({
               strokeColor: "#0000FF", // Blue color
               strokeWidth: 4,

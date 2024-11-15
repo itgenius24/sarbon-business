@@ -77,6 +77,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
     setOpen(false);
   };
 
+
   function getTopContent() {
     if (status === "in_moderation") {
       return (
@@ -217,7 +218,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
             >
               Вернутся в список
             </Button>
-            {status === "in_moderation" && (
+            {(addCargoProps.order_status?.[0] === "in_active" || addCargoProps.order_status?.[0] === "active")  && (
               <Flex gap={`18px`}>
                 <span
                   style={{ color: `rgba(33, 31, 38, 1)`, fontSize: `14px` }}

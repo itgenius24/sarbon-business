@@ -421,7 +421,11 @@ export const TopContent = ({
                                 startPoint={user.startPoint}
                                 endPoint={user.endPoint}
                                 gpsHistory={gpsHistory}
-                                driverPosition={driverPosition}
+                                driver={user?.users_gps?.[0]}
+                                driverPosition={[
+                                  user?.users_gps?.[0]?.lat,
+                                  user?.users_gps?.[0]?.long,
+                                ]}
                                 getMaps={getMaps}
                               />
                             </YMaps>

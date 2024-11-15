@@ -103,7 +103,7 @@ export const Performed = ({
               </p>
               <p className={styles.rightTitle}>
                 Предоплата:
-                {cargo?.payment_type[0] === "prepayment" ? `Да` : `Нет`}
+                {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`}
               </p>
             </div>
             <div className={styles.text}>
@@ -134,8 +134,8 @@ export const Performed = ({
               <p className={styles.cardName}>
                 {
                   performedStatuses[
-                    cargo?.indicate_status[0]
-                      ? cargo?.indicate_status[0]
+                    cargo?.indicate_status?.[0]
+                      ? cargo?.indicate_status?.[0]
                       : `Не cтатус`
                   ]
                 }

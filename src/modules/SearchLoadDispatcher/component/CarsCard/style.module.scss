@@ -5,7 +5,10 @@
     // border-left: 4px solid var(--Blue, rgba(0, 122, 255, 1));
     // box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
     padding:22px 27px;
-    position: relative;
+    // box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+
+    // position: relative;
+    border-bottom: 2px solid rgba(219, 216, 227, 0.836);
    
     &:first-child{
       border-top-left-radius: 12px;
@@ -14,13 +17,13 @@
 
     .title{
      font-weight: 600;
-     font-size: 14px;
+     font-size: 16px;
      color: rgba(33, 31, 38, 1);
     }
     .subTitle{
-        font-weight: 400;
-        font-size: 14px;
-        color: rgba(126, 123, 134, 1);
+        font-weight: 500;
+        font-size: 16px;
+        color: rgba(126, 123, 134,) !important;
     }
     .locationTitle{
         font-weight: 500;

@@ -269,7 +269,7 @@ const StepFour = ({ status }) => {
                         name="price_after_order"
                         register={register}
                         control={control}
-                        additionalItemName="payment_type_2"
+                        additionalItemName="payment_type"
                         additionalItemDefaultIndex={0}
                         placeholder={t("Введите сумму")}
                         errors={errors}
@@ -287,14 +287,17 @@ const StepFour = ({ status }) => {
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
-                        {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`) : 0 )}
+                        {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`) : 0 ) } 
 
-                        {watch(`price_prepayment_unit`)
+                        {` ${
+                        watch(`price_prepayment_unit`)
                           ?.label?.charAt(0)
                           .toUpperCase() +
                           watch(`price_prepayment_unit`)
                             ?.label?.slice(1)
-                            .toLowerCase()}
+                            .toLowerCase()
+                        }`
+                        }
                       </p>
                     </Box>
                   )}
