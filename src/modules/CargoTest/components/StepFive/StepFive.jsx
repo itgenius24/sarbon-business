@@ -201,6 +201,7 @@ const StepFive = ({ status }) => {
         width: watch(`width`),
         height: +watch(`height`),
         photo: watch(`image`),
+        payment_type: watch("payment_type")?.label,
         order_status: watch(`loadResId`)
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
@@ -288,6 +289,7 @@ const StepFive = ({ status }) => {
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
         distance: distance?.distance,
+        payment_type: watch("payment_type")?.label,
 
         //  step3
 
