@@ -33,6 +33,7 @@ import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useGetDistance } from "@/hooks/useGetDistance";
 const StepFive = ({ status }) => {
   const { t } = useTranslation();
   const {
@@ -66,32 +67,55 @@ const StepFive = ({ status }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-
-
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
   const getPaymentType = useGetPaymentType();
 
-
-  const paymentOptions = getPaymentType.data?.response?.slice(0,2)?.map((item) => ({
-    label: item?.payment_type,
-    value: item?.guid,
-  }));
+  const paymentOptions = getPaymentType.data?.response
+    ?.slice(0, 2)
+    ?.map((item) => ({
+      label: item?.payment_type,
+      value: item?.guid,
+    }));
 
   useEffect(() => {
-    if(!watch(`payment_type`)?.value){
-      setValue(`payment_type`,paymentOptions?.[0])
+    if (!watch(`payment_type`)?.value) {
+      setValue(`payment_type`, paymentOptions?.[0]);
     }
-    if(!watch(`payment_type_1`)?.value){
-      setValue(`payment_type_1`,paymentOptions?.[0])
+    if (!watch(`payment_type_1`)?.value) {
+      setValue(`payment_type_1`, paymentOptions?.[0]);
     }
-    if(!watch(`payment_type_2`)?.value){
-      setValue(`payment_type_2`,paymentOptions?.[0])
+    if (!watch(`payment_type_2`)?.value) {
+      setValue(`payment_type_2`, paymentOptions?.[0]);
     }
-  },[paymentOptions])
+  }, [paymentOptions]);
 
-  console.log(`payment_type`,watch(`payment_type`))
+  const getLoadings =
+    (Array.isArray(loadings?.[0]?.cor)
+      ? loadings?.map((item) => item?.cor)
+      : loadings?.map((item) => item?.cor?.split(","))) || [];
+  const getUnloading =
+    (Array.isArray(unloading?.[0]?.cor)
+      ? unloading?.map((item) => item?.cor)
+      : unloading?.map((item) => item?.cor?.split(","))) || [];
+
+  const origin = {
+    lat: loadings?.[0]?.cor?.split(" ")[1],
+    long: loadings?.[0]?.cor?.split(" ")[0],
+  };
+
+  const destination = {
+    lat: unloading[unloading.length - 1]?.cor.split(" ")[1],
+    long: unloading[unloading.length - 1]?.cor.split(" ")[0],
+  };
+
+  const distance = useGetDistance({
+    origin,
+    destination,
+    referencePoints: [...getLoadings, ...getUnloading],
+  });
+  console.log(`referencePoints`, distance);
 
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
@@ -146,8 +170,6 @@ const StepFive = ({ status }) => {
     },
   });
 
-
-
   const onSubmitF = () => {
     setIsUpdate(true);
     const requestData = {
@@ -168,9 +190,9 @@ const StepFive = ({ status }) => {
           : ["in_moderation"],
 
         //  step3
-            
-        car_type:watch("car_type")?.label,
-        product_type:watch(`cargo_type`)?.label,
+
+        car_type: watch("car_type")?.label,
+        product_type: watch(`cargo_type`)?.label,
 
         vehicle_type_id: watch("car_type")?.value,
         number_of_cars: watch("transport_count"),
@@ -185,6 +207,7 @@ const StepFive = ({ status }) => {
         load_type: getTrueKeys(load),
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
+        distance:distance?.distance,
 
         //step4
 
@@ -204,7 +227,7 @@ const StepFive = ({ status }) => {
         //   loadings[0].from_date || new Date(),
         //   loadings[0].loading_num?.value
         // ),
-        load_time:loadings[0].from_date || new Date(),
+        load_time: loadings[0].from_date || new Date(),
         date: new Date(unloading[0].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
@@ -220,9 +243,8 @@ const StepFive = ({ status }) => {
         country_code_to: watch(`country_code_to`),
         from: loadings[0].address,
         to: unloading[unloading.length - 1].address,
-        as_soon_as_a:watch(`as_soon_as_a`),
-        as_soon_as_b:watch(`as_soon_as_b`),
-         
+        as_soon_as_a: watch(`as_soon_as_a`),
+        as_soon_as_b: watch(`as_soon_as_b`),
       },
     };
     createCargo.mutate(requestData);
@@ -247,9 +269,9 @@ const StepFive = ({ status }) => {
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
 
-
-        car_type:watch("car_type")?.label,
-        product_type:watch(`cargo_type`)?.label,
+        car_type: watch("car_type")?.label,
+        product_type: watch(`cargo_type`)?.label,
+        distance:distance?.distance,
 
         //  step3
 
@@ -286,7 +308,7 @@ const StepFive = ({ status }) => {
         //   loadings[0].from_date || new Date(),
         //   loadings[0].loading_num?.value
         // ),
-        load_time:loadings[0].from_date || new Date(),
+        load_time: loadings[0].from_date || new Date(),
         date: new Date(unloading[unloading.length - 1].to_date),
         phone: watch(`contact`),
         comment: watch(`note`),
@@ -303,8 +325,8 @@ const StepFive = ({ status }) => {
         country_code_to: watch(`country_code_to`),
         from: loadings[0].address,
         to: unloading[unloading.length - 1].address,
-        as_soon_as_a:watch(`as_soon_as_a`),
-        as_soon_as_b:watch(`as_soon_as_b`),   
+        as_soon_as_a: watch(`as_soon_as_a`),
+        as_soon_as_b: watch(`as_soon_as_b`),
       },
     };
     createCargo.mutate(requestData);
@@ -337,7 +359,7 @@ const StepFive = ({ status }) => {
     // });
   };
 
-  console.log(`salom`,watch("payment_type"))
+  console.log(`salom`, watch("payment_type"));
 
   const clearF = () => {
     handleResetForm();
@@ -350,13 +372,13 @@ const StepFive = ({ status }) => {
     router.push(`/${locale}/my-loads/in_moderation/${guid}?isFirst=true`);
   };
 
-  const contact = authStore.userData.phone
+  const contact = authStore.userData.phone;
 
   useEffect(() => {
-     if(!watch(`contact`)){
-      setValue(`contact`,contact)
-     }
-  },[])
+    if (!watch(`contact`)) {
+      setValue(`contact`, contact);
+    }
+  }, []);
   return (
     <>
       <Box className={cls.step1}>

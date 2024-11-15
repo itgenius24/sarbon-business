@@ -12,6 +12,8 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
     }
   }, [origin, destination, referencePoints]);
 
+  console.log(`referencePoints`,destination)
+
   const calculateDistance = () => {
     if(window?.ymaps) {
       ymaps.ready(() => {

@@ -30,41 +30,41 @@
   padding-bottom: 16px;
   border-bottom: 1px solid var(--brand-200);
 }
-.performedXeader {
-  background-color: rgba(0, 122, 255, 1);
-  padding: 18px 24px;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .leftContend {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    h3 {
-      font-size: 24px;
-      font-weight: 600;
-    }
-    p {
-      font-weight: 700;
-      font-size: 14px;
-      span {
-        font-weight: 400;
+    .performedXeader {
+      background-color: rgba(0, 122, 255, 1);
+      padding: 18px 24px;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .leftContend {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        h3 {
+          font-size: 24px;
+          font-weight: 600;
+        }
+        p {
+          font-weight: 700;
+          font-size: 14px;
+          span {
+            font-weight: 400;
+          }
+        }
+      }
+      .rightContend {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        .rightTitle {
+          font-size: 14px;
+          font-weight: 400;
+        }
       }
     }
-  }
-  .rightContend {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    .rightTitle {
-      font-size: 14px;
-      font-weight: 400;
-    }
-  }
-}
 
 .address {
   display: flex;
