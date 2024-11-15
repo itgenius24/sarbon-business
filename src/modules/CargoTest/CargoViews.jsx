@@ -214,8 +214,8 @@ export const CargoViews = observer(({ id, status, locale }) => {
               color={`rgba(0, 122, 255, 1)`}
               mb={`26px`}
               width={`fit-content`}
-              onClick={() => router.push(`/${locale}/my-loads`)}
-            >
+    
+    onClick={() =>  window.location.href = `${window.location.origin}/${`${locale}/my-loads`}`}>
               Вернутся в список
             </Button>
             {(addCargoProps.order_status?.[0] === "in_active" || addCargoProps.order_status?.[0] === "active")  && (
