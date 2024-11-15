@@ -141,7 +141,7 @@ const StepTwo = ({ status }) => {
                             <LocationIconStep />
 
                             <p className={cls.item}>
-                              {location?.GeoObject?.name}
+                              {`${location?.GeoObject?.name}, ${location?.GeoObject?.description}`}
                             </p>
                           </Flex>
                         ))}
@@ -302,7 +302,7 @@ const StepTwo = ({ status }) => {
                           >
                             <LocationIconStep />
                             <p className={cls.item}>
-                              {location?.GeoObject?.name}
+                              {`${location?.GeoObject?.name}, ${location?.GeoObject?.description}`}
                             </p>
                           </Flex>
                         ))}

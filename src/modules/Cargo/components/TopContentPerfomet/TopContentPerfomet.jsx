@@ -251,7 +251,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                         <>
                           <YMaps>
                             <AccordionMap
-                            driver={user?.users_gps?.[0]}
+                              driver={user?.users_gps?.[0]}
                               gpsHistory={gpsHistory}
                               driverPosition={[
                                 user?.users_gps?.[0]?.lat,
@@ -259,7 +259,6 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               ]}
                               periods={user?.periods}
                             />
-                            
                           </YMaps>
                           <Flex
                             justifyContent={`space-between`}

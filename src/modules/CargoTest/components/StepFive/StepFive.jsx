@@ -91,7 +91,47 @@ const StepFive = ({ status }) => {
     }
   }, [paymentOptions]);
 
-  
+  console.log(`referencePoints`, loadings);
+
+  const getLoadings =
+    (loadings?.length > 0 &&
+      (Array.isArray(loadings?.[0]?.cor)
+        ? loadings?.map((item) => item?.cor)
+        : loadings?.map((item) => item?.cor?.split(",")))) ||
+    [];
+  const getUnloading =
+    (unloading?.length > 0 &&
+      (Array.isArray(unloading?.[0]?.cor)
+        ? unloading?.map((item) => item?.cor)
+        : unloading?.map((item) => item?.cor?.split(",")))) ||
+    [];
+  const origin = {
+    lat:
+      loadings?.length > 0 && Array.isArray(loadings[0]?.cor)
+        ? loadings[0]?.cor[0]
+        : undefined,
+    long:
+      loadings?.length > 0 && Array.isArray(loadings[0]?.cor)
+        ? loadings[0]?.cor[1]
+        : undefined,
+  };
+
+  const destination = {
+    lat:
+      unloading?.length && Array.isArray(unloading[unloading.length - 1]?.cor)
+        ? unloading[unloading.length - 1]?.cor[0]
+        : undefined,
+    long:
+      unloading?.length && Array.isArray(unloading[unloading.length - 1]?.cor)
+        ? unloading[unloading.length - 1]?.cor[1]
+        : undefined,
+  };
+
+  const distance = useGetDistance({
+    origin,
+    destination,
+    referencePoints: [...getLoadings, ...getUnloading],
+  });
 
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
@@ -148,30 +188,6 @@ const StepFive = ({ status }) => {
 
   const onSubmitF = () => {
     setIsUpdate(true);
-    const getLoadings =
-    (Array.isArray(loadings?.[0]?.cor)
-      ? loadings?.map((item) => item?.cor)
-      : loadings?.map((item) => item?.cor?.split(","))) || [];
-  const getUnloading =
-    (Array.isArray(unloading?.[0]?.cor)
-      ? unloading?.map((item) => item?.cor)
-      : unloading?.map((item) => item?.cor?.split(","))) || [];
-
-  const origin = {
-    lat: loadings?.[0]?.cor?.split(" ")[1],
-    long: loadings?.[0]?.cor?.split(" ")[0],
-  };
-
-  const destination = {
-    lat: unloading[unloading.length - 1]?.cor.split(" ")[1],
-    long: unloading[unloading.length - 1]?.cor.split(" ")[0],
-  };
-
-  const distance = useGetDistance({
-    origin,
-    destination,
-    referencePoints: [...getLoadings, ...getUnloading],
-  });
     const requestData = {
       data: {
         // step 1
@@ -207,7 +223,7 @@ const StepFive = ({ status }) => {
         load_type: getTrueKeys(load),
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
-        distance:distance?.distance,
+        distance: distance?.distance,
 
         //step4
 
@@ -252,30 +268,6 @@ const StepFive = ({ status }) => {
 
   const shablonF = () => {
     setIsUpdate(false);
-    const getLoadings =
-    (Array.isArray(loadings?.[0]?.cor)
-      ? loadings?.map((item) => item?.cor)
-      : loadings?.map((item) => item?.cor?.split(","))) || [];
-  const getUnloading =
-    (Array.isArray(unloading?.[0]?.cor)
-      ? unloading?.map((item) => item?.cor)
-      : unloading?.map((item) => item?.cor?.split(","))) || [];
-
-  const origin = {
-    lat: loadings?.[0]?.cor?.split(" ")[1],
-    long: loadings?.[0]?.cor?.split(" ")[0],
-  };
-
-  const destination = {
-    lat: unloading[unloading.length - 1]?.cor.split(" ")[1],
-    long: unloading[unloading.length - 1]?.cor.split(" ")[0],
-  };
-
-  const distance = useGetDistance({
-    origin,
-    destination,
-    referencePoints: [...getLoadings, ...getUnloading],
-  });
     const requestData = {
       data: {
         // step 1
@@ -295,7 +287,7 @@ const StepFive = ({ status }) => {
 
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
-        distance:distance?.distance,
+        distance: distance?.distance,
 
         //  step3
 

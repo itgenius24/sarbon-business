@@ -175,7 +175,7 @@ const useStepTwoProps = () => {
 
 
   const hanleAdress = (location, name, index, type,id) => {
-    console.log(`location`,location)
+    
     if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
@@ -183,7 +183,7 @@ const useStepTwoProps = () => {
         setValue(`period_ids`,[...period_ids,id]);
       }
     }
-    setValue(name, location?.GeoObject?.name);
+    setValue(name, `${location?.GeoObject?.name}, ${location?.GeoObject?.description}`);
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
 
@@ -193,7 +193,7 @@ const useStepTwoProps = () => {
       setValue(`loadings.${[index]}`, {
         ...watch(`loadings`)[index],
         address: watch(`loadings[${index}].address`),
-        cor: location?.GeoObject?.Point?.pos,
+        cor: location?.GeoObject?.Point?.pos?.split(` `)?.reverse()?.join(` `),
         from_date: watch(`loadings[${index}].from_date`) || "",
       });
       if (index === 0) {
@@ -203,7 +203,7 @@ const useStepTwoProps = () => {
     } else {
       setValue(`unloading.${[index]}`, {
         address: watch(`unloading[${index}].address`),
-        cor: location?.GeoObject?.Point?.pos,
+        cor: location?.GeoObject?.Point?.pos?.split(` `)?.reverse()?.join(` `),
         to_date: watch(`unloading[${index}].to_date`) || "",
       });
       setValue(`flag_do`, flagUrl);
