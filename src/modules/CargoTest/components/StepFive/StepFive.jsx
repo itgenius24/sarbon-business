@@ -66,7 +66,7 @@ const StepFive = ({ status }) => {
   const [guid, setGuid] = useState();
   const router = useRouter();
   const locale = useGetLang();
-
+  const firm_id = authStore.userData.firm_id;
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
@@ -225,6 +225,7 @@ const StepFive = ({ status }) => {
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
         distance: distance?.distance,
+        firm_id,
 
         //step4
 
@@ -290,7 +291,7 @@ const StepFive = ({ status }) => {
         product_type: watch(`cargo_type`)?.label,
         distance: distance?.distance,
         payment_type: watch("payment_type")?.label,
-
+        firm_id,
         //  step3
 
         vehicle_type_id: watch("car_type")?.value,
