@@ -19,7 +19,7 @@ export const useRegistrationFormProps = () => {
   const locale = useGetLang();
   const router = useRouter();
   const [value, setValueR] = useState("C1");
-
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { t } = useTranslation(locale, "translations");
 
@@ -42,7 +42,7 @@ export const useRegistrationFormProps = () => {
   const [enab, setEnab] = useState(false);
 
   const getClientTypes = useGetClientType();
-  
+
   const clientTypeOptions = getClientTypes.data?.response
     ?.filter(
       (client) =>
@@ -53,32 +53,37 @@ export const useRegistrationFormProps = () => {
   const getUsers = useGetUsers(
     {
       data: JSON.stringify({
-        client_type_id:value === `C2` ? clientTypeOptions?.[1]?.value : "a25d605c-d153-4ddf-8590-e4cda176ef93",
+        client_type_id:
+          value === `C2`
+            ? clientTypeOptions?.[1]?.value
+            : "a25d605c-d153-4ddf-8590-e4cda176ef93",
       }),
     },
     { enabled: Boolean(enab), onSuccess: (res) => console.log(`response`, res) }
   );
 
-
   useEffect(() => {
     if (getUsers.data) {
-      console.log(`getUsers`,getUsers)
-      authStore.login({
-        user: {
-          firm_id: getUsers?.data?.response?.[0]?.firm_id,
-          // full_name: getUsers?.data.full_name,
-          ...getUsers?.data?.response?.[0],
-          id: getUsers?.data.response?.[0]?.guid,
-          client_id: getUsers?.data?.response?.[0]?.client_type_id,
-        },
-        token: {},
-        role: getUsers?.data?.response?.[0]?.role,
-      });
-      router.push(`/${locale}`);
+      setIsPopupOpen(true);
       setEnab(false);
     }
   }, [getUsers.data]);
-  
+
+  const login = (type) => {
+    authStore.login({
+      user: {
+        firm_id: getUsers?.data?.response?.[0]?.firm_id,
+        // full_name: getUsers?.data.full_name,
+        ...getUsers?.data?.response?.[0],
+        id: getUsers?.data.response?.[0]?.guid,
+        client_id: getUsers?.data?.response?.[0]?.client_type_id,
+      },
+      token: {},
+      role: getUsers?.data?.response?.[0]?.role,
+    });
+    router.push(`/${locale}/${type}/create`);
+  };
+
   const registerUserMutation = useRegisterUserMutation({
     onSuccess: (data) => {
       setEnab(true);
@@ -112,8 +117,14 @@ export const useRegistrationFormProps = () => {
     onSuccess: (data) => {
       registerUserMutation.mutate({
         data: {
-          role_id: value === `C2` ? "48871d27-7361-4f69-8fe4-b54daf270739" : "f81d3c3d-228d-479e-a2b1-9948c98640f2",
-          client_type_id: value === `C2` ? clientTypeOptions[1].value : "a25d605c-d153-4ddf-8590-e4cda176ef93",
+          role_id:
+            value === `C2`
+              ? "48871d27-7361-4f69-8fe4-b54daf270739"
+              : "f81d3c3d-228d-479e-a2b1-9948c98640f2",
+          client_type_id:
+            value === `C2`
+              ? clientTypeOptions[1].value
+              : "a25d605c-d153-4ddf-8590-e4cda176ef93",
           phone: phone,
           full_name: watch(`full_name`),
           login: watch(`login`),
@@ -153,8 +164,6 @@ export const useRegistrationFormProps = () => {
     data: JSON.stringify({ client_type_id: "" }),
   });
 
- 
-
   const getCompanyList = useGetCompanyList({
     data: JSON.stringify({ company_direction: ["logistic_company"] }),
   });
@@ -191,7 +200,7 @@ export const useRegistrationFormProps = () => {
     setValue("tel", phone);
   }, []);
 
-  console.log(`clientTypeOptions`,clientTypeOptions)
+  console.log(`clientTypeOptions`, clientTypeOptions);
 
   return {
     clientTypeOptions,
@@ -210,6 +219,12 @@ export const useRegistrationFormProps = () => {
     setStatus,
     status,
     setValue,
-    setValueR,value
+    setValueR,
+    value,
+    isPopupOpen,
+    setIsPopupOpen,
+    locale,
+    router,
+    login
   };
 };
