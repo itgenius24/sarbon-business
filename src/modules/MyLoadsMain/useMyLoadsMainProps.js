@@ -49,8 +49,7 @@ export const useMyLoadsMainProps = () => {
       with_relations: true,
     }),
   };
-  console.log(`orderStatus`, orderStatus);
-
+ 
   const isCargo =
     !orderStatus ||
     orderStatus === "in_moderation" ||
@@ -71,7 +70,7 @@ export const useMyLoadsMainProps = () => {
     getCargoFilterParams.data = JSON.stringify(data);
   } else if (orderStatus === "in_moderation") {
     const data = JSON.parse(getAllUserCargoParams.data);
-    data.order_status = [orderStatus, "rejected"];
+    data.order_status = [orderStatus,];
     getAllUserCargoParams.data = JSON.stringify(data);
   } else if (orderStatus === "in_active") {
     const data = JSON.parse(getAllUserCargoParams.data);

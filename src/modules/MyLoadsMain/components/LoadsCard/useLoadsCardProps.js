@@ -28,10 +28,8 @@ export const useLoadsCardProps = ({
   currency_id_data,
   currency_id_2_data,
   handleDelete,
-  cargo //cargoda yuk nomi user ismlari bor
+  cargo, //cargoda yuk nomi user ismlari bor
 }) => {
- 
-
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -44,14 +42,14 @@ export const useLoadsCardProps = ({
   const toast = useToast();
 
   const responseStatuses = {
-    "": order_status ,
+    "": order_status,
     in_moderation: order_status,
     new: provisions,
     performed: provisions,
     cancellation: provisions,
     archive: provisions,
     approve_from_driver: response_status,
-    approve_by_customer: response_status
+    approve_by_customer: response_status,
   };
 
   const performedStatuses = {
@@ -68,15 +66,19 @@ export const useLoadsCardProps = ({
     in_active: t("неактивен"),
   };
 
-  const status = responseStatuses[orderStatus]?.[0] || responseStatuses["in_moderation"]?.[0];
+  const status =
+    responseStatuses[orderStatus]?.[0] ||
+    responseStatuses["in_moderation"]?.[0];
 
-console.log(`actve`,status);
   const router = useRouter();
 
   const list = [
     {
       title: status === "performed" ? t("Статус: ") : t("Расстояние: "),
-      value: status === "performed" ? performedStatuses[indicate_status[0]] : `${distance} км`,
+      value:
+        status === "performed"
+          ? performedStatuses[indicate_status[0]]
+          : `${distance} км`,
     },
     {
       title: t("Товар: "),
@@ -87,8 +89,8 @@ console.log(`actve`,status);
       value: load_around_the_clock
         ? t("отдельной машиной или догрузом (FTL или LTL)")
         : take_all_unloads
-          ? t("отдельной машиной (FTL)")
-          : "",
+        ? t("отдельной машиной (FTL)")
+        : "",
     },
     {
       title: t("Время: "),
@@ -111,11 +113,11 @@ console.log(`actve`,status);
     },
     {
       title: t("Мобильный телефон: "),
-      value: cargo?.users_id_2_data?.phone ,
+      value: cargo?.users_id_2_data?.phone,
     },
   ];
 
-  const { register, handleSubmit, setValue, watch, } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
 
   const createFeedback = useCreateFeedback({
     onSuccess() {
@@ -124,14 +126,16 @@ console.log(`actve`,status);
         status: "success",
         duration: 3000,
         isClosable: true,
-        position: "top-right"
+        position: "top-right",
       });
       handleCloseEstimateModal();
-    }
+    },
   });
 
   function onSubmit(data) {
-    const reviewStatus = Object.keys(data).filter(key => key.includes("driver_"));
+    const reviewStatus = Object.keys(data).filter((key) =>
+      key.includes("driver_")
+    );
 
     createFeedback.mutate({
       data: {
@@ -139,12 +143,10 @@ console.log(`actve`,status);
         grade: ratingValue,
         rewiv: data.rewiv,
         users_id: users_id_2,
-        review_status: reviewStatus.filter(key => data[key]),
+        review_status: reviewStatus.filter((key) => data[key]),
         users_id_2: authStore.userData.id,
-        status: [
-          "client"
-        ]
-      }
+        status: ["client"],
+      },
     });
   }
 
@@ -187,5 +189,4 @@ console.log(`actve`,status);
     setIsDeletePopupOpen,
     onDeleteAccept,
   };
-
 };

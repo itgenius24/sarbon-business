@@ -1,36 +1,9 @@
-.loadsCard {
-  position: relative;
-  padding: 24px;
-  border-radius: 16px;
-  background-color: #fff;
-}
+.status {
+  margin-bottom: 20px;
+  .statusCard {
+    width: 100%;
 
-.loadsCard.rejected {
-  background-color: var(--error-50);
-}
-
-.stretchedLink {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-}
-
-.stretchedLink.isShow {
-  display: block;
-}
-
-.cardTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--brand-200);
-}
-    .performedXeader {
+    .statusXeader {
       background-color: rgba(0, 122, 255, 1);
       padding: 18px 24px;
       border-top-left-radius: 14px;
@@ -65,278 +38,437 @@
         }
       }
     }
+    .cardBody {
+      background-color: white;
+      padding: 0px 24px 24px 24px;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      .card {
+        display: flex;
+        justify-content: flex-start;
+        gap: 70px;
+        border-bottom: 1px solid rgba(150, 148, 158, 0.363);
+        .cardItem {
+          padding: 24px 0;
+          .cardBodyTitle {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            color: rgba(126, 123, 134, 1);
+          }
+          .cardName {
+            font-weight: 500;
+            font-size: 18px;
+            .cardNameDate {
+              font-size: 14px;
+              font-weight: 400;
+              color: rgba(126, 123, 134, 1);
+            }
+          }
+        }
+        .btnActive {
+          // width: fit-content;
+          background-color: rgba(0, 122, 255, 1);
+          color: white;
+          border-radius: 8px;
+          padding: 3px 32px;
+        }
+        .bntOutline {
+          border: 1px solid rgba(208, 213, 221, 1);
+          border-radius: 8px;
+          padding: 3px 32px;
+          border-radius: 8px;
+          color: rgba(52, 64, 84, 1);
+          background: transparent;
+        }
+      }
+      .cardFooter {
+        padding: 16px 0px 0px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .cardFooterLeft {
+          display: flex;
+          align-items: center;
+          gap: 60px;
+          .cardBodyTitle {
+            font-size: 14px;
+            color: rgba(126, 123, 134, 1);
+          }
+          .cardName {
+            font-weight: 600;
+            font-size: 18px;
+            span {
+              color: rgba(0, 122, 255, 1);
+            }
+          }
 
-.address {
-  display: flex;
-  align-items: flex-start;
-  column-gap: 16px;
-  margin-bottom: 16px;
+          .btn {
+            border: 1px solid rgba(0, 122, 255, 1);
+            padding: 11px;
+            border-radius: 6px;
+            background-color: rgba(0, 122, 255, 0.07);
+            color: rgba(0, 122, 255, 1);
+            cursor: pointer;
+            display: flex;
+            gap: 10px;
+          }
+        }
+        .rightContend {
+          .cardBodyTitle {
+            font-size: 14px;
+            color: rgba(126, 123, 134, 1);
+          }
+          .date {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(0, 122, 255, 1);
+          }
+        }
+      }
+    }
+  }
 }
 
-.addressText {
-  display: flex;
-  align-items: center;
-  column-gap: 18px;
-}
-
-.addressCountry {
-  display: flex;
-  flex-direction: column;
-  row-gap: 4px;
-}
-
-.addressCity {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 22px;
-  color: #000;
-}
-
-.addressStatus {
-  padding: 7px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 14px;
-}
-
-.addressStatus.process,
-.addressStatusMobile.process {
-  background: rgba(255, 204, 0, 0.15);
-  color: #FF9500;
-}
-
-.addressStatus.in_active,
-.addressStatusMobile.in_active {
-  background: rgba(255, 204, 0, 0.15);
-  color: #FF9500;
-}
-
-.addressStatus.active,
-.addressStatusMobile.active {
-  background: rgba(28, 139, 195, 0.07);
-  color: #1C8BC3;
-}
-
-.addressStatus.in_moderation,
-.addressStatusMobile.in_moderation {
-  background: rgba(28, 139, 195, 0.07);
-  color: #1C8BC3;
-}
-
-.addressStatus.rejected,
-.addressStatusMobile.rejected {
-  background: var(--error-100);
-  color: var(--error-500);
-}
-
-.addressStatus.new,
-.addressStatusMobile.new {
-  background: rgba(1, 145, 65, 0.07);
-  color: #009241;
-}
-
-.addressStatus.approve_from_driver,
-.addressStatusMobile.approve_from_driver {
-  background: rgba(255, 204, 0, 0.15);
-  color: #FF9500;
-}
-
-.addressStatus.performed,
-.addressStatusMobile.performed {
-  background: rgba(255, 204, 0, 0.15);
-  color: #FF9500;
-}
-
-.addressStatus.approve_by_customer,
-.addressStatusMobile.approve_by_customer {
-  background: rgba(255, 204, 0, 0.15);
-  color: #FF9500;
-}
-
-.addressStatus.cancellation,
-.addressStatusMobile.cancellation {
-  background: rgba(249, 79, 79, 0.07);
-  color: #F64F56;
-}
-
-.addressStatus.archive,
-.addressStatusMobile.archive {
-  background: #EAECF0;
-  color: #D0D5DD;
-}
-
-.distance {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 14px;
-  color: var(--primary);
-}
-
-// .paymentInfo {
-
+// .loadsCard {
+//   position: relative;
+//   padding: 24px;
+//   border-radius: 16px;
+//   background-color: #fff;
 // }
 
-.paymentInfoContent {
-  display: flex;
-  align-items: center;
-  column-gap: 16px;
-}
+// .loadsCard.rejected {
+//   background-color: var(--error-50);
+// }
 
-.paymentInfoText {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 20px;
-  color: var(--primary);
-}
+// .stretchedLink {
+//   display: none;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   z-index: 2;
+// }
 
-.paymentInfoSubText {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  color: #84919A;
-}
+// .stretchedLink.isShow {
+//   display: block;
+// }
 
-.paymentInfoComment {
-  margin-top: 8px;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 18px;
-  color: var(--brand-500);  
-}
+// .cardTop {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding-bottom: 16px;
+//   border-bottom: 1px solid var(--brand-200);
+// }
+//     .performedXeader {
+//       background-color: rgba(0, 122, 255, 1);
+//       padding: 18px 24px;
+//       border-top-left-radius: 14px;
+//       border-top-right-radius: 14px;
+//       color: white;
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
+//       .leftContend {
+//         display: flex;
+//         justify-content: flex-start;
+//         gap: 20px;
+//         h3 {
+//           font-size: 24px;
+//           font-weight: 600;
+//         }
+//         p {
+//           font-weight: 700;
+//           font-size: 14px;
+//           span {
+//             font-weight: 400;
+//           }
+//         }
+//       }
+//       .rightContend {
+//         display: flex;
+//         justify-content: flex-start;
+//         gap: 20px;
+//         .rightTitle {
+//           font-size: 14px;
+//           font-weight: 400;
+//         }
+//       }
+//     }
 
-.cardList {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 16px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--brand-200);
-}
+// .address {
+//   display: flex;
+//   align-items: flex-start;
+//   column-gap: 16px;
+//   margin-bottom: 16px;
+// }
 
-.cardListItem {
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
+// .addressText {
+//   display: flex;
+//   align-items: center;
+//   column-gap: 18px;
+// }
 
-  dt {
-    color: rgba(132, 145, 154, 0.8);
-  }
+// .addressCountry {
+//   display: flex;
+//   flex-direction: column;
+//   row-gap: 4px;
+// }
 
-  dd {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 18px;
-    color: #303940;
-  }
-}
+// .addressCity {
+//   font-size: 24px;
+//   font-weight: 600;
+//   line-height: 22px;
+//   color: #000;
+// }
 
-.cardBottom {
-  padding-top: 16px;
-  display: flex;
-  column-gap: 8px;
-}
+// .addressStatus {
+//   padding: 7px 12px;
+//   border-radius: 6px;
+//   font-size: 12px;
+//   font-weight: 500;
+//   line-height: 14px;
+// }
 
-.moderatorComment {
-  display: flex;
-  align-items: baseline;
-  column-gap: 8px;
-}
+// .addressStatus.process,
+// .addressStatusMobile.process {
+//   background: rgba(255, 204, 0, 0.15);
+//   color: #FF9500;
+// }
 
-.moderatorCommentTitle {
-  color: var(--error-500);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 18px;
-}
+// .addressStatus.in_active,
+// .addressStatusMobile.in_active {
+//   background: rgba(255, 204, 0, 0.15);
+//   color: #FF9500;
+// }
 
-.moderatorCommentText {
-  color: #303940;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 18px;  
-}
+// .addressStatus.active,
+// .addressStatusMobile.active {
+//   background: rgba(28, 139, 195, 0.07);
+//   color: #1C8BC3;
+// }
 
-.rating {
-  justify-content: center;
-  column-gap: 8px;
-  margin-bottom: 24px;
-}
+// .addressStatus.in_moderation,
+// .addressStatusMobile.in_moderation {
+//   background: rgba(28, 139, 195, 0.07);
+//   color: #1C8BC3;
+// }
 
-.textarea {
-  background-color: #F5F5F5;
-}
+// .addressStatus.rejected,
+// .addressStatusMobile.rejected {
+//   background: var(--error-100);
+//   color: var(--error-500);
+// }
 
-.text {
-  display: inline-block;
-  margin-bottom: 10px;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 18px;  
-}
+// .addressStatus.new,
+// .addressStatusMobile.new {
+//   background: rgba(1, 145, 65, 0.07);
+//   color: #009241;
+// }
 
-.paymentInfoMobile {
-  display: none;
-}
+// .addressStatus.approve_from_driver,
+// .addressStatusMobile.approve_from_driver {
+//   background: rgba(255, 204, 0, 0.15);
+//   color: #FF9500;
+// }
 
-.addressStatusMobile {
-  display: none;
-}
+// .addressStatus.performed,
+// .addressStatusMobile.performed {
+//   background: rgba(255, 204, 0, 0.15);
+//   color: #FF9500;
+// }
 
-@include lg {
+// .addressStatus.approve_by_customer,
+// .addressStatusMobile.approve_by_customer {
+//   background: rgba(255, 204, 0, 0.15);
+//   color: #FF9500;
+// }
 
-  .loadsCard {
-    padding: 12px;
-    border-radius: 0;
-  }
+// .addressStatus.cancellation,
+// .addressStatusMobile.cancellation {
+//   background: rgba(249, 79, 79, 0.07);
+//   color: #F64F56;
+// }
 
-  .cardTop {
-    padding-bottom: 4px;
-  }
+// .addressStatus.archive,
+// .addressStatusMobile.archive {
+//   background: #EAECF0;
+//   color: #D0D5DD;
+// }
 
-  .addressCity {
-    font-size: 17px;
-    line-height: 20px;
-  }
+// .distance {
+//   font-size: 15px;
+//   font-weight: 500;
+//   line-height: 14px;
+//   color: var(--primary);
+// }
 
-  .address {
-    margin-bottom: 4px;
-  }
+// // .paymentInfo {
 
-  .addressStatus {
-    display: none;
-  }
+// // }
 
-  .addressCountry {
-    row-gap: 2px;
-  }
+// .paymentInfoContent {
+//   display: flex;
+//   align-items: center;
+//   column-gap: 16px;
+// }
 
-  .paymentInfo {
-    display: none;
-  }
+// .paymentInfoText {
+//   font-size: 18px;
+//   font-weight: 400;
+//   line-height: 20px;
+//   color: var(--primary);
+// }
 
-  .paymentInfoMobile {
-    display: flex;
-    align-items: center;
-    column-gap: 4px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--brand-200);
-  }
+// .paymentInfoSubText {
+//   font-size: 14px;
+//   font-weight: 400;
+//   line-height: 18px;
+//   color: #84919A;
+// }
 
-  .paymentInfoMobileText {
-    font-weight: 600;
-    color: var(--primary);
-  }
+// .paymentInfoComment {
+//   margin-top: 8px;
+//   font-size: 15px;
+//   font-weight: 400;
+//   line-height: 18px;
+//   color: var(--brand-500);
+// }
 
-  .paymentInfoMobileComment {
-    color: #84919A;
-  }
+// .cardList {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   grid-template-rows: 1fr 1fr;
+//   gap: 16px;
+//   padding-top: 16px;
+//   padding-bottom: 16px;
+//   border-bottom: 1px solid var(--brand-200);
+// }
 
-  .addressStatusMobile {
-    display: block;
-    padding: 8px 16px;
-  }
+// .cardListItem {
+//   display: flex;
+//   align-items: center;
+//   column-gap: 8px;
 
-}
+//   dt {
+//     color: rgba(132, 145, 154, 0.8);
+//   }
+
+//   dd {
+//     font-size: 18px;
+//     font-weight: 500;
+//     line-height: 18px;
+//     color: #303940;
+//   }
+// }
+
+// .cardBottom {
+//   padding-top: 16px;
+//   display: flex;
+//   column-gap: 8px;
+// }
+
+// .moderatorComment {
+//   display: flex;
+//   align-items: baseline;
+//   column-gap: 8px;
+// }
+
+// .moderatorCommentTitle {
+//   color: var(--error-500);
+//   font-size: 16px;
+//   font-weight: 500;
+//   line-height: 18px;
+// }
+
+// .moderatorCommentText {
+//   color: #303940;
+//   font-size: 18px;
+//   font-weight: 500;
+//   line-height: 18px;
+// }
+
+// .rating {
+//   justify-content: center;
+//   column-gap: 8px;
+//   margin-bottom: 24px;
+// }
+
+// .textarea {
+//   background-color: #F5F5F5;
+// }
+
+// .text {
+//   display: inline-block;
+//   margin-bottom: 10px;
+//   font-size: 18px;
+//   font-weight: 400;
+//   line-height: 18px;
+// }
+
+// .paymentInfoMobile {
+//   display: none;
+// }
+
+// .addressStatusMobile {
+//   display: none;
+// }
+
+// @include lg {
+
+//   .loadsCard {
+//     padding: 12px;
+//     border-radius: 0;
+//   }
+
+//   .cardTop {
+//     padding-bottom: 4px;
+//   }
+
+//   .addressCity {
+//     font-size: 17px;
+//     line-height: 20px;
+//   }
+
+//   .address {
+//     margin-bottom: 4px;
+//   }
+
+//   .addressStatus {
+//     display: none;
+//   }
+
+//   .addressCountry {
+//     row-gap: 2px;
+//   }
+
+//   .paymentInfo {
+//     display: none;
+//   }
+
+//   .paymentInfoMobile {
+//     display: flex;
+//     align-items: center;
+//     column-gap: 4px;
+//     padding-top: 8px;
+//     padding-bottom: 8px;
+//     border-bottom: 1px solid var(--brand-200);
+//   }
+
+//   .paymentInfoMobileText {
+//     font-weight: 600;
+//     color: var(--primary);
+//   }
+
+//   .paymentInfoMobileComment {
+//     color: #84919A;
+//   }
+
+//   .addressStatusMobile {
+//     display: block;
+//     padding: 8px 16px;
+//   }
+
+// }

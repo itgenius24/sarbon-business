@@ -46,8 +46,39 @@
       .card {
         display: flex;
         justify-content: flex-start;
-        gap: 40px;
+        gap: 70px;
         border-bottom: 1px solid rgba(150, 148, 158, 0.363);
+        .bntOutline {
+          border: 1px solid rgba(208, 213, 221, 1);
+          border-radius: 8px;
+          padding: 3px 32px;
+          border-radius: 8px;
+          color: rgba(52, 64, 84, 1);
+          background: transparent;
+        }
+        .bntNew{
+          border-radius: 8px;
+          padding: 3px 32px;
+          border-radius: 8px;
+          color: white;
+          background-color: rgba(21, 186, 77, 1);
+        }
+        .bntMap{
+          border-radius: 8px;
+          padding: 3px 32px;
+          border-radius: 8px;
+          border: 1px solid rgba(0, 122, 255, 1);
+          color: rgba(0, 122, 255, 1);
+          background: rgba(0, 122, 255, 0.07);
+        }
+        .bntOutline {
+          border: 1px solid rgba(208, 213, 221, 1);
+          border-radius: 8px;
+          padding: 3px 32px;
+          border-radius: 8px;
+          color: rgba(52, 64, 84, 1);
+          background: transparent;
+        }
         .cardItem {
           padding: 24px 0;
           .cardBodyTitle {

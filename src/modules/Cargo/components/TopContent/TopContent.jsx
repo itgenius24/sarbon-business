@@ -41,6 +41,7 @@ import {
   LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
+  ResToreIcon,
 } from "@/assets/icons/icons";
 import {
   Map,
@@ -55,6 +56,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
 import { ru } from "date-fns/locale";
+import { formatDateTime } from "@/utils/formatDateTime";
 
 export const TopContent = ({
   address1 = "",
@@ -348,16 +350,14 @@ export const TopContent = ({
                               )}
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>Геолокация</p>
-                                <p className={cls.phoneItemName}>
-                                  {user.gps ? "Выкл " : "Откл "}
+                                <Flex gap={`5px`}  alignItems={`center`} className={cls.phoneItemName}>
+                                  <span style={{fontWeight:600}} className={cls.phoneItemName}>{user.gps ? "Выкл " : "Откл "}</span>
+                                  <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {user?.users_gps?.[0]?.update_time &&
-                                      format(
-                                        user?.users_gps?.[0]?.update_time,
-                                        "dd MMMM HH:HH "
-                                      )}
+                                    {user?.users_gps?.[0]?.update_time && formatDateTime( user?.users_gps?.[0]?.update_time)}
+                                    
                                   </span>
-                                </p>
+                                </Flex>
                               </div>
                             </div>
                             <div className={cls.item}>

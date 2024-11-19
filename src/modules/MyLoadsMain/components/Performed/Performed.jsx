@@ -1,12 +1,18 @@
-import { ArrowNextIcon, MapIcon } from "@/assets/icons/icons";
+import {
+  ArrowNextIcon,
+  DeleteIcon,
+  IconCeckNewStatusIcon,
+  MapIcon,
+} from "@/assets/icons/icons";
 import styles from "./style.module.scss";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { ru } from 'date-fns/locale';
+import { ru } from "date-fns/locale";
 
-import { Box, Button, Tooltip } from "@chakra-ui/react";
+import { Box, Button, Flex, Tooltip } from "@chakra-ui/react";
+import { statusColor } from "../../data";
 
 export const Performed = ({
   cargo,
@@ -36,12 +42,14 @@ export const Performed = ({
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
-        <div className={styles.performedXeader}>
+        <div
+          style={{ background: statusColor[orderStatus] }}
+          className={styles.performedXeader}
+        >
           <div className={styles.leftContend}>
             <div className={styles.text}>
               <h3>
-                {
-                  cargo?.cargo_id_data?.from?.length > 10 ? (
+                {cargo?.cargo_id_data?.from?.length > 20 ? (
                   <Tooltip
                     color={`black`}
                     boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
@@ -50,48 +58,55 @@ export const Performed = ({
                   >
                     <span>{`${cargo?.cargo_id_data?.from.slice(
                       0,
-                      10
+                      20
                     )}...`}</span>
                   </Tooltip>
                 ) : (
                   cargo?.cargo_id_data?.from
-                )
-                }
+                )}
               </h3>
               <p>
                 {cargo?.cargo_id_data?.address_id_data?.name}
                 <span>
                   {cargo?.cargo_id_data?.load_time &&
                     format(
-                      new Date(cargo?.cargo_id_data?.load_time).setHours(new Date(cargo?.cargo_id_data?.load_time).getHours() -5),
-                      "dd-MMMM",{ locale: ru }
+                      new Date(cargo?.cargo_id_data?.load_time).setHours(
+                        new Date(cargo?.cargo_id_data?.load_time).getHours() - 5
+                      ),
+                      "dd-MMMM",
+                      { locale: ru }
                     )}
                 </span>
               </p>
             </div>
             <ArrowNextIcon />
             <div className={styles.text}>
-              <h3>{   cargo?.cargo_id_data?.to?.length > 10 ? (
+              <h3>
+                {cargo?.cargo_id_data?.to?.length > 20 ? (
                   <Tooltip
                     color={`black`}
                     boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                     background={`#fff`}
                     label={`${cargo?.cargo_id_data?.to}`}
                   >
-                    <span>{`${cargo?.cargo_id_data?.to.slice(
-                      0,
-                      10
-                    )}...`}</span>
+                    <span>{`${cargo?.cargo_id_data?.to.slice(0, 20)}...`}</span>
                   </Tooltip>
                 ) : (
                   cargo?.cargo_id_data?.to
-                )}</h3>
+                )}
+              </h3>
               <p>
                 {cargo?.cargo_id_data?.address_id_2_data?.name}
 
                 <span>
                   {cargo?.cargo_id_data?.date &&
-                    format(new Date(cargo?.cargo_id_data?.date).setHours(new Date(cargo?.cargo_id_data?.date).getHours() -5), "dd-MMMM",{ locale: ru })}
+                    format(
+                      new Date(cargo?.cargo_id_data?.date).setHours(
+                        new Date(cargo?.cargo_id_data?.date).getHours() - 5
+                      ),
+                      "dd-MMMM",
+                      { locale: ru }
+                    )}
                 </span>
               </p>
             </div>
@@ -99,7 +114,7 @@ export const Performed = ({
           <div className={styles.rightContend}>
             <div className={styles.text}>
               <p className={styles.rightTitle}>
-                {/* Тип оплаты: Перечисление */}
+                Тип оплаты: {cargo?.payment_type ? cargo?.payment_type : cargo?.cargo_id_data?.payment_type}
               </p>
               <p className={styles.rightTitle}>
                 Предоплата:
@@ -109,7 +124,8 @@ export const Performed = ({
             <div className={styles.text}>
               <p className={styles.rightTitle}>Общая сумма</p>
               <p className={styles.totalSum}>
-                {cargo?.offers || 0} {cargo?.currency_id_data?.code}
+                {cargo?.offers || cargo?.cargo_id_data?.bid_cash}{" "}
+                {cargo?.currency_id_data?.code}
               </p>
             </div>
           </div>
@@ -129,19 +145,33 @@ export const Performed = ({
               <span className={styles.cardBodyTitle}>Телефон</span>
               <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
             </div>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Статус</span>
-              <p className={styles.cardName}>
-                {
-                  performedStatuses[
-                    cargo?.indicate_status?.[0]
-                      ? cargo?.indicate_status?.[0]
-                      : `Не cтатус`
-                  ]
-                }
-                {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
-              </p>
-            </div>
+            {(orderStatus === `new` ||
+              orderStatus === `cancellation`) && (
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>Сообщение</span>
+                  <p className={styles.cardName}  dangerouslySetInnerHTML={{
+                          __html:
+                          cargo?.comment
+                        }}>
+                    {/* {cargo?.comment} */}
+                  </p>
+                </div>
+              )}
+            {orderStatus !== `new` && orderStatus !== `cancellation` && (
+              <div className={styles.cardItem}>
+                <span className={styles.cardBodyTitle}>Статус</span>
+                <p className={styles.cardName}>
+                  {
+                    performedStatuses[
+                      cargo?.indicate_status?.[0]
+                        ? cargo?.indicate_status?.[0]
+                        : `Не cтатус`
+                    ]
+                  }
+                  {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
+                </p>
+              </div>
+            )}
           </div>
           <div className={styles.card}>
             <div className={styles.cardItem}>
@@ -163,16 +193,113 @@ export const Performed = ({
               </p>
             </div>
           </div>
-          {orderStatus == "performed" && (
+          <div className={styles.card}>
+            <Flex
+              width={`100%`}
+              className={styles.cardItem}
+              justifyContent={`space-between`}
+              alignItems={`center`}
+            >
+              <Box>
+                {orderStatus == "performed" && (
+                  <>
+                    <span className={styles.cardBodyTitle}>Пройдено</span>
+                    <p className={styles.cardName}>
+                      <span style={{ color: `rgba(0, 122, 255, 1)` }}>
+                        1357 км{" "}
+                      </span>{" "}
+                      / {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
+                    </p>
+                  </>
+                )}
+                {orderStatus === `new` && (
+                  <>
+                    <span className={styles.cardBodyTitle}>Статус</span>
+                    <p
+                      style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
+                    >
+                      Предложение:
+                    </p>
+                  </>
+                )}
+
+                {orderStatus === `cancellation` && (
+                  <>
+                    <span className={styles.cardBodyTitle}>Статус</span>
+                    <p
+                      style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
+                    >
+                      {cargo?.who_cancellation?.includes(`customer`)
+                        ? `Был отменен вами: `
+                        : ``}
+                    </p>
+                  </>
+                )}
+              </Box>
+
+              <Box>
+                {orderStatus == "performed" && (
+                  <Button
+                    leftIcon={<MapIcon />}
+                    onClick={() =>
+                      router.push(
+                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                      )
+                    }
+                    className={styles.bntMap}
+                  >
+                    {t(`Показать на карте`)}
+                  </Button>
+                )}
+                {orderStatus === `new` && (
+                  <Flex gap={`11px`}>
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCancel(cargo.guid);
+                      }}
+                      className={styles.bntOutline}
+                    >
+                      {t(`Отказать`)}
+                    </Button>
+                    <Button
+                      leftIcon={<IconCeckNewStatusIcon />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAccept(cargo.guid, cargo.users_id_2);
+                      }}
+                      className={styles.bntNew}
+                    >
+                      {t(`Принять`)}
+                    </Button>
+                  </Flex>
+                )}
+                {orderStatus == "cancellation" && (
+                  <Button
+                    leftIcon={<DeleteIcon />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsDeletePopupOpen(true);
+                    }}
+                    className={styles.bntOutline}
+                  >
+                    {t(`Удалить`)}
+                  </Button>
+                )}
+              </Box>
+            </Flex>
+          </div>
+          {/* {orderStatus == "performed" && (
             <div className={styles.cardFooter}>
               <div className={styles.cardFooterLeft}>
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>Пройдено</span>
                   <p className={styles.cardName}>
-                    <span>1357 км </span> / {cargo?.cargo_id_data?.distance} км
+                    <span>1357 км </span> /{" "}
+                    {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
                   </p>
                 </div>
-           
+
                 <div
                   className={styles.btn}
                   onClick={() =>
@@ -186,40 +313,7 @@ export const Performed = ({
               </div>
               <div className={styles.rightContend}></div>
             </div>
-          )}
-
-          {orderStatus === `new` && (
-            <Box
-              width={`30%`}
-              display="flex"
-              // width={isLargerThan768 ? "570px" : "100%"}
-              columnGap="12px"
-              mt="32px"
-            >
-              <Button
-                // fontSize={isLargerThan768 ? "16px" : "12px"}
-                // fontWeight={isLargerThan768 ? 600 : 500}
-                variant="outlineError"
-                bgColor="rgba(254, 228, 226, 1)"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCancel(cargo.guid);
-                }}
-              >
-                {t("Отказать")}
-              </Button>
-              <Button
-                // fontSize={isLargerThan768 ? "16px" : "12px"}
-                // fontWeight={isLargerThan768 ? 600 : 500}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAccept(cargo.guid, cargo.users_id_2);
-                }}
-              >
-                {t("Принять")}
-              </Button>
-            </Box>
-          )}
+          )} */}
         </div>
       </div>
     </div>

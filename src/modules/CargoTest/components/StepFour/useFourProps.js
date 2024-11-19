@@ -7,7 +7,7 @@ import {
 } from "@/services/api";
 
 const useFourProps = () => {
-  const { register, control, errors, setValue, watch, canEdit, canEditActive,mone, setMoney,  check, setCheck,} =
+  const { register, control, errors, setValue, watch, canEdit, canEditActive,mone, setMoney,  check, setCheck,order_status} =
     useAddCargoContext();
   const [disabled,setDisabled] = useState(true)
   const getCurrency = useGetCurrency();
@@ -123,6 +123,7 @@ const useFourProps = () => {
     paymentOptions,
     // imageLoader,
     canEdit,
+    order_status,
     canEditActive,
     onSubmit,
   };

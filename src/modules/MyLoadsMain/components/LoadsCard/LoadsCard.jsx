@@ -1,6 +1,12 @@
 import clsx from "clsx";
 import cls from "./styles.module.scss";
-import { DeleteIcon, PencilIcon, TruckIcon } from "@/assets/icons/icons";
+import {
+  ArrowNextIcon,
+  DeleteIcon,
+  MapIcon,
+  PencilIcon,
+  TruckIcon,
+} from "@/assets/icons/icons";
 import { LoadBtn } from "@/components/LoadBtn";
 import { DataList } from "@/components/DataList";
 import { Box, Button, Flex, Heading, Tooltip } from "@chakra-ui/react";
@@ -14,6 +20,9 @@ import { Checkbox } from "@/components/Checkbox";
 import { forwardRef } from "react";
 import { Popup } from "@/components/Popup";
 import { ModalS } from "@/components/Modal";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { statusColor, statusText } from "../../data";
 
 export const LoadsCard = forwardRef(
   (
@@ -70,8 +79,247 @@ export const LoadsCard = forwardRef(
     });
 
     return (
-      <div>
-        <div
+      <>
+        <div ref={ref} className={cls.status}>
+          <div className={cls.statusCard}>
+            <div
+              style={{ background: statusColor[cargo?.order_status?.[0]] }}
+              className={cls.statusXeader}
+            >
+              <div className={cls.leftContend}>
+                <div className={cls.text}>
+                  <h3>
+                    {cargo?.from?.length > 20 ? (
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${cargo?.from}`}
+                      >
+                        <span>{`${cargo?.from.slice(0, 20)}...`}</span>
+                      </Tooltip>
+                    ) : (
+                      cargo?.from
+                    )}
+                  </h3>
+                  <p>
+                    {cargo?.address_id_data?.name}
+                    <span>
+                      {cargo?.load_time &&
+                        format(
+                          new Date(cargo?.load_time).setHours(
+                            new Date(cargo?.load_time).getHours() - 5
+                          ),
+                          "dd-MMMM",
+                          { locale: ru }
+                        )}
+                    </span>
+                  </p>
+                </div>
+                <ArrowNextIcon />
+                <div className={cls.text}>
+                  <h3>
+                    {cargo?.to?.length > 20 ? (
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${cargo?.to}`}
+                      >
+                        <span>{`${cargo?.to.slice(0, 20)}...`}</span>
+                      </Tooltip>
+                    ) : (
+                      cargo?.to
+                    )}
+                  </h3>
+                  <p>
+                    {cargo?.address_id_2_data?.name}
+
+                    <span>
+                      {cargo?.date &&
+                        format(
+                          new Date(cargo?.date).setHours(
+                            new Date(cargo?.date).getHours() - 5
+                          ),
+                          "dd-MMMM",
+                          { locale: ru }
+                        )}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className={cls.rightContend}>
+                <div className={cls.text}>
+                  <p className={cls.rightTitle}>
+                    Тип оплаты: {cargo?.payment_type}
+                  </p>
+                  <p className={cls.rightTitle}>
+                    Предоплата:
+                    {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`}
+                  </p>
+                </div>
+                <div className={cls.text}>
+                  <p className={cls.rightTitle}>Общая сумма</p>
+                  <p className={cls.totalSum}>
+                    {cargo?.bid_cash || 0} {cargo?.currency_id_data?.code}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className={cls.cardBody}>
+              {orderStatus === `performed` && (
+                <div className={cls.card}>
+                  <div className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>Водитель</span>
+                    <p className={cls.cardName}>
+                      {cargo?.users_id_data?.full_name}{" "}
+                      {cargo?.users_id_data?.rating > 0
+                        ? `+${cargo?.users_id_data?.rating}`
+                        : ``}
+                    </p>
+                  </div>
+                  <div className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>Телефон</span>
+                    <p className={cls.cardName}>
+                      {cargo?.users_id_data?.phone}
+                    </p>
+                  </div>
+                  <div className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>Статус</span>
+                    <p className={cls.cardName}>
+                      {/* {
+                  performedStatuses[
+                    cargo?.indicate_status?.[0]
+                      ? cargo?.indicate_status?.[0]
+                      : `Не cтатус`
+                  ]
+                } */}
+                      {/* <span className={cls.cardNameDate}> (Сегодня, 12:36)</span> */}
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className={cls.card}>
+                <div className={cls.cardItem}>
+                  <span className={cls.cardBodyTitle}>Товары</span>
+                  <p className={cls.cardName}>{cargo?.product_type}</p>
+                </div>
+                <div className={cls.cardItem}>
+                  <span className={cls.cardBodyTitle}>Транспорт</span>
+                  <p className={cls.cardName}>{cargo?.car_type}</p>
+                </div>
+                <div className={cls.cardItem}>
+                  <span className={cls.cardBodyTitle}>Вес, объём</span>
+                  <p className={cls.cardName}>
+                    {cargo?.weight}
+                    {cargo?.measurement_id_data?.Symbol} / {cargo?.volume_m3} m³
+                  </p>
+                </div>
+              </div>
+              <div className={cls.card}>
+                <Flex
+                  width={`100%`}
+                  className={cls.cardItem}
+                  justifyContent={`space-between`}
+                  alignItems={`center`}
+                >
+                  <Box>
+                    <span className={cls.cardBodyTitle}>Статус</span>
+                    <Flex
+                      style={{
+                        color: statusColor[cargo?.order_status?.[0]],
+                        fontWeight: 600,
+                        fontSize: `18px`,
+                        gap: `6px`,
+                      }}
+                    >
+                      {statusText[cargo?.order_status?.[0]]}
+                      <p
+                        style={{
+                          color: `rgba(33, 31, 38, 1)`,
+                          fontWeight: 400,
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            cargo?.order_status?.[0] === `rejected`
+                              ? cargo?.moderator_comment
+                              : ``,
+                        }}
+                      ></p>
+                    </Flex>
+                  </Box>
+                  <Box>
+                    {status === `active` && (
+                      <Button
+                        onClick={() =>
+                          router.push(
+                            `/${locale}/my-loads/${status}/${cargo?.guid}`
+                          )
+                        }
+                        className={cls.btnActive}
+                      >
+                        {t(`Изменить`)}
+                      </Button>
+                    )}
+                    {(status === `in_moderation` || status === `rejected`) && (
+                      <Flex gap={`11px`}>
+                        <Button
+                          onClick={() =>
+                            router.push(
+                              `/${locale}/my-loads/${status}/${cargo?.guid}`
+                            )
+                          }
+                          className={cls.bntOutline}
+                        >
+                          {t(`Изменить`)}
+                        </Button>
+                        <Button
+                          leftIcon={<DeleteIcon />}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsDeletePopupOpen(true);
+                          }}
+                          className={cls.bntOutline}
+                        >
+                          {t(`Удалить`)}
+                        </Button>
+                      </Flex>
+                    )}
+                  </Box>
+                </Flex>
+              </div>
+              {orderStatus == "performed" && (
+                <div className={cls.cardFooter}>
+                  <div className={cls.cardFooterLeft}>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>Пройдено</span>
+                      <p className={cls.cardName}>
+                        <span>1357 км </span> /{" "}
+                        {cargo?.distance?.toFixed(1) || 0} км
+                      </p>
+                    </div>
+
+                    <div
+                      className={cls.btn}
+                      onClick={() =>
+                        router.push(
+                          `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                        )
+                      }
+                    >
+                      <MapIcon /> Показать на карте
+                    </div>
+                  </div>
+                  <div className={cls.rightContend}></div>
+                </div>
+              )}
+
+          
+            </div>
+          </div>
+        </div>
+
+        {/* <div
           ref={ref}
           className={clsx(cls.loadsCard, {
             [cls.rejected]: status === "rejected",
@@ -150,7 +398,6 @@ export const LoadsCard = forwardRef(
                       }
                     </span>
                   </span>
-                  {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
                 </span>
                 <span className={clsx(cls.addressStatus, cls[status])}>
                   {statuses[status]} {cancelBy[cargo?.who_cancellation?.[0]]}
@@ -436,11 +683,11 @@ export const LoadsCard = forwardRef(
             status="delete"
             btn2Callback={() => onDeleteAccept(cargo?.guid)}
           />
-        </div>
-        <span className={clsx(cls.addressStatusMobile, cls[status])}>
+        </div> */}
+        {/* <span className={clsx(cls.addressStatusMobile, cls[status])}>
           {statuses[status]}hey
-        </span>
-      </div>
+        </span> */}
+      </>
     );
   }
 );

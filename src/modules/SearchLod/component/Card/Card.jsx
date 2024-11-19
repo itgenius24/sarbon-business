@@ -20,7 +20,8 @@ export const Card = ({ item, cls, ...props }) => {
       item === `new_proposal_from_director`
   );
 
-  console.log(`item?.orders?`, item);
+  console.log(`data`,data)
+ 
 
   return (
     <Flex
@@ -32,7 +33,7 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-      {data && (
+      {data?.length > 0 && (
         <TooltipComponets
           cls={cls}
           status={`ss`}

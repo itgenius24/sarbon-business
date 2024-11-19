@@ -32,6 +32,7 @@ const StepFour = ({ status }) => {
     paymentOptions,
     disabled,
     canEdit,
+    order_status,
     canEditActive,
     onSubmit,
   } = useFourProps({});
@@ -213,7 +214,7 @@ const StepFour = ({ status }) => {
                       )}
                     </Flex>
                     <TextFieldWithAddition
-                      disabled={!canEdit}
+                      disabled={ order_status?.[0] === "active" || !canEdit}
                       name="price"
                       register={register}
                       control={control}
@@ -234,13 +235,13 @@ const StepFour = ({ status }) => {
                         register={register}
                         name={`prepayment`}
                         defaultChecked={watch(`prepayment`)}
-                        isDisabled={!canEdit}
+                        isDisabled={ order_status?.[0] === "active" || !canEdit}
                       >
                         Предоплата
                       </Checkbox>
                     </Flex>
                     <TextFieldWithAddition
-                      disabled={disabledP}
+                      disabled={ order_status?.[0] === "active" || disabledP}
                       name="price_prepayment"
                       register={register}
                       control={control}

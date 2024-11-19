@@ -62,7 +62,7 @@ const useStepTwoProps = () => {
     // });
   };
 
-  console.log(`salom`,watch(`as_soon_as_b`))
+  console.log(`salom`, watch(`as_soon_as_b`));
 
   const handLeCheck2 = (e) => {
     setas_soon_as_b(e.target.checked);
@@ -70,7 +70,12 @@ const useStepTwoProps = () => {
   };
 
   useEffect(() => {
-    if (watch(`loadings[0].address`) && watch("unloading[0].address")) {
+    if (
+      watch(`loadings[0].address`) &&
+      watch("unloading[0].address") &&
+      (watch(`loadings[0].from_date`) || watch(`as_soon_as_a`)) &&
+      (watch(`as_soon_as_b`) || watch("unloading[0].to_date"))
+    ) {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -78,6 +83,10 @@ const useStepTwoProps = () => {
   }, [
     watch("loadings[0].address")?.length,
     watch("unloading[0].address")?.length,
+    watch(`loadings[0].from_date`),
+    watch(`as_soon_as_a`),
+    watch(`as_soon_as_b`),
+    watch("unloading[0].from_date")
   ]);
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
@@ -97,11 +106,11 @@ const useStepTwoProps = () => {
       `loadings`,
       watch(`loadings`)?.filter((item, index) => index !== indx)
     );
-   if (id) {
+    if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
-      if (data?.length === 0 || data === undefined ) {
-        setValue(`period_ids`,[...period_ids,id]);
+      if (data?.length === 0 || data === undefined) {
+        setValue(`period_ids`, [...period_ids, id]);
       }
     }
   }
@@ -137,7 +146,6 @@ const useStepTwoProps = () => {
   }
   // console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
 
-
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
@@ -170,20 +178,21 @@ const useStepTwoProps = () => {
       // });
     });
   }
-  
-  console.log(`countryCode`, watch(`unloading`),watch(`unloading`));
 
+  console.log(`countryCode`, watch(`unloading`), watch(`unloading`));
 
-  const hanleAdress = (location, name, index, type,id) => {
-    
+  const hanleAdress = (location, name, index, type, id) => {
     if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
-      if (data?.length === 0 || data === undefined ) {
-        setValue(`period_ids`,[...period_ids,id]);
+      if (data?.length === 0 || data === undefined) {
+        setValue(`period_ids`, [...period_ids, id]);
       }
     }
-    setValue(name, `${location?.GeoObject?.name}, ${location?.GeoObject?.description}`);
+    setValue(
+      name,
+      `${location?.GeoObject?.name}, ${location?.GeoObject?.description}`
+    );
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
 
@@ -213,28 +222,26 @@ const useStepTwoProps = () => {
     setResults([]);
   };
 
-
-
-  const loadingNumF = (num, index,id) => {
-   if (id) {
+  const loadingNumF = (num, index, id) => {
+    if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
-      if (data?.length === 0 || data === undefined ) {
-        setValue(`period_ids`,[...period_ids,id]);
+      if (data?.length === 0 || data === undefined) {
+        setValue(`period_ids`, [...period_ids, id]);
       }
     }
     setValue(`loadings.${[index]}`, {
       ...watch(`loadings`)[index],
-      loading_num: {value:num,label:num},
+      loading_num: { value: num, label: num },
     });
   };
 
-  const lodingChangeDate = (type, date, index,id) => {
-   if (id) {
+  const lodingChangeDate = (type, date, index, id) => {
+    if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
-      if (data?.length === 0 || data === undefined ) {
-        setValue(`period_ids`,[...period_ids,id]);
+      if (data?.length === 0 || data === undefined) {
+        setValue(`period_ids`, [...period_ids, id]);
       }
     }
     if (type === "loading") {

@@ -64,7 +64,22 @@ export const useRegistrationFormProps = () => {
 
   useEffect(() => {
     if (getUsers.data) {
-      setIsPopupOpen(true);
+      if (value === `C2`) {
+        authStore.login({
+          user: {
+            firm_id: getUsers?.data?.response?.[0]?.firm_id,
+            // full_name: getUsers?.data.full_name,
+            ...getUsers?.data?.response?.[0],
+            id: getUsers?.data.response?.[0]?.guid,
+            client_id: getUsers?.data?.response?.[0]?.client_type_id,
+          },
+          token: {},
+          role: getUsers?.data?.response?.[0]?.role,
+        });
+        router.push(`/${locale}`);
+      } else {
+        setIsPopupOpen(true);
+      }
       setEnab(false);
     }
   }, [getUsers.data]);
@@ -225,6 +240,6 @@ export const useRegistrationFormProps = () => {
     setIsPopupOpen,
     locale,
     router,
-    login
+    login,
   };
 };

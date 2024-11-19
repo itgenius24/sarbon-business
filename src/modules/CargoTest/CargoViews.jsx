@@ -77,7 +77,6 @@ export const CargoViews = observer(({ id, status, locale }) => {
     setOpen(false);
   };
 
-
   function getTopContent() {
     if (status === "in_moderation") {
       return (
@@ -214,11 +213,16 @@ export const CargoViews = observer(({ id, status, locale }) => {
               color={`rgba(0, 122, 255, 1)`}
               mb={`26px`}
               width={`fit-content`}
-    
-    onClick={() =>  window.location.href = `${window.location.origin}/${`${locale}/my-loads`}`}>
+              onClick={() =>
+                (window.location.href = `${
+                  window.location.origin
+                }/${`${locale}/my-loads`}`)
+              }
+            >
               Вернутся в список
             </Button>
-            {(addCargoProps.order_status?.[0] === "in_active" || addCargoProps.order_status?.[0] === "active")  && (
+            {(addCargoProps.order_status?.[0] === "in_active" ||
+              addCargoProps.order_status?.[0] === "active") && (
               <Flex gap={`18px`}>
                 <span
                   style={{ color: `rgba(33, 31, 38, 1)`, fontSize: `14px` }}

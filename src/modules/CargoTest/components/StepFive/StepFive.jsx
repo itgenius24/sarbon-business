@@ -497,8 +497,9 @@ const StepFive = ({ status }) => {
         onClose={handleCloseTemplateModal}
         secondBtnCallback={() => shablonF()}
         isDisabled={!watch("template_name")}
-        secondBtnProps={{ isLoading: loading }}
+        secondBtnProps={{ isLoading: createCargo.isPending || createAddress.isPending }}
         secondBtnText={t("Сохранить")}
+        
       >
         <TextField
           register={register}
