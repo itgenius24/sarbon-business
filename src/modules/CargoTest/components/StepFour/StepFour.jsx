@@ -89,7 +89,7 @@ const StepFour = ({ status }) => {
     setValue(`price_prepayment_unit`, selectedOption);
   };
 
-  console.log(`currrenyOption`, currencyOptions);
+  console.log(`currrenyOption`, order_status?.[0]);
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
