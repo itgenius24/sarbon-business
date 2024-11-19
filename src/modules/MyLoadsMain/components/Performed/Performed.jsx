@@ -279,7 +279,7 @@ export const Performed = ({
                     leftIcon={<DeleteIcon />}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsDeletePopupOpen(true);
+                      // setIsDeletePopupOpen(true);
                     }}
                     className={styles.bntOutline}
                   >
@@ -316,6 +316,15 @@ export const Performed = ({
           )} */}
         </div>
       </div>
+      {/* <Popup
+          isOpen={isDeletePopupOpen}
+          onClose={() => setIsDeletePopupOpen(false)}
+          mainText={t("Вы уверены что хотите удалить груз ?", {
+            name: cargo?.short_name,
+          })}
+          status="delete"
+          btn2Callback={() => onDeleteAccept(cargo?.guid)}
+        /> */}
     </div>
   );
 };

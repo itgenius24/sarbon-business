@@ -313,8 +313,6 @@ export const LoadsCard = forwardRef(
                   <div className={cls.rightContend}></div>
                 </div>
               )}
-
-          
             </div>
           </div>
         </div>
@@ -687,6 +685,15 @@ export const LoadsCard = forwardRef(
         {/* <span className={clsx(cls.addressStatusMobile, cls[status])}>
           {statuses[status]}hey
         </span> */}
+        <Popup
+          isOpen={isDeletePopupOpen}
+          onClose={() => setIsDeletePopupOpen(false)}
+          mainText={t("Вы уверены что хотите удалить груз ?", {
+            name: cargo?.short_name,
+          })}
+          status="delete"
+          btn2Callback={() => onDeleteAccept(cargo?.guid)}
+        />
       </>
     );
   }
