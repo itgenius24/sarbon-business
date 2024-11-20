@@ -320,7 +320,6 @@ export const useGpsTrackingProps = () => {
           (item) => item?.vehicles && item?.users_gps
         );
         if (
-          watch(`car_type`)?.value ||
           watch(`load_type_id`)?.value ||
           watch("weight") ||
           watch("volume")
@@ -406,15 +405,26 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
 
+   const carTypeDataFIlter = uniqueData.filter(
+    (item) =>
+      item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
+      watch(`car_type`)?.value
+  )
+
   const getCarListProps = useMemo(() => {
-    return { data: watch("users_id") ? dataUserDataID : uniqueData };
+    return { data: watch("users_id") ? dataUserDataID : watch(`car_type`)?.value ? carTypeDataFIlter : uniqueData };
   }, [
     watch("users_id"),
+    watch(`car_type`)?.value,
     dataUserID,
     filteredData,
     carsArr?.length,
     uniqueData,
   ]);
+
+
+
+  console.log(`carTypeDataFIlter`, carTypeDataFIlter);
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
@@ -425,8 +435,6 @@ export const useGpsTrackingProps = () => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
-
-  console.log(`salom`, getCarListProps);
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
@@ -496,7 +504,7 @@ export const useGpsTrackingProps = () => {
             lat: watch("cor")?.split(",")[0],
             long: watch("cor")?.split(",")[1],
             number: distance * 4 || 100,
-            car_type_id: watch("car_type")?.value,
+            // car_type_id: watch("car_type")?.value,
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
@@ -526,7 +534,7 @@ export const useGpsTrackingProps = () => {
   }, [
     watch("cor")?.split(",")[0],
     debouncedValue,
-    watch("car_type")?.value,
+    // watch("car_type")?.value,
     watch("load_type_id")?.value,
     watch("weight"),
     watch("volume"),
@@ -560,7 +568,7 @@ export const useGpsTrackingProps = () => {
           lat,
           long,
           number: distance || "100",
-          car_type_id: watch("car_type")?.value,
+          // car_type_id: watch("car_type")?.value,
           load_type_id: watch("load_type_id")?.value,
           weight: watch("weight"),
           volume: watch("volume"),

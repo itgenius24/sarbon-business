@@ -23,6 +23,7 @@ import { TextField } from "@/components/TextField";
 import { UploadImg } from "@/components/UploadImg";
 import {
   CheckModalIcon,
+  ErroModalIcon,
   EyeIcon,
   EyeIconOff,
   Img3UploadIcon,
@@ -47,6 +48,8 @@ export const DriversModule = () => {
     router,
     locale,
     copyFunction,
+    open,
+    setOpen,
   } = useMyCars();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -268,6 +271,33 @@ export const DriversModule = () => {
               >
                 Отправить как смс
               </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        <Modal isOpen={open} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
+              <ErroModalIcon />
+            </ModalHeader>
+            <ModalCloseButton onClick={() => setOpen(false)} />
+            <ModalBody>
+              <p style={{ fontWeight: 600, fontSize: "18px" }}>
+                Водитель с номером {watch(`phone`)} уже регистрирован в Furgo.
+              </p>
+          
+
+             <Box mt={`24px`}>
+             <p style={{ fontWeight: 400, fontSize: "14px",lineHeight:`20px` }}>
+                Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей 
+                 <a style={{color:`rgba(0, 122, 255, 1)`,cursor:`pointer`}}> службой поддержки</a>
+              </p>
+             </Box>
+            </ModalBody>
+
+            <ModalFooter>
+          
+         
             </ModalFooter>
           </ModalContent>
         </Modal>

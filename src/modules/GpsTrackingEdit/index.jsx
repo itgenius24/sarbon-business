@@ -148,7 +148,6 @@ export default function GpsTrackingModuleTets() {
   // function copyFunction() {
   // }
 
-  console.log(`loadHoverState`,loadHoverState)
 
   const BalloonContent = () => (
     <div id="balloon-content" className={cls.balloon_content_empty}>
@@ -289,7 +288,6 @@ export default function GpsTrackingModuleTets() {
     </div>
   );
 
-  console.log(`loadHoverState`,contendHoverState)
 
   const BalloonContentCargo = () => (
     <div id="balloon-content_cargo" className={cls.balloon_content_empty}>
@@ -356,6 +354,7 @@ export default function GpsTrackingModuleTets() {
     <BalloonContentCargo />
   );
 
+  
   const { t } = useTranslation(locale, "translations");
   return (
     <>
@@ -369,7 +368,7 @@ export default function GpsTrackingModuleTets() {
           balloonContent={balloonContent}
           balloonContentCargo={balloonContentCargo}
           handleMouseEnter={handleMouseEnter}
-          locationData={locationData}
+          locationData={ loadCheck ? locationData : []}
           setLoadState={setLoadState}
           setModalType={setModalType}
           handleMouseEnterCargo={handleMouseEnterCargo}

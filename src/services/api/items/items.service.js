@@ -21,6 +21,7 @@ const itemsService = {
   deleteVehicle: (data) => request.delete(`/v2/items/vehicle/${data.id}`, {data:JSON.stringify({data:{}})}),
   deleteUsers: (data) => request.delete(`/v2/items/users/${data.id}`, {data:JSON.stringify({data:{}})}),
   createUser: (data) => request.post("/v2/items/users", data),
+  checkUser: (data) => request.post("/v2/object/get-list/users", data),
   getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
@@ -135,6 +136,10 @@ export const useDeleteUsers = (mutationSettings) => {
 
 export const useCreateUser = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createUser(data), ...mutationSettings });
+};
+
+export const useCheckUser = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.checkUser(data), ...mutationSettings });
 };
 
 export const useUpdateUser = (mutationSettings) => {

@@ -91,7 +91,7 @@ const StepFive = ({ status }) => {
     }
   }, [paymentOptions]);
 
-  console.log(`referencePoints`, loadings);
+ 
 
   const getLoadings =
     (loadings?.length > 0 &&
@@ -229,7 +229,6 @@ const StepFive = ({ status }) => {
 
         //step4
 
-        guid: check ? watch(`loadResId`) : undefined,
         money_code: check ? getTrueKeys(mone) : undefined,
         bid_cash: check ? undefined : +watch("price"),
         prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
@@ -470,7 +469,7 @@ const StepFive = ({ status }) => {
           >
             <Button
               // isDisabled={!watch("accept") || isClicked}
-              isLoading={loading}
+              isLoading={createCargo.isPending || createAddress.isPending}
               size="md"
               maxWidth="223px"
               onClick={onSubmitF}

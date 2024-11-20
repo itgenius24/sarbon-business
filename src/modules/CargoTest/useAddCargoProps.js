@@ -667,10 +667,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       guid: id,
     };
 
-    updateCargo.mutate({data});
+    updateCargo.mutate({ data });
   };
-
-  function onSubmit(data) {
+  const getTrueKeys = (obj) => {
+    return Object.keys(obj).filter((key) => obj[key] === true);
+  };
+  function onSubmit(datae) {
     setIsClicked(true);
     if (!authStore.isAuth) {
       toast({
@@ -718,26 +720,27 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         pneumatic: watch("pneumatic") || false,
         bunks: watch("bunks") || false,
         // guid: watch(`loadResId`),
-        bid_cash: +watch("price"),
-        prepayment_percentage: +watch(`price_prepayment`),
-        dim_length_special: watch("price_after_order"),
-        payment_description: watch("payment_description"),
-        currency_id: watch("price_prepayment_unit").value,
-        map_id: watch("payment_type")?.value,
-        map_id_2: watch("payment_type_1")?.value,
-        map_id_3: watch("payment_type_2")?.value,
+        money_code: check ? getTrueKeys(mone) : undefined,
+        bid_cash: check ? undefined : +watch("price"),
+        prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
+        dim_length_special: check ? undefined : watch("price_after_order"),
+        payment_description: check ? undefined : watch("payment_description"),
+        currency_id: check ? undefined : watch("price_prepayment_unit").value,
+        map_id: check ? undefined : watch("payment_type")?.value,
+        map_id_2: check ? undefined : watch("payment_type_1")?.value,
+        map_id_3: check ? undefined : watch("payment_type_2")?.value,
 
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
         payment_type: watch("payment_type")?.label,
 
-
         // guid: watch(`loadResId`),
 
-        load_time: getValues("loadings")[0].from_date,
-        date: new Date(
-          getValues("unloading")[getValues("unloading").length - 1].to_date
-        ),
+        load_time: getValues("loadings")[0].from_date || new Date(),
+        date:
+          new Date(
+            getValues("unloading")[getValues("unloading").length - 1].to_date
+          ) || new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         cargo_type: ["cargo"],
@@ -871,6 +874,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     setPrepaymentFuelOpen(false);
     setDirectContractOpen(false);
     setValue(`cargoIndex`, 1);
+    setValue(`money_code`, undefined);
+    setCheck(false)
   }
 
   function resetForm(data, id) {
@@ -907,6 +912,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     if (data && id) {
       setStartDate(new Date(data?.load_time || new Date()));
       setEndDate(new Date(data?.date || new Date()));
+      if(data?.money_code){
+        setCheck(true)
+      }
       reset({
         file_1: data.file_1,
         file_2: data.file_2,
@@ -938,7 +946,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         order_status:
           data.order_status?.[0] === `in_active`
             ? { label: t(`Не активен`), value: `in_active` }
-            : { label: t(`Активный`), value: `active` },
+            : data.order_status?.[0] === `active`
+            ? { label: t(`Активный`), value: `active` }
+            : { label: t(`В модерации:`), value: `in_moderation` },
         transport_count: data.number_of_cars,
         is_ftl: data.take_all_unloads ?? false,
         is_ltl: data.load_around_the_clock ?? false,
@@ -1007,6 +1017,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           value: data?.load_type_id_data?.guid,
           label: data?.load_type_id_data?.name,
         },
+        money_code: data?.money_code,
       });
     }
   }
@@ -1194,7 +1205,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDelete,
     handleCancel,
     handleAccept,
-    order_status: status === `active` ?  data?.order_status : ``,
+    order_status: status === `active` ? data?.order_status : ``,
     address1: data?.from
       ? data?.from
       : data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
@@ -1273,6 +1284,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     mone,
     setMoney,
     check,
+    getTrueKeys,
     setCheck,
     loadings: watch(`loadings`),
     updateStatus,

@@ -191,7 +191,7 @@ const useStepTwoProps = () => {
     }
     setValue(
       name,
-      `${location?.GeoObject?.name}, ${location?.GeoObject?.description}`
+      `${location?.GeoObject?.name}, ${location?.GeoObject?.description ? location?.GeoObject?.description :``}`
     );
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();

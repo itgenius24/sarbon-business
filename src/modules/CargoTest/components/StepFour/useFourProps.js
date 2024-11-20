@@ -7,12 +7,23 @@ import {
 } from "@/services/api";
 
 const useFourProps = () => {
-  const { register, control, errors, setValue, watch, canEdit, canEditActive,mone, setMoney,  check, setCheck,order_status} =
-    useAddCargoContext();
-  const [disabled,setDisabled] = useState(true)
+  const {
+    register,
+    control,
+    errors,
+    setValue,
+    watch,
+    canEdit,
+    canEditActive,
+    mone,
+    setMoney,
+    check,
+    setCheck,
+    order_status,
+  } = useAddCargoContext();
+  const [disabled, setDisabled] = useState(true);
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
-
 
   useEffect(() => {
     setMoney({
@@ -34,38 +45,34 @@ const useFourProps = () => {
     watch(`free_nds`),
   ]);
 
-  const getTrueKeys = (obj) => {
-    return Object.keys(obj).filter((key) => obj[key] === true);
-  };
+  console.log(`mone`,mone)
 
+ 
   const currencyOptions = getCurrency.data?.response?.map((item) => ({
     label: item?.name,
     value: item?.guid,
   }));
 
-  const paymentOptions = getPaymentType.data?.response?.slice(0,2)?.map((item) => ({
-    label: item?.payment_type,
-    value: item?.guid,
-  }));
-
-
-
+  const paymentOptions = getPaymentType.data?.response
+    ?.slice(0, 2)
+    ?.map((item) => ({
+      label: item?.payment_type,
+      value: item?.guid,
+    }));
 
   useEffect(() => {
-    if(watch("price_after_order")|| check) {
-      setDisabled(false)
-    } else{
-      setDisabled(true)
+    if (watch("price_after_order") || check) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
     }
-  },[watch("price_after_order"),check])
-
+  }, [watch("price_after_order"), check]);
 
   useEffect(() => {
-    if(watch("price") && !watch("prepayment")) {
+    if (watch("price") && !watch("prepayment")) {
       setValue("price_after_order", watch("price"));
     } else if (!watch("price") || !watch("price_prepayment")) {
       setValue("price_after_order", ``);
-
     } else if (watch("price") && watch("price_prepayment") && canEdit) {
       setValue("price_after_order", watch("price") - watch("price_prepayment"));
     }
@@ -74,19 +81,16 @@ const useFourProps = () => {
     //  }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch("price")?.length, watch("price_prepayment"),watch("prepayment")]);
-
-
+  }, [watch("price")?.length, watch("price_prepayment"), watch("prepayment")]);
 
   const updateCargo = useUpdateCargo({
     onSuccess: () => {
-      setValue(`cargoIndex`,5)
-
+      setValue(`cargoIndex`, 5);
     },
   });
 
   const onSubmit = () => {
-    setValue(`cargoIndex`,5)
+    setValue(`cargoIndex`, 5);
     // const requestData = check
     //   ? {
     //     data: {
@@ -126,6 +130,7 @@ const useFourProps = () => {
     order_status,
     canEditActive,
     onSubmit,
+    mone
   };
 };
 

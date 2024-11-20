@@ -214,9 +214,12 @@ export const CargoViews = observer(({ id, status, locale }) => {
               mb={`26px`}
               width={`fit-content`}
               onClick={() =>
+             {
+              addCargoProps.handleResetForm();
                 (window.location.href = `${
                   window.location.origin
                 }/${`${locale}/my-loads`}`)
+             }
               }
             >
               Вернутся в список
@@ -452,9 +455,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                       maxWidth="323px"
                       paddingLeft={`30px`}
                       paddingRight={`30px`}
-                      onClick={addCargoProps.handleSubmit(
-                        addCargoProps.onSubmit
-                      )}
+                      onClick={addCargoProps.onSubmit}
                     >
                       {t("Сохранить изменения")}
                     </Button>

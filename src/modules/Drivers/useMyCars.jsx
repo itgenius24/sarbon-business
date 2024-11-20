@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCheckUser,
   useCreateUser,
   useGetAddress,
   useGetCarListOnSubmit,
@@ -42,8 +43,15 @@ export const useMyCars = () => {
     formState: { errors },
     reset,
     setValue,
+    getValues,
   } = useForm({});
-const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`));
+  const [isCopied, setCopied] = useClipboard(
+    JSON.stringify(
+      `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`
+    )
+  );
+
+  const [open,setOpen] = useState(false)
 
   const firm_id = authStore.userData.firm_id;
 
@@ -51,6 +59,25 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
     onSuccess: (res) => {
       // router.push(`/${locale}/drivers`);
       setIsPopupOpen(true);
+    },
+  });
+
+  const { mutate: checkUserData } = useCheckUser({
+    onSuccess: (res) => {
+      console.log(res);
+      if (res?.count === 0) {
+        mutate({
+          data: {
+            ...getValues(),
+            login: getValues().full_name,
+            firm_id,
+            role_id: "921464fa-8308-46b7-9b66-363acf654e40",
+            client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+          },
+        });
+      }else{
+        setOpen(true)
+      }
     },
   });
 
@@ -72,7 +99,7 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
     },
   });
 
-   console.log("getUserGps",getUserGps)
+  console.log("getUserGps", getUserGps);
 
   useEffect(() => {
     if (id) {
@@ -102,13 +129,9 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
         },
       });
     } else {
-      mutate({
+      checkUserData({
         data: {
-          ...val,
-          login: val.full_name,
-          firm_id,
-          role_id: "921464fa-8308-46b7-9b66-363acf654e40",
-          client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+          phone: val?.phone,
         },
       });
     }
@@ -133,7 +156,7 @@ const [isCopied, setCopied] = useClipboard(JSON.stringify(`Его логин: ${
     isPopupOpen,
     id,
     copyFunction,
+    open,
+    setOpen
   };
 };
-
-"Его логин: +998999654132;  Его пароль: 123456"

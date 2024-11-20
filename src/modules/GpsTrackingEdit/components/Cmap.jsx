@@ -194,11 +194,10 @@ const Cmap = memo(
             },
           }}
         >
+       
           {getCarListProps?.data &&
             getCarListProps?.data?.map((carInfo) => {
-              {
-                console.log(`carInfo`,carInfo)
-              }
+              
               const BalloonContent = () => (
                 <div id="balloon-content" className={cls.balloon_content_empty}>
                   <div className={cls.wrap} style={{ height: "45px" }}>
@@ -211,7 +210,7 @@ const Cmap = memo(
                       <>
                         <BluePendingIcon />
                         <span
-                          style={{ color: "rgba(0, 122, 255, 1)" }}
+                          style={{ color: "rgba(0, 122, 255, 1)"}}
                           className={cls.balloonName}
                         >
                           Ожидание
@@ -256,7 +255,7 @@ const Cmap = memo(
 
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
-                        <StoneIcon /> <span> {carInfo?.orders?.[0]?.cargo_id_data?.weight} т.</span>
+                        <StoneIcon /> <span> {carInfo?.vehicles?.[0]?.height} т.</span>
                       </Box>
 
                       <Box
@@ -264,7 +263,7 @@ const Cmap = memo(
                         gap={1}
                         alignItems={"center"}
                       >
-                        <LoadOulineIcon /> <span>{carInfo?.orders?.[0]?.cargo_id_data?.volume_m3} m3</span>
+                        <LoadOulineIcon /> <span>{carInfo?.vehicles?.[0]?.capacity} m3</span>
                       </Box>
                     </div>
                   </div>

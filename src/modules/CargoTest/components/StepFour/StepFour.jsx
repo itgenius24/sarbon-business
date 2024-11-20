@@ -35,12 +35,11 @@ const StepFour = ({ status }) => {
     order_status,
     canEditActive,
     onSubmit,
+    mone,
   } = useFourProps({});
   const { t } = useTranslation();
 
-  const params  = usePathname()
-
-
+  const params = usePathname();
 
   const [disabledP, setDisabledP] = useState(true);
 
@@ -53,10 +52,10 @@ const StepFour = ({ status }) => {
   }, [canEdit, watch(`prepayment`)]);
 
   useEffect(() => {
-    if(!watch(`prepayment_percentage`) && params.includes("my-loads")){
-      setValue(`prepayment`,true)
+    if (!watch(`prepayment_percentage`) && params.includes("my-loads")) {
+      setValue(`prepayment`, true);
     }
-  },[])
+  }, []);
 
   const negotiableOption = [
     {
@@ -72,14 +71,12 @@ const StepFour = ({ status }) => {
       value: `request`,
     },
   ];
-  console.log(`salom`,watch(`price_prepayment_unit`)?.label)
 
   useEffect(() => {
-    if(!watch(`price_prepayment_unit`)?.label){
+    if (!watch(`price_prepayment_unit`)?.label) {
       setValue(`price_prepayment_unit`, currencyOptions?.[2]);
-
     }
-  },[currencyOptions?.length])
+  }, [currencyOptions?.length]);
 
   const onChange = (e) => {
     setValueR(e);
@@ -88,8 +85,6 @@ const StepFour = ({ status }) => {
     )[0];
     setValue(`price_prepayment_unit`, selectedOption);
   };
-
-  console.log(`currrenyOption`, order_status?.[0]);
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
@@ -103,8 +98,28 @@ const StepFour = ({ status }) => {
       setCheck(true);
     }
     setValueR(e);
-  
   };
+
+  useEffect(() => {
+    if (watch(`money_code`)?.length > 0) {
+      console.log(`salomqale`, watch(`money_code`));
+      setValue(`negotiable`, false);
+      setValueR(`request`);
+      setCheck(true);
+
+      setTimeout(() => {
+        [`eur`, `free_nds`, `rub`, `spot`, `usd`, `uzs`, `with_nds`].forEach(
+          (item) => {
+            if (watch(`money_code`).includes(item)) {
+              setValue(item, true);
+            } else {
+              setValue(item, false);
+            }
+          }
+        );
+      },500)
+    }
+  }, [watch(`money_code`)?.length > 0]);
 
   return (
     <>
@@ -121,7 +136,9 @@ const StepFour = ({ status }) => {
                 <p className={cls.stepTitle}>Оплата</p>
                 {!check && !status && currencyOptions ? (
                   <RadioGroup
-                    defaultValue={watch(`price_prepayment_unit`)?.label|| `доллар`}// Set the default value
+                    defaultValue={
+                      watch(`price_prepayment_unit`)?.label || `доллар`
+                    } // Set the default value
                     onChange={(e) => onChange(e)}
                   >
                     <Flex gap={"19px"}>
@@ -137,7 +154,6 @@ const StepFour = ({ status }) => {
                               border: `5px solid rgba(0, 122, 255, 1)`,
                             }}
                           >
-
                             <span
                               className={
                                 watch(`price_prepayment_unit`)?.label ===
@@ -190,6 +206,7 @@ const StepFour = ({ status }) => {
                 <Flex alignItems={"center"} gap={3}>
                   <p>Запросить цену</p>
                   <Switch
+                  isChecked={check}
                     onChange={(e) => setCheck(e.target.checked)}
                     size={"md"}
                   />
@@ -214,7 +231,7 @@ const StepFour = ({ status }) => {
                       )}
                     </Flex>
                     <TextFieldWithAddition
-                      disabled={ order_status?.[0] === "active" || !canEdit}
+                      disabled={order_status?.[0] === "active" || !canEdit}
                       name="price"
                       register={register}
                       control={control}
@@ -235,13 +252,13 @@ const StepFour = ({ status }) => {
                         register={register}
                         name={`prepayment`}
                         defaultChecked={watch(`prepayment`)}
-                        isDisabled={ order_status?.[0] === "active" || !canEdit}
+                        isDisabled={order_status?.[0] === "active" || !canEdit}
                       >
                         Предоплата
                       </Checkbox>
                     </Flex>
                     <TextFieldWithAddition
-                      disabled={ order_status?.[0] === "active" || disabledP}
+                      disabled={order_status?.[0] === "active" || disabledP}
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -283,22 +300,23 @@ const StepFour = ({ status }) => {
                     </Box>
                   ) : (
                     <Box width={`100%`}>
-
                       <p className={cls.totalTEet}>
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
-                        {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`) : 0 ) } 
+                        {watch(`price_after_order`) -
+                          (watch(`price_prepayment`)
+                            ? watch(`price_prepayment`)
+                            : 0)}
 
                         {` ${
-                        watch(`price_prepayment_unit`)
-                          ?.label?.charAt(0)
-                          .toUpperCase() +
+                          watch(`price_prepayment_unit`)
+                            ?.label?.charAt(0)
+                            .toUpperCase() +
                           watch(`price_prepayment_unit`)
                             ?.label?.slice(1)
                             .toLowerCase()
-                        }`
-                        }
+                        }`}
                       </p>
                     </Box>
                   )}

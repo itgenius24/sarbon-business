@@ -11,8 +11,23 @@ import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
-import { Box, Button, Flex, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { statusColor } from "../../data";
+import { Popup } from "@/components/Popup";
+import { useState } from "react";
 
 export const Performed = ({
   cargo,
@@ -21,6 +36,7 @@ export const Performed = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
+  const [data, setData] = useState(false);
 
   const router = useRouter();
   const locale = useGetLang();
@@ -38,7 +54,16 @@ export const Performed = ({
     in_active: t("неактивен"),
   };
 
-  console.log(`perfomen`, cargo);
+  const obj = {
+    after_payment: `Оплата после завершения`,
+    prepayment: `Предоплата`,
+  };
+
+  console.log(`data`, data);
+
+  const onClose = () => {
+    setData(false);
+  };
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
@@ -114,7 +139,10 @@ export const Performed = ({
           <div className={styles.rightContend}>
             <div className={styles.text}>
               <p className={styles.rightTitle}>
-                Тип оплаты: {cargo?.payment_type ? cargo?.payment_type : cargo?.cargo_id_data?.payment_type}
+                Тип оплаты:
+                {cargo?.payment_type
+                  ? obj[cargo?.payment_type?.[0]]
+                  : cargo?.cargo_id_data?.payment_type}
               </p>
               <p className={styles.rightTitle}>
                 Предоплата:
@@ -124,8 +152,11 @@ export const Performed = ({
             <div className={styles.text}>
               <p className={styles.rightTitle}>Общая сумма</p>
               <p className={styles.totalSum}>
-                {cargo?.offers || cargo?.cargo_id_data?.bid_cash}{" "}
-                {cargo?.currency_id_data?.code}
+                {cargo?.offers || cargo?.cargo_id_data?.bid_cash
+                  ? `${cargo?.offers || cargo?.cargo_id_data?.bid_cash}  ${
+                      cargo?.currency_id_data?.code || ``
+                    }`
+                  : `По запросу`}
               </p>
             </div>
           </div>
@@ -135,7 +166,7 @@ export const Performed = ({
             <div className={styles.cardItem}>
               <span className={styles.cardBodyTitle}>Водитель</span>
               <p className={styles.cardName}>
-                {cargo?.users_id_data?.full_name}{" "}
+                {cargo?.users_id_data?.full_name}
                 {cargo?.users_id_data?.rating > 0
                   ? `+${cargo?.users_id_data?.rating}`
                   : ``}
@@ -145,18 +176,19 @@ export const Performed = ({
               <span className={styles.cardBodyTitle}>Телефон</span>
               <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
             </div>
-            {(orderStatus === `new` ||
-              orderStatus === `cancellation`) && (
-                <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>Сообщение</span>
-                  <p className={styles.cardName}  dangerouslySetInnerHTML={{
-                          __html:
-                          cargo?.comment
-                        }}>
-                    {/* {cargo?.comment} */}
-                  </p>
-                </div>
-              )}
+            {(orderStatus === `new` || orderStatus === `cancellation`) && (
+              <div className={styles.cardItem}>
+                <span className={styles.cardBodyTitle}>Сообщение</span>
+                <p
+                  className={styles.cardName}
+                  dangerouslySetInnerHTML={{
+                    __html: cargo?.comment,
+                  }}
+                >
+                  {/* {cargo?.comment} */}
+                </p>
+              </div>
+            )}
             {orderStatus !== `new` && orderStatus !== `cancellation` && (
               <div className={styles.cardItem}>
                 <span className={styles.cardBodyTitle}>Статус</span>
@@ -266,7 +298,7 @@ export const Performed = ({
                       leftIcon={<IconCeckNewStatusIcon />}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleAccept(cargo.guid, cargo.users_id_2);
+                        setData(cargo);
                       }}
                       className={styles.bntNew}
                     >
@@ -316,15 +348,83 @@ export const Performed = ({
           )} */}
         </div>
       </div>
-      {/* <Popup
-          isOpen={isDeletePopupOpen}
-          onClose={() => setIsDeletePopupOpen(false)}
-          mainText={t("Вы уверены что хотите удалить груз ?", {
-            name: cargo?.short_name,
-          })}
-          status="delete"
-          btn2Callback={() => onDeleteAccept(cargo?.guid)}
-        /> */}
+      <Modal isOpen={data} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <ModalCloseButton />
+          </ModalHeader>
+          <ModalBody>
+            <Text fontSize={`18px`}>
+              Принять предложение от {data?.users_id_data?.full_name}?
+            </Text>
+
+            <Flex
+              mt={`25px`}
+              justifyContent={`space-between`}
+              alignItems={`center`}
+            >
+              <Box>
+                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
+                  Тип оплаты
+                </p>
+                <p style={{ fontWeight: 600 }} className={styles.title}>
+                  {data?.payment_type
+                    ? obj[data?.payment_type?.[0]]
+                    : data?.cargo_id_data?.payment_type}
+                </p>
+              </Box>
+              <Box>
+                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
+                  Предоплата
+                </p>
+                <p style={{ fontWeight: 600 }} className={styles.title}>
+                  {data?.payment_type?.[0] === "prepayment"
+                    ? `${data?.prepayment} ${data?.currency_id_data?.code}`
+                    : 0}
+                  
+                </p>
+              </Box>
+              <Box>
+                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
+                  Общая сумма
+                </p>
+                <p style={{ fontWeight: 600 }} className={styles.title}>
+                {data?.offers}  {data?.currency_id_data?.code}
+                </p>
+              </Box>
+            </Flex>
+          </ModalBody>
+          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="25px">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+                // handleCancel(cargo.guid);
+              }}
+              className={styles.bntOutline}
+              style={{
+                background: `#fff`,
+                border: `1px solid rgba(208, 213, 221, 1)`,
+                color: `black`,
+              }}
+            >
+              {t(`Отказать`)}
+            </Button>
+            <Button
+              style={{ background: `rgba(21, 186, 77, 1)` }}
+              leftIcon={<IconCeckNewStatusIcon />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAccept(data.guid, data.users_id_2);
+              }}
+              className={styles.bntNew}
+            >
+              {t(`Да, принять`)}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

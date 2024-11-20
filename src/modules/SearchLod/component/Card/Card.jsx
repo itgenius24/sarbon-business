@@ -20,8 +20,7 @@ export const Card = ({ item, cls, ...props }) => {
       item === `new_proposal_from_director`
   );
 
-  console.log(`data`,data)
- 
+  console.log(`data`, data);
 
   return (
     <Flex
@@ -91,8 +90,9 @@ export const Card = ({ item, cls, ...props }) => {
               )}
               <br />
               <span className={cls.subTitle}>
-                {item?.cargo?.load_time &&
-                  format(item?.cargo?.load_time, `yyyy-MM-dd`)}{" "}
+                {item?.cargo?.load_time
+                  ? format(item?.cargo?.load_time, `yyyy-MM-dd`)
+                  : `Как можно скорее`}
                 ~ 3450 km
               </span>
             </p>
@@ -138,7 +138,9 @@ export const Card = ({ item, cls, ...props }) => {
               )}{" "}
               <br />
               <span className={cls.subTitle}>
-                {item?.cargo?.date && format(item?.cargo?.date, `yyyy-MM-dd`)}
+                {item?.cargo?.date
+                  ? format(item?.cargo?.date, `yyyy-MM-dd`)
+                  : `Как можно скорее`}
               </span>
             </p>
           </Box>
@@ -162,20 +164,29 @@ export const Card = ({ item, cls, ...props }) => {
         <span className={cls.subTitle}>Задняя</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
-        <p className={cls.title}>
-          {item?.cargo?.bid_cash} {item.cargo?.currency_id_data?.code}
-          <span className={cls.subTitle1}>
-            {item?.cargo?.map_id_data?.payment_type
-              ? ` ${item?.cargo?.map_id_data?.payment_type}`
-              : ` Безнал`}
-          </span>
-        </p>
-        <span className={cls.subTitle}>
-          Предопл.{" "}
-          {item?.cargo?.prepayment_percentage > 0
-            ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}`
-            : `Нет`}{" "}
-        </span>
+        {item?.cargo?.bid_cash ? (
+          <>
+            <p className={cls.title}>
+              {item?.cargo?.bid_cash} {item.cargo?.currency_id_data?.code}
+              <span className={cls.subTitle1}>
+                {item?.cargo?.map_id_data?.payment_type
+                  ? ` ${item?.cargo?.map_id_data?.payment_type}`
+                  : ` Безнал`}
+              </span>
+            </p>
+            <span className={cls.subTitle}>
+              Предопл.{" "}
+              {item?.cargo?.prepayment_percentage > 0
+                ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}`
+                : `Нет`}{" "}
+            </span>
+          </>
+        ) : (
+          <>
+            <p className={cls.title}>По запросу</p>
+            <span className={cls.subTitle}>Предопл. По запросу</span>
+          </>
+        )}
       </Box>
       <Box className={`${cls.contend} ${cls.contend6}`}>
         <Flex alignItems={`flex-start`} gap={1}>

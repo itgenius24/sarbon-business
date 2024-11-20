@@ -55,10 +55,14 @@ export const useMyLoadsMainProps = () => {
     orderStatus === "in_moderation" ||
     orderStatus === `in_active`;
 
+    console.log(`orderStatus22`,orderStatus)
+
   if (orderStatus === "approve_from_driver") {
     const data = JSON.parse(getCargoFilterParams.data);
-    data.response_status = [orderStatus];
-    data.provisions = ["new"];
+    // data.response_status = [orderStatus];
+    // data.provisions = ["new"];
+    data.provisions=["new","approve_from_driver"],
+
     getCargoFilterParams.data = JSON.stringify(data);
   } else if (
     orderStatus === "performed" ||
@@ -119,8 +123,8 @@ export const useMyLoadsMainProps = () => {
       data: JSON.stringify({
         users_id_2: userId,
         with_relations: true,
-        response_status: ["approve_from_driver"],
-        provisions: ["new"],
+        // response_status: ["approve_from_driver"],
+        provisions: ["new","approve_from_driver"],
       }),
     },
     { enabled: false }

@@ -41,7 +41,7 @@ import { ModalS } from "@/components/Modal";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const [cargoIndex, setCargoIndex] = useState(1);
-  const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
+  const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex, });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
@@ -226,7 +226,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   >
                     {addCargoProps.watch(`cargoIndex`) === 4 ? (
                       <CricleBlueIcon />
-                    ) : addCargoProps.watch("price") ? (
+                    ) : (addCargoProps.watch("price") || addCargoProps.check) ? (
                       <CheckIconStep />
                     ) : (
                       <CricleIcon />
@@ -234,7 +234,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     <div className={cls.text}>
                       <p>4. Оплата</p>
                       <span>
-                        {addCargoProps.watch(`price_after_order`)
+                        {addCargoProps.check ? addCargoProps.getTrueKeys(addCargoProps.mone)?.join(`,`) : addCargoProps.watch(`price_after_order`) 
                           ? addCargoProps.watch(`price`) || 0
                           : `не заполнено`}
                       </span>

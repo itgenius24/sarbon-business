@@ -159,9 +159,9 @@ export const LoadsCard = forwardRef(
                   </p>
                 </div>
                 <div className={cls.text}>
-                  <p className={cls.rightTitle}>Общая сумма</p>
+                  <p className={cls.rightTitle}>Общая сумма</p> 
                   <p className={cls.totalSum}>
-                    {cargo?.bid_cash || 0} {cargo?.currency_id_data?.code}
+                    {cargo?.bid_cash  ? `${cargo?.bid_cash}  ${cargo?.currency_id_data?.code}` : `По запросу` }
                   </p>
                 </div>
               </div>

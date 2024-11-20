@@ -275,6 +275,7 @@ class Store {
       medic_certificate: false,
       permission: [],
       straps_number: "",
+      money_code:``
     };
     this.startDate = "";
     this.endDate = "";
