@@ -23,25 +23,23 @@ import { TextField } from "@/components/TextField";
 import { useState } from "react";
 
 export const SearchLoadDispatcherModule = () => {
-  const { t, setValue, register, watch } = useSearchLoadDispatcher();
-  const router = useRouter();
-  const locale = useGetLang();
-  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  const {
+    t,
+    setValue,
+    register,
+    watch,
+    negotiableOption,
+    isLargerThan845,
+    data,
+    addPage,
+    nameFilter,
+    tipFilter,
+    isPending,
+    onFilterChange,
+    handleCheckboxChange,
+    ids
+  } = useSearchLoadDispatcher();
 
-  const negotiableOption = [
-    {
-      value: `val1`,
-      label: t(`Отображать все (682)`),
-    },
-    {
-      value: `val2`,
-      label: t(`Только свободные (349)`),
-    },
-    {
-      value: `val3`,
-      label: t(`Только мои водители (36)`),
-    },
-  ];
 
   const [value, setValueR] = useState(`val1`);
   const onChange = (e) => {
@@ -63,17 +61,14 @@ export const SearchLoadDispatcherModule = () => {
           <Box width={`40%`}>
             <TextField
               register={register}
+              onChange={onFilterChange}
               name="from"
               placeholder={t(
                 "Имя водителя, диспетчера, номер машины или телефон"
               )}
             />
           </Box>
-          <RadioGroup
-            // isDisabled={!canEdit}
-            onChange={(e) => onChange(e)}
-            value={value}
-          >
+          <RadioGroup onChange={(e) => onChange(e)} value={value}>
             <Flex gap={"30px"}>
               {negotiableOption &&
                 negotiableOption.map((item) => (
@@ -101,7 +96,7 @@ export const SearchLoadDispatcherModule = () => {
             p={"10px 36px"}
             justifyContent={"space-between"}
             mt={"32px"}
-            width={"100%"}
+            // width={"100%"}
           >
             <Flex
               cursor={`pointer`}
@@ -109,6 +104,7 @@ export const SearchLoadDispatcherModule = () => {
               gap={2}
               justifyContent={`flex-start`}
               alignItems={`center`}
+              onClick={() => nameFilter()}
             >
               <p>Имя водителя</p>
               <IocnFilter />
@@ -122,6 +118,7 @@ export const SearchLoadDispatcherModule = () => {
               gap={2}
               justifyContent={`flex-start`}
               alignItems={`center`}
+              onClick={tipFilter}
             >
               <p style={{ color: `rgba(0, 122, 255, 1)` }}>тип Кузова</p>
               <IocnFilter />
@@ -131,12 +128,26 @@ export const SearchLoadDispatcherModule = () => {
             <p className={cls.th}>Диспетчер</p>
           </Flex>
         </Box>
-        <Box className={cls.TAbleWrap} background={`white`} minH={`70vh`}>
-          <CarsCard />
+        <Box className={cls.TAbleWrap} background={`white`} minH={`50vh`}>
+          {data?.map((item, index) => (
+            <CarsCard key={index} item={item} handleCheckboxChange={handleCheckboxChange} ids={ids} />
+          ))}
         </Box>
-        <Box padding={`30px`} background={`white`}>
-          <Button className={cls.btnLoad}>Загрузить еще 50</Button>
-        </Box>
+        <Flex alignItems={`center`} padding={`10px 30px`} background={`white`}>
+          <Box width={`40%`}>
+            <Button
+              isLoading={isPending}
+              onClick={addPage}
+              className={cls.btnLoad}
+            >
+              Загрузить еще 50
+            </Button>
+          </Box>
+          <Flex gap={`50px`} className={cls.addUser}>
+            <p className={cls.addText}>Выбрано: {ids?.length}</p>
+            <Button isDisabled={ids?.length === 0} className={cls.btnAddLoad}>Добавить к себе</Button>
+          </Flex>
+        </Flex>
       </Container>
     </>
   );

@@ -2,9 +2,25 @@
   border-top-right-radius: 12px;
   border-top-left-radius: 12px;
   background: white;
-  height: 100%;
+  max-height: calc(64vh - 30px);
   padding-bottom: 40px;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: relative;
+
+  &::-webkit-scrollbar-thumb{
+    background-color: rgb(134, 134, 134) !important;
+    border-radius: 8px;
+  }
 }
+
+
+.TAbleWrap::-webkit-scrollbar{
+  width: 5px;
+  
+  background-color: rgba(255, 0, 0, 0) !important;
+}
+
 .btnLoad{
   background: rgba(226, 228, 234, 1);
   font-size: 18px;
@@ -12,6 +28,26 @@
   border-radius: 12px;
   width: fit-content;
   
+}
+.addUser{
+  width: fit-content;
+   padding: 8px 16px;
+   border-radius: 8px;
+   align-items: center;
+   box-shadow: 0px 6px 12px 6px rgba(33, 31, 38, 0.14);
+
+   .addText{
+    font-weight: 600;
+    white-space:nowrap;
+    font-size: 18px;
+   }
+
+}
+
+.btnAddLoad{
+  border-radius: 8px;
+  background-color: rgba(0, 122, 255, 1);
+  color: white;
 }
 
 .countrWrap{
@@ -45,12 +81,14 @@
 //  margin-left: 5px;
   &:nth-child(1) {
     width: 300px;
+    
   }
   &:nth-child(2) {
     width: 300px;
   }
   &:nth-child(3) {
     width: 250px;
+    // background-color: red
   }
   &:nth-child(4) {
     width: 250px;
