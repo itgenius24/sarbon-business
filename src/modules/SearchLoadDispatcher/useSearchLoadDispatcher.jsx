@@ -14,7 +14,7 @@ export const useSearchLoadDispatcher = () => {
   const [data, setData] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(15);
+  const [limit, setLimit] = useState(30);
 
   const [ids, setId] = useState([]);
 
@@ -81,7 +81,7 @@ export const useSearchLoadDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(limit + 15);
+    setLimit(limit + 30);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
