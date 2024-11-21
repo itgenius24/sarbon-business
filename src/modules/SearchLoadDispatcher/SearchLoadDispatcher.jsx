@@ -140,7 +140,7 @@ export const SearchLoadDispatcherModule = () => {
               onClick={addPage}
               className={cls.btnLoad}
             >
-              Загрузить еще 50
+              Загрузить еще 30
             </Button>
           </Box>
           <Flex gap={`50px`} className={cls.addUser}>
