@@ -711,6 +711,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         // guid: watch(`loadResId`),
         vehicle_type_id: watch("car_type")?.value,
         number_of_cars: watch("transport_count"),
+        accepted_offers: watch("transport_count"),
         tir: watch("tir"),
         t1: watch("t1"),
         cmr: watch("cmr"),
