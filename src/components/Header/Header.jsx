@@ -59,7 +59,7 @@ const Header = observer(({ elements }) => {
         <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
-              {/* <Logo /> */}
+              <Logo />
             </Box>
 
             <Box className={cls.content}>
