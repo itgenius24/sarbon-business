@@ -31,7 +31,7 @@ export const CarsCard = ({ item, handleCheckboxChange,ids }) => {
   const locale = useGetLang();
 
   return (
-    <Flex  className={`${cls.cardWrap} ${ids.includes(item?.user?.guid) && cls.active} `}>
+    <Flex as={`label`}  for={item?.user?.guid} className={`${cls.cardWrap} ${ids.includes(item?.user?.guid) && cls.active} `}>
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <p className={cls.title}>{item?.user?.full_name}</p>
         <p className={cls.subTitle}>{item?.user?.phone}</p>
@@ -74,7 +74,7 @@ export const CarsCard = ({ item, handleCheckboxChange,ids }) => {
         <p className={cls.title}>
           <span className={cls.subTitle}>Без диспетчера</span>
         </p>
-        <Checkbox  onClick={() => handleCheckboxChange(item?.user?.guid)}></Checkbox>
+        <Checkbox id={item?.user?.guid}  onClick={() => handleCheckboxChange(item?.user?.guid)}></Checkbox>
       </Flex>
     </Flex>
   );

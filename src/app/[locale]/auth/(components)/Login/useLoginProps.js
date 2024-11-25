@@ -3,6 +3,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
+import { da } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { setCookie } from "nookies";
 import { useState } from "react";
@@ -47,7 +48,7 @@ export const useLoginProps = () => {
         user: {
           firm_id: data.user_data?.firm_id,
           full_name: data.user_data?.full_name,
-          id:data?.user_data.guid,
+          id: data?.user_data.guid,
           ...data?.user_data,
           client_id: data?.client_type?.id,
           role_id: data?.role?.id,
@@ -65,7 +66,11 @@ export const useLoginProps = () => {
         );
       }
 
-      router.push(`/${locale}`);
+      if (data?.role?.id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`) {
+        router.push(`/uz`);
+      } else {
+        router.push(`/${locale}`);
+      }
     },
     onError: (error) => {
       console.log(error);

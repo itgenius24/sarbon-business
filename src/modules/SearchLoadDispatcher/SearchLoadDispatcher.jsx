@@ -37,9 +37,10 @@ export const SearchLoadDispatcherModule = () => {
     isPending,
     onFilterChange,
     handleCheckboxChange,
-    ids
+    ids,
+    observerRef,
+    showButton,
   } = useSearchLoadDispatcher();
-
 
   const [value, setValueR] = useState(`val1`);
   const onChange = (e) => {
@@ -49,92 +50,114 @@ export const SearchLoadDispatcherModule = () => {
   return (
     <>
       <Container my="40px">
-        <Flex width={"100%"} justifyContent={"space-between"}>
-          <Heading
-            size={isLargerThan845 ? "md" : "sm"}
-            mb={isLargerThan845 ? "24px" : "12px"}
-          >
-            {t("Выбрать водителя")}
-          </Heading>
-        </Flex>
-        <Flex alignItems={`center`} justifyContent={`space-between`}>
-          <Box width={`40%`}>
-            <TextField
-              register={register}
-              onChange={onFilterChange}
-              name="from"
-              placeholder={t(
-                "Имя водителя, диспетчера, номер машины или телефон"
-              )}
-            />
-          </Box>
-          <RadioGroup onChange={(e) => onChange(e)} value={value}>
-            <Flex gap={"30px"}>
-              {negotiableOption &&
-                negotiableOption.map((item) => (
-                  <Radio
-                    key={item.value}
-                    border={"1px solid rgba(208, 213, 221, 1)"}
-                    value={item.value}
-                    size={"md"}
-                  >
-                    <span
-                      className={
-                        value === item.value ? cls.ActiveRadio : cls.radio
-                      }
-                    >
-                      {item?.label?.charAt(0).toUpperCase() +
-                        item?.label?.slice(1).toLowerCase()}
-                    </span>
-                  </Radio>
-                ))}
-            </Flex>
-          </RadioGroup>
-        </Flex>
-        <Box mt={"27px"}>
-          <Flex
-            p={"10px 36px"}
-            justifyContent={"space-between"}
-            mt={"32px"}
-            // width={"100%"}
-          >
-            <Flex
-              cursor={`pointer`}
-              className={cls.th}
-              gap={2}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-              onClick={() => nameFilter()}
+        <Box position={`relative`} height={`100%`}>
+          <Flex width={"100%"} justifyContent={"space-between"}>
+            <Heading
+              size={isLargerThan845 ? "md" : "sm"}
+              mb={isLargerThan845 ? "24px" : "12px"}
             >
-              <p>Имя водителя</p>
-              <IocnFilter />
-            </Flex>
-            <p className={cls.th}>Владелец машины</p>
-            <p className={cls.th}>Номер машины</p>
-
-            <Flex
-              cursor={`pointer`}
-              className={cls.th}
-              gap={2}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-              onClick={tipFilter}
-            >
-              <p style={{ color: `rgba(0, 122, 255, 1)` }}>тип Кузова</p>
-              <IocnFilter />
-            </Flex>
-            <p className={cls.th}>вес / объём</p>
-            <p className={cls.th}>был онлайн</p>
-            <p className={cls.th}>Диспетчер</p>
+              {t("Выбрать водителя")}
+            </Heading>
           </Flex>
-        </Box>
-        <Box className={cls.TAbleWrap} background={`white`} minH={`50vh`}>
-          {data?.map((item, index) => (
-            <CarsCard key={index} item={item} handleCheckboxChange={handleCheckboxChange} ids={ids} />
-          ))}
-        </Box>
-        <Flex alignItems={`center`} padding={`10px 30px`} background={`white`}>
-          <Box width={`40%`}>
+          <Flex alignItems={`center`} justifyContent={`space-between`}>
+            <Box width={`40%`}>
+              <TextField
+                register={register}
+                onChange={onFilterChange}
+                name="from"
+                placeholder={t(
+                  "Имя водителя, диспетчера, номер машины или телефон"
+                )}
+              />
+            </Box>
+            <RadioGroup onChange={(e) => onChange(e)} value={value}>
+              <Flex gap={"30px"}>
+                {negotiableOption &&
+                  negotiableOption.map((item) => (
+                    <Radio
+                      key={item.value}
+                      border={"1px solid rgba(208, 213, 221, 1)"}
+                      value={item.value}
+                      size={"md"}
+                    >
+                      <span
+                        className={
+                          value === item.value ? cls.ActiveRadio : cls.radio
+                        }
+                      >
+                        {item?.label?.charAt(0).toUpperCase() +
+                          item?.label?.slice(1).toLowerCase()}
+                      </span>
+                    </Radio>
+                  ))}
+              </Flex>
+            </RadioGroup>
+          </Flex>
+          <Box
+            position={`sticky`}
+            top={`0px`}
+            zIndex={`234567`}
+            background={`#F6F7F8`}
+            mt={"27px"}
+          >
+            <Flex
+              p={"10px 36px"}
+              justifyContent={"space-between"}
+              mt={"32px"}
+              // width={"100%"}
+            >
+              <Flex
+                cursor={`pointer`}
+                className={cls.th}
+                gap={2}
+                justifyContent={`flex-start`}
+                alignItems={`center`}
+                onClick={() => nameFilter()}
+              >
+                <p>Имя водителя</p>
+                <IocnFilter />
+              </Flex>
+              <p className={cls.th}>Владелец машины</p>
+              <p className={cls.th}>Номер машины</p>
+
+              <Flex
+                cursor={`pointer`}
+                className={cls.th}
+                gap={2}
+                justifyContent={`flex-start`}
+                alignItems={`center`}
+                onClick={tipFilter}
+              >
+                <p style={{ color: `rgba(0, 122, 255, 1)` }}>тип Кузова</p>
+                <IocnFilter />
+              </Flex>
+              <p className={cls.th}>вес / объём</p>
+              <p className={cls.th}>был онлайн</p>
+              <p className={cls.th}>Диспетчер</p>
+            </Flex>
+          </Box>
+          <Box
+            ref={observerRef}
+            id="wrap_card"
+            className={cls.TAbleWrap}
+            background={`white`}
+            minH={`60vh`}
+          >
+            {data?.map((item, index) => (
+              <CarsCard
+                key={index}
+                item={item}
+                handleCheckboxChange={handleCheckboxChange}
+                ids={ids}
+              />
+            ))}
+          </Box>
+          <Box
+            position={`absolute`}
+            zIndex={`876543`}
+            bottom={`20px`}
+            left={`32px`}
+          >
             <Button
               isLoading={isPending}
               onClick={addPage}
@@ -143,11 +166,21 @@ export const SearchLoadDispatcherModule = () => {
               Загрузить еще 30
             </Button>
           </Box>
-          <Flex gap={`50px`} className={cls.addUser}>
-            <p className={cls.addText}>Выбрано: {ids?.length}</p>
-            <Button isDisabled={ids?.length === 0} className={cls.btnAddLoad}>Добавить к себе</Button>
+          <Flex
+            className={cls.sticiy}
+            alignItems={`center`}
+            justifyContent={`center`}
+            padding={`10px 30px`}
+            background={`white`}
+          >
+            <Flex gap={`50px`} className={cls.addUser}>
+              <p className={cls.addText}>Выбрано: {ids?.length}</p>
+              <Button isDisabled={ids?.length === 0} className={cls.btnAddLoad}>
+                Добавить к себе
+              </Button>
+            </Flex>
           </Flex>
-        </Flex>
+        </Box>
       </Container>
     </>
   );

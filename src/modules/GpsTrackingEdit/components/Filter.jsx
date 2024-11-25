@@ -3,6 +3,7 @@ import { ChakraSelect } from "@/components/ChakraSelect";
 import { Checkbox } from "@/components/Checkbox";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+import { useTranslation } from "@/app/i18n/client";
 import {
   Box,
   Flex,
@@ -15,7 +16,7 @@ import React, { useState } from "react";
 
 const Filter = ({
   cls,
-  t,
+  locale,
   control,
   loadingOptions,
   watch,
@@ -35,6 +36,8 @@ const Filter = ({
   setLoadCheck,
   loadCheck
 }) => {
+  const { t } = useTranslation(locale);
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={4} alignItems={"flex-start"}>
@@ -45,22 +48,19 @@ const Filter = ({
           width={"100%"}
         >
           <Flex
-   
             onClick={() => {
-        
               setModalType(``);
             }}
             alignItems={"center"}
             gap={"10px"}
           >
-            <FilterIconBlack /> <span className={cls.filterText}>Фильтр</span>
+            <FilterIconBlack /> <span className={cls.filterText}>{t("Фильтр")}</span>
           </Flex>
-          <p onClick={() =>      handleClear()} className={cls.clearBtn}>Сбросить</p>
+          <p onClick={() => handleClear()} className={cls.clearBtn}>{t("Сбросить")}</p>
         </Flex>
         <Box className={cls.cardWrap}>
           <TextFieldWithAddition
             placeholder={t("Адрес")}
-            // required={true}
             rules={{ required: true }}
             label={t("Поиск в радиусе")}
             additionalItemTheme="white"
@@ -70,7 +70,6 @@ const Filter = ({
             onClick={() => handleOpenModal()}
             error={errors["address"]}
             onlyFieldDisabled={true}
-            // disabled={!canEdit}
             additionalItemPlaceholder={
               <span className={cls.additionalIcons}>
                 <LocationMarkIcon />
@@ -95,7 +94,7 @@ const Filter = ({
           </Slider>
         </Box>
         <Box className={cls.cardWrap}>
-          <p className={cls.checkCardTitle}>Отображать на карте</p>
+          <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
             <Checkbox
               width={"16px"}
@@ -103,7 +102,7 @@ const Filter = ({
               defaultChecked={checkboxStatuses.empty}
               onChange={() => handleCheckboxChange("empty")}
             >
-              Свободные машины
+              {t("Свободные машины")}
             </Checkbox>
 
             <Checkbox
@@ -112,7 +111,7 @@ const Filter = ({
               defaultChecked={checkboxStatuses.our_cargo}
               onChange={() => handleCheckboxChange("our_cargo")}
             >
-              Занятые с нашим грузом
+              {t("Занятые с нашим грузом")}
             </Checkbox>
 
             <Checkbox
@@ -121,7 +120,7 @@ const Filter = ({
               defaultChecked={checkboxStatuses.someone_cargo}
               onChange={() => handleCheckboxChange("someone_cargo")}
             >
-              Занятые с чужим грузом
+              {t("Занятые с чужим грузом")}
             </Checkbox>
 
             <Checkbox
@@ -130,17 +129,8 @@ const Filter = ({
               defaultChecked={checkboxStatuses.broke_down}
               onChange={() => handleCheckboxChange("broke_down")}
             >
-              Сломанные машины
+              {t("Сломанные машины")}
             </Checkbox>
-{/* 
-            <Checkbox
-              width={"16px"}
-              height={"16px"}
-              defaultChecked={checkboxStatuses.waiting_for_driver}
-              onChange={() => handleCheckboxChange("waiting_for_driver")}
-            >
-              В ожидании ответа
-            </Checkbox> */}
 
             <Checkbox
               width={"16px"}
@@ -148,7 +138,7 @@ const Filter = ({
               defaultChecked={loadCheck}
               onChange={() => setLoadCheck(!loadCheck)}
             >
-              Грузы
+              {t("Грузы")}
             </Checkbox>
           </Flex>
         </Box>
@@ -180,7 +170,7 @@ const Filter = ({
               clearable
             />
             <Box>
-              <p className={cls.checkCardTitle}>Поиск по водителю</p>
+              <p className={cls.checkCardTitle}>{t("Поиск по водителю")}</p>
               <ChakraSelect
                 options={getUserOption}
                 name="users_id"
@@ -191,7 +181,7 @@ const Filter = ({
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
-          <p className={cls.label}>Параметры груза</p>
+          <p className={cls.label}>{t("Параметры груза")}</p>
           <Flex gap={4}>
             <TextFieldWithAddition
               className={cls.textField}
@@ -200,7 +190,6 @@ const Filter = ({
               name="weight"
               register={register}
               additionalItemName="weight_unit"
-              // width="134px"
               placeholder={t("Вес")}
               type="number"
               zIndex={90}
@@ -211,7 +200,6 @@ const Filter = ({
               control={control}
               name="volume"
               register={register}
-              // width="134px"
               placeholder={t("Объем")}
               additionalItemPlaceholder="m³"
               type="number"

@@ -36,13 +36,14 @@ export const DriversList = () => {
             width={"fit-content"}
             leftIcon={<PlusIcon />}
           >
-            Добавить нового водителя
+            {t("Добавить нового водителя")}
           </Button>
         </Flex>
         <Box mt={"37px"}>
           {data?.length > 0 ? (
             data?.map((item) => (
               <CarsCard
+              t={t}
                 key={item.guid}
                 item={item}
                 handleDelete={handleDelete}
@@ -58,7 +59,7 @@ export const DriversList = () => {
               alignItems={`center`}
               justifyContent={`center`}
             >
-              У вас еще нет добавленных водителей
+              {t("У вас еще нет добавленных водителей")}
             </Flex>
           )}
         </Box>

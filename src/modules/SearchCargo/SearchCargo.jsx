@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@/components/Container";
+import { useTranslation } from "@/app/i18n/client";
 
 import {
   Box,
@@ -32,9 +33,9 @@ import {
 import { UploadImg } from "@/components/UploadImg";
 import { useState } from "react";
 
-export const SearchCargoModule = () => {
+export const SearchCargoModule = ({ locale }) => {
+  const { t } = useTranslation(locale);
   const {
-    t,
     setValue,
     register,
     watch,
@@ -50,10 +51,15 @@ export const SearchCargoModule = () => {
     setIsPopupOpen,
     isPopupOpen,
     adrOptions,
-    router,locale
+    router,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const rules = { required: { value: true, message: "Это поле обязательно для заполнения" }, };
+  const rules = { 
+    required: { 
+      value: true, 
+      message: t("Это поле обязательно для заполнения") 
+    }
+  };
   return (
     <>
       <Container my="40px">
@@ -72,7 +78,7 @@ export const SearchCargoModule = () => {
           >
             <Box className={cls.left}>
               <Box width={"100%"}>
-                <p className={cls.textFieldName}>Тип кузова *</p>
+                <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
                 <Dropdown
                   control={control}
                   required
@@ -118,7 +124,7 @@ export const SearchCargoModule = () => {
             <Box className={cls.regit}>
               <Flex width={`100%`} gap={"24px"}>
                 <Box>
-                  <p className={cls.textFieldName}>Грузоподъёмность, т *</p>
+                  <p className={cls.textFieldName}>{t("Грузоподъёмность, т")} *</p>
                   <TextFieldWithAddition
                     className={cls.textField}
                     errors={errors}
@@ -135,35 +141,35 @@ export const SearchCargoModule = () => {
                     zIndex={90}
                   />
                   <Flex ml={4} gap={`12px`} mt={2}>
-                    <span className={cls.subTitle}>Пример: </span>
+                    <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`capacity`, `7`)}
                       className={cls.quickWord}
                     >
-                      7т,
+                      7{t("т")},
                     </p>
                     <p
                       onClick={() => setValue(`capacity`, `10`)}
                       className={cls.quickWord}
                     >
-                      10т,
+                      10{t("т")},
                     </p>
                     <p
                       onClick={() => setValue(`capacity`, `20`)}
                       className={cls.quickWord}
                     >
-                      20т
+                      20{t("т")}
                     </p>
                     <p
                       onClick={() => setValue(`capacity`, `22`)}
                       className={cls.quickWord}
                     >
-                      22т
+                      22{t("т")}
                     </p>
                   </Flex>
                 </Box>
                 <Box>
-                  <p className={cls.textFieldName}>Объём кузова, м3 *</p>
+                  <p className={cls.textFieldName}>{t("Объём кузова, м3")} *</p>
                   <TextFieldWithAddition
                     className={cls.textField}
                     errors={errors}
@@ -179,24 +185,24 @@ export const SearchCargoModule = () => {
                     // additionalItemOptions={volumeMeasurementOptions}
                   />
                   <Flex ml={4} gap={`12px`} mt={2}>
-                    <span className={cls.subTitle}>Пример: </span>
+                    <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`height`, `20`)}
                       className={cls.quickWord}
                     >
-                      20м³,
+                      20{t("м³")},
                     </p>
                     <p
                       onClick={() => setValue(`height`, `40`)}
                       className={cls.quickWord}
                     >
-                      40м³,
+                      40{t("м³")},
                     </p>
                     <p
                       onClick={() => setValue(`height`, `43`)}
                       className={cls.quickWord}
                     >
-                      43м³
+                      43{t("м³")}
                     </p>
                   </Flex>
                 </Box>
@@ -206,7 +212,7 @@ export const SearchCargoModule = () => {
 
           <Flex gap={"10px"}>
             <Box width={`50%`} mt={`37px`}>
-              <p className={cls.textFieldName}>Тип загрузки </p>
+              <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
               <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
                 <Checkbox
                   defaultChecked={watch(`top`)}
@@ -241,12 +247,12 @@ export const SearchCargoModule = () => {
 
             <Flex gap={"24px"} mt={`32px`}>
               <Box>
-                <p className={cls.textFieldName}>Госномер *</p>
+                <p className={cls.textFieldName}>{t("Госномер")} *</p>
                 <TextField
                   register={register}
                   errors={errors}
                   name="car_number"
-                  placeholder="Введите госномер грузовика..."
+                  placeholder={t("Введите номер транспортного средства")}
                   rules={rules}
                 />
                 <Flex ml={4} gap={2} mt={2}>
@@ -254,9 +260,9 @@ export const SearchCargoModule = () => {
                 </Flex>
               </Box>
               <Box>
-                <p className={cls.textFieldName}>Марка машины</p>
+                <p className={cls.textFieldName}>{t("Марка машины")}</p>
                 <TextField
-                 rules={rules}
+                  rules={rules}
                   errors={errors}
                   name="marka"
                   register={register}
@@ -264,30 +270,30 @@ export const SearchCargoModule = () => {
                   type="text"
                 />
                 <Flex ml={4} gap={2} mt={2}>
-                  <span className={cls.subTitle}>Пример: </span>
+                  <span className={cls.subTitle}>{t("Пример")}: </span>
                   <p
                     onClick={() => setValue(`marka`, `Mercedes-Benz `)}
                     className={cls.quickWord}
                   >
-                    Mercedes,
+                    {t("Mercedes-Benz")},
                   </p>
                   <p
                     onClick={() => setValue(`marka`, `Volvo`)}
                     className={cls.quickWord}
                   >
-                    Volvo,
+                    {t("Volvo")},
                   </p>
                   <p
                     onClick={() => setValue(`marka`, `MAN`)}
                     className={cls.quickWord}
                   >
-                    MAN,
+                    {t("MAN")},
                   </p>
                   <p
                     onClick={() => setValue(`marka`, `Iveco`)}
                     className={cls.quickWord}
                   >
-                    Iveco,
+                    {t("Iveco")}
                   </p>
                 </Flex>
               </Box>
@@ -373,46 +379,44 @@ export const SearchCargoModule = () => {
             mt={"32px"}
           >
             <Box width={"100%"} mt={"17px"}>
-              <p className={cls.textFieldName}>{t("Фото Техпаспорта *")}</p>
+              <p className={cls.textFieldName}>{t("Фото Техпаспорта")} *</p>
               <Flex gap={4} className={cls.ImgWrap}>
                 <UploadImg
                   watch={watch}
                   setValue={setValue}
                   name={"front_side_trailer"}
                   icon={<ImgploadIcon1 />}
-                  text={"Загрузить фото спереди"}
+                  text={t("Загрузить фото спереди")}
                 />
                 <UploadImg
                   watch={watch}
                   setValue={setValue}
                   name={"back_side_trailer"}
                   icon={<ImgploadIcon1 />}
-                  text={"Загрузить фото сзади"}
+                  text={t("Загрузить фото сзади")}
                 />
               </Flex>
             </Box>
             <Box width={"100%"} mt={"17px"}>
-              <p className={cls.textFieldName}>{t("Фото машины *")}</p>
+              <p className={cls.textFieldName}>{t("Фото машины")} *</p>
               <Flex gap={4} className={cls.ImgWrap}>
                 <UploadImg
                   watch={watch}
                   setValue={setValue}
                   name={"car_photo"}
                   icon={<ImgUload2 />}
-                  text={"Загрузить фото машины"}
+                  text={t("Загрузить фото машины")}
                 />
               </Flex>
             </Box>
           </Flex>
         </Box>
         <Button
-          // isDisabled={disabledBtn}
           isLoading={loading}
           onClick={handleSubmit(onSubmit)}
-          // rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}
         >
-          Сохранить авто
+          {t("Сохранить авто")}
         </Button>
 
         <Modal isOpen={isPopupOpen} isCentered>
@@ -424,7 +428,7 @@ export const SearchCargoModule = () => {
             <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
             <ModalBody>
               <p style={{ fontWeight: 600, fontSize: "18px" }}>
-                Машина успешно добавлена!
+                {t("Машина успешно добавлена!")}
               </p>
             </ModalBody>
 
@@ -439,7 +443,7 @@ export const SearchCargoModule = () => {
                 className={cls.btnOutline}
                 mr={3}
               >
-                Посмотреть детали
+                {t("Посмотреть детали")}
               </Button>
               <Button
                 style={{
@@ -450,7 +454,7 @@ export const SearchCargoModule = () => {
                 className={cls.btngreen}
                 onClick={() => setIsPopupOpen(false)}
               >
-                Добавить еще
+                {t("Добавить еще")}
               </Button>
             </ModalFooter>
           </ModalContent>

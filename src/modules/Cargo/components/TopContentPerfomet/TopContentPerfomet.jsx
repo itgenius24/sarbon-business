@@ -188,9 +188,9 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               <LocationMobileIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Геолокация</p>
+                              <p className={cls.phoneItemTitle}>{t("Геолокация")}</p>
                               <p className={cls.phoneItemName}>
-                                {user.gps ? "Выкл " : "Откл "}
+                                {user.gps ? t("Выкл ") : t("Откл ")}{" "}
                                 <span className={cls.phoneItemTitle}>
                                   {user?.users_gps?.[0]?.update_time &&
                                     format(
@@ -208,7 +208,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               <AppleIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Смартфон</p>
+                              <p className={cls.phoneItemTitle}>{t("Смартфон")}</p>
                               <p className={cls.phoneItemName}>
                                 {user?.users_gps?.[0]?.os}{" "}
                               </p>
@@ -217,7 +217,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                           <div className={cls.item}>
                             <FurIcon />
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Версия Furgo</p>
+                              <p className={cls.phoneItemTitle}>{t("Версия Furgo")}</p>
                               <p className={cls.phoneItemName}>
                                 {user?.users_gps?.[0]?.version}{" "}
                               </p>
@@ -231,7 +231,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               <BatareyIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Батарея</p>
+                              <p className={cls.phoneItemTitle}>{t("Батарея")}</p>
                               <p className={cls.phoneItemName}>
                                 {user?.users_gps?.[0]?.battery}%{" "}
                               </p>
@@ -363,8 +363,8 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               </p>
                               <p className={cls.subTitle}>
                                 {" "}
-                                {user?.order?.cargo_id_data?.weight}т /{" "}
-                                {user?.order?.cargo_id_data?.volume_m3} м3
+                                {user?.order?.cargo_id_data?.weight}{t("т")} /{" "}
+                                {user?.order?.cargo_id_data?.volume_m3} {t("м³")}
                               </p>
                             </Box>
                           </Flex>
@@ -376,29 +376,20 @@ export const TopContentPerfomet = ({ getMaps }) => {
                           p={`13px 18px`}
                         >
                           <Box>
-                            <p className={cls.subTitle}>Тип оплаты: </p>
+                            <p className={cls.subTitle}>{t("Тип оплаты")}: </p>
                             <p className={cls.title}>
-                              {
-                                user?.order?.cargo_id_data?.map_id_data
-                                  ?.payment_type
-                              }
+                              {t(user?.order?.cargo_id_data?.map_id_data?.payment_type)}
                             </p>
                           </Box>
                           <Box>
-                            <p className={cls.subTitle}>Преоплата: </p>
+                            <p className={cls.subTitle}>{t("Предоплата")}: </p>
                             <p className={cls.title}>
-                              {
-                                user?.order?.cargo_id_data
-                                  ?.prepayment_percentage
-                              }{" "}
-                              {
-                                user?.order?.cargo_id_data?.currency_id_data
-                                  ?.code
-                              }
+                              {user?.order?.cargo_id_data?.prepayment_percentage}{" "}
+                              {user?.order?.cargo_id_data?.currency_id_data?.code}
                             </p>
                           </Box>
                           <Box>
-                            <p className={cls.subTitle}>Сумма: </p>
+                            <p className={cls.subTitle}>{t("Сумма")}: </p>
                             <p
                               className={cls.title}
                               style={{ color: `rgba(0, 122, 255, 1)` }}

@@ -30,6 +30,8 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { translateArray } from "@/utils/translateArray";
 import { useGetUserGpsData } from "@/services/api";
+import { useTranslation } from "@/app/i18n/client";
+
 
 export const CarsCard = ({
   item,
@@ -37,9 +39,12 @@ export const CarsCard = ({
   setCenterModalType,
   handleUpdateId,
   handleDelete,
+  
 }) => {
   const router = useRouter();
   const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
 
   const { data: response } = useGetUserGpsData({
     params: {
@@ -53,7 +58,7 @@ export const CarsCard = ({
     },
   });
 
-  console.log(`response`, item);
+  
 
   return (
     <Box
@@ -97,7 +102,7 @@ export const CarsCard = ({
                     router.push(`/${locale}/my-cars/create?id=${item.guid}`)
                   }
                 >
-                  Редактировать машину
+                  {t("Редактировать машину")}
                 </Box>
                 <Box
                   style={{ padding: `10px 8px` }}
@@ -110,7 +115,7 @@ export const CarsCard = ({
                   className={cls.menuItem}
                   onClick={() => handleUpdateId(item.guid)}
                 >
-                  Открепить водителя
+                  {t("Открепить водителя")}
                 </Box>
                 <Box
                   style={{ padding: `10px 8px`, color: `red` }}
@@ -123,7 +128,7 @@ export const CarsCard = ({
                   className={cls.menuItem}
                   onClick={() => handleDelete(item?.guid)}
                 >
-                  Удалить машину
+                  {t("Удалить машину")}
                 </Box>
               </PopoverBody>
             </PopoverContent>
@@ -139,17 +144,27 @@ export const CarsCard = ({
           alignItems={`center`}
           justifyContent={`center`}
         >
-          {item?.car_photo ? <>
-          <Box position={`relative`}>
+          {item?.car_photo ? (
+            <>
+              <Box position={`relative`}>
                 <Image src={item?.car_photo} width={250} height={250} alt="w" />
-                {
-                  item.status?.[0] === `in_active` && <Box position={`absolute`} zIndex={11} bottom={`10px`} left={`10px`} color={`white`} borderRadius={`4px`} padding={`8px 10px`} background={`rgba(255, 59, 48, 1)`} >
-                   ждет модерацию
-                </Box>
-                }
-          </Box>
-          </>
-           : (
+                {item.status?.[0] === `in_active` && (
+                  <Box
+                    position={`absolute`}
+                    zIndex={11}
+                    bottom={`10px`}
+                    left={`10px`}
+                    color={`white`}
+                    borderRadius={`4px`}
+                    padding={`8px 10px`}
+                    background={`rgba(255, 59, 48, 1)`}
+                  >
+                    {t("ждет модерацию")}
+                  </Box>
+                )}
+              </Box>
+            </>
+          ) : (
             <NoImg />
           )}
         </Box>
@@ -175,13 +190,13 @@ export const CarsCard = ({
               </Flex>
             </Flex>
             <Box>
-              <p className={cls.subTitle}>Тип загрузки:</p>
+              <p className={cls.subTitle}>{t("Тип загрузки")}:</p>
               <p className={cls.title}>
-                { item?.download_type && translateArray(item?.download_type)?.join(",")}
+                {item?.download_type && translateArray(item?.download_type)?.join(",")}
               </p>
             </Box>
             <Box>
-              <p className={cls.subTitle}>Дополнительно:</p>
+              <p className={cls.subTitle}>{t("Дополнительно")}:</p>
               <p className={cls.title}>
                 {item?.adr} {item.tir ? `, TIR` : ""}{" "}
               </p>
@@ -201,14 +216,14 @@ export const CarsCard = ({
               className={cls.statusWrap}
             >
               <Box>
-                <p className={cls.subTitle}>Статус:</p>
+                <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                Свободна: {response?.response?.[0]?.users_id_data?.your_id}
+                  {t("Свободна")}: {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>
               <Flex alignItems={`center`} gap={2}>
                 <LocationActiveIcon /> <CricleArrovIcon />{" "}
-                <p className={cls.title}>Вкл. </p>
+                <p className={cls.title}>{t("Вкл")}. </p>
                 <p className={cls.subBlueTitle}>
                   {format(response?.response?.[0]?.create_time || new Date(), "yyyy-MM-dd")}
                 </p>
@@ -216,7 +231,7 @@ export const CarsCard = ({
               <Flex alignItems={"center"} gap={2}>
                 <BluetoothIcon />
                 <p className={cls.subTitle}>
-                  Bluetooth: <span className={cls.title}>Вкл. </span>
+                  {t("Bluetooth")}: <span className={cls.title}>{t("Вкл")}. </span>
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -226,7 +241,7 @@ export const CarsCard = ({
                   <BatareyIcon />
                 )}
                 <p className={cls.subTitle}>
-                  Батарея: <span className={cls.title}>{response?.response?.[0]?.battery } % </span>
+                  {t("Батарея")}: <span className={cls.title}>{response?.response?.[0]?.battery } % </span>
                 </p>
               </Flex>
             </Flex>
@@ -238,13 +253,13 @@ export const CarsCard = ({
               padding={`4px 14px`}
               width={`100%`}
             >
-              <p className={cls.subTitle}>Статус:</p>
-              <p className={cls.title}>Свободна, без водителя. </p>
+              <p className={cls.subTitle}>{t("Статус")}:</p>
+              <p className={cls.title}>{t("Свободна, без водителя")}. </p>
             </Box>
           )}
         </Box>
         <Box width={"25%"}>
-          <p className={cls.subTitle}>Водитель:</p>
+          <p className={cls.subTitle}>{t("Водитель")}:</p>
           {item.users_id_data ? (
             <Box
               style={{
@@ -272,7 +287,7 @@ export const CarsCard = ({
               <Flex gap={3}>
                 <UserIconRadius />
                 <Box>
-                  <p className={cls.title}>Без водителя</p>
+                  <p className={cls.title}>{t("Без водителя")}</p>
                   <p
                     onClick={() => {
                       setCarId(item);
@@ -280,7 +295,7 @@ export const CarsCard = ({
                     }}
                     className={cls.subTitle2Blue}
                   >
-                    Назначить водителя
+                    {t("Назначить водителя")}
                   </p>
                 </Box>
               </Flex>

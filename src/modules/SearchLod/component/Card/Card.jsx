@@ -10,9 +10,11 @@ import { format } from "date-fns";
 import React from "react";
 import TooltipComponets from "../TooltipComponets";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
+  const { t } = useTranslation();
   const data = item?.orders?.[0].provisions.filter(
     (item) =>
       item === `approve_from_driver` ||
@@ -39,8 +41,8 @@ export const Card = ({ item, cls, ...props }) => {
           label={
             data?.[0] === `approve_from_driver` ||
             data?.[0] === `new_proposal_from_director`
-              ? `Ждем подтверждение водителя`
-              : `Ждем подтверждение заказчика`
+              ? t("Ждем подтверждение водителя")
+              : t("Ждем подтверждение заказчика")
           }
           color={
             data?.[0] === `approve_from_driver` ||
@@ -92,7 +94,7 @@ export const Card = ({ item, cls, ...props }) => {
               <span className={cls.subTitle}>
                 {item?.cargo?.load_time
                   ? format(item?.cargo?.load_time, `yyyy-MM-dd`)
-                  : `Как можно скорее`}
+                  : t("Как можно скорее")}
                 ~ 3450 km
               </span>
             </p>
@@ -140,7 +142,7 @@ export const Card = ({ item, cls, ...props }) => {
               <span className={cls.subTitle}>
                 {item?.cargo?.date
                   ? format(item?.cargo?.date, `yyyy-MM-dd`)
-                  : `Как можно скорее`}
+                  : t("Как можно скорее")}
               </span>
             </p>
           </Box>
@@ -157,11 +159,11 @@ export const Card = ({ item, cls, ...props }) => {
           </Flex>
         </Flex>
 
-        <span className={cls.subTitle}>Пиломатериалы</span>
+        <span className={cls.subTitle}>{t("Пиломатериалы")}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
         <p className={cls.title}>{item?.cargo?.vehicle_type_id_data?.name}</p>
-        <span className={cls.subTitle}>Задняя</span>
+        <span className={cls.subTitle}>{t("Задняя")}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
         {item?.cargo?.bid_cash ? (
@@ -171,20 +173,22 @@ export const Card = ({ item, cls, ...props }) => {
               <span className={cls.subTitle1}>
                 {item?.cargo?.map_id_data?.payment_type
                   ? ` ${item?.cargo?.map_id_data?.payment_type}`
-                  : ` Безнал`}
+                  : t(" Безнал")}
               </span>
             </p>
             <span className={cls.subTitle}>
-              Предопл.{" "}
+              {t("Предопл.")} {" "}
               {item?.cargo?.prepayment_percentage > 0
                 ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}`
-                : `Нет`}{" "}
+                : t("Нет")}{" "}
             </span>
           </>
         ) : (
           <>
-            <p className={cls.title}>По запросу</p>
-            <span className={cls.subTitle}>Предопл. По запросу</span>
+            <p className={cls.title}>{t("По запросу")}</p>
+            <span className={cls.subTitle}>
+              {t("Предопл.")} {t("По запросу")}
+            </span>
           </>
         )}
       </Box>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@/components/Container";
+import { useTranslation } from "@/app/i18n/client";
 
 import {
   Box,
@@ -32,9 +33,9 @@ import {
 import { useState } from "react";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 
-export const DriversModule = () => {
+export const DriversModule = ({ locale }) => {
+  const { t } = useTranslation(locale);
   const {
-    t,
     control,
     watch,
     setValue,
@@ -46,7 +47,6 @@ export const DriversModule = () => {
     isPopupOpen,
     setIsPopupOpen,
     router,
-    locale,
     copyFunction,
     open,
     setOpen,
@@ -84,21 +84,21 @@ export const DriversModule = () => {
         >
           <Flex flexDirection={"column"} rowGap={"20px"} width={"100%"}>
             <Box>
-              <p className={cls.textFieldName}>Имя и фамилия *</p>
+              <p className={cls.textFieldName}>{t("Имя и фамилия")} *</p>
               <TextField
                 register={register}
                 errors={errors}
                 name="full_name"
-                placeholder="Имя и фамилия водителя..."
+                placeholder={t("Имя и фамилия водителя")}
               />
             </Box>
             <Box>
-              <p className={cls.textFieldName}> Телефон водителя *</p>
+              <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
               <FormInternationInput control={control} name={`phone`} />
             </Box>
             {!id && (
               <Box>
-                <p className={cls.textFieldName}> Придумайте пароль *</p>
+                <p className={cls.textFieldName}>{t("Придумайте пароль")} *</p>
                 <TextField
                   register={register}
                   rules={{
@@ -110,7 +110,7 @@ export const DriversModule = () => {
                   errors={errors}
                   name="password"
                   type={isPasswordVisible ? "text" : "password"}
-                  placeholder={t("Минимум 6 символов...")}
+                  placeholder={t("Минимум 6 символов")}
                   addonAfter={
                     <button
                       type="button"
@@ -126,7 +126,7 @@ export const DriversModule = () => {
           <Flex flexDirection={"column"} rowGap={"20px"} width={"100%"}>
             <Box>
               <p className={cls.textFieldName}>
-                Серия и номер водит. удостоверения *
+                {t("Серия и номер водительского удостоверения")} *
               </p>
               <Flex gap={`20px`}>
                 <Box width={`30%`}>
@@ -134,24 +134,24 @@ export const DriversModule = () => {
                     register={register}
                     errors={errors}
                     name="passport_scan"
-                    placeholder="AA"
+                    placeholder={t("AA")}
                     rules={{
-                      required: "Это поле обязательно",
+                      required: t("Это поле обязательно"),
                       validate: (value) => {
                         if (!/^[A-Z]*$/.test(value)) {
-                          return "Faqat harflar kiriting";
+                          return t("Введите только буквы");
                         }
                         if (value.length !== 2) {
-                          return "Faqat ikkita harf kiriting";
+                          return t("Введите только две буквы");
                         }
                         return true;
                       },
                     }}
                     onChange={(e) => {
                       e.target.value = e.target.value
-                        .replace(/[^A-Za-z]/g, "") // Remove any non-letter characters
+                        .replace(/[^A-Za-z]/g, "")
                         .toUpperCase()
-                        .slice(0, 2); // Limit to 2 characters
+                        .slice(0, 2);
                     }}
                   />
                 </Box>
@@ -159,12 +159,12 @@ export const DriversModule = () => {
                   register={register}
                   errors={errors}
                   name="passport_code"
-                  placeholder="000 00 00"
+                  placeholder={t("000 00 00")}
                   rules={{
-                    required: "Telefon raqami majburiy",
+                    required: t("Номер телефона обязателен"),
                     validate: (value) =>
                       /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
-                      "Format noto‘g‘ri",
+                      t("Неверный формат"),
                     onChange: (e) => {
                       e.target.value = formatPhoneNumber(e.target.value);
                     },
@@ -174,14 +174,14 @@ export const DriversModule = () => {
             </Box>
             <Box>
               <p className={cls.textFieldName}>
-                Фото водительского удостоверения *
+                {t("Фото водительского удостоверения")} *
               </p>
               <UploadImg
                 isColor={true}
                 watch={watch}
                 setValue={setValue}
                 name={"drivers_license"}
-                text={"Загрузить фото"}
+                text={t("Загрузить фото")}
                 icon={<Img3UploadIcon />}
               />
             </Box>
@@ -197,20 +197,18 @@ export const DriversModule = () => {
               watch={watch}
               setValue={setValue}
               name={"photo"}
-              text={"Загрузить фото"}
+              text={t("Загрузить фото")}
               icon={<UserIcon2 />}
             />
-            <p>Фото водителя</p>
-            <p className={cls.subTitle}>{"(можно позже)"}</p>
+            <p>{t("Фото водителя")}</p>
+            <p className={cls.subTitle}>{t("(можно позже)")}</p>
           </Flex>
         </Flex>
         <Button
-          // isDisabled={disabledBtn}
           onClick={handleSubmit(onSubmit)}
-          // rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}
         >
-          Сохранить водителя
+          {t("Сохранить водителя")}
         </Button>
 
         <Modal isOpen={isPopupOpen} isCentered>
@@ -222,15 +220,15 @@ export const DriversModule = () => {
             <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
             <ModalBody>
               <p style={{ fontWeight: 600, fontSize: "18px" }}>
-                Водитель успешно добавлен в систему
+                {t("Водитель успешно добавлен в систему")}
               </p>
               <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                Передайти ему данные для входа в приложение Furgo:
+                {t("Передайте ему данные для входа в приложение Furgo")}:
               </p>
               <Flex gap={`20px`}>
                 <Box>
                   <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                    Его логин:
+                    {t("Его логин")}:
                   </p>
                   <p style={{ fontWeight: 400, fontSize: "14px" }}>
                     {watch(`phone`)}
@@ -238,7 +236,7 @@ export const DriversModule = () => {
                 </Box>
                 <Box>
                   <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                    Его пароль:
+                    {t("Его пароль")}:
                   </p>
                   <p style={{ fontWeight: 400, fontSize: "14px" }}>
                     {watch(`password`)}
@@ -258,7 +256,7 @@ export const DriversModule = () => {
                 className={cls.btnOutline}
                 mr={3}
               >
-                Скопировать детали
+                {t("Скопировать детали")}
               </Button>
               <Button
                 style={{
@@ -269,7 +267,7 @@ export const DriversModule = () => {
                 className={cls.btngreen}
                 onClick={() => router.push(`/${locale}/drivers`)}
               >
-                Отправить как смс
+                {t("Отправить как смс")}
               </Button>
             </ModalFooter>
           </ModalContent>
@@ -283,22 +281,16 @@ export const DriversModule = () => {
             <ModalCloseButton onClick={() => setOpen(false)} />
             <ModalBody>
               <p style={{ fontWeight: 600, fontSize: "18px" }}>
-                Водитель с номером {watch(`phone`)} уже регистрирован в Furgo.
+                {t("Водитель с номером")} {watch(`phone`)} {t("уже регистрирован в Furgo")}
               </p>
-          
-
-             <Box mt={`24px`}>
-             <p style={{ fontWeight: 400, fontSize: "14px",lineHeight:`20px` }}>
-                Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей 
-                 <a style={{color:`rgba(0, 122, 255, 1)`,cursor:`pointer`}}> службой поддержки</a>
-              </p>
-             </Box>
+              <Box mt={`24px`}>
+                <p style={{ fontWeight: 400, fontSize: "14px", lineHeight: `20px` }}>
+                  {t("Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей")}
+                  <a style={{ color: `rgba(0, 122, 255, 1)`, cursor: `pointer` }}> {t("службой поддержки")}</a>
+                </p>
+              </Box>
             </ModalBody>
-
-            <ModalFooter>
-          
-         
-            </ModalFooter>
+            <ModalFooter></ModalFooter>
           </ModalContent>
         </Modal>
       </Container>

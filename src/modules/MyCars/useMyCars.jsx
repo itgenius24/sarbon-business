@@ -25,7 +25,7 @@ export const useMyCars = () => {
   const [status, setStatus] = useState(false);
   const locale = useGetLang();
 
-  const { t } = useTranslation(locale, "translations");
+  const { t } = useTranslation();
 
   const toast = useToast();
   const [carId, setCarId] = useState();

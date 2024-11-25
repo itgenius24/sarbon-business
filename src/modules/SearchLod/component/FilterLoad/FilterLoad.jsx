@@ -48,7 +48,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
       >
         <Box width={"100%"} className={cls.locationWrap}>
           <TextFieldWithAdditionMap
-            label="Откуда"
+            label={t("Откуда")}
             placeholder={t("Укажите пункт назначения")}
             additionalItemTheme={`light`}
             register={register}
@@ -85,7 +85,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
 
         <Box width={"100%"} className={cls.locationWrap}>
           <TextFieldWithAdditionMap
-            label="Куда"
+            label={t("Куда")}
             placeholder={t("Укажите пункт назначения")}
             additionalItemTheme={`light`}
             register={register}
@@ -121,28 +121,28 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         </Box>
 
         <Box width={"100%"}>
-          <p>Тип оплаты</p>
+          <p>{t("Тип оплаты")}</p>
           <Flex mt={1} gap={3}>
             <Checkbox
               defaultChecked={watch(`prepayment`)}
               register={register}
               name={`prepayment`}
             >
-              Только с предоплатой
+              {t("Только с предоплатой")}
             </Checkbox>
             <Checkbox
               defaultChecked={watch(`spot`)}
               register={register}
               name={`spot`}
             >
-              Наличными
+              {t("Наличными")}
             </Checkbox>
             <Checkbox
               defaultChecked={watch(`in_spot`)}
               register={register}
               name={`in_spot`}
             >
-              Безналичными
+              {t("Безналичными")}
             </Checkbox>
           </Flex>
         </Box>
@@ -152,16 +152,11 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Box width={"100%"}>
           <DropdownWrapperCar
             control={control}
-            // required
             register={register}
             watch={watch}
-            label={"Транспорт"}
+            label={t("Транспорт")}
             name="vehicle_type_id"
-            // options={[]}
-            // errors={errors}
-            // disabled={!canEdit}
             className={cls.dropdown}
-            // onSearchChange={(e) => setSearchCargo(e.target.value)}
             placeholder={t("Выберите тип груза")}
             inputPlaceholder={t("Выберите тип груза")}
             searchable
@@ -172,72 +167,55 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label="Объём от:"
-            // errors={errors}
+            label={t("Объём от:")}
             control={control}
             name="min_volume"
             register={register}
             additionalItemName="weight_unit"
             additionalItemTheme={`light`}
-            additionalItemPlaceholder="т"
+            additionalItemPlaceholder={t("т")}
             width="100%"
             placeholder={t("минимум")}
-            // additionalItemOptions={weightMeasurementOptions}
-            // disabled={!canEdit}
             type="number"
             zIndex={90}
           />
           <TextFieldWithAddition
             className={cls.textField}
-            // errors={errors}
             control={control}
-            label="Объём до:"
+            label={t("Объём до:")}
             name="max_volume"
             register={register}
             width="100%"
             placeholder={t("максимум")}
-            additionalItemPlaceholder="м³"
+            additionalItemPlaceholder={t("м³")}
             additionalItemTheme={`light`}
-            // disabled={!canEdit}
             type="number"
-            // additionalItemName="volume_unit"
-            // additionalItemOptions={volumeMeasurementOptions}
           />
         </Flex>
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label="Вес до:"
-            // errors={errors}
+            label={t("Вес до:")}
             control={control}
             name="min_weight"
             register={register}
             additionalItemName="weight_unit"
-            additionalItemPlaceholder="т"
+            additionalItemPlaceholder={t("т")}
             additionalItemTheme={`light`}
-            // width="134px"
             placeholder={t("минимум")}
-            // additionalItemOptions={weightMeasurementOptions}
-            // disabled={!canEdit}
             type="number"
             zIndex={90}
           />
           <TextFieldWithAddition
             className={cls.textField}
-            // errors={errors}
             control={control}
-            label="Вес до:"
+            label={t("Вес до:")}
             name="max_weight"
             register={register}
-            // width="134px"
             placeholder={t("максимум")}
             additionalItemTheme={`light`}
-            additionalItemPlaceholder="м³"
-            // disabled={!canEdit}
+            additionalItemPlaceholder={t("м³")}
             type="number"
-
-            // additionalItemName="volume_unit"
-            // additionalItemOptions={volumeMeasurementOptions}
           />
         </Flex>
       </Flex>
@@ -248,7 +226,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           name={`only_for_me`}
         >
           <Flex gap={1}>
-            <FurgoIconLoad /> Только грузы, подходящие под параметры моих машин
+            <FurgoIconLoad /> {t("Только грузы, подходящие под параметры моих машин")}
           </Flex>
         </Checkbox>
       </Box>

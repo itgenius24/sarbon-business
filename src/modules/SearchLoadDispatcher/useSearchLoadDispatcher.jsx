@@ -7,19 +7,21 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useGetCar } from "@/services/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(30);
+  const [limit, setLimit] = useState(25);
 
   const [ids, setId] = useState([]);
 
   const { t } = useTranslation(locale, "translations");
   const router = useRouter();
+  const [showButton, setShowButton] = useState(false);
+  const observerRef = useRef(null);
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -47,6 +49,9 @@ export const useSearchLoadDispatcher = () => {
       label: t(`Только мои водители (36)`),
     },
   ];
+  console.log(`showButton`,showButton)
+
+
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
@@ -81,7 +86,7 @@ export const useSearchLoadDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(limit + 30);
+    setLimit(limit + 25);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
@@ -131,17 +136,13 @@ export const useSearchLoadDispatcher = () => {
 
   const handleCheckboxChange = (id) => {
     if (ids.includes(id)) {
-
       // Agar id arrayda bo'lsa, uni olib tashlaymiz
       setId((prevIds) => prevIds.filter((item) => item !== id));
     } else {
- 
-
       // Agar id yo'q bo'lsa, uni qo'shamiz
       setId((prevIds) => [...prevIds, id]);
     }
   };
-  console.log(`data1`, ids);
 
   return {
     t,
@@ -158,5 +159,7 @@ export const useSearchLoadDispatcher = () => {
     tipFilter,
     onFilterChange,
     handleCheckboxChange,
+    observerRef,
+    showButton,
   };
 };

@@ -96,7 +96,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     )
                   }
                 >
-                  Изменить данные водителя
+                  {t("Изменить данные водителя")}
                 </Box>
                 {/* <Box
                   style={{ padding: `10px 8px` }}
@@ -122,7 +122,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   className={cls.menuItem}
                   onClick={() => handleDelete(item?.user?.guid)}
                 >
-                  Удалить водителя
+                  {t("Удалить водителя")}
                 </Box>
               </PopoverBody>
             </PopoverContent>
@@ -167,9 +167,9 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               className={cls.statusWrap}
             >
               <Box>
-                <p className={cls.subTitle}>Статус:</p>
+                <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                  Занята: {item?.orders?.[0]?.cargo_id_data?.number_of_order}
+                  {t("Занята")}: {item?.orders?.[0]?.cargo_id_data?.number_of_order}
                 </p>
               </Box>
               {item?.users_gps?.[0] && (
@@ -178,7 +178,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     <LocationActiveIcon /> <CricleArrovIcon />{" "}
                     <p className={cls.title}>
                       {" "}
-                      {item?.users_gps?.[0]?.gps ? "Вкл" : "Откл"}{" "}
+                      {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
                     </p>
                     <p className={cls.subBlueTitle}>
                       {format(
@@ -190,7 +190,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   <Flex alignItems={"center"} gap={2}>
                     <BluetoothIcon />
                     <p className={cls.subTitle}>
-                      Bluetooth: <span className={cls.title}>Вкл. </span>
+                      {t("Bluetooth")}: <span className={cls.title}>{t("Вкл")} </span>
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
@@ -200,7 +200,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                       <BatareyIcon />
                     )}
                     <p className={cls.subTitle}>
-                      Батарея:{" "}
+                      {t("Батарея")}:{" "}
                       <span className={cls.title}>
                         {item?.users_gps?.[0]?.battery}%
                       </span>
@@ -221,9 +221,9 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               justifyContent={`space-between`}
             >
               <Box>
-                <p className={cls.subTitle}>Статус:</p>
+                <p className={cls.subTitle}>{t("Статус")}:</p>
                 <Flex gap={3} alignItems={`center`}>
-                  <p className={cls.title2}> {item?.vehicles?.[0] ? `Свободна, без груза.` : `Свободна, без машины` }   </p>
+                  <p className={cls.title2}> {item?.vehicles?.[0] ? t("Свободна, без груза") : t("Свободна, без машины")}   </p>
                 </Flex>
               </Box>
 
@@ -233,7 +233,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     <LocationActiveIcon /> <CricleArrovIcon />{" "}
                     <p className={cls.title}>
                       {" "}
-                      {item?.users_gps?.[0]?.gps ? "Вкл" : "Откл"}
+                      {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
                     </p>
                     <p className={cls.subBlueTitle}>
                       {format(
@@ -245,7 +245,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   <Flex alignItems={"center"} gap={2}>
                     <BluetoothIcon />
                     <p className={cls.subTitle}>
-                      Bluetooth: <span className={cls.title}>Вкл. </span>
+                      {t("Bluetooth")}: <span className={cls.title}>{t("Вкл")} </span>
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
@@ -255,7 +255,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                       <BatareyIcon />
                     )}
                     <p className={cls.subTitle}>
-                      Батарея:
+                      {t("Батарея")}:
                       <span className={cls.title}>
                         {item?.users_gps?.[0]?.battery}%
                       </span>
@@ -267,7 +267,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
           )}
         </Box>
         <Box width={"25%"}>
-          <p className={cls.subTitle}>Машина:</p>
+          <p className={cls.subTitle}>{t("Машина")}:</p>
           {item?.vehicles?.[0] ? (
             <Box className={cls.profileWrap}>
               <Flex gap={3}>
@@ -303,7 +303,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <Flex gap={3}>
                 <NoImFur />
                 <Box>
-                  <p className={cls.title}>Без машины</p>
+                  <p className={cls.title}>{t("Без машины")}</p>
                   {/* <p
                     // onClick={() => setCenterModalType(true)}
                     className={cls.subTitle2Blue}

@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
+import { useTranslation } from "react-i18next";
 
 import {
   useDeleteOrder,
@@ -44,6 +45,7 @@ import TooltipComponets from "../TooltipComponets";
 import authStore from "@/store/auth.store";
 
 export const TableComponent = ({ watch, formState }) => {
+  const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState([]);
   const [dataRes, setDataRes] = useState([]);
   const [search, setSearch] = useState("");
@@ -248,10 +250,10 @@ export const TableComponent = ({ watch, formState }) => {
         mt={"32px"}
         width={"100%"}
       >
-        <p className={cls.th}>Откуда забрать</p>
-        <p className={cls.th}>Куда</p>
-        <p className={cls.th}>Груз</p>
-        <p className={cls.th}>Транспорт</p>
+        <p className={cls.th}>{t("Откуда забрать")}</p>
+        <p className={cls.th}>{t("Куда")}</p>
+        <p className={cls.th}>{t("Груз")}</p>
+        <p className={cls.th}>{t("Транспорт")}</p>
         <Flex
           onClick={handleSort}
           gap={2}
@@ -260,10 +262,10 @@ export const TableComponent = ({ watch, formState }) => {
           justifyContent={`flex-start`}
           alignItems={`center`}
         >
-          <p style={{ color: `rgba(0, 122, 255, 1)` }}>Стомость</p>
+          <p style={{ color: `rgba(0, 122, 255, 1)` }}>{t("Стомость")}</p>
           <ArrowIcon />
         </Flex>
-        <p className={cls.th}>Заказчик</p>
+        <p className={cls.th}>{t("Заказчик")}</p>
       </Flex>
       <Flex flexDirection={`column`} rowGap={`20px`}>
         {dataRes &&
@@ -287,10 +289,10 @@ export const TableComponent = ({ watch, formState }) => {
               alignItems={"center"}
               className={cls.selectCargoTop}
             >
-              <p className={cls.topTitle}>Предложить груз водителю</p>
+              <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
               <InputGroup className={cls.inputWrap}>
                 <Input
-                  placeholder="Поиск"
+                  placeholder={t("Поиск")}
                   className={cls.input}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -374,7 +376,7 @@ export const TableComponent = ({ watch, formState }) => {
                               <PopoverBody fontWeight={400}>
                                 <PopoverCloseButton />
                                 <Box onClick={() => deleteOrder(item)}>
-                                  Отменить предложение
+                                  {t("Отменить предложение")}
                                 </Box>
                               </PopoverBody>
                             </PopoverContent>
@@ -404,7 +406,7 @@ export const TableComponent = ({ watch, formState }) => {
               ) : (
                 <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
                   <p color={"blackAlpha.400"} fontSize={"18px"}>
-                    {/* Только свободные водители */}
+                    {t("Только свободные водители")}
                   </p>
                   {/* <Link href={"/add-cargo"} variant={"outline"}>
                         {t("Добавить груз")}
@@ -420,7 +422,7 @@ export const TableComponent = ({ watch, formState }) => {
               <Checkbox
                 onChange={(e) => setIsCheckboxChecked(e.target.checked)}
               >
-                Только свободные водители
+                {t("Только свободные водители")}
               </Checkbox>
               <Flex gap={2}>
                 <Button
@@ -430,16 +432,15 @@ export const TableComponent = ({ watch, formState }) => {
                   size="md"
                   border="1px solid #D0D5DD"
                 >
-                  Отменить
+                  {t("Отменить")}
                 </Button>
                 <Button
-                  // isDisabled={!selectCargo || disabled}
                   isLoading={isPending}
                   onClick={() => handlePred()}
                   className={cls.topButton}
                   size="md"
                 >
-                  Предложить
+                  {t("Предложить")}
                 </Button>
               </Flex>
             </Flex>

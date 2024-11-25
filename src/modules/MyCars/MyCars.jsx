@@ -50,7 +50,7 @@ export const MyCarsModule = () => {
             width={"fit-content"}
             leftIcon={<PlusIcon />}
           >
-            Добавить новую машину
+            {t("Добавить новую машину")}
           </Button>
         </Flex>
         <Box mt={"37px"}>
@@ -67,6 +67,7 @@ export const MyCarsModule = () => {
               key={item.guid}
               item={item}
               handleDelete={handleDelete}
+         
             />
           ))}
         </Box>
@@ -79,7 +80,7 @@ export const MyCarsModule = () => {
                 className={cls.selectCargoTop}
               >
                 <p className={cls.topTitle}>
-                Назначить водителя для <br /> <span>{carId?.marka} {carId?.car_number}</span>
+                {t("Назначить водителя для")} <br /> <span>{carId?.marka} {carId?.car_number}</span>
                 </p>
               </Flex>
               <Box className={cls.modalContend}>
@@ -148,16 +149,15 @@ export const MyCarsModule = () => {
                   </svg>
 
                   <Text color={"blackAlpha.400"} fontSize={"18px"}>
-                    У вас пока нет водителей
+                    {t("У вас пока нет водителей")}
                   </Text>
                   <Button
-                    // isDisabled={!selectCargo || disabled}
                     onClick={() => router.push(`/${locale}/drivers`)}
                     className={cls.topButton}
                     size="md"
                     width={`fit-content`}
                   >
-                    Добавить водителя
+                    {t("Добавить водителя")}
                   </Button>
                 </Flex>
               )}
@@ -167,10 +167,8 @@ export const MyCarsModule = () => {
                 alignItems={"center"}
                 className={cls.selectCargoBottom}
               >
-                <Checkbox
-                // onChange={(e) => setIsCheckboxChecked(e.target.checked)}
-                >
-                Только свободные водители
+                <Checkbox>
+                {t("Только свободные водители")}
                 </Checkbox>
                 <Flex gap={2}>
                   <Button
@@ -180,15 +178,14 @@ export const MyCarsModule = () => {
                     size="md"
                     border="1px solid #D0D5DD"
                   >
-                  Отменить
+                  {t("Отменить")}
                   </Button>
                   <Button
-                  // isDisabled={!selectCargo || disabled}
                     onClick={() => handleUpdate()}
                     className={cls.topButton}
                     size="md"
                   >
-                  Сохранить
+                  {t("Сохранить")}
                   </Button>
                 </Flex>
               </Flex>

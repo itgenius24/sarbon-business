@@ -2,10 +2,10 @@
   border-top-right-radius: 12px;
   border-top-left-radius: 12px;
   background: white;
-  max-height: calc(64vh - 30px);
+  min-height: calc(62vh - 30px);
   padding-bottom: 40px;
-  overflow: hidden;
-  overflow-y: scroll;
+  // height: 800px;
+ 
   position: relative;
 
   &::-webkit-scrollbar-thumb{
@@ -29,13 +29,19 @@
   width: fit-content;
   
 }
+.sticiy{
+  position: sticky;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+}
 .addUser{
-  width: fit-content;
+   width: 400px;
    padding: 8px 16px;
    border-radius: 8px;
    align-items: center;
    box-shadow: 0px 6px 12px 6px rgba(33, 31, 38, 0.14);
-
+   background-color: white;
    .addText{
     font-weight: 600;
     white-space:nowrap;

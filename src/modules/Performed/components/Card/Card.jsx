@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { GalichkaIcon } from "@/assets/icons/icons";
 
-const Card = ({ item, ...props }) => {
+const Card = ({ item, t, ...props }) => {
   return (
     <Flex
       {...props}
@@ -27,7 +27,7 @@ const Card = ({ item, ...props }) => {
               width={30}
               height={30}
               src={item?.cargo_id_data?.flag_ot}
-              alt="wef"
+              alt={t("Флаг")}
             />
             <p className={cls.country_code}>
               {item?.cargo_id_data?.country_code_from}
@@ -59,7 +59,7 @@ const Card = ({ item, ...props }) => {
               <span className={cls.subTitle}>
                 {item?.cargo_id_data?.load_time &&
                   format(item?.cargo_id_data?.load_time, `yyyy-MM-dd`)}{" "}
-                ~ 3450 km
+                ~ {item?.distance || 0} {t("км")}
               </span>
             </p>
           </Box>
@@ -78,7 +78,7 @@ const Card = ({ item, ...props }) => {
               width={30}
               height={30}
               src={item?.cargo_id_data?.flag_do}
-              alt={item?.cargo_id_data?.flag_do}
+              alt={t("Флаг")}
             />
             <p className={cls.country_code}>
               {item?.cargo_id_data?.country_code_to}
@@ -115,9 +115,9 @@ const Card = ({ item, ...props }) => {
       <Box className={`${cls.contend} ${cls.contend3}`}>
         <p className={cls.title}> {item?.cargo_id_data?.product_type}</p>
         <span className={cls.subTitle}>
-          {`${item?.cargo_id_data?.weight || ``}т / ${
+          {`${item?.cargo_id_data?.weight || ``}${t("т")} / ${
             item?.cargo_id_data?.volume_m3 || ``
-          }м³`}
+          }${t("м³")}`}
         </span>
       </Box>
 
@@ -133,16 +133,16 @@ const Card = ({ item, ...props }) => {
           <span className={cls.subTitle1}>
             {item?.cargo_id_data?.map_id_data?.payment_type
               ? ` ${item?.cargo_id_data?.map_id_data?.payment_type}`
-              : ` Безнал`}
+              : ` ${t("Безнал")}`}
           </span>
         </p>
         <span className={cls.subTitle}>
-          Предопл.
+          {t("Предоплата")}
           {item?.cargo_id_data?.prepayment_percentage > 0
             ? `${item?.cargo_id_data?.prepayment_percentage} ${
                 item?.currency_id_data?.code || ``
               }`
-            : `Нет`}
+            : t("Нет")}
         </span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend7}`}>
