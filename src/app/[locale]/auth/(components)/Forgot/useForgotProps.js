@@ -19,7 +19,7 @@ export const useForgotProps = () => {
     .object({ phone: yup.string().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "Неправильный номер телефона").required("Обязательное поле") })
     .required();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors },control } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
   });
@@ -56,5 +56,6 @@ export const useForgotProps = () => {
     onSubmit,
     navigateLogin,
     t,
+    control
   };
 };

@@ -10,6 +10,7 @@ export const Forgot = () => {
     onSubmit,
     navigateLogin,
     t,
+    control
   } = useForgotProps();
 
   return <PhoneForm
@@ -21,5 +22,6 @@ export const Forgot = () => {
     firstBtnText={t("Продолжить")}
     title={t("Забыли пароль")}
     register={register}
+    control={control}
   />;
 };
