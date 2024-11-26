@@ -16,7 +16,13 @@ import { format } from "date-fns";
 
 import { useEffect, useRef } from "react";
 
-export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => {
+export const AccordionMap = ({
+  gpsHistory,
+  driverPosition,
+  periods,
+  driver,
+  getDriverPosition,
+}) => {
   const map = useRef(null);
   const mapState = {
     center:
@@ -32,7 +38,7 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => 
   const endLocation = consignee?.[consignee?.length - 1];
   const line = periods.slice(1, -1).map((item) => [item?.lat, item?.long]);
 
-  console.log(`startLocation`, driver);
+  console.log(`getDriverPosition`, getDriverPosition);
 
   useEffect(() => {
     const ymaps = window.ymaps;
@@ -87,52 +93,56 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => 
           });
 
         // Second route: from startLocation to specified location with blue line, independent of the first route
-        ymaps
-          .route([
-            [startLocation?.lat, startLocation?.long], // Start from startLocation
-            driverPosition, // End at specified location
-          ])
-          .then((secondRoute) => {
-            map.current.geoObjects.add(secondRoute);
-            const startPoint = secondRoute.getWayPoints().get(0);
-            const endPoint = secondRoute.getWayPoints().get(1);
-            startPoint.options.set({
-              iconLayout: "default#image",
-              iconImageHref:
-                "data:image/svg+xml;charset=UTF-8," +
-                encodeURIComponent(StartIcon),
-              iconImageSize: [30, 42],
-              iconImageOffset: [-10, -22],
-              balloonContentLayout: ymaps.templateLayoutFactory.createClass(
-                `<div style='padding: 10px; font-size: 14px;'> 
-                      <p>Финиш:</p>
-                      <p style='font-weight: 600;'>${startLocation?.name}</p>
-                </div>`
-              ),
-            });
-            endPoint.options.set({
-              iconLayout: "default#image",
-              iconImageHref:
-                "data:image/svg+xml;charset=UTF-8," +
-                encodeURIComponent(LoadSvgIcon),
-              iconImageSize: [60, 72],
-              iconImageOffset: [-15, -42],
-              balloonContentLayout: ymaps.templateLayoutFactory.createClass(
-                `<div style='padding: 10px; font-size: 14px;'> 
-                      <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>${driver?.location_name}</p>
-                      <p>Время в пути:</p>
-                      <p style='font-weight: 600;'>${format(driver?.update_time,'yyyy-MM-dd')}</p>
+        // ymaps
+        //   .route([
+        //     [startLocation?.lat, startLocation?.long], // Start from startLocation
+        //     driverPosition, // End at specified location
+        //   ])
+        //   .then((secondRoute) => {
+        //     map.current.geoObjects.add(secondRoute);
+        //     const startPoint = secondRoute.getWayPoints().get(0);
+        //     const endPoint = secondRoute.getWayPoints().get(1);
+        //     startPoint.options.set({
+        //       iconLayout: "default#image",
+        //       iconImageHref:
+        //         "data:image/svg+xml;charset=UTF-8," +
+        //         encodeURIComponent(StartIcon),
+        //       iconImageSize: [30, 42],
+        //       iconImageOffset: [-10, -22],
+        //       balloonContentLayout: ymaps.templateLayoutFactory.createClass(
+        //         `<div style='padding: 10px; font-size: 14px;'>
+        //               <p>Финиш:</p>
+        //               <p style='font-weight: 600;'>${startLocation?.name}</p>
+        //         </div>`
+        //       ),
+        //     });
+        //     // endPoint.options.set({
+        //     //   iconLayout: "default#image",
+        //     //   iconImageHref:
+        //     //     "data:image/svg+xml;charset=UTF-8," +
+        //     //     encodeURIComponent(LoadSvgIcon),
+        //     //   iconImageSize: [60, 72],
+        //     //   iconImageOffset: [-15, -42],
+        //     //   balloonContentLayout: ymaps.templateLayoutFactory.createClass(
+        //     //     `<div style='padding: 10px; font-size: 14px;'>
+        //     //           <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>${
+        //     //             driver?.location_name
+        //     //           }</p>
+        //     //           <p>Время в пути:</p>
+        //     //           <p style='font-weight: 600;'>${format(
+        //     //             driver?.update_time,
+        //     //             "yyyy-MM-dd"
+        //     //           )}</p>
 
-                </div>`
-              ),
-           
-            });
-            secondRoute.getPaths().options.set({
-              strokeColor: "#0000FF", // Blue color
-              strokeWidth: 4,
-              strokeOpacity: 1,
-            });
-          });
+        //     //     </div>`
+        //     //   ),
+        //     // });
+        //     // secondRoute.getPaths().options.set({
+        //     //   strokeColor: "#0000FF", // Blue color
+        //     //   strokeWidth: 4,
+        //     //   strokeOpacity: 1,
+        //     // });
+        //   });
       }
     }, 3000);
   }, [periods]);
@@ -142,8 +152,6 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => 
     strokeWidth: 6, // Width of the polyline
     strokeOpacity: 1, // Opacity of the polyline
   };
-
-  
 
   const polylineGeruzOptions = {
     strokeColor: "#000000", // Color of the polyline
@@ -163,7 +171,10 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => 
         minZoom: 2,
       }}
     >
-      {/* <Polyline geometry={gpsHistory} options={polylineOptions} /> */}
+      <Polyline
+        geometry={[getDriverPosition || []]}
+        options={polylineOptions}
+      />
       {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
       <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
 
@@ -175,8 +186,17 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => 
           "yandex#publicMap",
         ]}
       />
-      {/* <Placemark
-        geometry={driverPosition ? driverPosition : []}
+      <Placemark
+        geometry={getDriverPosition ? getDriverPosition?.[0] : []}
+        properties={{
+          balloonContent: `<div style='padding: 10px; font-size: 14px;'>
+                  <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>
+                  <p>Время в пути:</p>
+                 <p style='font-weight: 600;'>wefwef</p>
+
+            </div>`,
+          iconContent: "2000",
+        }}
         options={{
           iconLayout: "default#image",
           iconImageHref:
@@ -185,7 +205,7 @@ export const AccordionMap = ({ gpsHistory, driverPosition, periods,driver }) => 
           iconImageSize: [60, 72],
           iconImageOffset: [-15, -42],
         }}
-      /> */}
+      />
 
       {line?.length > 0 &&
         line?.map((item) => (

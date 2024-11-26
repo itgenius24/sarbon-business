@@ -26,6 +26,7 @@ const itemsService = {
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
+  getDriverPosition: (params) => request.get("/v2/object-slim/get-list/gps_history", { params }),
   deleteOrder: (id) => request.delete(`/v2/items/order/${id}`,{data:JSON.stringify({data:{}})}),
 
 
@@ -39,6 +40,14 @@ export const useGetCargoList = ({params = { data: JSON.stringify({}) },querySett
     queryFn: () => itemsService.getCargo(params),...querySettings
   });
 };
+
+export const useGetDriverPosition = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  return useQuery({
+    queryKey: ["object/getDriverPosition", params],
+    queryFn: () => itemsService.getDriverPosition(params),...querySettings
+  });
+};
+
 
 
 export const useCreateAdMutation = (mutationSettings) => {

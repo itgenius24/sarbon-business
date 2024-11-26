@@ -23,5 +23,5 @@ export const Forgot = () => {
     title={t("Забыли пароль")}
     register={register}
     control={control}
-  />;
+      />;
 };

@@ -80,7 +80,7 @@ export const PerformedModule = () => {
             </Flex>
             <p className={cls.th}>{t("Заказчик")}</p>
           </Flex>
-         
+
           {getOfferCount.isLoading ? (
             <LoadingSpinner />
           ) : getOfferCount?.data?.count > 0 ? (

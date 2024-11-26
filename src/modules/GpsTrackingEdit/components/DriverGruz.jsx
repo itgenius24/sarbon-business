@@ -165,7 +165,7 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
           <Flex mt={3} justifyContent={"space-between"}>
             <p className={cls.cardStartSubTitle}>Cумма</p>
             <p className={cls.cardStartSubTitle}>
-              Тип оплаты:{" "}
+              Тип оплаты:
               <span>
                 {loadState?.map_id_data?.payment_type?.length > 15
                   ? `${loadState?.map_id_data?.payment_type?.slice(0, 15)}...`
@@ -175,7 +175,7 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
           </Flex>
           <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
             <p className={cls.sumGreen}>
-              {loadState?.bid_cash} {loadState?.currency_id_data?.code}{" "}
+              {loadState?.bid_cash ? `${loadState?.bid_cash} ${loadState?.currency_id_data?.code}` : `По запросу`}
             </p>
             <p className={cls.cardStartSubTitle}>
               Предоплата:{" "}

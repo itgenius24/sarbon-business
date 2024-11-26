@@ -6,6 +6,7 @@ import { Rating } from "@/components/Rating";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
   useGetDriverLocation,
+  useGetDriverPosition,
   useGetSortedGPSHistory,
   useGetWithLocation,
 } from "@/services/api";
@@ -253,6 +254,20 @@ export const TopContent = ({
       clearInterval(historyTimer);
     };
   }, []);
+
+  const { data: getDriverPosition } = useGetDriverPosition({
+    params: {
+      data: JSON.stringify({
+        users_id: userId,
+      }),
+    },
+    querySettings:{
+      enabled:Boolean(userId),
+      refetchInterval: 10000
+    }
+  });
+
+  console.log(`getDriverPosition`,getDriverPosition)
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 

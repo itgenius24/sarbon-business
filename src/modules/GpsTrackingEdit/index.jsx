@@ -299,14 +299,14 @@ export default function GpsTrackingModuleTets() {
               style={{ color: "rgba(193, 187, 32, 1)" }}
               className={cls.balloonName}
             >
-              {loadHoverState?.bid_cash}
+              {loadHoverState?.bid_cash || `$-----` }
             </span>
           </>
         ) : (
           <>
             <MapCargoGreenIcon />
             <span className={cls.balloonName}>
-              {loadHoverState?.bid_cash}{" "}
+              {loadHoverState?.bid_cash || `$-----`}
               {loadHoverState?.currency_id_data?.code}
             </span>
           </>
