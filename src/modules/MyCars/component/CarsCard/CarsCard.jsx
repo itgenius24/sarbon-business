@@ -146,18 +146,20 @@ export const CarsCard = ({
         >
           {item?.car_photo ? (
             <>
-              <Box position={`relative`}>
-                <Image src={item?.car_photo} width={250} height={250} alt="w" />
+              <Box width={`100%`} position={`relative`}>
+                <Image className={cls.image}  src={item?.car_photo} width={250} height={250} alt="w" />
                 {item.status?.[0] === `in_active` && (
                   <Box
                     position={`absolute`}
+                    width={`100%`}
                     zIndex={11}
                     bottom={`10px`}
-                    left={`10px`}
+                    // left={`10px`}
                     color={`white`}
                     borderRadius={`4px`}
                     padding={`8px 10px`}
                     background={`rgba(255, 59, 48, 1)`}
+                    textAlign={`center`}
                   >
                     {t("ждет модерацию")}
                   </Box>

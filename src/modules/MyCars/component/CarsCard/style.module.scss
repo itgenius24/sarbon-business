@@ -67,6 +67,11 @@
             background-color: rgba(0, 122, 255, 1) !important;
         }
     }
-  
+  .image{
+    object-fit: cover;
+    width: 250px;
+    height: 150px;
+    border-radius: 8px;
+  }
    
 }
