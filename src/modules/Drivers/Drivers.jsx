@@ -41,6 +41,7 @@ export const DriversModule = ({ locale }) => {
     setValue,
     register,
     errors,
+    isLoading,
     handleSubmit,
     onSubmit,
     id,
@@ -205,6 +206,7 @@ export const DriversModule = ({ locale }) => {
           </Flex>
         </Flex>
         <Button
+        isLoading={isLoading}
           onClick={handleSubmit(onSubmit)}
           className={cls.nextBtn}
         >

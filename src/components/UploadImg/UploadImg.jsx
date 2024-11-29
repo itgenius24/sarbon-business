@@ -15,6 +15,8 @@ export const UploadImg = ({ watch,setValue,name,icon,text,isColor = false }) => 
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
   };
 
+  
+
   return (
     <Box
       className={cls.fields}

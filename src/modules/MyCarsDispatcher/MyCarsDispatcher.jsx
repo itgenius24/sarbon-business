@@ -2,18 +2,9 @@
 
 import { Container } from "@/components/Container";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 
-import {
-  IocnFilter,
-  PlusIcon,
-} from "@/assets/icons/icons";
+import { IocnFilter, PlusIcon } from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -22,7 +13,7 @@ import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { CarsCard } from "./component/CarsCard/CarsCard";
 
 export const MyCarsDispatcherModule = () => {
-  const { t } = useMyCarsDispatcher();
+  const { t, data, deleteFuntion } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -46,7 +37,7 @@ export const MyCarsDispatcherModule = () => {
               </p>
             </Box>
             <Button
-              onClick={() => router.push(`/${locale}/my-cars/create`)}
+              onClick={() => router.push(`/${locale}/search-load-dispatcher`)}
               width={"fit-content"}
               leftIcon={<PlusIcon />}
             >
@@ -86,7 +77,14 @@ export const MyCarsDispatcherModule = () => {
           </Flex>
         </Box>
         <Box>
-          <CarsCard />
+          {data &&
+            data?.map((item) => (
+              <CarsCard
+                key={item.user?.guid}
+                item={item}
+                deleteFuntion={deleteFuntion}
+              />
+            ))}
         </Box>
       </Container>
     </>

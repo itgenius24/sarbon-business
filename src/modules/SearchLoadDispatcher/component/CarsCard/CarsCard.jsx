@@ -26,12 +26,19 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
 import { format } from "date-fns";
 
-export const CarsCard = ({ item, handleCheckboxChange,ids }) => {
+export const CarsCard = ({ item, handleCheckboxChange, ids,index }) => {
   const router = useRouter();
   const locale = useGetLang();
 
   return (
-    <Flex as={`label`}  for={item?.user?.guid} className={`${cls.cardWrap} ${ids.includes(item?.user?.guid) && cls.active} `}>
+    <Flex
+      as={`label`}
+      
+      for={item?.user?.guid}
+      className={`${cls.cardWrap} ${
+        ids.includes(item?.user?.guid) && cls.active
+      } `}
+    >
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <p className={cls.title}>{item?.user?.full_name}</p>
         <p className={cls.subTitle}>{item?.user?.phone}</p>
@@ -72,9 +79,16 @@ export const CarsCard = ({ item, handleCheckboxChange,ids }) => {
         className={`${cls.contend} ${cls.contend7}`}
       >
         <p className={cls.title}>
-          <span className={cls.subTitle}>Без диспетчера</span>
+          {item?.dispatcher ? (
+            item?.dispatcher?.[0]?.users_id_2_data?.full_name
+          ) : (
+            <span className={cls.subTitle}>Без диспетчера</span>
+          )}
         </p>
-        <Checkbox id={item?.user?.guid}  onClick={() => handleCheckboxChange(item?.user?.guid)}></Checkbox>
+        <Checkbox
+          id={item?.user?.guid}
+          onClick={() => handleCheckboxChange(item?.user)}
+        ></Checkbox>
       </Flex>
     </Flex>
   );

@@ -46,8 +46,7 @@ import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/Checkbox";
 import { CargoDetail } from "./components/CargoDetail";
 import { TopContent } from "../Cargo/components/TopContent";
-import Link from "next/link";
-import { statuses } from "@/utils/constants";
+
 import { useRouter } from "next/navigation";
 
 export const CargoViews = observer(({ id, status, locale }) => {

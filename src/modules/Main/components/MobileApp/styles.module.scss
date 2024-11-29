@@ -14,6 +14,11 @@
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
+  border-radius: 8px !important;
+  img{
+  border-radius: 8px;
+
+  }
 }
 
 .bannerWrapper {
@@ -55,11 +60,14 @@
     object-fit: cover;
     position: static;
     transform: none;
+  
   }
 
   .bannerWrapper {
     max-width: 100%;
     margin-bottom: 8px;
+    border-radius: 8px;
+
   }
 
   .list {

@@ -62,7 +62,7 @@ export const useMyCars = () => {
     },
   });
 
-  const { mutate: checkUserData } = useCheckUser({
+  const { mutate: checkUserData,isPending:isLoadingCrate } = useCheckUser({
     onSuccess: (res) => {
       console.log(res);
       if (res?.count === 0) {
@@ -81,7 +81,7 @@ export const useMyCars = () => {
     },
   });
 
-  const { mutate: updateDsate } = useUpdateUser({
+  const { mutate: updateDsate,isPending} = useUpdateUser({
     onSuccess: (res) => {
       setIsPopupOpen(true);
       // router.push(`/${locale}/drivers`);
@@ -99,7 +99,6 @@ export const useMyCars = () => {
     },
   });
 
-  console.log("getUserGps", getUserGps);
 
   useEffect(() => {
     if (id) {
@@ -155,6 +154,7 @@ export const useMyCars = () => {
     setIsPopupOpen,
     isPopupOpen,
     id,
+    isLoading:isPending ? isPending :  isLoadingCrate,
     copyFunction,
     open,
     setOpen

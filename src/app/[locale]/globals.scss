@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "../../styles/date-picker.scss";
+
 
 :root {
   --brand-900: #101828;
@@ -51,13 +53,15 @@ body {
   max-width: 100vw;
   height: 100%;
   overflow-x: hidden;
+  // font-family: "Inter", "Arial", sans-serif !important;
+
 }
 
 body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: "Inter", "Arial", sans-serif;
+  font-family: "Inter" !important;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;

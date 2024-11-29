@@ -6,11 +6,16 @@
     box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
     padding:22px 27px;
     position: relative;
-    margin-top: 0px;
+    align-items: center;
+    margin-top: 10px;
     .title{
      font-weight: 600;
      font-size: 14px;
      color: rgba(33, 31, 38, 1);
+     span {
+      font-style: italic;
+      color: rgba(126, 123, 134, 1);
+    }
     }
     .subTitle{
         font-weight: 400;
@@ -21,12 +26,26 @@
         font-weight: 500;
         font-size: 14px;
         color: rgba(0, 122, 255, 1);
+        line-height: 20px;
     }
     .subBlueTitle{
       font-weight: 400;
       font-size: 14px;
       color: rgba(0, 122, 255, 1);
+      line-height: 20px;
   }
+  .locationTitle2{
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(33, 31, 38, 1);
+    line-height: 20px;
+}
+.subBlueTitle2{
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+  line-height: 20px;
+}
     .statusWrap{
         background-color: rgba(0, 122, 255, 0.08);
         border-radius: 10px;
@@ -121,7 +140,7 @@
             width: 100%;
             padding: 9px 14px;
             border-radius: 10px;
-            background: rgba(0, 122, 255, 0.08); 
+            // background: rgba(0, 122, 255, 0.08); 
             justify-content: space-between;
           }
         }

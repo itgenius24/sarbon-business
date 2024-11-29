@@ -39,7 +39,9 @@ export const SearchLoadDispatcherModule = () => {
     handleCheckboxChange,
     ids,
     observerRef,
+    onSubmit,
     showButton,
+    createAdressisPending
   } = useSearchLoadDispatcher();
 
   const [value, setValueR] = useState(`val1`);
@@ -146,9 +148,10 @@ export const SearchLoadDispatcherModule = () => {
             {data?.map((item, index) => (
               <CarsCard
                 key={index}
+                index={index}
                 item={item}
                 handleCheckboxChange={handleCheckboxChange}
-                ids={ids}
+                ids={ids?.map(item => item?.guid)}
               />
             ))}
           </Box>
@@ -175,7 +178,7 @@ export const SearchLoadDispatcherModule = () => {
           >
             <Flex gap={`50px`} className={cls.addUser}>
               <p className={cls.addText}>Выбрано: {ids?.length}</p>
-              <Button isDisabled={ids?.length === 0} className={cls.btnAddLoad}>
+              <Button isLoading={createAdressisPending} onClick={onSubmit} isDisabled={ids?.length === 0} className={cls.btnAddLoad}>
                 Добавить к себе
               </Button>
             </Flex>

@@ -187,7 +187,7 @@ export const AccordionMap = ({
         ]}
       />
       <Placemark
-        geometry={getDriverPosition ? getDriverPosition?.[0] : []}
+        geometry={getDriverPosition?.length >0  ? getDriverPosition?.[0] : driverPosition}
         properties={{
           balloonContent: `<div style='padding: 10px; font-size: 14px;'>
                   <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>

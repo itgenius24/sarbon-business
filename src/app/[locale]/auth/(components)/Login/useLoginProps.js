@@ -19,6 +19,7 @@ export const useLoginProps = () => {
 
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
+  const dispachaerTypeId = process.env.NEXT_PUBLIC_DISPACR_TYPE_ID;
 
   const [remember, setRemember] = useState(false);
 
@@ -43,7 +44,6 @@ export const useLoginProps = () => {
 
   const login = useLoginMutation({
     onSuccess: (data) => {
-      console.log(`data2`, data);
       authStore.login({
         user: {
           firm_id: data.user_data?.firm_id,
@@ -83,7 +83,7 @@ export const useLoginProps = () => {
         data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
           ?.client_types?.response?.[0]?.guid;
 
-      if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId) {
+      if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId || clientTypeId ===  dispachaerTypeId) {
         login.mutate({
           username: watch("username"),
           password: watch("password"),

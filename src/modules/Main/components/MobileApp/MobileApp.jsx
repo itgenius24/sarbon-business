@@ -12,10 +12,11 @@ import React from "react";
 export const MobileApp = ({
   photo,
   description,
-  description1
+  description1,
+  data,
 }) => {
   const { t } = useTranslation();
-
+  console.log(`data`,data)
   return (
     <Container className={cls.mobileContainer} mt={"96px"} mb={"96px"}>
       <Box className={cls.mobileApp} bg="white" borderRadius={24}>
@@ -38,7 +39,8 @@ const RightContent = ({ photo }) => {
         className={cls.bannerImage}
         width={500}
         height={500}
-        src={photo}
+      
+        src={`https://cdn.u-code.io/3bf18b7b-4c9f-4166-b20f-cbb430ea03bc/media/297fa0d5-f440-4e00-9082-c03ca0d2593a_photo_2024-11-28_22-54-12.jpg`}
         alt="Mobile Img"
       />
     </Box>

@@ -6,8 +6,9 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useGetCar } from "@/services/api";
+import { useCreateAddressMutation, useGetCar } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
+import authStore from "@/store/auth.store";
 
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
@@ -15,6 +16,7 @@ export const useSearchLoadDispatcher = () => {
   const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(25);
+  const [refe, setRefe] = useState();
 
   const [ids, setId] = useState([]);
 
@@ -35,6 +37,8 @@ export const useSearchLoadDispatcher = () => {
     setValue,
   } = useForm({});
 
+  const disId = authStore.userData?.id;
+
   const negotiableOption = [
     {
       value: `val1`,
@@ -49,9 +53,6 @@ export const useSearchLoadDispatcher = () => {
       label: t(`Только мои водители (36)`),
     },
   ];
-  console.log(`showButton`,showButton)
-
-
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
@@ -68,6 +69,7 @@ export const useSearchLoadDispatcher = () => {
 
       setData((prev) => [...prev, ...uniqueData]);
       setOldData((prev) => [...prev, ...uniqueData]);
+      setRefe(false);
     },
   });
 
@@ -82,7 +84,7 @@ export const useSearchLoadDispatcher = () => {
       },
     };
     mutate(data);
-  }, [limit]);
+  }, [limit, refe]);
 
   const addPage = () => {
     setPage(page + 1);
@@ -134,13 +136,36 @@ export const useSearchLoadDispatcher = () => {
     setData(() => [...filteredData]);
   };
 
-  const handleCheckboxChange = (id) => {
-    if (ids.includes(id)) {
+  const { mutate: createUserAdress, isPending: createAdressisPending } =
+    useCreateAddressMutation({
+      onSuccess: () => {
+        // router.push(`/${locale}/my-cars-dispatcher`);
+      },
+    });
+
+  const onSubmit = () => {
+    createUserAdress({
+      data: {
+        object_data: {
+          type: "dispatcher",
+          name: ids?.map((item) => ({
+            firm_id: item?.firm_id,
+            driver_id: item?.guid,
+          })),
+          dispatcher_id: disId, 
+        },
+      },
+    });
+    setRefe(true);
+  };
+
+  const handleCheckboxChange = (user) => {
+    if (ids?.map((item) => item?.guid).includes(user?.guid)) {
       // Agar id arrayda bo'lsa, uni olib tashlaymiz
-      setId((prevIds) => prevIds.filter((item) => item !== id));
+      setId((prevIds) => prevIds.filter((item) => item?.guid !== user?.guid));
     } else {
       // Agar id yo'q bo'lsa, uni qo'shamiz
-      setId((prevIds) => [...prevIds, id]);
+      setId((prevIds) => [...prevIds, user]);
     }
   };
 
@@ -161,5 +186,7 @@ export const useSearchLoadDispatcher = () => {
     handleCheckboxChange,
     observerRef,
     showButton,
+    onSubmit,
+    createAdressisPending,
   };
 };

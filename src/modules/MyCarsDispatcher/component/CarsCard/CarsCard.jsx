@@ -23,68 +23,115 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
+import { format } from "date-fns";
 
-export const CarsCard = () => {
+export const CarsCard = ({ item ,deleteFuntion}) => {
   const router = useRouter();
   const locale = useGetLang();
 
   return (
     <Flex
       className={cls.cardWrap}
-      borderLeft={`4px solid  rgba(0, 122, 255, 1) `}
+      borderLeft={`4px solid  ${
+        item?.order ? ` rgba(0, 122, 255, 1) ` : `rgba(21, 186, 77, 1)`
+      }`}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <Flex alignItems={`center`} gap={`6px`}>
-          <Avatar src="wdc" name="Bobur" />
+          <Avatar
+            size="sm"
+            src={item?.user?.users_id_data?.photo}
+            name={item?.user?.users_id_data?.full_name}
+          />
           <Box>
-            <p className={cls.title}>Шорасулов Олим</p>
-            <p className={cls.tel}>+998 93 0776161 </p>
+            <p className={cls.title}>{item?.user?.users_id_data?.full_name}</p>
+            <p className={cls.tel}>{item?.user?.users_id_data?.phone} </p>
           </Box>
         </Flex>
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
-        <Flex alignItems={`center`} gap={`6px`}>
-          <Avatar src="wdc" name="Bobur" />
-          <Box>
-            <p className={cls.title}>Шорасулов Олим</p>
-            <p className={cls.tel}>+998 93 0776161 </p>
-          </Box>
-        </Flex>
+        {item?.user?.firm_id_data ? (
+          <Flex alignItems={`center`} gap={`6px`}>
+            <Avatar
+              size="sm"
+              src={item?.user?.firm_id_data?.logo}
+              name={item?.user?.firm_id_data?.full_name}
+            />
+            <Box>
+              <p className={cls.title}>{item?.user?.firm_id_data?.full_name}</p>
+              <p className={cls.tel}>
+                {item?.user?.firm_id_data?.phone_number}{" "}
+              </p>
+            </Box>
+          </Flex>
+        ) : (
+          <p className={cls.title}>
+            <span className={cls.subTitle}>Владелец водитель</span>
+          </p>
+        )}
       </Box>
       <Box className={`${cls.contend} ${cls.contend3}`}>
-        <p className={cls.title}>Тентованный полуприцеп</p>
+        <p className={cls.title}>
+          {item?.vehicles?.[0]?.trailer_type_id_data?.name}
+        </p>
         <p className={cls.subTitle1}>
-          <span className={cls.subTitle}>20т / 42м3 </span>01 A 123 NN
+          <span className={cls.subTitle}>
+            {item?.vehicles?.[0]?.height}т / {item?.vehicles?.[0]?.capacity}м3{" "}
+          </span>{" "}
+          {item?.vehicles?.[0]?.car_number}
         </p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
         <Flex>
-          <Flex className={cls.locationWrap}>
-            <Box>
-              <p className={cls.locationTitle}>Занята: </p>
-              <p className={cls.subBlueTitle}>З-000006287</p>
-            </Box>
-            <Flex alignItems={`center`} gap={2}>
-              <LocationActiveIcon /> <CricleArrovIcon />{" "}
-              <p className={cls.title}>Вкл. </p>
-              <p className={cls.subBlueTitle}>24 июня 12:36</p>
-            </Flex>
-            <Flex alignItems={"center"} gap={2}>
-              <BluetoothIcon2 />
-              <p className={cls.subTitle}>
-                <span className={cls.title}>Вкл. </span>
-              </p>
-            </Flex>
-            <Flex alignItems={"center"} gap={2}>
-                {/* {true? ( */}
-                  <BatareyFullIcon />
-                {/* ) : ( */}
-                  {/* <BatareyIcon /> */}
-                {/* )} */}
-                <p className={cls.subTitle}>
-                  <span className={cls.title}>50% </span>
-                </p>
-              </Flex>
+          <Flex
+            background={
+              item?.order
+                ? ` rgba(0, 122, 255, 0.08)`
+                : `rgba(229, 243, 235, 1)`
+            }
+            className={cls.locationWrap}
+          >
+            {item?.order ? (
+              <Box>
+                <p className={cls.locationTitle}>Занята: </p>
+                <p className={cls.subBlueTitle}>З-000006287</p>
+              </Box>
+            ) : (
+              <Box>
+                <p className={cls.locationTitle2}>Свободна: </p>
+                <p className={cls.subBlueTitle2}>Найти груз</p>
+              </Box>
+            )}
+
+            {item.users_gps && (
+              <>
+                <Flex alignItems={`center`} gap={2}>
+                  <LocationActiveIcon /> <CricleArrovIcon />
+                  <p className={cls.title}>Вкл. </p>
+                  <p className={cls.subBlueTitle}>
+                    {format(item?.users_gps[0]?.update_time, `yyyy-MM-dd`)}
+                  </p>
+                </Flex>
+                <Flex alignItems={"center"} gap={2}>
+                  <BluetoothIcon2 />
+                  <p className={cls.subTitle}>
+                    <span className={cls.title}>Вкл. </span>
+                  </p>
+                </Flex>
+                <Flex alignItems={"center"} gap={2}>
+                  {item?.users_gps[0]?.battery > 20 ? (
+                    <BatareyFullIcon />
+                  ) : (
+                    <BatareyIcon />
+                  )}
+                  <p className={cls.subTitle}>
+                    <span className={cls.title}>
+                      {item?.users_gps[0]?.battery}%{" "}
+                    </span>
+                  </p>
+                </Flex>
+              </>
+            )}
           </Flex>
           <Box className={cls.popup}>
             <Popover placement={"bottom-start"}>
@@ -115,6 +162,7 @@ export const CarsCard = () => {
                         cursor: `pointer`,
                       }}
                       className={cls.menuItem}
+                      onClick={() => deleteFuntion(item?.user?.guid)}
                     >
                       Удалить водителя
                     </Box>

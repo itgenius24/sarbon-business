@@ -10,6 +10,7 @@ const itemsService = {
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`,{data:JSON.stringify({data:{}})}),
+  deleteDispacersDriver: (id) => request.delete(`/v2/items/dispatcher_drivers/${id}`,{data:JSON.stringify({data:{}})}),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   createCargo: (data) => request.post("/v2/items/cargo", data),
   createPeriod: (data) => request.post("/v2/items/period", data),
@@ -103,6 +104,11 @@ export const useCreatePeriodMutation = (mutationSettings) => {
 export const useDeleteCargo = (mutationSettings) => {
   return useMutation({ mutationFn: ({ id }) => itemsService.deleteCargo(id), ...mutationSettings });
 };
+
+export const useDeletedeleteDispacersDriver = (mutationSettings) => {
+  return useMutation({ mutationFn: ({ id }) => itemsService.deleteDispacersDriver(id), ...mutationSettings });
+};
+
 
 export const useDeleteOrder = (mutationSettings) => {
   return useMutation({ mutationFn: ({ id }) => itemsService.deleteOrder(id), ...mutationSettings });

@@ -180,6 +180,7 @@ export const TopContent = ({
 
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
+      console.log(`response`,res?.response)
       setUserData(res?.response);
       setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id);
     },
@@ -258,7 +259,9 @@ export const TopContent = ({
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
       data: JSON.stringify({
-        users_id: userId,
+        user_id: userId,
+        limit:100,
+        offset:1,
       }),
     },
     querySettings:{
@@ -436,6 +439,8 @@ export const TopContent = ({
                                 startPoint={user.startPoint}
                                 endPoint={user.endPoint}
                                 gpsHistory={gpsHistory}
+                                getDriverPosition={getDriverPosition?.response?.map(item => ([item?.lat,item?.long]))}
+
                                 driver={user?.users_gps?.[0]}
                                 driverPosition={[
                                   user?.users_gps?.[0]?.lat,
