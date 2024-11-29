@@ -5,15 +5,12 @@ import { MainLayout } from "@/layouts/MainLayout";
 import { dir } from "i18next";
 import { languages } from "../i18n/settings";
 import Script from "next/script";
-import Head from "next/head";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal"],
   display: "swap",
-  preload: true,
-  fallback: ["system-ui", "arial"],
+  variable: "--font-inter",
+  adjustFontFallback: true,
 });
 
 export const metadata = {
@@ -49,7 +46,7 @@ export async function generateStaticParams() {
 
 export default function RootLayout({ children, params: { locale } }) {
   return (
-    <html lang={locale} dir={dir(locale)} className="html layout">
+    <html lang={locale} dir={dir(locale)} className={`${inter.variable} html layout`}>
   
       <body className={inter.className}>
         <Providers>
