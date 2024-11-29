@@ -8,9 +8,7 @@ import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal"],
-  display: "swap",
+  display: "swap", // Qo'shimcha parametr
 });
 
 export const metadata = {
@@ -47,13 +45,6 @@ export async function generateStaticParams() {
 export default function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir(locale)} className="html layout">
-      {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet"
-      /> */}
-
       <body className={inter.className}>
         <Providers>
           <MainLayout>{children}</MainLayout>
