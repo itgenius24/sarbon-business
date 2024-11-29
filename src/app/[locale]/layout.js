@@ -8,10 +8,12 @@ import Script from "next/script";
 import Head from "next/head";
 
 const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal"],
   display: "swap",
+  preload: true,
+  fallback: ["system-ui", "arial"],
 });
 
 export const metadata = {
@@ -48,15 +50,7 @@ export async function generateStaticParams() {
 export default function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir(locale)} className="html layout">
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
+  
       <body className={inter.className}>
         <Providers>
           <MainLayout>{children}</MainLayout>
