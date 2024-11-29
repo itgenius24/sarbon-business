@@ -20,17 +20,19 @@ import UserImg from "@/assets/images/user.png";
 const Header = observer(({ elements }) => {
   const router = useRouter();
 
-  const [isAuth, setAuth] = useState(false);
+  // const [isAuth, setAuth] = useState(false);
 
+  const isAuth = authStore.getIsAuth
+  console.log(`isAuth`,isAuth)
   const pathname = usePathname();
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 
-  useEffect(() => {
-    setAuth(authStore.getIsAuth);
-  }, [authStore.getIsAuth]);
+  // useEffect(() => {
+  //   setAuth(authStore.getIsAuth);
+  // }, [authStore.getIsAuth]);
 
   const goToProfile = () => {
     router.push(`/${locale}/profile`);

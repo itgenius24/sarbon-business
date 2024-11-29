@@ -6,9 +6,14 @@ import { RegistrationForm } from "../(components)/RegistrationForm";
 import { Otp } from "../(components)/Otp";
 import { Forgot } from "../(components)/Forgot";
 import { NewPassword } from "../(components)/NewPassword/NewPassword";
+import { useParams, useSearchParams } from "next/navigation";
 
 export default function Auth({ params }) {
   const path = params.auth?.[0];
+
+  const params2 = useParams()
+
+  console.log(`dispatcher345`,params2)
 
   const authTypes = {
     login: Login,

@@ -154,6 +154,7 @@ export const AccordionMap = ({
     strokeWidth: 4, // Width of the polyline
     strokeOpacity: 1, // Opacity of the polyline
   };
+
   return (
     // <YMaps>
     <Map
@@ -181,9 +182,13 @@ export const AccordionMap = ({
           "yandex#publicMap",
         ]}
       />
- 
- <Placemark
-        geometry={getDriverPosition?.length >0  ? getDriverPosition?.[0] : driverPosition}
+
+      <Placemark
+        geometry={
+          getDriverPosition?.length > 0
+            ? getDriverPosition?.[ getDriverPosition?.length -1]
+            : getDriverPosition?.[ getDriverPosition?.length -1]
+        }
         properties={{
           balloonContent: `<div style='padding: 10px; font-size: 14px;'>
                   <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>

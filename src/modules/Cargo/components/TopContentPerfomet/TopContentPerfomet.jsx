@@ -113,7 +113,9 @@ export const TopContentPerfomet = ({ getMaps }) => {
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
       data: JSON.stringify({
-        user_id: userId,
+        users_id: userId,
+        limit:100,
+        offset:1,
       }),
     },
     querySettings:{

@@ -259,8 +259,8 @@ export const TopContent = ({
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
       data: JSON.stringify({
-        user_id: userId,
-        limit:100,
+        users_id: userId,
+        limit:300,
         offset:1,
       }),
     },
@@ -270,7 +270,6 @@ export const TopContent = ({
     }
   });
 
-  console.log(`getDriverPosition`,getDriverPosition)
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
