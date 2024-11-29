@@ -10,16 +10,18 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal"],
-  display: "swap"
+  display: "swap",
 });
 
 export const metadata = {
   title: "Furgo",
-  description: "питак, logistics, logistika, furgo, фурго, перевозка, перевозки, автоперевозки, юк ташиш, фурада юк ташиш, ставка, транзит, реф, firgo, погрузка, груз, аванс, затаможка, растаможка, догруз, глонасс, запрос, ref, adr, адр, грузовые перевозки",
+  description:
+    "питак, logistics, logistika, furgo, фурго, перевозка, перевозки, автоперевозки, юк ташиш, фурада юк ташиш, ставка, транзит, реф, firgo, погрузка, груз, аванс, затаможка, растаможка, догруз, глонасс, запрос, ref, adr, адр, грузовые перевозки",
   icons: { icon: "/favicon.ico" },
   openGraph: {
     title: "Furgo",
-    description: "Добро пожаловать в Furgo, вашего надежного партнера в сфере безупречных логистических решений. Мы специализируемся на транспортировке, складировании и управлении цепочкой поставок с акцентом на эффективности и надежности. Наша высококвалифицированная команда применяет передовые технологии для оптимизации операций, гарантируя своевременную и безопасную доставку вашего груза.",
+    description:
+      "Добро пожаловать в Furgo, вашего надежного партнера в сфере безупречных логистических решений. Мы специализируемся на транспортировке, складировании и управлении цепочкой поставок с акцентом на эффективности и надежности. Наша высококвалифицированная команда применяет передовые технологии для оптимизации операций, гарантируя своевременную и безопасную доставку вашего груза.",
     url: "https://furgo.uz/",
     siteName: "Furgo",
     images: [
@@ -33,7 +35,7 @@ export const metadata = {
         width: 1600,
         height: 1600,
       },
-    ]
+    ],
   },
   type: "website",
 };
@@ -45,11 +47,16 @@ export async function generateStaticParams() {
 export default function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir(locale)} className="html layout">
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet"
+      />
+
       <body className={inter.className}>
         <Providers>
-          <MainLayout>
-            {children}
-          </MainLayout>
+          <MainLayout>{children}</MainLayout>
         </Providers>
       </body>
       <Script
@@ -57,18 +64,15 @@ export default function RootLayout({ children, params: { locale } }) {
         src="https://www.googletagmanager.com/gtag/js?id=G-B2SWXD4SK3"
       />
       <Script id="gtag" strategy="afterInteractive">
-        {
-          `
+        {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-B2SWXD4SK3');
-          `
-        }
+          `}
       </Script>
-      <Script type="text/javascript" id="mcjs" >
-        {
-          `
+      <Script type="text/javascript" id="mcjs">
+        {`
           (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
           m[i].l=1*new Date();
           for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -80,8 +84,7 @@ export default function RootLayout({ children, params: { locale } }) {
               trackLinks:true,
               accurateTrackBounce:true
           });
-          `
-        }
+          `}
       </Script>
       <Script
         id="yandex-maps-script"
