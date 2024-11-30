@@ -29,6 +29,7 @@ export const MyLoadsMain = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
+  console.log(`cargos`, cargos);
 
   return (
     <Box px={"20px"} py="24px">

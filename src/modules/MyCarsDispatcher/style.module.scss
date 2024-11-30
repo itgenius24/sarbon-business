@@ -19,8 +19,20 @@
   font-size: 13px;
   text-transform: uppercase;
   max-width: 100%;
-  // background-color: red;
-//  margin-left: 5px;
+  .filterTitle{
+    &:hover{
+       color: rgba(0, 122, 255, 1);
+    }
+
+    
+ }
+ &:hover{
+   svg{
+     path{
+       fill: rgba(0, 122, 255, 1) !important;
+     }
+   }
+  }
   &:nth-child(1) {
     width: 500px;
   }

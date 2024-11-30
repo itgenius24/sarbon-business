@@ -4,18 +4,20 @@ import { Container } from "@/components/Container";
 
 import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 
-import { IocnFilter, PlusIcon } from "@/assets/icons/icons";
+import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { CarsCard } from "./component/CarsCard/CarsCard";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const MyCarsDispatcherModule = () => {
-  const { t, data, deleteFuntion } = useMyCarsDispatcher();
+  const { t, data, deleteFuntion,nameFilter,filter1,iSloader } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
+  const isOrderData = data?.filter((item) => !item?.order)
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <>
@@ -30,10 +32,10 @@ export const MyCarsDispatcherModule = () => {
           <Flex gap={`28px`}>
             <Box className={cls.countrWrap}>
               <p>
-                Всего: <span>36</span>
+                Всего: <span>{data?.length || 0}</span>
               </p>
               <p>
-                Свободных: <span>25</span>
+                Свободных: <span>{isOrderData?.length || 0}</span>
               </p>
             </Box>
             <Button
@@ -58,9 +60,10 @@ export const MyCarsDispatcherModule = () => {
               gap={2}
               justifyContent={`flex-start`}
               alignItems={`center`}
+              onClick={nameFilter}
             >
-              <p style={{ color: `rgba(0, 122, 255, 1)` }}>Водитель</p>
-              <IocnFilter />
+              <p  className={cls.filterTitle}>Водитель</p>
+              {filter1 ? <IocnSortBack /> : <IocnFilter />}
             </Flex>
             <p className={cls.th}>Владелец машины</p>
             <p className={cls.th}>Машина</p>
@@ -77,14 +80,14 @@ export const MyCarsDispatcherModule = () => {
           </Flex>
         </Box>
         <Box>
-          {data &&
+          {data?.length > 0 ?
             data?.map((item) => (
               <CarsCard
                 key={item.user?.guid}
                 item={item}
                 deleteFuntion={deleteFuntion}
               />
-            ))}
+            )): <LoadingSpinner />}
         </Box>
       </Container>
     </>

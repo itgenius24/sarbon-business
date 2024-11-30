@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -13,9 +13,11 @@ import authStore from "@/store/auth.store";
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
+  const [filter1, setFilter1] = useState(false);
+  const [filter2, setFilter2] = useState(false);
   const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(25);
+  const [limit, setLimit] = useState(50);
   const [refe, setRefe] = useState();
 
   const [ids, setId] = useState([]);
@@ -56,9 +58,13 @@ export const useSearchLoadDispatcher = () => {
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      const filteredData = res?.response.filter(
-        (item) => item.user && item.vehicles
-      );
+      setRefe(false);
+      const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
+
+      const filteredData = res?.response.map((item) => ({
+        ...item,
+        vehicles: item?.vehicles ? item?.vehicles : vehicles,
+      }));
 
       const uniqueData = filteredData.filter(
         (item) =>
@@ -69,7 +75,7 @@ export const useSearchLoadDispatcher = () => {
 
       setData((prev) => [...prev, ...uniqueData]);
       setOldData((prev) => [...prev, ...uniqueData]);
-      setRefe(false);
+
     },
   });
 
@@ -88,13 +94,14 @@ export const useSearchLoadDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(limit + 25);
+    setLimit(limit + 50);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
   const [isAscendingTip, setIsAscendingTip] = useState(true); // Saralash tartibini saqlash uchun holat
 
   const nameFilter = () => {
+    setFilter1(!filter1);
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
@@ -105,16 +112,19 @@ export const useSearchLoadDispatcher = () => {
     setData(() => [...sortedData]);
     setIsAscending(!isAscending); // Tartibni almashtirish
   };
+
   const tipFilter = () => {
+    setFilter2(!filter2);
+
     const sortedData = data?.sort(
       (a, b) =>
         isAscendingTip
           ? a?.vehicles?.[0]?.trailer_type_id_data?.name.localeCompare(
-              b?.vehicles?.[0]?.trailer_type_id_data?.name
-            ) // Alfavit bo'yicha
+            b?.vehicles?.[0]?.trailer_type_id_data?.name
+          ) // Alfavit bo'yicha
           : b?.vehicles?.[0]?.trailer_type_id_data?.name.localeCompare(
-              a?.vehicles?.[0]?.trailer_type_id_data?.name
-            ) // Teskari alfavit bo'yicha
+            a?.vehicles?.[0]?.trailer_type_id_data?.name
+          ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -139,6 +149,13 @@ export const useSearchLoadDispatcher = () => {
   const { mutate: createUserAdress, isPending: createAdressisPending } =
     useCreateAddressMutation({
       onSuccess: () => {
+        setOldData([]);
+        setData([]);
+        setPage(1);
+        setLimit(25);
+        setRefe(true);
+        setId([]);
+        // setShowButton(false)
         // router.push(`/${locale}/my-cars-dispatcher`);
       },
     });
@@ -152,11 +169,10 @@ export const useSearchLoadDispatcher = () => {
             firm_id: item?.firm_id,
             driver_id: item?.guid,
           })),
-          dispatcher_id: disId, 
+          dispatcher_id: disId,
         },
       },
     });
-    setRefe(true);
   };
 
   const handleCheckboxChange = (user) => {
@@ -172,6 +188,8 @@ export const useSearchLoadDispatcher = () => {
   return {
     t,
     setValue,
+    filter1,
+    filter2,
     register,
     watch,
     negotiableOption,

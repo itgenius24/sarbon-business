@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import { IocnFilter, PlusIcon } from "@/assets/icons/icons";
+import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -35,13 +35,14 @@ export const SearchLoadDispatcherModule = () => {
     nameFilter,
     tipFilter,
     isPending,
+    filter1,
+    filter2,
     onFilterChange,
     handleCheckboxChange,
     ids,
     observerRef,
     onSubmit,
-    showButton,
-    createAdressisPending
+    createAdressisPending,
   } = useSearchLoadDispatcher();
 
   const [value, setValueR] = useState(`val1`);
@@ -102,12 +103,7 @@ export const SearchLoadDispatcherModule = () => {
             background={`#F6F7F8`}
             mt={"27px"}
           >
-            <Flex
-              p={"10px 36px"}
-              justifyContent={"space-between"}
-              mt={"32px"}
-              // width={"100%"}
-            >
+            <Flex p={"10px 36px"} justifyContent={"space-between"} mt={"32px"}>
               <Flex
                 cursor={`pointer`}
                 className={cls.th}
@@ -116,8 +112,9 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={() => nameFilter()}
               >
-                <p>Имя водителя</p>
-                <IocnFilter />
+                <p className={cls.filterTitle}>Имя водителя</p>
+                {filter1 ? <IocnSortBack /> : <IocnFilter />}
+             
               </Flex>
               <p className={cls.th}>Владелец машины</p>
               <p className={cls.th}>Номер машины</p>
@@ -130,8 +127,8 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={tipFilter}
               >
-                <p style={{ color: `rgba(0, 122, 255, 1)` }}>тип Кузова</p>
-                <IocnFilter />
+                <p className={cls.filterTitle}>тип Кузова</p>
+                {filter2 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
               <p className={cls.th}>вес / объём</p>
               <p className={cls.th}>был онлайн</p>
@@ -151,7 +148,7 @@ export const SearchLoadDispatcherModule = () => {
                 index={index}
                 item={item}
                 handleCheckboxChange={handleCheckboxChange}
-                ids={ids?.map(item => item?.guid)}
+                ids={ids?.map((item) => item?.guid)}
               />
             ))}
           </Box>
@@ -178,7 +175,12 @@ export const SearchLoadDispatcherModule = () => {
           >
             <Flex gap={`50px`} className={cls.addUser}>
               <p className={cls.addText}>Выбрано: {ids?.length}</p>
-              <Button isLoading={createAdressisPending} onClick={onSubmit} isDisabled={ids?.length === 0} className={cls.btnAddLoad}>
+              <Button
+                isLoading={createAdressisPending}
+                onClick={onSubmit}
+                isDisabled={ids?.length === 0}
+                className={cls.btnAddLoad}
+              >
                 Добавить к себе
               </Button>
             </Flex>

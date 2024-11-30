@@ -26,14 +26,13 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
 import { format } from "date-fns";
 
-export const CarsCard = ({ item, handleCheckboxChange, ids,index }) => {
+export const CarsCard = ({ item, handleCheckboxChange, ids, index }) => {
   const router = useRouter();
   const locale = useGetLang();
 
   return (
     <Flex
       as={`label`}
-      
       for={item?.user?.guid}
       className={`${cls.cardWrap} ${
         ids.includes(item?.user?.guid) && cls.active
@@ -54,16 +53,27 @@ export const CarsCard = ({ item, handleCheckboxChange, ids,index }) => {
         </p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend3}`}>
+        <p className={cls.title}>
+          {item?.vehicles?.[0]?.car_number ? (
+            item?.vehicles?.[0]?.car_number
+          ) : (
+            <span className={cls.subTitle}>Без Номер</span>
+          )}
+        </p>
         <p className={cls.title}>{item?.vehicles?.[0]?.car_number}</p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
         <p className={cls.title}>
-          {item?.vehicles?.[0]?.trailer_type_id_data?.name}{" "}
+          {item?.vehicles?.[0]?.trailer_type_id_data?.name
+            ? item?.vehicles?.[0]?.trailer_type_id_data?.name
+            : `____`}
         </p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
         <p className={cls.title}>
-          {item?.vehicles?.[0]?.height}т / {item?.vehicles?.[0]?.capacity}м3
+          {item?.vehicles?.[0]?.height
+            ? `${item?.vehicles?.[0]?.height}т / ${item?.vehicles?.[0]?.capacity}м3`
+            : `___`}
         </p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend6}`}>
@@ -78,17 +88,24 @@ export const CarsCard = ({ item, handleCheckboxChange, ids,index }) => {
         alignItems={`center`}
         className={`${cls.contend} ${cls.contend7}`}
       >
-        <p className={cls.title}>
+        <Flex
+          width={`100%`}
+          justifyContent={`space-between`}
+          alignItems={`center`}
+          className={cls.title}
+        >
           {item?.dispatcher ? (
             item?.dispatcher?.[0]?.users_id_2_data?.full_name
           ) : (
-            <span className={cls.subTitle}>Без диспетчера</span>
+            <>
+              <span className={cls.subTitle}>Без диспетчера</span>
+              <Checkbox
+                id={item?.user?.guid}
+                onClick={() => handleCheckboxChange(item?.user)}
+              ></Checkbox>
+            </>
           )}
-        </p>
-        <Checkbox
-          id={item?.user?.guid}
-          onClick={() => handleCheckboxChange(item?.user)}
-        ></Checkbox>
+        </Flex>
       </Flex>
     </Flex>
   );

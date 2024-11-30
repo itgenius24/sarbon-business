@@ -43,10 +43,10 @@ export const useElements = () => {
         path: `/${lang || "ru"}/`,
         label: "Главный",
       },
-      {
-        path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
-        label: "Добавить груз",
-      },
+      // {
+      //   path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
+      //   label: "Добавить груз",
+      // },
       {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
         label: "Мои грузы",
@@ -74,14 +74,14 @@ export const useElements = () => {
         label: "GPS tracking",
       },
     ];
-  } else if (role_id === `Zakazcik`) {
+  } else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
     return [
       {
         path: `/${lang || "ru"}/`,
         label: "Главный",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
+        path: isAuth ? `/${lang || "r u"}/add-cargo` : `/${lang || "ru"}/auth`,
         label: "Добавить груз",
       },
       {

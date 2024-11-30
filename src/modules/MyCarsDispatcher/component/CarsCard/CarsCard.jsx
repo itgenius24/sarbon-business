@@ -25,16 +25,15 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { format } from "date-fns";
 
-export const CarsCard = ({ item ,deleteFuntion}) => {
+export const CarsCard = ({ item, deleteFuntion }) => {
   const router = useRouter();
   const locale = useGetLang();
 
   return (
     <Flex
       className={cls.cardWrap}
-      borderLeft={`4px solid  ${
-        item?.order ? ` rgba(0, 122, 255, 1) ` : `rgba(21, 186, 77, 1)`
-      }`}
+      borderLeft={`4px solid  ${item?.order ? ` rgba(0, 122, 255, 1) ` : `rgba(21, 186, 77, 1)`
+        }`}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <Flex alignItems={`center`} gap={`6px`}>
@@ -45,7 +44,7 @@ export const CarsCard = ({ item ,deleteFuntion}) => {
           />
           <Box>
             <p className={cls.title}>{item?.user?.users_id_data?.full_name}</p>
-            <p className={cls.tel}>{item?.user?.users_id_data?.phone} </p>
+            <a target="_blank" href={`https://t.me/${item?.user?.users_id_data?.phone}`} className={cls.tel}>{item?.user?.users_id_data?.phone} </a>
           </Box>
         </Flex>
       </Box>
@@ -135,40 +134,45 @@ export const CarsCard = ({ item ,deleteFuntion}) => {
           </Flex>
           <Box className={cls.popup}>
             <Popover placement={"bottom-start"}>
-              <PopoverTrigger>
-                <IconButton
-                  size={"sm"}
-                  borderRadius={"50%"}
-                  icon={<PopupIcon />}
-                  width="40px"
-                  _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
-                  backgroundColor={"white"}
-                />
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent
-                  boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
-                  border={"1px solid rgba(234, 236, 240, 1"}
-                  className={cls.popoverCon}
-                >
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <Box
-                      style={{ padding: `10px 8px`, color: `red` }}
-                      _hover={{
-                        backgroundColor: `rgba(0, 122, 255, 1)`,
-                        borderRadius: `6px`,
-                        color: `rgba(255, 255, 255, 1)`,
-                        cursor: `pointer`,
-                      }}
-                      className={cls.menuItem}
-                      onClick={() => deleteFuntion(item?.user?.guid)}
+              {({ isOpen, onClose }) => (
+                <>
+                  <PopoverTrigger>
+                    <IconButton
+                      size={"sm"}
+                      borderRadius={"50%"}
+                      icon={<PopupIcon />}
+                      width="40px"
+                      _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
+                      backgroundColor={"white"}
+                    />
+                  </PopoverTrigger>
+                  <Portal>
+                    <PopoverContent
+                      boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
+                      border={"1px solid rgba(234, 236, 240, 1"}
+                      className={cls.popoverCon}
                     >
-                      Удалить водителя
-                    </Box>
-                  </PopoverBody>
-                </PopoverContent>
-              </Portal>
+                      <PopoverArrow />
+                      <PopoverBody>
+                        <Box
+                          style={{ padding: `10px 8px`, color: `red` }}
+                          _hover={{
+                            backgroundColor: `rgba(0, 122, 255, 1)`,
+                            borderRadius: `6px`,
+                            color: `rgba(255, 255, 255, 1)`,
+                            cursor: `pointer`,
+                          }}
+                          className={cls.menuItem}
+                          onClick={() => {deleteFuntion(item?.user?.guid); onClose()}}
+                        >
+                          Удалить водителя
+                        </Box>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Portal>
+                </>
+              )}
+
             </Popover>
           </Box>
         </Flex>

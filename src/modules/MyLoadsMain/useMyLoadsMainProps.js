@@ -14,14 +14,11 @@ import { keepPreviousData } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export const useMyLoadsMainProps = () => {
-  const params = useSearchParams()
-  const orderValStatus = params.get(`value`) || ``
+  const params = useSearchParams();
+  const orderValStatus = params.get(`value`) || ``;
 
   const router = useRouter();
   const [orderStatus, setOrderStatus] = useState(orderValStatus || ``);
-
-
-  
 
   const userId = authStore.userData.id;
 
@@ -49,21 +46,20 @@ export const useMyLoadsMainProps = () => {
       with_relations: true,
     }),
   };
- 
+
   const isCargo =
     !orderStatus ||
     orderStatus === "in_moderation" ||
     orderStatus === `in_active`;
 
-    console.log(`orderStatus22`,orderStatus)
+  console.log(`orderStatus22`, orderStatus);
 
   if (orderStatus === "approve_from_driver") {
     const data = JSON.parse(getCargoFilterParams.data);
     // data.response_status = [orderStatus];
     // data.provisions = ["new"];
-    data.provisions=["new","approve_from_driver"],
-
-    getCargoFilterParams.data = JSON.stringify(data);
+    (data.provisions = ["new", "approve_from_driver"]),
+      (getCargoFilterParams.data = JSON.stringify(data));
   } else if (
     orderStatus === "performed" ||
     orderStatus === "cancellation" ||
@@ -74,7 +70,7 @@ export const useMyLoadsMainProps = () => {
     getCargoFilterParams.data = JSON.stringify(data);
   } else if (orderStatus === "in_moderation") {
     const data = JSON.parse(getAllUserCargoParams.data);
-    data.order_status = [orderStatus,];
+    data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
   } else if (orderStatus === "in_active") {
     const data = JSON.parse(getAllUserCargoParams.data);
@@ -124,7 +120,7 @@ export const useMyLoadsMainProps = () => {
         users_id_2: userId,
         with_relations: true,
         // response_status: ["approve_from_driver"],
-        provisions: ["new","approve_from_driver"],
+        provisions: ["new", "approve_from_driver"],
       }),
     },
     { enabled: false }
@@ -199,7 +195,6 @@ export const useMyLoadsMainProps = () => {
         object_data: {
           guid: driverId,
           responses: id,
-          
         },
       },
     });
@@ -236,13 +231,12 @@ export const useMyLoadsMainProps = () => {
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
-  function onFilterChange({ label,value }) {
+  function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
 
     setOrderStatus(value);
     setLimit(6);
     setHasMore(true);
-   
   }
 
   const ref = useRef(null);
@@ -254,8 +248,7 @@ export const useMyLoadsMainProps = () => {
   }
 
   const handleScroll = () => {
-
-console.log(`ref`,ref)
+    console.log(`ref`, ref);
     if (ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
 
@@ -264,7 +257,6 @@ console.log(`ref`,ref)
       }
     }
   };
-
 
   useEffect(() => {
     document.addEventListener("scroll", handleScroll, { capture: true });
