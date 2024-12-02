@@ -163,7 +163,7 @@ export const SearchLoadDispatcherModule = () => {
               onClick={addPage}
               className={cls.btnLoad}
             >
-              Загрузить еще 30
+              Загрузить еще 50
             </Button>
           </Box>
           <Flex
