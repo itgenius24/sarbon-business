@@ -197,7 +197,7 @@ export const useGpsTrackingProps = () => {
             zoom: 7,
             controls: [searchControl],
           },
-          { buttonMaxWidth: 300 }
+          { buttonMaxWidth: 500 }
         );
 
         // Adding a multiroute to the map.
@@ -309,11 +309,15 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
-
+ console.log(`carsArr`,carsArr)
   const { mutate: dataMutate, isPending } = useGetCar({
     onSuccess: (data) => {
-      if (data?.response?.length === 100) {
+      if (data?.response?.length === 50) {
+        if(carsArr >= 100){
+           return
+        }else{
         setOffset(offset + 1);
+        }
       }
       if (data?.response?.length) {
         const data2 = data?.response?.filter(
@@ -344,7 +348,7 @@ export const useGpsTrackingProps = () => {
       if (data?.response?.length === null && !closeRes) {
         setCLoseRes(true);
         dataMutate({
-          data: { object_data: { limit: 100, page: offset, firm_id } },
+          data: { object_data: { limit: 50, page: offset, firm_id } },
         });
       }
     },
@@ -508,28 +512,12 @@ export const useGpsTrackingProps = () => {
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
-            limit: 100,
+            limit: 50,
             page: offset,
             firm_id,
           },
         },
       });
-      // mutate({
-      //   data: {
-      //     object_data: {
-      //       lat: watch("cor")?.split(",")[0],
-      //       long: watch("cor")?.split(",")[1],
-      //       number: distance * 4 || 100,
-      //       car_type_id: watch("car_type")?.value,
-      //       load_type_id: watch("load_type_id")?.value,
-      //       weight: watch("weight"),
-      //       volume: watch("volume"),
-      //       limit: 40,
-      //       page: offset,
-      //       firm_id,
-      //     },
-      //   },
-      // });
     }
   }, [
     watch("cor")?.split(",")[0],
@@ -550,7 +538,7 @@ export const useGpsTrackingProps = () => {
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
-    setDistance(30);
+    setDistance(50);
     setCheckboxStatuses({
       empty: true,
       our_cargo: true,
