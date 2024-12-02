@@ -61,6 +61,7 @@ export const RegistrationForm = () => {
     router,
     setIsPopupOpen,
     login,
+    loadin
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -446,6 +447,7 @@ export const RegistrationForm = () => {
             width={`20%`}
             type="submit"
             mb="16px"
+            isLoading={loadin}
             // isDisabled={!watch("acceptTerms")}
           >
             {t("Сохранить профиль")}

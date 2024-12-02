@@ -20,6 +20,7 @@ export const useRegistrationFormProps = () => {
   const router = useRouter();
   const [value, setValueR] = useState("C1");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [loadin,setLoadin] = useState(false)
 
   const { t } = useTranslation(locale, "translations");
 
@@ -65,6 +66,8 @@ export const useRegistrationFormProps = () => {
   useEffect(() => {
     if (getUsers.data) {
       if (value === `C2`) {
+
+        setLoadin(false)
         authStore.login({
           user: {
             firm_id: getUsers?.data?.response?.[0]?.firm_id,
@@ -79,12 +82,15 @@ export const useRegistrationFormProps = () => {
         router.push(`/${locale}`);
       } else {
         setIsPopupOpen(true);
+        setLoadin(false)
       }
       setEnab(false);
     }
   }, [getUsers.data]);
 
   const login = (type) => {
+    setLoadin(false)
+
     authStore.login({
       user: {
         firm_id: getUsers?.data?.response?.[0]?.firm_id,
@@ -104,6 +110,7 @@ export const useRegistrationFormProps = () => {
       setEnab(true);
     },
     onError(error) {
+      setLoadin(false)
       if (error.data?.data?.includes("user_unq_login")) {
         toast({
           title: t("Такой логин уже зарегистрирован"),
@@ -152,6 +159,7 @@ export const useRegistrationFormProps = () => {
       });
     },
     onError(error) {
+      setLoadin(false)
       if (error.data?.data?.includes("user_unq_login")) {
         toast({
           title: t("Такой логин уже зарегистрирован"),
@@ -200,6 +208,7 @@ export const useRegistrationFormProps = () => {
         logo: data.img,
       },
     });
+    setLoadin(true)
   }
 
   function handleTogglePasswordVisibility() {
@@ -241,5 +250,6 @@ export const useRegistrationFormProps = () => {
     locale,
     router,
     login,
+    loadin
   };
 };

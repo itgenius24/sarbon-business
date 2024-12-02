@@ -175,6 +175,7 @@ export const useSearchLoadDispatcher = () => {
     });
   };
 
+
   const handleCheckboxChange = (user) => {
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {
       // Agar id arrayda bo'lsa, uni olib tashlaymiz
