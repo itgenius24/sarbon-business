@@ -39,7 +39,7 @@ export const MyCarsDispatcherModule = () => {
               </p>
             </Box>
             <Button
-              onClick={() => router.push(`/${locale}/search-load-dispatcher`)}
+              onClick={() => router.push(`/${locale}/my-cars-dispatcher/create`)}
               width={"fit-content"}
               leftIcon={<PlusIcon />}
             >

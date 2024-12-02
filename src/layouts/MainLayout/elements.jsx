@@ -55,10 +55,10 @@ export const useElements = () => {
         path: isAuth ? `/${lang || "ru"}/my-cars-dispatcher` : `/${lang || "ru"}/auth`,
         label: "Мои машины",
       },
-      {
-        path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
-        label: "Поиск грузов",
-      },
+      // {
+      //   path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
+      //   label: "Поиск грузов",
+      // },
       {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
