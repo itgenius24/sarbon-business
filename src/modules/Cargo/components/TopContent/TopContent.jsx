@@ -79,7 +79,7 @@ export const TopContent = ({
   userId2,
   getMaps,
   id,
-  cargoData
+  cargoData,
 }) => {
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
@@ -325,7 +325,10 @@ export const TopContent = ({
             </Box>
             {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f"}
             <Box>
-              <Avatar src={cargoData?.[0]?.order?.users_id_2_data?.full_name}  />
+              <Avatar
+                src={cargoData?.[0]?.order?.users_id_2_data?.full_name}
+                name={cargoData?.[0]?.order?.users_id_2_data?.full_name}
+              />
             </Box>
           </Flex>
 
