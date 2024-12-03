@@ -1206,6 +1206,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDelete,
     handleCancel,
     handleAccept,
+    cargoData:data,
     order_status: status === `active` ? data?.order_status : ``,
     address1: data?.from
       ? data?.from

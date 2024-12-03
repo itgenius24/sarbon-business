@@ -233,82 +233,76 @@ export const Performed = ({
             </div>
           </div>
           <div className={styles.card}>
-          {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-                orderStatus === `archive` && (
-                  <Flex
-                    width={`100%`}
-                    className={styles.cardItem}
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Avatar
-                      src={cargo?.users_id_2_data?.logo}
-                      name={cargo?.users_id_2_data?.full_name}
-                    />
-                    <Box>
-                      <p className={styles.cardBodyTitle}> Заказчик</p>
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `archive` && (
+                <Flex
+                  width={`100%`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_2_data?.logo}
+                    name={cargo?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}> Заказчик</p>
 
-                      <p
-                        style={{ lineHeight: `28px` }}
-                        className={styles.cardName}
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {" "}
+                      {cargo?.users_id_2_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          textDecoration: `underline dotted`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
                       >
-                        {" "}
-                        {cargo?.users_id_2_data?.full_name}{" "}
-                        <a
-                          style={{
-                            marginLeft: `5px`,
-                            textDecoration: `underline dotted`,
-                          }}
-                          target="_blank"
-                          href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
-                        >
-                          {cargo?.users_id_2_data?.phone_number}{" "}
-                        </a>{" "}
-                      </p>
-                    </Box>
-                  </Flex>
-                )}
-              {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-                orderStatus === `archive` && (
-                  <Flex
-                    width={`100%`}
-                 
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Avatar
-                      src={cargo?.users_id_3_data?.logo}
-                      name={cargo?.users_id_3_data?.full_name}
-                    />
-                    <Box>
-                      <p className={styles.cardBodyTitle}>Диспетчер</p>
+                        {cargo?.users_id_2_data?.phone_number}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
+            {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `archive` && (
+                <Flex width={`100%`} gap={`7px`} alignItems={`center`}>
+                  <Avatar
+                    src={cargo?.users_id_3_data?.logo}
+                    name={cargo?.users_id_3_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}>Диспетчер</p>
 
-                      <p
-                        style={{ lineHeight: `28px` }}
-                        className={styles.cardName}
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {" "}
+                      {cargo?.users_id_3_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          textDecoration: `underline dotted`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone_number}`}
                       >
-                        {" "}
-                        {cargo?.users_id_3_data?.full_name}{" "}
-                        <a
-                          style={{
-                            marginLeft: `5px`,
-                            textDecoration: `underline dotted`,
-                          }}
-                          target="_blank"
-                          href={`https://t.me/${cargo?.users_id_3_data?.phone_number}`}
-                        >
-                          {cargo?.users_id_3_data?.phone_number}{" "}
-                        </a>{" "}
-                      </p>
-                    </Box>
-                  </Flex>
-                )}
+                        {cargo?.users_id_3_data?.phone_number}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
             <Flex
               className={styles.cardItem}
               justifyContent={`space-between`}
               alignItems={`center`}
             >
-             
               <Box>
                 {orderStatus == "performed" && (
                   <>
@@ -347,42 +341,39 @@ export const Performed = ({
               </Box>
             </Flex>
 
-            {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+            {((role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
               orderStatus === `new`) ||
-              (orderStatus === `performed` && (
-                <Flex
-                  width={`100%`}
-                  className={styles.cardItem}
-                  gap={`7px`}
-                  alignItems={`center`}
-                >
-                  <Avatar
-                    src={cargo?.users_id_2_data?.logo}
-                    name={cargo?.users_id_2_data?.full_name}
-                  />
-                  <Box>
-                    <p className={styles.cardBodyTitle}> Заказчик</p>
+              orderStatus === `performed`) && (
+              <Flex
+                width={`100%`}
+                className={styles.cardItem}
+                gap={`7px`}
+                alignItems={`center`}
+              >
+                <Avatar
+                  src={cargo?.users_id_2_data?.logo}
+                  name={cargo?.users_id_2_data?.full_name}
+                />
+                <Box>
+                  <p className={styles.cardBodyTitle}> Заказчик</p>
 
-                    <p
-                      style={{ lineHeight: `28px` }}
-                      className={styles.cardName}
+                  <p style={{ lineHeight: `28px` }} className={styles.cardName}>
+                    {" "}
+                    {cargo?.users_id_2_data?.full_name}{" "}
+                    <a
+                      style={{
+                        marginLeft: `5px`,
+                        textDecoration: `underline dotted`,
+                      }}
+                      target="_blank"
+                      href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
                     >
-                      {" "}
-                      {cargo?.users_id_2_data?.full_name}{" "}
-                      <a
-                        style={{
-                          marginLeft: `5px`,
-                          textDecoration: `underline dotted`,
-                        }}
-                        target="_blank"
-                        href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
-                      >
-                        {cargo?.users_id_2_data?.phone_number}{" "}
-                      </a>{" "}
-                    </p>
-                  </Box>
-                </Flex>
-              ))}
+                      {cargo?.users_id_2_data?.phone_number}{" "}
+                    </a>{" "}
+                  </p>
+                </Box>
+              </Flex>
+            )}
 
             {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
               orderStatus === `performed` && (

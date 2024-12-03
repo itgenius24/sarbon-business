@@ -17,13 +17,14 @@ import { boolean, object } from "yup";
 
 export const useMyLoadsMainProps = () => {
   const params = useSearchParams();
+  const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
 
   const router = useRouter();
-  const [orderStatus, setOrderStatus] = useState(orderValStatus || ``);
+  const [orderStatus, setOrderStatus] = useState(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? `new` :  orderValStatus || ``);
   const [data, setData] = useState([]);
   const userId = authStore.userData.id;
-  const role_id = authStore.userData.role_id;
+
 
   const toast = useToast();
 
@@ -117,7 +118,7 @@ export const useMyLoadsMainProps = () => {
   console.log(`datawewe`, data);
 
   useEffect(() => {
-    if (orderStatus === "new") {
+    // if (orderStatus === "new") {
       getNewPred.mutate({
         data: {
           object_data: {
@@ -125,7 +126,7 @@ export const useMyLoadsMainProps = () => {
           },
         },
       });
-    }
+    // }
   }, [Boolean(orderStatus === "new")]);
 
   const getOfferCount = useGetOffer(
@@ -133,14 +134,14 @@ export const useMyLoadsMainProps = () => {
       limit,
       offset: 0,
       data: JSON.stringify({
-        users_id_2: userId,
+        users_id_3: userId,
         with_relations: true,
-        // provisions: ["new"],
         provisions: ["approve_by_customer"],
       }),
     },
-    { enabled: false }
+    { enabled: true }
   );
+
 
   const getWaitingDriverCount = useGetOffer(
     {
@@ -264,7 +265,6 @@ export const useMyLoadsMainProps = () => {
 
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
-
     setOrderStatus(value);
     setLimit(6);
     setHasMore(true);
@@ -310,7 +310,8 @@ export const useMyLoadsMainProps = () => {
 
   return {
     cargos: orderStatus === `new` ? data : cargosData.data?.response,
-    isLoading: cargosData.isLoading,
+
+    isLoading: Boolean(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && data?.length === 0)  ||   cargosData.isLoading,
     hasMore,
     onFilterChange,
     handleDelete,
@@ -319,7 +320,7 @@ export const useMyLoadsMainProps = () => {
     handleCancel,
     ref,
     handleLoadMore,
-    driverCount: getOfferCount.data?.count,
+    driverCount: data.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
   };
 };

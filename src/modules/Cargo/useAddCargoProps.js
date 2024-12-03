@@ -1151,6 +1151,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleDelete,
     handleCancel,
     handleAccept,
+   
     address1:
       data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
     address2:

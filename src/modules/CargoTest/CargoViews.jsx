@@ -174,6 +174,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
             userId2={addCargoProps.userId2}
             getMaps={addCargoProps.getMaps}
             id={id}
+            cargoData={addCargoProps.cargoData}
           />
         </>
       );

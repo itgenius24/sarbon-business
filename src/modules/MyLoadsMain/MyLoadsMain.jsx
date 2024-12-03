@@ -31,7 +31,7 @@ export const MyLoadsMain = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`cargos`, cargos);
+  
 
   const [disabled,setDisabled] = useState(false)
 

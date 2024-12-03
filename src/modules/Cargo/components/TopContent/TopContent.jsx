@@ -79,6 +79,7 @@ export const TopContent = ({
   userId2,
   getMaps,
   id,
+  cargoData
 }) => {
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
@@ -90,6 +91,7 @@ export const TopContent = ({
   const firm_id = authStore.userData.firm_id;
   const paramsId = searchParams.get("car_id");
   const locale = useGetLang();
+  const role_id = authStore.userData.role_id;
 
   const { t } = useTranslation(locale, "translations");
 
@@ -180,7 +182,7 @@ export const TopContent = ({
 
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
-      console.log(`response`,res?.response)
+      console.log(`response`, res?.response);
       setUserData(res?.response);
       setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id);
     },
@@ -260,16 +262,15 @@ export const TopContent = ({
     params: {
       data: JSON.stringify({
         users_id: userId,
-        limit:300,
-        offset:1,
+        limit: 300,
+        offset: 1,
       }),
     },
-    querySettings:{
-      enabled:Boolean(userId),
-      refetchInterval: 10000
-    }
+    querySettings: {
+      enabled: Boolean(userId),
+      refetchInterval: 10000,
+    },
   });
-
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
@@ -280,47 +281,53 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
-  console.log(`userData`, userData);
+  console.log(`cargoData`, cargoData);
 
   return (
     <Box>
       {status === "performed" && (
         <>
-          <Box p="14px" borderRadius="12px">
-            <h2 className={cls.address}>
-              <span className={cls.addressText}>
-                <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>
-                    {" "}
-                    <Tooltip
-                      color={`black`}
-                      boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                      background={`#fff`}
-                      label={`${address1}`}
-                    >
-                      <span>{`${address1?.slice(0, 10)}...`}</span>
-                    </Tooltip>
+          <Flex alignItems={`center`} justifyContent={`space-between`}>
+            <Box p="14px" borderRadius="12px">
+              <h2 className={cls.address}>
+                <span className={cls.addressText}>
+                  <span className={cls.addressCountry}>
+                    <span className={cls.addressCity}>
+                      {" "}
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${address1}`}
+                      >
+                        <span>{`${address1?.slice(0, 10)}...`}</span>
+                      </Tooltip>
+                    </span>
+                    {/* <span>{address1}</span> */}
                   </span>
-                  {/* <span>{address1}</span> */}
-                </span>
-                <span>-&gt;</span>
-                <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>
-                    {" "}
-                    <Tooltip
-                      color={`black`}
-                      boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                      background={`#fff`}
-                      label={`${address2}`}
-                    >
-                      <span>{`${address2?.slice(0, 10)}...`}</span>
-                    </Tooltip>
+                  <span>-&gt;</span>
+                  <span className={cls.addressCountry}>
+                    <span className={cls.addressCity}>
+                      {" "}
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${address2}`}
+                      >
+                        <span>{`${address2?.slice(0, 10)}...`}</span>
+                      </Tooltip>
+                    </span>
+                    {/* <span>{address2}</span> */}
                   </span>
-                  {/* <span>{address2}</span> */}
                 </span>
-              </span>
-            </h2>
-          </Box>
+              </h2>
+            </Box>
+            {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f"}
+            <Box>
+              <Avatar src={cargoData?.[0]?.order?.users_id_2_data?.full_name}  />
+            </Box>
+          </Flex>
 
           {isPending ? (
             <LoadingSpinner />
@@ -367,12 +374,23 @@ export const TopContent = ({
                               )}
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>Геолокация</p>
-                                <Flex gap={`5px`}  alignItems={`center`} className={cls.phoneItemName}>
-                                  <span style={{fontWeight:600}} className={cls.phoneItemName}>{user.gps ? "Выкл " : "Откл "}</span>
+                                <Flex
+                                  gap={`5px`}
+                                  alignItems={`center`}
+                                  className={cls.phoneItemName}
+                                >
+                                  <span
+                                    style={{ fontWeight: 600 }}
+                                    className={cls.phoneItemName}
+                                  >
+                                    {user.gps ? "Выкл " : "Откл "}
+                                  </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {user?.users_gps?.[0]?.update_time && formatDateTime( user?.users_gps?.[0]?.update_time)}
-                                    
+                                    {user?.users_gps?.[0]?.update_time &&
+                                      formatDateTime(
+                                        user?.users_gps?.[0]?.update_time
+                                      )}
                                   </span>
                                 </Flex>
                               </div>
@@ -438,8 +456,9 @@ export const TopContent = ({
                                 startPoint={user.startPoint}
                                 endPoint={user.endPoint}
                                 gpsHistory={gpsHistory}
-                                getDriverPosition={getDriverPosition?.response?.map(item => ([item?.lat,item?.long]))}
-
+                                getDriverPosition={getDriverPosition?.response?.map(
+                                  (item) => [item?.lat, item?.long]
+                                )}
                                 driver={user?.users_gps?.[0]}
                                 driverPosition={[
                                   user?.users_gps?.[0]?.lat,
