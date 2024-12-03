@@ -10,6 +10,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
 import authStore from "@/store/auth.store";
+import { useState } from "react";
 
 export const MyLoadsMain = () => {
   const {
@@ -31,6 +32,8 @@ export const MyLoadsMain = () => {
 
   const { t } = useTranslation(locale, "translations");
   console.log(`cargos`, cargos);
+
+  const [disabled,setDisabled] = useState(false)
 
   return (
     <Box px={"20px"} py="24px">
@@ -66,6 +69,8 @@ export const MyLoadsMain = () => {
                       handleAccept={handleAccept}
                       handleCancel={handleCancel}
                       cargo={cargo}
+                      setDisabled={setDisabled}
+                      disabled={disabled}
                     />
                   );
                 })}

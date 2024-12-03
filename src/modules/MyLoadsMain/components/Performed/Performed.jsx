@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -28,15 +29,21 @@ import {
 import { statusColor } from "../../data";
 import { Popup } from "@/components/Popup";
 import { useState } from "react";
+import { Checkbox } from "@/components/Checkbox";
+import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
+import authStore from "@/store/auth.store";
 
 export const Performed = ({
   cargo,
   orderStatus,
   handleAccept,
+  setDisabled,
+  disabled,
   handleCancel,
 }) => {
   const { t } = useTranslation();
   const [data, setData] = useState(false);
+  const role_id = authStore.userData.role_id;
 
   const router = useRouter();
   const locale = useGetLang();
@@ -59,11 +66,11 @@ export const Performed = ({
     prepayment: `Предоплата`,
   };
 
-  console.log(`data`, data);
-
   const onClose = () => {
     setData(false);
   };
+
+  console.log(`order`, orderStatus);
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
@@ -226,12 +233,82 @@ export const Performed = ({
             </div>
           </div>
           <div className={styles.card}>
+          {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+                orderStatus === `archive` && (
+                  <Flex
+                    width={`100%`}
+                    className={styles.cardItem}
+                    gap={`7px`}
+                    alignItems={`center`}
+                  >
+                    <Avatar
+                      src={cargo?.users_id_2_data?.logo}
+                      name={cargo?.users_id_2_data?.full_name}
+                    />
+                    <Box>
+                      <p className={styles.cardBodyTitle}> Заказчик</p>
+
+                      <p
+                        style={{ lineHeight: `28px` }}
+                        className={styles.cardName}
+                      >
+                        {" "}
+                        {cargo?.users_id_2_data?.full_name}{" "}
+                        <a
+                          style={{
+                            marginLeft: `5px`,
+                            textDecoration: `underline dotted`,
+                          }}
+                          target="_blank"
+                          href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
+                        >
+                          {cargo?.users_id_2_data?.phone_number}{" "}
+                        </a>{" "}
+                      </p>
+                    </Box>
+                  </Flex>
+                )}
+              {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+                orderStatus === `archive` && (
+                  <Flex
+                    width={`100%`}
+                 
+                    gap={`7px`}
+                    alignItems={`center`}
+                  >
+                    <Avatar
+                      src={cargo?.users_id_3_data?.logo}
+                      name={cargo?.users_id_3_data?.full_name}
+                    />
+                    <Box>
+                      <p className={styles.cardBodyTitle}>Диспетчер</p>
+
+                      <p
+                        style={{ lineHeight: `28px` }}
+                        className={styles.cardName}
+                      >
+                        {" "}
+                        {cargo?.users_id_3_data?.full_name}{" "}
+                        <a
+                          style={{
+                            marginLeft: `5px`,
+                            textDecoration: `underline dotted`,
+                          }}
+                          target="_blank"
+                          href={`https://t.me/${cargo?.users_id_3_data?.phone_number}`}
+                        >
+                          {cargo?.users_id_3_data?.phone_number}{" "}
+                        </a>{" "}
+                      </p>
+                    </Box>
+                  </Flex>
+                )}
             <Flex
-              width={`100%`}
               className={styles.cardItem}
               justifyContent={`space-between`}
               alignItems={`center`}
             >
+             
               <Box>
                 {orderStatus == "performed" && (
                   <>
@@ -268,58 +345,130 @@ export const Performed = ({
                   </>
                 )}
               </Box>
+            </Flex>
 
-              <Box>
-                {orderStatus == "performed" && (
-                  <Button
-                    leftIcon={<MapIcon />}
-                    onClick={() =>
-                      router.push(
-                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
-                      )
-                    }
-                    className={styles.bntMap}
-                  >
-                    {t(`Показать на карте`)}
-                  </Button>
-                )}
-                {orderStatus === `new` && (
-                  <Flex gap={`11px`}>
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCancel(cargo.guid);
-                      }}
-                      className={styles.bntOutline}
+            {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `new`) ||
+              (orderStatus === `performed` && (
+                <Flex
+                  width={`100%`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_2_data?.logo}
+                    name={cargo?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}> Заказчик</p>
+
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
                     >
-                      {t(`Отказать`)}
-                    </Button>
-                    <Button
-                      leftIcon={<IconCeckNewStatusIcon />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setData(cargo);
-                      }}
-                      className={styles.bntNew}
+                      {" "}
+                      {cargo?.users_id_2_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          textDecoration: `underline dotted`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
+                      >
+                        {cargo?.users_id_2_data?.phone_number}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              ))}
+
+            {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `performed` && (
+                <Flex
+                  width={`100%`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_3_data?.logo}
+                    name={cargo?.users_id_3_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}>Диспетчер</p>
+
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
                     >
-                      {t(`Принять`)}
-                    </Button>
-                  </Flex>
-                )}
-                {orderStatus == "cancellation" && (
+                      {" "}
+                      {cargo?.users_id_3_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          textDecoration: `underline dotted`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone_number}`}
+                      >
+                        {cargo?.users_id_3_data?.phone_number}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
+            <Box className={styles.cardItem}>
+              {orderStatus == "performed" && (
+                <Button
+                  leftIcon={<MapIcon />}
+                  onClick={() =>
+                    router.push(
+                      `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                    )
+                  }
+                  className={styles.bntMap}
+                >
+                  {t(`Показать на карте`)}
+                </Button>
+              )}
+              {orderStatus === `new` && (
+                <Flex gap={`11px`}>
                   <Button
-                    leftIcon={<DeleteIcon />}
                     onClick={(e) => {
                       e.stopPropagation();
-                      // setIsDeletePopupOpen(true);
+                      handleCancel(cargo.guid);
                     }}
                     className={styles.bntOutline}
                   >
-                    {t(`Удалить`)}
+                    {t(`Отказать`)}
                   </Button>
-                )}
-              </Box>
-            </Flex>
+                  <Button
+                    leftIcon={<IconCeckNewStatusIcon />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setData(cargo);
+                    }}
+                    className={styles.bntNew}
+                  >
+                    {t(`Принять`)}
+                  </Button>
+                </Flex>
+              )}
+              {orderStatus == "cancellation" && (
+                <Button
+                  leftIcon={<DeleteIcon />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // setIsDeletePopupOpen(true);
+                  }}
+                  className={styles.bntOutline}
+                >
+                  {t(`Удалить`)}
+                </Button>
+              )}
+            </Box>
           </div>
           {/* {orderStatus == "performed" && (
             <div className={styles.cardFooter}>
@@ -382,7 +531,6 @@ export const Performed = ({
                   {data?.payment_type?.[0] === "prepayment"
                     ? `${data?.prepayment} ${data?.currency_id_data?.code}`
                     : 0}
-                  
                 </p>
               </Box>
               <Box>
@@ -390,12 +538,26 @@ export const Performed = ({
                   Общая сумма
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                {data?.offers}  {data?.currency_id_data?.code}
+                  {data?.offers} {data?.currency_id_data?.code}
                 </p>
               </Box>
             </Flex>
+            <Flex
+              alignItems={`center`}
+              background={`rgba(237, 239, 245, 1)`}
+              padding={`7.5px`}
+              borderRadius={`4px`}
+              mt={`15px`}
+            >
+              <CheckboxModalPred
+                defaultChecked={disabled}
+                onChange={(e) => setDisabled(e.target.checked)}
+              >
+                Я согласовал это предложение с заказчиком*
+              </CheckboxModalPred>
+            </Flex>
           </ModalBody>
-          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="25px">
+          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="0px">
             <Button
               onClick={(e) => {
                 e.stopPropagation();
@@ -412,6 +574,7 @@ export const Performed = ({
               {t(`Отказать`)}
             </Button>
             <Button
+              isDisabled={!disabled}
               style={{ background: `rgba(21, 186, 77, 1)` }}
               leftIcon={<IconCeckNewStatusIcon />}
               onClick={(e) => {

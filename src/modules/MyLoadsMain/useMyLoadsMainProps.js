@@ -1,6 +1,7 @@
 import authStore from "@/store/auth.store";
 import {
   useDeleteCargo,
+  useGetNewPred,
   useGetOffer,
   useGetUserCargo,
   usePushNotificationMutation,
@@ -12,6 +13,7 @@ import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
 import { keepPreviousData } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
+import { boolean, object } from "yup";
 
 export const useMyLoadsMainProps = () => {
   const params = useSearchParams();
@@ -19,8 +21,9 @@ export const useMyLoadsMainProps = () => {
 
   const router = useRouter();
   const [orderStatus, setOrderStatus] = useState(orderValStatus || ``);
-
+  const [data, setData] = useState([]);
   const userId = authStore.userData.id;
+  const role_id = authStore.userData.role_id;
 
   const toast = useToast();
 
@@ -42,7 +45,14 @@ export const useMyLoadsMainProps = () => {
     offset: 0,
     data: JSON.stringify({
       // users_id_3: userId,
-      users_id_2: userId,
+      users_id_2:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+          ? undefined
+          : orderStatus === "new"
+          ? undefined
+          : userId,
+      users_id_3:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? userId : undefined,
       with_relations: true,
     }),
   };
@@ -51,8 +61,6 @@ export const useMyLoadsMainProps = () => {
     !orderStatus ||
     orderStatus === "in_moderation" ||
     orderStatus === `in_active`;
-
-  console.log(`orderStatus22`, orderStatus);
 
   if (orderStatus === "approve_from_driver") {
     const data = JSON.parse(getCargoFilterParams.data);
@@ -76,12 +84,13 @@ export const useMyLoadsMainProps = () => {
     const data = JSON.parse(getAllUserCargoParams.data);
     data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
-  } else if (orderStatus === "new") {
-    const data = JSON.parse(getCargoFilterParams.data);
-    data.provisions = ["approve_by_customer"];
-    // data.response_status = ["approve_by_customer"];
-    getCargoFilterParams.data = JSON.stringify(data);
   }
+  //  else if (orderStatus === "new") {
+  //   const data = JSON.parse(getCargoFilterParams.data);
+  //   data.provisions = ["approve_by_customer"];
+  //   // data.response_status = ["approve_by_customer"];
+  //   getCargoFilterParams.data = JSON.stringify(data);
+  // }
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
     enabled:
@@ -97,6 +106,27 @@ export const useMyLoadsMainProps = () => {
     enabled: !!userId && !isCargo && hasMore,
     placeholderData: keepPreviousData,
   });
+
+  const getNewPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.map((item) => ({ ...item?.order?.[0] }));
+      setData(data);
+    },
+  });
+
+  console.log(`datawewe`, data);
+
+  useEffect(() => {
+    if (orderStatus === "new") {
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+    }
+  }, [Boolean(orderStatus === "new")]);
 
   const getOfferCount = useGetOffer(
     {
@@ -202,6 +232,7 @@ export const useMyLoadsMainProps = () => {
       {
         data: {
           guid: id,
+          users_id_3: userId,
           provisions: ["new", "approve_from_driver"],
           // response_status: ["approve_from_driver"],
         },
@@ -278,7 +309,7 @@ export const useMyLoadsMainProps = () => {
   }, [getAllUserCargo.data, getOfferCargo.data]);
 
   return {
-    cargos: cargosData.data?.response,
+    cargos: orderStatus === `new` ? data : cargosData.data?.response,
     isLoading: cargosData.isLoading,
     hasMore,
     onFilterChange,
