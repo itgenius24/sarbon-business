@@ -56,6 +56,7 @@ const role_id = authStore.userData.role_id;
 //     value: "in_active",
 //   },
 // ];
+
 export const filterTabsZ = [
   {
     label: "Все",
@@ -94,8 +95,9 @@ export const filterTabsZ = [
   },
 ];
 
+const data = role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` ? filterTabsDis : filterTabsZ
 
-export const filterTabs = role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` ? filterTabsDis : filterTabsZ ;
+export const filterTabs = data;
 
 
 export const statusColor = {
