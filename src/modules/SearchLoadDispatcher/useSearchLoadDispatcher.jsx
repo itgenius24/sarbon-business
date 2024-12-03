@@ -26,7 +26,8 @@ export const useSearchLoadDispatcher = () => {
   const router = useRouter();
   const [showButton, setShowButton] = useState(false);
   const observerRef = useRef(null);
-
+  const disId = authStore.userData?.id;
+  const userData = authStore.userData;
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const {
@@ -39,7 +40,7 @@ export const useSearchLoadDispatcher = () => {
     setValue,
   } = useForm({});
 
-  const disId = authStore.userData?.id;
+
 
   const negotiableOption = [
     {
@@ -132,12 +133,14 @@ export const useSearchLoadDispatcher = () => {
   };
 
   const onFilterChange = (e) => {
+    console.log(`e.target.value`, e.target.value)
     const filteredData = oldData.filter((item) => {
       return (
         item?.user?.full_name
           .toLowerCase()
-          .includes(e.target.value.toLowerCase()) ||
-        item?.vehicles?.[0]?.car_number
+          .includes(e.target.value.toLowerCase())
+        ||
+        (item?.vehicles?.[0]?.car_number || ``)
           .toLowerCase()
           .includes(e.target.value.toLowerCase()) ||
         item?.user?.phone.includes(e.target.value)
@@ -149,11 +152,27 @@ export const useSearchLoadDispatcher = () => {
   const { mutate: createUserAdress, isPending: createAdressisPending } =
     useCreateAddressMutation({
       onSuccess: () => {
-        setOldData([]);
-        setData([]);
-        setPage(1);
-        setLimit(25);
-        setRefe(true);
+        // setOldData([]);
+        // setData([]);
+        // setPage(1);
+        // setLimit(25);
+        // Group items by guid and add dispatcher
+
+        setData(prevData => prevData.map(item => {
+          const processedItem = ids.find(pItem => pItem.guid === item.user?.guid);
+          const data = item;
+          if (processedItem) {
+            data.dispatcher = [{
+              users_id_2_data: {
+                full_name: userData?.full_name
+              }
+            }]
+            return data;
+          }
+          return item;
+        }));
+
+        // setRefe(true);
         setId([]);
         // setShowButton(false)
         // router.push(`/${locale}/my-cars-dispatcher`);
@@ -175,6 +194,7 @@ export const useSearchLoadDispatcher = () => {
     });
   };
 
+  console.log(`ids`, data);
 
   const handleCheckboxChange = (user) => {
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {
