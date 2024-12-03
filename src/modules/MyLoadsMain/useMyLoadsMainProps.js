@@ -320,7 +320,7 @@ export const useMyLoadsMainProps = () => {
     handleCancel,
     ref,
     handleLoadMore,
-    driverCount: data.length,
+    driverCount: data?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
   };
 };

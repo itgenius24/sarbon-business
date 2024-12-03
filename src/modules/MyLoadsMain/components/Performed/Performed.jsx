@@ -341,9 +341,7 @@ export const Performed = ({
               </Box>
             </Flex>
 
-            {((role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-              orderStatus === `new`) ||
-              orderStatus === `performed`) && (
+            { role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && ((orderStatus === `new`) || orderStatus === `performed`) && (
               <Flex
                 width={`100%`}
                 className={styles.cardItem}
