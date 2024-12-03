@@ -3,12 +3,13 @@ import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
 import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
-import { filterTabs } from "./data";
+import { filterTabsDis, filterTabsZ } from "./data";
 import { useTranslation } from "@/app/i18n/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
+import authStore from "@/store/auth.store";
 
 export const MyLoadsMain = () => {
   const {
@@ -23,7 +24,7 @@ export const MyLoadsMain = () => {
     driverCount,
     waitingDriverCount,
   } = useMyLoadsMainProps();
-
+  const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const locale = useGetLang();
@@ -46,7 +47,7 @@ export const MyLoadsMain = () => {
           driverCount={driverCount}
           waitingDriverCount={waitingDriverCount}
           onChange={onFilterChange}
-          filterList={filterTabs}
+          filterList={ role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` ? filterTabsDis : filterTabsZ}
         />
         <Box display="flex" flexDirection="column" rowGap="16px">
           {orderStatus == "performed" ||
