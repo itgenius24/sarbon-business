@@ -308,7 +308,6 @@ export const TopContent = ({
                   <span>-&gt;</span>
                   <span className={cls.addressCountry}>
                     <span className={cls.addressCity}>
-                      {" "}
                       <Tooltip
                         color={`black`}
                         boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
@@ -323,14 +322,22 @@ export const TopContent = ({
                 </span>
               </h2>
             </Box>
-            {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f"}
-            <Box>
-              <Avatar
-                src={cargoData?.users_id_2_data?.full_name}
-                name={cargoData?.users_id_2_data?.full_name}
-              />
-              
-            </Box>
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&  <Box mb={`20px`}>
+              <p className={cls.statusTitle}>Заказчик</p>
+              <Flex  gap={`5px`}>
+                <Avatar
+                  width={`45px`}
+                  height={`45px`}
+                  src={cargoData?.users_id_2_data?.photo}
+                  name={cargoData?.users_id_2_data?.full_name}
+                />
+                <Box>
+                  <p>{cargoData?.users_id_2_data?.full_name}</p>
+                  <p style={{textDecoration:`underline dotted`,cursor:`pointer`,fontWeight:400}}>{cargoData?.users_id_2_data?.phone}</p>
+                </Box>
+              </Flex>
+            </Box> }
+        
           </Flex>
 
           {isPending ? (

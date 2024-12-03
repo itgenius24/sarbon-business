@@ -228,7 +228,7 @@ export const useSearchLoadDispatcher = () => {
         object_data: {
           type: "dispatcher",
           name: ids?.map((item) => ({
-            firm_id: item?.firm_id,
+            firm_id: item?.firm_id || ``,
             driver_id: item?.guid,
           })),
           dispatcher_id: disId,
