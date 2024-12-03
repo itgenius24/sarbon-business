@@ -19,12 +19,15 @@ export const useMyLoadsMainProps = () => {
   const params = useSearchParams();
   const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
-
+  const [dataPred, setDataPred] = useState(false);
   const router = useRouter();
-  const [orderStatus, setOrderStatus] = useState(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? `new` :  orderValStatus || ``);
+  const [orderStatus, setOrderStatus] = useState(
+    role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+      ? `new`
+      : orderValStatus || ``
+  );
   const [data, setData] = useState([]);
   const userId = authStore.userData.id;
-
 
   const toast = useToast();
 
@@ -119,13 +122,13 @@ export const useMyLoadsMainProps = () => {
 
   useEffect(() => {
     // if (orderStatus === "new") {
-      getNewPred.mutate({
-        data: {
-          object_data: {
-            dispetchir_id: userId,
-          },
+    getNewPred.mutate({
+      data: {
+        object_data: {
+          dispetchir_id: userId,
         },
-      });
+      },
+    });
     // }
   }, [Boolean(orderStatus === "new")]);
 
@@ -141,7 +144,6 @@ export const useMyLoadsMainProps = () => {
     },
     { enabled: true }
   );
-
 
   const getWaitingDriverCount = useGetOffer(
     {
@@ -229,6 +231,7 @@ export const useMyLoadsMainProps = () => {
         },
       },
     });
+    setDataPred(false)
     updateResponseMutation.mutate(
       {
         data: {
@@ -311,7 +314,10 @@ export const useMyLoadsMainProps = () => {
   return {
     cargos: orderStatus === `new` ? data : cargosData.data?.response,
 
-    isLoading: Boolean(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && data?.length === 0)  ||   cargosData.isLoading,
+    isLoading:
+      Boolean(
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && data?.length === 0
+      ) || cargosData.isLoading,
     hasMore,
     onFilterChange,
     handleDelete,
@@ -322,5 +328,7 @@ export const useMyLoadsMainProps = () => {
     handleLoadMore,
     driverCount: data?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
+    setDataPred,
+    dataPred,
   };
 };

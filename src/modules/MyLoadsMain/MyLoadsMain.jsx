@@ -24,6 +24,8 @@ export const MyLoadsMain = () => {
     isLoading,
     driverCount,
     waitingDriverCount,
+    setDataPred,
+    dataPred
   } = useMyLoadsMainProps();
   const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -71,6 +73,8 @@ export const MyLoadsMain = () => {
                       cargo={cargo}
                       setDisabled={setDisabled}
                       disabled={disabled}
+                      setDataPred={setDataPred}
+                      dataPred={dataPred}
                     />
                   );
                 })}

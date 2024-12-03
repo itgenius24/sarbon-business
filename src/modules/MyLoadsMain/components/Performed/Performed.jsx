@@ -40,9 +40,10 @@ export const Performed = ({
   setDisabled,
   disabled,
   handleCancel,
+  setDataPred,
+  dataPred
 }) => {
   const { t } = useTranslation();
-  const [data, setData] = useState(false);
   const role_id = authStore.userData.role_id;
 
   const router = useRouter();
@@ -67,10 +68,9 @@ export const Performed = ({
   };
 
   const onClose = () => {
-    setData(false);
+    setDataPred(false);
   };
 
-  console.log(`order`, orderStatus);
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
@@ -282,7 +282,7 @@ export const Performed = ({
                       style={{ lineHeight: `28px` }}
                       className={styles.cardName}
                     >
-                      {" "}
+                    
                       {cargo?.users_id_3_data?.full_name}{" "}
                       <a
                         style={{
@@ -437,7 +437,7 @@ export const Performed = ({
                     leftIcon={<IconCeckNewStatusIcon />}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setData(cargo);
+                      setDataPred(cargo);
                     }}
                     className={styles.bntNew}
                   >
@@ -486,7 +486,7 @@ export const Performed = ({
           )} */}
         </div>
       </div>
-      <Modal isOpen={data} onClose={onClose} isCentered>
+      <Modal isOpen={dataPred} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -494,7 +494,7 @@ export const Performed = ({
           </ModalHeader>
           <ModalBody>
             <Text fontSize={`18px`}>
-              Принять предложение от {data?.users_id_data?.full_name}?
+              Принять предложение от {dataPred?.users_id_data?.full_name}?
             </Text>
 
             <Flex
@@ -507,9 +507,9 @@ export const Performed = ({
                   Тип оплаты
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {data?.payment_type
-                    ? obj[data?.payment_type?.[0]]
-                    : data?.cargo_id_data?.payment_type}
+                  {dataPred?.payment_type
+                    ? obj[dataPred?.payment_type?.[0]]
+                    : dataPred?.cargo_id_data?.payment_type}
                 </p>
               </Box>
               <Box>
@@ -517,8 +517,8 @@ export const Performed = ({
                   Предоплата
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {data?.payment_type?.[0] === "prepayment"
-                    ? `${data?.prepayment} ${data?.currency_id_data?.code}`
+                  {dataPred?.payment_type?.[0] === "prepayment"
+                    ? `${dataPred?.prepayment} ${dataPred?.currency_id_data?.code}`
                     : 0}
                 </p>
               </Box>
@@ -527,7 +527,7 @@ export const Performed = ({
                   Общая сумма
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {data?.offers} {data?.currency_id_data?.code}
+                  {dataPred?.offers} {dataPred?.currency_id_data?.code}
                 </p>
               </Box>
             </Flex>
@@ -568,7 +568,7 @@ export const Performed = ({
               leftIcon={<IconCeckNewStatusIcon />}
               onClick={(e) => {
                 e.stopPropagation();
-                handleAccept(data.guid, data.users_id_2);
+                handleAccept(dataPred?.guid, dataPred?.users_id_2);
               }}
               className={styles.bntNew}
             >
