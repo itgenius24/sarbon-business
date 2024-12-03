@@ -260,9 +260,9 @@ export const Performed = ({
                           textDecoration: `underline dotted`,
                         }}
                         target="_blank"
-                        href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
+                        href={`https://t.me/${cargo?.users_id_2_data?.phones}`}
                       >
-                        {cargo?.users_id_2_data?.phone_number}{" "}
+                        {cargo?.users_id_2_data?.phones}{" "}
                       </a>{" "}
                     </p>
                   </Box>
@@ -290,9 +290,9 @@ export const Performed = ({
                           textDecoration: `underline dotted`,
                         }}
                         target="_blank"
-                        href={`https://t.me/${cargo?.users_id_3_data?.phone_number}`}
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
                       >
-                        {cargo?.users_id_3_data?.phone_number}{" "}
+                        {cargo?.users_id_3_data?.phone}{" "}
                       </a>{" "}
                     </p>
                   </Box>
@@ -366,9 +366,9 @@ export const Performed = ({
                         textDecoration: `underline dotted`,
                       }}
                       target="_blank"
-                      href={`https://t.me/${cargo?.users_id_2_data?.phone_number}`}
+                      href={`https://t.me/${cargo?.users_id_2_data?.phones}`}
                     >
-                      {cargo?.users_id_2_data?.phone_number}{" "}
+                      {cargo?.users_id_2_data?.phones}{" "}
                     </a>{" "}
                   </p>
                 </Box>
@@ -402,9 +402,9 @@ export const Performed = ({
                           textDecoration: `underline dotted`,
                         }}
                         target="_blank"
-                        href={`https://t.me/${cargo?.users_id_3_data?.phone_number}`}
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
                       >
-                        {cargo?.users_id_3_data?.phone_number}{" "}
+                        {cargo?.users_id_3_data?.phone}{" "}
                       </a>{" "}
                     </p>
                   </Box>

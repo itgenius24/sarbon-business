@@ -28,6 +28,8 @@ import { findChangedLogs } from "@/utils/findChangedLogs";
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const searchParams = useSearchParams();
 
+  console.log(`status`, status);
+
   const pathname = usePathname();
 
   const isAuth = authStore.isAuth;
@@ -855,7 +857,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       case "active":
         return getCargo.data?.response?.[0];
       default:
-        return getOfferCargoById.data?.response[0]?.cargo_id_data;
+        return getOfferCargoById.data?.response[0];
     }
   }
 
@@ -876,7 +878,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     setDirectContractOpen(false);
     setValue(`cargoIndex`, 1);
     setValue(`money_code`, undefined);
-    setCheck(false)
+    setCheck(false);
   }
 
   function resetForm(data, id) {
@@ -913,8 +915,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     if (data && id) {
       setStartDate(new Date(data?.load_time || new Date()));
       setEndDate(new Date(data?.date || new Date()));
-      if(data?.money_code){
-        setCheck(true)
+      if (data?.money_code) {
+        setCheck(true);
       }
       reset({
         file_1: data.file_1,
@@ -1027,7 +1029,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
-      const data = getData();
+      const data = getData()?.cargo_id_data
+        ? getData()?.cargo_id_data
+        : getData();
       console.log(`data2222`, data);
       resetForm(data, id);
     }
@@ -1173,7 +1177,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
   }, [startDate, endDate]);
 
-  const data = getData();
+  const data = getData()?.cargo_id_data ? getData()?.cargo_id_data : getData();
   const tempalteData = useMemo(() => {
     if (temlateVal) {
       return getTempCargo?.data?.response?.filter((item) =>
@@ -1206,7 +1210,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     handleDelete,
     handleCancel,
     handleAccept,
-    cargoData:data,
+    cargoData: getData(),
     order_status: status === `active` ? data?.order_status : ``,
     address1: data?.from
       ? data?.from
