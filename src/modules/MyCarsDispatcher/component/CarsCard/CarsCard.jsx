@@ -74,9 +74,9 @@ export const CarsCard = ({ item, deleteFuntion }) => {
           {item?.vehicles?.[0]?.trailer_type_id_data?.name}
         </p>
         <p className={cls.subTitle1}>
-          <span className={cls.subTitle}>
-            {item?.vehicles?.[0]?.height}т / {item?.vehicles?.[0]?.capacity}м3{" "}
-          </span>{" "}
+          <span style={{ marginRight: `9px` }} className={cls.subTitle}>
+            {item?.vehicles?.[0]?.height}т / {item?.vehicles?.[0]?.capacity}м3
+          </span>
           {item?.vehicles?.[0]?.car_number}
         </p>
       </Box>

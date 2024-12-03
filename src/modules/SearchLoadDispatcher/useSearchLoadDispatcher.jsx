@@ -15,6 +15,10 @@ export const useSearchLoadDispatcher = () => {
   const [data, setData] = useState([]);
   const [filter1, setFilter1] = useState(false);
   const [filter2, setFilter2] = useState(false);
+  const [filter3, setFilter3] = useState(false);
+  const [filter4, setFilter4] = useState(false);
+  const [filter5, setFilter5] = useState(false);
+  const [filter6, setFilter6] = useState(false);
   const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
@@ -39,8 +43,6 @@ export const useSearchLoadDispatcher = () => {
     reset,
     setValue,
   } = useForm({});
-
-
 
   const negotiableOption = [
     {
@@ -76,7 +78,6 @@ export const useSearchLoadDispatcher = () => {
 
       setData((prev) => [...prev, ...uniqueData]);
       setOldData((prev) => [...prev, ...uniqueData]);
-
     },
   });
 
@@ -100,6 +101,8 @@ export const useSearchLoadDispatcher = () => {
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
   const [isAscendingTip, setIsAscendingTip] = useState(true); // Saralash tartibini saqlash uchun holat
+  const [isAscendingTime, setIsAscendingTime] = useState(true);
+  const [isAscendingDispatcher, setIsAscendingDispatcher] = useState(true);
 
   const nameFilter = () => {
     setFilter1(!filter1);
@@ -114,9 +117,34 @@ export const useSearchLoadDispatcher = () => {
     setIsAscending(!isAscending); // Tartibni almashtirish
   };
 
-  const tipFilter = () => {
+  const nameFilterMawini = () => {
     setFilter2(!filter2);
+    const sortedData = data?.sort(
+      (a, b) =>
+        isAscending
+          ? a?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(b?.vehicles?.[0]?.firm_id_data?.full_name) // Alfavit bo'yicha
+          : b?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(a?.vehicles?.[0]?.firm_id_data?.full_name) // Teskari alfavit bo'yicha
+    );
 
+    setData(() => [...sortedData]);
+    setIsAscending(!isAscending); // Tartibni almashtirish
+  };
+
+  const nameFilterMawiniNomer = () => {
+    setFilter4(!filter4);
+    const sortedData = data?.sort(
+      (a, b) =>
+        isAscending
+          ? a?.vehicles?.[0]?.car_number?.localeCompare(b?.vehicles?.[0]?.car_number) // Alfavit bo'yicha
+          : b?.vehicles?.[0]?.car_number?.localeCompare(a?.vehicles?.[0]?.car_number) // Teskari alfavit bo'yicha
+    );
+
+    setData(() => [...sortedData]);
+    setIsAscending(!isAscending); // Tartibni almashtirish
+  };
+
+  const tipFilter = () => {
+    setFilter3(!filter3);
     const sortedData = data?.sort(
       (a, b) =>
         isAscendingTip
@@ -132,8 +160,33 @@ export const useSearchLoadDispatcher = () => {
     setIsAscendingTip(!isAscendingTip); // Tartibni almashtirish
   };
 
+  const timeFilter = () => {
+    setFilter5(!filter5);
+    const sortedData = data?.sort((a, b) => {
+      const timeA = a?.users_gps?.[0]?.update_time ? new Date(a.users_gps?.[0].update_time) : new Date(0);
+      const timeB = b?.users_gps?.[0]?.update_time ? new Date(b.users_gps?.[0].update_time) : new Date(0);
+      return isAscendingTime ? timeA - timeB : timeB - timeA;
+    });
+
+    setData(() => [...sortedData]);
+    setIsAscendingTime(!isAscendingTime);
+  };
+
+  const dispatcherFilter = () => {
+    setFilter6(!filter6);
+    const sortedData = data?.sort((a, b) => {
+      const nameA = a?.dispatcher?.[0]?.users_id_2_data?.full_name || '';
+      const nameB = b?.dispatcher?.[0]?.users_id_2_data?.full_name || '';
+      return isAscendingDispatcher 
+        ? nameA.localeCompare(nameB)
+        : nameB.localeCompare(nameA);
+    });
+
+    setData(() => [...sortedData]);
+    setIsAscendingDispatcher(!isAscendingDispatcher);
+  };
+
   const onFilterChange = (e) => {
-    console.log(`e.target.value`, e.target.value)
     const filteredData = oldData.filter((item) => {
       return (
         item?.user?.full_name
@@ -152,12 +205,6 @@ export const useSearchLoadDispatcher = () => {
   const { mutate: createUserAdress, isPending: createAdressisPending } =
     useCreateAddressMutation({
       onSuccess: () => {
-        // setOldData([]);
-        // setData([]);
-        // setPage(1);
-        // setLimit(25);
-        // Group items by guid and add dispatcher
-
         setData(prevData => prevData.map(item => {
           const processedItem = ids.find(pItem => pItem.guid === item.user?.guid);
           const data = item;
@@ -171,11 +218,7 @@ export const useSearchLoadDispatcher = () => {
           }
           return item;
         }));
-
-        // setRefe(true);
         setId([]);
-        // setShowButton(false)
-        // router.push(`/${locale}/my-cars-dispatcher`);
       },
     });
 
@@ -194,8 +237,6 @@ export const useSearchLoadDispatcher = () => {
     });
   };
 
-  console.log(`ids`, data);
-
   const handleCheckboxChange = (user) => {
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {
       // Agar id arrayda bo'lsa, uni olib tashlaymiz
@@ -211,6 +252,10 @@ export const useSearchLoadDispatcher = () => {
     setValue,
     filter1,
     filter2,
+    filter3,
+    filter4,
+    filter5,
+    filter6,
     register,
     watch,
     negotiableOption,
@@ -220,7 +265,11 @@ export const useSearchLoadDispatcher = () => {
     addPage,
     isPending,
     nameFilter,
+    nameFilterMawini,
+    nameFilterMawiniNomer,
     tipFilter,
+    timeFilter,
+    dispatcherFilter,
     onFilterChange,
     handleCheckboxChange,
     observerRef,
