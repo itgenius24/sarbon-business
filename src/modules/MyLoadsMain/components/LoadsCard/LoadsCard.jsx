@@ -105,14 +105,16 @@ export const LoadsCard = forwardRef(
                   <p>
                     {cargo?.address_id_data?.name}
                     <span>
-                      {cargo?.load_time &&
-                        format(
-                          new Date(cargo?.load_time).setHours(
-                            new Date(cargo?.load_time).getHours() - 5
-                          ),
-                          "dd-MMMM",
-                          { locale: ru }
-                        )}
+                      {cargo?.as_soon_as_a
+                        ? `${cargo?.country_code_from?.toUpperCase()} / Как можно скорее`
+                        : cargo?.load_time &&
+                          format(
+                            new Date(cargo?.load_time).setHours(
+                              new Date(cargo?.load_time).getHours() - 5
+                            ),
+                            "dd-MMMM",
+                            { locale: ru }
+                          )}
                     </span>
                   </p>
                 </div>
@@ -136,7 +138,11 @@ export const LoadsCard = forwardRef(
                     {cargo?.address_id_2_data?.name}
 
                     <span>
-                      {cargo?.date &&
+                      {
+                        cargo?.as_soon_as_b
+                        ? `${cargo?.country_code_to?.toUpperCase()} / Как можно скорее`
+                        :
+                        cargo?.date &&
                         format(
                           new Date(cargo?.date).setHours(
                             new Date(cargo?.date).getHours() - 5
@@ -155,13 +161,18 @@ export const LoadsCard = forwardRef(
                   </p>
                   <p className={cls.rightTitle}>
                     Предоплата:
-                    {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`}
+                    {/* {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`} */}
+                    {cargo?.prepayment_percentage 
+                      ? ` ${cargo?.prepayment_percentage} ${cargo?.currency_id_data?.code}`
+                      : `Нет`}
                   </p>
                 </div>
                 <div className={cls.text}>
-                  <p className={cls.rightTitle}>Общая сумма</p> 
+                  <p className={cls.rightTitle}>Общая сумма</p>
                   <p className={cls.totalSum}>
-                    {cargo?.bid_cash  ? `${cargo?.bid_cash}  ${cargo?.currency_id_data?.code}` : `По запросу` }
+                    {cargo?.bid_cash
+                      ? `${cargo?.bid_cash}  ${cargo?.currency_id_data?.code}`
+                      : `По запросу`}
                   </p>
                 </div>
               </div>

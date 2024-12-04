@@ -55,6 +55,8 @@ const objectService = {
       ),
   getCar: (data) =>
     request.post("/v1/invoke_function/logistika-get-cargo-list", data),
+  getCarTrackingFilter: (data) =>
+    request.post("/v1/invoke_function/logistika-gps-tracking-create-history", data),
   getNewPred: (data) =>
     request.post("/v1/invoke_function/logistika-favourite-cargo", data),
   getLocation: (data) =>
@@ -132,6 +134,12 @@ export const useGetCar = (mutationSettings) => {
   });
   };
 
+  export const useGetCarTrackingFilter = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService.getCarTrackingFilter(params),
+      ...mutationSettings,
+    });
+    };
 
   export const useGetNewPred = (mutationSettings) => {
     return useMutation({

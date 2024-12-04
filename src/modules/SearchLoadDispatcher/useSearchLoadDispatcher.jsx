@@ -6,23 +6,31 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useCreateAddressMutation, useGetCar } from "@/services/api";
+import {
+  useCreateAddressMutation,
+  useGetCar,
+  useGetCarTrackingFilter,
+} from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import authStore from "@/store/auth.store";
 
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
+  const [oldData, setOldData] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [oldData2, setOldData2] = useState([]);
+  const [data3, setData3] = useState([]);
+  const [oldData3, setOldData3] = useState([]);
   const [filter1, setFilter1] = useState(false);
   const [filter2, setFilter2] = useState(false);
   const [filter3, setFilter3] = useState(false);
   const [filter4, setFilter4] = useState(false);
   const [filter5, setFilter5] = useState(false);
   const [filter6, setFilter6] = useState(false);
-  const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
-  const [refe, setRefe] = useState();
+  const [refe, setRefe] = useState(false);
 
   const [ids, setId] = useState([]);
 
@@ -44,7 +52,7 @@ export const useSearchLoadDispatcher = () => {
     setValue,
   } = useForm({});
   const [value, setValueR] = useState(`val1`);
- 
+
   const negotiableOption = [
     {
       value: `val1`,
@@ -82,6 +90,46 @@ export const useSearchLoadDispatcher = () => {
     },
   });
 
+  const { mutate: trackingFilter, isPending: trackingFilterPending } =
+    useGetCarTrackingFilter({
+      onSuccess: (res) => {
+        setRefe(false);
+        const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
+
+        if (value === `val2`) {
+          const filteredData = res?.response.map((item) => ({
+            ...item,
+            vehicles: item?.vehicles ? item?.vehicles : vehicles,
+          }));
+
+          const uniqueData = filteredData.filter(
+            (item) =>
+              !oldData2.some(
+                (stateItem) => stateItem?.user?.guid === item?.user?.guid
+              )
+          );
+
+          setData2((prev) => [...prev, ...uniqueData]);
+          setOldData2((prev) => [...prev, ...uniqueData]);
+        } else {
+          const filteredData = res?.response.map((item) => ({
+            ...item,
+            vehicles: item?.vehicles ? item?.vehicles : vehicles,
+          }));
+
+          const uniqueData = filteredData.filter(
+            (item) =>
+              !oldData3.some(
+                (stateItem) => stateItem?.user?.guid === item?.user?.guid
+              )
+          );
+
+          setData3((prev) => [...prev, ...uniqueData]);
+          setOldData3((prev) => [...prev, ...uniqueData]);
+        }
+      },
+    });
+
   useEffect(() => {
     const data = {
       data: {
@@ -93,7 +141,31 @@ export const useSearchLoadDispatcher = () => {
       },
     };
     mutate(data);
-  }, [limit, refe,value === `val1`]);
+  }, [limit, refe, value === `val1`]);
+
+  useEffect(() => {
+    trackingFilter({
+      data: {
+        object_data: {
+          page,
+          limit,
+          dispetchir_id: ``,
+        },
+      },
+    });
+  }, [limit, value === `val2`, refe]);
+
+  useEffect(() => {
+    trackingFilter({
+      data: {
+        object_data: {
+          page,
+          limit,
+          dispetchir_id: authStore?.userData?.id,
+        },
+      },
+    });
+  }, [limit, value === `val3`, refe]);
 
   const addPage = () => {
     setPage(page + 1);
@@ -123,8 +195,12 @@ export const useSearchLoadDispatcher = () => {
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(b?.vehicles?.[0]?.firm_id_data?.full_name) // Alfavit bo'yicha
-          : b?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(a?.vehicles?.[0]?.firm_id_data?.full_name) // Teskari alfavit bo'yicha
+          ? a?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(
+              b?.vehicles?.[0]?.firm_id_data?.full_name
+            ) // Alfavit bo'yicha
+          : b?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(
+              a?.vehicles?.[0]?.firm_id_data?.full_name
+            ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -136,8 +212,12 @@ export const useSearchLoadDispatcher = () => {
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.vehicles?.[0]?.car_number?.localeCompare(b?.vehicles?.[0]?.car_number) // Alfavit bo'yicha
-          : b?.vehicles?.[0]?.car_number?.localeCompare(a?.vehicles?.[0]?.car_number) // Teskari alfavit bo'yicha
+          ? a?.vehicles?.[0]?.car_number?.localeCompare(
+              b?.vehicles?.[0]?.car_number
+            ) // Alfavit bo'yicha
+          : b?.vehicles?.[0]?.car_number?.localeCompare(
+              a?.vehicles?.[0]?.car_number
+            ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -150,11 +230,11 @@ export const useSearchLoadDispatcher = () => {
       (a, b) =>
         isAscendingTip
           ? a?.vehicles?.[0]?.trailer_type_id_data?.name.localeCompare(
-            b?.vehicles?.[0]?.trailer_type_id_data?.name
-          ) // Alfavit bo'yicha
+              b?.vehicles?.[0]?.trailer_type_id_data?.name
+            ) // Alfavit bo'yicha
           : b?.vehicles?.[0]?.trailer_type_id_data?.name.localeCompare(
-            a?.vehicles?.[0]?.trailer_type_id_data?.name
-          ) // Teskari alfavit bo'yicha
+              a?.vehicles?.[0]?.trailer_type_id_data?.name
+            ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -164,8 +244,12 @@ export const useSearchLoadDispatcher = () => {
   const timeFilter = () => {
     setFilter5(!filter5);
     const sortedData = data?.sort((a, b) => {
-      const timeA = a?.users_gps?.[0]?.update_time ? new Date(a.users_gps?.[0].update_time) : new Date(0);
-      const timeB = b?.users_gps?.[0]?.update_time ? new Date(b.users_gps?.[0].update_time) : new Date(0);
+      const timeA = a?.users_gps?.[0]?.update_time
+        ? new Date(a.users_gps?.[0].update_time)
+        : new Date(0);
+      const timeB = b?.users_gps?.[0]?.update_time
+        ? new Date(b.users_gps?.[0].update_time)
+        : new Date(0);
       return isAscendingTime ? timeA - timeB : timeB - timeA;
     });
 
@@ -176,9 +260,9 @@ export const useSearchLoadDispatcher = () => {
   const dispatcherFilter = () => {
     setFilter6(!filter6);
     const sortedData = data?.sort((a, b) => {
-      const nameA = a?.dispatcher?.[0]?.users_id_2_data?.full_name || '';
-      const nameB = b?.dispatcher?.[0]?.users_id_2_data?.full_name || '';
-      return isAscendingDispatcher 
+      const nameA = a?.dispatcher?.[0]?.users_id_2_data?.full_name || "";
+      const nameB = b?.dispatcher?.[0]?.users_id_2_data?.full_name || "";
+      return isAscendingDispatcher
         ? nameA.localeCompare(nameB)
         : nameB.localeCompare(nameA);
     });
@@ -192,8 +276,7 @@ export const useSearchLoadDispatcher = () => {
       return (
         item?.user?.full_name
           .toLowerCase()
-          .includes(e.target.value.toLowerCase())
-        ||
+          .includes(e.target.value.toLowerCase()) ||
         (item?.vehicles?.[0]?.car_number || ``)
           .toLowerCase()
           .includes(e.target.value.toLowerCase()) ||
@@ -206,19 +289,25 @@ export const useSearchLoadDispatcher = () => {
   const { mutate: createUserAdress, isPending: createAdressisPending } =
     useCreateAddressMutation({
       onSuccess: () => {
-        setData(prevData => prevData.map(item => {
-          const processedItem = ids.find(pItem => pItem.guid === item.user?.guid);
-          const data = item;
-          if (processedItem) {
-            data.dispatcher = [{
-              users_id_2_data: {
-                full_name: userData?.full_name
-              }
-            }]
-            return data;
-          }
-          return item;
-        }));
+        setData((prevData) =>
+          prevData.map((item) => {
+            const processedItem = ids.find(
+              (pItem) => pItem.guid === item.user?.guid
+            );
+            const data = item;
+            if (processedItem) {
+              data.dispatcher = [
+                {
+                  users_id_2_data: {
+                    full_name: userData?.full_name,
+                  },
+                },
+              ];
+              return data;
+            }
+            return item;
+          })
+        );
         setId([]);
       },
     });
@@ -252,7 +341,6 @@ export const useSearchLoadDispatcher = () => {
     setValueR(e);
   };
 
-
   return {
     t,
     setValue,
@@ -266,7 +354,7 @@ export const useSearchLoadDispatcher = () => {
     watch,
     negotiableOption,
     isLargerThan845,
-    data,
+    data: value === `val1` ? data : value === `val2` ? data2 : data3,
     ids,
     addPage,
     isPending,
@@ -282,6 +370,8 @@ export const useSearchLoadDispatcher = () => {
     showButton,
     onSubmit,
     createAdressisPending,
-    onChange,value,setValueR,
+    onChange,
+    value,
+    setValueR,
   };
 };

@@ -38,8 +38,14 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,locationData }) => {
-
+const DriverGruz = ({
+  cls,
+  loadState,
+  setModalType,
+  setOffset,
+  setLocationData,
+  locationData,
+}) => {
   const { t } = useTranslation();
 
   const role_id = authStore.userData.role_id;
@@ -49,7 +55,7 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
     setPopupOpen(false);
   }
 
-  console.log(`load`,loadState)
+  console.log(`load`, loadState);
 
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
@@ -112,8 +118,12 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
             <Box>
               <p className={cls.cardStartTitle}>{loadState?.from} </p>
               <p className={cls.cardStartSubTitle}>
-                {loadState?.from} /{" "}
-                <span>{format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                {loadState?.country_code_from?.toUpperCase()} /{" "}
+                <span>
+                  {loadState?.as_soon_as_a
+                    ? `Как можно скорее`
+                    : format(loadState?.load_time, "yyyy-MM-dd")}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -124,10 +134,11 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
             <Box>
               <p className={cls.cardStartTitle}>{loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
-                {loadState?.to} /
+                {loadState?.country_code_to?.toUpperCase()} /
                 <span>
-                  {" "}
-                  {format(loadState?.date || new Date(), "yyyy-MM-dd")}
+                  {loadState?.as_soon_as_b
+                    ? `Как можно скорее`
+                    : format(loadState?.date || new Date(), "yyyy-MM-dd")}
                 </span>
               </p>
             </Box>
@@ -142,7 +153,11 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
                   {loadState?.vehicle_type_id_data?.name?.length > 15 ? (
-                    <Tooltip background={`white`} color={`black`} label={loadState?.vehicle_type_id_data?.name}>
+                    <Tooltip
+                      background={`white`}
+                      color={`black`}
+                      label={loadState?.vehicle_type_id_data?.name}
+                    >
                       <span style={{ whiteSpace: `nowrap` }}>
                         {loadState?.vehicle_type_id_data?.name?.slice(0, 15)}...
                       </span>
@@ -175,7 +190,9 @@ const DriverGruz = ({ cls, loadState, setModalType, setOffset,setLocationData,lo
           </Flex>
           <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
             <p className={cls.sumGreen}>
-              {loadState?.bid_cash ? `${loadState?.bid_cash} ${loadState?.currency_id_data?.code}` : `По запросу`}
+              {loadState?.bid_cash
+                ? `${loadState?.bid_cash} ${loadState?.currency_id_data?.code}`
+                : `По запросу`}
             </p>
             <p className={cls.cardStartSubTitle}>
               Предоплата:{" "}

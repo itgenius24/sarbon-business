@@ -109,8 +109,8 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
             <Box>
               <p className={cls.cardStartTitle}>{loadState?.from}</p>
               <p className={cls.cardStartSubTitle}>
-                {loadState?.from} /{" "}
-                <span>{format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                {loadState?.country_code_from?.toUpperCase()} /{" "}
+                <span>{  loadState?.as_soon_as_a ? `Как можно скорее` :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>
@@ -121,8 +121,8 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
             <Box>
               <p className={cls.cardStartTitle}> {loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
-                {loadState?.to} /
-                <span> {format(loadState?.date, "yyyy-MM-dd")}</span>
+                {loadState?.country_code_to?.toUpperCase()} /
+                <span> { loadState?.as_soon_as_b ? `Как можно скорее` :  format(loadState?.date, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>

@@ -281,6 +281,8 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
+  console.log(`cargoData`, cargoData);
+
   return (
     <Box>
       {status === "performed" && (
@@ -291,21 +293,53 @@ export const TopContent = ({
                 <span className={cls.addressText}>
                   <span className={cls.addressCountry}>
                     <span className={cls.addressCity}>
-                  
                       <Tooltip
                         color={`black`}
                         boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                         background={`#fff`}
                         label={`${address1}`}
                       >
-                        <span>
-                          {address1?.length >= 20
-                            ? `${address1?.slice(0, 20)}...`
-                            : address1}
-                        </span>
+                        <>
+                          {" "}
+                          <span>
+                            {address1?.length >= 20
+                              ? `${address1?.slice(0, 20)}...`
+                              : address1}
+                          </span>
+                        </>
                       </Tooltip>
                     </span>
-                    {/* <span>{address1}</span> */}
+
+                    {cargoData?.cargo_id_data?.as_soon_as_a ? (
+                      <p
+                        style={{
+                          fontWeight: 500,
+                          fontSize: `12px`,
+                          color: `rgba(126, 123, 134, 1)`,
+                        }}
+                      >
+                        {cargoData?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
+                        /{" "}
+                        <span
+                          style={{
+                            fontSize: `12px`,
+                            color: `rgba(126, 123, 134, 1)`,
+                          }}
+                        >
+                          Как можно скорее
+                        </span>
+                      </p>
+                    ) : (
+                      format(
+                        new Date(cargoData.cargo_id_data?.load_time).setHours(
+                          new Date(
+                            cargoData.cargo_id_data?.load_time
+                          ).getHours() - 5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )
+                    )}
                   </span>
                   <span>-&gt;</span>
                   <span className={cls.addressCountry}>
@@ -323,7 +357,37 @@ export const TopContent = ({
                         </span>
                       </Tooltip>
                     </span>
-                    {/* <span>{address2}</span> */}
+
+                    {cargoData?.cargo_id_data?.as_soon_as_b ? (
+                      <p
+                        style={{
+                          fontWeight: 500,
+                          fontSize: `12px`,
+                          color: `rgba(126, 123, 134, 1)`,
+                        }}
+                      >
+                        {cargoData?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
+                        /{" "}
+                        <span
+                          style={{
+                            fontSize: `12px`,
+                            color: `rgba(126, 123, 134, 1)`,
+                          }}
+                        >
+                          Как можно скорее
+                        </span>
+                      </p>
+                    ) : (
+                      format(
+                        new Date(cargoData.cargo_id_data?.date).setHours(
+                          new Date(
+                            cargoData.cargo_id_data?.date
+                          ).getHours() - 5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )
+                    )}
                   </span>
                 </span>
               </h2>
@@ -568,11 +632,9 @@ export const TopContent = ({
                                   <span>
                                     {
                                       user?.order?.cargo_id_data
-                                        ?.country_code_from
+                                        ?.country_code_from?.toUpperCase()
                                     }
-                                  </span>
-                                  /
-                                  {format(
+                                  </span> / { user?.order?.cargo_id_data?.as_soon_as_a ? ` Как можно скорее` : format(
                                     new Date(
                                       user?.order?.cargo_id_data?.load_time
                                     ).setHours(
@@ -604,11 +666,10 @@ export const TopContent = ({
                                   <span>
                                     {
                                       user?.order?.cargo_id_data
-                                        ?.country_code_to
+                                        ?.country_code_to?.toUpperCase()
                                     }
-                                  </span>
-                                  /
-                                  {format(
+                                  </span> /
+                                    {user?.order?.cargo_id_data?.as_soon_as_b ? ` Как можно скорее` :  format(
                                     new Date(
                                       user?.order?.cargo_id_data?.date
                                     ).setHours(

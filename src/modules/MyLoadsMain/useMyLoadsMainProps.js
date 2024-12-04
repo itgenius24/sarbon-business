@@ -21,6 +21,7 @@ export const useMyLoadsMainProps = () => {
   const orderValStatus = params.get(`value`) || ``;
   const [dataPred, setDataPred] = useState(false);
   const router = useRouter();
+  const [accept, setAccept] = useState(false);
   const [orderStatus, setOrderStatus] = useState(
     role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
       ? `new`
@@ -113,12 +114,11 @@ export const useMyLoadsMainProps = () => {
 
   const getNewPred = useGetNewPred({
     onSuccess: (res) => {
+      setAccept(false)
       const data = res?.response?.map((item) => ({ ...item?.order?.[0] }));
       setData(data);
     },
   });
-
-  console.log(`datawewe`, data);
 
   useEffect(() => {
     // if (orderStatus === "new") {
@@ -130,7 +130,7 @@ export const useMyLoadsMainProps = () => {
       },
     });
     // }
-  }, [Boolean(orderStatus === "new")]);
+  }, [Boolean(orderStatus === "new" || accept)]);
 
   const getOfferCount = useGetOffer(
     {
@@ -187,6 +187,9 @@ export const useMyLoadsMainProps = () => {
   });
 
   const updateResponseMutation = useUpdateResponse({
+    onSuccess: () => {
+      setAccept();
+    },
     onError(res) {
       console.error(res);
     },

@@ -17,20 +17,45 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { Avatar, Box, Button, Flex, IconButton,setModalType } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  setModalType,
+} from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
 
-const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalType,setModalType,setStateMap,handleOpenModal,handleCloseModal,setIconStatus }) => {
-   console.log("addressAdd",contendSingle)
+const DriverQuestion = ({
+  cls,
+  contendSingle,
+  stateMap,
+  addressAdd,
+  setCenterModalType,
+  setModalType,
+  setStateMap,
+  handleOpenModal,
+  handleCloseModal,
+  setIconStatus,
+}) => {
+  console.log("addressAdd", contendSingle);
   return (
     <div className={cls.filter}>
-      <Flex  flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
-        <Flex width={'100%'} alignItems={"center"} justifyContent={'space-between'}>
+      <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
+        <Flex
+          width={"100%"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <Flex gap={3}>
-            <Avatar name={contendSingle?.user?.full_name} src={contendSingle?.user?.photo} />
+            <Avatar
+              name={contendSingle?.user?.full_name}
+              src={contendSingle?.user?.photo}
+            />
             <Box>
-            <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
+              <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -40,85 +65,128 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => {setModalType("filter");
-              setIconStatus('');  
+            onClick={() => {
+              setModalType("filter");
+              setIconStatus("");
             }}
           />
         </Flex>
-  
+
         <Box className={cls.cardWrap}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd, hh:mm")} </p>
-            <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
+              <p className={cls.smallText}>
+                Вкл:{" "}
+                {format(
+                  contendSingle?.users_gps?.[0]?.update_time,
+                  "yyyy-MM-dd, hh:mm"
+                )}{" "}
+              </p>
+              <p className={cls.bigTitle}>
+                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+              </p>
             </Box>
           </Flex>
-         <Flex justifyContent={'space-between'}>
-         <Flex mt={3} alignItems={"flex-start"} rowGap={'15px'}  flexDirection={'column'}>
-            <Flex alignItems={"center"} gap={2}>
-              <BluetoothIcon />
-              <Box>
-                <p className={cls.smallText}>Bluetooth </p>
-                <p className={cls.bigTitle}>Вкл</p>
-              </Box>
+          <Flex justifyContent={"space-between"}>
+            <Flex
+              mt={3}
+              alignItems={"flex-start"}
+              rowGap={"15px"}
+              flexDirection={"column"}
+            >
+              <Flex alignItems={"center"} gap={2}>
+                <BluetoothIcon />
+                <Box>
+                  <p className={cls.smallText}>Bluetooth </p>
+                  <p className={cls.bigTitle}>Вкл</p>
+                </Box>
+              </Flex>
+              <Flex alignItems={"center"} gap={2}>
+                {contendSingle?.users_gps?.[0]?.os === "android" ? (
+                  <AndroidIcon />
+                ) : (
+                  <AppleIcon />
+                )}
+                <Box>
+                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.bigTitle}>
+                    {contendSingle?.users_gps?.[0]?.os}
+                  </p>
+                </Box>
+              </Flex>
             </Flex>
-            <Flex alignItems={"center"} gap={2}>
-            {contendSingle?.users_gps?.[0]?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
-              <Box>
-                <p className={cls.smallText}>Смартфон </p>
-                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.os}</p>
-              </Box>
+            <Flex
+              mt={3}
+              alignItems={"flex-start"}
+              rowGap={"15px"}
+              flexDirection={"column"}
+            >
+              <Flex alignItems={"center"} gap={2}>
+                {contendSingle?.users_gps?.[0]?.battery > 20 ? (
+                  <BatareyFullIcon />
+                ) : (
+                  <BatareyIcon />
+                )}
+                <Box>
+                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
+                </Box>
+              </Flex>
+              <Flex alignItems={"center"} gap={2}>
+                <FurIcon />
+                <Box>
+                  <p className={cls.smallText}>Версия </p>
+                  <p className={cls.bigTitle}>
+                    {contendSingle?.users_gps?.[0]?.version}
+                  </p>
+                </Box>
+              </Flex>
             </Flex>
-       
           </Flex>
-          <Flex mt={3}  alignItems={"flex-start"} rowGap={'15px'}  flexDirection={'column'}>
-          <Flex alignItems={"center"} gap={2}>
-            { contendSingle?.users_gps?.[0]?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
-              <Box>
-                <p className={cls.smallText}>Батарея </p>
-                <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
-              </Box>
-            </Flex>
-            <Flex alignItems={"center"} gap={2}>
-              <FurIcon />
-              <Box>
-                <p className={cls.smallText}>Версия </p>
-                <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.version}</p>
-              </Box>
-            </Flex>
-          </Flex>
-         </Flex>
         </Box>
         <Box className={cls.cardWrap}>
           <Flex gap={2}>
-            <div className={cls.startAIconWrap}><div  className={cls.startAIcon}>A</div> <div className={cls.line}></div> </div>
+            <div className={cls.startAIconWrap}>
+              <div className={cls.startAIcon}>A</div>{" "}
+              <div className={cls.line}></div>{" "}
+            </div>
             <Box>
-              <p className={cls.cardStartTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
+              <p className={cls.cardStartTitle}>
+                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+              </p>
               <p className={cls.cardStartSubTitle}>
-                 {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd")}
+                {format(
+                  contendSingle?.users_gps?.[0]?.update_time,
+                  "yyyy-MM-dd"
+                )}
               </p>
             </Box>
           </Flex>
-         
+
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
-            {
-              addressAdd  ||  contendSingle?.user?.address_name ?    <Box>
-              <p className={cls.cardStartTitle}>{ addressAdd  ? `${addressAdd?.address.slice(0,17)}...`: `${contendSingle?.user?.address_name.slice(0,17)}...` }</p>
-              <p className={cls.cardStartSubTitle}>
-               
-                {/* RUS / <span>18 августа</span> */}
-              </p>
-            </Box> :    
-            <Box onClick={() => {
-              setStateMap(true)
-              handleOpenModal()
-            }} >
-              <p className={cls.cardStartTitleAdd}>  Добавить адрес</p>
-            </Box>
-            }
-        
+            {addressAdd || contendSingle?.user?.address_name ? (
+              <Box>
+                <p className={cls.cardStartTitle}>
+                  {addressAdd
+                    ? `${addressAdd?.address.slice(0, 17)}...`
+                    : `${contendSingle?.user?.address_name.slice(0, 17)}...`}
+                </p>
+                <p className={cls.cardStartSubTitle}>
+                  {/* RUS / <span>18 августа</span> */}
+                </p>
+              </Box>
+            ) : (
+              <Box
+                onClick={() => {
+                  setStateMap(true);
+                  handleOpenModal();
+                }}
+              >
+                <p className={cls.cardStartTitleAdd}> Добавить адрес</p>
+              </Box>
+            )}
           </Flex>
 
           <Flex className={cls.gruz2} mt={5} gap={2}>
@@ -140,10 +208,18 @@ const DriverQuestion = ({ cls,contendSingle,stateMap,addressAdd,setCenterModalTy
               </p>
             </Box>
           </Flex>
-      
         </Box>
-        <Button onClick={() => {setCenterModalType("changeIcon");setIconStatus(contendSingle?.user?.provisions?.[0])}} leftIcon={<QuestionBlueIcon />} rightIcon={<NextBtnIcon />} size={`lg`} className={cls.btnBlueOutline}>
-            Занята чужим грузом
+        <Button
+          onClick={() => {
+            setCenterModalType("changeIcon");
+            setIconStatus(contendSingle?.user?.provisions?.[0]);
+          }}
+          leftIcon={<QuestionBlueIcon />}
+          rightIcon={<NextBtnIcon />}
+          size={`lg`}
+          className={cls.btnBlueOutline}
+        >
+          Занята чужим грузом
         </Button>
         {/* <Box className={cls.cardWrap}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>

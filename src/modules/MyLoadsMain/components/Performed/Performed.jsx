@@ -63,8 +63,8 @@ export const Performed = ({
   };
 
   const obj = {
-    after_payment: `Оплата после завершения`,
-    prepayment: `Предоплата`,
+    after_payment: ` Оплата после завершения`,
+    prepayment: ` Предоплата`,
   };
 
   const onClose = () => {
@@ -100,14 +100,17 @@ export const Performed = ({
               <p>
                 {cargo?.cargo_id_data?.address_id_data?.name}
                 <span>
-                  {cargo?.cargo_id_data?.load_time &&
-                    format(
-                      new Date(cargo?.cargo_id_data?.load_time).setHours(
-                        new Date(cargo?.cargo_id_data?.load_time).getHours() - 5
-                      ),
-                      "dd-MMMM",
-                      { locale: ru }
-                    )}
+                  {cargo?.cargo_id_data?.as_soon_as_a
+                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / Как можно скорее`
+                    : cargo?.cargo_id_data?.load_time &&
+                      format(
+                        new Date(cargo?.cargo_id_data?.load_time).setHours(
+                          new Date(cargo?.cargo_id_data?.load_time).getHours() -
+                            5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )}
                 </span>
               </p>
             </div>
@@ -131,14 +134,16 @@ export const Performed = ({
                 {cargo?.cargo_id_data?.address_id_2_data?.name}
 
                 <span>
-                  {cargo?.cargo_id_data?.date &&
-                    format(
-                      new Date(cargo?.cargo_id_data?.date).setHours(
-                        new Date(cargo?.cargo_id_data?.date).getHours() - 5
-                      ),
-                      "dd-MMMM",
-                      { locale: ru }
-                    )}
+                  {cargo?.cargo_id_data?.as_soon_as_b
+                    ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase()} / Как можно скорее`
+                    : cargo?.cargo_id_data?.date &&
+                      format(
+                        new Date(cargo?.cargo_id_data?.date).setHours(
+                          new Date(cargo?.cargo_id_data?.date).getHours() - 5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )}
                 </span>
               </p>
             </div>
@@ -153,7 +158,9 @@ export const Performed = ({
               </p>
               <p className={styles.rightTitle}>
                 Предоплата:
-                {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`}
+                {cargo?.payment_type?.[0] === "prepayment"
+                  ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code}`
+                  : `Нет`}
               </p>
             </div>
             <div className={styles.text}>
@@ -257,7 +264,7 @@ export const Performed = ({
                       <a
                         style={{
                           marginLeft: `5px`,
-                          textDecoration: `underline dotted`,
+                          borderBottom: `1px dashed black`,
                         }}
                         target="_blank"
                         href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
@@ -286,7 +293,7 @@ export const Performed = ({
                       <a
                         style={{
                           marginLeft: `5px`,
-                          textDecoration: `underline dotted`,
+                          borderBottom: `1px dashed black`,
                         }}
                         target="_blank"
                         href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
@@ -364,7 +371,7 @@ export const Performed = ({
                       <a
                         style={{
                           marginLeft: `5px`,
-                          textDecoration: `underline dotted`,
+                          borderBottom: `1px dashed black`,
                         }}
                         target="_blank"
                         href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
