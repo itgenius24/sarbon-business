@@ -56,7 +56,7 @@ import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
-import { ru } from "date-fns/locale";
+import { ro, ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
 
 export const TopContent = ({
@@ -281,8 +281,6 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
-
-
   return (
     <Box>
       {status === "performed" && (
@@ -293,14 +291,18 @@ export const TopContent = ({
                 <span className={cls.addressText}>
                   <span className={cls.addressCountry}>
                     <span className={cls.addressCity}>
-                      {" "}
+                  
                       <Tooltip
                         color={`black`}
                         boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                         background={`#fff`}
                         label={`${address1}`}
                       >
-                        <span>{ address1?.length >= 15 ? `${address1?.slice(0, 25)}...` : address1}</span>
+                        <span>
+                          {address1?.length >= 20
+                            ? `${address1?.slice(0, 20)}...`
+                            : address1}
+                        </span>
                       </Tooltip>
                     </span>
                     {/* <span>{address1}</span> */}
@@ -314,7 +316,11 @@ export const TopContent = ({
                         background={`#fff`}
                         label={`${address2}`}
                       >
-                        <span>{address2?.length >= 15 ? `${address2?.slice(0, 25)}...` : address2}</span>
+                        <span>
+                          {address2?.length >= 20
+                            ? `${address2?.slice(0, 20)}...`
+                            : address2}
+                        </span>
                       </Tooltip>
                     </span>
                     {/* <span>{address2}</span> */}
@@ -322,22 +328,34 @@ export const TopContent = ({
                 </span>
               </h2>
             </Box>
-            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&  <Box mb={`20px`}>
-              <p className={cls.statusTitle}>Заказчик</p>
-              <Flex  gap={`5px`}>
-                <Avatar
-                  width={`45px`}
-                  height={`45px`}
-                  src={cargoData?.users_id_2_data?.photo}
-                  name={cargoData?.users_id_2_data?.full_name}
-                />
-                <Box>
-                  <p>{cargoData?.users_id_2_data?.full_name}</p>
-                  <p style={{textDecoration:`underline dotted`,cursor:`pointer`,fontWeight:400}}>{cargoData?.users_id_2_data?.phone}</p>
-                </Box>
-              </Flex>
-            </Box> }
-        
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && (
+              <Box mr={`10px`} mb={`20px`}>
+                <p className={cls.statusTitle}>Заказчик</p>
+                <Flex gap={`5px`}>
+                  <Avatar
+                    width={`45px`}
+                    height={`45px`}
+                    src={cargoData?.users_id_2_data?.photo}
+                    name={cargoData?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p style={{ fontSize: `18px` }}>
+                      {cargoData?.users_id_2_data?.full_name}
+                    </p>
+                    <span
+                      style={{
+                        cursor: `pointer`,
+                        fontWeight: 400,
+                        fontSize: `18px`,
+                        borderBottom: `1px dashed black`,
+                      }}
+                    >
+                      {cargoData?.users_id_2_data?.phone}
+                    </span>
+                  </Box>
+                </Flex>
+              </Box>
+            )}
           </Flex>
 
           {isPending ? (
@@ -406,19 +424,25 @@ export const TopContent = ({
                                 </Flex>
                               </div>
                             </div>
-                            <div className={cls.item}>
-                              {user?.users_gps?.[0]?.os === "android" ? (
-                                <AndroidIcon />
-                              ) : (
-                                <AppleIcon />
-                              )}
-                              <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Смартфон</p>
-                                <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.[0]?.os}{" "}
-                                </p>
+
+                            {console.log(`user`, user)}
+                            {role_id !==
+                              "48871d27-7361-4f69-8fe4-b54daf270739" && (
+                              <div className={cls.item}>
+                                {user?.users_gps?.[0]?.os === "android" ? (
+                                  <AndroidIcon />
+                                ) : (
+                                  <AppleIcon />
+                                )}
+                                <div className={cls.itemText}>
+                                  <p className={cls.phoneItemTitle}>Смартфон</p>
+                                  <p className={cls.phoneItemName}>
+                                    {user?.users_gps?.[0]?.os}{" "}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
+                            )}
+
                             <div className={cls.item}>
                               <FurIcon />
                               <div className={cls.itemText}>
@@ -450,6 +474,48 @@ export const TopContent = ({
                                 </p>
                               </div>
                             </div>
+                            {role_id ===
+                              "48871d27-7361-4f69-8fe4-b54daf270739" && (
+                              <Flex className={cls.item}>
+                                <Box textAlign={`right`}>
+                                  <p
+                                    style={{
+                                      color: `rgba(126, 123, 134, 1)`,
+                                      fontSize: `14px`,
+                                      fontWeight: 400,
+                                    }}
+                                  >
+                                    Диспетчер:
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: `14px`,
+                                      fontWeight: 600,
+                                      lineHeight: `20px`,
+                                    }}
+                                  >
+                                    {user?.order?.users_id_3_data?.full_name}
+                                  </p>
+                                  <a
+                                    style={{
+                                      fontWeight: 400,
+                                      fontSize: `14px`,
+                                      lineHeight: `20px`,
+                                      borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
+                                      color: `rgba(0, 122, 255, 1)`,
+                                    }}
+                                    target="_blank"
+                                    href={`https://t.me/${user?.order?.users_id_3_data?.phone}`}
+                                  >
+                                    {user?.order?.users_id_3_data?.phone}
+                                  </a>
+                                </Box>
+                                <Avatar
+                                  src={user?.order?.users_id_3_data?.photo}
+                                  name={user?.order?.users_id_3_data?.full_name}
+                                />
+                              </Flex>
+                            )}
                           </div>
                         </div>
                         <AccordionIcon />

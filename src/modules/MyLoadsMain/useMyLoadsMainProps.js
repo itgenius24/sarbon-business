@@ -231,7 +231,7 @@ export const useMyLoadsMainProps = () => {
         },
       },
     });
-    setDataPred(false)
+    setDataPred(false);
     updateResponseMutation.mutate(
       {
         data: {
@@ -316,7 +316,9 @@ export const useMyLoadsMainProps = () => {
 
     isLoading:
       Boolean(
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && getNewPred.isPending && orderStatus === `new`
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+          getNewPred.isPending &&
+          orderStatus === `new`
       ) || cargosData.isLoading,
     hasMore,
     onFilterChange,

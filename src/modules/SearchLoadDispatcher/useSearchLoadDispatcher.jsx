@@ -43,7 +43,8 @@ export const useSearchLoadDispatcher = () => {
     reset,
     setValue,
   } = useForm({});
-
+  const [value, setValueR] = useState(`val1`);
+ 
   const negotiableOption = [
     {
       value: `val1`,
@@ -92,7 +93,7 @@ export const useSearchLoadDispatcher = () => {
       },
     };
     mutate(data);
-  }, [limit, refe]);
+  }, [limit, refe,value === `val1`]);
 
   const addPage = () => {
     setPage(page + 1);
@@ -247,6 +248,11 @@ export const useSearchLoadDispatcher = () => {
     }
   };
 
+  const onChange = (e) => {
+    setValueR(e);
+  };
+
+
   return {
     t,
     setValue,
@@ -276,5 +282,6 @@ export const useSearchLoadDispatcher = () => {
     showButton,
     onSubmit,
     createAdressisPending,
+    onChange,value,setValueR,
   };
 };

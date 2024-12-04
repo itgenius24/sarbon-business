@@ -51,12 +51,12 @@ export const SearchLoadDispatcherModule = () => {
     onSubmit,
     createAdressisPending,
     dispatcherFilter,
+    setValueR,
+    value,
+    onChange
   } = useSearchLoadDispatcher();
 
-  const [value, setValueR] = useState(`val1`);
-  const onChange = (e) => {
-    setValueR(e);
-  };
+  
 
   return (
     <>
