@@ -281,7 +281,7 @@ export const TopContent = ({
   //   }
   // }, depArr);
 
-  console.log(`cargoData`, cargoData);
+
 
   return (
     <Box>
@@ -300,7 +300,7 @@ export const TopContent = ({
                         background={`#fff`}
                         label={`${address1}`}
                       >
-                        <span>{`${address1?.slice(0, 10)}...`}</span>
+                        <span>{ address1?.length >= 15 ? `${address1?.slice(0, 25)}...` : address1}</span>
                       </Tooltip>
                     </span>
                     {/* <span>{address1}</span> */}
@@ -314,7 +314,7 @@ export const TopContent = ({
                         background={`#fff`}
                         label={`${address2}`}
                       >
-                        <span>{`${address2?.slice(0, 10)}...`}</span>
+                        <span>{address2?.length >= 15 ? `${address2?.slice(0, 25)}...` : address2}</span>
                       </Tooltip>
                     </span>
                     {/* <span>{address2}</span> */}

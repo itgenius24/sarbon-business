@@ -316,7 +316,7 @@ export const useMyLoadsMainProps = () => {
 
     isLoading:
       Boolean(
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && data?.length === 0
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && getNewPred.isPending && orderStatus === `new`
       ) || cargosData.isLoading,
     hasMore,
     onFilterChange,
