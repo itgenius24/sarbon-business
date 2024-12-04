@@ -59,7 +59,7 @@ export const CarsCard = ({ item, deleteFuntion }) => {
             <Box>
               <p className={cls.title}>{item?.user?.firm_id_data?.full_name}</p>
               <p className={cls.tel}>
-                {item?.user?.firm_id_data?.phone_number}{" "}
+                {item?.user?.firm_id_data?.phone_number}
               </p>
             </Box>
           </Flex>

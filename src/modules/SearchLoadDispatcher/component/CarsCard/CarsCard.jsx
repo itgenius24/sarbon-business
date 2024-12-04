@@ -44,10 +44,10 @@ export const CarsCard = ({ item, handleCheckboxChange, ids, index }) => {
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
         <p className={cls.title}>
-          {item?.vehicles?.[0]?.firm_id_data?.full_name}
+          {item?.user?.firm_id_data?.full_name}
         </p>
         <p className={cls.subTitle}>
-          {item?.vehicles?.[0]?.firm_id_data?.phone_number || (
+          {item?.user?.firm_id_data?.phone_number || (
             <span>Владелец водитель</span>
           )}
         </p>
