@@ -47,10 +47,9 @@ const Cmap = memo(
 
     locationData,
     setLoadState,
- 
+
     setContendSingle,
     contendHoverState,
- 
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -130,8 +129,6 @@ const Cmap = memo(
       // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone);
     });
-
-
 
     return (
       <Map
@@ -273,81 +270,95 @@ const Cmap = memo(
                   <p className={cls.balloon_fulName}>
                     {carInfo?.user?.full_name}
                   </p>
-                  {type === "empty" ? (
+                  {carInfo?.user?.provisions?.[0] === "empty" ? (
                     <>
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${carInfo?.user?.phone}`}
-                        id="click"
-                        className={cls.footerBox1}
-                      >
+                      <div className={cls.flex}>
                         <GreenPhoneIcon />
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </a>
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
-                  ) : type === "waiting_for_driver" ? (
+                  ) : carInfo?.user?.provisions?.[0] ===
+                    "waiting_for_driver" ? (
                     <>
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${carInfo?.user?.phone}`}
-                        id="click"
-                        className={cls.footerBox1}
-                      >
+                      <div className={cls.flex}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </a>
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
-                  ) : type === "our_cargo" ? (
+                  ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
                     <>
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${carInfo?.user?.phone}`}
-                        id="click"
-                        className={cls.footerBox1}
-                      >
-                        <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </a>
+                      <div className={cls.flex}>
+                        <BluePhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
-                  ) : type === "someone_cargo" ? (
+                  ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
                     <>
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${carInfo?.user?.phone}`}
-                        id="click"
-                        className={cls.footerBox1}
-                      >
-                        <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </a>
+                      <div className={cls.flex}>
+                        <BluePhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
                       </p>
                     </>
-                  ) : type === "broke_down" ? (
+                  ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
                     <>
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${carInfo?.user?.phone}`}
-                        id="click"
-                        className={cls.footerBox1}
-                      >
+                      <div className={cls.flex}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </a>
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
@@ -355,15 +366,18 @@ const Cmap = memo(
                     </>
                   ) : (
                     <>
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${carInfo?.user?.phone}`}
-                        id="click"
-                        className={cls.footerBox1}
-                      >
-                        <GreenPhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </a>
+                      <div className={cls.flex}>
+                        <GreenPhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
@@ -402,25 +416,40 @@ const Cmap = memo(
                     onBalloonOpen={(e) => {
                       const placemark = e.get("target");
                       const balloonInstance = placemark.balloon;
-                      balloonInstance.events.add("click", () => {
-                        setContendSingle(carInfo);
-                        if (carInfo?.user?.provisions?.[0] === "our_cargo") {
-                          setModalType("driverCheck");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] === "someone_cargo"
-                        ) {
-                          setModalType("driverQuestion");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "waiting_for_driver"
-                        ) {
-                          setModalType("driverExpectation");
-                        } else {
-                          setModalType("driverFree");
-                        }
-                      });
+                      // balloonInstance.events.add("click", () => {
+                      //   setContendSingle(carInfo);
+                      //   if (carInfo?.user?.provisions?.[0] === "our_cargo") {
+                      //     setModalType("driverCheck");
+                      //   } else if (
+                      //     carInfo?.user?.provisions?.[0] === "someone_cargo"
+                      //   ) {
+                      //     setModalType("driverQuestion");
+                      //   } else if (
+                      //     carInfo?.user?.provisions?.[0] ===
+                      //     "waiting_for_driver"
+                      //   ) {
+                      //     setModalType("driverExpectation");
+                      //   } else {
+                      //     setModalType("driverFree");
+                      //   }
+                      // });
                     }}
-                
+                    onClick={() => {
+                      setContendSingle(carInfo);
+                      if (carInfo?.user?.provisions?.[0] === "our_cargo") {
+                        setModalType("driverCheck");
+                      } else if (
+                        carInfo?.user?.provisions?.[0] === "someone_cargo"
+                      ) {
+                        setModalType("driverQuestion");
+                      } else if (
+                        carInfo?.user?.provisions?.[0] === "waiting_for_driver"
+                      ) {
+                        setModalType("driverExpectation");
+                      } else {
+                        setModalType("driverFree");
+                      }
+                    }}
                   />
                 </>
               );
@@ -468,14 +497,17 @@ const Cmap = memo(
                 <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
                 {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
-                    <a
-                      target="_blank"
-                      href={`https://t.me/${item?.users_id_data?.phone}`}
-                      className={cls.footerBox}
-                    >
-                      <GoodsPhoneIcon />{" "}
-                      {formatPhoneNumber(item?.users_id_data?.phone)}
-                    </a>
+                    <div className={cls.flex}>
+                      <GoodsPhoneIcon />
+                      <a
+                        target="_blank"
+                        href={`https://t.me/${item?.users_id_data?.phone}`}
+                        className={cls.footerBoxLink}
+                      >
+                        {formatPhoneNumber(item?.users_id_data?.phone)}
+                      </a>
+                    </div>
+
                     <p className={cls.footerBox}>
                       <GoodsFuraIcon />
                       {item?.vehicle_type_id_data?.name}
@@ -483,14 +515,17 @@ const Cmap = memo(
                   </>
                 ) : (
                   <>
-                    <a
-                      target="_blank"
-                      href={`https://t.me/${item?.users_id_data?.phone}`}
-                      className={cls.footerBox}
-                    >
-                      <GreenPhoneIcon />{" "}
-                      {formatPhoneNumber(item?.users_id_data?.phone)}
-                    </a>
+                    <div className={cls.flex}>
+                      <GreenPhoneIcon />
+                      <a
+                        target="_blank"
+                        href={`https://t.me/${item?.users_id_data?.phone}`}
+                        className={cls.footerBoxLink}
+                      >
+                        {formatPhoneNumber(item?.users_id_data?.phone)}
+                      </a>
+                    </div>
+
                     <p className={cls.footerBox}>
                       <GreenFuraIcon />
                       {item?.vehicle_type_id_data?.name}
@@ -506,6 +541,14 @@ const Cmap = memo(
               <>
                 {item.location_name && (
                   <Placemark
+                    onClick={() => {
+                      setLoadState(item);
+                      if (item?.new_status?.[0] === "occupied_cargo") {
+                        setModalType("driverGruzGoods");
+                      } else {
+                        setModalType("driverGruz");
+                      }
+                    }}
                     key={item?.guid}
                     geometry={[
                       item.location_name.split(" ")[0] * 1,
@@ -527,14 +570,14 @@ const Cmap = memo(
                     onBalloonOpen={(e) => {
                       const placemark = e.get("target");
                       const balloonInstance = placemark.balloon;
-                      balloonInstance.events.add("click", () => {
-                        setLoadState(item);
-                        if (item?.new_status?.[0] === "occupied_cargo") {
-                          setModalType("driverGruzGoods");
-                        } else {
-                          setModalType("driverGruz");
-                        }
-                      });
+                      // balloonInstance.events.add("click", () => {
+                      //   setLoadState(item);
+                      //   if (item?.new_status?.[0] === "occupied_cargo") {
+                      //     setModalType("driverGruzGoods");
+                      //   } else {
+                      //     setModalType("driverGruz");
+                      //   }
+                      // });
                     }}
                   />
                 )}

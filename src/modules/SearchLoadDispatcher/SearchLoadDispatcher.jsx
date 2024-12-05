@@ -81,7 +81,7 @@ export const SearchLoadDispatcherModule = () => {
                 )}
               />
             </Box>
-            <RadioGroup onChange={(e) => onChange(e)} value={value}>
+            {/* <RadioGroup onChange={(e) => onChange(e)} value={value}>
               <Flex gap={"30px"}>
                 {negotiableOption &&
                   negotiableOption.map((item) => (
@@ -102,7 +102,7 @@ export const SearchLoadDispatcherModule = () => {
                     </Radio>
                   ))}
               </Flex>
-            </RadioGroup>
+            </RadioGroup> */}
           </Flex>
           <Box
             position={`sticky`}

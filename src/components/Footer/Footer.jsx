@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Container } from "../Container";
 import cls from "./styles.module.scss";
 import GooglePlay from "@/assets/images/google-play.svg";
+import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
 import GalaxyStore from "@/assets/images/galaxy-store.svg";
 import { Logo } from "../Logo";
@@ -130,9 +131,9 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"https://play.google.com/store/apps/details?id=uz.udevs.xlogistic_driver_mobile"} target="_blank">
+                <a className={cls.mobileAppLink} download href={`../../assets/app/Furgo.apk`} target="_blank">
                   <Image
-                    src={GooglePlay}
+                    src={AndroidPlay}
                     alt="Google play"
                     width={135}
                     height={40}
