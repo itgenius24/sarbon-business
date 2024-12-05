@@ -153,7 +153,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a style={{cursor:`pointer`}} className={cls.mobileAppLink}  href="https://pub-adf8c687e31f4a9d84bb2c801e0d3adf.r2.dev/Furgo%20(2).apk"  target="_blank">
+                <a style={{cursor:`pointer`}} className={cls.mobileAppLink}  href="https://bit.ly/furgo-v1"  target="_blank">
                   <Image
                     src={AndroidPlay}
                     alt="Google play"

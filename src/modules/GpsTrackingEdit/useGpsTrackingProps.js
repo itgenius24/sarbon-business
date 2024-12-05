@@ -309,14 +309,14 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
- console.log(`carsArr`,carsArr)
+  console.log(`carsArr`, carsArr);
   const { mutate: dataMutate, isPending } = useGetCar({
     onSuccess: (data) => {
       if (data?.response?.length === 50) {
-        if(carsArr >= 100){
-           return
-        }else{
-        setOffset(offset + 1);
+        if (carsArr >= 100) {
+          return;
+        } else {
+          setOffset(offset + 1);
         }
       }
       if (data?.response?.length) {
@@ -409,14 +409,20 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
 
-   const carTypeDataFIlter = uniqueData.filter(
+  const carTypeDataFIlter = uniqueData.filter(
     (item) =>
       item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
       watch(`car_type`)?.value
-  )
+  );
 
   const getCarListProps = useMemo(() => {
-    return { data: watch("users_id") ? dataUserDataID : watch(`car_type`)?.value ? carTypeDataFIlter : uniqueData };
+    return {
+      data: watch("users_id")
+        ? dataUserDataID
+        : watch(`car_type`)?.value
+        ? carTypeDataFIlter
+        : uniqueData,
+    };
   }, [
     watch("users_id"),
     watch(`car_type`)?.value,
@@ -425,8 +431,6 @@ export const useGpsTrackingProps = () => {
     carsArr?.length,
     uniqueData,
   ]);
-
-
 
   console.log(`carTypeDataFIlter`, carTypeDataFIlter);
 

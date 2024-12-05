@@ -70,65 +70,81 @@ export const useSearchLoadDispatcher = () => {
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      setRefe(false);
-      const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
-
-      const filteredData = res?.response.map((item) => ({
-        ...item,
-        vehicles: item?.vehicles ? item?.vehicles : vehicles,
-      }));
-
-      const uniqueData = filteredData.filter(
-        (item) =>
-          !oldData.some(
-            (stateItem) => stateItem?.user?.guid === item?.user?.guid
-          )
-      );
-
-      setData((prev) => [...prev, ...uniqueData]);
-      setOldData((prev) => [...prev, ...uniqueData]);
-    },
-  });
-
-  const { mutate: trackingFilter, isPending: trackingFilterPending } =
-    useGetCarTrackingFilter({
-      onSuccess: (res) => {
+      if (res?.response?.length === 50) {
+        addPage();
+      }
+      if (res?.response?.length) {
         setRefe(false);
         const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
 
-        if (value === `val2`) {
-          const filteredData = res?.response.map((item) => ({
-            ...item,
-            vehicles: item?.vehicles ? item?.vehicles : vehicles,
-          }));
+        const filteredData = res?.response.map((item) => ({
+          ...item,
+          vehicles: item?.vehicles ? item?.vehicles : vehicles,
+        }));
 
-          const uniqueData = filteredData.filter(
-            (item) =>
-              !oldData2.some(
-                (stateItem) => stateItem?.user?.guid === item?.user?.guid
-              )
-          );
+        const uniqueData = filteredData.filter(
+          (item) =>
+            !oldData.some(
+              (stateItem) => stateItem?.user?.guid === item?.user?.guid
+            )
+        );
 
-          setData2((prev) => [...prev, ...uniqueData]);
-          setOldData2((prev) => [...prev, ...uniqueData]);
-        } else {
-          const filteredData = res?.response.map((item) => ({
-            ...item,
-            vehicles: item?.vehicles ? item?.vehicles : vehicles,
-          }));
+        setData((prev) => [...prev, ...uniqueData]);
+        setOldData((prev) => [...prev, ...uniqueData]);
+      }
+      if (res?.response?.length === null) {
+        mutate({
+          data: {
+            object_data: {
+              page,
+              limit,
+              firm_id: ``,
+            },
+          },
+        });
+      }
+    },
+  });
 
-          const uniqueData = filteredData.filter(
-            (item) =>
-              !oldData3.some(
-                (stateItem) => stateItem?.user?.guid === item?.user?.guid
-              )
-          );
+  // const { mutate: trackingFilter, isPending: trackingFilterPending } =
+  //   useGetCarTrackingFilter({
+  //     onSuccess: (res) => {
+  //       setRefe(false);
+  //       const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
 
-          setData3((prev) => [...prev, ...uniqueData]);
-          setOldData3((prev) => [...prev, ...uniqueData]);
-        }
-      },
-    });
+  //       if (value === `val2`) {
+  //         const filteredData = res?.response.map((item) => ({
+  //           ...item,
+  //           vehicles: item?.vehicles ? item?.vehicles : vehicles,
+  //         }));
+
+  //         const uniqueData = filteredData.filter(
+  //           (item) =>
+  //             !oldData2.some(
+  //               (stateItem) => stateItem?.user?.guid === item?.user?.guid
+  //             )
+  //         );
+
+  //         setData2((prev) => [...prev, ...uniqueData]);
+  //         setOldData2((prev) => [...prev, ...uniqueData]);
+  //       } else {
+  //         const filteredData = res?.response.map((item) => ({
+  //           ...item,
+  //           vehicles: item?.vehicles ? item?.vehicles : vehicles,
+  //         }));
+
+  //         const uniqueData = filteredData.filter(
+  //           (item) =>
+  //             !oldData3.some(
+  //               (stateItem) => stateItem?.user?.guid === item?.user?.guid
+  //             )
+  //         );
+
+  //         setData3((prev) => [...prev, ...uniqueData]);
+  //         setOldData3((prev) => [...prev, ...uniqueData]);
+  //       }
+  //     },
+  //   });
 
   useEffect(() => {
     const data = {
@@ -143,29 +159,29 @@ export const useSearchLoadDispatcher = () => {
     mutate(data);
   }, [limit, refe, value === `val1`]);
 
-  useEffect(() => {
-    trackingFilter({
-      data: {
-        object_data: {
-          page,
-          limit,
-          dispetchir_id: ``,
-        },
-      },
-    });
-  }, [limit, value === `val2`, refe]);
+  // useEffect(() => {
+  //   trackingFilter({
+  //     data: {
+  //       object_data: {
+  //         page,
+  //         limit,
+  //         dispetchir_id: ``,
+  //       },
+  //     },
+  //   });
+  // }, [limit, value === `val2`, refe]);
 
-  useEffect(() => {
-    trackingFilter({
-      data: {
-        object_data: {
-          page,
-          limit,
-          dispetchir_id: authStore?.userData?.id,
-        },
-      },
-    });
-  }, [limit, value === `val3`, refe]);
+  // useEffect(() => {
+  //   trackingFilter({
+  //     data: {
+  //       object_data: {
+  //         page,
+  //         limit,
+  //         dispetchir_id: authStore?.userData?.id,
+  //       },
+  //     },
+  //   });
+  // }, [limit, value === `val3`, refe]);
 
   const addPage = () => {
     setPage(page + 1);
