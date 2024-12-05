@@ -262,13 +262,13 @@ export const TopContent = ({
     params: {
       data: JSON.stringify({
         users_id: userId,
-        limit: 300,
+        limit: 600,
         offset: 1,
       }),
     },
     querySettings: {
       enabled: Boolean(userId),
-      refetchInterval: 10000,
+      refetchInterval: 50000,
     },
   });
 
