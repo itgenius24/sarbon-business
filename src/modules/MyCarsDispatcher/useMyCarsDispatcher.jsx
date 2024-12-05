@@ -33,23 +33,34 @@ export const useMyCarsDispatcher = () => {
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
 
 
+  const addPage = () => {
+    setPage(page + 1);
+    setLimit(50);
+  };
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      setRefe(false);
-      // const filteredData = res?.response.filter(
-      //   (item) => item.user && item.vehicles
-      // );
+      if (res?.response?.length === limit) {
+        addPage();
+      }
+      if (res?.response?.length) {
+        setRefe(false);
+        let data = res?.response
+        setData((prev) => [...prev, ...data]);
+      }
+      if (res?.response?.length === null) {
+        mutate({
+          data: {
+            object_data: {
+              page,
+              limit,
+              type: "dispatcher",
+              dispatcher_id: disId,
+            },
+          },
+        })
+      }
 
-      const uniqueData = res?.response.filter(
-        (item) =>
-          !oldData.some(
-            (stateItem) => stateItem?.user?.guid === item?.user?.guid
-          )
-      );
-
-      setData(res?.response);
-      // setOldData((prev) => [res?.response]);
 
     },
   });
@@ -66,7 +77,9 @@ export const useMyCarsDispatcher = () => {
       },
     };
     mutate(data);
-  }, [limit, refe]);
+  }, [page, limit, refe]);
+
+
 
 
   const nameFilter = () => {
@@ -103,7 +116,7 @@ export const useMyCarsDispatcher = () => {
     deleteFuntion,
     nameFilter,
     filter1,
-    iSloader: isPending,
+    isPending,
     t,
   };
 };

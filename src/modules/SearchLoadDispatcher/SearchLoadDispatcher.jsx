@@ -201,12 +201,13 @@ export const SearchLoadDispatcherModule = () => {
 
             {isPending && (
               <Box
-                height={data?.length < 0  ? `60vh` : `100%`}
+                height={data?.length > 0 ? `5vh` : `60vh`}
                 display={`flex`}
                 justifyContent={`center`}
                 alignItems={`center`}
                 flexDirection={`column`}
-                // paddingTop={data?.length > 0 ? `10px` : `250px`}
+                background={`red`}
+                // paddingTop={data?.length > 0 ? `10px` : `150px`}
               >
                 <LoadingSpinner />
               </Box>

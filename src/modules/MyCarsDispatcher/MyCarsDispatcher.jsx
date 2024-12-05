@@ -14,7 +14,7 @@ import { CarsCard } from "./component/CarsCard/CarsCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const MyCarsDispatcherModule = () => {
-  const { t, data, deleteFuntion,nameFilter,filter1,iSloader } = useMyCarsDispatcher();
+  const { t, data, deleteFuntion,nameFilter,filter1,isPending } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
   const isOrderData = data?.filter((item) => !item?.order)
@@ -80,14 +80,17 @@ export const MyCarsDispatcherModule = () => {
           </Flex>
         </Box>
         <Box>
-          {data?.length > 0 ?
+          {data?.length > 0 &&
             data?.map((item) => (
               <CarsCard
                 key={item.user?.guid}
                 item={item}
                 deleteFuntion={deleteFuntion}
               />
-            )): <LoadingSpinner />}
+            ))}
+          {isPending && <Box pt={`20px`}>
+            <LoadingSpinner />
+          </Box>}
         </Box>
       </Container>
     </>
