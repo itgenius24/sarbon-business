@@ -55,6 +55,28 @@ export const Footer = () => {
     ],
   };
 
+
+    const downloadByLanguage = async (langId) => {
+      try {
+        // const res = await getData({
+        //   ...file,
+        //   lang: langId,
+        // });
+       
+          const link = document.createElement("a");
+          const res = `../../assets/app/Furgo.apk`
+          link.href = res.file;
+          link.target = "_blank";
+          link.download = `Furgo.apk` ;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        
+      } catch (e) {
+        console.log(2);
+      }
+    };
+
   return (
     <Box
       as="footer"
@@ -131,7 +153,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} download href={`../../assets/app/Furgo.apk`} target="_blank">
+                <a className={cls.mobileAppLink} onClick={downloadByLanguage}  href={`../../assets/app/Furgo.apk`} target="_blank">
                   <Image
                     src={AndroidPlay}
                     alt="Google play"
