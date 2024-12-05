@@ -27,6 +27,7 @@ import authStore from "@/store/auth.store";
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
+  const disId = authStore.userData.id;
   const firm_id =
     role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
       ? authStore.userData.firm_id
@@ -310,6 +311,9 @@ export const useGpsTrackingProps = () => {
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
   console.log(`carsArr`, carsArr);
+
+
+
   const { mutate: dataMutate, isPending } = useGetCar({
     onSuccess: (data) => {
       if (data?.response?.length === 50) {
@@ -420,8 +424,8 @@ export const useGpsTrackingProps = () => {
       data: watch("users_id")
         ? dataUserDataID
         : watch(`car_type`)?.value
-        ? carTypeDataFIlter
-        : uniqueData,
+          ? carTypeDataFIlter
+          : uniqueData,
     };
   }, [
     watch("users_id"),
@@ -518,7 +522,9 @@ export const useGpsTrackingProps = () => {
             volume: watch("volume"),
             limit: 50,
             page: offset,
-            firm_id,
+            firm_id: role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" ? firm_id : undefined,
+            type: role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? "dispatcher" : undefined,
+            dispatcher_id: role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? disId : undefined,
           },
         },
       });

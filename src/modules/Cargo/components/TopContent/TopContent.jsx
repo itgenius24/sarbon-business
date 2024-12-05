@@ -92,8 +92,12 @@ export const TopContent = ({
   const paramsId = searchParams.get("car_id");
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
-
+  const [offset, setOffset] = useState(0);
+  const [allPositions, setAllPositions] = useState([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
   const { t } = useTranslation(locale, "translations");
+
+  
 
   const list = [
     {
@@ -262,26 +266,30 @@ export const TopContent = ({
     params: {
       data: JSON.stringify({
         users_id: userId,
-        limit: 600,
-        offset: 1,
+        limit: 100,
+        offset: offset,
       }),
     },
     querySettings: {
-      enabled: Boolean(userId),
-      refetchInterval: 50000,
+      enabled: Boolean(userId) && isLoadingMore,
+      // enabled: Boolean(userId),
     },
   });
 
-  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
+  useEffect(() => {
+    if (getDriverPosition?.response) {
+      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
 
-  // useEffect(() => {
-  //   const ymapsScript = document.getElementById("yandex-maps-script");
-  //   if (ymapsScript) {
-  //     initYmaps();
-  //   }
-  // }, depArr);
+      // if (getDriverPosition.response.length < 100) {
+        if (offset === 400) {
+        setIsLoadingMore(false);
+      } else {
+        setOffset(offset + 100);
+      }
+    }
+  }, [getDriverPosition?.response]);
 
-  console.log(`cargoData`, cargoData);
+ 
 
   return (
     <Box>
@@ -310,38 +318,39 @@ export const TopContent = ({
                       </Tooltip>
                     </span>
 
-                    {cargoData &&  (
-                      cargoData?.cargo_id_data?.as_soon_as_a ? (
-                      <p
-                        style={{
-                          fontWeight: 500,
-                          fontSize: `12px`,
-                          color: `rgba(126, 123, 134, 1)`,
-                        }}
-                      >
-                        {cargoData?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
-                        /{" "}
-                        <span
+                    {cargoData &&
+                      (cargoData?.cargo_id_data?.as_soon_as_a ? (
+                        <p
                           style={{
+                            fontWeight: 500,
                             fontSize: `12px`,
                             color: `rgba(126, 123, 134, 1)`,
                           }}
                         >
-                          Как можно скорее
-                        </span>
-                      </p>
-                    ) : (
-                      format(
-                        new Date(cargoData?.cargo_id_data?.load_time).setHours(
+                          {cargoData?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
+                          /{" "}
+                          <span
+                            style={{
+                              fontSize: `12px`,
+                              color: `rgba(126, 123, 134, 1)`,
+                            }}
+                          >
+                            Как можно скорее
+                          </span>
+                        </p>
+                      ) : (
+                        format(
                           new Date(
                             cargoData?.cargo_id_data?.load_time
-                          ).getHours() - 5
-                        ),
-                        "dd-MMMM",
-                        { locale: ru }
-                      )
-                    )
-                    )}
+                          ).setHours(
+                            new Date(
+                              cargoData?.cargo_id_data?.load_time
+                            ).getHours() - 5
+                          ),
+                          "dd-MMMM",
+                          { locale: ru }
+                        )
+                      ))}
                   </span>
                   <span>-&gt;</span>
                   <span className={cls.addressCountry}>
@@ -360,7 +369,7 @@ export const TopContent = ({
                       </Tooltip>
                     </span>
 
-                    { cargoData && cargoData?.cargo_id_data?.as_soon_as_b ? (
+                    {cargoData && cargoData?.cargo_id_data?.as_soon_as_b ? (
                       <p
                         style={{
                           fontWeight: 500,
@@ -379,12 +388,12 @@ export const TopContent = ({
                           Как можно скорее
                         </span>
                       </p>
-                    ) : cargoData?.cargo_id_data?.date && (
+                    ) : (
+                      cargoData?.cargo_id_data?.date &&
                       format(
                         new Date(cargoData?.cargo_id_data?.date).setHours(
-                          new Date(
-                            cargoData?.cargo_id_data?.date
-                          ).getHours() - 5
+                          new Date(cargoData?.cargo_id_data?.date).getHours() -
+                            5
                         ),
                         "dd-MMMM",
                         { locale: ru }
@@ -599,7 +608,7 @@ export const TopContent = ({
                                 startPoint={user.startPoint}
                                 endPoint={user.endPoint}
                                 gpsHistory={gpsHistory}
-                                getDriverPosition={getDriverPosition?.response?.map(
+                                getDriverPosition={allPositions?.map(
                                   (item) => [item?.lat, item?.long]
                                 )}
                                 driver={user?.users_gps?.[0]}
@@ -632,21 +641,22 @@ export const TopContent = ({
                                 </p>
                                 <p className={cls.adressDesk}>
                                   <span>
-                                    {
-                                      user?.order?.cargo_id_data
-                                        ?.country_code_from?.toUpperCase()
-                                    }
-                                  </span> / { user?.order?.cargo_id_data?.as_soon_as_a ? ` Как можно скорее` : format(
-                                    new Date(
-                                      user?.order?.cargo_id_data?.load_time
-                                    ).setHours(
-                                      new Date(
-                                        user?.order?.cargo_id_data?.load_time
-                                      ).getHours() - 5
-                                    ),
-                                    "dd-MMMM",
-                                    { locale: ru }
-                                  )}
+                                    {user?.order?.cargo_id_data?.country_code_from?.toUpperCase()}
+                                  </span>{" "}
+                                  /{" "}
+                                  {user?.order?.cargo_id_data?.as_soon_as_a
+                                    ? ` Как можно скорее`
+                                    : format(
+                                        new Date(
+                                          user?.order?.cargo_id_data?.load_time
+                                        ).setHours(
+                                          new Date(
+                                            user?.order?.cargo_id_data?.load_time
+                                          ).getHours() - 5
+                                        ),
+                                        "dd-MMMM",
+                                        { locale: ru }
+                                      )}
                                 </p>
                               </Box>
                               <IocnPrev />
@@ -666,22 +676,22 @@ export const TopContent = ({
                                 </p>
                                 <p className={cls.adressDesk}>
                                   <span>
-                                    {
-                                      user?.order?.cargo_id_data
-                                        ?.country_code_to?.toUpperCase()
-                                    }
-                                  </span> /
-                                    {user?.order?.cargo_id_data?.as_soon_as_b ? ` Как можно скорее` :  format(
-                                    new Date(
-                                      user?.order?.cargo_id_data?.date
-                                    ).setHours(
-                                      new Date(
-                                        user?.order?.cargo_id_data?.date
-                                      ).getHours() - 5
-                                    ),
-                                    "dd-MMMM",
-                                    { locale: ru }
-                                  )}
+                                    {user?.order?.cargo_id_data?.country_code_to?.toUpperCase()}
+                                  </span>{" "}
+                                  /
+                                  {user?.order?.cargo_id_data?.as_soon_as_b
+                                    ? ` Как можно скорее`
+                                    : format(
+                                        new Date(
+                                          user?.order?.cargo_id_data?.date
+                                        ).setHours(
+                                          new Date(
+                                            user?.order?.cargo_id_data?.date
+                                          ).getHours() - 5
+                                        ),
+                                        "dd-MMMM",
+                                        { locale: ru }
+                                      )}
                                 </p>
                               </Box>
                             </Flex>

@@ -185,7 +185,7 @@ export const useSearchLoadDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(limit + 40);
+    setLimit(50);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
