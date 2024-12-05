@@ -56,7 +56,7 @@ export const useSearchLoadDispatcher = () => {
   const negotiableOption = [
     {
       value: `val1`,
-      label: t(`Отображать все ${data?.length})`),
+      label: t(`Отображать все ${data?.length}`),
     },
     // {
     //   value: `val2`,

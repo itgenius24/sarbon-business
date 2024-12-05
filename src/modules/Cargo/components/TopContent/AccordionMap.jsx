@@ -155,6 +155,8 @@ export const AccordionMap = ({
     strokeOpacity: 1, // Opacity of the polyline
   };
 
+  console.log(`getDriverPosition`,getDriverPosition)
+
   return (
     // <YMaps>
     <Map
@@ -169,7 +171,7 @@ export const AccordionMap = ({
       }}
     >
       <Polyline
-        geometry={[getDriverPosition || []]}
+        geometry={getDriverPosition}
         options={polylineOptions}
       />
       {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
@@ -185,9 +187,7 @@ export const AccordionMap = ({
 
       <Placemark
         geometry={
-          getDriverPosition?.length > 0
-            ? getDriverPosition?.[ getDriverPosition?.length -1]
-            : getDriverPosition?.[ getDriverPosition?.length -1]
+          driverPosition
         }
         properties={{
           balloonContent: `<div style='padding: 10px; font-size: 14px;'>

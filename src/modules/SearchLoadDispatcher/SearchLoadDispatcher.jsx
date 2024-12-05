@@ -21,6 +21,7 @@ import { CarsCard } from "./component/CarsCard/CarsCard";
 import { useSearchLoadDispatcher } from "./useSearchLoadDispatcher";
 import { TextField } from "@/components/TextField";
 import { useState } from "react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const SearchLoadDispatcherModule = () => {
   const {
@@ -53,10 +54,8 @@ export const SearchLoadDispatcherModule = () => {
     dispatcherFilter,
     setValueR,
     value,
-    onChange
+    onChange,
   } = useSearchLoadDispatcher();
-
-  
 
   return (
     <>
@@ -122,7 +121,6 @@ export const SearchLoadDispatcherModule = () => {
               >
                 <p className={cls.filterTitle}>Имя водителя</p>
                 {filter1 ? <IocnSortBack /> : <IocnFilter />}
-
               </Flex>
               <Flex
                 cursor={`pointer`}
@@ -134,7 +132,6 @@ export const SearchLoadDispatcherModule = () => {
               >
                 <p className={cls.filterTitle}>Владелец машины</p>
                 {filter2 ? <IocnSortBack /> : <IocnFilter />}
-
               </Flex>
 
               <Flex
@@ -147,9 +144,7 @@ export const SearchLoadDispatcherModule = () => {
               >
                 <p className={cls.filterTitle}>Номер машины</p>
                 {filter4 ? <IocnSortBack /> : <IocnFilter />}
-
               </Flex>
-
 
               <Flex
                 cursor={`pointer`}
@@ -203,6 +198,19 @@ export const SearchLoadDispatcherModule = () => {
                 ids={ids?.map((item) => item?.guid)}
               />
             ))}
+
+            {isPending && (
+              <Box
+                height={data?.length < 0  ? `60vh` : `100%`}
+                display={`flex`}
+                justifyContent={`center`}
+                alignItems={`center`}
+                flexDirection={`column`}
+                // paddingTop={data?.length > 0 ? `10px` : `250px`}
+              >
+                <LoadingSpinner />
+              </Box>
+            )}
           </Box>
           <Box
             position={`absolute`}

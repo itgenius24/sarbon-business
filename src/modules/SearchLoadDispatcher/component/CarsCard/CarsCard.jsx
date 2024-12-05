@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Portal,
+  Tooltip,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 import {
@@ -39,13 +40,22 @@ export const CarsCard = ({ item, handleCheckboxChange, ids, index }) => {
       } `}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
-        <p className={cls.title}>{item?.user?.full_name}</p>
+      {
+        item?.user?.full_name?.length > 18 ? 
+        <Tooltip color={`black`} background={`white`} label={item?.user?.full_name}>
+            <p className={cls.title}>{item?.user?.full_name?.slice(0,18)}...</p>
+        </Tooltip> : <p className={cls.title}>{item?.user?.full_name}</p>
+      }
         <p className={cls.subTitle}>{item?.user?.phone}</p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
-        <p className={cls.title}>
-          {item?.user?.firm_id_data?.full_name}
-        </p>
+      {
+        
+        item?.user?.firm_id_data?.full_name?.length > 18 ? 
+        <Tooltip color={`black`} background={`white`} label={item?.user?.firm_id_data?.full_name}>
+            <p className={cls.title}>{item?.user?.firm_id_data?.full_name?.slice(0,18)}...</p>
+        </Tooltip> : <p className={cls.title}>{item?.user?.firm_id_data?.full_name}</p>
+      }
         <p className={cls.subTitle}>
           {item?.user?.firm_id_data?.phone_number || (
             <span>Владелец водитель</span>
