@@ -56,16 +56,16 @@ export const useSearchLoadDispatcher = () => {
   const negotiableOption = [
     {
       value: `val1`,
-      label: t(`Отображать все (682)`),
+      label: t(`Отображать все ${data?.length})`),
     },
-    {
-      value: `val2`,
-      label: t(`Только свободные (349)`),
-    },
-    {
-      value: `val3`,
-      label: t(`Только мои водители (36)`),
-    },
+    // {
+    //   value: `val2`,
+    //   label: t(`Только свободные (349)`),
+    // },
+    // {
+    //   value: `val3`,
+    //   label: t(`Только мои водители (36)`),
+    // },
   ];
 
   const { mutate, isPending } = useGetCar({
