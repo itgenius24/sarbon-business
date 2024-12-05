@@ -96,10 +96,10 @@ export const useElements = () => {
         path: `/${lang || "ru"}/search-car`,
         label: "Поиск машин",
       },
-      {
-        path: isAuth ? `/${lang || "ru"}/gps-tracking` : `/${lang || "ru"}/auth`,
-        label: "GPS tracking",
-      },
+      // {
+      //   path: isAuth ? `/${lang || "ru"}/gps-tracking` : `/${lang || "ru"}/auth`,
+      //   label: "GPS tracking",
+      // },
     ];
   } else {
     return [
