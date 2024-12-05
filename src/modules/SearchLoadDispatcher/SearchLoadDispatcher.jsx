@@ -206,7 +206,7 @@ export const SearchLoadDispatcherModule = () => {
                 justifyContent={`center`}
                 alignItems={`center`}
                 flexDirection={`column`}
-                background={`red`}
+                // background={`red`}
                 // paddingTop={data?.length > 0 ? `10px` : `150px`}
               >
                 <LoadingSpinner />
