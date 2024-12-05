@@ -310,7 +310,8 @@ export const TopContent = ({
                       </Tooltip>
                     </span>
 
-                    {cargoData?.cargo_id_data?.as_soon_as_a ? (
+                    {cargoData &&  (
+                      cargoData?.cargo_id_data?.as_soon_as_a ? (
                       <p
                         style={{
                           fontWeight: 500,
@@ -331,14 +332,15 @@ export const TopContent = ({
                       </p>
                     ) : (
                       format(
-                        new Date(cargoData.cargo_id_data?.load_time).setHours(
+                        new Date(cargoData?.cargo_id_data?.load_time).setHours(
                           new Date(
-                            cargoData.cargo_id_data?.load_time
+                            cargoData?.cargo_id_data?.load_time
                           ).getHours() - 5
                         ),
                         "dd-MMMM",
                         { locale: ru }
                       )
+                    )
                     )}
                   </span>
                   <span>-&gt;</span>
@@ -358,7 +360,7 @@ export const TopContent = ({
                       </Tooltip>
                     </span>
 
-                    {cargoData?.cargo_id_data?.as_soon_as_b ? (
+                    { cargoData && cargoData?.cargo_id_data?.as_soon_as_b ? (
                       <p
                         style={{
                           fontWeight: 500,
@@ -377,11 +379,11 @@ export const TopContent = ({
                           Как можно скорее
                         </span>
                       </p>
-                    ) : (
+                    ) : cargoData?.cargo_id_data?.date && (
                       format(
-                        new Date(cargoData.cargo_id_data?.date).setHours(
+                        new Date(cargoData?.cargo_id_data?.date).setHours(
                           new Date(
-                            cargoData.cargo_id_data?.date
+                            cargoData?.cargo_id_data?.date
                           ).getHours() - 5
                         ),
                         "dd-MMMM",
