@@ -29,7 +29,7 @@ export const useSearchLoadDispatcher = () => {
   const [filter5, setFilter5] = useState(false);
   const [filter6, setFilter6] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(50);
+  const [limit, setLimit] = useState(20);
   const [refe, setRefe] = useState(false);
 
   const [ids, setId] = useState([]);
@@ -70,7 +70,7 @@ export const useSearchLoadDispatcher = () => {
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      if (res?.response?.length === 50) {
+      if (res?.response?.length === limit) {
         addPage();
       }
       if (res?.response?.length) {
@@ -157,7 +157,7 @@ export const useSearchLoadDispatcher = () => {
       },
     };
     mutate(data);
-  }, [limit, refe, value === `val1`]);
+  }, [page, refe, value === `val1`]);
 
   // useEffect(() => {
   //   trackingFilter({
@@ -185,7 +185,7 @@ export const useSearchLoadDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(limit + 50);
+    setLimit(limit + 40);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
