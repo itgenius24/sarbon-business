@@ -32,7 +32,7 @@ export const useMyCarsDispatcher = () => {
   const [filter1, setFilter1] = useState(false);
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
 
-  
+
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
@@ -50,7 +50,7 @@ export const useMyCarsDispatcher = () => {
 
       setData(res?.response);
       // setOldData((prev) => [res?.response]);
-      
+
     },
   });
 
@@ -96,14 +96,14 @@ export const useMyCarsDispatcher = () => {
     });
   };
 
-  
+
 
   return {
     data,
     deleteFuntion,
     nameFilter,
     filter1,
-    iSloader:isPending,
+    iSloader: isPending,
     t,
   };
 };

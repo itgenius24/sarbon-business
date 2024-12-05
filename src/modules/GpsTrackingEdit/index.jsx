@@ -112,6 +112,8 @@ export default function GpsTrackingModuleTets() {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
+  console.log(`getCarListProps?.data`,getCarListProps)
+
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>

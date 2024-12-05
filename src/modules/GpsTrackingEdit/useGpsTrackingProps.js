@@ -324,18 +324,24 @@ export const useGpsTrackingProps = () => {
         }
       }
       if (data?.response?.length) {
-        const data2 = data?.response?.filter(
+        let data2 = data?.response?.filter(
           (item) => item?.vehicles && item?.users_gps
         );
+        // console.log(`carsArr21`, data2?.map((item) => ({ ...item, user: item?.user?.users_id_data})));
+
+
+        if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
+          data2 = data2?.map((item) => ({ ...item, user: item?.user?.users_id_data}));
+        }
         if (
           watch(`load_type_id`)?.value ||
           watch("weight") ||
           watch("volume")
         ) {
-          console.log(`carsArr21`, data2);
+          // console.log(`carsArr21`, data2);
           setCarsArr(data2);
         } else {
-          console.log(`carsArr21`, data);
+          // console.log(`carsArr21`, data);
           setCarsArr((res) => [...res, ...data2]);
         }
       } else {
@@ -436,7 +442,7 @@ export const useGpsTrackingProps = () => {
     uniqueData,
   ]);
 
-  console.log(`carTypeDataFIlter`, carTypeDataFIlter);
+  console.log(`carTypeDataFIlter`, carsArr, filteredData, carTypeDataFIlter, uniqueData);
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
