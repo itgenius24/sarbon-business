@@ -157,7 +157,14 @@ export const useMyLoadsMainProps = () => {
       limit,
       offset: 0,
       data: JSON.stringify({
-        users_id_2: userId,
+        users_id_2:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+          ? undefined
+          : orderStatus === "new"
+          ? undefined
+          : userId,
+      users_id_3:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? userId : undefined,
         with_relations: true,
         // response_status: ["approve_from_driver"],
         provisions: ["new", "approve_from_driver"],
@@ -165,6 +172,8 @@ export const useMyLoadsMainProps = () => {
     },
     { enabled: false }
   );
+
+  console.log(`getWaitingDriverCount`,getWaitingDriverCount)
 
   useEffect(() => {
     getOfferCount.refetch();
