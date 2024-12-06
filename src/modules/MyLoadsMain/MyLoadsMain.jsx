@@ -49,7 +49,10 @@ export const MyLoadsMain = () => {
           >
             {t("Мои грузы")}
           </Heading>
-            {/* <Box position={`relative`}>
+          {
+            role_id === "48871d27-7361-4f69-8fe4-b54daf270739"
+          }
+            <Box position={`relative`}>
                <span style={{
                 position:`absolute`,
                 top:`-10px`,
@@ -67,7 +70,7 @@ export const MyLoadsMain = () => {
                <Button isDisabled style={{background:`rgba(255, 255, 255, 1)`,color:`black`,border:`1px solid rgba(0, 122, 255, 1)`}} leftIcon={<ExelIcon />}>
                  Экспорт в Excel
                </Button>
-            </Box> */}
+            </Box>
         </Flex>
         <TopFilter
           driverCount={driverCount}

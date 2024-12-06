@@ -180,6 +180,14 @@
     display: block;
     margin-left: auto;
   }
+  .registerLinkMobileRes{
+      @media (max-width:500px) {
+          width: 100px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+      }
+  }
 
   .registerLinkMobile2{
     display: block;

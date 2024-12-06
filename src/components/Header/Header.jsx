@@ -196,7 +196,7 @@ const Header = observer(({ elements }) => {
                     {t("Войти")}
                   </Link>
                   <Link
-                    className={clsx(cls.registerLink, cls.registerLinkMobile)}
+                    className={clsx(cls.registerLink, cls.registerLinkMobile,cls.registerLinkMobileRes)}
                     title={t("Зарегистрироваться")}
                     href={`/${locale}/auth/registration`}
 
