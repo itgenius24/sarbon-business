@@ -66,11 +66,7 @@ export const useLoginProps = () => {
         );
       }
 
-      if (data?.role?.id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`) {
-        router.push(`/uz`);
-      } else {
-        router.push(`/${locale}`);
-      }
+      router.push(`/${locale}`);
     },
     onError: (error) => {
       console.log(error);
