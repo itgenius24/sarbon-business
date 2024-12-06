@@ -32,7 +32,6 @@ export const useMyCarsDispatcher = () => {
   const [filter1, setFilter1] = useState(false);
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
 
-
   const addPage = () => {
     setPage(page + 1);
     setLimit(50);
@@ -45,8 +44,15 @@ export const useMyCarsDispatcher = () => {
       }
       if (res?.response?.length) {
         setRefe(false);
-        let data = res?.response
-        setData((prev) => [...prev, ...data]);
+        let data = res?.response;
+        const uniqueData = data.filter(
+          (item) =>
+            !oldData.some(
+              (stateItem) => stateItem?.user?.guid === item?.user?.guid
+            )
+        );
+        setData((prev) => [...prev, ...uniqueData]);
+        setOldData((prev) => [...prev, ...uniqueData]);
       }
       if (res?.response?.length === null) {
         mutate({
@@ -58,10 +64,8 @@ export const useMyCarsDispatcher = () => {
               dispatcher_id: disId,
             },
           },
-        })
+        });
       }
-
-
     },
   });
 
@@ -79,22 +83,22 @@ export const useMyCarsDispatcher = () => {
     mutate(data);
   }, [page, limit, refe]);
 
-
-
-
   const nameFilter = () => {
     setFilter1(!filter1);
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.user?.users_id_data?.full_name.localeCompare(b?.user?.users_id_data?.full_name) // Alfavit bo'yicha
-          : b?.user?.users_id_data?.full_name.localeCompare(a?.user?.users_id_data?.full_name) // Teskari alfavit bo'yicha
+          ? a?.user?.users_id_data?.full_name.localeCompare(
+              b?.user?.users_id_data?.full_name
+            ) // Alfavit bo'yicha
+          : b?.user?.users_id_data?.full_name.localeCompare(
+              a?.user?.users_id_data?.full_name
+            ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
     setIsAscending(!isAscending); // Tartibni almashtirish
   };
-
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
     onSuccess: () => {
@@ -108,8 +112,6 @@ export const useMyCarsDispatcher = () => {
       id,
     });
   };
-
-
 
   return {
     data,
