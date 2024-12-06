@@ -1,21 +1,7 @@
 "use client";
 
-import {
-  useDeletedeleteDispacersDriver,
-  useDeleteVehicle,
-  useGetAddress,
-  useGetCar,
-  useGetCarListOnSubmit,
-  useGetUserData,
-  useGetVehicle,
-  useUpdateVehicle,
-} from "@/services/api";
+import { useDeletedeleteDispacersDriver, useGetCar } from "@/services/api";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { format } from "date-fns";
-import { useToast } from "@chakra-ui/react";
-import { useSearchParams } from "next/navigation";
-import { isValidJSON } from "@/utils/isValidJSON";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
@@ -26,7 +12,7 @@ export const useMyCarsDispatcher = () => {
   const disId = authStore.userData?.id;
   const [data, setData] = useState([]);
   const [oldData, setOldData] = useState([]);
-  const [refe, setRefe] = useState();
+  const [refe, setRefe] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(25);
   const [filter1, setFilter1] = useState(false);
@@ -35,6 +21,7 @@ export const useMyCarsDispatcher = () => {
   const addPage = () => {
     setPage(page + 1);
     setLimit(50);
+    console.log(`salom`);
   };
 
   const { mutate, isPending } = useGetCar({
