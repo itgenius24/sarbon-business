@@ -43,6 +43,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
 import TooltipComponets from "../TooltipComponets";
 import authStore from "@/store/auth.store";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const TableComponent = ({ watch, formState }) => {
   const { t } = useTranslation();
@@ -76,7 +77,7 @@ export const TableComponent = ({ watch, formState }) => {
     querySettings: { enabled: true },
   });
 
-  const { mutate: getCargoPost } = useGetCargoPost({
+  const { mutate: getCargoPost,isPending:isPendingLo } = useGetCargoPost({
     onSuccess: (res) => {
       setDataRes(res?.response);
       setStatus2(false);
@@ -209,7 +210,7 @@ export const TableComponent = ({ watch, formState }) => {
     pridlojetData(data);
   };
 
-  console.log(`dataRes`, carId?.cargo);
+ 
 
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
@@ -280,6 +281,9 @@ export const TableComponent = ({ watch, formState }) => {
               item={item}
             />
           ))}
+          {
+            isPendingLo && <LoadingSpinner />
+          }
       </Flex>
       {centerModalType && (
         <div className={cls.modalOver}>
