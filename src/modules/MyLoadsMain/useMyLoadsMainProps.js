@@ -173,12 +173,11 @@ export const useMyLoadsMainProps = () => {
     { enabled: false }
   );
 
-  console.log(`getWaitingDriverCount`,orderStatus)
 
   useEffect(() => {
     getOfferCount.refetch();
     getWaitingDriverCount.refetch();
-  }, []);
+  }, [accept,orderStatus]);
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
