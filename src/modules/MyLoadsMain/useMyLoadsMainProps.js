@@ -114,11 +114,18 @@ export const useMyLoadsMainProps = () => {
 
   const getNewPred = useGetNewPred({
     onSuccess: (res) => {
-      setAccept(false)
-      const data = res?.response?.map((item) => ({ ...item?.order?.[0] }));
+      
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
       setData(data);
+      setAccept(false);
     },
   });
+
+
 
   useEffect(() => {
     // if (orderStatus === "new") {
@@ -130,7 +137,7 @@ export const useMyLoadsMainProps = () => {
       },
     });
     // }
-  }, [Boolean(orderStatus === "new" || accept)]);
+  }, [Boolean(orderStatus === "new"),accept]);
 
   const getOfferCount = useGetOffer(
     {
@@ -188,7 +195,8 @@ export const useMyLoadsMainProps = () => {
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
-      setAccept();
+      setAccept(true);
+      setData([])
     },
     onError(res) {
       console.error(res);
