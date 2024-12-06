@@ -241,7 +241,7 @@ export const Performed = ({
           </div>
           <div className={styles.card}>
             {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-              orderStatus === `archive` && (
+              (orderStatus === `archive` || orderStatus === `approve_from_driver`) && (
                 <Flex
                   width={`100%`}
                   className={styles.cardItem}
@@ -277,7 +277,7 @@ export const Performed = ({
               )}
             {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
               orderStatus === `archive` && (
-                <Flex width={`100%`} gap={`7px`} alignItems={`center`}>
+                <Flex  className={styles.cardItem} width={`100%`} gap={`7px`} alignItems={`center`}>
                   <Avatar
                     src={cargo?.users_id_3_data?.logo}
                     name={cargo?.users_id_3_data?.full_name}

@@ -173,7 +173,7 @@ export const useMyLoadsMainProps = () => {
     { enabled: false }
   );
 
-  console.log(`getWaitingDriverCount`,getWaitingDriverCount)
+  console.log(`getWaitingDriverCount`,orderStatus)
 
   useEffect(() => {
     getOfferCount.refetch();
