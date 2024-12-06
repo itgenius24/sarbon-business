@@ -40,7 +40,7 @@ const RightContent = ({ photo }) => {
         className={cls.bannerImage}
         width={400}
         height={400}
-        src={`https://cdn.u-code.io/3bf18b7b-4c9f-4166-b20f-cbb430ea03bc/media/12af056e-19c5-4699-bd24-ccc5575a2f96_sarbon_main_.png`}
+        src={`https://cdn.u-code.io/3bf18b7b-4c9f-4166-b20f-cbb430ea03bc/media/17ed1e94-38ea-4f5b-8f36-7b27362796b2_sarbon_logistic_app.png`}
         alt="Mobile Img"
       />
     </Box>
