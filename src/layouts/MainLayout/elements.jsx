@@ -98,7 +98,7 @@ export const useElements = () => {
       },
       {
         path: isAuth ? `/${lang || "ru"}/gps-tracking` : `/${lang || "ru"}/auth`,
-        label: "GPS tracking",
+        label: "(GPS tracking)",
       },
     ];
   } else {
