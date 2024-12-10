@@ -24,6 +24,7 @@ const itemsService = {
   createUser: (data) => request.post("/v2/items/users", data),
   checkUser: (data) => request.post("/v2/object/get-list/users", data),
   getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
+  getExcelFile: (data) => request.post("/v1/invoke_function/logistika-get-list-sorted-gps-history", data),
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
@@ -57,6 +58,13 @@ export const useCreateAdMutation = (mutationSettings) => {
 export const useGetCargoPost = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.getCargoPost(data), ...mutationSettings });
 };
+
+export const useGetExcelPost = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.getExcelFile(data), ...mutationSettings });
+};
+
+
+
 
 
 export const useUpdateAdMutation = (mutationSettings) => {

@@ -43,6 +43,13 @@ export const Performed = ({
   setDataPred,
   dataPred,
 }) => {
+  {
+    cargo?.offer_time
+      ? format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)
+      : cargo?.finished_time
+      ? format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)
+      : ``;
+  }
   const { t } = useTranslation();
   const role_id = authStore.userData.role_id;
 
@@ -205,7 +212,8 @@ export const Performed = ({
             )}
             {orderStatus !== `new` && orderStatus !== `cancellation` && (
               <div className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Статус</span>
+                <span className={styles.cardBodyTitle}>Статус:  {cargo?.finished_time &&
+                  format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)} </span>
                 <p className={styles.cardName}>
                   {
                     performedStatuses[
@@ -241,7 +249,8 @@ export const Performed = ({
           </div>
           <div className={styles.card}>
             {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-              (orderStatus === `archive` || orderStatus === `approve_from_driver`) && (
+              (orderStatus === `archive` ||
+                orderStatus === `approve_from_driver`) && (
                 <Flex
                   width={`100%`}
                   className={styles.cardItem}
@@ -277,7 +286,12 @@ export const Performed = ({
               )}
             {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
               orderStatus === `archive` && (
-                <Flex  className={styles.cardItem} width={`100%`} gap={`7px`} alignItems={`center`}>
+                <Flex
+                  className={styles.cardItem}
+                  width={`100%`}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
                   <Avatar
                     src={cargo?.users_id_3_data?.logo}
                     name={cargo?.users_id_3_data?.full_name}
@@ -323,7 +337,11 @@ export const Performed = ({
                 )}
                 {orderStatus === `new` && (
                   <>
-                    <span className={styles.cardBodyTitle}>Статус</span>
+                    <span className={styles.cardBodyTitle}>
+                      Статус:
+                      {cargo?.offer_time &&
+                        format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
+                    </span>
                     <p
                       style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                     >

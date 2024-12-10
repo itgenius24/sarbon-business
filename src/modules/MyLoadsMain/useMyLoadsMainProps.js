@@ -1,6 +1,7 @@
 import authStore from "@/store/auth.store";
 import {
   useDeleteCargo,
+  useGetExcelPost,
   useGetNewPred,
   useGetOffer,
   useGetUserCargo,
@@ -114,7 +115,6 @@ export const useMyLoadsMainProps = () => {
 
   const getNewPred = useGetNewPred({
     onSuccess: (res) => {
-      
       const data = res?.response?.[0]?.order?.map((item) => ({
         ...item,
         users_id_data: item.users_id_data?.[0],
@@ -124,8 +124,6 @@ export const useMyLoadsMainProps = () => {
       setAccept(false);
     },
   });
-
-
 
   useEffect(() => {
     // if (orderStatus === "new") {
@@ -137,7 +135,7 @@ export const useMyLoadsMainProps = () => {
       },
     });
     // }
-  }, [Boolean(orderStatus === "new"),accept]);
+  }, [Boolean(orderStatus === "new"), accept]);
 
   const getOfferCount = useGetOffer(
     {
@@ -158,13 +156,15 @@ export const useMyLoadsMainProps = () => {
       offset: 0,
       data: JSON.stringify({
         users_id_2:
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
-          ? undefined
-          : orderStatus === "new"
-          ? undefined
-          : userId,
-      users_id_3:
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? userId : undefined,
+          role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+            ? undefined
+            : orderStatus === "new"
+            ? undefined
+            : userId,
+        users_id_3:
+          role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+            ? userId
+            : undefined,
         with_relations: true,
         // response_status: ["approve_from_driver"],
         provisions: ["new", "approve_from_driver"],
@@ -173,11 +173,10 @@ export const useMyLoadsMainProps = () => {
     { enabled: false }
   );
 
-
   useEffect(() => {
     getOfferCount.refetch();
     getWaitingDriverCount.refetch();
-  }, [accept,orderStatus]);
+  }, [accept, orderStatus]);
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -204,12 +203,42 @@ export const useMyLoadsMainProps = () => {
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
       setAccept(true);
-      setData([])
+      setData([]);
     },
     onError(res) {
       console.error(res);
     },
   });
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
+  });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          customer_id: authStore?.userData?.id,
+        },
+      },
+    });
+  };
 
   const pushNotification = usePushNotificationMutation();
 
@@ -351,5 +380,7 @@ export const useMyLoadsMainProps = () => {
     waitingDriverCount: getWaitingDriverCount.data?.count,
     setDataPred,
     dataPred,
+    getExcelFileFn,
+    isPendingExe: getExcelFile.isPending,
   };
 };

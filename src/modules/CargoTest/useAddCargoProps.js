@@ -667,6 +667,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         ? [watch(`order_status`)?.value]
         : ["in_moderation"],
       guid: id,
+      updated_time:new Date()
     };
 
     updateCargo.mutate({ data });

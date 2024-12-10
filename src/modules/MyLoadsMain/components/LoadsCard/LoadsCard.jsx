@@ -235,7 +235,7 @@ export const LoadsCard = forwardRef(
                   alignItems={`center`}
                 >
                   <Box>
-                    <span className={cls.cardBodyTitle}>Статус</span>
+                    <span className={cls.cardBodyTitle}>Статус:{ cargo?.updated_time && format(cargo?.updated_time,` dd.MM.yyyy, HH:mm`)}</span>
                     <Flex
                       style={{
                         color: statusColor[cargo?.order_status?.[0]],
