@@ -69,7 +69,7 @@ export const useElements = () => {
       },
       {
         path: isAuth
-          ? `/${lang || "ru"}/gps-tracking`
+          ? `/${lang || "ru"}/gps-tracking-dispatcher`
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
@@ -97,7 +97,7 @@ export const useElements = () => {
         label: "Поиск машин",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/gps-tracking` : `/${lang || "ru"}/auth`,
+        path: isAuth ? `/${lang || "ru"}/gps-tracking-xm` : `/${lang || "ru"}/auth`,
         label: "(GPS tracking)",
       },
     ];

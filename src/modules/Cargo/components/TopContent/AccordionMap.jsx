@@ -51,6 +51,17 @@ export const AccordionMap = ({
           .route([
             [startLocation?.lat, startLocation?.long], // Start point
             [endLocation?.lat, endLocation?.long], // End point
+            {
+              // Yuk mashinalari uchun parametrlar
+              routingMode: "truck", // Transport turi yuk mashinasi
+              avoidTrafficJams: true, // Tirbandliklardan qochish
+              truckRestrictions: {
+                weight: 20, // Yuk mashinasi og'irligi (tonna)
+                height: 4.2, // Balandlik (metr)
+                width: 2.5, // Kenglik (metr)
+                length: 10, // Uzunlik (metr)
+              },
+            }
           ])
           .then((route) => {
             map.current.geoObjects.add(route);
@@ -107,7 +118,7 @@ export const AccordionMap = ({
     strokeOpacity: 1, // Opacity of the polyline
   };
 
-  console.log(`getDriverPosition`, getDriverPosition);
+
 
   return (
     // <YMaps>
