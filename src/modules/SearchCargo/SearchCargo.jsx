@@ -54,11 +54,11 @@ export const SearchCargoModule = ({ locale }) => {
     router,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const rules = { 
-    required: { 
-      value: true, 
-      message: t("Это поле обязательно для заполнения") 
-    }
+  const rules = {
+    required: {
+      value: true,
+      message: t("Это поле обязательно для заполнения"),
+    },
   };
   return (
     <>
@@ -124,7 +124,9 @@ export const SearchCargoModule = ({ locale }) => {
             <Box className={cls.regit}>
               <Flex width={`100%`} gap={"24px"}>
                 <Box>
-                  <p className={cls.textFieldName}>{t("Грузоподъёмность, т")} *</p>
+                  <p className={cls.textFieldName}>
+                    {t("Грузоподъёмность, т")} *
+                  </p>
                   <TextFieldWithAddition
                     className={cls.textField}
                     errors={errors}
@@ -253,7 +255,26 @@ export const SearchCargoModule = ({ locale }) => {
                   errors={errors}
                   name="car_number"
                   placeholder={t("Введите номер транспортного средства")}
-                  rules={rules}
+                  rules={{
+                    required: t("Это поле обязательно"),
+                    validate: (value) => {
+                      if (!/^\d*$/.test(value)) {
+                        return t("Введите только цифры");
+                      }
+                      if (/\s/.test(value)) {
+                        return t("Пробелы не допускаются");
+                      }
+                      if (value.toUpperCase() !== value) {
+                        return t("Введите только заглавные буквы");
+                      }
+                      return true;
+                    },
+                  }}
+                  onChange={(e) => {
+                      e.target.value = e.target.value
+                      .replace(/[^A-Za-z0-9]/g, "")
+                        .toUpperCase()
+                    }}
                 />
                 <Flex ml={4} gap={2} mt={2}>
                   <span className={cls.subTitle}></span>
@@ -328,7 +349,7 @@ export const SearchCargoModule = ({ locale }) => {
                 <Checkbox
                   defaultChecked={watch(`tir`)}
                   register={register}
-                  name="tir" 
+                  name="tir"
                 >
                   {t("TIR")}
                 </Checkbox>
