@@ -3,6 +3,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useGetCar,
   useGetCarDispatcher,
+  useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
   useGetUserData,
@@ -26,6 +27,7 @@ import authStore from "@/store/auth.store";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
+  // const {watch} = useForm()
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
   const disId = authStore.userData.id;
@@ -54,6 +56,8 @@ export const useGpsTrackingProps = () => {
   const [stateMap, setStateMap] = useState(false);
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
+  const [refuelingState, setRefuelingState] = useState(false);
+  const [refueling,setRefueling] = useState([])
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -312,22 +316,34 @@ export const useGpsTrackingProps = () => {
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
 
+  const { mutate: getCarRefueling } = useGetCarRefueling({
+    onSuccess: (res) => {
+      console.log(`responsese`, res);
+      setRefueling(res?.data?.data)
+    },
+  });
+
+  useState(() => {
+    getCarRefueling({
+      data: {
+        object_data: {},
+      },
+    });
+  }, []);
+
   const { mutate: dataMutate, isPending } = useGetCarDispatcher({
     onSuccess: (data) => {
-    
       if (data?.response?.length) {
         let data2 = data?.response?.map((item) => ({
           user: item?.users_id_data?.[0],
           vehicles: [item?.vehicle_id_data],
-          users_gps:[item],
-          orders: item?.order_data ?  [item?.order_data] : undefined,
+          users_gps: [item],
+          orders: item?.order_data ? [item?.order_data] : undefined,
         }));
         setCarsArr((res) => [...res, ...data2]);
       }
     },
   });
-
- 
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -404,8 +420,6 @@ export const useGpsTrackingProps = () => {
     carsArr?.length,
     uniqueData,
   ]);
-
- 
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
@@ -618,5 +632,8 @@ export const useGpsTrackingProps = () => {
     stateMap,
     addAdress,
     setLocationData,
+    refueling,
+    setRefuelingState,
+    refuelingState
   };
 };

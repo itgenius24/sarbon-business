@@ -107,18 +107,22 @@ export default function GpsTrackingXm() {
     stateMap,
     addAdress,
     setLocationData,
+    refueling,
+    setRefuelingState,
+    refuelingState,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`getCarListProps?.data`,getCarListProps)
+  console.log(`getCarListProps?.data`, watch(`refuelingState`));
 
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
         {/* { isLoading &&  <LoadingSpinnerMap />} */}
         <Cmap
+          refueling={watch(`refuelingState`) ? refueling : []}
           cls={cls}
           getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}
@@ -144,6 +148,8 @@ export default function GpsTrackingXm() {
               )}
               {modalType === "filter" && (
                 <Filter
+                  setRefuelingState={setRefuelingState}
+                  refuelingState={refuelingState}
                   cls={cls}
                   watch={watch}
                   setValue={setValue}

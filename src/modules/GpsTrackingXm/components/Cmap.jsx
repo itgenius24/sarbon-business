@@ -17,6 +17,8 @@ import {
   QuestionBlueIcon,
   StoneIcon,
   GreenMapIcon,
+  RefuelingIcon,
+  RefuelingIconMap,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -44,7 +46,7 @@ const Cmap = memo(
     mapIcon,
     watch,
     setModalType,
-
+    refueling,
     locationData,
     setLoadState,
 
@@ -177,14 +179,57 @@ const Cmap = memo(
             cornerRadius: "50%",
           }}
         />
-        {console.log(`type`, type)}
 
         <Clusterer
-          // modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
           options={{
-            // clusterDisableClickZoom: true,
-            // clusterCaption:`wdwdw`,
-            // customBalloonContentLayout:,
+            clusterIconColor: "rgba(52, 199, 89, 1)",
+            style: {
+              backgroundColor: "rgba(52, 199, 89, 1)",
+              color: "white",
+              borderRadius: "50%",
+            },
+          }}
+        >
+          {refueling?.map((refuel) => {
+            const BalloonContent = () => (
+              <div className={cls.wrapRefueling}>
+                <div className={cls.topTetxWrap}>
+                  <>
+                    <RefuelingIcon />
+                  </>
+                  <p className={cls.zTitle}>АЗС</p>
+                </div>
+                <p className={cls.zTitle}>{refuel?.name}</p>
+                <p className={cls.zAdress}>{refuel?.address}</p>
+              </div>
+            );
+            const balloonContent3 = ReactDOMServer.renderToString(
+              <BalloonContent />
+            );
+            return (
+              <Placemark
+                key={refuel.guid}
+                properties={{ balloonContent: balloonContent3 }}
+                modules={["geoObject.addon.balloon"]}
+                geometry={[
+                  refuel?.cords?.split(",")?.[0],
+                  refuel?.cords?.split(",")?.[1],
+                ]}
+                options={{
+                  iconLayout: "default#image",
+                  iconImageHref:
+                    "data:image/svg+xml;charset=UTF-8," +
+                    encodeURIComponent(RefuelingIconMap),
+                  iconImageSize: [40, 42],
+                  iconImageOffset: [-15, -42],
+                }}
+              />
+            );
+          })}
+        </Clusterer>
+
+        <Clusterer
+          options={{
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
               backgroundColor: "rgba(52, 199, 89, 1)",
@@ -416,23 +461,6 @@ const Cmap = memo(
                     onBalloonOpen={(e) => {
                       const placemark = e.get("target");
                       const balloonInstance = placemark.balloon;
-                      // balloonInstance.events.add("click", () => {
-                      //   setContendSingle(carInfo);
-                      //   if (carInfo?.user?.provisions?.[0] === "our_cargo") {
-                      //     setModalType("driverCheck");
-                      //   } else if (
-                      //     carInfo?.user?.provisions?.[0] === "someone_cargo"
-                      //   ) {
-                      //     setModalType("driverQuestion");
-                      //   } else if (
-                      //     carInfo?.user?.provisions?.[0] ===
-                      //     "waiting_for_driver"
-                      //   ) {
-                      //     setModalType("driverExpectation");
-                      //   } else {
-                      //     setModalType("driverFree");
-                      //   }
-                      // });
                     }}
                     onClick={() => {
                       setContendSingle(carInfo);

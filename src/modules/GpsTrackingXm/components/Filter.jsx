@@ -34,7 +34,9 @@ const Filter = ({
   setModalType,
   handleInputClear,
   setLoadCheck,
-  loadCheck
+  loadCheck,
+  setRefuelingState,
+  refuelingState
 }) => {
   const { t } = useTranslation(locale);
 
@@ -139,6 +141,14 @@ const Filter = ({
               onChange={() => setLoadCheck(!loadCheck)}
             >
               {t("Грузы")}
+            </Checkbox>
+            <Checkbox
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={Boolean(watch(`refuelingState`))}
+              onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
+            >
+              {t("Заправки")}
             </Checkbox>
           </Flex>
         </Box>

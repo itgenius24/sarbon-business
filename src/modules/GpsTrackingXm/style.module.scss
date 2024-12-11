@@ -401,6 +401,30 @@
       }
     }
   }
+  .wrapRefueling {
+    width: 300px;
+    .topTetxWrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+ 
+    .zTitle {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 2px 0px;
+      line-height: 20px;
+    }
+    .zAdress {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
+    }
+  }
+
   .balloon_content_empty {
     display: flex;
     flex-direction: column;
@@ -457,7 +481,6 @@
       font-size: 14px;
       gap: 10px;
       line-height: 20px;
-
     }
 
     .footerBoxLink {
