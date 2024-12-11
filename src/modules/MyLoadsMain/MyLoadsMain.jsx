@@ -53,7 +53,7 @@ export const MyLoadsMain = () => {
           </Heading>
           {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" && (
             <Box position={`relative`}>
-              {/* <span
+              <span
                 style={{
                   position: `absolute`,
                   top: `-10px`,
@@ -68,11 +68,11 @@ export const MyLoadsMain = () => {
                 }}
               >
                 СКОРО
-              </span> */}
+              </span>
               <Button
-              isLoading={isPendingExe}
+                isLoading={isPendingExe}
                 onClick={getExcelFileFn}
-                isDisabled={false}
+                isDisabled={true}
                 style={{
                   background: `rgba(255, 255, 255, 1)`,
                   color: `black`,
