@@ -138,18 +138,16 @@ export const LoadsCard = forwardRef(
                     {cargo?.address_id_2_data?.name}
 
                     <span>
-                      {
-                        cargo?.as_soon_as_b
+                      {cargo?.as_soon_as_b
                         ? `${cargo?.country_code_to?.toUpperCase()} / Как можно скорее`
-                        :
-                        cargo?.date &&
-                        format(
-                          new Date(cargo?.date).setHours(
-                            new Date(cargo?.date).getHours() - 5
-                          ),
-                          "dd-MMMM",
-                          { locale: ru }
-                        )}
+                        : cargo?.date &&
+                          format(
+                            new Date(cargo?.date).setHours(
+                              new Date(cargo?.date).getHours() - 5
+                            ),
+                            "dd-MMMM",
+                            { locale: ru }
+                          )}
                     </span>
                   </p>
                 </div>
@@ -162,7 +160,7 @@ export const LoadsCard = forwardRef(
                   <p className={cls.rightTitle}>
                     Предоплата:
                     {/* {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`} */}
-                    {cargo?.prepayment_percentage 
+                    {cargo?.prepayment_percentage
                       ? ` ${cargo?.prepayment_percentage} ${cargo?.currency_id_data?.code}`
                       : `Нет`}
                   </p>
@@ -211,21 +209,30 @@ export const LoadsCard = forwardRef(
                 </div>
               )}
               <div className={cls.card}>
-                <div className={cls.cardItem}>
-                  <span className={cls.cardBodyTitle}>Товары</span>
-                  <p className={cls.cardName}>{cargo?.product_type}</p>
-                </div>
-                <div className={cls.cardItem}>
-                  <span className={cls.cardBodyTitle}>Транспорт</span>
-                  <p className={cls.cardName}>{cargo?.car_type}</p>
-                </div>
-                <div className={cls.cardItem}>
-                  <span className={cls.cardBodyTitle}>Вес, объём</span>
-                  <p className={cls.cardName}>
-                    {cargo?.weight}
-                    {cargo?.measurement_id_data?.Symbol} / {cargo?.volume_m3} m³
-                  </p>
-                </div>
+                <Flex justifyContent={`space-between`} width={`100%`}>
+                  <Flex gap={`70px`}>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>Товары</span>
+                      <p className={cls.cardName}>{cargo?.product_type}</p>
+                    </div>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>Транспорт</span>
+                      <p className={cls.cardName}>{cargo?.car_type}</p>
+                    </div>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>Вес, объём</span>
+                      <p className={cls.cardName}>
+                        {cargo?.weight}
+                        {cargo?.measurement_id_data?.Symbol} /{" "}
+                        {cargo?.volume_m3} m³
+                      </p>
+                    </div>
+                  </Flex>
+                  <div style={{textAlign:`right`}} className={cls.cardItem}>
+                      <span  className={cls.cardBodyTitle}>Номер груза</span>
+                      <p className={cls.cardName}>{cargo?.number_of_order}</p>
+                    </div>
+                </Flex>
               </div>
               <div className={cls.card}>
                 <Flex
@@ -235,7 +242,11 @@ export const LoadsCard = forwardRef(
                   alignItems={`center`}
                 >
                   <Box>
-                    <span className={cls.cardBodyTitle}>Статус:{ cargo?.updated_time && format(cargo?.updated_time,` dd.MM.yyyy, HH:mm`)}</span>
+                    <span className={cls.cardBodyTitle}>
+                      Статус:
+                      {cargo?.updated_time &&
+                        format(cargo?.updated_time, ` dd.MM.yyyy, HH:mm`)}
+                    </span>
                     <Flex
                       style={{
                         color: statusColor[cargo?.order_status?.[0]],

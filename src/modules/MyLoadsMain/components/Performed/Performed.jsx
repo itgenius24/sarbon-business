@@ -78,6 +78,7 @@ export const Performed = ({
     setDataPred(false);
   };
 
+  console.log(`cargo`, cargo);
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
@@ -212,8 +213,11 @@ export const Performed = ({
             )}
             {orderStatus !== `new` && orderStatus !== `cancellation` && (
               <div className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Статус:  {cargo?.finished_time &&
-                  format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)} </span>
+                <span className={styles.cardBodyTitle}>
+                  Статус:{" "}
+                  {cargo?.finished_time &&
+                    format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)}{" "}
+                </span>
                 <p className={styles.cardName}>
                   {
                     performedStatuses[
@@ -228,24 +232,32 @@ export const Performed = ({
             )}
           </div>
           <div className={styles.card}>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Товары</span>
-              <p className={styles.cardName}>
-                {cargo?.cargo_id_data?.product_type}
-              </p>
-            </div>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Транспорт</span>
-              <p className={styles.cardName}>{cargo?.car_type}</p>
-            </div>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Вес, объём</span>
-              <p className={styles.cardName}>
-                {cargo?.cargo_id_data?.weight}
-                {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
-                {cargo?.cargo_id_data?.volume_m3} m³
-              </p>
-            </div>
+            <Flex width={`100%`} justifyContent={`space-between`}>
+              <Flex gap={`70px`}>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>Товары</span>
+                  <p className={styles.cardName}>
+                    {cargo?.cargo_id_data?.product_type}
+                  </p>
+                </div>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>Транспорт</span>
+                  <p className={styles.cardName}>{cargo?.car_type}</p>
+                </div>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>Вес, объём</span>
+                  <p className={styles.cardName}>
+                    {cargo?.cargo_id_data?.weight}
+                    {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
+                    {cargo?.cargo_id_data?.volume_m3} m³
+                  </p>
+                </div>
+              </Flex>
+              <div style={{ textAlign: `right` }} className={styles.cardItem}>
+                <span className={styles.cardBodyTitle}>Номер груза</span>
+                <p className={styles.cardName}>{cargo?.cargo_id_data?.number_of_order}</p>
+              </div>
+            </Flex>
           </div>
           <div className={styles.card}>
             {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&

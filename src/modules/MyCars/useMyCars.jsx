@@ -138,7 +138,6 @@ export const useMyCars = () => {
     return item;
   });
 
-  console.log(`filteredData`,isCheckboxChecked)
 
   return {
     data: getVehicle?.data?.response,
