@@ -36,7 +36,7 @@ const Filter = ({
   setLoadCheck,
   loadCheck,
   setRefuelingState,
-  refuelingState
+  refuelingState,
 }) => {
   const { t } = useTranslation(locale);
 
@@ -56,9 +56,12 @@ const Filter = ({
             alignItems={"center"}
             gap={"10px"}
           >
-            <FilterIconBlack /> <span className={cls.filterText}>{t("Фильтр")}</span>
+            <FilterIconBlack />{" "}
+            <span className={cls.filterText}>{t("Фильтр")}</span>
           </Flex>
-          <p onClick={() => handleClear()} className={cls.clearBtn}>{t("Сбросить")}</p>
+          <p onClick={() => handleClear()} className={cls.clearBtn}>
+            {t("Сбросить")}
+          </p>
         </Flex>
         <Box className={cls.cardWrap}>
           <TextFieldWithAddition
@@ -142,14 +145,29 @@ const Filter = ({
             >
               {t("Грузы")}
             </Checkbox>
-            <Checkbox
-              width={"16px"}
-              height={"16px"}
-              defaultChecked={Boolean(watch(`refuelingState`))}
-              onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
-            >
-              {t("Заправки")}
-            </Checkbox>
+            <Flex gap={1}>
+              <Checkbox
+                isDisabled={true}
+                width={"16px"}
+                height={"16px"}
+                // defaultChecked={Boolean(watch(`refuelingState`))}
+                // onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
+              >
+                {t("Заправки")}{" "}
+              </Checkbox>
+              <span
+                style={{
+                  fontSize: `9px`,
+                  fontWeight: 700,
+                  padding: `0px 8px`,
+                  borderRadius: `11px`,
+                  background: `red`,
+                  color: `white`,
+                }}
+              >
+                СКОРО
+              </span>
+            </Flex>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
