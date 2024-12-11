@@ -147,15 +147,15 @@ const Filter = ({
             </Checkbox>
             <Flex gap={1}>
               <Checkbox
-                isDisabled={true}
+                isDisabled={false}
                 width={"16px"}
                 height={"16px"}
-                // defaultChecked={Boolean(watch(`refuelingState`))}
-                // onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
+                defaultChecked={Boolean(watch(`refuelingState`))}
+                onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
               >
-                {t("Заправки")}{" "}
+                {t("Заправки")}
               </Checkbox>
-              <span
+              {/* <span
                 style={{
                   fontSize: `9px`,
                   fontWeight: 700,
@@ -166,7 +166,7 @@ const Filter = ({
                 }}
               >
                 СКОРО
-              </span>
+              </span> */}
             </Flex>
           </Flex>
         </Box>
