@@ -20,7 +20,7 @@ export const useMyCarsDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(50);
+    setLimit(25);
     console.log(`salom`);
   };
 
