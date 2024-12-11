@@ -565,6 +565,8 @@ export const useGpsTrackingProps = () => {
     }
   }, depArr);
 
+
+
   return {
     register,
     locations,

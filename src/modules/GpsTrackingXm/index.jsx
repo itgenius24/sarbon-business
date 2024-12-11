@@ -115,14 +115,14 @@ export default function GpsTrackingXm() {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`getCarListProps?.data`, watch(`refuelingState`));
+
 
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
         {/* { isLoading &&  <LoadingSpinnerMap />} */}
         <Cmap
-          refueling={watch(`refuelingState`) ? refueling : []}
+          refueling={refueling}
           cls={cls}
           getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}

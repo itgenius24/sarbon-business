@@ -32,9 +32,10 @@ import {
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
+import { FixedSizeList as List } from "react-window";
 
 const Cmap = memo(
   ({
@@ -42,7 +43,6 @@ const Cmap = memo(
     coordinates,
     cls,
     type,
-
     mapIcon,
     watch,
     setModalType,
@@ -59,6 +59,10 @@ const Cmap = memo(
     useEffect(() => {
       setIsClient(true);
     }, []);
+
+    const filteredDataRe = useMemo(() => {
+      return watch(`refuelingState`) ? refueling : [];
+    }, [watch(`refuelingState`), refueling]);
 
     if (!isClient) {
       return null; // Render nothing during SSR
@@ -190,7 +194,13 @@ const Cmap = memo(
             },
           }}
         >
-          {refueling?.map((refuel) => {
+          {/* <List
+            height={`80vh`} // Ko'rinadigan hududning balandligi
+            itemCount={refueling.length}
+            itemSize={35} // Har bir elementning balandligi
+            width="100%"
+          > */}
+          {filteredDataRe?.map((refuel) => {
             const BalloonContent = () => (
               <div className={cls.wrapRefueling}>
                 <div className={cls.topTetxWrap}>
@@ -226,6 +236,7 @@ const Cmap = memo(
               />
             );
           })}
+          {/* </List> */}
         </Clusterer>
 
         <Clusterer

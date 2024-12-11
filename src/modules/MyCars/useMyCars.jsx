@@ -20,6 +20,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
 export const useMyCars = () => {
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const searchParams = useSearchParams();
   const [data, setData] = useState();
   const [status, setStatus] = useState(false);
@@ -73,8 +74,7 @@ export const useMyCars = () => {
       getVehicle.refetch();
       setCenterModalType(false);
       setStatus(true);
-      setUserId(null)
-
+      setUserId(null);
     },
   });
 
@@ -109,7 +109,6 @@ export const useMyCars = () => {
       },
     };
     mutate(data);
-    
   };
 
   const { mutate: dataMutate } = useGetCar({
@@ -130,12 +129,21 @@ export const useMyCars = () => {
     dataMutate(data);
   }, [status]);
 
+  const filteredData = data?.filter((item) => {
+    // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
+    if (isCheckboxChecked) {
+      return item?.item?.vehicles?.[0] === null;
+    }
+    // Agar checkbox tanlanmagan bo'lsa, faqat search natijasini ko'rsatish
+    return item;
+  });
 
+  console.log(`filteredData`,isCheckboxChecked)
 
   return {
     data: getVehicle?.data?.response,
     useList: useList?.response,
-    dataModal:data,
+    dataModal: filteredData,
     setCarId,
     setUserId,
     handleUpdate,
@@ -146,5 +154,7 @@ export const useMyCars = () => {
     userId,
     t,
     carId,
+    isCheckboxChecked,
+    setIsCheckboxChecked,
   };
 };
