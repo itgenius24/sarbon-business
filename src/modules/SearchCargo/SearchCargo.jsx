@@ -35,8 +35,10 @@ import { useState } from "react";
 import { countries } from "@/utils/country";
 import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
 import { ChakraSelect } from "@/components/ChakraSelect";
+import { useGetLang } from "@/hooks/useGetLang";
 
-export const SearchCargoModule = ({ locale }) => {
+export const SearchCargoModule = () => {
+  const locale = useGetLang();
   const { t } = useTranslation(locale);
   const {
     setValue,
@@ -63,6 +65,8 @@ export const SearchCargoModule = ({ locale }) => {
       message: t("Это поле обязательно для заполнения"),
     },
   };
+  
+  console.log(`carTypeOptions`, locale)
 
   return (
     <>
@@ -257,7 +261,7 @@ export const SearchCargoModule = ({ locale }) => {
                 <ChakraSelect
                   options={countries?.map((item) => ({
                     ...item,
-                    label: item?.name,
+                    label: item[`name_${locale}`],
                     value: item?.code,
                   }))}
                   name="car_country"

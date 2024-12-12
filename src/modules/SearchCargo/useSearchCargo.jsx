@@ -26,6 +26,7 @@ import authStore from "@/store/auth.store";
 import { countries } from "@/utils/country";
 
 export const useSearchCargo = () => {
+  
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   console.log(`id`, id);
@@ -105,7 +106,6 @@ export const useSearchCargo = () => {
       enabled: Boolean(id),
     },
   });
-  console.log(`useList`, useList);
 
   useEffect(() => {
     if (id) {
@@ -128,7 +128,7 @@ export const useSearchCargo = () => {
           ?.filter(
             (item) => item?.car_country === useList?.response?.car_country
           )
-          ?.map((item) => ({ label: item?.name, value: item?.code })),
+          ?.map((item) => ({ label: item[`name_${locale}`], value: item?.code })),
       });
     }
   }, [useList]);
