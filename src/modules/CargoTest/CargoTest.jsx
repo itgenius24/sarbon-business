@@ -256,14 +256,14 @@ export const CargoTest = observer(({ id, status, locale }) => {
           </Box>
         </Container>
         <Box>
-          <Box className={cls.containerCards}>
+          {/* <Box className={cls.containerCards}> */}
             {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
             {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
             {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
             {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
             {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
           </Box>
-        </Box>
+        {/* </Box> */}
       </Box>
       <Popup
         isOpen={addCargoProps.isPopupOpen}

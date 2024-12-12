@@ -45,7 +45,7 @@ const StepOne = ({ status }) => {
   const { t } = useTranslation(locale, "translations");
 
   return (
-    <>
+    <Box className={cls.containerCards}>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
           <Box className={cls.logoWrap}>
@@ -479,7 +479,7 @@ const StepOne = ({ status }) => {
           Далее
         </Button>
       )}
-    </>
+    </Box>
   );
 };
 

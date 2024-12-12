@@ -1,3 +1,13 @@
+.containerCards {
+  width: 100%;
+  max-width: 1432px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    padding: 16px;
+    background-color: white;
+  }
+}
 .step1 {
   box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
   background-color: white;
