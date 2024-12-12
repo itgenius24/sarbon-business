@@ -119,7 +119,7 @@ export const useSearchCargo = () => {
       useList?.response?.download_type.forEach((name) => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
-      // console.log(`val2wq`,countries?.filter((item) => item?.car_country === useList?.response?.car_country)?.map((item) => ({ label: item?.name, value: item?.code })))
+      console.log(`val2wq`,countries?.filter((item) => item?.car_country === useList?.response?.car_country),useList?.response?.car_country)
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
