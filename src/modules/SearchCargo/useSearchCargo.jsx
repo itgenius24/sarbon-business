@@ -23,6 +23,7 @@ import { isValidJSON } from "@/utils/isValidJSON";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
+import { countries } from "@/utils/country";
 
 export const useSearchCargo = () => {
   const searchParams = useSearchParams();
@@ -66,7 +67,7 @@ export const useSearchCargo = () => {
     setValue,
   } = useForm({});
   const [load, setLoad] = useState({});
-  const firm_id = authStore.userData.firm_id
+  const firm_id = authStore.userData.firm_id;
 
   useEffect(() => {
     setLoad({
@@ -98,13 +99,13 @@ export const useSearchCargo = () => {
 
   const { data: useList } = useGetVehicleSingle({
     params: {
-      id
+      id,
     },
     querySettings: {
       enabled: Boolean(id),
     },
   });
-  console.log(`useList`,useList)
+  console.log(`useList`, useList);
 
   useEffect(() => {
     if (id) {
@@ -118,29 +119,35 @@ export const useSearchCargo = () => {
       useList?.response?.download_type.forEach((name) => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
-
+      // console.log(`val2wq`,countries?.filter((item) => item?.car_country === useList?.response?.car_country)?.map((item) => ({ label: item?.name, value: item?.code })))
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
         adr: adrVal?.[0],
+        car_country: countries
+          ?.filter(
+            (item) => item?.car_country === useList?.response?.car_country
+          )
+          ?.map((item) => ({ label: item?.name, value: item?.code })),
       });
     }
   }, [useList]);
 
-  const { mutate,isPending } = useCreateVehicle({
+  const { mutate, isPending } = useCreateVehicle({
     onSuccess: (res) => {
       // reset()
-      setIsPopupOpen(true)
+      setIsPopupOpen(true);
       // router.push(`/${locale}/my-cars`);
     },
   });
-  const { mutate: updateW,isPending:upisPending } = useUpdateVehicle({
+  const { mutate: updateW, isPending: upisPending } = useUpdateVehicle({
     onSuccess: () => {
       // setIsPopupOpen(true)
       // reset()
       router.push(`/${locale}/my-cars`);
     },
   });
+  console.log(watch(`car_country`));
 
   const onSubmit = (val) => {
     const data = {
@@ -162,10 +169,11 @@ export const useSearchCargo = () => {
         download_type: getTrueKeys(load),
         status: [`in_active`],
         firm_id,
+        car_country: val?.car_country,
         guid: id ? id : undefined,
       },
     };
-   
+
     if (id) {
       updateW(data);
     } else {
@@ -180,7 +188,7 @@ export const useSearchCargo = () => {
     watch,
     control,
     reset,
-    loading:isPending ? isPending : upisPending,
+    loading: isPending ? isPending : upisPending,
     errors,
     carTypeOptions,
     weightMeasurementOptions,
@@ -190,6 +198,7 @@ export const useSearchCargo = () => {
     onSubmit,
     handleSubmit,
     adrOptions,
-    router,locale
+    router,
+    locale,
   };
 };

@@ -260,6 +260,7 @@ const StepOne = ({ status }) => {
                     columnGap="24px"
                     maxW="540px"
                     width="100%"
+                    flexWrap={`wrap`}
                   >
                     <Dropdown
                       errors={errors}

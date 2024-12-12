@@ -6,7 +6,7 @@ import { useTextFieldWithAdditionProps } from "./useTextFieldWithAdditionProps";
 import { Controller } from "react-hook-form";
 import { CheckIcon, SelectionArrow } from "@/assets/icons/icons";
 
-export const TextFieldWithAddition = ({
+export const TextFieldWithAdditionCar = ({
   register = () => {},
   control,
   name = "input",

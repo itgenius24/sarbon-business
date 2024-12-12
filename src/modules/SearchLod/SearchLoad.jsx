@@ -12,7 +12,7 @@ export const SearchLoadModule = () => {
   const [checkbox1,setCheckbox1] = useState(false)
   const [checkbox2,setCheckbox2] = useState(false)
   const [checkbox3,setCheckbox3] = useState(false)
-  console.log(`watc`,watch(`checkbox1`))
+
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <>

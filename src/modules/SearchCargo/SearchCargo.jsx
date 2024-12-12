@@ -32,6 +32,9 @@ import {
 } from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
 import { useState } from "react";
+import { countries } from "@/utils/country";
+import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
+import { ChakraSelect } from "@/components/ChakraSelect";
 
 export const SearchCargoModule = ({ locale }) => {
   const { t } = useTranslation(locale);
@@ -60,6 +63,7 @@ export const SearchCargoModule = ({ locale }) => {
       message: t("Это поле обязательно для заполнения"),
     },
   };
+
   return (
     <>
       <Container my="40px">
@@ -76,7 +80,7 @@ export const SearchCargoModule = ({ locale }) => {
             gap={"24px"}
             mt={"10px"}
           >
-            <Box className={cls.left}>
+            <Box width={`50%`} className={cls.left}>
               <Box width={"100%"}>
                 <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
                 <Dropdown
@@ -121,13 +125,13 @@ export const SearchCargoModule = ({ locale }) => {
               </Box>
             </Box>
 
-            <Box className={cls.regit}>
+            <Box  width={`50%`} className={cls.regit}>
               <Flex width={`100%`} gap={"24px"}>
-                <Box>
+                <Box width={`100%`}>
                   <p className={cls.textFieldName}>
                     {t("Грузоподъёмность, т")} *
                   </p>
-                  <TextFieldWithAddition
+                  <TextFieldWithAdditionCar
                     className={cls.textField}
                     errors={errors}
                     control={control}
@@ -170,7 +174,7 @@ export const SearchCargoModule = ({ locale }) => {
                     </p>
                   </Flex>
                 </Box>
-                <Box>
+                <Box width={`100%`}>
                   <p className={cls.textFieldName}>{t("Объём кузова, м3")} *</p>
                   <TextFieldWithAddition
                     className={cls.textField}
@@ -212,7 +216,7 @@ export const SearchCargoModule = ({ locale }) => {
             </Box>
           </Flex>
 
-          <Flex gap={"10px"}>
+          <Flex gap={"24px"}>
             <Box width={`50%`} mt={`37px`}>
               <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
               <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
@@ -247,8 +251,21 @@ export const SearchCargoModule = ({ locale }) => {
               </Box>
             </Box>
 
-            <Flex gap={"24px"} mt={`32px`}>
-              <Box>
+            <Flex width={`50%`} gap={"24px"} mt={`32px`}>
+              <Box width={`100%`}>
+                <p className={cls.textFieldName}>{t("Страна регистрации автомобиля")}</p>
+                <ChakraSelect
+                  options={countries?.map((item) => ({
+                    ...item,
+                    label: item?.name,
+                    value: item?.code,
+                  }))}
+                  name="car_country"
+                  placeholder={t("Выберите страну")}
+                  control={control}
+                />
+              </Box>
+              <Box width={`100%`}>
                 <p className={cls.textFieldName}>{t("Госномер")} *</p>
                 <TextField
                   register={register}
@@ -257,67 +274,19 @@ export const SearchCargoModule = ({ locale }) => {
                   placeholder={t("Введите номер транспортного средства")}
                   rules={{
                     required: t("Это поле обязательно"),
-                    validate: (value) => {
-                      if (!/^\d*$/.test(value)) {
-                        return t("Введите только цифры");
-                      }
-                      if (/\s/.test(value)) {
-                        return t("Пробелы не допускаются");
-                      }
-                      if (value.toUpperCase() !== value) {
-                        return t("Введите только заглавные буквы");
-                      }
-                      return true;
-                    },
+                  
                   }}
                   onChange={(e) => {
-                      e.target.value = e.target.value
+                    e.target.value = e.target.value
                       .replace(/[^A-Za-z0-9]/g, "")
-                        .toUpperCase()
-                    }}
+                      .toUpperCase();
+                  }}
                 />
                 <Flex ml={4} gap={2} mt={2}>
                   <span className={cls.subTitle}></span>
                 </Flex>
               </Box>
-              <Box>
-                <p className={cls.textFieldName}>{t("Марка машины")}</p>
-                <TextField
-                  rules={rules}
-                  errors={errors}
-                  name="marka"
-                  register={register}
-                  placeholder={t("Необъязательно")}
-                  type="text"
-                />
-                <Flex ml={4} gap={2} mt={2}>
-                  <span className={cls.subTitle}>{t("Пример")}: </span>
-                  <p
-                    onClick={() => setValue(`marka`, `Mercedes-Benz `)}
-                    className={cls.quickWord}
-                  >
-                    {t("Mercedes-Benz")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `Volvo`)}
-                    className={cls.quickWord}
-                  >
-                    {t("Volvo")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `MAN`)}
-                    className={cls.quickWord}
-                  >
-                    {t("MAN")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `Iveco`)}
-                    className={cls.quickWord}
-                  >
-                    {t("Iveco")}
-                  </p>
-                </Flex>
-              </Box>
+            
             </Flex>
           </Flex>
 
@@ -364,6 +333,44 @@ export const SearchCargoModule = ({ locale }) => {
             </Box>
 
             <Box width={`100%`} mt={`20px`}>
+            <Box>
+                <p className={cls.textFieldName}>{t("Марка машины")}</p>
+                <TextField
+                  rules={rules}
+                  errors={errors}
+                  name="marka"
+                  register={register}
+                  placeholder={t("Необъязательно")}
+                  type="text"
+                />
+                <Flex ml={4} gap={2} mt={2}>
+                  <span className={cls.subTitle}>{t("Пример")}: </span>
+                  <p
+                    onClick={() => setValue(`marka`, `Mercedes-Benz `)}
+                    className={cls.quickWord}
+                  >
+                    {t("Mercedes-Benz")},
+                  </p>
+                  <p
+                    onClick={() => setValue(`marka`, `Volvo`)}
+                    className={cls.quickWord}
+                  >
+                    {t("Volvo")},
+                  </p>
+                  <p
+                    onClick={() => setValue(`marka`, `MAN`)}
+                    className={cls.quickWord}
+                  >
+                    {t("MAN")},
+                  </p>
+                  <p
+                    onClick={() => setValue(`marka`, `Iveco`)}
+                    className={cls.quickWord}
+                  >
+                    {t("Iveco")}
+                  </p>
+                </Flex>
+              </Box>
               {/* <p className={cls.textFieldName}>{t("ADR")}</p>
               <Box display="flex" columnGap="22px" alignItems={"center"}>
                 <Box width={"100px"}>
