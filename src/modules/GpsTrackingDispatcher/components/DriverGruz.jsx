@@ -118,6 +118,7 @@ const DriverGruz = ({
           dispatcher_id: authStore?.userData?.id,
           cargo_number:loadState?.number_of_order,
           distance: +watch(`distance`),
+          number_of_cars:loadState?.number_of_cars,
           type: "dispatcher",
           lat: loadState.location_name.split(" ")[0] * 1,
           long: loadState?.location_name.split(" ")[1] * 1,
