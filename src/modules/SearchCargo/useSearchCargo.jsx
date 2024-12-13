@@ -5,6 +5,7 @@ import {
   useGetAddress,
   useGetCarListOnSubmit,
   useGetCarType,
+  useGetFuelInfo,
   useGetMeasurement,
   useGetPackage,
   useGetTrailerType,
@@ -26,7 +27,6 @@ import authStore from "@/store/auth.store";
 import { countries } from "@/utils/country";
 
 export const useSearchCargo = () => {
-  
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   console.log(`id`, id);
@@ -107,6 +107,8 @@ export const useSearchCargo = () => {
     },
   });
 
+  const { data: fuel } = useGetFuelInfo();
+
   
 
   useEffect(() => {
@@ -121,16 +123,20 @@ export const useSearchCargo = () => {
       useList?.response?.download_type.forEach((name) => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
-      console.log(`val2wq`,countries?.filter((item) => item?.car_country === useList?.response?.car_country),useList?.response?.car_country)
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
         adr: adrVal?.[0],
+        fuel_id:fuel && fuel?.response?.filter((item) => item?.guid === useList?.response?.fuel_id)
+          ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0],
         car_country: countries
           ?.filter(
             (item) => item?.car_country === useList?.response?.car_country
           )
-          ?.map((item) => ({ label: item[`name_${locale}`], value: item?.code })),
+          ?.map((item) => ({
+            label: item[`name_${locale}`],
+            value: item?.code,
+          }))?.[0],
       });
     }
   }, [useList]);
@@ -149,7 +155,6 @@ export const useSearchCargo = () => {
       router.push(`/${locale}/my-cars`);
     },
   });
-
 
   const onSubmit = (val) => {
     const data = {
@@ -172,6 +177,7 @@ export const useSearchCargo = () => {
         status: [`in_active`],
         firm_id,
         car_country: val?.car_country,
+        fuel_id: val?.fuel_id,
         guid: id ? id : undefined,
       },
     };
@@ -182,8 +188,6 @@ export const useSearchCargo = () => {
       mutate(data);
     }
   };
-  
-
 
   return {
     t,
@@ -204,5 +208,6 @@ export const useSearchCargo = () => {
     adrOptions,
     router,
     locale,
+    fuels: fuel?.response,
   };
 };

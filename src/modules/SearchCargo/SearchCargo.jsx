@@ -56,6 +56,7 @@ export const SearchCargoModule = () => {
     setIsPopupOpen,
     isPopupOpen,
     adrOptions,
+    fuels,
     router,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -340,12 +341,12 @@ export const SearchCargoModule = () => {
             <Box width={`100%`}>
                 <p className={cls.textFieldName}>{t("Тип топлива")}</p>
                 <ChakraSelect
-                  options={countries?.map((item) => ({
+                  options={fuels?.map((item) => ({
                     ...item,
-                    label: item[`name_${locale}`],
-                    value: item?.code,
+                    label: item?.name,
+                    value: item?.guid,
                   }))}
-                  name="car_country"
+                  name="fuel_id"
                   placeholder={t("Название")}
                   control={control}
                   required

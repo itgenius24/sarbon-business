@@ -30,7 +30,7 @@ export const ChakraSelect = ({
               customOnChange(val ? val : {});
             }}
             options={options}
-            value={options.find((option) => option.value === value?.value)}
+            value={options?.find((option) => option.value === value?.value)}
             // menuIsOpen
             menuPortalTarget={ typeof document !== "undefined" && document.body}
             classNamePrefix="chakra-select"

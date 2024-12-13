@@ -235,6 +235,7 @@ export const useMyLoadsMainProps = () => {
       data: {
         object_data: {
           customer_id: authStore?.userData?.id,
+          type: "customer",
         },
       },
     });

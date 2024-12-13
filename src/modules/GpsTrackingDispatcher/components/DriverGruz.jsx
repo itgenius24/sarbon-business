@@ -109,13 +109,14 @@ const DriverGruz = ({
       downloadByLanguage(res?.url);
     },
   });
-
+  
   const getExcelFileFn = () => {
     getExcelFile.mutate({
       data: {
         object_data: {
           cargo_name: loadState?.product_type,
           dispatcher_id: authStore?.userData?.id,
+          cargo_number:loadState?.number_of_order,
           distance: +watch(`distance`),
           type: "dispatcher",
           lat: loadState.location_name.split(" ")[0] * 1,
