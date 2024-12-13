@@ -67,7 +67,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
   return (
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
       <Box pt={isLargerThan1190 ? "48px" : "24px"} pb="128px">
-        <NavigationWrap cls={cls} addCargoProps={addCargoProps} clsx={clsx}/>
+        <NavigationWrap cls={cls} addCargoProps={addCargoProps} clsx={clsx} />
         <Container height="100%">
           <Box
             className={cls.contentWrapper}
@@ -257,12 +257,12 @@ export const CargoTest = observer(({ id, status, locale }) => {
         </Container>
         <Box>
           {/* <Box className={cls.containerCards}> */}
-            {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
-            {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
-            {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
-            {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
-            {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
-          </Box>
+          {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
+          {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
+          {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
+          {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
+          {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
+        </Box>
         {/* </Box> */}
       </Box>
       <Popup

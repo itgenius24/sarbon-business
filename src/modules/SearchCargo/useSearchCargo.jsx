@@ -107,6 +107,8 @@ export const useSearchCargo = () => {
     },
   });
 
+  
+
   useEffect(() => {
     if (id) {
       const trilerVal = carTypeOptions?.filter(
@@ -147,7 +149,7 @@ export const useSearchCargo = () => {
       router.push(`/${locale}/my-cars`);
     },
   });
-  console.log(watch(`car_country`));
+
 
   const onSubmit = (val) => {
     const data = {
@@ -180,6 +182,8 @@ export const useSearchCargo = () => {
       mutate(data);
     }
   };
+  
+
 
   return {
     t,

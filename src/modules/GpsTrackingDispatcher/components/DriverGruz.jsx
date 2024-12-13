@@ -4,6 +4,7 @@ import {
   BluetoothIcon,
   CheckBlueIcon,
   CloseIconM,
+  ExelIcon,
   FurIcon,
   GreenCheckIcon,
   GruzGeenIcon,
@@ -17,7 +18,9 @@ import {
   StoneIcon,
 } from "@/assets/icons/icons";
 import { Popup } from "@/components/Popup";
-import { useUpdateCargo } from "@/services/api";
+import { TextField } from "@/components/TextField";
+import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+import { useGetExcelPost, useUpdateCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -45,6 +48,10 @@ const DriverGruz = ({
   setOffset,
   setLocationData,
   locationData,
+  errors,
+  register,
+  watch,
+  control,
 }) => {
   const { t } = useTranslation();
 
@@ -82,6 +89,43 @@ const DriverGruz = ({
       },
     });
   };
+
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
+  });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          cargo_name: loadState?.product_type,
+          dispatcher_id: authStore?.userData?.id,
+          distance: +watch(`distance`),
+          type: "dispatcher",
+          lat: loadState.location_name.split(" ")[0] * 1,
+          long: loadState?.location_name.split(" ")[1] * 1,
+          // customer_id: authStore?.userData?.id,
+        },
+      },
+    });
+  };
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={"10px"} alignItems={"flex-start"}>
@@ -212,6 +256,27 @@ const DriverGruz = ({
             Забронировать груз
           </Button>
         )}
+        <TextField
+          // className={cls.textField}
+          errors={errors}
+          control={control}
+          name="distance"
+          register={register}
+          // additionalItemName="weight_unit"
+          placeholder={t("Введите расстояние поиска")}
+          type="number"
+          zIndex={90}
+        />
+        <Button
+          color={`black`}
+          _hover={{ background: `white` }}
+          backgroundColor={`white`}
+          border={`1px solid rgba(21, 186, 77, 1)`}
+          leftIcon={<ExelIcon />}
+          onClick={getExcelFileFn}
+        >
+          Список ближайших в машин Excel
+        </Button>
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />

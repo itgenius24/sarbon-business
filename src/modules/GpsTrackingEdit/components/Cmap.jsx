@@ -285,7 +285,9 @@ const Cmap = memo(
                       </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -305,7 +307,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -324,7 +328,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -343,7 +349,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -361,7 +369,9 @@ const Cmap = memo(
                       </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : (
@@ -380,7 +390,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   )}

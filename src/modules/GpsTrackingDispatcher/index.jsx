@@ -214,6 +214,10 @@ export default function GpsTrackingDispatcher() {
                   setOffset={setOffset}
                   setLocationData={setLocationData}
                   locationData={locationData}
+                  control={control}
+                  register={register}
+                  errors={errors}
+                  watch={watch}
                 />
               )}
               {modalType === "driverGruzGoods" && (

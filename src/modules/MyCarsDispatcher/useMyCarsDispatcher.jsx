@@ -21,8 +21,10 @@ export const useMyCarsDispatcher = () => {
   const addPage = () => {
     setPage(page + 1);
     setLimit(25);
-    console.log(`salom`);
+    
   };
+
+  console.log(`salom2`,data?.filter(item => item?.user?.guid === "7a535d60-36d6-42eb-834a-b5c00cc8e944"));
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
@@ -35,7 +37,7 @@ export const useMyCarsDispatcher = () => {
         const uniqueData = data.filter(
           (item) =>
             !oldData.some(
-              (stateItem) => stateItem?.user?.guid === item?.user?.guid
+              (stateItem) => stateItem?.user?.users_id === item?.user?.users_id
             )
         );
         setData((prev) => [...prev, ...uniqueData]);
@@ -91,6 +93,7 @@ export const useMyCarsDispatcher = () => {
     onSuccess: () => {
       setRefe(true);
       setData([]);
+      setOldData([])
     },
   });
 

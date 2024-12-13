@@ -26,6 +26,8 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
 import { format } from "date-fns";
+import Image from "next/image";
+import { flegCountry } from "@/utils/flegCountry";
 
 export const CarsCard = ({ item, handleCheckboxChange, ids, index }) => {
   const router = useRouter();
@@ -40,22 +42,35 @@ export const CarsCard = ({ item, handleCheckboxChange, ids, index }) => {
       } `}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
-      {
-        item?.user?.full_name?.length > 18 ? 
-        <Tooltip color={`black`} background={`white`} label={item?.user?.full_name}>
-            <p className={cls.title}>{item?.user?.full_name?.slice(0,18)}...</p>
-        </Tooltip> : <p className={cls.title}>{item?.user?.full_name}</p>
-      }
+        {item?.user?.full_name?.length > 18 ? (
+          <Tooltip
+            color={`black`}
+            background={`white`}
+            label={item?.user?.full_name}
+          >
+            <p className={cls.title}>
+              {item?.user?.full_name?.slice(0, 18)}...
+            </p>
+          </Tooltip>
+        ) : (
+          <p className={cls.title}>{item?.user?.full_name}</p>
+        )}
         <p className={cls.subTitle}>{item?.user?.phone}</p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
-      {
-        
-        item?.user?.firm_id_data?.full_name?.length > 18 ? 
-        <Tooltip color={`black`} background={`white`} label={item?.user?.firm_id_data?.full_name}>
-            <p className={cls.title}>{item?.user?.firm_id_data?.full_name?.slice(0,18)}...</p>
-        </Tooltip> : <p className={cls.title}>{item?.user?.firm_id_data?.full_name}</p>
-      }
+        {item?.user?.firm_id_data?.full_name?.length > 18 ? (
+          <Tooltip
+            color={`black`}
+            background={`white`}
+            label={item?.user?.firm_id_data?.full_name}
+          >
+            <p className={cls.title}>
+              {item?.user?.firm_id_data?.full_name?.slice(0, 18)}...
+            </p>
+          </Tooltip>
+        ) : (
+          <p className={cls.title}>{item?.user?.firm_id_data?.full_name}</p>
+        )}
         <p className={cls.subTitle}>
           {item?.user?.firm_id_data?.phone_number || (
             <span>Владелец водитель</span>
@@ -65,7 +80,27 @@ export const CarsCard = ({ item, handleCheckboxChange, ids, index }) => {
       <Box className={`${cls.contend} ${cls.contend3}`}>
         <p className={cls.title}>
           {item?.vehicles?.[0]?.car_number ? (
-            item?.vehicles?.[0]?.car_number
+            <Flex>
+              <Tooltip
+                border={`1px solid rgba(219, 216, 227, 1)`}
+                background={`white`}
+                color={`black`}
+                placement="top-end"
+                label={item?.vehicles?.[0]?.car_country || `uz`}
+              >
+                <Image
+                  style={{
+                    width: `35px`,
+                    height: `25px`,
+                    marginRight: `9px`,
+                  }}
+                  width={100}
+                  height={100}
+                  src={flegCountry(item?.vehicles?.[0]?.car_country || `uz`)}
+                />
+              </Tooltip>
+              <p>{item?.vehicles?.[0]?.car_number}</p>
+            </Flex>
           ) : (
             <span className={cls.subTitle}>Без Номер</span>
           )}

@@ -14,6 +14,7 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
+import { flegCountry } from "@/utils/flegCountry";
 import {
   Avatar,
   Box,
@@ -23,6 +24,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
+import Image from "next/image";
 import React from "react";
 
 const DriverFree = ({
@@ -142,28 +144,69 @@ const DriverFree = ({
             </Flex>
           </Flex>
         </Box>
-        <Box className={cls.btnOutline}>
-          <Flex width={"100%"} justifyContent={"space-between"}>
-            <Tooltip
-              border={`1px solid rgba(219, 216, 227, 1)`}
-              background={`white`}
-              color={`black`}
-              placement="top-end"
-              label={contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name}
-            >
-              <p>{contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name}</p>
-            </Tooltip>
-
-            <Flex gap={3}>
-              <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {contendSingle?.vehicles?.[0]?.height} т.
+     <Box className={cls.btnOutline}>
+              <Flex
+                pb={`10px`}
+                borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+                width={"100%"}
+                justifyContent={"space-between"}
+              >
+                <Tooltip
+                  border={`1px solid rgba(219, 216, 227, 1)`}
+                  background={`white`}
+                  color={`black`}
+                  placement="top-end"
+                  label={
+                    contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                      ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                      : `Пока нет машины.`
+                  }
+                >
+                  <p>
+                    {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                      ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                      : `Пока нет машины.`}
+                  </p>
+                </Tooltip>
+    
+                <Flex gap={3}>
+                  <Flex gap={1} alignItems={"center"}>
+                    <StoneIcon /> {contendSingle?.vehicles?.[0]?.height} т.
+                  </Flex>
+                  <Flex gap={1} alignItems={"center"}>
+                    <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.capacity} m3
+                  </Flex>
+                </Flex>
               </Flex>
-              <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon />  {contendSingle?.vehicles?.[0]?.capacity} m3
+              <Flex pt={`10px`} width={"100%"} justifyContent={"space-between"}>
+                <Flex gap={`5px`} alignItems={`center`}>
+                  <Tooltip
+                    border={`1px solid rgba(219, 216, 227, 1)`}
+                    background={`white`}
+                    color={`black`}
+                    placement="top-end"
+                    label={contendSingle?.vehicles?.[0]?.car_country || `uz`}
+                  >
+                    <Image
+                      style={{
+                        width: `45px`,
+                        height: `25px`,
+                      }}
+                      width={100}
+                      height={100}
+                      src={flegCountry(
+                        contendSingle?.vehicles?.[0]?.car_country || `uz`
+                      )}
+                    />
+                  </Tooltip>
+                  <Box>
+                    <p style={{ color: `black`, fontWeight: 400 }}>
+                      {contendSingle?.vehicles?.[0]?.car_number}
+                    </p>
+                  </Box>
+                </Flex>
               </Flex>
-            </Flex>
-          </Flex>
-        </Box>
+            </Box>
 
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button

@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Portal,
+  Tooltip,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 import {
@@ -24,6 +25,8 @@ import {
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { format } from "date-fns";
+import Image from "next/image";
+import { flegCountry } from "@/utils/flegCountry";
 
 export const CarsCard = ({ item, deleteFuntion }) => {
   const router = useRouter();
@@ -32,8 +35,9 @@ export const CarsCard = ({ item, deleteFuntion }) => {
   return (
     <Flex
       className={cls.cardWrap}
-      borderLeft={`4px solid  ${item?.order ? ` rgba(0, 122, 255, 1) ` : `rgba(21, 186, 77, 1)`
-        }`}
+      borderLeft={`4px solid  ${
+        item?.order ? ` rgba(0, 122, 255, 1) ` : `rgba(21, 186, 77, 1)`
+      }`}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <Flex alignItems={`center`} gap={`6px`}>
@@ -44,7 +48,13 @@ export const CarsCard = ({ item, deleteFuntion }) => {
           />
           <Box>
             <p className={cls.title}>{item?.user?.users_id_data?.full_name}</p>
-            <a target="_blank" href={`https://t.me/${item?.user?.users_id_data?.phone}`} className={cls.tel}>{item?.user?.users_id_data?.phone} </a>
+            <a
+              target="_blank"
+              href={`https://t.me/${item?.user?.users_id_data?.phone}`}
+              className={cls.tel}
+            >
+              {item?.user?.users_id_data?.phone}{" "}
+            </a>
           </Box>
         </Flex>
       </Box>
@@ -73,12 +83,35 @@ export const CarsCard = ({ item, deleteFuntion }) => {
         <p className={cls.title}>
           {item?.vehicles?.[0]?.trailer_type_id_data?.name}
         </p>
-        <p className={cls.subTitle1}>
-          <span style={{ marginRight: `9px` }} className={cls.subTitle}>
-            {item?.vehicles?.[0]?.height}т / {item?.vehicles?.[0]?.capacity}м3
-          </span>
-          {item?.vehicles?.[0]?.car_number}
-        </p>
+
+        <Flex>
+          <p className={cls.subTitle1}>
+            <span style={{ marginRight: `9px` }} className={cls.subTitle}>
+              {item?.vehicles?.[0]?.height}т / {item?.vehicles?.[0]?.capacity}м3
+            </span>
+          </p>
+
+          <Tooltip
+            border={`1px solid rgba(219, 216, 227, 1)`}
+            background={`white`}
+            color={`black`}
+            placement="top-end"
+            label={item?.vehicles?.[0]?.car_country || `uz`}
+          >
+            <Image
+            alt="w"
+              style={{
+                width: `35px`,
+                height: `25px`,
+                 marginRight: `9px`
+              }}
+              width={100}
+              height={100}
+              src={flegCountry(item?.vehicles?.[0]?.car_country || `uz`)}
+            />
+          </Tooltip>
+          <p className={cls.subTitle1}>{item?.vehicles?.[0]?.car_number}</p>
+        </Flex>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
         <Flex>
@@ -163,7 +196,10 @@ export const CarsCard = ({ item, deleteFuntion }) => {
                             cursor: `pointer`,
                           }}
                           className={cls.menuItem}
-                          onClick={() => {deleteFuntion(item?.user?.guid); onClose()}}
+                          onClick={() => {
+                            deleteFuntion(item?.user?.guid);
+                            onClose();
+                          }}
                         >
                           Удалить водителя
                         </Box>
@@ -172,7 +208,6 @@ export const CarsCard = ({ item, deleteFuntion }) => {
                   </Portal>
                 </>
               )}
-
             </Popover>
           </Box>
         </Flex>

@@ -65,8 +65,8 @@ export const SearchCargoModule = () => {
       message: t("Это поле обязательно для заполнения"),
     },
   };
-  
-  console.log(`carTypeOptions`, locale)
+
+  console.log(`carTypeOptions`, locale);
 
   return (
     <>
@@ -129,7 +129,7 @@ export const SearchCargoModule = () => {
               </Box>
             </Box>
 
-            <Box  width={`50%`} className={cls.regit}>
+            <Box width={`50%`} className={cls.regit}>
               <Flex width={`100%`} gap={"24px"}>
                 <Box width={`100%`}>
                   <p className={cls.textFieldName}>
@@ -257,7 +257,9 @@ export const SearchCargoModule = () => {
 
             <Flex width={`50%`} gap={"24px"} mt={`32px`}>
               <Box width={`100%`}>
-                <p className={cls.textFieldName}>{t("Страна регистрации автомобиля")}</p>
+                <p className={cls.textFieldName}>
+                  {t("Страна регистрации автомобиля")}
+                </p>
                 <ChakraSelect
                   options={countries?.map((item) => ({
                     ...item,
@@ -278,7 +280,6 @@ export const SearchCargoModule = () => {
                   placeholder={t("Введите номер транспортного средства")}
                   rules={{
                     required: t("Это поле обязательно"),
-                  
                   }}
                   onChange={(e) => {
                     e.target.value = e.target.value
@@ -290,7 +291,6 @@ export const SearchCargoModule = () => {
                   <span className={cls.subTitle}></span>
                 </Flex>
               </Box>
-            
             </Flex>
           </Flex>
 
@@ -336,8 +336,22 @@ export const SearchCargoModule = () => {
               </Box>
             </Box>
 
-            <Box width={`100%`} mt={`20px`}>
-            <Box>
+            <Flex gap={"24px"} width={`100%`} mt={`20px`}>
+            <Box width={`100%`}>
+                <p className={cls.textFieldName}>{t("Тип топлива")}</p>
+                <ChakraSelect
+                  options={countries?.map((item) => ({
+                    ...item,
+                    label: item[`name_${locale}`],
+                    value: item?.code,
+                  }))}
+                  name="car_country"
+                  placeholder={t("Название")}
+                  control={control}
+                  required
+                />
+              </Box>
+              <Box width={`100%`}>
                 <p className={cls.textFieldName}>{t("Марка машины")}</p>
                 <TextField
                   rules={rules}
@@ -367,14 +381,15 @@ export const SearchCargoModule = () => {
                   >
                     {t("MAN")},
                   </p>
-                  <p
+                  {/* <p
                     onClick={() => setValue(`marka`, `Iveco`)}
                     className={cls.quickWord}
                   >
                     {t("Iveco")}
-                  </p>
+                  </p> */}
                 </Flex>
               </Box>
+
               {/* <p className={cls.textFieldName}>{t("ADR")}</p>
               <Box display="flex" columnGap="22px" alignItems={"center"}>
                 <Box width={"100px"}>
@@ -401,7 +416,7 @@ export const SearchCargoModule = () => {
                   <StepLinkIcon />
                 </p>
               </Box> */}
-            </Box>
+            </Flex>
           </Flex>
 
           <Flex
