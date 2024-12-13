@@ -419,7 +419,7 @@ export const RegistrationForm = () => {
                   watch={watch}
                   setValue={setValue}
                   name={`img`}
-                  icon={`YOUR LOO`}
+                  icon={`YOUR LOGO`}
                   text={`Загрузить лого`}
                   isColor
                 />
