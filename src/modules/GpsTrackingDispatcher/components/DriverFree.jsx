@@ -162,7 +162,7 @@ const DriverFree = ({
                   : `Пока нет машины.`
               }
             >
-              <p>
+              <p className={cls.cargoType}>
                 {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   : `Пока нет машины.`}
@@ -200,7 +200,7 @@ const DriverFree = ({
                 />
               </Tooltip>
               <Box>
-                <p style={{ color: `black`, fontWeight: 400 }}>
+                <p  style={{ color: `black`, fontWeight: 400 }}>
                   {contendSingle?.vehicles?.[0]?.car_number}
                 </p>
               </Box>

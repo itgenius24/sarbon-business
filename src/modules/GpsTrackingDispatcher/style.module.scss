@@ -164,7 +164,7 @@
         border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1)) !important;
         padding: 16px 14px;
         border-radius: 12px;
-        p {
+        .cargoType {
           width: 7vw;
           white-space: nowrap;
           overflow: hidden;
