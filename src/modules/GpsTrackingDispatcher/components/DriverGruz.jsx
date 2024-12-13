@@ -109,16 +109,16 @@ const DriverGruz = ({
       downloadByLanguage(res?.url);
     },
   });
-  
+
   const getExcelFileFn = () => {
     getExcelFile.mutate({
       data: {
         object_data: {
           cargo_name: loadState?.product_type,
           dispatcher_id: authStore?.userData?.id,
-          cargo_number:loadState?.number_of_order,
+          cargo_number: loadState?.number_of_order,
           distance: +watch(`distance`),
-          number_of_cars:loadState?.number_of_cars,
+          number_of_cars: loadState?.number_of_cars,
           type: "dispatcher",
           lat: loadState.location_name.split(" ")[0] * 1,
           long: loadState?.location_name.split(" ")[1] * 1,
@@ -248,6 +248,10 @@ const DriverGruz = ({
               </span>
             </p>
           </Flex>
+          <Box>
+            <span className={cls.cardStartSubTitle}>Номер груза</span>
+            <p className={cls.cardName}>{loadState?.number_of_order}</p>
+          </Box>
         </Box>
         {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
           <Button

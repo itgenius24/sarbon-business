@@ -189,7 +189,7 @@ const DriverFree = ({
               >
                 <Image
                   style={{
-                    width: `45px`,
+                    width: `35px`,
                     height: `25px`,
                   }}
                   width={100}
