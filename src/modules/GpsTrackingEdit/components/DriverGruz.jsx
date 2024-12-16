@@ -184,8 +184,7 @@ const DriverGruz = ({
           <Flex mt={3} justifyContent={"space-between"}>
             <p className={cls.cardStartSubTitle}>Cумма</p>
             <p className={cls.cardStartSubTitle}>
-              Тип оплаты:
-              <span>
+              Тип оплаты: <span>
                 {loadState?.map_id_data?.payment_type?.length > 15
                   ? `${loadState?.map_id_data?.payment_type?.slice(0, 15)}...`
                   : loadState?.map_id_data?.payment_type}

@@ -189,7 +189,7 @@ export const CarsCard = ({
                 <Image
                   style={{
                     width: `35px`,
-                    height: `20px`,
+                        height: `25px`,
                   }}
                   width={100}
                   height={100}

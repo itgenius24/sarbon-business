@@ -56,6 +56,7 @@ export const SearchCargoModule = () => {
     setIsPopupOpen,
     isPopupOpen,
     adrOptions,
+    euroTypeOptions,
     fuels,
     router,
   } = useSearchCargo();
@@ -151,7 +152,7 @@ export const SearchCargoModule = () => {
                     type="number"
                     zIndex={90}
                   />
-                  <Flex ml={4} gap={`12px`} mt={2}>
+                  <Flex  gap={`12px`} mt={2}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`capacity`, `7`)}
@@ -195,7 +196,7 @@ export const SearchCargoModule = () => {
                     // additionalItemName="volume_unit"
                     // additionalItemOptions={volumeMeasurementOptions}
                   />
-                  <Flex ml={4} gap={`12px`} mt={2}>
+                  <Flex gap={`12px`} mt={2}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`height`, `20`)}
@@ -338,7 +339,7 @@ export const SearchCargoModule = () => {
             </Box>
 
             <Flex gap={"24px"} width={`100%`} mt={`20px`}>
-            <Box width={`100%`}>
+              <Box width={`100%`}>
                 <p className={cls.textFieldName}>{t("Тип топлива")}</p>
                 <ChakraSelect
                   options={fuels?.map((item) => ({
@@ -353,42 +354,14 @@ export const SearchCargoModule = () => {
                 />
               </Box>
               <Box width={`100%`}>
-                <p className={cls.textFieldName}>{t("Марка машины")}</p>
-                <TextField
-                  rules={rules}
-                  errors={errors}
-                  name="marka"
-                  register={register}
-                  placeholder={t("Необъязательно")}
-                  type="text"
+                <p className={cls.textFieldName}>{t("Euro type")}</p>
+                <ChakraSelect
+                  options={euroTypeOptions}
+                  name="euro_type"
+                  placeholder={t("Название")}
+                  control={control}
+                  // required
                 />
-                <Flex ml={4} gap={2} mt={2}>
-                  <span className={cls.subTitle}>{t("Пример")}: </span>
-                  <p
-                    onClick={() => setValue(`marka`, `Mercedes-Benz `)}
-                    className={cls.quickWord}
-                  >
-                    {t("Mercedes-Benz")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `Volvo`)}
-                    className={cls.quickWord}
-                  >
-                    {t("Volvo")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `MAN`)}
-                    className={cls.quickWord}
-                  >
-                    {t("MAN")},
-                  </p>
-                  {/* <p
-                    onClick={() => setValue(`marka`, `Iveco`)}
-                    className={cls.quickWord}
-                  >
-                    {t("Iveco")}
-                  </p> */}
-                </Flex>
               </Box>
 
               {/* <p className={cls.textFieldName}>{t("ADR")}</p>
@@ -417,6 +390,50 @@ export const SearchCargoModule = () => {
                   <StepLinkIcon />
                 </p>
               </Box> */}
+            </Flex>
+          </Flex>
+
+          <Flex gap={"24px"}>
+            <Box width={`100%`}></Box>
+            <Flex gap={"24px"} width={`100%`} mt={`20px`}>
+              <Box width={`100%`}>
+                <p className={cls.textFieldName}>{t("Марка машины")}</p>
+                <TextField
+                  rules={rules}
+                  errors={errors}
+                  name="marka"
+                  register={register}
+                  placeholder={t("Необъязательно")}
+                  type="text"
+                />
+                <Flex  gap={2} mt={2}>
+                  <span className={cls.subTitle}>{t("Пример")}: </span>
+                  <p
+                    onClick={() => setValue(`marka`, `Mercedes-Benz `)}
+                    className={cls.quickWord}
+                  >
+                    {t("Mercedes-Benz")},
+                  </p>
+                  <p
+                    onClick={() => setValue(`marka`, `Volvo`)}
+                    className={cls.quickWord}
+                  >
+                    {t("Volvo")},
+                  </p>
+                  <p
+                    onClick={() => setValue(`marka`, `MAN`)}
+                    className={cls.quickWord}
+                  >
+                    {t("MAN")},
+                  </p>
+                  <p
+                    onClick={() => setValue(`marka`, `Iveco`)}
+                    className={cls.quickWord}
+                  >
+                    {t("Iveco")}
+                  </p>
+                </Flex>
+              </Box>
             </Flex>
           </Flex>
 

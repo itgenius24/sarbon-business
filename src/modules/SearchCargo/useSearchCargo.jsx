@@ -55,6 +55,14 @@ export const useSearchCargo = () => {
     { label: 8, value: `ADR 8` },
     { label: 9, value: `ADR 9` },
   ];
+  const euroTypeOptions = [
+    { label: `EURO 1`, value: `EURO 1` },
+    { label: `EURO 2`, value: `EURO 2` },
+    { label: `EURO 3`, value: `EURO 3` },
+    { label: `EURO 4`, value: `EURO 4` },
+    { label: `EURO 5`, value: `EURO 5` },
+    { label: `EURO 6`, value: `EURO 6` },
+  ];
 
   const toast = useToast();
 
@@ -109,8 +117,6 @@ export const useSearchCargo = () => {
 
   const { data: fuel } = useGetFuelInfo();
 
-  
-
   useEffect(() => {
     if (id) {
       const trilerVal = carTypeOptions?.filter(
@@ -127,8 +133,11 @@ export const useSearchCargo = () => {
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
         adr: adrVal?.[0],
-        fuel_id:fuel && fuel?.response?.filter((item) => item?.guid === useList?.response?.fuel_id)
-          ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0],
+        fuel_id:
+          fuel &&
+          fuel?.response
+            ?.filter((item) => item?.guid === useList?.response?.fuel_id)
+            ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0],
         car_country: countries
           ?.filter(
             (item) => item?.car_country === useList?.response?.car_country
@@ -206,6 +215,7 @@ export const useSearchCargo = () => {
     onSubmit,
     handleSubmit,
     adrOptions,
+    euroTypeOptions,
     router,
     locale,
     fuels: fuel?.response,
