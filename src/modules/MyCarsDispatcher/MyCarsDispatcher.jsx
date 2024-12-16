@@ -12,12 +12,16 @@ import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { CarsCard } from "./component/CarsCard/CarsCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import authStore from "@/store/auth.store";
 
 export const MyCarsDispatcherModule = () => {
   const { t, data, deleteFuntion,nameFilter,filter1,isPending } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
   const isOrderData = data?.filter((item) => !item?.order)
+  
+  const isSuperDispatcher = authStore?.userData?.user_status?.[0]
+
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <>
@@ -38,13 +42,24 @@ export const MyCarsDispatcherModule = () => {
                 Свободных: <span>{isOrderData?.length || 0}</span>
               </p>
             </Box>
-            {/* <Button
+            {
+              isSuperDispatcher === "approved" && (
+                <Button
+                  onClick={() => router.push(`/${locale}/my-cars-dispatcher/create`)}
+                  width={"fit-content"}
+                  leftIcon={<PlusIcon />}
+                >
+                  Добавить водителя
+                </Button>
+              )
+            }
+            <Button
               onClick={() => router.push(`/${locale}/my-cars-dispatcher/create`)}
               width={"fit-content"}
               leftIcon={<PlusIcon />}
             >
               Добавить водителя
-            </Button> */}
+            </Button>
           </Flex>
         </Flex>
         <Box mt={"37px"}>

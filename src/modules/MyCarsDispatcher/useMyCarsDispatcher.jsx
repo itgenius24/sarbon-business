@@ -11,6 +11,7 @@ export const useMyCarsDispatcher = () => {
   const { t } = useTranslation(locale, "translations");
   const disId = authStore.userData?.id;
   const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [refe, setRefe] = useState(false);
   const [page, setPage] = useState(1);
@@ -23,9 +24,7 @@ export const useMyCarsDispatcher = () => {
     setLimit(25);
     
   };
-
-  console.log(`salom2`,data?.filter(item => item?.user?.guid === "7a535d60-36d6-42eb-834a-b5c00cc8e944"));
-
+  
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
       if (res?.response?.length === limit) {
@@ -40,6 +39,8 @@ export const useMyCarsDispatcher = () => {
               (stateItem) => stateItem?.user?.users_id === item?.user?.users_id
             )
         );
+        const data12 =  res?.response
+        setData2((prev) => [...prev, ...data12])
         setData((prev) => [...prev, ...uniqueData]);
         setOldData((prev) => [...prev, ...uniqueData]);
       }

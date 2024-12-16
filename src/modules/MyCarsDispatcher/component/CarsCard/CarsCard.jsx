@@ -68,9 +68,13 @@ export const CarsCard = ({ item, deleteFuntion }) => {
             />
             <Box>
               <p className={cls.title}>{item?.user?.firm_id_data?.full_name}</p>
-              <p className={cls.tel}>
+              <a
+                target="_blank"
+                href={`https://t.me/${item?.user?.firm_id_data?.phone_number}`}
+                className={cls.tel}
+              >
                 {item?.user?.firm_id_data?.phone_number}
-              </p>
+              </a>
             </Box>
           </Flex>
         ) : (
@@ -99,11 +103,11 @@ export const CarsCard = ({ item, deleteFuntion }) => {
             label={item?.vehicles?.[0]?.car_country || `uz`}
           >
             <Image
-            alt="w"
+              alt="w"
               style={{
-                width: `35px`,
-                height: `25px`,
-                 marginRight: `9px`
+                width: `30px`,
+                height: `20px`,
+                marginRight: `9px`,
               }}
               width={100}
               height={100}
