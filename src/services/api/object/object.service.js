@@ -25,6 +25,8 @@ const objectService = {
     request.get("/v2/object-slim/get-list/trailer_type", { params }),
   getUserData: (params) =>
     request.get("/v2/object-slim/get-list/users", { params }),
+  getCarNumber: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle", { params }),
   getUserGpsData: (params) =>
     request.get("/v2/object-slim/get-list/users_gps", { params }),
   getUserGpsBYData: (params) =>
@@ -289,6 +291,8 @@ export const useGetTrailerType = (
 //   });
 // };
 
+
+
 export const useGetUserData = ({
   params = { data: JSON.stringify({}) },
   querySettings,
@@ -296,6 +300,17 @@ export const useGetUserData = ({
   return useQuery({
     queryKey: ["object/getCargo", params],
     queryFn: () => objectService.getUserData(params),
+    querySettings,
+  });
+};
+
+export const useGetCarNumber = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCarNumber", params],
+    queryFn: () => objectService.getCarNumber(params),
     querySettings,
   });
 };

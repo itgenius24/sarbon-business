@@ -400,14 +400,14 @@ const StepFive = ({ status }) => {
     }
   }, []);
   return (
-    <>
+    <Box className={cls.containerCards}>
       <Box className={cls.step1}>
-        <Flex alignItems={"center"} justifyContent={"flex-start"}>
+        <Flex className={cls.itemWrap} alignItems={"center"} justifyContent={"flex-start"}>
           <Box className={cls.box} width={"40%"}>
             <h2 className={cls.title}>Ваши контакты</h2>
             <p className={cls.deck}>укажите, к кому обратиться по объявлению</p>
           </Box>
-          <Box width={"50%"}>
+          <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
               disabled={!canEdit}
               additionalItemPosition="left"
@@ -426,7 +426,7 @@ const StepFive = ({ status }) => {
             />
           </Box>
         </Flex>
-        <Flex mt={4} alignItems={"center"} justifyContent={"flex-start"}>
+        <Flex className={cls.itemWrap}  mt={4} alignItems={"center"} justifyContent={"flex-start"}>
           <Box className={cls.box} width={"40%"}>
             <h2 className={cls.title}>Комментарий</h2>
             <p className={cls.deck}>
@@ -434,7 +434,7 @@ const StepFive = ({ status }) => {
               удалит модератор.
             </p>
           </Box>
-          <Box width={"50%"}>
+          <Box className={cls.itemSubWrap} width={"50%"}>
             <CustomTextarea
               disabled={!canEdit}
               name={"note"}
@@ -467,7 +467,7 @@ const StepFive = ({ status }) => {
             display="flex"
             columnGap="12px"
             justifyContent="flex-start"
-            maxWidth="900px"
+            className={cls.buttonWrap}
           >
             <Button
               // isDisabled={!watch("accept") || isClicked}
@@ -475,10 +475,13 @@ const StepFive = ({ status }) => {
               size="md"
               maxWidth="223px"
               onClick={onSubmitF}
+              className={cls.button}
             >
               {t("Опубликовать груз")}
             </Button>
             <Button
+              className={cls.button}
+
               onClick={handleOpenTemplateModal}
               // isLoading={loading}
               size="md"
@@ -575,7 +578,7 @@ const StepFive = ({ status }) => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </>
+    </Box>
   );
 };
 

@@ -117,23 +117,30 @@ const StepFour = ({ status }) => {
             }
           }
         );
-      },500)
+      }, 500);
     }
   }, [watch(`money_code`)?.length > 0]);
 
   return (
-    <>
+    <Box className={cls.containerCards}>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
-          <NoteIcon />
+          <Box className={cls.logoWrap}>
+            <NoteIcon />
+          </Box>
           <Box width={"100%"}>
             <Flex
               width={"100%"}
               alignItems={"center"}
               justifyContent={"space-between"}
             >
-              <Flex gap={"50px"}>
+              <Flex gap={`8px`} alignItems={`center`}>
+                <Box className={cls.logoWrapMobile}>
+                  <NoteIcon />
+                </Box>
                 <p className={cls.stepTitle}>Оплата</p>
+              </Flex>
+              <Flex className={cls.radioWrap} gap={"50px"}>
                 {!check && !status && currencyOptions ? (
                   <RadioGroup
                     defaultValue={
@@ -202,11 +209,12 @@ const StepFour = ({ status }) => {
                   )
                 )}
               </Flex>
+
               {!status && (
                 <Flex alignItems={"center"} gap={3}>
                   <p>Запросить цену</p>
                   <Switch
-                  isChecked={check}
+                    isChecked={check}
                     onChange={(e) => setCheck(e.target.checked)}
                     size={"md"}
                   />
@@ -214,8 +222,86 @@ const StepFour = ({ status }) => {
               )}
             </Flex>
             {!check ? (
-              <Box width={"100%"} mt={"50px"}>
-                <Flex gap={10} width={"100%"}>
+              <Box className={cls.contendWrap} width={"100%"}>
+                <Flex
+                  mb={`20px`}
+                  borderRadius={`8px`}
+                  padding={`5px 5px`}
+                  justifyContent={`center`}
+                  background={`rgba(246, 247, 248, 1)`}
+                  gap={"50px"}
+                  className={cls.radioWrapMobile}
+                >
+                  {!check && !status && currencyOptions ? (
+                    <RadioGroup
+                      defaultValue={
+                        watch(`price_prepayment_unit`)?.label || `доллар`
+                      } // Set the default value
+                      onChange={(e) => onChange(e)}
+                    >
+                      <Flex justifyContent={`center`} gap={"19px"}>
+                        {currencyOptions &&
+                          currencyOptions.map((item) => (
+                            <Radio
+                              key={item.label}
+                              border={"1px solid rgba(208, 213, 221, 1)"}
+                              value={item.label}
+                              size={"md"}
+                              _checked={{
+                                bg: "white", // Custom background color
+                                border: `5px solid rgba(0, 122, 255, 1)`,
+                              }}
+                            >
+                              <span
+                                className={
+                                  watch(`price_prepayment_unit`)?.label ===
+                                  item.label
+                                    ? cls.ActiveRadio
+                                    : cls.radio
+                                }
+                              >
+                                {item?.label?.charAt(0).toUpperCase() +
+                                  item?.label?.slice(1).toLowerCase()}
+                              </span>
+                            </Radio>
+                          ))}
+                      </Flex>
+                    </RadioGroup>
+                  ) : (
+                    status && (
+                      <RadioGroup
+                        isDisabled={!canEdit}
+                        onChange={(e) => onChangeNa(e)}
+                        value={value}
+                      >
+                        <Flex gap={"10px"}>
+                          {negotiableOption &&
+                            negotiableOption.map((item) => (
+                              <Radio
+                                key={item.value}
+                                border={"1px solid rgba(208, 213, 221, 1)"}
+                                value={item.value}
+                                size={"md"}
+                              >
+                                <span
+                                  className={
+                                    value === item.value
+                                      ? cls.ActiveRadio
+                                      : cls.radio
+                                  }
+                                >
+                                  {item?.label?.charAt(0).toUpperCase() +
+                                    item?.label?.slice(1).toLowerCase()}
+                                </span>
+                              </Radio>
+                            ))}
+                        </Flex>
+                      </RadioGroup>
+                    )
+                  )}
+                </Flex>
+
+                <Flex className={cls.inputWrap} gap={10} width={"100%"}>
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
                       <p className={cls.label}>{t(`Общая сумма`)}</p>
@@ -274,7 +360,7 @@ const StepFour = ({ status }) => {
                     />
                   </Box>
                 </Flex>
-                <Flex mt={5} gap={10} width={"100%"}>
+                <Flex className={cls.inputWrap} mt={5} gap={10} width={"100%"}>
                   {!status ? (
                     <Box width={"100%"}>
                       <Flex mb={2} alignItems={"center"} gap={"10px"}>
@@ -357,7 +443,7 @@ const StepFour = ({ status }) => {
                   Водители FURGO смогут предложить свою ставку
                 </h2>
                 <p className={cls.subTitle2}>Можно предлагать</p>
-                <Flex mt={2} gap={"22px"}>
+                <Flex className={cls.checkWrap} mt={2} gap={"22px"}>
                   <Checkbox
                     defaultChecked={true}
                     register={register}
@@ -423,7 +509,7 @@ const StepFour = ({ status }) => {
           Далее
         </Button>
       )}
-    </>
+    </Box>
   );
 };
 

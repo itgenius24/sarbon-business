@@ -59,6 +59,8 @@ export const SearchCargoModule = () => {
     euroTypeOptions,
     fuels,
     router,
+    isBtn,
+    setinputValue
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
@@ -284,9 +286,11 @@ export const SearchCargoModule = () => {
                     required: t("Это поле обязательно"),
                   }}
                   onChange={(e) => {
+                    console.log(`we`, e.target.value)
                     e.target.value = e.target.value
                       .replace(/[^A-Za-z0-9]/g, "")
                       .toUpperCase();
+                      setinputValue(e.target.value)
                   }}
                 />
                 <Flex ml={4} gap={2} mt={2}>
@@ -296,7 +300,7 @@ export const SearchCargoModule = () => {
             </Flex>
           </Flex>
 
-          <Flex gap={"24px"}>
+          <Flex mt={`10px`} gap={"24px"}>
             <Box width={`100%`} mt={`20px`}>
               <p className={cls.textFieldName}>{t("Требования")}</p>
               <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
@@ -357,7 +361,7 @@ export const SearchCargoModule = () => {
                 <p className={cls.textFieldName}>{t("Euro type")}</p>
                 <ChakraSelect
                   options={euroTypeOptions}
-                  name="euro_type"
+                  name="eco_standart"
                   placeholder={t("Название")}
                   control={control}
                   // required
@@ -476,13 +480,16 @@ export const SearchCargoModule = () => {
             </Box>
           </Flex>
         </Box>
-        <Button
+        {
+          !isBtn &&   <Button
           isLoading={loading}
           onClick={handleSubmit(onSubmit)}
           className={cls.nextBtn}
         >
           {t("Сохранить авто")}
         </Button>
+        }
+      
 
         <Modal isOpen={isPopupOpen} isCentered>
           <ModalOverlay />

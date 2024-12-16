@@ -68,7 +68,7 @@ export const MyLoadsMain = () => {
                 }}
               >
                 СКОРО
-              </span> */}
+              </span> */} 
               <Button
                 isLoading={isPendingExe}
                 onClick={getExcelFileFn}

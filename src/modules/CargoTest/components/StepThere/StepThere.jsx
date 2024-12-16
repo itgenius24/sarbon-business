@@ -73,16 +73,25 @@ const StepThere = ({ status }) => {
   console.log("carTypeOptions", carTypeOptions);
 
   return (
-    <>
+    <Box className={cls.containerCards}>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
-          <CarStaepIcon />
+          <Box className={cls.logoWrap}>
+            <CarStaepIcon />
+          </Box>
+
           <Box width={"100%"}>
-            <Flex width={"100%"}>
+            <Flex  className={cls.inputWrap}  rowGap={`20px`}  gap={"24px"} width={"100%"}>
               <Box width={"100%"}>
-                <p className={cls.stepTitle}>Машина</p>
-                <Flex gap={"24px"} mt={"24px"}>
-                  <Box width={"90%"}>
+                <Flex gap={"14px"}>
+                  <Box className={cls.logoWrapMobile}>
+                    <CarStaepIcon />
+                  </Box>
+                  <p className={cls.stepTitle}>Машина</p>
+                </Flex>
+
+                <Flex width={`100%`} gap={"24px"} mt={"24px"}>
+                  <Box width={"100%"}>
                     <Dropdown
                       control={control}
                       required
@@ -133,7 +142,7 @@ const StepThere = ({ status }) => {
               </Box>
               <Box width={"100%"}>
                 <p className={cls.stepTitle}>Количество машин</p>
-                <Flex gap={"24px"} mt={"24px"} alignItems={"center"}>
+                <Flex className={cls.inputWrap} gap={"24px"} mt={"24px"} alignItems={"center"}>
                   <Box width={"80px"}>
                     <TextField
                       disabled={!canEdit}
@@ -181,7 +190,7 @@ const StepThere = ({ status }) => {
               </Box>
             </Flex>
             {canEdit && (
-              <Flex mt="30px" gap={2}>
+              <Flex className={cls.plusWrap} mt="30px" gap={2}>
                 {!isLiftingCapacityOpen && (
                   <Button
                     key="packagingBtn1"
@@ -190,6 +199,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenLiftingCapacity}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("Тип загрузки")}
                   </Button>
@@ -202,6 +212,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenRequirement}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("Сцепка,Пневмоход, Коники")}
                   </Button>
@@ -214,6 +225,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenBelts}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("ADR")}
                   </Button>
@@ -226,6 +238,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenAccess}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("TIR, CMR, T1, Медкнижка")}
                   </Button>
@@ -238,6 +251,7 @@ const StepThere = ({ status }) => {
                     onClick={handleIsFtlOpen}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("FTL/LTL")}
                   </Button>
@@ -250,6 +264,7 @@ const StepThere = ({ status }) => {
                     onClick={handleIsReymenOpen}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("Ремней, шт")}
                   </Button>
@@ -466,29 +481,33 @@ const StepThere = ({ status }) => {
               >
                 <Box>
                   <p className={cls.stepTitle2}>{t("FTL/LTL")}</p>
-                  <Box  width={"100%"} display="flex" flexDirection={`column`} rowGap={`10px`} columnGap="10px" >
-                  
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        onChange={handleCheckboxChange}
-                        defaultChecked={!canEdit}
-                        name="is_ftl"
-                      >
-                        <Box display="flex" alignItems="center">
-                          <span>{t("отдельной машиной (FTL)")}</span>
-                          <HelpCircleIcon />
-                        </Box>
-                      </Checkbox>
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        onChange={handleCheckboxChange}
-                        name="is_ltl"
-                      >
-                        {t("отдельной машиной или догрузом (FTL или LTL)")}
-                      </Checkbox>
-                   
+                  <Box
+                    width={"100%"}
+                    display="flex"
+                    flexDirection={`column`}
+                    rowGap={`10px`}
+                    columnGap="10px"
+                  >
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      onChange={handleCheckboxChange}
+                      defaultChecked={!canEdit}
+                      name="is_ftl"
+                    >
+                      <Box display="flex" alignItems="center">
+                        <span>{t("отдельной машиной (FTL)")}</span>
+                        <HelpCircleIcon />
+                      </Box>
+                    </Checkbox>
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      onChange={handleCheckboxChange}
+                      name="is_ltl"
+                    >
+                      {t("отдельной машиной или догрузом (FTL или LTL)")}
+                    </Checkbox>
                   </Box>
                 </Box>
 
@@ -513,8 +532,13 @@ const StepThere = ({ status }) => {
               >
                 <Box>
                   <p className={cls.stepTitle2}>{t("Ремней, шт")}</p>
-             <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="straps_number" />
-                  
+                  <TextField
+                    disabled={!canEdit}
+                    placeholder={t("Штук")}
+                    type="number"
+                    register={register}
+                    name="straps_number"
+                  />
                 </Box>
 
                 <IconButton
@@ -539,7 +563,7 @@ const StepThere = ({ status }) => {
           Далее
         </Button>
       )}
-    </>
+    </Box>
   );
 };
 

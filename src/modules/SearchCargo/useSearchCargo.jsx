@@ -4,6 +4,7 @@ import {
   useCreateVehicle,
   useGetAddress,
   useGetCarListOnSubmit,
+  useGetCarNumber,
   useGetCarType,
   useGetFuelInfo,
   useGetMeasurement,
@@ -28,6 +29,7 @@ import { countries } from "@/utils/country";
 
 export const useSearchCargo = () => {
   const searchParams = useSearchParams();
+  const [inputValue, setinputValue] = useState(``);
   const id = searchParams.get(`id`);
   console.log(`id`, id);
 
@@ -56,12 +58,12 @@ export const useSearchCargo = () => {
     { label: 9, value: `ADR 9` },
   ];
   const euroTypeOptions = [
-    { label: `EURO 1`, value: `EURO 1` },
-    { label: `EURO 2`, value: `EURO 2` },
-    { label: `EURO 3`, value: `EURO 3` },
-    { label: `EURO 4`, value: `EURO 4` },
-    { label: `EURO 5`, value: `EURO 5` },
-    { label: `EURO 6`, value: `EURO 6` },
+    { label: `EURO 1`, value: `EURO_1` },
+    { label: `EURO 2`, value: `EURO_2` },
+    { label: `EURO 3`, value: `EURO_3` },
+    { label: `EURO 4`, value: `EURO_4` },
+    { label: `EURO 5`, value: `EURO_5` },
+    { label: `EURO 6`, value: `EURO_6` },
   ];
 
   const toast = useToast();
@@ -74,9 +76,39 @@ export const useSearchCargo = () => {
     formState: { errors },
     reset,
     setValue,
+    setError,
+    clearErrors
   } = useForm({});
   const [load, setLoad] = useState({});
   const firm_id = authStore.userData.firm_id;
+
+  const { data: getCarNumnber } = useGetCarNumber({
+    params: {
+      data: JSON.stringify({
+        offset: 0,
+        order: {},
+        search: inputValue,
+        limit: 1000,
+        view_fields: ["car_number"],
+      }),
+    },
+    querySettings:{
+      enabled: Boolean(false),
+    }
+  });
+
+  useEffect(() => {
+    if (getCarNumnber?.count  === 1) {
+      setError(`car_number`, {
+        message: `Этот номер автомобиля был зарегистрирован ранее!`,
+      });
+    } 
+     else if (getCarNumnber?.count > 1 || getCarNumnber?.count === 0){
+      clearErrors(`car_number`);
+    }
+  }, [getCarNumnber?.count > 0,inputValue]);
+
+  console.log(`getCarNumnber`, getCarNumnber);
 
   useEffect(() => {
     setLoad({
@@ -187,6 +219,7 @@ export const useSearchCargo = () => {
         firm_id,
         car_country: val?.car_country,
         fuel_id: val?.fuel_id,
+        eco_standart: val?.eco_standart,
         guid: id ? id : undefined,
       },
     };
@@ -219,5 +252,7 @@ export const useSearchCargo = () => {
     router,
     locale,
     fuels: fuel?.response,
+    setinputValue,
+    isBtn:getCarNumnber?.count  === 1
   };
 };
