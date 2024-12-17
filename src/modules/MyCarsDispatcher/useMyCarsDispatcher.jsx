@@ -1,12 +1,17 @@
 "use client";
 
 import { useDeletedeleteDispacersDriver, useGetCar } from "@/services/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
+import { useForm } from "react-hook-form";
+import { useDebounce as useDebounce2 } from "use-debounce";
+import useDebounce from "@/hooks/useDebounce";
+import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 
 export const useMyCarsDispatcher = () => {
+  const { register, watch } = useForm();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const disId = authStore.userData?.id;
@@ -14,64 +19,62 @@ export const useMyCarsDispatcher = () => {
   const [data2, setData2] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [refe, setRefe] = useState(false);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(25);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(50);
   const [filter1, setFilter1] = useState(false);
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
+  const [search, setSearch] = useState(``);
+  const [count, setCount] = useState(0);
+  const [debouncedValue] = useDebounce2(search, 500);
+  const containerRef = useRef(null);
 
-  const addPage = () => {
-    setPage(page + 1);
-    setLimit(25);
-    
-  };
-  
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      if (res?.response?.length === limit) {
-        addPage();
-      }
       if (res?.response?.length) {
         setRefe(false);
+        setCount(res?.count?.total_count);
+
         let data = res?.response;
+
+        // const uniqueData2 = data.filter((item) =>
+        //   oldData.some((stateItem) => stateItem?.guid === item?.guid)
+        // );
+        // setData2((prev) => [...prev, ...uniqueData2]);
+
+        // Yangi ma'lumotlarni topish (oldData ichida yo'q)
         const uniqueData = data.filter(
-          (item) =>
-            !oldData.some(
-              (stateItem) => stateItem?.user?.users_id === item?.user?.users_id
-            )
+          (item) => !oldData.some((stateItem) => stateItem?.guid === item?.guid)
         );
-        const data12 =  res?.response
-        setData2((prev) => [...prev, ...data12])
-        setData((prev) => [...prev, ...uniqueData]);
-        setOldData((prev) => [...prev, ...uniqueData]);
-      }
-      if (res?.response?.length === null) {
-        mutate({
-          data: {
-            object_data: {
-              page,
-              limit,
-              type: "dispatcher",
-              dispatcher_id: disId,
-            },
-          },
-        });
+
+        // console.log(`New unique data`, uniqueData);
+
+        // Agar uniqueData mavjud bo'lsa, uni oldData va data ga qo'shish
+        // if (uniqueData.length) {
+        setData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni data ga qo'shish
+        setOldData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni oldData ga qo'shish
+        // }
       }
     },
   });
 
+ 
   useEffect(() => {
-    const data = {
+    const dataReq = {
       data: {
         object_data: {
-          page,
-          limit,
+          page: debouncedValue?.length > 0 ? 0 : page,
+          search: debouncedValue,
+          limit: debouncedValue?.length > 0 ? 1000 : limit,
           type: "dispatcher",
           dispatcher_id: disId,
         },
       },
     };
-    mutate(data);
-  }, [page, limit, refe]);
+
+    mutate(dataReq);
+  }, [page, limit, debouncedValue?.length, refe]);
+
+  console.log(`data?.length`, data?.length);
 
   const nameFilter = () => {
     setFilter1(!filter1);
@@ -94,16 +97,44 @@ export const useMyCarsDispatcher = () => {
     onSuccess: () => {
       setRefe(true);
       setData([]);
-      setOldData([])
+      setOldData([]);
     },
   });
-
 
   const deleteFuntion = (id) => {
     deleteUser({
       id,
     });
   };
+
+  const setSearchFn = (val) => {
+    setSearch(val?.replace(/\+/g, ""));
+    if (val?.replace(/\+/g, "")) {
+      setData([]);
+      setOldData([]);
+    }
+  };
+  const setDebouncedLimit = useDebounce(setPage, 250);
+
+  const handleScroll = () => {
+    if (!isPending) {
+      if (containerRef.current) {
+        const isVisible = isVisibleInViewport(containerRef.current);
+
+        if (isVisible) {
+          setDebouncedLimit((res) => res + 1);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("scroll", handleScroll, { capture: true });
+
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return {
     data,
@@ -112,5 +143,10 @@ export const useMyCarsDispatcher = () => {
     filter1,
     isPending,
     t,
+    register,
+    setSearchFn,
+    search,
+    containerRef,
+    count,
   };
 };
