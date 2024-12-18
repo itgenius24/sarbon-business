@@ -35,24 +35,12 @@ export const useMyCarsDispatcher = () => {
         setCount(res?.count?.total_count);
 
         let data = res?.response;
-
-        // const uniqueData2 = data.filter((item) =>
-        //   oldData.some((stateItem) => stateItem?.guid === item?.guid)
-        // );
-        // setData2((prev) => [...prev, ...uniqueData2]);
-
-        // Yangi ma'lumotlarni topish (oldData ichida yo'q)
         const uniqueData = data.filter(
-          (item) => !oldData.some((stateItem) => stateItem?.guid === item?.guid)
+          (item) => !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
         );
-
-        // console.log(`New unique data`, uniqueData);
-
-        // Agar uniqueData mavjud bo'lsa, uni oldData va data ga qo'shish
-        // if (uniqueData.length) {
         setData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni data ga qo'shish
         setOldData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni oldData ga qo'shish
-        // }
+      
       }
     },
   });
@@ -112,6 +100,7 @@ export const useMyCarsDispatcher = () => {
     if (val?.replace(/\+/g, "")) {
       setData([]);
       setOldData([]);
+      setPage(0);
     }
   };
   const setDebouncedLimit = useDebounce(setPage, 250);
