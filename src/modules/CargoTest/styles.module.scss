@@ -25,7 +25,7 @@
   }
 }
 
-@include breakpoint-down(575px) {
+@include breakpoint-down(600px) {
   .topButtons {
     flex-direction: column;
     width: 100%;
@@ -209,7 +209,7 @@
     }
   }
 }
-.mobileNavigation{
+.mobileNavigation {
   display: none;
   @media (max-width: 600px) {
     display: flex;
@@ -302,5 +302,39 @@
 
   @media (max-width: 600px) {
     display: none;
+  }
+}
+
+.resultStepWrap {
+  width: 100%;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  display: none;
+  .textResult {
+    p {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+    }
+    .locationText {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgb(0, 0, 0);
+
+      width: 30vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    span {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgb(27, 26, 26);
+    }
+  }
+  @media (max-width: 600px) {
+    display: block;
   }
 }

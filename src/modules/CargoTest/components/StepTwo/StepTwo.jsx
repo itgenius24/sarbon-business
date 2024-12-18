@@ -3,6 +3,7 @@ import cls from "./style.module.scss";
 import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import {
   CloseStepIcon,
+  DeleteStepIcon,
   IconAStep,
   IconBStep,
   IconCEnterStepTwoIcon,
@@ -63,6 +64,7 @@ const StepTwo = ({ status }) => {
     onCreateCargoSuccess,
     handLeCheck,
     handLeCheck2,
+    handleResetForm
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -472,14 +474,27 @@ const StepTwo = ({ status }) => {
         />
       </ModalS>
       {!status && (
-        <Button
-          isDisabled={disabled}
-          onClick={() => onCreateCargoSuccess()}
-          rightIcon={<NextArrowIcon />}
-          className={cls.nextBtn}
-        >
-          Далее
-        </Button>
+        <Flex flexDirection={`column`} rowGap={`10px`}>
+          <Button
+            isDisabled={disabled}
+            onClick={() => onCreateCargoSuccess()}
+            rightIcon={<NextArrowIcon />}
+            className={cls.nextBtn}
+          >
+            Далее
+          </Button>
+          <Button
+            onClick={() => handleResetForm()}
+            leftIcon={<DeleteStepIcon />}
+            variant="secondaryWhite"
+            color={`rgba(126, 123, 134, 1)`}
+            fontWeight={500}
+            fontSize={`14px`}
+            className={cls.clearBtn}
+          >
+            Очистить форму
+          </Button>
+        </Flex>
       )}
     </Box>
   );

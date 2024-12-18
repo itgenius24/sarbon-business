@@ -71,6 +71,9 @@
         text-decoration: underline solid !important;
       }
     }
+    .closeMobileIcon{
+      display: none;
+    }
     .inputWrap {
       @media (max-width: 600px) {
         flex-direction: column;
@@ -101,6 +104,25 @@
       }
       .textField2 {
         width: 100% !important;
+      }
+      .closeDecktopIcon{
+        display: none;
+      }
+      .closeMobileIcon{
+        display: block;
+      }
+      .contendWrap{
+        flex-direction: column;
+        row-gap: 10px;
+      }
+      .stepTitle2{
+        margin-bottom: 0px;
+      }
+      .additionalFields {
+        // border-top: none;
+        margin-top: 10px !important;
+        padding-top: 10px;
+        padding-bottom: 10px;
       }
     }
     .plusWrap {
@@ -133,4 +155,11 @@
       width: 100%;
       padding: 16px !important;
       }
+  }
+
+  .clearBtn {
+    display: none;
+    @media (max-width: 600px) {
+      display: block;
+    }
   }

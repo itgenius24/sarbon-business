@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import cls from "./style.module.scss";
-import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
 import {
   CloseStepIcon,
   DeleteIcon,
+  DeleteStepIcon,
   LoadStepIcon,
   NextArrowIcon,
   PlusIcon,
@@ -39,10 +40,12 @@ const StepOne = ({ status }) => {
     disabledBtn,
     handleImageUpload,
     onSubmit,
+    handleResetForm,
   } = useStepOneProps();
 
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   return (
     <Box className={cls.containerCards}>
@@ -253,7 +256,21 @@ const StepOne = ({ status }) => {
                 key="packagingBtn"
               >
                 <Box>
-                  <p className={cls.stepTitle2}>{t("Упаковка")}</p>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Упаковка")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      className={cls.closeMobileIcon}
+                      onClick={handlePackagingAndQuantity} // Toggles the packaging section
+                      variant={"outline"}
+                    />
+                  </Flex>
                   <Box
                     className={cls.fields}
                     display="flex"
@@ -261,6 +278,7 @@ const StepOne = ({ status }) => {
                     maxW="540px"
                     width="100%"
                     flexWrap={`wrap`}
+                      rowGap={`10px`}
                   >
                     <Dropdown
                       errors={errors}
@@ -279,7 +297,8 @@ const StepOne = ({ status }) => {
                       errors={errors}
                       name="packaging_quantity"
                       register={register}
-                      width="196px"
+                      width={isLargerThan845 ? `"196px"` : `100%`}
+                      // width="196px"
                       placeholder={t("Кол-во")}
                       additionalItemPlaceholder={t("шт.")}
                       disabled={!canEdit}
@@ -290,6 +309,7 @@ const StepOne = ({ status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
+                  className={cls.closeDecktopIcon}
                   onClick={handlePackagingAndQuantity} // Toggles the packaging section
                   variant={"outline"}
                 />
@@ -307,19 +327,36 @@ const StepOne = ({ status }) => {
                 key="dimensionsBtn"
               >
                 <Box>
-                  <p className={cls.stepTitle2}>{t("Габариты и диаметр")}</p>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Габариты и диаметр")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      className={cls.closeMobileIcon}
+                      onClick={handleDimensionsAndDiameter} // Toggles the dimensions section
+                      variant={"outline"}
+                    />
+                  </Flex>
                   <Box
                     className={cls.fields}
                     display="flex"
                     columnGap="16px"
                     maxW="740px"
                     width="100%"
+                    flexWrap={`wrap`}
+                    rowGap={`10px`}
                   >
                     <TextFieldWithAddition
                       control={control}
                       name="length"
                       register={register}
-                      width="153px"
+                      // width="153px"
+                       width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Длина")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -328,7 +365,8 @@ const StepOne = ({ status }) => {
                       control={control}
                       name="width"
                       register={register}
-                      width="153px"
+                      // width="153px"
+                       width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Ширина")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -337,7 +375,8 @@ const StepOne = ({ status }) => {
                       control={control}
                       name="height"
                       register={register}
-                      width="153px"
+                      // width="153px"
+                       width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Высота")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -348,6 +387,7 @@ const StepOne = ({ status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
+                  className={cls.closeDecktopIcon}
                   onClick={handleDimensionsAndDiameter} // Toggles the dimensions section
                   variant={"outline"}
                 />
@@ -356,18 +396,35 @@ const StepOne = ({ status }) => {
 
             {isFileUploader && (
               <Box
-                className={cls.additionalFields}
+                className={`${cls.additionalFields} ${cls.fotoWrap}`}
                 display="flex"
                 width={"100%"}
                 alignItems="center"
                 mt="24px"
                 justifyContent={"space-between"}
                 key="dimensionsBtn2"
+               
               >
-                <p className={cls.stepTitle2}>
-                  {t("Прикрепить фото")} <br />{" "}
-                  <span>Фото груза или документа до 10 МБ.</span>
-                </p>
+                <Flex
+                  alignItems={`center`}
+                  width={isLargerThan845 ? `fit-contend` : `100%`}
+                  justifyContent={`space-between`}
+                 
+                >
+                  <p className={cls.stepTitle2}>
+                    {t("Прикрепить фото")} <br />
+                    <span>Фото груза или документа до 10 МБ.</span>
+                  </p>
+                  <IconButton
+                    border={"none"}
+                    width={"fit-content"}
+                    icon={<CloseStepIcon />}
+                    className={cls.closeMobileIcon}
+                    onClick={handleIsFileUploader} // Toggles the packaging section
+                    variant={"outline"}
+                  />
+                </Flex>
+
                 <Box
                   className={cls.fields}
                   display="flex"
@@ -461,6 +518,7 @@ const StepOne = ({ status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
+                  className={cls.closeDecktopIcon}
                   onClick={handleIsFileUploader} // Toggles the packaging section
                   variant={"outline"}
                 />
@@ -471,14 +529,28 @@ const StepOne = ({ status }) => {
       </Box>
 
       {!status && (
-        <Button
-          isDisabled={disabledBtn}
-          onClick={() => onSubmit()}
-          rightIcon={<NextArrowIcon />}
-          className={cls.nextBtn}
-        >
-          Далее
-        </Button>
+        <Flex flexDirection={`column`} rowGap={`10px`}>
+          <Button
+            isDisabled={disabledBtn}
+            onClick={() => onSubmit()}
+            rightIcon={<NextArrowIcon />}
+            className={cls.nextBtn}
+          >
+            Далее
+          </Button>
+          <Button
+            isDisabled={disabledBtn}
+            onClick={() => handleResetForm()}
+            leftIcon={<DeleteStepIcon />}
+            variant="secondaryWhite"
+            color={`rgba(126, 123, 134, 1)`}
+            fontWeight={500}
+            fontSize={`14px`}
+            className={cls.clearBtn}
+          >
+            Очистить форму
+          </Button>
+        </Flex>
       )}
     </Box>
   );

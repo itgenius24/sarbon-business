@@ -67,6 +67,9 @@
       justify-content: space-between;
     }
   }
+  .closeMobileIcon{
+    display: none;
+  }
   .inputWrap {
     @media (max-width: 600px) {
       flex-direction: column;
@@ -74,7 +77,7 @@
   }
   .plusWrap {
     width: 100%;
-  
+
     @media (max-width: 600px) {
       flex-direction: column !important;
       justify-content: flex-start;
@@ -92,6 +95,7 @@
   }
   @media (max-width: 600px) {
     padding: 0px;
+    box-shadow: none;
     .subTitle {
       font-size: 13px;
     }
@@ -109,6 +113,24 @@
     .textField2 {
       width: 100% !important;
     }
+    .stepTitle2 {
+      margin-bottom: 0px;
+    }
+    .additionalFields {
+      // border-top: none;
+      margin-top: 10px !important;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .closeDecktopIcon{
+      display: none;
+    }
+    .closeMobileIcon{
+      display: block;
+    }
+    .fotoWrap{
+      flex-direction: column;
+    }
   }
 }
 .nextBtn {
@@ -119,7 +141,14 @@
   background-color: rgba(0, 122, 255, 1) !important;
   margin-top: 30px;
   @media (max-width: 600px) {
-  width: 100%;
-  padding: 16px !important;
+    width: 100%;
+    padding: 16px !important;
+  }
+}
+
+.clearBtn {
+  display: none;
+  @media (max-width: 600px) {
+    display: block;
   }
 }

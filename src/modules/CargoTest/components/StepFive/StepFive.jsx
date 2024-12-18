@@ -453,7 +453,7 @@ const StepFive = ({ status }) => {
         </Flex>
       </Box>
       {!status && (
-        <Box mt="32px">
+        <Box  className={cls.footerWrap} mt="32px">
           {/* <Checkbox name="accept" register={register} filled>
             <Text fontSize="14px" maxWidth="396px" width="100%">
               {t("Нажимая кнопку, вы принимаете условия")}{" "}
@@ -468,6 +468,7 @@ const StepFive = ({ status }) => {
             columnGap="12px"
             justifyContent="flex-start"
             className={cls.buttonWrap}
+            rowGap={`5px`}
           >
             <Button
               // isDisabled={!watch("accept") || isClicked}
@@ -487,6 +488,7 @@ const StepFive = ({ status }) => {
               size="md"
               maxWidth="223px"
               variant="secondaryWhite"
+              border={`1px solid rgba(208, 213, 221, 1)`}
             >
               {t("Сохранить как шаблон")}
             </Button>

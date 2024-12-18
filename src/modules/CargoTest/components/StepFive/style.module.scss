@@ -25,6 +25,8 @@
     color: rgba(126, 123, 134, 1);
   }
   @media (max-width: 600px) {
+    margin-top: 4px !important;
+    box-shadow: none;
     padding: 16px;
     .itemWrap {
       width: 100%;
@@ -40,15 +42,21 @@
     }
   }
 }
-
-.buttonWrap {
-  max-width: 900px;
-  @media (max-width: 600px) {
-    width: 100%;
-    margin-bottom: 30px;
-    flex-direction: column;
-    .button {
-      width: 100%;
+.footerWrap{
+  .buttonWrap {
+    // max-width: 900px;
+    @media (max-width: 600px) {
+      width: 100% !important;
+      margin-bottom: 30px;
+      flex-direction: column;
+      .button {
+        max-width: 100% !important;
+      }
     }
   }
+  @media (max-width: 600px) {
+    margin-top: 10px !important;
+  }
 }
+
+
