@@ -72,7 +72,7 @@ export const MyCarsDispatcherModule = () => {
                 Добавить водителя
               </Button>
             )}
-            <Button
+            {/* <Button
               onClick={() =>
                 router.push(`/${locale}/my-cars-dispatcher/create`)
               }
@@ -80,7 +80,7 @@ export const MyCarsDispatcherModule = () => {
               leftIcon={<PlusIcon />}
             >
               Добавить водителя
-            </Button>
+            </Button> */}
           </Flex>
         </Flex>
         <Flex>
