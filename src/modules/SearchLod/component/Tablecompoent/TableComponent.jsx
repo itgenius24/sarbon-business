@@ -375,7 +375,7 @@ export const TableComponent = ({ watch, formState }) => {
                               background={`white`}
                               position={`relative`}
                               border={`none`}
-                              boxShadow={` 0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                              boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                               width={`300px`}
                             >
                               <PopoverArrow size={`lg`} />

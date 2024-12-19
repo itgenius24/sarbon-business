@@ -57,7 +57,7 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [refuelingState, setRefuelingState] = useState(false);
-  const [refueling,setRefueling] = useState([])
+  const [refueling, setRefueling] = useState([]);
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -318,8 +318,9 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: getCarRefueling } = useGetCarRefueling({
     onSuccess: (res) => {
-      console.log(`responsese`, res);
-      setRefueling(res?.data?.data)
+      // console.log(`responsese`, res);
+      // setRefueling(res?.data?.data);
+      localStorage.setItem(`refueling`, JSON.stringify(res?.data?.data))
     },
   });
 
@@ -565,8 +566,6 @@ export const useGpsTrackingProps = () => {
     }
   }, depArr);
 
-
-
   return {
     register,
     locations,
@@ -636,6 +635,7 @@ export const useGpsTrackingProps = () => {
     setLocationData,
     refueling,
     setRefuelingState,
-    refuelingState
+    refuelingState,
+    setRefueling,
   };
 };

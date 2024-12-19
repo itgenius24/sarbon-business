@@ -21,11 +21,19 @@ import {
   Button,
   Flex,
   IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import copy from "copy-to-clipboard";
 
 const DriverFree = ({
   cls,
@@ -34,7 +42,19 @@ const DriverFree = ({
   setCenterModalType,
   setIconStatus,
 }) => {
-  console.log("contendSingle", contendSingle);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  console.log(`contendSingle`, contendSingle);
+
+  const handleOpen = () => {
+    onOpen();
+    copy(
+      `https://yandex.com/maps/?ll=${contendSingle?.users_gps?.[0]?.long},${contendSingle?.users_gps?.[0]?.lat}&z=15&pt=${contendSingle?.users_gps?.[0]?.long},${contendSingle?.users_gps?.[0]?.lat},pm2rdm`
+    );
+    setTimeout(() => {
+      onClose();
+    }, 1000);
+  };
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -70,7 +90,7 @@ const DriverFree = ({
             <LocationActiveIcon />
             <Box>
               <p className={cls.smallText}>
-                Вкл:{" "}
+                Вкл:
                 {format(
                   contendSingle?.users_gps?.[0]?.update_time,
                   "yyyy-MM-dd, hh:mm"
@@ -79,8 +99,58 @@ const DriverFree = ({
               <p className={cls.bigTitle}>
                 {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
+              <Box>
+                <Popover
+                  onOpen={isOpen}
+                  onClose={onClose}
+                  placement="top-start"
+                >
+                  <PopoverTrigger>
+                    <Button
+                      onClick={handleOpen}
+                      style={{
+                        padding: `5px`,
+                        background: `transparent`,
+                        color: `rgba(0, 122, 255, 1)`,
+                        borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
+                        width: `fit-content`,
+                        borderRadius: `0px`,
+                        lineHeight: `18px`,
+                        height: `30px`,
+                        fontWeight: 400,
+                        fontSize: `14px`,
+                      }}
+                    >
+                      Поделится локацией
+                    </Button>
+                  </PopoverTrigger>
+                  <Portal>
+                    <PopoverContent
+                      borderRadius={`4px`}
+                      border={`none`}
+                      bg={`rgba(0, 122, 255, 1)`}
+                      width={`fit-content`}
+                    >
+                      <PopoverArrow
+                        className={cls.popoverArrow}
+                        size={`lg`}
+                        bg={`rgba(0, 122, 255, 1)`}
+                      />
+                      <PopoverBody
+                        color={`white`}
+                        borderRadius={`4px`}
+                        border={`none`}
+                        width={`fit-content`}
+                      >
+                        <p>Локациия скопирована</p>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Portal>
+                </Popover>
+              </Box>
             </Box>
           </Flex>
+
           <Flex justifyContent={"space-between"}>
             <Flex
               mt={3}
@@ -189,8 +259,8 @@ const DriverFree = ({
               >
                 <Image
                   style={{
-                    width: `45px`,
-                    height: `25px`,
+                    width: `30px`,
+                    height: `20px`,
                   }}
                   width={100}
                   height={100}

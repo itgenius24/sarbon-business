@@ -100,6 +100,7 @@ const DriverGruz = ({
                 {loadState?.users_id_data?.full_name}
               </p>
             </Box>
+           
           </Flex>
           <IconButton
             width={"fit-content"}
