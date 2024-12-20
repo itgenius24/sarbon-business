@@ -304,11 +304,8 @@ export const useSearchLoadDispatcher = () => {
             const processedItem = ids.find((pItem) => pItem.guid === item.guid);
             const data = item;
             if (processedItem) {
-              data.dispatcher_full_data = [
-                {
-                  full_name: userData?.full_name,
-                },
-              ];
+               data.dispatcher_full_data = { full_name: userData?.full_name };
+
               return data;
             }
             return item;
