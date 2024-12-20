@@ -13,6 +13,8 @@ import {
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import authStore from "@/store/auth.store";
+import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
+import useDebounce from "@/hooks/useDebounce";
 
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
@@ -28,10 +30,12 @@ export const useSearchLoadDispatcher = () => {
   const [filter4, setFilter4] = useState(false);
   const [filter5, setFilter5] = useState(false);
   const [filter6, setFilter6] = useState(false);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(20);
-  const [refe, setRefe] = useState(false);
+  const [search, setSearch] = useState(``);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(50);
+  const [refe, setRefe] = useState(false);
+  const containerRef = useRef(null);
   const [ids, setId] = useState([]);
 
   const { t } = useTranslation(locale, "translations");
@@ -70,81 +74,33 @@ export const useSearchLoadDispatcher = () => {
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      if (res?.response?.length === limit) {
-        addPage();
-      }
+      // if (res?.response === null) {
+      //   setPage(page - 1)
+      // }
       if (res?.response?.length) {
         setRefe(false);
-        const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
+        const vehicles = [{ name: `Без трейлера` }];
 
         const filteredData = res?.response.map((item) => ({
           ...item,
-          vehicles: item?.vehicles ? item?.vehicles : vehicles,
+          trailer_type_data:
+            item?.trailer_type_data.length > 0
+              ? item?.trailer_type_data
+              : vehicles,
         }));
 
         const uniqueData = filteredData.filter(
           (item) =>
             !oldData.some(
-              (stateItem) => stateItem?.user?.guid === item?.user?.guid
+              (stateItem) => stateItem?.guid === item?.guid
             )
         );
 
         setData((prev) => [...prev, ...uniqueData]);
         setOldData((prev) => [...prev, ...uniqueData]);
       }
-      if (res?.response?.length === null) {
-        mutate({
-          data: {
-            object_data: {
-              page,
-              limit,
-              firm_id: ``,
-            },
-          },
-        });
-      }
     },
   });
-
-  // const { mutate: trackingFilter, isPending: trackingFilterPending } =
-  //   useGetCarTrackingFilter({
-  //     onSuccess: (res) => {
-  //       setRefe(false);
-  //       const vehicles = [{ trailer_type_id_data: { name: `Без трейлера` } }];
-
-  //       if (value === `val2`) {
-  //         const filteredData = res?.response.map((item) => ({
-  //           ...item,
-  //           vehicles: item?.vehicles ? item?.vehicles : vehicles,
-  //         }));
-
-  //         const uniqueData = filteredData.filter(
-  //           (item) =>
-  //             !oldData2.some(
-  //               (stateItem) => stateItem?.user?.guid === item?.user?.guid
-  //             )
-  //         );
-
-  //         setData2((prev) => [...prev, ...uniqueData]);
-  //         setOldData2((prev) => [...prev, ...uniqueData]);
-  //       } else {
-  //         const filteredData = res?.response.map((item) => ({
-  //           ...item,
-  //           vehicles: item?.vehicles ? item?.vehicles : vehicles,
-  //         }));
-
-  //         const uniqueData = filteredData.filter(
-  //           (item) =>
-  //             !oldData3.some(
-  //               (stateItem) => stateItem?.user?.guid === item?.user?.guid
-  //             )
-  //         );
-
-  //         setData3((prev) => [...prev, ...uniqueData]);
-  //         setOldData3((prev) => [...prev, ...uniqueData]);
-  //       }
-  //     },
-  //   });
 
   useEffect(() => {
     const data = {
@@ -157,9 +113,39 @@ export const useSearchLoadDispatcher = () => {
       },
     };
     mutate(data);
-  }, [page, refe, value === `val1`]);
+  }, [page, refe]);
 
-  // useEffect(() => {
+  const setDebouncedLimit = useDebounce(setPage, 250);
+
+  const handleScroll = () => {
+    if (!isPending) {
+      if (containerRef.current) {
+        const isVisible = isVisibleInViewport(containerRef.current);
+
+        if (isVisible) {
+          setDebouncedLimit((res) => res + 1);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("scroll", handleScroll, { capture: true });
+
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const setSearchFn = (val) => {
+    setSearch(val?.replace(/\+/g, ""));
+    if (val?.replace(/\+/g, "")) {
+      setData([]);
+      setOldData([]);
+      setPage(0);
+    }
+  };
+
   //   trackingFilter({
   //     data: {
   //       object_data: {
@@ -185,7 +171,7 @@ export const useSearchLoadDispatcher = () => {
 
   const addPage = () => {
     setPage(page + 1);
-    setLimit(50);
+    // setLimit(50);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
@@ -198,8 +184,8 @@ export const useSearchLoadDispatcher = () => {
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.user?.full_name.localeCompare(b?.user?.full_name) // Alfavit bo'yicha
-          : b?.user?.full_name.localeCompare(a?.user?.full_name) // Teskari alfavit bo'yicha
+          ? a?.full_name.localeCompare(b?.full_name) // Alfavit bo'yicha
+          : b?.full_name.localeCompare(a?.full_name) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -211,11 +197,11 @@ export const useSearchLoadDispatcher = () => {
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(
-              b?.vehicles?.[0]?.firm_id_data?.full_name
+          ? a?.firm_data?.[0]?.full_name.localeCompare(
+              b?.firm_data?.[0]?.full_name
             ) // Alfavit bo'yicha
-          : b?.vehicles?.[0]?.firm_id_data?.full_name.localeCompare(
-              a?.vehicles?.[0]?.firm_id_data?.full_name
+          : b?.firm_data?.[0]?.full_name.localeCompare(
+              a?.firm_data?.[0]?.full_name
             ) // Teskari alfavit bo'yicha
     );
 
@@ -228,11 +214,11 @@ export const useSearchLoadDispatcher = () => {
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.vehicles?.[0]?.car_number?.localeCompare(
-              b?.vehicles?.[0]?.car_number
+          ? a?.vehicle_data?.[0]?.car_number?.localeCompare(
+              b?.vehicle_data?.[0]?.car_number
             ) // Alfavit bo'yicha
-          : b?.vehicles?.[0]?.car_number?.localeCompare(
-              a?.vehicles?.[0]?.car_number
+          : b?.vehicle_data?.[0]?.car_number?.localeCompare(
+              a?.vehicle_data?.[0]?.car_number
             ) // Teskari alfavit bo'yicha
     );
 
@@ -245,11 +231,11 @@ export const useSearchLoadDispatcher = () => {
     const sortedData = data?.sort(
       (a, b) =>
         isAscendingTip
-          ? a?.vehicles?.[0]?.trailer_type_id_data?.name.localeCompare(
-              b?.vehicles?.[0]?.trailer_type_id_data?.name
+          ? a?.trailer_type_data?.[0]?.name.localeCompare(
+              b?.trailer_type_data?.[0]?.name
             ) // Alfavit bo'yicha
-          : b?.vehicles?.[0]?.trailer_type_id_data?.name.localeCompare(
-              a?.vehicles?.[0]?.trailer_type_id_data?.name
+          : b?.trailer_type_data?.[0]?.name.localeCompare(
+              a?.trailer_type_data?.[0]?.name
             ) // Teskari alfavit bo'yicha
     );
 
@@ -260,11 +246,11 @@ export const useSearchLoadDispatcher = () => {
   const timeFilter = () => {
     setFilter5(!filter5);
     const sortedData = data?.sort((a, b) => {
-      const timeA = a?.users_gps?.[0]?.update_time
-        ? new Date(a.users_gps?.[0].update_time)
+      const timeA = a?.gps_data?.[0]?.update_time
+        ? new Date(a.gps_data?.[0].update_time)
         : new Date(0);
-      const timeB = b?.users_gps?.[0]?.update_time
-        ? new Date(b.users_gps?.[0].update_time)
+      const timeB = b?.gps_data?.[0]?.update_time
+        ? new Date(b.gps_data?.[0].update_time)
         : new Date(0);
       return isAscendingTime ? timeA - timeB : timeB - timeA;
     });
@@ -276,8 +262,8 @@ export const useSearchLoadDispatcher = () => {
   const dispatcherFilter = () => {
     setFilter6(!filter6);
     const sortedData = data?.sort((a, b) => {
-      const nameA = a?.dispatcher?.[0]?.users_id_2_data?.full_name || "";
-      const nameB = b?.dispatcher?.[0]?.users_id_2_data?.full_name || "";
+      const nameA = a?.dispatcher_full_data?.[0]?.full_name || "";
+      const nameB = b?.dispatcher_full_data?.[0]?.full_name || "";
       return isAscendingDispatcher
         ? nameA.localeCompare(nameB)
         : nameB.localeCompare(nameA);
@@ -290,13 +276,11 @@ export const useSearchLoadDispatcher = () => {
   const onFilterChange = (e) => {
     const filteredData = oldData.filter((item) => {
       return (
-        item?.user?.full_name
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase()) ||
+        item?.full_name.toLowerCase().includes(e.target.value.toLowerCase()) ||
         (item?.vehicles?.[0]?.car_number || ``)
           .toLowerCase()
           .includes(e.target.value.toLowerCase()) ||
-        item?.user?.phone.includes(e.target.value)
+        item?.phone.includes(e.target.value)
       );
     });
     setData(() => [...filteredData]);
@@ -307,16 +291,12 @@ export const useSearchLoadDispatcher = () => {
       onSuccess: () => {
         setData((prevData) =>
           prevData.map((item) => {
-            const processedItem = ids.find(
-              (pItem) => pItem.guid === item.user?.guid
-            );
+            const processedItem = ids.find((pItem) => pItem.guid === item.guid);
             const data = item;
             if (processedItem) {
-              data.dispatcher = [
+              data.dispatcher_full_data = [
                 {
-                  users_id_2_data: {
-                    full_name: userData?.full_name,
-                  },
+                  full_name: userData?.full_name,
                 },
               ];
               return data;
@@ -342,6 +322,8 @@ export const useSearchLoadDispatcher = () => {
       },
     });
   };
+
+  console.log(`disId`, disId);
 
   const handleCheckboxChange = (user) => {
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {
@@ -389,5 +371,7 @@ export const useSearchLoadDispatcher = () => {
     onChange,
     value,
     setValueR,
+    search,setSearchFn,
+    containerRef,
   };
 };

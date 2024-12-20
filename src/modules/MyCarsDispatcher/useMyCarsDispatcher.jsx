@@ -62,7 +62,6 @@ export const useMyCarsDispatcher = () => {
     mutate(dataReq);
   }, [page, limit, debouncedValue?.length, refe]);
 
-  console.log(`data?.length`, data?.length);
 
   const nameFilter = () => {
     setFilter1(!filter1);

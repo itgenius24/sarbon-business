@@ -7,6 +7,7 @@ import {
   Button,
   Flex,
   Heading,
+  Input,
   Radio,
   RadioGroup,
   useMediaQuery,
@@ -55,7 +56,11 @@ export const SearchLoadDispatcherModule = () => {
     setValueR,
     value,
     onChange,
+    containerRef,
+    search,setSearchFn
   } = useSearchLoadDispatcher();
+
+  console.log("data", data);
 
   return (
     <>
@@ -71,14 +76,20 @@ export const SearchLoadDispatcherModule = () => {
           </Flex>
           <Flex alignItems={`center`} justifyContent={`space-between`}>
             <Box width={`40%`}>
-              <TextField
+            <Input
+              // value={search}
+              className={cls.input}
+              placeholder={t("Имя водителя, диспетчера, номер машины или телефон")}
+              onChange={onFilterChange}
+            />
+              {/* <TextField
                 register={register}
                 onChange={onFilterChange}
                 name="from"
                 placeholder={t(
                   "Имя водителя, диспетчера, номер машины или телефон"
                 )}
-              />
+              /> */}
             </Box>
             <RadioGroup onChange={(e) => onChange(e)} value={value}>
               <Flex gap={"30px"}>
@@ -196,10 +207,11 @@ export const SearchLoadDispatcherModule = () => {
                 item={item}
                 handleCheckboxChange={handleCheckboxChange}
                 ids={ids?.map((item) => item?.guid)}
+                containerRef={containerRef}
               />
             ))}
 
-            {isPending && (
+            {isPending ? (
               <Box
                 height={data?.length > 0 ? `5vh` : `60vh`}
                 display={`flex`}
@@ -210,6 +222,18 @@ export const SearchLoadDispatcherModule = () => {
                 // paddingTop={data?.length > 0 ? `10px` : `150px`}
               >
                 <LoadingSpinner />
+              </Box>
+            ) : (
+              <Box
+                height={data?.length > 0 ? `5vh` : `60vh`}
+                display={`flex`}
+                justifyContent={`center`}
+                alignItems={`center`}
+                flexDirection={`column`}
+                // background={`red`}
+                // paddingTop={data?.length > 0 ? `10px` : `150px`}
+              >
+                {/* <LoadingSpinner /> */}
               </Box>
             )}
           </Box>

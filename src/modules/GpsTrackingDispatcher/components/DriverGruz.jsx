@@ -273,16 +273,34 @@ const DriverGruz = ({
           type="number"
           zIndex={90}
         />
-        <Button
+        <Box
+          as="button"
           color={`black`}
           _hover={{ background: `white` }}
           backgroundColor={`white`}
           border={`1px solid rgba(21, 186, 77, 1)`}
-          leftIcon={<ExelIcon />}
+          // leftIcon={}
           onClick={getExcelFileFn}
+          maxWidth={`400px`}
+          width={`100%`}
+          padding={`10px`}
+          whiteSpace={`nowrap`}
+          textOverflow={`ellipsis`}
+          overflow={`hidden`}
+          borderRadius={`8px`}
         >
-          Список ближайших в машин Excel
-        </Button>
+          <Flex alignItems={`center`} gap={1}>
+            <ExelIcon />
+             <p style={{
+                fontWeight: 600,
+                overflow: `hidden`,
+                textOverflow: `ellipsis`,
+                width: `100%`,
+             }}>
+                Список ближайших в машин Excel
+             </p>
+          </Flex>
+        </Box>
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
