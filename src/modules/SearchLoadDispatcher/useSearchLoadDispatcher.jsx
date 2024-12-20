@@ -17,15 +17,10 @@ import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
 import { useDebounce as useDebounce2 } from "use-debounce";
 
-
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
   const [oldData, setOldData] = useState([]);
-  const [data2, setData2] = useState([]);
-  const [oldData2, setOldData2] = useState([]);
-  const [data3, setData3] = useState([]);
-  const [oldData3, setOldData3] = useState([]);
   const [filter1, setFilter1] = useState(false);
   const [filter2, setFilter2] = useState(false);
   const [filter3, setFilter3] = useState(false);
@@ -36,7 +31,7 @@ export const useSearchLoadDispatcher = () => {
   const [debouncedValue] = useDebounce2(search, 500);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(50);
+  const [limit, setLimit] = useState(600);
   const [refe, setRefe] = useState(false);
   const containerRef = useRef(null);
   const [ids, setId] = useState([]);
@@ -127,7 +122,7 @@ export const useSearchLoadDispatcher = () => {
       },
     };
     mutate(data);
-  }, [page, refe,debouncedValue?.length]);
+  }, [page, refe, debouncedValue?.length]);
 
   const setDebouncedLimit = useDebounce(setPage, 250);
 
@@ -367,7 +362,7 @@ export const useSearchLoadDispatcher = () => {
     watch,
     negotiableOption,
     isLargerThan845,
-    data: value === `val1` ? data : value === `val2` ? data2 : data3,
+    data: data,
     ids,
     addPage,
     isPending,
