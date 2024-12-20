@@ -31,7 +31,7 @@ export const useSearchLoadDispatcher = () => {
   const [debouncedValue] = useDebounce2(search, 500);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(600);
+  const [limit, setLimit] = useState(700);
   const [refe, setRefe] = useState(false);
   const containerRef = useRef(null);
   const [ids, setId] = useState([]);
@@ -272,8 +272,8 @@ export const useSearchLoadDispatcher = () => {
   const dispatcherFilter = () => {
     setFilter6(!filter6);
     const sortedData = data?.sort((a, b) => {
-      const nameA = a?.dispatcher_full_data?.[0]?.full_name || "";
-      const nameB = b?.dispatcher_full_data?.[0]?.full_name || "";
+      const nameA = a?.dispatcher_full_data?.full_name || "";
+      const nameB = b?.dispatcher_full_data?.full_name || "";
       return isAscendingDispatcher
         ? nameA.localeCompare(nameB)
         : nameB.localeCompare(nameA);
