@@ -49,20 +49,33 @@ const Cmap = memo(
     refueling,
     locationData,
     setLoadState,
-
     setContendSingle,
     contendHoverState,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
+    const [refuelData, setRefuelData] = useState({});
 
     useEffect(() => {
       setIsClient(true);
     }, []);
 
-    const filteredDataRe = useMemo(() => {
-      return watch(`refuelingState`) ? refueling : [];
-    }, [watch(`refuelingState`), refueling]);
+    useEffect(() => {
+      if (refuelData) {
+        const element = document.getElementById("#click");
+        console.log("element", element);
+        // element.addEventListener("click", () => {
+        //   copy(
+        //     `https://yandex.com/maps/?ll=${
+        //       refuelData?.cords?.split(",")?.[1]
+        //     },${refuelData?.cords?.split(",")?.[0]}&z=15&pt=${
+        //       refuelData?.cords?.split(",")?.[1]
+        //     },${refuelData?.cords?.split(",")?.[0]},pm2rdm`
+        //   );
+        // });
+      }
+    }, refuelData);
+
 
     if (!isClient) {
       return null; // Render nothing during SSR
@@ -136,6 +149,16 @@ const Cmap = memo(
       copy(contendHoverState?.users_id_data?.phone);
     });
 
+    const copyFn =() => {
+      copy(
+        `https://yandex.com/maps/?ll=${
+              refuelData?.cords?.split(",")?.[1]
+            },${refuelData?.cords?.split(",")?.[0]}&z=15&pt=${
+              refuelData?.cords?.split(",")?.[1]
+            },${refuelData?.cords?.split(",")?.[0]},pm2rdm`
+      )
+    }
+
     return (
       <Map
         instanceRef={mapRef}
@@ -194,49 +217,45 @@ const Cmap = memo(
             },
           }}
         >
-          {/* <List
-            height={`80vh`} // Ko'rinadigan hududning balandligi
-            itemCount={refueling.length}
-            itemSize={35} // Har bir elementning balandligi
-            width="100%"
-          > */}
-          {filteredDataRe?.map((refuel) => {
-            const BalloonContent = () => (
-              <div className={cls.wrapRefueling}>
-                <div className={cls.topTetxWrap}>
-                  <>
-                    <RefuelingIcon />
-                  </>
-                  <p className={cls.zTitle}>АЗС</p>
+          {watch(`refuelingState`) &&
+            refueling.map((refuel) => {
+              const BalloonContent = () => (
+                <div className={cls.wrapRefueling}>
+                  <div className={cls.topTetxWrap}>
+                    <>
+                      <RefuelingIcon />
+                    </>
+                    <p className={cls.zTitle}>АЗС</p>
+                    <div onclick="copyFn()">copy</div>
+                  </div>
+                  <p className={cls.zTitle}>{refuel?.name}</p>
+                  <p className={cls.zAdress}>{refuel?.address}</p>
                 </div>
-                <p className={cls.zTitle}>{refuel?.name}</p>
-                <p className={cls.zAdress}>{refuel?.address}</p>
-              </div>
-            );
-            const balloonContent3 = ReactDOMServer.renderToString(
-              <BalloonContent />
-            );
-            return (
-              <Placemark
-                key={refuel.guid}
-                properties={{ balloonContent: balloonContent3 }}
-                modules={["geoObject.addon.balloon"]}
-                geometry={[
-                  refuel?.cords?.split(",")?.[0],
-                  refuel?.cords?.split(",")?.[1],
-                ]}
-                options={{
-                  iconLayout: "default#image",
-                  iconImageHref:
-                    "data:image/svg+xml;charset=UTF-8," +
-                    encodeURIComponent(RefuelingIconMap),
-                  iconImageSize: [40, 42],
-                  iconImageOffset: [-15, -42],
-                }}
-              />
-            );
-          })}
-          {/* </List> */}
+              );
+              const balloonContent3 = ReactDOMServer.renderToString(
+                <BalloonContent />
+              );
+              return (
+                <Placemark
+                  onClick={() => setRefuelData(refuel)}
+                  key={refuel.guid}
+                  properties={{ balloonContent: balloonContent3 }}
+                  modules={["geoObject.addon.balloon"]}
+                  geometry={[
+                    refuel?.cords?.split(",")?.[0],
+                    refuel?.cords?.split(",")?.[1],
+                  ]}
+                  options={{
+                    iconLayout: "default#image",
+                    iconImageHref:
+                      "data:image/svg+xml;charset=UTF-8," +
+                      encodeURIComponent(RefuelingIconMap),
+                    iconImageSize: [40, 42],
+                    iconImageOffset: [-15, -42],
+                  }}
+                />
+              );
+            })}
         </Clusterer>
 
         <Clusterer
@@ -341,7 +360,9 @@ const Cmap = memo(
                       </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -361,7 +382,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -380,7 +403,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -399,7 +424,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -417,7 +444,9 @@ const Cmap = memo(
                       </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : (
@@ -436,7 +465,9 @@ const Cmap = memo(
 
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   )}

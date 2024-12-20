@@ -240,7 +240,7 @@ export const RegistrationForm = () => {
                             value === `C2` ? cls.ActiveRadio : cls.radio
                           }
                         >
-                          Заказчик / диспетчер
+                          Заказчик 
                         </span>
                       </Radio>
                     </Flex>

@@ -15,6 +15,8 @@ import { useEffect, useRef, useState } from "react";
 import authStore from "@/store/auth.store";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
+import { useDebounce as useDebounce2 } from "use-debounce";
+
 
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
@@ -31,6 +33,7 @@ export const useSearchLoadDispatcher = () => {
   const [filter5, setFilter5] = useState(false);
   const [filter6, setFilter6] = useState(false);
   const [search, setSearch] = useState(``);
+  const [debouncedValue] = useDebounce2(search, 500);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
@@ -81,19 +84,29 @@ export const useSearchLoadDispatcher = () => {
         setRefe(false);
         const vehicles = [{ name: `Без трейлера` }];
 
+        console.log(
+          `response`,
+          res?.response.map((item) => ({
+            ...item,
+            guid: item?.[`_id`],
+            trailer_type_data:
+              item?.trailer_type_data?.length > 0
+                ? item?.trailer_type_data
+                : vehicles,
+          }))
+        );
+
         const filteredData = res?.response.map((item) => ({
           ...item,
+          guid: item[`_id`],
           trailer_type_data:
-            item?.trailer_type_data.length > 0
+            item?.trailer_type_data?.length > 0
               ? item?.trailer_type_data
               : vehicles,
         }));
 
         const uniqueData = filteredData.filter(
-          (item) =>
-            !oldData.some(
-              (stateItem) => stateItem?.guid === item?.guid
-            )
+          (item) => !oldData.some((stateItem) => stateItem?.guid === item?.guid)
         );
 
         setData((prev) => [...prev, ...uniqueData]);
@@ -106,14 +119,15 @@ export const useSearchLoadDispatcher = () => {
     const data = {
       data: {
         object_data: {
-          page,
-          limit,
+          page: debouncedValue?.length > 0 ? 0 : page,
+          search: debouncedValue,
+          limit: debouncedValue?.length > 0 ? 1000 : limit,
           firm_id: ``,
         },
       },
     };
     mutate(data);
-  }, [page, refe]);
+  }, [page, refe,debouncedValue?.length]);
 
   const setDebouncedLimit = useDebounce(setPage, 250);
 
@@ -372,7 +386,8 @@ export const useSearchLoadDispatcher = () => {
     onChange,
     value,
     setValueR,
-    search,setSearchFn,
+    search,
+    setSearchFn,
     containerRef,
   };
 };

@@ -57,7 +57,8 @@ export const SearchLoadDispatcherModule = () => {
     value,
     onChange,
     containerRef,
-    search,setSearchFn
+    search,
+    setSearchFn,
   } = useSearchLoadDispatcher();
 
   console.log("data", data);
@@ -76,12 +77,14 @@ export const SearchLoadDispatcherModule = () => {
           </Flex>
           <Flex alignItems={`center`} justifyContent={`space-between`}>
             <Box width={`40%`}>
-            <Input
-              // value={search}
-              className={cls.input}
-              placeholder={t("Имя водителя, диспетчера, номер машины или телефон")}
-              onChange={onFilterChange}
-            />
+              <Input
+                value={search}
+                className={cls.input}
+                placeholder={t(
+                  "Имя водителя, диспетчера, номер машины или телефон"
+                )}
+                onChange={(e) => setSearchFn(e.target.value)}
+              />
               {/* <TextField
                 register={register}
                 onChange={onFilterChange}

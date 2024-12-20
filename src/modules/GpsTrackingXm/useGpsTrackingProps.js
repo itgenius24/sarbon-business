@@ -319,8 +319,8 @@ export const useGpsTrackingProps = () => {
   const { mutate: getCarRefueling } = useGetCarRefueling({
     onSuccess: (res) => {
       // console.log(`responsese`, res);
-      // setRefueling(res?.data?.data);
-      localStorage.setItem(`refueling`, JSON.stringify(res?.data?.data))
+      setRefueling(res?.data?.data);
+      // localStorage.setItem(`refueling`, JSON.stringify(res?.data?.data))
     },
   });
 

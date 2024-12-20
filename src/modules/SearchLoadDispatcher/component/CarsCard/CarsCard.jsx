@@ -134,8 +134,8 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
           alignItems={`center`}
           className={cls.title}
         >
-          {item?.dispatcher_full_data?.length > 0 ? (
-            item?.dispatcher_full_data?.[0]?.full_name
+          {item?.dispatcher_full_data ? (
+            item?.dispatcher_full_data?.full_name
           ) : (
             <>
               <span className={cls.subTitle}>Без диспетчера</span>
