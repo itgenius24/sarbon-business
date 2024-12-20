@@ -82,8 +82,8 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
               >
                 <Image
                   style={{
-                    width: `35px`,
-                    height: `25px`,
+                    width: `30px`,
+                    height: `20px`,
                     marginRight: `9px`,
                   }}
                   width={100}
