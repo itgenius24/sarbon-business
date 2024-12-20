@@ -32,7 +32,7 @@ export const useSearchLoadDispatcher = () => {
   const [filter6, setFilter6] = useState(false);
   const [search, setSearch] = useState(``);
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
   const [refe, setRefe] = useState(false);
   const containerRef = useRef(null);
@@ -118,6 +118,7 @@ export const useSearchLoadDispatcher = () => {
   const setDebouncedLimit = useDebounce(setPage, 250);
 
   const handleScroll = () => {
+    // console.log(`hehht`,document.body.scrollTop,document.body.scrollHeight);
     if (!isPending) {
       if (containerRef.current) {
         const isVisible = isVisibleInViewport(containerRef.current);

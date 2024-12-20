@@ -91,6 +91,7 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
                   src={flegCountry(
                     item?.vehicle_data?.[0]?.car_country || `uz`
                   )}
+                  alt="qwe"
                 />
               </Tooltip>
               <p>{item?.vehicle_data?.[0]?.car_number}</p>
