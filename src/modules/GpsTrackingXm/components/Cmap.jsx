@@ -36,7 +36,6 @@ import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
 import { FixedSizeList as List } from "react-window";
-import axios from "axios";
 
 const Cmap = memo(
   ({
@@ -56,12 +55,18 @@ const Cmap = memo(
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
-    // const [visibleData, setVisibleData] = useState([]);
+
     useEffect(() => {
       setIsClient(true);
     }, []);
 
-  
+    const filteredDataRe = useMemo(() => {
+      return watch(`refuelingState`) ? refueling : [];
+    }, [watch(`refuelingState`), refueling]);
+
+    if (!isClient) {
+      return null; // Render nothing during SSR
+    }
 
     const getSVGIcon = (tempValue = "$2000", type) => {
       const svgStringBlue = `
@@ -130,36 +135,10 @@ const Cmap = memo(
       // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone);
     });
-  
-
-   
-    // const handleBoundsChange = (e) => {
-    //   const map = e.get('map');
-    //   const bounds = map.getBounds();
-    //   const zoom = map.getZoom();
-    //   if (zoom > 5) {
-    //     const filteredData = refueling.filter(
-    //       item =>
-    //         item.cords?.split(`,`)[0] > bounds[0][0] &&
-    //         item.cords?.split(`,`)[1] < bounds[1][0] &&
-    //         item.cords?.split(`,`)[0] > bounds[0][1] &&
-    //         item.cords?.split(`,`)[1] < bounds[1][1]
-    //     );
-    //   console.log(`bounds`,filteredData)
-
-    //     setVisibleData(filteredData);
-    //   } else {
-    //     setVisibleData([]);
-    //   }
-    // }
-
-
-
 
     return (
       <Map
         instanceRef={mapRef}
-        // onBoundsChange={handleBoundsChange}
         defaultState={{
           center: coordinates,
           zoom: 6,
@@ -215,7 +194,13 @@ const Cmap = memo(
             },
           }}
         >
-          {watch(`refuelingState`) &&  JSON.parse(localStorage.getItem(`refueling`))?.map((refuel) => {
+          {/* <List
+            height={`80vh`} // Ko'rinadigan hududning balandligi
+            itemCount={refueling.length}
+            itemSize={35} // Har bir elementning balandligi
+            width="100%"
+          > */}
+          {filteredDataRe?.map((refuel) => {
             const BalloonContent = () => (
               <div className={cls.wrapRefueling}>
                 <div className={cls.topTetxWrap}>
@@ -251,6 +236,7 @@ const Cmap = memo(
               />
             );
           })}
+          {/* </List> */}
         </Clusterer>
 
         <Clusterer

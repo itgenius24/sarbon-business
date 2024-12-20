@@ -4,17 +4,34 @@ import { useTranslation } from "@/app/i18n/client";
 
 import { Box, Flex } from "@chakra-ui/react";
 import {
-
+  BlueFuraIcon,
+  BluePendingIcon,
+  BluePhoneIcon,
+  CencelMapIcon,
+  CheckBlueIcon,
   FilterIcon,
-
+  GoodsFuraIcon,
+  GoodsPhoneIcon,
+  GreenCarIcon,
+  GreenFuraIcon,
+  GreenPhoneIcon,
+  LoadOulineIcon,
+  MapCargoGreenIcon,
+  MapCargoLoadGoodsIcon,
+  QuestionBlueIcon,
+  StoneIcon,
 } from "@/assets/icons/icons";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import cls from "./style.module.scss";
+
+import ReactDOMServer from "react-dom/server";
+
 import Filter from "./components/Filter";
 import DriverFree from "./components/DriverFree";
 import SelectCargo from "./components/SelectCargo";
 import ChangeIconModal from "./components/ChangeIconModal";
+
 import DriverExpectation from "./components/DriverExpectation";
 import DriverCheck from "./components/DriverCheck";
 import DriverQuestion from "./components/DriverQuestion";
@@ -22,9 +39,10 @@ import DriverGruz from "./components/DriverGruz";
 import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
-
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
 import LoadingMap from "../Cargo/components/LoadingMap";
-
+import copy from "copy-to-clipboard";
 import { ModalS } from "@/components/Modal";
 
 /* eslint no-undef: 0 */ // --> OFF
@@ -33,6 +51,7 @@ export default function GpsTrackingXm() {
   const {
     register,
     errors,
+    handleCalculate,
     handleOpenModal,
     isModalOpen,
     handleCloseModal,
@@ -44,11 +63,18 @@ export default function GpsTrackingXm() {
     setIsModalOpen,
     carTypeOptions,
     loadingOptions,
+    weightMeasurementOptions,
     control,
     getCarListProps,
+    onSubmit,
+    handleSubmit,
+    driverName,
     isLoading,
+    locationPending,
     watch,
     setValue,
+    setChecked,
+    checked,
     locationData,
     getUserOption,
     setDistance,
@@ -70,10 +96,13 @@ export default function GpsTrackingXm() {
     handleCheckboxChange,
     setStateMap,
     handleInputClear,
+    setConHoverState,
     contendHoverState,
     setLoadCheck,
     loadCheck,
     setOffset,
+    setHoverLoadState,
+    loadHoverState,
     addressAdd,
     stateMap,
     addAdress,
@@ -81,7 +110,6 @@ export default function GpsTrackingXm() {
     refueling,
     setRefuelingState,
     refuelingState,
-    setRefueling
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -92,6 +120,7 @@ export default function GpsTrackingXm() {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
+        {/* { isLoading &&  <LoadingSpinnerMap />} */}
         <Cmap
           refueling={refueling}
           cls={cls}
@@ -141,7 +170,6 @@ export default function GpsTrackingXm() {
                   carTypeOptions={carTypeOptions}
                   checkboxStatuses={checkboxStatuses}
                   handleCheckboxChange={handleCheckboxChange}
-                  setRefueling={setRefueling}
                 />
               )}
               {modalType === "driverFree" && (
