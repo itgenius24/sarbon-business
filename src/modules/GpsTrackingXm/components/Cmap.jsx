@@ -54,27 +54,11 @@ const Cmap = memo(
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
-    const [refuelData, setRefuelData] = useState({});
 
     useEffect(() => {
       setIsClient(true);
     }, []);
 
-    useEffect(() => {
-      if (refuelData) {
-        const element = document.getElementById("#click");
-        console.log("element", element);
-        // element.addEventListener("click", () => {
-        //   copy(
-        //     `https://yandex.com/maps/?ll=${
-        //       refuelData?.cords?.split(",")?.[1]
-        //     },${refuelData?.cords?.split(",")?.[0]}&z=15&pt=${
-        //       refuelData?.cords?.split(",")?.[1]
-        //     },${refuelData?.cords?.split(",")?.[0]},pm2rdm`
-        //   );
-        // });
-      }
-    }, refuelData);
 
     if (!isClient) {
       return null; // Render nothing during SSR
@@ -148,7 +132,7 @@ const Cmap = memo(
     //   copy(contendHoverState?.users_id_data?.phone);
     // });
 
-    const copyFn = () => {
+    const copyFn = (refuelData) => {
       // alert("copy");
       copy(
         `https://yandex.com/maps/?ll=${refuelData?.cords?.split(",")?.[1]},${
@@ -227,7 +211,7 @@ const Cmap = memo(
                       <RefuelingIcon />
                     </>
                     <p className={cls.zTitle}>АЗС</p>
-                    <div id="myButton">copy</div>
+                    {/* <div id="myButton">copy</div> */}
                   </div>
                   <p className={cls.zTitle}>{refuel?.name}</p>
                   <p className={cls.zAdress}>{refuel?.address}</p>
@@ -238,7 +222,7 @@ const Cmap = memo(
               );
               return (
                 <Placemark
-                  onClick={() => setRefuelData(refuel)}
+                  onClick={() => copyFn(refuel)}
                   key={refuel.guid}
                   properties={{ balloonContent: balloonContent3 }}
                   modules={["geoObject.addon.balloon",`templateLayoutFactory`]}
@@ -255,15 +239,7 @@ const Cmap = memo(
                     iconImageSize: [40, 42],
                     iconImageOffset: [-15, -42],
                   }}
-                  onBalloonOpen={() => {
-                    // Tugmaga hodisani biriktirish
-                    setTimeout(() => {
-                      const button = document.getElementById("myButton");
-                      if (button) {
-                        button.addEventListener("click", copyFn());
-                      }
-                    }, 0); // Balloon ochilgandan so'ng tugmani olish uchun kechikish qo'shildi
-                  }}
+              
                 />
               );
             })}
