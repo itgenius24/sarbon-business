@@ -59,7 +59,6 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
-
     if (!isClient) {
       return null; // Render nothing during SSR
     }
@@ -202,47 +201,45 @@ const Cmap = memo(
             },
           }}
         >
-          {
-            refueling?.map((refuel) => {
-              const BalloonContent = () => (
-                <div className={cls.wrapRefueling}>
-                  <div className={cls.topTetxWrap}>
-                    <>
-                      <RefuelingIcon />
-                    </>
-                    <p className={cls.zTitle}>АЗС</p>
-                    {/* <div id="myButton">copy</div> */}
-                  </div>
-                  <p className={cls.zTitle}>{refuel?.name}</p>
-                  <p className={cls.zAdress}>{refuel?.address}</p>
+          {refueling?.map((refuel) => {
+            const BalloonContent = () => (
+              <div className={cls.wrapRefueling}>
+                <div className={cls.topTetxWrap}>
+                  <>
+                    <RefuelingIcon />
+                  </>
+                  <p className={cls.zTitle}>АЗС</p>
+                  {/* <div id="myButton">copy</div> */}
                 </div>
-              );
-              const balloonContent3 = ReactDOMServer.renderToString(
-                <BalloonContent />
-              );
-              return (
-                <Placemark
-                  onClick={() => copyFn(refuel)}
-                  key={refuel.guid}
-                  properties={{ balloonContent: balloonContent3 }}
-                  modules={["geoObject.addon.balloon",`templateLayoutFactory`]}
-                  geometry={[
-                    refuel?.cords?.split(",")?.[0],
-                    refuel?.cords?.split(",")?.[1],
-                  ]}
-                  options={{
-                    // visible: Boolean(watch("refuelingState")),
-                    iconLayout: "default#image",
-                    iconImageHref:
-                      "data:image/svg+xml;charset=UTF-8," +
-                      encodeURIComponent(RefuelingIconMap),
-                    iconImageSize: [40, 42],
-                    iconImageOffset: [-15, -42],
-                  }}
-              
-                />
-              );
-            })}
+                <p className={cls.zTitle}>{refuel?.name}</p>
+                <p className={cls.zAdress}>{refuel?.address}</p>
+              </div>
+            );
+            const balloonContent3 = ReactDOMServer.renderToString(
+              <BalloonContent />
+            );
+            return (
+              <Placemark
+                onClick={() => copyFn(refuel)}
+                key={refuel.guid}
+                properties={{ balloonContent: balloonContent3 }}
+                modules={["geoObject.addon.balloon", `templateLayoutFactory`]}
+                geometry={[
+                  refuel?.cords?.split(",")?.[0],
+                  refuel?.cords?.split(",")?.[1],
+                ]}
+                options={{
+                  // visible: Boolean(watch("refuelingState")),
+                  iconLayout: "default#image",
+                  iconImageHref:
+                    "data:image/svg+xml;charset=UTF-8," +
+                    encodeURIComponent(RefuelingIconMap),
+                  iconImageSize: [40, 42],
+                  iconImageOffset: [-15, -42],
+                }}
+              />
+            );
+          })}
         </Clusterer>
 
         <Clusterer
@@ -512,138 +509,135 @@ const Cmap = memo(
               );
             })}
 
+          {locationData &&
+            locationData.map((item) => {
+              const BalloonContentCargo = () => (
+                <div
+                  id="balloon-content_cargo"
+                  className={cls.balloon_content_empty}
+                >
+                  <div className={cls.wrap} style={{ height: "45px" }}>
+                    {item?.new_status?.[0] === "occupied_cargo" ? (
+                      <>
+                        <MapCargoLoadGoodsIcon />
+                        <span
+                          style={{ color: "rgba(193, 187, 32, 1)" }}
+                          className={cls.balloonName}
+                        >
+                          {item?.bid_cash || `$-----`}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <MapCargoGreenIcon />
+                        <span className={cls.balloonName}>
+                          {item?.bid_cash || `$-----`}
+                          {item?.currency_id_data?.code}
+                        </span>
+                      </>
+                    )}
 
-        {locationData &&
-          locationData.map((item) => {
-            const BalloonContentCargo = () => (
-              <div
-                id="balloon-content_cargo"
-                className={cls.balloon_content_empty}
-              >
-                <div className={cls.wrap} style={{ height: "45px" }}>
+                    <Flex style={{ gap: "4px" }} alignItems={"center"}>
+                      <Box className={cls.conWrap}>
+                        <StoneIcon /> <span> {item?.weight} т.</span>
+                      </Box>
+                      <p className={cls.conWrap}> </p>
+                      <p className={cls.conWrap} gap={1} alignItems={"center"}>
+                        <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
+                      </p>
+                    </Flex>
+                  </div>
+                  <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
                   {item?.new_status?.[0] === "occupied_cargo" ? (
                     <>
-                      <MapCargoLoadGoodsIcon />
-                      <span
-                        style={{ color: "rgba(193, 187, 32, 1)" }}
-                        className={cls.balloonName}
-                      >
-                        {item?.bid_cash || `$-----`}
-                      </span>
+                      <div className={cls.flex}>
+                        <GoodsPhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${item?.users_id_data?.phone}`}
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(item?.users_id_data?.phone)}
+                        </a>
+                      </div>
+
+                      <p className={cls.footerBox}>
+                        <GoodsFuraIcon />
+                        {item?.vehicle_type_id_data?.name}
+                      </p>
                     </>
                   ) : (
                     <>
-                      <MapCargoGreenIcon />
-                      <span className={cls.balloonName}>
-                        {item?.bid_cash || `$-----`}
-                        {item?.currency_id_data?.code}
-                      </span>
+                      <div className={cls.flex}>
+                        <GreenPhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${item?.users_id_data?.phone}`}
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(item?.users_id_data?.phone)}
+                        </a>
+                      </div>
+
+                      <p className={cls.footerBox}>
+                        <GreenFuraIcon />
+                        {item?.vehicle_type_id_data?.name}
+                      </p>
                     </>
                   )}
-
-                  <Flex style={{ gap: "4px" }} alignItems={"center"}>
-                    <Box className={cls.conWrap}>
-                      <StoneIcon /> <span> {item?.weight} т.</span>
-                    </Box>
-                    <p className={cls.conWrap}> </p>
-                    <p className={cls.conWrap} gap={1} alignItems={"center"}>
-                      <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
-                    </p>
-                  </Flex>
                 </div>
-                <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
-                {item?.new_status?.[0] === "occupied_cargo" ? (
-                  <>
-                    <div className={cls.flex}>
-                      <GoodsPhoneIcon />
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${item?.users_id_data?.phone}`}
-                        className={cls.footerBoxLink}
-                      >
-                        {formatPhoneNumber(item?.users_id_data?.phone)}
-                      </a>
-                    </div>
-
-                    <p className={cls.footerBox}>
-                      <GoodsFuraIcon />
-                      {item?.vehicle_type_id_data?.name}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div className={cls.flex}>
-                      <GreenPhoneIcon />
-                      <a
-                        target="_blank"
-                        href={`https://t.me/${item?.users_id_data?.phone}`}
-                        className={cls.footerBoxLink}
-                      >
-                        {formatPhoneNumber(item?.users_id_data?.phone)}
-                      </a>
-                    </div>
-
-                    <p className={cls.footerBox}>
-                      <GreenFuraIcon />
-                      {item?.vehicle_type_id_data?.name}
-                    </p>
-                  </>
-                )}
-              </div>
-            );
-            const balloonContentCargo = ReactDOMServer.renderToString(
-              <BalloonContentCargo />
-            );
-            return (
-              <>
-                {item.location_name && (
-                  <Placemark
-                    onClick={() => {
-                      setLoadState(item);
-                      if (item?.new_status?.[0] === "occupied_cargo") {
-                        setModalType("driverGruzGoods");
-                      } else {
-                        setModalType("driverGruz");
-                      }
-                    }}
-                    key={item?.guid}
-                    geometry={[
-                      item.location_name.split(" ")[0] * 1,
-                      item.location_name.split(" ")[1] * 1,
-                    ]}
-                    properties={{
-                      balloonContent: balloonContentCargo,
-                      iconContent: "2000",
-                    }}
-                    options={{
-                   
-                      iconLayout: "default#image",
-                      iconImageHref: getSVGIcon(
-                        item?.bid_cash,
-                        item?.new_status?.[0]
-                      ),
-                      iconImageSize: [60, 72],
-                      iconImageOffset: [-15, -42],
-                    }}
-                    onBalloonOpen={(e) => {
-                      const placemark = e.get("target");
-                      const balloonInstance = placemark.balloon;
-                      // balloonInstance.events.add("click", () => {
-                      //   setLoadState(item);
-                      //   if (item?.new_status?.[0] === "occupied_cargo") {
-                      //     setModalType("driverGruzGoods");
-                      //   } else {
-                      //     setModalType("driverGruz");
-                      //   }
-                      // });
-                    }}
-                  />
-                )}
-              </>
-            );
-          })}
+              );
+              const balloonContentCargo = ReactDOMServer.renderToString(
+                <BalloonContentCargo />
+              );
+              return (
+                <>
+                  {item.location_name && (
+                    <Placemark
+                      onClick={() => {
+                        setLoadState(item);
+                        if (item?.new_status?.[0] === "occupied_cargo") {
+                          setModalType("driverGruzGoods");
+                        } else {
+                          setModalType("driverGruz");
+                        }
+                      }}
+                      key={item?.guid}
+                      geometry={[
+                        item.location_name.split(" ")[0] * 1,
+                        item.location_name.split(" ")[1] * 1,
+                      ]}
+                      properties={{
+                        balloonContent: balloonContentCargo,
+                        iconContent: "2000",
+                      }}
+                      options={{
+                        iconLayout: "default#image",
+                        iconImageHref: getSVGIcon(
+                          item?.bid_cash,
+                          item?.new_status?.[0]
+                        ),
+                        iconImageSize: [60, 72],
+                        iconImageOffset: [-15, -42],
+                      }}
+                      onBalloonOpen={(e) => {
+                        const placemark = e.get("target");
+                        const balloonInstance = placemark.balloon;
+                        // balloonInstance.events.add("click", () => {
+                        //   setLoadState(item);
+                        //   if (item?.new_status?.[0] === "occupied_cargo") {
+                        //     setModalType("driverGruzGoods");
+                        //   } else {
+                        //     setModalType("driverGruz");
+                        //   }
+                        // });
+                      }}
+                    />
+                  )}
+                </>
+              );
+            })}
         </Clusterer>
-
       </Map>
     );
   }

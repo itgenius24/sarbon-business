@@ -6,6 +6,7 @@ export const useElements = () => {
   const isAuth = authStore.getIsAuth;
   const role_id = authStore.userData.role_id;
   const dispatcher_type = authStore?.userData?.dispatcher_type;
+  const user_type = authStore?.userData?.user_status;
 
   if (role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`) {
     return [
@@ -38,8 +39,7 @@ export const useElements = () => {
         label: "GPS tracking",
       },
     ];
-  } 
-  else if (dispatcher_type?.[0] === `first_dispatcher`) {
+  } else if (dispatcher_type?.[0] === `first_dispatcher`) {
     return [
       {
         path: `/${lang || "ru"}/`,
@@ -54,7 +54,9 @@ export const useElements = () => {
         label: "Мои грузы",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/my-cars-dispatcher` : `/${lang || "ru"}/auth`,
+        path: isAuth
+          ? `/${lang || "ru"}/my-cars-dispatcher`
+          : `/${lang || "ru"}/auth`,
         label: "Мои машины",
       },
       // {
@@ -76,9 +78,7 @@ export const useElements = () => {
         label: "GPS tracking",
       },
     ];
-  }
-
-  else if (dispatcher_type?.[0] === `top_dispatcher`) {
+  } else if (dispatcher_type?.[0] === `top_dispatcher`) {
     return [
       {
         path: `/${lang || "ru"}/`,
@@ -89,14 +89,16 @@ export const useElements = () => {
         label: "Мои грузы",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/my-cars-dispatcher` : `/${lang || "ru"}/auth`,
+        path: isAuth
+          ? `/${lang || "ru"}/my-cars-dispatcher`
+          : `/${lang || "ru"}/auth`,
         label: "Мои машины",
       },
       // {
       //   path: isAuth ? `/${lang || "ru"}/my-cars-dispatcher` : `/${lang || "ru"}/auth`,
       //   label: "Dobavid dispatcer",
       // },
-     
+
       {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
@@ -112,10 +114,8 @@ export const useElements = () => {
         label: "GPS tracking",
       },
     ];
-  }
-  
-  else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
-    return [
+  } else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
+    const menu = [
       {
         path: `/${lang || "ru"}/`,
         label: "Главный",
@@ -136,11 +136,18 @@ export const useElements = () => {
         path: `/${lang || "ru"}/search-car`,
         label: "Поиск машин",
       },
-      {
-        path: isAuth ? `/${lang || "ru"}/gps-tracking-xm` : `/${lang || "ru"}/auth`,
-        label: "(GPS tracking)",
-      },
     ];
+
+    if (user_type?.[0] === `approved`) {
+      menu.push({
+        path: isAuth
+          ? `/${lang || "ru"}/gps-tracking-xm`
+          : `/${lang || "ru"}/auth`,
+        label: "(GPS tracking)",
+      });
+    }
+
+    return menu;
   } else {
     return [
       {
