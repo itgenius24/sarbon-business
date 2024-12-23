@@ -24,10 +24,9 @@ export const AccordionMap = ({
   getDriverPosition,
 }) => {
   const map = useRef(null);
-  const mapState = {
-    center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
-    zoom: 11,
-  };
+
+  
+
 
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`
@@ -41,6 +40,12 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
+
+
+    const mapState = {
+      center: driverPosition ?[ endLocation?.lat, endLocation?.long] : [41.3405737, 69.2928081],
+      zoom: 11,
+    };
   useEffect(() => {
     const ymaps = window.ymaps;
 
@@ -51,17 +56,17 @@ export const AccordionMap = ({
           .route([
             [startLocation?.lat, startLocation?.long], // Start point
             [endLocation?.lat, endLocation?.long], // End point
-            {
-              // Yuk mashinalari uchun parametrlar
-              routingMode: "truck", // Transport turi yuk mashinasi
-              avoidTrafficJams: true, // Tirbandliklardan qochish
-              truckRestrictions: {
-                weight: 20, // Yuk mashinasi og'irligi (tonna)
-                height: 4.2, // Balandlik (metr)
-                width: 2.5, // Kenglik (metr)
-                length: 10, // Uzunlik (metr)
-              },
-            }
+            // {
+            //   // Yuk mashinalari uchun parametrlar
+            //   routingMode: "truck", // Transport turi yuk mashinasi
+            //   avoidTrafficJams: true, // Tirbandliklardan qochish
+            //   truckRestrictions: {
+            //     weight: 20, // Yuk mashinasi og'irligi (tonna)
+            //     height: 4.2, // Balandlik (metr)
+            //     width: 2.5, // Kenglik (metr)
+            //     length: 10, // Uzunlik (metr)
+            //   },
+            // }
           ])
           .then((route) => {
             map.current.geoObjects.add(route);

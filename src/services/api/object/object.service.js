@@ -240,7 +240,6 @@ export const useGetCargoType = ({
   params = { data: JSON.stringify({}) },
   querySettings,
 }) => {
-  console.log(`querySettings`, querySettings, params);
   return useQuery({
     queryKey: ["object/getCargoType", params],
     queryFn: () => objectService.getCargoType(params),

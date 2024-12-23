@@ -110,6 +110,7 @@ export default function GpsTrackingXm() {
     refueling,
     setRefuelingState,
     refuelingState,
+    isLoadingRefueling,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -123,6 +124,7 @@ export default function GpsTrackingXm() {
         {/* { isLoading &&  <LoadingSpinnerMap />} */}
         <Cmap
           refueling={refueling}
+        
           cls={cls}
           getCarListProps={!isLoading ? getCarListProps : []}
           coordinates={coordinates}
@@ -161,6 +163,7 @@ export default function GpsTrackingXm() {
                   handleClear={handleClear}
                   setLoadCheck={setLoadCheck}
                   loadCheck={loadCheck}
+                  isLoadingRefueling={isLoadingRefueling}
                   t={t}
                   setModalType={setModalType}
                   handleInputClear={handleInputClear}

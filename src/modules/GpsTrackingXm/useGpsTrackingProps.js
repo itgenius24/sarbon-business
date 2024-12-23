@@ -57,7 +57,9 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [refuelingState, setRefuelingState] = useState(false);
-  const [refueling, setRefueling] = useState([]);
+  const [data, setData] = useState([]); // Hozirgi state
+  const [isLoading, setIsLoading] = useState(false); // Loading holati
+  const [remainingData, setRemainingData] = useState([]);
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -65,6 +67,7 @@ export const useGpsTrackingProps = () => {
     broke_down: true,
     waiting_for_driver: true,
   });
+
 
   const [debouncedValue] = useDebounce(distance, 500);
 
@@ -319,7 +322,7 @@ export const useGpsTrackingProps = () => {
   const { mutate: getCarRefueling } = useGetCarRefueling({
     onSuccess: (res) => {
       // console.log(`responsese`, res);
-      setRefueling(res?.data?.data);
+      setRemainingData(res?.data?.data);
       // localStorage.setItem(`refueling`, JSON.stringify(res?.data?.data))
     },
   });
@@ -331,6 +334,41 @@ export const useGpsTrackingProps = () => {
       },
     });
   }, []);
+
+  useEffect(() => {
+    let interval;
+
+    if (watch(`refuelingState`)) {
+      setIsLoading(true);
+      // Checkbox true bo'lsa, avtomatik qo'shish jarayonini boshlaymiz
+      interval = setInterval(() => {
+        if (remainingData.length > 0) {
+          const nextBatch = remainingData.slice(0, 500);
+          setData((prev) => [...prev, ...nextBatch]);
+          setRemainingData((prev) => prev.slice(500));
+        } else {
+          clearInterval(interval); // Qo'shish tugasa, intervalni to'xtatamiz
+          setIsLoading(false);
+        }
+      }, 1000); // Har 1 soniyada 500 tadan qo'shish
+    } else {
+      // Checkbox false bo'lsa, avtomatik olib tashlash jarayonini boshlaymiz
+      setIsLoading(true);
+      interval = setInterval(() => {
+        if (data.length > 0) {
+           
+          const toRemove = data.slice(-500);
+          setData((prev) => prev.slice(0, -500));
+          setRemainingData((prev) => [...toRemove, ...prev]);
+        } else {
+          clearInterval(interval); // Olib tashlash tugasa, intervalni to'xtatamiz
+          setIsLoading(false);
+        }
+      }, 1000); // Har 1 soniyada 500 tadan olib tashlash
+    }
+
+    return () => clearInterval(interval); // Intervalni tozalash
+  }, [watch(`refuelingState`), remainingData, data]);
 
   const { mutate: dataMutate, isPending } = useGetCarDispatcher({
     onSuccess: (data) => {
@@ -570,6 +608,7 @@ export const useGpsTrackingProps = () => {
     register,
     locations,
     locationData,
+  
     errors,
     handleAppend,
     handleRemove,
@@ -633,9 +672,10 @@ export const useGpsTrackingProps = () => {
     stateMap,
     addAdress,
     setLocationData,
-    refueling,
+    refueling: data,
     setRefuelingState,
     refuelingState,
-    setRefueling,
+    isLoadingRefueling: isLoading,
+    setRefueling: setRemainingData,
   };
 };

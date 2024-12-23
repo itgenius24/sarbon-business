@@ -76,7 +76,6 @@ const Cmap = memo(
       }
     }, refuelData);
 
-
     if (!isClient) {
       return null; // Render nothing during SSR
     }
@@ -141,23 +140,24 @@ const Cmap = memo(
       )}`;
     };
 
-    let click = document.getElementById(`click`);
+    // let click = document.getElementById(`click`);
 
-    click?.addEventListener(`click`, (e) => {
-      e.stopPropagation();
-      // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
-      copy(contendHoverState?.users_id_data?.phone);
-    });
+    // click?.addEventListener(`click`, (e) => {
+    //   e.stopPropagation();
+    //   // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
+    //   copy(contendHoverState?.users_id_data?.phone);
+    // });
 
-    const copyFn =() => {
+    const copyFn = () => {
+      // alert("copy");
       copy(
-        `https://yandex.com/maps/?ll=${
-              refuelData?.cords?.split(",")?.[1]
-            },${refuelData?.cords?.split(",")?.[0]}&z=15&pt=${
-              refuelData?.cords?.split(",")?.[1]
-            },${refuelData?.cords?.split(",")?.[0]},pm2rdm`
-      )
-    }
+        `https://yandex.com/maps/?ll=${refuelData?.cords?.split(",")?.[1]},${
+          refuelData?.cords?.split(",")?.[0]
+        }&z=15&pt=${refuelData?.cords?.split(",")?.[1]},${
+          refuelData?.cords?.split(",")?.[0]
+        },pm2rdm`
+      );
+    };
 
     return (
       <Map
@@ -209,6 +209,7 @@ const Cmap = memo(
 
         <Clusterer
           options={{
+            visible: Boolean(watch("refuelingState")),
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
               backgroundColor: "rgba(52, 199, 89, 1)",
@@ -217,8 +218,8 @@ const Cmap = memo(
             },
           }}
         >
-          {watch(`refuelingState`) &&
-            refueling.map((refuel) => {
+          {
+            refueling?.map((refuel) => {
               const BalloonContent = () => (
                 <div className={cls.wrapRefueling}>
                   <div className={cls.topTetxWrap}>
@@ -226,7 +227,7 @@ const Cmap = memo(
                       <RefuelingIcon />
                     </>
                     <p className={cls.zTitle}>АЗС</p>
-                    <div onclick="copyFn()">copy</div>
+                    <div id="myButton">copy</div>
                   </div>
                   <p className={cls.zTitle}>{refuel?.name}</p>
                   <p className={cls.zAdress}>{refuel?.address}</p>
@@ -240,18 +241,28 @@ const Cmap = memo(
                   onClick={() => setRefuelData(refuel)}
                   key={refuel.guid}
                   properties={{ balloonContent: balloonContent3 }}
-                  modules={["geoObject.addon.balloon"]}
+                  modules={["geoObject.addon.balloon",`templateLayoutFactory`]}
                   geometry={[
                     refuel?.cords?.split(",")?.[0],
                     refuel?.cords?.split(",")?.[1],
                   ]}
                   options={{
+                    // visible: Boolean(watch("refuelingState")),
                     iconLayout: "default#image",
                     iconImageHref:
                       "data:image/svg+xml;charset=UTF-8," +
                       encodeURIComponent(RefuelingIconMap),
                     iconImageSize: [40, 42],
                     iconImageOffset: [-15, -42],
+                  }}
+                  onBalloonOpen={() => {
+                    // Tugmaga hodisani biriktirish
+                    setTimeout(() => {
+                      const button = document.getElementById("myButton");
+                      if (button) {
+                        button.addEventListener("click", copyFn());
+                      }
+                    }, 0); // Balloon ochilgandan so'ng tugmani olish uchun kechikish qo'shildi
                   }}
                 />
               );
@@ -524,7 +535,7 @@ const Cmap = memo(
                 </>
               );
             })}
-        </Clusterer>
+
 
         {locationData &&
           locationData.map((item) => {
@@ -629,6 +640,7 @@ const Cmap = memo(
                       iconContent: "2000",
                     }}
                     options={{
+                   
                       iconLayout: "default#image",
                       iconImageHref: getSVGIcon(
                         item?.bid_cash,
@@ -654,6 +666,8 @@ const Cmap = memo(
               </>
             );
           })}
+        </Clusterer>
+
       </Map>
     );
   }

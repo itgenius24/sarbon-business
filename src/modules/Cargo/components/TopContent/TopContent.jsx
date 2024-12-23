@@ -97,8 +97,6 @@ export const TopContent = ({
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const { t } = useTranslation(locale, "translations");
 
-  
-
   const list = [
     {
       title: t("Водитель: "),
@@ -279,17 +277,14 @@ export const TopContent = ({
   useEffect(() => {
     if (getDriverPosition?.response) {
       setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
-
       // if (getDriverPosition.response.length < 100) {
-        if (offset === 400) {
+      if (offset === 400) {
         setIsLoadingMore(false);
       } else {
         setOffset(offset + 100);
       }
     }
   }, [getDriverPosition?.response]);
-
- 
 
   return (
     <Box>
@@ -608,9 +603,10 @@ export const TopContent = ({
                                 startPoint={user.startPoint}
                                 endPoint={user.endPoint}
                                 gpsHistory={gpsHistory}
-                                getDriverPosition={allPositions?.map(
-                                  (item) => [item?.lat, item?.long]
-                                )}
+                                getDriverPosition={allPositions?.map((item) => [
+                                  item?.lat,
+                                  item?.long,
+                                ])}
                                 driver={user?.users_gps?.[0]}
                                 driverPosition={[
                                   user?.users_gps?.[0]?.lat,

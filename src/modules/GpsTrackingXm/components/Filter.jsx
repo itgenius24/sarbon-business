@@ -36,6 +36,7 @@ const Filter = ({
   setLoadCheck,
   loadCheck,
   setRefuelingState,
+  isLoadingRefueling,
   refuelingState,
 }) => {
   const { t } = useTranslation(locale);
@@ -147,7 +148,8 @@ const Filter = ({
             </Checkbox>
             <Flex gap={1}>
               <Checkbox
-                isDisabled={false}
+                isLoading={isLoadingRefueling}
+                isDisabled={isLoadingRefueling}
                 width={"16px"}
                 height={"16px"}
                 defaultChecked={Boolean(watch(`refuelingState`))}
