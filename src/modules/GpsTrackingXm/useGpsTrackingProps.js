@@ -68,7 +68,6 @@ export const useGpsTrackingProps = () => {
     waiting_for_driver: true,
   });
 
-
   const [debouncedValue] = useDebounce(distance, 500);
 
   console.log("debouncedValue", debouncedValue);
@@ -356,7 +355,6 @@ export const useGpsTrackingProps = () => {
       setIsLoading(true);
       interval = setInterval(() => {
         if (data.length > 0) {
-           
           const toRemove = data.slice(-500);
           setData((prev) => prev.slice(0, -500));
           setRemainingData((prev) => [...toRemove, ...prev]);
@@ -377,6 +375,7 @@ export const useGpsTrackingProps = () => {
           user: item?.users_id_data?.[0],
           vehicles: [item?.vehicle_id_data],
           users_gps: [item],
+          firm_data: item?.firm_data,
           orders: item?.order_data ? [item?.order_data] : undefined,
         }));
         setCarsArr((res) => [...res, ...data2]);
@@ -608,7 +607,7 @@ export const useGpsTrackingProps = () => {
     register,
     locations,
     locationData,
-  
+
     errors,
     handleAppend,
     handleRemove,

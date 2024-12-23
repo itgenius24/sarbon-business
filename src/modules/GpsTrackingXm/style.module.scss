@@ -394,11 +394,23 @@
         font-weight: 700;
         font-size: 12px;
         color: rgba(126, 123, 134, 1);
-        line-height: 13px;
+        line-height: 20px;
         span {
           font-weight: 600;
           font-size: 12px;
         }
+      }
+      .cardStartSubTitlez{
+        font-weight: 500;
+        font-size: 16px;
+        color: rgba(126, 123, 134, 1);
+        line-height: 13px;
+      }
+      .cardStartSubTitleZTel{
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(126, 123, 134, 1);
+        line-height: 20px;
       }
     }
   }

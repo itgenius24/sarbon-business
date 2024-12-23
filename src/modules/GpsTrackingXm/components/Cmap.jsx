@@ -19,6 +19,8 @@ import {
   GreenMapIcon,
   RefuelingIcon,
   RefuelingIconMap,
+  TelegramIcon,
+  WatsapIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -321,7 +323,7 @@ const Cmap = memo(
                         gap={1}
                         alignItems={"center"}
                       >
-                        <LoadOulineIcon />{" "}
+                        <LoadOulineIcon />
                         <span>{carInfo?.vehicles?.[0]?.capacity} m3</span>
                       </Box>
                     </div>
@@ -341,6 +343,24 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />{" "}
+                          </a>
+                        </div>
                       </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
