@@ -205,7 +205,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                     contendSingle?.orders?.[0]?.cargo_id_data?.load_time
                       ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time
                       : new Date(),
-                    "yyyy-mm-dd"
+                    "yyyy-MM-dd"
                   )}
                 </span>
               </p>
@@ -228,7 +228,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                     contendSingle?.orders?.[0]?.cargo_id_data?.date
                       ? contendSingle?.orders?.[0]?.cargo_id_data?.date
                       : new Date(),
-                    "yyyy-mm-dd"
+                    "yyyy-MM-dd"
                   )}
                 </span>{" "}
               </p>

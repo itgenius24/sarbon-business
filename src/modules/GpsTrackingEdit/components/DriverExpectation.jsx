@@ -144,7 +144,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               <p className={cls.cardStartTitle}>{contendSingle?.orders?.[0]?.cargo_id_data?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 
-                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.load_time ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time : new Date(),"yyyy-mm-dd")}
+                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.load_time ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time : new Date(),"yyyy-MM-dd")}
                 </span>
               </p>
             </Box>
@@ -154,7 +154,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
             <Box>
               <p className={cls.cardStartTitle}>{contendSingle?.orders?.[0]?.cargo_id_data?.to}</p>
               <p className={cls.cardStartSubTitle}>
-                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_2_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.date ? contendSingle?.orders?.[0]?.cargo_id_data?.date  : new Date(),"yyyy-mm-dd")}</span>{" "}
+                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_2_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.date ? contendSingle?.orders?.[0]?.cargo_id_data?.date  : new Date(),"yyyy-MM-dd")}</span>{" "}
               </p>
             </Box>
           </Flex>
