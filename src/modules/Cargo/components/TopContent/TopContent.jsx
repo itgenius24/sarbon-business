@@ -277,12 +277,12 @@ export const TopContent = ({
   useEffect(() => {
     if (getDriverPosition?.response) {
       setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
-      // if (getDriverPosition.response.length < 100) {
-      if (offset === 400) {
-        setIsLoadingMore(false);
-      } else {
-        setOffset(offset + 100);
-      }
+     
+      // if (offset === 400) {
+      //   setIsLoadingMore(false);
+      // } else {
+      //   setOffset(offset + 500);
+      // }
     }
   }, [getDriverPosition?.response]);
 
@@ -448,10 +448,7 @@ export const TopContent = ({
                             <Avatar
                               // color={"white"}
                               background={`rgba(224, 224, 224, 1)`}
-                              name={
-                                user?.users_id_data
-                                  ?.full_name || ``
-                              }
+                              name={user?.users_id_data?.full_name || ``}
                               src={user?.users_id_data?.photo}
                             />
                             <div className={cls.user}>
@@ -642,7 +639,8 @@ export const TopContent = ({
                                   /{" "}
                                   {user?.cargo_id_data?.as_soon_as_a
                                     ? ` Как можно скорее`
-                                    : user?.cargo_id_data?.load_time && format(
+                                    : user?.cargo_id_data?.load_time &&
+                                      format(
                                         new Date(
                                           user?.cargo_id_data?.load_time
                                         ).setHours(
@@ -677,7 +675,8 @@ export const TopContent = ({
                                   /
                                   {user?.cargo_id_data?.as_soon_as_b
                                     ? ` Как можно скорее`
-                                    :  user?.cargo_id_data?.date&& format(
+                                    : user?.cargo_id_data?.date &&
+                                      format(
                                         new Date(
                                           user?.cargo_id_data?.date
                                         ).setHours(
@@ -734,23 +733,14 @@ export const TopContent = ({
                             <Box>
                               <p className={cls.subTitle}>Тип оплаты: </p>
                               <p className={cls.title}>
-                                {
-                                  user?.cargo_id_data?.map_id_data
-                                    ?.payment_type
-                                }
+                                {user?.cargo_id_data?.map_id_data?.payment_type}
                               </p>
                             </Box>
                             <Box>
                               <p className={cls.subTitle}>Преоплата: </p>
                               <p className={cls.title}>
-                                {
-                                  user?.cargo_id_data
-                                    ?.prepayment_percentage
-                                }{" "}
-                                {
-                                  user?.cargo_id_data?.currency_id_data
-                                    ?.code
-                                }
+                                {user?.cargo_id_data?.prepayment_percentage}{" "}
+                                {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
                             <Box>
@@ -760,10 +750,7 @@ export const TopContent = ({
                                 style={{ color: `rgba(0, 122, 255, 1)` }}
                               >
                                 {user?.cargo_id_data?.bid_cash}{" "}
-                                {
-                                  user?.cargo_id_data?.currency_id_data
-                                    ?.code
-                                }
+                                {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
                           </Flex>

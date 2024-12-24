@@ -43,7 +43,7 @@ export const AccordionMap = ({
 
 
     const mapState = {
-      center: driverPosition ?[ endLocation?.lat, endLocation?.long] : [41.3405737, 69.2928081],
+      center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
       zoom: 11,
     };
   useEffect(() => {

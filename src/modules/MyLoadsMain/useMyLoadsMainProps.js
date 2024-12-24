@@ -286,6 +286,7 @@ export const useMyLoadsMainProps = () => {
         data: {
           guid: id,
           users_id_3: userId,
+          approve_time_from_dispatcher:new Date().toISOString(),
           provisions: ["new", "approve_from_driver"],
           // response_status: ["approve_from_driver"],
         },

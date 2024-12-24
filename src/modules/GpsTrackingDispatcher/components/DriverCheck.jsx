@@ -17,6 +17,7 @@ import {
   StoneIcon,
 } from "@/assets/icons/icons";
 import { useGetOffer } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
@@ -38,7 +39,22 @@ const DriverCheck = ({
     { enabled: Boolean(contendSingle?.user?.guid) }
   );
 
-  console.log(`contendSingle`,contendSingle)
+  const dispatcher = authStore.userData;
+
+  console.log(`contendSingle`, contendSingle);
+
+  const statuses = {
+    no_status: "Нет статуса",
+    go_to_load: "Иду на загрузку",
+    wait_for_the_download: "Жду загрузку",
+    loading: "Загружаюсь",
+    go_to_unload: "Иду на разгрузку",
+    unloading: "Разгружаюсь",
+    unloaded: "Разгрузился",
+    complete_the_order: "Завершить заказ",
+    breaking: "Поломка",
+    road_accident: "ДТП",
+  };
 
   return (
     <div className={cls.filter}>
@@ -72,15 +88,20 @@ const DriverCheck = ({
               }}
             />
           </Flex>
-          <Box
-            mt={`17px`}
-            rightIcon={<NextBtnIcon />}
-            size={`lg`}
-            className={cls.chatCard}
-          >
-            <p className={cls.smallText}>Сегодня, 12:36</p>Я в пути, все идет по
-            плану
-          </Box>
+          {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] && (
+            <Box
+              mt={`17px`}
+              rightIcon={<NextBtnIcon />}
+              size={`lg`}
+              className={cls.chatCard}
+            >
+              <p>
+                {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] ||
+                  "Нет статуса"}
+              </p>
+            </Box>
+          )}
+
           <Box className={cls.cardWrap}>
             <Flex alignItems={"center"} gap={2}>
               <LocationActiveIcon />
@@ -88,7 +109,13 @@ const DriverCheck = ({
                 <p className={cls.smallText}>
                   Вкл:{" "}
                   {format(
-                    new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                    new Date(
+                      contendSingle?.users_gps?.[0]?.update_time
+                    ).setHours(
+                      new Date(
+                        contendSingle?.users_gps?.[0]?.update_time
+                      ).getHours() - 5
+                    ),
                     "yyyy-MM-dd, HH:mm"
                   )}{" "}
                 </p>
@@ -155,7 +182,11 @@ const DriverCheck = ({
                   {contendSingle?.orders?.[0]?.cargo_id_data?.from}
                 </p>
                 <p className={cls.cardStartSubTitle}>
-                  {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} /
+                  {
+                    contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data
+                      ?.address_id_data?.name
+                  }{" "}
+                  /
                   <span>
                     {format(
                       contendSingle?.orders?.[0]?.cargo_id_data?.load_time
@@ -168,10 +199,9 @@ const DriverCheck = ({
               </Box>
             </Flex>
             <Flex mt={5} gap={2}>
-            <div className={cls.startAIconWrap}>
-            <div className={cls.startBIcon}>B</div>
-
-            </div>
+              <div className={cls.startAIconWrap}>
+                <div className={cls.startBIcon}>B</div>
+              </div>
               <Box>
                 <p className={cls.cardStartTitle}>
                   {contendSingle?.orders?.[0]?.cargo_id_data?.to}
@@ -213,7 +243,8 @@ const DriverCheck = ({
                       </Flex>
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
-                        {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3} m3
+                        {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3}{" "}
+                        m3
                       </Flex>
                     </Flex>
                   </Flex>
@@ -259,29 +290,43 @@ const DriverCheck = ({
           </Button>
           <Box className={cls.cardWrap}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>
-              <Avatar
-                name={
-                  contendSingle?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                    ?.full_name
-                }
-                src={
-                  contendSingle?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                    ?.photo
-                }
-              />
+              <Avatar name={dispatcher?.full_name} src={dispatcher?.photo} />
               <Box>
-                <p className={cls.cardStartSubTitle}>Диспетчер: </p>
-                <p className={cls.name}>
-                  {
-                    contendSingle?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                      ?.full_name
-                  }{" "}
-                  {
-                    contendSingle?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                      ?.your_id
-                  }
+                <p
+                  style={{
+                    fontWeight: 500,
+                    fontSize: `14px`,
+                    lineHeight: `18px`,
+                    color: `rgba(126, 123, 134, 1)`,
+                  }}
+                >
+                  Диспетчер:{" "}
                 </p>
-                <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
+                <p className={cls.name2}>
+                  {dispatcher?.full_name} <br />
+                  {dispatcher?.your_id}
+                </p>
+                {contendSingle?.orders?.[0]?.approve_time_from_dispatcher && (
+                  <p
+                    style={{
+                      fontWeight: 400,
+                      fontSize: `13px`,
+                      lineHeight: `18px`,
+                      color: `rgba(126, 123, 134, 1)`,
+                    }}
+                  >
+                    {format(
+                      new Date(
+                        contendSingle?.orders?.[0]?.approve_time_from_dispatcher
+                      ).setHours(
+                        new Date(
+                          contendSingle?.orders?.[0]?.approve_time_from_dispatcher
+                        ).getHours() - 5
+                      ),
+                      "yyyy-MM-dd, HH:mm"
+                    )}
+                  </p>
+                )}
               </Box>
             </Flex>
           </Box>
