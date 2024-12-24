@@ -134,6 +134,7 @@ const StepFour = ({ status }) => {
               alignItems={"center"}
               justifyContent={"space-between"}
             >
+              <Flex  gap={`50px`} >
               <Flex gap={`8px`} alignItems={`center`}>
                 <Box className={cls.logoWrapMobile}>
                   <NoteIcon />
@@ -208,6 +209,7 @@ const StepFour = ({ status }) => {
                     </RadioGroup>
                   )
                 )}
+              </Flex>
               </Flex>
 
               {!status && (
