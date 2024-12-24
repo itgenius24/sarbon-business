@@ -262,10 +262,11 @@ export const TopContent = ({
 
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
+      offset: offset,
+      limit: 7000,
       data: JSON.stringify({
         users_id: userId,
-        limit: 100,
-        offset: offset,
+       
       }),
     },
     querySettings: {
@@ -277,11 +278,14 @@ export const TopContent = ({
   useEffect(() => {
     if (getDriverPosition?.response) {
       setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+      if(getDriverPosition?.response.length > 0){
+        setOffset(offset + 7000);
+      }
      
-      // if (offset === 400) {
+      // if (offset === 0) {
       //   setIsLoadingMore(false);
       // } else {
-      //   setOffset(offset + 500);
+      //   setOffset(offset + 40);
       // }
     }
   }, [getDriverPosition?.response]);

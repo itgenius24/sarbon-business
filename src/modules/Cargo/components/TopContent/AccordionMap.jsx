@@ -25,9 +25,6 @@ export const AccordionMap = ({
 }) => {
   const map = useRef(null);
 
-  
-
-
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`
   );
@@ -40,12 +37,7 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
-
-
-    const mapState = {
-      center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
-      zoom: 11,
-    };
+  
   useEffect(() => {
     const ymaps = window.ymaps;
 
@@ -123,15 +115,16 @@ export const AccordionMap = ({
     strokeOpacity: 1, // Opacity of the polyline
   };
 
-
-
   return (
     // <YMaps>
     <Map
       width={"100%"}
       height={"600px"}
       modules={["multiRouter.MultiRoute"]}
-      state={mapState}
+      state={{
+    center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
+    zoom:11 ,
+  }}
       instanceRef={map}
       options={{
         maxZoom: 17,
@@ -139,7 +132,10 @@ export const AccordionMap = ({
       }}
     >
       {getDriverPosition?.length > 0 && (
-        <Polyline geometry={getDriverPosition|| []} options={polylineOptions} />
+        <Polyline
+          geometry={getDriverPosition || []}
+          options={polylineOptions}
+        />
       )}
 
       {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
