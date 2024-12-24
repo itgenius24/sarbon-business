@@ -299,7 +299,7 @@ export const useGetUserData = ({
   return useQuery({
     queryKey: ["object/getCargo", params],
     queryFn: () => objectService.getUserData(params),
-    querySettings,
+    ...querySettings,
   });
 };
 
