@@ -642,7 +642,7 @@ export const TopContent = ({
                                   /{" "}
                                   {user?.order?.cargo_id_data?.as_soon_as_a
                                     ? ` Как можно скорее`
-                                    : format(
+                                    : user?.order?.cargo_id_data?.load_time && format(
                                         new Date(
                                           user?.order?.cargo_id_data?.load_time
                                         ).setHours(
@@ -677,7 +677,7 @@ export const TopContent = ({
                                   /
                                   {user?.order?.cargo_id_data?.as_soon_as_b
                                     ? ` Как можно скорее`
-                                    : format(
+                                    :  user?.order?.cargo_id_data?.date&& format(
                                         new Date(
                                           user?.order?.cargo_id_data?.date
                                         ).setHours(
