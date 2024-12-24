@@ -186,7 +186,7 @@ export const TopContent = ({
     onSuccess: (res) => {
       console.log(`response`, res?.response);
       setUserData(res?.response);
-      setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id);
+      setUserId(res?.response?.[0]?.order?.[0]?.users_gps?.users_id);
     },
   });
 
@@ -432,13 +432,13 @@ export const TopContent = ({
             <LoadingSpinner />
           ) : (
             <Accordion defaultIndex={[0]} allowToggle>
-              {userData?.map((user, index) => {
+              {userData?.[0]?.order?.map((user, index) => {
                 return (
                   <>
                     <AccordionItem key={index} className={cls.accordionItem}>
                       <AccordionButton
                         onClick={() => {
-                          setUserId(user?.users_gps?.[0]?.users_id);
+                          setUserId(user?.users_gps?.users_id);
                           setGpsHistory([]);
                         }}
                         className={cls.accordionButton}
@@ -449,17 +449,17 @@ export const TopContent = ({
                               // color={"white"}
                               background={`rgba(224, 224, 224, 1)`}
                               name={
-                                user?.users_gps?.[0]?.users_id_data
+                                user?.users_id_data
                                   ?.full_name || ``
                               }
-                              src={user?.users_gps?.[0]?.users_id_data?.photo}
+                              src={user?.users_id_data?.photo}
                             />
                             <div className={cls.user}>
                               <p className={cls.userName}>
-                                {user?.users_gps?.[0]?.users_id_data?.full_name}
+                                {user?.users_id_data?.full_name}
                               </p>
                               <p className={cls.userTel}>
-                                {user?.users_gps?.[0]?.users_id_data?.phone}
+                                {user?.users_id_data?.phone}
                               </p>
                             </div>
                           </div>
@@ -486,9 +486,9 @@ export const TopContent = ({
                                   </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {user?.users_gps?.[0]?.update_time &&
+                                    {user?.users_gps?.update_time &&
                                       formatDateTime(
-                                        user?.users_gps?.[0]?.update_time
+                                        user?.users_gps?.update_time
                                       )}
                                   </span>
                                 </Flex>
@@ -499,7 +499,7 @@ export const TopContent = ({
                             {role_id !==
                               "48871d27-7361-4f69-8fe4-b54daf270739" && (
                               <div className={cls.item}>
-                                {user?.users_gps?.[0]?.os === "android" ? (
+                                {user?.users_gps?.os === "android" ? (
                                   <AndroidIcon />
                                 ) : (
                                   <AppleIcon />
@@ -507,7 +507,7 @@ export const TopContent = ({
                                 <div className={cls.itemText}>
                                   <p className={cls.phoneItemTitle}>Смартфон</p>
                                   <p className={cls.phoneItemName}>
-                                    {user?.users_gps?.[0]?.os}{" "}
+                                    {user?.users_gps?.os}{" "}
                                   </p>
                                 </div>
                               </div>
@@ -520,7 +520,7 @@ export const TopContent = ({
                                   Версия Furgo
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.[0]?.version}{" "}
+                                  {user?.users_gps?.version}{" "}
                                 </p>
                               </div>
                             </div>
@@ -532,7 +532,7 @@ export const TopContent = ({
                             </div>
                           </div> */}
                             <div className={cls.item}>
-                              {user?.users_gps?.[0]?.battery > 19 ? (
+                              {user?.users_gps?.battery > 19 ? (
                                 <BatareyFullIcon />
                               ) : (
                                 <BatareyIcon />
@@ -540,7 +540,7 @@ export const TopContent = ({
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>Батарея</p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.[0]?.battery}%{" "}
+                                  {user?.users_gps?.battery}%{" "}
                                 </p>
                               </div>
                             </div>
@@ -564,7 +564,7 @@ export const TopContent = ({
                                       lineHeight: `20px`,
                                     }}
                                   >
-                                    {user?.order?.users_id_3_data?.full_name}
+                                    {user?.users_id_3_data?.full_name}
                                   </p>
                                   <a
                                     style={{
@@ -575,14 +575,14 @@ export const TopContent = ({
                                       color: `rgba(0, 122, 255, 1)`,
                                     }}
                                     target="_blank"
-                                    href={`https://t.me/${user?.order?.users_id_3_data?.phone}`}
+                                    href={`https://t.me/${user?.users_id_3_data?.phone}`}
                                   >
-                                    {user?.order?.users_id_3_data?.phone}
+                                    {user?.users_id_3_data?.phone}
                                   </a>
                                 </Box>
                                 <Avatar
-                                  src={user?.order?.users_id_3_data?.photo}
-                                  name={user?.order?.users_id_3_data?.full_name}
+                                  src={user?.users_id_3_data?.photo}
+                                  name={user?.users_id_3_data?.full_name}
                                 />
                               </Flex>
                             )}
@@ -609,8 +609,8 @@ export const TopContent = ({
                                 ])}
                                 driver={user?.users_gps?.[0]}
                                 driverPosition={[
-                                  user?.users_gps?.[0]?.lat,
-                                  user?.users_gps?.[0]?.long,
+                                  user?.users_gps?.lat,
+                                  user?.users_gps?.long,
                                 ]}
                                 getMaps={getMaps}
                               />
@@ -627,9 +627,9 @@ export const TopContent = ({
                                     color={`black`}
                                     boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                                     background={`#fff`}
-                                    label={`${user?.order?.cargo_id_data?.from}`}
+                                    label={`${user?.cargo_id_data?.from}`}
                                   >
-                                    <span>{`${user?.order?.cargo_id_data?.from.slice(
+                                    <span>{`${user?.cargo_id_data?.from.slice(
                                       0,
                                       10
                                     )}...`}</span>
@@ -637,17 +637,17 @@ export const TopContent = ({
                                 </p>
                                 <p className={cls.adressDesk}>
                                   <span>
-                                    {user?.order?.cargo_id_data?.country_code_from?.toUpperCase()}
+                                    {user?.cargo_id_data?.country_code_from?.toUpperCase()}
                                   </span>{" "}
                                   /{" "}
-                                  {user?.order?.cargo_id_data?.as_soon_as_a
+                                  {user?.cargo_id_data?.as_soon_as_a
                                     ? ` Как можно скорее`
-                                    : user?.order?.cargo_id_data?.load_time && format(
+                                    : user?.cargo_id_data?.load_time && format(
                                         new Date(
-                                          user?.order?.cargo_id_data?.load_time
+                                          user?.cargo_id_data?.load_time
                                         ).setHours(
                                           new Date(
-                                            user?.order?.cargo_id_data?.load_time
+                                            user?.cargo_id_data?.load_time
                                           ).getHours() - 5
                                         ),
                                         "dd-MMMM",
@@ -662,9 +662,9 @@ export const TopContent = ({
                                     color={`black`}
                                     boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                                     background={`#fff`}
-                                    label={`${user?.order?.cargo_id_data?.to}`}
+                                    label={`${user?.cargo_id_data?.to}`}
                                   >
-                                    <span>{`${user?.order?.cargo_id_data?.to.slice(
+                                    <span>{`${user?.cargo_id_data?.to.slice(
                                       0,
                                       10
                                     )}...`}</span>
@@ -672,17 +672,17 @@ export const TopContent = ({
                                 </p>
                                 <p className={cls.adressDesk}>
                                   <span>
-                                    {user?.order?.cargo_id_data?.country_code_to?.toUpperCase()}
+                                    {user?.cargo_id_data?.country_code_to?.toUpperCase()}
                                   </span>{" "}
                                   /
-                                  {user?.order?.cargo_id_data?.as_soon_as_b
+                                  {user?.cargo_id_data?.as_soon_as_b
                                     ? ` Как можно скорее`
-                                    :  user?.order?.cargo_id_data?.date&& format(
+                                    :  user?.cargo_id_data?.date&& format(
                                         new Date(
-                                          user?.order?.cargo_id_data?.date
+                                          user?.cargo_id_data?.date
                                         ).setHours(
                                           new Date(
-                                            user?.order?.cargo_id_data?.date
+                                            user?.cargo_id_data?.date
                                           ).getHours() - 5
                                         ),
                                         "dd-MMMM",
@@ -704,9 +704,9 @@ export const TopContent = ({
                               <CarIconXM />
                               <Box>
                                 <p className={cls.title}>
-                                  {user?.order?.cargo_id_data?.car_type}:{" "}
+                                  {user?.cargo_id_data?.car_type}:{" "}
                                   {userData?.length} /{" "}
-                                  {user?.order?.cargo_id_data?.number_of_cars}
+                                  {user?.cargo_id_data?.number_of_cars}
                                 </p>
                                 <p className={cls.subTitle}>Volvo, 01A123NN</p>
                               </Box>
@@ -715,12 +715,12 @@ export const TopContent = ({
                               <LoadIconXM />
                               <Box>
                                 <p className={cls.title}>
-                                  {user?.order?.cargo_id_data?.product_type}
+                                  {user?.cargo_id_data?.product_type}
                                 </p>
                                 <p className={cls.subTitle}>
                                   {" "}
-                                  {user?.order?.cargo_id_data?.weight}т /{" "}
-                                  {user?.order?.cargo_id_data?.volume_m3} м3
+                                  {user?.cargo_id_data?.weight}т /{" "}
+                                  {user?.cargo_id_data?.volume_m3} м3
                                 </p>
                               </Box>
                             </Flex>
@@ -735,7 +735,7 @@ export const TopContent = ({
                               <p className={cls.subTitle}>Тип оплаты: </p>
                               <p className={cls.title}>
                                 {
-                                  user?.order?.cargo_id_data?.map_id_data
+                                  user?.cargo_id_data?.map_id_data
                                     ?.payment_type
                                 }
                               </p>
@@ -744,11 +744,11 @@ export const TopContent = ({
                               <p className={cls.subTitle}>Преоплата: </p>
                               <p className={cls.title}>
                                 {
-                                  user?.order?.cargo_id_data
+                                  user?.cargo_id_data
                                     ?.prepayment_percentage
                                 }{" "}
                                 {
-                                  user?.order?.cargo_id_data?.currency_id_data
+                                  user?.cargo_id_data?.currency_id_data
                                     ?.code
                                 }
                               </p>
@@ -759,9 +759,9 @@ export const TopContent = ({
                                 className={cls.title}
                                 style={{ color: `rgba(0, 122, 255, 1)` }}
                               >
-                                {user?.order?.cargo_id_data?.bid_cash}{" "}
+                                {user?.cargo_id_data?.bid_cash}{" "}
                                 {
-                                  user?.order?.cargo_id_data?.currency_id_data
+                                  user?.cargo_id_data?.currency_id_data
                                     ?.code
                                 }
                               </p>
