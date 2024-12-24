@@ -40,7 +40,6 @@ const DriverQuestion = ({
   handleCloseModal,
   setIconStatus,
 }) => {
-  console.log("addressAdd", contendSingle);
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -79,8 +78,8 @@ const DriverQuestion = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  contendSingle?.users_gps?.[0]?.update_time,
-                  "yyyy-MM-dd, hh:mm"
+                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  "yyyy-MM-dd, H:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>

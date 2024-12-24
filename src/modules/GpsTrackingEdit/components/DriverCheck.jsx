@@ -86,10 +86,10 @@ const DriverCheck = ({
               <LocationActiveIcon />
               <Box>
                 <p className={cls.smallText}>
-                  Вкл:{" "}
+                  Вкл:
                   {format(
-                    contendSingle?.users_gps?.[0]?.update_time,
-                    "yyyy-mm-dd, hh:mm"
+                    new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                    "yyyy-mm-dd, HH:mm"
                   )}{" "}
                 </p>
                 <p className={cls.bigTitle}>

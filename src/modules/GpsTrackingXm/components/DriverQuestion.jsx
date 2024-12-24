@@ -77,10 +77,10 @@ const DriverQuestion = ({
             <LocationActiveIcon />
             <Box>
               <p className={cls.smallText}>
-                Вкл:{" "}
+                Вкл:
                 {format(
-                  contendSingle?.users_gps?.[0]?.update_time,
-                  "yyyy-MM-dd, hh:mm"
+                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  "yyyy-MM-dd, HH:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
@@ -130,7 +130,7 @@ const DriverQuestion = ({
                 )}
                 <Box>
                   <p className={cls.smallText}>Батарея </p>
-                  <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
+                  <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>

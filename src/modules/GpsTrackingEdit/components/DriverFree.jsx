@@ -91,8 +91,8 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  contendSingle?.users_gps?.[0]?.update_time,
-                  "yyyy-MM-dd, hh:mm"
+                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  "yyyy-MM-dd, HH:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>

@@ -97,7 +97,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd, hh:mm")} </p>
+            <p className={cls.smallText}>Вкл: {format( new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),"yyyy-MM-dd, HH:mm")} </p>
             <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>

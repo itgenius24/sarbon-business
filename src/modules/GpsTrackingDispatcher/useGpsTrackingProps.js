@@ -64,7 +64,6 @@ export const useGpsTrackingProps = () => {
 
   const [debouncedValue] = useDebounce(distance, 500);
 
-  console.log("debouncedValue", debouncedValue);
 
   useEffect(() => {
     if (checked) {

@@ -88,7 +88,7 @@ const DriverCheck = ({
                 <p className={cls.smallText}>
                   Вкл:{" "}
                   {format(
-                    contendSingle?.users_gps?.[0]?.update_time,
+                    new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
                     "yyyy-mm-dd, hh:mm"
                   )}{" "}
                 </p>

@@ -22,7 +22,6 @@ export const ChakraSelect = ({
       control={control || control2}
       defaultValue={defaultValue}
       render={({ field: { onChange, value } }) => {
-        console.log(`value`,value)
         return (
           <Select
             onChange={(val) => {

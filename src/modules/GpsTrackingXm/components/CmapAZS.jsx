@@ -39,7 +39,7 @@ import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
 import { FixedSizeList as List } from "react-window";
 
-const Cmap = memo(
+const CmapAZS = memo(
   ({
     getCarListProps,
     coordinates,
@@ -48,10 +48,11 @@ const Cmap = memo(
     mapIcon,
     watch,
     setModalType,
+    refueling,
     locationData,
     setLoadState,
     setContendSingle,
-    
+    contendHoverState,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -124,7 +125,14 @@ const Cmap = memo(
       )}`;
     };
 
-  
+    // let click = document.getElementById(`click`);
+
+    // click?.addEventListener(`click`, (e) => {
+    //   e.stopPropagation();
+    //   // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
+    //   copy(contendHoverState?.users_id_data?.phone);
+    // });
+
     const copyFn = (refuelData) => {
       // alert("copy");
       copy(
@@ -184,7 +192,57 @@ const Cmap = memo(
           }}
         />
 
-   
+        <Clusterer
+          options={{
+            visible: Boolean(watch("refuelingState")),
+            clusterIconColor: "rgba(52, 199, 89, 1)",
+            style: {
+              backgroundColor: "rgba(52, 199, 89, 1)",
+              color: "white",
+              borderRadius: "50%",
+            },
+          }}
+        >
+          {refueling?.map((refuel) => {
+            const BalloonContent = () => (
+              <div className={cls.wrapRefueling}>
+                <div className={cls.topTetxWrap}>
+                  <>
+                    <RefuelingIcon />
+                  </>
+                  <p className={cls.zTitle}>АЗС</p>
+                  {/* <div id="myButton">copy</div> */}
+                </div>
+                <p className={cls.zTitle}>{refuel?.name}</p>
+                <p className={cls.zAdress}>{refuel?.address}</p>
+              </div>
+            );
+            const balloonContent3 = ReactDOMServer.renderToString(
+              <BalloonContent />
+            );
+            return (
+              <Placemark
+                onClick={() => copyFn(refuel)}
+                key={refuel.guid}
+                properties={{ balloonContent: balloonContent3 }}
+                modules={["geoObject.addon.balloon", `templateLayoutFactory`]}
+                geometry={[
+                  refuel?.cords?.split(",")?.[0],
+                  refuel?.cords?.split(",")?.[1],
+                ]}
+                options={{
+                  // visible: Boolean(watch("refuelingState")),
+                  iconLayout: "default#image",
+                  iconImageHref:
+                    "data:image/svg+xml;charset=UTF-8," +
+                    encodeURIComponent(RefuelingIconMap),
+                  iconImageSize: [40, 42],
+                  iconImageOffset: [-15, -42],
+                }}
+              />
+            );
+          })}
+        </Clusterer>
 
         <Clusterer
           options={{
@@ -605,4 +663,4 @@ const Cmap = memo(
   }
 );
 
-export default Cmap;
+export default CmapAZS;

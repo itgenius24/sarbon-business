@@ -38,7 +38,7 @@ const DriverCheck = ({
     { enabled: Boolean(contendSingle?.user?.guid) }
   );
 
-  console.log(`contendSingle`,contendSingle)
+  console.log(`contendSingle`, contendSingle);
 
   return (
     <div className={cls.filter}>
@@ -88,8 +88,8 @@ const DriverCheck = ({
                 <p className={cls.smallText}>
                   Вкл:{" "}
                   {format(
-                    contendSingle?.users_gps?.[0]?.update_time,
-                    "yyyy-mm-dd, hh:mm"
+                    new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                    "yyyy-MM-dd, HH:mm"
                   )}{" "}
                 </p>
                 <p className={cls.bigTitle}>
@@ -155,7 +155,11 @@ const DriverCheck = ({
                   {contendSingle?.orders?.[0]?.cargo_id_data?.from}
                 </p>
                 <p className={cls.cardStartSubTitle}>
-                  {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} /
+                  {
+                    contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data
+                      ?.address_id_data?.name
+                  }{" "}
+                  /
                   <span>
                     {format(
                       contendSingle?.orders?.[0]?.cargo_id_data?.load_time
@@ -168,10 +172,9 @@ const DriverCheck = ({
               </Box>
             </Flex>
             <Flex mt={5} gap={2}>
-            <div className={cls.startAIconWrap}>
-            <div className={cls.startBIcon}>B</div>
-
-            </div>
+              <div className={cls.startAIconWrap}>
+                <div className={cls.startBIcon}>B</div>
+              </div>
               <Box>
                 <p className={cls.cardStartTitle}>
                   {contendSingle?.orders?.[0]?.cargo_id_data?.to}
@@ -213,7 +216,8 @@ const DriverCheck = ({
                       </Flex>
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
-                        {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3} m3
+                        {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3}{" "}
+                        m3
                       </Flex>
                     </Flex>
                   </Flex>
