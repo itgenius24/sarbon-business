@@ -149,11 +149,11 @@ export const useSearchLoadDispatcher = () => {
 
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));
-    if (val?.replace(/\+/g, "")) {
+    // if (val?.replace(/\+/g, "")) {
       setData([]);
       setOldData([]);
       setPage(0);
-    }
+    // }
   };
 
   //   trackingFilter({
@@ -330,7 +330,7 @@ export const useSearchLoadDispatcher = () => {
     });
   };
 
-  console.log(`disId`, disId);
+
 
   const handleCheckboxChange = (user) => {
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {

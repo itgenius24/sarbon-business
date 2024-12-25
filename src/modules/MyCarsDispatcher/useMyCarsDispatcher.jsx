@@ -62,17 +62,17 @@ export const useMyCarsDispatcher = () => {
     mutate(dataReq);
   }, [page, limit, debouncedValue?.length, refe]);
 
-
+console.log(`data`,data)
   const nameFilter = () => {
     setFilter1(!filter1);
     const sortedData = data?.sort(
       (a, b) =>
         isAscending
-          ? a?.user?.users_id_data?.full_name.localeCompare(
-              b?.user?.users_id_data?.full_name
+          ? a?.driver_data?.[0]?.full_name.localeCompare(
+              b?.driver_data?.[0]?.full_name
             ) // Alfavit bo'yicha
-          : b?.user?.users_id_data?.full_name.localeCompare(
-              a?.user?.users_id_data?.full_name
+          : b?.driver_data?.[0]?.full_name.localeCompare(
+              a?.driver_data?.[0]?.full_name
             ) // Teskari alfavit bo'yicha
     );
 
