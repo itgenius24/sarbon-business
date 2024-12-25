@@ -77,10 +77,11 @@ export const TopContentPerfomet = () => {
 
   const { t } = useTranslation(locale, "translations");
 
-  const getDriverLocation = useGetDriverLocation(
-    { data: JSON.stringify({ users_id: userId }) },
-    { enabled: !!(status === "performed" && userId) }
-  );
+  // const getDriverLocation = useGetDriverLocation(
+  //   { data: JSON.stringify({ users_id: userId }) },
+  //   { enabled: !!(status === "performed" && userId) }
+  // );
+  
   const [gpsHistory, setGpsHistory] = useState();
   const [page, setPage] = useState(0);
 
@@ -95,7 +96,6 @@ export const TopContentPerfomet = () => {
       { enabled: !!carId }
     );
 
-    console.log(`getMaps`, getMaps);
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
@@ -137,14 +137,13 @@ export const TopContentPerfomet = () => {
     },
   });
 
-  console.log(`getDriverPosition`, getDriverPosition);
 
-  const driverPosition = useMemo(() => {
-    return [
-      getDriverLocation?.data?.response?.[0]?.lat,
-      getDriverLocation?.data?.response?.[0]?.long,
-    ];
-  }, [getDriverLocation?.data?.response?.[0]]);
+  // const driverPosition = useMemo(() => {
+  //   return [
+  //     getDriverLocation?.data?.response?.[0]?.lat,
+  //     getDriverLocation?.data?.response?.[0]?.long,
+  //   ];
+  // }, [getDriverLocation?.data?.response?.[0]]);
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -159,7 +158,7 @@ export const TopContentPerfomet = () => {
   }, []);
 
   useEffect(() => {
-    if (status === "performed" && userId) {
+    if ( userId) {
       getGPSHistory.mutate({
         data: {
           object_data: {
@@ -170,7 +169,7 @@ export const TopContentPerfomet = () => {
         },
       });
     }
-  }, [status, userId, page]);
+  }, [ userId, page]);
 
   useEffect(() => {
     if (getDriverPosition?.response) {
@@ -406,7 +405,7 @@ export const TopContentPerfomet = () => {
                                 {userData?.length} /{" "}
                                 {user?.cargo_id_data?.number_of_cars}
                               </p>
-                              <p className={cls.subTitle}>  {user?.vehicle_id_data?.car_number}</p>
+                              <p className={cls.subTitle}> {user?.vehicle_id_data?.car_number}</p>
                             </Box>
                           </Flex>
                           <Flex gap={`8px`}>

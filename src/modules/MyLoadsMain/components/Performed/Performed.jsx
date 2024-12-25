@@ -78,7 +78,6 @@ export const Performed = ({
     setDataPred(false);
   };
 
-  console.log(`cargo`, cargo);
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
