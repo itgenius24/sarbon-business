@@ -23,11 +23,9 @@ export const useMyLoadsMainProps = () => {
   const [dataPred, setDataPred] = useState(false);
   const router = useRouter();
   const [accept, setAccept] = useState(false);
-  const [orderStatus, setOrderStatus] = useState(
-    role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
-      ? `new`
-      : orderValStatus || ``
-  );
+  const [orderStatus, setOrderStatus] = useState( orderValStatus);
+
+  console.log(`orderStatus`, orderStatus);
   const [data, setData] = useState([]);
   const userId = authStore.userData.id;
 
@@ -316,6 +314,9 @@ export const useMyLoadsMainProps = () => {
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
+  // console.log(`cargos`,getAllUserCargo,getOfferCargo);
+
+
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
     setOrderStatus(value);
@@ -360,6 +361,7 @@ export const useMyLoadsMainProps = () => {
       setHasMore(true);
     }
   }, [getAllUserCargo.data, getOfferCargo.data]);
+
 
   return {
     cargos: orderStatus === `new` ? data : cargosData.data?.response,

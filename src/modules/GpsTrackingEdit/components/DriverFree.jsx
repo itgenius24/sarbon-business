@@ -108,14 +108,14 @@ const DriverFree = ({
                     <Button
                       onClick={handleOpen}
                       style={{
-                        padding: `5px`,
+                        padding: `1px 0px`,
                         background: `transparent`,
                         color: `rgba(0, 122, 255, 1)`,
                         borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
                         width: `fit-content`,
                         borderRadius: `0px`,
                         lineHeight: `18px`,
-                        height: `30px`,
+                        height: `25px`,
                         fontWeight: 400,
                         fontSize: `14px`,
                       }}
