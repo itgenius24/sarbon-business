@@ -20,7 +20,7 @@ export const AccordionMap = ({
   gpsHistory,
   driverPosition,
   getMaps,
-  driver,
+
   getDriverPosition,
 }) => {
   const map = useRef(null);

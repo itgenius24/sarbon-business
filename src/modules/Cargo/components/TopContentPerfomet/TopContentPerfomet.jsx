@@ -8,6 +8,7 @@ import {
   useGetCargoList,
   useGetDriverLocation,
   useGetDriverPosition,
+  useGetMaps,
   useGetSortedGPSHistory,
   useGetWithLocation,
 } from "@/services/api";
@@ -43,6 +44,7 @@ import {
   LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
+  ResToreIcon,
 } from "@/assets/icons/icons";
 import {
   Map,
@@ -59,13 +61,17 @@ import authStore from "@/store/auth.store";
 import { ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
 
-export const TopContentPerfomet = ({ getMaps }) => {
+export const TopContentPerfomet = () => {
   // const { watch, handleUploadDocument, getEmptyFileName, getValues } =
   //   useAddCargoContext();
 
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
-  const searchParams = useSearchParams();
+  const [offset, setOffset] = useState(0);
+  const [allPositions, setAllPositions] = useState([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
+  const [carId, setCarId] = useState("");
+
   const firm_id = authStore.userData.firm_id;
   const locale = useGetLang();
 
@@ -75,15 +81,21 @@ export const TopContentPerfomet = ({ getMaps }) => {
     { data: JSON.stringify({ users_id: userId }) },
     { enabled: !!(status === "performed" && userId) }
   );
-
-  // const getGPSHistory = useGetGPSHistory(
-  //   { data: JSON.stringify({ user_id: userId2 }) },
-  //   { enabled: !!(status === "performed" && userId2) }
-  // );
   const [gpsHistory, setGpsHistory] = useState();
   const [page, setPage] = useState(0);
 
   const [breakRequest, setBreakRequest] = useState(false);
+
+   const getMaps = useGetMaps(
+      {
+        data: JSON.stringify(
+          {cargo_id: carId }
+        ),
+      },
+      { enabled: !!carId }
+    );
+
+    console.log(`getMaps`, getMaps);
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
@@ -113,15 +125,15 @@ export const TopContentPerfomet = ({ getMaps }) => {
 
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
+      offset: offset,
+      limit: 7000,
       data: JSON.stringify({
         users_id: userId,
-        limit: 100,
-        offset: 1,
       }),
     },
     querySettings: {
-      enabled: Boolean(userId),
-      refetchInterval: 5000,
+      enabled: Boolean(userId) && isLoadingMore,
+      // enabled: Boolean(userId),
     },
   });
 
@@ -160,7 +172,16 @@ export const TopContentPerfomet = ({ getMaps }) => {
     }
   }, [status, userId, page]);
 
-  console.log(`userData`, userData);
+  useEffect(() => {
+    if (getDriverPosition?.response) {
+      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+      if (getDriverPosition?.response.length > 0) {
+        setOffset(offset + 7000);
+      }
+    }
+  }, [getDriverPosition?.response]);
+
+  console.log(`userData`, userData?.[0]);
 
   return (
     <Box>
@@ -169,13 +190,14 @@ export const TopContentPerfomet = ({ getMaps }) => {
           <LoadingSpinner />
         ) : userData?.length > 0 ? (
           <Accordion allowToggle>
-            {userData?.order?.[0]?.map((user, index) => {
+            {userData?.[0]?.order?.map((user, index) => {
               return (
                 <>
                   <AccordionItem key={index} className={cls.accordionItem}>
                     <AccordionButton
                       onClick={() => {
                         setUserId(user?.users_gps?.users_id);
+                        setCarId(user?.cargo_id);
                         setGpsHistory([]);
                       }}
                       className={cls.accordionButton}
@@ -184,40 +206,48 @@ export const TopContentPerfomet = ({ getMaps }) => {
                         <div className={cls.userWrap}>
                           <Avatar
                             color={"white"}
-                            name={user?.users_gps?.users_id_data?.full_name}
-                            src={user?.users_gps?.users_id_data?.photo}
+                            name={user?.users_id_data?.full_name}
+                            src={user?.users_id_data?.photo}
                           />
                           <div className={cls.user}>
                             <p className={cls.userName}>
-                              {user?.users_gps?.users_id_data?.full_name}
+                              {user?.users_id_data?.full_name}
                             </p>
                             <p className={cls.userTel}>
-                              {user?.users_gps?.users_id_data?.phone}
+                              {user?.users_id_data?.phone}
                             </p>
                           </div>
                         </div>
 
                         <div className={cls.phoneDataWrap}>
                           <div className={cls.item}>
-                            {user.gps ? (
+                            {user?.users_gps?.gps ? (
                               <LocationActiveIcon />
                             ) : (
                               <LocationMobileIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>
-                                {t("Геолокация")}
-                              </p>
-                              <p className={cls.phoneItemName}>
-                                {user.gps ? t("Выкл ") : t("Откл ")}{" "}
-                                <span className={cls.phoneItemTitle}>
-                                  {user?.users_gps?.update_time &&
-                                    formatDateTime(
-                                      user?.users_gps?.update_time
-                                    )}
-                                </span>
-                              </p>
-                            </div>
+                                <p className={cls.phoneItemTitle}>Геолокация</p>
+                                <Flex
+                                  gap={`5px`}
+                                  alignItems={`center`}
+                                  className={cls.phoneItemName}
+                                >
+                                  <span
+                                    style={{ fontWeight: 600 }}
+                                    className={cls.phoneItemName}
+                                  >
+                                    {user?.users_gps?.gps ? "Выкл " : "Откл "}
+                                  </span>
+                                  <ResToreIcon />
+                                  <span className={cls.phoneItemTitle}>
+                                    {user?.users_gps?.update_time &&
+                                      formatDateTime(
+                                        user?.users_gps?.update_time
+                                      )}
+                                  </span>
+                                </Flex>
+                              </div>
                           </div>
                           <div className={cls.item}>
                             {user?.users_gps?.os === "android" ? (
@@ -277,14 +307,16 @@ export const TopContentPerfomet = ({ getMaps }) => {
                             <AccordionMap
                               driver={user?.users_gps}
                               gpsHistory={gpsHistory}
-                              getDriverPosition={getDriverPosition?.response?.map(
-                                (item) => [item?.lat, item?.long]
-                              )}
+                              getDriverPosition={allPositions?.map((item) => [
+                                item?.lat,
+                                item?.long,
+                              ])}
                               driverPosition={[
                                 user?.users_gps?.lat,
                                 user?.users_gps?.long,
                               ]}
-                              periods={user?.periods}
+                              periods={userData?.periods}
+                              getMaps={getMaps}
                             />
                           </YMaps>
                           <Flex
@@ -374,7 +406,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                                 {userData?.length} /{" "}
                                 {user?.cargo_id_data?.number_of_cars}
                               </p>
-                              <p className={cls.subTitle}>Volvo, 01A123NN</p>
+                              <p className={cls.subTitle}>  {user?.vehicle_id_data?.car_number}</p>
                             </Box>
                           </Flex>
                           <Flex gap={`8px`}>

@@ -21,6 +21,7 @@ export const AccordionMap = ({
   driverPosition,
   periods,
   driver,
+  getMaps,
   getDriverPosition,
 }) => {
   const map = useRef(null);
@@ -30,15 +31,21 @@ export const AccordionMap = ({
     zoom: 11,
   };
 
-  const shipper = periods.filter((item) => item.type?.[0] === `shipper`);
 
-  const consignee = periods.filter((item) => item?.type?.[0] === `consignee`);
 
+
+  const shipper = getMaps?.data?.response.filter(
+    (item) => item.type?.[0] === `shipper`
+  );
+  const consignee = getMaps?.data?.response.filter(
+    (item) => item?.type?.[0] === `consignee`
+  );
   const startLocation = shipper?.[0];
   const endLocation = consignee?.[consignee?.length - 1];
-  const line = periods.slice(1, -1).map((item) => [item?.lat, item?.long]);
+  const line = getMaps?.data?.response
+    .slice(1, -1)
+    .map((item) => [item?.lat, item?.long]);
 
-  console.log(`getDriverPosition`, getDriverPosition);
 
   useEffect(() => {
     const ymaps = window.ymaps;
@@ -145,7 +152,7 @@ export const AccordionMap = ({
         //   });
       }
     }, 3000);
-  }, [periods]);
+  }, [getMaps]);
 
   const polylineOptions = {
     strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline
@@ -171,11 +178,12 @@ export const AccordionMap = ({
         minZoom: 2,
       }}
     >
-      <Polyline
-        geometry={[getDriverPosition || []]}
-        options={polylineOptions}
-      />
-      {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
+      {getDriverPosition?.length > 0 && (
+        <Polyline
+          geometry={getDriverPosition || []}
+          options={polylineOptions}
+        />
+      )}
       <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
 
       <TypeSelector

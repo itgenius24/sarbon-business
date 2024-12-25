@@ -184,7 +184,6 @@ export const TopContent = ({
 
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
-      console.log(`response`, res?.response);
       setUserData(res?.response);
       setUserId(res?.response?.[0]?.order?.[0]?.users_gps?.users_id);
     },
@@ -281,12 +280,6 @@ export const TopContent = ({
       if(getDriverPosition?.response.length > 0){
         setOffset(offset + 7000);
       }
-     
-      // if (offset === 0) {
-      //   setIsLoadingMore(false);
-      // } else {
-      //   setOffset(offset + 40);
-      // }
     }
   }, [getDriverPosition?.response]);
 
@@ -608,7 +601,6 @@ export const TopContent = ({
                                   item?.lat,
                                   item?.long,
                                 ])}
-                                driver={user?.users_gps?.[0]}
                                 driverPosition={[
                                   user?.users_gps?.lat,
                                   user?.users_gps?.long,
@@ -711,7 +703,7 @@ export const TopContent = ({
                                   {userData?.length} /{" "}
                                   {user?.cargo_id_data?.number_of_cars}
                                 </p>
-                                <p className={cls.subTitle}>Volvo, 01A123NN</p>
+                                <p className={cls.subTitle}> {user?.vehicle_id_data?.car_number}</p>
                               </Box>
                             </Flex>
                             <Flex gap={`8px`}>
