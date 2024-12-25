@@ -129,7 +129,7 @@ const DriverQuestion = ({
                 )}
                 <Box>
                   <p className={cls.smallText}>Батарея </p>
-                  <p className={cls.bigTitle}>{contendSingle?.batter}%</p>
+                  <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
