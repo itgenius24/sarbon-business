@@ -327,7 +327,7 @@ export const TopContent = ({
                               color: `rgba(126, 123, 134, 1)`,
                             }}
                           >
-                            Как можно скорее
+                         {t(`Как можно скорее`)}
                           </span>
                         </p>
                       ) : (
@@ -377,7 +377,7 @@ export const TopContent = ({
                             color: `rgba(126, 123, 134, 1)`,
                           }}
                         >
-                          Как можно скорее
+                       {t(`Как можно скорее`)}
                         </span>
                       </p>
                     ) : (
@@ -634,7 +634,7 @@ export const TopContent = ({
                                   </span>{" "}
                                   /{" "}
                                   {user?.cargo_id_data?.as_soon_as_a
-                                    ? ` Как можно скорее`
+                                    ? t( `Как можно скорее`)
                                     : user?.cargo_id_data?.load_time &&
                                       format(
                                         new Date(
@@ -670,7 +670,7 @@ export const TopContent = ({
                                   </span>{" "}
                                   /
                                   {user?.cargo_id_data?.as_soon_as_b
-                                    ? ` Как можно скорее`
+                                    ? t( `Как можно скорее`)
                                     : user?.cargo_id_data?.date &&
                                       format(
                                         new Date(
@@ -727,20 +727,20 @@ export const TopContent = ({
                             p={`13px 18px`}
                           >
                             <Box>
-                              <p className={cls.subTitle}>Тип оплаты: </p>
+                              <p className={cls.subTitle}>{t(`Тип оплаты`)}: </p>
                               <p className={cls.title}>
                                 {user?.cargo_id_data?.map_id_data?.payment_type}
                               </p>
                             </Box>
                             <Box>
-                              <p className={cls.subTitle}>Преоплата: </p>
+                              <p className={cls.subTitle}>{t(`Предоплата`)}: </p>
                               <p className={cls.title}>
                                 {user?.cargo_id_data?.prepayment_percentage}{" "}
                                 {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
                             <Box>
-                              <p className={cls.subTitle}>Сумма: </p>
+                              <p className={cls.subTitle}>{t(`Сумма`)}: </p>
                               <p
                                 className={cls.title}
                                 style={{ color: `rgba(0, 122, 255, 1)` }}

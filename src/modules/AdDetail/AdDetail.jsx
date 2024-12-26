@@ -2,11 +2,19 @@ import { Dropdown } from "@/components/Dropdown";
 import FileUpload from "@/components/FileUpload";
 import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { Box, Button, ButtonGroup, Flex, Text, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { useAdDetailProps } from "./useAdDetailProps";
 import { MainContentCard } from "@/components/MainContentCard";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { useTranslation } from "react-i18next";
+import FormInternationInput from "@/components/Input/FormInternationalInput";
 
 export const AdDetail = ({ id }) => {
   const {
@@ -28,37 +36,35 @@ export const AdDetail = ({ id }) => {
   } = useAdDetailProps({ id });
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
- const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <MainContentCard
       as="form"
       onSubmit={handleSubmit(onSubmit)}
-      footer={ <ButtonGroup ml="auto" spacing="2">
-        <Button
-          h="40px"
-          p="10px 16px"
-          variant="outline"
-          color="brand.700"
-          borderColor="brand.300"
-          fontSize="16px"
-          onClick={() => router.push("/profile/my-ad")}
-        >
-          {t(`Отмена`)}
-        </Button>
-        <Button
-         isDisabled={disabled}
-          type="submit"
-          fontSize="16px"
-          h="40px"
-          p="10px 16px"
-          variant="solid"
-        >
-          {
-            id ? t("Сохранить") : t("Создать")
-          }
-        </Button>
-      </ButtonGroup>
-
+      footer={
+        <ButtonGroup ml="auto" spacing="2">
+          <Button
+            h="40px"
+            p="10px 16px"
+            variant="outline"
+            color="brand.700"
+            borderColor="brand.300"
+            fontSize="16px"
+            onClick={() => router.push("/profile/my-ad")}
+          >
+            {t(`Отмена`)}
+          </Button>
+          <Button
+            isDisabled={disabled}
+            type="submit"
+            fontSize="16px"
+            h="40px"
+            p="10px 16px"
+            variant="solid"
+          >
+            {id ? t("Сохранить") : t("Создать")}
+          </Button>
+        </ButtonGroup>
       }
     >
       <Flex gap="24px" flexDirection={isLargerThan845 ? "row" : "column"}>
@@ -95,8 +101,8 @@ export const AdDetail = ({ id }) => {
           errors={errors}
         />
       </Box>
-      {
-        id && <Box mt="24px">
+      {id && (
+        <Box mt="24px">
           <Dropdown
             label={t("Статус")}
             control={control}
@@ -107,7 +113,7 @@ export const AdDetail = ({ id }) => {
             options={statusOptions}
           />
         </Box>
-      }
+      )}
       <Box mt="24px">
         <CustomTextarea
           maxHeight="46px"
@@ -121,7 +127,7 @@ export const AdDetail = ({ id }) => {
           label={t("Описание")}
           onChange={(e) => {
             const value = e.target.value;
-            if(value.length <= 1000) {
+            if (value.length <= 1000) {
               setValue("desc", value.replace(/\d/g, ""));
             }
           }}
@@ -141,9 +147,13 @@ export const AdDetail = ({ id }) => {
           errors={errors}
         />
       </Box>
-      <Flex gap="24px" mt="16px" flexDirection={isLargerThan845 ? "row" : "column"}>
+      <Flex
+        gap="24px"
+        mt="16px"
+        flexDirection={isLargerThan845 ? "row" : "column"}
+      >
         <TextFieldWithAddition
-          additionalItemLabel={t("Стоимость")}
+          label={t("Стоимость")}
           name="price"
           register={register}
           control={control}
@@ -156,7 +166,21 @@ export const AdDetail = ({ id }) => {
           additionalItemOptions={currencyOptions}
           rules={rules}
         />
-        <TextField
+        <Box width={`100%`}>
+          <p
+            style={{
+              fontSize: `14px`,
+              fontWeight: 600,
+              lineHeight: `20px`,
+              marginBottom: `10px`,
+            }}
+          >
+            {" "}
+            {t("Контакт")}
+          </p>
+          <FormInternationInput control={control} name={`contact`} />
+        </Box>
+        {/* <TextField
           placeholder="+998 --  ---  --  --"
           register={register}
           type="phone"
@@ -164,7 +188,7 @@ export const AdDetail = ({ id }) => {
           name="contact"
           label={t("Контакт")}
           rules={rules}
-        />
+        /> */}
       </Flex>
     </MainContentCard>
   );
@@ -173,13 +197,16 @@ export const AdDetail = ({ id }) => {
 function FileUploadPlaceholder() {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
-    <Box fontSize={isLargerThan845 ? "14px" : "10px"} lineHeight={isLargerThan845 ? "20px" : "16px"}>
-        Нажмите, чтобы изменить фото{" "}
+    <Box
+      fontSize={isLargerThan845 ? "14px" : "10px"}
+      lineHeight={isLargerThan845 ? "20px" : "16px"}
+    >
+      Нажмите, чтобы изменить фото{" "}
       <Text as="span" color="brand.600">
-          или перетащите
+        или перетащите
       </Text>
       <Text color="brand.600" fontSize={isLargerThan845 ? "14px" : "8px"}>
-          SVG, PNG, JPG or GIF (max. 800x400px)
+        SVG, PNG, JPG or GIF (max. 800x400px)
       </Text>
     </Box>
   );

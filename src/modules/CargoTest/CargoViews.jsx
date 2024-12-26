@@ -96,7 +96,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 </Text> */}
               </>
             ) : (
-              `Редактировать груз`
+              t(`Редактировать груз`)
             )}
           </Heading>
           {!addCargoProps.canEdit ? (
@@ -222,7 +222,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
              }
               }
             >
-              Вернутся в список
+              {t(`Вернутся в список`)}
             </Button>
             {(addCargoProps.order_status?.[0] === "in_active" ||
               addCargoProps.order_status?.[0] === "active") && (
@@ -230,7 +230,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 <span
                   style={{ color: `rgba(33, 31, 38, 1)`, fontSize: `14px` }}
                 >
-                  Статус груза:
+                  {t(`Статус груза`)}:
                 </span>
                 <RadioGroup
                   // isDisabled={!canEdit}
