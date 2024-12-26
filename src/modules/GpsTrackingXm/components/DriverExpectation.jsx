@@ -33,8 +33,10 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
+  const { t } = useTranslation();
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);
@@ -146,7 +148,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                   <AppleIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.os}
                   </p>
@@ -166,7 +168,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                   <BatareyIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.battery}%
                   </p>

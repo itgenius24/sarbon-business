@@ -299,14 +299,13 @@ export const TopContent = ({
                         background={`#fff`}
                         label={`${address1}`}
                       >
-                        <>
-                          {" "}
+                     
                           <span>
                             {address1?.length >= 20
                               ? `${address1?.slice(0, 20)}...`
                               : address1}
                           </span>
-                        </>
+                    
                       </Tooltip>
                     </span>
 
@@ -397,7 +396,7 @@ export const TopContent = ({
             </Box>
             {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && (
               <Box mr={`10px`} mb={`20px`}>
-                <p className={cls.statusTitle}>Заказчик</p>
+                <p className={cls.statusTitle}>{t(`Заказчик`)}</p>
                 <Flex gap={`5px`}>
                   <Avatar
                     width={`45px`}
@@ -466,7 +465,7 @@ export const TopContent = ({
                                 <LocationMobileIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Геолокация</p>
+                                <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
                                 <Flex
                                   gap={`5px`}
                                   alignItems={`center`}
@@ -476,7 +475,7 @@ export const TopContent = ({
                                     style={{ fontWeight: 600 }}
                                     className={cls.phoneItemName}
                                   >
-                                    {user.gps ? "Выкл " : "Откл "}
+                                    {user.gps ? t("Выкл") : t("Откл")}
                                   </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
@@ -499,7 +498,7 @@ export const TopContent = ({
                                   <AppleIcon />
                                 )}
                                 <div className={cls.itemText}>
-                                  <p className={cls.phoneItemTitle}>Смартфон</p>
+                                  <p className={cls.phoneItemTitle}>{t(`Смартфон`)}</p>
                                   <p className={cls.phoneItemName}>
                                     {user?.users_gps?.os}{" "}
                                   </p>
@@ -511,7 +510,7 @@ export const TopContent = ({
                               <FurIcon />
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>
-                                  Версия Furgo
+                                  {t(`Версия Furgo`)}
                                 </p>
                                 <p className={cls.phoneItemName}>
                                   {user?.users_gps?.version}{" "}
@@ -532,7 +531,7 @@ export const TopContent = ({
                                 <BatareyIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Батарея</p>
+                                <p className={cls.phoneItemTitle}>{t(`Батарея`)}</p>
                                 <p className={cls.phoneItemName}>
                                   {user?.users_gps?.battery}%{" "}
                                 </p>
@@ -549,7 +548,7 @@ export const TopContent = ({
                                       fontWeight: 400,
                                     }}
                                   >
-                                    Диспетчер:
+                                    {t(`Диспетчер`)}:
                                   </p>
                                   <p
                                     style={{

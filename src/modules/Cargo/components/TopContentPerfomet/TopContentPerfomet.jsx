@@ -222,7 +222,7 @@ export const TopContentPerfomet = () => {
                               <LocationMobileIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Геолокация</p>
+                              <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
                               <Flex
                                 gap={`5px`}
                                 alignItems={`center`}

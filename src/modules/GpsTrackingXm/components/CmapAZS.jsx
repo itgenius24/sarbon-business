@@ -38,6 +38,7 @@ import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
 import { FixedSizeList as List } from "react-window";
+import { useTranslation } from "react-i18next";
 
 const CmapAZS = memo(
   ({
@@ -56,7 +57,7 @@ const CmapAZS = memo(
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
-
+const { t } = useTranslation();
     useEffect(() => {
       setIsClient(true);
     }, []);

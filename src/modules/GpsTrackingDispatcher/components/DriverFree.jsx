@@ -34,6 +34,7 @@ import copy from "copy-to-clipboard";
 import { format } from "date-fns";
 import Image from "next/image";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverFree = ({
   cls,
@@ -45,6 +46,7 @@ const DriverFree = ({
   console.log("contendSingle", contendSingle);
   const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(`contendSingle`, contendSingle);
+  const { t } = useTranslation();
 
   const handleOpen = () => {
     onOpen();
@@ -162,8 +164,8 @@ const DriverFree = ({
               <Flex alignItems={"center"} gap={2}>
                 <BluetoothIcon />
                 <Box>
-                  <p className={cls.smallText}>Bluetooth </p>
-                  <p className={cls.bigTitle}>Вкл</p>
+                  <p className={cls.smallText}>{t(`Bluetooth`)} </p>
+                  <p className={cls.bigTitle}>{t(`Вкл`)}</p>
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -174,7 +176,7 @@ const DriverFree = ({
                 )}
 
                 <Box>
-                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.os}
                   </p>
@@ -195,7 +197,7 @@ const DriverFree = ({
                 )}
 
                 <Box>
-                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.battery}%
                   </p>

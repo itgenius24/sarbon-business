@@ -388,7 +388,7 @@ export const TopContent = ({
                                 <LocationMobileIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Геолокация</p>
+                                <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
                                 <p className={cls.phoneItemName}>
                                   {user.gps ? "Выкл " : "Откл "}
                                   <span className={cls.phoneItemTitle}>
@@ -407,7 +407,7 @@ export const TopContent = ({
                                 <AppleIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Смартфон</p>
+                                <p className={cls.phoneItemTitle}>{t(`Смартфон`)}</p>
                                 <p className={cls.phoneItemName}>{user?.os} </p>
                               </div>
                             </div>
@@ -415,7 +415,7 @@ export const TopContent = ({
                               <FurIcon />
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>
-                                  Версия Furgo
+                                  {t(`Версия Furgo`)}
                                 </p>
                                 <p className={cls.phoneItemName}>
                                   {user?.version}{" "}
@@ -436,7 +436,7 @@ export const TopContent = ({
                                 <BatareyIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Батарея</p>
+                                <p className={cls.phoneItemTitle}>{t(`Батарея`)}</p>
                                 <p className={cls.phoneItemName}>
                                   {user.battery}%{" "}
                                 </p>

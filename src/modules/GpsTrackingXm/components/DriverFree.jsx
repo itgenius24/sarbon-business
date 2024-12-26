@@ -36,6 +36,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import React, { useState } from "react";
 import copy from "copy-to-clipboard";
+import { useTranslation } from "react-i18next";
 
 const DriverFree = ({
   cls,
@@ -44,6 +45,7 @@ const DriverFree = ({
   setCenterModalType,
   setIconStatus,
 }) => {
+  const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(`contendSingle`, contendSingle);
 
@@ -176,7 +178,7 @@ const DriverFree = ({
                 )}
 
                 <Box>
-                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.os}
                   </p>
@@ -197,7 +199,7 @@ const DriverFree = ({
                 )}
 
                 <Box>
-                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.battery}%
                   </p>

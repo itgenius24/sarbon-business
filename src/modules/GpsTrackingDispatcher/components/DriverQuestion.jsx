@@ -27,6 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverQuestion = ({
   cls,
@@ -40,6 +41,7 @@ const DriverQuestion = ({
   handleCloseModal,
   setIconStatus,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -108,7 +110,7 @@ const DriverQuestion = ({
                   <AppleIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.os}
                   </p>
@@ -128,7 +130,7 @@ const DriverQuestion = ({
                   <BatareyIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
                 </Box>
               </Flex>

@@ -38,10 +38,11 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocationData }) => {
   console.log("loadState", loadState);
-
+const { t } = useTranslation();
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);

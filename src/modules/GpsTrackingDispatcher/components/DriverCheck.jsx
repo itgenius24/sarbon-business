@@ -21,6 +21,7 @@ import authStore from "@/store/auth.store";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverCheck = ({
   cls,
@@ -29,6 +30,7 @@ const DriverCheck = ({
   setCenterModalType,
   setIconStatus,
 }) => {
+  const { t } = useTranslation();
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
@@ -139,7 +141,7 @@ const DriverCheck = ({
                   <BatareyIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.battery}%
                   </p>
@@ -154,7 +156,7 @@ const DriverCheck = ({
                   <AppleIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.os}
                   </p>
