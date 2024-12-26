@@ -1,8 +1,24 @@
+.containerCards {
+  width: 100%;
+  max-width: 1432px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    padding: 16px;
+    background-color: white;
+  }
+}
 .step1{
     box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
     background-color: white;
     border-radius: 12px;
     padding:22px 42px 40px 22px;
+    .logoWrap {
+      display: block;
+    }
+    .logoWrapMobile {
+      display: none;
+    }
     .stepTitle{
       font-weight: 600;
       font-size: 20px;
@@ -55,6 +71,78 @@
         text-decoration: underline solid !important;
       }
     }
+    .closeMobileIcon{
+      display: none;
+    }
+    .inputWrap {
+      @media (max-width: 600px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        svg{
+          width: 26px !important;
+        }
+      }
+    }
+ 
+    @media (max-width: 600px) {
+      padding: 0px;
+      box-shadow:none;
+      .subTitle {
+        font-size: 13px;
+      }
+      .quickWord {
+        font-size: 13px;
+        font-weight: 400;
+        cursor: pointer;
+      }
+      .logoWrap {
+        display: none;
+      }
+      .logoWrapMobile {
+        display: block;
+      }
+      .textField2 {
+        width: 100% !important;
+      }
+      .closeDecktopIcon{
+        display: none;
+      }
+      .closeMobileIcon{
+        display: block;
+      }
+      .contendWrap{
+        flex-direction: column;
+        row-gap: 10px;
+      }
+      .stepTitle2{
+        margin-bottom: 0px;
+      }
+      .additionalFields {
+        // border-top: none;
+        margin-top: 10px !important;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+    .plusWrap {
+      width: 100%;
+    
+      @media (max-width: 600px) {
+        flex-direction: column !important;
+        justify-content: flex-start;
+        align-items: flex-start;
+        .button {
+          padding: 7px 20px;
+          border-radius: 17px;
+          width: 100%;
+          align-items: flex-start;
+          justify-content: flex-start !important;
+          display: flex;
+          background-color: rgba(235, 245, 255, 1) !important;
+        }
+      }
+    }
   }
   .nextBtn{
     width: fit-content;
@@ -63,4 +151,15 @@
     font-weight: 600;
      background-color: rgba(0, 122, 255, 1) !important;
      margin-top: 30px;
+     @media (max-width: 600px) {
+      width: 100%;
+      padding: 16px !important;
+      }
+  }
+
+  .clearBtn {
+    display: none;
+    @media (max-width: 600px) {
+      display: block;
+    }
   }

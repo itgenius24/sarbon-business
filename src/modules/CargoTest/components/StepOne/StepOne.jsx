@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import cls from "./style.module.scss";
-import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
 import {
   CloseStepIcon,
   DeleteIcon,
+  DeleteStepIcon,
   LoadStepIcon,
   NextArrowIcon,
   PlusIcon,
@@ -17,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import Image from "next/image";
 
-const StepOne = ({status }) => {
+const StepOne = ({ status }) => {
   const {
     control,
     errors,
@@ -38,21 +39,31 @@ const StepOne = ({status }) => {
     imageLoader,
     disabledBtn,
     handleImageUpload,
-    onSubmit
+    onSubmit,
+    handleResetForm,
   } = useStepOneProps();
 
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
- 
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
   return (
-    <>
+    <Box className={cls.containerCards}>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
-          <LoadStepIcon />
+          <Box className={cls.logoWrap}>
+            <LoadStepIcon />
+          </Box>
           <Box width={"100%"}>
-            <p className={cls.stepTitle}>Ваш груз</p>
-            <Flex gap={"24px"} mt={"10px"}>
-              <Box>
+            <Flex gap={"14px"}>
+              <Box className={cls.logoWrapMobile}>
+                <LoadStepIcon />
+              </Box>
+              <p className={cls.stepTitle}>Ваш груз</p>
+            </Flex>
+
+            <Flex className={cls.inputWrap} gap={"24px"} mt={"10px"}>
+              <Box width={`100%`}>
                 <p className={cls.textFieldName}></p>
                 <Dropdown
                   control={control}
@@ -71,166 +82,168 @@ const StepOne = ({status }) => {
                   searchName="cargo_type_search"
                   setValue={setValue}
                 />
-                {
-                  canEdit &&  <Flex gap={2} mt={2}>
-                  <span className={cls.subTitle}>Например: </span>
-                  <p
-                    onClick={() => {
-                      setValue(`cargo_type_search`, "Пиломатериалы");
-                      setValue(`cargo_type`, {
-                        label: "Пиломатериалы",
-                        value: "1a9ffa9a-6472-4d76-a07a-d7db8e7acb15",
-                      });
-                    }}
-                    className={cls.quickWord}
-                  >
-                    Пиломатериалы,
-                  </p>
-                  <p
-                    onClick={() => {
-                      setValue(`cargo_type_search`, "ДСП");
+                {canEdit && (
+                  <Flex gap={2} mt={2}>
+                    <span className={cls.subTitle}>Например: </span>
+                    <p
+                      onClick={() => {
+                        setValue(`cargo_type_search`, "Пиломатериалы");
+                        setValue(`cargo_type`, {
+                          label: "Пиломатериалы",
+                          value: "1a9ffa9a-6472-4d76-a07a-d7db8e7acb15",
+                        });
+                      }}
+                      className={cls.quickWord}
+                    >
+                      Пиломатериалы,
+                    </p>
+                    <p
+                      onClick={() => {
+                        setValue(`cargo_type_search`, "ДСП");
 
-                      setValue(`cargo_type`, {
-                        label: "ДСП",
-                        value: "b059f178-1cc2-4867-a9c2-81f483e3fe39",
-                      });
-                    }}
-                    className={cls.quickWord}
-                  >
-                    ДСП,
-                  </p>
-                  <p o className={cls.quickWord}>
-                    Овощи и фрукты
-                  </p>
-                </Flex>
-                }
-               
+                        setValue(`cargo_type`, {
+                          label: "ДСП",
+                          value: "b059f178-1cc2-4867-a9c2-81f483e3fe39",
+                        });
+                      }}
+                      className={cls.quickWord}
+                    >
+                      ДСП,
+                    </p>
+                    <p o className={cls.quickWord}>
+                      Овощи и фрукты
+                    </p>
+                  </Flex>
+                )}
               </Box>
-              <Box>
-                <p className={cls.textFieldName}>В расчёте на одну машину</p>
-                <TextFieldWithAddition
-                  className={cls.textField}
-                  errors={errors}
-                  control={control}
-                  name="weight_measurement"
-                  register={register}
-                  additionalItemName="weight_unit"
-                  width="160px"
-                  placeholder={t("Вес")}
-                  additionalItemPlaceholder="T"
-                  additionalItemOptions={weightMeasurementOptions}
-                  disabled={!canEdit}
-                  type="number"
-                  zIndex={90}
-                />
-              {
-                canEdit && <Flex ml={4} gap={2} mt={2}>
-                  <p
-                    onClick={() => setValue(`weight_measurement`, `20`)}
-                    className={cls.quickWord}
-                  >
-                    20т,
-                  </p>
-                  <p
-                    onClick={() => setValue(`weight_measurement`, `22`)}
-                    className={cls.quickWord}
-                  >
-                    22т,
-                  </p>
-                  <p
-                    onClick={() => setValue(`weight_measurement`, `23`)}
-                    className={cls.quickWord}
-                  >
-                    23т
-                  </p>
-                </Flex>
-              }
-              </Box>
-              <Box>
-                <p className={cls.textFieldName}></p>
-                <TextFieldWithAddition
-                  className={cls.textField}
-                  errors={errors}
-                  control={control}
-                  name="volume_measurement"
-                  register={register}
-                  width="160px"
-                  placeholder={t("Объем")}
-                  additionalItemPlaceholder="m³"
-                  disabled={!canEdit}
-                  type="number"
-                  // additionalItemName="volume_unit"
-                  // additionalItemOptions={volumeMeasurementOptions}
-                />
-               {
-                canEdit &&  <Flex ml={4} gap={2} mt={2}>
-                  <p
-                    onClick={() => setValue(`volume_measurement`, `40`)}
-                    className={cls.quickWord}
-                  >
-                    40м³,
-                  </p>
-                  <p
-                    onClick={() => setValue(`volume_measurement`, `42`)}
-                    className={cls.quickWord}
-                  >
-                    42м³,
-                  </p>
-                  <p
-                    onClick={() => setValue(`volume_measurement`, `43`)}
-                    className={cls.quickWord}
-                  >
-                    43м³
-                  </p>
-                </Flex>
-               }
-              </Box>
+              <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
+                <Box>
+                  <p className={cls.textFieldName}>В расчёте на одну машину</p>
+                  <TextFieldWithAddition
+                    className={cls.textField2}
+                    errors={errors}
+                    control={control}
+                    name="weight_measurement"
+                    register={register}
+                    additionalItemName="weight_unit"
+                    width="160px"
+                    placeholder={t("Вес")}
+                    additionalItemPlaceholder="T"
+                    additionalItemOptions={weightMeasurementOptions}
+                    disabled={!canEdit}
+                    type="number"
+                    zIndex={90}
+                  />
+                  {canEdit && (
+                    <Flex ml={4} gap={2} mt={2}>
+                      <p
+                        onClick={() => setValue(`weight_measurement`, `20`)}
+                        className={cls.quickWord}
+                      >
+                        20т,
+                      </p>
+                      <p
+                        onClick={() => setValue(`weight_measurement`, `22`)}
+                        className={cls.quickWord}
+                      >
+                        22т,
+                      </p>
+                      <p
+                        onClick={() => setValue(`weight_measurement`, `23`)}
+                        className={cls.quickWord}
+                      >
+                        23т
+                      </p>
+                    </Flex>
+                  )}
+                </Box>
+                <Box>
+                  <p className={cls.textFieldName}></p>
+                  <TextFieldWithAddition
+                    className={cls.textField2}
+                    errors={errors}
+                    control={control}
+                    name="volume_measurement"
+                    register={register}
+                    width="160px"
+                    placeholder={t("Объем")}
+                    additionalItemPlaceholder="m³"
+                    disabled={!canEdit}
+                    type="number"
+                  />
+                  {canEdit && (
+                    <Flex ml={4} gap={2} mt={2}>
+                      <p
+                        onClick={() => setValue(`volume_measurement`, `40`)}
+                        className={cls.quickWord}
+                      >
+                        40м³,
+                      </p>
+                      <p
+                        onClick={() => setValue(`volume_measurement`, `42`)}
+                        className={cls.quickWord}
+                      >
+                        42м³,
+                      </p>
+                      <p
+                        onClick={() => setValue(`volume_measurement`, `43`)}
+                        className={cls.quickWord}
+                      >
+                        43м³
+                      </p>
+                    </Flex>
+                  )}
+                </Box>
+              </Flex>
             </Flex>
 
-           {
-            canEdit &&  <Flex mt={"30px"} gap={2}>
-              {!isPackagingAndQuantity && (
-                <Button
-                  isDisabled={!canEdit}
-                  key="packagingBtn"
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handlePackagingAndQuantity}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("Упаковка")}
-                </Button>
-              )}
+            {canEdit && (
+              <Flex className={cls.plusWrap} mt={"30px"} gap={2}>
+                {!isPackagingAndQuantity && (
+                  <Button
+                    className={cls.button}
+                    isDisabled={!canEdit}
+                    key="packagingBtn"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handlePackagingAndQuantity}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("Упаковка")}
+                  </Button>
+                )}
 
-              {!isDimensionsAndDiameter && (
-                <Button
-                  isDisabled={!canEdit}
-                  key="dimensionsBtn"
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handleDimensionsAndDiameter}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("Габариты и диаметр")}
-                </Button>
-              )}
-              {!isFileUploader && (
-                <Button
-                  isDisabled={!canEdit}
-                  key="dimensionsBtn2"
-                  leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
-                  variant="reset"
-                  onClick={handleIsFileUploader}
-                  color="rgba(126, 123, 134, 1)"
-                  fontWeight={400}
-                >
-                  {t("Фото груза")}
-                </Button>
-              )}
-            </Flex>
-           }
+                {!isDimensionsAndDiameter && (
+                  <Button
+                    className={cls.button}
+                    isDisabled={!canEdit}
+                    key="dimensionsBtn"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleDimensionsAndDiameter}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("Габариты и диаметр")}
+                  </Button>
+                )}
+                {!isFileUploader && (
+                  <Button
+                    className={cls.button}
+                    isDisabled={!canEdit}
+                    key="dimensionsBtn2"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleIsFileUploader}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                  >
+                    {t("Фото груза")}
+                  </Button>
+                )}
+              </Flex>
+            )}
 
             {isPackagingAndQuantity && (
               <Box
@@ -243,13 +256,29 @@ const StepOne = ({status }) => {
                 key="packagingBtn"
               >
                 <Box>
-                  <p className={cls.stepTitle2}>{t("Упаковка")}</p>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Упаковка")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      className={cls.closeMobileIcon}
+                      onClick={handlePackagingAndQuantity} // Toggles the packaging section
+                      variant={"outline"}
+                    />
+                  </Flex>
                   <Box
                     className={cls.fields}
                     display="flex"
                     columnGap="24px"
                     maxW="540px"
                     width="100%"
+                    flexWrap={`wrap`}
+                      rowGap={`10px`}
                   >
                     <Dropdown
                       errors={errors}
@@ -268,7 +297,8 @@ const StepOne = ({status }) => {
                       errors={errors}
                       name="packaging_quantity"
                       register={register}
-                      width="196px"
+                      width={isLargerThan845 ? `"196px"` : `100%`}
+                      // width="196px"
                       placeholder={t("Кол-во")}
                       additionalItemPlaceholder={t("шт.")}
                       disabled={!canEdit}
@@ -279,6 +309,7 @@ const StepOne = ({status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
+                  className={cls.closeDecktopIcon}
                   onClick={handlePackagingAndQuantity} // Toggles the packaging section
                   variant={"outline"}
                 />
@@ -296,19 +327,36 @@ const StepOne = ({status }) => {
                 key="dimensionsBtn"
               >
                 <Box>
-                  <p className={cls.stepTitle2}>{t("Габариты и диаметр")}</p>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Габариты и диаметр")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      className={cls.closeMobileIcon}
+                      onClick={handleDimensionsAndDiameter} // Toggles the dimensions section
+                      variant={"outline"}
+                    />
+                  </Flex>
                   <Box
                     className={cls.fields}
                     display="flex"
                     columnGap="16px"
                     maxW="740px"
                     width="100%"
+                    flexWrap={`wrap`}
+                    rowGap={`10px`}
                   >
                     <TextFieldWithAddition
                       control={control}
                       name="length"
                       register={register}
-                      width="153px"
+                      // width="153px"
+                       width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Длина")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -317,7 +365,8 @@ const StepOne = ({status }) => {
                       control={control}
                       name="width"
                       register={register}
-                      width="153px"
+                      // width="153px"
+                       width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Ширина")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -326,7 +375,8 @@ const StepOne = ({status }) => {
                       control={control}
                       name="height"
                       register={register}
-                      width="153px"
+                      // width="153px"
+                       width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Высота")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -337,6 +387,7 @@ const StepOne = ({status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
+                  className={cls.closeDecktopIcon}
                   onClick={handleDimensionsAndDiameter} // Toggles the dimensions section
                   variant={"outline"}
                 />
@@ -345,19 +396,35 @@ const StepOne = ({status }) => {
 
             {isFileUploader && (
               <Box
-                className={cls.additionalFields}
+                className={`${cls.additionalFields} ${cls.fotoWrap}`}
                 display="flex"
                 width={"100%"}
                 alignItems="center"
                 mt="24px"
                 justifyContent={"space-between"}
                 key="dimensionsBtn2"
+               
               >
+                <Flex
+                  alignItems={`center`}
+                  width={isLargerThan845 ? `fit-contend` : `100%`}
+                  justifyContent={`space-between`}
+                 
+                >
+                  <p className={cls.stepTitle2}>
+                    {t("Прикрепить фото")} <br />
+                    <span>Фото груза или документа до 10 МБ.</span>
+                  </p>
+                  <IconButton
+                    border={"none"}
+                    width={"fit-content"}
+                    icon={<CloseStepIcon />}
+                    className={cls.closeMobileIcon}
+                    onClick={handleIsFileUploader} // Toggles the packaging section
+                    variant={"outline"}
+                  />
+                </Flex>
 
-                <p className={cls.stepTitle2}>
-                  {t("Прикрепить фото")} <br />{" "}
-                  <span>Фото груза или документа до 10 МБ.</span>
-                </p>
                 <Box
                   className={cls.fields}
                   display="flex"
@@ -381,7 +448,7 @@ const StepOne = ({status }) => {
                       padding="16px 24px"
                     >
                       <Image
-                        loader={imageLoader} 
+                        loader={imageLoader}
                         className={cls.img}
                         src={watch("image")}
                         alt="cargo"
@@ -451,6 +518,7 @@ const StepOne = ({status }) => {
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
+                  className={cls.closeDecktopIcon}
                   onClick={handleIsFileUploader} // Toggles the packaging section
                   variant={"outline"}
                 />
@@ -460,18 +528,31 @@ const StepOne = ({status }) => {
         </Flex>
       </Box>
 
-      {
-    !status &&  <Button
-        isDisabled={disabledBtn}
-        onClick={() =>onSubmit()}
-        rightIcon={<NextArrowIcon />}
-        className={cls.nextBtn}
-      >
-        Далее
-      </Button> 
-      }
-     
-    </>
+      {!status && (
+        <Flex flexDirection={`column`} rowGap={`10px`}>
+          <Button
+            isDisabled={disabledBtn}
+            onClick={() => onSubmit()}
+            rightIcon={<NextArrowIcon />}
+            className={cls.nextBtn}
+          >
+            Далее
+          </Button>
+          <Button
+            isDisabled={disabledBtn}
+            onClick={() => handleResetForm()}
+            leftIcon={<DeleteStepIcon />}
+            variant="secondaryWhite"
+            color={`rgba(126, 123, 134, 1)`}
+            fontWeight={500}
+            fontSize={`14px`}
+            className={cls.clearBtn}
+          >
+            Очистить форму
+          </Button>
+        </Flex>
+      )}
+    </Box>
   );
 };
 

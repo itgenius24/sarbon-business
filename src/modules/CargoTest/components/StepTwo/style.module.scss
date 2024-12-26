@@ -1,52 +1,127 @@
-.step{
-    width: 100%;
-    box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
+.containerCards {
+  width: 100%;
+  max-width: 1432px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    // padding: 16px;
     background-color: white;
-    border-radius: 12px;
-    padding:22px 42px 22px 22px;
-    // display: flex;
-    // align-items: center;
-    // justify-content: space-between;
-    // gap: 10px;
-    .stepTitle{
-      font-weight: 600;
-      font-size: 20px;
-      color: rgba(16, 24, 40, 1);
-      margin-top: 5px;
-    }
-  .adressBtn{
+  }
+}
+.addressContainer {
+  @media (max-width: 600px) {
+    flex-direction: column;
+    // row-gap: 15px;
+    background-color: rgba(237, 239, 245, 1);
+    border-radius: 15px;
+    gap: 0px;
+  }
+}
+
+.step {
+  width: 100%;
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  border-radius: 12px;
+  padding: 22px 42px 22px 22px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+  // gap: 10px;
+  .stepTitle {
+    font-weight: 600;
+    font-size: 20px;
+    color: rgba(16, 24, 40, 1);
+    margin-top: 5px;
+  }
+  .adressBtn {
     color: rgba(0, 122, 255, 1);
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
     text-decoration: underline dotted;
+    @media (max-width: 600px) {
+      display: none;
+    }
     // border-bottom: 1.5px dashed rgba(0, 122, 255, 1);
+  }
+  .mobailIcon {
+    display: none;
+  }
+  .mobailIconButton {
+    display: none;
+  }
+
+  .disabledCeckMobile {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    padding: 24px 16px;
+    border-radius: 0px;
+    .buttonWrap {
+      display: none;
+    }
+    .mobailIcon {
+      display: block;
+    }
+    .mobailIconButton {
+      display: block;
+    }
+    .button {
+      padding: 7px 20px;
+      border-radius: 17px;
+      width: 100%;
+      align-items: flex-start;
+      justify-content: flex-start !important;
+      display: flex;
+      background-color: rgba(235, 245, 255, 1) !important;
+      margin-left: 0 !important;
+    }
+    .disabledCeck {
+      display: none;
+    }
+    .disabledCeckMobile {
+      display: block;
+    }
+  }
+
+  &:last-child {
+    margin-top: -15px;
   }
 }
 
-.centerIcon{
-    width: 56px;
-    height: 56px;
-    border: 2px solid  rgba(237, 239, 245, 1);
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    background-color: white;
+.centerIcon {
+  background-color: red;
+  width: 56px;
+  height: 56px;
+  border: 2px solid rgba(237, 239, 245, 1);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  @media (max-width: 600px) {
+    transform: translate(0%, 0%);
+    position: relative;
+    left: 0;
+    margin-top: -15px;
+    transform: rotate(90deg);
+  }
 }
-.locationWrap{
+.locationWrap {
   width: 100%;
   height: 100%;
   position: relative;
-  .optionsWrap{
+  .optionsWrap {
     position: absolute;
     // padding: ;
     width: 100%;
-    height:auto;
+    height: auto;
     max-height: 300px;
     overflow: hidden;
     overflow-y: scroll;
@@ -57,20 +132,20 @@
     padding: 10px;
     z-index: 43434;
     top: 50px;
-    .item{
+    .item {
       width: 100%;
       font-size: 14px;
       font-weight: 400;
-      border-bottom: 1px solid var(--quat_grey, rgba(219, 216, 227, 1)) ;
-      overflow: hidden;  
-      white-space:nowrap;
+      border-bottom: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
+      overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
       display: flex;
       padding: 10px 0 10px 0;
       cursor: pointer;
     }
   }
-  .label{
+  .label {
     font-weight: 500;
     font-size: 14px;
     color: rgba(16, 24, 40, 1);
@@ -78,11 +153,22 @@
   }
 }
 
-.nextBtn{
+.nextBtn {
   width: fit-content;
   padding: 27px 28px !important;
   font-size: 18px;
   font-weight: 600;
-   background-color: rgba(0, 122, 255, 1) !important;
-   margin-top: 30px;
+  background-color: rgba(0, 122, 255, 1) !important;
+  margin-top: 30px;
+  @media (max-width: 600px) {
+  width: 100%;
+  padding: 16px !important;
+  }
+}
+
+.clearBtn {
+  display: none;
+  @media (max-width: 600px) {
+    display: block;
+  }
 }

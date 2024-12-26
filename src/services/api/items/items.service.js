@@ -7,6 +7,7 @@ const itemsService = {
   updateUserInfo: (data) => request.put("/v2/items/users", data),
   updateLoad: (data) => request.put("/v2/items/cargo", data),
   getUserInfo: (id) => request.get(`/v2/items/users/${id}`),
+  getFuelInfo: (id) => request.get(`/v2/items/fuel`),
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
   deleteCargo: (id) => request.delete(`/v2/items/cargo/${id}`,{data:JSON.stringify({data:{}})}),
@@ -23,7 +24,9 @@ const itemsService = {
   deleteUsers: (data) => request.delete(`/v2/items/users/${data.id}`, {data:JSON.stringify({data:{}})}),
   createUser: (data) => request.post("/v2/items/users", data),
   checkUser: (data) => request.post("/v2/object/get-list/users", data),
+  checkUserRegister: (data) => request.post("/v2/object-slim/get-list/users", data),
   getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
+  getExcelFile: (data) => request.post("/v1/invoke_function/logistika-get-list-sorted-gps-history", data),
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
@@ -58,6 +61,13 @@ export const useGetCargoPost = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.getCargoPost(data), ...mutationSettings });
 };
 
+export const useGetExcelPost = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.getExcelFile(data), ...mutationSettings });
+};
+
+
+
+
 
 export const useUpdateAdMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateAd(data), ...mutationSettings });
@@ -70,10 +80,20 @@ export const useUpdateUserInfo = (mutationSettings) => {
   });
 };
 
+
+
 export const useGetUserInfo = (id = "", settings) => {
   return useQuery({
     queryKey: ["items/users/id", id],
     queryFn: () => itemsService.getUserInfo(id),
+    ...settings,
+  });
+};
+
+export const useGetFuelInfo = (id = "", settings) => {
+  return useQuery({
+    queryKey: ["items/users/id", id],
+    queryFn: () => itemsService.getFuelInfo(id),
     ...settings,
   });
 };

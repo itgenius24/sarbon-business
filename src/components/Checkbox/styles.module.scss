@@ -48,3 +48,33 @@
   font-size: 14px;
   line-height: 20px;
 }
+
+.checkbox2{
+
+}
+
+.checkbox2 {
+  --size: 24px;
+  --stroke-width: calc(var(--size) / 8);
+  --color: #2688EB;
+  --animation-timing-function: linear;
+  --animation-duration: 1s;
+  width: var(--size);
+  height: var(--size);
+  border-width: var(--stroke-width);
+  border-style: solid;
+  border-color: var(--color) var(--color) var(--color) transparent;
+  border-radius: 50%;
+  transform: rotate(0deg);
+  animation:   1s infinite circle-spin-1-animation;
+}
+
+@keyframes circle-spin-1-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

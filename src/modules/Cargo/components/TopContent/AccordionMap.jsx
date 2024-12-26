@@ -20,14 +20,10 @@ export const AccordionMap = ({
   gpsHistory,
   driverPosition,
   getMaps,
-  driver,
+
   getDriverPosition,
 }) => {
   const map = useRef(null);
-  const mapState = {
-    center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
-    zoom: 11,
-  };
 
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`
@@ -41,6 +37,7 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
+  
   useEffect(() => {
     const ymaps = window.ymaps;
 
@@ -51,6 +48,17 @@ export const AccordionMap = ({
           .route([
             [startLocation?.lat, startLocation?.long], // Start point
             [endLocation?.lat, endLocation?.long], // End point
+            // {
+            //   // Yuk mashinalari uchun parametrlar
+            //   routingMode: "truck", // Transport turi yuk mashinasi
+            //   avoidTrafficJams: true, // Tirbandliklardan qochish
+            //   truckRestrictions: {
+            //     weight: 20, // Yuk mashinasi og'irligi (tonna)
+            //     height: 4.2, // Balandlik (metr)
+            //     width: 2.5, // Kenglik (metr)
+            //     length: 10, // Uzunlik (metr)
+            //   },
+            // }
           ])
           .then((route) => {
             map.current.geoObjects.add(route);
@@ -91,54 +99,6 @@ export const AccordionMap = ({
               strokeStyle: "dash",
             });
           });
-
-        // Second route: from startLocation to specified location with blue line, independent of the first route
-        // ymaps
-        //   .route([
-        //     [startLocation?.lat, startLocation?.long], // Start from startLocation
-        //     driverPosition, // End at specified location
-        //   ])
-        //   .then((secondRoute) => {
-        //     map.current.geoObjects.add(secondRoute);
-        //     const startPoint = secondRoute.getWayPoints().get(0);
-        //     const endPoint = secondRoute.getWayPoints().get(1);
-        //     startPoint.options.set({
-        //       iconLayout: "default#image",
-        //       iconImageHref:
-        //         "data:image/svg+xml;charset=UTF-8," +
-        //         encodeURIComponent(StartIcon),
-        //       iconImageSize: [30, 42],
-        //       iconImageOffset: [-10, -22],
-        //       balloonContentLayout: ymaps.templateLayoutFactory.createClass(
-        //         `<div style='padding: 10px; font-size: 14px;'>
-        //               <p>Финиш:</p>
-        //               <p style='font-weight: 600;'>${startLocation?.name}</p>
-        //         </div>`
-        //       ),
-        //     });
-        //     endPoint.options.set({
-        //       iconLayout: "default#image",
-        //       iconImageHref:
-        //         "data:image/svg+xml;charset=UTF-8," +
-        //         encodeURIComponent(LoadSvgIcon),
-        //       iconImageSize: [60, 72],
-        //       iconImageOffset: [-15, -42],
-        //       balloonContentLayout: ymaps.templateLayoutFactory.createClass(
-        //         `<div style='padding: 10px; font-size: 14px;'>
-        //               <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>${driver?.location_name}</p>
-        //               <p>Время в пути:</p>
-        //               <p style='font-weight: 600;'>${format(driver?.update_time,'yyyy-MM-dd')}</p>
-
-        //         </div>`
-        //       ),
-        //     });
-
-        //     secondRoute.getPaths().options.set({
-        //       strokeColor: "#0000FF", // Blue color
-        //       strokeWidth: 4,
-        //       strokeOpacity: 1,
-        //     });
-        //   });
       }
     }, 3000);
   }, [gpsHistory]);
@@ -161,17 +121,23 @@ export const AccordionMap = ({
       width={"100%"}
       height={"600px"}
       modules={["multiRouter.MultiRoute"]}
-      state={mapState}
+      state={{
+    center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
+    zoom:11 ,
+  }}
       instanceRef={map}
       options={{
         maxZoom: 17,
         minZoom: 2,
       }}
     >
-      <Polyline
-        geometry={[getDriverPosition || []]}
-        options={polylineOptions}
-      />
+      {getDriverPosition?.length > 0 && (
+        <Polyline
+          geometry={getDriverPosition || []}
+          options={polylineOptions}
+        />
+      )}
+
       {/* <Polyline geometry={line} options={polylineGeruzOptions} /> */}
       <ZoomControl options={{ position: { bottom: "30vh", right: 4 } }} />
       <TypeSelector
@@ -184,11 +150,7 @@ export const AccordionMap = ({
       />
 
       <Placemark
-        geometry={
-          getDriverPosition?.length > 0
-            ? getDriverPosition?.[ getDriverPosition?.length -1]
-            : getDriverPosition?.[ getDriverPosition?.length -1]
-        }
+        geometry={driverPosition}
         properties={{
           balloonContent: `<div style='padding: 10px; font-size: 14px;'>
                   <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>
@@ -207,7 +169,7 @@ export const AccordionMap = ({
           iconImageOffset: [-15, -42],
         }}
       />
-      {line?.length > 0 &&
+      {/* {line?.length > 0 &&
         line?.map((item) => (
           <Placemark
             key={item.lat}
@@ -221,7 +183,7 @@ export const AccordionMap = ({
               iconImageOffset: [-10, -22],
             }}
           />
-        ))}
+        ))} */}
     </Map>
     // </YMaps>
   );

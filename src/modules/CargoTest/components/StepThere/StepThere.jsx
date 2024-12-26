@@ -5,6 +5,7 @@ import {
   CarStaepIcon,
   CloseStepIcon,
   DeleteIcon,
+  DeleteStepIcon,
   FurStepIcon,
   HelpCircleIcon,
   LoadStepIcon,
@@ -65,6 +66,7 @@ const StepThere = ({ status }) => {
     disabled,
     handleNumClick,
     onSubmit,
+    handleResetForm,
   } = useStepThereProps();
 
   const locale = useGetLang();
@@ -73,16 +75,30 @@ const StepThere = ({ status }) => {
   console.log("carTypeOptions", carTypeOptions);
 
   return (
-    <>
+    <Box className={cls.containerCards}>
       <Box className={cls.step1}>
         <Flex width={"100%"} gap={"13px"}>
-          <CarStaepIcon />
+          <Box className={cls.logoWrap}>
+            <CarStaepIcon />
+          </Box>
+
           <Box width={"100%"}>
-            <Flex width={"100%"}>
+            <Flex
+              className={cls.inputWrap}
+              rowGap={`20px`}
+              gap={"24px"}
+              width={"100%"}
+            >
               <Box width={"100%"}>
-                <p className={cls.stepTitle}>Машина</p>
-                <Flex gap={"24px"} mt={"24px"}>
-                  <Box width={"90%"}>
+                <Flex gap={"14px"}>
+                  <Box className={cls.logoWrapMobile}>
+                    <CarStaepIcon />
+                  </Box>
+                  <p className={cls.stepTitle}>Машина</p>
+                </Flex>
+
+                <Flex width={`100%`} gap={"24px"} mt={"24px"}>
+                  <Box width={"100%"}>
                     <Dropdown
                       control={control}
                       required
@@ -133,7 +149,12 @@ const StepThere = ({ status }) => {
               </Box>
               <Box width={"100%"}>
                 <p className={cls.stepTitle}>Количество машин</p>
-                <Flex gap={"24px"} mt={"24px"} alignItems={"center"}>
+                <Flex
+                  className={cls.inputWrap}
+                  gap={"24px"}
+                  mt={"24px"}
+                  alignItems={"center"}
+                >
                   <Box width={"80px"}>
                     <TextField
                       disabled={!canEdit}
@@ -181,7 +202,7 @@ const StepThere = ({ status }) => {
               </Box>
             </Flex>
             {canEdit && (
-              <Flex mt="30px" gap={2}>
+              <Flex className={cls.plusWrap} mt="30px" gap={2}>
                 {!isLiftingCapacityOpen && (
                   <Button
                     key="packagingBtn1"
@@ -190,6 +211,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenLiftingCapacity}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("Тип загрузки")}
                   </Button>
@@ -202,6 +224,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenRequirement}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("Сцепка,Пневмоход, Коники")}
                   </Button>
@@ -214,6 +237,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenBelts}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("ADR")}
                   </Button>
@@ -226,6 +250,7 @@ const StepThere = ({ status }) => {
                     onClick={handleOpenAccess}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("TIR, CMR, T1, Медкнижка")}
                   </Button>
@@ -238,6 +263,7 @@ const StepThere = ({ status }) => {
                     onClick={handleIsFtlOpen}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("FTL/LTL")}
                   </Button>
@@ -250,6 +276,7 @@ const StepThere = ({ status }) => {
                     onClick={handleIsReymenOpen}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
+                    className={cls.button}
                   >
                     {t("Ремней, шт")}
                   </Button>
@@ -266,9 +293,28 @@ const StepThere = ({ status }) => {
                 justifyContent={"space-between"}
                 key="packagingBtn1"
               >
-                <Box>
-                  <p className={cls.stepTitle2}>{t("Тип загрузки")}</p>
-                  <Box display="flex" columnGap="10px" flexGrow={1}>
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Тип загрузки")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseLiftingCapacity} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
+                  <Box
+                    className={cls.contendWrap}
+                    display="flex"
+                    columnGap="10px"
+                    flexGrow={1}
+                  >
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
@@ -306,6 +352,7 @@ const StepThere = ({ status }) => {
                   icon={<CloseStepIcon />}
                   onClick={handleCloseLiftingCapacity} // Toggles the packaging section
                   variant={"outline"}
+                  className={cls.closeDecktopIcon}
                 />
               </Box>
             )}
@@ -319,9 +366,28 @@ const StepThere = ({ status }) => {
                 justifyContent={"space-between"}
                 key="packagingBtn2"
               >
-                <Box>
-                  <p className={cls.stepTitle2}>{t("Требования")}</p>
-                  <Box display="flex" columnGap="10px" flexGrow={1}>
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Требования")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseRequirement} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
+                  <Box
+                    className={cls.contendWrap}
+                    display="flex"
+                    columnGap="10px"
+                    flexGrow={1}
+                  >
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
@@ -352,6 +418,7 @@ const StepThere = ({ status }) => {
                   icon={<CloseStepIcon />}
                   onClick={handleCloseRequirement} // Toggles the packaging section
                   variant={"outline"}
+                  className={cls.closeDecktopIcon}
                 />
               </Box>
             )}
@@ -365,8 +432,22 @@ const StepThere = ({ status }) => {
                 justifyContent={"space-between"}
                 key="packagingBtn3"
               >
-                <Box>
-                  <p className={cls.stepTitle2}>{t("ADR")}</p>
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("ADR")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseBelts} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
                   <Box display="flex" columnGap="10px" alignItems={"center"}>
                     <Box width={"100px"}>
                       <TextField
@@ -394,6 +475,7 @@ const StepThere = ({ status }) => {
                   icon={<CloseStepIcon />}
                   onClick={handleCloseBelts} // Toggles the packaging section
                   variant={"outline"}
+                  className={cls.closeDecktopIcon}
                 />
               </Box>
             )}
@@ -407,41 +489,56 @@ const StepThere = ({ status }) => {
                 justifyContent={"space-between"}
                 key="packagingBtn4"
               >
-                <Box>
-                  <p className={cls.stepTitle2}>
-                    {t("TIR, CMR, T1, Медкнижка")}
-                  </p>
-                  <Box display="flex" columnGap="10px" alignItems={"center"}>
-                    <Box display="flex" columnGap="10px" flexGrow={1}>
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        name="tir"
-                      >
-                        {t("TIR")}
-                      </Checkbox>
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        name="t1"
-                      >
-                        {t("T1")}
-                      </Checkbox>
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        name="cmr"
-                      >
-                        {t("CMR")}
-                      </Checkbox>
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        name="medic_certificate"
-                      >
-                        {t("Медкнижка")}
-                      </Checkbox>
-                    </Box>
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>
+                      {t("TIR, CMR, T1, Медкнижка")}
+                    </p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseAccess} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
+
+                  <Box
+                    className={cls.contendWrap}
+                    display="flex"
+                    columnGap="10px"
+                  >
+                    {/* <Box display="flex" columnGap="10px" flexGrow={1}> */}
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      name="tir"
+                    >
+                      {t("TIR")}
+                    </Checkbox>
+                    <Checkbox disabled={!canEdit} register={register} name="t1">
+                      {t("T1")}
+                    </Checkbox>
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      name="cmr"
+                    >
+                      {t("CMR")}
+                    </Checkbox>
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      name="medic_certificate"
+                    >
+                      {t("Медкнижка")}
+                    </Checkbox>
+                    {/* </Box> */}
                   </Box>
                 </Box>
 
@@ -451,6 +548,7 @@ const StepThere = ({ status }) => {
                   icon={<CloseStepIcon />}
                   onClick={handleCloseAccess} // Toggles the packaging section
                   variant={"outline"}
+                  className={cls.closeDecktopIcon}
                 />
               </Box>
             )}
@@ -464,31 +562,49 @@ const StepThere = ({ status }) => {
                 justifyContent={"space-between"}
                 key="packagingBtn5"
               >
-                <Box>
-                  <p className={cls.stepTitle2}>{t("FTL/LTL")}</p>
-                  <Box  width={"100%"} display="flex" flexDirection={`column`} rowGap={`10px`} columnGap="10px" >
-                  
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        onChange={handleCheckboxChange}
-                        defaultChecked={!canEdit}
-                        name="is_ftl"
-                      >
-                        <Box display="flex" alignItems="center">
-                          <span>{t("отдельной машиной (FTL)")}</span>
-                          <HelpCircleIcon />
-                        </Box>
-                      </Checkbox>
-                      <Checkbox
-                        disabled={!canEdit}
-                        register={register}
-                        onChange={handleCheckboxChange}
-                        name="is_ltl"
-                      >
-                        {t("отдельной машиной или догрузом (FTL или LTL)")}
-                      </Checkbox>
-                   
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("FTL/LTL")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseIsFtlOpen} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
+                  <Box
+                    width={"100%"}
+                    display="flex"
+                    flexDirection={`column`}
+                    rowGap={`10px`}
+                    columnGap="10px"
+                  >
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      onChange={handleCheckboxChange}
+                      defaultChecked={!canEdit}
+                      name="is_ftl"
+                    >
+                      <Box display="flex" alignItems="center">
+                        <span>{t("отдельной машиной (FTL)")}</span>
+                        <HelpCircleIcon />
+                      </Box>
+                    </Checkbox>
+                    <Checkbox
+                      disabled={!canEdit}
+                      register={register}
+                      onChange={handleCheckboxChange}
+                      name="is_ltl"
+                    >
+                      {t("отдельной машиной или догрузом (FTL или LTL)")}
+                    </Checkbox>
                   </Box>
                 </Box>
 
@@ -498,6 +614,7 @@ const StepThere = ({ status }) => {
                   icon={<CloseStepIcon />}
                   onClick={handleCloseIsFtlOpen} // Toggles the packaging section
                   variant={"outline"}
+                  className={cls.closeDecktopIcon}
                 />
               </Box>
             )}
@@ -511,10 +628,29 @@ const StepThere = ({ status }) => {
                 justifyContent={"space-between"}
                 key="packagingBtn6"
               >
-                <Box>
-                  <p className={cls.stepTitle2}>{t("Ремней, шт")}</p>
-             <TextField disabled={!canEdit} placeholder={t("Штук")} type="number" register={register} name="straps_number" />
-                  
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Ремней, шт")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseIsReymenOpen} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
+                  <TextField
+                    disabled={!canEdit}
+                    placeholder={t("Штук")}
+                    type="number"
+                    register={register}
+                    name="straps_number"
+                  />
                 </Box>
 
                 <IconButton
@@ -523,6 +659,7 @@ const StepThere = ({ status }) => {
                   icon={<CloseStepIcon />}
                   onClick={handleCloseIsReymenOpen} // Toggles the packaging section
                   variant={"outline"}
+                  className={cls.closeDecktopIcon}
                 />
               </Box>
             )}
@@ -530,16 +667,30 @@ const StepThere = ({ status }) => {
         </Flex>
       </Box>
       {!status && (
-        <Button
-          isDisabled={disabled}
-          onClick={() => onSubmit()}
-          rightIcon={<NextArrowIcon />}
-          className={cls.nextBtn}
-        >
-          Далее
-        </Button>
+        <Flex flexDirection={`column`} rowGap={`10px`}>
+          <Button
+            isDisabled={disabled}
+            onClick={() => onSubmit()}
+            rightIcon={<NextArrowIcon />}
+            className={cls.nextBtn}
+          >
+            Далее
+          </Button>
+          <Button
+            isDisabled={disabled}
+            onClick={() => handleResetForm()}
+            leftIcon={<DeleteStepIcon />}
+            variant="secondaryWhite"
+            color={`rgba(126, 123, 134, 1)`}
+            fontWeight={500}
+            fontSize={`14px`}
+            className={cls.clearBtn}
+          >
+            Очистить форму
+          </Button>
+        </Flex>
       )}
-    </>
+    </Box>
   );
 };
 

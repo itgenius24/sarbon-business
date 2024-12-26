@@ -1,6 +1,8 @@
 import authStore from "@/store/auth.store";
 import {
   useDeleteCargo,
+  useGetExcelPost,
+  useGetNewPred,
   useGetOffer,
   useGetUserCargo,
   usePushNotificationMutation,
@@ -12,14 +14,19 @@ import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
 import { keepPreviousData } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
+import { boolean, object } from "yup";
 
 export const useMyLoadsMainProps = () => {
   const params = useSearchParams();
+  const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
-
+  const [dataPred, setDataPred] = useState(false);
   const router = useRouter();
-  const [orderStatus, setOrderStatus] = useState(orderValStatus || ``);
+  const [accept, setAccept] = useState(false);
+  const [orderStatus, setOrderStatus] = useState( orderValStatus);
 
+  console.log(`orderStatus`, orderStatus);
+  const [data, setData] = useState([]);
   const userId = authStore.userData.id;
 
   const toast = useToast();
@@ -42,7 +49,14 @@ export const useMyLoadsMainProps = () => {
     offset: 0,
     data: JSON.stringify({
       // users_id_3: userId,
-      users_id_2: userId,
+      users_id_2:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+          ? undefined
+          : orderStatus === "new"
+          ? undefined
+          : userId,
+      users_id_3:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? userId : undefined,
       with_relations: true,
     }),
   };
@@ -51,8 +65,6 @@ export const useMyLoadsMainProps = () => {
     !orderStatus ||
     orderStatus === "in_moderation" ||
     orderStatus === `in_active`;
-
-  console.log(`orderStatus22`, orderStatus);
 
   if (orderStatus === "approve_from_driver") {
     const data = JSON.parse(getCargoFilterParams.data);
@@ -76,12 +88,13 @@ export const useMyLoadsMainProps = () => {
     const data = JSON.parse(getAllUserCargoParams.data);
     data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
-  } else if (orderStatus === "new") {
-    const data = JSON.parse(getCargoFilterParams.data);
-    data.provisions = ["approve_by_customer"];
-    // data.response_status = ["approve_by_customer"];
-    getCargoFilterParams.data = JSON.stringify(data);
   }
+  //  else if (orderStatus === "new") {
+  //   const data = JSON.parse(getCargoFilterParams.data);
+  //   data.provisions = ["approve_by_customer"];
+  //   // data.response_status = ["approve_by_customer"];
+  //   getCargoFilterParams.data = JSON.stringify(data);
+  // }
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
     enabled:
@@ -98,18 +111,41 @@ export const useMyLoadsMainProps = () => {
     placeholderData: keepPreviousData,
   });
 
+  const getNewPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setData(data);
+      setAccept(false);
+    },
+  });
+
+  useEffect(() => {
+    // if (orderStatus === "new") {
+    getNewPred.mutate({
+      data: {
+        object_data: {
+          dispetchir_id: userId,
+        },
+      },
+    });
+    // }
+  }, [Boolean(orderStatus === "new"), accept]);
+
   const getOfferCount = useGetOffer(
     {
       limit,
       offset: 0,
       data: JSON.stringify({
-        users_id_2: userId,
+        users_id_3: userId,
         with_relations: true,
-        // provisions: ["new"],
         provisions: ["approve_by_customer"],
       }),
     },
-    { enabled: false }
+    { enabled: true }
   );
 
   const getWaitingDriverCount = useGetOffer(
@@ -117,7 +153,16 @@ export const useMyLoadsMainProps = () => {
       limit,
       offset: 0,
       data: JSON.stringify({
-        users_id_2: userId,
+        users_id_2:
+          role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+            ? undefined
+            : orderStatus === "new"
+            ? undefined
+            : userId,
+        users_id_3:
+          role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+            ? userId
+            : undefined,
         with_relations: true,
         // response_status: ["approve_from_driver"],
         provisions: ["new", "approve_from_driver"],
@@ -129,7 +174,7 @@ export const useMyLoadsMainProps = () => {
   useEffect(() => {
     getOfferCount.refetch();
     getWaitingDriverCount.refetch();
-  }, []);
+  }, [accept, orderStatus]);
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -154,10 +199,45 @@ export const useMyLoadsMainProps = () => {
   });
 
   const updateResponseMutation = useUpdateResponse({
+    onSuccess: () => {
+      setAccept(true);
+      setData([]);
+    },
     onError(res) {
       console.error(res);
     },
   });
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
+  });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          customer_id: authStore?.userData?.id,
+          type: "customer",
+        },
+      },
+    });
+  };
 
   const pushNotification = usePushNotificationMutation();
 
@@ -198,10 +278,13 @@ export const useMyLoadsMainProps = () => {
         },
       },
     });
+    setDataPred(false);
     updateResponseMutation.mutate(
       {
         data: {
           guid: id,
+          users_id_3: userId,
+          approve_time_from_dispatcher:new Date().toISOString(),
           provisions: ["new", "approve_from_driver"],
           // response_status: ["approve_from_driver"],
         },
@@ -231,9 +314,11 @@ export const useMyLoadsMainProps = () => {
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
+  // console.log(`cargos`,getAllUserCargo,getOfferCargo);
+
+
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
-
     setOrderStatus(value);
     setLimit(6);
     setHasMore(true);
@@ -277,9 +362,16 @@ export const useMyLoadsMainProps = () => {
     }
   }, [getAllUserCargo.data, getOfferCargo.data]);
 
+
   return {
-    cargos: cargosData.data?.response,
-    isLoading: cargosData.isLoading,
+    cargos: orderStatus === `new` ? data : cargosData.data?.response,
+
+    isLoading:
+      Boolean(
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+          getNewPred.isPending &&
+          orderStatus === `new`
+      ) || cargosData.isLoading,
     hasMore,
     onFilterChange,
     handleDelete,
@@ -288,7 +380,11 @@ export const useMyLoadsMainProps = () => {
     handleCancel,
     ref,
     handleLoadMore,
-    driverCount: getOfferCount.data?.count,
+    driverCount: data?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
+    setDataPred,
+    dataPred,
+    getExcelFileFn,
+    isPendingExe: getExcelFile.isPending,
   };
 };

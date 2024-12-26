@@ -56,7 +56,7 @@ import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
-import { ru } from "date-fns/locale";
+import { ro, ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
 
 export const TopContent = ({
@@ -79,6 +79,7 @@ export const TopContent = ({
   userId2,
   getMaps,
   id,
+  cargoData,
 }) => {
   const { watch, handleUploadDocument, getEmptyFileName, getValues } =
     useAddCargoContext();
@@ -90,7 +91,10 @@ export const TopContent = ({
   const firm_id = authStore.userData.firm_id;
   const paramsId = searchParams.get("car_id");
   const locale = useGetLang();
-
+  const role_id = authStore.userData.role_id;
+  const [offset, setOffset] = useState(0);
+  const [allPositions, setAllPositions] = useState([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
   const { t } = useTranslation(locale, "translations");
 
   const list = [
@@ -180,9 +184,8 @@ export const TopContent = ({
 
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
-      console.log(`response`,res?.response)
       setUserData(res?.response);
-      setUserId(res?.response?.[0]?.users_gps?.[0]?.users_id);
+      setUserId(res?.response?.[0]?.order?.[0]?.users_gps?.users_id);
     },
   });
 
@@ -258,81 +261,180 @@ export const TopContent = ({
 
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
+      offset: offset,
+      limit: 7000,
       data: JSON.stringify({
         users_id: userId,
-        limit:300,
-        offset:1,
+       
       }),
     },
-    querySettings:{
-      enabled:Boolean(userId),
-      refetchInterval: 10000
-    }
+    querySettings: {
+      enabled: Boolean(userId) && isLoadingMore,
+      // enabled: Boolean(userId),
+    },
   });
 
-
-  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
-
-  // useEffect(() => {
-  //   const ymapsScript = document.getElementById("yandex-maps-script");
-  //   if (ymapsScript) {
-  //     initYmaps();
-  //   }
-  // }, depArr);
-
-  console.log(`userData`, userData);
+  useEffect(() => {
+    if (getDriverPosition?.response) {
+      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+      if(getDriverPosition?.response.length > 0){
+        setOffset(offset + 7000);
+      }
+    }
+  }, [getDriverPosition?.response]);
 
   return (
     <Box>
       {status === "performed" && (
         <>
-          <Box p="14px" borderRadius="12px">
-            <h2 className={cls.address}>
-              <span className={cls.addressText}>
-                <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>
-                    {" "}
-                    <Tooltip
-                      color={`black`}
-                      boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                      background={`#fff`}
-                      label={`${address1}`}
-                    >
-                      <span>{`${address1?.slice(0, 10)}...`}</span>
-                    </Tooltip>
+          <Flex alignItems={`center`} justifyContent={`space-between`}>
+            <Box p="14px" borderRadius="12px">
+              <h2 className={cls.address}>
+                <span className={cls.addressText}>
+                  <span className={cls.addressCountry}>
+                    <span className={cls.addressCity}>
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${address1}`}
+                      >
+                     
+                          <span>
+                            {address1?.length >= 20
+                              ? `${address1?.slice(0, 20)}...`
+                              : address1}
+                          </span>
+                    
+                      </Tooltip>
+                    </span>
+
+                    {cargoData &&
+                      (cargoData?.cargo_id_data?.as_soon_as_a ? (
+                        <p
+                          style={{
+                            fontWeight: 500,
+                            fontSize: `12px`,
+                            color: `rgba(126, 123, 134, 1)`,
+                          }}
+                        >
+                          {cargoData?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
+                          /{" "}
+                          <span
+                            style={{
+                              fontSize: `12px`,
+                              color: `rgba(126, 123, 134, 1)`,
+                            }}
+                          >
+                         {t(`Как можно скорее`)}
+                          </span>
+                        </p>
+                      ) : (
+                        format(
+                          new Date(
+                            cargoData?.cargo_id_data?.load_time
+                          ).setHours(
+                            new Date(
+                              cargoData?.cargo_id_data?.load_time
+                            ).getHours() - 5
+                          ),
+                          "dd-MMMM",
+                          { locale: ru }
+                        )
+                      ))}
                   </span>
-                  {/* <span>{address1}</span> */}
-                </span>
-                <span>-&gt;</span>
-                <span className={cls.addressCountry}>
-                  <span className={cls.addressCity}>
-                    {" "}
-                    <Tooltip
-                      color={`black`}
-                      boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                      background={`#fff`}
-                      label={`${address2}`}
-                    >
-                      <span>{`${address2?.slice(0, 10)}...`}</span>
-                    </Tooltip>
+                  <span>-&gt;</span>
+                  <span className={cls.addressCountry}>
+                    <span className={cls.addressCity}>
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${address2}`}
+                      >
+                        <span>
+                          {address2?.length >= 20
+                            ? `${address2?.slice(0, 20)}...`
+                            : address2}
+                        </span>
+                      </Tooltip>
+                    </span>
+
+                    {cargoData && cargoData?.cargo_id_data?.as_soon_as_b ? (
+                      <p
+                        style={{
+                          fontWeight: 500,
+                          fontSize: `12px`,
+                          color: `rgba(126, 123, 134, 1)`,
+                        }}
+                      >
+                        {cargoData?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
+                        /{" "}
+                        <span
+                          style={{
+                            fontSize: `12px`,
+                            color: `rgba(126, 123, 134, 1)`,
+                          }}
+                        >
+                       {t(`Как можно скорее`)}
+                        </span>
+                      </p>
+                    ) : (
+                      cargoData?.cargo_id_data?.date &&
+                      format(
+                        new Date(cargoData?.cargo_id_data?.date).setHours(
+                          new Date(cargoData?.cargo_id_data?.date).getHours() -
+                            5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )
+                    )}
                   </span>
-                  {/* <span>{address2}</span> */}
                 </span>
-              </span>
-            </h2>
-          </Box>
+              </h2>
+            </Box>
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && (
+              <Box mr={`10px`} mb={`20px`}>
+                <p className={cls.statusTitle}>{t(`Заказчик`)}</p>
+                <Flex gap={`5px`}>
+                  <Avatar
+                    width={`45px`}
+                    height={`45px`}
+                    src={cargoData?.users_id_2_data?.photo}
+                    name={cargoData?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p style={{ fontSize: `18px` }}>
+                      {cargoData?.users_id_2_data?.full_name}
+                    </p>
+                    <span
+                      style={{
+                        cursor: `pointer`,
+                        fontWeight: 400,
+                        fontSize: `18px`,
+                        borderBottom: `1px dashed black`,
+                      }}
+                    >
+                      {cargoData?.users_id_2_data?.phone}
+                    </span>
+                  </Box>
+                </Flex>
+              </Box>
+            )}
+          </Flex>
 
           {isPending ? (
             <LoadingSpinner />
           ) : (
             <Accordion defaultIndex={[0]} allowToggle>
-              {userData?.map((user, index) => {
+              {userData?.[0]?.order?.map((user, index) => {
                 return (
                   <>
                     <AccordionItem key={index} className={cls.accordionItem}>
                       <AccordionButton
                         onClick={() => {
-                          setUserId(user?.users_gps?.[0]?.users_id);
+                          setUserId(user?.users_gps?.users_id);
                           setGpsHistory([]);
                         }}
                         className={cls.accordionButton}
@@ -342,18 +444,15 @@ export const TopContent = ({
                             <Avatar
                               // color={"white"}
                               background={`rgba(224, 224, 224, 1)`}
-                              name={
-                                user?.users_gps?.[0]?.users_id_data
-                                  ?.full_name || ``
-                              }
-                              src={user?.users_gps?.[0]?.users_id_data?.photo}
+                              name={user?.users_id_data?.full_name || ``}
+                              src={user?.users_id_data?.photo}
                             />
                             <div className={cls.user}>
                               <p className={cls.userName}>
-                                {user?.users_gps?.[0]?.users_id_data?.full_name}
+                                {user?.users_id_data?.full_name}
                               </p>
                               <p className={cls.userTel}>
-                                {user?.users_gps?.[0]?.users_id_data?.phone}
+                                {user?.users_id_data?.phone}
                               </p>
                             </div>
                           </div>
@@ -366,38 +465,55 @@ export const TopContent = ({
                                 <LocationMobileIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Геолокация</p>
-                                <Flex gap={`5px`}  alignItems={`center`} className={cls.phoneItemName}>
-                                  <span style={{fontWeight:600}} className={cls.phoneItemName}>{user.gps ? "Выкл " : "Откл "}</span>
+                                <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
+                                <Flex
+                                  gap={`5px`}
+                                  alignItems={`center`}
+                                  className={cls.phoneItemName}
+                                >
+                                  <span
+                                    style={{ fontWeight: 600 }}
+                                    className={cls.phoneItemName}
+                                  >
+                                    {user.gps ? t("Выкл") : t("Откл")}
+                                  </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {user?.users_gps?.[0]?.update_time && formatDateTime( user?.users_gps?.[0]?.update_time)}
-                                    
+                                    {user?.users_gps?.update_time &&
+                                      formatDateTime(
+                                        user?.users_gps?.update_time
+                                      )}
                                   </span>
                                 </Flex>
                               </div>
                             </div>
-                            <div className={cls.item}>
-                              {user?.users_gps?.[0]?.os === "android" ? (
-                                <AndroidIcon />
-                              ) : (
-                                <AppleIcon />
-                              )}
-                              <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Смартфон</p>
-                                <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.[0]?.os}{" "}
-                                </p>
+
+                            {console.log(`user`, user)}
+                            {role_id !==
+                              "48871d27-7361-4f69-8fe4-b54daf270739" && (
+                              <div className={cls.item}>
+                                {user?.users_gps?.os === "android" ? (
+                                  <AndroidIcon />
+                                ) : (
+                                  <AppleIcon />
+                                )}
+                                <div className={cls.itemText}>
+                                  <p className={cls.phoneItemTitle}>{t(`Смартфон`)}</p>
+                                  <p className={cls.phoneItemName}>
+                                    {user?.users_gps?.os}{" "}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
+                            )}
+
                             <div className={cls.item}>
                               <FurIcon />
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>
-                                  Версия Furgo
+                                  {t(`Версия Furgo`)}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.[0]?.version}{" "}
+                                  {user?.users_gps?.version}{" "}
                                 </p>
                               </div>
                             </div>
@@ -409,18 +525,60 @@ export const TopContent = ({
                             </div>
                           </div> */}
                             <div className={cls.item}>
-                              {user?.users_gps?.[0]?.battery > 19 ? (
+                              {user?.users_gps?.battery > 19 ? (
                                 <BatareyFullIcon />
                               ) : (
                                 <BatareyIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Батарея</p>
+                                <p className={cls.phoneItemTitle}>{t(`Батарея`)}</p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.[0]?.battery}%{" "}
+                                  {user?.users_gps?.battery}%{" "}
                                 </p>
                               </div>
                             </div>
+                            {role_id ===
+                              "48871d27-7361-4f69-8fe4-b54daf270739" && (
+                              <Flex className={cls.item}>
+                                <Box textAlign={`right`}>
+                                  <p
+                                    style={{
+                                      color: `rgba(126, 123, 134, 1)`,
+                                      fontSize: `14px`,
+                                      fontWeight: 400,
+                                    }}
+                                  >
+                                    {t(`Диспетчер`)}:
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: `14px`,
+                                      fontWeight: 600,
+                                      lineHeight: `20px`,
+                                    }}
+                                  >
+                                    {user?.users_id_3_data?.full_name}
+                                  </p>
+                                  <a
+                                    style={{
+                                      fontWeight: 400,
+                                      fontSize: `14px`,
+                                      lineHeight: `20px`,
+                                      borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
+                                      color: `rgba(0, 122, 255, 1)`,
+                                    }}
+                                    target="_blank"
+                                    href={`https://t.me/${user?.users_id_3_data?.phone}`}
+                                  >
+                                    {user?.users_id_3_data?.phone}
+                                  </a>
+                                </Box>
+                                <Avatar
+                                  src={user?.users_id_3_data?.photo}
+                                  name={user?.users_id_3_data?.full_name}
+                                />
+                              </Flex>
+                            )}
                           </div>
                         </div>
                         <AccordionIcon />
@@ -438,12 +596,13 @@ export const TopContent = ({
                                 startPoint={user.startPoint}
                                 endPoint={user.endPoint}
                                 gpsHistory={gpsHistory}
-                                getDriverPosition={getDriverPosition?.response?.map(item => ([item?.lat,item?.long]))}
-
-                                driver={user?.users_gps?.[0]}
+                                getDriverPosition={allPositions?.map((item) => [
+                                  item?.lat,
+                                  item?.long,
+                                ])}
                                 driverPosition={[
-                                  user?.users_gps?.[0]?.lat,
-                                  user?.users_gps?.[0]?.long,
+                                  user?.users_gps?.lat,
+                                  user?.users_gps?.long,
                                 ]}
                                 getMaps={getMaps}
                               />
@@ -460,9 +619,9 @@ export const TopContent = ({
                                     color={`black`}
                                     boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                                     background={`#fff`}
-                                    label={`${user?.order?.cargo_id_data?.from}`}
+                                    label={`${user?.cargo_id_data?.from}`}
                                   >
-                                    <span>{`${user?.order?.cargo_id_data?.from.slice(
+                                    <span>{`${user?.cargo_id_data?.from.slice(
                                       0,
                                       10
                                     )}...`}</span>
@@ -470,23 +629,23 @@ export const TopContent = ({
                                 </p>
                                 <p className={cls.adressDesk}>
                                   <span>
-                                    {
-                                      user?.order?.cargo_id_data
-                                        ?.country_code_from
-                                    }
-                                  </span>
-                                  /
-                                  {format(
-                                    new Date(
-                                      user?.order?.cargo_id_data?.load_time
-                                    ).setHours(
-                                      new Date(
-                                        user?.order?.cargo_id_data?.load_time
-                                      ).getHours() - 5
-                                    ),
-                                    "dd-MMMM",
-                                    { locale: ru }
-                                  )}
+                                    {user?.cargo_id_data?.country_code_from?.toUpperCase()}
+                                  </span>{" "}
+                                  /{" "}
+                                  {user?.cargo_id_data?.as_soon_as_a
+                                    ? t( `Как можно скорее`)
+                                    : user?.cargo_id_data?.load_time &&
+                                      format(
+                                        new Date(
+                                          user?.cargo_id_data?.load_time
+                                        ).setHours(
+                                          new Date(
+                                            user?.cargo_id_data?.load_time
+                                          ).getHours() - 5
+                                        ),
+                                        "dd-MMMM",
+                                        { locale: ru }
+                                      )}
                                 </p>
                               </Box>
                               <IocnPrev />
@@ -496,9 +655,9 @@ export const TopContent = ({
                                     color={`black`}
                                     boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                                     background={`#fff`}
-                                    label={`${user?.order?.cargo_id_data?.to}`}
+                                    label={`${user?.cargo_id_data?.to}`}
                                   >
-                                    <span>{`${user?.order?.cargo_id_data?.to.slice(
+                                    <span>{`${user?.cargo_id_data?.to.slice(
                                       0,
                                       10
                                     )}...`}</span>
@@ -506,23 +665,23 @@ export const TopContent = ({
                                 </p>
                                 <p className={cls.adressDesk}>
                                   <span>
-                                    {
-                                      user?.order?.cargo_id_data
-                                        ?.country_code_to
-                                    }
-                                  </span>
+                                    {user?.cargo_id_data?.country_code_to?.toUpperCase()}
+                                  </span>{" "}
                                   /
-                                  {format(
-                                    new Date(
-                                      user?.order?.cargo_id_data?.date
-                                    ).setHours(
-                                      new Date(
-                                        user?.order?.cargo_id_data?.date
-                                      ).getHours() - 5
-                                    ),
-                                    "dd-MMMM",
-                                    { locale: ru }
-                                  )}
+                                  {user?.cargo_id_data?.as_soon_as_b
+                                    ? t( `Как можно скорее`)
+                                    : user?.cargo_id_data?.date &&
+                                      format(
+                                        new Date(
+                                          user?.cargo_id_data?.date
+                                        ).setHours(
+                                          new Date(
+                                            user?.cargo_id_data?.date
+                                          ).getHours() - 5
+                                        ),
+                                        "dd-MMMM",
+                                        { locale: ru }
+                                      )}
                                 </p>
                               </Box>
                             </Flex>
@@ -539,23 +698,23 @@ export const TopContent = ({
                               <CarIconXM />
                               <Box>
                                 <p className={cls.title}>
-                                  {user?.order?.cargo_id_data?.car_type}:{" "}
+                                  {user?.cargo_id_data?.car_type}:{" "}
                                   {userData?.length} /{" "}
-                                  {user?.order?.cargo_id_data?.number_of_cars}
+                                  {user?.cargo_id_data?.number_of_cars}
                                 </p>
-                                <p className={cls.subTitle}>Volvo, 01A123NN</p>
+                                <p className={cls.subTitle}> {user?.vehicle_id_data?.car_number}</p>
                               </Box>
                             </Flex>
                             <Flex gap={`8px`}>
                               <LoadIconXM />
                               <Box>
                                 <p className={cls.title}>
-                                  {user?.order?.cargo_id_data?.product_type}
+                                  {user?.cargo_id_data?.product_type}
                                 </p>
                                 <p className={cls.subTitle}>
                                   {" "}
-                                  {user?.order?.cargo_id_data?.weight}т /{" "}
-                                  {user?.order?.cargo_id_data?.volume_m3} м3
+                                  {user?.cargo_id_data?.weight}т /{" "}
+                                  {user?.cargo_id_data?.volume_m3} м3
                                 </p>
                               </Box>
                             </Flex>
@@ -567,38 +726,26 @@ export const TopContent = ({
                             p={`13px 18px`}
                           >
                             <Box>
-                              <p className={cls.subTitle}>Тип оплаты: </p>
+                              <p className={cls.subTitle}>{t(`Тип оплаты`)}: </p>
                               <p className={cls.title}>
-                                {
-                                  user?.order?.cargo_id_data?.map_id_data
-                                    ?.payment_type
-                                }
+                                {user?.cargo_id_data?.map_id_data?.payment_type}
                               </p>
                             </Box>
                             <Box>
-                              <p className={cls.subTitle}>Преоплата: </p>
+                              <p className={cls.subTitle}>{t(`Предоплата`)}: </p>
                               <p className={cls.title}>
-                                {
-                                  user?.order?.cargo_id_data
-                                    ?.prepayment_percentage
-                                }{" "}
-                                {
-                                  user?.order?.cargo_id_data?.currency_id_data
-                                    ?.code
-                                }
+                                {user?.cargo_id_data?.prepayment_percentage}{" "}
+                                {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
                             <Box>
-                              <p className={cls.subTitle}>Сумма: </p>
+                              <p className={cls.subTitle}>{t(`Сумма`)}: </p>
                               <p
                                 className={cls.title}
                                 style={{ color: `rgba(0, 122, 255, 1)` }}
                               >
-                                {user?.order?.cargo_id_data?.bid_cash}{" "}
-                                {
-                                  user?.order?.cargo_id_data?.currency_id_data
-                                    ?.code
-                                }
+                                {user?.cargo_id_data?.bid_cash}{" "}
+                                {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
                           </Flex>

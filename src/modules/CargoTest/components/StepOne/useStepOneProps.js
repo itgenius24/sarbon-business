@@ -26,6 +26,7 @@ const useStepOneProps = () => {
     setDimensionsAndDiameter,
     isFileUploader,
     setIsFileUploader,
+    handleResetForm
   } = useAddCargoContext();
   const [searchCargo, setSearchCargo] = useState("");
   const [img, setImg] = useState("");
@@ -224,7 +225,7 @@ const useStepOneProps = () => {
     onSubmit,
     disabledBtn:disabled,
     canEdit,
-    
+    handleResetForm
   };
 };
 

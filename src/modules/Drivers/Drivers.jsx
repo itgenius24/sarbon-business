@@ -65,6 +65,7 @@ export const DriversModule = ({ locale }) => {
     if (input.length > 9) input = input.slice(0, 9); // Qo'shimcha raqamlarni olib tashlash
     return input;
   };
+  console.log(watch(`drivers_license`,))
   return (
     <>
       <Container my="40px">

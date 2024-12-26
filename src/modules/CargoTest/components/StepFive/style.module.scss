@@ -1,17 +1,62 @@
-.step1{
-    box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
-    background-color: white;
-    border-radius: 12px;
-    padding:35px 42px 22px 35px;
-    .title{
-        color: rgba(33, 31, 38, 1);
-        font-size: 20px;
-        font-weight: 600;
+.containerCards {
+    width: 100%;
+    max-width: 1432px;
+    margin: 0 auto;
+  
+    @media (max-width: 600px) {
+      padding: 16px;
+      background-color: white;
+    }
+  }
 
+.step1 {
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  border-radius: 12px;
+  padding: 35px 42px 22px 35px;
+  .title {
+    color: rgba(33, 31, 38, 1);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .deck {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(126, 123, 134, 1);
+  }
+  @media (max-width: 600px) {
+    margin-top: 4px !important;
+    box-shadow: none;
+    padding: 16px;
+    .itemWrap {
+      width: 100%;
+      margin-bottom: 30px;
+      flex-direction: column;
+      .box {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .itemSubWrap {
+        width: 100%;
+      }
     }
-    .deck{
-        font-size: 13px;
-        font-weight: 400;
-        color: rgba(126, 123, 134, 1);
-    }
+  }
 }
+.footerWrap{
+  .buttonWrap {
+    // max-width: 900px;
+    @media (max-width: 600px) {
+      width: 100% !important;
+      margin-bottom: 30px;
+      flex-direction: column;
+      .button {
+        max-width: 100% !important;
+      }
+    }
+  }
+  @media (max-width: 600px) {
+    margin-top: 10px !important;
+  }
+}
+
+

@@ -30,6 +30,7 @@ const useStepThereProps = () => {
     setIsFtlOpen,
     setIsReymenOpen,
     setLoad,load,
+    handleResetForm
   } = useAddCargoContext();
   const [disabled,setDisabled] = useState(true)
 
@@ -274,7 +275,8 @@ const useStepThereProps = () => {
     handleNumClick,
     clickIndex,
     onSubmit,
-    disabled
+    disabled,
+    handleResetForm
   };
 };
 

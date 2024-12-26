@@ -123,3 +123,21 @@
   }
   
 }
+
+
+.input{
+  width: 100%;
+  max-height: 44px;
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--brand-300);
+  &:not(:placeholder-shown) {
+    background-color: white; 
+   
+  }
+  &::placeholder {
+    color: var(--brand-500);
+    font-weight: 400;
+  }
+}

@@ -8,6 +8,7 @@ import {
   useGetCargoList,
   useGetDriverLocation,
   useGetDriverPosition,
+  useGetMaps,
   useGetSortedGPSHistory,
   useGetWithLocation,
 } from "@/services/api";
@@ -43,6 +44,7 @@ import {
   LoadIconXM,
   LocationActiveIcon,
   LocationMobileIcon,
+  ResToreIcon,
 } from "@/assets/icons/icons";
 import {
   Map,
@@ -57,32 +59,40 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
 import { ru } from "date-fns/locale";
+import { formatDateTime } from "@/utils/formatDateTime";
 
-export const TopContentPerfomet = ({ getMaps }) => {
+export const TopContentPerfomet = () => {
   // const { watch, handleUploadDocument, getEmptyFileName, getValues } =
   //   useAddCargoContext();
 
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
-  const searchParams = useSearchParams();
+  const [offset, setOffset] = useState(0);
+  const [allPositions, setAllPositions] = useState([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
+  const [carId, setCarId] = useState("");
+
   const firm_id = authStore.userData.firm_id;
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 
-  const getDriverLocation = useGetDriverLocation(
-    { data: JSON.stringify({ users_id: userId }) },
-    { enabled: !!(status === "performed" && userId) }
-  );
-
-  // const getGPSHistory = useGetGPSHistory(
-  //   { data: JSON.stringify({ user_id: userId2 }) },
-  //   { enabled: !!(status === "performed" && userId2) }
+  // const getDriverLocation = useGetDriverLocation(
+  //   { data: JSON.stringify({ users_id: userId }) },
+  //   { enabled: !!(status === "performed" && userId) }
   // );
+
   const [gpsHistory, setGpsHistory] = useState();
   const [page, setPage] = useState(0);
 
   const [breakRequest, setBreakRequest] = useState(false);
+
+  const getMaps = useGetMaps(
+    {
+      data: JSON.stringify({ cargo_id: carId }),
+    },
+    { enabled: !!carId }
+  );
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
@@ -112,26 +122,24 @@ export const TopContentPerfomet = ({ getMaps }) => {
 
   const { data: getDriverPosition } = useGetDriverPosition({
     params: {
+      offset: offset,
+      limit: 7000,
       data: JSON.stringify({
         users_id: userId,
-        limit:100,
-        offset:1,
       }),
     },
-    querySettings:{
-      enabled:Boolean(userId),
-      refetchInterval: 5000
-    }
+    querySettings: {
+      enabled: Boolean(userId) && isLoadingMore,
+      // enabled: Boolean(userId),
+    },
   });
 
-  console.log(`getDriverPosition`,getDriverPosition)
-
-  const driverPosition = useMemo(() => {
-    return [
-      getDriverLocation?.data?.response?.[0]?.lat,
-      getDriverLocation?.data?.response?.[0]?.long,
-    ];
-  }, [getDriverLocation?.data?.response?.[0]]);
+  // const driverPosition = useMemo(() => {
+  //   return [
+  //     getDriverLocation?.data?.response?.[0]?.lat,
+  //     getDriverLocation?.data?.response?.[0]?.long,
+  //   ];
+  // }, [getDriverLocation?.data?.response?.[0]]);
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -146,7 +154,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
   }, []);
 
   useEffect(() => {
-    if (status === "performed" && userId) {
+    if (userId) {
       getGPSHistory.mutate({
         data: {
           object_data: {
@@ -157,9 +165,18 @@ export const TopContentPerfomet = ({ getMaps }) => {
         },
       });
     }
-  }, [status, userId, page]);
+  }, [userId, page]);
 
-  console.log(`userData`, userData);
+  useEffect(() => {
+    if (getDriverPosition?.response) {
+      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+      if (getDriverPosition?.response.length > 0) {
+        setOffset(offset + 7000);
+      }
+    }
+  }, [getDriverPosition?.response]);
+
+  console.log(`userData`, userData?.[0]);
 
   return (
     <Box>
@@ -168,13 +185,14 @@ export const TopContentPerfomet = ({ getMaps }) => {
           <LoadingSpinner />
         ) : userData?.length > 0 ? (
           <Accordion allowToggle>
-            {userData?.map((user, index) => {
+            {userData?.[0]?.order?.map((user, index) => {
               return (
                 <>
                   <AccordionItem key={index} className={cls.accordionItem}>
                     <AccordionButton
                       onClick={() => {
-                        setUserId(user?.users_gps?.[0]?.users_id);
+                        setUserId(user?.users_gps?.users_id);
+                        setCarId(user?.cargo_id);
                         setGpsHistory([]);
                       }}
                       className={cls.accordionButton}
@@ -183,46 +201,51 @@ export const TopContentPerfomet = ({ getMaps }) => {
                         <div className={cls.userWrap}>
                           <Avatar
                             color={"white"}
-                            name={
-                              user?.users_gps?.[0]?.users_id_data?.full_name
-                            }
-                            src={user?.users_gps?.[0]?.users_id_data?.photo}
+                            name={user?.users_id_data?.full_name}
+                            src={user?.users_id_data?.photo}
                           />
                           <div className={cls.user}>
                             <p className={cls.userName}>
-                              {user?.users_gps?.[0]?.users_id_data?.full_name}
+                              {user?.users_id_data?.full_name}
                             </p>
                             <p className={cls.userTel}>
-                              {user?.users_gps?.[0]?.users_id_data?.phone}
+                              {user?.users_id_data?.phone}
                             </p>
                           </div>
                         </div>
 
                         <div className={cls.phoneDataWrap}>
                           <div className={cls.item}>
-                            {user.gps ? (
+                            {user?.users_gps?.gps ? (
                               <LocationActiveIcon />
                             ) : (
                               <LocationMobileIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>
-                                {t("Геолокация")}
-                              </p>
-                              <p className={cls.phoneItemName}>
-                                {user.gps ? t("Выкл ") : t("Откл ")}{" "}
+                              <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
+                              <Flex
+                                gap={`5px`}
+                                alignItems={`center`}
+                                className={cls.phoneItemName}
+                              >
+                                <span
+                                  style={{ fontWeight: 600 }}
+                                  className={cls.phoneItemName}
+                                >
+                                  {user?.users_gps?.gps ? "Выкл " : "Откл "}
+                                </span>
+                                <ResToreIcon />
                                 <span className={cls.phoneItemTitle}>
-                                  {user?.users_gps?.[0]?.update_time &&
-                                    format(
-                                      user?.users_gps?.[0]?.update_time,
-                                      "dd MMMM HH:HH "
+                                  {user?.users_gps?.update_time &&
+                                    formatDateTime(
+                                      user?.users_gps?.update_time
                                     )}
                                 </span>
-                              </p>
+                              </Flex>
                             </div>
                           </div>
                           <div className={cls.item}>
-                            {user?.users_gps?.[0]?.os === "android" ? (
+                            {user?.users_gps?.os === "android" ? (
                               <AndroidIcon />
                             ) : (
                               <AppleIcon />
@@ -232,7 +255,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                                 {t("Смартфон")}
                               </p>
                               <p className={cls.phoneItemName}>
-                                {user?.users_gps?.[0]?.os}{" "}
+                                {user?.users_gps?.os}{" "}
                               </p>
                             </div>
                           </div>
@@ -243,13 +266,13 @@ export const TopContentPerfomet = ({ getMaps }) => {
                                 {t("Версия Furgo")}
                               </p>
                               <p className={cls.phoneItemName}>
-                                {user?.users_gps?.[0]?.version}{" "}
+                                {user?.users_gps?.version}{" "}
                               </p>
                             </div>
                           </div>
 
                           <div className={cls.item}>
-                            {user?.users_gps?.[0]?.battery > 19 ? (
+                            {user?.users_gps?.battery > 19 ? (
                               <BatareyFullIcon />
                             ) : (
                               <BatareyIcon />
@@ -259,7 +282,7 @@ export const TopContentPerfomet = ({ getMaps }) => {
                                 {t("Батарея")}
                               </p>
                               <p className={cls.phoneItemName}>
-                                {user?.users_gps?.[0]?.battery}%{" "}
+                                {user?.users_gps?.battery}%{" "}
                               </p>
                             </div>
                           </div>
@@ -277,14 +300,18 @@ export const TopContentPerfomet = ({ getMaps }) => {
                         <>
                           <YMaps>
                             <AccordionMap
-                              driver={user?.users_gps?.[0]}
+                              driver={user?.users_gps}
                               gpsHistory={gpsHistory}
-                              getDriverPosition={getDriverPosition?.response?.map(item => ([item?.lat,item?.long]))}
+                              getDriverPosition={allPositions?.map((item) => [
+                                item?.lat,
+                                item?.long,
+                              ])}
                               driverPosition={[
-                                user?.users_gps?.[0]?.lat,
-                                user?.users_gps?.[0]?.long,
+                                user?.users_gps?.lat,
+                                user?.users_gps?.long,
                               ]}
-                              periods={user?.periods}
+                              periods={userData?.periods}
+                              getMaps={getMaps}
                             />
                           </YMaps>
                           <Flex
@@ -299,9 +326,9 @@ export const TopContentPerfomet = ({ getMaps }) => {
                                   color={`black`}
                                   boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                                   background={`#fff`}
-                                  label={`${user?.order?.cargo_id_data?.from}`}
+                                  label={`${user?.cargo_id_data?.from}`}
                                 >
-                                  <span>{`${user?.order?.cargo_id_data?.from.slice(
+                                  <span>{`${user?.cargo_id_data?.from.slice(
                                     0,
                                     10
                                   )}...`}</span>
@@ -309,18 +336,15 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               </p>
                               <p className={cls.adressDesk}>
                                 <span>
-                                  {
-                                    user?.order?.cargo_id_data
-                                      ?.country_code_from
-                                  }
+                                  {user?.cargo_id_data?.country_code_from}
                                 </span>
                                 /
                                 {format(
                                   new Date(
-                                    user?.order?.cargo_id_data?.load_time
+                                    user?.cargo_id_data?.load_time
                                   ).setHours(
                                     new Date(
-                                      user?.order?.cargo_id_data?.load_time
+                                      user?.cargo_id_data?.load_time
                                     ).getHours() - 5
                                   ),
                                   "dd-MMMM",
@@ -335,9 +359,9 @@ export const TopContentPerfomet = ({ getMaps }) => {
                                   color={`black`}
                                   boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                                   background={`#fff`}
-                                  label={`${user?.order?.cargo_id_data?.to}`}
+                                  label={`${user?.cargo_id_data?.to}`}
                                 >
-                                  <span>{`${user?.order?.cargo_id_data?.to.slice(
+                                  <span>{`${user?.cargo_id_data?.to.slice(
                                     0,
                                     10
                                   )}...`}</span>
@@ -345,15 +369,13 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               </p>
                               <p className={cls.adressDesk}>
                                 <span>
-                                  {user?.order?.cargo_id_data?.country_code_to}
+                                  {user?.cargo_id_data?.country_code_to}
                                 </span>
                                 /
                                 {format(
-                                  new Date(
-                                    user?.order?.cargo_id_data?.date
-                                  ).setHours(
+                                  new Date(user?.cargo_id_data?.date).setHours(
                                     new Date(
-                                      user?.order?.cargo_id_data?.date
+                                      user?.cargo_id_data?.date
                                     ).getHours() - 5
                                   ),
                                   "dd-MMMM",
@@ -375,24 +397,26 @@ export const TopContentPerfomet = ({ getMaps }) => {
                             <CarIconXM />
                             <Box>
                               <p className={cls.title}>
-                                {user?.order?.cargo_id_data?.car_type}:
+                                {user?.cargo_id_data?.car_type}:
                                 {userData?.length} /{" "}
-                                {user?.order?.cargo_id_data?.number_of_cars}
+                                {user?.cargo_id_data?.number_of_cars}
                               </p>
-                              <p className={cls.subTitle}>Volvo, 01A123NN</p>
+                              <p className={cls.subTitle}>
+                                {" "}
+                                {user?.vehicle_id_data?.car_number}
+                              </p>
                             </Box>
                           </Flex>
                           <Flex gap={`8px`}>
                             <LoadIconXM />
                             <Box>
                               <p className={cls.title}>
-                                {user?.order?.cargo_id_data?.product_type}
+                                {user?.cargo_id_data?.product_type}
                               </p>
                               <p className={cls.subTitle}>
                                 {" "}
-                                {user?.order?.cargo_id_data?.weight}
-                                {t("т")} /{" "}
-                                {user?.order?.cargo_id_data?.volume_m3}{" "}
+                                {user?.cargo_id_data?.weight}
+                                {t("т")} / {user?.cargo_id_data?.volume_m3}{" "}
                                 {t("м³")}
                               </p>
                             </Box>
@@ -408,22 +432,15 @@ export const TopContentPerfomet = ({ getMaps }) => {
                             <p className={cls.subTitle}>{t("Тип оплаты")}: </p>
                             <p className={cls.title}>
                               {t(
-                                user?.order?.cargo_id_data?.map_id_data
-                                  ?.payment_type
+                                user?.cargo_id_data?.map_id_data?.payment_type
                               )}
                             </p>
                           </Box>
                           <Box>
                             <p className={cls.subTitle}>{t("Предоплата")}: </p>
                             <p className={cls.title}>
-                              {
-                                user?.order?.cargo_id_data
-                                  ?.prepayment_percentage
-                              }{" "}
-                              {
-                                user?.order?.cargo_id_data?.currency_id_data
-                                  ?.code
-                              }
+                              {user?.cargo_id_data?.prepayment_percentage}{" "}
+                              {user?.cargo_id_data?.currency_id_data?.code}
                             </p>
                           </Box>
                           <Box>
@@ -432,11 +449,8 @@ export const TopContentPerfomet = ({ getMaps }) => {
                               className={cls.title}
                               style={{ color: `rgba(0, 122, 255, 1)` }}
                             >
-                              {user?.order?.cargo_id_data?.bid_cash}{" "}
-                              {
-                                user?.order?.cargo_id_data?.currency_id_data
-                                  ?.code
-                              }
+                              {user?.cargo_id_data?.bid_cash}{" "}
+                              {user?.cargo_id_data?.currency_id_data?.code}
                             </p>
                           </Box>
                         </Flex>

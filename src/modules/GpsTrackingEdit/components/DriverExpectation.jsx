@@ -20,8 +20,10 @@ import { useGetOffer, useUpdateResponse } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
+  const { t } = useTranslation();
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
@@ -97,7 +99,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
-            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd, hh:mm")} </p>
+            <p className={cls.smallText}>Вкл: {format(contendSingle?.users_gps?.[0]?.update_time,"yyyy-MM-dd, HH:mm")} </p>
             <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}</p>
             </Box>
           </Flex>
@@ -113,7 +115,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
             <Flex alignItems={"center"} gap={2}>
             {contendSingle?.users_gps?.[0]?.os === "android" ? <AndroidIcon /> : <AppleIcon />}
               <Box>
-                <p className={cls.smallText}>Смартфон </p>
+                <p className={cls.smallText}>{t(`Смартфон`)} </p>
                 <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.os}</p>
               </Box>
             </Flex>
@@ -123,7 +125,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           <Flex alignItems={"center"} gap={2}>
             { contendSingle?.users_gps?.[0]?.battery > 20 ?   <BatareyFullIcon /> :  <BatareyIcon />}
               <Box>
-                <p className={cls.smallText}>Батарея </p>
+                <p className={cls.smallText}>{t(`Батарея`)} </p>
                 <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
               </Box>
             </Flex>
@@ -144,7 +146,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
               <p className={cls.cardStartTitle}>{contendSingle?.orders?.[0]?.cargo_id_data?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 
-                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.load_time ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time : new Date(),"yyyy-mm-dd")}
+                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.load_time ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time : new Date(),"yyyy-MM-dd")}
                 </span>
               </p>
             </Box>
@@ -154,7 +156,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
             <Box>
               <p className={cls.cardStartTitle}>{contendSingle?.orders?.[0]?.cargo_id_data?.to}</p>
               <p className={cls.cardStartSubTitle}>
-                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_2_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.date ? contendSingle?.orders?.[0]?.cargo_id_data?.date  : new Date(),"yyyy-mm-dd")}</span>{" "}
+                {contendSingle?.orders?.[0]?.cargo_id_data?.city_id_2_data?.address_id_data?.name} / <span>{format(contendSingle?.orders?.[0]?.cargo_id_data?.date ? contendSingle?.orders?.[0]?.cargo_id_data?.date  : new Date(),"yyyy-MM-dd")}</span>{" "}
               </p>
             </Box>
           </Flex>

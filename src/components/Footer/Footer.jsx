@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Container } from "../Container";
 import cls from "./styles.module.scss";
 import GooglePlay from "@/assets/images/google-play.svg";
+import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
 import GalaxyStore from "@/assets/images/galaxy-store.svg";
 import { Logo } from "../Logo";
@@ -53,6 +54,28 @@ export const Footer = () => {
       },
     ],
   };
+
+
+    const downloadByLanguage = async (langId) => {
+      try {
+        // const res = await getData({
+        //   ...file,
+        //   lang: langId,
+        // });
+       
+          const link = document.createElement("a");
+          const res = `../../assets/app/Furgo.apk`
+          link.href = res.file;
+          link.target = "_blank";
+          link.download = `Furgo.apk` ;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        
+      } catch (e) {
+        console.log(2);
+      }
+    };
 
   return (
     <Box
@@ -130,9 +153,9 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"https://play.google.com/store/apps/details?id=uz.udevs.xlogistic_driver_mobile"} target="_blank">
+                <a style={{cursor:`pointer`}} className={cls.mobileAppLink}  href="https://bit.ly/3ZzbzSt"  target="_blank">
                   <Image
-                    src={GooglePlay}
+                    src={AndroidPlay}
                     alt="Google play"
                     width={135}
                     height={40}

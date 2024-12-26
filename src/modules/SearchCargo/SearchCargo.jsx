@@ -32,8 +32,13 @@ import {
 } from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
 import { useState } from "react";
+import { countries } from "@/utils/country";
+import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
+import { ChakraSelect } from "@/components/ChakraSelect";
+import { useGetLang } from "@/hooks/useGetLang";
 
-export const SearchCargoModule = ({ locale }) => {
+export const SearchCargoModule = () => {
+  const locale = useGetLang();
   const { t } = useTranslation(locale);
   const {
     setValue,
@@ -51,15 +56,22 @@ export const SearchCargoModule = ({ locale }) => {
     setIsPopupOpen,
     isPopupOpen,
     adrOptions,
+    euroTypeOptions,
+    fuels,
     router,
+    isBtn,
+    setinputValue
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const rules = { 
-    required: { 
-      value: true, 
-      message: t("Это поле обязательно для заполнения") 
-    }
+  const rules = {
+    required: {
+      value: true,
+      message: t("Это поле обязательно для заполнения"),
+    },
   };
+
+  console.log(`carTypeOptions`, locale);
+
   return (
     <>
       <Container my="40px">
@@ -76,7 +88,7 @@ export const SearchCargoModule = ({ locale }) => {
             gap={"24px"}
             mt={"10px"}
           >
-            <Box className={cls.left}>
+            <Box width={`50%`} className={cls.left}>
               <Box width={"100%"}>
                 <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
                 <Dropdown
@@ -121,11 +133,13 @@ export const SearchCargoModule = ({ locale }) => {
               </Box>
             </Box>
 
-            <Box className={cls.regit}>
+            <Box width={`50%`} className={cls.regit}>
               <Flex width={`100%`} gap={"24px"}>
-                <Box>
-                  <p className={cls.textFieldName}>{t("Грузоподъёмность, т")} *</p>
-                  <TextFieldWithAddition
+                <Box width={`100%`}>
+                  <p className={cls.textFieldName}>
+                    {t("Грузоподъёмность, т")} *
+                  </p>
+                  <TextFieldWithAdditionCar
                     className={cls.textField}
                     errors={errors}
                     control={control}
@@ -140,7 +154,7 @@ export const SearchCargoModule = ({ locale }) => {
                     type="number"
                     zIndex={90}
                   />
-                  <Flex ml={4} gap={`12px`} mt={2}>
+                  <Flex  gap={`12px`} mt={2}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`capacity`, `7`)}
@@ -168,7 +182,7 @@ export const SearchCargoModule = ({ locale }) => {
                     </p>
                   </Flex>
                 </Box>
-                <Box>
+                <Box width={`100%`}>
                   <p className={cls.textFieldName}>{t("Объём кузова, м3")} *</p>
                   <TextFieldWithAddition
                     className={cls.textField}
@@ -184,7 +198,7 @@ export const SearchCargoModule = ({ locale }) => {
                     // additionalItemName="volume_unit"
                     // additionalItemOptions={volumeMeasurementOptions}
                   />
-                  <Flex ml={4} gap={`12px`} mt={2}>
+                  <Flex gap={`12px`} mt={2}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`height`, `20`)}
@@ -210,7 +224,7 @@ export const SearchCargoModule = ({ locale }) => {
             </Box>
           </Flex>
 
-          <Flex gap={"10px"}>
+          <Flex gap={"24px"}>
             <Box width={`50%`} mt={`37px`}>
               <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
               <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
@@ -245,21 +259,148 @@ export const SearchCargoModule = ({ locale }) => {
               </Box>
             </Box>
 
-            <Flex gap={"24px"} mt={`32px`}>
-              <Box>
+            <Flex width={`50%`} gap={"24px"} mt={`32px`}>
+              <Box width={`100%`}>
+                <p className={cls.textFieldName}>
+                  {t("Страна регистрации автомобиля")}
+                </p>
+                <ChakraSelect
+                  options={countries?.map((item) => ({
+                    ...item,
+                    label: item[`name_${locale}`],
+                    value: item?.code,
+                  }))}
+                  name="car_country"
+                  placeholder={t("Выберите страну")}
+                  control={control}
+                />
+              </Box>
+              <Box width={`100%`}>
                 <p className={cls.textFieldName}>{t("Госномер")} *</p>
                 <TextField
                   register={register}
                   errors={errors}
                   name="car_number"
                   placeholder={t("Введите номер транспортного средства")}
-                  rules={rules}
+                  rules={{
+                    required: t("Это поле обязательно"),
+                  }}
+                  onChange={(e) => {
+                    console.log(`we`, e.target.value)
+                    e.target.value = e.target.value
+                      .replace(/[^A-Za-z0-9]/g, "")
+                      .toUpperCase();
+                      setinputValue(e.target.value)
+                  }}
                 />
                 <Flex ml={4} gap={2} mt={2}>
                   <span className={cls.subTitle}></span>
                 </Flex>
               </Box>
-              <Box>
+            </Flex>
+          </Flex>
+
+          <Flex mt={`10px`} gap={"24px"}>
+            <Box width={`100%`} mt={`20px`}>
+              <p className={cls.textFieldName}>{t("Требования")}</p>
+              <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
+                <Checkbox
+                  defaultChecked={watch(`coupling`)}
+                  register={register}
+                  name="coupling"
+                >
+                  {t("Сцепка")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`pneumatic`)}
+                  register={register}
+                  name="pneumatic"
+                >
+                  {t("Пневмоход")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`konika`)}
+                  register={register}
+                  name="konika"
+                >
+                  {t("Коники")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`tir`)}
+                  register={register}
+                  name="tir"
+                >
+                  {t("TIR")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`cemt`)}
+                  register={register}
+                  name="cemt"
+                >
+                  {t("CEMT (ЕКМТ) ")}
+                </Checkbox>
+              </Box>
+            </Box>
+
+            <Flex gap={"24px"} width={`100%`} mt={`20px`}>
+              <Box width={`100%`}>
+                <p className={cls.textFieldName}>{t("Тип топлива")}</p>
+                <ChakraSelect
+                  options={fuels?.map((item) => ({
+                    ...item,
+                    label: item?.name,
+                    value: item?.guid,
+                  }))}
+                  name="fuel_id"
+                  placeholder={t("Название")}
+                  control={control}
+                  required
+                />
+              </Box>
+              <Box width={`100%`}>
+                <p className={cls.textFieldName}>{t("Euro type")}</p>
+                <ChakraSelect
+                  options={euroTypeOptions}
+                  name="eco_standart"
+                  placeholder={t("Название")}
+                  control={control}
+                  // required
+                />
+              </Box>
+
+              {/* <p className={cls.textFieldName}>{t("ADR")}</p>
+              <Box display="flex" columnGap="22px" alignItems={"center"}>
+                <Box width={"100px"}>
+                  <Dropdown
+                    control={control}
+                    required
+                    register={register}
+                    watch={watch}
+                    placeholder={t("Выберите ARD")}
+                    name="adr"
+                    options={adrOptions}
+                    errors={errors}
+                    width={"100%"}
+                    className={cls.dropdown}
+                    searchName="cargo_type_search"
+                  />
+                </Box>
+                <p className={cls.link}>
+                  Класс{" "}
+                  <a href="https://ru.wikipedia.org/wiki/%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D0%BA%D0%BE%D0%B5_%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%BE%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%B5_%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D1%8B%D1%85_%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%B2">
+                    {" "}
+                    опасности груза
+                  </a>{" "}
+                  <StepLinkIcon />
+                </p>
+              </Box> */}
+            </Flex>
+          </Flex>
+
+          <Flex gap={"24px"}>
+            <Box width={`100%`}></Box>
+            <Flex gap={"24px"} width={`100%`} mt={`20px`}>
+              <Box width={`100%`}>
                 <p className={cls.textFieldName}>{t("Марка машины")}</p>
                 <TextField
                   rules={rules}
@@ -269,7 +410,7 @@ export const SearchCargoModule = ({ locale }) => {
                   placeholder={t("Необъязательно")}
                   type="text"
                 />
-                <Flex ml={4} gap={2} mt={2}>
+                <Flex  gap={2} mt={2}>
                   <span className={cls.subTitle}>{t("Пример")}: </span>
                   <p
                     onClick={() => setValue(`marka`, `Mercedes-Benz `)}
@@ -298,78 +439,6 @@ export const SearchCargoModule = ({ locale }) => {
                 </Flex>
               </Box>
             </Flex>
-          </Flex>
-
-          <Flex gap={"24px"}>
-            <Box width={`100%`} mt={`20px`}>
-              <p className={cls.textFieldName}>{t("Требования")}</p>
-              <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
-                <Checkbox
-                  defaultChecked={watch(`coupling`)}
-                  register={register}
-                  name="coupling"
-                >
-                  {t("Сцепка")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`pneumatic`)}
-                  register={register}
-                  name="pneumatic"
-                >
-                  {t("Пневмоход")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`konika`)}
-                  register={register}
-                  name="konika"
-                >
-                  {t("Коники")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`tir`)}
-                  register={register}
-                  name="tir" 
-                >
-                  {t("TIR")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`cemt`)}
-                  register={register}
-                  name="cemt"
-                >
-                  {t("CEMT (ЕКМТ) ")}
-                </Checkbox>
-              </Box>
-            </Box>
-
-            <Box width={`100%`} mt={`20px`}>
-              {/* <p className={cls.textFieldName}>{t("ADR")}</p>
-              <Box display="flex" columnGap="22px" alignItems={"center"}>
-                <Box width={"100px"}>
-                  <Dropdown
-                    control={control}
-                    required
-                    register={register}
-                    watch={watch}
-                    placeholder={t("Выберите ARD")}
-                    name="adr"
-                    options={adrOptions}
-                    errors={errors}
-                    width={"100%"}
-                    className={cls.dropdown}
-                    searchName="cargo_type_search"
-                  />
-                </Box>
-                <p className={cls.link}>
-                  Класс{" "}
-                  <a href="https://ru.wikipedia.org/wiki/%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D0%BA%D0%BE%D0%B5_%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%BE%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%B5_%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D1%8B%D1%85_%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%B2">
-                    {" "}
-                    опасности груза
-                  </a>{" "}
-                  <StepLinkIcon />
-                </p>
-              </Box> */}
-            </Box>
           </Flex>
 
           <Flex
@@ -411,13 +480,16 @@ export const SearchCargoModule = ({ locale }) => {
             </Box>
           </Flex>
         </Box>
-        <Button
+        {
+          !isBtn &&   <Button
           isLoading={loading}
           onClick={handleSubmit(onSubmit)}
           className={cls.nextBtn}
         >
           {t("Сохранить авто")}
         </Button>
+        }
+      
 
         <Modal isOpen={isPopupOpen} isCentered>
           <ModalOverlay />

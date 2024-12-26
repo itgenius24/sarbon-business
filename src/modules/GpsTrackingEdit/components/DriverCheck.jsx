@@ -20,6 +20,7 @@ import { useGetOffer } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DriverCheck = ({
   cls,
@@ -28,6 +29,7 @@ const DriverCheck = ({
   setCenterModalType,
   setIconStatus,
 }) => {
+  const { t } = useTranslation();
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
@@ -86,10 +88,10 @@ const DriverCheck = ({
               <LocationActiveIcon />
               <Box>
                 <p className={cls.smallText}>
-                  Вкл:{" "}
+                  Вкл:
                   {format(
-                    contendSingle?.users_gps?.[0]?.update_time,
-                    "yyyy-mm-dd, hh:mm"
+                    new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                    "yyyy-MM-dd, HH:mm"
                   )}{" "}
                 </p>
                 <p className={cls.bigTitle}>
@@ -112,7 +114,7 @@ const DriverCheck = ({
                   <BatareyIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Батарея </p>
+                  <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.battery}%
                   </p>
@@ -127,7 +129,7 @@ const DriverCheck = ({
                   <AppleIcon />
                 )}
                 <Box>
-                  <p className={cls.smallText}>Смартфон </p>
+                  <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.os}
                   </p>
@@ -161,7 +163,7 @@ const DriverCheck = ({
                       contendSingle?.orders?.[0]?.cargo_id_data?.load_time
                         ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time
                         : new Date(),
-                      "yyyy-mm-dd"
+                      "yyyy-MM-dd"
                     )}
                   </span>
                 </p>
@@ -187,7 +189,7 @@ const DriverCheck = ({
                       contendSingle?.orders?.[0]?.cargo_id_data?.date
                         ? contendSingle?.orders?.[0]?.cargo_id_data?.date
                         : new Date(),
-                      "yyyy-mm-dd"
+                      "yyyy-MM-dd"
                     )}
                   </span>
                 </p>

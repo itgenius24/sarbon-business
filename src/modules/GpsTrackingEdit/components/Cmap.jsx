@@ -40,18 +40,16 @@ const Cmap = memo(
     coordinates,
     cls,
     type,
-    balloonContent,
+
     mapIcon,
     watch,
     setModalType,
-    balloonContentCargo,
-    handleMouseEnter,
+
     locationData,
     setLoadState,
-    handleMouseEnterCargo,
+
     setContendSingle,
     contendHoverState,
-    isLoading,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -111,7 +109,9 @@ const Cmap = memo(
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_274_4505" result="shape"/>
 </filter>
 </defs>
-   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="600" fill="#fff">$${tempValue || `------`}</text>
+   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="600" fill="#fff">$${
+     tempValue || `------`
+   }</text>
 
 </svg>
 
@@ -129,8 +129,6 @@ const Cmap = memo(
       // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone);
     });
-
-    console.log(`getCarListProps`, getCarListProps);
 
     return (
       <Map
@@ -179,6 +177,7 @@ const Cmap = memo(
             cornerRadius: "50%",
           }}
         />
+        {console.log(`type`, type)}
 
         <Clusterer
           // modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
@@ -194,29 +193,28 @@ const Cmap = memo(
             },
           }}
         >
-       
           {getCarListProps?.data &&
             getCarListProps?.data?.map((carInfo) => {
-              
               const BalloonContent = () => (
                 <div id="balloon-content" className={cls.balloon_content_empty}>
                   <div className={cls.wrap} style={{ height: "45px" }}>
-                    {type === "empty" ? (
+                    {carInfo?.user?.provisions?.[0] === "empty" ? (
                       <>
-                        <GreenCarIcon />{" "}
+                        <GreenCarIcon />
                         <span className={cls.balloonName}>Свободен</span>
                       </>
-                    ) : type === "waiting_for_driver" ? (
+                    ) : carInfo?.user?.provisions?.[0] ===
+                      "waiting_for_driver" ? (
                       <>
                         <BluePendingIcon />
                         <span
-                          style={{ color: "rgba(0, 122, 255, 1)"}}
+                          style={{ color: "rgba(0, 122, 255, 1)" }}
                           className={cls.balloonName}
                         >
                           Ожидание
                         </span>
                       </>
-                    ) : type === "our_cargo" ? (
+                    ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
                       <>
                         <CheckBlueIcon />
                         <span
@@ -226,7 +224,7 @@ const Cmap = memo(
                           Занят
                         </span>
                       </>
-                    ) : type === "someone_cargo" ? (
+                    ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
                       <>
                         <QuestionBlueIcon />
                         <span
@@ -236,7 +234,7 @@ const Cmap = memo(
                           Занят
                         </span>
                       </>
-                    ) : type === "broke_down" ? (
+                    ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
                       <>
                         <CencelMapIcon />
                         <span
@@ -248,14 +246,15 @@ const Cmap = memo(
                       </>
                     ) : (
                       <>
-                        <GreenCarIcon />{" "}
+                        <GreenCarIcon />
                         <span className={cls.balloonName}>Свободен</span>
                       </>
                     )}
 
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
-                        <StoneIcon /> <span> {carInfo?.vehicles?.[0]?.height} т.</span>
+                        <StoneIcon />{" "}
+                        <span> {carInfo?.vehicles?.[0]?.height} т.</span>
                       </Box>
 
                       <Box
@@ -263,77 +262,137 @@ const Cmap = memo(
                         gap={1}
                         alignItems={"center"}
                       >
-                        <LoadOulineIcon /> <span>{carInfo?.vehicles?.[0]?.capacity} m3</span>
+                        <LoadOulineIcon />{" "}
+                        <span>{carInfo?.vehicles?.[0]?.capacity} m3</span>
                       </Box>
                     </div>
                   </div>
                   <p className={cls.balloon_fulName}>
                     {carInfo?.user?.full_name}
                   </p>
-                  {type === "empty" ? (
+                  {carInfo?.user?.provisions?.[0] === "empty" ? (
                     <>
-                      <p id="click" className={cls.footerBox1}>
+                      <div className={cls.flex}>
                         <GreenPhoneIcon />
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </p>
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
-                  ) : type === "waiting_for_driver" ? (
+                  ) : carInfo?.user?.provisions?.[0] ===
+                    "waiting_for_driver" ? (
                     <>
-                      <p id="click" className={cls.footerBox1}>
+                      <div className={cls.flex}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </p>
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
-                  ) : type === "our_cargo" ? (
+                  ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
                     <>
-                      <p id="click" className={cls.footerBox1}>
-                        <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </p>
+                      <div className={cls.flex}>
+                        <BluePhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
-                  ) : type === "someone_cargo" ? (
+                  ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
                     <>
-                      <p id="click" className={cls.footerBox1}>
-                        <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </p>
+                      <div className={cls.flex}>
+                        <BluePhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
-                  ) : type === "broke_down" ? (
+                  ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
                     <>
-                      <p id="click" className={cls.footerBox1}>
+                      <div className={cls.flex}>
                         <BluePhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </p>
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   ) : (
                     <>
-                      <p id="click" className={cls.footerBox1}>
-                        <GreenPhoneIcon />{" "}
-                        {formatPhoneNumber(carInfo?.user?.phone)}
-                      </p>
+                      <div className={cls.flex}>
+                        <GreenPhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          id="click"
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(carInfo?.user?.phone)}
+                        </a>
+                      </div>
+
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name}
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : `Пока нет машины.`}
                       </p>
                     </>
                   )}
@@ -369,26 +428,39 @@ const Cmap = memo(
                     onBalloonOpen={(e) => {
                       const placemark = e.get("target");
                       const balloonInstance = placemark.balloon;
-                      balloonInstance.events.add("click", () => {
-                        setContendSingle(carInfo);
-                        if (carInfo?.user?.provisions?.[0] === "our_cargo") {
-                          setModalType("driverCheck");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] === "someone_cargo"
-                        ) {
-                          setModalType("driverQuestion");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "waiting_for_driver"
-                        ) {
-                          setModalType("driverExpectation");
-                        } else {
-                          setModalType("driverFree");
-                        }
-                      });
+                      // balloonInstance.events.add("click", () => {
+                      //   setContendSingle(carInfo);
+                      //   if (carInfo?.user?.provisions?.[0] === "our_cargo") {
+                      //     setModalType("driverCheck");
+                      //   } else if (
+                      //     carInfo?.user?.provisions?.[0] === "someone_cargo"
+                      //   ) {
+                      //     setModalType("driverQuestion");
+                      //   } else if (
+                      //     carInfo?.user?.provisions?.[0] ===
+                      //     "waiting_for_driver"
+                      //   ) {
+                      //     setModalType("driverExpectation");
+                      //   } else {
+                      //     setModalType("driverFree");
+                      //   }
+                      // });
                     }}
-                    onMouseEnter={(e) => {
-                      handleMouseEnter(e, carInfo);
+                    onClick={() => {
+                      setContendSingle(carInfo);
+                      if (carInfo?.user?.provisions?.[0] === "our_cargo") {
+                        setModalType("driverCheck");
+                      } else if (
+                        carInfo?.user?.provisions?.[0] === "someone_cargo"
+                      ) {
+                        setModalType("driverQuestion");
+                      } else if (
+                        carInfo?.user?.provisions?.[0] === "waiting_for_driver"
+                      ) {
+                        setModalType("driverExpectation");
+                      } else {
+                        setModalType("driverFree");
+                      }
                     }}
                   />
                 </>
@@ -397,55 +469,133 @@ const Cmap = memo(
         </Clusterer>
 
         {locationData &&
-          locationData.map((item) => (
-            <>
-              {item.location_name && (
-                <Placemark
-                  key={item?.guid}
-                  geometry={[
-                    item.location_name.split(" ")[0] * 1,
-                    item.location_name.split(" ")[1] * 1,
-                  ]}
-                  properties={{
-                    balloonContent: balloonContentCargo,
-                    iconContent: "2000",
-                  }}
-                  options={{
-                    iconLayout: "default#image",
-                    iconImageHref: getSVGIcon(
-                      item?.bid_cash,
-                      item?.new_status?.[0]
-                    ),
-                    iconImageSize: [60, 72],
-                    iconImageOffset: [-15, -42],
-                  }}
-                  onBalloonOpen={(e) => {
-                 
+          locationData.map((item) => {
+            const BalloonContentCargo = () => (
+              <div
+                id="balloon-content_cargo"
+                className={cls.balloon_content_empty}
+              >
+                <div className={cls.wrap} style={{ height: "45px" }}>
+                  {item?.new_status?.[0] === "occupied_cargo" ? (
+                    <>
+                      <MapCargoLoadGoodsIcon />
+                      <span
+                        style={{ color: "rgba(193, 187, 32, 1)" }}
+                        className={cls.balloonName}
+                      >
+                        {item?.bid_cash || `$-----`}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <MapCargoGreenIcon />
+                      <span className={cls.balloonName}>
+                        {item?.bid_cash || `$-----`}
+                        {item?.currency_id_data?.code}
+                      </span>
+                    </>
+                  )}
 
-                    const placemark = e.get("target");
-                    const balloonInstance = placemark.balloon;
-                    balloonInstance.events.add("click", () => {
+                  <Flex style={{ gap: "4px" }} alignItems={"center"}>
+                    <Box className={cls.conWrap}>
+                      <StoneIcon /> <span> {item?.weight} т.</span>
+                    </Box>
+                    <p className={cls.conWrap}> </p>
+                    <p className={cls.conWrap} gap={1} alignItems={"center"}>
+                      <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
+                    </p>
+                  </Flex>
+                </div>
+                <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
+                {item?.new_status?.[0] === "occupied_cargo" ? (
+                  <>
+                    <div className={cls.flex}>
+                      <GoodsPhoneIcon />
+                      <a
+                        target="_blank"
+                        href={`https://t.me/${item?.users_id_data?.phone}`}
+                        className={cls.footerBoxLink}
+                      >
+                        {formatPhoneNumber(item?.users_id_data?.phone)}
+                      </a>
+                    </div>
+
+                    <p className={cls.footerBox}>
+                      <GoodsFuraIcon />
+                      {item?.vehicle_type_id_data?.name}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className={cls.flex}>
+                      <GreenPhoneIcon />
+                      <a
+                        target="_blank"
+                        href={`https://t.me/${item?.users_id_data?.phone}`}
+                        className={cls.footerBoxLink}
+                      >
+                        {formatPhoneNumber(item?.users_id_data?.phone)}
+                      </a>
+                    </div>
+
+                    <p className={cls.footerBox}>
+                      <GreenFuraIcon />
+                      {item?.vehicle_type_id_data?.name}
+                    </p>
+                  </>
+                )}
+              </div>
+            );
+            const balloonContentCargo = ReactDOMServer.renderToString(
+              <BalloonContentCargo />
+            );
+            return (
+              <>
+                {item.location_name && (
+                  <Placemark
+                    onClick={() => {
                       setLoadState(item);
                       if (item?.new_status?.[0] === "occupied_cargo") {
                         setModalType("driverGruzGoods");
                       } else {
                         setModalType("driverGruz");
                       }
-                    });
-                  }}
-                  onMouseEnter={(e) => handleMouseEnterCargo(e, item)}
-
-                  // onClick={(e) => {
-
-                  //   // handlePlacemarkClick(e.get("target").getMap(), [
-                  //   //   item.location_name.split(",")[0] * 1,
-                  //   //   item.location_name.split(",")[1] * 1,
-                  //   // ]);
-                  // }}
-                />
-              )}
-            </>
-          ))}
+                    }}
+                    key={item?.guid}
+                    geometry={[
+                      item.location_name.split(" ")[0] * 1,
+                      item.location_name.split(" ")[1] * 1,
+                    ]}
+                    properties={{
+                      balloonContent: balloonContentCargo,
+                      iconContent: "2000",
+                    }}
+                    options={{
+                      iconLayout: "default#image",
+                      iconImageHref: getSVGIcon(
+                        item?.bid_cash,
+                        item?.new_status?.[0]
+                      ),
+                      iconImageSize: [60, 72],
+                      iconImageOffset: [-15, -42],
+                    }}
+                    onBalloonOpen={(e) => {
+                      const placemark = e.get("target");
+                      const balloonInstance = placemark.balloon;
+                      // balloonInstance.events.add("click", () => {
+                      //   setLoadState(item);
+                      //   if (item?.new_status?.[0] === "occupied_cargo") {
+                      //     setModalType("driverGruzGoods");
+                      //   } else {
+                      //     setModalType("driverGruz");
+                      //   }
+                      // });
+                    }}
+                  />
+                )}
+              </>
+            );
+          })}
       </Map>
     );
   }

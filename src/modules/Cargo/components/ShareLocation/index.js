@@ -1,0 +1,1 @@
+export { ShareLocationModule } from "./ShareLocation";

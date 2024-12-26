@@ -3,7 +3,7 @@ import axios from "axios";
 
 const request = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASIC_URL,
-  timeout: 25000,
+  timeout: 2500000,
 });
 
 export const errorHandlerHttp = (error) => {

@@ -33,7 +33,7 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const { control, register, watch, setValue, errors, canEdit, getValues } =
+  const { control, register, watch, setValue, errors, canEdit, getValues,handleResetForm } =
     useAddCargoContext();
 
   // useEffect(() => {
@@ -326,6 +326,7 @@ const useStepTwoProps = () => {
     loadingNumF,
     handLeCheck,
     handLeCheck2,
+    handleResetForm
   };
 };
 

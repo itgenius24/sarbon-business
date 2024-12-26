@@ -17,6 +17,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  margin-left: 24px;
 }
 
 .leftBox {
@@ -178,6 +179,14 @@
   .registerLinkMobile {
     display: block;
     margin-left: auto;
+  }
+  .registerLinkMobileRes{
+      @media (max-width:500px) {
+          width: 100px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+      }
   }
 
   .registerLinkMobile2{

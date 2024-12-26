@@ -34,86 +34,129 @@ export const TextFieldWithAddition = ({
   zIndex = 9,
   ...props
 }) => {
+  const {
+    dropdownControl,
+    isOpen,
+    handleToggle,
+    handleClose,
+    additionalDropdownRef,
+  } = useTextFieldWithAdditionProps();
 
-  const { dropdownControl, isOpen, handleToggle, handleClose, additionalDropdownRef, } = useTextFieldWithAdditionProps();
-
-  return <div className={clsx(cls.field, className, { [cls.disabled]: disabled })} style={{ width }}>
-    {
-      label || additionalItemLabel && <div className={clsx(cls.fieldTop)}>
-        {label && <span className={cls.fieldLabel}>{label}</span>}
-        {additionalItemLabel && <span className={cls.additionalItemLabel}>{additionalItemLabel}</span>}
-      </div>
-    }
+  return (
     <div
-      className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}
-      style={{ zIndex }}
+      className={clsx(cls.field, className, { [cls.disabled]: disabled })}
+      style={{ width }}
     >
-      <div className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}>
-        {after && <span className={cls.after}>{after}</span>}
-        <input
-          className={cls.fieldInput}
-          onClick={onClick}
-          {...register(name, rules)}
-          disabled={onClick ? false : disabled || onlyFieldDisabled}
-          type={type}
-          placeholder={placeholder}
-          onWheel={(e) => e.target.blur()}
-          {...props}
-        />
-    
-        {before && <span className={cls.before}>{before}</span>}
-        {after && <span className={cls.after}>{after}</span>}
-      </div>
-      <Controller
-        name={additionalItemName}
-        control={control || dropdownControl}
-        render={({ field }) => {
-          return <div ref={additionalDropdownRef} className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light" })}>
-            <button
-              disabled={disabled}
-              className={clsx(cls.additionalItemContent)}
-              type="button"
-              onClick={() => {
-                if(additionalItemOptions.length > 0) {
-                  handleToggle();
-                }
-                additionalOnclick();
-              }}
-            >
-              <span className={cls.additionalItemLabelWrapper}>
-                <span className={cls.additionalItemLabelText}>{field.value?.label || additionalItemOptions?.[additionalItemDefaultIndex]?.label || additionalItemPlaceholder}</span>
-                {
-                  additionalItemOptions.length > 0 && <span><SelectionArrow /></span>
-                }
+      {label ||
+        (additionalItemLabel && (
+          <div className={clsx(cls.fieldTop)}>
+            {label && <span className={cls.fieldLabel}>{label}</span>}
+            {additionalItemLabel && (
+              <span className={cls.additionalItemLabel}>
+                {additionalItemLabel}
               </span>
-            </button>
-            {
-              additionalItemOptions.length > 0 && isOpen && <div className={cls.additionalItemOptions}>
-                {additionalItemOptions.map((item, index) => {
-                  return <button
-                    key={index}
-                    className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field?.value?.value })}
-                    onClick={() => {
-                      field.onChange(item);
-                      handleClose();
-                    }}
-                  >
-                    <span className={cls.additionalItemOptionLabel}>
-                      <span>{item.label}</span>
-                      {item.value === field?.value?.value && <CheckIcon />}
-                    </span>
-                  </button>;
+            )}
+          </div>
+        ))}
+      <div
+        className={clsx(cls.contentWrapper, {
+          [cls.leftPosition]: additionalItemPosition === "left",
+          [cls.rightPosition]: additionalItemPosition === "right",
+          [cls.error]: !!errors?.[name] || error,
+        })}
+        style={{ zIndex }}
+      >
+        <div
+          className={clsx(cls.inputWrapper, { [cls.error]: !!errors?.[name] })}
+        >
+          {after && <span className={cls.after}>{after}</span>}
+          <input
+            className={cls.fieldInput}
+            onClick={onClick}
+            {...register(name, rules)}
+            disabled={onClick ? false : disabled || onlyFieldDisabled}
+            type={type}
+            placeholder={placeholder}
+            onWheel={(e) => e.target.blur()}
+            {...props}
+          />
+
+          {before && <span className={cls.before}>{before}</span>}
+          {after && <span className={cls.after}>{after}</span>}
+        </div>
+        <Controller
+          name={additionalItemName}
+          control={control || dropdownControl}
+          render={({ field }) => {
+            return (
+              <div
+                ref={additionalDropdownRef}
+                className={clsx(cls.additionalItem, {
+                  [cls.lightTheme]: additionalItemTheme === "light",
                 })}
+              >
+                <button
+                  disabled={disabled}
+                  className={clsx(cls.additionalItemContent)}
+                  type="button"
+                  onClick={() => {
+                    if (additionalItemOptions.length > 0) {
+                      handleToggle();
+                    }
+                    additionalOnclick();
+                  }}
+                >
+                  <span className={cls.additionalItemLabelWrapper}>
+                    <span className={cls.additionalItemLabelText}>
+                      {field.value?.label ||
+                        additionalItemOptions?.[additionalItemDefaultIndex]
+                          ?.label ||
+                        additionalItemPlaceholder}
+                    </span>
+                    {additionalItemOptions.length > 0 && (
+                      <span>
+                        <SelectionArrow />
+                      </span>
+                    )}
+                  </span>
+                </button>
+                {additionalItemOptions.length > 0 && isOpen && (
+                  <div className={cls.additionalItemOptions}>
+                    {additionalItemOptions.map((item, index) => {
+                      return (
+                        <button
+                          key={index}
+                          className={clsx(cls.additionalItemOption, {
+                            [cls.active]: item.value === field?.value?.value,
+                          })}
+                          onClick={() => {
+                            field.onChange(item);
+                            handleClose();
+                          }}
+                        >
+                          <span className={cls.additionalItemOptionLabel}>
+                            <span>{item.label}</span>
+                            {item.value === field?.value?.value && (
+                              <CheckIcon />
+                            )}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-            }
-          </div>;
-        }}
-      />
+            );
+          }}
+        />
+      </div>
+      {error ? (
+        <span className={cls.errorText}>{error?.message}</span>
+      ) : (
+        errors?.[name] && (
+          <span className={cls.errorText}>{errors?.[name]?.message}</span>
+        )
+      )}
     </div>
-    {
-        error
-          ? <span className={cls.errorText}>{error?.message}</span>
-          : errors?.[name] && <span className={cls.errorText}>{errors?.[name]?.message}</span>
-    }
-  </div>;
+  );
 };

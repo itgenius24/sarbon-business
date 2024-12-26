@@ -1,31 +1,69 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  useGetCar,
+  useGetCarDispatcher,
   useGetMeasurement,
   useGetTrailerType,
-  
+  useGetUserData,
   useLoadingTypes,
   useLocation,
   useLogistikaGpsTrackingFilterDriver,
+  useUpdateUserInfo,
 } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
+import {
+  BrokeDownIcon,
+  GreenMapIcon,
+  OurCargoIcon,
+  SomeoneCargoIcon,
+  WaitingForDriverIcon,
+} from "@/assets/icons/icons";
+import { useDebounce } from "use-debounce";
+import authStore from "@/store/auth.store";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
+  const role_id = authStore.userData.role_id;
+  const disId = authStore.userData.id;
+  const firm_id =
+    role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
+      ? authStore.userData.firm_id
+      : ``;
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`translations`,locale);
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
-  const [offset, setOffset] = useState(0);
+  const [distance, setDistance] = useState(50);
+  const [closeRes, setCLoseRes] = useState(false);
+  const [offset, setOffset] = useState(1);
   const [offsetCar, setOffsetCAr] = useState(0);
-  const [closeRes, setCLoseRes] = useState(0);
+  const [contendSingle, setContendSingle] = useState();
+  const [iconStatus, setIconStatus] = useState(``);
+  const [modalType, setModalType] = useState("");
+  const [centerModalType, setCenterModalType] = useState("");
+  const [loadState, setLoadState] = useState({});
+  const [loadHoverState, setHoverLoadState] = useState({});
+  const [contendHoverState, setConHoverState] = useState();
+  const [stateMap, setStateMap] = useState(false);
+  const [addressAdd, setAddressAdd] = useState();
+  const [loadCheck, setLoadCheck] = useState(true);
+  const [checkboxStatuses, setCheckboxStatuses] = useState({
+    empty: true,
+    our_cargo: true,
+    someone_cargo: true,
+    broke_down: true,
+    waiting_for_driver: true,
+  });
+
+  const [debouncedValue] = useDebounce(distance, 500);
+
 
   useEffect(() => {
     if (checked) {
@@ -58,6 +96,14 @@ export const useGpsTrackingProps = () => {
     name: "locations",
   });
 
+  const mapIcon = {
+    empty: GreenMapIcon,
+    waiting_for_driver: WaitingForDriverIcon,
+    our_cargo: OurCargoIcon,
+    someone_cargo: SomeoneCargoIcon,
+    broke_down: BrokeDownIcon,
+  };
+
   function handleAppend() {
     setLocationNames([...locationNames, ""]);
     append({ name: "" });
@@ -81,10 +127,6 @@ export const useGpsTrackingProps = () => {
 
   const multiRouteRef = useRef(null);
   const mapRef = useRef(null);
-
-  // useEffect(() => {
-
-  // }, [locationNames, watch("from"), watch("to")]);
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
@@ -156,7 +198,7 @@ export const useGpsTrackingProps = () => {
             zoom: 7,
             controls: [searchControl],
           },
-          { buttonMaxWidth: 300 }
+          { buttonMaxWidth: 500 }
         );
 
         // Adding a multiroute to the map.
@@ -206,46 +248,51 @@ export const useGpsTrackingProps = () => {
 
   function handleCloseModal() {
     setIsModalOpen(false);
+    setStateMap(false);
     setFormAddressName({});
   }
 
   function getPlaceMarkAddress(coords) {
-    yMaps?.geocode(coords).then(function (res) {
-      var firstGeoObject = res.geoObjects.get(0);
-      setValue("address", firstGeoObject.getAddressLine());
-      setValue("cor", coords.join(","));
-    });
+    if (stateMap) {
+      yMaps?.geocode(coords).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0);
+        setAddressAdd({
+          address: firstGeoObject.getAddressLine(),
+          cor: coords.join(","),
+        });
+      });
+    } else {
+      yMaps?.geocode(coords).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0);
+        setValue("address", firstGeoObject.getAddressLine());
+        setValue("cor", coords.join(","));
+      });
+    }
   }
 
   function onMapClick(e) {
     const coordinates = e.get("coords");
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
-    setValue("cor", coordinates.join(","));
+    if (stateMap) {
+      return;
+    } else {
+      setValue("cor", coordinates.join(","));
+    }
   }
 
   const getTrailerType = useGetTrailerType();
-  // console.log(`getUserData`, getUserData);
+
   const getLoadingTypes = useLoadingTypes();
   const carTypeOptions = getTrailerType.data?.response?.map((item) => ({
     label: item?.name,
     value: item?.guid,
   }));
-  // const getUserNameOptions = getUserData.data?.response?.map((item) => ({
-  //   label: item?.full_name,
-  //   value: item?.guid,
-  // }));
 
-  // const getUserPhoneOptions = getUserData.data?.response?.map((item) => ({
-  //   label: item?.phone,
-  //   value: item?.guid,
-  // }));
   const loadingOptions = getLoadingTypes.data?.response?.map((item) => ({
     label: item?.name,
     value: item?.guid,
   }));
-
-  // console.log("getUserNameOptions", getUserNameOptions,loadingOptions)
 
   const getMeasurement = useGetMeasurement();
 
@@ -260,73 +307,38 @@ export const useGpsTrackingProps = () => {
       setValue("weight_unit", weightMeasurementOptions[0]);
     }
   }, [getMeasurement.isSuccess]);
-  const [carsArr, setCarsArr] = useState([]);
 
+  const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
-  const { mutate, isPending } = useLogistikaGpsTrackingFilterDriver({
-    onSuccess(data) {
-      if (data?.data?.response?.length === 40) {
-        setOffset(offset + 1);
-      }
-      if (watch("address")) {
-        if (data?.response?.length) {
-          setCarsArr((res) => [
-            ...res,
-            data?.response?.filter(
-              (item) => item?.users_id_data?.vehicle_type_id_data
-            ),
-          ]);
-        } else {
-          setCarsArr([]);
-          toast({
-            title: t("Не найдено"),
-            description: t("К сожалений ничего не найдено"),
-            status: "info",
-            duration: 5000,
-            isClosable: true,
-            position: "top-right",
-          });
-        }
-      } else {
-        if (data?.data?.response?.length) {
-          const data2 = data?.data?.response?.filter(
-            (item) => item?.users_id_data?.vehicle_type_id_data
-          );
-          setCarsArr((res) => [...res, ...data2]);
-        } else {
-          setCarsArr([]);
-          toast({
-            title: t("Не найдено"),
-            description: t("К сожалений ничего не найдено"),
-            status: "info",
-            duration: 5000,
-            isClosable: true,
-            position: "top-right",
-          });
-        }
-        if (data?.data?.response?.length === null && !closeRes) {
-          setCLoseRes(true);
-          mutate({ data: { object_data: { limit: 40, page: offset } } });
-        }
+
+  const { mutate: dataMutate, isPending } = useGetCarDispatcher({
+    onSuccess: (data) => {
+    
+      if (data?.response?.length) {
+        let data2 = data?.response?.map((item) => ({
+          user: item?.users_id_data?.[0],
+          vehicles: [item?.vehicle_id_data],
+          users_gps:[item],
+          orders: item?.order_data ?  [item?.order_data] : undefined,
+        }));
+        setCarsArr((res) => [...res, ...data2]);
       }
     },
   });
 
   const dataUserID = useMemo(() => {
     let id = "";
-    if (watch("users_id")?.value) {
-      id = watch("users_id")?.value;
-    } else if (watch("users_id2")?.value) {
-      id = watch("users_id2")?.value;
+    if (watch("users_id")) {
+      id = watch("users_id");
     }
 
-    return carsArr?.filter((item) => item?.users_id === id);
-  }, [watch("users_id")?.value, watch("users_id2")?.value]);
+    return carsArr?.filter((item) => item?.user?.guid === id);
+  }, [watch("users_id")]);
 
-  const { mutate: getLocation } = useLocation({
+  const { mutate: getLocation, isPending: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
-      console.log(`dats`, data2);
+      // console.log(`dats`, data2);
       if (data?.data?.response?.length === 40) {
         setOffsetCAr(offsetCar + 1);
       }
@@ -338,39 +350,158 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
+  console.log(`carsArr`, carsArr);
 
-  const getCarListProps = () => {
-    return {
-      data:
-        watch("users_id")?.value || watch("users_id2")?.value
-          ? dataUserID
-          : carsArr,
-    };
+  const filterData = (data, checkboxStatuses) => {
+    return data?.filter((item) => {
+      return item?.user?.provisions?.some((status) => checkboxStatuses[status]);
+    });
   };
 
-  const getUserNameOptions = getCarListProps().data?.map((item) => ({
-    label: item?.users_id_data?.full_name,
-    value: item?.users_id_data?.guid,
+  const filteredData = filterData(carsArr, checkboxStatuses);
+
+  const uniqueData = filteredData.reduce((acc, current) => {
+    const xistingItem = acc.find(
+      (item) => item?.user?.guid === current?.user?.guid
+    );
+    if (!xistingItem) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+
+  const dataUserDataID = dataUserID.reduce((acc, current) => {
+    const xistingItem = acc.find(
+      (item) => item?.user?.guid === current?.user?.guid
+    );
+    if (!xistingItem) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+
+  const carTypeDataFIlter = uniqueData.filter(
+    (item) =>
+      item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
+      watch(`car_type`)?.value
+  );
+
+  const getCarListProps = useMemo(() => {
+    return {
+      data: watch("users_id")
+        ? dataUserDataID
+        : watch(`car_type`)?.value
+        ? carTypeDataFIlter
+        : uniqueData,
+    };
+  }, [
+    watch("users_id"),
+    watch(`car_type`)?.value,
+    dataUserID,
+    filteredData,
+    carsArr?.length,
+    uniqueData,
+  ]);
+
+
+
+  const getUserNameOptions = getCarListProps.data?.map((item) => ({
+    label: item?.user?.full_name,
+    value: item?.user?.guid,
   }));
 
-  const getUserPhoneOptions = getCarListProps().data?.map((item) => ({
-    label: item?.users_id_data?.phone,
-    value: item?.users_id_data?.guid,
+  const getUserPhoneOptions = getCarListProps.data?.map((item) => ({
+    label: item?.user?.phone,
+    value: item?.user?.guid,
   }));
+
+  const { mutate: userUpdate } = useUpdateUserInfo({
+    onSuccess() {
+      setCenterModalType(``);
+      setAddressAdd("");
+      if (iconStatus === "empty") {
+        setModalType("driverFree");
+      } else if (iconStatus === "our_cargo") {
+        setModalType("driverCheck");
+      } else if (iconStatus === "someone_cargo") {
+        setModalType("driverQuestion");
+      } else if (iconStatus === "broke_down") {
+        setModalType("driverFree");
+      }
+
+      const find = getCarListProps?.data?.map((item) => {
+        if (item?.user?.guid === contendSingle.user?.guid) {
+          return { ...item, ...(item.user.provisions = [iconStatus]) };
+        }
+        return item;
+      });
+
+      setCarsArr(find);
+    },
+    onError() {},
+  });
+
+  const addAdress = () => {
+    const body = {
+      guid: contendSingle.users_id_data?.guid,
+      address_name: addressAdd?.address,
+    };
+    userUpdate({ data: body });
+  };
+
+  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
+
+  useEffect(() => {
+    console.log("offsetCar");
+    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+  }, [offsetCar]);
 
   useEffect(() => {
     if (!watch("aaddress")) {
-      mutate({ data: { object_data: { limit: 40, page: offset } } });
+      dataMutate({
+        data: {
+          object_data: {
+            lat: watch("cor")?.split(",")[0],
+            long: watch("cor")?.split(",")[1],
+            number: distance * 4 || 100,
+            load_type_id: watch("load_type_id")?.value,
+            weight: watch("weight"),
+            volume: watch("volume"),
+            limit: 1000,
+            page: offset,
+            type: "dispatcher",
+            dispetchir_id: disId,
+          },
+        },
+      });
     }
- 
-  }, [offset]);
+  }, [
+    watch("cor")?.split(",")[0],
+    debouncedValue,
+    watch("load_type_id")?.value,
+    watch("weight"),
+    watch("volume"),
+    offset,
+  ]);
 
-  useEffect(() => {
-    getLocation({
-      data: { object_data: { limit: 40, page: offsetCar } },
+  const handleClear = () => {
+    setOffset(0);
+    setValue("cor", ``);
+    setValue("address", ``);
+    setValue("car_type", null);
+    setValue("weight", null);
+    setValue("load_type_id", null);
+    setValue("volume", null);
+    setDistance(50);
+    setCheckboxStatuses({
+      empty: true,
+      our_cargo: true,
+      someone_cargo: true,
+      broke_down: true,
+      waiting_for_driver: true,
     });
-  }, [offsetCar]);
-
+    setLoadCheck(true);
+  };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
     mutate({
@@ -378,8 +509,8 @@ export const useGpsTrackingProps = () => {
         object_data: {
           lat,
           long,
-          number: data.distance || "0",
-          car_type_id: watch("car_type")?.value,
+          number: distance || "100",
+          // car_type_id: watch("car_type")?.value,
           load_type_id: watch("load_type_id")?.value,
           weight: watch("weight"),
           volume: watch("volume"),
@@ -388,6 +519,25 @@ export const useGpsTrackingProps = () => {
         },
       },
     });
+  };
+
+  const statusIconChange = () => {
+    const body = {
+      guid: contendSingle.user?.guid,
+      provisions: [iconStatus],
+    };
+    userUpdate({ data: body });
+  };
+
+  const handleCheckboxChange = (status) => {
+    setCheckboxStatuses((prevState) => ({
+      ...prevState,
+      [status]: !prevState[status],
+    }));
+  };
+
+  const handleInputClear = () => {
+    setOffset(0);
   };
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
@@ -431,10 +581,40 @@ export const useGpsTrackingProps = () => {
     handleSubmit,
     driverName: true,
     isLoading: isPending,
+    locationPending,
     setValue,
     setChecked,
+    mapIcon,
     checked,
-    getUserNameOptions,
-    getUserPhoneOptions,
+    getUserOption,
+    setDistance,
+    distance,
+    handleClear,
+    setContendSingle,
+    contendSingle,
+    setIconStatus,
+    iconStatus,
+    statusIconChange,
+    modalType,
+    setModalType,
+    centerModalType,
+    setCenterModalType,
+    setLoadState,
+    loadState,
+    checkboxStatuses,
+    handleCheckboxChange,
+    setStateMap,
+    handleInputClear,
+    setConHoverState,
+    contendHoverState,
+    setLoadCheck,
+    loadCheck,
+    setOffset,
+    setHoverLoadState,
+    loadHoverState,
+    addressAdd,
+    stateMap,
+    addAdress,
+    setLocationData,
   };
 };

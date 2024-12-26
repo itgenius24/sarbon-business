@@ -66,11 +66,7 @@ export const useLoginProps = () => {
         );
       }
 
-      if (data?.role?.id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`) {
-        router.push(`/uz`);
-      } else {
-        router.push(`/${locale}`);
-      }
+      router.push(`/${locale}`);
     },
     onError: (error) => {
       console.log(error);
@@ -79,10 +75,8 @@ export const useLoginProps = () => {
 
   const loginOne = useOneLoginMutation({
     onSuccess: (data) => {
-      const clientTypeId =
-        data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
-          ?.client_types?.response?.[0]?.guid;
-
+      const clientTypeId = data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]?.client_types?.response?.[0]?.guid;
+      //  console.log(`clientTypeId`,data,expeditorTypeId,dispachaerTypeId)
       if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId || clientTypeId ===  dispachaerTypeId) {
         login.mutate({
           username: watch("username"),

@@ -17,6 +17,7 @@ const CheckBoxComponent = ({ children, active,status, ...props }) => {
       _after={{width:`100%`,height:`100%`,position:`absolute`,zIndex:`22343434`,background:`red`,top:0}}
       width={`100%`}
       alignItems={`center`}
+     
     >
     
       {children}

@@ -38,10 +38,11 @@ import StepFour from "./components/StepFour/StepFour";
 import StepFive from "./components/StepFive/StepFive";
 import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
+import NavigationWrap from "./components/NavigationWrap/NavigationWrap";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const [cargoIndex, setCargoIndex] = useState(1);
-  const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex, });
+  const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
   const isEditing = !!id;
 
   const { t } = useTranslation(locale, "translations");
@@ -65,7 +66,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
 
   return (
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
-      <Box pt={isLargerThan1190 ? "48px" : "24px"} pb="128px">
+      <Box pt={isLargerThan1190 ? "48px" : "10px"} >
+        <NavigationWrap cls={cls} addCargoProps={addCargoProps} clsx={clsx} />
         <Container height="100%">
           <Box
             className={cls.contentWrapper}
@@ -80,7 +82,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                mb="32px"
+                mb={isLargerThan1190 ? "32px" : "10px"}
               >
                 {isLargerThan1190 && (
                   <Heading size="md">{t("Добавить груз")}</Heading>
@@ -106,7 +108,12 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   </Button>
                 </Box>
               </Box>
-              <Flex gap={2} mb={"50px"} mt={"50px"}>
+              <Flex
+                className={cls.navigationWrap}
+                gap={2}
+                mb={"50px"}
+                mt={"50px"}
+              >
                 <div className={cls.arrowWrap}>
                   <div
                     onClick={() =>
@@ -141,7 +148,6 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     </div>
                   </div>
                 </div>
-
                 <div className={cls.arrowWrap}>
                   <div
                     onClick={() =>
@@ -226,7 +232,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   >
                     {addCargoProps.watch(`cargoIndex`) === 4 ? (
                       <CricleBlueIcon />
-                    ) : (addCargoProps.watch("price") || addCargoProps.check) ? (
+                    ) : addCargoProps.watch("price") || addCargoProps.check ? (
                       <CheckIconStep />
                     ) : (
                       <CricleIcon />
@@ -234,7 +240,11 @@ export const CargoTest = observer(({ id, status, locale }) => {
                     <div className={cls.text}>
                       <p>4. Оплата</p>
                       <span>
-                        {addCargoProps.check ? addCargoProps.getTrueKeys(addCargoProps.mone)?.join(`,`) : addCargoProps.watch(`price_after_order`) 
+                        {addCargoProps.check
+                          ? addCargoProps
+                              .getTrueKeys(addCargoProps.mone)
+                              ?.join(`,`)
+                          : addCargoProps.watch(`price_after_order`)
                           ? addCargoProps.watch(`price`) || 0
                           : `не заполнено`}
                       </span>
@@ -242,15 +252,18 @@ export const CargoTest = observer(({ id, status, locale }) => {
                   </div>
                 </div>
               </Flex>
-
-              {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
-              {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
-              {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
-              {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
-              {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
             </Box>
           </Box>
         </Container>
+        <Box>
+          {/* <Box className={cls.containerCards}> */}
+          {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
+          {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
+          {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
+          {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
+          {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
+        </Box>
+        {/* </Box> */}
       </Box>
       <Popup
         isOpen={addCargoProps.isPopupOpen}

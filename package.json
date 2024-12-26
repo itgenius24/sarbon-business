@@ -45,6 +45,7 @@
     "react-international-phone": "^4.3.0",
     "react-use-clipboard": "^1.0.9",
     "react-verification-input": "^4.1.0",
+    "react-window": "^1.8.10",
     "sharp": "^0.33.2",
     "use-debounce": "^10.0.3",
     "ymap3-components": "^1.1.8",

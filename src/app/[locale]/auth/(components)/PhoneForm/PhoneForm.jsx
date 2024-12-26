@@ -44,16 +44,6 @@ export const PhoneForm = ({
           <p className={cls.textFieldName}> {t("Мобильный телефон")} *</p>
           <FormInternationInput control={control} name={`phone`} />
         </Box>
-
-        {/* <TextField
-          register={register}
-          errors={errors}
-          name="phone"
-          type="tel"
-          label={t("Мобильный телефон")}
-          placeholder="+998971234567"
-          onKeyDown={allowOnlyNumbers}
-        /> */}
       </Box>
       <Button size="md" type="submit" isLoading={isPending}>
         {firstBtnText}

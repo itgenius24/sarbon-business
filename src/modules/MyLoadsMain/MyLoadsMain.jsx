@@ -1,14 +1,18 @@
 import { Container } from "@/components/Container";
-import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
 import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
-import { filterTabs } from "./data";
+import { filterTabsDis, filterTabsZ } from "./data";
 import { useTranslation } from "@/app/i18n/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
+import authStore from "@/store/auth.store";
+import { useState } from "react";
+import { ExelIcon } from "@/assets/icons/icons";
+import { groupByGuidFromData } from "@/utils/groupByGuidFromData";
 
 export const MyLoadsMain = () => {
   const {
@@ -22,31 +26,76 @@ export const MyLoadsMain = () => {
     isLoading,
     driverCount,
     waitingDriverCount,
+    setDataPred,
+    dataPred,
+    isPendingExe,
+    getExcelFileFn
   } = useMyLoadsMainProps();
-
+  const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`cargos`, cargos);
+
+  const [disabled, setDisabled] = useState(false);
+
 
   return (
     <Box px={"20px"} py="24px">
       <Container>
-        <Heading
-          p={3}
-          fontSize={isLargerThan768 ? "30px" : "22px"}
-          size="md"
-          mb="24px"
-        >
-          {t("Мои грузы")}
-        </Heading>
+        <Flex alignItems={`center`} justifyContent={`space-between`}>
+          <Heading
+            p={3}
+            fontSize={isLargerThan768 ? "30px" : "22px"}
+            size="md"
+            mb="24px"
+          >
+            {t("Мои грузы")}
+          </Heading>
+          {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" && (
+            <Box position={`relative`}>
+              {/* <span
+                style={{
+                  position: `absolute`,
+                  top: `-10px`,
+                  zIndex: `111`,
+                  fontSize: `9px`,
+                  fontWeight: 700,
+                  padding: `0px 10px`,
+                  borderRadius: `11px`,
+                  background: `red`,
+                  color: `white`,
+                  right: 10,
+                }}
+              >
+                СКОРО
+              </span> */} 
+              <Button
+                isLoading={isPendingExe}
+                onClick={getExcelFileFn}
+                // isDisabled={true}
+                style={{
+                  background: `rgba(255, 255, 255, 1)`,
+                  color: `black`,
+                  border: `1px solid rgba(0, 122, 255, 1)`,
+                }}
+                leftIcon={<ExelIcon />}
+              >
+                Экспорт в Excel
+              </Button>
+            </Box>
+          )}
+        </Flex>
         <TopFilter
           driverCount={driverCount}
           waitingDriverCount={waitingDriverCount}
           onChange={onFilterChange}
-          filterList={filterTabs}
+          filterList={
+            role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`
+              ? filterTabsDis
+              : filterTabsZ
+          }
         />
         <Box display="flex" flexDirection="column" rowGap="16px">
           {orderStatus == "performed" ||
@@ -65,6 +114,10 @@ export const MyLoadsMain = () => {
                       handleAccept={handleAccept}
                       handleCancel={handleCancel}
                       cargo={cargo}
+                      setDisabled={setDisabled}
+                      disabled={disabled}
+                      setDataPred={setDataPred}
+                      dataPred={dataPred}
                     />
                   );
                 })}
@@ -87,7 +140,6 @@ export const MyLoadsMain = () => {
                 );
               } else {
                 return (
-                  
                   <LoadsCard
                     // ref={ref}
                     key={cargo?.guid}

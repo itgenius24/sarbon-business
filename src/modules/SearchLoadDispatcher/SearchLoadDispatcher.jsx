@@ -7,6 +7,7 @@ import {
   Button,
   Flex,
   Heading,
+  Input,
   Radio,
   RadioGroup,
   useMediaQuery,
@@ -21,6 +22,7 @@ import { CarsCard } from "./component/CarsCard/CarsCard";
 import { useSearchLoadDispatcher } from "./useSearchLoadDispatcher";
 import { TextField } from "@/components/TextField";
 import { useState } from "react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const SearchLoadDispatcherModule = () => {
   const {
@@ -33,22 +35,33 @@ export const SearchLoadDispatcherModule = () => {
     data,
     addPage,
     nameFilter,
+    nameFilterMawini,
+    nameFilterMawiniNomer,
     tipFilter,
+    timeFilter,
     isPending,
     filter1,
     filter2,
+    filter3,
+    filter4,
+    filter5,
+    filter6,
     onFilterChange,
     handleCheckboxChange,
     ids,
     observerRef,
     onSubmit,
     createAdressisPending,
+    dispatcherFilter,
+    setValueR,
+    value,
+    onChange,
+    containerRef,
+    search,
+    setSearchFn,
   } = useSearchLoadDispatcher();
 
-  const [value, setValueR] = useState(`val1`);
-  const onChange = (e) => {
-    setValueR(e);
-  };
+  console.log("data", data);
 
   return (
     <>
@@ -64,14 +77,22 @@ export const SearchLoadDispatcherModule = () => {
           </Flex>
           <Flex alignItems={`center`} justifyContent={`space-between`}>
             <Box width={`40%`}>
-              <TextField
+              <Input
+                value={search}
+                className={cls.input}
+                placeholder={t(
+                  "Имя водителя, диспетчера, номер машины или телефон"
+                )}
+                onChange={(e) => setSearchFn(e.target.value)}
+              />
+              {/* <TextField
                 register={register}
                 onChange={onFilterChange}
                 name="from"
                 placeholder={t(
                   "Имя водителя, диспетчера, номер машины или телефон"
                 )}
-              />
+              /> */}
             </Box>
             <RadioGroup onChange={(e) => onChange(e)} value={value}>
               <Flex gap={"30px"}>
@@ -114,10 +135,30 @@ export const SearchLoadDispatcherModule = () => {
               >
                 <p className={cls.filterTitle}>Имя водителя</p>
                 {filter1 ? <IocnSortBack /> : <IocnFilter />}
-             
               </Flex>
-              <p className={cls.th}>Владелец машины</p>
-              <p className={cls.th}>Номер машины</p>
+              <Flex
+                cursor={`pointer`}
+                className={cls.th}
+                gap={2}
+                justifyContent={`flex-start`}
+                alignItems={`center`}
+                onClick={() => nameFilterMawini()}
+              >
+                <p className={cls.filterTitle}>Владелец машины</p>
+                {filter2 ? <IocnSortBack /> : <IocnFilter />}
+              </Flex>
+
+              <Flex
+                cursor={`pointer`}
+                className={cls.th}
+                gap={2}
+                justifyContent={`flex-start`}
+                alignItems={`center`}
+                onClick={() => nameFilterMawiniNomer()}
+              >
+                <p className={cls.filterTitle}>Номер машины</p>
+                {filter4 ? <IocnSortBack /> : <IocnFilter />}
+              </Flex>
 
               <Flex
                 cursor={`pointer`}
@@ -128,11 +169,31 @@ export const SearchLoadDispatcherModule = () => {
                 onClick={tipFilter}
               >
                 <p className={cls.filterTitle}>тип Кузова</p>
-                {filter2 ? <IocnSortBack /> : <IocnFilter />}
+                {filter3 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
               <p className={cls.th}>вес / объём</p>
-              <p className={cls.th}>был онлайн</p>
-              <p className={cls.th}>Диспетчер</p>
+              <Flex
+                cursor={`pointer`}
+                className={cls.th}
+                gap={2}
+                justifyContent={`flex-start`}
+                alignItems={`center`}
+                onClick={timeFilter}
+              >
+                <p className={cls.filterTitle}>был онлайн</p>
+                {filter5 ? <IocnSortBack /> : <IocnFilter />}
+              </Flex>
+              <Flex
+                cursor={`pointer`}
+                className={cls.th}
+                gap={2}
+                justifyContent={`flex-start`}
+                alignItems={`center`}
+                onClick={dispatcherFilter}
+              >
+                <p className={cls.filterTitle}>Диспетчер</p>
+                {filter6 ? <IocnSortBack /> : <IocnFilter />}
+              </Flex>
             </Flex>
           </Box>
           <Box
@@ -149,8 +210,35 @@ export const SearchLoadDispatcherModule = () => {
                 item={item}
                 handleCheckboxChange={handleCheckboxChange}
                 ids={ids?.map((item) => item?.guid)}
+                containerRef={containerRef}
               />
             ))}
+
+            {isPending ? (
+              <Box
+                height={data?.length > 0 ? `5vh` : `60vh`}
+                display={`flex`}
+                justifyContent={`center`}
+                alignItems={`center`}
+                flexDirection={`column`}
+                // background={`red`}
+                // paddingTop={data?.length > 0 ? `10px` : `150px`}
+              >
+                <LoadingSpinner />
+              </Box>
+            ) : (
+              <Box
+                height={data?.length > 0 ? `5vh` : `60vh`}
+                display={`flex`}
+                justifyContent={`center`}
+                alignItems={`center`}
+                flexDirection={`column`}
+                // background={`red`}
+                // paddingTop={data?.length > 0 ? `10px` : `150px`}
+              >
+                {/* <LoadingSpinner /> */}
+              </Box>
+            )}
           </Box>
           <Box
             position={`absolute`}
@@ -158,13 +246,13 @@ export const SearchLoadDispatcherModule = () => {
             bottom={`20px`}
             left={`32px`}
           >
-            <Button
+            {/* <Button
               isLoading={isPending}
               onClick={addPage}
               className={cls.btnLoad}
             >
-              Загрузить еще 30
-            </Button>
+              Загрузить еще 50
+            </Button> */}
           </Box>
           <Flex
             className={cls.sticiy}

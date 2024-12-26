@@ -55,7 +55,9 @@ export const PerformedModule = () => {
         </Box>
       </Flex>
       {tab === `tab1` ? (
+        <>
         <TopContentPerfomet />
+        </>
       ) : (
         <Box>
           <Flex

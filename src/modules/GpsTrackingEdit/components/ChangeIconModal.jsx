@@ -9,6 +9,7 @@ import {
 import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import CheckBoxComponent from "./CheckBoxComponent";
 import authStore from "@/store/auth.store";
+import { useTranslation } from "react-i18next";
 
 const ChangeIconModal = ({
   cls,
@@ -18,6 +19,7 @@ const ChangeIconModal = ({
   setCenterModalType,
 }) => {
   const role_id = authStore.userData.role_id
+  const { t } = useTranslation();
   const data = [
     {
       id: 1,

@@ -27,6 +27,7 @@ import authStore from "@/store/auth.store";
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
+  const disId = authStore.userData.id;
   const firm_id =
     role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
       ? authStore.userData.firm_id
@@ -62,7 +63,6 @@ export const useGpsTrackingProps = () => {
 
   const [debouncedValue] = useDebounce(distance, 500);
 
-  console.log("debouncedValue", debouncedValue);
 
   useEffect(() => {
     if (checked) {
@@ -197,7 +197,7 @@ export const useGpsTrackingProps = () => {
             zoom: 7,
             controls: [searchControl],
           },
-          { buttonMaxWidth: 300 }
+          { buttonMaxWidth: 500 }
         );
 
         // Adding a multiroute to the map.
@@ -309,25 +309,38 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
+  console.log(`carsArr`, carsArr);
+
+
 
   const { mutate: dataMutate, isPending } = useGetCar({
     onSuccess: (data) => {
-      if (data?.response?.length === 100) {
-        setOffset(offset + 1);
+      if (data?.response?.length === 50) {
+        if (carsArr >= 100) {
+          return;
+        } else {
+          setOffset(offset + 1);
+        }
       }
       if (data?.response?.length) {
-        const data2 = data?.response?.filter(
+        let data2 = data?.response?.filter(
           (item) => item?.vehicles && item?.users_gps
         );
+        // console.log(`carsArr21`, data2?.map((item) => ({ ...item, user: item?.user?.users_id_data})));
+
+
+        if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
+          data2 = data2?.map((item) => ({ ...item, user: item?.user?.users_id_data}));
+        }
         if (
           watch(`load_type_id`)?.value ||
           watch("weight") ||
           watch("volume")
         ) {
-          console.log(`carsArr21`, data2);
+          // console.log(`carsArr21`, data2);
           setCarsArr(data2);
         } else {
-          console.log(`carsArr21`, data);
+          // console.log(`carsArr21`, data);
           setCarsArr((res) => [...res, ...data2]);
         }
       } else {
@@ -344,7 +357,7 @@ export const useGpsTrackingProps = () => {
       if (data?.response?.length === null && !closeRes) {
         setCLoseRes(true);
         dataMutate({
-          data: { object_data: { limit: 100, page: offset, firm_id } },
+          data: { object_data: { limit: 50, page: offset, firm_id } },
         });
       }
     },
@@ -405,14 +418,20 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
 
-   const carTypeDataFIlter = uniqueData.filter(
+  const carTypeDataFIlter = uniqueData.filter(
     (item) =>
       item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
       watch(`car_type`)?.value
-  )
+  );
 
   const getCarListProps = useMemo(() => {
-    return { data: watch("users_id") ? dataUserDataID : watch(`car_type`)?.value ? carTypeDataFIlter : uniqueData };
+    return {
+      data: watch("users_id")
+        ? dataUserDataID
+        : watch(`car_type`)?.value
+          ? carTypeDataFIlter
+          : uniqueData,
+    };
   }, [
     watch("users_id"),
     watch(`car_type`)?.value,
@@ -422,9 +441,7 @@ export const useGpsTrackingProps = () => {
     uniqueData,
   ]);
 
-
-
-  console.log(`carTypeDataFIlter`, carTypeDataFIlter);
+  console.log(`carTypeDataFIlter`, carsArr, filteredData, carTypeDataFIlter, uniqueData);
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
@@ -508,28 +525,14 @@ export const useGpsTrackingProps = () => {
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
-            limit: 100,
+            limit: 50,
             page: offset,
-            firm_id,
+            firm_id: role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" ? firm_id : undefined,
+            type: role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? "dispatcher" : undefined,
+            dispatcher_id: role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? disId : undefined,
           },
         },
       });
-      // mutate({
-      //   data: {
-      //     object_data: {
-      //       lat: watch("cor")?.split(",")[0],
-      //       long: watch("cor")?.split(",")[1],
-      //       number: distance * 4 || 100,
-      //       car_type_id: watch("car_type")?.value,
-      //       load_type_id: watch("load_type_id")?.value,
-      //       weight: watch("weight"),
-      //       volume: watch("volume"),
-      //       limit: 40,
-      //       page: offset,
-      //       firm_id,
-      //     },
-      //   },
-      // });
     }
   }, [
     watch("cor")?.split(",")[0],
@@ -550,7 +553,7 @@ export const useGpsTrackingProps = () => {
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
-    setDistance(30);
+    setDistance(50);
     setCheckboxStatuses({
       empty: true,
       our_cargo: true,

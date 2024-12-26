@@ -22,7 +22,6 @@ export const ChakraSelect = ({
       control={control || control2}
       defaultValue={defaultValue}
       render={({ field: { onChange, value } }) => {
-        console.log(`value`,value)
         return (
           <Select
             onChange={(val) => {
@@ -30,7 +29,7 @@ export const ChakraSelect = ({
               customOnChange(val ? val : {});
             }}
             options={options}
-            value={options.find((option) => option.value === value?.value)}
+            value={options?.find((option) => option.value === value?.value)}
             // menuIsOpen
             menuPortalTarget={ typeof document !== "undefined" && document.body}
             classNamePrefix="chakra-select"

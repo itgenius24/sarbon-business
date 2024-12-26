@@ -25,6 +25,8 @@ const objectService = {
     request.get("/v2/object-slim/get-list/trailer_type", { params }),
   getUserData: (params) =>
     request.get("/v2/object-slim/get-list/users", { params }),
+  getCarNumber: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle", { params }),
   getUserGpsData: (params) =>
     request.get("/v2/object-slim/get-list/users_gps", { params }),
   getUserGpsBYData: (params) =>
@@ -55,6 +57,14 @@ const objectService = {
       ),
   getCar: (data) =>
     request.post("/v1/invoke_function/logistika-get-cargo-list", data),
+  getCarDispatcher: (data) =>
+    request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
+  getCarRefueling: (data) =>
+    request.post("/v1/invoke_function/logistika-send-offer-notification", data),
+  getCarTrackingFilter: (data) =>
+    request.post("/v1/invoke_function/logistika-gps-tracking-create-history", data),
+  getNewPred: (data) =>
+    request.post("/v1/invoke_function/logistika-favourite-cargo", data),
   getLocation: (data) =>
     request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
   getOffer: (params) =>
@@ -130,7 +140,40 @@ export const useGetCar = (mutationSettings) => {
   });
   };
 
+  
 
+  export const useGetCarDispatcher = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService. getCarDispatcher(params),
+      ...mutationSettings,
+    });
+    };
+
+    export const useGetCarRefueling = (mutationSettings) => {
+      return useMutation({
+        mutationFn: (params) => objectService. getCarRefueling(params),
+        ...mutationSettings,
+      });
+      };
+    
+  
+
+ 
+  export const useGetCarTrackingFilter = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService.getCarTrackingFilter(params),
+      ...mutationSettings,
+    });
+    };
+
+  export const useGetNewPred = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService.getNewPred(params),
+      ...mutationSettings,
+    });
+    };
+  
+  
   
 
 export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
@@ -197,7 +240,6 @@ export const useGetCargoType = ({
   params = { data: JSON.stringify({}) },
   querySettings,
 }) => {
-  console.log(`querySettings`, querySettings, params);
   return useQuery({
     queryKey: ["object/getCargoType", params],
     queryFn: () => objectService.getCargoType(params),
@@ -248,6 +290,8 @@ export const useGetTrailerType = (
 //   });
 // };
 
+
+
 export const useGetUserData = ({
   params = { data: JSON.stringify({}) },
   querySettings,
@@ -255,6 +299,17 @@ export const useGetUserData = ({
   return useQuery({
     queryKey: ["object/getCargo", params],
     queryFn: () => objectService.getUserData(params),
+    ...querySettings,
+  });
+};
+
+export const useGetCarNumber = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCarNumber", params],
+    queryFn: () => objectService.getCarNumber(params),
     querySettings,
   });
 };

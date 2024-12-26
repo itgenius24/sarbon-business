@@ -200,8 +200,8 @@ a {
 
 .inputStyles {
   min-height: 44px;
-  border-radius: 8px;
-  border: 1px solid var(--brand-300);
+  border-radius: 8px !important;
+  border-color:  var(--brand-300);
   // background-color: var(--base-white);
   // background-color: rgba(246, 247, 248, 1);
 
@@ -209,11 +209,18 @@ a {
   // transition: box-shadow 0.3s ease;
 
   button {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
     min-height: 44px;
     background: #fcfcfd;
+    padding: 12px;
   }
 
   input {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+  border-color:  var(--brand-300);
+
     font-size: 16px !important;
     font-weight: 400;
     width: 100%;

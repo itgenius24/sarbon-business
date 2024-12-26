@@ -2,7 +2,14 @@
 
 import { Container } from "@/components/Container";
 
-import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Input,
+  useMediaQuery,
+} from "@chakra-ui/react";
 
 import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
 
@@ -12,12 +19,28 @@ import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { CarsCard } from "./component/CarsCard/CarsCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import authStore from "@/store/auth.store";
+import { TextField } from "@/components/TextField";
 
 export const MyCarsDispatcherModule = () => {
-  const { t, data, deleteFuntion,nameFilter,filter1,iSloader } = useMyCarsDispatcher();
+  const {
+    t,
+    data,
+    deleteFuntion,
+    nameFilter,
+    filter1,
+    isPending,
+    register,
+    setSearchFn,
+    search,
+    containerRef,
+    count,
+  } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
-  const isOrderData = data?.filter((item) => !item?.order)
+
+  const isSuperDispatcher = authStore?.userData?.user_status?.[0];
+
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <>
@@ -32,20 +55,43 @@ export const MyCarsDispatcherModule = () => {
           <Flex gap={`28px`}>
             <Box className={cls.countrWrap}>
               <p>
-                Всего: <span>{data?.length || 0}</span>
+                Всего: <span>{count || 0}</span>
               </p>
               <p>
-                Свободных: <span>{isOrderData?.length || 0}</span>
+                Свободных: <span>{0}</span>
               </p>
             </Box>
-            <Button
-              onClick={() => router.push(`/${locale}/search-load-dispatcher`)}
+            {isSuperDispatcher === "approved" && (
+              <Button
+                onClick={() =>
+                  router.push(`/${locale}/my-cars-dispatcher/create`)
+                }
+                width={"fit-content"}
+                leftIcon={<PlusIcon />}
+              >
+                Добавить водителя
+              </Button>
+            )}
+            {/* <Button
+              onClick={() =>
+                router.push(`/${locale}/my-cars-dispatcher/create`)
+              }
               width={"fit-content"}
               leftIcon={<PlusIcon />}
             >
               Добавить водителя
-            </Button>
+            </Button> */}
           </Flex>
+        </Flex>
+        <Flex>
+          <Box width={`40%`}>
+            <Input
+              value={search}
+              className={cls.input}
+              placeholder={t("Имя водителя, номер машины или телефон")}
+              onChange={(e) => setSearchFn(e.target?.value)}
+            />
+          </Box>
         </Flex>
         <Box mt={"37px"}>
           <Flex
@@ -62,7 +108,7 @@ export const MyCarsDispatcherModule = () => {
               alignItems={`center`}
               onClick={nameFilter}
             >
-              <p  className={cls.filterTitle}>Водитель</p>
+              <p className={cls.filterTitle}>Водитель</p>
               {filter1 ? <IocnSortBack /> : <IocnFilter />}
             </Flex>
             <p className={cls.th}>Владелец машины</p>
@@ -79,16 +125,26 @@ export const MyCarsDispatcherModule = () => {
             </Flex>
           </Flex>
         </Box>
-        <Box>
-          {data?.length > 0 ?
+        <div id="scroll-container">
+          {data?.length > 0 &&
             data?.map((item) => (
               <CarsCard
-                key={item.user?.guid}
+                containerRef={containerRef}
+                key={item?.driver_data?.guid}
                 item={item}
                 deleteFuntion={deleteFuntion}
               />
-            )): <LoadingSpinner />}
-        </Box>
+            ))}
+          {isPending ? (
+            <Box pt={`20px`}>
+              <LoadingSpinner />
+            </Box>
+          ) : (
+            <Box height={`50px`} mt={`20px`}>
+              {/* <LoadingSpinner /> */}
+            </Box>
+          )}
+        </div>
       </Container>
     </>
   );

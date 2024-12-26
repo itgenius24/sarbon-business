@@ -61,6 +61,7 @@ export const RegistrationForm = () => {
     router,
     setIsPopupOpen,
     login,
+    loadin
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -239,7 +240,7 @@ export const RegistrationForm = () => {
                             value === `C2` ? cls.ActiveRadio : cls.radio
                           }
                         >
-                          Заказчик / диспетчер
+                          Заказчик 
                         </span>
                       </Radio>
                     </Flex>
@@ -418,7 +419,7 @@ export const RegistrationForm = () => {
                   watch={watch}
                   setValue={setValue}
                   name={`img`}
-                  icon={`YOUR LOO`}
+                  icon={`YOUR LOGO`}
                   text={`Загрузить лого`}
                   isColor
                 />
@@ -446,6 +447,7 @@ export const RegistrationForm = () => {
             width={`20%`}
             type="submit"
             mb="16px"
+            isLoading={loadin}
             // isDisabled={!watch("acceptTerms")}
           >
             {t("Сохранить профиль")}

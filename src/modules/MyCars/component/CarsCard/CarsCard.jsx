@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Portal,
+  Tooltip,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 import {
@@ -31,7 +32,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { translateArray } from "@/utils/translateArray";
 import { useGetUserGpsData } from "@/services/api";
 import { useTranslation } from "@/app/i18n/client";
-
+import { flegCountry } from "@/utils/flegCountry";
 
 export const CarsCard = ({
   item,
@@ -39,7 +40,6 @@ export const CarsCard = ({
   setCenterModalType,
   handleUpdateId,
   handleDelete,
-  
 }) => {
   const router = useRouter();
   const locale = useGetLang();
@@ -57,8 +57,6 @@ export const CarsCard = ({
       enabled: Boolean(item.users_id_data),
     },
   });
-
-  
 
   return (
     <Box
@@ -147,7 +145,13 @@ export const CarsCard = ({
           {item?.car_photo ? (
             <>
               <Box width={`100%`} position={`relative`}>
-                <Image className={cls.image}  src={item?.car_photo} width={250} height={250} alt="w" />
+                <Image
+                  className={cls.image}
+                  src={item?.car_photo}
+                  width={250}
+                  height={250}
+                  alt="w"
+                />
                 {item.status?.[0] === `in_active` && (
                   <Box
                     position={`absolute`}
@@ -172,9 +176,29 @@ export const CarsCard = ({
         </Box>
         <Box width={"60%"}>
           <Flex gap={"50px"}>
-            <p className={cls.title}>
-              {item?.marka} <br /> {item?.car_number}
-            </p>
+            <Box>
+            <p className={cls.title}>{item?.marka}</p>
+            <Flex m={`4px 0px`} alignItems={`center`} gap={"10px"}>
+              <Tooltip
+                border={`1px solid rgba(219, 216, 227, 1)`}
+                background={`white`}
+                color={`black`}
+                placement="top-end"
+                label={item?.car_country || `uz`}
+              >
+                <Image
+                  style={{
+                    width: `35px`,
+                        height: `25px`,
+                  }}
+                  width={100}
+                  height={100}
+                  src={flegCountry(item?.car_country || `uz`)}
+                />
+              </Tooltip>
+              <p className={cls.title}>{item?.car_number}</p>
+            </Flex>
+            </Box>
             <Flex
               flexDirection={`column`}
               mr={5}
@@ -194,7 +218,8 @@ export const CarsCard = ({
             <Box>
               <p className={cls.subTitle}>{t("Тип загрузки")}:</p>
               <p className={cls.title}>
-                {item?.download_type && translateArray(item?.download_type)?.join(",")}
+                {item?.download_type &&
+                  translateArray(item?.download_type)?.join(",")}
               </p>
             </Box>
             <Box>
@@ -208,7 +233,8 @@ export const CarsCard = ({
             <Flex
               style={{
                 background: `${
-                  response?.response?.[0]?.users_id_data?.provisions[0] === `waiting_for_driver`
+                  response?.response?.[0]?.users_id_data?.provisions[0] ===
+                  `waiting_for_driver`
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,
@@ -220,20 +246,25 @@ export const CarsCard = ({
               <Box>
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                  {t("Свободна")}: {response?.response?.[0]?.users_id_data?.your_id}
+                  {t("Свободна")}:{" "}
+                  {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>
               <Flex alignItems={`center`} gap={2}>
                 <LocationActiveIcon /> <CricleArrovIcon />{" "}
                 <p className={cls.title}>{t("Вкл")}. </p>
                 <p className={cls.subBlueTitle}>
-                  {format(response?.response?.[0]?.create_time || new Date(), "yyyy-MM-dd")}
+                  {format(
+                    response?.response?.[0]?.create_time || new Date(),
+                    "yyyy-MM-dd"
+                  )}
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
                 <BluetoothIcon />
                 <p className={cls.subTitle}>
-                  {t("Bluetooth")}: <span className={cls.title}>{t("Вкл")}. </span>
+                  {t("Bluetooth")}:{" "}
+                  <span className={cls.title}>{t("Вкл")}. </span>
                 </p>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -243,7 +274,10 @@ export const CarsCard = ({
                   <BatareyIcon />
                 )}
                 <p className={cls.subTitle}>
-                  {t("Батарея")}: <span className={cls.title}>{response?.response?.[0]?.battery } % </span>
+                  {t("Батарея")}:{" "}
+                  <span className={cls.title}>
+                    {response?.response?.[0]?.battery} %{" "}
+                  </span>
                 </p>
               </Flex>
             </Flex>

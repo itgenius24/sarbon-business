@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -28,15 +29,29 @@ import {
 import { statusColor } from "../../data";
 import { Popup } from "@/components/Popup";
 import { useState } from "react";
+import { Checkbox } from "@/components/Checkbox";
+import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
+import authStore from "@/store/auth.store";
 
 export const Performed = ({
   cargo,
   orderStatus,
   handleAccept,
+  setDisabled,
+  disabled,
   handleCancel,
+  setDataPred,
+  dataPred,
 }) => {
+  {
+    cargo?.offer_time
+      ? format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)
+      : cargo?.finished_time
+      ? format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)
+      : ``;
+  }
   const { t } = useTranslation();
-  const [data, setData] = useState(false);
+  const role_id = authStore.userData.role_id;
 
   const router = useRouter();
   const locale = useGetLang();
@@ -55,15 +70,14 @@ export const Performed = ({
   };
 
   const obj = {
-    after_payment: `Оплата после завершения`,
-    prepayment: `Предоплата`,
+    after_payment: t(`Оплата после завершения`),
+    prepayment: t(`Предоплата`),
   };
-
-  console.log(`data`, data);
 
   const onClose = () => {
-    setData(false);
+    setDataPred(false);
   };
+
   return (
     <div className={styles.performed}>
       <div className={styles.performedCard}>
@@ -93,14 +107,17 @@ export const Performed = ({
               <p>
                 {cargo?.cargo_id_data?.address_id_data?.name}
                 <span>
-                  {cargo?.cargo_id_data?.load_time &&
-                    format(
-                      new Date(cargo?.cargo_id_data?.load_time).setHours(
-                        new Date(cargo?.cargo_id_data?.load_time).getHours() - 5
-                      ),
-                      "dd-MMMM",
-                      { locale: ru }
-                    )}
+                  {cargo?.cargo_id_data?.as_soon_as_a
+                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(`Как можно скорее`)}`
+                    : cargo?.cargo_id_data?.load_time &&
+                      format(
+                        new Date(cargo?.cargo_id_data?.load_time).setHours(
+                          new Date(cargo?.cargo_id_data?.load_time).getHours() -
+                            5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )}
                 </span>
               </p>
             </div>
@@ -124,14 +141,18 @@ export const Performed = ({
                 {cargo?.cargo_id_data?.address_id_2_data?.name}
 
                 <span>
-                  {cargo?.cargo_id_data?.date &&
-                    format(
-                      new Date(cargo?.cargo_id_data?.date).setHours(
-                        new Date(cargo?.cargo_id_data?.date).getHours() - 5
-                      ),
-                      "dd-MMMM",
-                      { locale: ru }
-                    )}
+                  {cargo?.cargo_id_data?.as_soon_as_b
+                    ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase()} / ${t(
+                        `Как можно скорее`
+                      )}`
+                    : cargo?.cargo_id_data?.date &&
+                      format(
+                        new Date(cargo?.cargo_id_data?.date).setHours(
+                          new Date(cargo?.cargo_id_data?.date).getHours() - 5
+                        ),
+                        "dd-MMMM",
+                        { locale: ru }
+                      )}
                 </span>
               </p>
             </div>
@@ -139,24 +160,26 @@ export const Performed = ({
           <div className={styles.rightContend}>
             <div className={styles.text}>
               <p className={styles.rightTitle}>
-                Тип оплаты:
+                {t(`Тип оплаты`)}:
                 {cargo?.payment_type
                   ? obj[cargo?.payment_type?.[0]]
                   : cargo?.cargo_id_data?.payment_type}
               </p>
               <p className={styles.rightTitle}>
-                Предоплата:
-                {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`}
+                {t(`Предоплата`)}:
+                {cargo?.payment_type?.[0] === "prepayment"
+                  ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code}`
+                  : `Нет`}
               </p>
             </div>
             <div className={styles.text}>
-              <p className={styles.rightTitle}>Общая сумма</p>
+              <p className={styles.rightTitle}>{t(`Общая сумма`)}</p>
               <p className={styles.totalSum}>
                 {cargo?.offers || cargo?.cargo_id_data?.bid_cash
                   ? `${cargo?.offers || cargo?.cargo_id_data?.bid_cash}  ${
                       cargo?.currency_id_data?.code || ``
                     }`
-                  : `По запросу`}
+                  : t(`По запросу`)}
               </p>
             </div>
           </div>
@@ -164,7 +187,7 @@ export const Performed = ({
         <div className={styles.cardBody}>
           <div className={styles.card}>
             <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Водитель</span>
+              <span className={styles.cardBodyTitle}>{t(`Водитель`)}</span>
               <p className={styles.cardName}>
                 {cargo?.users_id_data?.full_name}
                 {cargo?.users_id_data?.rating > 0
@@ -173,12 +196,12 @@ export const Performed = ({
               </p>
             </div>
             <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Телефон</span>
+              <span className={styles.cardBodyTitle}>{t(`Телефон`)}</span>
               <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
             </div>
             {(orderStatus === `new` || orderStatus === `cancellation`) && (
               <div className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Сообщение</span>
+                <span className={styles.cardBodyTitle}>{t(`Сообщение`)}</span>
                 <p
                   className={styles.cardName}
                   dangerouslySetInnerHTML={{
@@ -191,7 +214,11 @@ export const Performed = ({
             )}
             {orderStatus !== `new` && orderStatus !== `cancellation` && (
               <div className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Статус</span>
+                <span className={styles.cardBodyTitle}>
+                  {t(`Статус`)}:
+                  {cargo?.finished_time &&
+                    format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)}{" "}
+                </span>
                 <p className={styles.cardName}>
                   {
                     performedStatuses[
@@ -206,28 +233,109 @@ export const Performed = ({
             )}
           </div>
           <div className={styles.card}>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Товары</span>
-              <p className={styles.cardName}>
-                {cargo?.cargo_id_data?.product_type}
-              </p>
-            </div>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Транспорт</span>
-              <p className={styles.cardName}>{cargo?.car_type}</p>
-            </div>
-            <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Вес, объём</span>
-              <p className={styles.cardName}>
-                {cargo?.cargo_id_data?.weight}
-                {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
-                {cargo?.cargo_id_data?.volume_m3} m³
-              </p>
-            </div>
+            <Flex width={`100%`} justifyContent={`space-between`}>
+              <Flex gap={`70px`}>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>{t(`Товары`)}</span>
+                  <p className={styles.cardName}>
+                    {cargo?.cargo_id_data?.product_type}
+                  </p>
+                </div>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>{t(`Транспорт`)}</span>
+                  <p className={styles.cardName}>{cargo?.car_type}</p>
+                </div>
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>
+                    {t(`Вес, объём`)}
+                  </span>
+                  <p className={styles.cardName}>
+                    {cargo?.cargo_id_data?.weight}
+                    {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
+                    {cargo?.cargo_id_data?.volume_m3} m³
+                  </p>
+                </div>
+              </Flex>
+              <div style={{ textAlign: `right` }} className={styles.cardItem}>
+                <span className={styles.cardBodyTitle}>{t(`Номер груза`)}</span>
+                <p className={styles.cardName}>
+                  {cargo?.cargo_id_data?.number_of_order}
+                </p>
+              </div>
+            </Flex>
           </div>
           <div className={styles.card}>
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              (orderStatus === `archive` ||
+                orderStatus === `approve_from_driver`) && (
+                <Flex
+                  width={`100%`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_2_data?.logo}
+                    name={cargo?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
+
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {" "}
+                      {cargo?.users_id_2_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
+                      >
+                        {cargo?.users_id_2_data?.phone}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
+            {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `archive` && (
+                <Flex
+                  className={styles.cardItem}
+                  width={`100%`}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_3_data?.logo}
+                    name={cargo?.users_id_3_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
+
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {cargo?.users_id_3_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
+                      >
+                        {cargo?.users_id_3_data?.phone}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
             <Flex
-              width={`100%`}
               className={styles.cardItem}
               justifyContent={`space-between`}
               alignItems={`center`}
@@ -235,7 +343,9 @@ export const Performed = ({
               <Box>
                 {orderStatus == "performed" && (
                   <>
-                    <span className={styles.cardBodyTitle}>Пройдено</span>
+                    <span className={styles.cardBodyTitle}>
+                      {t(`Пройдено`)}
+                    </span>
                     <p className={styles.cardName}>
                       <span style={{ color: `rgba(0, 122, 255, 1)` }}>
                         1357 км{" "}
@@ -246,80 +356,155 @@ export const Performed = ({
                 )}
                 {orderStatus === `new` && (
                   <>
-                    <span className={styles.cardBodyTitle}>Статус</span>
+                    <span className={styles.cardBodyTitle}>
+                      {t(`Статус`)}:
+                      {cargo?.offer_time &&
+                        format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
+                    </span>
                     <p
                       style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                     >
-                      Предложение:
+                      {t(`Предложение`)}:
                     </p>
                   </>
                 )}
 
                 {orderStatus === `cancellation` && (
                   <>
-                    <span className={styles.cardBodyTitle}>Статус</span>
+                    <span className={styles.cardBodyTitle}>{t(`Статус`)}</span>
                     <p
                       style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                     >
                       {cargo?.who_cancellation?.includes(`customer`)
-                        ? `Был отменен вами: `
+                        ? `${t(`Был отменен вами`)}: `
                         : ``}
                     </p>
                   </>
                 )}
               </Box>
+            </Flex>
 
-              <Box>
-                {orderStatus == "performed" && (
-                  <Button
-                    leftIcon={<MapIcon />}
-                    onClick={() =>
-                      router.push(
-                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
-                      )
-                    }
-                    className={styles.bntMap}
-                  >
-                    {t(`Показать на карте`)}
-                  </Button>
-                )}
-                {orderStatus === `new` && (
-                  <Flex gap={`11px`}>
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCancel(cargo.guid);
-                      }}
-                      className={styles.bntOutline}
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              (orderStatus === `new` || orderStatus === `performed`) && (
+                <Flex
+                  width={`100%`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_2_data?.logo}
+                    name={cargo?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
+
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
                     >
-                      {t(`Отказать`)}
-                    </Button>
-                    <Button
-                      leftIcon={<IconCeckNewStatusIcon />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setData(cargo);
-                      }}
-                      className={styles.bntNew}
+                      {" "}
+                      {cargo?.users_id_2_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
+                      >
+                        {cargo?.users_id_2_data?.phone}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
+
+            {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `performed` && (
+                <Flex
+                  width={`100%`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_3_data?.logo}
+                    name={cargo?.users_id_3_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
+
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
                     >
-                      {t(`Принять`)}
-                    </Button>
-                  </Flex>
-                )}
-                {orderStatus == "cancellation" && (
+                      {" "}
+                      {cargo?.users_id_3_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
+                      >
+                        {cargo?.users_id_3_data?.phone}{" "}
+                      </a>
+                    </p>
+                  </Box>
+                </Flex>
+              )}
+            <Box className={styles.cardItem}>
+              {orderStatus == "performed" && (
+                <Button
+                  leftIcon={<MapIcon />}
+                  onClick={() =>
+                    router.push(
+                      `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                    )
+                  }
+                  className={styles.bntMap}
+                >
+                  {t(`Показать на карте`)}
+                </Button>
+              )}
+              {orderStatus === `new` && (
+                <Flex gap={`11px`}>
                   <Button
-                    leftIcon={<DeleteIcon />}
                     onClick={(e) => {
                       e.stopPropagation();
-                      // setIsDeletePopupOpen(true);
+                      handleCancel(cargo.guid);
                     }}
                     className={styles.bntOutline}
                   >
-                    {t(`Удалить`)}
+                    {t(`Отказать`)}
                   </Button>
-                )}
-              </Box>
-            </Flex>
+                  <Button
+                    leftIcon={<IconCeckNewStatusIcon />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDataPred(cargo);
+                    }}
+                    className={styles.bntNew}
+                  >
+                    {t(`Принять`)}
+                  </Button>
+                </Flex>
+              )}
+              {orderStatus == "cancellation" && (
+                <Button
+                  leftIcon={<DeleteIcon />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // setIsDeletePopupOpen(true);
+                  }}
+                  className={styles.bntOutline}
+                >
+                  {t(`Удалить`)}
+                </Button>
+              )}
+            </Box>
           </div>
           {/* {orderStatus == "performed" && (
             <div className={styles.cardFooter}>
@@ -348,7 +533,7 @@ export const Performed = ({
           )} */}
         </div>
       </div>
-      <Modal isOpen={data} onClose={onClose} isCentered>
+      <Modal isOpen={dataPred} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -356,7 +541,8 @@ export const Performed = ({
           </ModalHeader>
           <ModalBody>
             <Text fontSize={`18px`}>
-              Принять предложение от {data?.users_id_data?.full_name}?
+              {t(`Принять предложение от`)} {dataPred?.users_id_data?.full_name}
+              ?
             </Text>
 
             <Flex
@@ -366,36 +552,49 @@ export const Performed = ({
             >
               <Box>
                 <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  Тип оплаты
+                  {t(`Тип оплаты`)}
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {data?.payment_type
-                    ? obj[data?.payment_type?.[0]]
-                    : data?.cargo_id_data?.payment_type}
+                  {dataPred?.payment_type
+                    ? obj[dataPred?.payment_type?.[0]]
+                    : dataPred?.cargo_id_data?.payment_type}
                 </p>
               </Box>
               <Box>
                 <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  Предоплата
+                  {t(`Предоплата`)}
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {data?.payment_type?.[0] === "prepayment"
-                    ? `${data?.prepayment} ${data?.currency_id_data?.code}`
+                  {dataPred?.payment_type?.[0] === "prepayment"
+                    ? `${dataPred?.prepayment} ${dataPred?.currency_id_data?.code}`
                     : 0}
-                  
                 </p>
               </Box>
               <Box>
                 <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  Общая сумма
+                  {t(`Общая сумма`)}
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
-                {data?.offers}  {data?.currency_id_data?.code}
+                  {dataPred?.offers} {dataPred?.currency_id_data?.code}
                 </p>
               </Box>
             </Flex>
+            <Flex
+              alignItems={`center`}
+              background={`rgba(237, 239, 245, 1)`}
+              padding={`7.5px`}
+              borderRadius={`4px`}
+              mt={`15px`}
+            >
+              <CheckboxModalPred
+                defaultChecked={disabled}
+                onChange={(e) => setDisabled(e.target.checked)}
+              >
+                {t(`Я согласовал это предложение с заказчиком*`)}
+              </CheckboxModalPred>
+            </Flex>
           </ModalBody>
-          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="25px">
+          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="0px">
             <Button
               onClick={(e) => {
                 e.stopPropagation();
@@ -412,11 +611,12 @@ export const Performed = ({
               {t(`Отказать`)}
             </Button>
             <Button
+              isDisabled={!disabled}
               style={{ background: `rgba(21, 186, 77, 1)` }}
               leftIcon={<IconCeckNewStatusIcon />}
               onClick={(e) => {
                 e.stopPropagation();
-                handleAccept(data.guid, data.users_id_2);
+                handleAccept(dataPred?.guid, dataPred?.users_id_2);
               }}
               className={styles.bntNew}
             >

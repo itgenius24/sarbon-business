@@ -68,7 +68,7 @@
 
 .box {
   position: relative;
- 
+
   .modalWrap {
     position: absolute;
     top: 0;
@@ -96,7 +96,7 @@
       height: 92.1vh;
       margin-bottom: 20px;
       overflow-y: scroll;
-  
+
       .filterText {
         font-weight: 600;
         font-size: 24px;
@@ -115,7 +115,7 @@
         background-color: rgba(237, 239, 245, 1);
         border-radius: 12px;
         padding: 14px 20px;
-        .label{
+        .label {
           font-size: 14px;
           font-weight: 500;
           color: rgba(52, 64, 84, 1);
@@ -164,17 +164,17 @@
         border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1)) !important;
         padding: 16px 14px;
         border-radius: 12px;
-        p{
+        p {
           width: 7vw;
-          white-space: nowrap;     
-          overflow: hidden;         
-          text-overflow: ellipsis; 
-          @media (max-width:1556px) {
-             width: 4vw;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          @media (max-width: 1556px) {
+            width: 4vw;
           }
         }
       }
-      .btngreenCanseleOutline{
+      .btngreenCanseleOutline {
         border: 1px solid rgba(184, 184, 184, 0.25);
         background-color: rgba(79, 82, 80, 0.07);
         text-align: left !important;
@@ -184,7 +184,6 @@
         font-size: 16px !important;
         display: flex;
         justify-content: space-between;
-    
       }
 
       .btngreenOutline {
@@ -198,7 +197,7 @@
         display: flex;
         justify-content: space-between;
       }
-      .btnBlueOutline{
+      .btnBlueOutline {
         border: 1px solid rgba(0, 122, 255, 0.07);
         background-color: rgba(0, 122, 255, 0.07);
         text-align: left !important;
@@ -210,9 +209,9 @@
         display: flex;
         justify-content: space-between;
       }
-      .chatCard{
+      .chatCard {
         width: 100%;
-        border: 1px solid  rgba(219, 216, 227, 1);
+        border: 1px solid rgba(219, 216, 227, 1);
         background-color: rgba(255, 255, 255, 1);
         text-align: left !important;
         color: rgba(33, 31, 38, 1);
@@ -220,7 +219,6 @@
         padding: 15px 14px !important;
         font-size: 16px !important;
         font-weight: 400;
-      
       }
       .btngreen {
         background-color: rgba(21, 186, 77, 1);
@@ -230,7 +228,7 @@
         padding: 20px 14px !important;
         font-size: 16px !important;
       }
-      .btngoods{
+      .btngoods {
         background-color: rgba(193, 187, 32, 1);
         text-align: left !important;
         color: rgb(255, 255, 255);
@@ -239,9 +237,9 @@
         font-size: 16px !important;
       }
 
-      .startAIconWrap{
+      .startAIconWrap {
         position: relative;
-        .startAIcon{
+        .startAIcon {
           width: 24px;
           height: 24px;
           background-color: rgba(0, 122, 255, 1);
@@ -251,21 +249,19 @@
           align-items: center;
           justify-content: center;
           text-align: center;
-         
         }
-        .line{ 
+        .line {
           position: absolute;
           height: 100%;
           // width: 2px;
-           border-left: 3px dotted blue;
+          border-left: 3px dotted blue;
           // background-color: blue;
           top: 26px;
           left: 10px;
         }
       }
-    
-     
-      .startBIcon{
+
+      .startBIcon {
         width: 24px;
         height: 24px;
         background-color: rgba(0, 122, 255, 1);
@@ -275,10 +271,10 @@
         align-items: center;
         justify-content: center;
       }
-      
-      .startAIconWrapGreen{
+
+      .startAIconWrapGreen {
         position: relative;
-        .startAGreenIcon{
+        .startAGreenIcon {
           width: 24px;
           height: 24px;
           background-color: rgba(21, 186, 77, 1);
@@ -288,19 +284,18 @@
           align-items: center;
           justify-content: center;
         }
-        .line{ 
+        .line {
           position: absolute;
           height: 100%;
           // width: 2px;
-           border-left: 3px dotted rgba(21, 186, 77, 1);
+          border-left: 3px dotted rgba(21, 186, 77, 1);
           // background-color: rgba(21, 186, 77, 1);
           top: 26px;
           left: 10px;
         }
       }
-    
-     
-      .startBGreenIcon{
+
+      .startBGreenIcon {
         width: 24px;
         height: 24px;
         background-color: rgba(21, 186, 77, 1);
@@ -310,9 +305,9 @@
         align-items: center;
         justify-content: center;
       }
-      .startAIconWrapGoods{
+      .startAIconWrapGoods {
         position: relative;
-        .startAGoodsIcon{
+        .startAGoodsIcon {
           width: 24px;
           height: 24px;
           background-color: rgba(193, 187, 32, 1);
@@ -322,19 +317,18 @@
           align-items: center;
           justify-content: center;
         }
-        .line{ 
+        .line {
           position: absolute;
           height: 100%;
           // width: 2px;
-           border-left: 3px dotted rgba(193, 187, 32, 1);
+          border-left: 3px dotted rgba(193, 187, 32, 1);
           // background-color: rgba(193, 187, 32, 1);
           top: 26px;
           left: 10px;
         }
       }
-     
-     
-      .startBGoodsIcon{
+
+      .startBGoodsIcon {
         width: 24px;
         height: 24px;
         background-color: rgba(193, 187, 32, 1);
@@ -344,128 +338,147 @@
         align-items: center;
         justify-content: center;
       }
-      .gruz{
-        border-bottom:  1px solid rgba(219, 216, 227, 1);
+      .gruz {
+        border-bottom: 1px solid rgba(219, 216, 227, 1);
         padding-bottom: 20px;
       }
-      .gruz2{
+      .gruz2 {
         // border-bottom:  1px solid rgba(219, 216, 227, 1);
         // padding-bottom: 20px;
       }
-      .cardStartTitle{
+      .cardStartTitle {
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
       }
-      .cardStartTitleAdd{
+      .cardStartTitleAdd {
         font-weight: 500;
         font-size: 14px;
         color: rgba(0, 122, 255, 1);
-        text-decoration:dotted;
+        text-decoration: dotted;
         cursor: pointer;
       }
-      .sum{
+      .sum {
         font-weight: 600;
         color: rgba(0, 122, 255, 1);
       }
-      .sum2{
+      .sum2 {
         font-weight: 600;
-        color:rgba(193, 187, 32, 1);
+        color: rgba(193, 187, 32, 1);
       }
-      .sumGreen{
+      .sumGreen {
         font-weight: 600;
         color: rgba(21, 186, 77, 1);
       }
-      .name{
+      .name {
         font-size: 14px;
         font-weight: 500;
         color: rgba(33, 31, 38, 1);
       }
-      .armorTitle{
+      .armorTitle {
         font-weight: 500;
         font-size: 14px;
         line-height: 14px;
       }
-      .armorDate{
+      .armorDate {
         font-size: 12px;
         color: rgba(126, 123, 134, 1);
-        span{
+        span {
           font-weight: 500;
           color: rgba(33, 31, 38, 1);
         }
       }
 
-      .cardStartSubTitle{
+      .cardStartSubTitle {
         font-weight: 700;
         font-size: 12px;
         color: rgba(126, 123, 134, 1);
         line-height: 13px;
-        span{
+        span {
           font-weight: 600;
           font-size: 12px;
-          
         }
       }
-
-      
-   
     }
- 
   }
-   .balloon_content_empty{
+  .balloon_content_empty {
     display: flex;
     flex-direction: column;
     height: 100%;
-    .wrap{
-      display:flex;
+    .wrap {
+      display: flex;
       align-items: center;
       // justify-content: space-between;
       // justify-items: spa;
       gap: 10px;
-      width:320px;
+      width: 320px;
       // background-color: red;
     }
-    .loadIconWrap{
+    .loadIconWrap {
       width: 200px;
       display: flex;
       align-items: center;
       gap: 10px;
       margin-left: 5px;
-
     }
-     .balloonName{
+    .balloonName {
       color: rgba(21, 186, 77, 1);
       font-size: 14px;
       font-weight: 600;
-     }
-     .conWrap{
+    }
+    .conWrap {
       display: flex;
       align-items: center;
-      justify-content:center;
-       gap: 5px;
-     }
-     .balloon_fulName{
+      justify-content: center;
+      gap: 5px;
+    }
+    .balloon_fulName {
       font-weight: 600;
       font-size: 15px;
       color: rgba(33, 31, 38, 1);
-     }
-     .footerBox1{
+    }
+    .footerBox1 {
+      width: fit-content;
       display: flex;
       align-items: center;
-        font-size: 14px;
+      font-size: 14px;
       gap: 10px;
       line-height: 28px;
       cursor: pointer;
-     }
-    
-     .footerBox{
+      &:hover {
+        border-bottom: 1px dotted black;
+      }
+    }
+
+    .footerBox {
+      width: fit-content;
       display: flex;
       align-items: center;
-        font-size: 14px;
+      font-size: 14px;
       gap: 10px;
-      line-height: 28px;
-     }
-    
+      line-height: 20px;
+
+    }
+
+    .footerBoxLink {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      gap: 10px;
+      line-height: 20px;
+      border-bottom: 1px dotted rgba(255, 255, 255, 0);
+
+      &:hover {
+        border-bottom: 1px dotted black;
+      }
+    }
+    .flex {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0px;
+    }
   }
   .leftModal {
     width: 80%;
@@ -498,7 +511,7 @@
           }
         }
       }
-      .selectCargoBottom{
+      .selectCargoBottom {
         padding: 24px;
         border-top: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
         // background-color: aqua;
@@ -511,13 +524,13 @@
         // background-color: red;
         overflow-y: auto;
         padding: 24px;
-        .countryWrap{
+        .countryWrap {
           width: 100%;
-          p{
+          p {
             font-size: 20px;
             font-weight: 600;
           }
-          .subTitle{
+          .subTitle {
             color: rgba(33, 31, 38, 1);
             font-size: 14px;
             font-weight: 400;
@@ -525,13 +538,13 @@
         }
       }
     }
-    .selectedIcon{
+    .selectedIcon {
       width: 35%;
       height: auto;
       background-color: rgb(255, 255, 255);
       border-radius: 14px;
       padding: 24px;
-      .modalTitle{
+      .modalTitle {
         font-weight: 600;
         font-size: 24px;
       }
