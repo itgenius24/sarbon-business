@@ -95,8 +95,8 @@ export const MyCarsModule = () => {
                 </p>
               </Flex>
               <Box className={cls.modalContend}>
-                {dataModal.length > 0 ? (
-                  dataModal.map((item) => {
+                {dataModal?.length > 0 ? (
+                  dataModal?.map((item) => {
                     return (
                       <CheckBoxComponent
                         opacity={item?.vehicles?.[0] ? 0.5:1}
