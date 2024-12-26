@@ -81,21 +81,18 @@ export const TopContentPerfomet = () => {
   //   { data: JSON.stringify({ users_id: userId }) },
   //   { enabled: !!(status === "performed" && userId) }
   // );
-  
+
   const [gpsHistory, setGpsHistory] = useState();
   const [page, setPage] = useState(0);
 
   const [breakRequest, setBreakRequest] = useState(false);
 
-   const getMaps = useGetMaps(
-      {
-        data: JSON.stringify(
-          {cargo_id: carId }
-        ),
-      },
-      { enabled: !!carId }
-    );
-
+  const getMaps = useGetMaps(
+    {
+      data: JSON.stringify({ cargo_id: carId }),
+    },
+    { enabled: !!carId }
+  );
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
@@ -137,7 +134,6 @@ export const TopContentPerfomet = () => {
     },
   });
 
-
   // const driverPosition = useMemo(() => {
   //   return [
   //     getDriverLocation?.data?.response?.[0]?.lat,
@@ -158,7 +154,7 @@ export const TopContentPerfomet = () => {
   }, []);
 
   useEffect(() => {
-    if ( userId) {
+    if (userId) {
       getGPSHistory.mutate({
         data: {
           object_data: {
@@ -169,7 +165,7 @@ export const TopContentPerfomet = () => {
         },
       });
     }
-  }, [ userId, page]);
+  }, [userId, page]);
 
   useEffect(() => {
     if (getDriverPosition?.response) {
@@ -226,27 +222,27 @@ export const TopContentPerfomet = () => {
                               <LocationMobileIcon />
                             )}
                             <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>Геолокация</p>
-                                <Flex
-                                  gap={`5px`}
-                                  alignItems={`center`}
+                              <p className={cls.phoneItemTitle}>Геолокация</p>
+                              <Flex
+                                gap={`5px`}
+                                alignItems={`center`}
+                                className={cls.phoneItemName}
+                              >
+                                <span
+                                  style={{ fontWeight: 600 }}
                                   className={cls.phoneItemName}
                                 >
-                                  <span
-                                    style={{ fontWeight: 600 }}
-                                    className={cls.phoneItemName}
-                                  >
-                                    {user?.users_gps?.gps ? "Выкл " : "Откл "}
-                                  </span>
-                                  <ResToreIcon />
-                                  <span className={cls.phoneItemTitle}>
-                                    {user?.users_gps?.update_time &&
-                                      formatDateTime(
-                                        user?.users_gps?.update_time
-                                      )}
-                                  </span>
-                                </Flex>
-                              </div>
+                                  {user?.users_gps?.gps ? "Выкл " : "Откл "}
+                                </span>
+                                <ResToreIcon />
+                                <span className={cls.phoneItemTitle}>
+                                  {user?.users_gps?.update_time &&
+                                    formatDateTime(
+                                      user?.users_gps?.update_time
+                                    )}
+                                </span>
+                              </Flex>
+                            </div>
                           </div>
                           <div className={cls.item}>
                             {user?.users_gps?.os === "android" ? (
@@ -405,7 +401,10 @@ export const TopContentPerfomet = () => {
                                 {userData?.length} /{" "}
                                 {user?.cargo_id_data?.number_of_cars}
                               </p>
-                              <p className={cls.subTitle}> {user?.vehicle_id_data?.car_number}</p>
+                              <p className={cls.subTitle}>
+                                {" "}
+                                {user?.vehicle_id_data?.car_number}
+                              </p>
                             </Box>
                           </Flex>
                           <Flex gap={`8px`}>
