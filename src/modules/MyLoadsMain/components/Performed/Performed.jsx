@@ -70,8 +70,8 @@ export const Performed = ({
   };
 
   const obj = {
-    after_payment: ` Оплата после завершения`,
-    prepayment: ` Предоплата`,
+    after_payment: t(`Оплата после завершения`),
+    prepayment: t(`Предоплата`),
   };
 
   const onClose = () => {
@@ -108,7 +108,7 @@ export const Performed = ({
                 {cargo?.cargo_id_data?.address_id_data?.name}
                 <span>
                   {cargo?.cargo_id_data?.as_soon_as_a
-                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / Как можно скорее`
+                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(`Как можно скорее`)}`
                     : cargo?.cargo_id_data?.load_time &&
                       format(
                         new Date(cargo?.cargo_id_data?.load_time).setHours(
@@ -142,7 +142,9 @@ export const Performed = ({
 
                 <span>
                   {cargo?.cargo_id_data?.as_soon_as_b
-                    ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase()} / Как можно скорее`
+                    ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase()} / ${t(
+                        `Как можно скорее`
+                      )}`
                     : cargo?.cargo_id_data?.date &&
                       format(
                         new Date(cargo?.cargo_id_data?.date).setHours(
@@ -158,26 +160,26 @@ export const Performed = ({
           <div className={styles.rightContend}>
             <div className={styles.text}>
               <p className={styles.rightTitle}>
-                Тип оплаты:
+                {t(`Тип оплаты`)}:
                 {cargo?.payment_type
                   ? obj[cargo?.payment_type?.[0]]
                   : cargo?.cargo_id_data?.payment_type}
               </p>
               <p className={styles.rightTitle}>
-                Предоплата:
+                {t(`Предоплата`)}:
                 {cargo?.payment_type?.[0] === "prepayment"
                   ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code}`
                   : `Нет`}
               </p>
             </div>
             <div className={styles.text}>
-              <p className={styles.rightTitle}>Общая сумма</p>
+              <p className={styles.rightTitle}>{t(`Общая сумма`)}</p>
               <p className={styles.totalSum}>
                 {cargo?.offers || cargo?.cargo_id_data?.bid_cash
                   ? `${cargo?.offers || cargo?.cargo_id_data?.bid_cash}  ${
                       cargo?.currency_id_data?.code || ``
                     }`
-                  : `По запросу`}
+                  : t(`По запросу`)}
               </p>
             </div>
           </div>
@@ -185,7 +187,7 @@ export const Performed = ({
         <div className={styles.cardBody}>
           <div className={styles.card}>
             <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Водитель</span>
+              <span className={styles.cardBodyTitle}>{t(`Водитель`)}</span>
               <p className={styles.cardName}>
                 {cargo?.users_id_data?.full_name}
                 {cargo?.users_id_data?.rating > 0
@@ -194,12 +196,12 @@ export const Performed = ({
               </p>
             </div>
             <div className={styles.cardItem}>
-              <span className={styles.cardBodyTitle}>Телефон</span>
+              <span className={styles.cardBodyTitle}>{t(`Телефон`)}</span>
               <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
             </div>
             {(orderStatus === `new` || orderStatus === `cancellation`) && (
               <div className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Сообщение</span>
+                <span className={styles.cardBodyTitle}>{t(`Сообщение`)}</span>
                 <p
                   className={styles.cardName}
                   dangerouslySetInnerHTML={{
@@ -213,7 +215,7 @@ export const Performed = ({
             {orderStatus !== `new` && orderStatus !== `cancellation` && (
               <div className={styles.cardItem}>
                 <span className={styles.cardBodyTitle}>
-                  Статус:{" "}
+                  {t(`Статус`)}:
                   {cargo?.finished_time &&
                     format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)}{" "}
                 </span>
@@ -234,17 +236,19 @@ export const Performed = ({
             <Flex width={`100%`} justifyContent={`space-between`}>
               <Flex gap={`70px`}>
                 <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>Товары</span>
+                  <span className={styles.cardBodyTitle}>{t(`Товары`)}</span>
                   <p className={styles.cardName}>
                     {cargo?.cargo_id_data?.product_type}
                   </p>
                 </div>
                 <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>Транспорт</span>
+                  <span className={styles.cardBodyTitle}>{t(`Транспорт`)}</span>
                   <p className={styles.cardName}>{cargo?.car_type}</p>
                 </div>
                 <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>Вес, объём</span>
+                  <span className={styles.cardBodyTitle}>
+                    {t(`Вес, объём`)}
+                  </span>
                   <p className={styles.cardName}>
                     {cargo?.cargo_id_data?.weight}
                     {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
@@ -253,8 +257,10 @@ export const Performed = ({
                 </div>
               </Flex>
               <div style={{ textAlign: `right` }} className={styles.cardItem}>
-                <span className={styles.cardBodyTitle}>Номер груза</span>
-                <p className={styles.cardName}>{cargo?.cargo_id_data?.number_of_order}</p>
+                <span className={styles.cardBodyTitle}>{t(`Номер груза`)}</span>
+                <p className={styles.cardName}>
+                  {cargo?.cargo_id_data?.number_of_order}
+                </p>
               </div>
             </Flex>
           </div>
@@ -273,7 +279,7 @@ export const Performed = ({
                     name={cargo?.users_id_2_data?.full_name}
                   />
                   <Box>
-                    <p className={styles.cardBodyTitle}> Заказчик</p>
+                    <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
 
                     <p
                       style={{ lineHeight: `28px` }}
@@ -308,7 +314,7 @@ export const Performed = ({
                     name={cargo?.users_id_3_data?.full_name}
                   />
                   <Box>
-                    <p className={styles.cardBodyTitle}>Диспетчер</p>
+                    <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
 
                     <p
                       style={{ lineHeight: `28px` }}
@@ -337,7 +343,9 @@ export const Performed = ({
               <Box>
                 {orderStatus == "performed" && (
                   <>
-                    <span className={styles.cardBodyTitle}>Пройдено</span>
+                    <span className={styles.cardBodyTitle}>
+                      {t(`Пройдено`)}
+                    </span>
                     <p className={styles.cardName}>
                       <span style={{ color: `rgba(0, 122, 255, 1)` }}>
                         1357 км{" "}
@@ -349,26 +357,26 @@ export const Performed = ({
                 {orderStatus === `new` && (
                   <>
                     <span className={styles.cardBodyTitle}>
-                      Статус:
+                      {t(`Статус`)}:
                       {cargo?.offer_time &&
                         format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
                     </span>
                     <p
                       style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                     >
-                      Предложение:
+                      {t(`Предложение`)}:
                     </p>
                   </>
                 )}
 
                 {orderStatus === `cancellation` && (
                   <>
-                    <span className={styles.cardBodyTitle}>Статус</span>
+                    <span className={styles.cardBodyTitle}>{t(`Статус`)}</span>
                     <p
                       style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                     >
                       {cargo?.who_cancellation?.includes(`customer`)
-                        ? `Был отменен вами: `
+                        ? `${t(`Был отменен вами`)}: `
                         : ``}
                     </p>
                   </>
@@ -389,7 +397,7 @@ export const Performed = ({
                     name={cargo?.users_id_2_data?.full_name}
                   />
                   <Box>
-                    <p className={styles.cardBodyTitle}> Заказчик</p>
+                    <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
 
                     <p
                       style={{ lineHeight: `28px` }}
@@ -425,7 +433,7 @@ export const Performed = ({
                     name={cargo?.users_id_3_data?.full_name}
                   />
                   <Box>
-                    <p className={styles.cardBodyTitle}>Диспетчер</p>
+                    <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
 
                     <p
                       style={{ lineHeight: `28px` }}
@@ -533,7 +541,8 @@ export const Performed = ({
           </ModalHeader>
           <ModalBody>
             <Text fontSize={`18px`}>
-              Принять предложение от {dataPred?.users_id_data?.full_name}?
+              {t(`Принять предложение от`)} {dataPred?.users_id_data?.full_name}
+              ?
             </Text>
 
             <Flex
@@ -543,7 +552,7 @@ export const Performed = ({
             >
               <Box>
                 <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  Тип оплаты
+                  {t(`Тип оплаты`)}
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
                   {dataPred?.payment_type
@@ -553,7 +562,7 @@ export const Performed = ({
               </Box>
               <Box>
                 <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  Предоплата
+                  {t(`Предоплата`)}
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
                   {dataPred?.payment_type?.[0] === "prepayment"
@@ -563,7 +572,7 @@ export const Performed = ({
               </Box>
               <Box>
                 <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  Общая сумма
+                  {t(`Общая сумма`)}
                 </p>
                 <p style={{ fontWeight: 600 }} className={styles.title}>
                   {dataPred?.offers} {dataPred?.currency_id_data?.code}
@@ -581,7 +590,7 @@ export const Performed = ({
                 defaultChecked={disabled}
                 onChange={(e) => setDisabled(e.target.checked)}
               >
-                Я согласовал это предложение с заказчиком*
+                {t(`Я согласовал это предложение с заказчиком*`)}
               </CheckboxModalPred>
             </Flex>
           </ModalBody>

@@ -67,10 +67,10 @@ export const useElements = () => {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
       },
-      {
-        path: `/${lang || "ru"}/search-car`,
-        label: "Поиск машин",
-      },
+      // {
+      //   path: `/${lang || "ru"}/search-car`,
+      //   label: "Поиск машин",
+      // },
       {
         path: isAuth
           ? `/${lang || "ru"}/gps-tracking-dispatcher`
@@ -103,10 +103,10 @@ export const useElements = () => {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
       },
-      {
-        path: `/${lang || "ru"}/search-car`,
-        label: "Поиск машин",
-      },
+      // {
+      //   path: `/${lang || "ru"}/search-car`,
+      //   label: "Поиск машин",
+      // },
       {
         path: isAuth
           ? `/${lang || "ru"}/gps-tracking-dispatcher`
@@ -132,10 +132,10 @@ export const useElements = () => {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
       },
-      {
-        path: `/${lang || "ru"}/search-car`,
-        label: "Поиск машин",
-      },
+      // {
+      //   path: `/${lang || "ru"}/search-car`,
+      //   label: "Поиск машин",
+      // },
     ];
 
     if (user_type?.[0] === `approved`) {
@@ -166,10 +166,10 @@ export const useElements = () => {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
       },
-      {
-        path: `/${lang || "ru"}/search-car`,
-        label: "Поиск машин",
-      },
+      // {
+      //   path: `/${lang || "ru"}/search-car`,
+      //   label: "Поиск машин",
+      // },
       {
         path: isAuth
           ? `/${lang || "ru"}/gps-tracking`
