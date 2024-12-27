@@ -181,7 +181,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           </Flex>
           <Flex mt={3} justifyContent={'space-between'}>
              <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
-             <p className={cls.cardStartSubTitle}>Тип оплаты: <span>Перечисление</span></p>
+             <p className={cls.cardStartSubTitle}>{t(`Тип оплаты`)}: <span>Перечисление</span></p>
           </Flex>
           <Flex mt={3} justifyContent={'space-between'} alignItems={'center'}>
              <p className={cls.sum}>{contendSingle?.orders?.[0]?.cargo_id_data?.bid_cash} {contendSingle?.orders?.[0]?.cargo_id_data?.currency_id_data?.code} </p>

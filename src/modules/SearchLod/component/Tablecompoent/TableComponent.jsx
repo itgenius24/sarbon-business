@@ -54,7 +54,7 @@ export const TableComponent = ({ watch, formState }) => {
   const [sortOrder, setSortOrder] = useState("asc"); // "asc" - yuqoridan pastga, "desc" - pastdan yuqoriga
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
 
   const [centerModalType, setCenterModalType] = useState();
   const [dataUser, setDataUser] = useState();
@@ -426,6 +426,7 @@ export const TableComponent = ({ watch, formState }) => {
               className={cls.selectCargoBottom}
             >
               <Checkbox
+                defaultChecked={isCheckboxChecked}
                 onChange={(e) => setIsCheckboxChecked(e.target.checked)}
               >
                 {t("Только свободные водители")}

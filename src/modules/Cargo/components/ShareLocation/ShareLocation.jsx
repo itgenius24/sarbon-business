@@ -91,7 +91,7 @@ export const ShareLocationModule = () => {
     { enabled: !!(userId) }
   );
 
-  console.log(`getDriverLocation`,getDriverLocation)
+  console.log(`getDriverLocation`,getDriverLocation?.data?.response?.[0])
 
   const getMaps = useGetMaps(
     {
@@ -189,6 +189,7 @@ export const ShareLocationModule = () => {
   const address1 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.from;
   const address2 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.to;
 
+  console.log(`salom`,getOfferCount?.data?.response)
   return (
     <Container>
       <Box mt={20}>
@@ -332,7 +333,7 @@ export const ShareLocationModule = () => {
 
                           <div className={cls.phoneDataWrap}>
                             <div className={cls.item}>
-                              {user?.users_gps?.gps ? (
+                              {getDriverLocation?.data?.response?.[0].gps ? (
                                 <LocationActiveIcon />
                               ) : (
                                 <LocationMobileIcon />
@@ -350,20 +351,20 @@ export const ShareLocationModule = () => {
                                     style={{ fontWeight: 600 }}
                                     className={cls.phoneItemName}
                                   >
-                                    {user?.users_gps?.gps ? "Выкл " : "Откл "}
+                                    {getDriverLocation?.data?.response?.[0].gps ? "Выкл " : "Откл "}
                                   </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {user?.users_gps?.update_time &&
+                                    {getDriverLocation?.data?.response?.[0].update_time &&
                                       formatDateTime(
-                                        user?.users_gps?.update_time
+                                        getDriverLocation?.data?.response?.[0].update_time
                                       )}
                                   </span>
                                 </Flex>
                               </div>
                             </div>
                             <div className={cls.item}>
-                              {user?.users_gps?.os === "android" ? (
+                              {getDriverLocation?.data?.response?.[0].os === "android" ? (
                                 <AndroidIcon />
                               ) : (
                                 <AppleIcon />
@@ -373,7 +374,7 @@ export const ShareLocationModule = () => {
                                   {t("Смартфон")}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.os}{" "}
+                                  {getDriverLocation?.data?.response?.[0].os}{" "}
                                 </p>
                               </div>
                             </div>
@@ -384,13 +385,13 @@ export const ShareLocationModule = () => {
                                   {t("Версия Furgo")}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.version}{" "}
+                                  {getDriverLocation?.data?.response?.[0].version}{" "}
                                 </p>
                               </div>
                             </div>
 
                             <div className={cls.item}>
-                              {user?.users_gps?.battery > 19 ? (
+                              {getDriverLocation?.data?.response?.[0].battery > 19 ? (
                                 <BatareyFullIcon />
                               ) : (
                                 <BatareyIcon />
@@ -400,7 +401,7 @@ export const ShareLocationModule = () => {
                                   {t("Батарея")}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.battery}%{" "}
+                                  {getDriverLocation?.data?.response?.[0].battery}%{" "}
                                 </p>
                               </div>
                             </div>

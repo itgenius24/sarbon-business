@@ -98,7 +98,7 @@ const DriverGruz = ({
             <Avatar name="Bobur Nimatllayey" src="#" />
             <Box>
               <p className={cls.version}>
-                <span>Груз добавил: </span>
+                <span>{t(`Груз добавил`)}: </span>
               </p>
               <p className={cls.userName}>
                 {loadState?.users_id_data?.full_name}
@@ -184,7 +184,7 @@ const DriverGruz = ({
           <Flex mt={3} justifyContent={"space-between"}>
             <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
             <p className={cls.cardStartSubTitle}>
-              Тип оплаты: <span>
+              {t(`Тип оплаты`)}: <span>
                 {loadState?.map_id_data?.payment_type?.length > 15
                   ? `${loadState?.map_id_data?.payment_type?.slice(0, 15)}...`
                   : loadState?.map_id_data?.payment_type}
@@ -195,7 +195,7 @@ const DriverGruz = ({
             <p className={cls.sumGreen}>
               {loadState?.bid_cash
                 ? `${loadState?.bid_cash} ${loadState?.currency_id_data?.code}`
-                : `По запросу`}
+                : t(`По запросу`)}
             </p>
             <p className={cls.cardStartSubTitle}>
               {t(`Предоплата`)}:{" "}
@@ -229,7 +229,7 @@ const DriverGruz = ({
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-              Груз будет забронирован и недоступен для других диспетчеров.
+             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}
             </p>
           </ModalBody>
 
@@ -244,14 +244,14 @@ const DriverGruz = ({
               className={cls.btnOutline}
               mr={3}
             >
-              Нет
+             {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(21, 186, 77, 1)" }}
               onClick={updateCar}
               className={cls.btngreen}
             >
-              Забронировать
+              {t(`Забронировать`)}
             </Button>
           </ModalFooter>
         </ModalContent>

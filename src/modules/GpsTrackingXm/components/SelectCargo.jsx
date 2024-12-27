@@ -85,10 +85,10 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
         alignItems={"center"}
         className={cls.selectCargoTop}
       >
-        <p className={cls.topTitle}>Выберите груз</p>
+        <p className={cls.topTitle}>{t(`Выберите груз`)}</p>
         <InputGroup className={cls.inputWrap}>
           <Input
-            placeholder="Поиск"
+            placeholder={t("Поиск")}
             className={cls.input}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -153,7 +153,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
         alignItems={"center"}
         className={cls.selectCargoBottom}
       >
-        <Checkbox>Отображать только мои грузы</Checkbox>
+        <Checkbox>{t("Отображать только мои грузы")}</Checkbox>
         <Flex gap={2}>
           <Button
             className={cls.topButton}
@@ -162,7 +162,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
             size="md"
             border="1px solid #D0D5DD"
           >
-            Отменить
+            {t(`Отменить`)}
           </Button>
           <Button
             isDisabled={!selectCargo || disabled}
@@ -170,7 +170,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
             className={cls.topButton}
             size="md"
           >
-            Предложить
+            {t(`Предложить`)}
           </Button>
         </Flex>
       </Flex>

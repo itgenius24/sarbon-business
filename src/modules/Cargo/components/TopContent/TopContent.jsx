@@ -21,6 +21,12 @@ import {
   Button,
   Flex,
   Heading,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
   Text,
   Tooltip,
   useMediaQuery,
@@ -59,6 +65,7 @@ import { format } from "date-fns";
 import authStore from "@/store/auth.store";
 import { ro, ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
+import copy from "copy-to-clipboard";
 
 export const TopContent = ({
   address1 = "",
@@ -286,6 +293,12 @@ export const TopContent = ({
   {
     console.log(`user`, userData?.[0]);
   }
+
+  const handleShare = (user, cargoData) => {
+    copy(
+      `https://furgo.uz/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
+    );
+  };
 
   return (
     <Box>
@@ -544,33 +557,57 @@ export const TopContent = ({
                                 </p>
                               </div>
                             </div>
-                            <Flex
-                              gap={`6px`}
-                              alignItems={`center`}
-                              padding={`8px 10px`}
-                              background={`rgba(237, 239, 245, 1)`}
-                              borderRadius={`4px`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                router.push(
-                            `/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
-                          );
-                              }}
-                              // marginRight={`20px`}
-                            >
-                              <CopyIcon />
-                              <p
-                                style={{
-                                  color: `rgba(0, 122, 255, 1)`,
-                                  fontSize: `14px`,
-                                  fontWeight: 400,
-                                  lineHeight: `20px`,
-                                  borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
-                                }}
-                              >
-                                {t(`Копировать`)}
-                              </p>
-                            </Flex>
+
+                            <Popover placement="top-start">
+                              <PopoverTrigger>
+                                <Flex
+                                  gap={`6px`}
+                                  alignItems={`center`}
+                                  padding={`8px 10px`}
+                                  background={`rgba(237, 239, 245, 1)`}
+                                  borderRadius={`4px`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleShare(user, cargoData);
+                                  }}
+                                >
+                                  <CopyIcon />
+                                  <p
+                                    style={{
+                                      color: `rgba(0, 122, 255, 1)`,
+                                      fontSize: `14px`,
+                                      fontWeight: 400,
+                                      lineHeight: `20px`,
+                                      borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
+                                    }}
+                                  >
+                                    {t(`Копировать`)}
+                                  </p>
+                                </Flex>
+                              </PopoverTrigger>
+                              <Portal>
+                                <PopoverContent
+                                  borderRadius={`4px`}
+                                  border={`none`}
+                                  bg={`rgba(0, 122, 255, 1)`}
+                                  width={`fit-content`}
+                                >
+                                  <PopoverArrow
+                                    className={cls.popoverArrow}
+                                    size={`lg`}
+                                    bg={`rgba(0, 122, 255, 1)`}
+                                  />
+                                  <PopoverBody
+                                    color={`white`}
+                                    borderRadius={`4px`}
+                                    border={`none`}
+                                    width={`fit-content`}
+                                  >
+                                    <p>Локациия скопирована</p>
+                                  </PopoverBody>
+                                </PopoverContent>
+                              </Portal>
+                            </Popover>
                             {role_id ===
                               "48871d27-7361-4f69-8fe4-b54daf270739" && (
                               <Flex className={cls.item}>

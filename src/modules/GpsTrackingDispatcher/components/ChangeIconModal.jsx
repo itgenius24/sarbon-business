@@ -31,13 +31,13 @@ const ChangeIconModal = ({
       id: 2,
       type: "our_cargo",
       icon: CheckBlueIcon,
-      title: "Занята нашим грузом",
+      title:t( "Занята нашим грузом"),
     },
     {
       id: 3,
       type: "someone_cargo",
       icon: QuestionBlueIcon,
-      title: "Занята чужим грузом",
+    title:t( "Занята чужим грузом")
     },
     // {
     //   id: 4,
@@ -49,7 +49,7 @@ const ChangeIconModal = ({
       id: 4,
       type: "broke_down",
       icon: CencelMapIcon,
-      title: "Неисправна",
+      title:t( "Неисправна")
     },
   ];
 
@@ -64,7 +64,7 @@ const ChangeIconModal = ({
       id: 2,
       type: "broke_down",
       icon: CencelMapIcon,
-      title: "Неисправна",
+      title:t( "Неисправна")
     },
   ]
 

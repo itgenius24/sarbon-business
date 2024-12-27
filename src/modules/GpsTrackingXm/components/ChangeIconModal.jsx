@@ -25,19 +25,19 @@ const ChangeIconModal = ({
       id: 1,
       type: "empty",
       icon: GreenCarIcon,
-      title: "Свободная",
+      title: t("Свободная"),
     },
     {
       id: 2,
       type: "our_cargo",
       icon: CheckBlueIcon,
-      title: "Занята нашим грузом",
+      title:t( "Занята нашим грузом"),
     },
     {
       id: 3,
       type: "someone_cargo",
       icon: QuestionBlueIcon,
-      title: "Занята чужим грузом",
+    title:t( "Занята чужим грузом")
     },
     // {
     //   id: 4,
@@ -49,7 +49,7 @@ const ChangeIconModal = ({
       id: 4,
       type: "broke_down",
       icon: CencelMapIcon,
-      title: "Неисправна",
+      title:t( "Неисправна")
     },
   ];
 
@@ -64,14 +64,14 @@ const ChangeIconModal = ({
       id: 2,
       type: "broke_down",
       icon: CencelMapIcon,
-      title: "Неисправна",
+      title:t( "Неисправна")
     },
   ]
 
   return (
     <div className={cls.selectedIcon}>
       <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <p className={cls.modalTitle}>Статус машины</p>{" "}
+        <p className={cls.modalTitle}>{t(`Статус машины`)}</p>{" "}
         <IconButton
           variant={"outline"}
           border={"none"}
@@ -112,7 +112,7 @@ const ChangeIconModal = ({
           size="md"
           border="1px solid #D0D5DD"
         >
-          Отменить
+          {t(`Отменить`)}
         </Button>
         <Button
           isDisabled={Boolean(!iconStatus)}
@@ -120,7 +120,7 @@ const ChangeIconModal = ({
           className={cls.topButton}
           size="md"
         >
-          Сохранить
+          {t(`Сохранить`)}
         </Button>
       </Flex>
     </div>

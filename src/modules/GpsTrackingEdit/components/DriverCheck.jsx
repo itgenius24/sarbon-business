@@ -225,7 +225,7 @@ const DriverCheck = ({
             <Flex mt={3} justifyContent={"space-between"}>
               <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
               <p className={cls.cardStartSubTitle}>
-                Тип оплаты: <span>Перечисление</span>
+                {t(`Тип оплаты`)}: <span>Перечисление</span>
               </p>
             </Flex>
             <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
@@ -257,7 +257,7 @@ const DriverCheck = ({
             size={`lg`}
             className={cls.btnBlueOutline}
           >
-            Занята нашим грузом
+          {t(`Занята нашим грузом`)}
           </Button>
           <Box className={cls.cardWrap}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>

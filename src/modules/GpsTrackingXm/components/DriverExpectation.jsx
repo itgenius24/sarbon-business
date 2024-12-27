@@ -266,7 +266,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
           <Flex mt={3} justifyContent={"space-between"}>
             <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
             <p className={cls.cardStartSubTitle}>
-              Тип оплаты: <span>Перечисление</span>
+              {t(`Тип оплаты`)}: <span>Перечисление</span>
             </p>
           </Flex>
           <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>

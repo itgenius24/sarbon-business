@@ -84,7 +84,7 @@ const { t } = useTranslation();
             <Avatar name="Bobur Nimatllayey" src="#" />
             <Box>
               <p className={cls.version}>
-                <span>Груз добавил: </span>
+                <span>{t(`Груз добавил`)}: </span>
               </p>
               <p className={cls.userName}>
                 {loadState?.users_id_data?.full_name}
@@ -233,7 +233,7 @@ const { t } = useTranslation();
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-              Груз будет забронирован и недоступен для других диспетчеров.
+             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
             </p>
           </ModalBody>
 
@@ -248,7 +248,7 @@ const { t } = useTranslation();
               colorScheme="blue"
               mr={3}
             >
-              Нет
+             {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(193, 187, 32, 1)" }}
