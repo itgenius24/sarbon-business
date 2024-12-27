@@ -89,6 +89,7 @@ console.log(`data`,data)
   });
 
   const deleteFuntion = (id) => {
+    console.log(`deleteFuntion`,id)
     deleteUser({
       id,
     });

@@ -205,7 +205,7 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef,t }) => 
                           }}
                           className={cls.menuItem}
                           onClick={() => {
-                            deleteFuntion(item?.driver_data);
+                            deleteFuntion(item?.guid);
                             onClose();
                           }}
                         >
