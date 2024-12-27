@@ -240,7 +240,6 @@
   "Фото до 10 МБ.": "10 MB gacha bo'lgan fotosuratlar.",
   "Введите сумму": "Miqdorni kiriting",
   "Контакты": "Kontaktlar",
-  "укажите, к кому обратиться по объявлению": "indicate kimga murojaat qilish reklama bo'yicha",
   "Примечание": "Eslatma",
   "Пишите здесь": "Bu yerga yozing",
   "Введите тип номер": "Tur raqamini kiriting",
@@ -514,7 +513,75 @@
   "Отображать все": "Hammasini ko'rsatish",
   "Без Номер": "Raqamsiz",
   "Завершенные": "Bajarildi",
-  "Маршрут и время": "Marshrut va vaqt"
+  "Маршрут и время": "Marshrut va vaqt",
+  "Ваш груз": "Sizning yukingiz",
+  "В расчёте на одну машину": "Har bir mashina uchun",
+  "Упаковка": "Qadoqlash",
+  "Выберите": "Tanlash",
+
+  "Фото груза": "Yuk surati",
+  "Прикрепить фото": "Rasm biriktirish",
+  "Фото груза или документа до 10 МБ.": "Yuk yoki hujjatning fotosurati 10 MB gacha.",
+  "Загрузите или перетащите изображения сюда": "Rasmlarni bu yerga yuklang yoki sudrab oling",
+  "Адрес загрузки груза": "Manzil yuklanmoqda",
+  "Адрес доставки груза": "Yukni yetkazib berish manzili",
+  "Когда забрать": "Qachon olish kerak",
+  "Ожидание": "Kutish",
+  "Когда доставить": "Qachon yetkazib berish kerak",
+  "Еще адрес": "Qo'shimcha manzil",
+  "й адрес загрузки груза": "yuk yuklash manzili",
+  "й адрес доставки груза": "yukni yetkazib berish manzili",
+  "Частые": "Tez-tez",
+  "Сцепка,Пневмоход, Коники": "Hitch, Pnevmatik konveyer, Koniks",
+  "TIR, CMR, T1, Медкнижка": "TIR, CMR, T1, Tibbiy kitob",
+  "Ремней, шт": "Kamarlar, dona",
+  "Запросить цену": "Narx so'rang",
+  "Заметки по оплате (видно только вам)": "To'lov eslatmalari (faqat sizga ko'rinadi)",
+  "Водители FURGO смогут предложить свою ставку": "FURGO haydovchilari o'z takliflarini taklif qilishlari mumkin",
+  "Можно предлагать": "Taklif qilish mumkin",
+  "Ваши контакты": "Sizning kontaktlaringiz",
+  "укажите, к кому обратиться по объявлению": "reklama bo'yicha kimga murojaat qilishni belgilang",
+  "Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз": "Kontaktlarni (telefonlar, Skype va boshqalar) ko'rsatmang, aks holda sizning yukingiz",
+  "Машина cвободна": "Avtomobil bepul",
+  "Сломалась": "Buzilgan",
+  "Свободен": "Bepul",
+  "Занят": "Band",
+  "Поделится локацией": "Joylashuvni ulashish",
+  "Пока нет машины": "Hali mashina yo'q",
+  "Локациия скопирована": "Joylashuvdan ko'chirildi",
+  "Оборудование и запчасти": "Uskunalar va ehtiyot qismlar",
+  "Версия": "Versiya",
+  "Забронировать груз": "Kitob yuki"
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

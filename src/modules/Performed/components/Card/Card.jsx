@@ -13,6 +13,7 @@ const Card = ({ item, t, ...props }) => {
       width={"100%"}
       justifyContent={"space-between"}
       alignItems={`center`}
+      mb={`10px`}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <Flex gap={`14px`} alignItems={`center`}>

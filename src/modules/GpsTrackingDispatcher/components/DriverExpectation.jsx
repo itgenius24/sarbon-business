@@ -131,7 +131,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
             <Flex alignItems={"center"} gap={2}>
               <FurIcon />
               <Box>
-                <p className={cls.smallText}>Версия </p>
+                <p className={cls.smallText}>{t(`Версия`)} </p>
                 <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.version}</p>
               </Box>
             </Flex>
@@ -180,7 +180,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
             </Box>
           </Flex>
           <Flex mt={3} justifyContent={'space-between'}>
-             <p className={cls.cardStartSubTitle}>Cумма</p>
+             <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
              <p className={cls.cardStartSubTitle}>Тип оплаты: <span>Перечисление</span></p>
           </Flex>
           <Flex mt={3} justifyContent={'space-between'} alignItems={'center'}>

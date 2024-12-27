@@ -104,8 +104,8 @@ const StepTwo = ({ status }) => {
                     </Box>
                     <p className={cls.stepTitle}>
                       {index === 0
-                        ? `Адрес загрузки груза`
-                        : `${index + 1}-й адрес загрузки груза `}
+                        ? t(`Адрес загрузки груза`)
+                        : `${index + 1}-${t(`й адрес загрузки груза`)}`}
                     </p>
                   </Flex>
                   <Box className={cls.mobailIconButton}>
@@ -119,7 +119,7 @@ const StepTwo = ({ status }) => {
                       />
                     )}
                   </Box>
-                  {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>}
+                  {/* {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>} */}
                 </Flex>
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
@@ -186,7 +186,7 @@ const StepTwo = ({ status }) => {
                     mt={"20px"}
                   >
                     <Box width={"154px"}>
-                      <span className={cls.label}>Когда забрать</span>
+                      <span className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
                         isDisabled={watch("as_soon_as_a")}
                         onChange={(date) => {
@@ -200,7 +200,7 @@ const StepTwo = ({ status }) => {
                       <PlusIocnStep />
                     </Box>
                     <Box width={"12 4px"}>
-                      <span className={cls.label}>Ожидание</span>
+                      <span className={cls.label}>{t(`Ожидание`)}</span>
                       <ChakraSelect
                         isDisabled={!canEdit}
                         options={[
@@ -233,7 +233,7 @@ const StepTwo = ({ status }) => {
                         defaultChecked={watch(`as_soon_as_a`)}
                         onChange={(e) => handLeCheck(e)}
                       >
-                        Как можно скорее
+                       {t(`Как можно скорее`)}
                       </Checkbox>
                     </Box>
                   </Flex>
@@ -246,7 +246,7 @@ const StepTwo = ({ status }) => {
                       defaultChecked={watch(`as_soon_as_a`)}
                       onChange={(e) => handLeCheck(e)}
                     >
-                      Как можно скорее
+                      {t(`Как можно скорее`)}
                     </Checkbox>
                   </Box>
                 </Box>
@@ -264,7 +264,7 @@ const StepTwo = ({ status }) => {
               fontWeight={400}
               marginLeft={"40px"}
             >
-              {t("Еще адрес ")}
+              {t("Еще адрес")}
             </Button>
           )}
         </Box>
@@ -304,8 +304,8 @@ const StepTwo = ({ status }) => {
                     </Box>
                     <p className={cls.stepTitle}>
                       {index === 0
-                        ? ` Адрес доставки груза`
-                        : `${index + 1}-й адрес доставки груза `}
+                        ? t(`Адрес доставки груза`)
+                        : `${index + 1}-${t(`й адрес доставки груза`)}`}
                     </p>
                   </Flex>
                   <Box className={cls.mobailIconButton}>
@@ -319,7 +319,7 @@ const StepTwo = ({ status }) => {
                       />
                     )}
                   </Box>
-                  {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>}
+                  {/* {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>} */}
                 </Flex>
                 {/* <Flex justifyContent={`space-between`} alignItems={`center`}>
                   <p className={cls.stepTitle}>
@@ -398,7 +398,7 @@ const StepTwo = ({ status }) => {
                     mt={"20px"}
                   >
                     <Box width={"154px"}>
-                      <span className={cls.label}>Когда доставить</span>
+                      <span className={cls.label}>{t(`Когда доставить`)}</span>
                       <DatePickerComponent
                         isDisabled={watch(`as_soon_as_b`)}
                         onChange={(date) => {
@@ -446,7 +446,7 @@ const StepTwo = ({ status }) => {
               fontWeight={400}
               marginLeft={"40px"}
             >
-              {t("Еще адрес ")}
+              {t("Еще адрес")}
             </Button>
           )}
         </Box>

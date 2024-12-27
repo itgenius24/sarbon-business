@@ -166,7 +166,7 @@ const DriverCheck = ({
               <Flex alignItems={"center"} gap={2}>
                 <FurIcon />
                 <Box>
-                  <p className={cls.smallText}>Версия </p>
+                  <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.version}
                   </p>
@@ -242,11 +242,11 @@ const DriverCheck = ({
                     <Flex ml={2} gap={3}>
                       <Flex gap={1} alignItems={"center"}>
                         <StoneIcon />{" "}
-                        {contendSingle?.orders?.[0]?.cargo_id_data?.weight} т.
+                        {contendSingle?.vehicles?.[0]?.capacity} т.
                       </Flex>
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
-                        {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3}{" "}
+                        {contendSingle?.vehicles?.[0]?.height3 }{" "}
                         m3
                       </Flex>
                     </Flex>
@@ -255,7 +255,7 @@ const DriverCheck = ({
               </Box>
             </Flex>
             <Flex mt={3} justifyContent={"space-between"}>
-              <p className={cls.cardStartSubTitle}>Cумма</p>
+              <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
               <p className={cls.cardStartSubTitle}>
                 Тип оплаты: <span>Перечисление</span>
               </p>

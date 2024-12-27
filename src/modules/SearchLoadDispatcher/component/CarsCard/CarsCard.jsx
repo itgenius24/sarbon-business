@@ -104,15 +104,15 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
         <p className={cls.title}>
-          {item?.trailer_type_data?.[0]?.name
-            ? item?.trailer_type_data?.[0]?.name
+          {item?.trailer_type_data?.[0]?.trailer_type
+            ? item?.trailer_type_data?.[0]?.trailer_type
             : `____`}
         </p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
         <p className={cls.title}>
           {item?.vehicle_data?.[0]?.height
-            ? `${item?.vehicle_data?.[0]?.height}т / ${item?.vehicle_data?.[0]?.capacity}м3`
+            ? `${item?.vehicle_data?.[0]?.capacity}т / ${ item?.vehicle_data?.[0]?.height}м3`
             : `___`}
         </p>
       </Box>

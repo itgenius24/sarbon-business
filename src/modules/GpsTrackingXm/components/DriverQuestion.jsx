@@ -138,7 +138,7 @@ const DriverQuestion = ({
               <Flex alignItems={"center"} gap={2}>
                 <FurIcon />
                 <Box>
-                  <p className={cls.smallText}>Версия </p>
+                  <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.version}
                   </p>

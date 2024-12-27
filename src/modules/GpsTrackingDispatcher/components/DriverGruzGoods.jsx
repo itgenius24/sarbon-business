@@ -111,7 +111,7 @@ const { t } = useTranslation();
               <p className={cls.cardStartTitle}>{loadState?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
-                <span>{  loadState?.as_soon_as_a ? `Как можно скорее` :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                <span>{  loadState?.as_soon_as_a ? t( `Как можно скорее`) :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>
@@ -123,7 +123,7 @@ const { t } = useTranslation();
               <p className={cls.cardStartTitle}> {loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_to?.toUpperCase()} /
-                <span> { loadState?.as_soon_as_b ? `Как можно скорее` :  format(loadState?.date, "yyyy-MM-dd")}</span>
+                <span> { loadState?.as_soon_as_b ? t( `Как можно скорее`) :  format(loadState?.date, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>
@@ -163,7 +163,7 @@ const { t } = useTranslation();
             </Box>
           </Flex>
           <Flex mt={3} justifyContent={"space-between"}>
-            <p className={cls.cardStartSubTitle}>Cумма</p>
+            <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
             <p className={cls.cardStartSubTitle}>
               Тип оплаты:{" "}
               <span>
@@ -178,7 +178,7 @@ const { t } = useTranslation();
               {loadState?.bid_cash} {loadState?.currency_id_data?.code}
             </p>
             <p className={cls.cardStartSubTitle}>
-              Предоплата:{" "}
+              {t(`Предоплата`)}:{" "}
               <span>{loadState?.prepayment_percentage > 0 ? "Дa" : "Нет"}</span>
             </p>
           </Flex>
@@ -230,7 +230,7 @@ const { t } = useTranslation();
           <ModalCloseButton onClick={handleClosePopup} />
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              Забронировать груз?
+              {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
               Груз будет забронирован и недоступен для других диспетчеров.

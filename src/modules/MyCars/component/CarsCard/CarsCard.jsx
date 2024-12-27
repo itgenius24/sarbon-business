@@ -208,10 +208,10 @@ export const CarsCard = ({
               <p className={cls.loadType}>{item?.trailer_type_id_data?.name}</p>
               <Flex gap={2}>
                 <Flex gap={1} alignItems={"center"}>
-                  <StoneIcon /> {item?.height} т.
+                  <StoneIcon /> { item?.capacity} т.
                 </Flex>
                 <Flex gap={1} alignItems={"center"}>
-                  <LoadOulineIcon /> {item?.capacity} m3
+                  <LoadOulineIcon /> {item?.height} m3
                 </Flex>
               </Flex>
             </Flex>

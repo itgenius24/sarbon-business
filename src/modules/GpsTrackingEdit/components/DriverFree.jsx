@@ -205,7 +205,7 @@ const DriverFree = ({
               <Flex alignItems={"center"} gap={2}>
                 <FurIcon />
                 <Box>
-                  <p className={cls.smallText}>Версия </p>
+                  <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.version}
                   </p>
@@ -229,22 +229,22 @@ const DriverFree = ({
               label={
                 contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  : `Пока нет машины.`
+                  : t( `Пока нет машины`)
               }
             >
               <p>
                 {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  : `Пока нет машины.`}
+                  : t( `Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {contendSingle?.vehicles?.[0]?.height} т.
+                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity   } т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.capacity} m3
+                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height   } m3
               </Flex>
             </Flex>
           </Flex>
@@ -289,7 +289,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenCanseleOutline}
           >
-            Сломалась
+             {t(`Сломалась`)}
           </Button>
         ) : (
           <Button
@@ -302,7 +302,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenOutline}
           >
-            Машина cвободна
+             {t(`Машина cвободна`)}
           </Button>
         )}
 
@@ -311,7 +311,7 @@ const DriverFree = ({
           size={`lg`}
           className={cls.btngreen}
         >
-          Предложить груз
+          {t(`Предложить груз`)}
         </Button>
       </Flex>
     </div>

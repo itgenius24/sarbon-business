@@ -138,7 +138,7 @@ const DriverCheck = ({
               <Flex alignItems={"center"} gap={2}>
                 <FurIcon />
                 <Box>
-                  <p className={cls.smallText}>Версия </p>
+                  <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.version}
                   </p>
@@ -223,7 +223,7 @@ const DriverCheck = ({
               </Box>
             </Flex>
             <Flex mt={3} justifyContent={"space-between"}>
-              <p className={cls.cardStartSubTitle}>Cумма</p>
+              <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
               <p className={cls.cardStartSubTitle}>
                 Тип оплаты: <span>Перечисление</span>
               </p>
@@ -237,7 +237,7 @@ const DriverCheck = ({
                 }{" "}
               </p>
               <p className={cls.cardStartSubTitle}>
-                Предоплата:{" "}
+                {t(`Предоплата`)}:{" "}
                 <span>
                   {contendSingle?.orders?.[0]?.cargo_id_data
                     ?.prepayment_percentage > 0

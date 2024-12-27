@@ -94,7 +94,7 @@ const StepThere = ({ status }) => {
                   <Box className={cls.logoWrapMobile}>
                     <CarStaepIcon />
                   </Box>
-                  <p className={cls.stepTitle}>Машина</p>
+                  <p className={cls.stepTitle}>{t(`Машина`)}</p>
                 </Flex>
 
                 <Flex width={`100%`} gap={"24px"} mt={"24px"}>
@@ -119,7 +119,7 @@ const StepThere = ({ status }) => {
                     />
                     {canEdit && (
                       <Flex gap={2} mt={2}>
-                        <span className={cls.subTitle}>Частые: </span>
+                        <span className={cls.subTitle}>{t(`Частые`)}: </span>
                         <p
                           onClick={() =>
                             setValue("car_type", {
@@ -148,7 +148,7 @@ const StepThere = ({ status }) => {
                 </Flex>
               </Box>
               <Box width={"100%"}>
-                <p className={cls.stepTitle}>Количество машин</p>
+                <p className={cls.stepTitle}>{t(`Количество машин`)}</p>
                 <Flex
                   className={cls.inputWrap}
                   gap={"24px"}

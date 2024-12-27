@@ -404,8 +404,8 @@ const StepFive = ({ status }) => {
       <Box className={cls.step1}>
         <Flex className={cls.itemWrap} alignItems={"center"} justifyContent={"flex-start"}>
           <Box className={cls.box} width={"40%"}>
-            <h2 className={cls.title}>Ваши контакты</h2>
-            <p className={cls.deck}>укажите, к кому обратиться по объявлению</p>
+            <h2 className={cls.title}>{t(`Ваши контакты`)}</h2>
+            <p className={cls.deck}>{t(`укажите, к кому обратиться по объявлению`)}</p>
           </Box>
           <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
@@ -428,10 +428,9 @@ const StepFive = ({ status }) => {
         </Flex>
         <Flex className={cls.itemWrap}  mt={4} alignItems={"center"} justifyContent={"flex-start"}>
           <Box className={cls.box} width={"40%"}>
-            <h2 className={cls.title}>Комментарий</h2>
-            <p className={cls.deck}>
-              Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз
-              удалит модератор.
+            <h2 className={cls.title}>{t(`Комментарий`)}</h2>
+            <p style={{lineHeight:`18px`}} className={cls.deck}>
+             {t(`Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.`)}
             </p>
           </Box>
           <Box className={cls.itemSubWrap} width={"50%"}>

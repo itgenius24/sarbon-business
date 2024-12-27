@@ -202,7 +202,7 @@ const { t } = useTranslation();
                     {carInfo?.user?.provisions?.[0] === "empty" ? (
                       <>
                         <GreenCarIcon />
-                        <span className={cls.balloonName}>Свободен</span>
+                        <span className={cls.balloonName}>{t(`Свободен`)}</span>
                       </>
                     ) : carInfo?.user?.provisions?.[0] ===
                       "waiting_for_driver" ? (
@@ -212,7 +212,7 @@ const { t } = useTranslation();
                           style={{ color: "rgba(0, 122, 255, 1)" }}
                           className={cls.balloonName}
                         >
-                          Ожидание
+                          {t(`Ожидание`)}
                         </span>
                       </>
                     ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -222,7 +222,7 @@ const { t } = useTranslation();
                           style={{ color: "rgba(0, 122, 255, 1)" }}
                           className={cls.balloonName}
                         >
-                          Занят
+                          {t(`Занят`)}
                         </span>
                       </>
                     ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -232,7 +232,7 @@ const { t } = useTranslation();
                           style={{ color: "rgba(0, 122, 255, 1)" }}
                           className={cls.balloonName}
                         >
-                          Занят
+                          {t(`Занят`)}
                         </span>
                       </>
                     ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -242,20 +242,20 @@ const { t } = useTranslation();
                           style={{ color: "rgba(126, 123, 134, 1)" }}
                           className={cls.balloonName}
                         >
-                          Сломалась
+                           {t(`Сломалась`)}
                         </span>
                       </>
                     ) : (
                       <>
                         <GreenCarIcon />
-                        <span className={cls.balloonName}>Свободен</span>
+                        <span className={cls.balloonName}>{t(`Свободен`)}</span>
                       </>
                     )}
 
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
                         <StoneIcon />{" "}
-                        <span> {carInfo?.vehicles?.[0]?.height} т.</span>
+                        <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
                       </Box>
 
                       <Box
@@ -264,7 +264,7 @@ const { t } = useTranslation();
                         alignItems={"center"}
                       >
                         <LoadOulineIcon />{" "}
-                        <span>{carInfo?.vehicles?.[0]?.capacity} m3</span>
+                        <span>{carInfo?.vehicles?.[0]?.height} m3</span>
                       </Box>
                     </div>
                   </div>
@@ -286,7 +286,7 @@ const { t } = useTranslation();
                       </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : t( `Пока нет машины`) }
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -306,7 +306,7 @@ const { t } = useTranslation();
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : t( `Пока нет машины`) }
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -325,7 +325,7 @@ const { t } = useTranslation();
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : t( `Пока нет машины`) }
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -344,7 +344,7 @@ const { t } = useTranslation();
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : t( `Пока нет машины`) }
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -362,7 +362,7 @@ const { t } = useTranslation();
                       </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : t( `Пока нет машины`) }
                       </p>
                     </>
                   ) : (
@@ -381,7 +381,7 @@ const { t } = useTranslation();
 
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
-                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : `Пока нет машины.` }
+                        {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name : t( `Пока нет машины`) }
                       </p>
                     </>
                   )}
@@ -495,7 +495,7 @@ const { t } = useTranslation();
                     </p>
                   </Flex>
                 </div>
-                <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
+                <p className={cls.balloon_fulName}>{t(`Оборудование и запчасти`)}</p>
                 {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
                     <div className={cls.flex}>

@@ -140,11 +140,11 @@ export const MyCarsModule = () => {
                               <Flex gap={2}>
                                 <Flex gap={1} alignItems={"center"}>
                                   <StoneIcon />
-                                  {item?.vehicles?.[0]?.height} т.
+                                  {item?.vehicles?.[0]?.capacity} т.
                                 </Flex>
                                 <Flex gap={1} alignItems={"center"}>
                                   <LoadOulineIcon />
-                                  {item?.vehicles?.[0]?.capacity} m3
+                                  { item?.vehicles?.[0]?.height} m3
                                 </Flex>
                               </Flex>
                             </Flex>

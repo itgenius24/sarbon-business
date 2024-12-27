@@ -59,7 +59,7 @@ const StepOne = ({ status }) => {
               <Box className={cls.logoWrapMobile}>
                 <LoadStepIcon />
               </Box>
-              <p className={cls.stepTitle}>Ваш груз</p>
+              <p className={cls.stepTitle}>{t(`Ваш груз`)}</p>
             </Flex>
 
             <Flex className={cls.inputWrap} gap={"24px"} mt={"10px"}>
@@ -118,7 +118,7 @@ const StepOne = ({ status }) => {
               </Box>
               <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
                 <Box>
-                  <p className={cls.textFieldName}>В расчёте на одну машину</p>
+                  <p className={cls.textFieldName}>{t(`В расчёте на одну машину`)}</p>
                   <TextFieldWithAddition
                     className={cls.textField2}
                     errors={errors}
@@ -413,7 +413,7 @@ const StepOne = ({ status }) => {
                 >
                   <p className={cls.stepTitle2}>
                     {t("Прикрепить фото")} <br />
-                    <span>Фото груза или документа до 10 МБ.</span>
+                    <span>{t(`Фото груза или документа до 10 МБ.`)}</span>
                   </p>
                   <IconButton
                     border={"none"}

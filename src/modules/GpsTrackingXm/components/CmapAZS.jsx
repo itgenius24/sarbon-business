@@ -303,7 +303,7 @@ const { t } = useTranslation();
                           style={{ color: "rgba(126, 123, 134, 1)" }}
                           className={cls.balloonName}
                         >
-                          Сломалась
+                           {t(`Сломалась`)}
                         </span>
                       </>
                     ) : (
@@ -316,16 +316,16 @@ const { t } = useTranslation();
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
                         <StoneIcon />{" "}
-                        <span> {carInfo?.vehicles?.[0]?.height} т.</span>
+                        <span> { carInfo?.vehicles?.[0]?.capacity} т.</span>
                       </Box>
 
                       <Box
-                        className={cls.conWrap}
+                        className={cls.conWrap} 
                         gap={1}
                         alignItems={"center"}
                       >
                         <LoadOulineIcon />
-                        <span>{carInfo?.vehicles?.[0]?.capacity} m3</span>
+                        <span>{carInfo?.vehicles?.[0]?.height} m3</span>
                       </Box>
                     </div>
                   </div>
@@ -367,7 +367,7 @@ const { t } = useTranslation();
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : `Пока нет машины.`}
+                          : t( `Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -389,7 +389,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : `Пока нет машины.`}
+                          : t( `Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -410,7 +410,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : `Пока нет машины.`}
+                          : t( `Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -431,7 +431,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : `Пока нет машины.`}
+                          : t( `Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -451,7 +451,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : `Пока нет машины.`}
+                          : t( `Пока нет машины`)}
                       </p>
                     </>
                   ) : (
@@ -472,7 +472,7 @@ const { t } = useTranslation();
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : `Пока нет машины.`}
+                          : t( `Пока нет машины`)}
                       </p>
                     </>
                   )}

@@ -125,7 +125,7 @@ const DriverGruz = ({
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
                 <span>
                   {loadState?.as_soon_as_a
-                    ? `Как можно скорее`
+                    ? t( `Как можно скорее`)
                     : format(loadState?.load_time, "yyyy-MM-dd")}
                 </span>
               </p>
@@ -141,7 +141,7 @@ const DriverGruz = ({
                 {loadState?.country_code_to?.toUpperCase()} /
                 <span>
                   {loadState?.as_soon_as_b
-                    ? `Как можно скорее`
+                    ? t( `Как можно скорее`)
                     : format(loadState?.date || new Date(), "yyyy-MM-dd")}
                 </span>
               </p>
@@ -182,7 +182,7 @@ const DriverGruz = ({
             </Box>
           </Flex>
           <Flex mt={3} justifyContent={"space-between"}>
-            <p className={cls.cardStartSubTitle}>Cумма</p>
+            <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
             <p className={cls.cardStartSubTitle}>
               Тип оплаты: <span>
                 {loadState?.map_id_data?.payment_type?.length > 15
@@ -198,7 +198,7 @@ const DriverGruz = ({
                 : `По запросу`}
             </p>
             <p className={cls.cardStartSubTitle}>
-              Предоплата:{" "}
+              {t(`Предоплата`)}:{" "}
               <span>
                 {" "}
                 {loadState?.prepayment_percentage > 0 ? "Дa" : "Нет"}{" "}
@@ -212,7 +212,7 @@ const DriverGruz = ({
             size={"lg"}
             className={cls.btngreen}
           >
-            Забронировать груз
+            {t(`Забронировать груз`)}
           </Button>
         )}
      
@@ -226,7 +226,7 @@ const DriverGruz = ({
           <ModalCloseButton onClick={handleClosePopup} />
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              Забронировать груз?
+              {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
               Груз будет забронирован и недоступен для других диспетчеров.

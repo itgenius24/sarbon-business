@@ -137,7 +137,7 @@ const DriverQuestion = ({
               <Flex alignItems={"center"} gap={2}>
                 <FurIcon />
                 <Box>
-                  <p className={cls.smallText}>Версия </p>
+                  <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
                     {contendSingle?.users_gps?.[0]?.version}
                   </p>
@@ -199,10 +199,10 @@ const DriverQuestion = ({
                   <span>Контейнеровоз</span>
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
-                      <StoneIcon /> 22 т.
+                      <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
-                      <LoadOulineIcon /> 86m3
+                      <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height3}m3
                     </Flex>
                   </Flex>
                 </Flex>

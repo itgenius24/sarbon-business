@@ -94,7 +94,7 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef,t }) => 
         <Flex>
           <p className={cls.subTitle1}>
             <span style={{ marginRight: `9px` }} className={cls.subTitle}>
-              {item?.vehicle_data?.height}т / {item?.vehicle_data?.capacity}м3
+              {item?.vehicle_data?.capacity}т / {item?.vehicle_data?.height}м3
             </span>
           </p>
 

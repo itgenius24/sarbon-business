@@ -77,26 +77,14 @@ export const useSearchLoadDispatcher = () => {
       // }
       if (res?.response?.length) {
         setRefe(false);
-        const vehicles = [{ name: t(`Без трейлера`) }];
-
-        console.log(
-          `response`,
-          res?.response.map((item) => ({
-            ...item,
-            guid: item?.[`_id`],
-            trailer_type_data:
-              item?.trailer_type_data?.length > 0
-                ? item?.trailer_type_data
-                : vehicles,
-          }))
-        );
-
+        const vehicles = [{ trailer_type: t(`Без трейлера`) }];
+      console.log(`res?.response`,res?.response)
         const filteredData = res?.response.map((item) => ({
           ...item,
           guid: item[`_id`],
           trailer_type_data:
-            item?.trailer_type_data?.length > 0
-              ? item?.trailer_type_data
+            item?.vehicle_data?.length > 0
+              ? item?.vehicle_data
               : vehicles,
         }));
 

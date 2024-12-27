@@ -139,7 +139,7 @@ const StepFour = ({ status }) => {
                 <Box className={cls.logoWrapMobile}>
                   <NoteIcon />
                 </Box>
-                <p className={cls.stepTitle}>Оплата</p>
+                <p className={cls.stepTitle}>{t(`Оплата`)}</p>
               </Flex>
               <Flex className={cls.radioWrap} gap={"50px"}>
                 {!check && !status && currencyOptions ? (
@@ -214,7 +214,7 @@ const StepFour = ({ status }) => {
 
               {!status && (
                 <Flex alignItems={"center"} gap={3}>
-                  <p>Запросить цену</p>
+                  <p>{t(`Запросить цену`)}</p>
                   <Switch
                     isChecked={check}
                     onChange={(e) => setCheck(e.target.checked)}
@@ -314,7 +314,7 @@ const StepFour = ({ status }) => {
                           register={register}
                           name="negotiable"
                         >
-                          Возможен торг
+                          {t(`Возможен торг`)}
                         </Checkbox>
                       )}
                     </Flex>
@@ -342,7 +342,7 @@ const StepFour = ({ status }) => {
                         defaultChecked={watch(`prepayment`)}
                         isDisabled={order_status?.[0] === "active" || !canEdit}
                       >
-                        Предоплата
+                        {t(`Предоплата`)}
                       </Checkbox>
                     </Flex>
                     <TextFieldWithAddition
@@ -442,9 +442,10 @@ const StepFour = ({ status }) => {
             ) : (
               <Box mt={"40px"}>
                 <h2 className={cls.title}>
-                  Водители FURGO смогут предложить свою ставку
+                  
+                {t(`Водители FURGO смогут предложить свою ставку`)}
                 </h2>
-                <p className={cls.subTitle2}>Можно предлагать</p>
+                <p className={cls.subTitle2}>{t(`Можно предлагать`)}</p>
                 <Flex className={cls.checkWrap} mt={2} gap={"22px"}>
                   <Checkbox
                     defaultChecked={true}
