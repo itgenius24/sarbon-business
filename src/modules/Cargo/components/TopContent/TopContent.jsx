@@ -37,6 +37,7 @@ import {
   BatareyIcon,
   BluetoothIcon,
   CarIconXM,
+  CopyIcon,
   FurIcon,
   IocnPrev,
   LoadIconXM,
@@ -265,7 +266,6 @@ export const TopContent = ({
       limit: 7000,
       data: JSON.stringify({
         users_id: userId,
-       
       }),
     },
     querySettings: {
@@ -277,11 +277,15 @@ export const TopContent = ({
   useEffect(() => {
     if (getDriverPosition?.response) {
       setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
-      if(getDriverPosition?.response.length > 0){
+      if (getDriverPosition?.response.length > 0) {
         setOffset(offset + 7000);
       }
     }
   }, [getDriverPosition?.response]);
+
+  {
+    console.log(`user`, userData?.[0]);
+  }
 
   return (
     <Box>
@@ -299,13 +303,11 @@ export const TopContent = ({
                         background={`#fff`}
                         label={`${address1}`}
                       >
-                     
-                          <span>
-                            {address1?.length >= 20
-                              ? `${address1?.slice(0, 20)}...`
-                              : address1}
-                          </span>
-                    
+                        <span>
+                          {address1?.length >= 20
+                            ? `${address1?.slice(0, 20)}...`
+                            : address1}
+                        </span>
                       </Tooltip>
                     </span>
 
@@ -326,7 +328,7 @@ export const TopContent = ({
                               color: `rgba(126, 123, 134, 1)`,
                             }}
                           >
-                         {t(`Как можно скорее`)}
+                            {t(`Как можно скорее`)}
                           </span>
                         </p>
                       ) : (
@@ -376,7 +378,7 @@ export const TopContent = ({
                             color: `rgba(126, 123, 134, 1)`,
                           }}
                         >
-                       {t(`Как можно скорее`)}
+                          {t(`Как можно скорее`)}
                         </span>
                       </p>
                     ) : (
@@ -465,7 +467,9 @@ export const TopContent = ({
                                 <LocationMobileIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
+                                <p className={cls.phoneItemTitle}>
+                                  {t(`Геолокация`)}
+                                </p>
                                 <Flex
                                   gap={`5px`}
                                   alignItems={`center`}
@@ -488,7 +492,6 @@ export const TopContent = ({
                               </div>
                             </div>
 
-                            {console.log(`user`, user)}
                             {role_id !==
                               "48871d27-7361-4f69-8fe4-b54daf270739" && (
                               <div className={cls.item}>
@@ -498,7 +501,9 @@ export const TopContent = ({
                                   <AppleIcon />
                                 )}
                                 <div className={cls.itemText}>
-                                  <p className={cls.phoneItemTitle}>{t(`Смартфон`)}</p>
+                                  <p className={cls.phoneItemTitle}>
+                                    {t(`Смартфон`)}
+                                  </p>
                                   <p className={cls.phoneItemName}>
                                     {user?.users_gps?.os}{" "}
                                   </p>
@@ -506,7 +511,7 @@ export const TopContent = ({
                               </div>
                             )}
 
-                            <div className={cls.item}>
+                            {/* <div className={cls.item}>
                               <FurIcon />
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>
@@ -516,7 +521,7 @@ export const TopContent = ({
                                   {user?.users_gps?.version}{" "}
                                 </p>
                               </div>
-                            </div>
+                            </div> */}
                             {/* <div className={cls.item}>
                             <BluetoothIcon />
                             <div className={cls.itemText}>
@@ -531,12 +536,41 @@ export const TopContent = ({
                                 <BatareyIcon />
                               )}
                               <div className={cls.itemText}>
-                                <p className={cls.phoneItemTitle}>{t(`Батарея`)}</p>
+                                <p className={cls.phoneItemTitle}>
+                                  {t(`Батарея`)}
+                                </p>
                                 <p className={cls.phoneItemName}>
                                   {user?.users_gps?.battery}%{" "}
                                 </p>
                               </div>
                             </div>
+                            <Flex
+                              gap={`6px`}
+                              alignItems={`center`}
+                              padding={`8px 10px`}
+                              background={`rgba(237, 239, 245, 1)`}
+                              borderRadius={`4px`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                router.push(
+                            `/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
+                          );
+                              }}
+                              // marginRight={`20px`}
+                            >
+                              <CopyIcon />
+                              <p
+                                style={{
+                                  color: `rgba(0, 122, 255, 1)`,
+                                  fontSize: `14px`,
+                                  fontWeight: 400,
+                                  lineHeight: `20px`,
+                                  borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
+                                }}
+                              >
+                                {t(`Копировать`)}
+                              </p>
+                            </Flex>
                             {role_id ===
                               "48871d27-7361-4f69-8fe4-b54daf270739" && (
                               <Flex className={cls.item}>
@@ -633,7 +667,7 @@ export const TopContent = ({
                                   </span>{" "}
                                   /{" "}
                                   {user?.cargo_id_data?.as_soon_as_a
-                                    ? t( `Как можно скорее`)
+                                    ? t(`Как можно скорее`)
                                     : user?.cargo_id_data?.load_time &&
                                       format(
                                         new Date(
@@ -669,7 +703,7 @@ export const TopContent = ({
                                   </span>{" "}
                                   /
                                   {user?.cargo_id_data?.as_soon_as_b
-                                    ? t( `Как можно скорее`)
+                                    ? t(`Как можно скорее`)
                                     : user?.cargo_id_data?.date &&
                                       format(
                                         new Date(
@@ -702,7 +736,10 @@ export const TopContent = ({
                                   {userData?.length} /{" "}
                                   {user?.cargo_id_data?.number_of_cars}
                                 </p>
-                                <p className={cls.subTitle}> {user?.vehicle_id_data?.car_number}</p>
+                                <p className={cls.subTitle}>
+                                  {" "}
+                                  {user?.vehicle_id_data?.car_number}
+                                </p>
                               </Box>
                             </Flex>
                             <Flex gap={`8px`}>
@@ -726,13 +763,17 @@ export const TopContent = ({
                             p={`13px 18px`}
                           >
                             <Box>
-                              <p className={cls.subTitle}>{t(`Тип оплаты`)}: </p>
+                              <p className={cls.subTitle}>
+                                {t(`Тип оплаты`)}:{" "}
+                              </p>
                               <p className={cls.title}>
                                 {user?.cargo_id_data?.map_id_data?.payment_type}
                               </p>
                             </Box>
                             <Box>
-                              <p className={cls.subTitle}>{t(`Предоплата`)}: </p>
+                              <p className={cls.subTitle}>
+                                {t(`Предоплата`)}:{" "}
+                              </p>
                               <p className={cls.title}>
                                 {user?.cargo_id_data?.prepayment_percentage}{" "}
                                 {user?.cargo_id_data?.currency_id_data?.code}

@@ -77,7 +77,7 @@ export const useSearchCargo = () => {
     reset,
     setValue,
     setError,
-    clearErrors
+    clearErrors,
   } = useForm({});
   const [load, setLoad] = useState({});
   const firm_id = authStore.userData.firm_id;
@@ -92,21 +92,20 @@ export const useSearchCargo = () => {
         view_fields: ["car_number"],
       }),
     },
-    querySettings:{
+    querySettings: {
       enabled: Boolean(false),
-    }
+    },
   });
 
   useEffect(() => {
-    if (getCarNumnber?.count  === 1) {
+    if (getCarNumnber?.count === 1) {
       setError(`car_number`, {
         message: `Этот номер автомобиля был зарегистрирован ранее!`,
       });
-    } 
-     else if (getCarNumnber?.count > 1 || getCarNumnber?.count === 0){
+    } else if (getCarNumnber?.count > 1 || getCarNumnber?.count === 0) {
       clearErrors(`car_number`);
     }
-  }, [getCarNumnber?.count > 0,inputValue]);
+  }, [getCarNumnber?.count > 0, inputValue]);
 
   console.log(`getCarNumnber`, getCarNumnber);
 
@@ -215,10 +214,11 @@ export const useSearchCargo = () => {
         front_side_trailer: val.front_side_trailer, //url cdn
         car_photo: val.car_photo, //url cdn
         download_type: getTrueKeys(load),
-        status: [`in_active`],
+        car_position: ["moderation"],
+        status: [`active`],
         firm_id,
         car_country: val?.car_country,
-        fuel_id: val?.fuel_id,
+        fuel_id: val?.fuel_id?.value  ? val?.fuel_id?.value  : val?.fuel_id,
         eco_standart: val?.eco_standart,
         guid: id ? id : undefined,
       },
@@ -253,6 +253,6 @@ export const useSearchCargo = () => {
     locale,
     fuels: fuel?.response,
     setinputValue,
-    isBtn:getCarNumnber?.count  === 1
+    isBtn: getCarNumnber?.count === 1,
   };
 };

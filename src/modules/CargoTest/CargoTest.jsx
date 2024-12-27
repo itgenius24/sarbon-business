@@ -134,7 +134,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       <CricleIcon />
                     )}
                     <div className={cls.text}>
-                      <p>1. Груз</p>
+                      <p>1. {t(`Груз`)}</p>
                       <span>
                         {addCargoProps.watch("cargo_type")?.label &&
                         addCargoProps.watch("weight_measurement") &&
@@ -143,7 +143,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                               addCargoProps.watch("cargo_type").label
                             } ${addCargoProps.watch("weight_measurement")}T 
                           ${addCargoProps.watch("volume_measurement")}m³`
-                          : "не заполнено"}
+                          : t("не заполнено")}
                       </span>
                     </div>
                   </div>
@@ -169,7 +169,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       <CricleIcon />
                     )}
                     <div className={cls.text}>
-                      <p>2. Маршрут и время</p>
+                      <p>2. {t(`Маршрут и время`)}</p>
                       {addCargoProps.watch(`loadings[0].address`) &&
                       addCargoProps.watch("unloading[0].address") ? (
                         <Flex alignItems={`center`} gap={`5px`}>
@@ -183,7 +183,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         </Flex>
                       ) : (
                         <Flex alignItems={`center`} gap={`5px`}>
-                          <span>не заполнено</span>
+                          <span>{t(`не заполнено`)}</span>
                         </Flex>
                       )}
                     </div>
@@ -209,11 +209,11 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       <CricleIcon />
                     )}
                     <div className={cls.text}>
-                      <p>3. Транспорт</p>
+                      <p>3. {t(`Транспорт`)}</p>
                       <span>
                         {addCargoProps.watch("car_type")?.label
                           ? addCargoProps.watch("car_type")?.label
-                          : "не заполнено"}{" "}
+                          : t("не заполнено")}{" "}
                       </span>
                     </div>
                   </div>
@@ -238,7 +238,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       <CricleIcon />
                     )}
                     <div className={cls.text}>
-                      <p>4. Оплата</p>
+                      <p>4. {t(`Оплата`)}</p>
                       <span>
                         {addCargoProps.check
                           ? addCargoProps
@@ -246,7 +246,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                               ?.join(`,`)
                           : addCargoProps.watch(`price_after_order`)
                           ? addCargoProps.watch(`price`) || 0
-                          : `не заполнено`}
+                          : t(`не заполнено`)}
                       </span>
                     </div>
                   </div>

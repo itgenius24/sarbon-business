@@ -29,7 +29,7 @@ import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { forwardRef } from "react";
 
-export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef }) => {
+export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef,t }) => {
   const router = useRouter();
   const locale = useGetLang();
 
@@ -82,7 +82,7 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef }) => {
           </Flex>
         ) : (
           <p className={cls.title}>
-            <span className={cls.subTitle}>Владелец водитель</span>
+            <span className={cls.subTitle}>{t(`Владелец водитель`)}</span>
           </p>
         )}
       </Box>
@@ -132,13 +132,13 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef }) => {
           >
             {item?.order_data ? (
               <Box>
-                <p className={cls.locationTitle}>Занята: </p>
-                <p className={cls.subBlueTitle}>З-000006287</p>
+                <p className={cls.locationTitle}>{t(`Занята`)}: </p>
+                <p className={cls.subBlueTitle}></p>
               </Box>
             ) : (
               <Box>
-                <p className={cls.locationTitle2}>Свободна: </p>
-                <p className={cls.subBlueTitle2}>Найти груз</p>
+                <p className={cls.locationTitle2}>{t(`Свободна`)}: </p>
+                <p className={cls.subBlueTitle2}>{t(`Найти груз`)}</p>
               </Box>
             )}
 
@@ -146,7 +146,7 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef }) => {
               <>
                 <Flex alignItems={`center`} gap={2}>
                   <LocationActiveIcon /> <CricleArrovIcon />
-                  <p className={cls.title}>Вкл. </p>
+                  <p className={cls.title}>{t(`Вкл`)}. </p>
                   <p className={cls.subBlueTitle}>
                     {item?.gps_data[0]?.update_time &&
                       format(item?.gps_data[0]?.update_time, `yyyy-MM-dd`)}
@@ -155,7 +155,7 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef }) => {
                 <Flex alignItems={"center"} gap={2}>
                   <BluetoothIcon2 />
                   <p className={cls.subTitle}>
-                    <span className={cls.title}>Вкл. </span>
+                    <span className={cls.title}>{t(`Вкл`)}. </span>
                   </p>
                 </Flex>
                 <Flex alignItems={"center"} gap={2}>
@@ -209,7 +209,7 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef }) => {
                             onClose();
                           }}
                         >
-                          Удалить водителя
+                          {t(`Удалить водителя`)}
                         </Box>
                       </PopoverBody>
                     </PopoverContent>

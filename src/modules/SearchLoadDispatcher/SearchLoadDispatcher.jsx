@@ -61,7 +61,7 @@ export const SearchLoadDispatcherModule = () => {
     setSearchFn,
   } = useSearchLoadDispatcher();
 
-  console.log("data", data);
+ 
 
   return (
     <>
@@ -133,7 +133,7 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={() => nameFilter()}
               >
-                <p className={cls.filterTitle}>Имя водителя</p>
+                <p className={cls.filterTitle}>{t(`Имя водителя`)}</p>
                 {filter1 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
               <Flex
@@ -144,7 +144,7 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={() => nameFilterMawini()}
               >
-                <p className={cls.filterTitle}>Владелец машины</p>
+                <p className={cls.filterTitle}>{t(`Владелец машины`)}</p>
                 {filter2 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
 
@@ -156,7 +156,7 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={() => nameFilterMawiniNomer()}
               >
-                <p className={cls.filterTitle}>Номер машины</p>
+                <p className={cls.filterTitle}>{t(`Номер машины`)}</p>
                 {filter4 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
 
@@ -168,10 +168,10 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={tipFilter}
               >
-                <p className={cls.filterTitle}>тип Кузова</p>
+                <p className={cls.filterTitle}>{t(`тип Кузова`)}</p>
                 {filter3 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
-              <p className={cls.th}>вес / объём</p>
+              <p className={cls.th}>{t(`вес / объём`)}</p>
               <Flex
                 cursor={`pointer`}
                 className={cls.th}
@@ -180,7 +180,7 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={timeFilter}
               >
-                <p className={cls.filterTitle}>был онлайн</p>
+                <p className={cls.filterTitle}>{t(`был онлайн`)}</p>
                 {filter5 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
               <Flex
@@ -191,7 +191,7 @@ export const SearchLoadDispatcherModule = () => {
                 alignItems={`center`}
                 onClick={dispatcherFilter}
               >
-                <p className={cls.filterTitle}>Диспетчер</p>
+                <p className={cls.filterTitle}>{t(`Диспетчер`)}</p>
                 {filter6 ? <IocnSortBack /> : <IocnFilter />}
               </Flex>
             </Flex>
@@ -205,6 +205,7 @@ export const SearchLoadDispatcherModule = () => {
           >
             {data?.map((item, index) => (
               <CarsCard
+              t={t}
                 key={index}
                 index={index}
                 item={item}
@@ -262,14 +263,14 @@ export const SearchLoadDispatcherModule = () => {
             background={`white`}
           >
             <Flex gap={`50px`} className={cls.addUser}>
-              <p className={cls.addText}>Выбрано: {ids?.length}</p>
+              <p className={cls.addText}>{t(`Выбрано`)}: {ids?.length}</p>
               <Button
                 isLoading={createAdressisPending}
                 onClick={onSubmit}
                 isDisabled={ids?.length === 0}
                 className={cls.btnAddLoad}
               >
-                Добавить к себе
+                {t(`Добавить к себе`)}
               </Button>
             </Flex>
           </Flex>

@@ -9,6 +9,7 @@ import {
   useGetDriverLocation,
   useGetDriverPosition,
   useGetMaps,
+  useGetOffer,
   useGetSortedGPSHistory,
   useGetWithLocation,
 } from "@/services/api";
@@ -60,31 +61,37 @@ import { format } from "date-fns";
 import authStore from "@/store/auth.store";
 import { ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
+import { Container } from "@/components/Container";
 
 export const ShareLocationModule = () => {
-  // const { watch, handleUploadDocument, getEmptyFileName, getValues } =
-  //   useAddCargoContext();
-
-  const [userId, setUserId] = useState("");
+  const searchParams = useSearchParams()
+  // const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
   const [offset, setOffset] = useState(0);
   const [allPositions, setAllPositions] = useState([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
-  const [carId, setCarId] = useState("");
+  const carId = searchParams.get(`cargo_id`)
+  const userId = searchParams.get(`user_id`)
+  const orderId  =  searchParams.get(`order_id`)
+
+  console.log(`ids`,carId,userId,orderId)
 
   const firm_id = authStore.userData.firm_id;
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 
-  const getDriverLocation = useGetDriverLocation(
-    { data: JSON.stringify({ users_id: userId }) },
-    { enabled: !!(status === "performed" && userId) }
-  );
   const [gpsHistory, setGpsHistory] = useState();
   const [page, setPage] = useState(0);
 
   const [breakRequest, setBreakRequest] = useState(false);
+
+  const getDriverLocation = useGetDriverLocation(
+    { data: JSON.stringify({ users_id: userId }) },
+    { enabled: !!(userId) }
+  );
+
+  console.log(`getDriverLocation`,getDriverLocation)
 
   const getMaps = useGetMaps(
     {
@@ -93,7 +100,17 @@ export const ShareLocationModule = () => {
     { enabled: !!carId }
   );
 
-  console.log(`getMaps`, getMaps);
+  const getOfferCount = useGetOffer(
+    {
+      data: JSON.stringify({
+        guid: orderId,
+        with_relations: true,
+      }),
+    },
+    { enabled: Boolean(orderId) }
+  );
+
+  console.log(`getOfferCount`,getOfferCount?.data?.response)
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
@@ -134,18 +151,7 @@ export const ShareLocationModule = () => {
       // enabled: Boolean(userId),
     },
   });
-
-  console.log(`getDriverPosition`, getDriverPosition);
-
-  const driverPosition = useMemo(() => {
-    return [
-      getDriverLocation?.data?.response?.[0]?.lat,
-      getDriverLocation?.data?.response?.[0]?.long,
-    ];
-  }, [getDriverLocation?.data?.response?.[0]]);
-
-  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
+  
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
@@ -157,7 +163,7 @@ export const ShareLocationModule = () => {
   }, []);
 
   useEffect(() => {
-    if (status === "performed" && userId) {
+    if ( userId) {
       getGPSHistory.mutate({
         data: {
           object_data: {
@@ -168,7 +174,7 @@ export const ShareLocationModule = () => {
         },
       });
     }
-  }, [status, userId, page]);
+  }, [ userId, page]);
 
   useEffect(() => {
     if (getDriverPosition?.response) {
@@ -179,32 +185,34 @@ export const ShareLocationModule = () => {
     }
   }, [getDriverPosition?.response]);
 
-  const address1 = `wewe wejwe er wief wie fweiwe itlrtrt tror dfdrfe`;
-  const address2 = `wefw ewe wew ew ewdwkje ewejdwkjef wejwe `;
+
+  const address1 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.from;
+  const address2 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.to;
 
   return (
-    <Box mt={20}>
-      <Box p="14px" borderRadius="12px">
-        <h2 className={cls.address}>
-          <span className={cls.addressText}>
-            <span className={cls.addressCountry}>
-              <span className={cls.addressCity}>
-                <Tooltip
-                  color={`black`}
-                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                  background={`#fff`}
-                  label={address1}
-                >
-                  <span>
-                    {address1?.length >= 20
-                      ? `${address1?.slice(0, 20)}...`
-                      : address1}
-                  </span>
-                </Tooltip>
-              </span>
+    <Container>
+      <Box mt={20}>
+        <Box p="14px" borderRadius="12px">
+          <h2 className={cls.address}>
+            <span className={cls.addressText}>
+              <span className={cls.addressCountry}>
+                <span className={cls.addressCity}>
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={address1}
+                  >
+                    <span>
+                      {address1?.length >= 20
+                        ? `${address1?.slice(0, 20)}...`
+                        : address1}
+                    </span>
+                  </Tooltip>
+                </span>
 
-              {/* {cargoData &&
-                      (cargoData?.cargo_id_data?.as_soon_as_a ? (
+                {getOfferCount?.data?.response?.[0] &&
+                      (getOfferCount?.data?.response?.[0]?.cargo_id_data?.as_soon_as_a ? (
                         <p
                           style={{
                             fontWeight: 500,
@@ -212,7 +220,7 @@ export const ShareLocationModule = () => {
                             color: `rgba(126, 123, 134, 1)`,
                           }}
                         >
-                          {cargoData?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
+                          {getOfferCount?.data?.response?.[0]?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
                           /{" "}
                           <span
                             style={{
@@ -223,38 +231,38 @@ export const ShareLocationModule = () => {
                             Как можно скорее
                           </span>
                         </p>
-                      ) : (
+                      ) :  getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time && (
                         format(
                           new Date(
-                            cargoData?.cargo_id_data?.load_time
+                            getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time
                           ).setHours(
                             new Date(
-                              cargoData?.cargo_id_data?.load_time
+                              getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time
                             ).getHours() - 5
                           ),
                           "dd-MMMM",
                           { locale: ru }
                         )
-                      ))} */}
-            </span>
-            <span>-&gt;</span>
-            <span className={cls.addressCountry}>
-              <span className={cls.addressCity}>
-                <Tooltip
-                  color={`black`}
-                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                  background={`#fff`}
-                  label={`${address2}`}
-                >
-                  <span>
-                    {address2?.length >= 20
-                      ? `${address2?.slice(0, 20)}...`
-                      : address2}
-                  </span>
-                </Tooltip>
+                      ))}
               </span>
+              <span>-&gt;</span>
+              <span className={cls.addressCountry}>
+                <span className={cls.addressCity}>
+                  <Tooltip
+                    color={`black`}
+                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                    background={`#fff`}
+                    label={`${address2}`}
+                  >
+                    <span>
+                      {address2?.length >= 20
+                        ? `${address2?.slice(0, 20)}...`
+                        : address2}
+                    </span>
+                  </Tooltip>
+                </span>
 
-              {/* {cargoData && cargoData?.cargo_id_data?.as_soon_as_b ? (
+                {getOfferCount?.data?.response?.[0] && getOfferCount?.data?.response?.[0]?.cargo_id_data?.as_soon_as_b ? (
                       <p
                         style={{
                           fontWeight: 500,
@@ -262,7 +270,7 @@ export const ShareLocationModule = () => {
                           color: `rgba(126, 123, 134, 1)`,
                         }}
                       >
-                        {cargoData?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
+                        {getOfferCount?.data?.response?.[0]?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
                         /{" "}
                         <span
                           style={{
@@ -274,313 +282,321 @@ export const ShareLocationModule = () => {
                         </span>
                       </p>
                     ) : (
-                      cargoData?.cargo_id_data?.date &&
+                      getOfferCount?.data?.response?.[0]?.cargo_id_data?.date &&
                       format(
-                        new Date(cargoData?.cargo_id_data?.date).setHours(
-                          new Date(cargoData?.cargo_id_data?.date).getHours() -
+                        new Date(getOfferCount?.data?.response?.[0]?.cargo_id_data?.date).setHours(
+                          new Date(getOfferCount?.data?.response?.[0]?.cargo_id_data?.date).getHours() -
                             5
                         ),
                         "dd-MMMM",
                         { locale: ru }
                       )
-                    )} */}
+                    )}
+              </span>
             </span>
-          </span>
-        </h2>
-      </Box>
-      <>
-        {isPending ? (
-          <LoadingSpinner />
-        ) : userData?.length > 0 ? (
-          <Accordion allowToggle>
-            {userData?.[0]?.order?.map((user, index) => {
-              return (
-                <>
-                  <AccordionItem key={index} className={cls.accordionItem}>
-                    <AccordionButton
-                      onClick={() => {
-                        setUserId(user?.users_gps?.users_id);
-                        setCarId(user?.cargo_id);
-                        setGpsHistory([]);
-                      }}
-                      className={cls.accordionButton}
-                    >
-                      <div className={cls.userDataWarp}>
-                        <div className={cls.userWrap}>
-                          <Avatar
-                            color={"white"}
-                            name={user?.users_id_data?.full_name}
-                            src={user?.users_id_data?.photo}
-                          />
-                          <div className={cls.user}>
-                            <p className={cls.userName}>
-                              {user?.users_id_data?.full_name}
-                            </p>
-                            <p className={cls.userTel}>
-                              {user?.users_id_data?.phone}
-                            </p>
+          </h2>
+        </Box>
+        <>
+          {isPending ? (
+            <LoadingSpinner />
+          ) : getOfferCount?.data?.response?.length > 0 ? (
+            <Accordion defaultIndex={[0]}  allowToggle>
+              {getOfferCount?.data?.response?.map((user, index) => {
+                return (
+                  <>
+                    <AccordionItem key={index} className={cls.accordionItem}>
+                      <AccordionButton
+                        onClick={() => {
+                          // setUserId(user?.users_gps?.users_id);
+                          // setCarId(user?.cargo_id);
+                          setGpsHistory([]);
+                        }}
+                        className={cls.accordionButton}
+                      >
+                        <div className={cls.userDataWarp}>
+                          <div className={cls.userWrap}>
+                            <Avatar
+                              color={"white"}
+                              name={user?.users_id_data?.full_name}
+                              src={user?.users_id_data?.photo}
+                            />
+                            <div className={cls.user}>
+                              <p className={cls.userName}>
+                                {user?.users_id_data?.full_name}
+                              </p>
+                              <p className={cls.userTel}>
+                                {user?.users_id_data?.phone}
+                              </p>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className={cls.phoneDataWrap}>
-                          <div className={cls.item}>
-                            {user?.users_gps?.gps ? (
-                              <LocationActiveIcon />
-                            ) : (
-                              <LocationMobileIcon />
-                            )}
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
-                              <Flex
-                                gap={`5px`}
-                                alignItems={`center`}
-                                className={cls.phoneItemName}
-                              >
-                                <span
-                                  style={{ fontWeight: 600 }}
+                          <div className={cls.phoneDataWrap}>
+                            <div className={cls.item}>
+                              {user?.users_gps?.gps ? (
+                                <LocationActiveIcon />
+                              ) : (
+                                <LocationMobileIcon />
+                              )}
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>
+                                  {t(`Геолокация`)}
+                                </p>
+                                <Flex
+                                  gap={`5px`}
+                                  alignItems={`center`}
                                   className={cls.phoneItemName}
                                 >
-                                  {user?.users_gps?.gps ? "Выкл " : "Откл "}
-                                </span>
-                                <ResToreIcon />
-                                <span className={cls.phoneItemTitle}>
-                                  {user?.users_gps?.update_time &&
-                                    formatDateTime(
-                                      user?.users_gps?.update_time
-                                    )}
-                                </span>
-                              </Flex>
+                                  <span
+                                    style={{ fontWeight: 600 }}
+                                    className={cls.phoneItemName}
+                                  >
+                                    {user?.users_gps?.gps ? "Выкл " : "Откл "}
+                                  </span>
+                                  <ResToreIcon />
+                                  <span className={cls.phoneItemTitle}>
+                                    {user?.users_gps?.update_time &&
+                                      formatDateTime(
+                                        user?.users_gps?.update_time
+                                      )}
+                                  </span>
+                                </Flex>
+                              </div>
                             </div>
-                          </div>
-                          <div className={cls.item}>
-                            {user?.users_gps?.os === "android" ? (
-                              <AndroidIcon />
-                            ) : (
-                              <AppleIcon />
-                            )}
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>
-                                {t("Смартфон")}
-                              </p>
-                              <p className={cls.phoneItemName}>
-                                {user?.users_gps?.os}{" "}
-                              </p>
+                            <div className={cls.item}>
+                              {user?.users_gps?.os === "android" ? (
+                                <AndroidIcon />
+                              ) : (
+                                <AppleIcon />
+                              )}
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>
+                                  {t("Смартфон")}
+                                </p>
+                                <p className={cls.phoneItemName}>
+                                  {user?.users_gps?.os}{" "}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          <div className={cls.item}>
-                            <FurIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>
-                                {t("Версия Furgo")}
-                              </p>
-                              <p className={cls.phoneItemName}>
-                                {user?.users_gps?.version}{" "}
-                              </p>
+                            <div className={cls.item}>
+                              <FurIcon />
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>
+                                  {t("Версия Furgo")}
+                                </p>
+                                <p className={cls.phoneItemName}>
+                                  {user?.users_gps?.version}{" "}
+                                </p>
+                              </div>
                             </div>
-                          </div>
 
-                          <div className={cls.item}>
-                            {user?.users_gps?.battery > 19 ? (
-                              <BatareyFullIcon />
-                            ) : (
-                              <BatareyIcon />
-                            )}
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>
-                                {t("Батарея")}
-                              </p>
-                              <p className={cls.phoneItemName}>
-                                {user?.users_gps?.battery}%{" "}
-                              </p>
+                            <div className={cls.item}>
+                              {user?.users_gps?.battery > 19 ? (
+                                <BatareyFullIcon />
+                              ) : (
+                                <BatareyIcon />
+                              )}
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>
+                                  {t("Батарея")}
+                                </p>
+                                <p className={cls.phoneItemName}>
+                                  {user?.users_gps?.battery}%{" "}
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <AccordionIcon />
-                    </AccordionButton>
+                        <AccordionIcon />
+                      </AccordionButton>
 
-                    <AccordionPanel position={`relative`}>
-                      {getGPSHistory.isPending ? (
-                        <Box height={"600px"}>
-                          <LoadingSpinner />
-                        </Box>
-                      ) : (
-                        <>
-                          <YMaps>
-                            <AccordionMap
-                              driver={user?.users_gps}
-                              gpsHistory={gpsHistory}
-                              getDriverPosition={allPositions?.map((item) => [
-                                item?.lat,
-                                item?.long,
-                              ])}
-                              driverPosition={[
-                                user?.users_gps?.lat,
-                                user?.users_gps?.long,
-                              ]}
-                              periods={userData?.periods}
-                              getMaps={getMaps}
-                            />
-                          </YMaps>
-                          <Flex
-                            justifyContent={`space-between`}
-                            gap={`10px`}
-                            alignItems={`center`}
-                            className={cls.adressWrap}
-                          >
-                            <Box>
-                              <p className={cls.adressTitle}>
-                                <Tooltip
-                                  color={`black`}
-                                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                                  background={`#fff`}
-                                  label={`${user?.cargo_id_data?.from}`}
-                                >
-                                  <span>{`${user?.cargo_id_data?.from.slice(
-                                    0,
-                                    10
-                                  )}...`}</span>
-                                </Tooltip>
-                              </p>
-                              <p className={cls.adressDesk}>
-                                <span>
-                                  {user?.cargo_id_data?.country_code_from}
-                                </span>
-                                /
-                                {format(
-                                  new Date(
-                                    user?.cargo_id_data?.load_time
-                                  ).setHours(
+                      <AccordionPanel position={`relative`}>
+                        {getGPSHistory.isPending ? (
+                          <Box height={"600px"}>
+                            <LoadingSpinner />
+                          </Box>
+                        ) : (
+                          <>
+                            <YMaps>
+                              <AccordionMap
+                               
+                                gpsHistory={gpsHistory}
+                                getDriverPosition={allPositions?.map((item) => [
+                                  item?.lat,
+                                  item?.long,
+                                ])}
+                                driverPosition={[
+                                  user?.users_gps?.lat,
+                                  user?.users_gps?.long,
+                                ]}
+                                getMaps={getMaps}
+                              />
+                            </YMaps>
+                            <Flex
+                              justifyContent={`space-between`}
+                              gap={`10px`}
+                              alignItems={`center`}
+                              className={cls.adressWrap}
+                            >
+                              <Box>
+                                <p className={cls.adressTitle}>
+                                  <Tooltip
+                                    color={`black`}
+                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                    background={`#fff`}
+                                    label={`${user?.cargo_id_data?.from}`}
+                                  >
+                                    <span>{`${user?.cargo_id_data?.from.slice(
+                                      0,
+                                      10
+                                    )}...`}</span>
+                                  </Tooltip>
+                                </p>
+                                <p className={cls.adressDesk}>
+                                  <span>
+                                    {user?.cargo_id_data?.country_code_from}
+                                  </span>
+                                  /
+                                  {format(
                                     new Date(
                                       user?.cargo_id_data?.load_time
-                                    ).getHours() - 5
-                                  ),
-                                  "dd-MMMM",
-                                  { locale: ru }
-                                )}
-                              </p>
-                            </Box>
-                            <IocnPrev />
-                            <Box>
-                              <p className={cls.adressTitle}>
-                                <Tooltip
-                                  color={`black`}
-                                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                                  background={`#fff`}
-                                  label={`${user?.cargo_id_data?.to}`}
-                                >
-                                  <span>{`${user?.cargo_id_data?.to.slice(
-                                    0,
-                                    10
-                                  )}...`}</span>
-                                </Tooltip>
-                              </p>
-                              <p className={cls.adressDesk}>
-                                <span>
-                                  {user?.cargo_id_data?.country_code_to}
-                                </span>
-                                /
-                                {format(
-                                  new Date(user?.cargo_id_data?.date).setHours(
+                                    ).setHours(
+                                      new Date(
+                                        user?.cargo_id_data?.load_time
+                                      ).getHours() - 5
+                                    ),
+                                    "dd-MMMM",
+                                    { locale: ru }
+                                  )}
+                                </p>
+                              </Box>
+                              <IocnPrev />
+                              <Box>
+                                <p className={cls.adressTitle}>
+                                  <Tooltip
+                                    color={`black`}
+                                    boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                    background={`#fff`}
+                                    label={`${user?.cargo_id_data?.to}`}
+                                  >
+                                    <span>{`${user?.cargo_id_data?.to.slice(
+                                      0,
+                                      10
+                                    )}...`}</span>
+                                  </Tooltip>
+                                </p>
+                                <p className={cls.adressDesk}>
+                                  <span>
+                                    {user?.cargo_id_data?.country_code_to}
+                                  </span>
+                                  /
+                                  {format(
                                     new Date(
                                       user?.cargo_id_data?.date
-                                    ).getHours() - 5
-                                  ),
-                                  "dd-MMMM",
-                                  { locale: ru }
+                                    ).setHours(
+                                      new Date(
+                                        user?.cargo_id_data?.date
+                                      ).getHours() - 5
+                                    ),
+                                    "dd-MMMM",
+                                    { locale: ru }
+                                  )}
+                                </p>
+                              </Box>
+                            </Flex>
+                          </>
+                        )}
+
+                        <Flex
+                          justifyContent={`space-between`}
+                          alignItems={`center`}
+                          mt={10}
+                        >
+                          <Flex gap={`40px`} alignItems={`center`}>
+                            <Flex gap={`8px`}>
+                              <CarIconXM />
+                              <Box>
+                                <p className={cls.title}>
+                                  {user?.cargo_id_data?.car_type}:
+                                  {userData?.length} /{" "}
+                                  {user?.cargo_id_data?.number_of_cars}
+                                </p>
+                                <p className={cls.subTitle}>
+                                  {" "}
+                                  {user?.vehicle_id_data?.car_number}
+                                </p>
+                              </Box>
+                            </Flex>
+                            <Flex gap={`8px`}>
+                              <LoadIconXM />
+                              <Box>
+                                <p className={cls.title}>
+                                  {user?.cargo_id_data?.product_type}
+                                </p>
+                                <p className={cls.subTitle}>
+                                  {" "}
+                                  {user?.cargo_id_data?.weight}
+                                  {t("т")} / {user?.cargo_id_data?.volume_m3}{" "}
+                                  {t("м³")}
+                                </p>
+                              </Box>
+                            </Flex>
+                          </Flex>
+                          <Flex
+                            gap={`39px`}
+                            background={`rgba(237, 246, 255, 1)`}
+                            borderRadius={`10px`}
+                            p={`13px 18px`}
+                          >
+                            <Box>
+                              <p className={cls.subTitle}>
+                                {t("Тип оплаты")}:
+                              </p>
+                              <p className={cls.title}>
+                                {t(
+                                  user?.cargo_id_data?.map_id_data?.payment_type
                                 )}
                               </p>
                             </Box>
-                          </Flex>
-                        </>
-                      )}
-
-                      <Flex
-                        justifyContent={`space-between`}
-                        alignItems={`center`}
-                        mt={10}
-                      >
-                        <Flex gap={`40px`} alignItems={`center`}>
-                          <Flex gap={`8px`}>
-                            <CarIconXM />
                             <Box>
-                              <p className={cls.title}>
-                                {user?.cargo_id_data?.car_type}:
-                                {userData?.length} /{" "}
-                                {user?.cargo_id_data?.number_of_cars}
-                              </p>
                               <p className={cls.subTitle}>
-                                {" "}
-                                {user?.vehicle_id_data?.car_number}
+                                {t("Предоплата")}:
+                              </p>
+                              <p className={cls.title}>
+                                {user?.cargo_id_data?.prepayment_percentage}{" "}
+                                {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
-                          </Flex>
-                          <Flex gap={`8px`}>
-                            <LoadIconXM />
                             <Box>
-                              <p className={cls.title}>
-                                {user?.cargo_id_data?.product_type}
-                              </p>
-                              <p className={cls.subTitle}>
-                                {" "}
-                                {user?.cargo_id_data?.weight}
-                                {t("т")} / {user?.cargo_id_data?.volume_m3}{" "}
-                                {t("м³")}
+                              <p className={cls.subTitle}>{t("Сумма")}: </p>
+                              <p
+                                className={cls.title}
+                                style={{ color: `rgba(0, 122, 255, 1)` }}
+                              >
+                                {user?.cargo_id_data?.bid_cash}{" "}
+                                {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
                           </Flex>
                         </Flex>
-                        <Flex
-                          gap={`39px`}
-                          background={`rgba(237, 246, 255, 1)`}
-                          borderRadius={`10px`}
-                          p={`13px 18px`}
-                        >
-                          <Box>
-                            <p className={cls.subTitle}>{t("Тип оплаты")}: </p>
-                            <p className={cls.title}>
-                              {t(
-                                user?.cargo_id_data?.map_id_data?.payment_type
-                              )}
-                            </p>
-                          </Box>
-                          <Box>
-                            <p className={cls.subTitle}>{t("Предоплата")}: </p>
-                            <p className={cls.title}>
-                              {user?.cargo_id_data?.prepayment_percentage}{" "}
-                              {user?.cargo_id_data?.currency_id_data?.code}
-                            </p>
-                          </Box>
-                          <Box>
-                            <p className={cls.subTitle}>{t("Сумма")}: </p>
-                            <p
-                              className={cls.title}
-                              style={{ color: `rgba(0, 122, 255, 1)` }}
-                            >
-                              {user?.cargo_id_data?.bid_cash}{" "}
-                              {user?.cargo_id_data?.currency_id_data?.code}
-                            </p>
-                          </Box>
-                        </Flex>
-                      </Flex>
-                    </AccordionPanel>
-                  </AccordionItem>
-                </>
-              );
-            })}
-          </Accordion>
-        ) : (
-          <Flex
-            className={cls.noData}
-            width={`100%`}
-            height={`170px`}
-            alignItems={`center`}
-            justifyContent={`center`}
-          >
-            No data
-          </Flex>
-        )}
-      </>
-    </Box>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </>
+                );
+              })}
+            </Accordion>
+          ) : (
+            <Flex
+              className={cls.noData}
+              width={`100%`}
+              height={`170px`}
+              alignItems={`center`}
+              justifyContent={`center`}
+            >
+              No data
+            </Flex>
+          )}
+        </>
+      </Box>
+    </Container>
   );
 };

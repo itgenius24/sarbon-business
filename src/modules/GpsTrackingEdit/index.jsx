@@ -139,7 +139,7 @@ export default function GpsTrackingModuleTets() {
                   onClick={() => setModalType("filter")}
                   className={cls.filterBtn}
                 >
-                  <FilterIcon /> Фильтр
+                  <FilterIcon /> {t(`Фильтр`)}
                 </div>
               )}
               {modalType === "filter" && (

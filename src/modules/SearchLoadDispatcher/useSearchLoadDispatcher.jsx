@@ -58,7 +58,7 @@ export const useSearchLoadDispatcher = () => {
   const negotiableOption = [
     {
       value: `val1`,
-      label: t(`Отображать все ${data?.length}`),
+      label: t(`Отображать все`) + ` ${data?.length}`,
     },
     // {
     //   value: `val2`,
@@ -77,7 +77,7 @@ export const useSearchLoadDispatcher = () => {
       // }
       if (res?.response?.length) {
         setRefe(false);
-        const vehicles = [{ name: `Без трейлера` }];
+        const vehicles = [{ name: t(`Без трейлера`) }];
 
         console.log(
           `response`,

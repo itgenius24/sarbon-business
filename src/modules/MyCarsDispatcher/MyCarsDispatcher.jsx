@@ -55,10 +55,10 @@ export const MyCarsDispatcherModule = () => {
           <Flex gap={`28px`}>
             <Box className={cls.countrWrap}>
               <p>
-                Всего: <span>{count || 0}</span>
+                {t(`Всего`)}: <span>{count || 0}</span>
               </p>
               <p>
-                Свободных: <span>{0}</span>
+                {t(`Свободных`)}: <span>{0}</span>
               </p>
             </Box>
             {isSuperDispatcher === "approved" && (
@@ -69,7 +69,7 @@ export const MyCarsDispatcherModule = () => {
                 width={"fit-content"}
                 leftIcon={<PlusIcon />}
               >
-                Добавить водителя
+                {t(`Добавить водителя`)}
               </Button>
             )}
             {/* <Button
@@ -108,11 +108,11 @@ export const MyCarsDispatcherModule = () => {
               alignItems={`center`}
               onClick={nameFilter}
             >
-              <p className={cls.filterTitle}>Водитель</p>
+              <p className={cls.filterTitle}>{t(`Водитель`)}</p>
               {filter1 ? <IocnSortBack /> : <IocnFilter />}
             </Flex>
-            <p className={cls.th}>Владелец машины</p>
-            <p className={cls.th}>Машина</p>
+            <p className={cls.th}>{t(`Владелец машины`)}</p>
+            <p className={cls.th}>{t(`Машина`)}</p>
 
             <Flex
               gap={2}
@@ -121,7 +121,7 @@ export const MyCarsDispatcherModule = () => {
               justifyContent={`flex-start`}
               alignItems={`center`}
             >
-              <p>Статус</p>
+              <p>{t(`Статус`)}</p>
             </Flex>
           </Flex>
         </Box>
@@ -129,6 +129,7 @@ export const MyCarsDispatcherModule = () => {
           {data?.length > 0 &&
             data?.map((item) => (
               <CarsCard
+              t={t}
                 containerRef={containerRef}
                 key={item?.driver_data?.guid}
                 item={item}

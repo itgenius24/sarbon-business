@@ -152,7 +152,7 @@ export const CarsCard = ({
                   height={250}
                   alt="w"
                 />
-                {item.status?.[0] === `in_active` && (
+                {item.car_position?.[0] === `moderation` && (
                   <Box
                     position={`absolute`}
                     width={`100%`}
@@ -225,7 +225,7 @@ export const CarsCard = ({
             <Box>
               <p className={cls.subTitle}>{t("Дополнительно")}:</p>
               <p className={cls.title}>
-                {item?.adr} {item.tir ? `, TIR` : ""}{" "}
+                {item?.adr} {item.tir ? `TIR` : ""}
               </p>
             </Box>
           </Flex>

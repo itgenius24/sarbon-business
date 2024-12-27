@@ -8,8 +8,10 @@ import {
 } from "@/assets/icons/icons";
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
+  const { t } = useTranslation();
   return (
     <>
       {addCargoProps.watch(`cargoIndex`) !== 5 ? (
@@ -44,7 +46,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
             <div className={cls.arrowWrap2}>
               <div className={clsx(cls.arrow)}>
                 <div className={cls.text}>
-                  <p>1. Груз</p>
+                  <p>1. {t(`Груз`)}</p>
                   <span>
                     {addCargoProps.watch("cargo_type")?.label &&
                     addCargoProps.watch("weight_measurement") &&
@@ -53,7 +55,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                           addCargoProps.watch("cargo_type").label
                         } ${addCargoProps.watch("weight_measurement")}T 
                           ${addCargoProps.watch("volume_measurement")}m³`
-                      : "не заполнено"}
+                      : t("не заполнено")}
                   </span>
                 </div>
               </div>
@@ -64,7 +66,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
             <div className={cls.arrowWrap2}>
               <div className={clsx(cls.arrow)}>
                 <div className={cls.text}>
-                  <p>2. Маршрут и время</p>
+                  <p>2. {t(`Маршрут и время`)}</p>
                   {addCargoProps.watch(`loadings[0].address`) &&
                   addCargoProps.watch("unloading[0].address") ? (
                     <Flex alignItems={`center`} gap={`5px`}>
@@ -78,7 +80,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                     </Flex>
                   ) : (
                     <Flex alignItems={`center`} gap={`5px`}>
-                      <span>не заполнено</span>
+                      <span>{t(`не заполнено`)}</span>
                     </Flex>
                   )}
                 </div>
@@ -89,11 +91,11 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
             <div className={cls.arrowWrap2}>
               <div className={clsx(cls.arrow)}>
                 <div className={cls.text}>
-                  <p>3. Транспорт</p>
+                  <p>3. {t(`Транспорт`)}</p>
                   <span>
                     {addCargoProps.watch("car_type")?.label
                       ? addCargoProps.watch("car_type")?.label
-                      : "не заполнено"}{" "}
+                      : t("не заполнено")}{" "}
                   </span>
                 </div>
               </div>
@@ -103,7 +105,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
             <div className={cls.arrowWrap2}>
               <div className={clsx(cls.arrow)}>
                 <div className={cls.text}>
-                  <p>4. Оплата</p>
+                  <p>4. {t(`Оплата`)}</p>
                   <span>
                     {addCargoProps.check
                       ? addCargoProps.getTrueKeys(addCargoProps.mone)?.join(`,`)
@@ -142,7 +144,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
           >
             <Box>
               <div className={cls.textResult}>
-                <p>1. Груз</p>
+                <p>1. {t(`Груз`)}</p>
                 <span>
                   {addCargoProps.watch("cargo_type")?.label &&
                   addCargoProps.watch("weight_measurement") &&
@@ -151,7 +153,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                         addCargoProps.watch("cargo_type").label
                       } ${addCargoProps.watch("weight_measurement")}T 
                           ${addCargoProps.watch("volume_measurement")}m³`
-                    : "не заполнено"}
+                    : t("не заполнено")}
                 </span>
               </div>
             </Box>
@@ -168,7 +170,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
           >
             <Box>
               <div className={cls.textResult}>
-                <p>2. Маршрут и время</p>
+                <p>2. {t(`Маршрут и время`)}</p>
                 {addCargoProps.watch(`loadings[0].address`) &&
                 addCargoProps.watch("unloading[0].address") ? (
                   <Flex width={`100%`} alignItems={`center`} gap={`5px`}>
@@ -183,7 +185,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                   </Flex>
                 ) : (
                   <Flex alignItems={`center`} gap={`5px`}>
-                    <span>не заполнено</span>
+                    <span>{t(`не заполнено`)}</span>
                   </Flex>
                 )}
               </div>
@@ -201,11 +203,11 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
           >
             <Box>
               <div className={cls.textResult}>
-                <p>3. Транспорт</p>
+                <p>3. {t(`Транспорт`)}</p>
                 <span>
                   {addCargoProps.watch("car_type")?.label
                     ? addCargoProps.watch("car_type")?.label
-                    : "не заполнено"}{" "}
+                    : t("не заполнено")}{" "}
                 </span>
               </div>
             </Box>
@@ -222,7 +224,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
           >
             <Box>
               <div className={cls.textResult}>
-                <p>4. Оплата</p>
+                <p>4. {t(`Оплата`)}</p>
                 <span>
                   {addCargoProps.check
                     ? addCargoProps.getTrueKeys(addCargoProps.mone)?.join(`,`)

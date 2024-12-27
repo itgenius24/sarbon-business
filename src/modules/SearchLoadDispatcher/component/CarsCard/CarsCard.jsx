@@ -30,7 +30,7 @@ import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { forwardRef } from "react";
 
-export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,containerRef }) => {
+export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,containerRef,t }) => {
   const router = useRouter();
   const locale = useGetLang();
 
@@ -66,7 +66,7 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
           <p className={cls.title}>{item?.firm_data?.[0]?.full_name}</p>
         )}
         <p className={cls.subTitle}>
-          {item?.firm_data?.[0]?.phone_number || <span>Владелец водитель</span>}
+          {item?.firm_data?.[0]?.phone_number || <span>{t(`Владелец водитель`)}</span>}
         </p>
       </Box>
       <Box className={`${cls.contend} ${cls.contend3}`}>
@@ -97,7 +97,7 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
               <p>{item?.vehicle_data?.[0]?.car_number}</p>
             </Flex>
           ) : (
-            <span className={cls.subTitle}>Без Номер</span>
+            <span className={cls.subTitle}>{t(`Без Номер`)}</span>
           )}
         </p>
         {/* <p className={cls.title}>{item?.vehicles?.[0]?.car_number}</p> */}
@@ -138,7 +138,7 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
             item?.dispatcher_full_data?.full_name
           ) : (
             <>
-              <span className={cls.subTitle}>Без диспетчера</span>
+              <span className={cls.subTitle}>{t(`Без диспетчера`)}</span>
               <Checkbox
                 id={item?.guid}
                 onClick={() => handleCheckboxChange(item)}

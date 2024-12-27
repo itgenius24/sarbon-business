@@ -60,7 +60,7 @@ export const SearchCargoModule = () => {
     fuels,
     router,
     isBtn,
-    setinputValue
+    setinputValue,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
@@ -154,7 +154,7 @@ export const SearchCargoModule = () => {
                     type="number"
                     zIndex={90}
                   />
-                  <Flex  gap={`12px`} mt={2}>
+                  <Flex gap={`12px`} mt={2}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`capacity`, `7`)}
@@ -286,11 +286,11 @@ export const SearchCargoModule = () => {
                     required: t("Это поле обязательно"),
                   }}
                   onChange={(e) => {
-                    console.log(`we`, e.target.value)
+                    console.log(`we`, e.target.value);
                     e.target.value = e.target.value
                       .replace(/[^A-Za-z0-9]/g, "")
                       .toUpperCase();
-                      setinputValue(e.target.value)
+                    setinputValue(e.target.value);
                   }}
                 />
                 <Flex ml={4} gap={2} mt={2}>
@@ -410,7 +410,7 @@ export const SearchCargoModule = () => {
                   placeholder={t("Необъязательно")}
                   type="text"
                 />
-                <Flex  gap={2} mt={2}>
+                <Flex gap={2} mt={2}>
                   <span className={cls.subTitle}>{t("Пример")}: </span>
                   <p
                     onClick={() => setValue(`marka`, `Mercedes-Benz `)}
@@ -480,16 +480,15 @@ export const SearchCargoModule = () => {
             </Box>
           </Flex>
         </Box>
-        {
-          !isBtn &&   <Button
-          isLoading={loading}
-          onClick={handleSubmit(onSubmit)}
-          className={cls.nextBtn}
-        >
-          {t("Сохранить авто")}
-        </Button>
-        }
-      
+        {!isBtn && (
+          <Button
+            isLoading={loading}
+            onClick={handleSubmit(onSubmit)}
+            className={cls.nextBtn}
+          >
+            {t("Сохранить авто")}
+          </Button>
+        )}
 
         <Modal isOpen={isPopupOpen} isCentered>
           <ModalOverlay />
