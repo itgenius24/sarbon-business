@@ -24,7 +24,11 @@
 }
 
 .inputWrapper.error {
-  border-color: var(--error-300);
+  border-color: var(--error-500);
+  background-color: rgba(255, 234, 234, 1);
+  .fieldInput {
+    background-color: rgba(255, 234, 234, 1);
+  }
 }
 
 .label {
@@ -80,8 +84,8 @@
 }
 
 .errorMessage {
-  position: absolute;
-  top: calc(100% + 4px);
+  position: relative;
+  top: calc(100% + 10px);
   left: 0;
   font-weight: 400;
   font-size: 14px;

@@ -173,7 +173,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             register={register}
             additionalItemName="weight_unit"
             additionalItemTheme={`light`}
-            additionalItemPlaceholder={t("т")}
+            additionalItemPlaceholder={t("м³")}
             width="100%"
             placeholder={t("минимум")}
             type="number"
@@ -195,7 +195,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label={t("Вес до:")}
+            label={t("Вес от:")}
             control={control}
             name="min_weight"
             register={register}
@@ -214,7 +214,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             register={register}
             placeholder={t("максимум")}
             additionalItemTheme={`light`}
-            additionalItemPlaceholder={t("м³")}
+            additionalItemPlaceholder={t("т")}
             type="number"
           />
         </Flex>

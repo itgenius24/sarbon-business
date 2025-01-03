@@ -431,7 +431,7 @@ export const TableComponent = ({ watch, formState }) => {
               >
                 {t("Только свободные водители")}
               </Checkbox>
-              <Flex gap={2}>
+              `<Flex gap={2}>
                 <Button
                   className={cls.topButton}
                   onClick={() => setCenterModalType("")}

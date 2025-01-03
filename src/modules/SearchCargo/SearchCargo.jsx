@@ -70,7 +70,7 @@ export const SearchCargoModule = () => {
     },
   };
 
-  console.log(`carTypeOptions`, locale);
+  console.log(`carTypeOptions`, errors);
 
   return (
     <>
@@ -93,19 +93,24 @@ export const SearchCargoModule = () => {
                 <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
                 <Dropdown
                   control={control}
-                  required
+                  
                   register={register}
                   watch={watch}
                   placeholder={t("Выберите тип кузова")}
                   name="trailer_type_id"
                   options={carTypeOptions}
                   errors={errors}
+                  // error={t}
+              
+                    required={t("Это поле обязательно")}
+                 
+                  
                   width={"100%"}
                   className={cls.dropdown}
                   searchName="cargo_type_search"
                 />
 
-                <Flex gap={`12px`} mt={2}>
+                <Flex gap={`12px`} mt={1}>
                   <span className={cls.subTitle}>Пример: </span>
                   <p
                     onClick={() =>
@@ -142,6 +147,9 @@ export const SearchCargoModule = () => {
                   <TextFieldWithAdditionCar
                     className={cls.textField}
                     errors={errors}
+                    rules={{
+                    required: t("Это поле обязательно"),
+                  }}
                     control={control}
                     name="capacity"
                     register={register}
@@ -154,7 +162,7 @@ export const SearchCargoModule = () => {
                     type="number"
                     zIndex={90}
                   />
-                  <Flex gap={`12px`} mt={2}>
+                  <Flex gap={`12px`} mt={1}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`capacity`, `7`)}
@@ -190,6 +198,9 @@ export const SearchCargoModule = () => {
                     control={control}
                     name="height"
                     register={register}
+                    rules={{
+                    required: t("Это поле обязательно"),
+                  }}
                     // width="160px"
                     placeholder={t("Объем")}
                     additionalItemTheme={`light`}
@@ -198,7 +209,7 @@ export const SearchCargoModule = () => {
                     // additionalItemName="volume_unit"
                     // additionalItemOptions={volumeMeasurementOptions}
                   />
-                  <Flex gap={`12px`} mt={2}>
+                  <Flex gap={`12px`} mt={1}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => setValue(`height`, `20`)}
@@ -293,7 +304,7 @@ export const SearchCargoModule = () => {
                     setinputValue(e.target.value);
                   }}
                 />
-                <Flex ml={4} gap={2} mt={2}>
+                <Flex ml={4} gap={2} mt={1}>
                   <span className={cls.subTitle}></span>
                 </Flex>
               </Box>
@@ -410,7 +421,7 @@ export const SearchCargoModule = () => {
                   placeholder={t("Необъязательно")}
                   type="text"
                 />
-                <Flex gap={2} mt={2}>
+                <Flex gap={2} mt={1}>
                   <span className={cls.subTitle}>{t("Пример")}: </span>
                   <p
                     onClick={() => setValue(`marka`, `Mercedes-Benz `)}
