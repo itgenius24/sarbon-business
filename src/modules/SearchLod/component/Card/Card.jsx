@@ -15,9 +15,9 @@ import { useTranslation } from "react-i18next";
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
   const { t } = useTranslation();
-  const data = item?.orders?.[0].provisions;
+  const data = item?.orders?.[0].provisions || [];
 
-  console.log(`data`, item);
+  console.log(`data`, data);
 
   return (
     <Flex
@@ -29,7 +29,7 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-      {data?.length > 0 && (
+      {data.includes(`approve_from_driver`) || data.includes(`new_proposal_from_director`) && (
         <TooltipComponets
           cls={cls}
           status={`ss`}
