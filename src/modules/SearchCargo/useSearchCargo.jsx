@@ -97,27 +97,6 @@ export const useSearchCargo = () => {
     },
   });
 
-  useEffect(() => {
-    // console.log(`wsw`,getCarNumnber)
-
-    if (getCarNumnber?.count === 1) {
-      // console.log(`wsw1`)
-
-      setError(`car_number`, {
-        message: `Этот номер автомобиля был зарегистрирован ранее!`,
-      });
-    } else if ( (   getCarNumnber?.count > 1 ||
-      getCarNumnber?.count === 0 || !getCarNumnber) &&  id
-    ) {
-      // console.log(`wsw`)
-
-      setValue(`car_number`, inputValue, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-    }
-  }, [getCarNumnber?.count > 0, inputValue?.length]);
-
   // console.log(`getCarNumnber`, getCarNumnber);
 
   useEffect(() => {
@@ -172,7 +151,8 @@ export const useSearchCargo = () => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
 
-   
+      console.log(`useList`, useList);
+
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
@@ -193,9 +173,36 @@ export const useSearchCargo = () => {
           ?.map((item) => ({ label: item?.value, value: item?.value }))?.[0],
       });
 
-      setinputValue(useList?.response?.car_number)
+      setinputValue(useList?.response?.car_number);
     }
   }, [useList]);
+
+  useEffect(() => {
+    // console.log(`wsw`,getCarNumnber)
+
+    if (getCarNumnber?.count === 1) {
+      // console.log(`wsw1`)
+      if (useList?.response && useList?.response?.car_number === inputValue) {
+        return;
+      } else {
+        setError(`car_number`, {
+          message: `Этот номер автомобиля был зарегистрирован ранее!`,
+        });
+      }
+    } else if (
+      (getCarNumnber?.count > 1 ||
+        getCarNumnber?.count === 0 ||
+        !getCarNumnber) &&
+      id
+    ) {
+      // console.log(`wsw`)
+
+      setValue(`car_number`, inputValue, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [getCarNumnber?.count > 0, inputValue?.length]);
 
   const { mutate, isPending } = useCreateVehicle({
     onSuccess: (res) => {
@@ -253,6 +260,8 @@ export const useSearchCargo = () => {
     }
   };
 
+  console.log(`err`,Object.values(errors))
+
   return {
     t,
     setValue,
@@ -276,7 +285,7 @@ export const useSearchCargo = () => {
     fuels: fuel?.response,
     setinputValue,
     getValues,
-    isBtn: getCarNumnber?.count === 1,
+    isBtn: Object.values(errors)?.length > 0,
     setError: setError,
   };
 };

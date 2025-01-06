@@ -467,7 +467,7 @@ export const SearchCargoModule = () => {
             <Flex gap={"24px"} width={`100%`} mt={`20px`}>
               <Box width={`50%`}>
                 <p className={cls.textFieldName}>{t("Euro type")}</p>
-           
+
                 <Dropdown
                   control={control}
                   register={register}
@@ -481,7 +481,7 @@ export const SearchCargoModule = () => {
                   className={cls.dropdown}
                   // searchName="cargo_type_search"
                 />
-                   <Flex gap={`12px`} mt={1}>
+                <Flex gap={`12px`} mt={1}>
                   <span className={cls.subTitle}>Пример: </span>
                   <p
                     onClick={() =>
@@ -496,7 +496,7 @@ export const SearchCargoModule = () => {
                     }
                     className={cls.quickWord}
                   >
-                   EURO_4,
+                    EURO_4,
                   </p>
                   <p
                     onClick={() =>
@@ -549,7 +549,7 @@ export const SearchCargoModule = () => {
                   className={cls.dropdown}
                   // searchName="cargo_type_search"
                 />
-                  <Flex gap={`12px`} mt={1}>
+                <Flex gap={`12px`} mt={1}>
                   <span className={cls.subTitle}>Пример: </span>
                   <p
                     onClick={() =>
@@ -564,7 +564,7 @@ export const SearchCargoModule = () => {
                     }
                     className={cls.quickWord}
                   >
-                   dizel,
+                    dizel,
                   </p>
                   <p
                     onClick={() =>
@@ -707,15 +707,15 @@ export const SearchCargoModule = () => {
             </Box>
           </Flex>
         </Box>
-        {!isBtn && (
-          <Button
-            isLoading={loading}
-            onClick={handleSubmit(onSubmit)}
-            className={cls.nextBtn}
-          >
-            {t("Сохранить авто")}
-          </Button>
-        )}
+
+        <Button
+          isLoading={loading}
+          isDisabled={isBtn}
+          onClick={handleSubmit(onSubmit)}
+          className={cls.nextBtn}
+        >
+          {t("Сохранить авто")}
+        </Button>
 
         <Modal isOpen={isPopupOpen} isCentered>
           <ModalOverlay />
