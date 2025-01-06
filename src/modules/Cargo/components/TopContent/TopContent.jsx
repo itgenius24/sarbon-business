@@ -93,6 +93,7 @@ export const TopContent = ({
     useAddCargoContext();
 
   const [userId, setUserId] = useState("");
+  const [orderId, setOrderId] = useState("");
   const [userData, setUserData] = useState([]);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -194,6 +195,7 @@ export const TopContent = ({
     onSuccess: (res) => {
       setUserData(res?.response);
       setUserId(res?.response?.[0]?.order?.[0]?.users_gps?.users_id);
+      setOrderId(res?.response?.[0]?.order?.[0]?.guid);
     },
   });
 
@@ -273,6 +275,7 @@ export const TopContent = ({
       limit: 7000,
       data: JSON.stringify({
         users_id: userId,
+        order_id: orderId,
       }),
     },
     querySettings: {
@@ -283,16 +286,17 @@ export const TopContent = ({
 
   useEffect(() => {
     if (getDriverPosition?.response) {
-      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
-      if (getDriverPosition?.response.length > 0) {
-        setOffset(offset + 7000);
+      if (getDriverPosition?.response.length === 0 && orderId && offset === 0) {
+        setOrderId(undefined);
+        setOffset(0);
+      } else {
+        setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+        if (getDriverPosition?.response.length > 0) {
+          setOffset(offset + 7000);
+        }
       }
     }
   }, [getDriverPosition?.response]);
-
-  {
-    console.log(`user`, userData?.[0]);
-  }
 
   const handleShare = (user, cargoData) => {
     copy(
@@ -450,6 +454,7 @@ export const TopContent = ({
                       <AccordionButton
                         onClick={() => {
                           setUserId(user?.users_gps?.users_id);
+                          setOrderId(user?.guid);
                           setGpsHistory([]);
                         }}
                         className={cls.accordionButton}

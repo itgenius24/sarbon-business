@@ -77,7 +77,7 @@ export const TableComponent = ({ watch, formState }) => {
     querySettings: { enabled: true },
   });
 
-  const { mutate: getCargoPost,isPending:isPendingLo } = useGetCargoPost({
+  const { mutate: getCargoPost, isPending: isPendingLo } = useGetCargoPost({
     onSuccess: (res) => {
       setDataRes(res?.response);
       setStatus2(false);
@@ -102,7 +102,7 @@ export const TableComponent = ({ watch, formState }) => {
           max_weight: +watch(`max_weight`) || 0,
           only_for_me: watch(`only_for_me`) || 0,
           firm_id,
-          page:1,
+          page: 1,
           offset: 100,
         },
       },
@@ -187,9 +187,14 @@ export const TableComponent = ({ watch, formState }) => {
 
   const filteredData = dataUser?.filter((item) => {
     // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
+    const provisionsData = item?.orders?.filter(
+      (item) =>
+        item.provisions.includes(`performed`) ||
+        item.provisions.includes(`approve_from_driver`)
+    );
     if (isCheckboxChecked) {
       return (
-        item?.user?.provisions?.[0] === `empty` &&
+        provisionsData.length === 0 &&
         item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
@@ -211,8 +216,6 @@ export const TableComponent = ({ watch, formState }) => {
     };
     pridlojetData(data);
   };
-
- 
 
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
@@ -244,6 +247,8 @@ export const TableComponent = ({ watch, formState }) => {
       });
     }
   };
+
+  console.log(`filteredData`, filteredData);
 
   return (
     <>
@@ -283,9 +288,7 @@ export const TableComponent = ({ watch, formState }) => {
               item={item}
             />
           ))}
-          {
-            isPendingLo && <LoadingSpinner />
-          }
+        {isPendingLo && <LoadingSpinner />}
       </Flex>
       {centerModalType && (
         <div className={cls.modalOver}>
@@ -310,13 +313,19 @@ export const TableComponent = ({ watch, formState }) => {
             <Box className={cls.modalContend}>
               {filteredData?.length > 0 ? (
                 filteredData?.map((item) => {
+                  const provisionsData = item?.orders?.filter(
+                    (item) =>
+                      item.provisions.includes(`performed`) ||
+                      item.provisions.includes(`approve_from_driver`)
+                  );
+                  console.log(`provisions`,provisionsData?.[0]?.provisions?.[0])
                   return (
                     <CheckBoxComponent
                       key={item?.user?.guid}
                       onClick={() => {
                         if (
-                          item?.user?.provisions[0] === `our_cargo` ||
-                          item?.user?.provisions[0] === `waiting_for_driver`
+                          provisionsData?.[0]?.provisions?.[0] === `performed` ||
+                          provisionsData?.[0]?.provisions?.[0] === `approve_from_driver`
                         ) {
                           // deleteOrder(item) emas, faqat onOpen() chaqirildi
                         } else {
@@ -325,14 +334,14 @@ export const TableComponent = ({ watch, formState }) => {
                       }}
                       active={selectCargo.includes(item?.user?.guid)}
                       status={
-                        item?.user?.provisions[0] === `our_cargo` ||
-                        item?.user?.provisions[0] === `waiting_for_driver`
+                        provisionsData?.[0]?.provisions?.[0] === `performed` ||
+                        provisionsData?.[0]?.provisions?.[0] === `approve_from_driver`
                       }
                     >
-                      {item?.user?.provisions[0] === `our_cargo` ||
-                      item?.user?.provisions[0] === `waiting_for_driver` ? (
+                      {provisionsData?.[0]?.provisions?.[0] === `performed` ||
+                      provisionsData?.[0]?.provisions?.[0] === `approve_from_driver` ? (
                         <>
-                          {item?.user?.provisions[0] === `our_cargo` && (
+                          {provisionsData?.[0]?.provisions?.[0] === `performed` && (
                             <TooltipComponets
                               cls={cls}
                               status={`check`}
@@ -341,11 +350,11 @@ export const TableComponent = ({ watch, formState }) => {
                             />
                           )}
 
-                          {item?.user?.provisions[0] ===
-                            `waiting_for_driver` && (
+                          {provisionsData?.[0]?.provisions?.[0] ===
+                            `approve_from_driver` && (
                             <TooltipComponets
                               cls={cls}
-                              status={`waiting_for_driver`}
+                              status={`approve_from_driver`}
                               label={`Ждем подтверждение водителя`}
                               color={`rgba(193, 187, 32, 1)`}
                             />
@@ -431,7 +440,8 @@ export const TableComponent = ({ watch, formState }) => {
               >
                 {t("Только свободные водители")}
               </Checkbox>
-              `<Flex gap={2}>
+              `
+              <Flex gap={2}>
                 <Button
                   className={cls.topButton}
                   onClick={() => setCenterModalType("")}
