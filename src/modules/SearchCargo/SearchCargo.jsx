@@ -87,7 +87,7 @@ export const SearchCargoModule = () => {
           <Flex
             alignItems={`flex-start`}
             width={`100%`}
-            gap={"24px"}
+            gap={"56px"}
             mt={"10px"}
           >
             <Box width={`50%`} className={cls.left}>
@@ -113,10 +113,14 @@ export const SearchCargoModule = () => {
                   <span className={cls.subTitle}>Пример: </span>
                   <p
                     onClick={() =>
-                      setValue("trailer_type_id", {
-                        label: "Тентованный полуприцеп",
-                        value: "caa172e3-4c30-4fdb-a6fd-e74c0c325d0a",
-                      },{ shouldValidate: true, shouldDirty: true })
+                      setValue(
+                        "trailer_type_id",
+                        {
+                          label: "Тентованный полуприцеп",
+                          value: "caa172e3-4c30-4fdb-a6fd-e74c0c325d0a",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
                     }
                     className={cls.quickWord}
                   >
@@ -124,10 +128,14 @@ export const SearchCargoModule = () => {
                   </p>
                   <p
                     onClick={() =>
-                      setValue("trailer_type_id", {
-                        label: "Рефрижератор",
-                        value: "38221f2f-882c-4f15-8afe-632d20282e19",
-                      },{ shouldValidate: true, shouldDirty: true })
+                      setValue(
+                        "trailer_type_id",
+                        {
+                          label: "Рефрижератор",
+                          value: "38221f2f-882c-4f15-8afe-632d20282e19",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
                     }
                     className={cls.quickWord}
                   >
@@ -138,6 +146,93 @@ export const SearchCargoModule = () => {
             </Box>
 
             <Box width={`50%`} className={cls.regit}>
+              <Flex width={`100%`} gap={"24px"}>
+                <Box width={`100%`}>
+                  <Box width={`100%`}>
+                    <p className={cls.textFieldName}>
+                      {t("Страна регистрации автомобиля")}
+                    </p>
+
+                    <Dropdown
+                      control={control}
+                      register={register}
+                      watch={watch}
+                      placeholder={t("Выберите страну")}
+                      name="car_country"
+                      options={countries?.map((item) => ({
+                        ...item,
+                        label: item[`name_${locale}`],
+                        value: item?.code,
+                      }))}
+                      errors={errors}
+                      required={t("Это поле обязательно")}
+                      width={"100%"}
+                      className={cls.dropdown}
+                      // searchName="cargo_type_search"
+                    />
+                    <Flex gap={`12px`} mt={1}>
+                      <span className={cls.subTitle}>Пример: </span>
+                      <p
+                        onClick={() =>
+                          setValue(
+                            "car_country",
+                            {
+                              label: "Узбекистан",
+                              value: "UZ",
+                            },
+                            { shouldValidate: true, shouldDirty: true }
+                          )
+                        }
+                        className={cls.quickWord}
+                      >
+                        Узбекистан,
+                      </p>
+                      <p
+                        onClick={() =>
+                          setValue(
+                            "car_country",
+                            {
+                              label: "Казахстан",
+                              value: "KZ",
+                            },
+                            { shouldValidate: true, shouldDirty: true }
+                          )
+                        }
+                        className={cls.quickWord}
+                      >
+                        Казахстан
+                      </p>
+                    </Flex>
+                  </Box>
+                </Box>
+                <Box width={`100%`}>
+                  <p className={cls.textFieldName}>{t("Госномер")} *</p>
+                  <TextField
+                    register={register}
+                    errors={errors}
+                    name="car_number"
+                    placeholder={t("Введите номер транспортного средства")}
+                    rules={{
+                      required: t("Это поле обязательно"),
+                    }}
+                    onChange={(e) => {
+                      console.log(`we`, e.target.value);
+                      e.target.value = e.target.value
+                        .replace(/[^A-Za-z0-9]/g, "")
+                        .toUpperCase();
+                      setinputValue(e.target.value);
+                    }}
+                  />
+                  <Flex ml={4} gap={2} mt={1}>
+                    <span className={cls.subTitle}></span>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Box>
+          </Flex>
+
+          <Flex gap={"56px"} mt={`27px`}>
+            <Box width={`50%`}>
               <Flex width={`100%`} gap={"24px"}>
                 <Box width={`100%`}>
                   <p className={cls.textFieldName}>
@@ -165,26 +260,44 @@ export const SearchCargoModule = () => {
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
                       onClick={() => {
-                        setValue(`capacity`, `7`,{ shouldValidate: true, shouldDirty: true })
+                        setValue(`capacity`, `7`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        });
                       }}
                       className={cls.quickWord}
                     >
                       7{t("т")},
                     </p>
                     <p
-                      onClick={() => setValue(`capacity`, `10`,{ shouldValidate: true, shouldDirty: true })}
+                      onClick={() =>
+                        setValue(`capacity`, `10`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
                       className={cls.quickWord}
                     >
                       10{t("т")},
                     </p>
                     <p
-                      onClick={() => setValue(`capacity`, `20`,{ shouldValidate: true, shouldDirty: true })}
+                      onClick={() =>
+                        setValue(`capacity`, `20`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
                       className={cls.quickWord}
                     >
                       20{t("т")}
                     </p>
                     <p
-                      onClick={() => setValue(`capacity`, `22`,{ shouldValidate: true, shouldDirty: true })}
+                      onClick={() =>
+                        setValue(`capacity`, `22`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
                       className={cls.quickWord}
                     >
                       22{t("т")}
@@ -213,19 +326,34 @@ export const SearchCargoModule = () => {
                   <Flex gap={`12px`} mt={1}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
-                      onClick={() => setValue(`height`, `20`,{ shouldValidate: true, shouldDirty: true })}
+                      onClick={() =>
+                        setValue(`height`, `20`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
                       className={cls.quickWord}
                     >
                       20{t("м³")},
                     </p>
                     <p
-                      onClick={() => setValue(`height`, `40`,{ shouldValidate: true, shouldDirty: true })}
+                      onClick={() =>
+                        setValue(`height`, `40`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
                       className={cls.quickWord}
                     >
                       40{t("м³")},
                     </p>
                     <p
-                      onClick={() => setValue(`height`, `43`,{ shouldValidate: true, shouldDirty: true })}
+                      onClick={() =>
+                        setValue(`height`, `43`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
                       className={cls.quickWord}
                     >
                       43{t("м³")}
@@ -234,85 +362,67 @@ export const SearchCargoModule = () => {
                 </Box>
               </Flex>
             </Box>
-          </Flex>
-
-          <Flex gap={"24px"}>
-            <Box width={`50%`} mt={`37px`}>
-              <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
-              <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
-                <Checkbox
-                  defaultChecked={watch(`top`)}
-                  register={register}
-                  name="top"
+            <Box width={`50%`}>
+              <p className={cls.textFieldName}>{t("Марка машины")}</p>
+              <TextField
+                rules={rules}
+                errors={errors}
+                name="marka"
+                register={register}
+                placeholder={t("Необъязательно")}
+                type="text"
+              />
+              <Flex gap={2} mt={1}>
+                <span className={cls.subTitle}>{t("Пример")}: </span>
+                <p
+                  onClick={() =>
+                    setValue(`marka`, `Mercedes-Benz `, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    })
+                  }
+                  className={cls.quickWord}
                 >
-                  {t("Верхняя")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`side`)}
-                  register={register}
-                  name="side"
-                >
-                  {t("Боковая")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`back`)}
-                  register={register}
-                  name="back"
-                >
-                  {t("Задняя")}
-                </Checkbox>
-                <Checkbox
-                  defaultChecked={watch(`with_removal`)}
-                  register={register}
-                  name="with_removal"
-                >
-                  {t("Со снятием стоек")}
-                </Checkbox>
-              </Box>
-            </Box>
-
-            <Flex width={`50%`} gap={"24px"} mt={`32px`}>
-              <Box width={`100%`}>
-                <p className={cls.textFieldName}>
-                  {t("Страна регистрации автомобиля")}
+                  {t("Mercedes-Benz")},
                 </p>
-                <ChakraSelect
-                  options={countries?.map((item) => ({
-                    ...item,
-                    label: item[`name_${locale}`],
-                    value: item?.code,
-                  }))}
-                  name="car_country"
-                  placeholder={t("Выберите страну")}
-                  control={control}
-                />
-              </Box>
-              <Box width={`100%`}>
-                <p className={cls.textFieldName}>{t("Госномер")} *</p>
-                <TextField
-                  register={register}
-                  errors={errors}
-                  name="car_number"
-                  placeholder={t("Введите номер транспортного средства")}
-                  rules={{
-                    required: t("Это поле обязательно"),
-                  }}
-                  onChange={(e) => {
-                    console.log(`we`, e.target.value);
-                    e.target.value = e.target.value
-                      .replace(/[^A-Za-z0-9]/g, "")
-                      .toUpperCase();
-                    setinputValue(e.target.value);
-                  }}
-                />
-                <Flex ml={4} gap={2} mt={1}>
-                  <span className={cls.subTitle}></span>
-                </Flex>
-              </Box>
-            </Flex>
+                <p
+                  onClick={() =>
+                    setValue(`marka`, `Volvo`, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    })
+                  }
+                  className={cls.quickWord}
+                >
+                  {t("Volvo")},
+                </p>
+                <p
+                  onClick={() =>
+                    setValue(`marka`, `MAN`, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    })
+                  }
+                  className={cls.quickWord}
+                >
+                  {t("MAN")},
+                </p>
+                <p
+                  onClick={() =>
+                    setValue(`marka`, `Iveco`, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    })
+                  }
+                  className={cls.quickWord}
+                >
+                  {t("Iveco")}
+                </p>
+              </Flex>
+            </Box>
           </Flex>
 
-          <Flex mt={`10px`} gap={"24px"}>
+          <Flex mt={`10px`} gap={"56px"}>
             <Box width={`100%`} mt={`20px`}>
               <p className={cls.textFieldName}>{t("Требования")}</p>
               <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
@@ -355,29 +465,138 @@ export const SearchCargoModule = () => {
             </Box>
 
             <Flex gap={"24px"} width={`100%`} mt={`20px`}>
-              <Box width={`100%`}>
+              <Box width={`50%`}>
+                <p className={cls.textFieldName}>{t("Euro type")}</p>
+           
+                <Dropdown
+                  control={control}
+                  register={register}
+                  watch={watch}
+                  placeholder={t("Название")}
+                  name="eco_standart"
+                  options={euroTypeOptions}
+                  errors={errors}
+                  // required={t("Это поле обязательно")}
+                  width={"50%"}
+                  className={cls.dropdown}
+                  // searchName="cargo_type_search"
+                />
+                   <Flex gap={`12px`} mt={1}>
+                  <span className={cls.subTitle}>Пример: </span>
+                  <p
+                    onClick={() =>
+                      setValue(
+                        "eco_standart",
+                        {
+                          label: "EURO_4",
+                          value: "EURO_4",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
+                    }
+                    className={cls.quickWord}
+                  >
+                   EURO_4,
+                  </p>
+                  <p
+                    onClick={() =>
+                      setValue(
+                        "eco_standart",
+                        {
+                          label: "EURO_5",
+                          value: "EURO_5",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
+                    }
+                    className={cls.quickWord}
+                  >
+                    EURO_5
+                  </p>
+                  <p
+                    onClick={() =>
+                      setValue(
+                        "eco_standart",
+                        {
+                          label: "EURO_6",
+                          value: "EURO_6",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
+                    }
+                    className={cls.quickWord}
+                  >
+                    EURO_6
+                  </p>
+                </Flex>
+              </Box>
+              <Box width={`50%`}>
                 <p className={cls.textFieldName}>{t("Тип топлива")}</p>
-                <ChakraSelect
+                <Dropdown
+                  control={control}
+                  register={register}
+                  watch={watch}
+                  placeholder={t("Название")}
+                  name="fuel_id"
                   options={fuels?.map((item) => ({
                     ...item,
                     label: item?.name,
                     value: item?.guid,
                   }))}
-                  name="fuel_id"
-                  placeholder={t("Название")}
-                  control={control}
-                  required
+                  errors={errors}
+                  // required={t("Это поле обязательно")}
+                  width={"50%"}
+                  className={cls.dropdown}
+                  // searchName="cargo_type_search"
                 />
-              </Box>
-              <Box width={`100%`}>
-                <p className={cls.textFieldName}>{t("Euro type")}</p>
-                <ChakraSelect
-                  options={euroTypeOptions}
-                  name="eco_standart"
-                  placeholder={t("Название")}
-                  control={control}
-                  // required
-                />
+                  <Flex gap={`12px`} mt={1}>
+                  <span className={cls.subTitle}>Пример: </span>
+                  <p
+                    onClick={() =>
+                      setValue(
+                        "fuel_id",
+                        {
+                          label: "dizel",
+                          value: "187c327c-626d-4531-90f8-93408a011a7b",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
+                    }
+                    className={cls.quickWord}
+                  >
+                   dizel,
+                  </p>
+                  <p
+                    onClick={() =>
+                      setValue(
+                        "fuel_id",
+                        {
+                          label: "benzin",
+                          value: "5f8a08e3-c934-4149-9565-26929111a6c6",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
+                    }
+                    className={cls.quickWord}
+                  >
+                    benzin
+                  </p>
+                  <p
+                    onClick={() =>
+                      setValue(
+                        "fuel_id",
+                        {
+                          label: "metan",
+                          value: "efaf36e8-0261-4a0a-92fb-975464dbf01e",
+                        },
+                        { shouldValidate: true, shouldDirty: true }
+                      )
+                    }
+                    className={cls.quickWord}
+                  >
+                    metan
+                  </p>
+                </Flex>
               </Box>
 
               {/* <p className={cls.textFieldName}>{t("ADR")}</p>
@@ -409,48 +628,41 @@ export const SearchCargoModule = () => {
             </Flex>
           </Flex>
 
-          <Flex gap={"24px"}>
-            <Box width={`100%`}></Box>
-            <Flex gap={"24px"} width={`100%`} mt={`20px`}>
-              <Box width={`100%`}>
-                <p className={cls.textFieldName}>{t("Марка машины")}</p>
-                <TextField
-                  rules={rules}
-                  errors={errors}
-                  name="marka"
+          <Flex gap={"56px"} mt={`20px`}>
+            <Box width={`50%`}>
+              <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
+              <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
+                <Checkbox
+                  defaultChecked={watch(`top`)}
                   register={register}
-                  placeholder={t("Необъязательно")}
-                  type="text"
-                />
-                <Flex gap={2} mt={1}>
-                  <span className={cls.subTitle}>{t("Пример")}: </span>
-                  <p
-                    onClick={() => setValue(`marka`, `Mercedes-Benz `,{ shouldValidate: true, shouldDirty: true })}
-                    className={cls.quickWord}
-                  >
-                    {t("Mercedes-Benz")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `Volvo`,{ shouldValidate: true, shouldDirty: true })}
-                    className={cls.quickWord}
-                  >
-                    {t("Volvo")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `MAN`,{ shouldValidate: true, shouldDirty: true })}
-                    className={cls.quickWord}
-                  >
-                    {t("MAN")},
-                  </p>
-                  <p
-                    onClick={() => setValue(`marka`, `Iveco`,{ shouldValidate: true, shouldDirty: true })}
-                    className={cls.quickWord}
-                  >
-                    {t("Iveco")}
-                  </p>
-                </Flex>
+                  name="top"
+                >
+                  {t("Верхняя")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`side`)}
+                  register={register}
+                  name="side"
+                >
+                  {t("Боковая")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`back`)}
+                  register={register}
+                  name="back"
+                >
+                  {t("Задняя")}
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={watch(`with_removal`)}
+                  register={register}
+                  name="with_removal"
+                >
+                  {t("Со снятием стоек")}
+                </Checkbox>
               </Box>
-            </Flex>
+            </Box>
+            <Flex gap={"24px"} width={`50%`} mt={`20px`}></Flex>
           </Flex>
 
           <Flex

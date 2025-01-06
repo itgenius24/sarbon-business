@@ -98,16 +98,27 @@ export const useSearchCargo = () => {
   });
 
   useEffect(() => {
+    // console.log(`wsw`,getCarNumnber)
+
     if (getCarNumnber?.count === 1) {
+      // console.log(`wsw1`)
+
       setError(`car_number`, {
         message: `Этот номер автомобиля был зарегистрирован ранее!`,
       });
-    } else if (getCarNumnber?.count > 1 || getCarNumnber?.count === 0) {
-      clearErrors(`car_number`);
+    } else if ( (   getCarNumnber?.count > 1 ||
+      getCarNumnber?.count === 0 || !getCarNumnber) &&  id
+    ) {
+      // console.log(`wsw`)
+
+      setValue(`car_number`, inputValue, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
     }
   }, [getCarNumnber?.count > 0, inputValue?.length]);
 
-  console.log(`getCarNumnber`, getCarNumnber);
+  // console.log(`getCarNumnber`, getCarNumnber);
 
   useEffect(() => {
     setLoad({
@@ -160,6 +171,8 @@ export const useSearchCargo = () => {
       useList?.response?.download_type.forEach((name) => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
+
+   
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
@@ -170,14 +183,17 @@ export const useSearchCargo = () => {
             ?.filter((item) => item?.guid === useList?.response?.fuel_id)
             ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0],
         car_country: countries
-          ?.filter(
-            (item) => item?.car_country === useList?.response?.car_country
-          )
+          ?.filter((item) => item?.code === useList?.response?.car_country)
           ?.map((item) => ({
             label: item[`name_${locale}`],
             value: item?.code,
           }))?.[0],
+        eco_standart: euroTypeOptions
+          ?.filter((item) => item?.value === useList?.response?.eco_standart)
+          ?.map((item) => ({ label: item?.value, value: item?.value }))?.[0],
       });
+
+      setinputValue(useList?.response?.car_number)
     }
   }, [useList]);
 
@@ -197,8 +213,6 @@ export const useSearchCargo = () => {
   });
 
   const onSubmit = (val) => {
-
-  
     if (
       watch("front_side_trailer") &&
       watch("back_side_trailer") &&
@@ -224,9 +238,9 @@ export const useSearchCargo = () => {
           car_position: ["moderation"],
           status: [`active`],
           firm_id,
-          car_country: val?.car_country,
+          car_country: val?.car_country?.value,
           fuel_id: val?.fuel_id?.value ? val?.fuel_id?.value : val?.fuel_id,
-          eco_standart: val?.eco_standart,
+          eco_standart: val?.eco_standart?.value,
           guid: id ? id : undefined,
         },
       };
@@ -263,6 +277,6 @@ export const useSearchCargo = () => {
     setinputValue,
     getValues,
     isBtn: getCarNumnber?.count === 1,
-    setError:setError
+    setError: setError,
   };
 };
