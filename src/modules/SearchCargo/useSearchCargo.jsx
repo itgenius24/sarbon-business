@@ -31,7 +31,6 @@ export const useSearchCargo = () => {
   const searchParams = useSearchParams();
   const [inputValue, setinputValue] = useState(``);
   const id = searchParams.get(`id`);
-  console.log(`id`, id);
 
   const fromValue = isValidJSON(searchParams.get("from"))
     ? JSON.parse(searchParams.get("from"))
@@ -70,6 +69,7 @@ export const useSearchCargo = () => {
 
   const {
     handleSubmit,
+    getValues,
     control,
     watch,
     register,
@@ -105,7 +105,7 @@ export const useSearchCargo = () => {
     } else if (getCarNumnber?.count > 1 || getCarNumnber?.count === 0) {
       clearErrors(`car_number`);
     }
-  }, [getCarNumnber?.count > 0, inputValue]);
+  }, [getCarNumnber?.count > 0, inputValue?.length]);
 
   console.log(`getCarNumnber`, getCarNumnber);
 
@@ -197,37 +197,45 @@ export const useSearchCargo = () => {
   });
 
   const onSubmit = (val) => {
-    const data = {
-      data: {
-        trailer_type_id: val.trailer_type_id.value,
-        capacity: +val.capacity,
-        height: +val.height,
-        car_number: val.car_number,
-        marka: val.marka,
-        cemt: val.cemt, //or false
-        tir: val.tir, // or true
-        pneumatic: val.pneumatic, //or false
-        coupling: val.coupling, // or true
-        konika: val.konika, // or false
-        adr: val?.adr?.value || ``,
-        back_side_trailer: val.back_side_trailer, //url cdn
-        front_side_trailer: val.front_side_trailer, //url cdn
-        car_photo: val.car_photo, //url cdn
-        download_type: getTrueKeys(load),
-        car_position: ["moderation"],
-        status: [`active`],
-        firm_id,
-        car_country: val?.car_country,
-        fuel_id: val?.fuel_id?.value  ? val?.fuel_id?.value  : val?.fuel_id,
-        eco_standart: val?.eco_standart,
-        guid: id ? id : undefined,
-      },
-    };
 
-    if (id) {
-      updateW(data);
-    } else {
-      mutate(data);
+  
+    if (
+      watch("front_side_trailer") &&
+      watch("back_side_trailer") &&
+      watch("car_photo")
+    ) {
+      const data = {
+        data: {
+          trailer_type_id: val.trailer_type_id.value,
+          capacity: +val.capacity,
+          height: +val.height,
+          car_number: val.car_number,
+          marka: val.marka,
+          cemt: val.cemt, //or false
+          tir: val.tir, // or true
+          pneumatic: val.pneumatic, //or false
+          coupling: val.coupling, // or true
+          konika: val.konika, // or false
+          adr: val?.adr?.value || ``,
+          back_side_trailer: val.back_side_trailer, //url cdn
+          front_side_trailer: val.front_side_trailer, //url cdn
+          car_photo: val.car_photo, //url cdn
+          download_type: getTrueKeys(load),
+          car_position: ["moderation"],
+          status: [`active`],
+          firm_id,
+          car_country: val?.car_country,
+          fuel_id: val?.fuel_id?.value ? val?.fuel_id?.value : val?.fuel_id,
+          eco_standart: val?.eco_standart,
+          guid: id ? id : undefined,
+        },
+      };
+
+      if (id) {
+        updateW(data);
+      } else {
+        mutate(data);
+      }
     }
   };
 
@@ -253,6 +261,8 @@ export const useSearchCargo = () => {
     locale,
     fuels: fuel?.response,
     setinputValue,
+    getValues,
     isBtn: getCarNumnber?.count === 1,
+    setError:setError
   };
 };

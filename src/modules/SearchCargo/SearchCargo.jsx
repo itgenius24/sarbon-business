@@ -60,17 +60,19 @@ export const SearchCargoModule = () => {
     fuels,
     router,
     isBtn,
+    setError,
     setinputValue,
+    getValues,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
     required: {
       value: true,
-      message: t("Это поле обязательно для заполнения"),
+      message: t("Это поле обязательно"),
     },
   };
 
-  console.log(`carTypeOptions`, errors);
+  console.log("name", watch("marka"));
 
   return (
     <>
@@ -93,7 +95,6 @@ export const SearchCargoModule = () => {
                 <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
                 <Dropdown
                   control={control}
-                  
                   register={register}
                   watch={watch}
                   placeholder={t("Выберите тип кузова")}
@@ -101,10 +102,8 @@ export const SearchCargoModule = () => {
                   options={carTypeOptions}
                   errors={errors}
                   // error={t}
-              
-                    required={t("Это поле обязательно")}
-                 
-                  
+
+                  required={t("Это поле обязательно")}
                   width={"100%"}
                   className={cls.dropdown}
                   searchName="cargo_type_search"
@@ -117,7 +116,7 @@ export const SearchCargoModule = () => {
                       setValue("trailer_type_id", {
                         label: "Тентованный полуприцеп",
                         value: "caa172e3-4c30-4fdb-a6fd-e74c0c325d0a",
-                      })
+                      },{ shouldValidate: true, shouldDirty: true })
                     }
                     className={cls.quickWord}
                   >
@@ -128,7 +127,7 @@ export const SearchCargoModule = () => {
                       setValue("trailer_type_id", {
                         label: "Рефрижератор",
                         value: "38221f2f-882c-4f15-8afe-632d20282e19",
-                      })
+                      },{ shouldValidate: true, shouldDirty: true })
                     }
                     className={cls.quickWord}
                   >
@@ -148,8 +147,8 @@ export const SearchCargoModule = () => {
                     className={cls.textField}
                     errors={errors}
                     rules={{
-                    required: t("Это поле обязательно"),
-                  }}
+                      required: t("Это поле обязательно"),
+                    }}
                     control={control}
                     name="capacity"
                     register={register}
@@ -165,25 +164,27 @@ export const SearchCargoModule = () => {
                   <Flex gap={`12px`} mt={1}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
-                      onClick={() => setValue(`capacity`, `7`)}
+                      onClick={() => {
+                        setValue(`capacity`, `7`,{ shouldValidate: true, shouldDirty: true })
+                      }}
                       className={cls.quickWord}
                     >
                       7{t("т")},
                     </p>
                     <p
-                      onClick={() => setValue(`capacity`, `10`)}
+                      onClick={() => setValue(`capacity`, `10`,{ shouldValidate: true, shouldDirty: true })}
                       className={cls.quickWord}
                     >
                       10{t("т")},
                     </p>
                     <p
-                      onClick={() => setValue(`capacity`, `20`)}
+                      onClick={() => setValue(`capacity`, `20`,{ shouldValidate: true, shouldDirty: true })}
                       className={cls.quickWord}
                     >
                       20{t("т")}
                     </p>
                     <p
-                      onClick={() => setValue(`capacity`, `22`)}
+                      onClick={() => setValue(`capacity`, `22`,{ shouldValidate: true, shouldDirty: true })}
                       className={cls.quickWord}
                     >
                       22{t("т")}
@@ -199,8 +200,8 @@ export const SearchCargoModule = () => {
                     name="height"
                     register={register}
                     rules={{
-                    required: t("Это поле обязательно"),
-                  }}
+                      required: t("Это поле обязательно"),
+                    }}
                     // width="160px"
                     placeholder={t("Объем")}
                     additionalItemTheme={`light`}
@@ -212,19 +213,19 @@ export const SearchCargoModule = () => {
                   <Flex gap={`12px`} mt={1}>
                     <span className={cls.subTitle}>{t("Пример")}: </span>
                     <p
-                      onClick={() => setValue(`height`, `20`)}
+                      onClick={() => setValue(`height`, `20`,{ shouldValidate: true, shouldDirty: true })}
                       className={cls.quickWord}
                     >
                       20{t("м³")},
                     </p>
                     <p
-                      onClick={() => setValue(`height`, `40`)}
+                      onClick={() => setValue(`height`, `40`,{ shouldValidate: true, shouldDirty: true })}
                       className={cls.quickWord}
                     >
                       40{t("м³")},
                     </p>
                     <p
-                      onClick={() => setValue(`height`, `43`)}
+                      onClick={() => setValue(`height`, `43`,{ shouldValidate: true, shouldDirty: true })}
                       className={cls.quickWord}
                     >
                       43{t("м³")}
@@ -424,25 +425,25 @@ export const SearchCargoModule = () => {
                 <Flex gap={2} mt={1}>
                   <span className={cls.subTitle}>{t("Пример")}: </span>
                   <p
-                    onClick={() => setValue(`marka`, `Mercedes-Benz `)}
+                    onClick={() => setValue(`marka`, `Mercedes-Benz `,{ shouldValidate: true, shouldDirty: true })}
                     className={cls.quickWord}
                   >
                     {t("Mercedes-Benz")},
                   </p>
                   <p
-                    onClick={() => setValue(`marka`, `Volvo`)}
+                    onClick={() => setValue(`marka`, `Volvo`,{ shouldValidate: true, shouldDirty: true })}
                     className={cls.quickWord}
                   >
                     {t("Volvo")},
                   </p>
                   <p
-                    onClick={() => setValue(`marka`, `MAN`)}
+                    onClick={() => setValue(`marka`, `MAN`,{ shouldValidate: true, shouldDirty: true })}
                     className={cls.quickWord}
                   >
                     {t("MAN")},
                   </p>
                   <p
-                    onClick={() => setValue(`marka`, `Iveco`)}
+                    onClick={() => setValue(`marka`, `Iveco`,{ shouldValidate: true, shouldDirty: true })}
                     className={cls.quickWord}
                   >
                     {t("Iveco")}
@@ -467,6 +468,7 @@ export const SearchCargoModule = () => {
                   name={"front_side_trailer"}
                   icon={<ImgploadIcon1 />}
                   text={t("Загрузить фото спереди")}
+                  errors={errors}
                 />
                 <UploadImg
                   watch={watch}
@@ -474,6 +476,7 @@ export const SearchCargoModule = () => {
                   name={"back_side_trailer"}
                   icon={<ImgploadIcon1 />}
                   text={t("Загрузить фото сзади")}
+                  errors={errors}
                 />
               </Flex>
             </Box>
@@ -486,6 +489,7 @@ export const SearchCargoModule = () => {
                   name={"car_photo"}
                   icon={<ImgUload2 />}
                   text={t("Загрузить фото машины")}
+                  errors={errors}
                 />
               </Flex>
             </Box>
