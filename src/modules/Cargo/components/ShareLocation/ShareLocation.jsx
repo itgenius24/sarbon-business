@@ -67,14 +67,16 @@ export const ShareLocationModule = () => {
   const searchParams = useSearchParams()
   // const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
+
   const [offset, setOffset] = useState(0);
   const [allPositions, setAllPositions] = useState([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const carId = searchParams.get(`cargo_id`)
   const userId = searchParams.get(`user_id`)
   const orderId  =  searchParams.get(`order_id`)
+  const [orderId2, setOrderId2] = useState(orderId);
+  
 
-  console.log(`ids`,carId,userId,orderId)
 
   const firm_id = authStore.userData.firm_id;
   const locale = useGetLang();
@@ -144,6 +146,7 @@ export const ShareLocationModule = () => {
       limit: 7000,
       data: JSON.stringify({
         users_id: userId,
+        order_id: orderId2,
       }),
     },
     querySettings: {
@@ -170,17 +173,24 @@ export const ShareLocationModule = () => {
             user_id: userId,
             page,
             limit: 500,
+          
           },
         },
       });
     }
   }, [ userId, page]);
 
+
   useEffect(() => {
     if (getDriverPosition?.response) {
-      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
-      if (getDriverPosition?.response.length > 0) {
-        setOffset(offset + 7000);
+      if (getDriverPosition?.response.length === 0 && orderId2 && offset === 0) {
+        setOrderId2(undefined);
+        setOffset(0);
+      } else {
+        setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+        if (getDriverPosition?.response.length > 0) {
+          setOffset(offset + 7000);
+        }
       }
     }
   }, [getDriverPosition?.response]);

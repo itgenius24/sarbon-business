@@ -196,15 +196,15 @@ export const AccordionMap = ({
       />
       <Placemark
         geometry={getDriverPosition?.length >0  ? getDriverPosition?.[0] : driverPosition}
-        properties={{
-          balloonContent: `<div style='padding: 10px; font-size: 14px;'>
-                  <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>
-                  <p>Время в пути:</p>
-                 <p style='font-weight: 600;'>wefwef</p>
+        // properties={{
+        //   balloonContent: `<div style='padding: 10px; font-size: 14px;'>
+        //           <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>
+        //           <p>Время в пути:</p>
+        //          <p style='font-weight: 600;'>wefwef</p>
 
-            </div>`,
-          iconContent: "2000",
-        }}
+        //     </div>`,
+        //   iconContent: "2000",
+        // }}
         options={{
           iconLayout: "default#image",
           iconImageHref:

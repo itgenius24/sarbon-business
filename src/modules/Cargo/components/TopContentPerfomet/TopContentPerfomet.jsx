@@ -66,6 +66,7 @@ export const TopContentPerfomet = () => {
   //   useAddCargoContext();
 
   const [userId, setUserId] = useState("");
+  const [orderId, setOrderId] = useState("");
   const [userData, setUserData] = useState([]);
   const [offset, setOffset] = useState(0);
   const [allPositions, setAllPositions] = useState([]);
@@ -126,6 +127,7 @@ export const TopContentPerfomet = () => {
       limit: 7000,
       data: JSON.stringify({
         users_id: userId,
+        order_id: orderId,
       }),
     },
     querySettings: {
@@ -161,6 +163,7 @@ export const TopContentPerfomet = () => {
             user_id: userId,
             page,
             limit: 500,
+          
           },
         },
       });
@@ -169,9 +172,14 @@ export const TopContentPerfomet = () => {
 
   useEffect(() => {
     if (getDriverPosition?.response) {
-      setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
-      if (getDriverPosition?.response.length > 0) {
-        setOffset(offset + 7000);
+      if (getDriverPosition?.response.length === 0 && orderId && offset === 0) {
+        setOrderId(undefined);
+        setOffset(0);
+      } else {
+        setAllPositions((prev) => [...prev, ...getDriverPosition.response]);
+        if (getDriverPosition?.response.length > 0) {
+          setOffset(offset + 7000);
+        }
       }
     }
   }, [getDriverPosition?.response]);
@@ -193,6 +201,7 @@ export const TopContentPerfomet = () => {
                       onClick={() => {
                         setUserId(user?.users_gps?.users_id);
                         setCarId(user?.cargo_id);
+                        setOrderId(user?.guid);
                         setGpsHistory([]);
                       }}
                       className={cls.accordionButton}
