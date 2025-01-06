@@ -42,6 +42,8 @@ export const MyCarsDispatcherModule = () => {
   const isSuperDispatcher = authStore?.userData?.user_status?.[0];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
+  // console.log(`salom`,)
   return (
     <>
       <Container my="40px">
@@ -58,7 +60,7 @@ export const MyCarsDispatcherModule = () => {
                 {t(`Всего`)}: <span>{count || 0}</span>
               </p>
               <p>
-                {t(`Свободных`)}: <span>{0}</span>
+                {t(`Свободных`)}: <span>{data?.filter(item => !item.order_data)?.length}</span>
               </p>
             </Box>
             {isSuperDispatcher === "approved" && (
