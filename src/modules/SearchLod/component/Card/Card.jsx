@@ -15,14 +15,9 @@ import { useTranslation } from "react-i18next";
 export const Card = ({ item, cls, ...props }) => {
   const locale = useGetLang();
   const { t } = useTranslation();
-  const data = item?.orders?.[0].provisions.filter(
-    (item) =>
-      item === `approve_from_driver` ||
-      item === `approve_by_customer` ||
-      item === `new_proposal_from_director`
-  );
+  const data = item?.orders?.[0].provisions;
 
-  console.log(`data`, data);
+  console.log(`data`, item);
 
   return (
     <Flex
@@ -38,17 +33,10 @@ export const Card = ({ item, cls, ...props }) => {
         <TooltipComponets
           cls={cls}
           status={`ss`}
-          label={
-            data?.[0] === `approve_from_driver` ||
-            data?.[0] === `new_proposal_from_director`
-              ? t("Ждем подтверждение водителя")
+          label={ data.includes(`approve_from_driver`) || data.includes(`new_proposal_from_director`) ? t("Ждем подтверждение водителя")
               : t("Ждем подтверждение заказчика")
           }
-          color={
-            data?.[0] === `approve_from_driver` ||
-            data?.[0] === `new_proposal_from_director`
-              ? `rgba(193, 187, 32, 1)`
-              : `rgba(0, 122, 255, 1)`
+          color={data.includes(`approve_from_driver`) ||data.includes(`new_proposal_from_director`) ? `rgba(193, 187, 32, 1)`: `rgba(0, 122, 255, 1)`
           }
         />
       )}
@@ -177,7 +165,7 @@ export const Card = ({ item, cls, ...props }) => {
               </span>
             </p>
             <span className={cls.subTitle}>
-              {t("Предопл.")} {" "}
+              {t("Предопл.")}{" "}
               {item?.cargo?.prepayment_percentage > 0
                 ? `${item?.cargo?.prepayment_percentage} ${item?.cargo?.currency_id_data?.code}`
                 : t("Нет")}{" "}

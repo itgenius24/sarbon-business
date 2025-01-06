@@ -189,8 +189,8 @@ export const TableComponent = ({ watch, formState }) => {
     // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
     const provisionsData = item?.orders?.filter(
       (item) =>
-        item.provisions.includes(`performed`) ||
-        item.provisions.includes(`approve_from_driver`)
+        item.provisions?.includes(`performed`) ||
+        item.provisions?.includes(`approve_from_driver`)
     );
     if (isCheckboxChecked) {
       return (
@@ -315,17 +315,17 @@ export const TableComponent = ({ watch, formState }) => {
                 filteredData?.map((item) => {
                   const provisionsData = item?.orders?.filter(
                     (item) =>
-                      item.provisions.includes(`performed`) ||
-                      item.provisions.includes(`approve_from_driver`)
+                      item.provisions?.includes(`performed`) ||
+                      item.provisions?.includes(`approve_from_driver`)
                   );
-                  console.log(`provisions`,provisionsData?.[0]?.provisions?.[0])
+                  console.log(`provisions`,provisionsData?.[0]?.provisions?.includes(`approve_from_driver`))
                   return (
                     <CheckBoxComponent
                       key={item?.user?.guid}
                       onClick={() => {
                         if (
-                          provisionsData?.[0]?.provisions?.[0] === `performed` ||
-                          provisionsData?.[0]?.provisions?.[0] === `approve_from_driver`
+                          provisionsData?.[0]?.provisions?.includes( `performed`) ||
+                          provisionsData?.[0]?.provisions?.includes(`approve_from_driver`)
                         ) {
                           // deleteOrder(item) emas, faqat onOpen() chaqirildi
                         } else {
@@ -334,14 +334,14 @@ export const TableComponent = ({ watch, formState }) => {
                       }}
                       active={selectCargo.includes(item?.user?.guid)}
                       status={
-                        provisionsData?.[0]?.provisions?.[0] === `performed` ||
-                        provisionsData?.[0]?.provisions?.[0] === `approve_from_driver`
+                        provisionsData?.[0]?.provisions?.includes( `performed`) ||
+                        provisionsData?.[0]?.provisions?.includes(`approve_from_driver`)
                       }
                     >
-                      {provisionsData?.[0]?.provisions?.[0] === `performed` ||
-                      provisionsData?.[0]?.provisions?.[0] === `approve_from_driver` ? (
+                      {provisionsData?.[0]?.provisions?.includes( `performed`) ||
+                      provisionsData?.[0]?.provisions?.includes(`approve_from_driver`) ? (
                         <>
-                          {provisionsData?.[0]?.provisions?.[0] === `performed` && (
+                          {provisionsData?.[0]?.provisions?.includes( `performed`) && (
                             <TooltipComponets
                               cls={cls}
                               status={`check`}
@@ -350,8 +350,7 @@ export const TableComponent = ({ watch, formState }) => {
                             />
                           )}
 
-                          {provisionsData?.[0]?.provisions?.[0] ===
-                            `approve_from_driver` && (
+                          {provisionsData?.[0]?.provisions?.includes(`approve_from_driver`) && (
                             <TooltipComponets
                               cls={cls}
                               status={`approve_from_driver`}
@@ -440,7 +439,7 @@ export const TableComponent = ({ watch, formState }) => {
               >
                 {t("Только свободные водители")}
               </Checkbox>
-              `
+              
               <Flex gap={2}>
                 <Button
                   className={cls.topButton}
