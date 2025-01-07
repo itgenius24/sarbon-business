@@ -15,7 +15,6 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 
 export const Footer = () => {
-
   const locale = useGetLang();
 
   const pathname = usePathname();
@@ -55,27 +54,25 @@ export const Footer = () => {
     ],
   };
 
+  const downloadByLanguage = async (langId) => {
+    try {
+      // const res = await getData({
+      //   ...file,
+      //   lang: langId,
+      // });
 
-    const downloadByLanguage = async (langId) => {
-      try {
-        // const res = await getData({
-        //   ...file,
-        //   lang: langId,
-        // });
-       
-          const link = document.createElement("a");
-          const res = `../../assets/app/Furgo.apk`
-          link.href = res.file;
-          link.target = "_blank";
-          link.download = `Furgo.apk` ;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        
-      } catch (e) {
-        console.log(2);
-      }
-    };
+      const link = document.createElement("a");
+      const res = `../../assets/app/Furgo.apk`;
+      link.href = res.file;
+      link.target = "_blank";
+      link.download = `Furgo.apk`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
 
   return (
     <Box
@@ -143,7 +140,11 @@ export const Footer = () => {
             </p>
             <ul className={cls.mobileAppList}>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"https://apps.apple.com/uz/app/furgo/id6475668788"} target="_blank">
+                <a
+                  className={cls.mobileAppLink}
+                  href={"https://apps.apple.com/uz/app/furgo/id6475668788"}
+                  target="_blank"
+                >
                   <Image
                     src={AppStore}
                     alt="App store"
@@ -153,7 +154,12 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a style={{cursor:`pointer`}} className={cls.mobileAppLink}  href="https://bit.ly/sarbonnew"  target="_blank">
+                <a
+                  style={{ cursor: `pointer` }}
+                  className={cls.mobileAppLink}
+                  href="https://bit.ly/sarbonnew"
+                  target="_blank"
+                >
                   <Image
                     src={AndroidPlay}
                     alt="Google play"
@@ -292,17 +298,16 @@ export const Footer = () => {
           </ul>
         </div>
         <div className={cls.footerBottom}>
-         <Flex alignItems={`center`} gap={2}>
-             <Logo width={32} height={32} />
-                <Link
-                    className={cls.link}
-                    title={t("Зарегистрироваться")}
-                    href={`/${locale}/auth/registration`}
-
-                  >
-                    {t("Зарегистрироваться")}
-                  </Link>
-         </Flex>
+          <Flex alignItems={`center`} gap={2}>
+            <Logo width={32} height={32} />
+            <Link
+              className={cls.link}
+              title={t("Зарегистрироваться")}
+              href={`/${locale}/auth/registration`}
+            >
+              {t("Зарегистрироваться")}
+            </Link>
+          </Flex>
           <p className={cls.copyright}>{t("copyright")}</p>
         </div>
       </Container>
