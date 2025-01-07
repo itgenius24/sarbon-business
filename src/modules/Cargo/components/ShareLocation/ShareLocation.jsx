@@ -64,19 +64,17 @@ import { formatDateTime } from "@/utils/formatDateTime";
 import { Container } from "@/components/Container";
 
 export const ShareLocationModule = () => {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   // const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
 
   const [offset, setOffset] = useState(0);
   const [allPositions, setAllPositions] = useState([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
-  const carId = searchParams.get(`cargo_id`)
-  const userId = searchParams.get(`user_id`)
-  const orderId  =  searchParams.get(`order_id`)
+  const carId = searchParams.get(`cargo_id`);
+  const userId = searchParams.get(`user_id`);
+  const orderId = searchParams.get(`order_id`);
   const [orderId2, setOrderId2] = useState(orderId);
-  
-
 
   const firm_id = authStore.userData.firm_id;
   const locale = useGetLang();
@@ -90,10 +88,10 @@ export const ShareLocationModule = () => {
 
   const getDriverLocation = useGetDriverLocation(
     { data: JSON.stringify({ users_id: userId }) },
-    { enabled: !!(userId) }
+    { enabled: !!userId }
   );
 
-  console.log(`getDriverLocation`,getDriverLocation?.data?.response?.[0])
+  // console.log(`getDriverLocation`, getDriverLocation?.data?.response?.[0]);
 
   const getMaps = useGetMaps(
     {
@@ -112,7 +110,7 @@ export const ShareLocationModule = () => {
     { enabled: Boolean(orderId) }
   );
 
-  console.log(`getOfferCount`,getOfferCount?.data?.response)
+  // console.log(`getOfferCount`, getOfferCount?.data?.response);
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {
@@ -154,7 +152,7 @@ export const ShareLocationModule = () => {
       // enabled: Boolean(userId),
     },
   });
-  
+
   const { mutate: dataLocation, isPending } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
@@ -166,24 +164,26 @@ export const ShareLocationModule = () => {
   }, []);
 
   useEffect(() => {
-    if ( userId) {
+    if (userId) {
       getGPSHistory.mutate({
         data: {
           object_data: {
             user_id: userId,
             page,
             limit: 500,
-          
           },
         },
       });
     }
-  }, [ userId, page]);
-
+  }, [userId, page]);
 
   useEffect(() => {
     if (getDriverPosition?.response) {
-      if (getDriverPosition?.response.length === 0 && orderId2 && offset === 0) {
+      if (
+        getDriverPosition?.response.length === 0 &&
+        orderId2 &&
+        offset === 0
+      ) {
         setOrderId2(undefined);
         setOffset(0);
       } else {
@@ -195,11 +195,10 @@ export const ShareLocationModule = () => {
     }
   }, [getDriverPosition?.response]);
 
-
   const address1 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.from;
   const address2 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.to;
 
-  console.log(`salom`,getOfferCount?.data?.response)
+  console.log(`salom`, getOfferCount?.data?.response);
   return (
     <Container>
       <Box mt={20}>
@@ -223,38 +222,41 @@ export const ShareLocationModule = () => {
                 </span>
 
                 {getOfferCount?.data?.response?.[0] &&
-                      (getOfferCount?.data?.response?.[0]?.cargo_id_data?.as_soon_as_a ? (
-                        <p
-                          style={{
-                            fontWeight: 500,
-                            fontSize: `12px`,
-                            color: `rgba(126, 123, 134, 1)`,
-                          }}
-                        >
-                          {getOfferCount?.data?.response?.[0]?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
-                          /{" "}
-                          <span
-                            style={{
-                              fontSize: `12px`,
-                              color: `rgba(126, 123, 134, 1)`,
-                            }}
-                          >
-                            Как можно скорее
-                          </span>
-                        </p>
-                      ) :  getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time && (
-                        format(
-                          new Date(
-                            getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time
-                          ).setHours(
-                            new Date(
-                              getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time
-                            ).getHours() - 5
-                          ),
-                          "dd-MMMM",
-                          { locale: ru }
-                        )
-                      ))}
+                  (getOfferCount?.data?.response?.[0]?.cargo_id_data
+                    ?.as_soon_as_a ? (
+                    <p
+                      style={{
+                        fontWeight: 500,
+                        fontSize: `12px`,
+                        color: `rgba(126, 123, 134, 1)`,
+                      }}
+                    >
+                      {getOfferCount?.data?.response?.[0]?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
+                      /{" "}
+                      <span
+                        style={{
+                          fontSize: `12px`,
+                          color: `rgba(126, 123, 134, 1)`,
+                        }}
+                      >
+                        Как можно скорее
+                      </span>
+                    </p>
+                  ) : (
+                    getOfferCount?.data?.response?.[0]?.cargo_id_data
+                      ?.load_time &&
+                    format(
+                      new Date(
+                        getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time
+                      ).setHours(
+                        new Date(
+                          getOfferCount?.data?.response?.[0]?.cargo_id_data?.load_time
+                        ).getHours() - 5
+                      ),
+                      "dd-MMMM",
+                      { locale: ru }
+                    )
+                  ))}
               </span>
               <span>-&gt;</span>
               <span className={cls.addressCountry}>
@@ -273,36 +275,41 @@ export const ShareLocationModule = () => {
                   </Tooltip>
                 </span>
 
-                {getOfferCount?.data?.response?.[0] && getOfferCount?.data?.response?.[0]?.cargo_id_data?.as_soon_as_b ? (
-                      <p
-                        style={{
-                          fontWeight: 500,
-                          fontSize: `12px`,
-                          color: `rgba(126, 123, 134, 1)`,
-                        }}
-                      >
-                        {getOfferCount?.data?.response?.[0]?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
-                        /{" "}
-                        <span
-                          style={{
-                            fontSize: `12px`,
-                            color: `rgba(126, 123, 134, 1)`,
-                          }}
-                        >
-                          Как можно скорее
-                        </span>
-                      </p>
-                    ) : (
-                      getOfferCount?.data?.response?.[0]?.cargo_id_data?.date &&
-                      format(
-                        new Date(getOfferCount?.data?.response?.[0]?.cargo_id_data?.date).setHours(
-                          new Date(getOfferCount?.data?.response?.[0]?.cargo_id_data?.date).getHours() -
-                            5
-                        ),
-                        "dd-MMMM",
-                        { locale: ru }
-                      )
-                    )}
+                {getOfferCount?.data?.response?.[0] &&
+                getOfferCount?.data?.response?.[0]?.cargo_id_data
+                  ?.as_soon_as_b ? (
+                  <p
+                    style={{
+                      fontWeight: 500,
+                      fontSize: `12px`,
+                      color: `rgba(126, 123, 134, 1)`,
+                    }}
+                  >
+                    {getOfferCount?.data?.response?.[0]?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
+                    /{" "}
+                    <span
+                      style={{
+                        fontSize: `12px`,
+                        color: `rgba(126, 123, 134, 1)`,
+                      }}
+                    >
+                      Как можно скорее
+                    </span>
+                  </p>
+                ) : (
+                  getOfferCount?.data?.response?.[0]?.cargo_id_data?.date &&
+                  format(
+                    new Date(
+                      getOfferCount?.data?.response?.[0]?.cargo_id_data?.date
+                    ).setHours(
+                      new Date(
+                        getOfferCount?.data?.response?.[0]?.cargo_id_data?.date
+                      ).getHours() - 5
+                    ),
+                    "dd-MMMM",
+                    { locale: ru }
+                  )
+                )}
               </span>
             </span>
           </h2>
@@ -311,7 +318,7 @@ export const ShareLocationModule = () => {
           {isPending ? (
             <LoadingSpinner />
           ) : getOfferCount?.data?.response?.length > 0 ? (
-            <Accordion defaultIndex={[0]}  allowToggle>
+            <Accordion defaultIndex={[0]} allowToggle>
               {getOfferCount?.data?.response?.map((user, index) => {
                 return (
                   <>
@@ -361,20 +368,25 @@ export const ShareLocationModule = () => {
                                     style={{ fontWeight: 600 }}
                                     className={cls.phoneItemName}
                                   >
-                                    {getDriverLocation?.data?.response?.[0].gps ? "Выкл " : "Откл "}
+                                    {getDriverLocation?.data?.response?.[0].gps
+                                      ? "Выкл "
+                                      : "Откл "}
                                   </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {getDriverLocation?.data?.response?.[0].update_time &&
+                                    {getDriverLocation?.data?.response?.[0]
+                                      .update_time &&
                                       formatDateTime(
-                                        getDriverLocation?.data?.response?.[0].update_time
+                                        getDriverLocation?.data?.response?.[0]
+                                          .update_time
                                       )}
                                   </span>
                                 </Flex>
                               </div>
                             </div>
                             <div className={cls.item}>
-                              {getDriverLocation?.data?.response?.[0].os === "android" ? (
+                              {getDriverLocation?.data?.response?.[0].os ===
+                              "android" ? (
                                 <AndroidIcon />
                               ) : (
                                 <AppleIcon />
@@ -395,13 +407,17 @@ export const ShareLocationModule = () => {
                                   {t("Версия Furgo")}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {getDriverLocation?.data?.response?.[0].version}{" "}
+                                  {
+                                    getDriverLocation?.data?.response?.[0]
+                                      .version
+                                  }{" "}
                                 </p>
                               </div>
                             </div>
 
                             <div className={cls.item}>
-                              {getDriverLocation?.data?.response?.[0].battery > 19 ? (
+                              {getDriverLocation?.data?.response?.[0].battery >
+                              19 ? (
                                 <BatareyFullIcon />
                               ) : (
                                 <BatareyIcon />
@@ -411,7 +427,11 @@ export const ShareLocationModule = () => {
                                   {t("Батарея")}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {getDriverLocation?.data?.response?.[0].battery}%{" "}
+                                  {
+                                    getDriverLocation?.data?.response?.[0]
+                                      .battery
+                                  }
+                                  %{" "}
                                 </p>
                               </div>
                             </div>
@@ -429,7 +449,6 @@ export const ShareLocationModule = () => {
                           <>
                             <YMaps>
                               <AccordionMap
-                               
                                 gpsHistory={gpsHistory}
                                 getDriverPosition={allPositions?.map((item) => [
                                   item?.lat,
@@ -467,17 +486,19 @@ export const ShareLocationModule = () => {
                                     {user?.cargo_id_data?.country_code_from}
                                   </span>
                                   /
-                                  {format(
-                                    new Date(
-                                      user?.cargo_id_data?.load_time
-                                    ).setHours(
-                                      new Date(
-                                        user?.cargo_id_data?.load_time
-                                      ).getHours() - 5
-                                    ),
-                                    "dd-MMMM",
-                                    { locale: ru }
-                                  )}
+                                  {user.cargo_id_data?.as_soon_as_a
+                                    ? `Как можно скорее`
+                                    : format(
+                                        new Date(
+                                          user?.cargo_id_data?.load_time
+                                        ).setHours(
+                                          new Date(
+                                            user?.cargo_id_data?.load_time
+                                          ).getHours() - 5
+                                        ),
+                                        "dd-MMMM",
+                                        { locale: ru }
+                                      )}
                                 </p>
                               </Box>
                               <IocnPrev />
@@ -500,7 +521,7 @@ export const ShareLocationModule = () => {
                                     {user?.cargo_id_data?.country_code_to}
                                   </span>
                                   /
-                                  {format(
+                                  { user.cargo_id_data?.as_soon_as_b ? `Как можно скорее` : format(
                                     new Date(
                                       user?.cargo_id_data?.date
                                     ).setHours(
@@ -559,9 +580,7 @@ export const ShareLocationModule = () => {
                             p={`13px 18px`}
                           >
                             <Box>
-                              <p className={cls.subTitle}>
-                                {t("Тип оплаты")}:
-                              </p>
+                              <p className={cls.subTitle}>{t("Тип оплаты")}:</p>
                               <p className={cls.title}>
                                 {t(
                                   user?.cargo_id_data?.map_id_data?.payment_type
@@ -569,9 +588,7 @@ export const ShareLocationModule = () => {
                               </p>
                             </Box>
                             <Box>
-                              <p className={cls.subTitle}>
-                                {t("Предоплата")}:
-                              </p>
+                              <p className={cls.subTitle}>{t("Предоплата")}:</p>
                               <p className={cls.title}>
                                 {user?.cargo_id_data?.prepayment_percentage}{" "}
                                 {user?.cargo_id_data?.currency_id_data?.code}
