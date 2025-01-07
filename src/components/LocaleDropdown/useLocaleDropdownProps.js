@@ -16,14 +16,32 @@ export const useLocaleDropdownProps = ({ locale }) => {
       value: "ru",
       label: "Русский",
       shortName: "Ру",
-      icon: RFFlagImg,
+      icon:"https://flagcdn.com/w320/ru.png"
     },
     {
       value: "uz",
       label: "Узбекский",
       shortName: "Уз",
-      icon: UzbFlagImg,
-    }
+      icon: "https://flagcdn.com/w320/uz.png",
+    },
+    {
+      value: "en",
+      label: "English",
+      shortName: "En",
+      icon: "https://flagcdn.com/w320/gb.png",
+    },
+    {
+      value: "tr",
+      label: "Turkish",
+      shortName: "Tr",
+      icon: "https://flagcdn.com/w320/tr.png",
+    },
+    {
+      value: "ch",
+      label: "Chinese",
+      shortName: "Ch",
+      icon: "https://flagcdn.com/w320/cn.png",
+    },
   ];
 
   const router = useRouter();

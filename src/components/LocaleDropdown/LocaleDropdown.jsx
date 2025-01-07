@@ -24,7 +24,7 @@ export const LocaleDropdown = ({ locale }) => {
   return <div className={cls.localeDropdown} ref={dropdownRef} onClick={(e) => e.stopPropagation()}>
     <span className={cls.localeDropdownHeader} onClick={() => setOpen(!isOpen)}>
       <span>
-        <Image src={activeLang?.icon} alt={activeLang?.label} width={18} height={18} />
+        <Image src={activeLang?.icon} alt={activeLang?.label} style={{width:`22px`,height:`22px`,objectFit:`cover`,borderRadius:`50%`}} width={100} height={100} />
       </span>
       <span>
         {activeLang?.shortName}
@@ -39,7 +39,7 @@ export const LocaleDropdown = ({ locale }) => {
           langs.map((lang, index) => (
             <button onClick={() => handleChangeLocale(lang.value)} className={cls.localeDropdownItem} key={lang.value}>
               <span className={cls.localeDropdownItemIcon}>
-                <Image src={lang.icon} alt={lang} width={18} height={18} />
+                <Image src={lang.icon} alt={lang} style={{width:`22px`,height:`22px`,objectFit:`cover`,borderRadius:`50%`}} width={100} height={100} />
               </span>
               <span className={cls.localeDropdownItemLabel}>
                 {lang.label}

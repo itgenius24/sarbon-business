@@ -163,7 +163,6 @@ export const TopContentPerfomet = () => {
             user_id: userId,
             page,
             limit: 500,
-          
           },
         },
       });
@@ -231,7 +230,9 @@ export const TopContentPerfomet = () => {
                               <LocationMobileIcon />
                             )}
                             <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>{t(`Геолокация`)}</p>
+                              <p className={cls.phoneItemTitle}>
+                                {t(`Геолокация`)}
+                              </p>
                               <Flex
                                 gap={`5px`}
                                 alignItems={`center`}
@@ -348,17 +349,19 @@ export const TopContentPerfomet = () => {
                                   {user?.cargo_id_data?.country_code_from}
                                 </span>
                                 /
-                                {format(
-                                  new Date(
-                                    user?.cargo_id_data?.load_time
-                                  ).setHours(
-                                    new Date(
-                                      user?.cargo_id_data?.load_time
-                                    ).getHours() - 5
-                                  ),
-                                  "dd-MMMM",
-                                  { locale: ru }
-                                )}
+                                {user.cargo_id_data?.as_soon_as_a
+                                  ? t(`Как можно скорее`)
+                                  : format(
+                                      new Date(
+                                        user?.cargo_id_data?.load_time
+                                      ).setHours(
+                                        new Date(
+                                          user?.cargo_id_data?.load_time
+                                        ).getHours() - 5
+                                      ),
+                                      "dd-MMMM",
+                                      { locale: ru }
+                                    )}
                               </p>
                             </Box>
                             <IocnPrev />
@@ -381,15 +384,19 @@ export const TopContentPerfomet = () => {
                                   {user?.cargo_id_data?.country_code_to}
                                 </span>
                                 /
-                                {format(
-                                  new Date(user?.cargo_id_data?.date).setHours(
-                                    new Date(
-                                      user?.cargo_id_data?.date
-                                    ).getHours() - 5
-                                  ),
-                                  "dd-MMMM",
-                                  { locale: ru }
-                                )}
+                                {user.cargo_id_data?.as_soon_as_a
+                                  ? t(`Как можно скорее`)
+                                  : format(
+                                      new Date(
+                                        user?.cargo_id_data?.date
+                                      ).setHours(
+                                        new Date(
+                                          user?.cargo_id_data?.date
+                                        ).getHours() - 5
+                                      ),
+                                      "dd-MMMM",
+                                      { locale: ru }
+                                    )}
                               </p>
                             </Box>
                           </Flex>
