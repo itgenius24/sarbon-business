@@ -15,7 +15,7 @@ export const colors = {
     500: "#F04438",
     300: "#FDA29B",
   },
-  primary: "#007AFF",
+  primary: "rgba(38, 189, 73, 1)",
   primaryText: "#026FE7",
   baseWhite: "#FFFFFF",
   gray: "#F7F7F7",

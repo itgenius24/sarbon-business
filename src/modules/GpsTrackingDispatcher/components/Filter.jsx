@@ -87,8 +87,8 @@ const Filter = ({
             value={distance}
             defaultValue={30}
           >
-            <SliderTrack bg="rgba(0, 122, 255, 0.3)">
-              <SliderFilledTrack bg={"rgba(0, 122, 255, 1)"} />
+            <SliderTrack bg="rgba(0, 255, 55, 0.3)">
+              <SliderFilledTrack bg={"var(--primary)"} />
             </SliderTrack>
             <SliderThumb />
           </Slider>

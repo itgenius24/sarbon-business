@@ -14,7 +14,7 @@ export const PhoneForm = ({
   navigateLogin,
   isPending,
   backText = "Вернуться на Войти",
-  title = "Регистрация нового участника на Furgo",
+  title = "Регистрация нового участника на Sarbon",
   register = () => {},
   errors = {},
   control,

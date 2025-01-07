@@ -47,8 +47,7 @@ export const TextFieldWithAddition = ({
       className={clsx(cls.field, className, { [cls.disabled]: disabled })}
       style={{ width }}
     >
-      {label ||
-        (additionalItemLabel && (
+      {(label ||additionalItemLabel) && (
           <div className={clsx(cls.fieldTop)}>
             {label && <span className={cls.fieldLabel}>{label}</span>}
             {additionalItemLabel && (
@@ -57,7 +56,7 @@ export const TextFieldWithAddition = ({
               </span>
             )}
           </div>
-        ))}
+        )}
       <div
         className={clsx(cls.contentWrapper, {
           [cls.leftPosition]: additionalItemPosition === "left",

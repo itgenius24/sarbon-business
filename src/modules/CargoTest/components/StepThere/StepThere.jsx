@@ -187,11 +187,11 @@ const StepThere = ({ status }) => {
                             item <= hoverIndex
                               ? !canEdit
                                 ? `rgba(0, 122, 255, 0.4)`
-                                : "rgba(0, 122, 255, 1)"
+                                : "rgba(38, 189, 73, 1)"
                               : item <= clickIndex
                               ? !canEdit
                                 ? `rgba(0, 122, 255, 0.4)`
-                                : "rgba(0, 122, 255, 1)"
+                                : "rgba(38, 189, 73, 1)"
                               : "#B2B0B6"
                           }
                         />

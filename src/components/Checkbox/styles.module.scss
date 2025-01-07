@@ -17,7 +17,7 @@
 
 .checkboxInput:checked + .checkbox {
   border: 1px solid var(--primary);
-  background-color: #2688EB;
+  background-color: var(--primary);
   background-image: url('/svg/check.svg');
   background-repeat: no-repeat;
   background-position: center center;

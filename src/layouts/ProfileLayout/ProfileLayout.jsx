@@ -26,7 +26,10 @@ export const ProfileLayout = ({ children }) => {
   return <div className="fade-in">
     <Container my="40px">
       {
-        isLargerThan845 && <Heading size="md" mb="24px">
+          
+        isLargerThan845 && <Heading 
+        color={`var(--primary-text)`}
+         size="md" mb="24px">
           {t("Профиль")}
         </Heading>
       }

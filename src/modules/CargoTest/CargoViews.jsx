@@ -210,7 +210,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
               border={`none`}
               variant={`outline`}
               background={`rgba(227, 230, 237, 1)`}
-              color={`rgba(0, 122, 255, 1)`}
+              color={`var(--primary-text)`}
               mb={`26px`}
               width={`fit-content`}
               onClick={() =>

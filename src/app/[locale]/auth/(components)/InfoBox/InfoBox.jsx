@@ -18,7 +18,7 @@ export const InfoBox = () => {
       </div>
       <div className={cls.textWrap}>
         <h1 className={cls.textWrapTitle}>
-          {t("Furgo — биржа грузоперевозок и крупнейшая экосистема сервисов для транспортной логистики в Узбекистане")}
+          {t("Sarbon — биржа грузоперевозок и крупнейшая экосистема сервисов для транспортной логистики в Узбекистане")}
         </h1>
         <h1 className={cls.textWrapTitle}>{t("Впервые у нас?")}</h1>
         <p className={cls.desc}>

@@ -36,7 +36,7 @@ export const Registration = () => {
         backText={t("Вернуться на Войти")}
         errors={errors}
         firstBtnText={t("Зарегистрироваться")}
-        title={t("Регистрация нового участника на Furgo")}
+        title={t("Регистрация нового участника на Sarbon")}
         register={register}
         control={control}
       />

@@ -39,8 +39,8 @@ export const TextFieldWithAdditionMap = ({
 
   return <div className={clsx(cls.field, className, { [cls.disabled]: disabled })} style={{ width }}>
     {
-      label || additionalItemLabel && <div className={clsx(cls.fieldTop)}>
-        {label && <span className={cls.fieldLabel}>{label}</span>}
+      (label || additionalItemLabel) && <div className={clsx(cls.fieldTop)}>
+        {label && <div className={cls.fieldLabel}>{label}</div>}
         {additionalItemLabel && <span className={cls.additionalItemLabel}>{additionalItemLabel}</span>}
       </div>
     }

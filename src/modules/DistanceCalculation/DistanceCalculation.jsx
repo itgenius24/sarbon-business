@@ -34,11 +34,11 @@ export const DistanceCalculation = () => {
   console.log(`distanceParameters.distance `,distanceParameters?.distance )
 
   return <Container py={isLargerThan845 ? "40px" : "24px"}>
-    <Heading size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
+    <Heading color={`var(--primary-text)`} size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
     <Box p={isLargerThan845 ? "24px" : "0"} bgColor={isLargerThan845 ? "baseWhite" : "transparent"} borderRadius={isLargerThan845 ? "16px" : "0"}>
       <Box display="flex" mb="20px" alignItems="center" justifyContent="space-between">
         <Heading size="sm" fontSize={isLargerThan845 ? "16px" : "14px"} lineHeight="28px" fontWeight="600">{t("Детали груза")}</Heading>
-        <Button onClick={handleAppend} fontSize={isLargerThan845 ? "14px" : "12px"} variant="reset" leftIcon={<PlusIcon color="#007aff" />}>{t("Добавить доп. адрес")}</Button>
+        <Button onClick={handleAppend} fontSize={isLargerThan845 ? "14px" : "12px"} variant="reset" leftIcon={<PlusIcon color={`var(--primary-text)`} />}>{t("Добавить доп. адрес")}</Button>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="20px">
         <TextField register={register} name="from" label={t("Откуда")} placeholder={t("Введите город, страну")} />

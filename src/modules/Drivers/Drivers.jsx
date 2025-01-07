@@ -72,6 +72,8 @@ export const DriversModule = ({ locale }) => {
         <Heading
           size={isLargerThan845 ? "md" : "sm"}
           mb={isLargerThan845 ? "24px" : "12px"}
+          color={`var(--primary-text)`}
+
         >
           {t("Добавление нового водителя")}
         </Heading>

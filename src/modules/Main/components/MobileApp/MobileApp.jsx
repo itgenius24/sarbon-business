@@ -20,6 +20,7 @@ export const MobileApp = ({ photo, description, description1, data }) => {
           fontSize={36}
           lineHeight="44px"
           mb={20.5}
+          color={`var(--primary-text)`}
         >
           {t("Мобильное приложение")}
         </Heading>

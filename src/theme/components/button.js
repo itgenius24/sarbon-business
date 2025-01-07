@@ -34,8 +34,8 @@ const solid = defineStyle({
   color: "baseWhite",
   border: "1px solid primary",
   borderRadius: "8px",
-  _hover: { bgColor: "primaryText", color: "baseWhite" },
-  _active: { bgColor: "primaryText", color: "baseWhite" },
+  _hover: { bgColor: "primary", color: "baseWhite" },
+  _active: { bgColor: "primary", color: "baseWhite" },
   _disabled: { bgColor: "primary", color: "baseWhite", cursor: "not-allowed" },
 });
 

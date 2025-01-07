@@ -78,7 +78,7 @@ export const RegistrationForm = () => {
         <AuthTitle
           w={`100%`}
           mb="32px"
-          title={t("Регистрация нового участника на Furgo")}
+          title={t("Регистрация нового участника на Sarbon")}
         />
 
         <Box

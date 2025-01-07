@@ -23,9 +23,8 @@ export const useMyLoadsMainProps = () => {
   const [dataPred, setDataPred] = useState(false);
   const router = useRouter();
   const [accept, setAccept] = useState(false);
-  const [orderStatus, setOrderStatus] = useState( orderValStatus);
+  const [orderStatus, setOrderStatus] = useState(orderValStatus);
 
-  console.log(`orderStatus`, orderStatus);
   const [data, setData] = useState([]);
   const userId = authStore.userData.id;
 
@@ -122,6 +121,13 @@ export const useMyLoadsMainProps = () => {
       setAccept(false);
     },
   });
+
+  useEffect(() => {
+    if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
+      // router.push(`?value=new&label=Предложение`);
+      setOrderStatus(`new`);
+    }
+  }, []);
 
   useEffect(() => {
     // if (orderStatus === "new") {
@@ -284,7 +290,7 @@ export const useMyLoadsMainProps = () => {
         data: {
           guid: id,
           users_id_3: userId,
-          approve_time_from_dispatcher:new Date().toISOString(),
+          approve_time_from_dispatcher: new Date().toISOString(),
           provisions: ["new", "approve_from_driver"],
           // response_status: ["approve_from_driver"],
         },
@@ -315,7 +321,6 @@ export const useMyLoadsMainProps = () => {
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
   // console.log(`cargos`,getAllUserCargo,getOfferCargo);
-
 
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
@@ -361,7 +366,6 @@ export const useMyLoadsMainProps = () => {
       setHasMore(true);
     }
   }, [getAllUserCargo.data, getOfferCargo.data]);
-
 
   return {
     cargos: orderStatus === `new` ? data : cargosData.data?.response,

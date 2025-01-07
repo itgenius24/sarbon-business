@@ -579,11 +579,11 @@ export const TopContent = ({
                                   <CopyIcon />
                                   <p
                                     style={{
-                                      color: `rgba(0, 122, 255, 1)`,
+                                      color: `var(--primary)`,
                                       fontSize: `14px`,
                                       fontWeight: 400,
                                       lineHeight: `20px`,
-                                      borderBottom: `1px dashed rgba(0, 122, 255, 1)`,
+                                      borderBottom: `1px dashed var(--primary)`,
                                     }}
                                   >
                                     {t(`Копировать`)}

@@ -50,6 +50,7 @@ export const MyLoadsMain = () => {
             fontSize={isLargerThan768 ? "30px" : "22px"}
             size="md"
             mb="24px"
+            color={`var(--primary-text)`}
           >
             {t("Мои грузы")}
           </Heading>

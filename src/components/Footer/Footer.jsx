@@ -299,7 +299,7 @@ export const Footer = () => {
         </div>
         <div className={cls.footerBottom}>
           <Flex alignItems={`center`} gap={2}>
-            <Logo width={32} height={32} />
+            <Logo width={150} height={150} />
             <Link
               className={cls.link}
               title={t("Зарегистрироваться")}

@@ -80,6 +80,8 @@ export const SearchCargoModule = () => {
         <Heading
           size={isLargerThan845 ? "md" : "sm"}
           mb={isLargerThan845 ? "24px" : "12px"}
+          color={`var(--primary-text)`}
+
         >
           {t("Добавить машину")}
         </Heading>
