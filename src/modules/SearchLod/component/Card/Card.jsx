@@ -29,17 +29,25 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-      {data.includes(`approve_from_driver`) || data.includes(`new_proposal_from_director`) && (
-        <TooltipComponets
-          cls={cls}
-          status={`ss`}
-          label={ data.includes(`approve_from_driver`) || data.includes(`new_proposal_from_director`) ? t("Ждем подтверждение водителя")
-              : t("Ждем подтверждение заказчика")
-          }
-          color={data.includes(`approve_from_driver`) ||data.includes(`new_proposal_from_director`) ? `rgba(193, 187, 32, 1)`: `rgba(0, 122, 255, 1)`
-          }
-        />
-      )}
+      {data.includes(`approve_from_driver`) ||
+        (data.includes(`new_proposal_from_director`) && (
+          <TooltipComponets
+            cls={cls}
+            status={`ss`}
+            label={
+              data.includes(`approve_from_driver`) ||
+              data.includes(`new_proposal_from_director`)
+                ? t("Ждем подтверждение водителя")
+                : t("Ждем подтверждение заказчика")
+            }
+            color={
+              data.includes(`approve_from_driver`) ||
+              data.includes(`new_proposal_from_director`)
+                ? `rgba(193, 187, 32, 1)`
+                : `rgba(0, 122, 255, 1)`
+            }
+          />
+        ))}
       <Box className={`${cls.contend} ${cls.contend1}`}>
         <Flex gap={`14px`} alignItems={`center`}>
           <Box
@@ -80,9 +88,9 @@ export const Card = ({ item, cls, ...props }) => {
               )}
               <br />
               <span className={cls.subTitle}>
-                {item?.cargo?.load_time
-                  ? format(item?.cargo?.load_time, `yyyy-MM-dd`)
-                  : t("Как можно скорее")}
+                {item?.cargo?.as_soon_as_a
+                  ? t("Как можно скорее")
+                  : format(item?.cargo?.load_time, `yyyy-MM-dd`)}
                 ~ 3450 km
               </span>
             </p>
@@ -128,9 +136,9 @@ export const Card = ({ item, cls, ...props }) => {
               )}{" "}
               <br />
               <span className={cls.subTitle}>
-                {item?.cargo?.date
-                  ? format(item?.cargo?.date, `yyyy-MM-dd`)
-                  : t("Как можно скорее")}
+                {item?.cargo?.as_soon_as_b
+                  ? t("Как можно скорее")
+                  : format(item?.cargo?.date, `yyyy-MM-dd`)}
               </span>
             </p>
           </Box>
