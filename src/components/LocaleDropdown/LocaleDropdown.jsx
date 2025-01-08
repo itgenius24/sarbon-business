@@ -11,6 +11,7 @@ export const LocaleDropdown = ({ locale }) => {
 
   const resolvedLang = i18n.resolvedLanguage;
 
+
   const {
     isOpen,
     activeLang,

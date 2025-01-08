@@ -16,7 +16,7 @@ i18next
   .use(resourcesToBackend((language, namespace) => import(`./locales/${language}/${namespace}.json`)))
   .init({
     ...getOptions(),
-    locale: undefined, // let detect the language on client side
+    locale: undefined, 
     detection: { order: ["path", "htmlTag", "cookie", "navigator"], },
     preload: runsOnServerSide ? languages : []
   });
@@ -25,34 +25,24 @@ export function useTranslation(locale, ns, options) {
   const [cookies, setCookie] = useCookies([cookieName]);
   const ret = useTranslationOrg(ns, options);
   const { i18n } = ret;
-  if (runsOnServerSide && locale && i18n.resolvedLanguage !== locale) {
-    i18n.changeLanguage(locale);
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [activeLng, setActiveLng] = useState(i18n.resolvedLanguage);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      if (activeLng === i18n.resolvedLanguage) return;
-      setActiveLng(i18n.resolvedLanguage);
-    }, [activeLng, i18n.resolvedLanguage]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      if (!locale || i18n.resolvedLanguage === locale) return;
-      i18n.changeLanguage(locale);
-    }, [locale, i18n]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
 
-      if(!locale) {
-        setCookie(cookieName, i18n.resolvedLanguage, { path: "/" });
-        return;
-      }
+  useEffect(() => {
+    if (locale && i18n.resolvedLanguage !== locale) {
+      i18n.changeLanguage(locale).then(() => {
+        setCookie(cookieName, locale, { path: "/" });
+      });
+    }
+  }, [locale, i18n, setCookie]);
 
-      if (cookies.i18next === locale) return;
-      setCookie(cookieName, locale, { path: "/" });
-
-    }, [locale, cookies.i18next]);
-  }
+  useEffect(() => {
+    const handleLanguageChange = (lng) => {
+      setCookie(cookieName, lng, { path: "/" });
+    };
+    i18n.on('languageChanged', handleLanguageChange);
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, [i18n, setCookie]);
 
   return ret;
 }

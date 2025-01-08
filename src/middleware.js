@@ -16,11 +16,11 @@ export function middleware(request) {
 
 
   if (roleOnePages.includes(currentPath) && company_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2` ) {
-    return NextResponse.redirect(new URL("/uz/auth", request.url));
+    return NextResponse.redirect(new URL("/ru/auth", request.url));
   }
 
   if (roleagesZ.includes(currentPath) && company_id === `Zakazcik` ) {
-    return NextResponse.redirect(new URL("/uz/auth", request.url));
+    return NextResponse.redirect(new URL("/ru/auth", request.url));
   }
 
  

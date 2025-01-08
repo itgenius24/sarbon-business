@@ -22,8 +22,8 @@ const Header = observer(({ elements }) => {
 
   // const [isAuth, setAuth] = useState(false);
 
-  const isAuth = authStore.getIsAuth
-  console.log(`isAuth`,isAuth)
+  const isAuth = authStore.getIsAuth;
+  console.log(`isAuth`, isAuth);
   const pathname = usePathname();
 
   const locale = useGetLang();
@@ -114,7 +114,9 @@ const Header = observer(({ elements }) => {
                     <Link
                       onClick={() => setNavOpen(false)}
                       href={`/${locale}/profile`}
-                      className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile`, })}
+                      className={clsx(cls.itemLink, {
+                        [cls.activeLink]: pathname === `/${locale}/profile`,
+                      })}
                     >
                       {t("Профиль")}
                     </Link>
@@ -125,10 +127,9 @@ const Header = observer(({ elements }) => {
                 <Box className={cls.buttonBox}>
                   {!isAuth && (
                     <>
-                    <Link
+                      <Link
                         // className={clsx(cls.loginLink)}
                         className={clsx(cls.registerLink)}
-
                         title={t("Войти")}
                         href={`/${locale}/auth`}
                       >
@@ -141,7 +142,6 @@ const Header = observer(({ elements }) => {
                       >
                         {t("Зарегистрироваться")}
                       </Link>
-                 
                     </>
                   )}
                   <Box className={cls.localeBox} display="flex" columnGap="4px">
@@ -163,8 +163,8 @@ const Header = observer(({ elements }) => {
                               ? UserImg
                               : !photo?.includes("http")
                               ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
-                                photo || ""
-                              }`
+                                  photo || ""
+                                }`
                               : UserImg
                           }
                           alt="ww"
@@ -185,25 +185,25 @@ const Header = observer(({ elements }) => {
             <Flex alignItems="center">
               {!isAuth && (
                 <Flex>
-
-                <Link
+                  <Link
                     // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
                     className={clsx(cls.registerLink, cls.registerLinkMobile)}
-
                     title={t("Войти")}
                     href={`/${locale}/auth`}
                   >
                     {t("Войти")}
                   </Link>
                   <Link
-                    className={clsx(cls.registerLink, cls.registerLinkMobile,cls.registerLinkMobileRes)}
+                    className={clsx(
+                      cls.registerLink,
+                      cls.registerLinkMobile,
+                      cls.registerLinkMobileRes
+                    )}
                     title={t("Зарегистрироваться")}
                     href={`/${locale}/auth/registration`}
-
                   >
                     {t("Зарегистрироваться")}
                   </Link>
-               
                 </Flex>
               )}
               <button className={cls.burgerBtn} onClick={handleToggleNav}>

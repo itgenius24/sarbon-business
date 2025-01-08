@@ -194,7 +194,7 @@ export const TableComponent = ({ watch, formState }) => {
     );
     if (isCheckboxChecked) {
       return (
-        provisionsData.length === 0 &&
+        provisionsData?.length === 0 &&
         item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
