@@ -19,13 +19,13 @@
   .stepTitle {
     font-weight: 600;
     font-size: 20px;
-    color: rgba(16, 24, 40, 1);
+    color: var(--primary-text);
     //   margin-top: 9px;
   }
   .stepTitle2 {
     font-weight: 600;
     font-size: 20px;
-    color: rgba(16, 24, 40, 1);
+    color: var(--primary-text);
     margin-bottom: 12px;
     span {
       font-size: 12px;
@@ -71,7 +71,7 @@
   .label {
     font-size: 14px;
     font-weight: 500;
-    color: rgba(33, 31, 38, 1);
+    color: var(--primary-text);
   }
   .title {
     font-weight: 600;

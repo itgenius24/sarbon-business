@@ -85,7 +85,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 mb={isLargerThan1190 ? "32px" : "10px"}
               >
                 {isLargerThan1190 && (
-                  <Heading size="md">{t("Добавить груз")}</Heading>
+                  <Heading color={`var(--primary-text)`} size="md">{t("Добавить груз")}</Heading>
                 )}
                 <Box className={cls.topButtons} display="flex" columnGap="12px">
                   <Button

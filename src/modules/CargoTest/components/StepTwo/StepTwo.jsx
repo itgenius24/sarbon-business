@@ -186,7 +186,7 @@ const StepTwo = ({ status }) => {
                     mt={"20px"}
                   >
                     <Box width={"154px"}>
-                      <span className={cls.label}>{t(`Когда забрать`)}</span>
+                      <span  className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
                         isDisabled={watch("as_soon_as_a")}
                         onChange={(date) => {

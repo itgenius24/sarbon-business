@@ -31,7 +31,7 @@
   .stepTitle {
     font-weight: 600;
     font-size: 20px;
-    color: rgba(16, 24, 40, 1);
+    color: var(--primary-text);
     margin-top: 5px;
   }
   .adressBtn {
@@ -145,12 +145,13 @@
       cursor: pointer;
     }
   }
-  .label {
-    font-weight: 500;
-    font-size: 14px;
-    color: rgba(16, 24, 40, 1);
-    margin-bottom: 10px;
-  }
+
+}
+.label {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--primary-text);
+  margin-bottom: 10px;
 }
 
 .nextBtn {
