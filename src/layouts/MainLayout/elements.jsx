@@ -57,7 +57,7 @@ export const useElements = () => {
         path: isAuth
           ? `/${lang || "ru"}/my-cars-dispatcher`
           : `/${lang || "ru"}/auth`,
-        label: "Мои машины",
+        label: "Мои водители",
       },
       // {
       //   path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
@@ -92,7 +92,7 @@ export const useElements = () => {
         path: isAuth
           ? `/${lang || "ru"}/my-cars-dispatcher`
           : `/${lang || "ru"}/auth`,
-        label: "Мои машины",
+        label: "Мои водители",
       },
       // {
       //   path: isAuth ? `/${lang || "ru"}/my-cars-dispatcher` : `/${lang || "ru"}/auth`,
