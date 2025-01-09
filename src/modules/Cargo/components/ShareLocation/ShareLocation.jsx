@@ -239,7 +239,7 @@ export const ShareLocationModule = () => {
                           color: `rgba(126, 123, 134, 1)`,
                         }}
                       >
-                        Как можно скорее
+                      {t(`Готов к загрузке`)}
                       </span>
                     </p>
                   ) : (
@@ -293,7 +293,7 @@ export const ShareLocationModule = () => {
                         color: `rgba(126, 123, 134, 1)`,
                       }}
                     >
-                      Как можно скорее
+                     {t(`Как можно скорее`)}
                     </span>
                   </p>
                 ) : (
@@ -487,7 +487,7 @@ export const ShareLocationModule = () => {
                                   </span>
                                   /
                                   {user.cargo_id_data?.as_soon_as_a
-                                    ? `Как можно скорее`
+                                    ? `Готов к загрузке`
                                     : format(
                                         new Date(
                                           user?.cargo_id_data?.load_time

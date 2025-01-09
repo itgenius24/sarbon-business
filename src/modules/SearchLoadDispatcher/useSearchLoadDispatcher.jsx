@@ -78,10 +78,10 @@ export const useSearchLoadDispatcher = () => {
       if (res?.response?.length) {
         setRefe(false);
         const vehicles = [{ trailer_type: t(`Без трейлера`) }];
-      console.log(`res?.response`,res?.response)
         const filteredData = res?.response.map((item) => ({
           ...item,
           guid: item[`_id`],
+          full_name:item?.full_name?.trim(),
           trailer_type_data:
             item?.vehicle_data?.length > 0
               ? item?.vehicle_data
@@ -177,18 +177,20 @@ export const useSearchLoadDispatcher = () => {
   const [isAscendingTime, setIsAscendingTime] = useState(true);
   const [isAscendingDispatcher, setIsAscendingDispatcher] = useState(true);
 
+
   const nameFilter = () => {
-    setFilter1(!filter1);
-    const sortedData = data?.sort(
-      (a, b) =>
+    setFilter1(prev => !prev); // filter1 ni o'zgartirish
+    const sortedData = [...data].sort((a, b) => 
         isAscending
-          ? a?.full_name.localeCompare(b?.full_name) // Alfavit bo'yicha
-          : b?.full_name.localeCompare(a?.full_name) // Teskari alfavit bo'yicha
+            ? a.full_name.localeCompare(b.full_name) // Alfavit bo'yicha
+            : b.full_name.localeCompare(a.full_name) // Teskari alfavit bo'yicha
     );
 
-    setData(() => [...sortedData]);
-    setIsAscending(!isAscending); // Tartibni almashtirish
-  };
+    setData(sortedData); // To'g'ridan-to'g'ri yangilash
+    setIsAscending(prev => !prev); // Tartibni almashtirish
+};
+
+console.log(`oldData`,data)
 
   const nameFilterMawini = () => {
     setFilter2(!filter2);

@@ -345,7 +345,7 @@ export const TopContent = ({
                               color: `rgba(126, 123, 134, 1)`,
                             }}
                           >
-                            {t(`Как можно скорее`)}
+                            {t(`Готов к загрузке`)}
                           </span>
                         </p>
                       ) : (
@@ -709,7 +709,7 @@ export const TopContent = ({
                                   </span>{" "}
                                   /{" "}
                                   {user?.cargo_id_data?.as_soon_as_a
-                                    ? t(`Как можно скорее`)
+                                    ? t(`Готов к загрузке`)
                                     : user?.cargo_id_data?.load_time &&
                                       format(
                                         new Date(

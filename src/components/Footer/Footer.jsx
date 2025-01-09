@@ -135,6 +135,7 @@ export const Footer = () => {
         </div>
         <div className={cls.footerSocials}>
           <div className={cls.mobileApps}>
+            <Box>
             <p className={cls.mobileAppsHeading}>
               {t("Мобильные приложения Furgo")}
             </p>
@@ -179,6 +180,7 @@ export const Footer = () => {
                 </a>
               </li> */}
             </ul>
+            </Box>
           </div>
           <ul className={cls.socialList}>
             <li className={cls.socialItem}>

@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 32px;
-  padding-bottom: 64px;
+  padding-bottom: 32px;
   border-top: 1px solid var(--brand-200);
   border-bottom: 1px solid var(--brand-200);
 }
@@ -58,12 +58,14 @@
 .mobileApps {
   display: flex;
   align-items: center;
-  column-gap: 16px;
+  // column-gap: 16px;
 }
 
 .mobileAppsHeading {
-  color: var(--primary);
+  color: var(--brand-500);
+
   font-weight: 500;
+  margin-bottom: 10px
 }
 
 .mobileAppList {

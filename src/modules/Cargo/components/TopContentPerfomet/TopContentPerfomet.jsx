@@ -183,7 +183,6 @@ export const TopContentPerfomet = () => {
     }
   }, [getDriverPosition?.response]);
 
-  console.log(`userData`, userData?.[0]);
 
   return (
     <Box>
@@ -350,7 +349,7 @@ export const TopContentPerfomet = () => {
                                 </span>
                                 /
                                 {user.cargo_id_data?.as_soon_as_a
-                                  ? t(`Как можно скорее`)
+                                  ? t(`Готов к загрузке`)
                                   : format(
                                       new Date(
                                         user?.cargo_id_data?.load_time

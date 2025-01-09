@@ -111,7 +111,7 @@ const { t } = useTranslation();
               <p className={cls.cardStartTitle}>{loadState?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
-                <span>{  loadState?.as_soon_as_a ? t( `Как можно скорее`) :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                <span>{  loadState?.as_soon_as_a ? t( `Готов к загрузке`) :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>

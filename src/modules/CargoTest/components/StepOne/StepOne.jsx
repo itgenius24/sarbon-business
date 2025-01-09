@@ -46,7 +46,6 @@ const StepOne = ({ status }) => {
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
   return (
     <Box className={cls.containerCards}>
       <Box className={cls.step1}>
@@ -110,7 +109,16 @@ const StepOne = ({ status }) => {
                     >
                       ДСП,
                     </p>
-                    <p o className={cls.quickWord}>
+                    <p 
+                    onClick={() => {
+                        setValue(`cargo_type_search`, "Овощи и фрукты");
+
+                        setValue(`cargo_type`, {
+                          label: "Овощи и фрукты",
+                          value: "7ae3dfbf-101a-43dc-ac74-364fcd0f6211",
+                        });
+                      }}
+                     className={cls.quickWord}>
                       Овощи и фрукты
                     </p>
                   </Flex>

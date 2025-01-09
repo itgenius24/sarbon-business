@@ -108,7 +108,7 @@ export const Performed = ({
                 {cargo?.cargo_id_data?.address_id_data?.name}
                 <span>
                   {cargo?.cargo_id_data?.as_soon_as_a
-                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(`Как можно скорее`)}`
+                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(`Готов к загрузке`)}`
                     : cargo?.cargo_id_data?.load_time &&
                       format(
                         new Date(cargo?.cargo_id_data?.load_time).setHours(

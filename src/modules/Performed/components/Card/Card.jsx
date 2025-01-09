@@ -58,8 +58,8 @@ const Card = ({ item, t, ...props }) => {
               )}
               <br />
               <span className={cls.subTitle}>
-                {item?.cargo_id_data?.load_time &&
-                  format(item?.cargo_id_data?.load_time, `yyyy-MM-dd`)}{" "}
+                {!item?.cargo_id_data?.as_soon_as_a ?
+                  format(item?.cargo_id_data?.load_time, `yyyy-MM-dd`) : t(`Готов к загрузке`)}{" "}
                 ~ {item?.distance || 0} {t("км")}
               </span>
             </p>
@@ -105,8 +105,8 @@ const Card = ({ item, t, ...props }) => {
               )}
               <br />
               <span className={cls.subTitle}>
-                {item?.cargo_id_data?.date &&
-                  format(item?.cargo_id_data?.date, `yyyy-MM-dd`)}
+                {!item?.cargo_id_data?.as_soon_as_b ?
+                  format(item?.cargo_id_data?.date, `yyyy-MM-dd`): t(`Как можно скорее`)}
               </span>
             </p>
           </Box>

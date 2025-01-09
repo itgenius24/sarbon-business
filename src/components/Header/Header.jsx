@@ -23,7 +23,6 @@ const Header = observer(({ elements }) => {
   // const [isAuth, setAuth] = useState(false);
 
   const isAuth = authStore.getIsAuth;
-  console.log(`isAuth`, isAuth);
   const pathname = usePathname();
 
   const locale = useGetLang();
@@ -33,6 +32,7 @@ const Header = observer(({ elements }) => {
   // useEffect(() => {
   //   setAuth(authStore.getIsAuth);
   // }, [authStore.getIsAuth]);
+
 
   const goToProfile = () => {
     router.push(`/${locale}/profile`);

@@ -33,17 +33,16 @@ const useStepTwoProps = () => {
   ]);
   const [yMaps, setYMaps] = useState(null);
   const yandexMapRef = useRef(undefined);
-  const { control, register, watch, setValue, errors, canEdit, getValues,handleResetForm } =
-    useAddCargoContext();
-
-  // useEffect(() => {
-  //   if(canEdit && watch(`as_soon_as_a`)){
-  //     setas_soon_as_a(true)
-
-  //   } else{
-  //     setas_soon_as_a(false)
-  //   }
-  // },[canEdit,watch(`as_soon_as_a`)])
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    errors,
+    canEdit,
+    getValues,
+    handleResetForm,
+  } = useAddCargoContext();
 
   useEffect(() => {
     if (canEdit && watch(`as_soon_as_b`)) {
@@ -62,8 +61,14 @@ const useStepTwoProps = () => {
     // });
   };
 
-  console.log(`salom`, watch(`as_soon_as_b`));
-
+  useEffect(() => {
+    if (
+      (watch(`addressFrom`)?.length <= 0 || watch(`addressTo`)?.length <= 0) &&
+      activeIndex
+    ) {
+      setValue(activeIndex, ``);
+    }
+  }, [watch(`addressFrom`), watch(`addressTo`)]);
   const handLeCheck2 = (e) => {
     setas_soon_as_b(e.target.checked);
     setValue(`as_soon_as_b`, e.target.checked);
@@ -86,8 +91,9 @@ const useStepTwoProps = () => {
     watch(`loadings[0].from_date`),
     watch(`as_soon_as_a`),
     watch(`as_soon_as_b`),
-    watch("unloading[0].from_date")
+    watch("unloading[0].from_date"),
   ]);
+
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
   }
@@ -179,8 +185,6 @@ const useStepTwoProps = () => {
     });
   }
 
-  console.log(`countryCode`, watch(`unloading`), watch(`unloading`));
-
   const hanleAdress = (location, name, index, type, id) => {
     if (id) {
       const period_ids = watch(`period_ids`) || [];
@@ -191,7 +195,9 @@ const useStepTwoProps = () => {
     }
     setValue(
       name,
-      `${location?.GeoObject?.name}, ${location?.GeoObject?.description ? location?.GeoObject?.description :``}`
+      `${location?.GeoObject?.name}, ${
+        location?.GeoObject?.description ? location?.GeoObject?.description : ``
+      }`
     );
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
@@ -261,7 +267,6 @@ const useStepTwoProps = () => {
     const coordinates = e.get("coords");
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);
-
     setValue("cor", coordinates.join(","));
   }
 
@@ -326,7 +331,7 @@ const useStepTwoProps = () => {
     loadingNumF,
     handLeCheck,
     handLeCheck2,
-    handleResetForm
+    handleResetForm,
   };
 };
 

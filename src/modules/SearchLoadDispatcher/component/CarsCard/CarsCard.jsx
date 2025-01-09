@@ -141,6 +141,7 @@ export const CarsCard = forwardRef(({ item, handleCheckboxChange, ids, index,con
               <span className={cls.subTitle}>{t(`Без диспетчера`)}</span>
               <Checkbox
                 id={item?.guid}
+                defaultChecked={ids.includes(item?.guid)}
                 onClick={() => handleCheckboxChange(item)}
               ></Checkbox>
             </>

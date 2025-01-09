@@ -117,7 +117,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   function handleEditActiveToggle() {
     setCanEditActive(true);
   }
-  console.log("canEditActive", canEdit);
 
   function handleOpenDeletePopup() {
     setPopupOpen(true);
@@ -1026,7 +1025,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
   }
 
-  console.log(`price_prepayment`, watch(`prepayment`));
 
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
@@ -1189,7 +1187,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
   }, [temlateVal, getTempCargo.data?.response]);
 
-  console.log(`addCargoProps.address2`, data);
 
   return {
     register,

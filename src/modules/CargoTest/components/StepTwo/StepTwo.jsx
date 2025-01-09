@@ -64,7 +64,7 @@ const StepTwo = ({ status }) => {
     onCreateCargoSuccess,
     handLeCheck,
     handLeCheck2,
-    handleResetForm
+    handleResetForm,
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -130,7 +130,8 @@ const StepTwo = ({ status }) => {
                       register={register}
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
-                          setAddress(e.target.value);
+                        setAddress(e.target.value);
+                        setValue(`addressFrom`,e.target.value)
                       }}
                       name={`loadings[${index}].address`}
                       additionalOnclick={() =>
@@ -186,7 +187,7 @@ const StepTwo = ({ status }) => {
                     mt={"20px"}
                   >
                     <Box width={"154px"}>
-                      <span  className={cls.label}>{t(`Когда забрать`)}</span>
+                      <span className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
                         isDisabled={watch("as_soon_as_a")}
                         onChange={(date) => {
@@ -233,7 +234,7 @@ const StepTwo = ({ status }) => {
                         defaultChecked={watch(`as_soon_as_a`)}
                         onChange={(e) => handLeCheck(e)}
                       >
-                       {t(`Как можно скорее`)}
+                        {t(`Готов к загрузке`)}
                       </Checkbox>
                     </Box>
                   </Flex>
@@ -246,7 +247,7 @@ const StepTwo = ({ status }) => {
                       defaultChecked={watch(`as_soon_as_a`)}
                       onChange={(e) => handLeCheck(e)}
                     >
-                      {t(`Как можно скорее`)}
+                      {t(`Готов к загрузке`)}
                     </Checkbox>
                   </Box>
                 </Box>
@@ -340,6 +341,8 @@ const StepTwo = ({ status }) => {
                       onChange={(e) => {
                         setActiveIndex(`unloading[${index}].address`),
                           setAddress(e.target.value);
+                          setValue(`addressTo`,e.target.value)
+
                       }}
                       name={`unloading[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -427,7 +430,7 @@ const StepTwo = ({ status }) => {
                         defaultChecked={watch(`as_soon_as_b`)}
                         onChange={(e) => handLeCheck2(e)}
                       >
-                        Как можно скорее
+                        {t(`Как можно скорее`)}
                       </Checkbox>
                     </Box>
                   </Flex>

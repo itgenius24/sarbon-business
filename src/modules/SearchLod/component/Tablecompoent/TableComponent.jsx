@@ -248,7 +248,7 @@ export const TableComponent = ({ watch, formState }) => {
     }
   };
 
-  console.log(`filteredData`, filteredData);
+  console.log(`filteredData`, dataRes);
 
   return (
     <>
@@ -283,7 +283,7 @@ export const TableComponent = ({ watch, formState }) => {
                 setCarId(item);
                 setCenterModalType(true);
               }}
-              key={item?.id}
+              key={item?.guid}
               cls={cls}
               item={item}
             />

@@ -71,7 +71,7 @@ export const LoadsCard = forwardRef(
                     {cargo?.address_id_data?.name}
                     <span>
                       {cargo?.as_soon_as_a
-                        ? `${cargo?.country_code_from?.toUpperCase()} / ${t(`Как можно скорее`)}`
+                        ? `${cargo?.country_code_from?.toUpperCase()} / ${t(`Готов к загрузке`)}`
                         : cargo?.load_time &&
                           format(
                             new Date(cargo?.load_time).setHours(

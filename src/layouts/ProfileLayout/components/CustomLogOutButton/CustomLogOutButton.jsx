@@ -23,7 +23,7 @@ export const CustomLogOutButton = () => {
 
   const handleLogOut = async () => {
     await authStore.logout();
-    router.push(`/${locale}/auth/login`);
+    router.push(`/${locale ? locale :`ru`}/auth/login`);
   };
 
   // const handleLogOut = () => {
