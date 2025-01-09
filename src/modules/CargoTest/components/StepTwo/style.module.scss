@@ -86,8 +86,10 @@
     }
   }
 
-  &:last-child {
-    margin-top: -15px;
+  @media (max-width:600px) {
+    &:last-child {
+      margin-top: -15px;
+    }
   }
 }
 
