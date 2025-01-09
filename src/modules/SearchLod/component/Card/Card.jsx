@@ -90,7 +90,7 @@ export const Card = ({ item, cls, ...props }) => {
                 {item?.as_soon_as_a
                   ? t("Готов к загрузке")
                   : item?.load_time && format(item?.load_time, `yyyy-MM-dd`)}
-                ~ 3450 km
+                {/* ~ 3450 km */}
               </span>
             </p>
           </Box>
