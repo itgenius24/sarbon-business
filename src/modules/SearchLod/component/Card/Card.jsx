@@ -153,20 +153,20 @@ export const Card = ({ item, cls, ...props }) => {
           </Flex>
         </Flex>
 
-        <span className={cls.subTitle}>{t("Пиломатериалы")}</span>
+        <span className={cls.subTitle}>{item?.product_type}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
-        <p className={cls.title}>{item?.vehicle_type_id_data?.name}</p>
+        <p className={cls.title}>{item?.car_type}</p>
         <span className={cls.subTitle}>{t("Задняя")}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
         {item?.bid_cash ? (
           <>
             <p className={cls.title}>
-              {item?.bid_cash} {item?.currency_id_data?.code}
+              {item?.bid_cash} {item?.currency_id_data?.[0]?.code}
               <span className={cls.subTitle1}>
-                {item?.map_id_data?.payment_type
-                  ? ` ${item?.map_id_data?.payment_type}`
+                {item?.payment_type
+                  ? ` ${item?.payment_type}`
                   : t(" Безнал")}
               </span>
             </p>
@@ -191,18 +191,18 @@ export const Card = ({ item, cls, ...props }) => {
           <Avatar
             width={`50px`}
             height={`50px`}
-            src={process.env.NEXT_PUBLIC_MEDIA_URL + item?.users_id_data?.photo}
+            src={process.env.NEXT_PUBLIC_MEDIA_URL + item?.customer_data?.[0]?.photo}
             fontSize={`16px`}
-            name={item?.users_id_data?.full_name}
+            name={item?.customer_data?.[0]?.full_name}
           />
           <Box>
             <Flex alignItems={`center`} gap={2}>
               <span className={cls.subTitle}>
-                {item?.users_id_data?.full_name}
+                {item?.customer_data?.[0]?.full_name}
               </span>
               <GalichkaIcon />
             </Flex>
-            <p className={cls.tel}>{item?.users_id_data?.phone}</p>
+            <p className={cls.tel}>{item?.customer_data?.[0]?.phone}</p>
           </Box>
         </Flex>
       </Box>

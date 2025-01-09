@@ -103,7 +103,7 @@ export const TableComponent = ({ watch, formState }) => {
           only_for_me: watch(`only_for_me`) || 0,
           firm_id,
           page: 1,
-          limit:100,
+          limit:50,
         },
       },
     };
