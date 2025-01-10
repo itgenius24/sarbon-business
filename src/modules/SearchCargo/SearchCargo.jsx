@@ -163,7 +163,7 @@ export const SearchCargoModule = () => {
                       name="car_country"
                       options={countries?.map((item) => ({
                         ...item,
-                        label: item[`name_${locale}`],
+                        label: item[`name_${locale ? locale :`ru`}`],
                         value: item?.code,
                       }))}
                       errors={errors}
