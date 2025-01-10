@@ -19,6 +19,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import useClipboard from "react-use-clipboard";
+import { normalizeName } from "@/utils/normalizeName";
 
 export const useMyCars = () => {
   const searchParams = useSearchParams();
@@ -113,7 +114,7 @@ export const useMyCars = () => {
     if (id) {
       updateDsate({
         data: {
-          full_name: val.full_name,
+          full_name: normalizeName(val.full_name),
           phone: val?.phone,
           firm_id,
           // password:val?.password,
