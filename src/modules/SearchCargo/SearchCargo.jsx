@@ -490,45 +490,45 @@ export const SearchCargoModule = () => {
                       setValue(
                         "eco_standart",
                         {
-                          label: "EURO_4",
-                          value: "EURO_4",
+                          label: "Евро-4",
+                          value: "Евро-4",
                         },
                         { shouldValidate: true, shouldDirty: true }
                       )
                     }
                     className={cls.quickWord}
                   >
-                    EURO_4,
+                    Евро-4,
                   </p>
                   <p
                     onClick={() =>
                       setValue(
                         "eco_standart",
                         {
-                          label: "EURO_5",
-                          value: "EURO_5",
+                          label: "Евро-5",
+                          value: "Евро-5",
                         },
                         { shouldValidate: true, shouldDirty: true }
                       )
                     }
                     className={cls.quickWord}
                   >
-                    EURO_5
+                    Евро-5
                   </p>
                   <p
                     onClick={() =>
                       setValue(
                         "eco_standart",
                         {
-                          label: "EURO_6",
-                          value: "EURO_6",
+                          label: "Евро-6",
+                          value: "Евро-6",
                         },
                         { shouldValidate: true, shouldDirty: true }
                       )
                     }
                     className={cls.quickWord}
                   >
-                    EURO_6
+                    Евро-6
                   </p>
                 </Flex>
               </Box>
@@ -558,7 +558,7 @@ export const SearchCargoModule = () => {
                       setValue(
                         "fuel_id",
                         {
-                          label: "dizel",
+                          label: "Дизель",
                           value: "187c327c-626d-4531-90f8-93408a011a7b",
                         },
                         { shouldValidate: true, shouldDirty: true }
@@ -566,14 +566,14 @@ export const SearchCargoModule = () => {
                     }
                     className={cls.quickWord}
                   >
-                    dizel,
+                    Дизель,
                   </p>
                   <p
                     onClick={() =>
                       setValue(
                         "fuel_id",
                         {
-                          label: "benzin",
+                          label: "Бензин",
                           value: "5f8a08e3-c934-4149-9565-26929111a6c6",
                         },
                         { shouldValidate: true, shouldDirty: true }
@@ -581,14 +581,14 @@ export const SearchCargoModule = () => {
                     }
                     className={cls.quickWord}
                   >
-                    benzin
+                    Бензин,
                   </p>
                   <p
                     onClick={() =>
                       setValue(
                         "fuel_id",
                         {
-                          label: "metan",
+                          label: "Метан",
                           value: "efaf36e8-0261-4a0a-92fb-975464dbf01e",
                         },
                         { shouldValidate: true, shouldDirty: true }
@@ -596,7 +596,7 @@ export const SearchCargoModule = () => {
                     }
                     className={cls.quickWord}
                   >
-                    metan
+                    Метан
                   </p>
                 </Flex>
               </Box>

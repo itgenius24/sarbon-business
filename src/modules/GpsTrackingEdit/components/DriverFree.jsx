@@ -248,6 +248,24 @@ const DriverFree = ({
               </Flex>
             </Flex>
           </Flex>
+          <Flex
+            p={`10px 0px`}
+            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+            width={"100%"}
+            justifyContent={"space-between"}
+          >
+            <span style={{fontWeight:400}}>{t(`Тип топлива`)}</span>
+            <span>{contendSingle?.vehicles?.[0]?.fuel_id_data?.name}</span>
+          </Flex>
+          <Flex
+            p={`10px 0px`}
+            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+            width={"100%"}
+            justifyContent={"space-between"}
+          >
+            <span style={{fontWeight:400}}>{t(`Экологический класс`)}</span>
+            <span>{contendSingle?.vehicles?.[0]?.eco_standart}</span>
+          </Flex>
           <Flex pt={`10px`} width={"100%"} justifyContent={"space-between"}>
             <Flex gap={`5px`} alignItems={`center`}>
               <Tooltip

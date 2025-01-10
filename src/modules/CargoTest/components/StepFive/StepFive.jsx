@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { use, useEffect, useState } from "react";
 import cls from "./style.module.scss";
@@ -27,7 +28,7 @@ import {
   useGetPaymentType,
   useUpdateCargo,
 } from "@/services/api";
-import { CheckModalIcon, ModalGruzIcon } from "@/assets/icons/icons";
+import { CheckModalIcon, ModalGruzIcon, QuestionIcon } from "@/assets/icons/icons";
 import { addDaysToDate } from "@/utils/addDaysToDate";
 import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
@@ -90,8 +91,6 @@ const StepFive = ({ status }) => {
       setValue(`payment_type_2`, paymentOptions?.[0]);
     }
   }, [paymentOptions]);
-
- 
 
   const getLoadings =
     (loadings?.length > 0 &&
@@ -191,6 +190,7 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
+        notification:watch(`notification`) ? watch(`notification`) :false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
         measurement_id: watch(`weight_unit`)?.value,
@@ -273,6 +273,7 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
+        notification:watch(`notification`) ? watch(`notification`) :false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
         measurement_id: watch(`weight_unit`)?.value,
@@ -351,32 +352,6 @@ const StepFive = ({ status }) => {
     };
     createCargo.mutate(requestData);
 
-    // let loadingsData = loadings.map((item, index) => ({
-    //   address: item?.address,
-    //   date: new Date(item.from_date),
-    //   lat: item?.cor.split(" ")[0],
-    //   long: item?.cor.split(" ")[1],
-    //   step: index + 1,
-    //   type: ["shipper"],
-    //   expectations: +item.loading_num || 0,
-    // }));
-
-    // let unloadinData = unloading.map((item, index) => ({
-    //   address: item?.address,
-    //   date: new Date(item.to_date),
-    //   lat: item?.cor.split(" ")[0],
-    //   long: item?.cor.split(" ")[1],
-    //   step: index + 1,
-    //   type: ["consignee"],
-    // }));
-    // createAddress.mutate({
-    //   data: {
-    //     object_data: {
-    //       name: loadingsData.concat(unloadinData),
-    //       cargo_id: watch(`loadResId`),
-    //     },
-    //   },
-    // });
   };
 
   console.log(`salom`, watch("payment_type"));
@@ -402,10 +377,16 @@ const StepFive = ({ status }) => {
   return (
     <Box className={cls.containerCards}>
       <Box className={cls.step1}>
-        <Flex className={cls.itemWrap} alignItems={"center"} justifyContent={"flex-start"}>
+        <Flex
+          className={cls.itemWrap}
+          alignItems={"center"}
+          justifyContent={"flex-start"}
+        >
           <Box className={cls.box} width={"40%"}>
             <h2 className={cls.title}>{t(`Ваши контакты`)}</h2>
-            <p className={cls.deck}>{t(`укажите, к кому обратиться по объявлению`)}</p>
+            <p className={cls.deck}>
+              {t(`укажите, к кому обратиться по объявлению`)}
+            </p>
           </Box>
           <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
@@ -426,11 +407,18 @@ const StepFive = ({ status }) => {
             />
           </Box>
         </Flex>
-        <Flex className={cls.itemWrap}  mt={4} alignItems={"center"} justifyContent={"flex-start"}>
+        <Flex
+          className={cls.itemWrap}
+          mt={4}
+          alignItems={"center"}
+          justifyContent={"flex-start"}
+        >
           <Box className={cls.box} width={"40%"}>
             <h2 className={cls.title}>{t(`Комментарий`)}</h2>
-            <p style={{lineHeight:`18px`}} className={cls.deck}>
-             {t(`Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.`)}
+            <p style={{ lineHeight: `18px` }} className={cls.deck}>
+              {t(
+                `Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.`
+              )}
             </p>
           </Box>
           <Box className={cls.itemSubWrap} width={"50%"}>
@@ -452,7 +440,7 @@ const StepFive = ({ status }) => {
         </Flex>
       </Box>
       {!status && (
-        <Box  className={cls.footerWrap} mt="32px">
+        <Box className={cls.footerWrap} mt="32px">
           {/* <Checkbox name="accept" register={register} filled>
             <Text fontSize="14px" maxWidth="396px" width="100%">
               {t("Нажимая кнопку, вы принимаете условия")}{" "}
@@ -461,6 +449,24 @@ const StepFive = ({ status }) => {
               </a>
             </Text>
           </Checkbox> */}
+
+          <Checkbox
+            defaultChecked={watch(`notification`)}
+            name="notification"
+            register={register}
+          >
+            <Flex gap={1} alignItems={`center`}>
+              <Text fontSize="14px" maxWidth="396px" width="100%">
+                {t("Уведомить водителей об этом грузе")}
+              </Text>
+              <Tooltip boxShadow={`none`} hasArrow placement="top" fontWeight={400} fontSize={`14px`} background={`rgba(219, 216, 227, 1)`} borderRadius={`4px`} color={`black`} label={t(`После модерации уведомление о грузе будет отправлено всем водителям из базы Sarbon`)}>
+                 <div>
+                  <QuestionIcon />
+                 </div>
+              </Tooltip>
+            </Flex>
+
+          </Checkbox>
           <Box
             mt="16px"
             display="flex"
@@ -481,7 +487,6 @@ const StepFive = ({ status }) => {
             </Button>
             <Button
               className={cls.button}
-
               onClick={handleOpenTemplateModal}
               // isLoading={loading}
               size="md"
@@ -502,9 +507,10 @@ const StepFive = ({ status }) => {
         onClose={handleCloseTemplateModal}
         secondBtnCallback={() => shablonF()}
         isDisabled={!watch("template_name")}
-        secondBtnProps={{ isLoading: createCargo.isPending || createAddress.isPending }}
+        secondBtnProps={{
+          isLoading: createCargo.isPending || createAddress.isPending,
+        }}
         secondBtnText={t("Сохранить")}
-        
       >
         <TextField
           register={register}

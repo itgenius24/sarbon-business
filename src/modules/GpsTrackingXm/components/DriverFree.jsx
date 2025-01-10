@@ -96,7 +96,11 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:
                 {format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(
+                    new Date(
+                      contendSingle?.users_gps?.[0]?.update_time
+                    ).getHours() - 5
+                  ),
                   "yyyy-MM-dd, HH:mm"
                 )}
               </p>
@@ -233,24 +237,43 @@ const DriverFree = ({
               label={
                 contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  : t( `Пока нет машины`)
+                  : t(`Пока нет машины`)
               }
             >
               <p>
                 {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  : t( `Пока нет машины`)}
+                  : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity   } т.
+                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity} т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height   } m3
+                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
+          </Flex>
+
+          <Flex
+            p={`10px 0px`}
+            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+            width={"100%"}
+            justifyContent={"space-between"}
+          >
+            <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
+            <span>{contendSingle?.vehicles?.[0]?.fuel_id_data?.name}</span>
+          </Flex>
+          <Flex
+            p={`10px 0px`}
+            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+            width={"100%"}
+            justifyContent={"space-between"}
+          >
+            <span style={{ fontWeight: 400 }}>{t(`Экологический класс`)}</span>
+            <span>{contendSingle?.vehicles?.[0]?.eco_standart}</span>
           </Flex>
           <Flex pt={`10px`} width={"100%"} justifyContent={"space-between"}>
             <Flex gap={`5px`} alignItems={`center`}>
@@ -322,7 +345,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenCanseleOutline}
           >
-             {t(`Сломалась`)}
+            {t(`Сломалась`)}
           </Button>
         ) : (
           <Button
@@ -335,7 +358,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenOutline}
           >
-             {t(`Машина cвободна`)}
+            {t(`Машина cвободна`)}
           </Button>
         )}
 

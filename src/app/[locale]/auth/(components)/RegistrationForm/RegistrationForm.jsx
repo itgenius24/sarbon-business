@@ -293,7 +293,6 @@ export const RegistrationForm = () => {
                     <Box>
                       <p className={cls.label}>Имя и фамилия руководителя </p>
                       <TextField
-                        // label="Имя"
                         name="full_name"
                         register={register}
                         placeholder={t("Имя фамилия...")}

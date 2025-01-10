@@ -14,6 +14,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { normalizeName } from "@/utils/normalizeName";
 
 export const useRegistrationFormProps = () => {
   const locale = useGetLang();
@@ -148,7 +149,7 @@ export const useRegistrationFormProps = () => {
               ? clientTypeOptions[1].value
               : "a25d605c-d153-4ddf-8590-e4cda176ef93",
           phone: phone,
-          full_name: watch(`full_name`),
+          full_name: normalizeName(watch(`full_name`)),
           login: watch(`login`),
           password: watch(`password`),
           firm_id: data?.guid,

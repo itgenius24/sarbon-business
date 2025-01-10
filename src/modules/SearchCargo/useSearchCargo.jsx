@@ -57,12 +57,12 @@ export const useSearchCargo = () => {
     { label: 9, value: `ADR 9` },
   ];
   const euroTypeOptions = [
-    { label: `EURO 1`, value: `EURO_1` },
-    { label: `EURO 2`, value: `EURO_2` },
-    { label: `EURO 3`, value: `EURO_3` },
-    { label: `EURO 4`, value: `EURO_4` },
-    { label: `EURO 5`, value: `EURO_5` },
-    { label: `EURO 6`, value: `EURO_6` },
+    { label: `Евро-1`, value: `Евро-1` },
+    { label: `Евро-2`, value: `Евро-2` },
+    { label: `Евро-3`, value: `Евро-3` },
+    { label: `Евро-4`, value: `Евро-4` },
+    { label: `Евро-5`, value: `Евро-5` },
+    { label: `Евро-6`, value: `Евро-6` },
   ];
 
   const toast = useToast();
@@ -151,7 +151,6 @@ export const useSearchCargo = () => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
 
-      console.log(`useList`, useList);
 
       reset({
         ...useList?.response,
@@ -260,7 +259,8 @@ export const useSearchCargo = () => {
     }
   };
 
-  console.log(`err`,Object.values(errors))
+  console.log(`useList`, fuel?.response);
+
 
   return {
     t,

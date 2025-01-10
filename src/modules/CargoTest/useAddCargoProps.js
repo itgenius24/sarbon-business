@@ -666,7 +666,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         ? [watch(`order_status`)?.value]
         : ["in_moderation"],
       guid: id,
-      updated_time:new Date()
+      updated_time: new Date(),
     };
 
     updateCargo.mutate({ data });
@@ -1021,10 +1021,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           label: data?.load_type_id_data?.name,
         },
         money_code: data?.money_code,
+        notification: data.notification ? data.notification : false,
       });
     }
   }
-
 
   useEffect(() => {
     if (getCargo.isSuccess || getOfferCargoById.isSuccess) {
@@ -1186,7 +1186,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       return getTempCargo.data?.response;
     }
   }, [temlateVal, getTempCargo.data?.response]);
-
 
   return {
     register,
