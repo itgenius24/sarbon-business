@@ -64,6 +64,8 @@ export const TableComponent = ({ watch, formState }) => {
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
 
+  console.log(`carId`, carId);
+
   const { data } = useGetCargoList({
     params: {
       data: JSON.stringify({
@@ -103,7 +105,7 @@ export const TableComponent = ({ watch, formState }) => {
           only_for_me: watch(`only_for_me`) || 0,
           firm_id,
           page: 1,
-          limit:50,
+          limit: 50,
         },
       },
     };
@@ -177,29 +179,28 @@ export const TableComponent = ({ watch, formState }) => {
 
   const handleSelect = (guid) => {
     if (selectCargo.includes(guid)) {
-      // Agar ID allaqachon tanlangan bo'lsa, uni olib tashlaymiz
       setSelectCargo(selectCargo.filter((selectedId) => selectedId !== guid));
     } else {
-      // Agar ID tanlanmagan bo'lsa, uni arrayga qo'shamiz
       setSelectCargo([...selectCargo, guid]);
     }
   };
 
   const filteredData = dataUser?.filter((item) => {
-    // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
     const provisionsData = item?.orders?.filter(
       (item) =>
         item.provisions?.includes(`performed`) ||
-        item.provisions?.includes(`approve_from_driver`)
+        item.provisions?.includes(`approve_from_driver`) ||
+        item.provisions?.includes(`new_proposal_from_director`) ||
+        item.provisions?.includes(`approve_by_customer`)
     );
+    console.log(`provisionsData`,provisionsData)
     if (isCheckboxChecked) {
       return (
-        provisionsData?.length === 0 &&
-        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
+        (provisionsData?.length === 0 && item?.user?.full_name.toLowerCase().includes(search.toLowerCase()))
       );
+    }else{
+      return  (provisionsData?.length > 0 && item?.user?.full_name.toLowerCase().includes(search.toLowerCase()));
     }
-    // Agar checkbox tanlanmagan bo'lsa, faqat search natijasini ko'rsatish
-    return item?.user?.full_name.toLowerCase().includes(search.toLowerCase());
   });
 
   const handlePred = () => {
@@ -207,10 +208,10 @@ export const TableComponent = ({ watch, formState }) => {
       data: {
         object_data: {
           firm_id,
-          cargo_id: carId?.cargo?.guid,
+          cargo_id: carId?.guid,
           driver_ids: selectCargo,
-          cargo_number: carId?.cargo?.number_of_order,
-          customer_id: carId?.cargo?.users_id,
+          cargo_number: carId?.number_of_order,
+          customer_id: carId?.users_id,
         },
       },
     };
@@ -220,9 +221,9 @@ export const TableComponent = ({ watch, formState }) => {
   const handleSort = () => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (sortOrder === "asc") {
-        return a?.cargo?.bid_cash - b.cargo?.bid_cash;
+        return a?.bid_cash - b.bid_cash;
       } else {
-        return b?.cargo?.bid_cash - a?.cargo?.bid_cash;
+        return b?.bid_cash - a?.bid_cash;
       }
     });
     setDataRes(sortedData);
@@ -248,7 +249,7 @@ export const TableComponent = ({ watch, formState }) => {
     }
   };
 
-  console.log(`filteredData`, dataRes);
+  console.log(`filteredData`, filteredData);
 
   return (
     <>
@@ -316,16 +317,28 @@ export const TableComponent = ({ watch, formState }) => {
                   const provisionsData = item?.orders?.filter(
                     (item) =>
                       item.provisions?.includes(`performed`) ||
-                      item.provisions?.includes(`approve_from_driver`)
+                      item.provisions?.includes(`approve_from_driver`) ||
+                      item.provisions?.includes(`new_proposal_from_director`) ||
+                      item.provisions?.includes(`approve_by_customer`)
                   );
-                  console.log(`provisions`,provisionsData?.[0]?.provisions?.includes(`approve_from_driver`))
+                  console.log(`provisions`, provisionsData);
                   return (
                     <CheckBoxComponent
                       key={item?.user?.guid}
                       onClick={() => {
                         if (
-                          provisionsData?.[0]?.provisions?.includes( `performed`) ||
-                          provisionsData?.[0]?.provisions?.includes(`approve_from_driver`)
+                          provisionsData?.[0]?.provisions?.includes(
+                            `performed`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_from_driver`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `new_proposal_from_director`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_by_customer`
+                          )
                         ) {
                           // deleteOrder(item) emas, faqat onOpen() chaqirildi
                         } else {
@@ -334,14 +347,34 @@ export const TableComponent = ({ watch, formState }) => {
                       }}
                       active={selectCargo.includes(item?.user?.guid)}
                       status={
-                        provisionsData?.[0]?.provisions?.includes( `performed`) ||
-                        provisionsData?.[0]?.provisions?.includes(`approve_from_driver`)
+                        provisionsData?.[0]?.provisions?.includes(
+                          `performed`
+                        ) ||
+                        provisionsData?.[0]?.provisions?.includes(
+                          `approve_from_driver`
+                        ) ||
+                        provisionsData?.[0]?.provisions?.includes(
+                          `new_proposal_from_director`
+                        ) ||
+                        provisionsData?.[0]?.provisions?.includes(
+                          `approve_by_customer`
+                        )
                       }
                     >
-                      {provisionsData?.[0]?.provisions?.includes( `performed`) ||
-                      provisionsData?.[0]?.provisions?.includes(`approve_from_driver`) ? (
+                      {provisionsData?.[0]?.provisions?.includes(`performed`) ||
+                      provisionsData?.[0]?.provisions?.includes(
+                        `approve_from_driver`
+                      ) ||
+                      provisionsData?.[0]?.provisions?.includes(
+                        `new_proposal_from_director`
+                      ) ||
+                      provisionsData?.[0]?.provisions?.includes(
+                        `approve_by_customer`
+                      ) ? (
                         <>
-                          {provisionsData?.[0]?.provisions?.includes( `performed`) && (
+                          {provisionsData?.[0]?.provisions?.includes(
+                            `approve_by_customer`
+                          ) && (
                             <TooltipComponets
                               cls={cls}
                               status={`check`}
@@ -349,8 +382,22 @@ export const TableComponent = ({ watch, formState }) => {
                               color={`rgba(21, 186, 77, 1)`}
                             />
                           )}
-
-                          {provisionsData?.[0]?.provisions?.includes(`approve_from_driver`) && (
+                          {provisionsData?.[0]?.provisions?.includes(
+                            `performed`
+                          ) && (
+                            <TooltipComponets
+                              cls={cls}
+                              status={`check`}
+                              label={`Водитель занят`}
+                              color={`rgba(21, 186, 77, 1)`}
+                            />
+                          )}
+                          {(provisionsData?.[0]?.provisions?.includes(
+                            `approve_from_driver`
+                          ) ||
+                            provisionsData?.[0]?.provisions?.includes(
+                              `new_proposal_from_director`
+                            )) && (
                             <TooltipComponets
                               cls={cls}
                               status={`approve_from_driver`}
@@ -439,7 +486,7 @@ export const TableComponent = ({ watch, formState }) => {
               >
                 {t("Только свободные водители")}
               </Checkbox>
-              
+
               <Flex gap={2}>
                 <Button
                   className={cls.topButton}

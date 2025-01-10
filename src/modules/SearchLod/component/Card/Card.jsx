@@ -28,14 +28,14 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-      {(data?.includes(`approve_from_driver`) ||
+      {(
+        data?.includes(`approve_from_driver`) ||
+        data?.includes(`approve_by_customer`) ||
         data?.includes(`new_proposal_from_director`)) && (
         <TooltipComponets
           cls={cls}
           status={`ss`}
-          label={
-            data?.includes(`approve_from_driver`) ||
-            data?.includes(`new_proposal_from_director`)
+          label={ (data?.includes(`approve_from_driver`) || data?.includes(`new_proposal_from_director`))
               ? t("Ждем подтверждение водителя")
               : t("Ждем подтверждение заказчика")
           }
