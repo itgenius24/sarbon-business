@@ -13,6 +13,8 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramOpasitiyIcon,
+  WatsapOpasitiyIcon,
 } from "@/assets/icons/icons";
 import { flegCountry } from "@/utils/flegCountry";
 import {
@@ -300,6 +302,36 @@ const DriverFree = ({
             </Flex>
           </Flex>
         </Box>
+
+        {contendSingle?.firm_data?.firm_data?.[0] && (
+          <Box style={{ background: `white` }} className={cls.cardWrap}>
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <p className={cls.cardStartSubTitleZTel}>+998 93 0776161 </p>
+                  <a
+                    href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                  >
+                    <TelegramOpasitiyIcon />
+                  </a>
+                  <a
+                    href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                  >
+                    <WatsapOpasitiyIcon />
+                  </a>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        )}
 
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button

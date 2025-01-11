@@ -44,6 +44,7 @@ import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
 import LoadingMap from "../Cargo/components/LoadingMap";
 import copy from "copy-to-clipboard";
 import { ModalS } from "@/components/Modal";
+import CmapAZS from "./components/CmapAZS";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -107,6 +108,7 @@ export default function GpsTrackingDispatcher() {
     stateMap,
     addAdress,
     setLocationData,
+    refueling
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -118,19 +120,37 @@ export default function GpsTrackingDispatcher() {
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
         {/* { isLoading &&  <LoadingSpinnerMap />} */}
-        <Cmap
-          cls={cls}
-          getCarListProps={!isLoading ? getCarListProps : []}
-          coordinates={coordinates}
-          locationData={loadCheck ? locationData : []}
-          setLoadState={setLoadState}
-          setModalType={setModalType}
-          mapIcon={mapIcon}
-          watch={watch}
-          isLoading={isLoading}
-          setContendSingle={setContendSingle}
-          contendHoverState={contendHoverState}
-        />
+        {watch(`refuelingState`) ? (
+          <CmapAZS
+            refueling={refueling}
+            cls={cls}
+            getCarListProps={!isLoading ? getCarListProps : []}
+            coordinates={coordinates}
+            locationData={loadCheck ? locationData : []}
+            setLoadState={setLoadState}
+            setModalType={setModalType}
+            mapIcon={mapIcon}
+            watch={watch}
+            isLoading={isLoading}
+            setContendSingle={setContendSingle}
+            contendHoverState={contendHoverState}
+          />
+        ) : (
+          <Cmap
+            cls={cls}
+            getCarListProps={!isLoading ? getCarListProps : []}
+            coordinates={coordinates}
+            locationData={loadCheck ? locationData : []}
+            setLoadState={setLoadState}
+            setModalType={setModalType}
+            mapIcon={mapIcon}
+            watch={watch}
+            isLoading={isLoading}
+            setContendSingle={setContendSingle}
+            contendHoverState={contendHoverState}
+          />
+        )}
+
         <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>

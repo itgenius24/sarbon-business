@@ -3,6 +3,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useGetCar,
   useGetCarDispatcher,
+  useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
   useGetUserData,
@@ -43,6 +44,7 @@ export const useGpsTrackingProps = () => {
   const [distance, setDistance] = useState(50);
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(1);
+  const [remainingData, setRemainingData] = useState([]);
   const [offsetCar, setOffsetCAr] = useState(0);
   const [contendSingle, setContendSingle] = useState();
   const [iconStatus, setIconStatus] = useState(``);
@@ -358,6 +360,23 @@ export const useGpsTrackingProps = () => {
     });
   };
 
+
+    const { mutate: getCarRefueling } = useGetCarRefueling({
+      onSuccess: (res) => {
+        setRemainingData(res?.data?.data);
+      },
+    });
+  
+    useState(() => {
+      if (remainingData.length === 0) {
+        getCarRefueling({
+          data: {
+            object_data: {},
+          },
+        });
+      }
+    }, []);
+
   const filteredData = filterData(carsArr, checkboxStatuses);
 
   const uniqueData = filteredData.reduce((acc, current) => {
@@ -616,5 +635,6 @@ export const useGpsTrackingProps = () => {
     stateMap,
     addAdress,
     setLocationData,
+    refueling: remainingData,
   };
 };

@@ -34,7 +34,7 @@ const Filter = ({
   setModalType,
   handleInputClear,
   setLoadCheck,
-  loadCheck
+  loadCheck,
 }) => {
   const { t } = useTranslation(locale);
 
@@ -54,9 +54,12 @@ const Filter = ({
             alignItems={"center"}
             gap={"10px"}
           >
-            <FilterIconBlack /> <span className={cls.filterText}>{t("Фильтр")}</span>
+            <FilterIconBlack />{" "}
+            <span className={cls.filterText}>{t("Фильтр")}</span>
           </Flex>
-          <p onClick={() => handleClear()} className={cls.clearBtn}>{t("Сбросить")}</p>
+          <p onClick={() => handleClear()} className={cls.clearBtn}>
+            {t("Сбросить")}
+          </p>
         </Flex>
         <Box className={cls.cardWrap}>
           <TextFieldWithAddition
@@ -139,6 +142,18 @@ const Filter = ({
               onChange={() => setLoadCheck(!loadCheck)}
             >
               {t("Грузы")}
+            </Checkbox>
+            <Checkbox
+              // isLoading={isLoadingRefueling}
+              // isDisabled={isLoadingRefueling}
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={Boolean(watch(`refuelingState`))}
+              onChange={() =>
+                setValue(`refuelingState`, !watch(`refuelingState`))
+              }
+            >
+              {t("Заправки")}
             </Checkbox>
           </Flex>
         </Box>
