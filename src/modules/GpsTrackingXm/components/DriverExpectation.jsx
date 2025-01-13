@@ -111,7 +111,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
         >
           Ждём подтверждение водителя
         </Button>
-        <Box className={cls.cardWrap}>
+        <Box className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
@@ -186,7 +186,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
             </Flex>
           </Flex>
         </Box>
-        <Box className={cls.cardWrap}>
+        <Box className={cls.cardWrapOutline}>
           <Flex gap={2}>
             <div className={cls.startAIconWrap}>
               <div className={cls.startAIcon}>A</div>{" "}
@@ -288,7 +288,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
             </p>
           </Flex>
         </Box>
-        <Box className={cls.cardWrap}>
+        <Box className={cls.cardWrapOutline}>
           <Flex width={"100%"} alignItems={"center"} gap={3}>
             <Avatar
               name={contendSingle?.orders?.[0]?.users_id_3_data?.full_name}

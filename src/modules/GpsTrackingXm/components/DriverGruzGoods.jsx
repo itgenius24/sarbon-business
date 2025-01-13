@@ -100,7 +100,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
           />
         </Flex>
 
-        <Box mt={3} className={cls.cardWrap}>
+        <Box mt={3} className={cls.cardWrapOutline}>
           <Flex gap={2}>
             {/* <div className={cls.startAGoodsIcon}>A</div> */}
             <div className={cls.startAIconWrapGoods}>
@@ -185,7 +185,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
           </Flex>
         </Box>
         {loadState?.users_id_3_data?.guid === authStore.userData.id ? (
-          <Box className={cls.cardWrap}>
+          <Box className={cls.cardWrapOutline}>
             <Flex gap={2} mb={3}>
               <CeckGoodsIcon />
               <Box>
@@ -204,7 +204,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
             </Button>
           </Box>
         ) : (
-          <Box className={cls.cardWrap}>
+          <Box className={cls.cardWrapOutline}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>
               <Avatar
                 name={loadState?.users_id_3_data?.full_name}

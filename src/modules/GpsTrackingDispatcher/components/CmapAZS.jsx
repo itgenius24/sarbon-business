@@ -57,7 +57,7 @@ const CmapAZS = memo(
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
-const { t } = useTranslation();
+    const { t } = useTranslation();
     useEffect(() => {
       setIsClient(true);
     }, []);
@@ -205,40 +205,75 @@ const { t } = useTranslation();
           }}
         >
           {refueling?.map((refuel) => {
-            const BalloonContent = () => (
-              <div className={cls.wrapRefueling}>
-                <div className={cls.topTetxWrap}>
-                  <>
-                    <RefuelingIcon />
-                  </>
-                  <p className={cls.zTitle}>АЗС</p>
-                  {/* <div id="myButton">copy</div> */}
-                </div>
-                <p className={cls.zTitle}>{refuel?.name}</p>
-                <p className={cls.zAdress}>{refuel?.address}</p>
-              </div>
-            );
-            const balloonContent3 = ReactDOMServer.renderToString(
-              <BalloonContent />
-            );
             return (
               <Placemark
-                onClick={() => copyFn(refuel)}
                 key={refuel.guid}
-                properties={{ balloonContent: balloonContent3 }}
+                properties={{
+                  balloonContent: `
+                  <div class="${cls.wrapRefueling}">
+                      <div class="${cls.topTetxWrap}">
+                          <div>${RefuelingIcon}</div>
+                          <p class="${cls.zTitle}">АЗС</p>
+                          <div 
+                              id="copy-button-${refuel.guid}"
+                              style="width:fit contend;cursor: pointer; position: relative; border-bottom:1px dashed rgba(0, 122, 255, 1);color:rgba(0, 122, 255, 1)"
+                          >
+                              ${t(`Поделится локацией`)}
+                              <span 
+                                  id="tooltip-${refuel.guid}" 
+                                  style="
+                                      visibility: hidden;
+                                      position: absolute;
+                                      bottom: -32px;
+                                      right: -5%;
+                                      width:fit contend;
+                                      white-space: nowrap;
+                                      background-color: rgba(0, 122, 255, 1);
+                                      color: #fff;
+                                      padding: 5px;
+                                      font-weight:500;
+                                      border-radius: 4px;
+                                      font-size: 13px;
+                                      z-index: 100000000000;
+                                  "
+                              >
+                                Локациия скопирована
+                              </span>
+                          </div>
+                      </div>
+                      <p class="${cls.zTitle}">${refuel.name}</p>
+                      <p class="${cls.zAdress}">${refuel.address}</p>
+                  </div>
+                `,
+                }}
                 modules={["geoObject.addon.balloon", `templateLayoutFactory`]}
                 geometry={[
                   refuel?.cords?.split(",")?.[0],
                   refuel?.cords?.split(",")?.[1],
                 ]}
                 options={{
-                  // visible: Boolean(watch("refuelingState")),
                   iconLayout: "default#image",
                   iconImageHref:
                     "data:image/svg+xml;charset=UTF-8," +
                     encodeURIComponent(RefuelingIconMap),
                   iconImageSize: [40, 42],
                   iconImageOffset: [-15, -42],
+                }}
+                onBalloonOpen={() => {
+                  const button = document.getElementById(
+                    `copy-button-${refuel.guid}`
+                  );
+                  const tooltip = document.getElementById(
+                    `tooltip-${refuel.guid}`
+                  );
+
+                  button?.addEventListener("click", () => {
+                    copyFn(refuel);
+                    tooltip.style.visibility = "visible";
+                    setTimeout(() => {
+                      tooltip.style.visibility = "hidden";
+                    }, 1500);
+                  });
                 }}
               />
             );
@@ -303,7 +338,7 @@ const { t } = useTranslation();
                           style={{ color: "rgba(126, 123, 134, 1)" }}
                           className={cls.balloonName}
                         >
-                           {t(`Сломалась`)}
+                          {t(`Сломалась`)}
                         </span>
                       </>
                     ) : (
@@ -316,11 +351,11 @@ const { t } = useTranslation();
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
                         <StoneIcon />{" "}
-                        <span> { carInfo?.vehicles?.[0]?.capacity} т.</span>
+                        <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
                       </Box>
 
                       <Box
-                        className={cls.conWrap} 
+                        className={cls.conWrap}
                         gap={1}
                         alignItems={"center"}
                       >
@@ -367,7 +402,7 @@ const { t } = useTranslation();
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -389,7 +424,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -410,7 +445,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -431,7 +466,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -451,7 +486,7 @@ const { t } = useTranslation();
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : (
@@ -472,7 +507,7 @@ const { t } = useTranslation();
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   )}

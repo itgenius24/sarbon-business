@@ -74,7 +74,7 @@ const DriverQuestion = ({
           />
         </Flex>
 
-        <Box className={cls.cardWrap}>
+        <Box className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
@@ -147,7 +147,7 @@ const DriverQuestion = ({
             </Flex>
           </Flex>
         </Box>
-        <Box className={cls.cardWrap}>
+        <Box className={cls.cardWrapOutline}>
           <Flex gap={2}>
             <div className={cls.startAIconWrap}>
               <div className={cls.startAIcon}>A</div>{" "}
@@ -223,7 +223,7 @@ const DriverQuestion = ({
         >
           Занята чужим грузом
         </Button>
-        {/* <Box className={cls.cardWrap}>
+        {/* <Box className={cls.cardWrapOutline}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
             <Avatar  name="B"  />
              <Box>

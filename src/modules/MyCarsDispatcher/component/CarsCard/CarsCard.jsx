@@ -62,21 +62,21 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef,t }) => 
         </Flex>
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
-        {item?.firm_data?.[0] ? (
+        {item?.firm_data ? (
           <Flex alignItems={`center`} gap={`6px`}>
             <Avatar
               size="sm"
-              src={item?.firm_data?.[0]?.logo}
-              name={item?.firm_data?.[0]?.full_name}
+              src={item?.firm_data?.logo}
+              name={item?.firm_data?.full_name}
             />
             <Box>
-              <p className={cls.title}>{item?.firm_data?.[0]?.full_name}</p>
+              <p className={cls.title}>{item?.firm_data?.full_name}</p>
               <a
                 target="_blank"
-                href={`https://t.me/${item?.firm_data?.[0]?.phone_number}`}
+                href={`https://t.me/${item?.firm_data?.phone_number}`}
                 className={cls.tel}
               >
-                {item?.firm_data?.[0]?.phone_number}
+                {item?.firm_data?.phone_number}
               </a>
             </Box>
           </Flex>

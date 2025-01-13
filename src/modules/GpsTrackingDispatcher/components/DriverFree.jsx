@@ -16,6 +16,7 @@ import {
   TelegramOpasitiyIcon,
   WatsapOpasitiyIcon,
 } from "@/assets/icons/icons";
+import { useGetCompanyList } from "@/services/api";
 import { flegCountry } from "@/utils/flegCountry";
 import {
   Avatar,
@@ -59,6 +60,16 @@ const DriverFree = ({
       onClose();
     }, 1000);
   };
+
+
+      const getCompanyList = useGetCompanyList({
+        data: JSON.stringify({ guid: contendSingle?.firm_data?.firm_data?.[0]?.firm_id}),
+        
+      },{
+        enabled:Boolean(contendSingle?.firm_data?.firm_data?.[0]?.firm_id)
+      });
+  
+      console.log(`getCompanyList`,getCompanyList?.data?.response?.[0])
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -89,7 +100,7 @@ const DriverFree = ({
             icon={<CloseIconM />}
           />
         </Flex>
-        <Box mt={`17px`} className={cls.cardWrap}>
+        <Box mt={`17px`} className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
@@ -303,35 +314,7 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-        {contendSingle?.firm_data?.firm_data?.[0] && (
-          <Box style={{ background: `white` }} className={cls.cardWrap}>
-            <Flex width={"100%"} alignItems={"center"} gap={3}>
-              <Avatar
-                name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-              />
-              <Box>
-                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
-                <p style={{ fontSize: `16px` }} className={cls.name}>
-                  {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                </p>
-                <Flex alignItems={"center"} gap={2}>
-                  <p className={cls.cardStartSubTitleZTel}>+998 93 0776161 </p>
-                  <a
-                    href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
-                  >
-                    <TelegramOpasitiyIcon />
-                  </a>
-                  <a
-                    href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
-                  >
-                    <WatsapOpasitiyIcon />
-                  </a>
-                </Flex>
-              </Box>
-            </Flex>
-          </Box>
-        )}
+      
 
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button
@@ -359,6 +342,35 @@ const DriverFree = ({
           >
             {t(`Машина cвободна`)}
           </Button>
+        )}
+        {getCompanyList?.data?.response?.[0] && (
+          <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={getCompanyList?.data?.response?.[0]?.full_name}
+                src={getCompanyList?.data?.response?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {getCompanyList?.data?.response?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <p className={cls.cardStartSubTitleZTel}>{getCompanyList?.data?.response?.[0]?.phone_number}</p>
+                  <a
+                    href={`https://t.me/${getCompanyList?.data?.response?.[0]?.phone_number}`}
+                  >
+                    <TelegramOpasitiyIcon />
+                  </a>
+                  <a
+                    href={`https://wa.me/${getCompanyList?.data?.response?.[0]?.phone_number}`}
+                  >
+                    <WatsapOpasitiyIcon />
+                  </a>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
         )}
 
         <Button

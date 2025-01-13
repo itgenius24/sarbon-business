@@ -221,10 +221,11 @@ export const useGetLocation = (
   });
 };
 
-export const useGetCompanyList = (params) => {
+export const useGetCompanyList = (params,props) => {
   return useQuery({
     queryKey: ["object/getCompanyList", params],
     queryFn: () => objectService.getCompanyList(params),
+    ...props
   });
 };
 

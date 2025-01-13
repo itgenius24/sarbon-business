@@ -68,13 +68,12 @@
 
 .box {
   position: relative;
-
   .modalWrap {
     position: absolute;
     top: 0;
     z-index: 1;
     // background: transparent;
-    width: 20%;
+    width: 380px;
     height: 100%;
     // background-color: r;
     .filterBtn {
@@ -113,6 +112,24 @@
         width: 100%;
         border: 1px solid rgba(208, 213, 221, 1);
         background-color: rgba(237, 239, 245, 1);
+        border-radius: 12px;
+        padding: 14px 20px;
+        .label {
+          font-size: 14px;
+          font-weight: 500;
+          color: rgba(52, 64, 84, 1);
+          margin: 10px 0;
+        }
+        .checkCardTitle {
+          font-weight: 500;
+          font-size: 14px;
+          color: rgba(52, 64, 84, 1);
+        }
+      }
+      .cardWrapOutline {
+        width: 100%;
+        border: 1px solid rgba(208, 213, 221, 1);
+        background-color: rgb(255, 255, 255);
         border-radius: 12px;
         padding: 14px 20px;
         .label {
@@ -406,6 +423,45 @@
           font-size: 12px;
         }
       }
+      .cardStartSubTitlez{
+        font-weight: 500;
+        font-size: 16px;
+        color: rgba(126, 123, 134, 1);
+        line-height: 13px;
+      }
+      .cardStartSubTitleZTel{
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(126, 123, 134, 1);
+        line-height: 20px;
+      }
+    }
+  }
+  .wrapRefueling {
+    width: 300px;
+    .topTetxWrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+
+      
+      
+    }
+ 
+    .zTitle {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 2px 0px;
+      line-height: 20px;
+    }
+    .zAdress {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
     }
   }
   .balloon_content_empty {

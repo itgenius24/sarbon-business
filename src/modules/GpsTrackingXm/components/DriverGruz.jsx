@@ -110,7 +110,7 @@ const DriverGruz = ({
           />
         </Flex>
 
-        <Box mt={3} className={cls.cardWrap}>
+        <Box mt={3} className={cls.cardWrapOutline}>
           <Flex gap={2}>
             <div className={cls.startAIconWrapGreen}>
               <div className={cls.startAGreenIcon}>A</div>{" "}

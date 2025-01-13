@@ -83,7 +83,7 @@ const DriverCheck = ({
             <p className={cls.smallText}>Сегодня, 12:36</p>Я в пути, все идет по
             плану
           </Box>
-          <Box className={cls.cardWrap}>
+          <Box className={cls.cardWrapOutline}>
             <Flex alignItems={"center"} gap={2}>
               <LocationActiveIcon />
               <Box>
@@ -146,7 +146,7 @@ const DriverCheck = ({
               </Flex>
             </Flex>
           </Box>
-          <Box className={cls.cardWrap}>
+          <Box className={cls.cardWrapOutline}>
             <Flex gap={2}>
               <div className={cls.startAIconWrap}>
                 <div className={cls.startAIcon}>A</div>
@@ -259,7 +259,7 @@ const DriverCheck = ({
           >
           {t(`Занята нашим грузом`)}
           </Button>
-          <Box className={cls.cardWrap}>
+          <Box className={cls.cardWrapOutline}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>
               <Avatar
                 name={

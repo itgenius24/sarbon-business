@@ -86,7 +86,7 @@ const DriverFree = ({
             icon={<CloseIconM />}
           />
         </Flex>
-        <Box mt={`17px`} className={cls.cardWrap}>
+        <Box mt={`17px`} className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>

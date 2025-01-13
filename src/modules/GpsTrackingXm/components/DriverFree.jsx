@@ -37,6 +37,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
+import { useGetCompanyList } from "@/services/api";
 
 const DriverFree = ({
   cls,
@@ -58,6 +59,8 @@ const DriverFree = ({
       onClose();
     }, 1000);
   };
+
+
 
   return (
     <div className={cls.filter}>
@@ -89,7 +92,7 @@ const DriverFree = ({
             icon={<CloseIconM />}
           />
         </Flex>
-        <Box mt={`17px`} className={cls.cardWrap}>
+        <Box mt={`17px`} className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />
             <Box>
@@ -297,42 +300,14 @@ const DriverFree = ({
                 />
               </Tooltip>
               <Box>
-                <p style={{ color: `black`, fontWeight: 400 }}>
+                <span style={{ color: `black`, fontWeight: 400 }}>
                   {contendSingle?.vehicles?.[0]?.car_number}
-                </p>
+                </span>
               </Box>
             </Flex>
           </Flex>
         </Box>
-        {contendSingle?.firm_data?.firm_data?.[0] && (
-          <Box style={{ background: `white` }} className={cls.cardWrap}>
-            <Flex width={"100%"} alignItems={"center"} gap={3}>
-              <Avatar
-                name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-              />
-              <Box>
-                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
-                <p style={{ fontSize: `16px` }} className={cls.name}>
-                  {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                </p>
-                <Flex alignItems={"center"} gap={2}>
-                  <p className={cls.cardStartSubTitleZTel}>+998 93 0776161 </p>
-                  <a
-                    href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
-                  >
-                    <TelegramOpasitiyIcon />
-                  </a>
-                  <a
-                    href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
-                  >
-                    <WatsapOpasitiyIcon />
-                  </a>
-                </Flex>
-              </Box>
-            </Flex>
-          </Box>
-        )}
+      
 
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button
@@ -360,6 +335,36 @@ const DriverFree = ({
           >
             {t(`Машина cвободна`)}
           </Button>
+        )}
+
+        {contendSingle?.firm_data?.firm_data?.[0] && (
+          <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <p className={cls.cardStartSubTitleZTel}>{contendSingle?.firm_data?.firm_data?.[0]?.phone_number}</p>
+                  <a
+                    href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                  >
+                    <TelegramOpasitiyIcon />
+                  </a>
+                  <a
+                    href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                  >
+                    <WatsapOpasitiyIcon />
+                  </a>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
         )}
 
         <Button

@@ -318,8 +318,10 @@ export const useGpsTrackingProps = () => {
     
       if (data?.response?.length) {
         let data2 = data?.response?.map((item) => ({
+          ...item,
           user: item?.users_id_data?.[0],
           vehicles: [item?.vehicle_id_data],
+          firm_data: item?.firm_data,
           users_gps:[item],
           orders: item?.order_data ?  [item?.order_data] : undefined,
         }));
