@@ -153,64 +153,64 @@ export const useGpsTrackingProps = () => {
     }
   }
 
-  function initYmaps() {
-    /**
-     * Creating a multiroute.
-     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
-     */
 
-    if (window?.ymaps) {
-      ymaps.ready(() => {
-        var multiRoute = new ymaps.multiRouter.MultiRoute(
-          { referencePoints: [[], []] },
-          {
-            editorMidPointsType: "via",
-            routeActiveStrokeColor: "#175CD3",
-            editorDrawOver: false,
-          }
-        );
+  // function initYmaps() {
+  //   /**
+  //    * Creating a multiroute.
+  //    * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
+  //    */
 
-        multiRoute.events.add("update", function () {
-          if (multiRoute.getRoutes().get(0)) {
-            const duration = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("duration").text;
-            const distance = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("distance").text;
-            setDistanceParameters({
-              duration,
-              distance,
-            });
-          }
-        });
+  //   if (window?.ymaps) {
+  //     ymaps.ready(() => {
+  //       var multiRoute = new ymaps.multiRouter.MultiRoute(
+  //         { referencePoints: [[], []] },
+  //         {
+  //           editorMidPointsType: "via",
+  //           routeActiveStrokeColor: "#175CD3",
+  //           editorDrawOver: false,
+  //         }
+  //       );
 
-        const searchControl = new ymaps.control.SearchControl({
-          options: { float: "right" },
-        });
+  //       multiRoute.events.add("update", function () {
+  //         if (multiRoute.getRoutes().get(0)) {
+  //           const duration = multiRoute
+  //             .getRoutes()
+  //             .get(0)
+  //             .properties.get("duration").text;
+  //           const distance = multiRoute
+  //             .getRoutes()
+  //             .get(0)
+  //             .properties.get("distance").text;
+  //           setDistanceParameters({
+  //             duration,
+  //             distance,
+  //           });
+  //         }
+  //       });
 
-        // Creating the map with the button added to it.
-        var myMap = new ymaps.Map(
-          "map",
-          {
-            center: [41.40587471972005, 69.46086540238926],
-            zoom: 7,
-            controls: [searchControl],
-          },
-          { buttonMaxWidth: 500 }
-        );
+  //       const searchControl = new ymaps.control.SearchControl({
+  //         options: { float: "right" },
+  //       });
 
-        // Adding a multiroute to the map.
-        myMap.geoObjects.add(multiRoute);
+  //       // Creating the map with the button added to it.
+  //       var myMap = new ymaps.Map(
+  //         "map",
+  //         {
+  //           center: [41.40587471972005, 69.46086540238926],
+  //           zoom: 7,
+  //           controls: [searchControl],
+  //         },
+  //         { buttonMaxWidth: 500 }
+  //       );
 
-        mapRef.current = myMap;
-        multiRouteRef.current = multiRoute;
-      });
-    }
-  }
+  //       // Adding a multiroute to the map.
+  //       myMap.geoObjects.add(multiRoute);
 
+  //       mapRef.current = myMap;
+  //       multiRouteRef.current = multiRoute;
+  //     });
+  //   }
+  // }
   let draggingIndex = null;
 
   const handleDragStart = (e, index) => {
@@ -581,21 +581,21 @@ export const useGpsTrackingProps = () => {
   };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
-    mutate({
-      data: {
-        object_data: {
-          lat,
-          long,
-          number: distance || "100",
-          // car_type_id: watch("car_type")?.value,
-          load_type_id: watch("load_type_id")?.value,
-          weight: watch("weight"),
-          volume: watch("volume"),
-          limit: 40,
-          page: offset,
-        },
-      },
-    });
+    // mutate({
+    //   data: {
+    //     object_data: {
+    //       lat,
+    //       long,
+    //       number: distance || "100",
+    //       // car_type_id: watch("car_type")?.value,
+    //       load_type_id: watch("load_type_id")?.value,
+    //       weight: watch("weight"),
+    //       volume: watch("volume"),
+    //       limit: 40,
+    //       page: offset,
+    //     },
+    //   },
+    // });
   };
 
   const statusIconChange = () => {
@@ -619,12 +619,12 @@ export const useGpsTrackingProps = () => {
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
-  useEffect(() => {
-    const ymapsScript = document.getElementById("yandex-maps-script");
-    if (ymapsScript) {
-      initYmaps();
-    }
-  }, depArr);
+  // useEffect(() => {
+  //   const ymapsScript = document.getElementById("yandex-maps-script");
+  //   if (ymapsScript) {
+  //     initYmaps();
+  //   }
+  // }, depArr);
 
   return {
     register,

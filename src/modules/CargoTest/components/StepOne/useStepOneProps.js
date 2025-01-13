@@ -37,7 +37,7 @@ const useStepOneProps = () => {
 
   useEffect(() => {
     console.log(`salom`)
-    if(Boolean(watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement"))){
+    if((watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement"))){
       setDisabled(false)
     } else{
       setDisabled(true)
