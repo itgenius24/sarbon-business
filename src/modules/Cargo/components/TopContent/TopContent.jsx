@@ -540,13 +540,13 @@ export const TopContent = ({
                                 </p>
                               </div>
                             </div> */}
-                            {/* <div className={cls.item}>
+                            <div className={cls.item}>
                             <BluetoothIcon />
                             <div className={cls.itemText}>
                               <p className={cls.phoneItemTitle}>Bluetooth</p>
                               <p className={cls.phoneItemName}>Выкл </p>
                             </div>
-                          </div> */}
+                          </div>
                             <div className={cls.item}>
                               {user?.users_gps?.battery > 19 ? (
                                 <BatareyFullIcon />
@@ -568,6 +568,7 @@ export const TopContent = ({
                                 <Flex
                                   gap={`6px`}
                                   alignItems={`center`}
+                                  width={`180px`}
                                   padding={`8px 10px`}
                                   background={`rgba(237, 239, 245, 1)`}
                                   borderRadius={`4px`}
@@ -579,14 +580,15 @@ export const TopContent = ({
                                   <CopyIcon />
                                   <p
                                     style={{
-                                      color: `var(--primary)`,
-                                      fontSize: `14px`,
+                                      color: `rgba(0, 122, 255, 1)`,
+                                      fontSize: `12px`,
                                       fontWeight: 400,
-                                      lineHeight: `20px`,
-                                      borderBottom: `1px dashed var(--primary)`,
+                                      lineHeight: `15px`,
+                                      textAlign:`left`
+                                      // borderBottom: `1px dashed var(--primary)`,
                                     }}
                                   >
-                                    {t(`Копировать`)}
+                                    {t(`Скопировать ссылку на треккинг`)}
                                   </p>
                                 </Flex>
                               </PopoverTrigger>

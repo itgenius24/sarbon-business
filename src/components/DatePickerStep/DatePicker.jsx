@@ -39,7 +39,7 @@ export const DatePickerComponent = ({
         <>
           <DatePicker
             disabled={isDisabled}
-            selected={new Date(field.value)}
+            selected={field.value}
             onChange={(date) => {
               field.onChange(date), onChange(date);
             }}

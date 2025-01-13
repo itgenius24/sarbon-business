@@ -212,7 +212,7 @@ export const SearchLoadDispatcherModule = () => {
                 item={item}
                 handleCheckboxChange={handleCheckboxChange}
                 ids={ids?.map((item) => item?.guid)}
-                containerRef={containerRef}
+                containerRef={null}
               />
             ))}
 
@@ -248,13 +248,13 @@ export const SearchLoadDispatcherModule = () => {
             bottom={`20px`}
             left={`32px`}
           >
-            {/* <Button
+            <Button
               isLoading={isPending}
               onClick={addPage}
               className={cls.btnLoad}
             >
               Загрузить еще 50
-            </Button> */}
+            </Button>
           </Box>
           <Flex
             className={cls.sticiy}

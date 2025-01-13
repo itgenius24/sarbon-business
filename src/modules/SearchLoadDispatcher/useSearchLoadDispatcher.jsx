@@ -31,7 +31,7 @@ export const useSearchLoadDispatcher = () => {
   const [debouncedValue] = useDebounce2(search, 500);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(700);
+  const [limit, setLimit] = useState(50);
   const [refe, setRefe] = useState(false);
   const containerRef = useRef(null);
   const [ids, setId] = useState([]);
