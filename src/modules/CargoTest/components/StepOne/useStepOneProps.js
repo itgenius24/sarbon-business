@@ -36,12 +36,13 @@ const useStepOneProps = () => {
   const [getCargoData, setGetCargoData] = useState([]);
 
   useEffect(() => {
-    if(watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement") ){
+    console.log(`salom`)
+    if(Boolean(watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement"))){
       setDisabled(false)
     } else{
       setDisabled(true)
     }
-  },[watch("cargo_type")?.labe, watch("weight_measurement")?.length , watch("volume_measurement")?.length])
+  },[watch("cargo_type")?.label, watch("weight_measurement")?.length , watch("volume_measurement")?.length])
 
   const getCargoTypes = useGetCargoType({
     params: {
