@@ -61,15 +61,17 @@ const DriverFree = ({
     }, 1000);
   };
 
+  const getCompanyList = useGetCompanyList(
+    {
+      data: JSON.stringify({
+        guid: contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
+      }),
+    },
+    {
+      enabled: Boolean(contendSingle?.firm_data?.firm_data?.[0]?.firm_id),
+    }
+  );
 
-      const getCompanyList = useGetCompanyList({
-        data: JSON.stringify({ guid: contendSingle?.firm_data?.firm_data?.[0]?.firm_id}),
-        
-      },{
-        enabled:Boolean(contendSingle?.firm_data?.firm_data?.[0]?.firm_id)
-      });
-  
-      console.log(`getCompanyList`,getCompanyList?.data?.response?.[0])
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -314,8 +316,6 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-      
-
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button
             onClick={() => {
@@ -356,7 +356,9 @@ const DriverFree = ({
                   {getCompanyList?.data?.response?.[0]?.full_name}
                 </p>
                 <Flex alignItems={"center"} gap={2}>
-                  <p className={cls.cardStartSubTitleZTel}>{getCompanyList?.data?.response?.[0]?.phone_number}</p>
+                  <p className={cls.cardStartSubTitleZTel}>
+                    {getCompanyList?.data?.response?.[0]?.phone_number}
+                  </p>
                   <a
                     href={`https://t.me/${getCompanyList?.data?.response?.[0]?.phone_number}`}
                   >

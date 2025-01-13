@@ -450,7 +450,7 @@ const StepFive = ({ status }) => {
             </Text>
           </Checkbox> */}
 
-          <Checkbox
+          {/* <Checkbox
             defaultChecked={watch(`notification`)}
             name="notification"
             register={register}
@@ -466,7 +466,7 @@ const StepFive = ({ status }) => {
               </Tooltip>
             </Flex>
 
-          </Checkbox>
+          </Checkbox> */}
           <Box
             mt="16px"
             display="flex"
