@@ -140,6 +140,16 @@ const Filter = ({
             >
               {t("Грузы")}
             </Checkbox>
+               <Checkbox
+                            // isLoading={isLoadingRefueling}
+                            // isDisabled={isLoadingRefueling}
+                            width={"16px"}
+                            height={"16px"}
+                            defaultChecked={Boolean(watch(`refuelingState`))}
+                            onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
+                          >
+                            {t("Заправки")}
+                          </Checkbox>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>

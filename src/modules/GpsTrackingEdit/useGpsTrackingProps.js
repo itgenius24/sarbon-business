@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   useGetCar,
+  useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
   useGetUserData,
@@ -23,7 +24,6 @@ import {
 import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
 
-/* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
@@ -53,6 +53,8 @@ export const useGpsTrackingProps = () => {
   const [stateMap, setStateMap] = useState(false);
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
+  const [remainingData, setRemainingData] = useState([]);
+
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -441,8 +443,22 @@ export const useGpsTrackingProps = () => {
     uniqueData,
   ]);
 
-  console.log(`carTypeDataFIlter`, carsArr, filteredData, carTypeDataFIlter, uniqueData);
 
+  const { mutate: getCarRefueling } = useGetCarRefueling({
+    onSuccess: (res) => {
+      setRemainingData(res?.data?.data);
+    },
+  });
+
+  useState(() => {
+    if (remainingData.length === 0) {
+      getCarRefueling({
+        data: {
+          object_data: {},
+        },
+      });
+    }
+  }, []);
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
     value: item?.user?.guid,
@@ -676,6 +692,7 @@ export const useGpsTrackingProps = () => {
     addressAdd,
     stateMap,
     addAdress,
+    refueling: remainingData,
     setLocationData,
   };
 };

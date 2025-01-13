@@ -130,8 +130,8 @@ const StepTwo = ({ status }) => {
                       register={register}
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
-                        setAddress(e.target.value);
-                        setValue(`addressFrom`,e.target.value)
+                          setAddress(e.target.value);
+                        setValue(`addressFrom`, e.target.value);
                       }}
                       name={`loadings[${index}].address`}
                       additionalOnclick={() =>
@@ -183,12 +183,16 @@ const StepTwo = ({ status }) => {
                   <Flex
                     alignItems={"center"}
                     gap={"10px"}
-                    width={"fit-content"}
+                    width={"100%"}
                     mt={"20px"}
                   >
-                    <Box width={"154px"}>
+                    <Box width={"210px"}>
                       <span className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
+                        width={200}
+                        // showTimeSelect
+                        // timeFormat="HH:mm" // 24 soatlik format
+                        // timeIntervals={15}
                         isDisabled={watch("as_soon_as_a")}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index, item?.guid);
@@ -200,7 +204,7 @@ const StepTwo = ({ status }) => {
                     <Box mt={5}>
                       <PlusIocnStep />
                     </Box>
-                    <Box width={"12 4px"}>
+                    <Box width={"124px"}>
                       <span className={cls.label}>{t(`Ожидание`)}</span>
                       <ChakraSelect
                         isDisabled={!canEdit}
@@ -341,8 +345,7 @@ const StepTwo = ({ status }) => {
                       onChange={(e) => {
                         setActiveIndex(`unloading[${index}].address`),
                           setAddress(e.target.value);
-                          setValue(`addressTo`,e.target.value)
-
+                        setValue(`addressTo`, e.target.value);
                       }}
                       name={`unloading[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -400,10 +403,14 @@ const StepTwo = ({ status }) => {
                     width={"fit-content"}
                     mt={"20px"}
                   >
-                    <Box width={"154px"}>
+                    <Box width={"210px"}>
                       <span className={cls.label}>{t(`Когда доставить`)}</span>
                       <DatePickerComponent
                         isDisabled={watch(`as_soon_as_b`)}
+                        width={200}
+                        // showTimeSelect
+                        // timeFormat="HH:mm" // 24 soatlik format
+                        // timeIntervals={15}
                         onChange={(date) => {
                           lodingChangeDate(
                             "unLoading",

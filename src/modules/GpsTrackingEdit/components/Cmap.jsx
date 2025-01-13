@@ -17,6 +17,8 @@ import {
   QuestionBlueIcon,
   StoneIcon,
   GreenMapIcon,
+  TelegramIcon,
+  WatsapIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -52,7 +54,7 @@ const Cmap = memo(
     setContendSingle,
     contendHoverState,
   }) => {
-      const { t } = useTranslation();
+    const { t } = useTranslation();
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
 
@@ -243,7 +245,7 @@ const Cmap = memo(
                           style={{ color: "rgba(126, 123, 134, 1)" }}
                           className={cls.balloonName}
                         >
-                           {t(`Сломалась`)}
+                          {t(`Сломалась`)}
                         </span>
                       </>
                     ) : (
@@ -256,7 +258,7 @@ const Cmap = memo(
                     <div className={cls.loadIconWrap}>
                       <Box className={cls.conWrap}>
                         <StoneIcon />{" "}
-                        <span> { carInfo?.vehicles?.[0]?.capacity} т.</span>
+                        <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
                       </Box>
 
                       <Box
@@ -264,7 +266,7 @@ const Cmap = memo(
                         gap={1}
                         alignItems={"center"}
                       >
-                        <LoadOulineIcon />{" "}
+                        <LoadOulineIcon />
                         <span>{carInfo?.vehicles?.[0]?.height} m3</span>
                       </Box>
                     </div>
@@ -284,12 +286,30 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -305,13 +325,31 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -326,13 +364,31 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -347,13 +403,31 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -368,12 +442,30 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : (
@@ -388,13 +480,31 @@ const Cmap = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   )}

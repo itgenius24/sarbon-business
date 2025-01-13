@@ -23,26 +23,33 @@ import { CustomInputDate } from "./components/CustomInputDate";
 //     <DateIcon />
 //   </Flex>
 // ));
-export const DatePickerComponent = ({ control,name,onChange,isDisabled,...props }) => {
-
+export const DatePickerComponent = ({
+  control,
+  name,
+  onChange,
+  isDisabled,
+  width=154,
+  ...props
+}) => {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field }) => (
-        
-      <>
-     
+        <>
           <DatePicker
-          disabled={isDisabled}
-          selected={field.value}
-          onChange={(date) => {field.onChange(date),onChange(date)}}
-          placeholderText="Select date"
-          dateFormat="dd.MM.yyyy"
-          customInput={<CustomInputDate width={'154px'} />}
-          {...props}
-        />
-      </>
+            disabled={isDisabled}
+            selected={new Date(field.value)}
+            onChange={(date) => {
+              field.onChange(date), onChange(date);
+            }}
+            placeholderText="Select date"
+            // dateFormat="dd.MM.yyyy HH:mm"
+            dateFormat="dd.MM.yyyy"
+            customInput={<CustomInputDate width={`${width}px`} />}
+            {...props}
+          />
+        </>
       )}
     />
   );

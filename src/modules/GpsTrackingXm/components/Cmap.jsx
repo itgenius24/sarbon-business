@@ -52,11 +52,10 @@ const Cmap = memo(
     locationData,
     setLoadState,
     setContendSingle,
-    
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
-const { t } = useTranslation();
+    const { t } = useTranslation();
     useEffect(() => {
       setIsClient(true);
     }, []);
@@ -125,7 +124,6 @@ const { t } = useTranslation();
       )}`;
     };
 
-  
     const copyFn = (refuelData) => {
       // alert("copy");
       copy(
@@ -185,8 +183,6 @@ const { t } = useTranslation();
           }}
         />
 
-   
-
         <Clusterer
           options={{
             clusterIconColor: "rgba(52, 199, 89, 1)",
@@ -245,7 +241,7 @@ const { t } = useTranslation();
                           style={{ color: "rgba(126, 123, 134, 1)" }}
                           className={cls.balloonName}
                         >
-                           {t(`Сломалась`)}
+                          {t(`Сломалась`)}
                         </span>
                       </>
                     ) : (
@@ -301,7 +297,7 @@ const { t } = useTranslation();
                             id="click"
                             // className={cls.footerBoxLink}
                           >
-                            <WatsapIcon />{" "}
+                            <WatsapIcon />
                           </a>
                         </div>
                       </div>
@@ -309,7 +305,7 @@ const { t } = useTranslation();
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] ===
@@ -325,13 +321,31 @@ const { t } = useTranslation();
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
@@ -346,13 +360,31 @@ const { t } = useTranslation();
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
@@ -367,13 +399,31 @@ const { t } = useTranslation();
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
@@ -388,12 +438,30 @@ const { t } = useTranslation();
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   ) : (
@@ -408,13 +476,31 @@ const { t } = useTranslation();
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
                         {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                          : t( `Пока нет машины`)}
+                          : t(`Пока нет машины`)}
                       </p>
                     </>
                   )}

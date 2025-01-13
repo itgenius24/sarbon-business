@@ -219,11 +219,7 @@ export const useSearchCargo = () => {
   });
 
   const onSubmit = (val) => {
-    if (
-      watch("front_side_trailer") &&
-      watch("back_side_trailer") &&
-      watch("car_photo")
-    ) {
+  
       const data = {
         data: {
           trailer_type_id: val.trailer_type_id.value,
@@ -256,7 +252,7 @@ export const useSearchCargo = () => {
       } else {
         mutate(data);
       }
-    }
+    
   };
 
   console.log(`useList`, fuel?.response);

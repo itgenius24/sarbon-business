@@ -288,9 +288,9 @@ const DriverFree = ({
                 />
               </Tooltip>
               <Box>
-                <p style={{ color: `black`, fontWeight: 400 }}>
+                <span style={{ color: `black`, fontWeight: 400 }}>
                   {contendSingle?.vehicles?.[0]?.car_number}
-                </p>
+                </span>
               </Box>
             </Flex>
           </Flex>

@@ -394,7 +394,7 @@ const CmapAZS = memo(
                             id="click"
                             // className={cls.footerBoxLink}
                           >
-                            <WatsapIcon />{" "}
+                            <WatsapIcon />
                           </a>
                         </div>
                       </div>
@@ -418,6 +418,24 @@ const CmapAZS = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
@@ -439,6 +457,24 @@ const CmapAZS = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
@@ -460,6 +496,24 @@ const CmapAZS = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
@@ -481,6 +535,24 @@ const CmapAZS = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
                       <p className={cls.footerBox}>
                         <BlueFuraIcon />
@@ -501,6 +573,24 @@ const CmapAZS = memo(
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>
+                        <div className={cls.flex}>
+                          <a
+                            target="_blank"
+                            href={`https://t.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <TelegramIcon />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/${carInfo?.user?.phone}`}
+                            id="click"
+                            // className={cls.footerBoxLink}
+                          >
+                            <WatsapIcon />
+                          </a>
+                        </div>
                       </div>
 
                       <p className={cls.footerBox}>
