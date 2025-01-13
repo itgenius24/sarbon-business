@@ -72,7 +72,6 @@ export const SearchCargoModule = () => {
     },
   };
 
-  console.log("name", watch("marka"));
 
   return (
     <>

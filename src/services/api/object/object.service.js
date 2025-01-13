@@ -311,7 +311,7 @@ export const useGetCarNumber = ({
   return useQuery({
     queryKey: ["object/getCarNumber", params],
     queryFn: () => objectService.getCarNumber(params),
-    querySettings,
+    ...querySettings,
   });
 };
 

@@ -93,7 +93,7 @@ export const useSearchCargo = () => {
       }),
     },
     querySettings: {
-      enabled: Boolean(false),
+      enabled: Boolean(inputValue),
     },
   });
 
@@ -151,7 +151,6 @@ export const useSearchCargo = () => {
         setValue(name, true); // Mark the checkbox with the matching name as true
       });
 
-
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
@@ -177,12 +176,21 @@ export const useSearchCargo = () => {
   }, [useList]);
 
   useEffect(() => {
-    // console.log(`wsw`,getCarNumnber)
+    console.log(
+      `wsw1`,
+      (getCarNumnber?.count > 1 ||
+        getCarNumnber?.count === 0 ||
+        !getCarNumnber ||
+        id) &&
+        inputValue?.length > 0
+    );
 
     if (getCarNumnber?.count === 1) {
-      // console.log(`wsw1`)
       if (useList?.response && useList?.response?.car_number === inputValue) {
-        return;
+        setValue(`car_number`, inputValue, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
       } else {
         setError(`car_number`, {
           message: `Этот номер автомобиля был зарегистрирован ранее!`,
@@ -191,10 +199,11 @@ export const useSearchCargo = () => {
     } else if (
       (getCarNumnber?.count > 1 ||
         getCarNumnber?.count === 0 ||
-        !getCarNumnber) &&
-      id
+        !getCarNumnber ||
+        id) &&
+      inputValue?.length > 0
     ) {
-      // console.log(`wsw`)
+      console.log(`wsw2`);
 
       setValue(`car_number`, inputValue, {
         shouldValidate: true,
@@ -219,44 +228,41 @@ export const useSearchCargo = () => {
   });
 
   const onSubmit = (val) => {
-  
-      const data = {
-        data: {
-          trailer_type_id: val.trailer_type_id.value,
-          capacity: +val.capacity,
-          height: +val.height,
-          car_number: val.car_number,
-          marka: val.marka,
-          cemt: val.cemt, //or false
-          tir: val.tir, // or true
-          pneumatic: val.pneumatic, //or false
-          coupling: val.coupling, // or true
-          konika: val.konika, // or false
-          adr: val?.adr?.value || ``,
-          back_side_trailer: val.back_side_trailer, //url cdn
-          front_side_trailer: val.front_side_trailer, //url cdn
-          car_photo: val.car_photo, //url cdn
-          download_type: getTrueKeys(load),
-          car_position: ["moderation"],
-          status: [`active`],
-          firm_id,
-          car_country: val?.car_country?.value,
-          fuel_id: val?.fuel_id?.value ? val?.fuel_id?.value : val?.fuel_id,
-          eco_standart: val?.eco_standart?.value,
-          guid: id ? id : undefined,
-        },
-      };
+    const data = {
+      data: {
+        trailer_type_id: val.trailer_type_id.value,
+        capacity: +val.capacity,
+        height: +val.height,
+        car_number: val.car_number,
+        marka: val.marka,
+        cemt: val.cemt, //or false
+        tir: val.tir, // or true
+        pneumatic: val.pneumatic, //or false
+        coupling: val.coupling, // or true
+        konika: val.konika, // or false
+        adr: val?.adr?.value || ``,
+        back_side_trailer: val.back_side_trailer, //url cdn
+        front_side_trailer: val.front_side_trailer, //url cdn
+        car_photo: val.car_photo, //url cdn
+        download_type: getTrueKeys(load),
+        car_position: ["moderation"],
+        status: [`active`],
+        firm_id,
+        car_country: val?.car_country?.value,
+        fuel_id: val?.fuel_id?.value ? val?.fuel_id?.value : val?.fuel_id,
+        eco_standart: val?.eco_standart?.value,
+        guid: id ? id : undefined,
+      },
+    };
 
-      if (id) {
-        updateW(data);
-      } else {
-        mutate(data);
-      }
-    
+    if (id) {
+      updateW(data);
+    } else {
+      mutate(data);
+    }
   };
 
   console.log(`useList`, fuel?.response);
-
 
   return {
     t,
