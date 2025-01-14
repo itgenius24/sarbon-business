@@ -62,7 +62,11 @@ export const useMyCarsDispatcher = () => {
     mutate(dataReq);
   }, [page, limit, debouncedValue?.length, refe]);
 
-console.log(`data`,data)
+
+  const addPage = () => {
+    setPage(pa => pa + 1)
+  }
+
   const nameFilter = () => {
     setFilter1(!filter1);
     const sortedData = data?.sort(
@@ -137,5 +141,6 @@ console.log(`data`,data)
     search,
     containerRef,
     count,
+    addPage,
   };
 };

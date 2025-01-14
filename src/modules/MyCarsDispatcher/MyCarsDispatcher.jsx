@@ -35,6 +35,7 @@ export const MyCarsDispatcherModule = () => {
     search,
     containerRef,
     count,
+    addPage,
   } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
@@ -58,10 +59,11 @@ export const MyCarsDispatcherModule = () => {
           <Flex gap={`28px`}>
             <Box className={cls.countrWrap}>
               <p>
-                {t(`Всего`)}: <span>{count || 0}</span>
+                {t(`Всего`)}: <span>{data.length || 0}</span>
               </p>
               <p>
-                {t(`Свободных`)}: <span>{data?.filter(item => !item.order_data)?.length}</span>
+                {t(`Свободных`)}:{" "}
+                <span>{data?.filter((item) => !item.order_data)?.length}</span>
               </p>
             </Box>
             {isSuperDispatcher === "approved" && (
@@ -132,22 +134,32 @@ export const MyCarsDispatcherModule = () => {
           {data?.length > 0 &&
             data?.map((item) => (
               <CarsCard
-              t={t}
-                containerRef={containerRef}
+                t={t}
+                // containerRef={containerRef}
                 key={item?.driver_data?.guid}
                 item={item}
                 deleteFuntion={deleteFuntion}
               />
             ))}
-          {isPending ? (
+          <Box mt={6} width={`fit-contend`}>
+            <Button
+              width={`fit-contend`}
+              isLoading={isPending}
+              onClick={addPage}
+              className={cls.btnLoad}
+            >
+              Загрузить еще 50
+            </Button>
+          </Box>
+          {/* {isPending ? (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>
           ) : (
             <Box height={`50px`} mt={`20px`}>
-              {/* <LoadingSpinner /> */}
+              <LoadingSpinner />
             </Box>
-          )}
+          )} */}
         </div>
       </Container>
     </>

@@ -10,7 +10,7 @@ import { Box, Button, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { LocaleDropdown } from "../LocaleDropdown";
 import { useTranslation } from "@/app/i18n/client";

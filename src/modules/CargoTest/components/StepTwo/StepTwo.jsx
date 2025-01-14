@@ -186,10 +186,10 @@ const StepTwo = ({ status }) => {
                     width={"100%"}
                     mt={"20px"}
                   >
-                    <Box width={"210px"}>
+                    <Box width={"140px"}>
                       <span className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
-                        width={200}
+                        width={140}
                         // showTimeSelect
                         // timeFormat="HH:mm" // 24 soatlik format
                         // timeIntervals={15}
@@ -403,11 +403,11 @@ const StepTwo = ({ status }) => {
                     width={"fit-content"}
                     mt={"20px"}
                   >
-                    <Box width={"210px"}>
+                    <Box width={"140px"}>
                       <span className={cls.label}>{t(`Когда доставить`)}</span>
                       <DatePickerComponent
                         isDisabled={watch(`as_soon_as_b`)}
-                        width={200}
+                        width={140}
                         // showTimeSelect
                         // timeFormat="HH:mm" // 24 soatlik format
                         // timeIntervals={15}
