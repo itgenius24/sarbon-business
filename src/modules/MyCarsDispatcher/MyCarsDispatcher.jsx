@@ -44,7 +44,7 @@ export const MyCarsDispatcherModule = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  // console.log(`salom`,)
+  console.log(`salom`,data.length)
   return (
     <>
       <Container my="40px">

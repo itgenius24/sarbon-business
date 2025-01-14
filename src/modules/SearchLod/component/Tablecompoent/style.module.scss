@@ -135,7 +135,7 @@
 
   .selectCargo {
     width: 40%;
-    height: 510px;
+    height: auto;
     background-color: rgb(255, 255, 255);
     border-radius: 14px;
 
@@ -208,6 +208,19 @@
           }
         }
       }
+    }
+  }
+
+  @media (max-width:1100px) {
+    .selectCargo{
+      width: 50%;
+      margin: 10px;
+    }
+  }
+  @media (max-width:800px) {
+    .selectCargo{
+      width: 100%;
+      margin: 10px;
     }
   }
 }

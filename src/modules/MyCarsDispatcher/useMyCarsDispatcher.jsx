@@ -19,7 +19,7 @@ export const useMyCarsDispatcher = () => {
   const [data2, setData2] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [refe, setRefe] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
   const [filter1, setFilter1] = useState(false);
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
@@ -38,13 +38,14 @@ export const useMyCarsDispatcher = () => {
         const uniqueData = data.filter(
           (item) => !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
         );
-        setData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni data ga qo'shish
+        setData((prev) => [...prev, ...data]); // Yangi ma'lumotlarni data ga qo'shish
         setOldData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni oldData ga qo'shish
       
       }
     },
   });
 
+  
  
   useEffect(() => {
     const dataReq = {

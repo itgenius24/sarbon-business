@@ -71,7 +71,7 @@ const ChangeIconModal = ({
   return (
     <div className={cls.selectedIcon}>
       <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <p className={cls.modalTitle}>Статус машины</p>{" "}
+        <p className={cls.modalTitle}>Статус машины</p>
         <IconButton
           variant={"outline"}
           border={"none"}
