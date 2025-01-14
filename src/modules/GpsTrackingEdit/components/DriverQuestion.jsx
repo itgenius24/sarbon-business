@@ -68,7 +68,7 @@ const DriverQuestion = ({
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
           />

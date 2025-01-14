@@ -109,7 +109,7 @@ const DriverGruz = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType(`filter`)}
+            onClick={() => setModalType(``)}
           />
         </Flex>
 
