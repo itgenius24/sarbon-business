@@ -8,6 +8,8 @@ import {
   Flex,
   Heading,
   Input,
+  Radio,
+  RadioGroup,
   useMediaQuery,
 } from "@chakra-ui/react";
 
@@ -16,27 +18,24 @@ import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
-import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { CarsCard } from "./component/CarsCard/CarsCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import authStore from "@/store/auth.store";
 import { TextField } from "@/components/TextField";
+import { useMyDispatcher } from "./useMyDispatcher";
 
-export const MyCarsDispatcherModule = () => {
+export const DispatcherModule = () => {
   const {
     t,
-    data,
-    deleteFuntion,
-    nameFilter,
-    filter1,
-    isPending,
-    register,
-    setSearchFn,
+    option,
+    valueR,
+    setValueR,
+    onChange,
     search,
-    containerRef,
-    count,
+    setSearchFn,
+    deleteFuntion,
     addPage,
-  } = useMyCarsDispatcher();
+  } = useMyDispatcher();
   const router = useRouter();
   const locale = useGetLang();
 
@@ -54,49 +53,45 @@ export const MyCarsDispatcherModule = () => {
             mb={isLargerThan845 ? "24px" : "12px"}
             color={`var(--primary-text)`}
           >
-            {t("Ваши водители")}
+            {t("Диспетчеры")}
           </Heading>
-          <Flex gap={`28px`}>
-            <Box className={cls.countrWrap}>
-              <p>
-                {t(`Всего`)}: <span>{count || 0}</span>
-              </p>
-              <p>
-                {t(`Свободных`)}:{" "}
-                <span>{data?.filter((item) => !item.order_data)?.length}</span>
-              </p>
-            </Box>
-            {isSuperDispatcher === "approved" && (
-              <Button
-                onClick={() =>
-                  router.push(`/${locale}/my-cars-dispatcher/create`)
-                }
-                width={"fit-content"}
-                leftIcon={<PlusIcon />}
-              >
-                {t(`Добавить водителя`)}
-              </Button>
-            )}
-            {/* <Button
-              onClick={() =>
-                router.push(`/${locale}/my-cars-dispatcher/create`)
-              }
-              width={"fit-content"}
-              leftIcon={<PlusIcon />}
-            >
-              Добавить водителя
-            </Button> */}
-          </Flex>
         </Flex>
-        <Flex>
+        <Flex width={`100%`} justifyContent={`space-between`}>
           <Box width={`40%`}>
             <Input
               value={search}
               className={cls.input}
-              placeholder={t("Имя водителя, номер машины или телефон")}
+              placeholder={t("Имя диспетчера или телефон")}
               onChange={(e) => setSearchFn(e.target?.value)}
             />
           </Box>
+          <Flex alignItems={`center`} gap={`50px`}>
+            <RadioGroup onChange={(e) => onChange(e)} value={valueR}>
+              <Flex gap={"30px"}>
+                {option &&
+                  option.map((item) => (
+                    <Radio
+                      key={item.value}
+                      border={"1px solid rgba(208, 213, 221, 1)"}
+                      value={item.value}
+                      size={"md"}
+                    >
+                      <span
+                        className={
+                          valueR === item.value ? cls.ActiveRadio : cls.radio
+                        }
+                      >
+                        {item?.label?.charAt(0).toUpperCase() +
+                          item?.label?.slice(1).toLowerCase()}
+                      </span>
+                    </Radio>
+                  ))}
+              </Flex>
+            </RadioGroup>
+            <Button width={"fit-content"} leftIcon={<PlusIcon />}>
+              {t(`Создать диспетчера `)}
+            </Button>
+          </Flex>
         </Flex>
         <Box mt={"37px"}>
           <Flex
@@ -105,46 +100,38 @@ export const MyCarsDispatcherModule = () => {
             mt={"32px"}
             width={"100%"}
           >
+            <p className={cls.th}>{t(`имя Диспетчера`)}</p>
+            <p className={cls.th}>{t(`Номер телефона`)}</p>
             <Flex
               cursor={`pointer`}
               className={cls.th}
               gap={2}
               justifyContent={`flex-start`}
               alignItems={`center`}
-              onClick={nameFilter}
+              // onClick={nameFilter}
             >
-              <p className={cls.filterTitle}>{t(`Водитель`)}</p>
-              {filter1 ? <IocnSortBack /> : <IocnFilter />}
+              <p className={cls.filterTitle}>{t(`Машины`)}</p>
+              {/* {false ? <IocnSortBack /> : <IocnFilter />} */}
             </Flex>
-            <p className={cls.th}>{t(`Владелец машины`)}</p>
-            <p className={cls.th}>{t(`Машина`)}</p>
-
-            <Flex
-              gap={2}
-              cursor={`pointer`}
-              className={cls.th}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-            >
-              <p>{t(`Статус`)}</p>
-            </Flex>
+            <p className={cls.th}>{t(`Предложения`)}</p>
+            <p className={cls.th}>{t(`в исполнении`)}</p>
+            <p className={cls.th}>{t(`Статус аккаунта`)}</p>
           </Flex>
         </Box>
         <div id="scroll-container">
-          {data?.length > 0 &&
-            data?.map((item) => (
-              <CarsCard
-                t={t}
-                // containerRef={containerRef}
-                key={item?.driver_data?.guid}
-                item={item}
-                deleteFuntion={deleteFuntion}
-              />
-            ))}
+          {[1, 2, 3, 4]?.map((item) => (
+            <CarsCard
+              t={t}
+              // containerRef={containerRef}
+              key={item?.driver_data?.guid}
+              item={item}
+              deleteFuntion={deleteFuntion}
+            />
+          ))}
           <Box mt={6} width={`fit-contend`}>
             <Button
               width={`fit-contend`}
-              isLoading={isPending}
+              // isLoading={isPending}
               onClick={addPage}
               className={cls.btnLoad}
             >

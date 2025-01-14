@@ -150,10 +150,8 @@ export default function GpsTrackingModuleTets() {
             contendHoverState={contendHoverState}
           />
         )}
-        <div className={cls.modalWrap}>
-          <Flex>
-            <Box width={"100%"}>
-              {modalType === "" && (
+        <div className={cls.modalWrapBtn}>
+        {modalType === "" && (
                 <div
                   onClick={() => setModalType("filter")}
                   className={cls.filterBtn}
@@ -161,6 +159,13 @@ export default function GpsTrackingModuleTets() {
                   <FilterIcon /> {t(`Фильтр`)}
                 </div>
               )}
+        </div>
+
+        {
+          modalType.length > 0 &&  <div className={cls.modalWrap}>
+          <Flex>
+            <Box width={"100%"}>
+            
               {modalType === "filter" && (
                 <Filter
                   cls={cls}
@@ -247,6 +252,9 @@ export default function GpsTrackingModuleTets() {
             </Box>
           </Flex>
         </div>
+        }
+       
+       
         {centerModalType === "selectCargo" && (
           <div className={cls.leftModal}>
             <SelectCargo
