@@ -109,8 +109,8 @@ const StepOne = ({ status }) => {
                     >
                       ДСП,
                     </p>
-                    <p 
-                    onClick={() => {
+                    <p
+                      onClick={() => {
                         setValue(`cargo_type_search`, "Овощи и фрукты");
 
                         setValue(`cargo_type`, {
@@ -118,91 +118,97 @@ const StepOne = ({ status }) => {
                           value: "7ae3dfbf-101a-43dc-ac74-364fcd0f6211",
                         });
                       }}
-                     className={cls.quickWord}>
+                      className={cls.quickWord}
+                    >
                       Овощи и фрукты
                     </p>
                   </Flex>
                 )}
               </Box>
-              <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
-                <Box>
-                  <p className={cls.textFieldName}>{t(`В расчёте на одну машину`)}</p>
-                  <TextFieldWithAddition
-                    className={cls.textField2}
-                    errors={errors}
-                    control={control}
-                    name="weight_measurement"
-                    register={register}
-                    additionalItemName="weight_unit"
-                    width="160px"
-                    placeholder={t("Вес")}
-                    additionalItemPlaceholder="T"
-                    additionalItemOptions={weightMeasurementOptions}
-                    disabled={!canEdit}
-                    type="number"
-                    zIndex={90}
-                  />
-                  {canEdit && (
-                    <Flex ml={4} gap={2} mt={2}>
-                      <p
-                        onClick={() => setValue(`weight_measurement`, `20`)}
-                        className={cls.quickWord}
-                      >
-                        20т,
-                      </p>
-                      <p
-                        onClick={() => setValue(`weight_measurement`, `22`)}
-                        className={cls.quickWord}
-                      >
-                        22т,
-                      </p>
-                      <p
-                        onClick={() => setValue(`weight_measurement`, `23`)}
-                        className={cls.quickWord}
-                      >
-                        23т
-                      </p>
-                    </Flex>
-                  )}
-                </Box>
-                <Box>
-                  <p className={cls.textFieldName}></p>
-                  <TextFieldWithAddition
-                    className={cls.textField2}
-                    errors={errors}
-                    control={control}
-                    name="volume_measurement"
-                    register={register}
-                    width="160px"
-                    placeholder={t("Объем")}
-                    additionalItemPlaceholder="m³"
-                    disabled={!canEdit}
-                    type="number"
-                  />
-                  {canEdit && (
-                    <Flex ml={4} gap={2} mt={2}>
-                      <p
-                        onClick={() => setValue(`volume_measurement`, `40`)}
-                        className={cls.quickWord}
-                      >
-                        40м³,
-                      </p>
-                      <p
-                        onClick={() => setValue(`volume_measurement`, `42`)}
-                        className={cls.quickWord}
-                      >
-                        42м³,
-                      </p>
-                      <p
-                        onClick={() => setValue(`volume_measurement`, `43`)}
-                        className={cls.quickWord}
-                      >
-                        43м³
-                      </p>
-                    </Flex>
-                  )}
-                </Box>
-              </Flex>
+              <Box width={`100%`}>
+                <p className={cls.textFieldName}>
+                  {t(`В расчёте на одну машину`)}
+                </p>
+
+                <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
+                  <Box>
+                    <TextFieldWithAddition
+                      className={cls.textField2}
+                      errors={errors}
+                      control={control}
+                      name="weight_measurement"
+                      register={register}
+                      additionalItemName="weight_unit"
+                      width="160px"
+                      placeholder={t("Вес")}
+                      additionalItemPlaceholder="T"
+                      additionalItemOptions={weightMeasurementOptions}
+                      disabled={!canEdit}
+                      type="number"
+                      zIndex={90}
+                    />
+                    {canEdit && (
+                      <Flex ml={4} gap={2} mt={2}>
+                        <p
+                          onClick={() => setValue(`weight_measurement`, `20`)}
+                          className={cls.quickWord}
+                        >
+                          20т,
+                        </p>
+                        <p
+                          onClick={() => setValue(`weight_measurement`, `22`)}
+                          className={cls.quickWord}
+                        >
+                          22т,
+                        </p>
+                        <p
+                          onClick={() => setValue(`weight_measurement`, `23`)}
+                          className={cls.quickWord}
+                        >
+                          23т
+                        </p>
+                      </Flex>
+                    )}
+                  </Box>
+                  <Box>
+                    {/* <p className={cls.textFieldName}></p> */}
+                    <TextFieldWithAddition
+                      className={cls.textField2}
+                      errors={errors}
+                      control={control}
+                      name="volume_measurement"
+                      register={register}
+                      width="160px"
+                      placeholder={t("Объем")}
+                      additionalItemPlaceholder="m³"
+                      disabled={!canEdit}
+                      type="number"
+                    />
+                    {canEdit && (
+                      <Flex ml={4} gap={2} mt={2}>
+                        <p
+                          onClick={() => setValue(`volume_measurement`, `40`)}
+                          className={cls.quickWord}
+                        >
+                          40м³,
+                        </p>
+                        <p
+                          onClick={() => setValue(`volume_measurement`, `42`)}
+                          className={cls.quickWord}
+                        >
+                          42м³,
+                        </p>
+                        <p
+                          onClick={() => setValue(`volume_measurement`, `43`)}
+                          className={cls.quickWord}
+                        >
+                          43м³
+                        </p>
+                      </Flex>
+                    )}
+                  </Box>
+                </Flex>
+              </Box>
             </Flex>
 
             {canEdit && (
@@ -286,7 +292,7 @@ const StepOne = ({ status }) => {
                     maxW="540px"
                     width="100%"
                     flexWrap={`wrap`}
-                      rowGap={`10px`}
+                    rowGap={`10px`}
                   >
                     <Dropdown
                       errors={errors}
@@ -364,7 +370,7 @@ const StepOne = ({ status }) => {
                       name="length"
                       register={register}
                       // width="153px"
-                       width={isLargerThan845 ? `153px` : `100%`}
+                      width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Длина")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -374,7 +380,7 @@ const StepOne = ({ status }) => {
                       name="width"
                       register={register}
                       // width="153px"
-                       width={isLargerThan845 ? `153px` : `100%`}
+                      width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Ширина")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -384,7 +390,7 @@ const StepOne = ({ status }) => {
                       name="height"
                       register={register}
                       // width="153px"
-                       width={isLargerThan845 ? `153px` : `100%`}
+                      width={isLargerThan845 ? `153px` : `100%`}
                       placeholder={t("Высота")}
                       additionalItemPlaceholder={t("м")}
                       disabled={!canEdit}
@@ -411,13 +417,11 @@ const StepOne = ({ status }) => {
                 mt="24px"
                 justifyContent={"space-between"}
                 key="dimensionsBtn2"
-               
               >
                 <Flex
                   alignItems={`center`}
                   width={isLargerThan845 ? `fit-contend` : `100%`}
                   justifyContent={`space-between`}
-                 
                 >
                   <p className={cls.stepTitle2}>
                     {t("Прикрепить фото")} <br />
