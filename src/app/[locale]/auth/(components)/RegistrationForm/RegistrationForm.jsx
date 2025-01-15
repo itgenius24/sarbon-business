@@ -459,13 +459,13 @@ export const RegistrationForm = () => {
           <ModalHeader>
             <CheckModalIcon />
           </ModalHeader>
-          <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
+          {/* <ModalCloseButton onClick={() => setIsPopupOpen(false)} /> */}
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
               Профиль успешно добавлен!
             </p>
             <p style={{ fontWeight: 400, fontSize: "14px" }}>
-              Теперь можно добавлять автопарк и водителей{" "}
+              Теперь можно добавлять автопарк и водителей
             </p>
           </ModalBody>
 

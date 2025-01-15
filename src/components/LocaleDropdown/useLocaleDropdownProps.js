@@ -48,7 +48,7 @@ export const useLocaleDropdownProps = ({ locale }) => {
   const pathname = usePathname();
 
   const activeLangIndex = langs.findIndex((lang) => lang.value === locale);
-  const activeLang = langs[activeLangIndex];
+  const activeLang = langs[activeLangIndex] || `ru`;
 
   const dropdownRef = useRef(null);
 
