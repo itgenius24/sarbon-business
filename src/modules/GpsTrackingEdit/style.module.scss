@@ -107,7 +107,8 @@
       overflow-y: scroll;
 
       @media (max-width:845px) {
-          height: 89vh;
+          height: 92.1vh;
+          padding-bottom: 60px;
       }
 
       .filterText {
