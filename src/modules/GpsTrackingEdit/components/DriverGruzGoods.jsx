@@ -222,6 +222,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
           </Box>
         )}
       </Flex>
+      
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
         <ModalContent>

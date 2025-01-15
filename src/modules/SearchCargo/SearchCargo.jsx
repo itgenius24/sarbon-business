@@ -272,36 +272,14 @@ export const SearchCargoModule = () => {
                         <span className={cls.subTitle}>{t("Пример")}: </span>
                         <p
                           onClick={() => {
-                            setValue(`capacity`, `7`, {
+                            setValue(`capacity`, `20`, {
                               shouldValidate: true,
                               shouldDirty: true,
                             });
                           }}
                           className={cls.quickWord}
                         >
-                          7{t("т")},
-                        </p>
-                        <p
-                          onClick={() =>
-                            setValue(`capacity`, `10`, {
-                              shouldValidate: true,
-                              shouldDirty: true,
-                            })
-                          }
-                          className={cls.quickWord}
-                        >
-                          10{t("т")},
-                        </p>
-                        <p
-                          onClick={() =>
-                            setValue(`capacity`, `20`, {
-                              shouldValidate: true,
-                              shouldDirty: true,
-                            })
-                          }
-                          className={cls.quickWord}
-                        >
-                          20{t("т")}
+                          20{t("т")},
                         </p>
                         <p
                           onClick={() =>
@@ -312,7 +290,29 @@ export const SearchCargoModule = () => {
                           }
                           className={cls.quickWord}
                         >
-                          22{t("т")}
+                          22{t("т")},
+                        </p>
+                        <p
+                          onClick={() =>
+                            setValue(`capacity`, `23`, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          23{t("т")}
+                        </p>
+                        <p
+                          onClick={() =>
+                            setValue(`capacity`, `24`, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          24{t("т")}
                         </p>
                       </Flex>
                     </Box>
@@ -341,36 +341,36 @@ export const SearchCargoModule = () => {
                         <span className={cls.subTitle}>{t("Пример")}: </span>
                         <p
                           onClick={() =>
-                            setValue(`height`, `20`, {
+                            setValue(`height`, `96`, {
                               shouldValidate: true,
                               shouldDirty: true,
                             })
                           }
                           className={cls.quickWord}
                         >
-                          20{t("м³")},
+                          96{t("м³")},
                         </p>
                         <p
                           onClick={() =>
-                            setValue(`height`, `40`, {
+                            setValue(`height`, `105`, {
                               shouldValidate: true,
                               shouldDirty: true,
                             })
                           }
                           className={cls.quickWord}
                         >
-                          40{t("м³")},
+                          105{t("м³")},
                         </p>
                         <p
                           onClick={() =>
-                            setValue(`height`, `43`, {
+                            setValue(`height`, `120`, {
                               shouldValidate: true,
                               shouldDirty: true,
                             })
                           }
                           className={cls.quickWord}
                         >
-                          43{t("м³")}
+                          120{t("м³")}
                         </p>
                       </Flex>
                     </Box>
