@@ -26,6 +26,8 @@
   --primary-text: rgba(0, 51, 153, 1);
   --base-white: #ffffff;
   --icon-base: #98a2b3;
+  --blue-color:rgba(0, 122, 255, 1);
+  --body-color:#f6f7f8;
 }
 
 @media (min-width: 1681px) {
@@ -64,7 +66,7 @@ body {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  background-color: #f6f7f8;
+  background-color: var(--body-color);
 }
 
 *,

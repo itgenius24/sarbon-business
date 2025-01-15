@@ -44,7 +44,7 @@ export const MyCarsDispatcherModule = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  console.log(`salom`,data.length)
+
   return (
     <>
       <Container my="40px">
@@ -62,7 +62,7 @@ export const MyCarsDispatcherModule = () => {
                 {t(`Всего`)}: <span>{count || 0}</span>
               </p>
               <p>
-                {t(`Свободных`)}:{" "}
+                {t(`Свободных`)}:
                 <span>{data?.filter((item) => !item.order_data)?.length}</span>
               </p>
             </Box>

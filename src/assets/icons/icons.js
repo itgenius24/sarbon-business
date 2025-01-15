@@ -386,7 +386,7 @@ export const CircleCloseIcon = ({ color = "#667085" }) => (
 );
 
 export const DeleteIcon = ({
-  color = "#344054",
+  color = "rgba(255, 0, 0, 1)",
   width = "24",
   height = "24",
 }) => (

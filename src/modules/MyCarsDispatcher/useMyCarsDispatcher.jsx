@@ -36,17 +36,25 @@ export const useMyCarsDispatcher = () => {
 
         let data = res?.response;
         const uniqueData = data.filter(
-          (item) => !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
+          (item) =>
+            !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
         );
-        setData((prev) => [...prev, ...data]); // Yangi ma'lumotlarni data ga qo'shish
+        //  if(page > 1){
+          const uniqueData2 = data.filter(
+            (item) =>
+              oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
+          );
+            setData2((prev) => [...prev, ...uniqueData2])
+
+        //  }
+        setData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni data ga qo'shish
         setOldData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni oldData ga qo'shish
-      
       }
     },
   });
 
-  
- 
+  console.log(`data2`,data2.map(item => item?.driver_data?.[0]?.full_name  ))
+
   useEffect(() => {
     const dataReq = {
       data: {
@@ -63,10 +71,9 @@ export const useMyCarsDispatcher = () => {
     mutate(dataReq);
   }, [page, limit, debouncedValue?.length, refe]);
 
-
   const addPage = () => {
-    setPage(pa => pa + 1)
-  }
+    setPage((pa) => pa + 1);
+  };
 
   const nameFilter = () => {
     setFilter1(!filter1);
@@ -94,7 +101,7 @@ export const useMyCarsDispatcher = () => {
   });
 
   const deleteFuntion = (id) => {
-    console.log(`deleteFuntion`,id)
+    console.log(`deleteFuntion`, id);
     deleteUser({
       id,
     });
@@ -130,6 +137,147 @@ export const useMyCarsDispatcher = () => {
     };
   }, []);
 
+
+//   const ids = [
+//     "Aknazarov Abdurasul",
+//     "Davlatov Alisher Tursunboy o'g'li",
+//     "Shoimardanov Fazliddin",
+//     "Ahmatov Jorabek",
+//     "Кутбиддинов",
+//     "Тогаев Толиь",
+//     "Haqberdiyev Murot",
+//     "Abdullayev Komolidin",
+//     "Nizomov Mashrabjin",
+//     "Haydarov Jonibek",
+//     "Авулов",
+//     "Shomurodov Diyorbek",
+//     "Ismoilov Furqatbek",
+//     "Yetyichayev Anvar",
+//     "Oktamov Azamat",
+//     "Mustifoqulov Odiljon",
+//     "Sobirov Axrorjon Shokirjon ogli",
+//     "Hamidov Ibrohim aka",
+//     "Pardayev Ozodjon",
+//     "Husanov Sanjar",
+//     "Убайдуллаев Баходир",
+//     "Aliqulov Tulqin",
+//     "Худайназаров Муроджон",
+//     "Гулямов Лочин",
+//     "Ahmajonov Rustamjon",
+//     "Qunduziv Anvar",
+//     "Rahmatov Oktam",
+//     "Нишанов Рахматжон",
+//     "Nurmetov Nurmamad",
+//     "Мирзаев Мухитдин",
+//     "Aknazarov Abdurasul",
+//     "Ураков Шерзодбек Ахмаджонович",
+//     "Davlatov Alisher Tursunboy o'g'li",
+//     "яАлимов Хайдарали",
+//     "Shoimardanov Fazliddin",
+//     "Обидов Ихлосбек И",
+//     "Тошбоев Комилжон",
+//     "Ahmatov Jorabek",
+//     "Сайдалиев Хакимжон Солижонович",
+//     "Кутбиддинов",
+//     "Жораев Боирали Курбонаиевич",
+//     "Тогаев Толиь",
+//     "Насретдинов Мирфозил  Исмоилович",
+//     "Haqberdiyev Murot",
+//     "Моментов Исомиддин",
+//     "Abdullayev Komolidin",
+//     "Бозоров Жаъфар Шавкатович",
+//     "Nizomov Mashrabjin",
+//     "Худайназаров Муроджон",
+//     "Гулямов Лочин",
+//     "Ahmajonov Rustamjon",
+//     "Qunduziv Anvar",
+//     "Rahmatov Oktam",
+//     "дадабоев Икболлиддин",
+//     "Авулов",
+//     "Tursunov Oybek",
+//     "Shomurodov Diyorbek",
+//     "QURANBAYEV BUNYOD",
+//     "Ismoilov Furqatbek",
+//     "Ahmedov Fayzullo",
+//     "Yetyichayev Anvar",
+//     "Guzarov Nodirbek",
+//     "Oktamov Azamat",
+//     "Abdulaziz Juraboyev",
+//     "Mustifoqulov Odiljon",
+//     "Ахмедов Лазизжон Махамаджанович",
+//     "Sobirov Axrorjon Shokirjon ogli",
+//     "ibrohim umarov",
+//     "Hamidov Ibrohim aka",
+//     "Рустамов Мухсин",
+//     "Pardayev Ozodjon",
+//     "Gulomjonov Zoir",
+//     "Husanov Sanjar",
+//     "TURDIBOYEV FOZILJON FAZLIDDINJON O'G'LI",
+//     "Убайдуллаев Баходир",
+//     "Худайназаров Муроджон",
+//     "Гулямов Лочин",
+//     "Ahmajonov Rustamjon",
+//     "Qunduziv Anvar",
+//     "Rahmatov Oktam",
+//     "дадабоев Икболлиддин",
+//     "Тураев Шухрат",
+//     "Нишанов Рахматжон",
+//     "ShukurufSirojon",
+//     "Ergashev Ziynatshoh",
+//     "Ахмедов Бахром",
+//     "Nurmetov Nurmamad",
+//     "Джангабаев Сардор",
+//     "Мирзаев Мухитдин",
+//     "Кабулов Умиджон",
+//     "Aknazarov Abdurasul",
+//     "Rajabov Jasurbek Obidovich",
+//     "Ураков Шерзодбек Ахмаджонович",
+//     "Shirinov Feruz Maxmudovich",
+//     "Davlatov Alisher Tursunboy o'g'li",
+//     "Тулаганов Откир",
+//     "яАлимов Хайдарали",
+//     "Жамолидинов Тохиржон",
+//     "Shoimardanov Fazliddin",
+//     "Алимов Мухтар",
+//     "Обидов Ихлосбек И",
+//     "Худайназаров Муроджон",
+//     "Гулямов Лочин",
+//     "Ahmajonov Rustamjon",
+//     "Qunduziv Anvar",
+//     "Rahmatov Oktam",
+//     "дадабоев Икболлиддин",
+//     "Тураев Шухрат",
+//     "Тошбоев Комилжон",
+//     "Шокиров Хамдамбек",
+//     "Ahmatov Jorabek",
+//     "Эсонбоев солижон",
+//     "Сайдалиев Хакимжон Солижонович",
+//     "одилов Лочин",
+//     "Кутбиддинов",
+//     "Мирзаяров Шербек",
+//     "Жораев Боирали Курбонаиевич",
+//     "Гуламов Самир",
+//     "Тогаев Толиь",
+//     "Бобамирзаев Бахтиёр Усмонович",
+//     "Насретдинов Мирфозил  Исмоилович",
+//     "Абдуллаев Азам",
+//     "Haqberdiyev Murot",
+//     "Илхомжон Тешабаев",
+//     "Моментов Исомиддин",
+//     "Жалилов Анваржон",
+//     "Abdullayev Komolidin",
+//     "Shoabdullayev  Shoakbar",
+//     "Бозоров Жаъфар Шавкатович",
+//     "Худайназаров Муроджон",
+//     "Гулямов Лочин",
+//     "Ahmajonov Rustamjon",
+//     "Qunduziv Anvar",
+//     "Rahmatov Oktam",
+//     "дадабоев Икболлиддин",
+//     "Тураев Шухрат"
+// ]
+
+// console.log(`ids`,ids)
   return {
     data,
     deleteFuntion,

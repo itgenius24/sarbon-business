@@ -1,7 +1,7 @@
 import cls from "./styles.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, useMediaQuery } from "@chakra-ui/react";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DeleteIcon, UploadCloudBlueIcon } from "@/assets/icons/icons";
 import { fileUpload } from "@/services/fileUpload";
@@ -16,7 +16,8 @@ export const UploadImg = ({
   errors = {},
 }) => {
   const locale = useGetLang();
-  
+
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const handleImageUpload = async (e) => {
     const result = await fileUpload(e);
     // setValue("image", result?.link);
@@ -28,44 +29,62 @@ export const UploadImg = ({
   return (
     <Box
       className={cls.fields}
-      display="flex"
+      // display="flex"
       columnGap="24px"
       maxW="540px"
       width="100%"
     >
       {watch(name) ? (
-        <Box
-          display="flex"
-          position="relative"
-          alignItems="center"
-          justifyContent="center"
-          ml="auto"
-          maxWidth={"540px"}
-          width="100%"
-          height="150px"
-          borderRadius="12px"
-          border="1px solid"
-          borderColor="brand.200"
-          padding="16px 24px"
-        >
-          <Image
-            className={cls.img}
-            src={watch(name)}
-            alt="cargo"
-            width={150}
-            height={150}
-          />
-          <Button
-            onClick={() => {
-              setValue(name, null);
-            }}
-            position="absolute"
-            top="10px"
-            left="10px"
-            variant="reset"
+        <Box>
+          <Box
+            display="flex"
+            position="relative"
+            alignItems="center"
+            justifyContent="center"
+            ml="auto"
+            maxWidth={"540px"}
+            width="100%"
+            height={ isLargerThan845 ? `165px`:"237px"}
+            borderRadius="12px"
+            border={`2px dashed  rgba(219, 216, 227, 1)`}
+            background={
+              isColor ? "rgba(246, 247, 248, 1)" : "rgba(255, 255, 255, 1)"
+            }
+            padding="16px 24px"
           >
-            <DeleteIcon />
-          </Button>
+            <Image
+              className={cls.img}
+              src={watch(name)}
+              alt="cargo"
+              width={isLargerThan845 ? 250:300}
+              height={isLargerThan845 ? 250:300}
+            />
+          </Box>
+          <Box
+            width={`100%`}
+            height={`30px`}
+            borderRadius={`8px`}
+            zIndex={12323231111}
+            backgroundColor={`transparent`}
+            fontWeight={`400`}
+            fontSize={`16px`}
+            textAlign={`center`}
+            marginTop={`10px`}
+          >
+            <span
+              onClick={() => {
+                setValue(name, null);
+              }}
+              style={{
+                paddingBottom: `5px`,
+                borderBottom: `1px dashed red`,
+                color: `red`,
+                cursor: `pointer`,
+              }}
+            >
+              Удалить фото
+            </span>
+          </Box>
         </Box>
       ) : (
         <Box
@@ -73,7 +92,11 @@ export const UploadImg = ({
           alignItems="center"
           justifyContent="center"
           // mt="24px"
-          border={ errors[name] ? `2px solid red` :  `2px dashed  rgba(219, 216, 227, 1)`}
+          border={
+            errors[name]
+              ? `2px solid red`
+              : `2px dashed  rgba(219, 216, 227, 1)`
+          }
           borderRadius="12px"
           background={
             isColor ? "rgba(246, 247, 248, 1)" : "rgba(255, 255, 255, 1)"
@@ -81,7 +104,7 @@ export const UploadImg = ({
           as="label"
           ml="auto"
           width="100%"
-          height={"165px"}
+          height={ isLargerThan845 ? `165px`:"237px"}
           cursor={"pointer"}
         >
           <input

@@ -13,6 +13,10 @@
   border: 1px solid var(--brand-300);
   background: var(--brand-white);
   background-color: white;
+  @media (max-width:872px) {
+    width: 20px;
+    height: 20px;
+ }
 }
 
 .checkboxInput:checked + .checkbox {
@@ -39,6 +43,9 @@
   color: var(--brand-700);
   font-size: 14px;
   line-height: 20px;
+  @media (max-width:872px) {
+    font-size: 16px;
+ }
 }
 
 .checkboxTextNone{
@@ -46,7 +53,11 @@
   margin-left: 8px;
   color: rgba(126, 123, 134, 1);
   font-size: 14px;
+  font-weight: 400;
   line-height: 20px;
+  @media (max-width:872px) {
+    font-size: 16px;
+ }
 }
 
 .checkbox2{
