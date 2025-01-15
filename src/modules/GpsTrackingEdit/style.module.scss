@@ -106,6 +106,10 @@
       margin-bottom: 20px;
       overflow-y: scroll;
 
+      @media (max-width:845px) {
+          height: 89vh;
+      }
+
       .filterText {
         font-weight: 600;
         font-size: 24px;
