@@ -58,6 +58,11 @@ export const UploadImg = ({
               alt="cargo"
               width={isLargerThan845 ? 250:300}
               height={isLargerThan845 ? 250:300}
+              style={{
+                width:`100%`,
+                height:isLargerThan845 ? `150px` :`220px`,
+                objectFit:`cover`
+              }}
             />
           </Box>
           <Box
