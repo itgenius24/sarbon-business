@@ -34,7 +34,7 @@ const Filter = ({
   setModalType,
   handleInputClear,
   setLoadCheck,
-  loadCheck
+  loadCheck,
 }) => {
   const { t } = useTranslation(locale);
 
@@ -54,9 +54,12 @@ const Filter = ({
             alignItems={"center"}
             gap={"10px"}
           >
-            <FilterIconBlack /> <span className={cls.filterText}>{t("Фильтр")}</span>
+            <FilterIconBlack />{" "}
+            <span className={cls.filterText}>{t("Фильтр")}</span>
           </Flex>
-          <p onClick={() => handleClear()} className={cls.clearBtn}>{t("Сбросить")}</p>
+          <p onClick={() => handleClear()} className={cls.clearBtn}>
+            {t("Сбросить")}
+          </p>
         </Flex>
         <Box className={cls.cardWrap}>
           <TextFieldWithAddition
@@ -140,16 +143,18 @@ const Filter = ({
             >
               {t("Грузы")}
             </Checkbox>
-               <Checkbox
-                            // isLoading={isLoadingRefueling}
-                            // isDisabled={isLoadingRefueling}
-                            width={"16px"}
-                            height={"16px"}
-                            defaultChecked={Boolean(watch(`refuelingState`))}
-                            onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
-                          >
-                            {t("Заправки")}
-                          </Checkbox>
+            <Checkbox
+              // isLoading={isLoadingRefueling}
+              // isDisabled={isLoadingRefueling}
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={Boolean(watch(`refuelingState`))}
+              onChange={() =>
+                setValue(`refuelingState`, !watch(`refuelingState`))
+              }
+            >
+              {t("Заправки")}
+            </Checkbox>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
@@ -171,6 +176,7 @@ const Filter = ({
               placeholder={t("Введите тип загрузки")}
               label={t("Тип загрузки")}
               name="load_type_id"
+              width="100%"
               options={loadingOptions}
               errors={errors}
               control={control}

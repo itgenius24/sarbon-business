@@ -88,6 +88,11 @@ const useStepTwoProps = () => {
     watch("unloading[0].from_date"),
   ]);
 
+  console.log(`tets`, watch(`loadings[0].address`) &&
+      watch("unloading[0].address") &&
+      (watch(`loadings[0].from_date`) || watch(`as_soon_as_a`)) &&
+      (watch(`as_soon_as_b`) || watch("unloading[0].to_date")))
+
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
   }

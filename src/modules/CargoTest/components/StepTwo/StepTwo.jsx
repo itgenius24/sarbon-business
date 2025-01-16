@@ -186,13 +186,13 @@ const StepTwo = ({ status }) => {
                     width={"100%"}
                     mt={"20px"}
                   >
-                    <Box width={"140px"}>
+                    <Box width={"198px"}>
                       <span className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
-                        width={140}
-                        // showTimeSelect
-                        // timeFormat="HH:mm" // 24 soatlik format
-                        // timeIntervals={15}
+                        width={198}
+                        showTimeSelect
+                        timeFormat="HH:mm" // 24 soatlik format
+                        timeIntervals={15}
                         isDisabled={watch("as_soon_as_a")}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index, item?.guid);
@@ -403,14 +403,14 @@ const StepTwo = ({ status }) => {
                     width={"fit-content"}
                     mt={"20px"}
                   >
-                    <Box width={"140px"}>
+                    <Box width={"198px"}>
                       <span className={cls.label}>{t(`Когда доставить`)}</span>
                       <DatePickerComponent
                         isDisabled={watch(`as_soon_as_b`)}
-                        width={140}
-                        // showTimeSelect
-                        // timeFormat="HH:mm" // 24 soatlik format
-                        // timeIntervals={15}
+                        width={198}
+                        showTimeSelect
+                        timeFormat="HH:mm" // 24 soatlik format
+                        timeIntervals={15}
                         onChange={(date) => {
                           lodingChangeDate(
                             "unLoading",

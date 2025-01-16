@@ -39,10 +39,7 @@ import DriverGruz from "./components/DriverGruz";
 import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
-import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
 import LoadingMap from "../Cargo/components/LoadingMap";
-import copy from "copy-to-clipboard";
 import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 

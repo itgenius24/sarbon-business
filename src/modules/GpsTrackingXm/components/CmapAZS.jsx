@@ -21,6 +21,7 @@ import {
   RefuelingIconMap,
   TelegramIcon,
   WatsapIcon,
+  PrimumIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -373,29 +374,15 @@ const CmapAZS = memo(
                         <GreenPhoneIcon />
                         <a
                           target="_blank"
-                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
                         >
-                          {formatPhoneNumber(carInfo?.user?.phone)}
+                          +998 XX XXX XX XX
                         </a>
-                        <div className={cls.flex}>
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <TelegramIcon />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <WatsapIcon />
-                          </a>
+
+                        <div className={cls.premium}>
+                          <PrimumIcon /> только Premium
                         </div>
                       </div>
                       <p className={cls.footerBox}>
@@ -412,29 +399,14 @@ const CmapAZS = memo(
                         <BluePhoneIcon />{" "}
                         <a
                           target="_blank"
-                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
                         >
-                          {formatPhoneNumber(carInfo?.user?.phone)}
+                          +998 XX XXX XX XX
                         </a>
-                        <div className={cls.flex}>
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <TelegramIcon />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <WatsapIcon />
-                          </a>
+                        <div className={cls.premium}>
+                          <PrimumIcon /> только Premium
                         </div>
                       </div>
 
@@ -451,29 +423,15 @@ const CmapAZS = memo(
                         <BluePhoneIcon />
                         <a
                           target="_blank"
-                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
                         >
-                          {formatPhoneNumber(carInfo?.user?.phone)}
+                          +998 XX XXX XX XX
                         </a>
-                        <div className={cls.flex}>
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <TelegramIcon />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <WatsapIcon />
-                          </a>
+
+                        <div className={cls.premium}>
+                          <PrimumIcon /> только Premium
                         </div>
                       </div>
 
@@ -490,29 +448,15 @@ const CmapAZS = memo(
                         <BluePhoneIcon />
                         <a
                           target="_blank"
-                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
                         >
-                          {formatPhoneNumber(carInfo?.user?.phone)}
+                          +998 XX XXX XX XX
                         </a>
-                        <div className={cls.flex}>
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <TelegramIcon />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <WatsapIcon />
-                          </a>
+
+                        <div className={cls.premium}>
+                          <PrimumIcon /> только Premium
                         </div>
                       </div>
 
@@ -529,29 +473,14 @@ const CmapAZS = memo(
                         <BluePhoneIcon />{" "}
                         <a
                           target="_blank"
-                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
                         >
-                          {formatPhoneNumber(carInfo?.user?.phone)}
+                          +998 XX XXX XX XX
                         </a>
-                        <div className={cls.flex}>
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <TelegramIcon />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <WatsapIcon />
-                          </a>
+                        <div className={cls.premium}>
+                          <PrimumIcon /> только Premium
                         </div>
                       </div>
                       <p className={cls.footerBox}>
@@ -567,29 +496,15 @@ const CmapAZS = memo(
                         <GreenPhoneIcon />
                         <a
                           target="_blank"
-                          href={`https://t.me/${carInfo?.user?.phone}`}
+                          // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
                         >
-                          {formatPhoneNumber(carInfo?.user?.phone)}
+                          +998 XX XXX XX XX
                         </a>
-                        <div className={cls.flex}>
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <TelegramIcon />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/${carInfo?.user?.phone}`}
-                            id="click"
-                            // className={cls.footerBoxLink}
-                          >
-                            <WatsapIcon />
-                          </a>
+
+                        <div className={cls.premium}>
+                          <PrimumIcon /> только Premium
                         </div>
                       </div>
 
