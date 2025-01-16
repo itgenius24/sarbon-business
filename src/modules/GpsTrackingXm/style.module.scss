@@ -521,6 +521,21 @@
       font-size: 14px;
       gap: 10px;
       line-height: 20px;
+      // margin: 6px 0px;
+      border-bottom: 1px dotted rgba(255, 255, 255, 0);
+
+      &:hover {
+        border-bottom: 1px dotted black;
+      }
+    }
+    .footerBoxLinkPremium {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      gap: 10px;
+      line-height: 20px;
+      margin: 6px 0px;
       // border-bottom: 1px dotted rgba(255, 255, 255, 0);
 
       &:hover {
@@ -532,8 +547,9 @@
       align-items: center;
       position: relative;
       gap: 10px;
-      margin: 10px 0px;
+      margin: 4px 0px;
       .premium{
+       
         padding: 6px 10px;
         border-radius: 25px;
         background-color: rgba(255, 183, 67, 1);

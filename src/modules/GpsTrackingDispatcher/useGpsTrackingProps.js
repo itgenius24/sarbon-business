@@ -354,7 +354,6 @@ export const useGpsTrackingProps = () => {
       }
     },
   });
-  console.log(`carsArr`, carsArr);
 
   const filterData = (data, checkboxStatuses) => {
     return data?.filter((item) => {
@@ -369,7 +368,7 @@ export const useGpsTrackingProps = () => {
       },
     });
   
-    useState(() => {
+    useEffect(() => {
       if (remainingData.length === 0) {
         getCarRefueling({
           data: {

@@ -40,6 +40,7 @@ import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
 import { FixedSizeList as List } from "react-window";
 import { useTranslation } from "react-i18next";
+import authStore from "@/store/auth.store";
 
 const CmapAZS = memo(
   ({
@@ -58,6 +59,7 @@ const CmapAZS = memo(
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
+    const user_type = authStore?.userData?.user_status;
     const { t } = useTranslation();
     useEffect(() => {
       setIsClient(true);
@@ -372,18 +374,50 @@ const CmapAZS = memo(
                     <>
                       <div className={cls.flex}>
                         <GreenPhoneIcon />
-                        <a
-                          target="_blank"
-                          // href={`https://t.me/${carInfo?.user?.phone}`}
-                          id="click"
-                          className={cls.footerBoxLink}
-                        >
-                          +998 XX XXX XX XX
-                        </a>
-
-                        <div className={cls.premium}>
-                          <PrimumIcon /> только Premium
-                        </div>
+                        {user_type?.[0] === `approved` ? (
+                          <>
+                            <a
+                              target="_blank"
+                              href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLink}
+                            >
+                              {formatPhoneNumber(carInfo?.user?.phone)}
+                            </a>
+                            <div className={cls.flex}>
+                              <a
+                                target="_blank"
+                                href={`https://t.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <TelegramIcon />
+                              </a>
+                              <a
+                                target="_blank"
+                                href={`https://wa.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <WatsapIcon />
+                              </a>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <a
+                              target="_blank"
+                              // href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLinkPremium}
+                            >
+                              +998 XX XXX XX XX
+                            </a>
+                            <div className={cls.premium}>
+                              <PrimumIcon /> только Premium
+                            </div>
+                          </>
+                        )}
                       </div>
                       <p className={cls.footerBox}>
                         <GreenFuraIcon />
@@ -401,7 +435,7 @@ const CmapAZS = memo(
                           target="_blank"
                           // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
-                          className={cls.footerBoxLink}
+                          className={cls.footerBoxLinkPremium}
                         >
                           +998 XX XXX XX XX
                         </a>
@@ -421,18 +455,50 @@ const CmapAZS = memo(
                     <>
                       <div className={cls.flex}>
                         <BluePhoneIcon />
-                        <a
-                          target="_blank"
-                          // href={`https://t.me/${carInfo?.user?.phone}`}
-                          id="click"
-                          className={cls.footerBoxLink}
-                        >
-                          +998 XX XXX XX XX
-                        </a>
-
-                        <div className={cls.premium}>
-                          <PrimumIcon /> только Premium
-                        </div>
+                        {user_type?.[0] === `approved` ? (
+                          <>
+                            <a
+                              target="_blank"
+                              href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLink}
+                            >
+                              {formatPhoneNumber(carInfo?.user?.phone)}
+                            </a>
+                            <div className={cls.flex}>
+                              <a
+                                target="_blank"
+                                href={`https://t.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <TelegramIcon />
+                              </a>
+                              <a
+                                target="_blank"
+                                href={`https://wa.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <WatsapIcon />
+                              </a>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <a
+                              target="_blank"
+                              // href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLinkPremium}
+                            >
+                              +998 XX XXX XX XX
+                            </a>
+                            <div className={cls.premium}>
+                              <PrimumIcon /> только Premium
+                            </div>
+                          </>
+                        )}
                       </div>
 
                       <p className={cls.footerBox}>
@@ -446,18 +512,50 @@ const CmapAZS = memo(
                     <>
                       <div className={cls.flex}>
                         <BluePhoneIcon />
-                        <a
-                          target="_blank"
-                          // href={`https://t.me/${carInfo?.user?.phone}`}
-                          id="click"
-                          className={cls.footerBoxLink}
-                        >
-                          +998 XX XXX XX XX
-                        </a>
-
-                        <div className={cls.premium}>
-                          <PrimumIcon /> только Premium
-                        </div>
+                        {user_type?.[0] === `approved` ? (
+                          <>
+                            <a
+                              target="_blank"
+                              href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLink}
+                            >
+                              {formatPhoneNumber(carInfo?.user?.phone)}
+                            </a>
+                            <div className={cls.flex}>
+                              <a
+                                target="_blank"
+                                href={`https://t.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <TelegramIcon />
+                              </a>
+                              <a
+                                target="_blank"
+                                href={`https://wa.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <WatsapIcon />
+                              </a>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <a
+                              target="_blank"
+                              // href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLinkPremium}
+                            >
+                              +998 XX XXX XX XX
+                            </a>
+                            <div className={cls.premium}>
+                              <PrimumIcon /> только Premium
+                            </div>
+                          </>
+                        )}
                       </div>
 
                       <p className={cls.footerBox}>
@@ -475,7 +573,7 @@ const CmapAZS = memo(
                           target="_blank"
                           // href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
-                          className={cls.footerBoxLink}
+                          className={cls.footerBoxLinkPremium}
                         >
                           +998 XX XXX XX XX
                         </a>
@@ -494,18 +592,50 @@ const CmapAZS = memo(
                     <>
                       <div className={cls.flex}>
                         <GreenPhoneIcon />
-                        <a
-                          target="_blank"
-                          // href={`https://t.me/${carInfo?.user?.phone}`}
-                          id="click"
-                          className={cls.footerBoxLink}
-                        >
-                          +998 XX XXX XX XX
-                        </a>
-
-                        <div className={cls.premium}>
-                          <PrimumIcon /> только Premium
-                        </div>
+                        {user_type?.[0] === `approved` ? (
+                          <>
+                            <a
+                              target="_blank"
+                              href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLink}
+                            >
+                              {formatPhoneNumber(carInfo?.user?.phone)}
+                            </a>
+                            <div className={cls.flex}>
+                              <a
+                                target="_blank"
+                                href={`https://t.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <TelegramIcon />
+                              </a>
+                              <a
+                                target="_blank"
+                                href={`https://wa.me/${carInfo?.user?.phone}`}
+                                id="click"
+                                // className={cls.footerBoxLink}
+                              >
+                                <WatsapIcon />
+                              </a>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <a
+                              target="_blank"
+                              // href={`https://t.me/${carInfo?.user?.phone}`}
+                              id="click"
+                              className={cls.footerBoxLinkPremium}
+                            >
+                              +998 XX XXX XX XX
+                            </a>
+                            <div className={cls.premium}>
+                              <PrimumIcon /> только Premium
+                            </div>
+                          </>
+                        )}
                       </div>
 
                       <p className={cls.footerBox}>

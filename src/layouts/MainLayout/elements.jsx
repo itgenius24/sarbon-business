@@ -136,16 +136,13 @@ export const useElements = () => {
       //   path: `/${lang || "ru"}/search-car`,
       //   label: "Поиск машин",
       // },
-    ];
-
-    if (user_type?.[0] === `approved`) {
-      menu.push({
+      {
         path: isAuth
           ? `/${lang || "ru"}/gps-tracking-xm`
           : `/${lang || "ru"}/auth`,
         label: "(GPS tracking)",
-      });
-    }
+      }
+    ];
 
     return menu;
   } else {

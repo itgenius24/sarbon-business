@@ -450,7 +450,7 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-  useState(() => {
+  useEffect(() => {
     if (remainingData.length === 0) {
       getCarRefueling({
         data: {

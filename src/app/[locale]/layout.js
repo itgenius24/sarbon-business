@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Furgo",
+  title: "Sarbon",
   description:
     "питак, logistics, logistika, furgo, фурго, перевозка, перевозки, автоперевозки, юк ташиш, фурада юк ташиш, ставка, транзит, реф, firgo, погрузка, груз, аванс, затаможка, растаможка, догруз, глонасс, запрос, ref, adr, адр, грузовые перевозки",
   icons: { icon: "/favicon.ico" },
