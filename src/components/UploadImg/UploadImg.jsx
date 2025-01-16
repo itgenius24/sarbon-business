@@ -60,7 +60,7 @@ export const UploadImg = ({
               height={isLargerThan845 ? 250:300}
               style={{
                 width:`100%`,
-                height:isLargerThan845 ? `150px` :`220px`,
+                height:isLargerThan845 ? `150px` :`210px`,
                 objectFit:`cover`
               }}
             />
