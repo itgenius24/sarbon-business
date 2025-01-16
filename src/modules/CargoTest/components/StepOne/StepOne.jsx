@@ -83,7 +83,7 @@ const StepOne = ({ status }) => {
                 />
                 {canEdit && (
                   <Flex gap={2} mt={2}>
-                    <span className={cls.subTitle}>Например: </span>
+                    <span className={cls.subTitle}>{t(`Например`)}: </span>
                     <p
                       onClick={() => {
                         setValue(`cargo_type_search`, "Пиломатериалы");

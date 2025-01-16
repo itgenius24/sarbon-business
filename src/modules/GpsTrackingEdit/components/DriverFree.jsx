@@ -14,6 +14,7 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
+import { useGetLang } from "@/hooks/useGetLang";
 import { flegCountry } from "@/utils/flegCountry";
 import {
   Avatar,
@@ -44,6 +45,7 @@ const DriverFree = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
+  const locale = useGetLang();
   const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(`contendSingle`, contendSingle);
 
@@ -93,7 +95,11 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(
+                    new Date(
+                      contendSingle?.users_gps?.[0]?.update_time
+                    ).getHours() - 5
+                  ),
                   "yyyy-MM-dd, HH:mm"
                 )}{" "}
               </p>
@@ -227,24 +233,33 @@ const DriverFree = ({
               color={`black`}
               placement="top-end"
               label={
-                contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  : t( `Пока нет машины`)
+                contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name ||
+                contendSingle?.vehicles?.[0]?.trailer_type_id_data?.[
+                  `name_${locale}`
+                ]
+                  ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.[
+                      `name_${locale}`
+                    ]
+                    ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.[
+                        `name_${locale}`
+                      ]
+                    : contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                  : t(`Пока нет машины`)
               }
             >
               <p>
                 {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
                   ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  : t( `Пока нет машины`)}
+                  : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity   } т.
+                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity} т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height   } m3
+                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
           </Flex>
@@ -254,7 +269,7 @@ const DriverFree = ({
             width={"100%"}
             justifyContent={"space-between"}
           >
-            <span style={{fontWeight:400}}>{t(`Тип топлива`)}</span>
+            <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
             <span>{contendSingle?.vehicles?.[0]?.fuel_id_data?.name}</span>
           </Flex>
           <Flex
@@ -263,7 +278,7 @@ const DriverFree = ({
             width={"100%"}
             justifyContent={"space-between"}
           >
-            <span style={{fontWeight:400}}>{t(`Экологический класс`)}</span>
+            <span style={{ fontWeight: 400 }}>{t(`Экологический класс`)}</span>
             <span>{contendSingle?.vehicles?.[0]?.eco_standart}</span>
           </Flex>
           <Flex pt={`10px`} width={"100%"} justifyContent={"space-between"}>
@@ -307,7 +322,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenCanseleOutline}
           >
-             {t(`Сломалась`)}
+            {t(`Сломалась`)}
           </Button>
         ) : (
           <Button
@@ -320,7 +335,7 @@ const DriverFree = ({
             size={`lg`}
             className={cls.btngreenOutline}
           >
-             {t(`Машина cвободна`)}
+            {t(`Машина cвободна`)}
           </Button>
         )}
 

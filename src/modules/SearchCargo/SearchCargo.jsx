@@ -122,7 +122,7 @@ export const SearchCargoModule = () => {
                     />
 
                     <Flex gap={`12px`} mt={1}>
-                      <span className={cls.subTitle}>Пример: </span>
+                      <span className={cls.subTitle}>{t(`Пример`)}: </span>
                       <p
                         onClick={() =>
                           setValue(
@@ -136,7 +136,7 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Тентованный полуприцеп,
+                        {t(`Тентованный полуприцеп`)},
                       </p>
                       <p
                         onClick={() =>
@@ -151,7 +151,7 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Рефрижератор
+                        {t(`Рефрижератор`)}
                       </p>
                     </Flex>
                   </Box>
@@ -183,13 +183,13 @@ export const SearchCargoModule = () => {
                           // searchName="cargo_type_search"
                         />
                         <Flex gap={`12px`} mt={1}>
-                          <span className={cls.subTitle}>Пример: </span>
+                          <span className={cls.subTitle}>{t(`Пример`)}: </span>
                           <p
                             onClick={() =>
                               setValue(
                                 "car_country",
                                 {
-                                  label: "Узбекистан",
+                                  label: t("Узбекистан"),
                                   value: "UZ",
                                 },
                                 { shouldValidate: true, shouldDirty: true }
@@ -197,14 +197,14 @@ export const SearchCargoModule = () => {
                             }
                             className={cls.quickWord}
                           >
-                            Узбекистан,
+                            {t("Узбекистан")},
                           </p>
                           <p
                             onClick={() =>
                               setValue(
                                 "car_country",
                                 {
-                                  label: "Казахстан",
+                                  label: t("Казахстан"),
                                   value: "KZ",
                                 },
                                 { shouldValidate: true, shouldDirty: true }
@@ -212,7 +212,7 @@ export const SearchCargoModule = () => {
                             }
                             className={cls.quickWord}
                           >
-                            Казахстан
+                            {t(`Казахстан`)}
                           </p>
                         </Flex>
                       </Box>
@@ -496,13 +496,13 @@ export const SearchCargoModule = () => {
                       // searchName="cargo_type_search"
                     />
                     <Flex gap={`12px`} mt={1}>
-                      <span className={cls.subTitle}>Пример: </span>
+                      <span className={cls.subTitle}>{t(`Пример`)}: </span>
                       <p
                         onClick={() =>
                           setValue(
                             "eco_standart",
                             {
-                              label: "Евро-4",
+                              label: `${t(`Евро`)}-4`,
                               value: "Евро-4",
                             },
                             { shouldValidate: true, shouldDirty: true }
@@ -510,14 +510,14 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Евро-4,
+                        {t(`Евро`)}-4,
                       </p>
                       <p
                         onClick={() =>
                           setValue(
                             "eco_standart",
                             {
-                              label: "Евро-5",
+                              label: `${t(`Евро`)}-5`,
                               value: "Евро-5",
                             },
                             { shouldValidate: true, shouldDirty: true }
@@ -525,14 +525,14 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Евро-5
+                        {t(`Евро`)}-5
                       </p>
                       <p
                         onClick={() =>
                           setValue(
                             "eco_standart",
                             {
-                              label: "Евро-6",
+                              label: `${t(`Евро`)}-6`,
                               value: "Евро-6",
                             },
                             { shouldValidate: true, shouldDirty: true }
@@ -540,7 +540,7 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Евро-6
+                        {t(`Евро`)}-6
                       </p>
                     </Flex>
                   </Box>
@@ -554,7 +554,7 @@ export const SearchCargoModule = () => {
                       name="fuel_id"
                       options={fuels?.map((item) => ({
                         ...item,
-                        label: item?.name,
+                        label: item[`name_${locale}`],
                         value: item?.guid,
                       }))}
                       errors={errors}
@@ -564,13 +564,13 @@ export const SearchCargoModule = () => {
                       // searchName="cargo_type_search"
                     />
                     <Flex gap={`12px`} mt={1}>
-                      <span className={cls.subTitle}>Пример: </span>
+                      <span className={cls.subTitle}>{t(`Пример`)}: </span>
                       <p
                         onClick={() =>
                           setValue(
                             "fuel_id",
                             {
-                              label: "Дизель",
+                              label: t("Дизель"),
                               value: "187c327c-626d-4531-90f8-93408a011a7b",
                             },
                             { shouldValidate: true, shouldDirty: true }
@@ -578,14 +578,14 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Дизель,
+                        {t(`Дизель`)},
                       </p>
                       <p
                         onClick={() =>
                           setValue(
                             "fuel_id",
                             {
-                              label: "Бензин",
+                              label: t("Бензин"),
                               value: "5f8a08e3-c934-4149-9565-26929111a6c6",
                             },
                             { shouldValidate: true, shouldDirty: true }
@@ -593,14 +593,14 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Бензин,
+                        {t(`Бензин`)},
                       </p>
                       <p
                         onClick={() =>
                           setValue(
                             "fuel_id",
                             {
-                              label: "Метан",
+                              label: t("Метан"),
                               value: "efaf36e8-0261-4a0a-92fb-975464dbf01e",
                             },
                             { shouldValidate: true, shouldDirty: true }
@@ -608,7 +608,7 @@ export const SearchCargoModule = () => {
                         }
                         className={cls.quickWord}
                       >
-                        Метан
+                        {t(`Метан`)}
                       </p>
                     </Flex>
                   </Box>
@@ -783,7 +783,10 @@ export const SearchCargoModule = () => {
               <DrawerHeader>
                 <CheckModalIcon />
               </DrawerHeader>
-              <DrawerCloseButton  top={`15px`} onClick={() => setIsPopupOpen(false)}  />
+              <DrawerCloseButton
+                top={`15px`}
+                onClick={() => setIsPopupOpen(false)}
+              />
               <DrawerBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Машина успешно добавлена!")}

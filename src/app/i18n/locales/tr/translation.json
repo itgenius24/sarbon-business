@@ -543,5 +543,13 @@
   "Отображать только мои грузы": "Sadece benim yüklerimi göster",
   "У вас нет существующих грузов": "Mevcut yükleriniz yok",
   "Вес от:": "Ağırlık en az:",
-  "Наличные":"Peşin"
+  "Наличные":"Peşin",
+  "Узбекистан":"Özbekistan",
+  "Казахстан": "Kazakistan",
+  "Дизель":"Dizel",
+  "Бензин":"Benzin",
+  "Метан":"Metan",
+  "Евро":"Avro"
+
+
 }

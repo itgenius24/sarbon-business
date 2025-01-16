@@ -566,7 +566,14 @@
   "Груз будет забронирован и недоступен для других диспетчеров": "Yuk zahiraga qo'yiladi va boshqa dispetcherlar uchun mavjud bo'lmaydi",
   "У вас нет существующих грузов":"Sizda mavjud yuk yo'q",
   "Вес от:":"Og'irligi:",
-  "Наличные":"Naqd pul"
+  "Наличные":"Naqd pul",
+   "Узбекистан":"Uzbekistan",
+  "Казахстан": "Kazakhstan",
+  "Дизель":"Dizel",
+  "Бензин":"Benzin",
+  "Метан":"Metan",
+  "Евро":"Euro"
+
 
 
 

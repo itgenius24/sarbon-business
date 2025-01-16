@@ -17,6 +17,7 @@ export const Card = ({ item, cls, ...props }) => {
   const { t } = useTranslation();
   const data = item?.status || [];
 
+  console.log(`item`,item)
 
   return (
     <Flex
@@ -28,14 +29,15 @@ export const Card = ({ item, cls, ...props }) => {
       justifyContent={"space-between"}
       alignItems={`center`}
     >
-      {(
-        data?.includes(`approve_from_driver`) ||
+      {(data?.includes(`approve_from_driver`) ||
         data?.includes(`approve_by_customer`) ||
         data?.includes(`new_proposal_from_director`)) && (
         <TooltipComponets
           cls={cls}
           status={`ss`}
-          label={ (data?.includes(`approve_from_driver`) || data?.includes(`new_proposal_from_director`))
+          label={
+            data?.includes(`approve_from_driver`) ||
+            data?.includes(`new_proposal_from_director`)
               ? t("Ждем подтверждение водителя")
               : t("Ждем подтверждение заказчика")
           }
@@ -153,10 +155,14 @@ export const Card = ({ item, cls, ...props }) => {
           </Flex>
         </Flex>
 
-        <span className={cls.subTitle}>{item?.product_type}</span>
+        <span className={cls.subTitle}>
+          {item?.[`product_type_${locale}`]
+            ? item?.[`product_type_${locale}`]
+            : item?.product_type}
+        </span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
-        <p className={cls.title}>{t(item?.car_type)}</p>
+        <p className={cls.title}>{item?.car_type}</p>
         <span className={cls.subTitle}>{t("Задняя")}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
@@ -165,16 +171,16 @@ export const Card = ({ item, cls, ...props }) => {
             <p className={cls.title}>
               {item?.bid_cash} {item?.currency_id_data?.[0]?.code}
               <span className={cls.subTitle1}>
-                {item?.payment_type
-                  ? ` ${t(item?.payment_type)}`
+                { (item?.[`payment_type_${locale}`] || item?.payment_type)
+                  ? ` ${t(item?.[`payment_type_${locale}`] ? item?.[`payment_type_${locale}`] : item?.payment_type)}`
                   : t(" Безнал")}
               </span>
             </p>
             <span className={cls.subTitle}>
               {t("Предопл.")}{" "}
               {item?.prepayment_percentage > 0
-                ? `${item?.prepayment_percentage} ${item?.currency_id_data?.code}`
-                : t("Нет")}{" "}
+                ? `${item?.prepayment_percentage} ${item?.currency_id_data?.[0]?.code}`
+                : t("Нет")}
             </span>
           </>
         ) : (
@@ -191,7 +197,10 @@ export const Card = ({ item, cls, ...props }) => {
           <Avatar
             width={`50px`}
             height={`50px`}
-            src={process.env.NEXT_PUBLIC_MEDIA_URL + item?.customer_data?.[0]?.photo}
+            src={
+              process.env.NEXT_PUBLIC_MEDIA_URL +
+              item?.customer_data?.[0]?.photo
+            }
             fontSize={`16px`}
             name={item?.customer_data?.[0]?.full_name}
           />

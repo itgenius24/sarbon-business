@@ -522,7 +522,7 @@ export const useGpsTrackingProps = () => {
             limit: 1000,
             page: offset,
             type: "customer",
-            dispetchir_id: disId,
+            customer_id: disId,
           },
         },
       });

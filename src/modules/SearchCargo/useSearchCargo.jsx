@@ -57,12 +57,12 @@ export const useSearchCargo = () => {
     { label: 9, value: `ADR 9` },
   ];
   const euroTypeOptions = [
-    { label: `Евро-1`, value: `Евро-1` },
-    { label: `Евро-2`, value: `Евро-2` },
-    { label: `Евро-3`, value: `Евро-3` },
-    { label: `Евро-4`, value: `Евро-4` },
-    { label: `Евро-5`, value: `Евро-5` },
-    { label: `Евро-6`, value: `Евро-6` },
+    { label: `${t(`Евро`)}-1`, value: `Евро-1` },
+    { label: `${t(`Евро`)}-2`, value: `Евро-2` },
+    { label: `${t(`Евро`)}-3`, value: `Евро-3` },
+    { label: `${t(`Евро`)}-4`, value: `Евро-4` },
+    { label: `${t(`Евро`)}-5`, value: `Евро-5` },
+    { label: `${t(`Евро`)}-6`, value: `Евро-6` },
   ];
 
   const toast = useToast();

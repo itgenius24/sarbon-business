@@ -129,7 +129,7 @@ const StepThere = ({ status }) => {
                           }
                           className={cls.quickWord}
                         >
-                          Тентованный полуприцеп,
+                          {t(`Тентованный полуприцеп`)},
                         </p>
                         <p
                           onClick={() =>
@@ -140,7 +140,7 @@ const StepThere = ({ status }) => {
                           }
                           className={cls.quickWord}
                         >
-                          Рефрижератор
+                          {t(`Рефрижератор`)}
                         </p>
                       </Flex>
                     )}

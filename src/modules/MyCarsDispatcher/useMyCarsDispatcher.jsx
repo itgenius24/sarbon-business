@@ -32,7 +32,8 @@ export const useMyCarsDispatcher = () => {
     onSuccess: (res) => {
       if (res?.response?.length) {
         setRefe(false);
-        setCount(res?.count?.total_count);
+        setCount({count:res?.count?.total_count
+          ,free_count:res?.FreeCount?.free_count});
 
         let data = res?.response;
         const uniqueData = data.filter(

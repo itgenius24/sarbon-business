@@ -37,7 +37,7 @@ export const useLocaleDropdownProps = ({ locale }) => {
       icon: "https://flagcdn.com/w320/tr.png",
     },
     {
-      value: "ch",
+      value: "zh",
       label: "Chinese",
       shortName: "Ch",
       icon: "https://flagcdn.com/w320/cn.png",

@@ -59,11 +59,11 @@ export const MyCarsDispatcherModule = () => {
           <Flex gap={`28px`}>
             <Box className={cls.countrWrap}>
               <p>
-                {t(`Всего`)}: <span>{count || 0}</span>
+                {t(`Всего`)}: <span>{count?.count || 0}</span>
               </p>
               <p>
                 {t(`Свободных`)}:
-                <span>{data?.filter((item) => !item.order_data)?.length}</span>
+                <span>{count?.free_count}</span>
               </p>
             </Box>
             {isSuperDispatcher === "approved" && (

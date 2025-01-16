@@ -7,6 +7,7 @@ import {
   useUpdateCargo,
 } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
+import { useGetLang } from "@/hooks/useGetLang";
 
 const useStepThereProps = () => {
   const {
@@ -29,11 +30,12 @@ const useStepThereProps = () => {
     isReymenOpen,
     setIsFtlOpen,
     setIsReymenOpen,
-    setLoad,load,
-    handleResetForm
+    setLoad,
+    load,
+    handleResetForm,
   } = useAddCargoContext();
-  const [disabled,setDisabled] = useState(true)
-
+  const [disabled, setDisabled] = useState(true);
+  const locale = useGetLang();
 
   useEffect(() => {
     setLoad({
@@ -42,31 +44,25 @@ const useStepThereProps = () => {
       back: watch(`back`),
       with_removal: watch(`with_removal`),
     });
-  }, [
-    watch(`top`),
-    watch(`side`),
-    watch(`back`),
-    watch(`with_removal`),
-  ]);
-  
+  }, [watch(`top`), watch(`side`), watch(`back`), watch(`with_removal`)]);
+
   // const getTrueKeys = (obj) => {
   //   return Object.keys(obj).filter((key) => obj[key] === true);
   // };
 
   useEffect(() => {
-    if(watch("car_type")?.value && watch("transport_count")){
-      setDisabled(false)
-    } else{
-      true
+    if (watch("car_type")?.value && watch("transport_count")) {
+      setDisabled(false);
+    } else {
+      true;
     }
-  },[watch("car_type")?.value, watch("transport_count")])
+  }, [watch("car_type")?.value, watch("transport_count")]);
   const getCarType = useGetCarType();
+
   const carTypeOptions = getCarType.data?.response?.map((item) => ({
-    label: item?.name,
+    label: item?.[`name_${locale}`] ? item?.[`name_${locale}`] : item?.name,
     value: item?.guid,
   }));
-
-
 
   function handleOpenRequirement() {
     setRequirementOpen(true);
@@ -80,8 +76,6 @@ const useStepThereProps = () => {
     setIsFtlOpen(false);
   }
 
-
-
   function handleIsReymenOpen() {
     setIsReymenOpen(true);
   }
@@ -89,9 +83,6 @@ const useStepThereProps = () => {
   function handleCloseIsReymenOpen() {
     setIsReymenOpen(false);
   }
-
-
-
 
   function handleCloseRequirement() {
     setRequirementOpen(false);
@@ -153,53 +144,51 @@ const useStepThereProps = () => {
     watch("bunks"),
   ]);
 
-  const [hoverIndex, setHoverIndex] = useState('');
-  const [clickIndex,setClickIndex] = useState('')
-  const [clickNum,setClickNum] = useState('')
+  const [hoverIndex, setHoverIndex] = useState("");
+  const [clickIndex, setClickIndex] = useState("");
+  const [clickNum, setClickNum] = useState("");
 
   const boxes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  useEffect(() =>{
-   if(!watch(`transport_count`)){
-    setValue(`transport_count`,1)
-   }
-  },[])
+  useEffect(() => {
+    if (!watch(`transport_count`)) {
+      setValue(`transport_count`, 1);
+    }
+  }, []);
 
   useEffect(() => {
     setClickIndex(Number(watch("transport_count") || 0));
-    
-  },[watch("transport_count")])
+  }, [watch("transport_count")]);
 
   const onMouseLeave = () => {
     setHoverIndex(-1);
-    if(clickIndex){
-      setValue("transport_count",clickNum)
-    } else{
-      setValue("transport_count",0)
+    if (clickIndex) {
+      setValue("transport_count", clickNum);
+    } else {
+      setValue("transport_count", 0);
     }
-
   };
   const onMouseEnter = (num) => {
-     if(clickIndex < num ){
+    if (clickIndex < num) {
       setHoverIndex(num);
-     }
+    }
     setClickIndex(null);
-    setValue("transport_count",num)
+    setValue("transport_count", num);
   };
 
   const handleNumClick = (num) => {
     setClickIndex(num);
-    setClickNum(num)
-    setValue("transport_count",num)
-  }
+    setClickNum(num);
+    setValue("transport_count", num);
+  };
   const updateCargo = useUpdateCargo({
     onSuccess: () => {
-      setValue(`cargoIndex`,4)
+      setValue(`cargoIndex`, 4);
     },
   });
 
   const onSubmit = () => {
-    setValue(`cargoIndex`,4)
+    setValue(`cargoIndex`, 4);
     // const requestData = {
     //   data: {
     //     guid: watch(`loadResId`),
@@ -219,22 +208,21 @@ const useStepThereProps = () => {
     //   },
     // };
     // updateCargo.mutate(requestData)
-  }
+  };
 
-  function handleCheckboxChange(e){
+  function handleCheckboxChange(e) {
     const name = e.target.name;
     const checked = e.target.checked;
 
-    if(checked) {
-      if(name === "is_ftl") {
+    if (checked) {
+      if (name === "is_ftl") {
         setValue("is_ftl", true);
         setValue("is_ltl", false);
-      } else if(name === "is_ltl") {
+      } else if (name === "is_ltl") {
         setValue("is_ltl", true);
         setValue("is_ftl", false);
       }
     }
-
   }
   return {
     control,
@@ -276,7 +264,7 @@ const useStepThereProps = () => {
     clickIndex,
     onSubmit,
     disabled,
-    handleResetForm
+    handleResetForm,
   };
 };
 

@@ -8,6 +8,7 @@ import {
   useUpdateCargo,
 } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
+import { useGetLang } from "@/hooks/useGetLang";
 
 const useStepOneProps = () => {
   const {
@@ -26,23 +27,32 @@ const useStepOneProps = () => {
     setDimensionsAndDiameter,
     isFileUploader,
     setIsFileUploader,
-    handleResetForm
+    handleResetForm,
   } = useAddCargoContext();
   const [searchCargo, setSearchCargo] = useState("");
   const [img, setImg] = useState("");
-  const [disabled,setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
   const [offset, setOffset] = useState(0);
   const [refesh, setRefesh] = useState(0);
   const [getCargoData, setGetCargoData] = useState([]);
+  const locale = useGetLang();
 
   useEffect(() => {
-    console.log(`salom`)
-    if((watch("cargo_type")?.label && watch("weight_measurement") && watch("volume_measurement"))){
-      setDisabled(false)
-    } else{
-      setDisabled(true)
+    console.log(`salom`);
+    if (
+      watch("cargo_type")?.label &&
+      watch("weight_measurement") &&
+      watch("volume_measurement")
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
     }
-  },[watch("cargo_type")?.label, watch("weight_measurement")?.length , watch("volume_measurement")?.length])
+  }, [
+    watch("cargo_type")?.label,
+    watch("weight_measurement")?.length,
+    watch("volume_measurement")?.length,
+  ]);
 
   const getCargoTypes = useGetCargoType({
     params: {
@@ -50,22 +60,31 @@ const useStepOneProps = () => {
       limit: 40,
       data: JSON.stringify({}),
     },
-    querySettings: { enabled: true },
+    querySettings: {
+      enabled: true,
+      select: (res) =>
+        res?.response?.map((item) => ({
+          ...item,
+          name: item[`name_${locale}`] ? item[`name_${locale}`] : item?.name,
+        })),
+    },
   });
 
+  console.log(`getCargoTypes`,getCargoTypes)
+
   useEffect(() => {
-    if (getCargoTypes?.data?.response?.length === 40) {
+    if (getCargoTypes?.data?.length === 40) {
       setOffset(offset + 40);
       setRefesh(refesh + 1);
-      const data = getCargoTypes?.data?.response?.map((item) => ({
+      const data = getCargoTypes?.data?.map((item) => ({
         label: item?.name,
         value: item?.guid,
       }));
       setGetCargoData((res) => [...res, ...data]);
     } else {
       setRefesh(0);
-      if (getCargoTypes?.data?.response) {
-        const data = getCargoTypes?.data?.response?.map((item) => ({
+      if (getCargoTypes?.data) {
+        const data = getCargoTypes?.data?.map((item) => ({
           label: item?.name,
           value: item?.guid,
         }));
@@ -119,7 +138,6 @@ const useStepOneProps = () => {
   }));
   const createCargo = useCreateCargoMutation({
     onSuccess: () => {
-
       // setIsClicked(false);
     },
     onError() {
@@ -129,11 +147,9 @@ const useStepOneProps = () => {
 
   const updateCargo = useUpdateCargo({
     onSuccess: () => {
-      setValue(`cargoIndex`,2)
+      setValue(`cargoIndex`, 2);
     },
   });
-
-  
 
   const onSubmit = () => {
     console.log(!watch(`loadResId`));
@@ -142,7 +158,7 @@ const useStepOneProps = () => {
       watch(`weight_measurement`) &&
       watch("volume_measurement")
     ) {
-      setValue(`cargoIndex`,2)
+      setValue(`cargoIndex`, 2);
 
       // const requestData = {
       //   data: {
@@ -178,14 +194,14 @@ const useStepOneProps = () => {
       //     },
       //   });
       // }
-      
+
       // else {
       //   updateCargo.mutate(requestData,{
-      //     onSuccess(requestData) {   
+      //     onSuccess(requestData) {
       //     //  setValue(`cargoIndex`,2)
 
       //       console.log(`requestData`,requestData)
-            
+
       //     },
       //   });
       // }
@@ -200,7 +216,6 @@ const useStepOneProps = () => {
         setError(`volume_measurement`);
       }
     }
-
   };
 
   return {
@@ -224,9 +239,9 @@ const useStepOneProps = () => {
     handleImageUpload,
     packageOptions,
     onSubmit,
-    disabledBtn:disabled,
+    disabledBtn: disabled,
     canEdit,
-    handleResetForm
+    handleResetForm,
   };
 };
 
