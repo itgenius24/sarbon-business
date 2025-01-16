@@ -1,7 +1,7 @@
 import { useAddCargoContext } from "../../providers";
 import { useEffect, useRef, useState } from "react";
+import { useWatch } from "react-hook-form";
 import { useDebounce } from "use-debounce";
-
 
 const useStepTwoProps = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,31 +68,40 @@ const useStepTwoProps = () => {
     setValue(`as_soon_as_b`, e.target.checked);
   };
 
+  const watchFields = useWatch({
+    control,
+    name: [
+      "loadings[0].address",
+      "unloading[0].address",
+      "loadings[0].from_date",
+      "as_soon_as_a",
+      "as_soon_as_b",
+      "unloading[0].to_date",
+    ],
+  });
+
   useEffect(() => {
+    const [
+      loadingAddress,
+      unloadingAddress,
+      loadingDate,
+      asSoonAsA,
+      asSoonAsB,
+      unloadingDate,
+    ] = watchFields;
+
     if (
-      watch(`loadings[0].address`) &&
-      watch("unloading[0].address") &&
-      (watch(`loadings[0].from_date`) || watch(`as_soon_as_a`)) &&
-      (watch(`as_soon_as_b`) || watch("unloading[0].to_date"))
+      loadingAddress &&
+      unloadingAddress &&
+      (loadingDate || asSoonAsA) &&
+      (asSoonAsB || unloadingDate)
     ) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [
-    watch("loadings[0].address")?.length,
-    watch("unloading[0].address")?.length,
-    watch(`loadings[0].from_date`),
-    watch(`as_soon_as_a`),
-    watch(`as_soon_as_b`),
-    watch("unloading[0].from_date"),
-  ]);
-
-  console.log(`tets`, watch(`loadings[0].address`) &&
-      watch("unloading[0].address") &&
-      (watch(`loadings[0].from_date`) || watch(`as_soon_as_a`)) &&
-      (watch(`as_soon_as_b`) || watch("unloading[0].to_date")))
-
+  }, [watchFields]);
+ 
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
   }

@@ -1,15 +1,30 @@
 .react-datepicker-popper {
   z-index: 999 !important;
   left: 22px !important;
+      @media (max-width:600px) {
+        left: 78px !important;
+
+        
+      }
+}
+
+.react-datepicker {
+  display: flex !important;
+  align-items: center !important;
 }
 
 .react-datepicker__month-container {
   padding: 20px 24px;
   height: 100%;
 
+
   &:not(:last-of-type) {
     border-right: 1px solid #EAECF0;
   }
+  @media (max-width:600px) {
+    padding: 0 !important;;
+      
+    }
 }
 
 .react-datepicker__month {
@@ -157,12 +172,24 @@
 .react-datepicker__navigation--previous {
   left: 20px !important;
   top: 32px !important;
+  @media (max-width:600px) {
+
+    right: 100px !important;
+    top: 10px !important;
+    
+}
 }
 
 .react-datepicker__navigation--next {
-  // right: 100px !important;
-  right: 20px !important;
+  right: 100px !important;
+ 
   top: 28px !important;
+  @media (max-width:600px) {
+
+    right: 100px !important;
+    top: 10px !important;
+    
+}
 }
 
 .react-datepicker__triangle {
