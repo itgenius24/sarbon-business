@@ -537,5 +537,7 @@
   "Статус машины": "Vehicle status",
   "Отображать только мои грузы": "Show only my cargo",
   "У вас нет существующих грузов": "You have no existing cargo",
-  "Вес от:": "Weight from:"
+  "Вес от:": "Weight from:",
+  "Наличные":"Наличные"
+
 }

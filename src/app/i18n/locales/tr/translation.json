@@ -542,5 +542,6 @@
   "Статус машины": "Araç durumu",
   "Отображать только мои грузы": "Sadece benim yüklerimi göster",
   "У вас нет существующих грузов": "Mevcut yükleriniz yok",
-  "Вес от:": "Ağırlık en az:"
+  "Вес от:": "Ağırlık en az:",
+  "Наличные":"Peşin"
 }

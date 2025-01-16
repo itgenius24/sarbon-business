@@ -156,7 +156,7 @@ export const Card = ({ item, cls, ...props }) => {
         <span className={cls.subTitle}>{item?.product_type}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
-        <p className={cls.title}>{item?.car_type}</p>
+        <p className={cls.title}>{t(item?.car_type)}</p>
         <span className={cls.subTitle}>{t("Задняя")}</span>
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
@@ -166,7 +166,7 @@ export const Card = ({ item, cls, ...props }) => {
               {item?.bid_cash} {item?.currency_id_data?.[0]?.code}
               <span className={cls.subTitle1}>
                 {item?.payment_type
-                  ? ` ${item?.payment_type}`
+                  ? ` ${t(item?.payment_type)}`
                   : t(" Безнал")}
               </span>
             </p>
