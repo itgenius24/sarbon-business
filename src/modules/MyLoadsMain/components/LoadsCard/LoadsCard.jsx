@@ -178,11 +178,11 @@ export const LoadsCard = forwardRef(
                   <Flex gap={`70px`}>
                     <div className={cls.cardItem}>
                       <span className={cls.cardBodyTitle}>{t(`Товары`)}</span>
-                      <p className={cls.cardName}>{cargo?.product_type}</p>
+                      <p className={cls.cardName}>{ cargo?.[`product_type${locale}`] ? cargo?.[`product_type${locale}`] :cargo?.product_type}</p>
                     </div>
                     <div className={cls.cardItem}>
                       <span className={cls.cardBodyTitle}>{t(`Транспорт`)}</span>
-                      <p className={cls.cardName}>{cargo?.car_type}</p>
+                      <p className={cls.cardName}>{cargo?.[`car_type_${locale}`] ? cargo?.[`car_type_${locale}`] :cargo?.car_type}</p>
                     </div>
                     <div className={cls.cardItem}>
                       <span className={cls.cardBodyTitle}>{t(`Вес, объём`)}</span>

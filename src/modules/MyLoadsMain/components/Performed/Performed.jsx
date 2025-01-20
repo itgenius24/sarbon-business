@@ -238,12 +238,12 @@ export const Performed = ({
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>{t(`Товары`)}</span>
                   <p className={styles.cardName}>
-                    {cargo?.cargo_id_data?.product_type}
+                    {cargo?.cargo_id_data?.[`product_type_${locale}`] ? cargo?.cargo_id_data?.[`product_type_${locale}`]  : cargo?.cargo_id_data?.product_type}
                   </p>
                 </div>
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>{t(`Транспорт`)}</span>
-                  <p className={styles.cardName}>{cargo?.car_type}</p>
+                  <p className={styles.cardName}>{cargo?.[`car_type_${locale}`] ? cargo?.[`car_type_${locale}`] :cargo?.car_type }</p>
                 </div>
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>

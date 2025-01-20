@@ -844,6 +844,7 @@ export const SearchCargoModule = () => {
           setinputValue={setinputValue}
           locale={locale}
           countries={countries}
+          rules={rules}
         />
       )}
     </>

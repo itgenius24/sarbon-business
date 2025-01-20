@@ -5,6 +5,7 @@ import {
   useGetPaymentType,
   useUpdateCargo,
 } from "@/services/api";
+import { useGetLang } from "@/hooks/useGetLang";
 
 const useFourProps = () => {
   const {
@@ -24,6 +25,7 @@ const useFourProps = () => {
   const [disabled, setDisabled] = useState(true);
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
+  const locale = useGetLang();
 
   useEffect(() => {
     setMoney({
@@ -45,11 +47,10 @@ const useFourProps = () => {
     watch(`free_nds`),
   ]);
 
-  console.log(`mone`,mone)
 
  
   const currencyOptions = getCurrency.data?.response?.map((item) => ({
-    label: item?.name,
+    label: item?.[`code_${locale}`],
     value: item?.guid,
   }));
 

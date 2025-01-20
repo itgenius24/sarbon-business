@@ -86,6 +86,8 @@ const StepFour = ({ status }) => {
     setValue(`price_prepayment_unit`, selectedOption);
   };
 
+  console.log(watch(`price_prepayment_unit`))
+
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
     if (e === `negotiable`) {

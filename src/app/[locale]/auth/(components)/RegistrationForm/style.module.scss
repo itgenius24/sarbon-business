@@ -70,4 +70,58 @@
         color: var(--primary-text);
       }
 
+      @media (max-width:872px) {
+    box-shadow: none;
+
+         padding: 35px 16px;
+         border-radius: 0px;
+         .title{
+        
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 18px;
+            
+        }
+        .label {
+            display: inline-block;
+            margin-bottom: 9px;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 18px;
+           color: black;
+          }
+         .box{
+            padding: 30px 16px;
+         }
+         .tabWrap{
+            padding: 5px;
+            width: 100%;
+            background-color: #F6F7F8;
+            border-radius: 38px;
+            display: flex;
+            div{
+                width: 100%;
+                text-align: center;
+                background-color: rgba(255, 255, 255, 0);
+                // box-shadow: 0px 2px 4px 0px #0000002E;
+                font-weight: 500;
+                font-size: 14px;
+     
+                padding: 10px 2px;
+                cursor: pointer;
+                color: #7E7B86;
+            }
+            .active{
+                background-color: rgb(255, 255, 255);
+                box-shadow: 0px 2px 4px 0px #0000002E;
+                font-weight: 500;
+                font-size: 14px;
+                padding: 10px 2px;
+                cursor: pointer;
+                color:#211F26;
+                border-radius: 20px;
+            }
+        }
+      }
+
 }

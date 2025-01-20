@@ -38,6 +38,12 @@
   font-weight: 500;
   line-height: 20px;
   color: var(--primary-text);
+
+  @media (max-width:872px) {
+    font-size: 16px;
+    line-height: 18px;
+    color: black;
+  }
 }
 
 .bottomText {

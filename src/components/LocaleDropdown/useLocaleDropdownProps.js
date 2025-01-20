@@ -48,7 +48,14 @@ export const useLocaleDropdownProps = ({ locale }) => {
   const pathname = usePathname();
 
   const activeLangIndex = langs.findIndex((lang) => lang.value === locale);
-  const activeLang = langs[activeLangIndex] || `ru`;
+  const activeLang = langs[activeLangIndex] ||  {
+    value: "ru",
+    label: "Русский",
+    shortName: "Ру",
+    icon: "https://flagcdn.com/w320/ru.png",
+  };
+
+  console.log(`activeLang`,activeLang)
 
   const dropdownRef = useRef(null);
 

@@ -27,6 +27,7 @@ const MobileComponent = ({
   isBtn,
   handleSubmit,
   onSubmit,
+  rules,
 }) => {
   return (
     <Box padding={`20px 0px`} background={`white`} width={`100%`}>
@@ -421,6 +422,68 @@ const MobileComponent = ({
           </Flex>
         </Box>
 
+        <Box     mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}>
+                  <p className={cls.textFieldName}>{t("Марка машины")}</p>
+                  <TextField
+                    rules={rules}
+                    errors={errors}
+                    name="marka"
+                    register={register}
+                    placeholder={t("Необъязательно")}
+                    type="text"
+                  />
+                  <Flex gap={2} mt={1}>
+                    <span className={cls.subTitle}>{t("Пример")}: </span>
+                    <p
+                      onClick={() =>
+                        setValue(`marka`, `Mercedes-Benz `, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t("Mercedes-Benz")},
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(`marka`, `Volvo`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t("Volvo")},
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(`marka`, `MAN`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t("MAN")},
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(`marka`, `Iveco`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t("Iveco")}
+                    </p>
+                  </Flex>
+                </Box>
+
         <Box
           mt={`25px`}
           paddingBottom={`25px`}
@@ -491,6 +554,7 @@ const MobileComponent = ({
             </p>
           </Flex>
         </Box>
+
         <Box
           mt={`25px`}
           paddingBottom={`25px`}

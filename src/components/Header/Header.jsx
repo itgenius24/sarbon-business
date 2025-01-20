@@ -27,6 +27,8 @@ const Header = observer(({ elements }) => {
 
   const locale = useGetLang();
 
+  console.log(`locale`,locale)
+
   const { t } = useTranslation(locale, "translations");
 
   // useEffect(() => {

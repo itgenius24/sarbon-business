@@ -37,7 +37,7 @@ export const Otp = observer(() => {
         {t("Назад")}
       </Button>
     </div>
-    <MobileLogo />
+    {/* <MobileLogo /> */}
     <AuthTitle
       mb="32px"
       title={t("Проверьте свой телефон")}
