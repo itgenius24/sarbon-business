@@ -20,6 +20,7 @@ import { useDebounce as useDebounce2 } from "use-debounce";
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
+  const [count,setCount]  = useState(0)
   const [oldData, setOldData] = useState([]);
   const [filter1, setFilter1] = useState(false);
   const [filter2, setFilter2] = useState(false);
@@ -58,7 +59,7 @@ export const useSearchLoadDispatcher = () => {
   const negotiableOption = [
     {
       value: `val1`,
-      label: t(`Отображать все`) + ` ${data?.length}`,
+      label: t(`Отображать все`) + ` ${count}`,
     },
     // {
     //   value: `val2`,
@@ -77,6 +78,7 @@ export const useSearchLoadDispatcher = () => {
       // }
       if (res?.response?.length) {
         setRefe(false);
+        setCount(res?.count?.totalCount)
         const vehicles = [{ trailer_type: t(`Без трейлера`) }];
         const filteredData = res?.response.map((item) => ({
           ...item,
@@ -371,5 +373,6 @@ console.log(`oldData`,data)
     search,
     setSearchFn,
     containerRef,
+    count,
   };
 };

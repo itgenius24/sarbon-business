@@ -76,7 +76,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
         object_data: {
           cargo_id:selectCargo?.guid,
           driver_id:contendSingle?.users_id,
-          dispatcher_id:authStore.userData.id,
+          dispatcher_id:authStore?.userData.id,
           customer_id:selectCargo?.users_id_data?.guid,
           firm_id:contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
         },
