@@ -49,7 +49,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
     }
   });
 
-  console.log(`getOfferCount`,contendSingle?.orders?.[0])
+  console.log(`contendSingle`,contendSingle)
 
 
   const handleMutation = () => {

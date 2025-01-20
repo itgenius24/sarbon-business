@@ -20,6 +20,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
+import authStore from "@/store/auth.store";
 
 const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
-      users_id: contendSingle.user.guid,
+      // users_id: contendSingle.user.guid,
       with_relations: true,
       order_status: ["active"],
       cargo_type: ["cargo"],
@@ -66,13 +67,18 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     },
   });
 
+  console.log(`contendSingle`,contendSingle,selectCargo)
+
   function handleOffer() {
     setDisabled(true);
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          user_id: contendSingle?.user?.users_id,
-          guid: selectCargo,
+          cargo_id:selectCargo?.guid,
+          driver_id:contendSingle?.users_id,
+          dispatcher_id:authStore.userData.id,
+          customer_id:selectCargo?.users_id_data?.guid,
+          firm_id:contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
         },
       },
     });
@@ -104,8 +110,8 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
               return (
                 <CheckBoxComponent
                   key={item.guid}
-                  onClick={() => setSelectCargo(item?.guid)}
-                  active={item?.guid === selectCargo}
+                  onClick={() => setSelectCargo(item)}
+                  active={item?.guid === selectCargo?.guid}
                 >
                   <Box className={cls.countryWrap}>
                     <Flex gap={3}>
