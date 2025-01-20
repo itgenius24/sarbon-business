@@ -61,7 +61,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
       } `}
     >
       <Flex justifyContent={`space-between`} width={`100%`}>
-        <Flex gap={`20px`}  alignItems={`center`}>
+        <Flex gap={`20px`} alignItems={`center`}>
           <Box>
             {item && item?.user?.photo !== "photo" && item?.user?.photo ? (
               <Image
@@ -73,8 +73,8 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                 alt="w"
               />
             ) : (
-              <div  className={cls.svgIcon}>
-              <NoImgDrivers />
+              <div className={cls.svgIcon}>
+                <NoImgDrivers />
               </div>
             )}
           </Box>
@@ -155,14 +155,12 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
         </Box>
       </Flex>
 
-      <Box>
-
-      </Box>
+      <Box></Box>
 
       <Flex mt={`20px`} alignItems={`flex-end`} gap={"30px"} width={"100%"}>
         <Box width={"100%"}>
           {order ? (
-            <Flex
+            <Box
               background={
                 order ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
               }
@@ -171,32 +169,81 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
               className={cls.statusWrap}
             >
               <Box>
-                <p className={cls.subTitle}>{t("Статус")}:</p>
-                <p className={cls.subBlueTitle}>
-                  {t("Занята")}:{" "}
-                  {item?.orders?.[0]?.cargo_id_data?.number_of_order}
-                </p>
-              </Box>
-              {item?.users_gps?.[0] && (
-                <>
-                  <Flex gap={2}>
-                    <LocationActiveIcon /> <CricleArrovIcon />{" "}
-                    <p className={cls.title}>
-                      {" "}
-                      {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
-                    </p>
-                    <p className={cls.subBlueTitle}>
-                      {format(
-                        item?.users_gps?.[0]?.create_time || new Date(),
-                        "yyyy-MM-dd"
+                <p className={cls.subTitle}>{t("Машина")}:</p>
+                {item?.vehicles?.[0] && (
+                  <Box
+                    padding={`15px 0`}
+                    marginBottom={`15px`}
+                    borderBottom={`1px solid rgba(226, 228, 234, 1)`}
+                  >
+                    <Flex justifyContent={`space-between`} gap={3}>
+                      <Box>
+                        <p className={cls.title}>
+                          {item?.vehicles?.[0]?.marka}
+                        </p>
+                        <p className={cls.subTitle}>
+                          {item?.vehicles?.[0]?.car_number
+                            ? item?.vehicles?.[0]?.car_number
+                            : ``}
+                        </p>
+                      </Box>
+                      {item?.vehicles?.[0]?.car_photo !== "photo" &&
+                      item?.vehicles?.[0]?.car_photo ? (
+                        <Image
+                          style={{
+                            borderRadius: `6px`,
+                            width: `60px`,
+                            height: `45px`,
+                          }}
+                          src={item?.vehicles?.[0]?.car_photo}
+                          width={`100`}
+                          height={`100`}
+                          alt="w"
+                        />
+                      ) : (
+                        <NoImFur />
                       )}
-                    </p>
-                  </Flex>
+                    </Flex>
+                  </Box>
+                )}
+              </Box>
+              <Flex justifyContent={`space-between`}>
+                <Box>
+                  <p className={cls.subTitle}>
+                    {t("Статус")}: <span>{t("Занята")} </span>
+                  </p>
+                  <p className={cls.subBlueTitle}>
+                    {item?.orders?.[0]?.cargo_id_data?.number_of_order}
+                  </p>
+                </Box>
+                {item?.users_gps?.[0] && (
+                  <Box>
+                    <Flex justifyContent={`end`} gap={2}>
+                      <LocationActiveIcon />
+                      <p className={cls.subTitle}>
+                        <span>
+                          {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
+                        </span>
+                      </p>
+                    </Flex>
+                    <Flex gap={`5px`} alignItems={`center`}>
+                      <CricleArrovIcon />
+                      <p className={cls.subBlueTitle}>
+                        {format(
+                          item?.users_gps?.[0]?.create_time || new Date(),
+                          "yyyy-MM-dd"
+                        )}
+                      </p>
+                    </Flex>
+                  </Box>
+                )}
+              </Flex>
+              {item?.users_gps?.[0] && (
+                <Flex mt={`10px`} justifyContent={`space-between`}>
                   <Flex alignItems={"center"} gap={2}>
                     <BluetoothIcon />
                     <p className={cls.subTitle}>
-                      {t("Bluetooth")}:{" "}
-                      <span className={cls.title}>{t("Вкл")} </span>
+                      <span>{t("Вкл")} </span>
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
@@ -206,58 +253,80 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                       <BatareyIcon />
                     )}
                     <p className={cls.subTitle}>
-                      {t("Батарея")}:{" "}
-                      <span className={cls.title}>
-                        {item?.users_gps?.[0]?.battery}%
-                      </span>
+                      <span>{item?.users_gps?.[0]?.battery}%</span>
                     </p>
                   </Flex>
-                </>
+                </Flex>
               )}
-            </Flex>
+            </Box>
           ) : (
             <Box
               mt={1}
               borderRadius={`10px`}
               border={`1px solid var(--quat_grey, rgba(219, 216, 227, 1))`}
-              padding={`4px 14px`}
+              padding={`20px 16px`}
               width={`100%`}
-              display={`flex`}
-              alignItems={`center`}
-              justifyContent={`space-between`}
             >
-              <Box>
-                <p className={cls.subTitle}>{t("Статус")}:</p>
-                <Flex gap={3} alignItems={`center`}>
-                  <p className={cls.title2}>
-                  
-                    {item?.vehicles?.[0]
-                      ? t("Свободна, без груза")
-                      : t("Свободна, без машины")}
-                  </p>
-                </Flex>
+              <Box
+                padding={`0px 0 15px`}
+                marginBottom={`15px`}
+                borderBottom={`1px solid rgba(226, 228, 234, 1)`}
+              >
+                <Box>
+                  <Flex
+                    justifyContent={`space-between`}
+                    alignItems={`center`}
+                    gap={3}
+                  >
+                    <Box>
+                      <p className={cls.title}>{t("Без машины")}</p>
+                    </Box>
+                    <NoImFur />
+                  </Flex>
+                </Box>
               </Box>
 
-              {item?.users_gps?.[0] && (
-                <>
-                  <Flex gap={2}>
-                    <LocationActiveIcon /> <CricleArrovIcon />{" "}
-                    <p className={cls.title}>
+              <Flex justifyContent={`space-between`}>
+                <Box>
+                  <p className={cls.subTitle}>
+                    {t("Статус")}:{" "}
+                    <span>
                       {" "}
-                      {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
-                    </p>
-                    <p className={cls.subBlueTitle}>
-                      {format(
-                        item?.users_gps?.[0]?.update_time || new Date(),
-                        "yyyy-MM-dd"
-                      )}
-                    </p>
-                  </Flex>
+                      {item?.vehicles?.[0] ? t("Свободна") : t("Свободна")}{" "}
+                    </span>
+                  </p>
+                  <p className={cls.subResTitle}>
+                    {item?.vehicles?.[0] ? t(`без груза`) : t(`без машины`)}
+                  </p>
+                </Box>
+                {item?.users_gps?.[0] && (
+                  <Box>
+                    <Flex justifyContent={`end`} gap={2}>
+                      <LocationActiveIcon />
+                      <p className={cls.subTitle}>
+                        <span>
+                          {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
+                        </span>
+                      </p>
+                    </Flex>
+                    <Flex gap={`5px`} alignItems={`center`}>
+                      <CricleArrovIcon />
+                      <p className={cls.subBlueTitle}>
+                        {format(
+                          item?.users_gps?.[0]?.create_time || new Date(),
+                          "yyyy-MM-dd"
+                        )}
+                      </p>
+                    </Flex>
+                  </Box>
+                )}
+              </Flex>
+              {item?.users_gps?.[0] && (
+                <Flex mt={`10px`} justifyContent={`space-between`}>
                   <Flex alignItems={"center"} gap={2}>
                     <BluetoothIcon />
                     <p className={cls.subTitle}>
-                      {t("Bluetooth")}:{" "}
-                      <span className={cls.title}>{t("Вкл")} </span>
+                      <span>{t("Вкл")} </span>
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
@@ -267,61 +336,14 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                       <BatareyIcon />
                     )}
                     <p className={cls.subTitle}>
-                      {t("Батарея")}:
-                      <span className={cls.title}>
-                        {item?.users_gps?.[0]?.battery}%
-                      </span>
+                      <span>{item?.users_gps?.[0]?.battery}%</span>
                     </p>
                   </Flex>
-                </>
+                </Flex>
               )}
             </Box>
           )}
         </Box>
-        {/* <Box width={"25%"}>
-          <p className={cls.subTitle}>{t("Машина")}:</p>
-          {item?.vehicles?.[0] ? (
-            <Box className={cls.profileWrap}>
-              <Flex gap={3}>
-                {item?.vehicles?.[0]?.car_photo !== "photo" &&
-                item?.vehicles?.[0]?.car_photo ? (
-                  <Image
-                    style={{
-                      borderRadius: `6px`,
-                      width: `60px`,
-                      height: `45px`,
-                    }}
-                    src={item?.vehicles?.[0]?.car_photo}
-                    width={`100`}
-                    height={`100`}
-                    alt="w"
-                  />
-                ) : (
-                  <NoImFur />
-                )}
-
-                
-                <Box>
-                  <p className={cls.title}>{item?.vehicles?.[0]?.marka}</p>
-                  <p className={cls.subTitle}>
-                    {item?.vehicles?.[0]?.car_number
-                      ? item?.vehicles?.[0]?.car_number
-                      : ``}
-                  </p>
-                </Box>
-              </Flex>
-            </Box>
-          ) : (
-            <Box className={cls.profileWrap2}>
-              <Flex gap={3}>
-                <NoImFur />
-                <Box>
-                  <p className={cls.title}>{t("Без машины")}</p>
-                </Box>
-              </Flex>
-            </Box>
-          )}
-        </Box> */}
       </Flex>
     </Box>
   );

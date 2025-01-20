@@ -23,16 +23,17 @@ export const DriversList = () => {
 
   return (
     <>
-      <Container my="40px">
+      <Container   my={isLargerThan845 ? "40px" : `20px`}>
         <Flex width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}
-            mb={isLargerThan845 ? "24px" : "12px"}
+            mb={isLargerThan845 ? "24px" : "0px"}
             color={`var(--primary-text)`}
           >
             {t("Водители")}
           </Heading>
           <Button
+            display={isLargerThan845 ? `flex` : `none`}
             onClick={() => router.push(`/${locale}/drivers/create`)}
             width={"fit-content"}
             leftIcon={<PlusIcon />}
@@ -40,7 +41,7 @@ export const DriversList = () => {
             {t("Добавить нового водителя")}
           </Button>
         </Flex>
-        <Box mt={"37px"}>
+        <Box mt={isLargerThan845 ? "37px" : `10px`}>
           {data?.length > 0 ? (
             data?.map((item) =>
               isLargerThan845 ? (
@@ -73,6 +74,18 @@ export const DriversList = () => {
             </Flex>
           )}
         </Box>
+       {
+        !isPending &&  <Button
+          //  margin={`15px 15px`}
+          marginTop={`20px`}
+          width={`100%`}
+          display={isLargerThan845 ? `none` : `flex`}
+          onClick={() => router.push(`/${locale}/drivers/create`)}
+          leftIcon={<PlusIcon />}
+        >
+          {t("Добавить нового водителя")}
+        </Button>
+       }
       </Container>
     </>
   );

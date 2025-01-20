@@ -48,18 +48,18 @@ export const InfoBox = () => {
       <div      onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave} className={cls.infoWrap}>
-        <div className={cls.blueCard} style={calculateOffset(0.05)}>
+        <div className={cls.blueCard} style={calculateOffset(0.004)}>
           <Image width={1000} height={1000} src={BlueImg} alt="blueCard" />
         </div>
 
-        <div className={cls.blueText} style={calculateOffset(0.05)}>
+        <div className={cls.blueText} style={calculateOffset(0.004)}>
           <p className={cls.text}>
             Sarbon — биржа грузоперевозок и экосистема логистических сервисов в
             Евразии
           </p>
         </div>
 
-        <div className={cls.phoneCard} style={calculateOffset(-0.1)}>
+        <div className={cls.phoneCard} style={calculateOffset(-0.02)}>
           <Image width={980} height={980} src={PhoneCard} alt="PhoneCard" />
         </div>
 
@@ -67,7 +67,7 @@ export const InfoBox = () => {
           gap={`11px`}
           alignItems={`center`}
           className={cls.statist1}
-          style={calculateOffset(0.1)}
+          style={calculateOffset(0.015)}
         >
           <TruckIconBlue />
           <div>
@@ -79,7 +79,7 @@ export const InfoBox = () => {
         <Flex
           gap={`11px`}
           className={cls.statist2}
-          style={calculateOffset(0.15)}
+          style={calculateOffset(0.018)}
         >
           <MapIconE />
           <div>
@@ -91,7 +91,7 @@ export const InfoBox = () => {
         <Flex
           gap={`11px`}
           className={cls.statist3}
-          style={calculateOffset(0.2)}
+          style={calculateOffset(0.024)}
         >
           <LikeIconY />
           <div>
