@@ -1,151 +1,81 @@
-// .infoBox {
-//   width: 100%;
-//   max-width: 740px;
-//   height: 772px;
-//   margin-right: 12px;
-//   position: relative;
-//   // background-color: red;
-
-
-// }
-
-// .infoWrap {
-//   width: 100%;
-//   border-radius: 28px;
-//   // background-color: red;
-//   .blueCard {
-//     position: absolute;
-//     top: 80px;
-//   }
-//   .blueText {
-//     position: absolute;
-//     top: 120px;
-//     width: 60%;
-//     line-height: 25px;
-//     font-weight: 600;
-//     font-size: 24px;
-//     color: white;
-//     right: 0;
-//     z-index: 32323;
-//   }
-//   .phoneCard {
-//     position: absolute;
-//     top: 30px;
-//   }
-//   .statist1 {
-//     position: absolute !important;
-//     background-color: white;
-//     border-radius: 6px;
-//     box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
-//     padding: 16px 26px 15px 15px;
-//     top: 240px ;
-//     right: 80px;
-//   }
-//   .statist2 {
-//     position: absolute !important;
-//     background-color: white;
-//     border-radius: 6px;
-//     box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
-//     padding: 16px 26px 15px 15px;
-//     top: 350px ;
-//     right: 10px;
-//   }
-//   .statist3 {
-//     position: absolute !important;
-//     background-color: white;
-//     border-radius: 6px;
-//     box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
-//     padding: 16px 26px 15px 15px;
-//     bottom: 240px ;
-//     right: 70px;
-//   }
-//   .title {
-//     font-weight: 900;
-//     font-size: 16px;
-//     line-height: 20px;
-//     color: rgba(63, 74, 91, 1);
-//   }
-//   .subTitle {
-//     font-weight: 600;
-//     font-size: 14px;
-//     color: rgba(63, 74, 91, 1);
-//   }
-
-//   .blueCard, .blueText, .phoneCard, .statist1, .statist2, .statist3 {
-//     transition: transform 0.1s ease-out;
-//     will-change: transform;
-//     position: absolute;
-// }
-// }
-
-// @include lg {
-//   .infoBox {
-//     display: none;
-//   }
-// }
-
-
-
 .infoBox {
   width: 100%;
-  max-width: 640px;
+  max-width: 740px;
   height: 772px;
   margin-right: 12px;
+  position: relative;
+  // background-color: red;
+
 
 }
 
 .infoWrap {
   width: 100%;
-  height: 550px;
-  background-color: var(--primary);
   border-radius: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  // background-color: red;
+  .blueCard {
+    position: absolute;
+    top: 80px;
+  }
+  .blueText {
+    position: absolute;
+    top: 120px;
+    width: 60%;
+    line-height: 25px;
+    font-weight: 600;
+    font-size: 24px;
+    color: white;
+    right: 0;
+    z-index: 32323;
+  }
+  .phoneCard {
+    position: absolute;
+    top: 30px;
+  }
+  .statist1 {
+    position: absolute !important;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
+    padding: 16px 26px 15px 15px;
+    top: 240px ;
+    right: 80px;
+  }
+  .statist2 {
+    position: absolute !important;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
+    padding: 16px 26px 15px 15px;
+    top: 350px ;
+    right: 10px;
+  }
+  .statist3 {
+    position: absolute !important;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
+    padding: 16px 26px 15px 15px;
+    bottom: 240px ;
+    right: 70px;
+  }
+  .title {
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(63, 74, 91, 1);
+  }
+  .subTitle {
+    font-weight: 600;
+    font-size: 14px;
+    color: rgba(63, 74, 91, 1);
+  }
+
+  .blueCard, .blueText, .phoneCard, .statist1, .statist2, .statist3 {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+    position: absolute;
 }
-
-.logoWrap {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: end;
-  justify-content: center;
-
-}
-
-.textWrap {
-
-  width: 100%;
-  height: 65%;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-bottom-left-radius: 28px;
-  border-bottom-right-radius: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(141, 140, 140, 0.4) 100%
-  );
-}
-
-.textWrapTitle {
-  color: #fff;
-  font-size: 27px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 33px;
-}
-
-.desc {
-  color: #fff;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 24px; 
 }
 
 @include lg {
@@ -153,3 +83,73 @@
     display: none;
   }
 }
+
+
+
+// .infoBox {
+//   width: 100%;
+//   max-width: 640px;
+//   height: 772px;
+//   margin-right: 12px;
+
+// }
+
+// .infoWrap {
+//   width: 100%;
+//   height: 550px;
+//   background-color: var(--primary);
+//   border-radius: 28px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-direction: column;
+// }
+
+// .logoWrap {
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   align-items: end;
+//   justify-content: center;
+
+// }
+
+// .textWrap {
+
+//   width: 100%;
+//   height: 65%;
+//   padding: 32px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+//   border-bottom-left-radius: 28px;
+//   border-bottom-right-radius: 28px;
+//   border-top: 1px solid rgba(255, 255, 255, 0.5);
+//   background: linear-gradient(
+//     180deg,
+//     rgba(255, 255, 255, 0.4) 0%,
+//     rgba(141, 140, 140, 0.4) 100%
+//   );
+// }
+
+// .textWrapTitle {
+//   color: #fff;
+//   font-size: 27px;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: 33px;
+// }
+
+// .desc {
+//   color: #fff;
+//   font-size: 18px;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: 24px; 
+// }
+
+// @include lg {
+//   .infoBox {
+//     display: none;
+//   }
+// }

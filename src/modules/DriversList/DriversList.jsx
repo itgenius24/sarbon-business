@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useDriversList } from "./useDriversList";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { CarsCardMobile } from "./component/CarsCard/CarsCardMobile";
 
 export const DriversList = () => {
   const { t, data, handleDelete, isPending } = useDriversList();
@@ -20,7 +21,6 @@ export const DriversList = () => {
   const locale = useGetLang();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  console.log(`isPending`, isPending);
   return (
     <>
       <Container my="40px">
@@ -42,14 +42,23 @@ export const DriversList = () => {
         </Flex>
         <Box mt={"37px"}>
           {data?.length > 0 ? (
-            data?.map((item) => (
-              <CarsCard
-              t={t}
-                key={item.guid}
-                item={item}
-                handleDelete={handleDelete}
-              />
-            ))
+            data?.map((item) =>
+              isLargerThan845 ? (
+                <CarsCard
+                  t={t}
+                  key={item.guid}
+                  item={item}
+                  handleDelete={handleDelete}
+                />
+              ) : (
+                <CarsCardMobile
+                  t={t}
+                  key={item.guid}
+                  item={item}
+                  handleDelete={handleDelete}
+                />
+              )
+            )
           ) : isPending ? (
             <LoadingSpinner />
           ) : (

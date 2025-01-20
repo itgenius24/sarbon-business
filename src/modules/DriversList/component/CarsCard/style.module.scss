@@ -166,5 +166,29 @@
           }
         }
       }
+
+
+      @media (max-width:872px) {
+          padding: 30px 16px;
+          .title{
+            font-size: 18px;
+            font-weight: 600;
+
+          }
+          .phone{
+            color: rgba(2, 111, 231, 1);
+          }
+          .svgIcon{
+            svg{
+              width: 100px;
+              height: 100px;
+            }
+           
+          }
+         .popup{
+          position: absolute;
+          top: 5px;
+         }
+      }
    
 }
