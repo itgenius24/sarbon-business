@@ -64,7 +64,7 @@ export const MyCarsModule = () => {
             {t("Ваши машины")}
           </Heading>
           <Button
-            display={isLargerThan845 ? `block` : `none`}
+            display={isLargerThan845 ? `flex` : `none`}
             onClick={() => router.push(`/${locale}/my-cars/create`)}
             width={"fit-content"}
             leftIcon={<PlusIcon />}
@@ -296,40 +296,41 @@ export const MyCarsModule = () => {
                               src={item?.user?.photo}
                             />
                             <Box>
-                              <p className={cls.name}>
-                                {item?.user?.full_name}
-                              </p>
-                              <p className={cls.subTitle}>
-                                {item?.user?.phone}
-                              </p>
+                              <Box>
+                                <p className={cls.name}>
+                                  {item?.user?.full_name}
+                                </p>
+                                <p className={cls.phone}>{item?.user?.phone}</p>
+                              </Box>
+
+                              {item?.vehicles?.[0] && (
+                                <Flex
+                                  flexDirection={`column`}
+                                  // mt={3}
+                                  alignItems={`flex-start`}
+                                  className={cls.subTitle2}
+                                >
+                                  <p className={cls.loadType}>
+                                    {`${item?.vehicles?.[0]?.marka} ${
+                                      item?.vehicles?.[0]?.car_number
+                                        ? item?.vehicles?.[0]?.car_number
+                                        : ``
+                                    }`}
+                                  </p>
+                                  <Flex gap={2}>
+                                    <Flex gap={1} alignItems={"center"}>
+                                      <StoneIcon />
+                                      {item?.vehicles?.[0]?.capacity} т.
+                                    </Flex>
+                                    <Flex gap={1} alignItems={"center"}>
+                                      <LoadOulineIcon />
+                                      {item?.vehicles?.[0]?.height} m3
+                                    </Flex>
+                                  </Flex>
+                                </Flex>
+                              )}
                             </Box>
                           </Flex>
-                          {item?.vehicles?.[0] && (
-                            <Flex
-                              flexDirection={`column`}
-                              mt={3}
-                              alignItems={`flex-start`}
-                              className={cls.subTitle2}
-                            >
-                              <p className={cls.loadType}>
-                                {`${item?.vehicles?.[0]?.marka} ${
-                                  item?.vehicles?.[0]?.car_number
-                                    ? item?.vehicles?.[0]?.car_number
-                                    : ``
-                                }`}
-                              </p>
-                              <Flex gap={2}>
-                                <Flex gap={1} alignItems={"center"}>
-                                  <StoneIcon />
-                                  {item?.vehicles?.[0]?.capacity} т.
-                                </Flex>
-                                <Flex gap={1} alignItems={"center"}>
-                                  <LoadOulineIcon />
-                                  {item?.vehicles?.[0]?.height} m3
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          )}
                         </Box>
                       </CheckBoxComponent>
                     );

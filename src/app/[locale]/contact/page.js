@@ -27,9 +27,9 @@ export default function ContactPage({ params }) {
         <Heading fontSize={isLargerThan768 ? "36px" : "24px"} lineHeight={isLargerThan768 ? "44px" : "24px"} mb={isLargerThan768 ? "50px" : "24px"}>
           {t("Контактная информация")}
         </Heading>
-        <Box mb={isLargerThan768 ? "100px" : "24px"}>
+        {/* <Box mb={isLargerThan768 ? "100px" : "24px"}>
           <Image style={{ borderRadius: "10px" }} src={directory?.photo} width="908" height="374" alt="" />
-        </Box>
+        </Box> */}
         <Box
           display="flex"
           columnGap="24px"
