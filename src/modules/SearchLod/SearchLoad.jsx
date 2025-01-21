@@ -24,7 +24,8 @@ export const SearchLoadModule = () => {
         >
           {t("Поиск грузов")}
         </Heading>
-        <Box
+        {
+          isLargerThan845 && <Box
           padding={"20px 30px"}
           background={"white"}
           borderRadius={"12px"}
@@ -37,7 +38,11 @@ export const SearchLoadModule = () => {
             watch={watch}
           />
         </Box>
-        <TableComponent watch={watch} formState={formState} />
+        }
+        <Box overflowX={ isLargerThan845 ? `none`:`scroll`}>
+        <TableComponent isLargerThan845={isLargerThan845} watch={watch} formState={formState} />
+
+        </Box>
       </Container>
     </>
   );

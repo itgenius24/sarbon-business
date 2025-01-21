@@ -12,12 +12,12 @@ import TooltipComponets from "../TooltipComponets";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-export const Card = ({ item, cls, ...props }) => {
+export const Card = ({ item, cls, isLargerThan845,...props }) => {
   const locale = useGetLang();
   const { t } = useTranslation();
   const data = item?.status || [];
 
-  console.log(`item`,item)
+ 
 
   return (
     <Flex
@@ -25,7 +25,7 @@ export const Card = ({ item, cls, ...props }) => {
       key={item.guid}
       p={"10px 36px"}
       className={cls.card}
-      width={"100%"}
+      width={isLargerThan845 ? "100%" : `1426px`}
       justifyContent={"space-between"}
       alignItems={`center`}
     >

@@ -45,7 +45,7 @@ import TooltipComponets from "../TooltipComponets";
 import authStore from "@/store/auth.store";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
-export const TableComponent = ({ watch, formState }) => {
+export const TableComponent = ({isLargerThan845, watch, formState }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState([]);
   const [dataRes, setDataRes] = useState([]);
@@ -256,7 +256,7 @@ export const TableComponent = ({ watch, formState }) => {
         p={"10px 36px"}
         justifyContent={"space-between"}
         mt={"32px"}
-        width={"100%"}
+        width={isLargerThan845 ? "100%" : `1426px`}
       >
         <p className={cls.th}>{t("Откуда забрать")}</p>
         <p className={cls.th}>{t("Куда")}</p>
@@ -279,6 +279,7 @@ export const TableComponent = ({ watch, formState }) => {
         {dataRes &&
           dataRes.map((item) => (
             <Card
+            isLargerThan845={isLargerThan845}
               onClick={() => {
                 setCarId(item);
                 setCenterModalType(true);
