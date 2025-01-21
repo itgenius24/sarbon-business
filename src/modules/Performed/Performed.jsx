@@ -36,7 +36,7 @@ export const PerformedModule = () => {
         <Heading
           size={isLargerThan845 ? "md" : "sm"}
           mb={isLargerThan845 ? "24px" : "12px"}
-          color={`var(--primary-text)`}
+          // color={`var(--primary-text)`}
 
         >
           {t("Мои заказы")}
@@ -61,12 +61,12 @@ export const PerformedModule = () => {
         <TopContentPerfomet />
         </>
       ) : (
-        <Box>
+        <Box  overflowX={ isLargerThan845 ? `none`:`scroll`}>
           <Flex
             p={"10px 36px"}
             justifyContent={"space-between"}
-            mt={"32px"}
-            width={"100%"}
+            mt={isLargerThan845 ? "32px" : 0}
+            width={isLargerThan845  ?`100%`:`1426px`}
           >
             <p className={cls.th}>{t("Откуда забрать")}</p>
             <p className={cls.th}>{t("Куда")}</p>
@@ -89,7 +89,7 @@ export const PerformedModule = () => {
             <LoadingSpinner />
           ) : getOfferCount?.data?.count > 0 ? (
             getOfferCount?.data?.response?.map((item) => (
-              <Card key={item?.guid} item={item} t={t} />
+              <Card isLargerThan845={isLargerThan845} key={item?.guid} item={item} t={t} />
             ))
           ) : (
             <Flex

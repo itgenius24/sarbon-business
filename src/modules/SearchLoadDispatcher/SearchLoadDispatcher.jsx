@@ -13,7 +13,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
+import { IocnFilter, IocnSortBack, IocnSortTop, PlusIcon } from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -136,7 +136,7 @@ export const SearchLoadDispatcherModule = () => {
                 onClick={() => nameFilter()}
               >
                 <p className={cls.filterTitle}>{t(`Имя водителя`)}</p>
-                {filter1 ? <IocnSortBack /> : <IocnFilter />}
+                {filter1 === 1 ? <IocnSortTop /> : filter1 === 2 ?   <IocnSortBack /> : <IocnFilter />}
               </Flex>
               <Flex
                 cursor={`pointer`}
@@ -147,7 +147,8 @@ export const SearchLoadDispatcherModule = () => {
                 onClick={() => nameFilterMawini()}
               >
                 <p className={cls.filterTitle}>{t(`Владелец машины`)}</p>
-                {filter2 ? <IocnSortBack /> : <IocnFilter />}
+                {filter2 === 1 ? <IocnSortTop /> : filter2 === 2 ?   <IocnSortBack /> : <IocnFilter />}
+
               </Flex>
 
               <Flex

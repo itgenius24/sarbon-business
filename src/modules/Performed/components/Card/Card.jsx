@@ -4,13 +4,14 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { GalichkaIcon } from "@/assets/icons/icons";
 
-const Card = ({ item, t, ...props }) => {
+const Card = ({ item, t,isLargerThan845, ...props }) => {
   return (
     <Flex
       {...props}
       p={"10px 36px"}
       className={cls.card}
-      width={"100%"}
+      width={isLargerThan845 ? `100%`:`1426px`}
+
       justifyContent={"space-between"}
       alignItems={`center`}
       mb={`10px`}

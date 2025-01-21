@@ -24,22 +24,22 @@ export const useOtpProps = () => {
 
   const registrationMutation = useOtpMutation({
     onSuccess: (data) => {
-      if(!data?.user_found && authStore.getAuthData.isForgot) {
-        toast({
-          status: "error",
-          title: t("Пользователь не найден"),
-          duration: 3000,
-          position: "top right",
-        });
-        router.back();
-      } else {
+      // if(!data?.user_found && authStore.getAuthData.isForgot) {
+      //   toast({
+      //     status: "error",
+      //     title: t("Пользователь не найден"),
+      //     duration: 3000,
+      //     position: "top right",
+      //   });
+      //   router.back();
+      // } else {
         if(authStore.authData.isForgot) {
-          authStore.setAuthData("userId", data?.user_id);
+          // authStore.setAuthData("userId", data?.user_id);
           router.push(`/${locale}/auth/new-password`);
         } else {
           router.push(`/${locale}/auth/registration-form`);
         }
-      }
+      // }
     },
     onError: () => {
       // router.push(`/${locale}/auth/registration-form`);

@@ -69,6 +69,7 @@ class Store {
   logout(ctx) {
     this.isAuth = false;
     this.userData = {};
+    // this.authData = {};
     this.role = "";
     this.token = {};
 

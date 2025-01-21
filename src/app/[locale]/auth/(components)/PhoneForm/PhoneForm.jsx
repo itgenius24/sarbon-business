@@ -37,7 +37,7 @@ export const PhoneForm = ({
           {backText}
         </Button>
       </div>
-      <MobileLogo />
+      {/* <MobileLogo /> */}
       <AuthTitle mb="32px" title={title} />
       <Box mb="24px">
         <Box>

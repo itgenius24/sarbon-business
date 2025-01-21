@@ -83,7 +83,9 @@
   font-size: 13px;
   text-transform: uppercase;
   max-width: 100%;
-   
+    svg{
+      display: none;
+    }
   .filterTitle{
      &:hover{
         color: rgba(0, 122, 255, 1);
@@ -93,6 +95,8 @@
   }
   &:hover{
     svg{
+      display: block;
+
       path{
         fill: rgba(0, 122, 255, 1) !important;
       }

@@ -20,9 +20,9 @@ import { useDebounce as useDebounce2 } from "use-debounce";
 export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
-  const [count,setCount]  = useState(0)
+  const [count, setCount] = useState(0);
   const [oldData, setOldData] = useState([]);
-  const [filter1, setFilter1] = useState(false);
+  const [filter1, setFilter1] = useState(0);
   const [filter2, setFilter2] = useState(false);
   const [filter3, setFilter3] = useState(false);
   const [filter4, setFilter4] = useState(false);
@@ -78,16 +78,14 @@ export const useSearchLoadDispatcher = () => {
       // }
       if (res?.response?.length) {
         setRefe(false);
-        setCount(res?.count?.totalCount)
+        setCount(res?.count?.totalCount);
         const vehicles = [{ trailer_type: t(`Без трейлера`) }];
         const filteredData = res?.response.map((item) => ({
           ...item,
           guid: item[`_id`],
-          full_name:item?.full_name?.trim(),
+          full_name: item?.full_name?.trim(),
           trailer_type_data:
-            item?.vehicle_data?.length > 0
-              ? item?.vehicle_data
-              : vehicles,
+            item?.vehicle_data?.length > 0 ? item?.vehicle_data : vehicles,
         }));
 
         const uniqueData = filteredData.filter(
@@ -140,9 +138,9 @@ export const useSearchLoadDispatcher = () => {
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));
     // if (val?.replace(/\+/g, "")) {
-      setData([]);
-      setOldData([]);
-      setPage(0);
+    setData([]);
+    setOldData([]);
+    setPage(0);
     // }
   };
 
@@ -179,20 +177,30 @@ export const useSearchLoadDispatcher = () => {
   const [isAscendingTime, setIsAscendingTime] = useState(true);
   const [isAscendingDispatcher, setIsAscendingDispatcher] = useState(true);
 
-
   const nameFilter = () => {
-    setFilter1(prev => !prev); // filter1 ni o'zgartirish
-    const sortedData = [...data].sort((a, b) => 
-        isAscending
-            ? a.full_name.localeCompare(b.full_name) // Alfavit bo'yicha
-            : b.full_name.localeCompare(a.full_name) // Teskari alfavit bo'yicha
-    );
+    setFilter1((prevFilter) => {
+      const newFilter = prevFilter >= 2 ? 0 : prevFilter + 1;
+  
+      const sortedData = [...data].sort((a, b) => {
+        if (newFilter === 1) {
+          return a.full_name.localeCompare(b.full_name);
+        } else if (newFilter === 2) {
+          return b.full_name.localeCompare(a.full_name);
+        }
+        return 0; // 0 bo'lsa tartib o'zgarmaydi
+      });
 
-    setData(sortedData); // To'g'ridan-to'g'ri yangilash
-    setIsAscending(prev => !prev); // Tartibni almashtirish
-};
-
-console.log(`oldData`,data)
+      if(newFilter === 0) {
+        setData(oldData);
+      }else{
+        setData(sortedData);
+      }
+  
+      // setData(sortedData);
+      return newFilter;
+    });
+  };
+ 
 
   const nameFilterMawini = () => {
     setFilter2(!filter2);
@@ -296,7 +304,7 @@ console.log(`oldData`,data)
             const processedItem = ids.find((pItem) => pItem.guid === item.guid);
             const data = item;
             if (processedItem) {
-               data.dispatcher_full_data = { full_name: userData?.full_name };
+              data.dispatcher_full_data = { full_name: userData?.full_name };
 
               return data;
             }
@@ -321,8 +329,6 @@ console.log(`oldData`,data)
       },
     });
   };
-
-
 
   const handleCheckboxChange = (user) => {
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {

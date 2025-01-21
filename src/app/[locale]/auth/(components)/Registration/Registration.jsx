@@ -50,7 +50,7 @@ export const Registration = () => {
           <ModalCloseButton onClick={() => setOpen(false)} />
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              {t("Водитель с номером")} { watch(`phone`)} {t("уже регистрирован в Furgo")}
+              {t("Водитель с номером")} { watch(`phone`)} {t("уже регистрирован в Sarbon")}
             </p>
             <Box mt={`24px`}>
               <p

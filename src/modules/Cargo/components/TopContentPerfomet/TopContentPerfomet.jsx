@@ -46,25 +46,16 @@ import {
   LocationMobileIcon,
   ResToreIcon,
 } from "@/assets/icons/icons";
-import {
-  Map,
-  Placemark,
-  Polyline,
-  Routed,
-  TypeSelector,
-  YMaps,
-} from "@pbe/react-yandex-maps";
+import { YMaps } from "@pbe/react-yandex-maps";
 import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
 import authStore from "@/store/auth.store";
 import { ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
+import Image from "next/image";
 
 export const TopContentPerfomet = () => {
-  // const { watch, handleUploadDocument, getEmptyFileName, getValues } =
-  //   useAddCargoContext();
-
   const [userId, setUserId] = useState("");
   const [orderId, setOrderId] = useState("");
   const [userData, setUserData] = useState([]);
@@ -183,7 +174,6 @@ export const TopContentPerfomet = () => {
     }
   }, [getDriverPosition?.response]);
 
-
   return (
     <Box>
       <>
@@ -300,13 +290,87 @@ export const TopContentPerfomet = () => {
                       <AccordionIcon />
                     </AccordionButton>
 
-                    <AccordionPanel position={`relative`}>
+                    <AccordionPanel
+                      className={cls.accordionPanel}
+                      position={`relative`}
+                    >
                       {getGPSHistory.isPending ? (
                         <Box height={"600px"}>
                           <LoadingSpinner />
                         </Box>
                       ) : (
                         <>
+                          <Box
+                            display={isLargerThan845 ? `none` : `block`}
+                            padding={`0 20px 30px 20px`}
+                          >
+                            <Flex gap={`12px`}>
+                              <div className={cls.startAIconWrapGreen}>
+                                <div className={cls.startAGreenIcon}>
+                                  <Image
+                                    className={cls.flag}
+                                    width={150}
+                                    height={150}
+                                    src={user?.cargo_id_data?.flag_ot}
+                                    alt={t("Флаг")}
+                                  />
+                                </div>
+                                <div className={cls.line}></div>
+                              </div>
+                              <Box>
+                                <p className={cls.cardStartTitle}>
+                                  {user?.cargo_id_data?.from}{" "}
+                                </p>
+                                <p className={cls.cardStartSubTitle}>
+                                  {user?.cargo_id_data?.country_code_from?.toUpperCase()}{" "}
+                                  /{" "}
+                                  <span>
+                                    {user?.cargo_id_data?.as_soon_as_a
+                                      ? t(`Готов к загрузке`)
+                                      : format(
+                                          user?.cargo_id_data?.load_time,
+                                          "yyyy-MM-dd"
+                                        )}
+                                  </span>
+                                </p>
+                              </Box>
+                            </Flex>
+                            <Flex
+                              // alignItems={`center`}
+                              mt={`22px`}
+                              gap={`12px`}
+                            >
+                              <div className={cls.startAIconWrapGreen}>
+                                <div className={cls.startBGreenIcon}>
+                                  <Image
+                                    className={cls.flag}
+                                    width={150}
+                                    height={150}
+                                    src={user?.cargo_id_data?.flag_do}
+                                    alt={t("Флаг")}
+                                  />
+                                </div>
+                              </div>
+                              <Box>
+                                <p className={cls.cardStartTitle}>
+                                  {user?.cargo_id_data?.to}
+                                </p>
+                                <p className={cls.cardStartSubTitle}>
+                                  {user?.cargo_id_data?.country_code_to?.toUpperCase()}{" "}
+                                  /{" "}
+                                  <span>
+                                    {user?.cargo_id_data?.as_soon_as_b
+                                      ? t(`Как можно скорее`)
+                                      : format(
+                                          user?.cargo_id_data?.date ||
+                                            new Date(),
+                                          "yyyy-MM-dd"
+                                        )}
+                                  </span>
+                                </p>
+                              </Box>
+                            </Flex>
+                          </Box>
                           <YMaps>
                             <AccordionMap
                               driver={user?.users_gps}
@@ -324,6 +388,7 @@ export const TopContentPerfomet = () => {
                             />
                           </YMaps>
                           <Flex
+                            display={isLargerThan845 ? `flex` : `none`}
                             justifyContent={`space-between`}
                             gap={`10px`}
                             alignItems={`center`}
@@ -404,10 +469,18 @@ export const TopContentPerfomet = () => {
 
                       <Flex
                         justifyContent={`space-between`}
+                        flexDirection={isLargerThan845 ? `row` : `column`}
                         alignItems={`center`}
                         mt={10}
+                        padding={isLargerThan845 ? `0` : `0 20px`}
                       >
-                        <Flex gap={`40px`} alignItems={`center`}>
+                        <Flex
+                          width={`100%`}
+                          flexDirection={isLargerThan845 ? `row` : `column`}
+                          gap={isLargerThan845 ? `40px` : `0`}
+                          alignItems={isLargerThan845 ? `center` : `flex-start`}
+                          rowGap={isLargerThan845 ? `0px` : `20px`}
+                        >
                           <Flex gap={`8px`}>
                             <CarIconXM />
                             <Box>
@@ -417,7 +490,6 @@ export const TopContentPerfomet = () => {
                                 {user?.cargo_id_data?.number_of_cars}
                               </p>
                               <p className={cls.subTitle}>
-                                {" "}
                                 {user?.vehicle_id_data?.car_number}
                               </p>
                             </Box>
@@ -438,10 +510,15 @@ export const TopContentPerfomet = () => {
                           </Flex>
                         </Flex>
                         <Flex
-                          gap={`39px`}
+                          gap={isLargerThan845 ? `39px` : `0`}
+                          rowGap={isLargerThan845 ? `0px` : `20px`}
+                          m={isLargerThan845 ? `0px` : `20px 0px`}
                           background={`rgba(237, 246, 255, 1)`}
                           borderRadius={`10px`}
+                          flexDirection={isLargerThan845 ? `row` : `column`}
+                          width={`100%`}
                           p={`13px 18px`}
+                          // justifyContent={`space-between`}
                         >
                           <Box>
                             <p className={cls.subTitle}>{t("Тип оплаты")}: </p>
@@ -468,6 +545,64 @@ export const TopContentPerfomet = () => {
                               {user?.cargo_id_data?.currency_id_data?.code}
                             </p>
                           </Box>
+                        </Flex>
+                        <Flex
+                          display={isLargerThan845 ? `none` : `flex`}
+                          alignItems={`center`}
+                          justifyContent={`space-between`}
+                          width={`100%`}
+                          background={`rgba(237, 246, 255, 1)`}
+                          borderRadius={`10px`}
+                          p={`13px 18px`}
+                          m={isLargerThan845 ? `0px` : `0 0 20px 0px`}
+                        >
+                          <Flex alignItems={`center`} gap={`7px`}>
+                            {user?.users_gps?.gps ? (
+                              <LocationActiveIcon />
+                            ) : (
+                              <LocationMobileIcon />
+                            )}
+                            <div className={cls.itemText}>
+                              <p className={cls.subTitle}>{t(`Геолокация`)}</p>
+                              <Flex
+                                gap={`5px`}
+                                alignItems={`center`}
+                                className={cls.subTitle}
+                              >
+                                <ResToreIcon />
+                                <span
+                                  style={{ color: `rgba(0, 122, 255, 1)` }}
+                                  className={cls.subTitle}
+                                >
+                                  {user?.users_gps?.update_time &&
+                                    formatDateTime(
+                                      user?.users_gps?.update_time
+                                    )}
+                                </span>
+                              </Flex>
+                            </div>
+                          </Flex>
+
+                       
+
+                          <Flex gap={`7px`}>
+                            {user?.users_gps?.battery > 19 ? (
+                              <BatareyFullIcon />
+                            ) : (
+                              <BatareyIcon />
+                            )}
+                            <div className={cls.itemText}>
+                              <p className={cls.phoneItemName}>
+                                {user?.users_gps?.battery}%{" "}
+                              </p>
+                            </div>
+                          </Flex>
+                          {/* <Flex alignItems={"center"} gap={2}>
+                            <BluetoothIcon />
+                            <Box>
+                              <p className={cls.title}>Вкл</p>
+                            </Box>
+                          </Flex> */}
                         </Flex>
                       </Flex>
                     </AccordionPanel>

@@ -52,8 +52,7 @@ export const TableComponent = ({ watch, formState }) => {
   const [search, setSearch] = useState("");
   const [carId, setCarId] = useState();
   const [sortOrder, setSortOrder] = useState("asc"); // "asc" - yuqoridan pastga, "desc" - pastdan yuqoriga
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [page, setPage] = useState(1);
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
 
   const [centerModalType, setCenterModalType] = useState();
@@ -64,7 +63,6 @@ export const TableComponent = ({ watch, formState }) => {
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
 
-  console.log(`carId`, carId);
 
   const { data } = useGetCargoList({
     params: {
@@ -104,7 +102,7 @@ export const TableComponent = ({ watch, formState }) => {
           max_weight: +watch(`max_weight`) || 0,
           only_for_me: watch(`only_for_me`) || 0,
           firm_id,
-          page: 1,
+          page: page,
           limit: 50,
         },
       },
@@ -126,6 +124,7 @@ export const TableComponent = ({ watch, formState }) => {
     watch(`max_weight`),
     watch(`only_for_me`),
     status2,
+    page
   ]);
 
   const { data: useList } = useGetUserData({
@@ -291,6 +290,10 @@ export const TableComponent = ({ watch, formState }) => {
           ))}
         {isPendingLo && <LoadingSpinner />}
       </Flex>
+      <Button mt={`24px`}  width={`fit-content`} onClick={() => setPage(page + 1)} className={cls.loadMore}>
+         {t(`Загрузить еще`)}
+      </Button>
+
       {centerModalType && (
         <div className={cls.modalOver}>
           <div className={cls.selectCargo}>
