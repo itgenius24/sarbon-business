@@ -39,9 +39,10 @@ export const useSearchLoad = () => {
       const data = res?.response;
       if(status2){
         setDataRes(data);
-      }else{
+      }else if(page > 1){
         setDataRes((res) => [...res,...data]);
-
+      }else{
+        setDataRes(data);
       }
       setStatus2(false);
     },

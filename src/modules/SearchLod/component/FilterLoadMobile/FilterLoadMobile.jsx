@@ -69,7 +69,7 @@ export const FilterLoadMobile = ({
             top={`15px`}
             onClick={() => setOpenFilter(false)}
           />
-          <DrawerBody mt={`15px`}>
+          <DrawerBody maxHeight={`500px`} mt={`15px`}>
             <Flex
               marginBottom={`20px`}
               flexDirection={`column`}
