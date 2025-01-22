@@ -2,6 +2,13 @@ import {
   Avatar,
   Box,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   Input,
   InputGroup,
@@ -45,24 +52,32 @@ import TooltipComponets from "../TooltipComponets";
 import authStore from "@/store/auth.store";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
-export const TableComponent = ({isLargerThan845, watch, formState }) => {
+export const TableComponent = ({
+  isLargerThan845,
+  watch,
+  formState,
+  dataRes,
+  setDataRes,
+  status2,
+  setStatus2,
+  setPage,
+  page,
+  isPendingLo,
+}) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState([]);
-  const [dataRes, setDataRes] = useState([]);
+
   const [search, setSearch] = useState("");
   const [carId, setCarId] = useState();
   const [sortOrder, setSortOrder] = useState("asc"); // "asc" - yuqoridan pastga, "desc" - pastdan yuqoriga
-  const [page, setPage] = useState(1);
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
 
   const [centerModalType, setCenterModalType] = useState();
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
-  const [status2, setStatus2] = useState(false);
 
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
-
 
   const { data } = useGetCargoList({
     params: {
@@ -77,55 +92,7 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
     querySettings: { enabled: true },
   });
 
-  const { mutate: getCargoPost, isPending: isPendingLo } = useGetCargoPost({
-    onSuccess: (res) => {
-      setDataRes(res?.response);
-      setStatus2(false);
-    },
-  });
-
   const { dirtyFields } = formState;
-
-  useEffect(() => {
-    const dataCargo = {
-      data: {
-        object_data: {
-          from: watch(`from`) || ``,
-          to: watch(`to`) || ``,
-          prepayment: watch(`prepayment`) ? `true` : ``,
-          spot: watch(`spot`) ? `true` : ``,
-          in_spot: watch(`in_spot`) ? `true` : ``,
-          vehicle_type_id: watch(`vehicle_type_id`)?.value,
-          min_volume: +watch(`min_volume`) || 0,
-          max_volume: +watch(`max_volume`) || 0,
-          min_weight: +watch(`min_weight`) || 0,
-          max_weight: +watch(`max_weight`) || 0,
-          only_for_me: watch(`only_for_me`) || 0,
-          firm_id,
-          page: page,
-          limit: 50,
-        },
-      },
-    };
-    getCargoPost(dataCargo);
-    // if (!dataRes?.length) {
-    //   setDataRes(data?.response);
-    // }
-  }, [
-    watch(`from`)?.length,
-    watch(`to`)?.length,
-    watch(`prepayment`),
-    watch(`spot`),
-    watch(`in_spot`),
-    watch(`vehicle_type_id`)?.value,
-    watch(`min_volume`),
-    watch(`max_volume`),
-    watch(`min_weight`),
-    watch(`max_weight`),
-    watch(`only_for_me`),
-    status2,
-    page
-  ]);
 
   const { data: useList } = useGetUserData({
     params: {
@@ -192,13 +159,16 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
         item.provisions?.includes(`new_proposal_from_director`) ||
         item.provisions?.includes(`approve_by_customer`)
     );
-    console.log(`provisionsData`,provisionsData)
     if (isCheckboxChecked) {
       return (
-        (provisionsData?.length === 0 && item?.user?.full_name.toLowerCase().includes(search.toLowerCase()))
+        provisionsData?.length === 0 &&
+        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
-    }else{
-      return  (provisionsData?.length > 0 && item?.user?.full_name.toLowerCase().includes(search.toLowerCase()));
+    } else {
+      return (
+        provisionsData?.length > 0 &&
+        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
+      );
     }
   });
 
@@ -248,8 +218,6 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
     }
   };
 
-  console.log(`filteredData`, filteredData);
-
   return (
     <>
       <Flex
@@ -279,7 +247,7 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
         {dataRes &&
           dataRes.map((item) => (
             <Card
-            isLargerThan845={isLargerThan845}
+              isLargerThan845={isLargerThan845}
               onClick={() => {
                 setCarId(item);
                 setCenterModalType(true);
@@ -291,11 +259,8 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
           ))}
         {isPendingLo && <LoadingSpinner />}
       </Flex>
-      <Button mt={`24px`}  width={`fit-content`} onClick={() => setPage(page + 1)} className={cls.loadMore}>
-         {t(`Загрузить еще`)}
-      </Button>
 
-      {centerModalType && (
+      {centerModalType && isLargerThan845 ? (
         <div className={cls.modalOver}>
           <div className={cls.selectCargo}>
             <Flex
@@ -473,9 +438,6 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
                   <p color={"blackAlpha.400"} fontSize={"18px"}>
                     {t("Только свободные водители")}
                   </p>
-                  {/* <Link href={"/add-cargo"} variant={"outline"}>
-                        {t("Добавить груз")}
-                      </Link> */}
                 </Flex>
               )}
             </Box>
@@ -513,6 +475,234 @@ export const TableComponent = ({isLargerThan845, watch, formState }) => {
             </Flex>
           </div>
         </div>
+      ) : (
+        <Drawer placement="bottom" isOpen={centerModalType}>
+          <DrawerOverlay />
+          <DrawerContent borderRadius="12px 12px 0 0">
+            <DrawerHeader>
+            <Flex
+              justifyContent={"space-between"}
+              width={`100%`}
+              // alignItems={"center"}
+              flexDirection={`column`}
+              className={cls.selectCargoTop}
+            >
+              <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
+              <InputGroup mt={`20px`} className={cls.inputWrap}>
+                <Input
+                  placeholder={t("Поиск")}
+                  className={cls.input}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <InputRightElement>
+                  <SearchIcon />
+                </InputRightElement>
+              </InputGroup>
+            </Flex>
+            </DrawerHeader>
+            <DrawerCloseButton
+              top={`15px`}
+              onClick={() => setCenterModalType(``)}
+            />
+            <DrawerBody>
+            <Box className={cls.modalContend}>
+              {filteredData?.length > 0 ? (
+                filteredData?.map((item) => {
+                  const provisionsData = item?.orders?.filter(
+                    (item) =>
+                      item.provisions?.includes(`performed`) ||
+                      item.provisions?.includes(`approve_from_driver`) ||
+                      item.provisions?.includes(`new_proposal_from_director`) ||
+                      item.provisions?.includes(`approve_by_customer`)
+                  );
+                  console.log(`provisions`, provisionsData);
+                  return (
+                    <CheckBoxComponent
+                      key={item?.user?.guid}
+                      onClick={() => {
+                        if (
+                          provisionsData?.[0]?.provisions?.includes(
+                            `performed`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_from_driver`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `new_proposal_from_director`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_by_customer`
+                          )
+                        ) {
+                          // deleteOrder(item) emas, faqat onOpen() chaqirildi
+                        } else {
+                          handleSelect(item?.user?.guid);
+                        }
+                      }}
+                      active={selectCargo.includes(item?.user?.guid)}
+                      status={
+                        provisionsData?.[0]?.provisions?.includes(
+                          `performed`
+                        ) ||
+                        provisionsData?.[0]?.provisions?.includes(
+                          `approve_from_driver`
+                        ) ||
+                        provisionsData?.[0]?.provisions?.includes(
+                          `new_proposal_from_director`
+                        ) ||
+                        provisionsData?.[0]?.provisions?.includes(
+                          `approve_by_customer`
+                        )
+                      }
+                    >
+                      {provisionsData?.[0]?.provisions?.includes(`performed`) ||
+                      provisionsData?.[0]?.provisions?.includes(
+                        `approve_from_driver`
+                      ) ||
+                      provisionsData?.[0]?.provisions?.includes(
+                        `new_proposal_from_director`
+                      ) ||
+                      provisionsData?.[0]?.provisions?.includes(
+                        `approve_by_customer`
+                      ) ? (
+                        <>
+                          {provisionsData?.[0]?.provisions?.includes(
+                            `approve_by_customer`
+                          ) && (
+                            <TooltipComponets
+                              cls={cls}
+                              status={`check`}
+                              label={`Водитель подтвердил`}
+                              color={`rgba(21, 186, 77, 1)`}
+                            />
+                          )}
+                          {provisionsData?.[0]?.provisions?.includes(
+                            `performed`
+                          ) && (
+                            <TooltipComponets
+                              cls={cls}
+                              status={`check`}
+                              label={`Водитель занят`}
+                              color={`rgba(21, 186, 77, 1)`}
+                            />
+                          )}
+                          {(provisionsData?.[0]?.provisions?.includes(
+                            `approve_from_driver`
+                          ) ||
+                            provisionsData?.[0]?.provisions?.includes(
+                              `new_proposal_from_director`
+                            )) && (
+                            <TooltipComponets
+                              cls={cls}
+                              status={`approve_from_driver`}
+                              label={`Ждем подтверждение водителя`}
+                              color={`rgba(193, 187, 32, 1)`}
+                            />
+                          )}
+
+                          <Popover>
+                            <PopoverTrigger>
+                              <Box as="button" className={cls.countryWrap}>
+                                <Flex gap={3}>
+                                  <Avatar
+                                    name={item?.user?.full_name}
+                                    src={item?.user?.photo}
+                                  />
+                                  <Box>
+                                    <p className={cls.name}>
+                                      {item?.user?.full_name}
+                                    </p>
+                                    <p className={cls.subTitle}>
+                                      {item?.user?.phone}
+                                    </p>
+                                  </Box>
+                                </Flex>
+                              </Box>
+                            </PopoverTrigger>
+
+                            <PopoverContent
+                              background={`white`}
+                              position={`relative`}
+                              border={`none`}
+                              boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                              width={`300px`}
+                            >
+                              <PopoverArrow size={`lg`} />
+                              <PopoverBody fontWeight={400}>
+                                <PopoverCloseButton />
+                                <Box onClick={() => deleteOrder(item)}>
+                                  {t("Отменить предложение")}
+                                </Box>
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
+                        </>
+                      ) : (
+                        <Box className={cls.countryWrap}>
+                          <Flex gap={3}>
+                            <Avatar
+                              name={item?.user?.full_name}
+                              src={item?.user?.photo}
+                            />
+                            <Box>
+                              <p className={cls.name}>
+                                {item?.user?.full_name}
+                              </p>
+                              <p className={cls.subTitle}>
+                                {item?.user?.phone}
+                              </p>
+                            </Box>
+                          </Flex>
+                        </Box>
+                      )}
+                    </CheckBoxComponent>
+                  );
+                })
+              ) : (
+                <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
+                  <p color={"blackAlpha.400"} fontSize={"18px"}>
+                    {t("Только свободные водители")}
+                  </p>
+                </Flex>
+              )}
+            </Box>
+            </DrawerBody>
+            <DrawerFooter mb={`20px`}>
+              <Flex
+                rowGap={`20px`}
+                width={`100%`}
+                flexDirection={`column`}
+                mt={3}
+                gap={2}
+              >
+                <Checkbox
+                  defaultChecked={isCheckboxChecked}
+                  onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+                >
+                  {t("Только свободные водители")}
+                </Checkbox>
+
+                <Button
+                  className={cls.topButton}
+                  onClick={() => setCenterModalType("")}
+                  variant="secondaryWhite"
+                  size="md"
+                  border="1px solid #D0D5DD"
+                >
+                  {t("Отменить")}
+                </Button>
+                <Button
+                  isLoading={isPending}
+                  onClick={() => handlePred()}
+                  className={cls.topButton}
+                  size="md"
+                >
+                  {t("Предложить")}
+                </Button>
+              </Flex>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       )}
     </>
   );

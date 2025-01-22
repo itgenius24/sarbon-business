@@ -21,9 +21,12 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 15px;
-  color: var(--primary-text);
+  color: black;
 
-  // margin-bottom: px;
+  @media (max-width: 768px) {
+    margin-bottom: 8px;
+    
+  }
 }
 
 .additionalItemLabel {
