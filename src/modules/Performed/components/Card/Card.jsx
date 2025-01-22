@@ -123,7 +123,7 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
         </span>
       </Box>
 
-      <Box className={`${cls.contend} ${cls.contend4}`}></Box>
+      <Box className={`${cls.contend} ${cls.contend4}`}>{item?.car_type}</Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
         <p className={cls.title}>{item?.users_id_data?.full_name}</p>
         <p className={cls.subTitle}>{item?.users_id_data?.phone}</p>
