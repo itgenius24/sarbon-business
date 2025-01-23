@@ -152,6 +152,7 @@ export const TableComponent = ({
   };
 
   const filteredData = dataUser?.filter((item) => {
+    console.log(`item222`, item);
     const provisionsData = item?.orders?.filter(
       (item) =>
         item.provisions?.includes(`performed`) ||
@@ -159,13 +160,15 @@ export const TableComponent = ({
         item.provisions?.includes(`new_proposal_from_director`) ||
         item.provisions?.includes(`approve_by_customer`)
     );
+   
     if (isCheckboxChecked) {
       return (
-        provisionsData?.length === 0 &&
+        (!provisionsData || provisionsData?.length === 0) &&
         item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     } else {
       return (
+        provisionsData?.length > 0 &&
         item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
