@@ -166,7 +166,6 @@ export const TableComponent = ({
       );
     } else {
       return (
-        provisionsData?.length > 0 &&
         item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }

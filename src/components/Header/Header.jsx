@@ -133,14 +133,14 @@ const Header = observer(({ elements }) => {
                         // className={clsx(cls.loginLink)}
                         className={clsx(cls.registerLink)}
                         title={t("Войти")}
-                        href={`/${locale}/auth`}
+                        href={`/${locale ? locale : `ru`}/auth`}
                       >
                         {t("Войти")}
                       </Link>
                       <Link
                         className={clsx(cls.registerLink)}
                         title={t("Зарегистрироваться")}
-                        href={`/${locale}/auth/registration`}
+                        href={`/${locale ? locale : `ru`}/auth/registration`}
                       >
                         {t("Зарегистрироваться")}
                       </Link>
