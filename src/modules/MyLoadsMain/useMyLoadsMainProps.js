@@ -1,5 +1,6 @@
 import authStore from "@/store/auth.store";
 import {
+  useCreateFeedback,
   useDeleteCargo,
   useGetExcelPost,
   useGetNewPred,
@@ -9,14 +10,18 @@ import {
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { keyframes, useToast } from "@chakra-ui/react";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
 import { keepPreviousData } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { boolean, object } from "yup";
+import { useForm } from "react-hook-form";
+import { set } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export const useMyLoadsMainProps = () => {
+  const [open, setOpen] = useState(false);
   const params = useSearchParams();
   const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
@@ -24,14 +29,118 @@ export const useMyLoadsMainProps = () => {
   const router = useRouter();
   const [accept, setAccept] = useState(false);
   const [orderStatus, setOrderStatus] = useState(orderValStatus);
+  const [comments, setComments] = useState([]);
+  const { register, watch, setValue } = useForm();
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   const [data, setData] = useState([]);
   const userId = authStore.userData.id;
 
   const toast = useToast();
+  const { t } = useTranslation();
 
   const [hasMore, setHasMore] = useState(true);
   const [limit, setLimit] = useState(6);
+
+  const goodComment = [
+    {
+      label: "Все прошло по плану",
+      key: "everything_went_according_to_plan",
+    },
+    {
+      label: "Вовремя получил груз",
+      key: "received_the_cargo_on_time",
+    },
+    {
+      label: "Ответственный водитель",
+      key: "responsible_driver",
+    },
+    {
+      label: "Неудовлетворительное состояние груза",
+      key: "unsatisfactory_cargo_condition",
+    },
+    {
+      label: "Я бы снова работал с этим водителем",
+      key: "i_would_work_with_this_driver_again",
+    },
+  ];
+
+  const badComment = [
+    {
+      label: "Возникли проблемы с доставкой",
+      key: "there_were_problems_with_delivery",
+    },
+    {
+      label: "Задержка достаки",
+      key: "delivery_delay",
+    },
+    {
+      label: "Водитель был недоступен для связи",
+      key: "the_driver_was_unavailable_for_communication",
+    },
+    {
+      label: "Неудовлетворительное состояние транспорта",
+      key: "poor_condition_of_transport",
+    },
+  ];
+
+  const handleCheckboxChange = (key) => {
+    setComments(
+      (prev) =>
+        prev.includes(key)
+          ? prev.filter((item) => item !== key) // Agar tanlangan bo'lsa olib tashlash
+          : [...prev, key] // Aks holda qo'shish
+    );
+  };
+
+  const updateResponseMutation = useUpdateResponse({
+    onSuccess: () => {
+      setAccept(true);
+      setData([]);
+      getOfferCargo.refetch();
+    },
+    onError(res) {
+      console.error(res);
+    },
+  });
+
+  const createFeedback = useCreateFeedback({
+    onSuccess() {
+      toast({
+        title: t("Ваш отзыв отправлен"),
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setComments([]);
+      setSelectedRating(0);
+      setHoverRating(0);
+      updateResponseMutation.mutate({
+        data: {
+          guid: open.guid,
+          review: true,
+        },
+      });
+
+      setOpen(null);
+    },
+  });
+
+  function onSubmit() {
+    createFeedback.mutate({
+      data: {
+        company_id: null,
+        grade: selectedRating,
+        rewiv: watch(`comment`)?.length > 0 ? watch(`comment`) : ``,
+        users_id: open.users_id,
+        review_status: comments,
+        users_id_2: authStore.userData.id,
+        status: ["driver"],
+      },
+    });
+  }
 
   const getAllUserCargoParams = {
     limit,
@@ -204,15 +313,6 @@ export const useMyLoadsMainProps = () => {
     },
   });
 
-  const updateResponseMutation = useUpdateResponse({
-    onSuccess: () => {
-      setAccept(true);
-      setData([]);
-    },
-    onError(res) {
-      console.error(res);
-    },
-  });
   const downloadByLanguage = async (url) => {
     try {
       const link = document.createElement("a");
@@ -390,5 +490,20 @@ export const useMyLoadsMainProps = () => {
     dataPred,
     getExcelFileFn,
     isPendingExe: getExcelFile.isPending,
+    open,
+    setOpen,
+    goodComment,
+    badComment,
+    register,
+    watch,
+    setValue,
+    setComments,
+    handleCheckboxChange,
+    comments,
+    selectedRating,
+    setSelectedRating,
+    hoverRating,
+    setHoverRating,
+    onSubmit,
   };
 };

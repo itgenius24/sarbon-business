@@ -119,37 +119,7 @@ export const useLoadsCardProps = ({
 
   const { register, handleSubmit, setValue, watch } = useForm();
 
-  const createFeedback = useCreateFeedback({
-    onSuccess() {
-      toast({
-        title: t("Ваш отзыв отправлен"),
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
-      handleCloseEstimateModal();
-    },
-  });
-
-  function onSubmit(data) {
-    const reviewStatus = Object.keys(data).filter((key) =>
-      key.includes("driver_")
-    );
-
-    createFeedback.mutate({
-      data: {
-        company_id: null,
-        grade: ratingValue,
-        rewiv: data.rewiv,
-        users_id: users_id_2,
-        review_status: reviewStatus.filter((key) => data[key]),
-        users_id_2: authStore.userData.id,
-        status: ["client"],
-      },
-    });
-  }
-
+  
   function handleOpenEstimateModal(e) {
     e.stopPropagation();
     setIsEstimateModalOpen(true);
@@ -179,7 +149,6 @@ export const useLoadsCardProps = ({
     ratingValue,
     handleClickRating,
     handleSubmit,
-    onSubmit,
     register,
     t,
     locale,

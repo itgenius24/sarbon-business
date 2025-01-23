@@ -8,6 +8,7 @@ export const CustomTextarea = ({
   withLimit = true,
   placeholder = "Пишите здесь",
   name,
+  textLimit = 1000,
   className,
   register = () => {},
   ...props
@@ -41,7 +42,7 @@ export const CustomTextarea = ({
           fontWeight="400"
           lineHeight="20px"
         >
-          {watch(name)?.length || 0}/1000
+          {watch(name)?.length || 0}/{textLimit}
         </Text>
       )}
     </Box>

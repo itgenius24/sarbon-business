@@ -1,5 +1,18 @@
 import { Container } from "@/components/Container";
-import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
 import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 import { TopFilter } from "@/components/TopFilter";
@@ -11,8 +24,10 @@ import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
 import authStore from "@/store/auth.store";
 import { useState } from "react";
-import { ExelIcon } from "@/assets/icons/icons";
+import { ExelIcon, StarGoodsIcon, StarOutlineIcon } from "@/assets/icons/icons";
 import { groupByGuidFromData } from "@/utils/groupByGuidFromData";
+import { CheckboxComment } from "./components/CheckboxComment";
+import { CustomTextarea } from "@/components/CustomTextarea";
 
 export const MyLoadsMain = () => {
   const {
@@ -29,17 +44,43 @@ export const MyLoadsMain = () => {
     setDataPred,
     dataPred,
     isPendingExe,
-    getExcelFileFn
+    getExcelFileFn,
+    open,
+    setOpen,
+    goodComment,
+    badComment,
+    register,watch,setValue,
+    handleCheckboxChange,
+    comments,
+    setComments,
+    selectedRating,
+    setSelectedRating,
+    hoverRating,
+    setHoverRating,
+    onSubmit
   } = useMyLoadsMainProps();
   const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-
+ 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
 
-  const [disabled, setDisabled] = useState(false);
+  const handleMouseEnter = (index) => {
+    setHoverRating(index);
+  };
 
+  const handleMouseLeave = () => {
+    setHoverRating(0);
+  };
+
+  const handleClick = (index) => {
+    setSelectedRating(index);
+    setComments([]);
+  };
+
+
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <Box px={"20px"} py="24px">
@@ -71,7 +112,7 @@ export const MyLoadsMain = () => {
                 }}
               >
                 СКОРО
-              </span> */} 
+              </span> */}
               <Button
                 isLoading={isPendingExe}
                 onClick={getExcelFileFn}
@@ -119,6 +160,8 @@ export const MyLoadsMain = () => {
                       disabled={disabled}
                       setDataPred={setDataPred}
                       dataPred={dataPred}
+                      open={open}
+                      setOpen={setOpen}
                     />
                   );
                 })}
@@ -160,6 +203,69 @@ export const MyLoadsMain = () => {
           {isLoading && <LoadingSpinner />}
         </Box>
       </Container>
+      <Modal size={`xl`} isOpen={open} onClose={() => setOpen(null)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Оцените водителя</ModalHeader>
+          <ModalCloseButton onClose={() => setOpen(null)} />
+          <ModalBody>
+            <Box width={`100%`} display={`flex`} justifyContent={`center`}>
+              <Flex gap={`24px`} alignItems={`center`}>
+                {[1, 2, 3, 4, 5].map((item) => {
+                  return (
+                    <div
+                      onMouseEnter={() => handleMouseEnter(item)}
+                      onMouseLeave={handleMouseLeave}
+                      onClick={() => handleClick(item)}
+                      key={item}
+                    >
+                      {" "}
+                      {item <= (hoverRating || selectedRating) ? (
+                        <StarGoodsIcon />
+                      ) : (
+                        <StarOutlineIcon />
+                      )}{" "}
+                    </div>
+                  );
+                })}
+              </Flex>
+            </Box>
+            <Box mt={`30px`}>
+              <Heading fontSize={`20px`}>С чем вы остались недовольны?</Heading>
+              <Flex flexDirection={`column`}>
+                {(selectedRating > 3 || selectedRating === 0) &&
+                  goodComment.map((item) => {
+                    return (
+                      <CheckboxComment defaultChecked={comments.includes(item.key)}  onChange={() => handleCheckboxChange(item.key)} key={item.key}>
+                        {item.label}
+                      </CheckboxComment>
+                    );
+                  })}
+
+                {selectedRating <= 3 &&
+                  selectedRating >= 1 &&
+                  badComment.map((item) => {
+                    return (
+                      <CheckboxComment defaultChecked={comments.includes(item.key)}  onChange={() => handleCheckboxChange(item.key)} key={item.key}>
+                        {item.label}
+                      </CheckboxComment>
+                    );
+                  })}
+              </Flex>
+            </Box>
+            <Box mt={`24px`}>
+              <Heading fontSize={`18px`} lineHeight={`30px`} fontWeight={400}>Комментарий</Heading>
+              <CustomTextarea textLimit={200} watch={watch}  register={register} name={`comment`}  />
+            </Box>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button width={`100%`} mr={3} onClick={() => onSubmit()}>
+              Готово
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

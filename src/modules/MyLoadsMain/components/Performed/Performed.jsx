@@ -42,6 +42,8 @@ export const Performed = ({
   handleCancel,
   setDataPred,
   dataPred,
+  open,
+  setOpen,
 }) => {
   {
     cargo?.offer_time
@@ -108,7 +110,9 @@ export const Performed = ({
                 {cargo?.cargo_id_data?.address_id_data?.name}
                 <span>
                   {cargo?.cargo_id_data?.as_soon_as_a
-                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(`Готов к загрузке`)}`
+                    ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(
+                        `Готов к загрузке`
+                      )}`
                     : cargo?.cargo_id_data?.load_time &&
                       format(
                         new Date(cargo?.cargo_id_data?.load_time).setHours(
@@ -238,12 +242,18 @@ export const Performed = ({
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>{t(`Товары`)}</span>
                   <p className={styles.cardName}>
-                    {cargo?.cargo_id_data?.[`product_type_${locale}`] ? cargo?.cargo_id_data?.[`product_type_${locale}`]  : cargo?.cargo_id_data?.product_type}
+                    {cargo?.cargo_id_data?.[`product_type_${locale}`]
+                      ? cargo?.cargo_id_data?.[`product_type_${locale}`]
+                      : cargo?.cargo_id_data?.product_type}
                   </p>
                 </div>
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>{t(`Транспорт`)}</span>
-                  <p className={styles.cardName}>{cargo?.[`car_type_${locale}`] ? cargo?.[`car_type_${locale}`] :cargo?.car_type }</p>
+                  <p className={styles.cardName}>
+                    {cargo?.[`car_type_${locale}`]
+                      ? cargo?.[`car_type_${locale}`]
+                      : cargo?.car_type}
+                  </p>
                 </div>
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
@@ -299,6 +309,19 @@ export const Performed = ({
                       </a>{" "}
                     </p>
                   </Box>
+                </Flex>
+              )}
+
+            {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+              orderStatus === `archive` &&
+              !cargo?.review && (
+                <Flex
+                  className={styles.cardItem}
+                  width={`100%`}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Button onClick={() => setOpen(cargo)}>Оставить отзыв</Button>
                 </Flex>
               )}
             {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&

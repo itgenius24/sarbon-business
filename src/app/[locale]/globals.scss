@@ -246,3 +246,15 @@ a {
 .react-international-phone-country-selector-button {
   padding: 0px 10px;
 }
+
+
+.star {
+  transition: color 0.2s;
+}
+
+.star.active {
+  svg{
+    color: gold;
+  }
+ 
+}
