@@ -339,13 +339,13 @@ const DriverFree = ({
           </Button>
         )}
 
-        <Button
+        {/* <Button
           onClick={() => setCenterModalType(`selectCargo`)}
           size={`lg`}
           className={cls.btngreen}
         >
           {t(`Предложить груз`)}
-        </Button>
+        </Button> */}
       </Flex>
     </div>
   );

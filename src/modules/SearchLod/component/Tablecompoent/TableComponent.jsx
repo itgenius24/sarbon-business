@@ -466,6 +466,7 @@ export const TableComponent = ({
                   {t("Отменить")}
                 </Button>
                 <Button
+                  isDisabled={selectCargo.length === 0}
                   isLoading={isPending}
                   onClick={() => handlePred()}
                   className={cls.topButton}
