@@ -58,7 +58,7 @@ export const PerformedModule = () => {
       </Flex>
       {tab === `tab1` ? (
         <>
-        <TopContentPerfomet />
+           <TopContentPerfomet />
         </>
       ) : (
         <Box  overflowX={ isLargerThan845 ? `none`:`scroll`}>

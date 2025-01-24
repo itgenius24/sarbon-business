@@ -72,7 +72,7 @@ export const MyCarsModule = () => {
             {t("Добавить новую машину")}
           </Button>
         </Flex>
-        <Box  mt={isLargerThan845 ? "37px" : `10px`}>
+        <Box mt={isLargerThan845 ? "37px" : `10px`}>
           {isLargerThan845
             ? data?.map((item) => (
                 <CarsCard
@@ -104,6 +104,18 @@ export const MyCarsModule = () => {
                   handleDelete={handleDelete}
                 />
               ))}
+
+          {(data?.length === 0 || !data) && (
+              <Flex
+                className={cls.noData}
+                width={`100%`}
+                height={`170px`}
+                alignItems={`center`}
+                justifyContent={`center`}
+              >
+                {t("У вас еще нет добавленных машину")}
+              </Flex>
+            )}
         </Box>
 
         <Button

@@ -174,12 +174,16 @@ export const TopContentPerfomet = () => {
     }
   }, [getDriverPosition?.response]);
 
+  console.log(`userData`,userData)
+
   return (
     <Box>
       <>
         {isPending ? (
           <LoadingSpinner />
-        ) : userData?.length > 0 ? (
+        ) : 
+        
+        userData?.[0]?.order > 0 ? (
           <Accordion allowToggle>
             {userData?.[0]?.order?.map((user, index) => {
               return (
@@ -620,7 +624,7 @@ export const TopContentPerfomet = () => {
             alignItems={`center`}
             justifyContent={`center`}
           >
-            No data
+            {t(`У вас еще нет добавленных заказы`)}
           </Flex>
         )}
       </>
