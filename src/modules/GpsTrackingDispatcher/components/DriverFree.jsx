@@ -6,6 +6,7 @@ import {
   BluetoothIcon,
   CencelMapIcon,
   CloseIconM,
+  ExelIcon,
   FurIcon,
   LoadgreenIcon,
   LoadOulineIcon,
@@ -16,7 +17,9 @@ import {
   TelegramOpasitiyIcon,
   WatsapOpasitiyIcon,
 } from "@/assets/icons/icons";
-import { useGetCompanyList } from "@/services/api";
+import { TextField } from "@/components/TextField";
+import { useGetCompanyList, useGetExcelPost } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
 import {
   Avatar,
@@ -45,6 +48,10 @@ const DriverFree = ({
   contendSingle,
   setCenterModalType,
   setIconStatus,
+  errors,
+  control,
+  register,
+  watch,
 }) => {
   console.log("contendSingle", contendSingle);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,6 +78,39 @@ const DriverFree = ({
       enabled: Boolean(contendSingle?.firm_data?.firm_data?.[0]?.firm_id),
     }
   );
+
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
+  });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          driver_name:contendSingle?.user?.full_name,
+          driver_number:contendSingle?.user?.phone,
+          type: "dispatcher_driver",
+        },
+      },
+    });
+  };
 
   return (
     <div className={cls.filter}>
@@ -316,6 +356,8 @@ const DriverFree = ({
           </Flex>
         </Box>
 
+    
+
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button
             onClick={() => {
@@ -382,6 +424,47 @@ const DriverFree = ({
         >
           {t(`Предложить груз`)}
         </Button>
+        <TextField
+          // className={cls.textField}
+          errors={errors}
+          control={control}
+          name="distance"
+          register={register}
+          // additionalItemName="weight_unit"
+          placeholder={t("Введите расстояние поиска")}
+          type="number"
+          zIndex={90}
+        />
+        <Box
+          as="button"
+          color={`black`}
+          _hover={{ background: `white` }}
+          backgroundColor={`white`}
+          border={`1px solid rgba(21, 186, 77, 1)`}
+          // leftIcon={}
+          onClick={getExcelFileFn}
+          maxWidth={`400px`}
+          width={`100%`}
+          padding={`10px`}
+          whiteSpace={`nowrap`}
+          textOverflow={`ellipsis`}
+          overflow={`hidden`}
+          borderRadius={`8px`}
+        >
+          <Flex alignItems={`center`} gap={1}>
+            <ExelIcon />
+            <p
+              style={{
+                fontWeight: 600,
+                overflow: `hidden`,
+                textOverflow: `ellipsis`,
+                width: `100%`,
+              }}
+            >
+              Список ближайших в машин Excel
+            </p>
+          </Flex>
+        </Box>
       </Flex>
     </div>
   );

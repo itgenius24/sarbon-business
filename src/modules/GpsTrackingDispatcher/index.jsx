@@ -193,6 +193,7 @@ export default function GpsTrackingDispatcher() {
                   contendSingle={contendSingle}
                   setCenterModalType={setCenterModalType}
                   setIconStatus={setIconStatus}
+                  errors={errors} control={control} register={register} watch={watch}
                 />
               )}
               {modalType === "driverExpectation" && (

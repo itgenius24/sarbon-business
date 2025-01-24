@@ -27,7 +27,7 @@ const Header = observer(({ elements }) => {
 
   const locale = useGetLang();
 
-  console.log(`locale`,locale)
+  console.log(`isAuth`,isAuth)
 
   const { t } = useTranslation(locale, "translations");
 
@@ -185,7 +185,7 @@ const Header = observer(({ elements }) => {
               </Box>
             </Box>
             <Flex alignItems="center">
-              {!isAuth && (
+              {isAuth && (
                 <Flex>
                   <Link
                     // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
