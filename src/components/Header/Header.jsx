@@ -37,7 +37,7 @@ const Header = observer(({ elements }) => {
 
 
   const goToProfile = () => {
-    router.push(`/${locale}/profile`);
+    router.push(`/${locale ? locale : `ru`}/profile`);
   };
 
   const userData = useGetUserInfoHook();
