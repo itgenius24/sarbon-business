@@ -48,7 +48,7 @@ export default function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir(locale)} className={`${inter.variable} html layout`}>
   
-      <body className={inter.className}>
+      <body style={{backgroundColor:`#f6f7f8`}} className={inter.className}>
         <Providers>
           <MainLayout>{children}</MainLayout>
         </Providers>

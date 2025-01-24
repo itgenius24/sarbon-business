@@ -44,7 +44,7 @@ const Header = observer(({ elements }) => {
 
   const photo = userData.data?.photo;
 
-  console.log(userData);
+  console.log(`photo`,photo);
 
   const [isNavOpen, setNavOpen] = useState(false);
 
@@ -161,13 +161,13 @@ const Header = observer(({ elements }) => {
                       >
                         <Image
                           src={
-                            photo === "photo" || photo === ""
+                            (photo === "photo" || photo === "")
                               ? UserImg
                               : !photo?.includes("http")
                               ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
                                   photo || ""
                                 }`
-                              : UserImg
+                              : photo?.includes("http") ? photo : UserImg
                           }
                           alt="ww"
                           width={40}

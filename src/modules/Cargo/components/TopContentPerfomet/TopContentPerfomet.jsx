@@ -524,15 +524,15 @@ export const TopContentPerfomet = () => {
                             <p className={cls.subTitle}>{t("Тип оплаты")}: </p>
                             <p className={cls.title}>
                               {t(
-                                user?.cargo_id_data?.map_id_data?.payment_type
+                                user?.payment_type ? user?.payment_type :   user?.cargo_id_data?.map_id_data?.payment_type  ? user?.cargo_id_data?.map_id_data?.payment_type : t("По запросу")
                               )}
                             </p>
                           </Box>
                           <Box>
                             <p className={cls.subTitle}>{t("Предоплата")}: </p>
                             <p className={cls.title}>
-                              {user?.cargo_id_data?.prepayment_percentage}{" "}
-                              {user?.cargo_id_data?.currency_id_data?.code}
+                              {user?.prepayment_percentage  ? user?.prepayment_percentage : user?.cargo_id_data?.prepayment_percentage ? user?.cargo_id_data?.prepayment_percentage : t("По запросу")}
+                              {user?.currency_id_data?.code ? user?.currency_id_data?.code : user?.cargo_id_data?.currency_id_data?.code}
                             </p>
                           </Box>
                           <Box>
@@ -541,7 +541,8 @@ export const TopContentPerfomet = () => {
                               className={cls.title}
                               style={{ color: `rgba(0, 122, 255, 1)` }}
                             >
-                              {user?.cargo_id_data?.bid_cash}{" "}
+
+                              {user?.cargo_id_data?.bid_cash ? user?.cargo_id_data?.bid_cash : t("По запросу")}
                               {user?.cargo_id_data?.currency_id_data?.code}
                             </p>
                           </Box>

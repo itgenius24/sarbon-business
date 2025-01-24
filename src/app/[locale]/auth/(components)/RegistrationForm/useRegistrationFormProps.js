@@ -153,6 +153,7 @@ export const useRegistrationFormProps = () => {
           login: watch(`login`),
           password: watch(`password`),
           firm_id: data?.guid,
+          photo: watch(`img`),
           email: watch(`email`),
           user_status: ["rejected"],
           passport_code: status === 1 ? watch(`passport_code`) : undefined,
