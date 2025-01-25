@@ -185,7 +185,7 @@ const Header = observer(({ elements }) => {
               </Box>
             </Box>
             <Flex alignItems="center">
-              {isAuth && (
+              {!isAuth && (
                 <Flex>
                   <Link
                     // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
