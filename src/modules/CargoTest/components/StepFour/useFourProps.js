@@ -50,7 +50,7 @@ const useFourProps = () => {
 
  
   const currencyOptions = getCurrency.data?.response?.map((item) => ({
-    label: item?.[`code_${locale}`],
+    label: item?.[`code_${ locale? locale : 'ru'}`],
     value: item?.guid,
   }));
 
