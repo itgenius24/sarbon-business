@@ -360,14 +360,14 @@ export const useGpsTrackingProps = () => {
     onSuccess: (data) => {
       const data2 = data?.data?.response;
       // console.log(`dats`, data2);
-      if (data?.data?.response?.length === 40) {
-        setOffsetCAr(offsetCar + 40);
+      if (data?.data?.response?.length === 100) {
+        setOffsetCAr(offsetCar + 100);
       }
       if (data?.data?.response?.length) {
         setLocationData((res) => [...res, ...data2]);
       }
       if (data?.data?.response?.length === null && !closeRes) {
-        getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+        getLocation({ data: { object_data: { limit: 100, page: offsetCar } } });
       }
     },
   });
@@ -389,6 +389,8 @@ export const useGpsTrackingProps = () => {
     }
     return acc;
   }, []);
+
+  
 
   const dataUserDataID = dataUserID.reduce((acc, current) => {
     const xistingItem = acc.find(
@@ -471,7 +473,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     console.log("offsetCar");
-    getLocation({ data: { object_data: { limit: 40, page: offsetCar  } } });
+    getLocation({ data: { object_data: { limit: 100, page: offsetCar  } } });
   }, [offsetCar]);
 
   useEffect(() => {

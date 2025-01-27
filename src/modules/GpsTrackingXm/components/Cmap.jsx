@@ -188,6 +188,9 @@ const Cmap = memo(
 
         <Clusterer
           options={{
+            // preset: 'islands#invertedBlueClusterIcons',
+            groupByCoordinates: false, // Bir xil joylashuvda turganlarni alohida chiqaradi
+            gridSize: 50,
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
               backgroundColor: "rgba(52, 199, 89, 1)",
@@ -669,9 +672,8 @@ const Cmap = memo(
                 </>
               );
             })}
-
-          {locationData &&
-            locationData.map((item) => {
+            {locationData &&
+            locationData.map((item,index) => {
               const BalloonContentCargo = () => (
                 <div
                   id="balloon-content_cargo"
@@ -765,8 +767,8 @@ const Cmap = memo(
                       }}
                       key={item?.guid}
                       geometry={[
-                        item.location_name.split(" ")[0] * 1,
-                        item.location_name.split(" ")[1] * 1,
+                        item.location_name.split(" ")[0] * 1 + index * 0.0001,
+                        item.location_name.split(" ")[1] * 1 + index * 0.0001,
                       ]}
                       properties={{
                         balloonContent: balloonContentCargo,
@@ -798,7 +800,9 @@ const Cmap = memo(
                 </>
               );
             })}
+          
         </Clusterer>
+    
       </Map>
     );
   }
