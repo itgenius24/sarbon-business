@@ -16,6 +16,7 @@ const itemsService = {
   createCargo: (data) => request.post("/v2/items/cargo", data),
   createPeriod: (data) => request.post("/v2/items/period", data),
   updateResponse: (data) => request.put("/v2/items/order", data),
+  updateNoDriver: (data) => request.post("/v2/items/dispatcher_drivers", data),
   updateUser: (data) => request.put("/v2/items/users", data),
   createFeedback: (data) => request.post("/v2/items/review", data),
   createVehicle: (data) => request.post("/v2/items/vehicle", data),
@@ -139,8 +140,14 @@ export const useUpdateCargo = (mutationSettings) => {
 };
 
 
+
 export const useUpdateResponse = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateResponse(data), ...mutationSettings });
+};
+
+
+export const useUpdateNoDriver= (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateNoDriver(data), ...mutationSettings });
 };
 
 export const useUpdateUserData = (mutationSettings) => {

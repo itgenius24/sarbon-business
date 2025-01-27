@@ -368,7 +368,8 @@ export const Performed = ({
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCancel(cargo.guid);
+                    
+                      handleCancel(cargo);
                     }}
                     className={styles.bntOutline}
                   >
@@ -579,7 +580,7 @@ export const Performed = ({
           )} */}
         </div>
       </div>
-      
+
       <Modal isOpen={dataPred} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

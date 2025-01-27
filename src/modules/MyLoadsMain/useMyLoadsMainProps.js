@@ -7,6 +7,7 @@ import {
   useGetOffer,
   useGetUserCargo,
   usePushNotificationMutation,
+  useUpdateNoDriver,
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
@@ -252,7 +253,6 @@ export const useMyLoadsMainProps = () => {
   }, []);
 
   useEffect(() => {
-  
     getNewPred.mutate({
       data: {
         object_data: {
@@ -260,21 +260,17 @@ export const useMyLoadsMainProps = () => {
         },
       },
     });
-    
-  }, [Boolean(orderStatus === "new"),   accept]);
-
+  }, [Boolean(orderStatus === "new"), accept]);
 
   useEffect(() => {
     getNoDisPred.mutate({
       data: {
         object_data: {
-          dispetchir_id:`` ,
+          dispetchir_id: ``,
         },
       },
     });
-  },[Boolean(orderStatus === `no_dispatcher`), accept]);
-
-
+  }, [Boolean(orderStatus === `no_dispatcher`), accept]);
 
   const getOfferCount = useGetOffer(
     {
@@ -339,6 +335,8 @@ export const useMyLoadsMainProps = () => {
     },
   });
 
+  const updateNoDriver = useUpdateNoDriver({});
+
   const downloadByLanguage = async (url) => {
     try {
       const link = document.createElement("a");
@@ -373,11 +371,11 @@ export const useMyLoadsMainProps = () => {
 
   const pushNotification = usePushNotificationMutation();
 
-  function handleCancel(id) {
+  function handleCancel(cargo) {
     updateResponseMutation.mutate(
       {
         data: {
-          guid: id,
+          guid: cargo?.guid,
           provisions: ["cancellation"],
           who_cancellation: ["customer"],
         },
@@ -399,7 +397,19 @@ export const useMyLoadsMainProps = () => {
         },
       }
     );
+
+    if (orderStatus === `no_dispatcher`) {
+      updateNoDriver.mutate({
+        data: {
+          users_id: cargo?.users_id,
+          users_id_2: authStore.userData.guid,
+          firm_id: authStore.userData.firm_id || ``,
+        },
+      });
+    }
   }
+
+
 
   function handleAccept(id, driverId) {
     pushNotification.mutate({
@@ -410,7 +420,8 @@ export const useMyLoadsMainProps = () => {
         },
       },
     });
-    setDataPred(false);
+
+   
     updateResponseMutation.mutate(
       {
         data: {
@@ -438,6 +449,17 @@ export const useMyLoadsMainProps = () => {
         },
       }
     );
+    if (orderStatus === `no_dispatcher`) {
+      updateNoDriver.mutate({
+        data: {
+          users_id: dataPred?.users_id,
+          users_id_2: authStore.userData.guid,
+          firm_id: authStore.userData.firm_id || ``,
+        },
+      });
+    }
+    setDataPred(false);
+
   }
 
   function handleDelete(id) {
@@ -445,8 +467,6 @@ export const useMyLoadsMainProps = () => {
   }
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
-
-  // console.log(`cargos`,getAllUserCargo,getOfferCargo);
 
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
@@ -494,7 +514,12 @@ export const useMyLoadsMainProps = () => {
   }, [getAllUserCargo.data, getOfferCargo.data]);
 
   return {
-    cargos: orderStatus === `new` ? data : orderStatus === `no_dispatcher` ? dataDis :  cargosData.data?.response,
+    cargos:
+      orderStatus === `new`
+        ? data
+        : orderStatus === `no_dispatcher`
+        ? dataDis
+        : cargosData.data?.response,
 
     isLoading:
       Boolean(

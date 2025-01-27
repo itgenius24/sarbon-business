@@ -66,7 +66,7 @@ export const useLoginProps = () => {
         );
       }
 
-      router.push(`/${locale}`);
+      router.push(`/${locale ? locale : `ru`}`);
     },
     onError: (error) => {
       console.log(error);

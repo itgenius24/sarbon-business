@@ -180,7 +180,7 @@ export const MyLoadsMain = () => {
                     orderStatus={orderStatus}
                     handleDelete={handleDelete}
                     handleAccept={handleAccept}
-                    handleCancel={handleCancel}
+          
                     isLargerThan768={isLargerThan768}
                     cargo={cargo}
                   />
@@ -193,7 +193,6 @@ export const MyLoadsMain = () => {
                     orderStatus={orderStatus}
                     handleDelete={handleDelete}
                     handleAccept={handleAccept}
-                    handleCancel={handleCancel}
                     isLargerThan768={isLargerThan768}
                     // {...cargo}
                     cargo={cargo}
