@@ -88,7 +88,7 @@ export const DispatcherModule = () => {
                   ))}
               </Flex>
             </RadioGroup>
-            <Button width={"fit-content"} leftIcon={<PlusIcon />}>
+            <Button onClick={() => router.push(`/${locale}/dispatcher/create`)}  width={"fit-content"} leftIcon={<PlusIcon />}>
               {t(`Создать диспетчера `)}
             </Button>
           </Flex>

@@ -363,6 +363,29 @@ export const Performed = ({
               justifyContent={`space-between`}
               alignItems={`center`}
             >
+              {(orderStatus === `no_dispatcher`) && (
+                <Flex gap={`11px`}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCancel(cargo.guid);
+                    }}
+                    className={styles.bntOutline}
+                  >
+                    {t(`Отказать`)}
+                  </Button>
+                  <Button
+                    leftIcon={<IconCeckNewStatusIcon />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDataPred(cargo);
+                    }}
+                    // className={styles.bntNew}
+                  >
+                    {t(`Принять`)}
+                  </Button>
+                </Flex>
+              )}
               <Box>
                 {orderStatus == "performed" && (
                   <>
@@ -556,6 +579,7 @@ export const Performed = ({
           )} */}
         </div>
       </div>
+      
       <Modal isOpen={dataPred} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

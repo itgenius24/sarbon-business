@@ -92,6 +92,8 @@ const StepFive = ({ status }) => {
     }
   }, [paymentOptions]);
 
+  
+
   const getLoadings =
     (loadings?.length > 0 &&
       (Array.isArray(loadings?.[0]?.cor)
@@ -246,12 +248,12 @@ const StepFive = ({ status }) => {
         //   loadings[0].loading_num?.value
         // ),
         load_time: loadings[0].from_date || new Date(),
-        date: new Date(unloading[0].to_date),
+        date: unloading[unloading.length - 1].to_date || new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         location_name: loadings[0].cor,
         cargo_type: ["cargo"],
-        users_id: authStore.userData.id,
+        users_id: authStore.userData.guid,
         address_name: `${loadings[0].address}|${
           unloading[unloading.length - 1].address
         }`,
@@ -330,13 +332,13 @@ const StepFive = ({ status }) => {
         //   loadings[0].loading_num?.value
         // ),
         load_time: loadings[0].from_date || new Date(),
-        date: new Date(unloading[unloading.length - 1].to_date),
+        date:  unloading[unloading.length - 1].to_date || new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         location_name: loadings[0].cor,
         cargo_type: ["template"],
         template_name: watch(`template_name`),
-        users_id: authStore.userData.id,
+        users_id: authStore.userData.guid,
         address_name: `${loadings[0].address}|${
           unloading[unloading.length - 1].address
         }`,

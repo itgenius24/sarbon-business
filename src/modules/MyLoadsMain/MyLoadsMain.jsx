@@ -40,6 +40,7 @@ export const MyLoadsMain = () => {
     ref,
     isLoading,
     driverCount,
+    noDataDisCount,
     waitingDriverCount,
     setDataPred,
     dataPred,
@@ -131,6 +132,7 @@ export const MyLoadsMain = () => {
         </Flex>
         <TopFilter
           driverCount={driverCount}
+          noDataDisCount={noDataDisCount}
           waitingDriverCount={waitingDriverCount}
           onChange={onFilterChange}
           filterList={
@@ -145,6 +147,7 @@ export const MyLoadsMain = () => {
           orderStatus == "approve_from_driver" ||
           orderStatus == "cancellation" ||
           orderStatus == "new" ||
+          orderStatus == "no_dispatcher" ||
           orderStatus == "archive" ? (
             <>
               {cargos?.length > 0 &&

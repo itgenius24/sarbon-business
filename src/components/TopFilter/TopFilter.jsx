@@ -9,7 +9,8 @@ export const TopFilter = ({
   filterList = [],
   disabled,
   driverCount,
-  waitingDriverCount
+  waitingDriverCount,
+  noDataDisCount
 }) => {
 
   const locale = useGetLang();
@@ -34,8 +35,9 @@ export const TopFilter = ({
             }}
           >
             {t(label)}
-            {(value === "new" && driverCount) && <div className={cls.count}>{driverCount || 0}</div>}
+            {(value === "new" && driverCount) && <div className={cls.count}>{driverCount}</div>}
             {(value === "approve_from_driver" && waitingDriverCount > 0) && <div className={cls.count}>{waitingDriverCount}</div>}
+            {(value === "no_dispatcher" && noDataDisCount > 0) && <div className={cls.count}>{noDataDisCount}</div>}
           </button>
         </div>;
       })

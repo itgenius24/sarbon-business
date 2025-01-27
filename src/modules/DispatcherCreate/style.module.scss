@@ -1,0 +1,34 @@
+.textFieldName{
+    font-weight: 600;
+    font-size: 14px;
+    // margin-bottom: 5px;
+    height: 30px;
+    color: var(--primary-text);
+    @media (max-width:872px) {
+        font-size: 15px;
+        color: black;
+        font-weight: 600;
+    }
+}
+
+.subTitle{
+    font-weight: 400;
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(126, 123, 134, 1);
+}
+
+.nextBtn{
+    width: fit-content;
+    padding: 27px 28px !important;
+    font-size: 18px;
+    font-weight: 600;
+     background-color: var(--primary-text) !important;
+     margin-top: 30px;
+     @media (max-width:872px) {
+        font-size: 15px;
+        width: 100%;
+        font-weight: 600;
+        margin: 0px 10px;
+    }
+  }

@@ -29,6 +29,10 @@ export const filterTabsDis = [
     label: "Архив",
     value: "in_active",
   },
+  // {
+  //   label: "Предложение без диспетчера",
+  //   value: "no_dispatcher",
+  // },
 ];
 
 

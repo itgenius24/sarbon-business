@@ -35,6 +35,7 @@ export const useMyLoadsMainProps = () => {
   const [hoverRating, setHoverRating] = useState(0);
 
   const [data, setData] = useState([]);
+  const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;
 
   const toast = useToast();
@@ -231,6 +232,18 @@ export const useMyLoadsMainProps = () => {
     },
   });
 
+  const getNoDisPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setDataDis(data);
+      setAccept(false);
+    },
+  });
+
   useEffect(() => {
     if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
       // router.push(`?value=new&label=Предложение`);
@@ -239,7 +252,7 @@ export const useMyLoadsMainProps = () => {
   }, []);
 
   useEffect(() => {
-    // if (orderStatus === "new") {
+  
     getNewPred.mutate({
       data: {
         object_data: {
@@ -247,8 +260,21 @@ export const useMyLoadsMainProps = () => {
         },
       },
     });
-    // }
-  }, [Boolean(orderStatus === "new"), accept]);
+    
+  }, [Boolean(orderStatus === "new"),   accept]);
+
+
+  useEffect(() => {
+    getNoDisPred.mutate({
+      data: {
+        object_data: {
+          dispetchir_id:`` ,
+        },
+      },
+    });
+  },[Boolean(orderStatus === `no_dispatcher`), accept]);
+
+
 
   const getOfferCount = useGetOffer(
     {
@@ -468,7 +494,7 @@ export const useMyLoadsMainProps = () => {
   }, [getAllUserCargo.data, getOfferCargo.data]);
 
   return {
-    cargos: orderStatus === `new` ? data : cargosData.data?.response,
+    cargos: orderStatus === `new` ? data : orderStatus === `no_dispatcher` ? dataDis :  cargosData.data?.response,
 
     isLoading:
       Boolean(
@@ -485,6 +511,7 @@ export const useMyLoadsMainProps = () => {
     ref,
     handleLoadMore,
     driverCount: data?.length,
+    noDataDisCount: dataDis?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
     setDataPred,
     dataPred,

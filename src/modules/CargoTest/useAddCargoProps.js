@@ -692,6 +692,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
     const requestData = {
       data: {
+        user_id: authStore.userData.guid,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
         measurement_id: watch(`weight_unit`)?.value,

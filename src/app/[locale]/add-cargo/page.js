@@ -1,6 +1,4 @@
 "use client";
-
-import { Cargo } from "@/modules/Cargo";
 import { CargoTest } from "@/modules/CargoTest";
 
 
