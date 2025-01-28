@@ -1,322 +1,318 @@
 import clsx from "clsx";
 import cls from "./styles.module.scss";
-import { DeleteIcon, TruckIcon } from "@/assets/icons/icons";
-import { LoadBtn } from "@/components/LoadBtn";
-import { DataList } from "@/components/DataList";
-import { Box, Button, Heading } from "@chakra-ui/react";
-import { statuses } from "@/utils/constants";
-import { formatSum } from "@/utils/formatSum";
+import { ArrowNextIcon, DeleteIcon, MapIcon } from "@/assets/icons/icons";
+import { Box, Button, Flex, Tooltip } from "@chakra-ui/react";
+
 import { useLoadsCardProps } from "./useLoadsCardProps";
-import { Modal } from "@/components/Modal";
-import { Rating } from "@/components/Rating";
-import { CustomTextarea } from "@/components/CustomTextarea";
-import { Checkbox } from "@/components/Checkbox";
+
 import { forwardRef } from "react";
+import { Popup } from "@/components/Popup";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { statusColor, statusText } from "../../data";
 
-export const LoadsCard = forwardRef(({
-  guid,
-  address_id_data,
-  address_id_2_data,
-  bid_cash,
-  cargo_type_id_data,
-  load_time,
-  load_around_the_clock,
-  take_all_unloads,
-  order_status,
-  date,
-  provisions,
-  handleDelete,
-  response_status,
-  orderStatus,
-  weight,
-  volume_m3,
-  handleCancel,
-  handleAccept,
-  moderator_comment,
-  indicate_status,
-  users_id_2,
-  users_id_2_data,
-  currency_id_data,
-  currency_id_2_data,
-  request,
-  no_haggling,
-  driver_cash,
-  short_name,
-  city_id_data,
-  city_id_2_data,
-  distance,
-  number_of_order,
-  isLargerThan768,
-}, ref) => {
+export const LoadsCard = forwardRef(
+  ({ cargo, orderStatus, handleDelete }, ref) => {
+    const {
+      router,
+      status,
+      t,
+      locale,
+      isDeletePopupOpen,
+      onDeleteAccept,
+      setIsDeletePopupOpen,
+    } = useLoadsCardProps({
+      order_status: cargo?.order_status,
+      provisions: cargo?.provisions,
+      response_status: cargo?.response_status,
+      orderStatus: orderStatus,
+      cargo_type_id_data: cargo?.cargo_type_id_data,
+      load_around_the_clock: cargo?.load_around_the_clock,
+      take_all_unloads: cargo?.take_all_unloads,
+      date: cargo?.date,
+      load_time: cargo?.load_time,
+      indicate_status: cargo?.indicate_status,
+      users_id_2: cargo?.users_id_2,
+      users_id_2_data: cargo?.users_id_2_data,
+      driver_cash: cargo?.driver_cash,
+      short_name: cargo?.short_name,
+      distance: cargo?.distance,
+      currency_id_data: cargo?.currency_id_data,
+      currency_id_2_data: cargo?.currency_id_2_data,
+      handleDelete: handleDelete,
+      cargo,
+    });
 
-  const {
-    list,
-    newStatusList,
-    router,
-    status,
-    handleOpenEstimateModal,
-    handleCloseEstimateModal,
-    isEstimateModalOpen,
-    handleClickRating,
-    ratingValue,
-    handleSubmit,
-    register,
-    onSubmit,
-    t,
-    locale,
-    setValue,
-    watch,
-  } = useLoadsCardProps({
-    order_status,
-    provisions,
-    response_status,
-    orderStatus,
-    cargo_type_id_data,
-    load_around_the_clock,
-    take_all_unloads,
-    date,
-    load_time,
-    indicate_status,
-    users_id_2,
-    users_id_2_data,
-    driver_cash,
-    short_name,
-    distance,
-    currency_id_data,
-    currency_id_2_data,
-  });
+    return (
+      <>
+        <div ref={ref} className={cls.status}>
+          <div className={cls.statusCard}>
+            <div
+              style={{ background: statusColor[cargo?.order_status?.[0]] }}
+              className={cls.statusXeader}
+            >
+              <div className={cls.leftContend}>
+                <div className={cls.text}>
+                  <h3>
+                    {cargo?.from?.length > 20 ? (
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${cargo?.from}`}
+                      >
+                        <span>{`${cargo?.from.slice(0, 20)}...`}</span>
+                      </Tooltip>
+                    ) : (
+                      cargo?.from
+                    )}
+                  </h3>
+                  <p>
+                    {cargo?.address_id_data?.name}
+                    <span>
+                      {cargo?.as_soon_as_a
+                        ? `${cargo?.country_code_from?.toUpperCase()} / ${t(`Готов к загрузке`)}`
+                        : cargo?.load_time &&
+                          format(
+                            new Date(cargo?.load_time).setHours(
+                              new Date(cargo?.load_time).getHours() - 5
+                            ),
+                            "dd-MMMM",
+                            { locale: ru }
+                          )}
+                    </span>
+                  </p>
+                </div>
+                <ArrowNextIcon />
+                <div className={cls.text}>
+                  <h3>
+                    {cargo?.to?.length > 20 ? (
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${cargo?.to}`}
+                      >
+                        <span>{`${cargo?.to.slice(0, 20)}...`}</span>
+                      </Tooltip>
+                    ) : (
+                      cargo?.to
+                    )}
+                  </h3>
+                  <p>
+                    {cargo?.address_id_2_data?.name}
 
-  return <div>
-    <div
-      ref={ref}
-      className={clsx(cls.loadsCard, { [cls.rejected]: status === "rejected" })}
-      onClick={() => router.push(`/${locale}/my-loads/${status}/${guid}`)}
-    >
-      <a className={clsx(cls.stretchedLink, { [cls.isShow]: status === "performed" })} href={`/${locale}/my-loads/${status}/${guid}`}></a>
-      <div className={cls.cardTop}>
-        <div className={cls.cardTopContent}>
-          <h2 className={cls.address}>
-            <span className={cls.addressText}>
-              <span className={cls.addressCountry}>
-                <span className={cls.addressCity}>{city_id_data?.name}</span>
-                <span>{address_id_data?.name}</span>
-              </span>
-              <span>-&gt;</span>
-              <span className={cls.addressCountry}>
-                <span className={cls.addressCity}>{city_id_2_data?.name}</span>
-                <span>{address_id_2_data?.name}</span>
-              </span>
-              {/* {address_id_data?.name} -&gt; {address_id_2_data?.name} */}
-            </span>
-            <span className={clsx(cls.addressStatus, cls[status])}>{statuses[status]}</span>
-          </h2>
-          <span className={cls.distance}>{number_of_order}</span>
-        </div>
-        <div className={cls.paymentInfo}>
-          <div className={cls.paymentInfoContent}>
-            <span className={cls.paymentInfoText}>
-              {formatSum(currency_id_data?.code, bid_cash)}
-            </span>
+                    <span>
+                      {cargo?.as_soon_as_b
+                        ? `${cargo?.country_code_to?.toUpperCase()} / ${t(`Как можно скорее`)}`
+                        : cargo?.date &&
+                          format(
+                            new Date(cargo?.date).setHours(
+                              new Date(cargo?.date).getHours() - 5
+                            ),
+                            "dd-MMMM",
+                            { locale: ru }
+                          )}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className={cls.rightContend}>
+                <div className={cls.text}>
+                  <p className={cls.rightTitle}>
+                  {t(`Тип оплаты`)}: {cargo?.payment_type}
+                  </p>
+                  <p className={cls.rightTitle}>
+                  {t(`Предоплата`)}:
+                    {/* {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`} */}
+                    {cargo?.prepayment_percentage
+                      ? ` ${cargo?.prepayment_percentage} ${cargo?.currency_id_data?.code}`
+                      : `Нет`}
+                  </p>
+                </div>
+                <div className={cls.text}>
+                  <p className={cls.rightTitle}>{t(`Общая сумма`)}</p>
+                  <p className={cls.totalSum}>
+                    {cargo?.bid_cash
+                      ? `${cargo?.bid_cash}  ${cargo?.currency_id_data?.code}`
+                      : t(`По запросу`)}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className={cls.cardBody}>
+              {orderStatus === `performed` && (
+                <div className={cls.card}>
+                  <div className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>{t(`Водитель`)}</span>
+                    <p className={cls.cardName}>
+                      {cargo?.users_id_data?.full_name}{" "}
+                      {cargo?.users_id_data?.rating > 0
+                        ? `+${cargo?.users_id_data?.rating}`
+                        : ``}
+                    </p>
+                  </div>
+                  <div className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>{t(`Телефон`)}</span>
+                    <p className={cls.cardName}>
+                      {cargo?.users_id_data?.phone}
+                    </p>
+                  </div>
+                  <div className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>{t(`Статус`)}</span>
+                    <p className={cls.cardName}>
+                      {/* {
+                  performedStatuses[
+                    cargo?.indicate_status?.[0]
+                      ? cargo?.indicate_status?.[0]
+                      : `Не cтатус`
+                  ]
+                } */}
+                      {/* <span className={cls.cardNameDate}> (Сегодня, 12:36)</span> */}
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className={cls.card}>
+                <Flex justifyContent={`space-between`} width={`100%`}>
+                  <Flex gap={`70px`}>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>{t(`Товары`)}</span>
+                      <p className={cls.cardName}>{ cargo?.[`product_type${locale}`] ? cargo?.[`product_type${locale}`] :cargo?.product_type}</p>
+                    </div>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>{t(`Транспорт`)}</span>
+                      <p className={cls.cardName}>{cargo?.[`car_type_${locale}`] ? cargo?.[`car_type_${locale}`] :cargo?.car_type}</p>
+                    </div>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>{t(`Вес, объём`)}</span>
+                      <p className={cls.cardName}>
+                        {cargo?.weight}
+                        {cargo?.measurement_id_data?.Symbol} /{" "}
+                        {cargo?.volume_m3} m³
+                      </p>
+                    </div>
+                  </Flex>
+                  <div style={{ textAlign: `right` }} className={cls.cardItem}>
+                    <span className={cls.cardBodyTitle}>{t(`Номер груза`)}</span>
+                    <p className={cls.cardName}>{cargo?.number_of_order}</p>
+                  </div>
+                </Flex>
+              </div>
+              <div className={cls.card}>
+                <Flex
+                  width={`100%`}
+                  className={cls.cardItem}
+                  justifyContent={`space-between`}
+                  alignItems={`center`}
+                >
+                  <Box>
+                    <span className={cls.cardBodyTitle}>
+                    {t(`Статус`)}:
+                      {cargo?.updated_time &&
+                        format(cargo?.updated_time, ` dd.MM.yyyy, HH:mm`)}
+                    </span>
+                    <Flex
+                      style={{
+                        color: statusColor[cargo?.order_status?.[0]],
+                        fontWeight: 600,
+                        fontSize: `18px`,
+                        gap: `6px`,
+                      }}
+                    >
+                      {statusText[cargo?.order_status?.[0]]}
+                      <p
+                        style={{
+                          color: `rgba(33, 31, 38, 1)`,
+                          fontWeight: 400,
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            cargo?.order_status?.[0] === `rejected`
+                              ? cargo?.moderator_comment
+                              : ``,
+                        }}
+                      ></p>
+                    </Flex>
+                  </Box>
+                  <Box>
+                    {status === `active` && (
+                      <Button
+                        onClick={() =>
+                          router.push(
+                            `/${locale}/my-loads/${status}/${cargo?.guid}`
+                          )
+                        }
+                        className={cls.btnActive}
+                      >
+                        {t(`Изменить`)}
+                      </Button>
+                    )}
+                    {(status === `in_moderation` || status === `rejected`) && (
+                      <Flex gap={`11px`}>
+                        <Button
+                          onClick={() =>
+                            router.push(
+                              `/${locale}/my-loads/${status}/${cargo?.guid}`
+                            )
+                          }
+                          className={cls.bntOutline}
+                        >
+                          {t(`Изменить`)}
+                        </Button>
+                        <Button
+                          leftIcon={<DeleteIcon />}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsDeletePopupOpen(true);
+                          }}
+                          className={cls.bntOutline}
+                        >
+                          {t(`Удалить`)}
+                        </Button>
+                      </Flex>
+                    )}
+                  </Box>
+                </Flex>
+              </div>
+              {orderStatus == "performed" && (
+                <div className={cls.cardFooter}>
+                  <div className={cls.cardFooterLeft}>
+                    <div className={cls.cardItem}>
+                      <span className={cls.cardBodyTitle}>{t(`Пройдено`)}</span>
+                      <p className={cls.cardName}>
+                        <span>1357 км </span> /{" "}
+                        {cargo?.distance?.toFixed(1) || 0} км
+                      </p>
+                    </div>
+
+                    <div
+                      className={cls.btn}
+                      onClick={() =>
+                        router.push(
+                          `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                        )
+                      }
+                    >
+                      <MapIcon /> {t(`Показать на карте`)}
+                    </div>
+                  </div>
+                  <div className={cls.rightContend}></div>
+                </div>
+              )}
+            </div>
           </div>
-          <span className={cls.paymentInfoComment}>
-            {
-            request ? t("Запросить") : no_haggling ? t("Без торг") : t("Возможен торг")
-            }
-          </span>
         </div>
-      </div>
-      <Box borderBottom="1px solid" borderColor="brand.200">
-        <DataList list={status === "new" ? newStatusList : list} />
-        {
-          status === "rejected" && <p className={cls.moderatorComment}>
-            <span className={cls.moderatorCommentTitle}>{t("Причина отказа модерации:")}</span>
-            <span className={cls.moderatorCommentText} dangerouslySetInnerHTML={{ __html: moderator_comment }} />
-          </p>
-        }
-      </Box>
-      <div className={cls.paymentInfoMobile}>
-        <div className={cls.paymentInfoMobileContent}>
-          <span className={cls.paymentInfoMobileText}>
-            {formatSum(currency_id_data?.code, bid_cash)}
-          </span>
-        </div>
-        <span className={cls.paymentInfoMobileComment}>
-          {
-          request ? t("Запросить") : no_haggling ? t("Без торг") : t("Возможен торг")
-          }
-        </span>
-      </div>
-      {
-        status === "new" && <Box display="flex" width={isLargerThan768 ? "570px" : "100%"} columnGap="12px" mt="32px">
-          <Button
-            fontSize={isLargerThan768 ? "16px" : "12px"}
-            fontWeight={isLargerThan768 ? 600 : 500}
-            variant="outlineError"
-            bgColor="rgba(254, 228, 226, 1)"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleCancel(guid);
-            }}
-          >
-            {t("Отказать")}
-          </Button>
-          <Button
-            fontSize={isLargerThan768 ? "16px" : "12px"}
-            fontWeight={isLargerThan768 ? 600 : 500}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAccept(guid, users_id_2);
-            }}
-          >
-            {t("Принять")}
-          </Button>
-        </Box>
-      }
-      <div className={cls.cardBottom}>
-        {
-          status === "active" && <LoadBtn
-            onClick={(e) => {
-              e.stopPropagation();
-              const query = new URLSearchParams({
-                from: JSON.stringify({
-                  value: city_id_data?.guid,
-                  label: city_id_data?.name,
-                  guid: city_id_data?.guid,
-                }),
-                to: JSON.stringify({
-                  value: city_id_2_data?.guid,
-                  label: city_id_2_data?.name,
-                  guid: city_id_2_data?.guid,
-                }),
-                date: load_time,
-                weight: weight,
-                volume: volume_m3,
-              });
-              router.push(`/${locale}/search-car?` + query.toString());
-            }}
-            icon={<TruckIcon />}
-          >
-            {t("Поиск машин")}
-          </LoadBtn>
-        }
-        {
-          status === "in_moderation" && <LoadBtn
-            icon={<DeleteIcon color="#F04438" />}
-            type="delete"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDelete(guid);
-            }}
-          >
-            {t("Удалить")}
-          </LoadBtn>
-        }
-      </div>
-      {
-        status === "archive" && <div className={cls.cardBottom}>
-          <Button
-            onClick={handleOpenEstimateModal}
-            size="sm"
-            variant="secondary"
-            width="278px"
-            color="#000000"
-          >
-            {t("Оценить водителя")}
-          </Button>
-        </div>
-      }
-      <Modal
-        isOpen={isEstimateModalOpen}
-        onClose={handleCloseEstimateModal}
-        secondBtnCallback={handleSubmit(onSubmit)}
-        title={t("Оцените водителя")}
-        secondBtnText={t("Готово")}
-        size="lg"
-        width="644px"
-        oneBtn
-        withCloseBtn
-      >
-        <Rating
-          className={cls.rating}
-          width="56"
-          height="56"
-          onClick={handleClickRating}
-          value={ratingValue}
+        <Popup
+          isOpen={isDeletePopupOpen}
+          onClose={() => setIsDeletePopupOpen(false)}
+          mainText={t("Вы уверены что хотите удалить груз ?", {
+            name: cargo?.short_name,
+          })}
+          status="delete"
+          btn2Callback={() => onDeleteAccept(cargo?.guid)}
         />
-        <Heading mb="24px" size="sm">{t("Что вам понравилось больше всего?")}</Heading>
-        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-          <span className={cls.text}>{t("Хороший водитель")}</span>
-          <Checkbox
-            filled
-            width={"24px"}
-            height={"24px"}
-            iconSize={"16px"}
-            name="driver_1"
-            register={register}
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-          <span className={cls.text}>{t("Вовремя получил груз")}</span>
-          <Checkbox
-            filled
-            width={"24px"}
-            height={"24px"}
-            iconSize={"16px"}
-            name="driver_2"
-            register={register}
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-          <span className={cls.text}>{t("Вежливый")}</span>
-          <Checkbox
-            filled
-            width={"24px"}
-            height={"24px"}
-            iconSize={"16px"}
-            name="driver_3"
-            register={register}
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-          <span className={cls.text}>{t("Не доставили груз вовремя")}</span>
-          <Checkbox
-            filled
-            width={"24px"}
-            height={"24px"}
-            iconSize={"16px"}
-            name="driver_4"
-            register={register}
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center" py="18px" borderBottom="1px solid #EAECF0">
-          <span className={cls.text}>{t("Не дисциплинированый")}</span>
-          <Checkbox
-            filled
-            width={"24px"}
-            height={"24px"}
-            iconSize={"16px"}
-            name="driver_5"
-            register={register}
-          />
-        </Box>
-        <Box mt="24px">
-          <span className={cls.text}>{t("Комментарий")}</span>
-          <CustomTextarea
-            register={register}
-            name="rewiv"
-            className={cls.textarea}
-            value={watch("rewiv")}
-            watch={watch}
-            onChange={(e) => {
-              const value = e.target.value;
-              if(value.length <= 1000) {
-                setValue("rewiv", value.replace(/\d/g, ""));
-              }
-            }}
-          />
-        </Box>
-      </Modal>
-    </div>
-    <span className={clsx(cls.addressStatusMobile, cls[status])}>{statuses[status]}</span>
-  </div>;
-});
+      </>
+    );
+  }
+);

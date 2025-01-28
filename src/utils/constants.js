@@ -31,3 +31,8 @@ export const statuses = {
   archive: "Архив",
   in_active: "Неактивен",
 };
+
+export const cancelBy = {
+  customer: "клиентом",
+  driver: "водителем",
+};

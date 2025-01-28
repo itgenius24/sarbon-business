@@ -2,8 +2,13 @@
   max-width: 360px;
   flex-grow: 1;
   flex-shrink: 0;
-  max-height: 726px;
-  overflow: auto;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.formWrapper2{
+  // max-width: 360px;
+  flex-grow: 1;
+  flex-shrink: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
@@ -13,4 +18,11 @@
     max-width: 343px;
     margin: 0 auto;
   }
+  .formWrapper2{
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  
 }

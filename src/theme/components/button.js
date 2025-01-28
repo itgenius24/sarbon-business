@@ -30,13 +30,13 @@ const reset = defineStyle({
 
 const solid = defineStyle({
   width: "100%",
-  bgColor: "primary",
+  bgColor: "var(--primary-text)",
   color: "baseWhite",
   border: "1px solid primary",
   borderRadius: "8px",
-  _hover: { bgColor: "primaryText", color: "baseWhite" },
-  _active: { bgColor: "primaryText", color: "baseWhite" },
-  _disabled: { bgColor: "primary", color: "baseWhite", cursor: "not-allowed" },
+  _hover: { bgColor: "var(--primary-text)", color: "baseWhite" },
+  _active: { bgColor: "var(--primary-text)", color: "baseWhite" },
+  _disabled: { bgColor: "var(--primary-text)", color: "baseWhite", cursor: "not-allowed" },
 });
 
 const secondary = defineStyle({

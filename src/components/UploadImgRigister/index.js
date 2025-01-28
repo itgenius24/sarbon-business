@@ -1,0 +1,1 @@
+export { UploadImgRigister } from "./UploadImgRigister";

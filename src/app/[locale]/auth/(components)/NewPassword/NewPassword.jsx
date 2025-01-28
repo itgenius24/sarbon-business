@@ -33,7 +33,7 @@ export const NewPassword = () => {
         {t("Назад")}
       </Button>
     </div>
-    <MobileLogo />
+    {/* <MobileLogo /> */}
     <AuthTitle
       mb="32px"
       title="Придумайте пароль"

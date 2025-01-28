@@ -17,6 +17,8 @@
   width: 100%;
   display: flex;
   align-items: center;
+  margin-left: 24px;
+  
 }
 
 .leftBox {
@@ -42,7 +44,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  color: #344054;
+  color: rgba(0, 51, 153, 1);
   &:hover {
     padding: 8px 12px;
     background: #f9fafb;
@@ -58,7 +60,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  color: #344054;
+  color: rgba(38, 189, 73, 1);
 }
 
 .rightBox {
@@ -95,9 +97,29 @@
   margin-right: 16px;
 }
 
+.loginLink{
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--primary);
+  border-radius: 8px;
+  // border: 1px solid var(--primary);
+  // box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  transition: opacity 0.2s ease;
+  background: transparent !important;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .registerLinkMobile {
   display: none;
 }
+
+.registerLinkMobile2{
+  display: none;
+}
+
+
 
 .burgerBtn {
   width: 24px;
@@ -119,7 +141,7 @@
   display: none;
 }
 
-@include lg {
+@include xl {
 
   .header {
     position: relative;
@@ -134,6 +156,7 @@
     display: none;
     flex-direction: column;
     height: 100vh;
+    margin-left: 0px !important;
   }
 
   .nav.open .content {
@@ -153,12 +176,33 @@
 
   .registerLink {
     display: none;
+
+  @media (max-width:500px) {
+    margin-right: 5px;
+    padding: 6px 9px;
+  }
+
   }
 
   .registerLinkMobile {
     display: block;
     margin-left: auto;
   }
+  .registerLinkMobileRes{
+      @media (max-width:500px) {
+          width: 100px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+      }
+  }
+
+  .registerLinkMobile2{
+    display: block;
+    margin-left: auto;
+  }
+
+
 
   .profile {
     display: inline-block;
@@ -189,6 +233,8 @@
   }
 
 }
+
+
 
 @keyframes up-rotate {
 	0% {

@@ -4,9 +4,12 @@
   background-repeat: no-repeat;
   background-position: top left;
 }
+.modalContent2{
+  position: relative;
+}
 
 .modalBody {
-  padding-top: 48px;
+  padding-top: 28px;
 }
 
 .modalIcon {
@@ -76,6 +79,11 @@
 }
 
 .btn.warning {
+  background-color: var(--primary);
+  color: var(--base-white);
+}
+
+.btn.second {
   background-color: var(--primary);
   color: var(--base-white);
 }

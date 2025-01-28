@@ -20,8 +20,14 @@ import { useGetNewsList } from "@/services/api";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { keepPreviousData } from "@tanstack/react-query";
+import { useTranslation } from "@/app/i18n/client";
 
-export const News = ({ t }) => {
+export const News = () => {
+
+  const locale = useGetLang();
+
+  const { t } = useTranslation(locale, "translations");
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();

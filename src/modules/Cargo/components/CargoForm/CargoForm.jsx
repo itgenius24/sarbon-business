@@ -24,16 +24,22 @@ export const CargoForm = () => {
     isDimensionsAndDiameter,
     isPackagingAndQuantity,
     cargoTypeOptions,
+    optionCargoType,
     weightMeasurementOptions,
     volumeMeasurementOptions,
     packageOptions,
     canEdit,
     isEditing,
+    loadingOptions,
+    setSearchCargo,
   } = useCargoFormProps();
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
+
+
+
 
   return <Box py="24px" borderBottom="1px solid" borderColor="brand.200">
     <Box className={cls.fieldsWrapper} display="flex" alignItems="start" columnGap="32px">
@@ -66,11 +72,16 @@ export const CargoForm = () => {
             register={register}
             watch={watch}
             name="cargo_type"
-            options={cargoTypeOptions}
+            options={optionCargoType}
             errors={errors}
             disabled={!canEdit}
             className={cls.dropdown}
+            onSearchChange={(e)=> setSearchCargo(e.target.value)}
             placeholder={t("Выберите тип груза")}
+            inputPlaceholder={t("Выберите тип груза")}
+            searchable
+            searchName="cargo_type_search"
+            setValue={setValue}
           />
           <TextFieldWithAddition
             className={cls.textField}
@@ -84,6 +95,7 @@ export const CargoForm = () => {
             additionalItemOptions={weightMeasurementOptions}
             disabled={!canEdit}
             type="number"
+            zIndex={90}
           />
           <TextFieldWithAddition
             className={cls.textField}
@@ -126,6 +138,18 @@ export const CargoForm = () => {
             </Button>
           }
         </Box>
+        <Box>
+          <Dropdown
+            required={true}
+            placeholder={t("Введите тип загрузки")}
+            // label={t("Тип загрузки")}
+            name="load_type_id"
+            options={loadingOptions}
+            errors={errors}
+            control={control}
+            disabled={!canEdit}
+          />
+        </Box>
       </Box>
     </Box>
     {
@@ -149,6 +173,8 @@ export const CargoForm = () => {
             watch={watch}
             setValue={setValue}
             searchName="packagingSearch"
+            inputPlaceholder={t(`Выберите`)}
+            placeholder={t(`Выберите`)}
             name="packaging"
             options={packageOptions}
             disabled={!canEdit}

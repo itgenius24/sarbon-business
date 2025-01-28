@@ -12,7 +12,7 @@ const nextConfig = {
         `,
   },
   images: {
-    domains: ["cdn.u-code.io", "media.newyorker.com"],
+    domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -20,8 +20,15 @@ const nextConfig = {
         port: "",
         pathname: "*/media/*",
       },
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
+        port: "",
+        pathname: "*/media/*",
+      },
     ],
   },
+  reactStrictMode: false,
 };
 
 module.exports = nextConfig;

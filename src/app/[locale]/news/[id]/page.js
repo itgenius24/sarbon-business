@@ -49,7 +49,7 @@ export default function NewsPage({ params }) {
             alt={data?.title}
             width={908}
             height={514}
-            style={{ maxHeight: "inherit" }}
+            style={{ maxHeight: "inherit", borderRadius: isLargerThan768 ? "0" : "12px" }}
           />
           </Box>
           {

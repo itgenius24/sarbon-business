@@ -5,7 +5,7 @@ import { fileUpload } from "@/services/fileUpload";
 
 export const userCargoSetupProps = () => {
 
-  const { register, control, errors, setValue, watch, canEdit } = useAddCargoContext();
+  const { register, control, errors, setValue, watch, canEdit,canEditActive } = useAddCargoContext();
 
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
@@ -17,6 +17,7 @@ export const userCargoSetupProps = () => {
     const result = await fileUpload(e);
     setValue("image", result?.link);
   };
+  
 
   function imageLoader() {
     return watch("image")?.includes("http") ? watch("image") : process.env.NEXT_PUBLIC_MEDIA_URL + watch("image");
@@ -54,5 +55,6 @@ export const userCargoSetupProps = () => {
     paymentOptions,
     imageLoader,
     canEdit,
+    canEditActive,
   };
 };

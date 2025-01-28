@@ -19,14 +19,15 @@ export default function WantBuy() {
   } = useWantBuyProps();
 
   return <Box>
-    <MainContentHeader title={
-      <Box display={isLargerThan845 ? "block" : "flex"} alignItems="center">
-        <button onClick={router.back}>
-          <BackArrow />
-        </button>
-        <span>Хочу купить</span>
-      </Box>
-    } />
+    <MainContentHeader
+      title={
+        !isLargerThan845 && <Box display={"flex"} alignItems="center">
+          <button onClick={router.back}>
+            <BackArrow />
+          </button>
+          <span>Хочу купить</span>
+        </Box>
+      } />
 
     <MainContentCard as="form">
       <SearchList

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useDropdownProps = () => {
@@ -6,16 +6,22 @@ export const useDropdownProps = () => {
 
   const { control: dropdownControl } = useForm();
 
-  function handleToggle () {
-    setOpen(!isOpen);
+  const dropdownRef = useRef(null);
+
+  function handleToggle (e) {
+    if(e?.target?.closest(`[data-id='${dropdownRef?.current?.dataset?.id}']`)) {
+      setOpen(!isOpen);
+    }
   }
 
   function handleClose () {
     setOpen(false);
   }
 
-  function onWindowClick () {
-    setOpen(false);
+  function onWindowClick (e) {
+    if(!dropdownRef.current.contains(e.target)) {
+      handleClose();
+    }
   }
 
   useEffect(() => {
@@ -29,6 +35,7 @@ export const useDropdownProps = () => {
     dropdownControl,
     handleToggle,
     handleClose,
+    dropdownRef,
   };
 
 };

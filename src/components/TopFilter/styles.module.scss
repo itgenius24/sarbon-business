@@ -1,5 +1,6 @@
 .topFilter {
   display: flex;
+  justify-content: space-between;
   margin-bottom: 24px;
   background-color: #F2F3F5;
   // border-radius: 12px;
@@ -9,7 +10,8 @@
 }
 
 .tabWrap {
-  flex-grow: 1;
+ text-align: center;
+  width: 100%;
 }
 
 .tab {
@@ -20,21 +22,48 @@
   line-height: 20px;
   color: var(--brand-500);
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center !important;
+  white-space: nowrap;
+
 }
 
 .tab.active {
-  color: #007AFF;
+  color: var(--primary-text);
   box-shadow: 0px 4px 4px 0px #00000014;
-
+  text-align: center;
   box-shadow: 0px 0px 2px 0px #0000000A;
   border: 0.5px solid #00000014;
   background: #FFFFFF;
+  display: flex;
+  white-space: nowrap;
 
 }
 
 .tab:disabled {
   cursor: not-allowed; /* Change cursor to indicate disabled */
   opacity: 0.6; /* Reduce opacity to visually show disabled state */
+}
+
+.count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 4px;
+  background-color: #F5F5F5;
+   width: 25px;
+   font-weight: 500;
+   height: 25px;
+  border-radius: 50%;
+  background: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 @include lg {

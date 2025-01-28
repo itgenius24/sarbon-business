@@ -4,7 +4,14 @@ import { useTopFilterProps } from "./useTopFilterProps";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 
-export const TopFilter = ({ onChange = () => {}, filterList = [], disabled }) => {
+export const TopFilter = ({
+  onChange = () => {},
+  filterList = [],
+  disabled,
+  driverCount,
+  waitingDriverCount,
+  noDataDisCount
+}) => {
 
   const locale = useGetLang();
 
@@ -28,6 +35,9 @@ export const TopFilter = ({ onChange = () => {}, filterList = [], disabled }) =>
             }}
           >
             {t(label)}
+            {(value === "new" && driverCount) && <div className={cls.count}>{driverCount}</div>}
+            {(value === "approve_from_driver" && waitingDriverCount > 0) && <div className={cls.count}>{waitingDriverCount}</div>}
+            {(value === "no_dispatcher" && noDataDisCount > 0) && <div className={cls.count}>{noDataDisCount}</div>}
           </button>
         </div>;
       })

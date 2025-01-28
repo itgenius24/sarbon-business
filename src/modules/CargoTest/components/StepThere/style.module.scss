@@ -1,0 +1,165 @@
+.containerCards {
+  width: 100%;
+  max-width: 1432px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    padding: 16px;
+    background-color: white;
+  }
+}
+.step1{
+    box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
+    background-color: white;
+    border-radius: 12px;
+    padding:22px 42px 40px 22px;
+    .logoWrap {
+      display: block;
+    }
+    .logoWrapMobile {
+      display: none;
+    }
+    .stepTitle{
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--primary-text);
+      margin-top: 3px;
+    }
+    .stepTitle2{
+        font-weight: 600;
+      font-size: 20px;
+      color: var(--primary-text);
+      margin-bottom: 12px;
+      span{
+        font-size: 12px;
+        font-weight: 400;
+      }
+    }
+    .subTitle{
+        color: rgba(126, 123, 134, 1);
+        font-size: 14px;
+       font-weight: 400;
+
+    }
+    .quickWord{
+       color: var(--primary-text);
+       font-size: 14px;
+       font-weight: 400;
+       cursor: pointer;
+       border-bottom: 1.5px dashed var(--primary-text);
+    //    text-decoration: underline dotted;
+    }
+    .textFieldName{
+        font-weight: 400;
+        font-size: 14px;
+        // margin-bottom: 5px;
+        height: 30px;
+    }
+    .additionalFields{
+        border-top: 1px solid rgba(219, 216, 227, 1);
+        padding-top:25px ;
+        padding-bottom:25px ;
+    }
+    .link{
+      font-weight: 400;
+      font-size: 14px;
+      color: rgba(126, 123, 134, 1);
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      a{
+        text-decoration: underline solid !important;
+      }
+    }
+    .closeMobileIcon{
+      display: none;
+    }
+    .inputWrap {
+      @media (max-width: 600px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        svg{
+          width: 26px !important;
+        }
+      }
+    }
+ 
+    @media (max-width: 600px) {
+      padding: 0px;
+      box-shadow:none;
+      .subTitle {
+        font-size: 13px;
+      }
+      .quickWord {
+        font-size: 13px;
+        font-weight: 400;
+        cursor: pointer;
+      }
+      .logoWrap {
+        display: none;
+      }
+      .logoWrapMobile {
+        display: block;
+      }
+      .textField2 {
+        width: 100% !important;
+      }
+      .closeDecktopIcon{
+        display: none;
+      }
+      .closeMobileIcon{
+        display: block;
+      }
+      .contendWrap{
+        flex-direction: column;
+        row-gap: 10px;
+      }
+      .stepTitle2{
+        margin-bottom: 0px;
+      }
+      .additionalFields {
+        // border-top: none;
+        margin-top: 10px !important;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+    .plusWrap {
+      width: 100%;
+    
+      @media (max-width: 600px) {
+        flex-direction: column !important;
+        justify-content: flex-start;
+        align-items: flex-start;
+        .button {
+          padding: 7px 20px;
+          border-radius: 17px;
+          width: 100%;
+          align-items: flex-start;
+          justify-content: flex-start !important;
+          display: flex;
+          background-color: rgba(235, 245, 255, 1) !important;
+        }
+      }
+    }
+  }
+  .nextBtn{
+    width: fit-content;
+    padding: 27px 28px !important;
+    font-size: 18px;
+    font-weight: 600;
+     background-color: var(--primary) !important;
+     margin-top: 30px;
+     @media (max-width: 600px) {
+      width: 100%;
+      padding: 16px !important;
+      }
+  }
+
+  .clearBtn {
+    display: none;
+    @media (max-width: 600px) {
+      display: block;
+    }
+  }

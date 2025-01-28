@@ -2,7 +2,7 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetCarsOnSale } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const carParam = {

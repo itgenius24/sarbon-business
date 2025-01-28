@@ -1,0 +1,104 @@
+.card {
+    position: relative;
+    border-radius: 12px;
+    padding: 10px 30px;
+    box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+  
+    &:hover {
+      background-color: rgb(255, 255, 255);
+    }
+  
+    .contend {
+      // background-color: red;
+      // max-width: 250px;
+      .flag {
+        width: 29px;
+        height: 18px;
+      }
+      .country_code {
+        color: rgba(126, 123, 134, 1);
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        text-align: center;
+        margin-top: 4px;
+      }
+      title {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(33, 31, 38, 1);
+        line-height: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .subTitle1 {
+        font-weight: 400;
+        font-size: 14px;
+        color: rgb(118, 115, 124) !important;
+      }
+      .subTitle {
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(126, 123, 134, 1);
+        line-height: 20px;
+      }
+      .tel {
+        color: rgba(33, 31, 38, 1);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  
+
+
+  .contend1 {
+    width: 250px !important;
+    // background-color: red;
+  }
+  .contend2 {
+    width: 250px !important;
+    // background-color: red;
+  }
+  .contend3 {
+    width: 200px !important;
+  }
+  .contend4 {
+    width: 200px !important;
+  }
+  .contend5 {
+    width: 200px !important;
+  }
+  .contend6 {
+    width: 200px !important;
+  }
+
+  .contend7 {
+    width: 200px !important;
+  }
+  
+  
+    .statusWrap {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-style: solid;
+      border-width: 38px 38px 0 0;
+      border-color: rgba(0, 122, 255, 1) transparent transparent transparent;
+      border-top-left-radius: 15px;
+  
+      .icon {
+        position: absolute;
+        top: -32px;
+        left: 3px;
+        z-index: 1111;
+      }
+    }
+  }
+

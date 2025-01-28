@@ -12,14 +12,24 @@
   border-radius: 4px;
   border: 1px solid var(--brand-300);
   background: var(--brand-white);
+  background-color: white;
+  @media (max-width:872px) {
+    width: 20px;
+    height: 20px;
+ }
 }
 
 .checkboxInput:checked + .checkbox {
   border: 1px solid var(--primary);
-  background-color: rgba(0, 122, 255, 0.05);
+  background-color: var(--primary);
   background-image: url('/svg/check.svg');
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+.checkboxInput:disabled + .checkbox,
+.checkboxInput:disabled ~ .checkboxText {
+  cursor: not-allowed;
 }
 
 .checkboxLabel.filled .checkboxInput:checked + .checkbox {
@@ -33,4 +43,47 @@
   color: var(--brand-700);
   font-size: 14px;
   line-height: 20px;
+  @media (max-width:872px) {
+    font-size: 16px;
+ }
+}
+
+.checkboxTextNone{
+  user-select: none;
+  margin-left: 8px;
+  color: rgba(126, 123, 134, 1);
+  font-size: 14px;
+  // font-weight: 500;
+  line-height: 20px;
+  @media (max-width:872px) {
+    font-size: 16px;
+ }
+}
+
+
+
+.checkbox2 {
+  --size: 24px;
+  --stroke-width: calc(var(--size) / 8);
+  --color: #2688EB;
+  --animation-timing-function: linear;
+  --animation-duration: 1s;
+  width: var(--size);
+  height: var(--size);
+  border-width: var(--stroke-width);
+  border-style: solid;
+  border-color: var(--color) var(--color) var(--color) transparent;
+  border-radius: 50%;
+  transform: rotate(0deg);
+  animation:   1s infinite circle-spin-1-animation;
+}
+
+@keyframes circle-spin-1-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -8,8 +8,10 @@ import { Dropdown } from "@/components/Dropdown";
 import { PaymentDetail } from "../PaymentDetail";
 import { Contacts } from "../Contacts";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
-export const CargoSetup = () => {
+export const CargoSetup = ({ setIsPhotoChanged }) => {
 
   const {
     register,
@@ -21,94 +23,97 @@ export const CargoSetup = () => {
     paymentOptions,
     imageLoader,
     setValue,
-    canEdit
+    canEdit,
+    canEditActive
   } = userCargoSetupProps();
-
+  const {t} = useTranslation();
   const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
-  function formatNumber(n) {
-    // format number 1000000 to 1,234,567
-    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  }
+  const status = canEdit ? canEdit : canEditActive ? canEditActive : canEdit ;
+
+  console.log("status",status,canEditActive);
 
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">
-      <BargainRadio watch={watch} register={register} disabled={!canEdit} />
-      <HelpCircleIcon />
+      <BargainRadio watch={watch} register={register} disabled={!canEdit } />
+      {/* <HelpCircleIcon /> */}
     </Box>
     {
       watch("bargain") !== "request" && <>
         <Box pb="24px" borderBottom="1px solid" borderColor="brand.200">
-          <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">Ставка</Heading>
+          <Heading color="brand.700" fontSize="14px" fontWeight="600" lineHeight="20px" mb="24px">{t(`Ставка`)}</Heading>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Предлагаемая сумма</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Предлагаемая сумма`)}</Heading>
             </Box>
             <TextFieldWithAddition
-              disabled={!canEdit}
+              disabled={!status}
               name="price"
               onChange={(e) => {
                 console.log(e.target.value);
                 // format the value to currency and setValue the price
-                const currencyValue = formatNumber(e.target.value);
+                const currencyValue = formatPhoneNumber(e.target.value);
                 setValue("price", currencyValue);
               }}
               register={register}
               control={control}
               additionalItemName="price_prepayment_unit"
               additionalItemDefaultIndex={0}
-              placeholder="Введите сумму"
+              placeholder={t("Введите сумму")}
               errors={errors}
               type="number"
               width="100%"
               additionalItemOptions={currencyOptions}
+              zIndex={20}
             />
 
 
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма предоплаты</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Сумма предоплаты`)}</Heading>
             </Box>
             <TextFieldWithAddition
-              disabled={!canEdit}
+              disabled={!status}
               name="price_prepayment"
               register={register}
               control={control}
               additionalItemName="price_prepayment_unit"
               additionalItemDefaultIndex={0}
-              placeholder="Введите сумму"
+              placeholder={t("Введите сумму")}
               errors={errors}
               type="number"
               width="100%"
               additionalItemOptions={currencyOptions}
+              zIndex={19}
             />
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Сумма после завершения заказа </Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Сумма после завершения заказа`)} </Heading>
             </Box>
             <TextFieldWithAddition
-              disabled={!canEdit}
+              disabled={!status}
               name="price_after_order"
               register={register}
               control={control}
               additionalItemName="price_prepayment_unit"
               additionalItemDefaultIndex={0}
-              placeholder="Введите сумму"
+              placeholder={t("Введите сумму")}
               errors={errors}
               type="number"
               width="100%"
               additionalItemOptions={currencyOptions}
+              zIndex={18}
             />
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Тип оплаты</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Тип оплаты`)}</Heading>
             </Box>
             <Dropdown
               disabled={!canEdit}
-              placeholder="Выберите"
+              placeholder={t("Выберите")}
               options={paymentOptions}
               name="payment_type"
               control={control}
@@ -117,7 +122,7 @@ export const CargoSetup = () => {
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" >
             <Box width="280px" flexShrink={0}>
-              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">Встречные предложения</Heading>
+              <Heading fontWeight="500" fontSize="14px" lineHeight="20px">{t(`Встречные предложения`)}</Heading>
             </Box>
           </Box>
         </Box>
@@ -129,7 +134,19 @@ export const CargoSetup = () => {
       watch("image")
         ? <Box display="flex" position="relative" alignItems="center" justifyContent="center" ml="auto" maxWidth={"540px"} width="100%" height="150px" borderRadius="12px" border="1px solid" borderColor="brand.200" padding="16px 24px">
           <Image className={cls.img} loader={imageLoader} src={watch("image")} alt="cargo" width={150} height={150} />
-          <Button isDisabled={!canEdit} onClick={() => setValue("image", null)} position="absolute" top="10px" left="10px" variant="reset"><DeleteIcon /></Button>
+          <Button
+            isDisabled={!canEdit}
+            onClick={() => {
+              setValue("image", null);
+              setIsPhotoChanged(true);
+            }}
+            position="absolute"
+            top="10px"
+            left="10px"
+            variant="reset"
+          >
+            <DeleteIcon />
+          </Button>
         </Box>
         : <Box
           padding="16px 24px"
@@ -148,15 +165,18 @@ export const CargoSetup = () => {
           cursor={canEdit ? "pointer" : "not-allowed"}
           opacity={canEdit ? 1 : 0.5}
         >
-          <input disabled={!canEdit} className="visually-hidden" type="file" accept="image/*" onChange={handleImageUpload} />
+          <input disabled={!canEdit} className="visually-hidden" type="file" accept="image/*" onChange={(e) => {
+            handleImageUpload(e);
+            setIsPhotoChanged(true);
+          }} />
           <Box>
             <Box mx="auto" mb="12px" width="40px" height="40px" p="10px" boxShadow="0px 1px 2px 0px #1018280D" borderRadius="8px" background="white" border="1px solid" borderColor="brand.200">
               <UploadCloudIcon />
             </Box>
             <Box color="primaryText" textAlign="center">
-            Загрузить
+            {t(`Загрузить`)}
             </Box>
-            <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">Фото до 10 МБ.</Box>
+            <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">{t(`Фото до 10 МБ.`)}</Box>
           </Box>
         </Box>
 

@@ -38,66 +38,49 @@ export const useDistanceCalculationProps = () => {
   const multiRouteRef = useRef(null);
   const mapRef = useRef(null);
 
-  // useEffect(() => {
-
-  // }, [locationNames, watch("from"), watch("to")]);
-
   function handleCalculate () {
     const multiRoute = multiRouteRef.current;
     if(multiRoute) {
       const intervalLocations = locationNames.filter(item => item !== "");
       multiRoute.model.setReferencePoints([watch("from"), ...intervalLocations, watch("to")]);
-      // if(multiRoute.getRoutes().get(0)) {
-      //   const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-      //   const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-      //   setDistanceParameters({ duration, distance });
-      // }
-      // console.log(multiRoute.getWayPoints());
-      // const locations = [watch("from"), ...locationNames, watch("to")];
-      // locations.forEach((item, index) => {
-      //   console.log(multiRoute.getWayPoints().get(index).properties.getAll());
-      // });
-      // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
-      // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
-
     }
   }
 
   function initYmaps() {
-    /**
-     * Creating a multiroute.
-     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
-      */
-    var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
-      editorMidPointsType: "via",
-      routeActiveStrokeColor: "#175CD3",
-      editorDrawOver: false,
-    });
+    if(window?.ymaps) {
+      ymaps.ready(() => {
+        var multiRoute = new ymaps.multiRouter.MultiRoute({ referencePoints: [[], []] }, {
+          editorMidPointsType: "via",
+          routeActiveStrokeColor: "#175CD3",
+          editorDrawOver: false,
+        });
 
-    multiRoute.events.add("update", function () {
-      if(multiRoute.getRoutes().get(0)) {
-        const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-        const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-        setDistanceParameters({ duration, distance });
-      }
-    });
+        multiRoute.events.add("update", function () {
+          if(multiRoute.getRoutes().get(0)) {
+            const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
+            const distance = multiRoute.getRoutes().get(0).properties.get("distance").value;
+            setDistanceParameters({ duration, distance });
+          }
+        });
 
-    const position = isLargerThan845 ? { right: 0, top: 0 } : { right: 0, bottom: 50 };
+        const position = isLargerThan845 ? { right: 0, top: 0 } : { right: 0, bottom: 50 };
 
-    const searchControl = new ymaps.control.SearchControl({ options: { float: "none", position } });
+        const searchControl = new ymaps.control.SearchControl({ options: { float: "none", position } });
 
-    // Creating the map with the button added to it.
-    var myMap = new ymaps.Map("map", {
-      center: [41.40587471972005, 69.46086540238926],
-      zoom: 7,
-      controls: [searchControl],
-    }, { buttonMaxWidth: 300, minZoom: 5 });
+        // Creating the map with the button added to it.
+        var myMap = new ymaps.Map("map", {
+          center: [41.40587471972005, 69.46086540238926],
+          zoom: 7,
+          controls: [searchControl],
+        }, { buttonMaxWidth: 300, minZoom: 5 });
 
-    // Adding a multiroute to the map.
-    myMap.geoObjects.add(multiRoute);
+        // Adding a multiroute to the map.
+        myMap.geoObjects.add(multiRoute);
 
-    mapRef.current = myMap;
-    multiRouteRef.current = multiRoute;
+        mapRef.current = myMap;
+        multiRouteRef.current = multiRoute;
+      });
+    }
   }
 
   let draggingIndex = null;
@@ -118,12 +101,20 @@ export const useDistanceCalculationProps = () => {
     e.preventDefault();
   };
 
+  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
+
+  useEffect(() => {
+    const ymapsScript = document.getElementById("yandex-maps-script");
+    if(ymapsScript) {
+      initYmaps();
+    }
+  }, depArr);
+
   return {
     register,
     locations,
     handleAppend,
     handleRemove,
-    initYmaps,
     onAdditionalAddressChange,
     distanceParameters,
     watch,

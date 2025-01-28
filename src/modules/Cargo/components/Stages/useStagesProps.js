@@ -93,27 +93,27 @@ export const useStagesProps = ({ loadingsWatch }) => {
         : t("не заполнено")
     },
     {
-      title: "Когда",
+      title: t("Когда"),
       status: dateStatus,
       subtitle: dateStatus === "done" ? format(startDate, "dd.MM.yyyy") + " -> " + format(endDate, "dd.MM.yyyy") : t("не заполнено")
     },
     {
-      title: "Маршрут",
+      title:t("Маршрут"),
       status: loadingsStatus,
       subtitle: loadingsStatus === "done" ? loadings?.address + " -> " + unloading?.address : t("не заполнено")
     },
     {
-      title: "Транспорт",
+      title: t("Транспорт"),
       status: transportStatus,
       subtitle: transportStatus === "done" ? `${transportType?.label} ${transportCount} шт` : t("не заполнено")
     },
     {
-      title: "Оплата",
+      title: t("Оплата"),
       status: paymentStatus,
       subtitle: paymentStatus === "done" ? `${price} ${priceUnit?.label}` : t("не заполнено")
     },
     {
-      title: "Дополнительно",
+      title: t("Дополнительно"),
       status: contactStatus,
       subtitle: contactStatus === "done" ? additionalDataName + " " + additionalDataContact : t("не заполнено")
     }

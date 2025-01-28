@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
 import { useElements } from "./elements";
+import clsx from "clsx";
 
 export const MainLayout = ({ children }) => {
 
@@ -13,9 +14,10 @@ export const MainLayout = ({ children }) => {
 
   const pathname = usePathname();
 
-  const isAuthPage = pathname.includes("auth");
+  const isAuthPage = pathname.includes("auth") || pathname.includes(`share-location`); 
+  const isAuthPageFooter = pathname.includes("auth") || pathname.includes(`add-cargo`);
 
-  return <div className={cls.layout}>
+  return <div className={clsx(cls.layout, "fade-in")}>
     {
       !isAuthPage && <Header elements={elements} />
     }
@@ -23,7 +25,7 @@ export const MainLayout = ({ children }) => {
       {children}
     </article>
     {
-      !isAuthPage && <Footer />
+      !isAuthPageFooter && <Footer />
     }
   </div>;
 };

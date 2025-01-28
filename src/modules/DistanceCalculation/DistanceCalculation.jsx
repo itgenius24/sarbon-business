@@ -1,17 +1,14 @@
 "use client";
 import React from "react";
 import cls from "./styles.module.scss";
-import { ClockIcon, DeleteIcon, PlusIcon, RouteDirectionIcon } from "@/assets/icons/icons";
+import { ClockIcon, PlusIcon, RouteDirectionIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { TextField } from "@/components/TextField";
-import { Box, Button, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { useDistanceCalculationProps } from "./useDistanceCalculationProps";
-import Script from "next/script";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { DeleteButton } from "@/components/DeleteButton";
-
-/* eslint no-undef: 0 */ // --> OFF
 
 export const DistanceCalculation = () => {
 
@@ -20,7 +17,6 @@ export const DistanceCalculation = () => {
     locations,
     handleAppend,
     handleRemove,
-    initYmaps,
     onAdditionalAddressChange,
     distanceParameters,
     watch,
@@ -35,16 +31,14 @@ export const DistanceCalculation = () => {
 
   const { t } = useTranslation(locale, "translations");
 
+  console.log(`distanceParameters.distance `,distanceParameters?.distance )
+
   return <Container py={isLargerThan845 ? "40px" : "24px"}>
-    <Script
-      onLoad={() => ymaps.ready(initYmaps)}
-      src={`https://api-maps.yandex.ru/2.1.79/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&lang=ru_RU`}
-    />
-    <Heading size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
+    <Heading color={`var(--primary-text)`} size={isLargerThan845 ? "md" : "sm"} mb={isLargerThan845 ? "24px" : "12px"}>{t("Расчет расстояния")}</Heading>
     <Box p={isLargerThan845 ? "24px" : "0"} bgColor={isLargerThan845 ? "baseWhite" : "transparent"} borderRadius={isLargerThan845 ? "16px" : "0"}>
       <Box display="flex" mb="20px" alignItems="center" justifyContent="space-between">
         <Heading size="sm" fontSize={isLargerThan845 ? "16px" : "14px"} lineHeight="28px" fontWeight="600">{t("Детали груза")}</Heading>
-        <Button onClick={handleAppend} fontSize={isLargerThan845 ? "14px" : "12px"} variant="reset" leftIcon={<PlusIcon color="#007aff" />}>{t("Добавить доп. адрес")}</Button>
+        <Button color={`black`} onClick={handleAppend} fontSize={isLargerThan845 ? "14px" : "12px"} variant="reset" leftIcon={<PlusIcon color={`var(--primary-text)`} />}>{t("Добавить доп. адрес")}</Button>
       </Box>
       <Box display="flex" flexDirection="column" rowGap="20px">
         <TextField register={register} name="from" label={t("Откуда")} placeholder={t("Введите город, страну")} />
@@ -67,7 +61,15 @@ export const DistanceCalculation = () => {
               >
                 {t("Удалить")}
               </DeleteButton>
-              <TextField register={register} onChange={(event) => onAdditionalAddressChange(event, index)} label={t("Дополнительный адрес")} name={`locations.${index}.name`} placeholder={t("Введите город, страну")} />
+              <Box flexGrow={1} cursor="grab">
+                <TextField
+                  register={register}
+                  onChange={(event) => onAdditionalAddressChange(event, index)}
+                  label={t("Дополнительный адрес")}
+                  name={`locations.${index}.name`}
+                  placeholder={t("Введите город, страну")}
+                />
+              </Box>
             </Box>
           ))
         }
@@ -75,7 +77,7 @@ export const DistanceCalculation = () => {
       </Box>
       <Button className={cls.distanceCount} mt="20px" onClick={handleCalculate}>{t("Рассчитать расстояние")}</Button>
     </Box>
-    <div className={cls.map} id="map" style={{ width: "100%", height: isLargerThan845 ? "500px" : "300px" }}>
+    <div className={cls.map} id="map" style={{ width: "100%", height: "500px" }}>
       {
         (distanceParameters.distance || distanceParameters.duration) && <div className={cls.distanceInfo}>
           <div className={cls.locationNames}>
@@ -88,7 +90,7 @@ export const DistanceCalculation = () => {
           <p className={cls.distanceParams}>
             <b className={cls.distanceInfoTitle}>
               <span><RouteDirectionIcon /></span>
-              <span>{distanceParameters.distance}</span>
+              <span>{Math.floor(distanceParameters.distance / 1000)} km</span>
             </b>
             <br />
             <b className={cls.distanceInfoTitle}>

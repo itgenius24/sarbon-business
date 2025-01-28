@@ -1,0 +1,147 @@
+.formGroup {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--brand-200);
+}
+
+.formContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  
+}
+
+.heading {
+  width: 280px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--brand-700);
+}
+
+.fields {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  flex-grow: 1;
+  display: flex;
+  column-gap: 24px;
+  margin-left: auto;
+}
+
+.fieldsWrapper {
+  display: flex;
+  column-gap: 32px;
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
+.addressLinkWrapper {
+  width: 100%;
+  flex-grow: 1;
+}
+
+.fieldsWrapperActions {
+  width: 280px;
+}
+
+.additionalIcons {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.fieldActions {
+  max-width: 540px;
+  margin-left: 312px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--brand-200);
+}
+
+.fieldActionsHeading {
+  margin-bottom: 16px;
+  color: var(--brand-700);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.fieldActionsButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route {
+  display: flex;
+  column-gap: 32px;
+  margin-top: 24px;
+}
+
+.routeContent {
+  width: 540px;
+}
+
+.checkboxInner {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.addressLinkWrapper {
+  position: relative;
+}
+
+.addressLink {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.addressLink.disabledLink {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@include breakpoint-down(780px) {
+  .fieldsWrapper {
+    flex-direction: column;
+  }
+
+  .field {
+    margin-left: 0;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+
+  .heading {
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .route {
+    flex-direction: column;
+  }
+
+  .routeContent {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .fieldActions {
+    margin-left: 0;
+    background-color: #fff;
+  }
+}

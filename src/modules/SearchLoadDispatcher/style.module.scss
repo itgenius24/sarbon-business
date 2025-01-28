@@ -1,0 +1,147 @@
+.TAbleWrap{
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
+  background: white;
+  min-height: calc(62vh - 30px);
+  padding-bottom: 40px;
+  // height: 800px;
+ 
+  position: relative;
+
+  &::-webkit-scrollbar-thumb{
+    background-color: rgb(134, 134, 134) !important;
+    border-radius: 8px;
+  }
+}
+
+
+.TAbleWrap::-webkit-scrollbar{
+  width: 5px;
+  
+  background-color: rgba(255, 0, 0, 0) !important;
+}
+
+.btnLoad{
+  background: rgba(226, 228, 234, 1);
+  font-size: 18px;
+  color: rgba(33, 31, 38, 1);
+  border-radius: 12px;
+  width: fit-content;
+  
+}
+.sticiy{
+  position: sticky;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+}
+.addUser{
+   width: 400px;
+   padding: 8px 16px;
+   border-radius: 8px;
+   align-items: center;
+   box-shadow: 0px 6px 12px 6px rgba(33, 31, 38, 0.14);
+   background-color: white;
+   .addText{
+    font-weight: 600;
+    white-space:nowrap;
+    font-size: 18px;
+   }
+
+}
+
+.btnAddLoad{
+  border-radius: 8px;
+  background-color: rgba(0, 122, 255, 1);
+  color: white;
+}
+
+.countrWrap{
+  p{
+    font-size: 16px;
+    color: rgba(33, 31, 38, 1);
+    font-weight: 400;
+    line-height: 25px;
+    span{
+      font-weight: 600;
+    }
+  }
+}
+.ActiveRadio{
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+}
+.radio{
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(126, 123, 134, 1);
+}
+.th {
+  font-weight: 600;
+  color: rgba(126, 123, 134, 1);
+  font-size: 13px;
+  text-transform: uppercase;
+  max-width: 100%;
+    svg{
+      display: none;
+    }
+  .filterTitle{
+     &:hover{
+        color: rgba(0, 122, 255, 1);
+     }
+
+     
+  }
+  &:hover{
+    svg{
+      display: block;
+
+      path{
+        fill: rgba(0, 122, 255, 1) !important;
+      }
+    }
+   }
+  &:nth-child(1) {
+    width: 300px;
+    
+  }
+  &:nth-child(2) {
+    width: 300px;
+  }
+  &:nth-child(3) {
+    width: 250px;
+    // background-color: red
+  }
+  &:nth-child(4) {
+    width: 250px;
+  }
+  &:nth-child(5) {
+    width: 250px;
+  }
+  &:nth-child(6) {
+    width: 250px;
+  }
+  &:nth-child(7) {
+    width: 250px;
+  }
+  
+}
+
+
+.input{
+  width: 100%;
+  max-height: 44px;
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--brand-300);
+  &:not(:placeholder-shown) {
+    background-color: white; 
+   
+  }
+  &::placeholder {
+    color: var(--brand-500);
+    font-weight: 400;
+  }
+}

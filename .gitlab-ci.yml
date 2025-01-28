@@ -40,7 +40,7 @@ deploy-prod:
   variables:
     NAMESPACE: furgo
     VALUES_FILE: .helm/values-prod.yml
-    K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
+    K8SCONFIGJSON: $FURGO_KUBECONFIG
   only:
     - master
 
@@ -59,3 +59,4 @@ rollback-prod:
     NAMESPACE: furgo
     K8SCONFIGJSON: $UCODE_HZN_KUBECONFIG
   when: manual
+

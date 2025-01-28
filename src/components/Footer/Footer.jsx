@@ -5,16 +5,16 @@ import Link from "next/link";
 import { Container } from "../Container";
 import cls from "./styles.module.scss";
 import GooglePlay from "@/assets/images/google-play.svg";
+import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
 import GalaxyStore from "@/assets/images/galaxy-store.svg";
 import { Logo } from "../Logo";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 
 export const Footer = () => {
-
   const locale = useGetLang();
 
   const pathname = usePathname();
@@ -54,6 +54,26 @@ export const Footer = () => {
     ],
   };
 
+  const downloadByLanguage = async (langId) => {
+    try {
+      // const res = await getData({
+      //   ...file,
+      //   lang: langId,
+      // });
+
+      const link = document.createElement("a");
+      const res = `../../assets/app/Furgo.apk`;
+      link.href = res.file;
+      link.target = "_blank";
+      link.download = `Furgo.apk`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+
   return (
     <Box
       as="footer"
@@ -72,6 +92,13 @@ export const Footer = () => {
                     <Link className={cls.infoLink} href={item.link}>
                       {item.title}
                     </Link>
+                    {/* {
+                      item?.link?.includes("distance-calculation") ? (
+                        <a className={cls.infoLink} href={item.link}>{item.title}</a>
+                      ) : <Link className={cls.infoLink} href={item.link}>
+                        {item.title}
+                      </Link>
+                    } */}
                   </li>
                 );
               })}
@@ -108,12 +135,17 @@ export const Footer = () => {
         </div>
         <div className={cls.footerSocials}>
           <div className={cls.mobileApps}>
+            <Box>
             <p className={cls.mobileAppsHeading}>
               {t("Мобильные приложения Furgo")}
             </p>
             <ul className={cls.mobileAppList}>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"/"} target="_blank">
+                <a
+                  className={cls.mobileAppLink}
+                  href={"https://apps.apple.com/uz/app/furgo/id6475668788"}
+                  target="_blank"
+                >
                   <Image
                     src={AppStore}
                     alt="App store"
@@ -123,16 +155,21 @@ export const Footer = () => {
                 </a>
               </li>
               <li className={cls.mobileAppItem}>
-                <a className={cls.mobileAppLink} href={"/"} target="_blank">
+                <a
+                  style={{ cursor: `pointer` }}
+                  className={cls.mobileAppLink}
+                  href="https://bit.ly/sarbonnew"
+                  target="_blank"
+                >
                   <Image
-                    src={GooglePlay}
+                    src={AndroidPlay}
                     alt="Google play"
                     width={135}
                     height={40}
                   />
                 </a>
               </li>
-              <li className={cls.mobileAppItem}>
+              {/* <li className={cls.mobileAppItem}>
                 <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
                     src={GalaxyStore}
@@ -141,8 +178,9 @@ export const Footer = () => {
                     height={40}
                   />
                 </a>
-              </li>
+              </li> */}
             </ul>
+            </Box>
           </div>
           <ul className={cls.socialList}>
             <li className={cls.socialItem}>
@@ -262,7 +300,16 @@ export const Footer = () => {
           </ul>
         </div>
         <div className={cls.footerBottom}>
-          <Logo width={32} height={32} />
+          <Flex alignItems={`center`} gap={2}>
+            <Logo width={150} height={150} />
+            <Link
+              className={cls.link}
+              title={t("Зарегистрироваться")}
+              href={`/${locale}/auth/registration`}
+            >
+              {t("Зарегистрироваться")}
+            </Link>
+          </Flex>
           <p className={cls.copyright}>{t("copyright")}</p>
         </div>
       </Container>

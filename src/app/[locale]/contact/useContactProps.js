@@ -14,9 +14,10 @@ export const useContactProps = () => {
   ];
 
   const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY;
+  const suggest_apikey = process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY;
 
   function getUrl(lat, lon) {
-    return `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${lon},${lat}`;
+    return `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&suggest_apikey=${suggest_apikey}&format=json&geocode=${lon},${lat}`;
   }
 
   async function getLocationName([latitude, longitude]) {

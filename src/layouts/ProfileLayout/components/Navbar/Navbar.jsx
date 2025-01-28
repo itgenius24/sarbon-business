@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { CustomLogOutButton } from "../CustomLogOutButton";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "react-i18next";
 
 const tabStyles = {
   alignItems: "center",
@@ -42,7 +43,7 @@ export const Navbar = () => {
   const pathname = usePathname();
 
   const path = pathname.split("/")[3];
-
+const {t} = useTranslation();
   const locale = useGetLang();
 
   console.log({ locale });
@@ -64,7 +65,7 @@ export const Navbar = () => {
                   nav.children.map((child, i) => {
                     return <Link className={clsx(cls.link, { [cls.active]: pathname.includes(child.path) })} href={`/${locale}` + child.path} key={i}>
                       {child.icon}
-                      <span>{child.title}</span>
+                      <span>{t(`${child.title}`)}</span>
                     </Link>;
                   })
                 }
@@ -74,7 +75,7 @@ export const Navbar = () => {
             <Flex {...tabStyles}>
               {nav?.icon}{" "}
               <Text lineHeight="20px" fontWeight={500} ml="10px" color="icon.base">
-                {nav?.title}
+                {t(`${nav?.title}`)}
               </Text>{" "}
               <AccordionIcon ml="auto" color={"icon.base"} />
             </Flex>
@@ -83,7 +84,7 @@ export const Navbar = () => {
 
         return <Link className={clsx(cls.link, { [cls.active]: !path && i === 0 || nav.path.includes(path) })} href={`/${locale}` + nav.path} key={i}>
           {nav.icon}
-          <span>{nav.title}</span>
+          <span>{t(`${nav.title}`)}</span>
         </Link>;
 
       })

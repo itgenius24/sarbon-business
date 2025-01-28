@@ -4,16 +4,14 @@ import React from "react";
 import cls from "./styles.module.scss";
 import { useLoadingFormProps } from "./useLoadingFormProps";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { DeleteIcon, HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
+import { HelpCircleIcon, LocationMarkIcon, PlusIcon } from "@/assets/icons/icons";
 import { Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/Checkbox";
-import { Modal } from "@/components/Modal";
-import LoadingMap from "../LoadingMap";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
-import Script from "next/script";
 import { DropdownWrapper } from "@/components/DropdownWrapper";
 import { DeleteButton } from "@/components/DeleteButton";
+import clsx from "clsx";
 
 export const LoadingForm = () => {
 
@@ -40,6 +38,7 @@ export const LoadingForm = () => {
     setIsModalOpen,
     setValue,
     initYmaps,
+    router,
   } = useLoadingFormProps();
 
   const locale = useGetLang();
@@ -47,10 +46,6 @@ export const LoadingForm = () => {
   const { t } = useTranslation(locale, "translations");
 
   return <div className={cls.formGroup}>
-    {/* <Script
-      onLoad={() => ymaps.ready(calculateDistance)}
-      src={`https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAP_KEY}&load=package.full&lang=en_US`}
-    /> */}
     <div className={cls.formContent}>
       <div className={cls.fields}>
         {
@@ -81,27 +76,33 @@ export const LoadingForm = () => {
                     watch={watch}
                     name={`loadings[${index}].location`}
                     placeholder={t("Населённый пункт")}
+                    inputPlaceholder={t("Населённый пункт")}
                     error={errors["loadings"]?.[index]?.["location"]}
                     searchName={`loadings[${index}].search`}
                     setValue={setValue}
                   />
                 }
-                <TextFieldWithAddition
-                  placeholder={t("Адрес")}
-                  additionalItemTheme="white"
-                  register={register}
-                  name={`loadings[${index}].address`}
-                  additionalOnclick={() => handleOpenModal("loadings", index)}
-                  onClick={() => handleOpenModal("loadings", index)}
-                  error={errors["loadings"]?.[index]?.["address"]}
-                  onlyFieldDisabled={true}
-                  disabled={!canEdit}
-                  additionalItemPlaceholder={
-                    <span className={cls.additionalIcons}>
-                      <LocationMarkIcon />
-                    </span>
-                  }
-                />
+                <div className={cls.addressLinkWrapper}>
+                  <a className={clsx(cls.addressLink, { [cls.disabledLink]: !canEdit })} href={`/${locale || "ru"}/map/loadings/${index}`} />
+                  <TextFieldWithAddition
+                    placeholder={t("Адрес")}
+                    additionalItemTheme="white"
+                    register={register}
+                    name={`loadings[${index}].address`}
+                    // additionalOnclick={() => handleOpenModal("loadings", index)}
+                    // onClick={() => handleOpenModal("loadings", index)}
+                    // additionalOnclick={() => router.push(`/${locale}/map/loadings/${index}`)}
+                    // onClick={() => router.push(`/${locale}/map/loadings/${index}`)}
+                    error={errors["loadings"]?.[index]?.["address"]}
+                    onlyFieldDisabled={true}
+                    disabled={!canEdit}
+                    additionalItemPlaceholder={
+                      <span className={cls.additionalIcons}>
+                        <LocationMarkIcon />
+                      </span>
+                    }
+                  />
+                </div>
               </div>
             </div>;
           })
@@ -151,22 +152,27 @@ export const LoadingForm = () => {
                   setValue={setValue}
                 />
               }
-              <TextFieldWithAddition
-                onlyFieldDisabled={true}
-                disabled={!canEdit}
-                placeholder={t("Адрес")}
-                additionalItemTheme="white"
-                register={register}
-                name={`unloading[${index}].address`}
-                additionalOnclick={() => handleOpenModal("unloading", index)}
-                onClick={() => handleOpenModal("unloading", index)}
-                error={errors["unloading"]?.[index]?.["address"]}
-                additionalItemPlaceholder={
-                  <span className={cls.additionalIcons}>
-                    <LocationMarkIcon />
-                  </span>
-                }
-              />
+              <div className={cls.addressLinkWrapper}>
+                <a className={clsx(cls.addressLink, { [cls.disabledLink]: !canEdit })} href={`/${locale || "ru"}/map/unloading/${index}`}></a>
+                <TextFieldWithAddition
+                  onlyFieldDisabled={true}
+                  disabled={!canEdit}
+                  placeholder={t("Адрес")}
+                  additionalItemTheme="white"
+                  register={register}
+                  name={`unloading[${index}].address`}
+                  // additionalOnclick={() => handleOpenModal("unloading", index)}
+                  // onClick={() => handleOpenModal("unloading", index)}
+                  // additionalOnclick={() => router.push(`/${locale}/map/unloading/${index}`)}
+                  // onClick={() => router.push(`/${locale}/map/unloading/${index}`)}
+                  error={errors["unloading"]?.[index]?.["address"]}
+                  additionalItemPlaceholder={
+                    <span className={cls.additionalIcons}>
+                      <LocationMarkIcon />
+                    </span>
+                  }
+                />
+              </div>
             </div>
           </div>;
         }).reverse()
@@ -183,7 +189,7 @@ export const LoadingForm = () => {
         </Checkbox>
       </div>
     </div>
-    <Modal
+    {/* <Modal
       isDisabled={!canEdit}
       isOpen={isModalOpen}
       onClose={handleCloseModal}
@@ -205,6 +211,6 @@ export const LoadingForm = () => {
           }
         }
       />
-    </Modal>
+    </Modal> */}
   </div>;
 };

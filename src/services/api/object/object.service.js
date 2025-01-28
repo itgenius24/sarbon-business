@@ -2,33 +2,96 @@ import request from "@/services/request";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 
 const objectService = {
-  getCarsOnSale: (params) => request.get("/v2/object-slim/get-list/car_sale", { params }),
-  getManualList: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
-  getNewsList: (params) => request.get("/v2/object-slim/get-list/news", { params }),
-  getCompanyList: (params) => request.get("/v2/object-slim/get-list/firm", { params }),
-  getRoleList: (params) => request.get("/v2/object-slim/get-list/role", { params }),
-  getCargoType: (params) => request.get("/v2/object-slim/get-list/cargo_type", { params }),
-  getMeasurement: (params) => request.get("/v2/object-slim/get-list/measurement", { params }),
-  getAddress: (params) => request.get("/v2/object-slim/get-list/address", { params }),
-  getCarType: (params) => request.get("/v2/object-slim/get-list/vehicle_type", { params }),
-  getCurrency: (params) => request.get("/v2/object-slim/get-list/currency", { params }),
-  getPackage: (params) => request.get("/v2/object-slim/get-list/packages", { params }),
-  getPaymentType: (params) => request.get("/v2/object-slim/get-list/map", { params }),
-  getUserCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
-  getCarList: (params) => request.get("/v2/object-slim/get-list/route", { params }),
-  getLogistikaGpsTrackingFilterDriver: (data) => request.post("/v1/invoke_function/logistika-gps-tracking-filter-driver", data),
-  getOffer: (params) => request.get("/v2/object-slim/get-list/response", { params }),
-  getCargoById: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
-  getMaps: (params) => request.get("/v2/object-slim/get-list/period", { params }),
-  getDirectory: (params) => request.get("/v2/object-slim/get-list/directory", { params }),
-  getPartners: (params) => request.get("/v2/object-slim/get-list/partners_company", { params }),
-  getCityList: (params) => request.get("/v2/object-slim/get-list/city", { params }),
-  getLoadingTypes: (params) => request.get("/v2/object-slim/get-list/load_type", { params }),
-  getUsers: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users", { params }),
-  getGPSHistory: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/gps_history", { params }),
-  getDriverLocation: (params) => request.get("https://api.admin.u-code.io/v2/object-slim/get-list/users_gps", { params }),
-};
+  getCarsOnSale: (params) =>
+    request.get("/v2/object-slim/get-list/car_sale", { params }),
+  getManualList: (params) =>
+    request.get("/v2/object-slim/get-list/directory", { params }),
+  getNewsList: (params) =>
+    request.get("/v2/object-slim/get-list/news", { params }),
 
+  getCompanyList: (params) =>
+    request.get("/v2/object-slim/get-list/firm", { params }),
+  getRoleList: (params) =>
+    request.get("/v2/object-slim/get-list/role", { params }),
+  getCargoType: (params) =>
+    request.get(`/v2/object-slim/get-list/cargo_type`, { params }),
+  getMeasurement: (params) =>
+    request.get("/v2/object-slim/get-list/measurement", { params }),
+  getAddress: (params) =>
+    request.get("/v2/object-slim/get-list/address", { params }),
+  getCarType: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+  getTrailerType: (params) =>
+    request.get("/v2/object-slim/get-list/trailer_type", { params }),
+  getUserData: (params) =>
+    request.get("/v2/object-slim/get-list/users", { params }),
+  getCarNumber: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle", { params }),
+  getUserGpsData: (params) =>
+    request.get("/v2/object-slim/get-list/users_gps", { params }),
+  getUserGpsBYData: (params) =>
+    request.get("/v2/object-slim/get-list/users", { params }),
+  getVehicle: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle", { params }),
+
+  getVehicleSin: (params) => request.get(`/v2/items/vehicle/${params.id}`),
+  getCurrency: (params) =>
+    request.get("/v2/object-slim/get-list/currency", { params }),
+  getPackage: (params) =>
+    request.get("/v2/object-slim/get-list/packages", { params }),
+  getPaymentType: (params) =>
+    request.get("/v2/object-slim/get-list/map", { params }),
+  getUserCargo: (params) =>
+    request.get("/v2/object-slim/get-list/cargo", { params }),
+  getCarList: (params) =>
+    request.get("/v2/object-slim/get-list/route", { params }),
+  getLogistikaGpsTrackingFilterDriver: (data) =>
+    request.post(
+      "/v1/invoke_function/logistika-gps-tracking-filter-driver",
+      data
+    ),
+    getLogistikaGpsTrackingFilterDriverPred: (data) =>
+      request.post(
+        "/v1/invoke_function/logistika-send-list-of-address-name",
+        data
+      ),
+  getCar: (data) =>
+    request.post("/v1/invoke_function/logistika-get-cargo-list", data),
+  getCarDispatcher: (data) =>
+    request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
+  getCarRefueling: (data) =>
+    request.post("/v1/invoke_function/logistika-send-offer-notification", data),
+  getCarTrackingFilter: (data) =>
+    request.post("/v1/invoke_function/logistika-gps-tracking-create-history", data),
+  getNewPred: (data) =>
+    request.post("/v1/invoke_function/logistika-favourite-cargo", data),
+  getLocation: (data) =>
+    request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
+  getOffer: (params) =>
+    request.get("/v2/object-slim/get-list/order", { params }),
+  getCargoById: (params) =>
+    request.get("/v2/object-slim/get-list/cargo", { params }),
+  getMaps: (params) =>
+    request.get("/v2/object-slim/get-list/period", { params }),
+  getDirectory: (params) =>
+    request.get("/v2/object-slim/get-list/directory", { params }),
+  getPartners: (params) =>
+    request.get("/v2/object-slim/get-list/partners_company", { params }),
+  getCityList: (params) =>
+    request.get("/v2/object-slim/get-list/city", { params }),
+  getCityCar: (params) =>
+    request.get("/v2/object-slim/get-list/vehicle_type", { params }),
+  getLoadingTypes: (params) =>
+    request.get("/v2/object-slim/get-list/load_type", { params }),
+  getUsers: (params) =>
+    request.get("/v2/object-slim/get-list/users", {
+      params,
+    }),
+  getGPSHistory: (params) =>
+    request.get("/v2/object-slim/get-list/gps_history", { params }),
+  getDriverLocation: (params) =>
+    request.get("/v2/object-slim/get-list/users_gps", { params }),
+};
 
 export const useGetCarById = (
   params = { data: JSON.stringify({}) },
@@ -52,7 +115,10 @@ export const useGetCarsOnSale = (
   });
 };
 
-export const useGetManualList = (params = { data: JSON.stringify({}) }, settings) => {
+export const useGetManualList = (
+  params = { data: JSON.stringify({}) },
+  settings
+) => {
   return useQuery({
     queryKey: ["object/getManualList", params],
     queryFn: () => objectService.getManualList(params),
@@ -66,25 +132,100 @@ export const useGetCarListOnSubmit = (mutationSettings) => {
     ...mutationSettings,
   });
 };
+
+export const useGetCar = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (params) => objectService.getCar(params),
+    ...mutationSettings,
+  });
+  };
+
+  
+
+  export const useGetCarDispatcher = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService. getCarDispatcher(params),
+      ...mutationSettings,
+    });
+    };
+
+    export const useGetCarRefueling = (mutationSettings) => {
+      return useMutation({
+        mutationFn: (params) => objectService. getCarRefueling(params),
+        ...mutationSettings,
+      });
+      };
+    
+  
+
+ 
+  export const useGetCarTrackingFilter = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService.getCarTrackingFilter(params),
+      ...mutationSettings,
+    });
+    };
+
+  export const useGetNewPred = (mutationSettings) => {
+    return useMutation({
+      mutationFn: (params) => objectService.getNewPred(params),
+      ...mutationSettings,
+    });
+    };
+  
+  
+  
+
 export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
   return useMutation({
-    mutationFn: (data) => objectService.getLogistikaGpsTrackingFilterDriver(data),
+    mutationFn: (data) =>
+      objectService.getLogistikaGpsTrackingFilterDriver(data),
     ...mutationSettings,
   });
 };
 
-export const useGetNewsList = (params = { data: JSON.stringify({}) }, settings) => {
+
+export const useLogistikaGpsTrackingFilterDriverPred = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) =>
+      objectService.getLogistikaGpsTrackingFilterDriverPred(data),
+    ...mutationSettings,
+  });
+};
+export const useLocation = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.getLocation(data),
+    ...mutationSettings,
+  });
+};
+export const useGetNewsList = (
+  params = { data: JSON.stringify({}) },
+  settings
+) => {
   return useQuery({
     queryKey: ["object/getNewsList", params],
     queryFn: () => objectService.getNewsList(params),
     ...settings,
   });
 };
+export const useGetLocation = (
+  params = {
+    data: JSON.stringify({ cargo_type: ["cargo"], order_status: ["active"] }),
+  },
+  settings
+) => {
+  return useQuery({
+    queryKey: ["object/location", params],
+    queryFn: () => objectService.getLocation(params),
+    ...settings,
+  });
+};
 
-export const useGetCompanyList = (params) => {
+export const useGetCompanyList = (params,props) => {
   return useQuery({
     queryKey: ["object/getCompanyList", params],
     queryFn: () => objectService.getCompanyList(params),
+    ...props
   });
 };
 
@@ -92,14 +233,18 @@ export const useGetRoleList = (params, props) => {
   return useQuery({
     queryKey: ["object/getRoleList", params],
     queryFn: () => objectService.getRoleList(params),
-    ...props
+    ...props,
   });
 };
 
-export const useGetCargoType = (params = { data: JSON.stringify({}) }) => {
+export const useGetCargoType = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
   return useQuery({
     queryKey: ["object/getCargoType", params],
     queryFn: () => objectService.getCargoType(params),
+    ...querySettings,
   });
 };
 
@@ -117,7 +262,10 @@ export const useGetAddress = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetCarType = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object/getCarType", params],
     queryFn: () => objectService.getCarType(params),
@@ -125,7 +273,97 @@ export const useGetCarType = (params = { data: JSON.stringify({}) }, settings = 
   });
 };
 
-export const useLoadingTypes = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetTrailerType = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
+  return useQuery({
+    queryKey: ["object/getTrailerType", params],
+    queryFn: () => objectService.getTrailerType(params),
+    ...settings,
+  });
+};
+// export const useGetUserData = ({params, settings = {}}) => {
+//   return useQuery({
+//     queryKey: ["object/getUserDta", params],
+//     queryFn: () => objectService.getUserData({params}),
+//     ...settings,
+//   });
+// };
+
+
+
+export const useGetUserData = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCargo", params],
+    queryFn: () => objectService.getUserData(params),
+    ...querySettings,
+  });
+};
+
+export const useGetCarNumber = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCarNumber", params],
+    queryFn: () => objectService.getCarNumber(params),
+    ...querySettings,
+  });
+};
+
+export const useGetUserGpsData = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCargoGps", params],
+    queryFn: () => objectService.getUserGpsData(params),
+    ...querySettings,
+  });
+};
+
+export const useGetUserGpsByIDData = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCargoGpsBY", params],
+    queryFn: () => objectService.getUserGpsBYData(params),
+    ...querySettings,
+  });
+};
+export const useGetVehicleSingle = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCargo", params],
+    queryFn: () => objectService.getVehicleSin(params),
+    querySettings,
+  });
+};
+
+
+
+export const useGetVehicle = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
+  return useQuery({
+    queryKey: ["object/getVehicle", params],
+    queryFn: () => objectService.getVehicle(params),
+    ...settings,
+  });
+};
+
+export const useLoadingTypes = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object-slim/get-list/load_type", params],
     queryFn: () => objectService.getLoadingTypes(params),
@@ -133,7 +371,10 @@ export const useLoadingTypes = (params = { data: JSON.stringify({}) }, settings 
   });
 };
 
-export const useGetCurrency = (params = { data: JSON.stringify({}) }, settings = {}) => {
+export const useGetCurrency = (
+  params = { data: JSON.stringify({}) },
+  settings = {}
+) => {
   return useQuery({
     queryKey: ["object/getCurrency", params],
     queryFn: () => objectService.getCurrency(params),
@@ -159,7 +400,7 @@ export const useGetUserCargo = (params, settings) => {
   return useQuery({
     queryKey: ["object/getUserCargo", params],
     queryFn: () => objectService.getUserCargo(params),
-    ...settings
+    ...settings,
   });
 };
 
@@ -167,8 +408,8 @@ export const useGetUserCargoPagination = (params, settings) => {
   return useInfiniteQuery({
     queryKey: ["object/getUserCargoPagination", params],
     queryFn: () => objectService.getUserCargo(params),
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-    ...settings
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    ...settings,
   });
 };
 
@@ -176,7 +417,7 @@ export const useGetOffer = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOffer", params],
     queryFn: () => objectService.getOffer(params),
-    ...settings
+    ...settings,
   });
 };
 
@@ -184,8 +425,8 @@ export const useGetOfferPagination = (params, settings) => {
   return useInfiniteQuery({
     queryKey: ["object/getOfferPagination", params],
     queryFn: () => objectService.getOffer(params),
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-    ...settings
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    ...settings,
   });
 };
 
@@ -193,7 +434,7 @@ export const useGetOfferById = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOfferById", params],
     queryFn: () => objectService.getOffer(params),
-    ...settings
+    ...settings,
   });
 };
 
@@ -233,6 +474,14 @@ export const useGetCityList = (params, settings) => {
   return useQuery({
     queryKey: ["object/getCityList", params],
     queryFn: () => objectService.getCityList(params),
+    ...settings,
+  });
+};
+
+export const useGetCarList = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getCarList", params],
+    queryFn: () => objectService.getCityCar(params),
     ...settings,
   });
 };

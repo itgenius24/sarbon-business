@@ -1,0 +1,17 @@
+.logoLInk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
+.img{
+  width: 180px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 12px;
+}

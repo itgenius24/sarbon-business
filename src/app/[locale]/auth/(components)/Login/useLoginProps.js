@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useLoginProps = () => {
-
   const router = useRouter();
 
   const locale = useGetLang();
@@ -18,6 +17,13 @@ export const useLoginProps = () => {
 
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
+  const dispachaerTypeId = process.env.NEXT_PUBLIC_DISPACR_TYPE_ID;
+
+  const [remember, setRemember] = useState(false);
+
+  const defaultUserData = localStorage.getItem("loginData")
+    ? JSON.parse(localStorage.getItem("loginData")).username
+    : "";
 
   const toast = useToast();
 
@@ -27,16 +33,38 @@ export const useLoginProps = () => {
     watch,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      username: defaultUserData?.username,
+      password: defaultUserData?.password,
+    },
+  });
 
   const login = useLoginMutation({
     onSuccess: (data) => {
       authStore.login({
-        user: { firm_id: data.user_data?.firm_id, ...data?.user },
+        user: {
+          firm_id: data.user_data?.firm_id,
+          full_name: data.user_data?.full_name,
+          id: data?.user_data.guid,
+          ...data?.user_data,
+          client_id: data?.client_type?.id,
+          role_id: data?.role?.id,
+        },
         token: data?.token,
         role: data?.role,
       });
-      router.push(`/${locale}`);
+      if (remember) {
+        localStorage.setItem(
+          "loginData",
+          JSON.stringify({
+            username: watch("username"),
+            password: watch("password"),
+          })
+        );
+      }
+
+      router.push(`/${locale ? locale : `ru`}`);
     },
     onError: (error) => {
       console.log(error);
@@ -45,23 +73,18 @@ export const useLoginProps = () => {
 
   const loginOne = useOneLoginMutation({
     onSuccess: (data) => {
-
       const clientTypeId = data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]?.client_types?.response?.[0]?.guid;
-
-      if(clientTypeId === customerTypeId || clientTypeId === expeditorTypeId) {
-        login.mutate(
-          {
-            username: watch("username"),
-            password: watch("password"),
-            company_id: "b8367a10-5699-4e91-8c1c-71578ca5448e",
-            project_id: "f539f64b-961e-4c6c-8534-140091f7f27b",
-            environment_id: "11b59b25-8772-456a-84e1-20bdfdd32506",
-            client_type: clientTypeId,
-            environment_ids: [
-              "11b59b25-8772-456a-84e1-20bdfdd32506"
-            ]
-          }
-        );
+      //  console.log(`clientTypeId`,data,expeditorTypeId,dispachaerTypeId)
+      if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId || clientTypeId ===  dispachaerTypeId) {
+        login.mutate({
+          username: watch("username"),
+          password: watch("password"),
+          company_id: "b8367a10-5699-4e91-8c1c-71578ca5448e",
+          project_id: "f539f64b-961e-4c6c-8534-140091f7f27b",
+          environment_id: "11b59b25-8772-456a-84e1-20bdfdd32506",
+          client_type: clientTypeId,
+          environment_ids: ["11b59b25-8772-456a-84e1-20bdfdd32506"],
+        });
       } else {
         toast({
           title: t("Этот пользователь не заказчик"),
@@ -77,23 +100,23 @@ export const useLoginProps = () => {
     },
   });
 
-  function navigateRegistration () {
+  function navigateRegistration() {
     router.push(`/${locale}/auth/registration`);
   }
 
-  function navigateToMain () {
+  function navigateToMain() {
     router.push(`/${locale}`);
   }
 
-  function onSubmit (data) {
+  function onSubmit(data) {
     loginOne.mutate(data);
   }
 
-  function onRememberChange (e) {
-    authStore.setRemember(e.target.checked);
+  function onRememberChange(e) {
+    setRemember(e.target.checked);
   }
 
-  function handleTogglePasswordVisibility(){
+  function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
 
@@ -111,5 +134,4 @@ export const useLoginProps = () => {
     navigateToMain,
     locale,
   };
-
 };

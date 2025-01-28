@@ -7,6 +7,8 @@ const functionsService = {
   createAddress: (data) => request.post("/v1/invoke_function/logistika-create-addres", data),
   pushNotification: (data) => request.post("/v1/invoke_function/logistika-notification", data),
   offerFromCustomer: (data) => request.post("/v1/invoke_function/logistika-send-offer-from-customer", data),
+  getSortedGPSHistory: (data) => request.post("/v1/invoke_function/logistika-get-list-sorted-gps-history", data),
+  getWidtLocation: (data) => request.post("/v1/invoke_function/logistika-get-users-with-location", data),
 };
 
 export const useGetLoadingMutation = (mutationSettings) => {
@@ -23,4 +25,12 @@ export const usePushNotificationMutation = (mutationSettings) => {
 
 export const useOfferFromCustomerMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => functionsService.offerFromCustomer(data), ...mutationSettings });
+};
+
+export const useGetSortedGPSHistory = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => functionsService.getSortedGPSHistory(data), ...mutationSettings });
+};
+
+export const useGetWithLocation = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => functionsService.getWidtLocation(data), ...mutationSettings });
 };

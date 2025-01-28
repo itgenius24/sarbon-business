@@ -1,14 +1,39 @@
+import { useTranslation } from "react-i18next";
 import cls from "./styles.module.scss";
 
-export const DataList = ({ list = [] }) => {
-  return <dl className={cls.cardList}>
-    {
-      list.map((item, index) => (
-        <div className={cls.cardListItem} style={item.grow ? { gridColumn: "1 / span 3" } : {}} key={index}>
-          <dt>{item.title}</dt>
-          <dd>{item.value}</dd>
+export const DataList = ({ list = [], status }) => {
+  const { t } = useTranslation();
+
+  return (
+    <dl className={cls.cardList}>
+      {status === `new` ||
+      status === `in_moderator` ||
+      status === `in_active` ? (
+        list.map((item, index) => (
+          <div key={index} className={cls.cardListItem}>
+            <dt>
+              {item.title} {item.value}
+            </dt>
+          </div>
+        ))
+      ) : (
+        <div className={cls.cardListItem}>
+          <dt>
+            {t("Транспорт")}:{list.vehicle_type_id_data?.name}
+          </dt>
         </div>
-      ))
-    }
-  </dl>;
+      )}
+
+      {/* 
+    {
+        list?.map((item, index) => (
+          <div  key={index} className={cls.cardListItem}>
+          <dt>
+            {item?.title} {item?.value}
+          </dt>
+          </div>
+        ))
+    } */}
+    </dl>
+  );
 };

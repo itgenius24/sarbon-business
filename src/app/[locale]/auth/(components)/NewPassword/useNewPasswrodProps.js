@@ -15,7 +15,7 @@ export const useNewPasswordProps = () => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-
+  const [status, setStatus] = useState(false);
   const getUsers = useGetUsers(
     { data: JSON.stringify({ guid: authStore.getAuthData.userId, }) },
     { enabled: false, }
@@ -31,8 +31,8 @@ export const useNewPasswordProps = () => {
 
   const updateUserPassword = useUpdateUserInfo({
     onSuccess(data) {
-      console.log({ data });
-      getUsers.refetch();
+      setStatus(true)
+      router.push(`/${locale}/auth`);
     }
   });
 
@@ -61,27 +61,28 @@ export const useNewPasswordProps = () => {
     });
   }
 
-  useEffect(() => {
-    if(getUsers.isSuccess) {
-      const data = getUsers.data?.response?.[0];
-      authStore.login(
-        {
-          user: {
-            firm_id: data?.firm_id,
-            company_id: data?.company_id,
-            email: data?.email,
-            id: data?.guid,
-            login: data?.login,
-            password: data?.password,
-            phone: data?.phone,
-          },
-          token: data?.token,
-          role: data?.role,
-        }
-      );
-      router.push(`/${locale}`);
-    }
-  }, [getUsers.data]);
+  // useEffect(() => {
+  //   if(getUsers.isSuccess && status) {
+  //     const data = getUsers.data?.response?.[0];
+  //     authStore.login(
+  //       {
+  //         user: {
+  //           firm_id: data?.firm_id,
+  //           company_id: data?.company_id,
+  //           email: data?.email,
+  //           id: data?.guid,
+  //           login: data?.login,
+  //           password: data?.password,
+  //           phone: data?.phone,
+  //           ...data
+  //         },
+  //         token: data?.token,
+  //         role: data?.role,
+  //       }
+  //     );
+  //     router.push(`/${locale}/auth`);
+  //   }
+  // }, [getUsers.data]);
 
   return {
     t,

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import cls from "./styles.module.scss";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 export const FileUpload = ({
   watch,
@@ -22,7 +23,7 @@ export const FileUpload = ({
 }) => {
   const canEdit = true;
   const src = watch(name);
-
+ const {t} = useTranslation();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export const FileUpload = ({
         <Image
           // className={cls.img}
           loader={imageLoader}
-          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`}
+          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src || ""}`}
           alt="cargo"
           width={150}
           height={150}
@@ -79,7 +80,7 @@ export const FileUpload = ({
           // className={cls.img}
           priority={priority}
           loader={imageLoader}
-          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src}`}
+          src={src?.includes("https") ? src : `${process.env.NEXT_PUBLIC_MEDIA_URL}${src || ""}`}
           alt="profile img"
           width={150}
           height={150}
@@ -129,7 +130,7 @@ export const FileUpload = ({
             <UploadCloudIcon />
           </Box>
           <Box color="primary" textAlign="center">
-            {variant === "profile" && src ? profilePlaceholder : placeholder}
+            {variant === "profile" && src ? profilePlaceholder : (t(placeholder))}
           </Box>
           {(!src || variant === "cargo") && (
             <Box
@@ -139,7 +140,7 @@ export const FileUpload = ({
               lineHeight="18px"
               color="brand.600"
             >
-              Фото до 10 МБ.
+              {t(`Фото до 10 МБ`)}
             </Box>
           )}
         </Box>

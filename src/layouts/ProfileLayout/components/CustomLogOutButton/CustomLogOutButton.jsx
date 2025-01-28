@@ -7,22 +7,34 @@ import authStore from "@/store/auth.store";
 import { Button, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const CustomLogOutButton = () => {
   const router = useRouter();
   const [isAuth, setAuth] = useState(false);
 
   const locale = useGetLang();
-
+  const {t} = useTranslation();
   useEffect(() => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
 
   const [isOpen, setIsOut] = useState(false);
-  const handleLogOut = () => {
-    authStore.logout();
-    router.push(`/${locale}/auth`);
+
+  const handleLogOut = async () => {
+    await authStore.logout();
+    router.push(`/${locale ? locale :`ru`}/auth/login`);
   };
+
+  // const handleLogOut = () => {
+  //   authStore.logout();
+  //   // router.push(`/${locale}/auth`);
+  //   window.location.href = `${window.location.origin}/${`${locale}/auth`}`;
+  //   // window.location.replace('https://new-url.com');
+  //   // setTimeout(() => {
+  //   //     window.location.reload()    
+  //   // },200)
+  // };
 
   if (!isAuth) return null;
   return (
@@ -37,7 +49,7 @@ export const CustomLogOutButton = () => {
       >
         <ExitDoor color="#F04438" />
         <Text lineHeight="20px" fontWeight={500} ml="10px" color="icon.base">
-          Выйти
+          {t(`Выйти`)}
         </Text>
       </Button>
       <Popup

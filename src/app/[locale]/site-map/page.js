@@ -14,7 +14,7 @@ export default function SiteMap() {
 
   const { t } = useTranslation(locale, "translations");
 
-  return <Box bgColor="baseWhite" h="100%">
+  return <Box h="100%">
     <Container>
       <Box width="472px" m="0 auto">
         <Flex justifyContent="center" mb="52px">

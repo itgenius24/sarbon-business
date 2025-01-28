@@ -1,20 +1,148 @@
 import authStore from "@/store/auth.store";
-import { useDeleteCargo, useGetOffer, useGetUserCargo, usePushNotificationMutation, useUpdateResponse } from "@/services/api";
+import {
+  useCreateFeedback,
+  useDeleteCargo,
+  useGetExcelPost,
+  useGetNewPred,
+  useGetOffer,
+  useGetUserCargo,
+  usePushNotificationMutation,
+  useUpdateNoDriver,
+  useUpdateResponse,
+} from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { keyframes, useToast } from "@chakra-ui/react";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
 import { keepPreviousData } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
+import { boolean, object } from "yup";
+import { useForm } from "react-hook-form";
+import { set } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export const useMyLoadsMainProps = () => {
-  const [orderStatus, setOrderStatus] = useState("");
+  const [open, setOpen] = useState(false);
+  const params = useSearchParams();
+  const role_id = authStore.userData.role_id;
+  const orderValStatus = params.get(`value`) || ``;
+  const [dataPred, setDataPred] = useState(false);
+  const router = useRouter();
+  const [accept, setAccept] = useState(false);
+  const [orderStatus, setOrderStatus] = useState(orderValStatus);
+  const [comments, setComments] = useState([]);
+  const { register, watch, setValue } = useForm();
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
+  const [data, setData] = useState([]);
+  const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;
 
   const toast = useToast();
+  const { t } = useTranslation();
 
   const [hasMore, setHasMore] = useState(true);
   const [limit, setLimit] = useState(6);
+
+  const goodComment = [
+    {
+      label: "Все прошло по плану",
+      key: "everything_went_according_to_plan",
+    },
+    {
+      label: "Вовремя получил груз",
+      key: "received_the_cargo_on_time",
+    },
+    {
+      label: "Ответственный водитель",
+      key: "responsible_driver",
+    },
+    {
+      label: "Неудовлетворительное состояние груза",
+      key: "unsatisfactory_cargo_condition",
+    },
+    {
+      label: "Я бы снова работал с этим водителем",
+      key: "i_would_work_with_this_driver_again",
+    },
+  ];
+
+  const badComment = [
+    {
+      label: "Возникли проблемы с доставкой",
+      key: "there_were_problems_with_delivery",
+    },
+    {
+      label: "Задержка достаки",
+      key: "delivery_delay",
+    },
+    {
+      label: "Водитель был недоступен для связи",
+      key: "the_driver_was_unavailable_for_communication",
+    },
+    {
+      label: "Неудовлетворительное состояние транспорта",
+      key: "poor_condition_of_transport",
+    },
+  ];
+
+  const handleCheckboxChange = (key) => {
+    setComments(
+      (prev) =>
+        prev.includes(key)
+          ? prev.filter((item) => item !== key) // Agar tanlangan bo'lsa olib tashlash
+          : [...prev, key] // Aks holda qo'shish
+    );
+  };
+
+  const updateResponseMutation = useUpdateResponse({
+    onSuccess: () => {
+      setAccept(true);
+      setData([]);
+      getOfferCargo.refetch();
+    },
+    onError(res) {
+      console.error(res);
+    },
+  });
+
+  const createFeedback = useCreateFeedback({
+    onSuccess() {
+      toast({
+        title: t("Ваш отзыв отправлен"),
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setComments([]);
+      setSelectedRating(0);
+      setHoverRating(0);
+      updateResponseMutation.mutate({
+        data: {
+          guid: open.guid,
+          review: true,
+        },
+      });
+
+      setOpen(null);
+    },
+  });
+
+  function onSubmit() {
+    createFeedback.mutate({
+      data: {
+        company_id: null,
+        grade: selectedRating,
+        rewiv: watch(`comment`)?.length > 0 ? watch(`comment`) : ``,
+        users_id: open.users_id,
+        review_status: comments,
+        users_id_2: authStore.userData.id,
+        status: ["driver"],
+      },
+    });
+  }
 
   const getAllUserCargoParams = {
     limit,
@@ -23,67 +151,172 @@ export const useMyLoadsMainProps = () => {
       users_id: userId,
       with_relations: true,
       cargo_type: ["cargo"],
-    })
+    }),
   };
 
   const getCargoFilterParams = {
     limit,
     offset: 0,
     data: JSON.stringify({
-      users_id_3: userId,
+      // users_id_3: userId,
+      users_id_2:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+          ? undefined
+          : orderStatus === "new"
+          ? undefined
+          : userId,
+      users_id_3:
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? userId : undefined,
       with_relations: true,
-    })
+    }),
   };
 
-  const isCargo = !orderStatus || orderStatus === "in_moderation";
+  const isCargo =
+    !orderStatus ||
+    orderStatus === "in_moderation" ||
+    orderStatus === `in_active`;
 
-  if(orderStatus === "approve_from_driver") {
-
+  if (orderStatus === "approve_from_driver") {
     const data = JSON.parse(getCargoFilterParams.data);
-    data.response_status = [orderStatus];
-    data.provisions = ["new"];
-    getCargoFilterParams.data = JSON.stringify(data);
-
-  } else if(orderStatus === "performed" || orderStatus === "cancellation" || orderStatus === "archive") {
-
+    // data.response_status = [orderStatus];
+    // data.provisions = ["new"];
+    (data.provisions = ["new", "approve_from_driver"]),
+      (getCargoFilterParams.data = JSON.stringify(data));
+  } else if (
+    orderStatus === "performed" ||
+    orderStatus === "cancellation" ||
+    orderStatus === "archive"
+  ) {
     const data = JSON.parse(getCargoFilterParams.data);
     data.provisions = [orderStatus];
     getCargoFilterParams.data = JSON.stringify(data);
-
-  } else if(orderStatus === "in_moderation") {
-
+  } else if (orderStatus === "in_moderation") {
     const data = JSON.parse(getAllUserCargoParams.data);
-    data.order_status = [orderStatus, "rejected"];
+    data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
-
-  } else if(orderStatus === "new") {
-
-    const data = JSON.parse(getCargoFilterParams.data);
-    data.provisions = [orderStatus];
-    getCargoFilterParams.data = JSON.stringify(data);
-
+  } else if (orderStatus === "in_active") {
+    const data = JSON.parse(getAllUserCargoParams.data);
+    data.order_status = [orderStatus];
+    getAllUserCargoParams.data = JSON.stringify(data);
   }
+  //  else if (orderStatus === "new") {
+  //   const data = JSON.parse(getCargoFilterParams.data);
+  //   data.provisions = ["approve_by_customer"];
+  //   // data.response_status = ["approve_by_customer"];
+  //   getCargoFilterParams.data = JSON.stringify(data);
+  // }
 
-  const getAllUserCargo = useGetUserCargo(
-    getAllUserCargoParams,
-    {
-      enabled: !!userId && (orderStatus === "" || orderStatus === "in_moderation") && hasMore,
-      placeholderData: keepPreviousData
+  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
+    enabled:
+      !!userId &&
+      (orderStatus === "" ||
+        orderStatus === "in_moderation" ||
+        orderStatus === "in_active") &&
+      hasMore,
+    placeholderData: keepPreviousData,
+  });
+
+  const getOfferCargo = useGetOffer(getCargoFilterParams, {
+    enabled: !!userId && !isCargo && hasMore,
+    placeholderData: keepPreviousData,
+  });
+
+  const getNewPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setData(data);
+      setAccept(false);
+    },
+  });
+
+  const getNoDisPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setDataDis(data);
+      setAccept(false);
+    },
+  });
+
+  useEffect(() => {
+    if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
+      // router.push(`?value=new&label=Предложение`);
+      setOrderStatus(`new`);
     }
+  }, []);
+
+  useEffect(() => {
+    getNewPred.mutate({
+      data: {
+        object_data: {
+          dispetchir_id: userId,
+        },
+      },
+    });
+  }, [Boolean(orderStatus === "new"), accept]);
+
+  useEffect(() => {
+    getNoDisPred.mutate({
+      data: {
+        object_data: {
+          dispetchir_id: ``,
+        },
+      },
+    });
+  }, [Boolean(orderStatus === `no_dispatcher`), accept]);
+
+  const getOfferCount = useGetOffer(
+    {
+      limit,
+      offset: 0,
+      data: JSON.stringify({
+        users_id_3: userId,
+        with_relations: true,
+        provisions: ["approve_by_customer"],
+      }),
+    },
+    { enabled: true }
   );
 
-  const getOfferCargo = useGetOffer(
-    getCargoFilterParams,
+  const getWaitingDriverCount = useGetOffer(
     {
-      enabled: !!userId && !isCargo && hasMore,
-      placeholderData: keepPreviousData
-    }
+      limit,
+      offset: 0,
+      data: JSON.stringify({
+        users_id_2:
+          role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+            ? undefined
+            : orderStatus === "new"
+            ? undefined
+            : userId,
+        users_id_3:
+          role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+            ? userId
+            : undefined,
+        with_relations: true,
+        // response_status: ["approve_from_driver"],
+        provisions: ["new", "approve_from_driver"],
+      }),
+    },
+    { enabled: false }
   );
+
+  useEffect(() => {
+    getOfferCount.refetch();
+    getWaitingDriverCount.refetch();
+  }, [accept, orderStatus]);
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
       setTimeout(() => {
-        if(isCargo) {
+        if (isCargo) {
           getAllUserCargo.refetch();
         } else {
           getOfferCargo.refetch();
@@ -99,28 +332,57 @@ export const useMyLoadsMainProps = () => {
     },
     onError(res) {
       console.error(res);
-    }
+    },
   });
 
-  const updateResponseMutation = useUpdateResponse({
-    onError(res) {
-      console.error(res);
+  const updateNoDriver = useUpdateNoDriver({});
+
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
     }
+  };
+
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
   });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          customer_id: authStore?.userData?.id,
+          type: "customer",
+        },
+      },
+    });
+  };
 
   const pushNotification = usePushNotificationMutation();
 
-  function handleCancel(id) {
+  function handleCancel(cargo) {
     updateResponseMutation.mutate(
       {
-        data:{
-          guid: id,
-          provisions:["cancellation"]
-        }
+        data: {
+          guid: cargo?.guid,
+          provisions: ["cancellation"],
+          who_cancellation: ["customer"],
+        },
       },
       {
         onSuccess() {
-          if(isCargo) {
+          if (isCargo) {
             getAllUserCargo.refetch();
           } else {
             getOfferCargo.refetch();
@@ -132,30 +394,47 @@ export const useMyLoadsMainProps = () => {
             duration: 2000,
             isClosable: true,
           });
-        }
+        },
       }
     );
+
+    if (orderStatus === `no_dispatcher`) {
+      updateNoDriver.mutate({
+        data: {
+          users_id: cargo?.users_id,
+          users_id_2: authStore.userData.guid,
+          firm_id: authStore.userData.firm_id || ``,
+        },
+      });
+    }
   }
+
+
 
   function handleAccept(id, driverId) {
     pushNotification.mutate({
-      data:{
-        object_data:{
+      data: {
+        object_data: {
           guid: driverId,
-          responses: id
-        }
-      }
+          responses: id,
+        },
+      },
     });
+
+   
     updateResponseMutation.mutate(
       {
-        data:{
+        data: {
           guid: id,
-          response_status:["approve_from_driver"]
-        }
+          users_id_3: userId,
+          approve_time_from_dispatcher: new Date().toISOString(),
+          provisions: ["new", "approve_from_driver"],
+          // response_status: ["approve_from_driver"],
+        },
       },
       {
         onSuccess() {
-          if(isCargo) {
+          if (isCargo) {
             getAllUserCargo.refetch();
           } else {
             getOfferCargo.refetch();
@@ -167,18 +446,30 @@ export const useMyLoadsMainProps = () => {
             duration: 2000,
             isClosable: true,
           });
-        }
+        },
       }
     );
+    if (orderStatus === `no_dispatcher`) {
+      updateNoDriver.mutate({
+        data: {
+          users_id: dataPred?.users_id,
+          users_id_2: authStore.userData.guid,
+          firm_id: authStore.userData.firm_id || ``,
+        },
+      });
+    }
+    setDataPred(false);
+
   }
 
-  function handleDelete (id) {
+  function handleDelete(id) {
     deleteCargo.mutate({ id });
   }
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
-  function onFilterChange({ value }) {
+  function onFilterChange({ label, value }) {
+    router.push(`?value=${value}&label=${label}`);
     setOrderStatus(value);
     setLimit(6);
     setHasMore(true);
@@ -189,19 +480,18 @@ export const useMyLoadsMainProps = () => {
   const setDebouncedLimit = useDebounce(setLimit, 450);
 
   function handleLoadMore() {
-    setDebouncedLimit(prev => prev + 6);
+    setDebouncedLimit((prev) => prev + 6);
   }
 
   const handleScroll = () => {
-
-    if(ref.current) {
+    console.log(`ref`, ref);
+    if (ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
 
-      if(isVisible && hasMore) {
-        setDebouncedLimit(prev => prev + 6);
+      if (isVisible && hasMore) {
+        setDebouncedLimit((prev) => prev + 6);
       }
     }
-
   };
 
   useEffect(() => {
@@ -210,22 +500,33 @@ export const useMyLoadsMainProps = () => {
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
-
   }, []);
 
   useEffect(() => {
-
-    if(cargosData.data?.count && cargosData.data?.count === cargosData.data?.response.length) {
+    if (
+      cargosData.data?.count &&
+      cargosData.data?.count === cargosData.data?.response.length
+    ) {
       setHasMore(false);
     } else {
       setHasMore(true);
     }
-
   }, [getAllUserCargo.data, getOfferCargo.data]);
 
   return {
-    cargos: cargosData.data?.response,
-    isLoading: cargosData.isLoading,
+    cargos:
+      orderStatus === `new`
+        ? data
+        : orderStatus === `no_dispatcher`
+        ? dataDis
+        : cargosData.data?.response,
+
+    isLoading:
+      Boolean(
+        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+          getNewPred.isPending &&
+          orderStatus === `new`
+      ) || cargosData.isLoading,
     hasMore,
     onFilterChange,
     handleDelete,
@@ -234,5 +535,27 @@ export const useMyLoadsMainProps = () => {
     handleCancel,
     ref,
     handleLoadMore,
+    driverCount: data?.length,
+    noDataDisCount: dataDis?.length,
+    waitingDriverCount: getWaitingDriverCount.data?.count,
+    setDataPred,
+    dataPred,
+    getExcelFileFn,
+    isPendingExe: getExcelFile.isPending,
+    open,
+    setOpen,
+    goodComment,
+    badComment,
+    register,
+    watch,
+    setValue,
+    setComments,
+    handleCheckboxChange,
+    comments,
+    selectedRating,
+    setSelectedRating,
+    hoverRating,
+    setHoverRating,
+    onSubmit,
   };
 };

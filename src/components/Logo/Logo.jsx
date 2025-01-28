@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Box } from "@chakra-ui/react";
 import { useGetLang } from "@/hooks/useGetLang";
 
-export const Logo = ({ width = 35, height = 35 }) => {
+export const Logo = ({ width = 150, height = 150 }) => {
 
   const locale = useGetLang();
 
@@ -14,8 +14,8 @@ export const Logo = ({ width = 35, height = 35 }) => {
       height={height}
       src={"/svg/logo.svg"}
       alt="logo"
-      style={{ borderRadius: "50%" }}
+      // style={{ borderRadius: "50%" }}
     />
-    <Box as="span">Furgo</Box>
+    {/* <Box as="span">Furgo</Box> */}
   </Link>;
 };

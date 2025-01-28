@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
-export const Modal = ({
+export const ModalS = ({
   isOpen,
   onClose,
   children,
@@ -23,36 +23,46 @@ export const Modal = ({
   width,
   withFooter = true,
   isDisabled,
+  firstBtnProps = {},
+  secondBtnProps = {},
   ...props
 }) => {
-
-  return <ChakraModal isOpen={isOpen} onClose={onClose} {...props}>
-    <ModalOverlay />
-    <ModalContent maxWidth={width}>
-      <ModalHeader style={{ fontSize: "18px" }}>
-        {title}
-        {
-          withCloseBtn && <ModalCloseButton />
-        }
-      </ModalHeader>
-      <ModalBody>
-        {children}
-      </ModalBody>
-      {
-        withFooter && <ModalFooter>
-          {
-            !oneBtn && <Button variant="secondaryWhite" border="1px solid #000" borderColor="brand.300" mr={3} onClick={firstBtnCallback || onClose}>
-              {firstBtnText || "Закрыть"}
+  return (
+    <ChakraModal isOpen={isOpen} onClose={onClose} {...props}>
+      <ModalOverlay />
+      <ModalContent maxWidth={width}>
+        <ModalHeader style={{ fontSize: "18px" }}>
+          {title}
+          {withCloseBtn && <ModalCloseButton />}
+        </ModalHeader>
+        <ModalBody>{children}</ModalBody>
+        {withFooter && (
+          <ModalFooter>
+            {!oneBtn && (
+              <Button
+                variant="secondaryWhite"
+                border="1px solid #000"
+                borderColor="brand.300"
+                mr={3}
+                onClick={firstBtnCallback || onClose}
+                {...firstBtnProps}
+              >
+                {firstBtnText || "Закрыть"}
+              </Button>
+            )}
+            <Button
+              {...secondBtnProps}
+              isDisabled={isDisabled}
+              onClick={(e) => {
+                e.stopPropagation();
+                secondBtnCallback();
+              }}
+            >
+              {secondBtnText}
             </Button>
-          }
-          <Button isDisabled={isDisabled} onClick={(e) => {
-            e.stopPropagation();
-            secondBtnCallback();
-          }}>
-            {secondBtnText}
-          </Button>
-        </ModalFooter>
-      }
-    </ModalContent>
-  </ChakraModal>;
+          </ModalFooter>
+        )}
+      </ModalContent>
+    </ChakraModal>
+  );
 };

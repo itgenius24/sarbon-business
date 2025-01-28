@@ -1,9 +1,11 @@
 .mobileApp {
-  padding: 48px 32px;
+  padding: 68px 32px;
+  // background-color: red;
 }
 
 .leftContent {
-  max-width: 50%;
+  max-width: 100%;
+  // background-color: red;
 }
 
 .leftContentInner {
@@ -12,12 +14,32 @@
 
 .bannerImage {
   position: absolute;
+
   top: 50%;
   transform: translate(0%, -50%);
+  border-radius: 8px !important;
+  img{
+  border-radius: 8px;
+
+  }
 }
 
 .bannerWrapper {
   max-width: 50%;
+  // height: 300px;
+  // background-color: red;
+  margin-top: -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include lg {
+    width: 100% !important;
+  margin-top: 0px;
+  background-color: #fff;
+
+  }
+
 }
 
 .list {
@@ -38,6 +60,7 @@
   
   .contentWrapper {
     flex-direction: column-reverse;
+   
   }
   
   .leftContent {
@@ -55,11 +78,15 @@
     object-fit: cover;
     position: static;
     transform: none;
+  
   }
 
   .bannerWrapper {
     max-width: 100%;
     margin-bottom: 8px;
+    border-radius: 8px;
+    padding: 10px;
+   
   }
 
   .list {

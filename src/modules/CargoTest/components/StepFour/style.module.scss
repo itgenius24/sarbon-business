@@ -1,0 +1,181 @@
+.containerCards {
+  width: 100%;
+  max-width: 1432px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    padding: 16px;
+    background-color: white;
+  }
+}
+.step1 {
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  border-radius: 12px;
+  padding: 22px 42px 22px 22px;
+  .contendWrap {
+    margin-top: 50px;
+  }
+  .stepTitle {
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--primary-text);
+    //   margin-top: 9px;
+  }
+  .stepTitle2 {
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--primary-text);
+    margin-bottom: 12px;
+    span {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+  .subTitle {
+    color: rgba(126, 123, 134, 1);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .subTitle2 {
+    color: rgba(33, 31, 38, 1);
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 30px;
+  }
+  .logoWrap {
+    display: block;
+  }
+  .logoWrapMobile {
+    display: none;
+  }
+  .quickWord {
+    color: rgba(0, 122, 255, 1);
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    border-bottom: 1.5px dashed rgba(0, 122, 255, 1);
+    //    text-decoration: underline dotted;
+  }
+  .textFieldName {
+    font-weight: 400;
+    font-size: 14px;
+    // margin-bottom: 5px;
+    height: 30px;
+  }
+  .additionalFields {
+    border-top: 1px solid rgba(219, 216, 227, 1);
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-text);
+  }
+  .title {
+    font-weight: 600;
+    font-size: 20px;
+    color: rgba(33, 31, 38, 1);
+  }
+  .totalTEet {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 28px;
+  }
+  .totalSum {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    color: rgba(0, 122, 255, 1);
+  }
+  .textarea {
+    width: 100%;
+    padding: 10px 14px;
+    outline: none;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid var(--brand-300);
+    overflow-y: hidden;
+
+    &:focus {
+      box-shadow: 0px 0px 0px 4px #e3f0ff;
+    }
+    &:not(:placeholder-shown) {
+      background-color: white;
+    }
+    &::placeholder {
+      color: var(--brand-500);
+      font-weight: 400;
+    }
+  }
+  .ActiveRadio {
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(33, 31, 38, 1);
+  }
+  .radio {
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(126, 123, 134, 1);
+  }
+  .radioWrapMobile {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0px;
+    .subTitle {
+      font-size: 13px;
+    }
+    .quickWord {
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+    }
+    .logoWrap {
+      display: none;
+    }
+    .logoWrapMobile {
+      display: block;
+    }
+    .textField2 {
+      width: 100% !important;
+    }
+    .radioWrap {
+      display: none;
+    }
+    .topWrapper {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .contendWrap {
+      margin-top: 20px;
+    }
+    .radioWrapMobile {
+      display: block;
+    }
+    .inputWrap {
+      flex-direction: column;
+      row-gap: 20px;
+    }
+    .checkWrap {
+      flex-direction: column;
+    }
+    box-shadow: none;
+  }
+}
+.nextBtn {
+  width: fit-content;
+  padding: 27px 28px !important;
+  font-size: 18px;
+  font-weight: 600;
+  background-color:  var(--primary) !important;
+  margin-top: 30px;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 16px !important;
+  }
+}
