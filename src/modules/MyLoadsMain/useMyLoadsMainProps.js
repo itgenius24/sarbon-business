@@ -180,7 +180,7 @@ export const useMyLoadsMainProps = () => {
     const data = JSON.parse(getCargoFilterParams.data);
     // data.response_status = [orderStatus];
     // data.provisions = ["new"];
-    (data.provisions = ["new", "approve_from_driver"]),
+    (data.provisions = ["approve_from_driver"]),
       (getCargoFilterParams.data = JSON.stringify(data));
   } else if (
     orderStatus === "performed" ||
@@ -302,7 +302,7 @@ export const useMyLoadsMainProps = () => {
             : undefined,
         with_relations: true,
         // response_status: ["approve_from_driver"],
-        provisions: ["new", "approve_from_driver"],
+        provisions: [ "approve_from_driver"],
       }),
     },
     { enabled: false }
