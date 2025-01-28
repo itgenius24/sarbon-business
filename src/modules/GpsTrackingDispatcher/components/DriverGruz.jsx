@@ -297,7 +297,8 @@ const DriverGruz = ({
                 textOverflow: `ellipsis`,
                 width: `100%`,
              }}>
-                Список ближайших в груз Excel
+             
+                Список ближайших машин в Excel
              </p>
           </Flex>
         </Box>

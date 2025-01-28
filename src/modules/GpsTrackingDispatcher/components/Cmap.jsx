@@ -183,11 +183,7 @@ const Cmap = memo(
         {console.log(`type`, type)}
 
         <Clusterer
-          // modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
           options={{
-            // clusterDisableClickZoom: true,
-            // clusterCaption:`wdwdw`,
-            // customBalloonContentLayout:,
             clusterIconColor: "rgba(52, 199, 89, 1)",
             style: {
               backgroundColor: "rgba(52, 199, 89, 1)",
@@ -536,27 +532,6 @@ const Cmap = memo(
                       iconImageOffset: [-15, -42],
                     }}
                     modules={["geoObject.addon.balloon"]}
-                    onBalloonOpen={(e) => {
-                      const placemark = e.get("target");
-                      const balloonInstance = placemark.balloon;
-                      // balloonInstance.events.add("click", () => {
-                      //   setContendSingle(carInfo);
-                      //   if (carInfo?.user?.provisions?.[0] === "our_cargo") {
-                      //     setModalType("driverCheck");
-                      //   } else if (
-                      //     carInfo?.user?.provisions?.[0] === "someone_cargo"
-                      //   ) {
-                      //     setModalType("driverQuestion");
-                      //   } else if (
-                      //     carInfo?.user?.provisions?.[0] ===
-                      //     "waiting_for_driver"
-                      //   ) {
-                      //     setModalType("driverExpectation");
-                      //   } else {
-                      //     setModalType("driverFree");
-                      //   }
-                      // });
-                    }}
                     onClick={() => {
                       setContendSingle(carInfo);
                       if (carInfo?.user?.provisions?.[0] === "our_cargo") {
