@@ -107,6 +107,7 @@ const DriverFree = ({
           driver_name:contendSingle?.user?.full_name,
           driver_number:contendSingle?.user?.phone,
           type: "dispatcher_driver",
+          dispatcher_name:authStore.userData.full_name,
           distance: +watch(`distance`),
           lat: contendSingle.lat * 1,
           long: contendSingle?.long * 1,
