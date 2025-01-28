@@ -3,9 +3,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useLoginMutation, useOneLoginMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
-import { da } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { setCookie } from "nookies";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
