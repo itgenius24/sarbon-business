@@ -12,6 +12,8 @@ import { color } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 export const useDashboard = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [date2, setDate2] = useState([]);
@@ -29,6 +31,7 @@ export const useDashboard = () => {
     useLogistikaGpsTrackingFilterDriverPred({
       onSuccess: (res) => {
         setData(res);
+        setCurrentPage(1);
       },
     });
 
@@ -47,8 +50,8 @@ export const useDashboard = () => {
   };
 
   const getWeekRange = () => {
-    setStartDate(``)
-    setEndDate(``)
+    setStartDate(``);
+    setEndDate(``);
     const today = new Date();
     const dayOfWeek = today.getUTCDay(); // Yakshanba=0, Dushanba=1, ..., Shanba=6
     const weekStart = new Date(today);
@@ -63,10 +66,9 @@ export const useDashboard = () => {
     setDate2([weekStart, weekEnd]);
   };
 
- 
   const getMonthRange = () => {
-    setStartDate(``)
-    setEndDate(``)
+    setStartDate(``);
+    setEndDate(``);
     const today = new Date();
     const monthStart = new Date(
       Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1, 0, 0, 0)
@@ -83,7 +85,7 @@ export const useDashboard = () => {
         nextMonth.getUTCDate(),
         23,
         59,
-        59,
+        59
       )
     );
 
@@ -96,36 +98,38 @@ export const useDashboard = () => {
     } else if (date === "monthly") {
       getMonthRange();
     }
-  }, [date,endDate,startDate]);
-
-
+  }, [date, endDate, startDate]);
 
   useEffect(() => {
-    console.log(`date2`,date2)
     filterData({
       data: {
         object_data: {
           filter: filter[status],
-          start_date: date2.length > 0 ? date2[0] : startDate
-            ? startDate?.getDate() === endDate?.getDate()
-              ? formatDate(startDate, 0, 0, 0)
-              : new Date(startDate)
-            : ``,
-          end_date: date2.length > 0 ? date2[1] : endDate
-            ? startDate?.getDate() === endDate?.getDate()
-              ? formatDate(endDate, 23, 59, 59)
-              : new Date(endDate)
-            : ``,
-          all_date: (startDate || endDate) ? false :  date2.length > 0 ? false : true,
+          start_date:
+            date2.length > 0
+              ? date2[0]
+              : startDate
+              ? startDate?.getDate() === endDate?.getDate()
+                ? formatDate(startDate, 0, 0, 0)
+                : new Date(startDate)
+              : ``,
+          end_date:
+            date2.length > 0
+              ? date2[1]
+              : endDate
+              ? startDate?.getDate() === endDate?.getDate()
+                ? formatDate(endDate, 23, 59, 59)
+                : new Date(endDate)
+              : ``,
+          all_date:
+            startDate || endDate ? false : date2.length > 0 ? false : true,
           type: "dashboard",
           limit: 1000,
           page: 1,
         },
       },
     });
-  }, [startDate, endDate, status,date2]);
-
-
+  }, [startDate, endDate, status, date2]);
 
   const { data: useList } = useGetUserData({
     params: {
@@ -145,7 +149,10 @@ export const useDashboard = () => {
 
   const { data: useCargo, isLoading } = useGetUserCargo2({
     params: {
-      data: JSON.stringify({}),
+      data: JSON.stringify({
+        order_status: ["active"],
+        cargo_type:["cargo"]
+      }),
     },
   });
 
@@ -182,7 +189,7 @@ export const useDashboard = () => {
     {
       id: 4,
       total: useCargo?.count || 0,
-      deck: `Общее количество грузов`,
+      deck: `Общее количество активных грузов`,
       bg: `rgba(193, 187, 32, 1)`,
       color: `rgba(193, 187, 32, 0.3)`,
     },
@@ -557,6 +564,8 @@ export const useDashboard = () => {
     isLoading,
     date,
     setDate,
-    setDate2
+    setDate2,
+    setCurrentPage,
+    currentPage,
   };
 };

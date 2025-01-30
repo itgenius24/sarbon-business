@@ -57,6 +57,8 @@ const Dashboard = () => {
     date,
     setDate,
     setDate2,
+    setCurrentPage,
+    currentPage
   } = useDashboard();
 
   return (
@@ -160,7 +162,7 @@ const Dashboard = () => {
         </Flex>
 
         <Box padding={`16px`} borderRadius={`12px`} backgroundColor={`white`}>
-          <Tabs onChange={(el) => setStatus(el)} variant="unstyled">
+          <Tabs onChange={(el) => {setStatus(el),setCurrentPage(1)}} variant="unstyled">
             <TabList>
               <Tab value={`driver`}> Водитель</Tab>
               <Tab value={`ekspiditor`}> Перевозчик</Tab>
@@ -179,6 +181,8 @@ const Dashboard = () => {
                   isLoading={isPending}
                   columns={columns2}
                   data={data.response}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
                 />
               </TabPanel>
               <TabPanel>
@@ -186,6 +190,8 @@ const Dashboard = () => {
                   isLoading={isPending}
                   columns={columns1}
                   data={data.response}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
                 />
               </TabPanel>
               <TabPanel>
@@ -193,6 +199,8 @@ const Dashboard = () => {
                   isLoading={isPending}
                   columns={columns3}
                   data={data.response}
+                        setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
                 />
               </TabPanel>
               <TabPanel>
@@ -200,6 +208,8 @@ const Dashboard = () => {
                   isLoading={isPending}
                   columns={columns4}
                   data={data.response}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
                 />
               </TabPanel>
             </TabPanels>

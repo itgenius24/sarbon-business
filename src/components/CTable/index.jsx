@@ -19,11 +19,12 @@ const CTable = ({
   columns = [],
   data = [],
   total = data?.length,
+  setCurrentPage,
+  currentPage
 }) => {
   const filterRowIsVisible = useMemo(() => {
     return columns.some((column) => column.filterType);
   }, [columns]);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const paginatedData = data?.slice(
     (currentPage - 1) * pageSize,
