@@ -315,7 +315,7 @@ export const useDashboard = () => {
       title: `Диспетчер`,
       dataIndex: "",
       render: (_, row) =>
-        row?.dispatcher_details?.[0]?.full_name || (
+        row?.dispatcher_details?.full_name || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -370,7 +370,7 @@ export const useDashboard = () => {
       title: `Диспетчер`,
       dataIndex: "",
       render: (_, row) =>
-        row?.dispatcher_details?.[0]?.full_name || (
+        row?.dispatcher_details?.full_name || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -381,11 +381,11 @@ export const useDashboard = () => {
     },
   ];
   const columns3 = [
-    {
-      title: `ID`,
-      dataIndex: "your_id",
-      width: 200,
-    },
+    // {
+    //   title: `ID`,
+    //   dataIndex: "your_id",
+    //   width: 200,
+    // },
     {
       title: `Гос номер`,
       dataIndex: "car_number",

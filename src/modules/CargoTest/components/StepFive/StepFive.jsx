@@ -192,6 +192,7 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
+        create_time:new Date(),
         notification:watch(`notification`) ? watch(`notification`) :false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
@@ -275,6 +276,7 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
+        create_time:new Date(),
         notification:watch(`notification`) ? watch(`notification`) :false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
