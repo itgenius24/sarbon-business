@@ -75,7 +75,7 @@ export const useLoginProps = () => {
   const loginOne = useOneLoginMutation({
     onSuccess: (data) => {
       const clientTypeId = data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]?.client_types?.response?.[0]?.guid;
-       console.log(`clientTypeId`,clientTypeId)
+       console.log(`clientTypeId`,clientTypeId ===  analiticTypeId,clientTypeId, analiticTypeId)
       if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId || clientTypeId ===  dispachaerTypeId || clientTypeId ===  analiticTypeId) {
         login.mutate({
           username: watch("username"),
