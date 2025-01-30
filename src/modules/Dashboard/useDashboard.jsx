@@ -487,6 +487,13 @@ export const useDashboard = () => {
       width: 200,
     },
     {
+      title: `Дата созд.`,
+      dataIndex: "createdAt",
+      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{format(row.createdAt, `yyyy-MM-dd`)}</p>,
+
+      width: 200,
+    },
+    {
       title: `Откуда`,
       dataIndex: "from",
       render: (_, row) =>
