@@ -252,6 +252,7 @@ export const useSearchCargo = () => {
         fuel_id: val?.fuel_id?.value ? val?.fuel_id?.value : val?.fuel_id,
         eco_standart: val?.eco_standart?.value,
         guid: id ? id : undefined,
+        create_time: id ? undefined : new Date()
       },
     };
 
