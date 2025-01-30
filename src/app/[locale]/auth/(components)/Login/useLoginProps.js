@@ -17,8 +17,8 @@ export const useLoginProps = () => {
 
   const customerTypeId = process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID;
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
-  const dispachaerTypeId = process.env.NEXT_PUBLIC_DISPACR_TYPE_ID; 
-  const analiticTypeId = process.env.NEXT_PUBLIC_ANALITIK_TYPE_ID; 
+  const dispachaerTypeId = process.env.NEXT_PUBLIC_DISPACR_TYPE_ID;
+  const analiticTypeId = process.env.NEXT_PUBLIC_ANALITIK_TYPE_ID;
 
   const [remember, setRemember] = useState(false);
 
@@ -74,9 +74,16 @@ export const useLoginProps = () => {
 
   const loginOne = useOneLoginMutation({
     onSuccess: (data) => {
-      const clientTypeId = data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]?.client_types?.response?.[0]?.guid;
-       console.log(`clientTypeId`,clientTypeId ===  analiticTypeId,clientTypeId, analiticTypeId)
-      if (clientTypeId === customerTypeId || clientTypeId === expeditorTypeId || clientTypeId ===  dispachaerTypeId || clientTypeId ===  analiticTypeId) {
+      const clientTypeId =
+        data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
+          ?.client_types?.response?.[0]?.guid;
+    
+      if (
+        clientTypeId === customerTypeId ||
+        clientTypeId === expeditorTypeId ||
+        clientTypeId === dispachaerTypeId ||
+        clientTypeId === analiticTypeId
+      ) {
         login.mutate({
           username: watch("username"),
           password: watch("password"),

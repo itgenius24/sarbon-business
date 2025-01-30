@@ -6,6 +6,13 @@
     cursor: pointer;
   }
 
+  .clear{
+    color: red;
+    font-weight: 400;
+    border-bottom: 1px dashed red;
+    cursor: pointer;
+  }
+
   .activeMonth{
     color: var(--primary);
     font-weight: 400;

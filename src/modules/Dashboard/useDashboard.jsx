@@ -7,6 +7,8 @@ import {
   useGetVehicleSingle,
   useLogistikaGpsTrackingFilterDriverPred,
 } from "@/services/api";
+import { Tooltip } from "@chakra-ui/react";
+
 import { format } from "date-fns";
 import { color } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -36,17 +38,9 @@ export const useDashboard = () => {
     });
 
   const formatDate = (date, hours, minutes, seconds) => {
-    const newDate = new Date(
-      Date.UTC(
-        new Date(date).getFullYear(),
-        new Date(date).getMonth(),
-        new Date(date).getDate(),
-        hours,
-        minutes,
-        seconds
-      )
-    );
-    return newDate.toISOString();
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, seconds, 0);
+    return newDate;
   };
 
   const getWeekRange = () => {
@@ -97,6 +91,11 @@ export const useDashboard = () => {
       getWeekRange();
     } else if (date === "monthly") {
       getMonthRange();
+    } else if (date === "clear") {
+      setDate2([]);
+      setEndDate(``);
+      setStartDate(``);
+      setCurrentPage(1);
     }
   }, [date, endDate, startDate]);
 
@@ -151,7 +150,7 @@ export const useDashboard = () => {
     params: {
       data: JSON.stringify({
         order_status: ["active"],
-        cargo_type:["cargo"]
+        cargo_type: ["cargo"],
       }),
     },
   });
@@ -443,7 +442,7 @@ export const useDashboard = () => {
       title: `Топливо`,
       dataIndex: "photo",
       render: (_, row) =>
-        row?.fuel?.[0]?.name || (
+        row?.fuel_data?.full || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -490,17 +489,33 @@ export const useDashboard = () => {
     {
       title: `Откуда`,
       dataIndex: "from",
-      width: 400,
+      render: (_, row) =>
+        row?.from?.length > 20 ? (
+          <Tooltip color={`black`}
+          boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+          background={`#fff`} label={row.from}><p>{row?.from?.slice(0, 20)}...</p></Tooltip>
+        ) : 
+          row?.from
+        ,
+      width: 500,
     },
     {
       title: `Куда`,
       dataIndex: "to",
-      width: 400,
+      render: (_, row) =>
+        row?.to?.length > 20 ? (
+          <Tooltip color={`black`}
+          boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+          background={`#fff`} label={row.to}><p>{row?.to?.slice(0, 20)}...</p></Tooltip>
+        ) : 
+          row?.to
+        ,
+      width: 500,
     },
     {
       title: `Тип груза`,
       dataIndex: "product_type",
-      width: 200,
+      width: 100,
     },
     {
       title: `Тип машина`,
@@ -541,7 +556,7 @@ export const useDashboard = () => {
       title: `Статус  груза`,
       dataIndex: "",
       render: (_, row) =>
-        row?.order_status === `active` ? `Активен` : `Не активен`,
+        row?.order_status?.[0] === `active` ? `Активен` : `Не активен`,
       width: 200,
     },
   ];

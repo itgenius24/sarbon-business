@@ -106,6 +106,12 @@ const Dashboard = () => {
                   >
                     Месяц
                   </p>
+                  <p
+                    className={cls.clear}
+                    onClick={() => setDate(`clear`)}
+                  >
+                    Очистить фильтр
+                  </p>
                 </Flex>
               </Flex>
               <Flex justifyContent={`center`}>
