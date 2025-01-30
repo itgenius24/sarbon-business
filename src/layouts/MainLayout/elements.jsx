@@ -145,7 +145,20 @@ export const useElements = () => {
     ];
 
     return menu;
-  } else {
+  }else if(role_id ==="527d2017-2dc2-4449-9eeb-08fc1aafa469"){
+    return [
+      {
+        path: `/${lang || "ru"}/`,
+        label: "Главный",
+      },
+      {
+        path: `/${lang || "ru"}/dashboard`  ,
+        label: "Аналитика",
+      },
+    ];
+  }
+  
+  else {
     return [
       {
         path: `/${lang || "ru"}/`,
