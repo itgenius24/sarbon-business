@@ -304,6 +304,39 @@ export const useGetUserData = ({
   });
 };
 
+export const useGetUserCargo2 = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCargo2212", params],
+    queryFn: () => objectService.getUserCargo(params),
+    ...querySettings,
+  });
+};
+
+export const useGetVehicle2 = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getVehicle233", params],
+    queryFn: () => objectService.getVehicle(params),
+    ...querySettings,
+  });
+};
+
+
+
+export const useGetUserCargo = (params , settings) => {
+  return useQuery({
+    queryKey: ["object/getUserCargo", params],
+    queryFn: () => objectService.getUserCargo(params),
+    ...settings,
+  });
+};
+
+
 export const useGetCarNumber = ({
   params = { data: JSON.stringify({}) },
   querySettings,
@@ -396,13 +429,6 @@ export const useGetPaymentType = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-export const useGetUserCargo = (params, settings) => {
-  return useQuery({
-    queryKey: ["object/getUserCargo", params],
-    queryFn: () => objectService.getUserCargo(params),
-    ...settings,
-  });
-};
 
 export const useGetUserCargoPagination = (params, settings) => {
   return useInfiniteQuery({

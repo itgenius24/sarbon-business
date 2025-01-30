@@ -34,6 +34,32 @@ export const filterTabsDis = [
     value: "no_dispatcher",
   },
 ];
+export const filterTabstopDis = [
+  {
+    label: "Предложение",
+    value: "new",
+  },
+  {
+    label: "Ждём водителя",
+    value: "approve_from_driver",
+  },
+  {
+    label: "В исполнение",
+    value: "performed",
+  },
+  {
+    label: "Отменённые",
+    value: "cancellation",
+  },
+  {
+    label: "Завершение",
+    value: "archive",
+  },
+  {
+    label: "Водители",
+    value: "driver",
+  },
+];
 
 
  

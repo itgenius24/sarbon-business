@@ -3949,6 +3949,11 @@ react-select@5.8.0:
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"
 
+react-slot-counter@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-slot-counter/-/react-slot-counter-3.1.0.tgz#2296fc54671bc2943f7400d667408c397c2a2b61"
+  integrity sha512-fZSKgw6Miy1hlA0KAC9kGcaWVHMcO0N0nQ8YfEgk90Z+DG35QYruc5lC4fUP0lC30Wd0rmApjh/pnHOGh01Ppw==
+
 react-style-singleton@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-style-singleton/-/react-style-singleton-2.2.1.tgz"

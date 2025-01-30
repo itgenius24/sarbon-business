@@ -20,7 +20,8 @@
             padding: 12px 16px;
             font-weight: 600;
             text-align: left;
-            border-bottom: 2px solid #e8e8e8;
+            border-bottom: 2px solid #e8e8e8 !important;
+     
           }
         }
       }
@@ -37,6 +38,7 @@
           td {
             padding: 12px 16px;
             border-bottom: 1px solid #e8e8e8;
+           
           }
         }
       }
@@ -193,6 +195,7 @@
 
   th {
     min-width: 50px;
+    border-left: 1px solid #ced9e3;
 
     padding: 10px 12px;
     border-radius: 6px !important;
@@ -200,6 +203,8 @@
   td {
     padding: 10px 15px;
     border-radius: 6px !important;
+    border-left: 1px solid #ced9e3;
+
   }
 
   th {

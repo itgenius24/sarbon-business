@@ -3,6 +3,7 @@ import {
   Box,
   Flex,
   Heading,
+  Spinner,
   Tab,
   TabIndicator,
   TabList,
@@ -23,7 +24,9 @@ import {
   Tooltip,
 } from "chart.js";
 import CTable from "@/components/CTable";
+import SlotCounter from "react-slot-counter";
 import { DatePicker } from "@/components/DatePicker";
+import cls from "./style.module.scss";
 
 ChartJS.register(
   CategoryScale,
@@ -47,93 +50,157 @@ const Dashboard = () => {
     columns2,
     columns3,
     columns4,
+    data,
+    isPending,
+    setStatus,
+    isLoading,
+    date,
+    setDate,
+    setDate2,
   } = useDashboard();
+
   return (
     <Container my={`40px`}>
       <Flex flexDirection={`column`} rowGap={`30px`}>
-        <Flex width={`100%`} gap={`20px`} justifyContent={`space-between`}>
-          {topStatis.map((item) => (
-            <Box
-              width={`100%`}
-              borderRadius={`12px`}
-              backgroundColor={item.color}
-              key={item.id}
-              p={`20px 16px`}
-            >
-              <Heading
-                color={`white`}
-                fontSize={`30px`}
-                lineHeight={`30px`}
-                fontWeight={`600`}
+        <Flex gap={`20px`}>
+          <Flex
+            borderRadius={`12px`}
+            justifyContent={`center`}
+            width={`100%`}
+            background={`white`}
+            padding={`16px 20px`}
+          >
+            <Box width={`100%`}>
+              <Flex
+                gap={`20px`}
+                alignItems={`center`}
+                mb={`24px`}
+                width={`100%`}
               >
-                {item.total}
-              </Heading>
-              <Heading
-                mt={`12px`}
-                color={`white`}
-                fontSize={`18px`}
-                lineHeight={`30px`}
-                fontWeight={`400`}
+                <Box width={`30%`}>
+                  <DatePicker
+                    onChange={() => {setDate(``),setDate2([])}}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                    range
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                  />
+                </Box>
+                <Flex
+                  gap={`16px`}
+                  alignItems={`center]`}
+                  justifyContent={`flex-end`}
+                >
+                  <p
+                    className={date === `weekly` ? cls.activeMonth : cls.month}
+                    onClick={() => setDate(`weekly`)}
+                  >
+                    Неделя
+                  </p>
+                  <p
+                    className={date === `monthly` ? cls.activeMonth : cls.month}
+                    onClick={() => setDate(`monthly`)}
+                  >
+                    Месяц
+                  </p>
+                </Flex>
+              </Flex>
+              <Flex justifyContent={`center`}>
+                <Box width={`90%`}>
+                  <Bar
+                    options={options}
+                    data={chartData}
+                    style={{ background: "white", width: `100%` }}
+                  />
+                </Box>
+              </Flex>
+            </Box>
+          </Flex>
+          <Flex
+            flexWrap={`wrap`}
+            width={`50%`}
+            gap={`20px`}
+            justifyContent={`space-between`}
+          >
+            {topStatis.map((item) => (
+              <Box
+                width={`100%`}
+                borderRadius={`12px`}
+                backgroundColor={item.color}
+                key={item.id}
+                border={`1px solid ${item.bg}`}
+                p={`20px 16px`}
               >
-                {item.deck}
-              </Heading>
-            </Box>
-          ))}
-        </Flex>
-        <Flex
-          borderRadius={`12px`}
-          justifyContent={`center`}
-          width={`100%`}
-          background={`white`}
-          padding={`16px 20px`}
-        >
-          <Box width={`100%`}>
-            <Box mb={`24px`} width={`20%`}>
-              <DatePicker
-                endDate={endDate}
-                setEndDate={setEndDate}
-                range
-                startDate={startDate}
-                setStartDate={setStartDate}
-              />
-            </Box>
-            <Flex justifyContent={`center`}>
-              <Box width={`80%`}>
-                <Bar
-                  options={options}
-                  data={chartData}
-                  style={{ background: "white", width: `100%` }}
-                />
+                {isLoading ? (
+                  <Spinner color="brand.500" size="md" />
+                ) : (
+                  <Heading
+                    color={`black`}
+                    fontSize={`30px`}
+                    lineHeight={`30px`}
+                    fontWeight={`600`}
+                  >
+                    <SlotCounter value={item.total} />
+                  </Heading>
+                )}
+
+                <Heading
+                  mt={`12px`}
+                  color={`black`}
+                  fontSize={`18px`}
+                  lineHeight={`30px`}
+                  fontWeight={`400`}
+                >
+                  {item.deck}
+                </Heading>
               </Box>
-            </Flex>
-          </Box>
+            ))}
+          </Flex>
         </Flex>
+
         <Box padding={`16px`} borderRadius={`12px`} backgroundColor={`white`}>
-          <Tabs variant="unstyled">
+          <Tabs onChange={(el) => setStatus(el)} variant="unstyled">
             <TabList>
-              <Tab> Ekspeditor</Tab>
-              <Tab> Voditel</Tab>
-              <Tab> Transport</Tab>
-              <Tab> gapruz</Tab>
+              <Tab value={`driver`}> Водитель</Tab>
+              <Tab value={`ekspiditor`}> Перевозчик</Tab>
+              <Tab value={`truck`}> Транспорт</Tab>
+              <Tab value={`cargo`}> Груз</Tab>
             </TabList>
             <TabIndicator
               mt="-1.5px"
-              height="2px"
+              height="3px"
               bg="rgba(0, 51, 153, 1)"
               borderRadius="1px"
             />
             <TabPanels>
               <TabPanel>
-                <CTable columns={columns1} data={[]} />
+                <CTable
+                  isLoading={isPending}
+                  columns={columns2}
+                  data={data.response}
+                />
               </TabPanel>
               <TabPanel>
-                <CTable columns={columns2} data={[]} />
+                <CTable
+                  isLoading={isPending}
+                  columns={columns1}
+                  data={data.response}
+                />
               </TabPanel>
               <TabPanel>
-                <CTable columns={columns3} data={[]} />
+                <CTable
+                  isLoading={isPending}
+                  columns={columns3}
+                  data={data.response}
+                />
               </TabPanel>
               <TabPanel>
-                <CTable columns={columns4} data={[]} />
+                <CTable
+                  isLoading={isPending}
+                  columns={columns4}
+                  data={data.response}
+                />
               </TabPanel>
             </TabPanels>
           </Tabs>

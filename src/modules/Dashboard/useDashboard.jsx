@@ -1,50 +1,215 @@
+import {
+  useGetUserCargo,
+  useGetUserCargo2,
+  useGetUserData,
+  useGetVehicle,
+  useGetVehicle2,
+  useGetVehicleSingle,
+  useLogistikaGpsTrackingFilterDriverPred,
+} from "@/services/api";
+import { format } from "date-fns";
 import { color } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const useDashboard = () => {
-  const [startDate,setStartDate] = useState(new Date())
-  const [endDate,setEndDate] = useState(new Date())
-  console.log(`startDate`,startDate)
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [date2, setDate2] = useState([]);
+  const [status, setStatus] = useState(0);
+  const [date, setDate] = useState(``);
+  const [data, setData] = useState({});
+  const filter = {
+    [`0`]: `driver`,
+    [`1`]: `ekspiditor`,
+    [`2`]: `truck`,
+    [`3`]: `cargo`,
+  };
+
+  const { mutate: filterData, isPending } =
+    useLogistikaGpsTrackingFilterDriverPred({
+      onSuccess: (res) => {
+        setData(res);
+      },
+    });
+
+  const formatDate = (date, hours, minutes, seconds) => {
+    const newDate = new Date(
+      Date.UTC(
+        new Date(date).getFullYear(),
+        new Date(date).getMonth(),
+        new Date(date).getDate(),
+        hours,
+        minutes,
+        seconds
+      )
+    );
+    return newDate.toISOString();
+  };
+
+  const getWeekRange = () => {
+    setStartDate(``)
+    setEndDate(``)
+    const today = new Date();
+    const dayOfWeek = today.getUTCDay(); // Yakshanba=0, Dushanba=1, ..., Shanba=6
+    const weekStart = new Date(today);
+    weekStart.setUTCDate(
+      today.getUTCDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)
+    );
+    weekStart.setUTCHours(0, 0, 0, 0);
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setUTCDate(weekStart.getUTCDate() + 6);
+    weekEnd.setUTCHours(23, 59, 59, 999);
+    setDate2([weekStart, weekEnd]);
+  };
+
+ 
+  const getMonthRange = () => {
+    setStartDate(``)
+    setEndDate(``)
+    const today = new Date();
+    const monthStart = new Date(
+      Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1, 0, 0, 0)
+    );
+    const nextMonth = new Date(
+      today.getUTCFullYear(),
+      today.getUTCMonth() + 1,
+      0
+    );
+    const monthEnd = new Date(
+      Date.UTC(
+        nextMonth.getUTCFullYear(),
+        nextMonth.getUTCMonth(),
+        nextMonth.getUTCDate(),
+        23,
+        59,
+        59,
+      )
+    );
+
+    setDate2([monthStart, monthEnd]);
+  };
+
+  useEffect(() => {
+    if (date === "weekly") {
+      getWeekRange();
+    } else if (date === "monthly") {
+      getMonthRange();
+    }
+  }, [date,endDate,startDate]);
+
+
+
+  useEffect(() => {
+    console.log(`date2`,date2)
+    filterData({
+      data: {
+        object_data: {
+          filter: filter[status],
+          start_date: date2.length > 0 ? date2[0] : startDate
+            ? startDate?.getDate() === endDate?.getDate()
+              ? formatDate(startDate, 0, 0, 0)
+              : new Date(startDate)
+            : ``,
+          end_date: date2.length > 0 ? date2[1] : endDate
+            ? startDate?.getDate() === endDate?.getDate()
+              ? formatDate(endDate, 23, 59, 59)
+              : new Date(endDate)
+            : ``,
+          all_date: (startDate || endDate) ? false :  date2.length > 0 ? false : true,
+          type: "dashboard",
+          limit: 1000,
+          page: 1,
+        },
+      },
+    });
+  }, [startDate, endDate, status,date2]);
+
+
+
+  const { data: useList } = useGetUserData({
+    params: {
+      data: JSON.stringify({
+        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+      }),
+    },
+  });
+
+  const { data: useExsList } = useGetUserData({
+    params: {
+      data: JSON.stringify({
+        client_type_id: "a25d605c-d153-4ddf-8590-e4cda176ef93",
+      }),
+    },
+  });
+
+  const { data: useCargo, isLoading } = useGetUserCargo2({
+    params: {
+      data: JSON.stringify({}),
+    },
+  });
+
+  const { data: vehicle } = useGetVehicle2({
+    params: {
+      data: JSON.stringify({
+        car_position: ["alive"],
+      }),
+    },
+  });
+
   const topStatis = [
     {
       id: 1,
-      total: 12,
-      deck: `Umumiy foydalanuvchilar soni`,
-      color: `rgba(0, 122, 255, 1)`,
+      total: useList?.count || 0,
+      deck: `Общее количество водителей`,
+      bg: `rgba(0, 51, 153, 1)`,
+      color: `rgba(0, 51, 153, 0.3)`,
     },
     {
       id: 2,
-      total: 12,
-      deck: `Umumiy Xozain mashinalar soni`,
-      color: `rgba(0, 122, 255, 1)`,
+      total: useExsList?.count || 0,
+      deck: `Общее количество перевозчиков`,
+      bg: `rgba(21, 186, 77, 1)`,
+      color: `rgba(21, 186, 77, 0.3)`,
     },
     {
       id: 3,
-      total: 12,
-      deck: `Umumiy Tranpsportlar soni`,
-      color: `rgba(0, 122, 255, 1)`,
+      total: vehicle?.count || 0,
+      deck: `Общее количество транспортных средств `,
+      bg: `rgba(0, 122, 255, 1)`,
+      color: `rgba(0, 122, 255, 0.3)`,
     },
     {
       id: 4,
-      total: 12,
-      deck: `Umumiy Yuklar`,
-      color: `rgba(0, 122, 255, 1)`,
+      total: useCargo?.count || 0,
+      deck: `Общее количество грузов`,
+      bg: `rgba(193, 187, 32, 1)`,
+      color: `rgba(193, 187, 32, 0.3)`,
     },
   ];
 
   const chartData = {
-    labels: [`Foydalanuvchilar`, `Xozain mashinalar`, `Transportlar`, `Yuklar`],
+    labels: [
+      `Водитель (${data?.driver_count?.[0]?.total_count || 0})`,
+      `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
+      `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
+      `Груз (${data?.cargo_count?.[0]?.total_count || 0})`,
+    ],
     datasets: [
       {
         label: "",
-        data: [40, 23, 83, 100],
+        data: [
+          data?.driver_count?.[0]?.total_count || 0,
+          data?.eks_count?.[0]?.total_count || 0,
+          data?.truck_count?.[0]?.total_count || 0,
+          data?.cargo_count?.[0]?.total_count || 0,
+        ],
         borderColor: "transparent",
         backgroundColor: [
-          "rgb(64, 81, 156)",
-          "rgb(18, 155, 128)",
-          "rgb(9, 172, 211)",
-          "rgb(116, 26, 205)",
-          "rgb(220, 128, 44)",
+          "rgba(0, 51, 153, 1)",
+          "rgba(21, 186, 77, 1)",
+          "rgba(0, 122, 255, 1)",
+          "rgba(193, 187, 32, 1)",
         ],
         barPercentage: 0.4,
         categoryPercentage: 0.4,
@@ -109,171 +274,271 @@ export const useDashboard = () => {
   const columns1 = [
     {
       title: `ID`,
-      dataIndex: "photo",
-      width: `200px`,
+      dataIndex: "your_id",
+
+      width: 200,
     },
     {
-      title: `Nomer telefon`,
-      dataIndex: "photo",
-      width: `350px`,
+      title: `Тел Номер`,
+      dataIndex: "phone",
+      width: 350,
     },
     {
-      title: `Familya ism`,
-      dataIndex: "photo",
-      width: `350px`,
+      title: `Перевозчик`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Перевозчик
+          </span>
+        ),
+      width: 200,
     },
     {
-      title: `Kiritilgan vaqt`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Дата созд.`,
+      dataIndex: "createdAt",
+      render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),
+
+      width: 200,
     },
     {
-      title: `Roll`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Роль`,
+      dataIndex: "",
+      render: (_, row) => `Перевозчик`,
+
+      width: 200,
     },
+
     {
-      title: `Dispatcher`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Диспетчер`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.dispatcher_details?.[0]?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Диспетчер
+          </span>
+        ),
+      width: 200,
     },
   ];
   const columns2 = [
     {
       title: `ID`,
-      dataIndex: "photo",
-      width: `200px`,
+      dataIndex: "your_id",
+      width: 200,
     },
     {
-      title: `Nomer telefon`,
-      dataIndex: "photo",
-      width: `300px`,
+      title: `Тел Номер`,
+      dataIndex: "phone",
+      width: 300,
     },
     {
-      title: `Familya ism`,
-      dataIndex: "photo",
-      width: `350px`,
+      title: `Водитель`,
+      dataIndex: "full_name",
+      width: 350,
     },
     {
-      title: `Kiritilgan vaqt`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Дата созд`,
+      dataIndex: "createdAt",
+      render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),
+      width: 200,
     },
     {
-      title: `Roll`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Роль`,
+      dataIndex: "",
+      render: (_, row) => `Водитель`,
+      width: 200,
     },
     {
-      title: `xozain mashinasi`,
+      title: `Перевозчик`,
       dataIndex: "photo",
-      width: `200px`,
+      render: (_, row) =>
+        row?.firm_id_data?.[0]?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Перевозчик
+          </span>
+        ),
+      width: 200,
     },
     {
-      title: `Dispatcher`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Диспетчер`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.dispatcher_details?.[0]?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Диспетчер
+          </span>
+        ),
+      width: 200,
     },
   ];
   const columns3 = [
     {
       title: `ID`,
-      dataIndex: "photo",
-      width: `200px`,
+      dataIndex: "your_id",
+      width: 200,
     },
     {
-      title: `Gos nomer`,
-      dataIndex: "photo",
-      width: `300px`,
+      title: `Гос номер`,
+      dataIndex: "car_number",
+      width: 300,
     },
     {
-      title: `Voditel`,
-      dataIndex: "photo",
-      width: `350px`,
+      title: `Водитель`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.driver_data?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Водитель
+          </span>
+        ),
+
+      width: 350,
     },
     {
-      title: `Kiritilgan vaqt`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Дата созд`,
+      dataIndex: "createdAt",
+      render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),
+      width: 200,
     },
     {
-      title: `Status Avto`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Статус авто`,
+      dataIndex: "car_position",
+      render: (_, row) =>
+        row?.car_position?.[0] === `alive` ? `активный` : `модерация`,
+
+      width: 200,
     },
     {
-      title: `firma x/m`,
+      title: `Перевозчик`,
       dataIndex: "photo",
-      width: `200px`,
+      render: (_, row) =>
+        row?.firm_data?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Перевозчик
+          </span>
+        ),
+      width: 200,
     },
     {
-      title: `Toplivo`,
+      title: `Топливо`,
       dataIndex: "photo",
-      width: `200px`,
+      render: (_, row) =>
+        row?.fuel?.[0]?.name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Топливо
+          </span>
+        ),
+
+      width: 200,
     },
     {
-      title: `Eco standart`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `эко стандарт`,
+      dataIndex: "eco_standart",
+      render: (_, row) =>
+        row?.eco_standart || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет эко стандарт
+          </span>
+        ),
+
+      width: 200,
     },
   ];
   const columns4 = [
     {
-      title: `Gruz id`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Груз id`,
+      dataIndex: "number_of_order",
+      width: 200,
     },
     {
-      title: `Prodajnik`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Продажник`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.customer_data?.full_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Продажник
+          </span>
+        ),
+      width: 200,
     },
     {
-      title: `A tochka`,
-      dataIndex: "photo",
-      width: `20px`,
+      title: `Откуда`,
+      dataIndex: "from",
+      width: 400,
     },
     {
-      title: `B tochka`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Куда`,
+      dataIndex: "to",
+      width: 400,
     },
     {
-      title: `Tip gruza`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Тип груза`,
+      dataIndex: "product_type",
+      width: 200,
     },
     {
-      title: `Tip mashina`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Тип машина`,
+      dataIndex: "car_type",
+      width: 200,
     },
     {
-      title: `Obshay summa`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Общая сумма`,
+      dataIndex: "bid_cash",
+      width: 300,
     },
     {
-      title: `Peredoplata`,
-      dataIndex: "photo",
-      width: `200px`,
+      title: `Предоплата`,
+      dataIndex: "prepayment_percentage",
+      width: 200,
     },
     {
-      title: `Summa posle zaversheniya`,
-      dataIndex: "photo",
-      width: `200px`, 
+      title: `Сумма после завершения заказа`,
+
+      dataIndex: "prepayment_percentage",
+      width: 450,
     },
     {
-      title: `Valyuta`,
-      dataIndex: "photo",
-      width: `200px`, 
+      title: `Валюта`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.currency_id_data?.name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Продажник
+          </span>
+        ),
+
+      width: 200,
     },
     {
-      title: `Status gruza`,
-      dataIndex: "photo",
-      width: `200px`, 
+      title: `Статус  груза`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.order_status === `active` ? `Активен` : `Не активен`,
+      width: 200,
     },
   ];
+
   return {
     topStatis,
     chartData,
@@ -285,6 +550,13 @@ export const useDashboard = () => {
     columns1,
     columns2,
     columns3,
-    columns4
+    columns4,
+    data,
+    setStatus,
+    isPending,
+    isLoading,
+    date,
+    setDate,
+    setDate2
   };
 };

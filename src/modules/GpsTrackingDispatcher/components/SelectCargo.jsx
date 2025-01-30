@@ -45,10 +45,10 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     if (search) {
       return getAllUserCargo.data?.response?.filter(
         (item) =>
-          item.city_id_data?.name
+          item?.from
             .toLowerCase()
             .includes(search?.toLowerCase()) ||
-          item.city_id_2_data?.name
+          item?.to
             .toLowerCase()
             .includes(search?.toLowerCase())
       );
@@ -67,7 +67,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     },
   });
 
-  console.log(`contendSingle`,contendSingle,selectCargo)
+  console.log(`contendSingle`,getAllUserCargo.data?.response)
 
   function handleOffer() {
     setDisabled(true);
@@ -155,11 +155,11 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
         )}
       </Box>
       <Flex
-        justifyContent={"space-between"}
+        justifyContent={"flex-end"}
         alignItems={"center"}
         className={cls.selectCargoBottom}
       >
-        <Checkbox>{t( "Отображать только мои грузы")}</Checkbox>
+        {/* <Checkbox>{t( "Отображать только мои грузы")}</Checkbox> */}
         <Flex gap={2}>
           <Button
             className={cls.topButton}
