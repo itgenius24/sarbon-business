@@ -6,9 +6,10 @@ import cls from "./style.module.scss";
 import React from "react";
 import { useProfileDis } from "./useProfileDis";
 import { filterTabstopDis } from "../MyLoadsMain/data";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 const ProfileDispatcher = () => {
-  const { status, t, tab, setTabs } = useProfileDis();
+  const { status, t, tab, setTabs,columns } = useProfileDis();
   return (
     <Container my="40px">
       <Flex
@@ -76,7 +77,7 @@ const ProfileDispatcher = () => {
           )}
         </Flex>
       </Flex>
-      <Flex gap={`40px`} alignItems={`center`} mt={`40px`}>
+      <Flex width={`100%`} gap={`40px`}  mt={`40px`}>
         <Box className={cls.tab}>
           {filterTabstopDis.map((item) => (
             <Button
@@ -87,6 +88,9 @@ const ProfileDispatcher = () => {
               {item.label}
             </Button>
           ))}
+        </Box>
+        <Box width={`80%`}>
+        <SarbonTable data={[1,2,3]} columns={columns} />
         </Box>
       </Flex>
     </Container>

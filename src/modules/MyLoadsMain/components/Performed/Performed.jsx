@@ -519,7 +519,7 @@ export const Performed = ({
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCancel(cargo.guid);
+                      handleCancel(cargo);
                     }}
                     className={styles.bntOutline}
                   >
