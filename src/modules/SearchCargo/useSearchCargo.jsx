@@ -263,7 +263,6 @@ export const useSearchCargo = () => {
     }
   };
 
-  console.log(`useList`, fuel?.response);
 
   return {
     t,

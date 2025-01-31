@@ -76,9 +76,7 @@ export const Performed = ({
     prepayment: t(`Предоплата`),
   };
 
-  const onClose = () => {
-    setDataPred(false);
-  };
+ 
 
   return (
     <div className={styles.performed}>
@@ -203,7 +201,7 @@ export const Performed = ({
               <span className={styles.cardBodyTitle}>{t(`Телефон`)}</span>
               <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
             </div>
-            {(orderStatus === `new` || orderStatus === `cancellation`) && (
+            {(orderStatus === `new` || orderStatus === `cancellation` || orderStatus === `no_dispatcher`) && (
               <div className={styles.cardItem}>
                 <span className={styles.cardBodyTitle}>{t(`Сообщение`)}</span>
                 <p
@@ -581,98 +579,7 @@ export const Performed = ({
         </div>
       </div>
 
-      <Modal isOpen={dataPred} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
-            <Text fontSize={`18px`}>
-              {t(`Принять предложение от`)} {dataPred?.users_id_data?.full_name}
-              ?
-            </Text>
-
-            <Flex
-              mt={`25px`}
-              justifyContent={`space-between`}
-              alignItems={`center`}
-            >
-              <Box>
-                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  {t(`Тип оплаты`)}
-                </p>
-                <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {dataPred?.payment_type
-                    ? obj[dataPred?.payment_type?.[0]]
-                    : dataPred?.cargo_id_data?.payment_type}
-                </p>
-              </Box>
-              <Box>
-                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  {t(`Предоплата`)}
-                </p>
-                <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {dataPred?.payment_type?.[0] === "prepayment"
-                    ? `${dataPred?.prepayment} ${dataPred?.currency_id_data?.code}`
-                    : 0}
-                </p>
-              </Box>
-              <Box>
-                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  {t(`Общая сумма`)}
-                </p>
-                <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {dataPred?.offers} {dataPred?.currency_id_data?.code}
-                </p>
-              </Box>
-            </Flex>
-            <Flex
-              alignItems={`center`}
-              background={`rgba(237, 239, 245, 1)`}
-              padding={`7.5px`}
-              borderRadius={`4px`}
-              mt={`15px`}
-            >
-              <CheckboxModalPred
-                defaultChecked={disabled}
-                onChange={(e) => setDisabled(e.target.checked)}
-              >
-                {t(`Я согласовал это предложение с заказчиком*`)}
-              </CheckboxModalPred>
-            </Flex>
-          </ModalBody>
-          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="0px">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose();
-                // handleCancel(cargo.guid);
-              }}
-              className={styles.bntOutline}
-              style={{
-                background: `#fff`,
-                border: `1px solid rgba(208, 213, 221, 1)`,
-                color: `black`,
-              }}
-            >
-              {t(`Отказать`)}
-            </Button>
-            <Button
-              isDisabled={!disabled}
-              style={{ background: `rgba(21, 186, 77, 1)` }}
-              leftIcon={<IconCeckNewStatusIcon />}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAccept(dataPred?.guid, dataPred?.users_id_2);
-              }}
-              className={styles.bntNew}
-            >
-              {t(`Да, принять`)}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+   
     </div>
   );
 };

@@ -34,7 +34,7 @@ const ProfileDispatcher = () => {
         </Flex>
         <Flex>
           {tab === `driver` ? (
-            <Flex  gap={`28px`}>
+            <Flex gap={`28px`}>
               <Box className={cls.countrWrap}>
                 <p>
                   {t(`Всего`)}: <span>36</span>
@@ -79,7 +79,11 @@ const ProfileDispatcher = () => {
       <Flex gap={`40px`} alignItems={`center`} mt={`40px`}>
         <Box className={cls.tab}>
           {filterTabstopDis.map((item) => (
-            <Button onClick={() => setTabs(item.value)} className={ tab === item.value ? cls.activeBtn : cls.tabBtn} key={item.value}>
+            <Button
+              onClick={() => setTabs(item.value)}
+              className={tab === item.value ? cls.activeBtn : cls.tabBtn}
+              key={item.value}
+            >
               {item.label}
             </Button>
           ))}
