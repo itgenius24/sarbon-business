@@ -139,6 +139,7 @@ const Dashboard = () => {
                 key={item.id}
                 border={`1px solid ${item.bg}`}
                 p={`20px 16px`}
+                className={cls.card}
               >
                 {isLoading ? (
                   <Spinner color="brand.500" size="md" />

@@ -15,6 +15,7 @@ export function Providers({ children }) {
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <YMaps
+          lang={`en`}
             query={{
               load: "Map,Placemark",
               apikey: process.env.NEXT_PUBLIC_YANDEX_MAP_KEY,
