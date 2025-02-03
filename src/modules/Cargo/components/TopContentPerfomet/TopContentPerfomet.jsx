@@ -174,7 +174,7 @@ export const TopContentPerfomet = () => {
     }
   }, [getDriverPosition?.response]);
 
-  console.log(`userData`,userData)
+  console.log(`userData`, userData?.[0]?.order.length > 0 )
 
   return (
     <Box>
@@ -183,7 +183,7 @@ export const TopContentPerfomet = () => {
           <LoadingSpinner />
         ) : 
         
-        userData?.[0]?.order > 0 ? (
+        userData?.[0]?.order.length > 0 ? (
           <Accordion allowToggle>
             {userData?.[0]?.order?.map((user, index) => {
               return (
