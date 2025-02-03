@@ -14,7 +14,7 @@ export function Providers({ children }) {
 
   useEffect(() => {
     console.log(`salom`,window.location.hostname.includes("furgo"))
-    if (window.location.hostname.includes("localhost")) {
+    if (window.location.hostname.includes("furgo")) {
       window.location.href = "https://sarbon.me";
     }
   }, []);
