@@ -174,7 +174,6 @@ export const TopContentPerfomet = () => {
     }
   }, [getDriverPosition?.response]);
 
-  console.log(`userData`, userData?.[0]?.order.length > 0 )
 
   return (
     <Box>
@@ -195,6 +194,8 @@ export const TopContentPerfomet = () => {
                         setCarId(user?.cargo_id);
                         setOrderId(user?.guid);
                         setGpsHistory([]);
+                        setAllPositions([])
+                        setOffset(0);
                       }}
                       className={cls.accordionButton}
                     >
@@ -527,9 +528,9 @@ export const TopContentPerfomet = () => {
                           <Box>
                             <p className={cls.subTitle}>{t("Тип оплаты")}: </p>
                             <p className={cls.title}>
-                              {t(
-                                user?.payment_type ? user?.payment_type :   user?.cargo_id_data?.map_id_data?.payment_type  ? user?.cargo_id_data?.map_id_data?.payment_type : t("По запросу")
-                              )}
+                              {
+                                user?.payment_type ?  user?.cargo_id_data?.map_id_data?.payment_type  :   user?.cargo_id_data?.map_id_data?.payment_type  ? user?.cargo_id_data?.map_id_data?.payment_type : t("По запросу")
+                              }
                             </p>
                           </Box>
                           <Box>
