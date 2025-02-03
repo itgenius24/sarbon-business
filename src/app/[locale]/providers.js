@@ -5,10 +5,19 @@ import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider } from "@chakra-ui/react";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 
 export function Providers({ children }) {
   const [queryClient] = React.useState(() => new QueryClient());
+  
+
+  useEffect(() => {
+    console.log(`salom`,window.location.hostname.includes("furgo"))
+    if (window.location.hostname.includes("localhost")) {
+      window.location.href = "https://sarbon.me";
+    }
+  }, []);
 
   return (
     <CacheProvider theme={theme}>
