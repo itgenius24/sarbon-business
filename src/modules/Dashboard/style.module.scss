@@ -1,0 +1,34 @@
+
+.month {
+    color: rgba(126, 123, 134, 1);
+    font-weight: 400;
+    border-bottom: 1px dashed rgba(126, 123, 134, 1);
+    cursor: pointer;
+  }
+
+  .clear{
+    color: red;
+    font-weight: 400;
+    border-bottom: 1px dashed red;
+    cursor: pointer;
+  }
+  
+
+  .card{
+    transition: all .2s ease-in-out;
+    
+    &:hover{
+      transform: scale(1.04);
+      // border-width: 2px;
+      transition: all .2s ease-in-out;
+      box-shadow: 1px 1px 5px  rgba(0, 0, 0, 0.5);
+
+    }
+  }
+
+  .activeMonth{
+    color: var(--primary);
+    font-weight: 400;
+    // border-bottom: 1px dashed rgba(126, 123, 134, 1);
+    cursor: pointer;
+  }

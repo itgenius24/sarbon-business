@@ -61,21 +61,12 @@ export const useSearchLoadDispatcher = () => {
       value: `val1`,
       label: t(`Отображать все`) + ` ${count}`,
     },
-    // {
-    //   value: `val2`,
-    //   label: t(`Только свободные (349)`),
-    // },
-    // {
-    //   value: `val3`,
-    //   label: t(`Только мои водители (36)`),
-    // },
+
   ];
 
   const { mutate, isPending } = useGetCar({
     onSuccess: (res) => {
-      // if (res?.response === null) {
-      //   setPage(page - 1)
-      // }
+  
       if (res?.response?.length) {
         setRefe(false);
         setCount(res?.count?.totalCount);
@@ -92,8 +83,13 @@ export const useSearchLoadDispatcher = () => {
           (item) => !oldData.some((stateItem) => stateItem?.guid === item?.guid)
         );
 
-        setData((prev) => [...prev, ...uniqueData]);
-        setOldData((prev) => [...prev, ...uniqueData]);
+        if(debouncedValue){
+          setData(uniqueData);
+          setOldData(uniqueData);
+        }else{
+          setData((prev) => [...prev, ...uniqueData]);
+          setOldData((prev) => [...prev, ...uniqueData]);
+        }
       }
     },
   });
@@ -115,7 +111,6 @@ export const useSearchLoadDispatcher = () => {
   const setDebouncedLimit = useDebounce(setPage, 250);
 
   const handleScroll = () => {
-    // console.log(`hehht`,document.body.scrollTop,document.body.scrollHeight);
     if (!isPending) {
       if (containerRef.current) {
         const isVisible = isVisibleInViewport(containerRef.current);
@@ -144,32 +139,10 @@ export const useSearchLoadDispatcher = () => {
     // }
   };
 
-  //   trackingFilter({
-  //     data: {
-  //       object_data: {
-  //         page,
-  //         limit,
-  //         dispetchir_id: ``,
-  //       },
-  //     },
-  //   });
-  // }, [limit, value === `val2`, refe]);
 
-  // useEffect(() => {
-  //   trackingFilter({
-  //     data: {
-  //       object_data: {
-  //         page,
-  //         limit,
-  //         dispetchir_id: authStore?.userData?.id,
-  //       },
-  //     },
-  //   });
-  // }, [limit, value === `val3`, refe]);
 
   const addPage = () => {
     setPage(page + 1);
-    // setLimit(50);
   };
 
   const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat

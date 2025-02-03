@@ -25,6 +25,8 @@ export const AccordionMap = ({
 }) => {
   const map = useRef(null);
 
+  console.log(`data`,getMaps?.data?.response)
+
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`
   );
@@ -36,6 +38,7 @@ export const AccordionMap = ({
   const line = getMaps?.data?.response
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
+
 
   
   useEffect(() => {
@@ -50,14 +53,15 @@ export const AccordionMap = ({
             [endLocation?.lat, endLocation?.long], // End point
             // {
             //   // Yuk mashinalari uchun parametrlar
-            //   routingMode: "truck", // Transport turi yuk mashinasi
-            //   avoidTrafficJams: true, // Tirbandliklardan qochish
-            //   truckRestrictions: {
-            //     weight: 20, // Yuk mashinasi og'irligi (tonna)
-            //     height: 4.2, // Balandlik (metr)
-            //     width: 2.5, // Kenglik (metr)
-            //     length: 10, // Uzunlik (metr)
-            //   },
+            //   routingMode: "auto", // Transport turi yuk mashinasi
+            //   mapStateAutoApply: true,
+            //   // avoidTrafficJams: true, // Tirbandliklardan qochish
+            //   // truckRestrictions: {
+            //   //   weight: 20, // Yuk mashinasi og'irligi (tonna)
+            //   //   height: 4.2, // Balandlik (metr)
+            //   //   width: 2.5, // Kenglik (metr)
+            //   //   length: 10, // Uzunlik (metr)
+            //   // },
             // }
           ])
           .then((route) => {
@@ -98,7 +102,8 @@ export const AccordionMap = ({
               strokeOpacity: 1,
               strokeStyle: "dash",
             });
-          });
+          })
+          .catch((err) => console.log(`error`,err))
       }
     }, 3000);
   }, [gpsHistory]);

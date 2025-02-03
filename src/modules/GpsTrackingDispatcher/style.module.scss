@@ -70,7 +70,7 @@
   position: relative;
   .backMap{
     position:absolute;
-    z-index: 199991;
+    z-index: 1;
     background-color: white;
     width: 29px;
     height: 29px;
@@ -87,7 +87,7 @@
   .modalWrap {
     position: absolute;
     top: 0;
-    z-index: 1;
+    z-index: 232323;
     // background: transparent;
     width: 380px;
     height: 100%;
@@ -569,6 +569,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
+    z-index: 2;
     top: 0;
 
     .selectCargo {

@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { LoadsCard } from "./components/LoadsCard";
@@ -24,10 +25,11 @@ import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
 import authStore from "@/store/auth.store";
 import { useState } from "react";
-import { ExelIcon, StarGoodsIcon, StarOutlineIcon } from "@/assets/icons/icons";
-import { groupByGuidFromData } from "@/utils/groupByGuidFromData";
+import { ExelIcon, IconCeckNewStatusIcon, StarGoodsIcon, StarOutlineIcon } from "@/assets/icons/icons";
 import { CheckboxComment } from "./components/CheckboxComment";
+import styles from './style.module.scss';
 import { CustomTextarea } from "@/components/CustomTextarea";
+import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
 
 export const MyLoadsMain = () => {
   const {
@@ -78,6 +80,14 @@ export const MyLoadsMain = () => {
   const handleClick = (index) => {
     setSelectedRating(index);
     setComments([]);
+  };
+
+  const onClose = () => {
+    setDataPred(false);
+  };
+  const obj = {
+    after_payment: t(`Оплата после завершения`),
+    prepayment: t(`Предоплата`),
   };
 
 
@@ -264,6 +274,99 @@ export const MyLoadsMain = () => {
           <ModalFooter>
             <Button width={`100%`} mr={3} onClick={() => onSubmit()}>
               Готово
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={dataPred} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <ModalCloseButton />
+          </ModalHeader>
+          <ModalBody>
+            <Text fontSize={`18px`}>
+              {t(`Принять предложение от`)} {dataPred?.users_id_data?.full_name}
+              ?
+            </Text>
+
+            <Flex
+              mt={`25px`}
+              justifyContent={`space-between`}
+              alignItems={`center`}
+            >
+              <Box>
+                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
+                  {t(`Тип оплаты`)}
+                </p>
+                <p style={{ fontWeight: 600 }} className={styles.title}>
+                  {dataPred?.payment_type
+                    ? obj[dataPred?.payment_type?.[0]]
+                    : dataPred?.cargo_id_data?.payment_type}
+                </p>
+              </Box>
+              <Box>
+                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
+                  {t(`Предоплата`)}
+                </p>
+                <p style={{ fontWeight: 600 }} className={styles.title}>
+                  {dataPred?.payment_type?.[0] === "prepayment"
+                    ? `${dataPred?.prepayment} ${dataPred?.currency_id_data?.code}`
+                    : 0}
+                </p>
+              </Box>
+              <Box>
+                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
+                  {t(`Общая сумма`)}
+                </p>
+                <p style={{ fontWeight: 600 }} className={styles.title}>
+                  {dataPred?.offers} {dataPred?.currency_id_data?.code}
+                </p>
+              </Box>
+            </Flex>
+            <Flex
+              alignItems={`center`}
+              background={`rgba(237, 239, 245, 1)`}
+              padding={`7.5px`}
+              borderRadius={`4px`}
+              mt={`15px`}
+            >
+              <CheckboxModalPred
+                defaultChecked={disabled}
+                onChange={(e) => setDisabled(e.target.checked)}
+              >
+                {t(`Я согласовал это предложение с заказчиком*`)}
+              </CheckboxModalPred>
+            </Flex>
+          </ModalBody>
+          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="0px">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+                // handleCancel(cargo.guid);
+              }}
+              className={styles.bntOutline}
+              style={{
+                background: `#fff`,
+                border: `1px solid rgba(208, 213, 221, 1)`,
+                color: `black`,
+              }}
+            >
+              {t(`Отказать`)}
+            </Button>
+            <Button
+              isDisabled={!disabled}
+              style={{ background: `rgba(21, 186, 77, 1)` }}
+              leftIcon={<IconCeckNewStatusIcon />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAccept(dataPred?.guid, dataPred?.users_id_2);
+              }}
+              className={styles.bntNew}
+            >
+              {t(`Да, принять`)}
             </Button>
           </ModalFooter>
         </ModalContent>
