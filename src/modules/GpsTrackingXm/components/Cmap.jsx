@@ -22,6 +22,7 @@ import {
   TelegramIcon,
   WatsapIcon,
   PrimumIcon,
+  RefeIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -138,6 +139,13 @@ const Cmap = memo(
       );
     };
 
+
+    const resetMap = () => {
+      if (mapRef.current) {
+        mapRef.current.setCenter(coordinates, 4);
+      }
+    };
+
     return (
       <Map
         instanceRef={mapRef}
@@ -162,6 +170,9 @@ const Cmap = memo(
           "control.ZoomControl",
         ]}
       >
+       <div onClick={resetMap} className={cls.backMap}>
+                      <RefeIcon />
+                    </div>
         <TypeSelector
           mapTypes={[
             "yandex#map",

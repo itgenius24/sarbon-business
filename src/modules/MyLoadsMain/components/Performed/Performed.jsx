@@ -16,33 +16,16 @@ import {
   Box,
   Button,
   Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
   Tooltip,
 } from "@chakra-ui/react";
 import { statusColor } from "../../data";
-import { Popup } from "@/components/Popup";
-import { useState } from "react";
-import { Checkbox } from "@/components/Checkbox";
-import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
 import authStore from "@/store/auth.store";
 
 export const Performed = ({
   cargo,
   orderStatus,
-  handleAccept,
-  setDisabled,
-  disabled,
   handleCancel,
   setDataPred,
-  dataPred,
-  open,
   setOpen,
 }) => {
   {

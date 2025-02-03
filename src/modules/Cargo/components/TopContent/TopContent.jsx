@@ -300,7 +300,7 @@ export const TopContent = ({
 
   const handleShare = (user, cargoData) => {
     copy(
-      `https://furgo.uz/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
+      `https://sarbon.me/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
     );
   };
 

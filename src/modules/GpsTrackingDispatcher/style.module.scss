@@ -68,6 +68,8 @@
 
 .box {
   position: relative;
+  height: 100%;
+  
   .backMap{
     position:absolute;
     z-index: 1;
@@ -76,8 +78,8 @@
     height: 29px;
     border-radius: 3px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
-     top: 11.15%;
-     right: 3px;
+     top: 6%;
+     right: 0.5%;
      display: flex;
      align-items: center;
      justify-content: center;

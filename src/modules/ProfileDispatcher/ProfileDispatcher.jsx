@@ -10,6 +10,7 @@ import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 const ProfileDispatcher = () => {
   const { status, t, tab, setTabs,columns } = useProfileDis();
+
   return (
     <Container my="40px">
       <Flex
@@ -90,7 +91,7 @@ const ProfileDispatcher = () => {
           ))}
         </Box>
         <Box width={`80%`}>
-        <SarbonTable data={[1,2,3]} columns={columns} />
+        <SarbonTable  data={[1,2,3]} columns={columns} />
         </Box>
       </Flex>
     </Container>

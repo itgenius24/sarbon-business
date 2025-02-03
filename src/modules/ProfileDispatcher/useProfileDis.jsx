@@ -17,7 +17,7 @@ export const useProfileDis = () => {
       filterType: (type) => console.log(`type`, type),
       width: 200,
       render: (row, index) => (
-        <Flex alignItems={`center`}>
+        <Flex gap={`10px`} alignItems={`center`}>
           <Avatar src="sa" name="bobur" />
           <Box>
             <p>Bobur</p>

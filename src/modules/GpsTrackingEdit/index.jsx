@@ -4,28 +4,13 @@ import { useTranslation } from "@/app/i18n/client";
 
 import { Box, Flex } from "@chakra-ui/react";
 import {
-  BlueFuraIcon,
-  BluePendingIcon,
-  BluePhoneIcon,
-  CencelMapIcon,
-  CheckBlueIcon,
   FilterIcon,
-  GoodsFuraIcon,
-  GoodsPhoneIcon,
-  GreenCarIcon,
-  GreenFuraIcon,
-  GreenPhoneIcon,
-  LoadOulineIcon,
-  MapCargoGreenIcon,
-  MapCargoLoadGoodsIcon,
-  QuestionBlueIcon,
-  StoneIcon,
+ 
 } from "@/assets/icons/icons";
 import React, { useEffect, useRef } from "react";
 
 import cls from "./style.module.scss";
 
-import ReactDOMServer from "react-dom/server";
 
 import Filter from "./components/Filter";
 import DriverFree from "./components/DriverFree";
@@ -39,20 +24,15 @@ import DriverGruz from "./components/DriverGruz";
 import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
-import { LoadingSpinnerMap } from "@/components/LoadingSpinnerMap";
 import LoadingMap from "../Cargo/components/LoadingMap";
-import copy from "copy-to-clipboard";
 import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 
-/* eslint no-undef: 0 */ // --> OFF
 
 export default function GpsTrackingModuleTets() {
   const {
     register,
     errors,
-    handleCalculate,
     handleOpenModal,
     isModalOpen,
     handleCloseModal,
@@ -64,18 +44,11 @@ export default function GpsTrackingModuleTets() {
     setIsModalOpen,
     carTypeOptions,
     loadingOptions,
-    weightMeasurementOptions,
     control,
     getCarListProps,
-    onSubmit,
-    handleSubmit,
-    driverName,
     isLoading,
-    locationPending,
     watch,
     setValue,
-    setChecked,
-    checked,
     locationData,
     getUserOption,
     setDistance,
@@ -97,13 +70,10 @@ export default function GpsTrackingModuleTets() {
     handleCheckboxChange,
     setStateMap,
     handleInputClear,
-    setConHoverState,
     contendHoverState,
     setLoadCheck,
     loadCheck,
     setOffset,
-    setHoverLoadState,
-    loadHoverState,
     addressAdd,
     stateMap,
     refueling,

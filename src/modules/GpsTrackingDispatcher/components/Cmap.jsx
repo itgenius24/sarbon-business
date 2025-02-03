@@ -19,6 +19,7 @@ import {
   GreenMapIcon,
   WatsapIcon,
   TelegramIcon,
+  RefeIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -133,13 +134,21 @@ const Cmap = memo(
       copy(contendHoverState?.users_id_data?.phone);
     });
 
+    const resetMap = () => {
+      if (mapRef.current) {
+        mapRef.current.setCenter(coordinates, 4);
+      }
+    };
+
     return (
       <Map
-        instanceRef={mapRef}
+       instanceRef={mapRef}
         defaultState={{
           center: coordinates,
           zoom: 6,
         }}
+     
+
         options={{
           maxZoom: 22,
           minZoom: 2,
@@ -157,6 +166,9 @@ const Cmap = memo(
           "control.ZoomControl",
         ]}
       >
+        <div onClick={resetMap} className={cls.backMap}>
+          <RefeIcon />
+        </div>
         <TypeSelector
           mapTypes={[
             "yandex#map",

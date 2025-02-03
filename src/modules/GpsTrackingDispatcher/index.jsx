@@ -3,10 +3,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 
 import { Box, Flex } from "@chakra-ui/react";
-import {
-  FilterIcon,
-
-} from "@/assets/icons/icons";
+import { FilterIcon } from "@/assets/icons/icons";
 import React from "react";
 
 import cls from "./style.module.scss";
@@ -24,7 +21,6 @@ import { useGpsTrackingProps } from "./useGpsTrackingProps";
 import LoadingMap from "../Cargo/components/LoadingMap";
 import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
-
 
 export default function GpsTrackingDispatcher() {
   const {
@@ -75,18 +71,17 @@ export default function GpsTrackingDispatcher() {
     stateMap,
     addAdress,
     setLocationData,
-    refueling
+    refueling,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`getCarListProps?.data`,getCarListProps)
+  console.log(`getCarListProps?.data`, getCarListProps);
 
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-
         {watch(`refuelingState`) ? (
           <CmapAZS
             refueling={refueling}
@@ -118,10 +113,7 @@ export default function GpsTrackingDispatcher() {
           />
         )}
 
-
-        <div className={cls.backMap}>
-                 B
-                 </div>
+       
         <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>
@@ -133,7 +125,7 @@ export default function GpsTrackingDispatcher() {
                   <FilterIcon /> {t(`Фильтр`)}
                 </div>
               )}
-              
+
               {modalType === "filter" && (
                 <Filter
                   cls={cls}
@@ -165,7 +157,10 @@ export default function GpsTrackingDispatcher() {
                   contendSingle={contendSingle}
                   setCenterModalType={setCenterModalType}
                   setIconStatus={setIconStatus}
-                  errors={errors} control={control} register={register} watch={watch}
+                  errors={errors}
+                  control={control}
+                  register={register}
+                  watch={watch}
                 />
               )}
               {modalType === "driverExpectation" && (

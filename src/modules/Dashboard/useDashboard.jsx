@@ -524,9 +524,15 @@ export const useDashboard = () => {
       dataIndex: "product_type",
       width: 100,
     },
+    
     {
       title: `Тип машина`,
       dataIndex: "car_type",
+      width: 200,
+    },
+    {
+      title: `Кол  машин`,
+      dataIndex: "number_of_cars",
       width: 200,
     },
     {

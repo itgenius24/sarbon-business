@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import cls from "./style.module.scss";
 import { IocnFilter, IocnSortBack, IocnSortTop } from "@/assets/icons/icons";
 const FILTER_TYPES = ["all", "top", "back"];
-const SarbonTable = ({ columns, data }) => {
+const SarbonTable = ({ columns, data, rowClassName = () => {},variant = `table` }) => {
   const [filters, setFilters] = useState(
     columns.reduce((acc, col) => ({ ...acc, [col.key]: "all" }), {})
   );
@@ -27,7 +27,6 @@ const SarbonTable = ({ columns, data }) => {
             className={cls.headerThWrap}
             width={`${item.width}%`}
             key={index}
-            
           >
             {item?.filter ? (
               <Flex
@@ -35,14 +34,15 @@ const SarbonTable = ({ columns, data }) => {
                 className={cls.filterWrap}
                 gap={`5px`}
                 cursor={`pointer`}
-                onClick={() => {handleFilterChange(item.key)
-                  item.filterType(filters[item.key])
+                onClick={() => {
+                  handleFilterChange(item.key);
+                  item.filterType(filters[item.key]);
                 }}
               >
                 <Box className={cls.headerTh}>{item.title}</Box>
-                {filters[item.key]  === `top` ? (
+                {filters[item.key] === `top` ? (
                   <IocnSortTop />
-                ) : filters[item.key]  === `back` ? (
+                ) : filters[item.key] === `back` ? (
                   <IocnSortBack />
                 ) : (
                   <IocnFilter />
@@ -59,9 +59,10 @@ const SarbonTable = ({ columns, data }) => {
           alignItems={`center`}
           width={`100%`}
           justifyContent={`space-between`}
-          className={cls.tableTr}
+          className={`${cls[variant]} ${
+            rowClassName(item) ? rowClassName(item) : ``
+          }`}
           key={index}
-         
         >
           {columns.map((column) => (
             <Box key={column.title} width={`${column.width}%`}>
