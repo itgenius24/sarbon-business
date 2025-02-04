@@ -387,11 +387,12 @@ export const useDashboard = () => {
     },
   ];
   const columns3 = [
-    // {
-    //   title: `ID`,
-    //   dataIndex: "your_id",
-    //   width: 200,
-    // },
+    {
+      title: `ID`,
+      dataIndex: "unit_id",
+      width: 200,
+      render:(_,row) => row.unit_id ?   row.unit_id : `Нет ID `
+    },
     {
       title: `Гос номер`,
       dataIndex: "car_number",
@@ -538,6 +539,11 @@ export const useDashboard = () => {
     {
       title: `Кол  машин`,
       dataIndex: "number_of_cars",
+      width: 200,
+    },
+    {
+      title: `Принятые предл.`,
+      dataIndex: "accepted_offers",
       width: 200,
     },
     {
