@@ -6,17 +6,17 @@
 }
 .headerTh {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 28px;
-  text-transform: lowercase;
+  text-transform: uppercase;
   color: rgba(126, 123, 134, 1);
 }
 .filterWrap {
   .headerTh {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 28px;
-    text-transform: lowercase;
+    text-transform: uppercase;
     color: rgba(126, 123, 134, 1);
   }
   svg {
@@ -37,12 +37,12 @@
 }
 
 .card {
-  padding: 18px 24px 18px 20px;
+  padding: 18px 24px 18px 24px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
   margin-top: 10px;
-  border-left: 4px solid white;
+  // border-left: 4px solid white;
 }
 
 .table {

@@ -22,6 +22,8 @@ export const SearchLoadModule = () => {
     setOpenFilter,
     dataRes,
     setDataRes,
+    setDataResOld,
+    dataResOld,
     status2,
     setStatus2,
     setPage,
@@ -87,8 +89,10 @@ export const SearchLoadModule = () => {
             watch={watch}
             formState={formState}
             dataRes={dataRes}
+            dataResOld={dataResOld}
             page={page}
             setDataRes={setDataRes}
+            setDataResOld={setDataResOld}
             status2={status2}
             setStatus2={setStatus2}
             setPage={setPage}

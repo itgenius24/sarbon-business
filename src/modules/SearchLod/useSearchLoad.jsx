@@ -21,6 +21,7 @@ export const useSearchLoad = () => {
   const { t } = useTranslation(locale, "translations");
   const [openFilter, setOpenFilter] = useState(false);
   const [dataRes, setDataRes] = useState([]);
+  const [dataResOld, setDataResOld] = useState([]);
   const [status2, setStatus2] = useState(false);
   const [page, setPage] = useState(1);
   const firm_id = authStore.userData.firm_id;
@@ -39,10 +40,13 @@ export const useSearchLoad = () => {
       const data = res?.response;
       if(status2){
         setDataRes(data);
+        setDataResOld(data)
       }else if(page > 1){
-        setDataRes((res) => [...res,...data]);
+        setDataRes((res) => [...res,...data])
+        setDataResOld((res) => [...res,...data]);
       }else{
         setDataRes(data);
+        setDataResOld(data)
       }
       setStatus2(false);
     },
@@ -123,6 +127,8 @@ export const useSearchLoad = () => {
     openFilter,
     setOpenFilter,
     dataRes,
+    setDataResOld,
+    dataResOld,
     setDataRes,
     status2,
     setStatus2,

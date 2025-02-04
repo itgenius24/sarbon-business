@@ -1,44 +1,19 @@
-.th {
-  font-weight: 600;
-  color: rgba(126, 123, 134, 1);
-  font-size: 13px;
-  text-transform: uppercase;
 
-  max-width: 250px;
-  &:nth-child(1) {
-    width: 250px;
-  }
-  &:nth-child(2) {
-    width: 250px;
-  }
-  &:nth-child(3) {
-    width: 200px;
-  }
-  &:nth-child(4) {
-    width: 200px;
-  }
-  &:nth-child(5) {
-    width: 200px;
-  }
-  &:nth-child(6) {
-    width: 200px;
-  }
-}
-.card {
-  position: relative;
-  border-radius: 12px;
-  padding: 10px 30px;
-  box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
+// .card {
+//   position: relative;
+//   border-radius: 12px;
+//   padding: 10px 30px;
+//   box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+//   background-color: rgba(255, 255, 255, 0.5);
+//   cursor: pointer;
 
-  &:hover {
-    background-color: rgb(255, 255, 255);
-  }
+//   &:hover {
+//     background-color: rgb(255, 255, 255);
+//   }
 
-  .contend {
-    // background-color: red;
-    // max-width: 250px;
+  // .contend {
+  //   // background-color: red;
+  //   // max-width: 250px;
     .flag {
       width: 29px;
       height: 18px;
@@ -51,7 +26,7 @@
       text-align: center;
       margin-top: 4px;
     }
-    title {
+    .title {
       font-size: 14px;
       font-weight: 500;
       color: rgba(33, 31, 38, 1);
@@ -77,28 +52,8 @@
       font-size: 14px;
       line-height: 20px;
     }
-  }
+  // }
 
-  .contend1 {
-    width: 250px !important;
-    // background-color: red;
-  }
-  .contend2 {
-    width: 250px !important;
-    // background-color: red;
-  }
-  .contend3 {
-    width: 200px !important;
-  }
-  .contend4 {
-    width: 200px !important;
-  }
-  .contend5 {
-    width: 200px !important;
-  }
-  .contend6 {
-    width: 200px !important;
-  }
 
 
   .statusWrap {
@@ -119,8 +74,10 @@
       left: 3px;
       z-index: 1111;
     }
-  }
+  // }
 }
+
+
 .modalOver {
   width: 100%;
   left: 0%;
@@ -276,3 +233,5 @@
     }
   }
 }
+
+

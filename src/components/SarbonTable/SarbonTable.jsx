@@ -1,20 +1,31 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import React, { useState } from "react";
 import cls from "./style.module.scss";
 import { IocnFilter, IocnSortBack, IocnSortTop } from "@/assets/icons/icons";
 const FILTER_TYPES = ["all", "top", "back"];
-const SarbonTable = ({ columns, data, rowClassName = () => {},variant = `table` }) => {
+const SarbonTable = ({
+  columns,
+  data,
+  rowClassName = () => {},
+  statusTooltip= () => {},
+  isTooltip,
+  cardProps,
+  variant = `table`,
+  onRow = () => {}
+}) => {
   const [filters, setFilters] = useState(
     columns.reduce((acc, col) => ({ ...acc, [col.key]: "all" }), {})
   );
 
-  const handleFilterChange = (key) => {
+  const handleFilterChange = (item) => {
     setFilters((prev) => {
-      const currentIndex = FILTER_TYPES.indexOf(prev[key]);
+      const currentIndex = FILTER_TYPES.indexOf(prev[item.key]);
       const nextIndex = (currentIndex + 1) % FILTER_TYPES.length;
-      return { ...prev, [key]: FILTER_TYPES[nextIndex] };
+      item.filterType(FILTER_TYPES[nextIndex])
+      return { ...prev, [item.key]: FILTER_TYPES[nextIndex] };
     });
   };
+
   return (
     <Box width={`100%`}>
       <Flex
@@ -35,8 +46,8 @@ const SarbonTable = ({ columns, data, rowClassName = () => {},variant = `table` 
                 gap={`5px`}
                 cursor={`pointer`}
                 onClick={() => {
-                  handleFilterChange(item.key);
-                  item.filterType(filters[item.key]);
+                  handleFilterChange(item);
+                  
                 }}
               >
                 <Box className={cls.headerTh}>{item.title}</Box>
@@ -56,6 +67,8 @@ const SarbonTable = ({ columns, data, rowClassName = () => {},variant = `table` 
       </Flex>
       {data.map((item, index) => (
         <Flex
+          onClick={() => onRow(item)}
+          position={`relative`}
           alignItems={`center`}
           width={`100%`}
           justifyContent={`space-between`}
@@ -64,9 +77,10 @@ const SarbonTable = ({ columns, data, rowClassName = () => {},variant = `table` 
           }`}
           key={index}
         >
+          {isTooltip && statusTooltip(item)}
           {columns.map((column) => (
             <Box key={column.title} width={`${column.width}%`}>
-              {column.render(item, index)}
+              {column?.render(item, index)}
             </Box>
           ))}
         </Flex>
