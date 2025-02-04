@@ -7,11 +7,13 @@ const SarbonTable = ({
   columns,
   data,
   rowClassName = () => {},
-  statusTooltip= () => {},
+  statusTooltip = () => {},
   isTooltip,
   cardProps,
+  props,
   variant = `table`,
-  onRow = () => {}
+  width = 1444,
+  onRow = () => {},
 }) => {
   const [filters, setFilters] = useState(
     columns.reduce((acc, col) => ({ ...acc, [col.key]: "all" }), {})
@@ -21,13 +23,13 @@ const SarbonTable = ({
     setFilters((prev) => {
       const currentIndex = FILTER_TYPES.indexOf(prev[item.key]);
       const nextIndex = (currentIndex + 1) % FILTER_TYPES.length;
-      item.filterType(FILTER_TYPES[nextIndex])
+      item.filterType(FILTER_TYPES[nextIndex]);
       return { ...prev, [item.key]: FILTER_TYPES[nextIndex] };
     });
   };
 
   return (
-    <Box width={`100%`}>
+    <Box {...props} width={`${width}px`} overflowX={`auto`}>
       <Flex
         justifyContent={`space-between`}
         width={`100%`}
@@ -47,7 +49,6 @@ const SarbonTable = ({
                 cursor={`pointer`}
                 onClick={() => {
                   handleFilterChange(item);
-                  
                 }}
               >
                 <Box className={cls.headerTh}>{item.title}</Box>
@@ -57,7 +58,7 @@ const SarbonTable = ({
                   <IocnSortBack />
                 ) : (
                   <IocnFilter />
-                )}{" "}
+                )}
               </Flex>
             ) : (
               <Box className={cls.headerTh}>{item.title}</Box>
