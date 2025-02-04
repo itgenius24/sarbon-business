@@ -5,7 +5,6 @@ import {
   useGetRoleList,
   useGetUsers,
   useRegisterFirmMutation,
-  useRegisterMutation,
   useRegisterUserMutation,
 } from "@/services/api";
 import { useRouter } from "next/navigation";
@@ -61,18 +60,40 @@ export const useRegistrationFormProps = () => {
             : "a25d605c-d153-4ddf-8590-e4cda176ef93",
       }),
     },
-    { enabled: Boolean(enab), onSuccess: (res) => console.log(`response`, res) }
+    {   
+      enabled: Boolean(enab)
+    }
   );
 
-  useEffect(() => {
-    if (getUsers.data) {
-      if (value === `C2`) {
+  const login = () => {
+    toast({
+      title: t("Профиль успешно добавлен!"),
+      status: "success",
+      position: "top right",
+      isClosable:true,
+      duration:3000
+    });
+    authStore.login({
+      user: {
+        firm_id: getUsers?.data?.response?.[0]?.firm_id,
+        ...getUsers?.data?.response?.[0],
+        id: getUsers?.data.response?.[0]?.guid,
+        client_id: getUsers?.data?.response?.[0]?.client_type_id,
+      },
+      token: {},
+      role: getUsers?.data?.response?.[0]?.role,
+    });
+    router.push(`/${locale}/drivers/create`);
+    setLoadin(false)
+  };
 
+  useEffect(() => {
+    if (getUsers.data && enab) {
+      if (value === `C2`) {
         setLoadin(false)
         authStore.login({
           user: {
             firm_id: getUsers?.data?.response?.[0]?.firm_id,
-            // full_name: getUsers?.data.full_name,
             ...getUsers?.data?.response?.[0],
             id: getUsers?.data.response?.[0]?.guid,
             client_id: getUsers?.data?.response?.[0]?.client_type_id,
@@ -82,29 +103,13 @@ export const useRegistrationFormProps = () => {
         });
         router.push(`/${locale}`);
       } else {
-        setIsPopupOpen(true);
-        setLoadin(false)
+        login()
       }
       setEnab(false);
     }
   }, [getUsers.data]);
 
-  const login = (type) => {
-    setLoadin(false)
 
-    authStore.login({
-      user: {
-        firm_id: getUsers?.data?.response?.[0]?.firm_id,
-        // full_name: getUsers?.data.full_name,
-        ...getUsers?.data?.response?.[0],
-        id: getUsers?.data.response?.[0]?.guid,
-        client_id: getUsers?.data?.response?.[0]?.client_type_id,
-      },
-      token: {},
-      role: getUsers?.data?.response?.[0]?.role,
-    });
-    router.push(`/${locale}/${type}/create`);
-  };
 
   const registerUserMutation = useRegisterUserMutation({
     onSuccess: (data) => {
