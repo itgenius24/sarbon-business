@@ -1,6 +1,7 @@
 import { Container } from "@/components/Container";
 import {
   Box,
+  Button,
   Flex,
   Heading,
   Spinner,
@@ -27,6 +28,7 @@ import CTable from "@/components/CTable";
 import SlotCounter from "react-slot-counter";
 import { DatePicker } from "@/components/DatePicker";
 import cls from "./style.module.scss";
+import { ExelIcon } from "@/assets/icons/icons";
 
 ChartJS.register(
   CategoryScale,
@@ -58,7 +60,9 @@ const Dashboard = () => {
     setDate,
     setDate2,
     setCurrentPage,
-    currentPage
+    currentPage,
+    getExcelFileFn,
+    isLoadingExe,
   } = useDashboard();
 
   return (
@@ -81,7 +85,9 @@ const Dashboard = () => {
               >
                 <Box width={`30%`}>
                   <DatePicker
-                    onChange={() => {setDate(``),setDate2([])}}
+                    onChange={() => {
+                      setDate(``), setDate2([]);
+                    }}
                     endDate={endDate}
                     setEndDate={setEndDate}
                     range
@@ -106,10 +112,7 @@ const Dashboard = () => {
                   >
                     Месяц
                   </p>
-                  <p
-                    className={cls.clear}
-                    onClick={() => setDate(`clear`)}
-                  >
+                  <p className={cls.clear} onClick={() => setDate(`clear`)}>
                     Очистить фильтр
                   </p>
                 </Flex>
@@ -169,13 +172,34 @@ const Dashboard = () => {
         </Flex>
 
         <Box padding={`16px`} borderRadius={`12px`} backgroundColor={`white`}>
-          <Tabs onChange={(el) => {setStatus(el),setCurrentPage(1)}} variant="unstyled">
-            <TabList>
-              <Tab value={`driver`}> Водитель</Tab>
-              <Tab value={`ekspiditor`}> Перевозчик</Tab>
-              <Tab value={`truck`}> Транспорт</Tab>
-              <Tab value={`cargo`}> Груз</Tab>
-            </TabList>
+          <Tabs
+            onChange={(el) => {
+              setStatus(el), setCurrentPage(1);
+            }}
+            variant="unstyled"
+          >
+            <Flex width={`100%`} justifyContent={`space-between`}>
+              <TabList>
+                <Tab value={`driver`}> Водитель</Tab>
+                <Tab value={`ekspiditor`}> Перевозчик</Tab>
+                <Tab value={`truck`}> Транспорт</Tab>
+                <Tab value={`cargo`}> Груз</Tab>
+              </TabList>
+              <Button
+                width={`fit-content`}
+                isLoading={isLoadingExe}
+                onClick={getExcelFileFn}
+                // isDisabled={true}
+                style={{
+                  background: `rgba(255, 255, 255, 1)`,
+                  color: `black`,
+                  border: `1px solid rgba(0, 122, 255, 1)`,
+                }}
+                leftIcon={<ExelIcon />}
+              >
+                Экспорт в Excel
+              </Button>
+            </Flex>
             <TabIndicator
               mt="-1.5px"
               height="3px"
@@ -206,7 +230,7 @@ const Dashboard = () => {
                   isLoading={isPending}
                   columns={columns3}
                   data={data.response}
-                        setCurrentPage={setCurrentPage}
+                  setCurrentPage={setCurrentPage}
                   currentPage={currentPage}
                 />
               </TabPanel>

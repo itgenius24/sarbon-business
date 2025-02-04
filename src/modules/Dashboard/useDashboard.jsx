@@ -1,4 +1,5 @@
 import {
+  useGetExcelPost,
   useGetUserCargo,
   useGetUserCargo2,
   useGetUserData,
@@ -162,6 +163,55 @@ export const useDashboard = () => {
       }),
     },
   });
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
+  });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          filter: filter[status],
+          start_date:
+            date2.length > 0
+              ? date2[0]
+              : startDate
+              ? startDate?.getDate() === endDate?.getDate()
+                ? formatDate(startDate, 0, 0, 0)
+                : new Date(startDate)
+              : ``,
+          end_date:
+            date2.length > 0
+              ? date2[1]
+              : endDate
+              ? startDate?.getDate() === endDate?.getDate()
+                ? formatDate(endDate, 23, 59, 59)
+                : new Date(endDate)
+              : ``,
+          all_date:
+            startDate || endDate ? false : date2.length > 0 ? false : true,
+          type: "analitik",
+        },
+      },
+    });
+  };
 
   const topStatis = [
     {
@@ -606,5 +656,7 @@ export const useDashboard = () => {
     setDate2,
     setCurrentPage,
     currentPage,
+    getExcelFileFn,
+    isLoadingExe:getExcelFile.isPending,
   };
 };
