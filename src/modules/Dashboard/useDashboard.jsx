@@ -249,7 +249,7 @@ export const useDashboard = () => {
       `Водитель (${data?.driver_count?.[0]?.total_count || 0})`,
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
-      `Груз (${data?.cargo_count?.[0]?.total_count || 0})`,
+      `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
     ],
     datasets: [
       {
@@ -258,7 +258,7 @@ export const useDashboard = () => {
           data?.driver_count?.[0]?.total_count || 0,
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
-          data?.cargo_count?.[0]?.total_count || 0,
+          data?.cargo_count?.[0]?.total_accepted_offers || 0,
         ],
         borderColor: "transparent",
         backgroundColor: [
@@ -594,6 +594,7 @@ export const useDashboard = () => {
     {
       title: `Принятые предл.`,
       dataIndex: "accepted_offers",
+      render:(_,row) => row?.number_of_cars - row?.accepted_offers,
       width: 200,
     },
     {
