@@ -1,0 +1,63 @@
+.headerWrap {
+  padding: 0px 24px;
+}
+.headerThWrap {
+  // background-color: red;
+}
+.headerTh {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 28px;
+  text-transform: uppercase;
+  color: rgba(126, 123, 134, 1);
+}
+.filterWrap {
+  .headerTh {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 28px;
+    text-transform: uppercase;
+    color: rgba(126, 123, 134, 1);
+  }
+  svg {
+    display: none;
+  }
+  &:hover {
+    .headerTh {
+      color: rgba(0, 122, 255, 1);
+    }
+    svg {
+      display: block;
+
+      path {
+        fill: rgba(0, 122, 255, 1) !important;
+      }
+    }
+  }
+}
+
+.card {
+  padding: 18px 24px 18px 24px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
+  margin-top: 10px;
+  // border-left: 4px solid white;
+}
+
+.table {
+  width: 100%;
+  padding: 10px 24px;
+  position: relative !important;
+  background-color: white;
+   
+}
+
+.table::after{
+  position: absolute !important;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background-color: black;
+ }

@@ -63,7 +63,7 @@ export const MyCarsDispatcherModule = () => {
               </p>
               <p>
                 {t(`Свободных`)}:
-                <span>{count?.free_count}</span>
+                <span>{count?.free_count || 0}</span>
               </p>
             </Box>
             {isSuperDispatcher === "approved" && (

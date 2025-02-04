@@ -214,41 +214,19 @@ export const TopContent = ({
   var myPolyline = useRef(null);
   var myPlaceMark = useRef(null);
 
-  function initYmaps() {
-
-    myPolyline.current = new ymaps.Polyline(
-      [],
-      { balloonContent: "Polyline" },
-      {
-        balloonCloseButton: false,
-        strokeColor: "#009241",
-        strokeWidth: 4,
-        strokeOpacity: 1
+  useEffect(() => {
+    if (status === "performed" && userId) {
+      getGPSHistory.mutate({
+        data: {
+          object_data: {
+            user_id: userId,
+            page,
+            limit: 500,
+          },
+        },
       });
-
-    multiRoute.current = new ymaps.multiRouter.MultiRoute({ referencePoints: [watch("loadings")?.[0]?.cor, watch("unloading")?.[0]?.cor] }, {
-      editorMidPointsType: "via",
-      routeActiveStrokeColor: "#007AFF",
-      editorDrawOver: false,
-    });
-
-    myMap.current = new ymaps.Map("topContentMap", {
-      center: [41.40587471972005, 69.46086540238926],
-      zoom: 15,
-      controls: [],
-    }, { buttonMaxWidth: 300 });
-
-    myPlaceMark.current = new ymaps.Placemark([], { hintContent: "Driver", }, {
-      iconLayout: "default#image",
-      iconImageHref: "/images/navigation.png",
-      iconImageSize: [37, 37],
-      iconImageOffset: [-5, -38]
-    }),
-    myMap.current.geoObjects.add(myPolyline.current);
-    myMap.current.geoObjects.add(multiRoute.current);
-    myMap.current.geoObjects.add(myPlaceMark.current);
-
-  }
+    }
+  }, [status, userId, page]);
 
   useEffect(() => {
     if (myPolyline.current) {
@@ -322,7 +300,7 @@ export const TopContent = ({
 
   const handleShare = (user, cargoData) => {
     copy(
-      `https://furgo.uz/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
+      `https://sarbon.me/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
     );
   };
 

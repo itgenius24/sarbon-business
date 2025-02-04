@@ -133,18 +133,37 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setIsOpen(false);
   }
 
-
-
   const emptyCargoFields = {
     cargo_type: {
       value: "",
       label: "",
     },
+    cargo_type_search: "",
     weight_measurement: "",
     weight_unit: {
       value: "",
       label: "",
     },
+    loadings: [
+      {
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
+      },
+    ],
+    unloading: [
+      {
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
+      },
+    ],
     volume_measurement: "",
     packaging: {
       value: "",
@@ -370,7 +389,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       }
     });
 
-    const unloadingValues = getLoadingsValues("unloading");
+    const unloadingValues = getValues("unloading");
 
     unloadingValues.reverse().forEach((item) => {
       if (item.address && item.cor) {
@@ -653,7 +672,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
         package_quantity: +data.packaging_quantity || 0,
         load_time: startDate,
         date: endDate,
-        address_id: loadingsWatch("loadings")?.[0].location.value,
+        address_id: data.loadings[0].location.value,
         address_ids: [],
         address_id_2: data.unloading[0].location.value,
         city_id: data.loadings[0].location.guid,
@@ -824,7 +843,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   function handleResetForm() {
     formStore.clearFormData();
     reset(emptyCargoFields);
-    resetLoadings(emptyLoadingFields);
     setStartDate("");
     setEndDate("");
     setPackagingAndQuantity(false);
@@ -1023,8 +1041,8 @@ export const useAddCargoProps = ({ id, status, locale }) => {
 
       // unloadingRef.current.push(unloadingRef.current.shift());
 
-      setLoadingsValue("loadings", loadingsRef.current);
-      setLoadingsValue("unloading", unloadingRef.current);
+      setValue("loadings", loadingsRef.current);
+      setValue("unloading", unloadingRef.current);
     }
   }, [getMaps.data]);
 

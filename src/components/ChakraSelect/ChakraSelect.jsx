@@ -3,7 +3,6 @@
 import "./styles.scss";
 import { Select } from "chakra-react-select";
 import { Controller, useForm } from "react-hook-form";
-/* eslint no-undef: 0 */ // --> OFF
 
 export const ChakraSelect = ({
   control,

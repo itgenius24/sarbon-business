@@ -137,11 +137,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
         >
           {item && item?.user?.photo !== "photo" && item?.user?.photo ? (
             <Image
-              style={{ borderRadius: `50%`, width: `130px`, height: `130px` }}
+              style={{ borderRadius: `50%`, width: `130px`, height: `130px`,objectFit:`cover` }}
               src={item?.user?.photo}
               objectFit="cover"
-              width={`200`}
-              height={`100`}
+              width={200}
+              height={200}
               alt="w"
             />
           ) : (
@@ -278,11 +278,12 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                         borderRadius: `6px`,
                         width: `60px`,
                         height: `45px`,
+                        objectFit:`cover`
                       }}
                       src={item?.vehicles?.[0]?.car_photo}
                       // objectFit="cover"
-                      width={`100`}
-                      height={`100`}
+                      width={100}
+                      height={100}
                       alt="w"
                     />
                   ) :<NoImFur /> }

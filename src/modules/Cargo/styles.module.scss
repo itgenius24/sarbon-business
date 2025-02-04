@@ -1,26 +1,10 @@
-.contentWrapper {
-  max-width: 910px;
-}
-
-.contentWrapper.editing {
-  max-width: 100%;
-}
-
-.topButtonsWrapper {
-  max-width: 910px;
-  width: 100%;
-  position: absolute;
-  top: -48px;
-}
-
-.breadCrumb {
-  position: absolute;
-  top: -42px;
-}
-
 @include breakpoint-down(1190px) {
   .contentWrapper {
     flex-direction: column-reverse;
+  }
+
+  .topButtons {
+    
   }
 }
 
@@ -34,16 +18,13 @@
 }
 
 @include breakpoint-down(575px) {
-  .topButtonsWrapper {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: start;
-  }
+
 
   .topButtons {
     flex-direction: column;
     width: 100%;
     gap: 15px;
+    
   }
 
   .topButton {

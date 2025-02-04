@@ -9,7 +9,6 @@ import { PaymentDetail } from "../PaymentDetail";
 import { Contacts } from "../Contacts";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
 export const CargoSetup = ({ setIsPhotoChanged }) => {
 
@@ -49,12 +48,6 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
             <TextFieldWithAddition
               disabled={!status}
               name="price"
-              onChange={(e) => {
-                console.log(e.target.value);
-                // format the value to currency and setValue the price
-                const currencyValue = formatPhoneNumber(e.target.value);
-                setValue("price", currencyValue);
-              }}
               register={register}
               control={control}
               additionalItemName="price_prepayment_unit"
@@ -66,8 +59,6 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               additionalItemOptions={currencyOptions}
               zIndex={20}
             />
-
-
           </Box>
           <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px" >
             <Box width="280px" flexShrink={0}>

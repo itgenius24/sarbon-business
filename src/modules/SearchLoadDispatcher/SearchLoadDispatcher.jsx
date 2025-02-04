@@ -206,9 +206,9 @@ export const SearchLoadDispatcherModule = () => {
             background={`white`}
             minH={`60vh`}
           >
-            {data?.map((item, index) => (
+            {!isPending && data?.map((item, index) => (
               <CarsCard
-              t={t}
+                t={t}
                 key={index}
                 index={index}
                 item={item}
@@ -220,7 +220,7 @@ export const SearchLoadDispatcherModule = () => {
 
             {isPending ? (
               <Box
-                height={data?.length > 0 ? `5vh` : `60vh`}
+                height={`5vh`}
                 display={`flex`}
                 justifyContent={`center`}
                 alignItems={`center`}

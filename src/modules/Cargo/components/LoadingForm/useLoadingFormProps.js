@@ -159,7 +159,7 @@ export const useLoadingFormProps = () => {
   }
 
   function onMapClick (e) {
-    const coordinates = [Number(e.get("coords")[0].toPrecision(18)), Number(e.get("coords")[1].toPrecision(18))];
+    const coordinates = e.get("coords");
 
     getPlaceMarkAddress(coordinates);
     setPlaceMarkGeometry(coordinates);

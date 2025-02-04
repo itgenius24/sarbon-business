@@ -70,6 +70,7 @@ export const useMyCars = () => {
         mutate({
           data: {
             ...getValues(),
+             create_time:new Date(),
             login: getValues().full_name,
             firm_id,
             role_id: "921464fa-8308-46b7-9b66-363acf654e40",
@@ -126,6 +127,7 @@ export const useMyCars = () => {
           guid: getUserGps?.data?.response[0]?.guid,
           role_id: "921464fa-8308-46b7-9b66-363acf654e40",
           client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+
         },
       });
     } else {
