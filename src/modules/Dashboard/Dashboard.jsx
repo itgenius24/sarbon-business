@@ -67,7 +67,7 @@ const Dashboard = () => {
 
   const notificationFn = () => {
     Notification.requestPermission();
-    const audio = new Audio("https://pub-adf8c687e31f4a9d84bb2c801e0d3adf.r2.dev/5591821141234c9fa288b13fa2f31b3c.wav"); // O'zingizga kerakli audio fayl yo'lini kiriting
+    const audio = new Audio(""); // O'zingizga kerakli audio fayl yo'lini kiriting
     audio.play();
     new Notification("Xabaringiz bor!", {
       body: "Sizga yangi xabar keldi. Iltimos tekshiring!",
@@ -258,7 +258,7 @@ const Dashboard = () => {
           </Tabs>
         </Box>
       </Flex>
-      <Button width={`fit-content`} onClick={notificationFn} >Notification</Button>
+      {/* <Button width={`fit-content`} onClick={notificationFn} >Notification</Button> */}
 
     </Container>
   );
