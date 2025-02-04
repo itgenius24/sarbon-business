@@ -608,8 +608,7 @@ export const useDashboard = () => {
     },
     {
       title: `Сумма после завершения заказа`,
-
-      dataIndex: "prepayment_percentage",
+      dataIndex: "dim_length_special",
       width: 450,
     },
     {
