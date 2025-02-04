@@ -237,7 +237,7 @@ export const useDashboard = () => {
     },
     {
       id: 4,
-      total: useCargo?.response.reduce((sum, item) => sum + item.accepted_offers, 0) || 0,
+      total: useCargo?.response?.reduce((sum, item) => sum + item?.accepted_offers, 0) || 0,
       deck: `Общее количество активных грузов`,
       bg: `rgba(193, 187, 32, 1)`,
       color: `rgba(193, 187, 32, 0.3)`,
