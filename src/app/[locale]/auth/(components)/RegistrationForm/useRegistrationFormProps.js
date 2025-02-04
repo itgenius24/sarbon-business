@@ -163,6 +163,7 @@ export const useRegistrationFormProps = () => {
           user_status: ["rejected"],
           passport_code: status === 1 ? watch(`passport_code`) : undefined,
           passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
+          create_time:new Date()
         },
       });
     },
