@@ -83,7 +83,7 @@ export const useRegistrationFormProps = () => {
       token: {},
       role: getUsers?.data?.response?.[0]?.role,
     });
-    router.push(`/${locale}/drivers/create`);
+    router.push(`/${locale}/search-load`);
     setLoadin(false)
   };
 
@@ -233,7 +233,6 @@ export const useRegistrationFormProps = () => {
     setValue("tel", phone);
   }, []);
 
-  console.log(`clientTypeOptions`, clientTypeOptions);
 
   return {
     clientTypeOptions,
