@@ -188,7 +188,7 @@ export const useDashboard = () => {
     getExcelFile.mutate({
       data: {
         object_data: {
-          filter: filter[status],
+          filter: ``,
           start_date:
             date2.length > 0
               ? date2[0]
@@ -207,7 +207,7 @@ export const useDashboard = () => {
               : ``,
           all_date:
             startDate || endDate ? false : date2.length > 0 ? false : true,
-          type: "analitik",
+          type: "",
         },
       },
     });
