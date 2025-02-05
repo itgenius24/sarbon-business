@@ -12,7 +12,7 @@ const SarbonTable = ({
   cardProps,
   props,
   variant = `table`,
-  width = 1444,
+  width = `1444px`,
   onRow = () => {},
 }) => {
   const [filters, setFilters] = useState(
@@ -29,7 +29,7 @@ const SarbonTable = ({
   };
 
   return (
-    <Box {...props} width={`${width}px`} overflowX={`auto`}>
+    <Box {...props} width={width} overflowX={`auto`}>
       <Flex
         justifyContent={`space-between`}
         width={`100%`}

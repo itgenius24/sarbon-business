@@ -15,7 +15,7 @@ export const MainLayout = ({ children }) => {
   const pathname = usePathname();
 
   const isAuthPage = pathname.includes("auth") || pathname.includes(`share-location`); 
-  const isAuthPageFooter = pathname.includes("auth") || pathname.includes(`add-cargo`);
+  const isAuthPageFooter = pathname.includes("auth") || pathname.includes(`add-cargo`) || pathname.includes(`app-download`) ;
 
   return <div className={clsx(cls.layout, "fade-in")}>
     {

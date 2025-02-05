@@ -83,7 +83,7 @@ export const useRegistrationFormProps = () => {
       token: {},
       role: getUsers?.data?.response?.[0]?.role,
     });
-    router.push(`/${locale}/search-load`);
+    router.replace(`/${locale}/search-load`);
     setLoadin(false)
   };
 
