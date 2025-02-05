@@ -44,7 +44,9 @@ const Header = observer(({ elements }) => {
 
   const photo = userData.data?.photo;
 
-  console.log(`photo`,photo);
+
+  console.log(`salom`,!pathname?.includes("app-download"))
+
 
   const [isNavOpen, setNavOpen] = useState(false);
 
@@ -185,7 +187,7 @@ const Header = observer(({ elements }) => {
               </Box>
             </Box>
             <Flex alignItems="center">
-              {!isAuth && (
+              {!isAuth && !pathname?.includes("app-download") && (
                 <Flex>
                   <Link
                     // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
@@ -208,7 +210,9 @@ const Header = observer(({ elements }) => {
                   </Link>
                 </Flex>
               )}
-              <button className={cls.burgerBtn} onClick={handleToggleNav}>
+
+              {
+                !pathname?.includes("app-download") &&   <button className={cls.burgerBtn} onClick={handleToggleNav}>
                 <svg id="hamburger" viewBox="0 0 60 40">
                   <g
                     stroke="#70707B"
@@ -234,6 +238,8 @@ const Header = observer(({ elements }) => {
                   </g>
                 </svg>
               </button>
+              }
+            
             </Flex>
           </Box>
         </Box>

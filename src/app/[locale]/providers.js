@@ -13,7 +13,6 @@ export function Providers({ children }) {
   
 
   useEffect(() => {
-    console.log(`salom`,window.location.hostname.includes("furgo"))
     if (window.location.hostname.includes("furgo")) {
       window.location.href = "https://sarbon.me";
     }
@@ -24,7 +23,7 @@ export function Providers({ children }) {
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <YMaps
-          lang={`en`}
+            lang={`en`}
             query={{
               load: "Map,Placemark",
               apikey: process.env.NEXT_PUBLIC_YANDEX_MAP_KEY,

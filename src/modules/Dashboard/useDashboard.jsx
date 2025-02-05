@@ -1,4 +1,5 @@
 import {
+  useGetExcelPost,
   useGetUserCargo,
   useGetUserCargo2,
   useGetUserData,
@@ -162,6 +163,55 @@ export const useDashboard = () => {
       }),
     },
   });
+  const downloadByLanguage = async (url) => {
+    try {
+      const link = document.createElement("a");
+      const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
+      link.href = res;
+      link.target = "_blank";
+      link.download = `Груз`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.log(2);
+    }
+  };
+
+  const getExcelFile = useGetExcelPost({
+    onSuccess: (res) => {
+      downloadByLanguage(res?.url);
+    },
+  });
+
+  const getExcelFileFn = () => {
+    getExcelFile.mutate({
+      data: {
+        object_data: {
+          filter: filter[status],
+          start_date:
+            date2.length > 0
+              ? date2[0]
+              : startDate
+              ? startDate?.getDate() === endDate?.getDate()
+                ? formatDate(startDate, 0, 0, 0)
+                : new Date(startDate)
+              : ``,
+          end_date:
+            date2.length > 0
+              ? date2[1]
+              : endDate
+              ? startDate?.getDate() === endDate?.getDate()
+                ? formatDate(endDate, 23, 59, 59)
+                : new Date(endDate)
+              : ``,
+          all_date:
+            startDate || endDate ? false : date2.length > 0 ? false : true,
+          type: "analitik",
+        },
+      },
+    });
+  };
 
   const topStatis = [
     {
@@ -187,7 +237,7 @@ export const useDashboard = () => {
     },
     {
       id: 4,
-      total: useCargo?.count || 0,
+      total: useCargo?.response?.reduce((sum, item) => sum + item?.accepted_offers, 0) || 0,
       deck: `Общее количество активных грузов`,
       bg: `rgba(193, 187, 32, 1)`,
       color: `rgba(193, 187, 32, 0.3)`,
@@ -199,7 +249,7 @@ export const useDashboard = () => {
       `Водитель (${data?.driver_count?.[0]?.total_count || 0})`,
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
-      `Груз (${data?.cargo_count?.[0]?.total_count || 0})`,
+      `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
     ],
     datasets: [
       {
@@ -208,7 +258,7 @@ export const useDashboard = () => {
           data?.driver_count?.[0]?.total_count || 0,
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
-          data?.cargo_count?.[0]?.total_count || 0,
+          data?.cargo_count?.[0]?.total_accepted_offers || 0,
         ],
         borderColor: "transparent",
         backgroundColor: [
@@ -387,11 +437,12 @@ export const useDashboard = () => {
     },
   ];
   const columns3 = [
-    // {
-    //   title: `ID`,
-    //   dataIndex: "your_id",
-    //   width: 200,
-    // },
+    {
+      title: `ID`,
+      dataIndex: "unit_id",
+      width: 200,
+      render:(_,row) => row.unit_id ?   row.unit_id : `Нет ID `
+    },
     {
       title: `Гос номер`,
       dataIndex: "car_number",
@@ -469,6 +520,11 @@ export const useDashboard = () => {
   ];
   const columns4 = [
     {
+      title: `Id`,
+      dataIndex: "number_of_order",
+      width: 200,
+    },
+    {
       title: `Груз id`,
       dataIndex: "number_of_order",
       width: 200,
@@ -536,6 +592,12 @@ export const useDashboard = () => {
       width: 200,
     },
     {
+      title: `Принятые предл.`,
+      dataIndex: "accepted_offers",
+      render:(_,row) => row?.number_of_cars - row?.accepted_offers,
+      width: 200,
+    },
+    {
       title: `Общая сумма`,
       dataIndex: "bid_cash",
       width: 300,
@@ -547,8 +609,7 @@ export const useDashboard = () => {
     },
     {
       title: `Сумма после завершения заказа`,
-
-      dataIndex: "prepayment_percentage",
+      dataIndex: "dim_length_special",
       width: 450,
     },
     {
@@ -595,5 +656,7 @@ export const useDashboard = () => {
     setDate2,
     setCurrentPage,
     currentPage,
+    getExcelFileFn,
+    isLoadingExe:getExcelFile.isPending,
   };
 };

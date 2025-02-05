@@ -1,7 +1,7 @@
 import { PlusIcon, UserDisIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import Image from "next/image";
+import SlotCounter from "react-slot-counter";
 import cls from "./style.module.scss";
 import React from "react";
 import { useProfileDis } from "./useProfileDis";
@@ -67,11 +67,11 @@ const ProfileDispatcher = () => {
                   borderRight={`1px solid rgba(219, 216, 227, 1)`}
                 >
                   <p className={cls.statisName}>Завершенные</p>
-                  <p className={cls.statisRes}>31</p>
+                  <p className={cls.statisRes}><SlotCounter value={`31`} /></p>
                 </Box>
                 <Box pl={`20px`}>
                   <p className={cls.statisName}>Cумма заказов (UZS) </p>
-                  <p className={cls.statisRes}>424,056,0001</p>
+                  <p className={cls.statisRes}> <SlotCounter value={`424,056,0001`} /></p>
                 </Box>
               </Flex>
             </Box>
@@ -91,7 +91,7 @@ const ProfileDispatcher = () => {
           ))}
         </Box>
         <Box width={`80%`}>
-        <SarbonTable  data={[1,2,3]} columns={columns} />
+        <SarbonTable variant="card" width="100%"  data={[1,2,3]} columns={columns} />
         </Box>
       </Flex>
     </Container>
