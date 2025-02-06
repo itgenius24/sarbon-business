@@ -20,6 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import cls from "./style.module.scss";
@@ -49,6 +50,7 @@ import authStore from "@/store/auth.store";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import Image from "next/image";
 import { format } from "date-fns";
+import copy from "copy-to-clipboard";
 
 export const TableComponent = ({
   isLargerThan845,
@@ -68,6 +70,7 @@ export const TableComponent = ({
   const [centerModalType, setCenterModalType] = useState();
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
+  const toast = useToast();
 
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
@@ -210,7 +213,6 @@ export const TableComponent = ({
     }
   };
 
-
   const handleSorCar = (type) => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (type === `top`) {
@@ -226,8 +228,6 @@ export const TableComponent = ({
       setDataRes(sortedData);
     }
   };
-
-
 
   const deleteOrder = (data) => {
     const order = data?.orders?.filter(
@@ -246,6 +246,18 @@ export const TableComponent = ({
     }
   };
 
+  const copyFn = (name) => {
+
+    copy(name);
+    toast({
+      title: t("Адрес скопирован"),
+      status: "success",
+      position: "top right",
+      isClosable:true,
+      duration:3000
+    });
+  };
+
   const columns = [
     {
       title: t("Откуда забрать"),
@@ -254,11 +266,8 @@ export const TableComponent = ({
       key: `from`,
       filterType: (type) => handleSorFrom(type),
       render: (row, index) => (
-        <Flex className={cls.address}  gap={`14px`} alignItems={`center`}>
-          <Box
-            display={`flex`}
-            flexDirection={`column`}
-          >
+        <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
+          <Box display={`flex`} flexDirection={`column`}>
             <Image
               className={cls.flag}
               width={30}
@@ -297,8 +306,14 @@ export const TableComponent = ({
                 {/* ~ 3450 km */}
               </span>
             </p>
-            <div className={cls.copy}>
-               <CopyIconAdress />
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                copyFn(row?.from);
+              }}
+              className={cls.copy}
+            >
+              <CopyIconAdress />
             </div>
           </Flex>
         </Flex>
@@ -312,10 +327,7 @@ export const TableComponent = ({
       filterType: (type) => handleSorTo(type),
       render: (row, index) => (
         <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
-          <Box
-            display={`flex`}
-            flexDirection={`column`}
-          >
+          <Box display={`flex`} flexDirection={`column`}>
             <Image
               className={cls.flag}
               width={30}
@@ -352,8 +364,14 @@ export const TableComponent = ({
                   : row?.date && format(row?.date, `yyyy-MM-dd`)}
               </span>
             </p>
-            <div className={cls.copy}>
-               <CopyIconAdress />
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                copyFn(row?.to);
+              }}
+              className={cls.copy}
+            >
+              <CopyIconAdress />
             </div>
           </Flex>
         </Flex>

@@ -57,12 +57,14 @@ const useStepTwoProps = () => {
 
   useEffect(() => {
     if (
-      (watch(`addressFrom`)?.length <= 0 || watch(`addressTo`)?.length <= 0) &&
-      activeIndex
+      (watch(`addressFrom`)?.length <= 0 && activeIndex)
     ) {
+      setValue(activeIndex, ``);
+    } else if(watch(`addressTo`)?.length <= 0 && activeIndex){
       setValue(activeIndex, ``);
     }
   }, [watch(`addressFrom`), watch(`addressTo`)]);
+
   const handLeCheck2 = (e) => {
     setas_soon_as_b(e.target.checked);
     setValue(`as_soon_as_b`, e.target.checked);
@@ -166,8 +168,6 @@ const useStepTwoProps = () => {
       var countryName = res.geoObjects.get(0)?._xalEntities.country;
       var flagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
 
- 
-
       setValue(nameState, firstGeoObject.getAddressLine());
       if (type === "loading") {
         setValue(`loadings.${[index]}`, {
@@ -176,11 +176,10 @@ const useStepTwoProps = () => {
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           from_date: watch(`loadings[${index}].from_date`) || "",
         });
-        if(index === 0){
+        if (index === 0) {
           setValue(`flag_ot`, flagUrl);
           setValue(`country_code_from`, countryCode);
           setValue(`country_from`, countryName);
-
         }
       } else {
         setValue(`unloading.${[index]}`, {
@@ -188,13 +187,11 @@ const useStepTwoProps = () => {
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           to_date: watch(`unloading[${index}].to_date`) || "",
         });
-        if(index === 0){
+        if (index === 0) {
           setValue(`flag_do`, flagUrl);
           setValue(`country_code_to`, countryCode);
           setValue(`country_to`, countryName);
-
         }
-       
       }
       // setValue(nameState, firstGeoObject.getAddressLine());
       // setAddressAdd({
@@ -213,10 +210,7 @@ const useStepTwoProps = () => {
       }
     }
     setValue(
-      name,
-      `${location?.GeoObject?.name}, ${
-        location?.GeoObject?.description ? location?.GeoObject?.description : ``
-      }`
+      name,  location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
     );
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();

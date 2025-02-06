@@ -24,6 +24,7 @@ export const useSearchLoad = () => {
   const [dataResOld, setDataResOld] = useState([]);
   const [status2, setStatus2] = useState(false);
   const [page, setPage] = useState(1);
+  const [total,setTotal] = useState()
   const firm_id = authStore.userData.firm_id;
 
   const {
@@ -38,6 +39,7 @@ export const useSearchLoad = () => {
   const { mutate: getCargoPost, isPending: isPendingLo } = useGetCargoPost({
     onSuccess: (res) => {
       const data = res?.response;
+      setTotal(res?.count?.[0]?.totalCount)
       if(status2){
         setDataRes(data);
         setDataResOld(data)
@@ -135,6 +137,7 @@ export const useSearchLoad = () => {
     setPage,
     page,
     isPendingLo,
-    onSubmit
+    onSubmit,
+    total
   };
 };

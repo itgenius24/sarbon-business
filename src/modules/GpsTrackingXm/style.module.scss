@@ -161,6 +161,37 @@
           font-size: 14px;
           color: rgba(52, 64, 84, 1);
         }
+        .flex {
+          display: flex;
+          align-items: center;
+          position: relative;
+          gap: 10px;
+          // margin: 4px 0px;
+          .premium{
+             font-size: 12px;
+            padding:5px;
+            border-radius: 25px;
+            background-color: rgba(255, 183, 67, 1);
+            box-shadow: 0px 4px 4px 6px rgba(255, 255, 255, 1);
+            z-index: 233;
+            left: 110px;
+            position: absolute;
+            color: white;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            cursor: pointer;
+          }
+          .cardExtel{
+            font-weight: 400;
+            font-size: 14px;
+            color: rgba(126, 123, 134, 1);
+            line-height: 20px;
+          }
+        }
       }
       .disNum {
         font-weight: 600;

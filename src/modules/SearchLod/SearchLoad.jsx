@@ -28,7 +28,9 @@ export const SearchLoadModule = () => {
     setStatus2,
     setPage,
     page,
-    isPendingLo,onSubmit
+    isPendingLo,
+    onSubmit,
+    total,
   } = useSearchLoad();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -99,15 +101,16 @@ export const SearchLoadModule = () => {
             isPendingLo={isPendingLo}
           />
         </Box>
-        <Button
-        mt={`24px`}
-        width={`fit-content`}
-        onClick={() => setPage(page + 1)}
-        className={cls.loadMore}
-      >
-        {t(`Загрузить еще`)}
-      </Button>
-
+        {!isPendingLo && dataRes?.length !== total && (
+          <Button
+            mt={`24px`}
+            width={`fit-content`}
+            onClick={() => setPage(page + 1)}
+            className={cls.loadMore}
+          >
+            {t(`Загрузить еще`)}
+          </Button>
+        )}
       </Container>
     </>
   );

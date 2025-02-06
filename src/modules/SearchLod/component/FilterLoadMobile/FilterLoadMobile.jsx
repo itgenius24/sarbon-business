@@ -109,11 +109,7 @@ export const FilterLoadMobile = ({
                           <LocationIconStep />
 
                           <p className={cls.item}>
-                            {`${location?.GeoObject?.name}, ${
-                              location?.GeoObject?.description
-                                ? location?.GeoObject?.description
-                                : ``
-                            }`}
+                            {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
                           </p>
                         </Flex>
                       ))}
@@ -154,11 +150,7 @@ export const FilterLoadMobile = ({
                           <LocationIconStep />
 
                           <p className={cls.item}>
-                            {`${location?.GeoObject?.name}, ${
-                              location?.GeoObject?.description
-                                ? location?.GeoObject?.description
-                                : ``
-                            }`}
+                            {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
                           </p>
                         </Flex>
                       ))}
