@@ -591,10 +591,16 @@ export const useDashboard = () => {
       dataIndex: "number_of_cars",
       width: 200,
     },
+    
     {
       title: `Принятые предл.`,
       dataIndex: "accepted_offers",
       render:(_,row) => row?.number_of_cars - row?.accepted_offers,
+      width: 200,
+    },
+    {
+      title: `Актуальный  машин`,
+      dataIndex: "accepted_offers",
       width: 200,
     },
     {

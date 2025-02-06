@@ -84,7 +84,7 @@ export const useRegistrationFormProps = () => {
       role: getUsers?.data?.response?.[0]?.role,
     });
     router.replace(`/${locale}/search-load`);
-    setLoadin(false)
+    // setLoadin(false)
   };
 
   useEffect(() => {
