@@ -519,7 +519,7 @@ export const TableComponent = ({
 
   return (
     <>
-      <Box mt={"32px"}>
+      <Box mb={`10px`} mt={"32px"}>
         <SarbonTable
           isTooltip
           statusTooltip={statusTooltip}

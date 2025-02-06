@@ -8,9 +8,9 @@ import { usePathname } from "next/navigation";
 import { useElements } from "./elements";
 import clsx from "clsx";
 
-export const MainLayout = ({ children }) => {
+export const MainLayout = ({locale, children }) => {
 
-  const elements = useElements();
+  const elements = useElements(locale);
 
   const pathname = usePathname();
 

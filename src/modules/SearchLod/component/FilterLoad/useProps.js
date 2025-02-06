@@ -61,10 +61,14 @@ export const useProps = ({ setValue }) => {
   const hanleAdress = (location, name) => {
     setValue(
       name,
-      `${location?.GeoObject?.name}, ${
-        location?.GeoObject?.description ? location?.GeoObject?.description : ``
-      }`
+      `${location?.GeoObject?.name}`
     );
+    // setValue(
+    //   name.slice(0,-2),
+    //   `${location?.GeoObject?.name}${
+    //     location?.GeoObject?.description ? ` ,${location?.GeoObject?.description}` : ``
+    //   }`
+    // );
     setResults([]);
   };
 

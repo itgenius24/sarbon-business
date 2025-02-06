@@ -50,7 +50,7 @@ export default function RootLayout({ children, params: { locale } }) {
   
       <body style={{backgroundColor:`#f6f7f8`}} className={inter.className}>
         <Providers>
-          <MainLayout>{children}</MainLayout>
+          <MainLayout locale={locale}>{children}</MainLayout>
         </Providers>
       </body>
       <Script

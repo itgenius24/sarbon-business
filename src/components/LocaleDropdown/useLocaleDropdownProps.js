@@ -55,7 +55,6 @@ export const useLocaleDropdownProps = ({ locale }) => {
   const lan = useGetLang()
 
   useEffect(() => {
-    // console.log(`locale`,locale)
     if (!lan) {
       const expires = new Date();
       expires.setFullYear(expires.getFullYear() + 1);

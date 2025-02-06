@@ -76,7 +76,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
                   >
                     <LocationIconStep />
 
-                    <p className={cls.item}>{`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}</p>
+                    <p className={cls.item}>{`${location?.GeoObject?.name}`}</p>
                   </Flex>
                 ))}
               </Box>
@@ -113,7 +113,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
                   >
                     <LocationIconStep />
 
-                    <p className={cls.item}>{`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}</p>
+                    <p className={cls.item}>{`${location?.GeoObject?.name}`}</p>
                   </Flex>
                 ))}
               </Box>
