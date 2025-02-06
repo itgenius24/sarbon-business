@@ -599,7 +599,7 @@ export const useDashboard = () => {
       width: 200,
     },
     {
-      title: `Актуальный  машин`,
+      title: `Оставшиеся машины`,
       dataIndex: "accepted_offers",
       width: 200,
     },
