@@ -266,6 +266,8 @@ const StepFive = ({ status }) => {
         to: unloading[unloading.length - 1].address,
         as_soon_as_a: watch(`as_soon_as_a`),
         as_soon_as_b: watch(`as_soon_as_b`),
+        country_from:watch(`country_from`),
+        country_to:watch(`country_to`)
       },
     };
     createCargo.mutate(requestData);
@@ -352,6 +354,8 @@ const StepFive = ({ status }) => {
         to: unloading[unloading.length - 1].address,
         as_soon_as_a: watch(`as_soon_as_a`),
         as_soon_as_b: watch(`as_soon_as_b`),
+        country_from:watch(`country_from`),
+        country_to:watch(`country_to`)
       },
     };
     createCargo.mutate(requestData);

@@ -36,7 +36,7 @@ export const FilterLoadMobile = ({
   watch,
   openFilter,
   setOpenFilter,
-  onSubmit
+  onSubmit,
 }) => {
   const {
     t,
@@ -109,7 +109,11 @@ export const FilterLoadMobile = ({
                           <LocationIconStep />
 
                           <p className={cls.item}>
-                            {location?.GeoObject?.name}
+                            {`${location?.GeoObject?.name}, ${
+                              location?.GeoObject?.description
+                                ? location?.GeoObject?.description
+                                : ``
+                            }`}
                           </p>
                         </Flex>
                       ))}
@@ -140,7 +144,9 @@ export const FilterLoadMobile = ({
                     <Box className={cls.optionsWrap}>
                       {results?.map((location, idx) => (
                         <Flex
-                          onClick={() => hanleAdress(location, `to2`, "loading")}
+                          onClick={() =>
+                            hanleAdress(location, `to2`, "loading")
+                          }
                           key={idx}
                           gap={3}
                           alignItems={"center"}
@@ -148,7 +154,11 @@ export const FilterLoadMobile = ({
                           <LocationIconStep />
 
                           <p className={cls.item}>
-                            {location?.GeoObject?.name}
+                            {`${location?.GeoObject?.name}, ${
+                              location?.GeoObject?.description
+                                ? location?.GeoObject?.description
+                                : ``
+                            }`}
                           </p>
                         </Flex>
                       ))}
@@ -266,7 +276,9 @@ export const FilterLoadMobile = ({
             </Flex>
           </DrawerBody>
           <DrawerFooter>
-            <Button onClick={() => onSubmit()} width={`100%`}>{t("Применить фильтр")}</Button>
+            <Button onClick={() => onSubmit()} width={`100%`}>
+              {t("Применить фильтр")}
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

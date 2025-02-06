@@ -35,6 +35,7 @@ import {
 } from "@/services/api";
 
 import {
+  CopyIconAdress,
   GalichkaIcon,
   LoadOulineIcon,
   SearchIcon,
@@ -253,12 +254,10 @@ export const TableComponent = ({
       key: `from`,
       filterType: (type) => handleSorFrom(type),
       render: (row, index) => (
-        <Flex gap={`14px`} alignItems={`center`}>
+        <Flex className={cls.address}  gap={`14px`} alignItems={`center`}>
           <Box
             display={`flex`}
-            // alignItems={`center`}
             flexDirection={`column`}
-            // width={`40px`}
           >
             <Image
               className={cls.flag}
@@ -270,7 +269,7 @@ export const TableComponent = ({
             <p className={cls.country_code}>{row?.country_code_from}</p>
           </Box>
 
-          <Box>
+          <Flex>
             <p className={cls.title}>
               {row?.from ? (
                 row?.from?.length > 20 ? (
@@ -298,7 +297,10 @@ export const TableComponent = ({
                 {/* ~ 3450 km */}
               </span>
             </p>
-          </Box>
+            <div className={cls.copy}>
+               <CopyIconAdress />
+            </div>
+          </Flex>
         </Flex>
       ),
     },
@@ -309,12 +311,10 @@ export const TableComponent = ({
       key: `to`,
       filterType: (type) => handleSorTo(type),
       render: (row, index) => (
-        <Flex gap={`14px`} alignItems={`center`}>
+        <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
           <Box
             display={`flex`}
-            // alignItems={`center`}
             flexDirection={`column`}
-            // width={`50px`}
           >
             <Image
               className={cls.flag}
@@ -325,7 +325,7 @@ export const TableComponent = ({
             />
             <p className={cls.country_code}>{row?.country_code_to}</p>
           </Box>
-          <Box>
+          <Flex>
             <p className={cls.title}>
               {row?.to ? (
                 row?.to.length > 20 ? (
@@ -352,7 +352,10 @@ export const TableComponent = ({
                   : row?.date && format(row?.date, `yyyy-MM-dd`)}
               </span>
             </p>
-          </Box>
+            <div className={cls.copy}>
+               <CopyIconAdress />
+            </div>
+          </Flex>
         </Flex>
       ),
     },

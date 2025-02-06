@@ -76,7 +76,11 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
                   >
                     <LocationIconStep />
 
-                    <p className={cls.item}>{location?.GeoObject?.name}</p>
+                    <p className={cls.item}>{`${location?.GeoObject?.name}, ${
+                              location?.GeoObject?.description
+                                ? location?.GeoObject?.description
+                                : ``
+                            }`}</p>
                   </Flex>
                 ))}
               </Box>
@@ -113,7 +117,11 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
                   >
                     <LocationIconStep />
 
-                    <p className={cls.item}>{location?.GeoObject?.name}</p>
+                    <p className={cls.item}>{`${location?.GeoObject?.name}, ${
+                              location?.GeoObject?.description
+                                ? location?.GeoObject?.description
+                                : ``
+                            }`}</p>
                   </Flex>
                 ))}
               </Box>
