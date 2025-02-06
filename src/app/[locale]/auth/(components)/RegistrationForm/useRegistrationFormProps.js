@@ -140,6 +140,8 @@ export const useRegistrationFormProps = () => {
       }
     },
   });
+  
+
 
   const registerFirmMutation = useRegisterFirmMutation({
     onSuccess: (data) => {
@@ -204,6 +206,9 @@ export const useRegistrationFormProps = () => {
     value: company?.guid,
   }));
 
+  console.log(`company_type`,`${watch(`company_type`)?.value ? watch(`company_type`)?.value : `OOO`} ${watch(`companyName`)}`)
+
+
   function onSubmit(data) {
     authStore.setAuthData("firm_id", data.company?.value);
     registerFirmMutation.mutate({
@@ -212,6 +217,7 @@ export const useRegistrationFormProps = () => {
         tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
         full_name: data.full_name,
         tin: data.inn,
+        company_name:`${watch(`company_type`)?.value ? watch(`company_type`)?.value : `OOO`} ${data?.companyName}`,
         building_address: data.adress,
         phone_number: phone,
         logo: data.img,
