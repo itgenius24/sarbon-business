@@ -101,7 +101,7 @@ export const SearchLoadModule = () => {
             isPendingLo={isPendingLo}
           />
         </Box>
-        {!isPendingLo && dataRes?.length !== total && (
+        {!isPendingLo && dataRes?.length !== total && dataRes?.length > 0 && (
           <Button
             mt={`24px`}
             width={`fit-content`}
