@@ -207,7 +207,7 @@ export const useDashboard = () => {
               : ``,
           all_date:
             startDate || endDate ? false : date2.length > 0 ? false : true,
-          type: "",
+          type: "analitik",
         },
       },
     });
