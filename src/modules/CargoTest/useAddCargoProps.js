@@ -1023,6 +1023,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         },
         money_code: data?.money_code,
         notification: data.notification ? data.notification : false,
+        country_from: data?.country_from ? data?.country_from : ``,
+        country_to: data?.country_to ? data?.country_to : ``
       });
     }
   }
