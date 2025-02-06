@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import {
   useCreateAddressMutation,
   useCreateCargoMutation,
@@ -22,13 +22,11 @@ import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
-import { useGetLang } from "@/hooks/useGetLang";
-import { findChangedLogs } from "@/utils/findChangedLogs";
+
 
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const searchParams = useSearchParams();
 
-  console.log(`status`, status);
 
   const pathname = usePathname();
 
@@ -1034,7 +1032,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       const data = getData()?.cargo_id_data
         ? getData()?.cargo_id_data
         : getData();
-      console.log(`data2222`, data);
       resetForm(data, id);
     }
   }, [getCargo.data, getOfferCargoById.data]);
