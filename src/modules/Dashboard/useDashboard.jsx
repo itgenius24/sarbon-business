@@ -382,7 +382,7 @@ export const useDashboard = () => {
       title: `Тип аккаунта`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.tip_account?.[0] === `legal_owner` ? `yuridik litso` : `fizicheskiy litsso`,
+        row?.firm_data?.tip_account?.[0] === `legal_owner` ? `Юридик лицо` : `Физический лицо`,
       width: 200,
     },
     {
