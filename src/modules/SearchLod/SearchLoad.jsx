@@ -64,6 +64,7 @@ export const SearchLoadModule = () => {
             padding={"20px 30px"}
             background={"white"}
             borderRadius={"12px"}
+            boxShadow={` 0 2px 0px 0 rgba(0, 0, 0, 0.08)`}
             mt={"22px"}
           >
             <FilterLoad

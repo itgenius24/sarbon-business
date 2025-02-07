@@ -353,6 +353,39 @@ export const useDashboard = () => {
       width: 200,
     },
     {
+      title: `Фирма`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.firm_data?.company_name || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+           Нет названия фирмы
+          </span>
+        ),
+      width: 200,
+    },
+    {
+      title: `ИНН`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.firm_data?.tin || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            ИНН отсутствует
+          </span>
+        ),
+      width: 200,
+    },
+    {
+      title: `Тип аккаунта`,
+      dataIndex: "",
+      render: (_, row) =>
+        row?.firm_data?.tip_account?.[0] === `legal_owner` ? `Юридическое лицо` : `Физическое лицо`,
+      width: 200,
+    },
+    {
       title: `Дата созд.`,
       dataIndex: "createdAt",
       render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),

@@ -19,6 +19,7 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverTrigger,
+  Text,
   Tooltip,
   useToast,
 } from "@chakra-ui/react";
@@ -41,6 +42,7 @@ import {
   LoadOulineIcon,
   SearchIcon,
   StoneIcon,
+  UserIconCerate,
 } from "@/assets/icons/icons";
 import CheckBoxComponent from "@/modules/GpsTrackingEdit/components/CheckBoxComponent";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -51,6 +53,7 @@ import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import Image from "next/image";
 import { format } from "date-fns";
 import copy from "copy-to-clipboard";
+import { useRouter } from "next/navigation";
 
 export const TableComponent = ({
   isLargerThan845,
@@ -71,7 +74,7 @@ export const TableComponent = ({
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
   const toast = useToast();
-
+  const router = useRouter();
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
 
@@ -247,14 +250,13 @@ export const TableComponent = ({
   };
 
   const copyFn = (name) => {
-
     copy(name);
     toast({
       title: t("Адрес скопирован"),
       status: "success",
       position: "top right",
-      isClosable:true,
-      duration:3000
+      isClosable: true,
+      duration: 3000,
     });
   };
 
@@ -537,9 +539,11 @@ export const TableComponent = ({
               justifyContent={"space-between"}
               alignItems={"center"}
               className={cls.selectCargoTop}
+              height={`90px`}
             >
               <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
-              <InputGroup className={cls.inputWrap}>
+             {
+              filteredData.length > 0 && <InputGroup className={cls.inputWrap}>
                 <Input
                   placeholder={t("Поиск")}
                   className={cls.input}
@@ -549,6 +553,7 @@ export const TableComponent = ({
                   <SearchIcon />
                 </InputRightElement>
               </InputGroup>
+             }
             </Flex>
             <Box className={cls.modalContend}>
               {filteredData?.length > 0 ? (
@@ -704,9 +709,19 @@ export const TableComponent = ({
                 })
               ) : (
                 <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
-                  <p color={"blackAlpha.400"} fontSize={"18px"}>
-                    {t("Только свободные водители")}
-                  </p>
+                  <UserIconCerate />
+
+                  <Text color={"blackAlpha.400"} fontSize={"18px"}>
+                    {t("У вас пока нет водителей")}
+                  </Text>
+                  <Button
+                    onClick={() => router.push(`/${locale}/drivers/create`)}
+                    className={cls.topButton}
+                    size="md"
+                    width={`fit-content`}
+                  >
+                    {t("Добавить водителя")}
+                  </Button>
                 </Flex>
               )}
             </Box>
@@ -714,6 +729,7 @@ export const TableComponent = ({
               justifyContent={"space-between"}
               alignItems={"center"}
               className={cls.selectCargoBottom}
+              height={`90px`}
             >
               <Checkbox
                 defaultChecked={isCheckboxChecked}
@@ -722,26 +738,28 @@ export const TableComponent = ({
                 {t("Только свободные водители")}
               </Checkbox>
 
-              <Flex gap={2}>
-                <Button
-                  className={cls.topButton}
-                  onClick={() => setCenterModalType("")}
-                  variant="secondaryWhite"
-                  size="md"
-                  border="1px solid #D0D5DD"
-                >
-                  {t("Отменить")}
-                </Button>
-                <Button
-                  isDisabled={selectCargo.length === 0}
-                  isLoading={isPending}
-                  onClick={() => handlePred()}
-                  className={cls.topButton}
-                  size="md"
-                >
-                  {t("Предложить")}
-                </Button>
-              </Flex>
+              {filteredData.length > 0 && (
+                <Flex gap={2}>
+                  <Button
+                    className={cls.topButton}
+                    onClick={() => setCenterModalType("")}
+                    variant="secondaryWhite"
+                    size="md"
+                    border="1px solid #D0D5DD"
+                  >
+                    {t("Отменить")}
+                  </Button>
+                  <Button
+                    isDisabled={selectCargo.length === 0}
+                    isLoading={isPending}
+                    onClick={() => handlePred()}
+                    className={cls.topButton}
+                    size="md"
+                  >
+                    {t("Предложить")}
+                  </Button>
+                </Flex>
+              )}
             </Flex>
           </div>
         </div>

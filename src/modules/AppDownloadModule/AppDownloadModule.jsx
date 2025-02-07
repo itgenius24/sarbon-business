@@ -34,7 +34,7 @@ const AppDownloadModule = () => {
               <a
                 style={{ cursor: `pointer` }}
                 className={cls.mobileAppLink}
-                href="https://bit.ly/sarbonnew"
+                href="https://play.google.com/store/apps/details?id=uz.udevs.sarbon_mobile"
                 target="_blank"
               >
                 <Image

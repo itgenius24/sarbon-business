@@ -12,7 +12,7 @@ const SarbonTable = ({
   cardProps,
   props,
   variant = `table`,
-  width = `1444px`,
+  width = `1426px`,
   onRow = () => {},
 }) => {
   const [filters, setFilters] = useState(

@@ -37,11 +37,11 @@ export default function ContactPage({ params }) {
           flexDirection={isLargerThan768 ? "row" : "column"}
           rowGap={isLargerThan768 ? "0" : "16px"}
         >
-          <ContactCard title={t("Почта")} desc={t("Мы вам поможем")} type="email" content={`itgenius24@gmail.com`} />
+          <ContactCard title={t("Почта")} desc={t("Мы вам поможем")} type="email" content={`info@sarbon.me`} />
           {/* directory?.email */}
           <ContactCard title={t("Локация")} desc={t("Локация нашего офиса")} type="location" content={`Богишамол, Дом 57.`} />
           {/* address */}
-          <ContactCard title={t("Колл-центр")} desc={t("Пн-Пт, от 10:00 до 18:00")} type="phone" content={`+998941201212`} />  
+          <ContactCard title={t("Колл-центр")} desc={t("Доступен 24/7")} type="phone" content={`+998941201212`} />  
           {/* directory?.phone_number */}
         </Box>
       </Container>
