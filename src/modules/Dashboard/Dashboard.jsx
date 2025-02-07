@@ -74,7 +74,7 @@ const Dashboard = () => {
       icon: "/custom-icon.png", // Maxsus ikonka
       vibrate: [200, 100, 200], // Vibration (mobil qurilmalar uchun)
     });
-  }
+  };
 
   return (
     <Container my={`40px`}>
@@ -191,10 +191,10 @@ const Dashboard = () => {
           >
             <Flex width={`100%`} justifyContent={`space-between`}>
               <TabList>
-                <Tab value={`driver`}> Водитель</Tab>
-                <Tab value={`ekspiditor`}> Перевозчик</Tab>
-                <Tab value={`truck`}> Транспорт</Tab>
-                <Tab value={`cargo`}> Груз</Tab>
+                <Tab> Водитель</Tab>
+                <Tab> Перевозчик</Tab>
+                <Tab> Транспорт</Tab>
+                <Tab> Груз</Tab>
               </TabList>
               <Button
                 width={`fit-content`}
@@ -259,7 +259,6 @@ const Dashboard = () => {
         </Box>
       </Flex>
       {/* <Button width={`fit-content`} onClick={notificationFn} >Notification</Button> */}
-
     </Container>
   );
 };
