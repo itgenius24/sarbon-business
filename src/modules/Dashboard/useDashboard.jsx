@@ -360,7 +360,7 @@ export const useDashboard = () => {
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
-            Нет Фирма Name
+           Нет названия фирмы
           </span>
         ),
       width: 200,
@@ -373,7 +373,7 @@ export const useDashboard = () => {
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
-            Нет ИНН Name
+            ИНН отсутствует
           </span>
         ),
       width: 200,
@@ -382,7 +382,7 @@ export const useDashboard = () => {
       title: `Тип аккаунта`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.tip_account?.[0] === `legal_owner` ? `Юридик лицо` : `Физический лицо`,
+        row?.firm_data?.tip_account?.[0] === `legal_owner` ? `Юридическое лицо` : `Физическое лицо`,
       width: 200,
     },
     {
