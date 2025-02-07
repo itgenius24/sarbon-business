@@ -72,6 +72,12 @@ export const useProps = ({ setValue }) => {
     setResults([]);
   };
 
+  useEffect(() => {
+   window.addEventListener(`click`,() =>{
+    setResults([])
+   })
+  },[])
+
   function handleOpenModal(name, type) {
     setNameState(name);
     setIsModalOpen(true);
