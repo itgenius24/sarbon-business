@@ -57,12 +57,14 @@ const useStepTwoProps = () => {
 
   useEffect(() => {
     if (
-      (watch(`addressFrom`)?.length <= 0 || watch(`addressTo`)?.length <= 0) &&
-      activeIndex
+      (watch(`addressFrom`)?.length <= 0 && activeIndex)
     ) {
+      setValue(activeIndex, ``);
+    } else if(watch(`addressTo`)?.length <= 0 && activeIndex){
       setValue(activeIndex, ``);
     }
   }, [watch(`addressFrom`), watch(`addressTo`)]);
+
   const handLeCheck2 = (e) => {
     setas_soon_as_b(e.target.checked);
     setValue(`as_soon_as_b`, e.target.checked);
@@ -101,7 +103,7 @@ const useStepTwoProps = () => {
       setDisabled(true);
     }
   }, [watchFields]);
- 
+
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
   }
@@ -158,12 +160,12 @@ const useStepTwoProps = () => {
     // setStateMap(false);
     // setFormAddressName({});
   }
-  // console.log(`firstGeoObject`,watch(`loadings[${index}].loading_num`))
 
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
       var countryCode = firstGeoObject.getCountryCode();
+      var countryName = res.geoObjects.get(0)?._xalEntities.country;
       var flagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
 
       setValue(nameState, firstGeoObject.getAddressLine());
@@ -174,16 +176,22 @@ const useStepTwoProps = () => {
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           from_date: watch(`loadings[${index}].from_date`) || "",
         });
-        setValue(`flag_ot`, flagUrl);
-        setValue(`country_code_from`, countryCode);
+        if (index === 0) {
+          setValue(`flag_ot`, flagUrl);
+          setValue(`country_code_from`, countryCode);
+          setValue(`country_from`, countryName);
+        }
       } else {
         setValue(`unloading.${[index]}`, {
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           to_date: watch(`unloading[${index}].to_date`) || "",
         });
-        setValue(`flag_do`, flagUrl);
-        setValue(`country_code_to`, countryCode);
+        if (index === 0) {
+          setValue(`flag_do`, flagUrl);
+          setValue(`country_code_to`, countryCode);
+          setValue(`country_to`, countryName);
+        }
       }
       // setValue(nameState, firstGeoObject.getAddressLine());
       // setAddressAdd({
@@ -202,13 +210,13 @@ const useStepTwoProps = () => {
       }
     }
     setValue(
-      name,
-      `${location?.GeoObject?.name}, ${
-        location?.GeoObject?.description ? location?.GeoObject?.description : ``
-      }`
+      name,  location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
     );
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
+    const country_name =
+      location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address
+        ?.Components?.[0]?.name;
 
     var flagUrl = `https://flagcdn.com/w320/${country_code?.toLowerCase()}.png`;
 
@@ -222,6 +230,7 @@ const useStepTwoProps = () => {
       if (index === 0) {
         setValue(`flag_ot`, flagUrl);
         setValue(`country_code_from`, country_code);
+        setValue(`country_from`, country_name);
       }
     } else {
       setValue(`unloading.${[index]}`, {
@@ -229,8 +238,11 @@ const useStepTwoProps = () => {
         cor: location?.GeoObject?.Point?.pos?.split(` `)?.reverse()?.join(` `),
         to_date: watch(`unloading[${index}].to_date`) || "",
       });
-      setValue(`flag_do`, flagUrl);
-      setValue(`country_code_to`, country_code);
+      if (index === 0) {
+        setValue(`flag_do`, flagUrl);
+        setValue(`country_code_to`, country_code);
+        setValue(`country_to`, country_name);
+      }
     }
 
     setResults([]);
@@ -288,7 +300,6 @@ const useStepTwoProps = () => {
 
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
-        console.log("data", data.response.GeoObjectCollection.featureMember);
         setResults(geoObjects);
       } else {
         console.log("Manzil topilmadi");

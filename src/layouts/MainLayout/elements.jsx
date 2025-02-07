@@ -1,8 +1,8 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
-export const useElements = () => {
-  const lang = useGetLang();
+export const useElements = (lang) => {
+  // const lang = useGetLang();
   const isAuth = authStore.getIsAuth;
   const role_id = authStore.userData.role_id;
   const dispatcher_type = authStore?.userData?.dispatcher_type;

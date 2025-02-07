@@ -25,6 +25,7 @@ export const useProps = ({ setValue }) => {
   const [yMaps, setYMaps] = useState(null);
   const [results, setResults] = useState([]);
   const yandexMapRef = useRef(undefined);
+
   const handleGeocode = async () => {
     const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY; // Yandex API kalitini bu yerga qo'ying
     const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${debouncedValue}`;
@@ -47,12 +48,6 @@ export const useProps = ({ setValue }) => {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
       setValue(nameState, firstGeoObject.getAddressLine());
-
-      // setValue(nameState, firstGeoObject.getAddressLine());
-      // setAddressAdd({
-      //   address: firstGeoObject.getAddressLine(),
-      //   cor: coords.join(","),
-      // });
     });
   }
   function onMapClick(e) {
@@ -64,7 +59,16 @@ export const useProps = ({ setValue }) => {
   }
 
   const hanleAdress = (location, name) => {
-    setValue(name, location?.GeoObject?.name);
+    setValue(
+      name,
+      `${location?.GeoObject?.name}`
+    );
+    // setValue(
+    //   name.slice(0,-2),
+    //   `${location?.GeoObject?.name}${
+    //     location?.GeoObject?.description ? ` ,${location?.GeoObject?.description}` : ``
+    //   }`
+    // );
     setResults([]);
   };
 
@@ -79,11 +83,14 @@ export const useProps = ({ setValue }) => {
     // setFormAddressName({});
   }
 
-
-
   useEffect(() => {
     if (address) {
       handleGeocode();
+    
+
+    }
+    if(activeIndex){
+      setValue(activeIndex,debouncedValue)
     }
   }, [debouncedValue]);
 
@@ -104,6 +111,5 @@ export const useProps = ({ setValue }) => {
     yandexMapRef,
     placeMarkGeometry,
     coordinates,
-    
   };
 };

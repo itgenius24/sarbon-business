@@ -11,6 +11,7 @@ import {
   LoadOulineIcon,
   LocationActiveIcon,
   NextBtnIcon,
+  PrimumIcon,
   StarsIcon,
   StoneIcon,
   TelegramOpasitiyIcon,
@@ -38,6 +39,7 @@ import React, { useState } from "react";
 import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
 import { useGetCompanyList } from "@/services/api";
+import authStore from "@/store/auth.store";
 
 const DriverFree = ({
   cls,
@@ -48,7 +50,7 @@ const DriverFree = ({
 }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(`contendSingle`, contendSingle);
+  const user_type = authStore?.userData?.user_status;
 
   const handleOpen = () => {
     onOpen();
@@ -59,8 +61,6 @@ const DriverFree = ({
       onClose();
     }, 1000);
   };
-
-
 
   return (
     <div className={cls.filter}>
@@ -307,73 +307,82 @@ const DriverFree = ({
             </Flex>
           </Flex>
         </Box>
-      
 
-        {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
+        {user_type?.[0] === `approved` &&
+          (contendSingle?.user?.provisions?.[0] === `broke_down` ? (
+            <Button
+              onClick={() => {
+                setCenterModalType("changeIcon");
+                setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
+              }}
+              leftIcon={<CencelMapIcon />}
+              rightIcon={<NextBtnIcon />}
+              size={`lg`}
+              className={cls.btngreenCanseleOutline}
+            >
+              {t(`Сломалась`)}
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                setCenterModalType("changeIcon");
+                setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
+              }}
+              leftIcon={<LoadgreenIcon />}
+              rightIcon={<NextBtnIcon />}
+              size={`lg`}
+              className={cls.btngreenOutline}
+            >
+              {t(`Машина cвободна`)}
+            </Button>
+          ))}
+
+        {contendSingle?.firm_data?.firm_data?.[0] &&
+          user_type?.[0] === `approved` && (
+            <Box
+              style={{ background: `white` }}
+              className={cls.cardWrapOutline}
+            >
+              <Flex width={"100%"} alignItems={"center"} gap={3}>
+                <Avatar
+                  name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                  src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                />
+                <Box>
+                  <p className={cls.cardStartSubTitlez}>Перевозчик </p>
+                  <p style={{ fontSize: `16px` }} className={cls.name}>
+                    {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                  </p>
+
+                  <Flex alignItems={"center"} gap={2}>
+                    <p className={cls.cardStartSubTitleZTel}>
+                      {contendSingle?.firm_data?.firm_data?.[0]?.phone_number}
+                    </p>
+                    <a
+                      href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                    >
+                      <TelegramOpasitiyIcon />
+                    </a>
+                    <a
+                      href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                    >
+                      <WatsapOpasitiyIcon />
+                    </a>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Box>
+          )}
+
+        {user_type?.[0] === `approved` && (
           <Button
-            onClick={() => {
-              setCenterModalType("changeIcon");
-              setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
-            }}
-            leftIcon={<CencelMapIcon />}
-            rightIcon={<NextBtnIcon />}
+            onClick={() => setCenterModalType(`selectCargo`)}
             size={`lg`}
-            className={cls.btngreenCanseleOutline}
+            className={cls.btngreen}
           >
-            {t(`Сломалась`)}
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              setCenterModalType("changeIcon");
-              setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
-            }}
-            leftIcon={<LoadgreenIcon />}
-            rightIcon={<NextBtnIcon />}
-            size={`lg`}
-            className={cls.btngreenOutline}
-          >
-            {t(`Машина cвободна`)}
+            {t(`Предложить груз`)}
           </Button>
         )}
-
-        {contendSingle?.firm_data?.firm_data?.[0] && (
-          <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
-            <Flex width={"100%"} alignItems={"center"} gap={3}>
-              <Avatar
-                name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-              />
-              <Box>
-                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
-                <p style={{ fontSize: `16px` }} className={cls.name}>
-                  {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                </p>
-                <Flex alignItems={"center"} gap={2}>
-                  <p className={cls.cardStartSubTitleZTel}>{contendSingle?.firm_data?.firm_data?.[0]?.phone_number}</p>
-                  <a
-                    href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
-                  >
-                    <TelegramOpasitiyIcon />
-                  </a>
-                  <a
-                    href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
-                  >
-                    <WatsapOpasitiyIcon />
-                  </a>
-                </Flex>
-              </Box>
-            </Flex>
-          </Box>
-        )}
-
-        <Button
-          onClick={() => setCenterModalType(`selectCargo`)}
-          size={`lg`}
-          className={cls.btngreen}
-        >
-          {t(`Предложить груз`)}
-        </Button>
       </Flex>
     </div>
   );

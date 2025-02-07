@@ -76,7 +76,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
                   >
                     <LocationIconStep />
 
-                    <p className={cls.item}>{location?.GeoObject?.name}</p>
+                    <p className={cls.item}>{`${location?.GeoObject?.name}`}</p>
                   </Flex>
                 ))}
               </Box>
@@ -113,7 +113,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
                   >
                     <LocationIconStep />
 
-                    <p className={cls.item}>{location?.GeoObject?.name}</p>
+                    <p className={cls.item}>{`${location?.GeoObject?.name}`}</p>
                   </Flex>
                 ))}
               </Box>
@@ -121,7 +121,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         </Box>
 
         <Box width={"100%"}>
-          <p style={{color:`var(--primary-text)`}}>{t("Тип оплаты")}</p>
+          <p style={{ color: `var(--primary-text)` }}>{t("Тип оплаты")}</p>
           <Flex mt={1} gap={3}>
             <Checkbox
               defaultChecked={watch(`prepayment`)}
@@ -226,7 +226,8 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           name={`only_for_me`}
         >
           <Flex gap={1}>
-            <FurgoIconLoad /> {t("Только грузы, подходящие под параметры моих машин")}
+            <FurgoIconLoad />{" "}
+            {t("Только грузы, подходящие под параметры моих машин")}
           </Flex>
         </Checkbox>
       </Box>

@@ -131,7 +131,7 @@ const StepTwo = ({ status }) => {
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
                           setAddress(e.target.value);
-                        setValue(`addressFrom`, e.target.value);
+                          setValue(`addressFrom`, e.target.value);
                       }}
                       name={`loadings[${index}].address`}
                       additionalOnclick={() =>
@@ -169,11 +169,7 @@ const StepTwo = ({ status }) => {
                               <LocationIconStep />
 
                               <p className={cls.item}>
-                                {`${location?.GeoObject?.name}, ${
-                                  location?.GeoObject?.description
-                                    ? location?.GeoObject?.description
-                                    : ``
-                                }`}
+                                {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
                               </p>
                             </Flex>
                           ))}
@@ -324,16 +320,8 @@ const StepTwo = ({ status }) => {
                       />
                     )}
                   </Box>
-                  {/* {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>} */}
                 </Flex>
-                {/* <Flex justifyContent={`space-between`} alignItems={`center`}>
-                  <p className={cls.stepTitle}>
-                    {index === 0
-                      ? ` Адрес доставки груза`
-                      : `${index + 1}-й адрес доставки груза `}
-                  </p>
-                  {canEdit && <p className={cls.adressBtn}>Выбрать на карте</p>}
-                </Flex> */}
+  
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAdditionMap
@@ -343,9 +331,9 @@ const StepTwo = ({ status }) => {
                       additionalItemTheme="white"
                       register={register}
                       onChange={(e) => {
-                        setActiveIndex(`unloading[${index}].address`),
+                          setActiveIndex(`unloading[${index}].address`),
                           setAddress(e.target.value);
-                        setValue(`addressTo`, e.target.value);
+                          setValue(`addressTo`, e.target.value);
                       }}
                       name={`unloading[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -386,11 +374,7 @@ const StepTwo = ({ status }) => {
                             >
                               <LocationIconStep />
                               <p className={cls.item}>
-                                {`${location?.GeoObject?.name}, ${
-                                  location?.GeoObject?.description
-                                    ? location?.GeoObject?.description
-                                    : ``
-                                }`}
+                                {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
                               </p>
                             </Flex>
                           ))}

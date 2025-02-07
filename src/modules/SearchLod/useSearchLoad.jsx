@@ -1,19 +1,15 @@
 "use client";
 
 import {
-  useGetAddress,
   useGetCargoPost,
-  useGetCarListOnSubmit,
 } from "@/services/api";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { format } from "date-fns";
-import { useToast } from "@chakra-ui/react";
-import { useSearchParams } from "next/navigation";
-import { isValidJSON } from "@/utils/isValidJSON";
+import { useEffect, useMemo, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
+import { useDebounce } from "use-debounce";
 
 export const useSearchLoad = () => {
   const locale = useGetLang();
@@ -24,6 +20,7 @@ export const useSearchLoad = () => {
   const [dataResOld, setDataResOld] = useState([]);
   const [status2, setStatus2] = useState(false);
   const [page, setPage] = useState(1);
+  const [total,setTotal] = useState()
   const firm_id = authStore.userData.firm_id;
 
   const {
@@ -38,6 +35,7 @@ export const useSearchLoad = () => {
   const { mutate: getCargoPost, isPending: isPendingLo } = useGetCargoPost({
     onSuccess: (res) => {
       const data = res?.response;
+      setTotal(res?.count?.[0]?.totalCount)
       if(status2){
         setDataRes(data);
         setDataResOld(data)
@@ -52,45 +50,49 @@ export const useSearchLoad = () => {
     },
   });
 
-  useEffect(() => {
-    const dataCargo = {
-      data: {
-        object_data: {
-          from: watch(`from`) || ``,
-          to: watch(`to`) || ``,
-          prepayment: watch(`prepayment`) ? `true` : ``,
-          spot: watch(`spot`) ? `true` : ``,
-          in_spot: watch(`in_spot`) ? `true` : ``,
-          vehicle_type_id: watch(`vehicle_type_id`)?.value,
-          min_volume: +watch(`min_volume`) || 0,
-          max_volume: +watch(`max_volume`) || 0,
-          min_weight: +watch(`min_weight`) || 0,
-          max_weight: +watch(`max_weight`) || 0,
-          only_for_me: watch(`only_for_me`) || 0,
-          firm_id,
-          page: page,
-          limit: 50,
-        },
+  const watchedValues = useWatch({
+    control,
+    name: [
+      "prepayment",
+      "spot",
+      "in_spot",
+      "vehicle_type_id",
+      "min_volume",
+      "max_volume",
+      "min_weight",
+      "max_weight",
+      "only_for_me",
+    ],
+  });
+  
+  // `from` va `to` qiymatlarini debounce qilish (500ms kechikish)
+  const [debouncedFrom] = useDebounce(watch(`from`), 300);
+  const [debouncedTo] = useDebounce(watch(`to`), 300);
+  
+  const dataCargo = useMemo(() => ({
+    data: {
+      object_data: {
+        from: debouncedFrom || "",
+        to: debouncedTo || "",
+        prepayment: watch(`prepayment`) ? true : "",
+        spot: watch(`spot`) ? true : "",
+        in_spot: watch(`in_spot`) ? true : "",
+        vehicle_type_id: watch(`vehicle_type_id`)?.value,
+        min_volume: +watch(`min_volume`) || 0,
+        max_volume: +watch(`max_volume`) || 0,
+        min_weight: +watch(`min_weight`) || 0,
+        max_weight: +watch(`max_weight`) || 0,
+        only_for_me: watch(`only_for_me`) || 0,
+        firm_id,
+        page,
+        limit: 50,
       },
-    };
+    },
+  }), [debouncedFrom, debouncedTo, watchedValues, firm_id, page]);
+  
+  useEffect(() => {
     getCargoPost(dataCargo);
-  }, [
-    watch(`from`)?.length,
-    watch(`to`)?.length,
-    watch(`prepayment`),
-    watch(`spot`),
-    watch(`in_spot`),
-    watch(`vehicle_type_id`)?.value,
-    watch(`min_volume`),
-    watch(`max_volume`),
-    watch(`min_weight`),
-    watch(`max_weight`),
-    watch(`only_for_me`),
-    status2,
-    page,
-    status2,
-    page,
-  ]);
+  }, [dataCargo]);
 
 
   const onSubmit = () => {
@@ -135,6 +137,7 @@ export const useSearchLoad = () => {
     setPage,
     page,
     isPendingLo,
-    onSubmit
+    onSubmit,
+    total
   };
 };

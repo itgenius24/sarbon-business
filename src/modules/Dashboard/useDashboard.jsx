@@ -188,7 +188,7 @@ export const useDashboard = () => {
     getExcelFile.mutate({
       data: {
         object_data: {
-          filter: filter[status],
+          filter: ``,
           start_date:
             date2.length > 0
               ? date2[0]
@@ -591,10 +591,16 @@ export const useDashboard = () => {
       dataIndex: "number_of_cars",
       width: 200,
     },
+    
     {
       title: `Принятые предл.`,
       dataIndex: "accepted_offers",
       render:(_,row) => row?.number_of_cars - row?.accepted_offers,
+      width: 200,
+    },
+    {
+      title: `Оставшиеся машины`,
+      dataIndex: "accepted_offers",
       width: 200,
     },
     {

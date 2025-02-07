@@ -27,14 +27,7 @@ const Header = observer(({ elements }) => {
 
   const locale = useGetLang();
 
-  console.log(`isAuth`,isAuth)
-
   const { t } = useTranslation(locale, "translations");
-
-  // useEffect(() => {
-  //   setAuth(authStore.getIsAuth);
-  // }, [authStore.getIsAuth]);
-
 
   const goToProfile = () => {
     router.push(`/${locale ? locale : `ru`}/profile`);
@@ -45,7 +38,6 @@ const Header = observer(({ elements }) => {
   const photo = userData.data?.photo;
 
 
-  console.log(`salom`,!pathname?.includes("app-download"))
 
 
   const [isNavOpen, setNavOpen] = useState(false);

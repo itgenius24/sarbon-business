@@ -54,6 +54,34 @@
     }
   // }
 
+  .address{
+    .copy{
+      opacity: 0;
+      
+
+    }
+    &:hover{
+      svg{
+          path{
+            stroke: rgb(0, 0, 0) !important;
+          }
+        }
+      .copy{
+        height: 100%;
+        opacity: 1;
+        &:hover{
+          cursor: pointer;
+          svg{
+            path{
+              stroke: #007AFF !important;
+            }
+          }
+        }
+       
+      }
+
+    }
+  }
 
 
   .statusWrap {

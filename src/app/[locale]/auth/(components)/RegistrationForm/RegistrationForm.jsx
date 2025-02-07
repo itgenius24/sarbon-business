@@ -53,7 +53,6 @@ export const RegistrationForm = () => {
     register,
     handleSubmit,
     onSubmit,
-    handleBack,
     companyOptions,
     t,
     errors,
@@ -66,9 +65,6 @@ export const RegistrationForm = () => {
     setValueR,
     status,
     isPopupOpen,
-    locale,
-    router,
-    setIsPopupOpen,
     login,
     loadin,
   } = useRegistrationFormProps();
@@ -85,7 +81,6 @@ export const RegistrationForm = () => {
   return (
     <>
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-        {/* <MobileLogo /> */}
        <Box padding={isLargerThan845 ? 0 : `0px 16px`}>
        <AuthTitle
           w={`100%`}

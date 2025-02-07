@@ -64,7 +64,9 @@ export const useProps = ({ setValue }) => {
   }
 
   const hanleAdress = (location, name) => {
-    setValue(name, location?.GeoObject?.name);
+    setValue(name,  `${location?.GeoObject?.name}, ${
+        location?.GeoObject?.description ? location?.GeoObject?.description : ``
+      }`);
     setResults([]);
   };
 
