@@ -45,10 +45,6 @@ export const useElements = (lang) => {
         path: `/${lang || "ru"}/`,
         label: "Главный",
       },
-      // {
-      //   path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
-      //   label: "Добавить груз",
-      // },
       {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
         label: "Мои грузы",
@@ -115,50 +111,83 @@ export const useElements = (lang) => {
       },
     ];
   } else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
-    const menu = [
-      {
-        path: `/${lang || "ru"}/`,
-        label: "Главный",
-      },
-      {
-        path: isAuth ? `/${lang || "r u"}/add-cargo` : `/${lang || "ru"}/auth`,
-        label: "Добавить груз",
-      },
-      {
-        path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
-        label: "Мои грузы",
-      },
-      {
-        path: `/${lang || "ru"}/distance-calculation`,
-        label: "Расчет расстояний",
-      },
-      // {
-      //   path: `/${lang || "ru"}/search-car`,
-      //   label: "Поиск машин",
-      // },
-      {
-        path: isAuth
-          ? `/${lang || "ru"}/gps-tracking-xm`
-          : `/${lang || "ru"}/auth`,
-        label: "(GPS tracking)",
-      }
-    ];
+    let menu = [];
+
+    if (user_type?.[0] === `approved`) {
+      menu = [
+        {
+          path: `/${lang || "ru"}/`,
+          label: "Главный",
+        },
+        {
+          path: isAuth
+            ? `/${lang || "r u"}/add-cargo`
+            : `/${lang || "ru"}/auth`,
+          label: "Добавить груз",
+        },
+        {
+          path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
+          label: "Мои грузы",
+        },
+        {
+          path: `/${lang || "ru"}/distance-calculation`,
+          label: "Расчет расстояний",
+        },
+        // {
+        //   path: `/${lang || "ru"}/search-car`,
+        //   label: "Поиск машин",
+        // },
+        {
+          path: isAuth
+            ? `/${lang || "ru"}/gps-tracking-xm`
+            : `/${lang || "ru"}/auth`,
+          label: "(GPS tracking)",
+        },
+      ];
+    } else {
+      menu = [
+        {
+          path: `/${lang || "ru"}/`,
+          label: "Главный",
+        },
+        // {
+        //   path: isAuth ? `/${lang || "r u"}/add-cargo` : `/${lang || "ru"}/auth`,
+        //   label: "Добавить груз",
+        // },
+        {
+          path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
+          label: "Мои грузы",
+        },
+        {
+          path: `/${lang || "ru"}/distance-calculation`,
+          label: "Расчет расстояний",
+        },
+        // {
+        //   path: `/${lang || "ru"}/search-car`,
+        //   label: "Поиск машин",
+        // },
+        {
+          path: isAuth
+            ? `/${lang || "ru"}/gps-tracking-xm`
+            : `/${lang || "ru"}/auth`,
+          label: "(GPS tracking)",
+        },
+      ];
+    }
 
     return menu;
-  }else if(role_id ==="527d2017-2dc2-4449-9eeb-08fc1aafa469"){
+  } else if (role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") {
     return [
       {
         path: `/${lang || "ru"}/`,
         label: "Главный",
       },
       {
-        path: `/${lang || "ru"}/dashboard`  ,
+        path: `/${lang || "ru"}/dashboard`,
         label: "Аналитика",
       },
     ];
-  }
-  
-  else {
+  } else {
     return [
       {
         path: `/${lang || "ru"}/`,
