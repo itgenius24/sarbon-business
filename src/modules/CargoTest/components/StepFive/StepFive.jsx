@@ -11,6 +11,7 @@ import {
   ModalOverlay,
   Text,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import React, { use, useEffect, useState } from "react";
 import cls from "./style.module.scss";
@@ -28,7 +29,11 @@ import {
   useGetPaymentType,
   useUpdateCargo,
 } from "@/services/api";
-import { CheckModalIcon, ModalGruzIcon, QuestionIcon } from "@/assets/icons/icons";
+import {
+  CheckModalIcon,
+  ModalGruzIcon,
+  QuestionIcon,
+} from "@/assets/icons/icons";
 import { addDaysToDate } from "@/utils/addDaysToDate";
 import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
@@ -46,18 +51,14 @@ const StepFive = ({ status }) => {
     isTemplateModalOpen,
     handleCloseTemplateModal,
     handleResetForm,
-    isClicked,
-    loading,
     loadings,
     unloading,
-    getValues,
     errors,
-    setLoad,
+
     load,
     mone,
-    setMoney,
+
     check,
-    setCheck,
   } = useAddCargoContext();
 
   const { value: userData } = useGetStoreData(authStore, "userData");
@@ -65,8 +66,11 @@ const StepFive = ({ status }) => {
   const [isPopupOpen2, setIsPopupOpen2] = useState(false);
   const [isUpdate, setIsUpdate] = useState(true);
   const [guid, setGuid] = useState();
+  const toast = useToast();
   const router = useRouter();
   const locale = useGetLang();
+  const user_type = authStore?.userData?.user_status;
+
   const firm_id = authStore.userData.firm_id;
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
@@ -91,8 +95,6 @@ const StepFive = ({ status }) => {
       setValue(`payment_type_2`, paymentOptions?.[0]);
     }
   }, [paymentOptions]);
-
-  
 
   const getLoadings =
     (loadings?.length > 0 &&
@@ -189,11 +191,12 @@ const StepFive = ({ status }) => {
 
   const onSubmitF = () => {
     setIsUpdate(true);
+
     const requestData = {
       data: {
         // step 1
-        create_time:new Date(),
-        notification:watch(`notification`) ? watch(`notification`) :false,
+        create_time: new Date(),
+        notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
         measurement_id: watch(`weight_unit`)?.value,
@@ -266,11 +269,21 @@ const StepFive = ({ status }) => {
         to: unloading[unloading.length - 1].address,
         as_soon_as_a: watch(`as_soon_as_a`),
         as_soon_as_b: watch(`as_soon_as_b`),
-        country_from:watch(`country_from`),
-        country_to:watch(`country_to`)
+        country_from: watch(`country_from`),
+        country_to: watch(`country_to`),
       },
     };
-    createCargo.mutate(requestData);
+    if (user_type?.[0] === `approved`) {
+      createCargo.mutate(requestData);
+    }else{
+      toast({
+        title: t("Вам это запрещено"),
+        status: "error",
+        duration: 3000,
+        position:`top-right`,
+        isClosable: true,
+      });
+    }
   };
 
   const shablonF = () => {
@@ -278,8 +291,8 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
-        create_time:new Date(),
-        notification:watch(`notification`) ? watch(`notification`) :false,
+        create_time: new Date(),
+        notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
         measurement_id: watch(`weight_unit`)?.value,
@@ -336,7 +349,7 @@ const StepFive = ({ status }) => {
         //   loadings[0].loading_num?.value
         // ),
         load_time: loadings[0].from_date || new Date(),
-        date:  unloading[unloading.length - 1].to_date || new Date(),
+        date: unloading[unloading.length - 1].to_date || new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         location_name: loadings[0].cor,
@@ -354,15 +367,24 @@ const StepFive = ({ status }) => {
         to: unloading[unloading.length - 1].address,
         as_soon_as_a: watch(`as_soon_as_a`),
         as_soon_as_b: watch(`as_soon_as_b`),
-        country_from:watch(`country_from`),
-        country_to:watch(`country_to`)
+        country_from: watch(`country_from`),
+        country_to: watch(`country_to`),
       },
     };
-    createCargo.mutate(requestData);
-
+    if (user_type?.[0] === `approved`) {
+      createCargo.mutate(requestData);
+    }
+    else{
+      toast({
+        title: t("Вам это запрещено"),
+        status: "error",
+        duration: 3000,
+        position:`top-right`,
+        isClosable: true,
+      });
+    }
   };
 
-  console.log(`salom`, watch("payment_type"));
 
   const clearF = () => {
     handleResetForm();
@@ -457,7 +479,7 @@ const StepFive = ({ status }) => {
               </a>
             </Text>
           </Checkbox> */}
-{/* 
+          {/* 
           <Checkbox
             defaultChecked={watch(`notification`)}
             name="notification"

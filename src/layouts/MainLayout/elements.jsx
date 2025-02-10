@@ -150,10 +150,7 @@ export const useElements = (lang) => {
           path: `/${lang || "ru"}/`,
           label: "Главный",
         },
-        // {
-        //   path: isAuth ? `/${lang || "r u"}/add-cargo` : `/${lang || "ru"}/auth`,
-        //   label: "Добавить груз",
-        // },
+
         {
           path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
           label: "Мои грузы",
