@@ -278,6 +278,8 @@ export const RegistrationForm = () => {
                           }}
                           additionalItemOptions={[
                             { label: `OOO`, value: `OOO` },
+                            { label: `MChJ`, value: `MChJ` },
+                            { label: `XK`, value: `XK` },
                           ]}
                           zIndex={20}
                           // after={watch(`price_prepayment_unit`)?.label}
