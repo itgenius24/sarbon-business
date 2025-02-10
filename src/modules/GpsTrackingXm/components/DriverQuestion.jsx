@@ -17,6 +17,7 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
+import authStore from "@/store/auth.store";
 import {
   Avatar,
   Box,
@@ -42,7 +43,8 @@ const DriverQuestion = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
-  console.log("addressAdd", contendSingle);
+  const user_type = authStore?.userData?.user_status;
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -81,7 +83,11 @@ const DriverQuestion = ({
               <p className={cls.smallText}>
                 Вкл:
                 {format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(
+                    new Date(
+                      contendSingle?.users_gps?.[0]?.update_time
+                    ).getHours() - 5
+                  ),
                   "yyyy-MM-dd, HH:mm"
                 )}{" "}
               </p>
@@ -132,7 +138,9 @@ const DriverQuestion = ({
                 )}
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
-                  <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
+                  <p className={cls.bigTitle}>
+                    {contendSingle?.users_gps?.[0]?.battery}%
+                  </p>
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -211,18 +219,22 @@ const DriverQuestion = ({
             </Box>
           </Flex>
         </Box>
-        <Button
-          onClick={() => {
-            setCenterModalType("changeIcon");
-            setIconStatus(contendSingle?.user?.provisions?.[0]);
-          }}
-          leftIcon={<QuestionBlueIcon />}
-          rightIcon={<NextBtnIcon />}
-          size={`lg`}
-          className={cls.btnBlueOutline}
-        >
-          Занята чужим грузом
-        </Button>
+
+        {user_type?.[0] === `approved` && (
+          <Button
+            onClick={() => {
+              setCenterModalType("changeIcon");
+              setIconStatus(contendSingle?.user?.provisions?.[0]);
+            }}
+            leftIcon={<QuestionBlueIcon />}
+            rightIcon={<NextBtnIcon />}
+            size={`lg`}
+            className={cls.btnBlueOutline}
+          >
+            Занята чужим грузом
+          </Button>
+        )}
+
         {/* <Box className={cls.cardWrapOutline}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
             <Avatar  name="B"  />

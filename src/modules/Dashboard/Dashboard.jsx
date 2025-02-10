@@ -30,6 +30,8 @@ import { DatePicker } from "@/components/DatePicker";
 import cls from "./style.module.scss";
 import { ExelIcon } from "@/assets/icons/icons";
 
+const notificationSound = "/mixkit-magic-notification-ring-2344.mp3";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -67,7 +69,7 @@ const Dashboard = () => {
 
   const notificationFn = () => {
     Notification.requestPermission();
-    const audio = new Audio(""); // O'zingizga kerakli audio fayl yo'lini kiriting
+    const audio = new Audio(notificationSound); // O'zingizga kerakli audio fayl yo'lini kiriting
     audio.play();
     new Notification("Xabaringiz bor!", {
       body: "Sizga yangi xabar keldi. Iltimos tekshiring!",
@@ -258,7 +260,7 @@ const Dashboard = () => {
           </Tabs>
         </Box>
       </Flex>
-      {/* <Button width={`fit-content`} onClick={notificationFn} >Notification</Button> */}
+      <Button width={`fit-content`} onClick={notificationFn} >Notification</Button>
     </Container>
   );
 };

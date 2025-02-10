@@ -17,6 +17,7 @@ import {
   StoneIcon,
 } from "@/assets/icons/icons";
 import { useGetOffer } from "@/services/api";
+import authStore from "@/store/auth.store";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
@@ -30,6 +31,8 @@ const DriverCheck = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
+  const user_type = authStore?.userData?.user_status;
+
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
@@ -87,21 +90,21 @@ const DriverCheck = ({
               }}
             />
           </Flex>
-       
-             {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] && (
-                        <Box
-                          mt={`17px`}
-                          rightIcon={<NextBtnIcon />}
-                          size={`lg`}
-                          className={cls.chatCard}
-                        >
-                          <p>
-                            {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] ||
-                              "Нет статуса"}
-                          </p>
-                        </Box>
-                      )}
-        
+
+          {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] && (
+            <Box
+              mt={`17px`}
+              rightIcon={<NextBtnIcon />}
+              size={`lg`}
+              className={cls.chatCard}
+            >
+              <p>
+                {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] ||
+                  "Нет статуса"}
+              </p>
+            </Box>
+          )}
+
           <Box className={cls.cardWrapOutline}>
             <Flex alignItems={"center"} gap={2}>
               <LocationActiveIcon />
@@ -109,7 +112,13 @@ const DriverCheck = ({
                 <p className={cls.smallText}>
                   Вкл:{" "}
                   {format(
-                    new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                    new Date(
+                      contendSingle?.users_gps?.[0]?.update_time
+                    ).setHours(
+                      new Date(
+                        contendSingle?.users_gps?.[0]?.update_time
+                      ).getHours() - 5
+                    ),
                     "yyyy-MM-dd, HH:mm"
                   )}{" "}
                 </p>
@@ -270,19 +279,22 @@ const DriverCheck = ({
               </p>
             </Flex>
           </Box>
-          <Button
-            onClick={() => {
-              setCenterModalType("changeIcon");
-              setIconStatus(contendSingle?.user?.provisions?.[0]);
-            }}
-            leftIcon={<CheckBlueIcon />}
-            rightIcon={<NextBtnIcon />}
-            size={`lg`}
-            className={cls.btnBlueOutline}
-          >
-          {t(`Занята нашим грузом`)}
-          </Button>
-         {/* <Box className={cls.cardWrapOutline}>
+          {user_type?.[0] === `approved` && (
+            <Button
+              onClick={() => {
+                setCenterModalType("changeIcon");
+                setIconStatus(contendSingle?.user?.provisions?.[0]);
+              }}
+              leftIcon={<CheckBlueIcon />}
+              rightIcon={<NextBtnIcon />}
+              size={`lg`}
+              className={cls.btnBlueOutline}
+            >
+              {t(`Занята нашим грузом`)}
+            </Button>
+          )}
+
+          {/* <Box className={cls.cardWrapOutline}>
                    <Flex width={"100%"} alignItems={"center"} gap={3}>
                      <Avatar name={dispatcher?.full_name} src={dispatcher?.photo} />
                      <Box>

@@ -233,10 +233,7 @@ export const TableComponent = ({
   };
 
   const deleteOrder = (data) => {
-    const order = data?.orders?.filter(
-      (item) =>
-        item.provisions?.filter((el) => el !== `performed`)?.[0] !== `performed`
-    );
+    const order = data?.orders?.filter((item) => item.provisions?.filter((el) => el !== `performed`)?.[0] !== `performed`);
     if (order?.length > 0) {
       deleteOrderData({ id: order?.[0]?.guid });
 
@@ -542,18 +539,18 @@ export const TableComponent = ({
               height={`90px`}
             >
               <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
-             {
-              filteredData.length > 0 && <InputGroup className={cls.inputWrap}>
-                <Input
-                  placeholder={t("Поиск")}
-                  className={cls.input}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <InputRightElement>
-                  <SearchIcon />
-                </InputRightElement>
-              </InputGroup>
-             }
+              {(dataRes?.length > 0) &&(
+                <InputGroup className={cls.inputWrap}>
+                  <Input
+                    placeholder={t("Поиск")}
+                    className={cls.input}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <InputRightElement>
+                    <SearchIcon />
+                  </InputRightElement>
+                </InputGroup>
+              )}
             </Flex>
             <Box className={cls.modalContend}>
               {filteredData?.length > 0 ? (
@@ -738,7 +735,7 @@ export const TableComponent = ({
                 {t("Только свободные водители")}
               </Checkbox>
 
-              {filteredData.length > 0 && (
+              {filteredData?.length > 0 && (
                 <Flex gap={2}>
                   <Button
                     className={cls.topButton}
