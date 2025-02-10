@@ -543,7 +543,7 @@ export const TableComponent = ({
             >
               <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
              {
-              filteredData.length > 0 && <InputGroup className={cls.inputWrap}>
+              filteredData?.length > 0 && <InputGroup className={cls.inputWrap}>
                 <Input
                   placeholder={t("Поиск")}
                   className={cls.input}
@@ -738,7 +738,7 @@ export const TableComponent = ({
                 {t("Только свободные водители")}
               </Checkbox>
 
-              {filteredData.length > 0 && (
+              {filteredData?.length > 0 && (
                 <Flex gap={2}>
                   <Button
                     className={cls.topButton}
