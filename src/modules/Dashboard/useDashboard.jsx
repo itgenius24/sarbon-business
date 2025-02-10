@@ -331,7 +331,14 @@ export const useDashboard = () => {
     {
       title: `ID`,
       dataIndex: "your_id",
-
+      render: (_, row) =>
+        <p style={{whiteSpace:`nowrap`}}>{row?.your_id}</p> || (
+          <span
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+          >
+            Нет Перевозчик
+          </span>
+        ),
       width: 200,
     },
     {
@@ -356,7 +363,7 @@ export const useDashboard = () => {
       title: `Фирма`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.company_name || (
+        <p  style={{width:`200px`}}>{row?.firm_data?.company_name}</p>   || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -369,7 +376,7 @@ export const useDashboard = () => {
       title: `ИНН`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.tin || (
+        <p  style={{width:`100px`}}>{row?.firm_data?.tin}</p> || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -388,7 +395,7 @@ export const useDashboard = () => {
     {
       title: `Дата созд.`,
       dataIndex: "createdAt",
-      render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),
+      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{format(row.createdAt, `yyyy-MM-dd`)}</p>,
 
       width: 200,
     },

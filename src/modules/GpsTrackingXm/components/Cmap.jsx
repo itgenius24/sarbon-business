@@ -211,7 +211,11 @@ const Cmap = memo(
           }}
         >
           {getCarListProps?.data &&
-            getCarListProps?.data?.map((carInfo) => {
+            getCarListProps?.data?.map((carInfo,index) => {
+              {/* console.log(`salom`,[
+                      carInfo?.users_gps?.[0]?.lat,
+                      carInfo?.users_gps?.[0]?.long,
+                    ],carInfo?.user?.full_name,index) */}
               const BalloonContent = () => (
                 <div id="balloon-content" className={cls.balloon_content_empty}>
                   <div className={cls.wrap} style={{ height: "45px" }}>
@@ -640,8 +644,8 @@ const Cmap = memo(
                   <Placemark
                     key={carInfo?.user?.guid}
                     geometry={[
-                      carInfo?.users_gps?.[0]?.lat,
-                      carInfo?.users_gps?.[0]?.long,
+                      carInfo?.users_gps?.[0]?.lat ,
+                      carInfo?.users_gps?.[0]?.long ,
                     ]}
                     properties={{ balloonContent: balloonContent2 }}
                     options={{
