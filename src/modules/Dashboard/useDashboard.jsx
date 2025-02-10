@@ -332,13 +332,7 @@ export const useDashboard = () => {
       title: `ID`,
       dataIndex: "your_id",
       render: (_, row) =>
-        <p style={{whiteSpace:`nowrap`}}>{row?.your_id}</p> || (
-          <span
-            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
-          >
-            Нет Перевозчик
-          </span>
-        ),
+        <p style={{whiteSpace:`nowrap`}}>{row?.your_id}</p>,
       width: 200,
     },
     {
@@ -363,7 +357,7 @@ export const useDashboard = () => {
       title: `Фирма`,
       dataIndex: "",
       render: (_, row) =>
-        <p  style={{width:`200px`}}>{row?.firm_data?.company_name}</p>   || (
+        row?.firm_data?.company_name ?   <p  style={{width:`200px`}}>{row?.firm_data?.company_name}</p>   : (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -376,13 +370,13 @@ export const useDashboard = () => {
       title: `ИНН`,
       dataIndex: "",
       render: (_, row) =>
-        <p  style={{width:`100px`}}>{row?.firm_data?.tin}</p> || (
+        row?.firm_data?.tin ?  <p  style={{width:`100px`}}>{row?.firm_data?.tin}</p> :
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
             ИНН отсутствует
           </span>
-        ),
+        ,
       width: 200,
     },
     {
@@ -547,7 +541,7 @@ export const useDashboard = () => {
       title: `эко стандарт`,
       dataIndex: "eco_standart",
       render: (_, row) =>
-        row?.eco_standart || (
+        <p style={{textTransform:`capitalize`}}>{row?.eco_standart}</p> || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
