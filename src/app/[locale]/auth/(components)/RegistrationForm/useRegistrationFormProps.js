@@ -288,6 +288,7 @@ export const useRegistrationFormProps = () => {
     router,
     login,
     loadin,
+    
     open,
     setOpen,
   };

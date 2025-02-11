@@ -63,6 +63,7 @@ export const useRegisterFirmMutation = (mutationSettings = {}) => {
     ...mutationSettings
   });
 };
+
 export const useRegisterFirEditmMutation = (mutationSettings = {}) => {
   return useMutation({
     mutationFn: authService.registerFirmEdit,

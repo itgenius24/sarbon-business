@@ -68,7 +68,8 @@ export const RegistrationForm = () => {
     isPopupOpen,
     login,
     loadin,
-    setOpen,open,phone
+    locale,
+    setOpen,open,phone,router
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -292,6 +293,7 @@ export const RegistrationForm = () => {
                         <p className={cls.label}>ИНН организации *</p>
                         <TextField
                           // label="Имя"
+                          type="number"
                           name="inn"
                           register={register}
                           placeholder={t("Введите номер ИНН...")}
@@ -590,9 +592,9 @@ export const RegistrationForm = () => {
           <ModalCloseButton onClick={() => setOpen(false)} />
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              {t("Водитель с номером")} { phone} {t("уже регистрирован в Sarbon")}
+              {t("Вы уже зарегистрировались")}
             </p>
-            <Box mt={`24px`}>
+            <Box mt={`14px`}>
               <p
                 style={{
                   fontWeight: 400,
@@ -610,7 +612,10 @@ export const RegistrationForm = () => {
               </p>
             </Box>
           </ModalBody>
-          <ModalFooter></ModalFooter>
+          <ModalFooter>
+          <Button onClick={() => router.push(`/${locale}/auth`)}>{t(`Войти`)}</Button>
+
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
