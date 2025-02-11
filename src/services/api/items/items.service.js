@@ -7,6 +7,7 @@ const itemsService = {
   updateUserInfo: (data) => request.put("/v2/items/users", data),
   updateLoad: (data) => request.put("/v2/items/cargo", data),
   getUserInfo: (id) => request.get(`/v2/items/users/${id}`),
+  getFirm: (id) => request.get(`/v2/items/firm/${id}`),
   getFuelInfo: (id) => request.get(`/v2/items/fuel`),
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
@@ -83,6 +84,7 @@ export const useUpdateUserInfo = (mutationSettings) => {
 
 
 
+
 export const useGetUserInfo = (id = "", settings) => {
   return useQuery({
     queryKey: ["items/users/id", id],
@@ -90,6 +92,15 @@ export const useGetUserInfo = (id = "", settings) => {
     ...settings,
   });
 };
+
+export const useGetFirmInfo = (id = "", settings) => {
+  return useQuery({
+    queryKey: ["items/firm/id", id],
+    queryFn: () => itemsService.getFirm(id),
+    ...settings,
+  });
+};
+
 
 export const useGetFuelInfo = (id = "", settings) => {
   return useQuery({

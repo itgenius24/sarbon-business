@@ -181,6 +181,7 @@ const MobileRegistrationForm = ({
                   <p className={cls.label}>ИНН организации *</p>
                   <TextField
                     // label="Имя"
+                    type="number"
                     name="inn"
                     register={register}
                     placeholder={t("Введите номер ИНН...")}

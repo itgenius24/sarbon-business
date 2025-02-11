@@ -30,6 +30,7 @@ import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
 import {
   CheckModalIcon,
+  ErroModalIcon,
   EyeIcon,
   EyeIconOff,
   HelpCircleIcon,
@@ -67,6 +68,8 @@ export const RegistrationForm = () => {
     isPopupOpen,
     login,
     loadin,
+    locale,
+    setOpen,open,phone,router
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -239,7 +242,7 @@ export const RegistrationForm = () => {
                           </span>
                         </Radio>
                         <Radio
-                          isDisabled={Boolean(status === 1)}
+                          isDisabled={true}
                           border={"1px solid rgba(208, 213, 221, 1)"}
                           value={`C2`}
                           size={"md"}
@@ -290,6 +293,7 @@ export const RegistrationForm = () => {
                         <p className={cls.label}>ИНН организации *</p>
                         <TextField
                           // label="Имя"
+                          type="number"
                           name="inn"
                           register={register}
                           placeholder={t("Введите номер ИНН...")}
@@ -578,6 +582,42 @@ export const RegistrationForm = () => {
 }
      
 
+
+      <Modal isOpen={open} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <ErroModalIcon />
+          </ModalHeader>
+          <ModalCloseButton onClick={() => setOpen(false)} />
+          <ModalBody>
+            <p style={{ fontWeight: 600, fontSize: "18px" }}>
+              {t("Вы уже зарегистрировались")}
+            </p>
+            <Box mt={`14px`}>
+              <p
+                style={{
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  lineHeight: `20px`,
+                }}
+              >
+                {t(
+                  "Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей"
+                )}
+                <a style={{ color: `rgba(0, 122, 255, 1)`, cursor: `pointer` }}>
+                 
+                  {t("службой поддержки")}
+                </a>
+              </p>
+            </Box>
+          </ModalBody>
+          <ModalFooter>
+          <Button onClick={() => router.push(`/${locale}/auth`)}>{t(`Войти`)}</Button>
+
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
