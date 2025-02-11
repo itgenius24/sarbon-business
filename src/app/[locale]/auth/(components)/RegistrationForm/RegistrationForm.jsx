@@ -30,6 +30,7 @@ import { useRegistrationFormProps } from "./useRegistrationFormProps";
 import { TextField } from "@/components/TextField";
 import {
   CheckModalIcon,
+  ErroModalIcon,
   EyeIcon,
   EyeIconOff,
   HelpCircleIcon,
@@ -67,6 +68,7 @@ export const RegistrationForm = () => {
     isPopupOpen,
     login,
     loadin,
+    setOpen,open,phone
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -239,7 +241,7 @@ export const RegistrationForm = () => {
                           </span>
                         </Radio>
                         <Radio
-                          isDisabled={Boolean(status === 1)}
+                          isDisabled={true}
                           border={"1px solid rgba(208, 213, 221, 1)"}
                           value={`C2`}
                           size={"md"}
@@ -578,6 +580,39 @@ export const RegistrationForm = () => {
 }
      
 
+
+      <Modal isOpen={open} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <ErroModalIcon />
+          </ModalHeader>
+          <ModalCloseButton onClick={() => setOpen(false)} />
+          <ModalBody>
+            <p style={{ fontWeight: 600, fontSize: "18px" }}>
+              {t("Водитель с номером")} { phone} {t("уже регистрирован в Sarbon")}
+            </p>
+            <Box mt={`24px`}>
+              <p
+                style={{
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  lineHeight: `20px`,
+                }}
+              >
+                {t(
+                  "Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей"
+                )}
+                <a style={{ color: `rgba(0, 122, 255, 1)`, cursor: `pointer` }}>
+                 
+                  {t("службой поддержки")}
+                </a>
+              </p>
+            </Box>
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

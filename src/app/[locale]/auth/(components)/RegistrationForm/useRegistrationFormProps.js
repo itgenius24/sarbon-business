@@ -3,6 +3,7 @@ import {
   useGetClientType,
   useGetCompanyList,
   useGetRoleList,
+  useGetUserData,
   useGetUsers,
   useRegisterFirmMutation,
   useRegisterUserMutation,
@@ -20,7 +21,10 @@ export const useRegistrationFormProps = () => {
   const router = useRouter();
   const [value, setValueR] = useState("C1");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [loadin,setLoadin] = useState(false)
+  const [loadin, setLoadin] = useState(false);
+  const [nomer, setNomer] = useState();
+  const [open, setOpen] = useState(false);
+
 
   const { t } = useTranslation(locale, "translations");
 
@@ -60,8 +64,8 @@ export const useRegistrationFormProps = () => {
             : "a25d605c-d153-4ddf-8590-e4cda176ef93",
       }),
     },
-    {   
-      enabled: Boolean(enab)
+    {
+      enabled: Boolean(enab),
     }
   );
 
@@ -70,8 +74,8 @@ export const useRegistrationFormProps = () => {
       title: t("Профиль успешно добавлен!"),
       status: "success",
       position: "top right",
-      isClosable:true,
-      duration:3000
+      isClosable: true,
+      duration: 3000,
     });
     authStore.login({
       user: {
@@ -90,7 +94,7 @@ export const useRegistrationFormProps = () => {
   useEffect(() => {
     if (getUsers.data && enab) {
       if (value === `C2`) {
-        setLoadin(false)
+        setLoadin(false);
         authStore.login({
           user: {
             firm_id: getUsers?.data?.response?.[0]?.firm_id,
@@ -103,20 +107,18 @@ export const useRegistrationFormProps = () => {
         });
         router.push(`/${locale}`);
       } else {
-        login()
+        login();
       }
       setEnab(false);
     }
   }, [getUsers.data]);
-
-
 
   const registerUserMutation = useRegisterUserMutation({
     onSuccess: (data) => {
       setEnab(true);
     },
     onError(error) {
-      setLoadin(false)
+      setLoadin(false);
       if (error.data?.data?.includes("user_unq_login")) {
         toast({
           title: t("Такой логин уже зарегистрирован"),
@@ -140,8 +142,6 @@ export const useRegistrationFormProps = () => {
       }
     },
   });
-  
-
 
   const registerFirmMutation = useRegisterFirmMutation({
     onSuccess: (data) => {
@@ -165,12 +165,12 @@ export const useRegistrationFormProps = () => {
           user_status: ["rejected"],
           passport_code: status === 1 ? watch(`passport_code`) : undefined,
           passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
-          create_time:new Date()
+          create_time: new Date(),
         },
       });
     },
     onError(error) {
-      setLoadin(false)
+      setLoadin(false);
       if (error.data?.data?.includes("user_unq_login")) {
         toast({
           title: t("Такой логин уже зарегистрирован"),
@@ -206,24 +206,54 @@ export const useRegistrationFormProps = () => {
     value: company?.guid,
   }));
 
-
+  const { data: useList } = useGetUserData({
+    params: {
+      data: JSON.stringify({
+        offset: 0,
+        order: {},
+        search: phone?.startsWith("+") ? phone?.slice(1) : phone,
+        limit: 1000,
+        view_fields: ["phone"],
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(nomer?.full_name),
+    },
+  });
 
   function onSubmit(data) {
     authStore.setAuthData("firm_id", data.company?.value);
-    registerFirmMutation.mutate({
-      data: {
-        company_direction: ["company_customer"],
-        tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
-        full_name: data.full_name,
-        tin: data.inn,
-        company_name: status === 1 ? `${watch(`company_type`)?.value ? watch(`company_type`)?.value : `OOO`} ${data?.companyName}` :undefined,
-        building_address: data.adress,
-        phone_number: phone,
-        logo: data.img,
-      },
-    });
-    setLoadin(true)
+    setNomer(data);
+    setLoadin(true);
   }
+
+  useEffect(() => {
+    if (useList?.count > 0 && nomer?.full_name ) {
+      setOpen(true);
+      setLoadin(false);
+    } 
+    else if(useList?.count === 0 && nomer ){
+      registerFirmMutation.mutate({
+        data: {
+          company_direction: ["company_customer"],
+          tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
+          full_name: nomer?.full_name,
+          tin: nomer?.inn,
+          company_name:
+            status === 1
+              ? `${
+                  watch(`company_type`)?.value
+                    ? watch(`company_type`)?.value
+                    : `OOO`
+                } ${nomer?.companyName}`
+              : undefined,
+          building_address: nomer?.adress,
+          phone_number: phone,
+          logo: nomer?.img,
+        },
+      });
+    }
+  }, [useList?.count]);
 
   function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
@@ -237,7 +267,6 @@ export const useRegistrationFormProps = () => {
     setValue("login", phone);
     setValue("tel", phone);
   }, []);
-
 
   return {
     clientTypeOptions,
@@ -263,6 +292,7 @@ export const useRegistrationFormProps = () => {
     locale,
     router,
     login,
-    loadin
+    loadin,
+    open, setOpen
   };
 };
