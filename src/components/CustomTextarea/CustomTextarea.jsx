@@ -4,6 +4,7 @@ import { Box, Text, Textarea } from "@chakra-ui/react";
 
 export const CustomTextarea = ({
   disabled,
+  label = ``,
   watch = () => {},
   withLimit = true,
   placeholder = "Пишите здесь",
@@ -21,6 +22,10 @@ export const CustomTextarea = ({
       alignItems="flex-start"
       flexGrow={1}
     >
+      {label ? <span className={cls.label}>{
+        label
+      }</span> : ``}
+
       <Textarea
         className={clsx(cls.textarea, className)}
         isDisabled={disabled}

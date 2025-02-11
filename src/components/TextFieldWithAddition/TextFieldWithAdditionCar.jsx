@@ -137,7 +137,7 @@ export const TextFieldWithAdditionCar = ({
                           <span className={cls.additionalItemOptionLabel}>
                             <span>{item.label}</span>
                             {item.value === field?.value?.value && (
-                              <CheckIcon />
+                              <CheckIcon  />
                             )}
                           </span>
                         </button>

@@ -4,6 +4,12 @@ import {
   Button,
   Flex,
   Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
   Tab,
   TabIndicator,
@@ -28,7 +34,8 @@ import CTable from "@/components/CTable";
 import SlotCounter from "react-slot-counter";
 import { DatePicker } from "@/components/DatePicker";
 import cls from "./style.module.scss";
-import { ExelIcon } from "@/assets/icons/icons";
+import { EditIconTable, ExelIcon } from "@/assets/icons/icons";
+import { stringsToarray } from "@/utils/stringsToarray";
 
 const notificationSound = "/mixkit-magic-notification-ring-2344.mp3";
 
@@ -41,7 +48,7 @@ ChartJS.register(
   Legend
 );
 
-const Dashboard = () => {
+const Dashboard = ({ locale }) => {
   const {
     topStatis,
     chartData,
@@ -65,7 +72,12 @@ const Dashboard = () => {
     currentPage,
     getExcelFileFn,
     isLoadingExe,
-  } = useDashboard();
+    firmData,
+    isOpen,
+    onClose,
+    firmId,
+    editFn,
+  } = useDashboard(locale);
 
   const notificationFn = () => {
     Notification.requestPermission();
@@ -260,7 +272,222 @@ const Dashboard = () => {
           </Tabs>
         </Box>
       </Flex>
-      <Button width={`fit-content`} onClick={notificationFn} >Notification</Button>
+      <Modal
+        size={`xl`}
+        // isCentered
+        onClose={onClose}
+        isOpen={isOpen}
+        motionPreset="slideInBottom"
+        scrollBehavior={`inside`}
+      >
+        <ModalOverlay />
+        <ModalContent padding={`5px`}>
+          <ModalHeader
+            borderBottomWidth="1px"
+            borderColor={`rgba(219, 216, 227, 1)`}
+            padding={`10px 26px`}
+          >
+            <Box>
+              <p style={{ lineHeight: `32px` }}>Перевозчик</p>
+              <Flex gap={`10px`} alignItems={`center`}>
+                <p className={cls.titleModal}>{firmId?.your_id}</p>
+                <Flex
+                  onClick={() => editFn(firmId)}
+                  cursor={`pointer`}
+                  gap={`4px`}
+                  alignItems={`center`}
+                >
+                  <EditIconTable />
+                  <span className={cls.linkModal}>Редактировать</span>
+                </Flex>
+              </Flex>
+            </Box>
+          </ModalHeader>
+          <ModalCloseButton top={`23px`} />
+
+          <ModalBody>
+            <Flex flexDirection={`column`} width={`100%`} rowGap={`24px`}>
+              <Box width={`100%`}>
+                <p className={cls.cardTitle}>Информация о директоре</p>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>ФИО руководителя</p>
+                  <p className={cls.boxDesc}>{firmData?.full_name}</p>
+                </Flex>
+              </Box>
+              <Box width={`100%`}>
+                <p className={cls.cardTitle}>Контактные данные</p>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Email</p>
+                  <p className={cls.boxDesc}>{firmData?.email}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Номер телефона</p>
+                  <p className={cls.boxDesc}>{firmData?.phone_number}</p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Код СОАТО</p>
+                  <p className={cls.boxDesc}>{firmData?.soato}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Адрес</p>
+                  <p className={cls.boxDesc}>{firmData?.address}</p>
+                </Flex>
+              </Box>
+              <Box width={`100%`}>
+                <p className={cls.cardTitle}>Общие сведение</p>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>ИНН</p>
+                  <p className={cls.boxDesc}>{firmData?.tin}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Регистрирующий орган</p>
+                  <p className={cls.boxDesc}>
+                    {firmData?.registration_authority}
+                  </p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>
+                    Дата государственной регистрации
+                  </p>
+                  <p className={cls.boxDesc}>{firmData?.data_register}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Номер регистрации в реестре</p>
+                  <p className={cls.boxDesc}>{firmData?.register_number}</p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Полное наименование</p>
+                  <p className={cls.boxDesc}>
+                    {firmData?.company_name}{" "}
+                    {` ${firmData?.org_and_legal_form}`}
+                  </p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Сокращенное наименование</p>
+                  <p className={cls.boxDesc}>{firmData?.company_name}</p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>
+                    Организационно-правовая форма (ОПФ)
+                  </p>
+                  <p className={cls.boxDesc}>{firmData?.org_and_legal_form}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Форма собственности (ФС)</p>
+                  <p className={cls.boxDesc}>{firmData?.form_of_ownership}</p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>
+                    Код ОКЭД (Вид(ы) осуществляемой деятельности)
+                  </p>
+                  <p className={cls.boxDesc}>{firmData?.oked}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Код СООГУ</p>
+                  <p className={cls.boxDesc}>{firmData?.soogu}</p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>
+                    Принадлежность к субъектам малого
+                  </p>
+                  <p className={cls.boxDesc}>{firmData?.business_entity}</p>
+                </Flex>
+                <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>
+                    Состояние деятельности предприятия
+                  </p>
+                  <p className={cls.boxDesc}>
+                    {firmData?.status_of_enterprise}
+                  </p>
+                </Flex>
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Уставный фонд</p>
+                  <p className={cls.boxDesc}>
+                    {firmData?.capital} {` ${firmData?.currency || ``}`}
+                  </p>
+                </Flex>
+              </Box>
+              <Box width={`100%`}>
+                <p className={cls.cardTitle}>
+                  Информация об учредителях и их доле в уставном фонде
+                </p>
+
+                <Flex
+                  className={cls.primaryBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>{firmData?.director_procent}</p>
+                </Flex>
+
+                {/* <Flex
+                  className={cls.outlineBox}
+                  justifyContent={`space-between`}
+                >
+                  <p className={cls.boxTitle}>Код СОАТО</p>
+                  <p className={cls.boxDesc}>{firmData?.soato}</p>
+                </Flex> */}
+              </Box>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/* <Button width={`fit-content`} onClick={notificationFn}>
+        Notification
+      </Button> */}
     </Container>
   );
 };

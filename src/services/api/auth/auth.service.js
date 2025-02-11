@@ -12,6 +12,7 @@ const authService = {
   register: (data) => authRequest.post(`/v2/register?project-id=${projectId}`, data),
   registerUser: (data) => request.post(`/v2/items/users`, data),
   registerFirm: (data) => request.post(`/v2/items/firm`, data),
+  registerFirmEdit: (data) => request.put(`/v2/items/firm`, data),
 };
 
 export const useOneLoginMutation = (mutationSettings = {}) => {
@@ -59,6 +60,12 @@ export const useRegisterUserMutation = (mutationSettings = {}) => {
 export const useRegisterFirmMutation = (mutationSettings = {}) => {
   return useMutation({
     mutationFn: authService.registerFirm,
+    ...mutationSettings
+  });
+};
+export const useRegisterFirEditmMutation = (mutationSettings = {}) => {
+  return useMutation({
+    mutationFn: authService.registerFirmEdit,
     ...mutationSettings
   });
 };

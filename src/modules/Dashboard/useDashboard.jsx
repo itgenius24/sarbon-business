@@ -1,20 +1,21 @@
+import { EditIconTable } from "@/assets/icons/icons";
 import {
   useGetExcelPost,
-  useGetUserCargo,
+  useGetFirmInfo,
   useGetUserCargo2,
   useGetUserData,
-  useGetVehicle,
   useGetVehicle2,
-  useGetVehicleSingle,
   useLogistikaGpsTrackingFilterDriverPred,
 } from "@/services/api";
-import { Tooltip } from "@chakra-ui/react";
+import { Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
+import cls from "./style.module.scss";
 
 import { format } from "date-fns";
-import { color } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export const useDashboard = () => {
+export const useDashboard = (locale) => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
 
   const [startDate, setStartDate] = useState();
@@ -23,12 +24,24 @@ export const useDashboard = () => {
   const [status, setStatus] = useState(0);
   const [date, setDate] = useState(``);
   const [data, setData] = useState({});
+  const [firmId, setFirmId] = useState(``);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+
   const filter = {
     [`0`]: `driver`,
     [`1`]: `ekspiditor`,
     [`2`]: `truck`,
     [`3`]: `cargo`,
   };
+
+  const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
+    enabled: Boolean(firmId?.firm_data?.guid),
+  });
+
+
+
+
 
   const { mutate: filterData, isPending } =
     useLogistikaGpsTrackingFilterDriverPred({
@@ -213,6 +226,12 @@ export const useDashboard = () => {
     });
   };
 
+  const editFn = (row) => {
+    router.push(
+      `/${locale}/tin-create?id=${row?.your_id}&guid=${row?.firm_data?.guid}&isEdit=false`
+    );
+  };
+
   const topStatis = [
     {
       id: 1,
@@ -237,7 +256,11 @@ export const useDashboard = () => {
     },
     {
       id: 4,
-      total: useCargo?.response?.reduce((sum, item) => sum + item?.accepted_offers, 0) || 0,
+      total:
+        useCargo?.response?.reduce(
+          (sum, item) => sum + item?.accepted_offers,
+          0
+        ) || 0,
       deck: `Общее количество активных грузов`,
       bg: `rgba(193, 187, 32, 1)`,
       color: `rgba(193, 187, 32, 0.3)`,
@@ -331,8 +354,9 @@ export const useDashboard = () => {
     {
       title: `ID`,
       dataIndex: "your_id",
-      render: (_, row) =>
-        <p style={{whiteSpace:`nowrap`}}>{row?.your_id}</p>,
+      render: (_, row) => (
+        <p style={{ whiteSpace: `nowrap` }}>{row?.your_id}</p>
+      ),
       width: 200,
     },
     {
@@ -357,11 +381,13 @@ export const useDashboard = () => {
       title: `Фирма`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.company_name ?   <p  style={{width:`200px`}}>{row?.firm_data?.company_name}</p>   : (
+        row?.firm_data?.company_name ? (
+          <p style={{ width: `200px` }}>{row?.firm_data?.company_name}</p>
+        ) : (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
-           Нет названия фирмы
+            Нет названия фирмы
           </span>
         ),
       width: 200,
@@ -370,26 +396,48 @@ export const useDashboard = () => {
       title: `ИНН`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.tin ?  <p  style={{width:`100px`}}>{row?.firm_data?.tin}</p> :
-          <span
-            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+        row?.firm_data?.tin ? (
+          <p
+            onClick={() => {setFirmId(row);onOpen()}}
+            className={cls.tin}
           >
-            ИНН отсутствует
-          </span>
-        ,
+            {row?.firm_data?.tin}
+          </p>
+        ) : (
+          <Flex
+            // className={cls.tinWrap}
+            gap={`6px`}
+            alignItems={`center`}
+            whiteSpace={`nowrap`}
+            // onClick={() => editFn(row)}
+          >
+            <span
+              style={{ opacity:0.5, fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+            >
+              ИНН отсутствует
+            </span>
+            {/* <EditIconTable /> */}
+          </Flex>
+        ),
       width: 200,
     },
     {
       title: `Тип аккаунта`,
       dataIndex: "",
       render: (_, row) =>
-        row?.firm_data?.tip_account?.[0] === `legal_owner` ? `Юридическое лицо` : `Физическое лицо`,
+        row?.firm_data?.tip_account?.[0] === `legal_owner`
+          ? `Юридическое лицо`
+          : `Физическое лицо`,
       width: 200,
     },
     {
       title: `Дата созд.`,
       dataIndex: "createdAt",
-      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{format(row.createdAt, `yyyy-MM-dd`)}</p>,
+      render: (_, row) => (
+        <p style={{ whiteSpace: `nowrap` }}>
+          {format(row.createdAt, `yyyy-MM-dd`)}
+        </p>
+      ),
 
       width: 200,
     },
@@ -475,7 +523,7 @@ export const useDashboard = () => {
       title: `ID`,
       dataIndex: "unit_id",
       width: 200,
-      render:(_,row) => row.unit_id ?   row.unit_id : `Нет ID `
+      render: (_, row) => (row.unit_id ? row.unit_id : `Нет ID `),
     },
     {
       title: `Гос номер`,
@@ -541,7 +589,7 @@ export const useDashboard = () => {
       title: `эко стандарт`,
       dataIndex: "eco_standart",
       render: (_, row) =>
-        <p style={{textTransform:`capitalize`}}>{row?.eco_standart}</p> || (
+        <p style={{ textTransform: `capitalize` }}>{row?.eco_standart}</p> || (
           <span
             style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
           >
@@ -579,7 +627,11 @@ export const useDashboard = () => {
     {
       title: `Дата созд.`,
       dataIndex: "createdAt",
-      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{format(row.createdAt, `yyyy-MM-dd`)}</p>,
+      render: (_, row) => (
+        <p style={{ whiteSpace: `nowrap` }}>
+          {format(row.createdAt, `yyyy-MM-dd`)}
+        </p>
+      ),
 
       width: 200,
     },
@@ -588,12 +640,17 @@ export const useDashboard = () => {
       dataIndex: "from",
       render: (_, row) =>
         row?.from?.length > 20 ? (
-          <Tooltip color={`black`}
-          boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-          background={`#fff`} label={row.from}><p>{row?.from?.slice(0, 20)}...</p></Tooltip>
-        ) : 
+          <Tooltip
+            color={`black`}
+            boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+            background={`#fff`}
+            label={row.from}
+          >
+            <p>{row?.from?.slice(0, 20)}...</p>
+          </Tooltip>
+        ) : (
           row?.from
-        ,
+        ),
       width: 500,
     },
     {
@@ -601,12 +658,17 @@ export const useDashboard = () => {
       dataIndex: "to",
       render: (_, row) =>
         row?.to?.length > 20 ? (
-          <Tooltip color={`black`}
-          boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-          background={`#fff`} label={row.to}><p>{row?.to?.slice(0, 20)}...</p></Tooltip>
-        ) : 
+          <Tooltip
+            color={`black`}
+            boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+            background={`#fff`}
+            label={row.to}
+          >
+            <p>{row?.to?.slice(0, 20)}...</p>
+          </Tooltip>
+        ) : (
           row?.to
-        ,
+        ),
       width: 500,
     },
     {
@@ -614,7 +676,7 @@ export const useDashboard = () => {
       dataIndex: "product_type",
       width: 100,
     },
-    
+
     {
       title: `Тип машина`,
       dataIndex: "car_type",
@@ -625,11 +687,11 @@ export const useDashboard = () => {
       dataIndex: "number_of_cars",
       width: 200,
     },
-    
+
     {
       title: `Принятые предл.`,
       dataIndex: "accepted_offers",
-      render:(_,row) => row?.number_of_cars - row?.accepted_offers,
+      render: (_, row) => row?.number_of_cars - row?.accepted_offers,
       width: 200,
     },
     {
@@ -697,6 +759,9 @@ export const useDashboard = () => {
     setCurrentPage,
     currentPage,
     getExcelFileFn,
-    isLoadingExe:getExcelFile.isPending,
+    isLoadingExe: getExcelFile.isPending,
+    firmData:firmData?.response,
+    isOpen, onOpen, onClose,
+    firmId,editFn
   };
 };
