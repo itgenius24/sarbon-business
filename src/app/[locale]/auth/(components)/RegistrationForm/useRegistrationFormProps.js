@@ -5,6 +5,7 @@ import {
   useGetRoleList,
   useGetUserData,
   useGetUsers,
+  useOfferFromCustomerMutation,
   useRegisterFirmMutation,
   useRegisterUserMutation,
 } from "@/services/api";
@@ -24,7 +25,6 @@ export const useRegistrationFormProps = () => {
   const [loadin, setLoadin] = useState(false);
   const [nomer, setNomer] = useState();
   const [open, setOpen] = useState(false);
-
 
   const { t } = useTranslation(locale, "translations");
 
@@ -206,18 +206,32 @@ export const useRegistrationFormProps = () => {
     value: company?.guid,
   }));
 
-  const { data: useList } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        offset: 0,
-        order: {},
-        search: phone?.startsWith("+") ? phone?.slice(1) : phone,
-        limit: 1000,
-        view_fields: ["phone"],
-      }),
-    },
-    querySettings: {
-      enabled: Boolean(nomer?.full_name),
+  const offerFromCustomer = useOfferFromCustomerMutation({
+    onSuccess(res) {
+      if (res?.response?.length === 0) {
+        registerFirmMutation.mutate({
+          data: {
+            company_direction: ["company_customer"],
+            tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
+            full_name: nomer?.full_name,
+            tin: nomer?.inn,
+            company_name:
+              status === 1
+                ? `${
+                    watch(`company_type`)?.value
+                      ? watch(`company_type`)?.value
+                      : `OOO`
+                  } ${nomer?.companyName}`
+                : undefined,
+            building_address: nomer?.adress,
+            phone_number: phone,
+            logo: nomer?.img,
+          },
+        });
+      } else{
+         setOpen(true)
+         setLoadin(false)
+      }
     },
   });
 
@@ -225,35 +239,16 @@ export const useRegistrationFormProps = () => {
     authStore.setAuthData("firm_id", data.company?.value);
     setNomer(data);
     setLoadin(true);
-  }
-
-  useEffect(() => {
-    if (useList?.count > 0 && nomer?.full_name ) {
-      setOpen(true);
-      setLoadin(false);
-    } 
-    else if(useList?.count === 0 && nomer ){
-      registerFirmMutation.mutate({
-        data: {
-          company_direction: ["company_customer"],
-          tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
-          full_name: nomer?.full_name,
-          tin: nomer?.inn,
-          company_name:
-            status === 1
-              ? `${
-                  watch(`company_type`)?.value
-                    ? watch(`company_type`)?.value
-                    : `OOO`
-                } ${nomer?.companyName}`
-              : undefined,
-          building_address: nomer?.adress,
-          phone_number: phone,
-          logo: nomer?.img,
+    offerFromCustomer.mutate({
+      data: {
+        object_data: {
+          email: watch(`email`),
+          phone: phone?.startsWith("+") ? phone?.slice(1) : phone,
+          type: `register`,
         },
-      });
-    }
-  }, [useList?.count]);
+      },
+    });
+  }
 
   function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
@@ -293,6 +288,7 @@ export const useRegistrationFormProps = () => {
     router,
     login,
     loadin,
-    open, setOpen
+    open,
+    setOpen,
   };
 };
