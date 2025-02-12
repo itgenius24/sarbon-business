@@ -388,8 +388,8 @@ const Dashboard = ({ locale }) => {
                 >
                   <p className={cls.boxTitle}>Полное наименование</p>
                   <p className={cls.boxDesc}>
-                    {firmData?.company_name}{" "}
-                    {` ${firmData?.org_and_legal_form}`}
+                    {firmData?.company_name}
+                    {/* {` ${firmData?.org_and_legal_form}`} */}
                   </p>
                 </Flex>
                 <Flex
