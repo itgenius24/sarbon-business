@@ -398,7 +398,7 @@ export const useDashboard = (locale) => {
       render: (_, row) =>
         row?.firm_data?.tin ? (
           <p
-            // onClick={() => {setFirmId(row);onOpen()}}
+             onClick={() => {setFirmId(row);onOpen()}}
             className={cls.tin}
           >
             {row?.firm_data?.tin}
