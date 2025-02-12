@@ -67,6 +67,12 @@ const objectService = {
     request.post("/v1/invoke_function/logistika-favourite-cargo", data),
   getLocation: (data) =>
     request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
+  dispatcherFirms: (data) =>
+    request.post("/v2/items/dispatcher_and_firms", data),
+  deleteDis: (id) => request.delete(`/v2/items/dispatcher_and_firms/${id.id}`,{data:JSON.stringify({data:{}})}),
+
+  dispatcherFirmsEdit: (data) =>
+    request.put("/v2/items/dispatcher_and_firms", data),
   getOffer: (params) =>
     request.get("/v2/object-slim/get-list/order", { params }),
   getCargoById: (params) =>
@@ -140,6 +146,10 @@ export const useGetCar = (mutationSettings) => {
   });
   };
 
+  export const useDeleteDis = (mutationSettings) => {
+    return useMutation({ mutationFn: (data) => objectService.deleteDis(data), ...mutationSettings });
+  };
+
   
 
   export const useGetCarDispatcher = (mutationSettings) => {
@@ -192,12 +202,33 @@ export const useLogistikaGpsTrackingFilterDriverPred = (mutationSettings) => {
     ...mutationSettings,
   });
 };
+
+
+
 export const useLocation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => objectService.getLocation(data),
     ...mutationSettings,
   });
 };
+
+
+
+export const useDispatcherFirms = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.dispatcherFirms(data),
+    ...mutationSettings,
+  });
+};
+
+export const useDispatcherFirmsEdit = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.dispatcherFirmsEdit(data),
+    ...mutationSettings,
+  });
+};
+
+
 export const useGetNewsList = (
   params = { data: JSON.stringify({}) },
   settings

@@ -17,6 +17,7 @@ export const Dropdown = ({
   options = [],
   placeholder = "Выберите",
   defaultValueIndex,
+  defaultValue,
   label,
   control,
   name = "select",
@@ -24,6 +25,8 @@ export const Dropdown = ({
   required,
   searchable,
   searchName = "search",
+  clearFn = () => {},
+  isClear = false,
   inputPlaceholder = "Выберите",
   setValue = () => {},
   watch = () => {},
@@ -31,11 +34,13 @@ export const Dropdown = ({
   error,
   disabled,
   className,
-  onSearchChange = () => {},handleInputClear= () => {},
+  onSearchChange = () => {},
+  handleInputClear = () => {},
+  onChangeSelect = () => {},
   index,
   isMulti,
   clearable,
-  isTop=false
+  isTop = false,
 }) => {
   const height = Math.floor(options && (options.length * 50) / 2);
 
@@ -61,7 +66,9 @@ export const Dropdown = ({
     <Controller
       name={name}
       control={control || dropdownControl}
-      defaultValue={options[defaultValueIndex]}
+      defaultValue={
+        defaultValue?.value ? defaultValue : options[defaultValueIndex]
+      }
       rules={{ required }}
       render={({ field: { value, onChange, ...props } }) => (
         <div className={clsx(cls.dropdown, className)} {...props}>
@@ -154,9 +161,30 @@ export const Dropdown = ({
                         {placeholder ? placeholder : t(placeholder)}
                       </span>
                     )}
-                    <span className={clsx(cls.arrow, { [cls.open]: isOpen })}>
-                      {<SelectionArrow />}
-                    </span>
+                    {watch(name)?.value && isClear ? (
+                      <span
+                        className={cls.rightIcon}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setValue(
+                            name,
+                            {},
+                            {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            }
+                          );
+                          clearFn(name);
+                        }}
+                      >
+                        <CircleCloseIcon />
+                      </span>
+                    ) : (
+                      <span className={clsx(cls.arrow, { [cls.open]: isOpen })}>
+                        {<SelectionArrow />}
+                      </span>
+                    )}
+
                     {clearable && watch(name)?.value && (
                       <span
                         className={cls.rightIcon}
@@ -211,15 +239,26 @@ export const Dropdown = ({
                               (item) => item.value !== option.value
                             )
                           );
+
+                          onChangeSelect(
+                            watch(name).filter(
+                              (item) => item.value !== option.value
+                            )
+                          );
+
                           return;
                         } else {
                           const value = watch(name)
                             ? [...watch(name), option]
                             : [option];
+
                           onChange(value);
+                          onChangeSelect(value);
                         }
                       } else {
                         onChange(option);
+                        onChangeSelect(option);
+
                         handleToggle();
                       }
                     }}

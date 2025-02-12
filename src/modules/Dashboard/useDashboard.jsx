@@ -1,5 +1,8 @@
 import { EditIconTable } from "@/assets/icons/icons";
 import {
+  useDeleteDis,
+  useDispatcherFirms,
+  useDispatcherFirmsEdit,
   useGetExcelPost,
   useGetFirmInfo,
   useGetUserCargo2,
@@ -7,17 +10,19 @@ import {
   useGetVehicle2,
   useLogistikaGpsTrackingFilterDriverPred,
 } from "@/services/api";
-import { Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { Dropdown } from "@/components/Dropdown";
 
 export const useDashboard = (locale) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-
+  const { control, register, setValue, errors, watch } = useForm();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [date2, setDate2] = useState([]);
@@ -25,8 +30,8 @@ export const useDashboard = (locale) => {
   const [date, setDate] = useState(``);
   const [data, setData] = useState({});
   const [firmId, setFirmId] = useState(``);
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const [load, setLoad] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const filter = {
     [`0`]: `driver`,
@@ -39,15 +44,19 @@ export const useDashboard = (locale) => {
     enabled: Boolean(firmId?.firm_data?.guid),
   });
 
-
-
-
-
   const { mutate: filterData, isPending } =
     useLogistikaGpsTrackingFilterDriverPred({
       onSuccess: (res) => {
         setData(res);
         setCurrentPage(1);
+        if (filter[status] === `ekspiditor`) {
+          res?.response?.forEach((element) => {
+            // return setValue(`cargo_type_${element?.guid}`, {
+            //   label: element?.dispatcher_and_firms_data_details.full_name,
+            //   value: element?.dispatcher_and_firms_data_details?.guid,
+            // });
+          });
+        }
       },
     });
 
@@ -114,6 +123,7 @@ export const useDashboard = (locale) => {
   }, [date, endDate, startDate]);
 
   useEffect(() => {
+    setLoad(false);
     filterData({
       data: {
         object_data: {
@@ -142,13 +152,27 @@ export const useDashboard = (locale) => {
         },
       },
     });
-  }, [startDate, endDate, status, date2]);
+  }, [startDate, endDate, status, date2, load]);
 
   const { data: useList } = useGetUserData({
     params: {
       data: JSON.stringify({
         client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
       }),
+    },
+  });
+  const { data: useListDis } = useGetUserData({
+    params: {
+      data: JSON.stringify({
+        client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
+      }),
+    },
+    querySettings: {
+      select: (res) =>
+        res?.response?.map((item) => ({
+          label: item?.full_name,
+          value: item?.guid,
+        })),
     },
   });
 
@@ -176,6 +200,53 @@ export const useDashboard = (locale) => {
       }),
     },
   });
+
+  const { mutate } = useDispatcherFirms({
+    onSuccess: () => {
+      setLoad(true);
+    },
+  });
+
+  const { mutate: editDis } = useDispatcherFirmsEdit({
+    onSuccess: () => {
+      setLoad(true);
+    },
+  });
+
+  const dispatchAdd = (row, e) => {
+    if (row.dispatcher_and_firms_data_details?.guid) {
+      editDis({
+        data: {
+          firm_id: row?.firm_data?.guid,
+          users_id: e.value,
+          guid: row?.dispatcher_and_firms_data?.guid,
+        },
+      });
+    } else {
+      mutate({
+        data: {
+          firm_id: row?.firm_data?.guid,
+          users_id: e.value,
+        },
+      });
+    }
+  };
+
+  const { mutate: dalete } = useDeleteDis({
+    onSuccess: () => {
+      setLoad(true);
+    },
+  });
+
+  const clearFn = (row,e) => {
+   
+    const data = {
+      id: row?.dispatcher_and_firms_data?.guid,
+    };
+    dalete(data);
+    setValue(e,{})
+  };
+
   const downloadByLanguage = async (url) => {
     try {
       const link = document.createElement("a");
@@ -398,7 +469,10 @@ export const useDashboard = (locale) => {
       render: (_, row) =>
         row?.firm_data?.tin ? (
           <p
-             onClick={() => {setFirmId(row);onOpen()}}
+            onClick={() => {
+              setFirmId(row);
+              onOpen();
+            }}
             className={cls.tin}
           >
             {row?.firm_data?.tin}
@@ -412,7 +486,12 @@ export const useDashboard = (locale) => {
             // onClick={() => editFn(row)}
           >
             <span
-              style={{ opacity:0.5, fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+              style={{
+                opacity: 0.5,
+                fontSize: `14px`,
+                fontWeight: 400,
+                fontStyle: `italic`,
+              }}
             >
               ИНН отсутствует
             </span>
@@ -452,14 +531,30 @@ export const useDashboard = (locale) => {
     {
       title: `Диспетчер`,
       dataIndex: "",
-      render: (_, row) =>
-        row?.dispatcher_details?.full_name || (
-          <span
-            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
-          >
-            Нет Диспетчер
-          </span>
-        ),
+      render: (_, row, index) => {
+        return (
+          <Box key={row?.guid} width={`250px`}>
+            <Dropdown
+              control={control}
+              register={register}
+              watch={watch}
+              name={`cargo_type_${row?.guid}`}
+              options={useListDis}
+              errors={errors}
+              width={`200px`}
+              className={cls.dropdown}
+              onChangeSelect={(e) => dispatchAdd(row, e)}
+              clearFn={(e) => clearFn(row,e)}
+              isClear
+              defaultValue={ row?.dispatcher_and_firms_data_details?.guid ?   {
+                label: row?.dispatcher_and_firms_data_details?.full_name,
+                value: row?.dispatcher_and_firms_data_details?.guid,
+              }: {}} 
+            />
+          </Box>
+        );
+      },
+
       width: 200,
     },
   ];
@@ -760,8 +855,11 @@ export const useDashboard = (locale) => {
     currentPage,
     getExcelFileFn,
     isLoadingExe: getExcelFile.isPending,
-    firmData:firmData?.response,
-    isOpen, onOpen, onClose,
-    firmId,editFn
+    firmData: firmData?.response,
+    isOpen,
+    onOpen,
+    onClose,
+    firmId,
+    editFn,
   };
 };
