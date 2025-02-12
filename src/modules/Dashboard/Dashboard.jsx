@@ -314,7 +314,7 @@ const Dashboard = ({ locale }) => {
                   justifyContent={`space-between`}
                 >
                   <p className={cls.boxTitle}>ФИО руководителя</p>
-                  <p className={cls.boxDesc}>{firmData?.full_name}</p>
+                  <p className={cls.boxDesc}>{firmData?.information_of_director}</p>
                 </Flex>
               </Box>
               <Box width={`100%`}>

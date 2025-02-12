@@ -184,7 +184,7 @@ const TinCreateModule = () => {
               label={`ФИО руководителя`}
               register={register}
               errors={errors}
-              name="full_name"
+              name="information_of_director"
               placeholder={t("ФИО руководителя")}
             />
           </Flex>
