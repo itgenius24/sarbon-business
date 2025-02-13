@@ -184,7 +184,7 @@ export const useDashboard = (locale) => {
     },
   });
 
-  const { data: useCargo, isLoading } = useGetUserCargo2({
+  const { data: useCargo, isLoading,isFetching } = useGetUserCargo2({
     params: {
       data: JSON.stringify({
         order_status: ["active"],
@@ -847,7 +847,7 @@ export const useDashboard = (locale) => {
     data,
     setStatus,
     isPending,
-    isLoading,
+    isLoading:isPending,
     date,
     setDate,
     setDate2,

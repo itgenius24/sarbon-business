@@ -38,18 +38,7 @@ const CTable = ({
       borderRight="1px solid"
       borderColor="border"
     >
-      {isLoading && (
-        <SimpleLoader
-          position="absolute"
-          top={"1px"}
-          left={"1px"}
-          h="calc(100% - 2px)"
-          w="calc(100% - 2px)"
-          zIndex={100}
-          bg={`white`}
-          className={"spinner"}
-        />
-      )}
+   
       <Table
         columns={columns}
         

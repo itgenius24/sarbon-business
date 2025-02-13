@@ -151,7 +151,7 @@ const MainPage = () => {
                     </Flex>
                   </Box>
                   <Box position={`relative`} className={cls.cardRight}>
-                    <Box position={`relative`} zIndex={1}>
+                    <Box position={`relative`} top={`-30px`} zIndex={1}>
                       <Image
                         width={450}
                         height={450}
@@ -159,7 +159,7 @@ const MainPage = () => {
                         alt="sliderImg"
                       />
                     </Box>
-                    <Box bottom={`40px`} left={`130px`} position={`absolute`}>
+                    <Box bottom={`50px`} left={`130px`} position={`absolute`}>
                       <Image
                         width={450}
                         height={450}
@@ -275,7 +275,7 @@ const MainPage = () => {
                     </Flex>
                   </Box>
                   <Box position={`relative`} className={cls.cardRight}>
-                    <Box position={`relative`} zIndex={1}>
+                    <Box position={`relative`} top={`-25px`} zIndex={1}>
                       <Image
                         width={450}
                         height={450}
@@ -283,7 +283,7 @@ const MainPage = () => {
                         alt="sliderImg"
                       />
                     </Box>
-                    <Box bottom={`30px`} left={`130px`} position={`absolute`}>
+                    <Box bottom={`45px`} left={`130px`} position={`absolute`}>
                       <Image
                         width={450}
                         height={450}

@@ -154,7 +154,7 @@ const TinCreateModule = () => {
                       width="100%"
                       placeholder={t("Вес")}
                       additionalItemPlaceholder="Sum"
-                      additionalItemOptions={[{label:`Sum`,value:`Sum`},{label:`Dollar`,value:`Dollar`}]}
+                      additionalItemOptions={[{label:`UZS`,value:`UZS`},{label:`USD`,value:`USD`}]}
                  
                       type="number"
                       zIndex={90}
