@@ -7,6 +7,8 @@ import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
 import { useElements } from "./elements";
 import clsx from "clsx";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const MainLayout = ({locale, children }) => {
 

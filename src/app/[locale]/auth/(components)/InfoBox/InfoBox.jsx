@@ -40,14 +40,14 @@ export const InfoBox = () => {
   });
 
   return (
-    <div
-      className={cls.infoBox}
- 
-    >
+    <div className={cls.infoBox}>
       {/* Each element moves independently */}
-      <div      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave} className={cls.infoWrap}>
+      <div
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={cls.infoWrap}
+      >
         <div className={cls.blueCard} style={calculateOffset(0.004)}>
           <Image width={1000} height={1000} src={BlueImg} alt="blueCard" />
         </div>
@@ -103,7 +103,6 @@ export const InfoBox = () => {
     </div>
   );
 };
-
 
 // import Image from "next/image";
 // import cls from "./styles.module.scss";

@@ -162,7 +162,7 @@ export const Footer = () => {
                   target="_blank"
                 >
                   <Image
-                    src={AndroidPlay}
+                    src={GooglePlay}
                     alt="Google play"
                     width={135}
                     height={40}

@@ -16,6 +16,7 @@ import { LocaleDropdown } from "../LocaleDropdown";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import UserImg from "@/assets/images/user.png";
+import { ContainerNav } from "../container/Container";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -53,7 +54,7 @@ const Header = observer(({ elements }) => {
       borderBottom="1px solid"
       borderBottomColor="brand.200"
     >
-      <Container>
+      <ContainerNav>
         <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
@@ -235,7 +236,7 @@ const Header = observer(({ elements }) => {
             </Flex>
           </Box>
         </Box>
-      </Container>
+      </ContainerNav>
     </Box>
   );
 });

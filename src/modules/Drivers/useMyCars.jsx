@@ -7,6 +7,7 @@ import {
   useGetCarListOnSubmit,
   useGetUserGpsByIDData,
   useGetUserGpsData,
+  useOfferFromCustomerMutation,
   useUpdateUser,
 } from "@/services/api";
 import { useEffect, useState } from "react";
@@ -25,8 +26,6 @@ export const useMyCars = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  console.log(`id`, id);
 
   const router = useRouter();
 
@@ -52,7 +51,7 @@ export const useMyCars = () => {
     )
   );
 
-  const [open,setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const firm_id = authStore.userData.firm_id;
 
@@ -63,27 +62,27 @@ export const useMyCars = () => {
     },
   });
 
-  const { mutate: checkUserData,isPending:isLoadingCrate } = useCheckUser({
-    onSuccess: (res) => {
-      console.log(res);
-      if (res?.count === 0) {
-        mutate({
-          data: {
-            ...getValues(),
-             create_time:new Date(),
-            login: getValues().full_name,
-            firm_id,
-            role_id: "921464fa-8308-46b7-9b66-363acf654e40",
-            client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-          },
-        });
-      }else{
-        setOpen(true)
-      }
-    },
-  });
+  const { mutate: checkUserData, isPending: isLoadingCrate } =
+    useOfferFromCustomerMutation({
+      onSuccess: (res) => {
+        if (res?.response?.length === 0) {
+          mutate({
+            data: {
+              ...getValues(),
+              create_time: new Date(),
+              login: getValues().full_name,
+              firm_id,
+              role_id: "921464fa-8308-46b7-9b66-363acf654e40",
+              client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+            },
+          });
+        } else {
+          setOpen(true);
+        }
+      },
+    });
 
-  const { mutate: updateDsate,isPending} = useUpdateUser({
+  const { mutate: updateDsate, isPending } = useUpdateUser({
     onSuccess: (res) => {
       setIsPopupOpen(true);
       // router.push(`/${locale}/drivers`);
@@ -100,7 +99,6 @@ export const useMyCars = () => {
       }),
     },
   });
-
 
   useEffect(() => {
     if (id) {
@@ -127,13 +125,19 @@ export const useMyCars = () => {
           guid: getUserGps?.data?.response[0]?.guid,
           role_id: "921464fa-8308-46b7-9b66-363acf654e40",
           client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-
         },
       });
     } else {
       checkUserData({
         data: {
-          phone: val?.phone,
+          object_data: {
+            phone: val?.phone?.startsWith("+")
+              ? val?.phone?.slice(1)
+              : val?.phone,
+            type: `register`,
+            register_type: "phone",
+            email:``
+          },
         },
       });
     }
@@ -157,9 +161,9 @@ export const useMyCars = () => {
     setIsPopupOpen,
     isPopupOpen,
     id,
-    isLoading:isPending ? isPending :  isLoadingCrate,
+    isLoading: isPending ? isPending : isLoadingCrate,
     copyFunction,
     open,
-    setOpen
+    setOpen,
   };
 };
