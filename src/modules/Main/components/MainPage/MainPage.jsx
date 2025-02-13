@@ -31,12 +31,11 @@ import {
 const MainPage = () => {
   var settings = {
     dots: true,
-    infinite: true,
-    speed: 500,
+    // infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 5000,
   };
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -108,7 +107,7 @@ const MainPage = () => {
       <article>
         <Box className={cls.sliderWrap}>
           <Slider {...settings}>
-            <Box className={cls.sliderCardWrap}>
+            <Box  key={`1`} className={cls.sliderCardWrap}>
               <Container>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
@@ -172,7 +171,7 @@ const MainPage = () => {
                 </Flex>
               </Container>
             </Box>
-            <Box className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}>
+            <Box key={`2`} className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}>
               <Container>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
@@ -259,7 +258,7 @@ const MainPage = () => {
                 </Flex>
               </Container>
             </Box>
-            <Box className={cls.sliderCardWrap}>
+            <Box key={`3`} className={cls.sliderCardWrap}>
               <Container>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
