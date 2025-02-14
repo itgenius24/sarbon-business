@@ -31,9 +31,11 @@ import {
 } from "@/assets/icons/icons";
 import { Animation, MotionSection } from "@/utils/animation";
 import { fadeinLeft } from "@/utils/animationSetting";
+import authStore from "@/store/auth.store";
 
 const MainPage = () => {
   let sliderRef = useRef(null);
+  const token = authStore?.token?.access_token
   var settings = {
     dots: true,
     // infinite: true,
@@ -340,7 +342,7 @@ const MainPage = () => {
                 <Box className={cls.cardWrapQuestion}>
                   {cards.map((item) => (
                     <Box key={item.id} className={cls.card}>
-                      <Image src={item.img} alt={item.title} />
+                      <Image className={cls.image} src={item.img} alt={item.title} />
                       <h3 className={cls.cartTitle}>{item.title}</h3>
                       <p className={cls.cartDeck}>{item.deck}</p>
                     </Box>
@@ -410,7 +412,8 @@ const MainPage = () => {
         </Box>
       </article>
 
-      <article className={cls.bottomPage}>
+      {
+        !token &&    <article className={cls.bottomPage}>
         <Container>
           <Flex justifyContent={`space-between`} width={`100%`}>
             <Box>
@@ -426,6 +429,9 @@ const MainPage = () => {
           </Flex>
         </Container>
       </article>
+      }
+
+    
     </>
   );
 };
