@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import MainPage from "./components/MainPage/MainPage";
 
 
-export async function Main() {
+export async function Main({locale}) {
 
   const params = {
     data: JSON.stringify({
@@ -30,7 +30,7 @@ export async function Main() {
 
   return (
     <article className={clsx(styles.main, "fade-in")}>
-    <MainPage />
+    <MainPage locale={locale} />
       {/* <MobileApp description={banner?.description} description1={banner?.description_1} photo={banner?.photo} data={data?.data?.data?.response?.[0]} /> */}
       <News />
     </article>

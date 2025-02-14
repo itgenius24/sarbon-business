@@ -1,6 +1,6 @@
 import { Main } from "@/modules/Main";
 
-export default function Home() {
-
-  return <Main />;
+export default function Home({ params }) {
+  const { locale } = params;
+  return <Main locale={locale} />;
 }

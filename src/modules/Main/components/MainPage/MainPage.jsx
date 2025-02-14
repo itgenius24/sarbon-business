@@ -32,9 +32,11 @@ import {
 import { Animation, MotionSection } from "@/utils/animation";
 import { fadeinLeft } from "@/utils/animationSetting";
 import authStore from "@/store/auth.store";
+import { useRouter } from "next/navigation";
 
-const MainPage = () => {
+const MainPage = ({locale}) => {
   let sliderRef = useRef(null);
+  const router = useRouter()
   const token = authStore?.token?.access_token
   var settings = {
     dots: true,
@@ -210,7 +212,7 @@ const MainPage = () => {
                       сервисов в Евразии
                     </h1>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
-                      <Button width={`fit-content`}>Узнать больше</Button>
+                      <Button onClick={() => router.push(`/${locale}/about-us`)} width={`fit-content`}>Узнать больше</Button>
                     </Flex>
                   </Box>
                   <Box
@@ -301,7 +303,10 @@ const MainPage = () => {
                       отслеживайте их через GPS-трекинг.
                     </p>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
-                      <Button width={`fit-content`}>Добавить автопарк</Button>
+                    <a  href="#scrollTitle">
+                    <Button width={`fit-content`}>Узнать больше</Button>
+
+                    </a>
                     </Flex>
                   </Box>
                   <Box onMouseMove={handleMouseMove}
@@ -334,7 +339,7 @@ const MainPage = () => {
         <MotionSection>
           <Animation variants={fadeinLeft}>
             <Box className={cls.questionPage}>
-              <h1 className={cls.questionTitle}>
+              <h1 id="scrollTitle" className={cls.questionTitle}>
                 Почему выбирают <br /> Sarbon?
               </h1>
 
