@@ -134,7 +134,7 @@
 
       .cardLeft {
         width: 100%;
-        .cardTitle{
+        .cardTitle {
           font-size: 40px;
           line-height: 38px;
         }
@@ -142,7 +142,6 @@
       .cardRight {
         display: none;
       }
-     
     }
   }
 }
@@ -194,12 +193,18 @@
         color: rgba(140, 144, 148, 1);
         padding-bottom: 29px;
       }
+      .imgWrap {
+        overflow: hidden;
+        transition: 0.5s;
       .image{
-        transition: 0.5s ;
 
-        &:hover{
-           transform: scale(1.05);
-           transition: 0.5s ;
+            transition: 0.5s;
+      }
+        &:hover {
+          .image {
+            transform: scale(1.05);
+            transition: 0.5s;
+          }
         }
       }
     }
@@ -259,7 +264,7 @@
       background-color: rgba(242, 246, 252, 1);
       align-items: center;
       gap: 34px;
-      transition: 0.5s ;
+      transition: 0.5s;
 
       .textCard {
         h5 {
@@ -279,17 +284,16 @@
         }
       }
 
-      &:hover{
+      &:hover {
         transform: scale(1.05);
-        transition: 0.5s ;
-
+        transition: 0.5s;
       }
     }
   }
   @media (max-width: 800px) {
     display: flex;
     flex-direction: column;
-     gap: 58px;
+    gap: 58px;
 
     .bgPage {
       width: 100%;
@@ -297,7 +301,7 @@
       border-top-right-radius: 60px;
       background-size: cover;
       background-position: 50%;
-      .contendTetx{
+      .contendTetx {
         display: block;
         width: 100%;
         padding: 20px;

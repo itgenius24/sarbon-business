@@ -342,7 +342,9 @@ const MainPage = () => {
                 <Box className={cls.cardWrapQuestion}>
                   {cards.map((item) => (
                     <Box key={item.id} className={cls.card}>
-                      <Image className={cls.image} src={item.img} alt={item.title} />
+                      <Box className={cls.imgWrap}>
+                         <Image className={cls.image} src={item.img} alt={item.title} />
+                      </Box>
                       <h3 className={cls.cartTitle}>{item.title}</h3>
                       <p className={cls.cartDeck}>{item.deck}</p>
                     </Box>
