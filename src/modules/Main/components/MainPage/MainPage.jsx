@@ -27,6 +27,8 @@ import {
   SecureIcon,
   TruckIconBlue,
 } from "@/assets/icons/icons";
+import { Animation, MotionSection } from "@/utils/animation";
+import { fadeinDown, fadeinLeft, fadeinRight, fadeInUp } from "@/utils/animationSetting";
 
 const MainPage = () => {
   var settings = {
@@ -299,10 +301,14 @@ const MainPage = () => {
         </Box>
       </article>
       <article>
+      <MotionSection>
+      <Animation variants={fadeinLeft}>
         <Box className={cls.questionPage}>
-          <h1 className={cls.questionTitle}>
+        
+        <h1 className={cls.questionTitle}>
             Почему выбирают <br /> Sarbon?
           </h1>
+      
           <Container>
             <Box className={cls.cardWrapQuestion}>
               {cards.map((item) => (
@@ -315,6 +321,9 @@ const MainPage = () => {
             </Box>
           </Container>
         </Box>
+        </Animation>
+      </MotionSection>
+     
       </article>
       <article>
         <Box className={cls.biznesPage}>

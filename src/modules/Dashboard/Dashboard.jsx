@@ -37,6 +37,7 @@ import cls from "./style.module.scss";
 import { EditIconTable, ExelIcon } from "@/assets/icons/icons";
 import { stringsToarray } from "@/utils/stringsToarray";
 import SimpleLoader from "@/components/Loaders/SimpleLoader";
+import { formatNumber } from "@/utils/formatNumber";
 
 const notificationSound = "/mixkit-magic-notification-ring-2344.mp3";
 
@@ -469,7 +470,7 @@ const Dashboard = ({ locale }) => {
                   >
                     <p className={cls.boxTitle}>Уставный фонд</p>
                     <p className={cls.boxDesc}>
-                      {firmData?.capital} {` ${firmData?.currency || ``}`}
+                      { firmData?.capital &&  formatNumber(firmData?.capital)} {` ${firmData?.currency || ``}`}
                     </p>
                   </Flex>
                 </Box>
