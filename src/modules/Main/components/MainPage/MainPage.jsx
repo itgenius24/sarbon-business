@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import cls from "./style.module.scss";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Slider from "react-slick";
@@ -23,14 +23,17 @@ import {
   CashIcon,
   LikeIconY,
   MapIconE,
+  NextIconMain,
   OperatorIocn,
+  PrevIconMain,
   SecureIcon,
   TruckIconBlue,
 } from "@/assets/icons/icons";
 import { Animation, MotionSection } from "@/utils/animation";
-import { fadeinDown, fadeinLeft, fadeinRight, fadeInUp } from "@/utils/animationSetting";
+import { fadeinLeft } from "@/utils/animationSetting";
 
 const MainPage = () => {
+  let sliderRef = useRef(null);
   var settings = {
     dots: true,
     // infinite: true,
@@ -38,6 +41,13 @@ const MainPage = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
+  };
+
+  const next = () => {
+    sliderRef.slickNext();
+  };
+  const previous = () => {
+    sliderRef.slickPrev();
   };
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -108,8 +118,19 @@ const MainPage = () => {
     <>
       <article>
         <Box className={cls.sliderWrap}>
-          <Slider {...settings}>
-            <Box  key={`1`} className={cls.sliderCardWrap}>
+          <Box onClick={() => previous() } className={cls.prev}>
+            <PrevIconMain />
+          </Box>
+          <Box onClick={() => next() } className={cls.next}>
+            <NextIconMain />
+          </Box>
+          <Slider
+            ref={(slider) => {
+              sliderRef = slider;
+            }}
+            {...settings}
+          >
+            <Box key={`1`} className={cls.sliderCardWrap}>
               <Container>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
@@ -152,8 +173,10 @@ const MainPage = () => {
                       </a>
                     </Flex>
                   </Box>
-                  <Box position={`relative`} className={cls.cardRight}>
-                    <Box position={`relative`} top={`-30px`} zIndex={1}>
+                  <Box   onMouseMove={handleMouseMove}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave} position={`relative`} className={cls.cardRight}>
+                    <Box style={calculateOffset(0.009)} position={`relative`} top={`-30px`} zIndex={1}>
                       <Image
                         width={450}
                         height={450}
@@ -161,7 +184,7 @@ const MainPage = () => {
                         alt="sliderImg"
                       />
                     </Box>
-                    <Box bottom={`50px`} left={`130px`} position={`absolute`}>
+                    <Box style={calculateOffset(-0.009)} bottom={`50px`} left={`130px`} position={`absolute`}>
                       <Image
                         width={450}
                         height={450}
@@ -173,7 +196,10 @@ const MainPage = () => {
                 </Flex>
               </Container>
             </Box>
-            <Box key={`2`} className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}>
+            <Box
+              key={`2`}
+              className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}
+            >
               <Container>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
@@ -276,8 +302,10 @@ const MainPage = () => {
                       <Button width={`fit-content`}>Добавить автопарк</Button>
                     </Flex>
                   </Box>
-                  <Box position={`relative`} className={cls.cardRight}>
-                    <Box position={`relative`} top={`-25px`} zIndex={1}>
+                  <Box onMouseMove={handleMouseMove}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave} position={`relative`} className={cls.cardRight}>
+                    <Box style={calculateOffset(0.009)} position={`relative`} top={`-25px`} zIndex={1}>
                       <Image
                         width={450}
                         height={450}
@@ -285,7 +313,7 @@ const MainPage = () => {
                         alt="sliderImg"
                       />
                     </Box>
-                    <Box bottom={`45px`} left={`130px`} position={`absolute`}>
+                    <Box style={calculateOffset(-0.009)} bottom={`45px`} left={`130px`} position={`absolute`}>
                       <Image
                         width={450}
                         height={450}
@@ -301,29 +329,27 @@ const MainPage = () => {
         </Box>
       </article>
       <article>
-      <MotionSection>
-      <Animation variants={fadeinLeft}>
-        <Box className={cls.questionPage}>
-        
-        <h1 className={cls.questionTitle}>
-            Почему выбирают <br /> Sarbon?
-          </h1>
-      
-          <Container>
-            <Box className={cls.cardWrapQuestion}>
-              {cards.map((item) => (
-                <Box key={item.id} className={cls.card}>
-                  <Image src={item.img} alt={item.title} />
-                  <h3 className={cls.cartTitle}>{item.title}</h3>
-                  <p className={cls.cartDeck}>{item.deck}</p>
+        <MotionSection>
+          <Animation variants={fadeinLeft}>
+            <Box className={cls.questionPage}>
+              <h1 className={cls.questionTitle}>
+                Почему выбирают <br /> Sarbon?
+              </h1>
+
+              <Container>
+                <Box className={cls.cardWrapQuestion}>
+                  {cards.map((item) => (
+                    <Box key={item.id} className={cls.card}>
+                      <Image src={item.img} alt={item.title} />
+                      <h3 className={cls.cartTitle}>{item.title}</h3>
+                      <p className={cls.cartDeck}>{item.deck}</p>
+                    </Box>
+                  ))}
                 </Box>
-              ))}
+              </Container>
             </Box>
-          </Container>
-        </Box>
-        </Animation>
-      </MotionSection>
-     
+          </Animation>
+        </MotionSection>
       </article>
       <article>
         <Box className={cls.biznesPage}>
