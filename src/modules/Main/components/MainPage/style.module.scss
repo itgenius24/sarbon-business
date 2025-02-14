@@ -134,10 +134,15 @@
 
       .cardLeft {
         width: 100%;
+        .cardTitle{
+          font-size: 40px;
+          line-height: 38px;
+        }
       }
       .cardRight {
         display: none;
       }
+     
     }
   }
 }
