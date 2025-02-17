@@ -46,7 +46,8 @@ export const Registration = () => {
         flexDirection={`column`}
         justifyContent={`space-between`}
         width={`100%`}
-        height={"650px"}
+        height={"600px"}
+       
         
       >
         <Box width={`100%`}>
@@ -74,7 +75,7 @@ export const Registration = () => {
                 }}
                 className={cls.btn}
               >
-                Заказчик
+                Водитель
               </Tab>
               <Tab
                 color={`rgba(126, 123, 134, 1)`}
@@ -85,7 +86,7 @@ export const Registration = () => {
                 }}
                 className={cls.btn}
               >
-                Водитель
+                 Заказчик
               </Tab>
             </TabList>
             <TabPanels>

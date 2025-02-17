@@ -28,7 +28,7 @@ export const Login = () => {
 
   return (
     <Box
-      height={`700px`}
+      height={`600px`}
       width={`100%`}
       display={`flex`}
       flexDirection={`column`}
