@@ -136,40 +136,40 @@ export const Footer = () => {
         <div className={cls.footerSocials}>
           <div className={cls.mobileApps}>
             <Box>
-            <p className={cls.mobileAppsHeading}>
-              {t("Мобильные приложения Furgo")}
-            </p>
-            <ul className={cls.mobileAppList}>
-              <li className={cls.mobileAppItem}>
-                <a
-                  className={cls.mobileAppLink}
-                  href={"https://apps.apple.com/uz/app/furgo/id6475668788"}
-                  target="_blank"
-                >
-                  <Image
-                    src={AppStore}
-                    alt="App store"
-                    width={135}
-                    height={40}
-                  />
-                </a>
-              </li>
-              <li className={cls.mobileAppItem}>
-                <a
-                  style={{ cursor: `pointer` }}
-                  className={cls.mobileAppLink}
-                  href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
-                  target="_blank"
-                >
-                  <Image
-                    src={GooglePlay}
-                    alt="Google play"
-                    width={135}
-                    height={40}
-                  />
-                </a>
-              </li>
-              {/* <li className={cls.mobileAppItem}>
+              <p className={cls.mobileAppsHeading}>
+                {t("Мобильные приложения Furgo")}
+              </p>
+              <ul className={cls.mobileAppList}>
+                <li className={cls.mobileAppItem}>
+                  <a
+                    className={cls.mobileAppLink}
+                    href={"https://apps.apple.com/uz/app/furgo/id6475668788"}
+                    target="_blank"
+                  >
+                    <Image
+                      src={AppStore}
+                      alt="App store"
+                      width={135}
+                      height={40}
+                    />
+                  </a>
+                </li>
+                <li className={cls.mobileAppItem}>
+                  <a
+                    style={{ cursor: `pointer` }}
+                    className={cls.mobileAppLink}
+                    href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
+                    target="_blank"
+                  >
+                    <Image
+                      src={GooglePlay}
+                      alt="Google play"
+                      width={135}
+                      height={40}
+                    />
+                  </a>
+                </li>
+                {/* <li className={cls.mobileAppItem}>
                 <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
                     src={GalaxyStore}
@@ -179,7 +179,7 @@ export const Footer = () => {
                   />
                 </a>
               </li> */}
-            </ul>
+              </ul>
             </Box>
           </div>
           <ul className={cls.socialList}>
@@ -301,7 +301,15 @@ export const Footer = () => {
         </div>
         <div className={cls.footerBottom}>
           <Flex alignItems={`center`} gap={2}>
-            <Logo width={150} height={150} />
+            <Link href={`/${locale}`} className={cls.logoLInk}>
+              <Image
+                width={105}
+                height={105}
+                src={"/svg/logo2.svg"}
+                alt="logo"
+              />
+            </Link>
+
             <Link
               className={cls.link}
               title={t("Зарегистрироваться")}

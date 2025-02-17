@@ -4,7 +4,7 @@ import cls from "./style.module.scss";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Slider from "react-slick";
 import { Container } from "@/components/Container";
-import slider11 from "../../../../assets/images/slider1.1.png";
+import slider11 from "../../../../assets/images/slider1.11.png";
 import slider12 from "../../../../assets/images/slider1.2.png";
 import slider21 from "../../../../assets/images/slider2.1.png";
 import slider31 from "../../../../assets/images/slider3.1.png";
