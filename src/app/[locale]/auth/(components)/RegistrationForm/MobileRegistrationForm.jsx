@@ -120,7 +120,7 @@ const MobileRegistrationForm = ({
               </div>
             </div>
 
-            <Box>
+            {/* <Box>
               <p className={cls.label}>Профиль деятельности</p>
               <RadioGroup value={value} onChange={setValueR}>
                 <Flex gap={"40px"}>
@@ -149,7 +149,7 @@ const MobileRegistrationForm = ({
                   </Radio>
                 </Flex>
               </RadioGroup>
-            </Box>
+            </Box> */}
             {status === 1 ? (
               <Flex flexDirection={`column`} rowGap={`40px`}>
                 <Box>

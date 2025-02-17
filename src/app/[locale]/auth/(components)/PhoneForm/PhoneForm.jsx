@@ -26,19 +26,13 @@ export const PhoneForm = ({
 
   return (
     <Box height={"650px"} as="form" onSubmit={onSubmit}>
-      <div className={cls.buttonWrapper}>
-        <Button
-          onClick={navigateLogin}
-          variant="reset"
-          size="sm"
-          color="brand.600"
-          leftIcon={<ArrowLeft />}
-        >
-          {backText}
-        </Button>
-      </div>
-      {/* <MobileLogo /> */}
+
       <AuthTitle mb="32px" title={title} />
+      <Box className={cls.tabWrap}>
+         <Box>
+            Перевозчик
+         </Box>
+      </Box>
       <Box mb="24px">
         <Box>
           <p className={cls.textFieldName}> {t("Мобильный телефон")} *</p>

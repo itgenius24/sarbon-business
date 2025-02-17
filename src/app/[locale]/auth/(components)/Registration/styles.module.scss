@@ -1,0 +1,79 @@
+.link {
+  color: var(--primary-text);
+}
+.tabTitle{
+color: rgba(33, 31, 38, 1);
+font-weight: 500;
+font-size: 16px;
+line-height: 28px;
+letter-spacing: 0%;
+margin-bottom: 4px;
+
+}
+.tabWrap{
+  width: 100%;
+  background-color: rgba(246, 247, 248, 1);
+  padding: 6px;
+  border-radius: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 0px;
+  margin-bottom: 30px;
+  .btn{
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+
+    border-radius: 38px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+
+}
+
+.qrDeck{
+ 
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0%;
+  color: rgba(33, 31, 38, 1);
+}  
+
+.imageQr{
+  @media (max-width:900px) {
+     display: none;
+  }
+}
+
+.phone{
+  border: 1px solid rgba(218, 218, 218, 1);
+  background-color: rgba(246, 247, 248, 1);
+  padding: 4px 12px 4px 5px;
+  border-radius: 20px;
+  width: fit-content;
+  align-items: center;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.buttonWrapper {
+  margin-bottom: 32px;
+}
+
+
+  .textFieldName{
+    font-weight: 600;
+    font-size: 14px;
+    // margin-bottom: 5px;
+    height: 30px;
+
+}
+
+@include lg {
+  .buttonWrapper {
+    margin-bottom: 16px;
+  }
+}

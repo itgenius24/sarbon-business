@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@/utils/yupResolver";
 import { useCheckUser, useGetUserData, usePhoneMutation } from "@/services/api";
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 export const useRegistrationProps = () => {
   const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [nomer, setNomer] = useState();
   const locale = useGetLang();
@@ -74,6 +75,11 @@ export const useRegistrationProps = () => {
     setNomer(data.phone);
   }
 
+  const setType = (type) => {
+    router.push(`?type=${type}`);
+  }
+
+
   useEffect(() => {
     if (useList?.count > 0) {
       setOpen(true);
@@ -98,5 +104,6 @@ export const useRegistrationProps = () => {
     setOpen,
     open,
     watch,
+    setType,
   };
 };

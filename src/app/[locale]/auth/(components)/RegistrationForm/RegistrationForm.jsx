@@ -224,7 +224,7 @@ export const RegistrationForm = () => {
                     </div>
                   </div>
 
-                  <Box>
+                  {/* <Box>
                     <p className={cls.label}>Профиль деятельности</p>
                     <RadioGroup value={value} onChange={setValueR}>
                       <Flex gap={"40px"}>
@@ -257,7 +257,7 @@ export const RegistrationForm = () => {
                         </Radio>
                       </Flex>
                     </RadioGroup>
-                  </Box>
+                  </Box> */}
                   {status === 1 ? (
                     <>
                       <Box>

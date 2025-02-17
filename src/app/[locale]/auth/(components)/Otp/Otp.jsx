@@ -11,7 +11,6 @@ import clsx from "clsx";
 import { MobileLogo } from "../MobileLogo";
 
 export const Otp = observer(() => {
-
   const {
     onChange,
     handleSendOtp,
@@ -25,58 +24,77 @@ export const Otp = observer(() => {
     isLoading,
   } = useOtpProps();
 
-  return <Box height={"650px"}>
-    <div className={cls.buttonWrapper}>
-      <Button
-        onClick={navigateBack}
-        variant="reset"
-        size="sm"
-        color="brand.600"
-        leftIcon={<ArrowLeft />}
+  return (
+    <Box className={cls.otpWrap}  height={"650px"}>
+      <div className={cls.buttonWrapper}>
+        <Button
+          onClick={navigateBack}
+          variant="reset"
+          size="sm"
+          color="brand.600"
+          leftIcon={<ArrowLeft />}
+        >
+          {t("Назад")}
+        </Button>
+      </div>
+
+      <AuthTitle
+        mb="32px"
+        title={t("Проверьте свой телефон")}
+        subtitle={
+          <p style={{marginTop:`40px`}}>
+            {t("Мы отправили вам код подтверждения на ваш указанный номер")}
+            <span className={cls.phone}>{phone}</span>
+          </p>
+        }
+      />
+      <span className={cls.subtitle}>{t("СМС-код")}</span>
+      <VerificationInput
+        removeDefaultStyles
+        autoFocus={() => true}
+        placeholder=""
+        type="number"
+        validChars="0-9"
+        length={6}
+        inputProps={{ inputMode: "numeric" }}
+        inputMode="numeric"
+        onChange={onChange}
+        value={value}
+        containerProps={{ className: cls.otpContainer }}
+        classNames={{
+          container: cls.container,
+          character: clsx(cls.character, { [cls.error]: !!error }),
+          characterSelected: cls.characterSelected,
+        }}
+      />
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        textAlign="center"
+        alignItems="center"
+        mt="32px"
       >
-        {t("Назад")}
-      </Button>
-    </div>
-    {/* <MobileLogo /> */}
-    <AuthTitle
-      mb="32px"
-      title={t("Проверьте свой телефон")}
-      subtitle={
-        <p>
-          {t("Мы отправили вам код подтверждения на ваш указанный номер")}
-          <span className={cls.phone}>{phone}</span>
-        </p>
-      }
-    />
-    <span className={cls.subtitle}>{t("СМС-код")}</span>
-    <VerificationInput
-      removeDefaultStyles
-      autoFocus={() => true}
-      placeholder=""
-      type="number"
-      validChars="0-9"
-      length={6}
-      inputProps={{ inputMode: "numeric" }}
-      inputMode="numeric"
-      onChange={onChange}
-      value={value}
-      containerProps={{ className: cls.otpContainer }}
-      classNames={{
-        container: cls.container,
-        character: clsx(cls.character, { [cls.error]: !!error }),
-        characterSelected: cls.characterSelected,
-      }}
-    />
-    <Button mt="44px" onClick={handleSendOtp} isLoading={isLoading}>{t("Подтвердить")}</Button>
-    <Box display="flex" flexDirection="column" justifyContent="center" textAlign="center" alignItems="center" mt="32px">
-      {timer > 0 && <Text fontSize="14px" color="brand.600" lineHeight="20px">00:{timer < 10 ? `0${timer}` : timer}</Text>}
-      <Box mt="16px" display="flex" columnGap="4px">
-        <Text fontSize="14px" color="brand.600" lineHeight="20px">{t("Не пришло сообщение?")}</Text>
-        <Box display="flex" columnGap="4px" alignItems="center">
-          <Button isDisabled={timer > 0} onClick={handleResendOtp} variant="reset">{t("Отправить ещё раз")}</Button>
+        {timer > 0 && (
+          <Text fontSize="14px" color="brand.600" lineHeight="20px">
+            00:{timer < 10 ? `0${timer}` : timer}
+          </Text>
+        )}
+        <Box mt="16px" display="flex" columnGap="4px">
+          <Text fontSize="14px" color="brand.600" lineHeight="20px">
+            {t("Не пришло сообщение?")}
+          </Text>
+          <Box display="flex" columnGap="4px" alignItems="center">
+            <Button
+              isDisabled={timer > 0}
+              onClick={handleResendOtp}
+              variant="reset"
+            >
+              {t("Отправить ещё раз")}
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>
-
-  </Box>;
+  );
 });

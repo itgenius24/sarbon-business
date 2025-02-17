@@ -1,28 +1,62 @@
-.formWrapper {
-  max-width: 360px;
-  flex-grow: 1;
-  flex-shrink: 0;
-  padding-left: 4px;
-  padding-right: 4px;
+.navContainer {
+  width: 100%;
+  padding-left: 10%;
+  padding-right: 2%;
+  @media (max-width: 900px) {
+    width: 100% !important;
+    padding-left: 0;
+    padding-right: 0;
+    padding: 0px !important;
+  }
 }
+
+.layoutContend{
+  @media (max-width: 900px) {
+    width: 100%;
+    height: 100%;
+    flex-direction:center;
+    
+  }
+}
+.formWrapper {
+  max-width: 450px;
+  height: 92vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  @media (max-width: 900px) {
+    height: 60vh;
+    // background-color: red;
+    
+  }
+}
+
+.contendWrap {
+  @media (max-width: 900px) {
+    width: 100% !important;
+    padding: 20px;
+  }
+}
+
+.imgWrap {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
 .formWrapper2{
-  // max-width: 360px;
-  flex-grow: 1;
-  flex-shrink: 0;
-  padding-left: 4px;
-  padding-right: 4px;
+  margin-top: 20px;
 }
 
 @include lg {
-  .formWrapper {
-    max-width: 343px;
-    margin: 0 auto;
-  }
+
   .formWrapper2{
     flex-grow: 1;
     flex-shrink: 0;
     padding-left: 4px;
     padding-right: 4px;
   }
-  
+
 }

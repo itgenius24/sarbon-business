@@ -7,41 +7,60 @@ import React from "react";
 import { Logo } from "@/components/Logo";
 import { LocaleDropdown } from "@/components/LocaleDropdown";
 import { Container } from "@/components/Container";
+import { ContainerNav } from "@/components/container/Container";
+import { useSearchParams } from "next/navigation";
 
 export default function AuthLayout({ children, params: { locale, auth } }) {
   const isRegisterForm = auth?.[0];
+
+ 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   return (
-    <Box bgColor={isRegisterForm !== "registration-form" ? "baseWhite":``} height={"100%"}>
-      <Box bgColor={"baseWhite"} borderBottom="1px solid #EAECF0">
-        <Container>
-          <Box display="flex" justifyContent="space-between" py="16px">
-            <Logo />
-            <LocaleDropdown locale={locale} />
+    <>
+      {isRegisterForm !== `registration-form` ? (
+        <Box display={`flex`} bgColor={"baseWhite"} height={"100vh"}>
+          <Box className={cls.contendWrap} height={`100%`} width={`50%`}>
+            <Box
+              className={cls.navContainer}
+              display="flex"
+              justifyContent="space-between"
+              py="16px"
+            >
+              <Logo />
+              <LocaleDropdown locale={locale} />
+            </Box>
+
+            <Box
+              width={`100%`}
+              display={`flex`}
+              alignItems={`center`}
+              justifyContent={`space-around`}
+              className={cls.layoutContend}
+            >
+              <div className={cls.formWrapper}>{children}</div>
+            </Box>
           </Box>
-        </Container>
-      </Box>
-      <Box pt="24px" pb="26px">
-        {isRegisterForm !== "registration-form" ? (
-          <Box
-            maxW="1440px"
-            mx="auto"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            columnGap="180px"
-            // background={`red`}
-          >
-            <div className={cls.formWrapper}>{children}</div>
+          <Box className={cls.imgWrap} height={`100%`} width={`50%`}>
             <InfoBox />
           </Box>
-        ) : (
-          <Container  m={!isLargerThan845 && `0px`} p={!isLargerThan845 && `0px`} >
+        </Box>
+      ) : (
+        <Box>
+          <Box bgColor={"baseWhite"} borderBottom="1px solid #EAECF0">
+            <ContainerNav>
+              <Box display="flex" justifyContent="space-between" py="16px">
+                <Logo />
+                <LocaleDropdown locale={locale} />
+              </Box>
+            </ContainerNav>
+         
+          </Box>
+          <ContainerNav  m={!isLargerThan845 && `0px`} p={!isLargerThan845 && `0px`} >
             <div className={cls.formWrapper2}>{children}</div>
-          </Container>
-        )}
-      </Box>
-    </Box>
+          </ContainerNav>
+        </Box>
+      )}
+    </>
   );
 }
