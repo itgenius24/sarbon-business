@@ -386,7 +386,9 @@ const MainPage = ({locale}) => {
                 <Image width={100} height={100} src={trashImg} alt="bgTrash" />
               </Box>
               <Flex position={`relative`} className={cls.rightContenCard}>
+                <Box>
                 <SecureIcon />
+                </Box>
                 <Box className={cls.textCard}>
                   <h5>Безопасность сделок </h5>
                   <p>
@@ -397,7 +399,9 @@ const MainPage = ({locale}) => {
               </Flex>
 
               <Flex className={cls.rightContenCard}>
-                <CashIcon />
+               <Box>
+                 <CashIcon />
+               </Box>
                 <Box className={cls.textCard}>
                   <h5>Максимальная выгода </h5>
                   <p>Выбирайте лучшие заказы и снижайте пустые пробеги.</p>
@@ -405,7 +409,9 @@ const MainPage = ({locale}) => {
               </Flex>
 
               <Flex className={cls.rightContenCard}>
-                <OperatorIocn />
+               <Box>
+               <OperatorIocn />
+               </Box>
                 <Box className={cls.textCard}>
                   <h5>Поддержка 24/7 </h5>
                   <p>
