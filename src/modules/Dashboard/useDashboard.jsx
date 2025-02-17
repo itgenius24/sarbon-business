@@ -184,7 +184,11 @@ export const useDashboard = (locale) => {
     },
   });
 
-  const { data: useCargo, isLoading,isFetching } = useGetUserCargo2({
+  const {
+    data: useCargo,
+    isLoading,
+    isFetching,
+  } = useGetUserCargo2({
     params: {
       data: JSON.stringify({
         order_status: ["active"],
@@ -238,13 +242,12 @@ export const useDashboard = (locale) => {
     },
   });
 
-  const clearFn = (row,e) => {
-   
+  const clearFn = (row, e) => {
     const data = {
       id: row?.dispatcher_and_firms_data?.guid,
     };
     dalete(data);
-    setValue(e,{})
+    setValue(e, {});
   };
 
   const downloadByLanguage = async (url) => {
@@ -423,13 +426,45 @@ export const useDashboard = (locale) => {
 
   const columns1 = [
     {
-      title: `ID`,
-      dataIndex: "your_id",
-      render: (_, row) => (
-        <p style={{ whiteSpace: `nowrap` }}>{row?.your_id}</p>
-      ),
+      title: "Последняя активность",
+      dataIndex: "",
+      render: (_, row) => {
+        const date = new Date(row?.user_history_data?.last_move_time);
+        const currentYear = new Date().getFullYear();
+        const year = date.getFullYear();
+
+        if (currentYear === year) {
+          return (
+            <>
+              <p style={{ whiteSpace: `nowrap`,textAlign:`center` }}>
+                {row?.user_history_data?.last_move_time &&
+                  format(row?.user_history_data?.last_move_time, `HH:mm`)}
+              </p>
+              <p style={{ whiteSpace: `nowrap` }}>
+                {row?.user_history_data?.last_move_time &&
+                  format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+              </p>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <p style={{ whiteSpace: `nowrap`,textAlign:`center` }}>
+                {row?.user_history_data?.last_move_time &&
+                  format(row?.user_history_data?.last_move_time, `HH:mm`)}
+              </p>
+              <p style={{ whiteSpace: `nowrap` }}>
+                {row?.user_history_data?.last_move_time &&
+                  format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+              </p>
+            </>
+          );
+        }
+      },
+
       width: 200,
     },
+  
     {
       title: `Тел Номер`,
       dataIndex: "phone",
@@ -514,7 +549,7 @@ export const useDashboard = (locale) => {
       dataIndex: "createdAt",
       render: (_, row) => (
         <p style={{ whiteSpace: `nowrap` }}>
-          {format(row.createdAt, `yyyy-MM-dd`)}
+          { row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
         </p>
       ),
 
@@ -544,17 +579,29 @@ export const useDashboard = (locale) => {
               width={`200px`}
               className={cls.dropdown}
               onChangeSelect={(e) => dispatchAdd(row, e)}
-              clearFn={(e) => clearFn(row,e)}
+              clearFn={(e) => clearFn(row, e)}
               isClear
-              defaultValue={ row?.dispatcher_and_firms_data_details?.guid ?   {
-                label: row?.dispatcher_and_firms_data_details?.full_name,
-                value: row?.dispatcher_and_firms_data_details?.guid,
-              }: {}} 
+              defaultValue={
+                row?.dispatcher_and_firms_data_details?.guid
+                  ? {
+                      label: row?.dispatcher_and_firms_data_details?.full_name,
+                      value: row?.dispatcher_and_firms_data_details?.guid,
+                    }
+                  : {}
+              }
             />
           </Box>
         );
       },
 
+      width: 200,
+    },
+    {
+      title: `ID`,
+      dataIndex: "your_id",
+      render: (_, row) => (
+        <p style={{ whiteSpace: `nowrap` }}>{row?.your_id}</p>
+      ),
       width: 200,
     },
   ];
@@ -577,7 +624,7 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),
+      render: (_, row) => row.createdAt && format(row.createdAt, `yyyy-MM-dd`),
       width: 200,
     },
     {
@@ -642,7 +689,7 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => format(row.createdAt, `yyyy-MM-dd`),
+      render: (_, row) => row.createdAt && format(row.createdAt, `yyyy-MM-dd`),
       width: 200,
     },
     {
@@ -724,7 +771,7 @@ export const useDashboard = (locale) => {
       dataIndex: "createdAt",
       render: (_, row) => (
         <p style={{ whiteSpace: `nowrap` }}>
-          {format(row.createdAt, `yyyy-MM-dd`)}
+          { row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
         </p>
       ),
 
@@ -847,7 +894,7 @@ export const useDashboard = (locale) => {
     data,
     setStatus,
     isPending,
-    isLoading:isPending,
+    isLoading: isPending,
     date,
     setDate,
     setDate2,

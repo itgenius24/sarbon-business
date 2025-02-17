@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  useCreateLogHistory,
   useGetCar,
   useGetCarRefueling,
   useGetMeasurement,
@@ -138,79 +139,23 @@ export const useGpsTrackingProps = () => {
         ...intervalLocations,
         watch("to"),
       ]);
-      // if(multiRoute.getRoutes().get(0)) {
-      //   const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-      //   const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-      //   setDistanceParameters({ duration, distance });
-      // }
-      // console.log(multiRoute.getWayPoints());
-      // const locations = [watch("from"), ...locationNames, watch("to")];
-      // locations.forEach((item, index) => {
-      //   console.log(multiRoute.getWayPoints().get(index).properties.getAll());
-      // });
-      // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
-      // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
+
     }
   }
 
 
-  // function initYmaps() {
-  //   /**
-  //    * Creating a multiroute.
-  //    * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
-  //    */
+    const { mutate: logHistory } = useCreateLogHistory({});
 
-  //   if (window?.ymaps) {
-  //     ymaps.ready(() => {
-  //       var multiRoute = new ymaps.multiRouter.MultiRoute(
-  //         { referencePoints: [[], []] },
-  //         {
-  //           editorMidPointsType: "via",
-  //           routeActiveStrokeColor: "#175CD3",
-  //           editorDrawOver: false,
-  //         }
-  //       );
-
-  //       multiRoute.events.add("update", function () {
-  //         if (multiRoute.getRoutes().get(0)) {
-  //           const duration = multiRoute
-  //             .getRoutes()
-  //             .get(0)
-  //             .properties.get("duration").text;
-  //           const distance = multiRoute
-  //             .getRoutes()
-  //             .get(0)
-  //             .properties.get("distance").text;
-  //           setDistanceParameters({
-  //             duration,
-  //             distance,
-  //           });
-  //         }
-  //       });
-
-  //       const searchControl = new ymaps.control.SearchControl({
-  //         options: { float: "right" },
-  //       });
-
-  //       // Creating the map with the button added to it.
-  //       var myMap = new ymaps.Map(
-  //         "map",
-  //         {
-  //           center: [41.40587471972005, 69.46086540238926],
-  //           zoom: 7,
-  //           controls: [searchControl],
-  //         },
-  //         { buttonMaxWidth: 500 }
-  //       );
-
-  //       // Adding a multiroute to the map.
-  //       myMap.geoObjects.add(multiRoute);
-
-  //       mapRef.current = myMap;
-  //       multiRouteRef.current = multiRoute;
-  //     });
-  //   }
-  // }
+    useEffect(() => {
+      logHistory({
+        data: {
+          users_id: authStore.userData.guid,
+          last_move_time: new Date(),
+          menu: `gps_track`,
+        },
+      });
+    }, []);
+ 
   let draggingIndex = null;
 
   const handleDragStart = (e, index) => {
