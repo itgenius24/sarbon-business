@@ -491,7 +491,7 @@ export const useDashboard = (locale) => {
           <p style={{ width: `200px` }}>{row?.firm_data?.company_name}</p>
         ) : (
           <span
-            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic` }}
+            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic`,whiteSpace:`nowrap` }}
           >
             Нет названия фирмы
           </span>
@@ -689,7 +689,7 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => row.createdAt && format(row.createdAt, `yyyy-MM-dd`),
+      render: (_, row) => <span style={{whiteSpace:`nowrap`}}>{ row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}</span>,
       width: 200,
     },
     {
