@@ -46,7 +46,7 @@ export const Registration = () => {
         flexDirection={`column`}
         justifyContent={`space-between`}
         width={`100%`}
-        height={"600px"}
+        height={"100%"}
        
         
       >
@@ -89,7 +89,7 @@ export const Registration = () => {
                  Заказчик
               </Tab>
             </TabList>
-            <TabPanels>
+              <TabPanels>
               <TabPanel padding={0} margin={0}>
               
                   <Box  mb="24px">
@@ -188,7 +188,7 @@ export const Registration = () => {
         <Text
           cursor={`pointer`}
           fontWeight={600}
-          mt="32px"
+          mt="20%"
           fontSize="14px"
           color="var(--primary)"
           lineHeight="20px"

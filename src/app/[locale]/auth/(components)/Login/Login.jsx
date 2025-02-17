@@ -28,11 +28,11 @@ export const Login = () => {
 
   return (
     <Box
-      height={`600px`}
+      height={`100%`}
       width={`100%`}
       display={`flex`}
       flexDirection={`column`}
-    
+      
       alignItems={`center`}
       justifyContent={`space-between`}
       as="form"
@@ -86,7 +86,7 @@ export const Login = () => {
           {t("Войти")}
         </Button>
       </Box>
-      <Box mt="32px" display="flex" justifyContent="center" columnGap="4px">
+      <Box mt="30%" display="flex" justifyContent="center" columnGap="4px">
         <Text fontSize="14px" color="brand.600" lineHeight="20px">
           {t("Еще нет аккаунта?")}
         </Text>
