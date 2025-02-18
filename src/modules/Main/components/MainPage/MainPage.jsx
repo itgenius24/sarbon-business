@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import { Container } from "@/components/Container";
 import slider11 from "../../../../assets/images/slider1.11.png";
 import slider12 from "../../../../assets/images/slider1.2.png";
-import slider21 from "../../../../assets/images/slider2.1.png";
+import slider21 from "../../../../assets/images/slider2.11.png";
 import slider31 from "../../../../assets/images/slider3.1.png";
 import slider32 from "../../../../assets/images/slider3.2.png";
 import Image from "next/image";
