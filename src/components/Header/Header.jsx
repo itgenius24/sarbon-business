@@ -55,7 +55,7 @@ const Header = observer(({ elements }) => {
       borderBottomColor="brand.200"
     >
       <ContainerNav>
-        <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
+        <Box  as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
               <Logo />
