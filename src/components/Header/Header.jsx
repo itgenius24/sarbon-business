@@ -127,17 +127,17 @@ const Header = observer(({ elements }) => {
                       <Link
                         // className={clsx(cls.loginLink)}
                         className={clsx(cls.registerLink)}
-                        title={t("Войти")}
+                        title={t("Вход")}
                         href={`/${locale ? locale : `ru`}/auth`}
                       >
-                        {t("Войти")}
+                        {t("Вход")}
                       </Link>
                       <Link
                         className={clsx(cls.registerLink)}
-                        title={t("Зарегистрироваться")}
+                        title={t("Регистрация")}
                         href={`/${locale ? locale : `ru`}/auth/registration`}
                       >
-                        {t("Зарегистрироваться")}
+                        {t("Регистрация")}
                       </Link>
                     </>
                   )}
@@ -185,10 +185,10 @@ const Header = observer(({ elements }) => {
                   <Link
                     // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
                     className={clsx(cls.registerLink, cls.registerLinkMobile)}
-                    title={t("Войти")}
+                    title={t("Вход")}
                     href={`/${locale}/auth`}
                   >
-                    {t("Войти")}
+                    {t("Вход")}
                   </Link>
                   <Link
                     className={clsx(
@@ -196,10 +196,10 @@ const Header = observer(({ elements }) => {
                       cls.registerLinkMobile,
                       cls.registerLinkMobileRes
                     )}
-                    title={t("Зарегистрироваться")}
+                    title={t("Регистрация")}
                     href={`/${locale}/auth/registration`}
                   >
-                    {t("Зарегистрироваться")}
+                    {t("Регистрация")}
                   </Link>
                 </Flex>
               )}

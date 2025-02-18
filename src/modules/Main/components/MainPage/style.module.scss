@@ -302,6 +302,11 @@
         transform: scale(1.05);
         transition: 0.5s;
       }
+      @media (max-width: 800px) {
+      height: 150px;
+      padding: 16px 22px;
+
+      }
     }
   }
   @media (max-width: 800px) {
@@ -351,4 +356,11 @@
     color: rgba(38, 189, 73, 1);
     width: fit-content;
   }
+  @media (max-width:800px) {
+    .bottomPageFlex{
+         flex-direction: column;
+         row-gap: 20px;
+    }
+  }
+ 
 }

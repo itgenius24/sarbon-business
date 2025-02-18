@@ -430,8 +430,8 @@ const MainPage = ({locale}) => {
       {
         !token &&    <article className={cls.bottomPage}>
         <Container>
-          <Flex justifyContent={`space-between`} width={`100%`}>
-            <Box>
+          <Flex className={cls.bottomPageFlex} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
+            <Box >
               <p className={cls.titleBottom}>
                 Найдите груз для вашего транспорта
               </p>
@@ -440,7 +440,7 @@ const MainPage = ({locale}) => {
                 удобными фильтрами.
               </p>
             </Box>
-            <Button className={cls.btnBottom}>Регистрация</Button>
+            <Button onClick={() => router.push(`/${locale}/auth/registration`)} className={cls.btnBottom}>Регистрация</Button>
           </Flex>
         </Container>
       </article>
