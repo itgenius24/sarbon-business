@@ -38,6 +38,7 @@ import { EditIconTable, ExelIcon } from "@/assets/icons/icons";
 import { stringsToarray } from "@/utils/stringsToarray";
 import SimpleLoader from "@/components/Loaders/SimpleLoader";
 import { formatNumber } from "@/utils/formatNumber";
+import { ContainerAnalitik } from "@/components/ContainerAnalitik/Container";
 
 const notificationSound = "/mixkit-magic-notification-ring-2344.mp3";
 
@@ -94,7 +95,7 @@ const Dashboard = ({ locale }) => {
 
   return (
     <>
-      <Container my={`40px`}>
+      <ContainerAnalitik my={`40px`}>
         <Flex flexDirection={`column`} rowGap={`30px`}>
           <Flex gap={`20px`}>
             <Flex
@@ -501,7 +502,7 @@ const Dashboard = ({ locale }) => {
         {/* <Button width={`fit-content`} onClick={notificationFn}>
         Notification
       </Button> */}
-      </Container>
+      </ContainerAnalitik>
     </>
   );
 };

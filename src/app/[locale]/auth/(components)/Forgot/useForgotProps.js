@@ -69,13 +69,18 @@ export const useForgotProps = () => {
     },
   });
 
+
+  const closeModal = () => {
+    setNomer(``)
+    setOpen(false)
+  }
+
   
 
   useEffect(() => {
 
 
     if (useList?.response?.[0]?.role_id && useList?.response?.[0]?.role_id !== "921464fa-8308-46b7-9b66-363acf654e40") {
-      console.log(`useList`,useList)
       phoneMutation.mutate({
         recipient: nomer,
         text: "code",
@@ -105,6 +110,7 @@ export const useForgotProps = () => {
     control,
     setOpen,
     open,
-    watch
+    watch,
+    closeModal
   };
 };

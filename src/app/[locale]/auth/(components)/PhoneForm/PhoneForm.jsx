@@ -28,11 +28,7 @@ export const PhoneForm = ({
     <Box height={"650px"} as="form" onSubmit={onSubmit}>
 
       <AuthTitle mb="32px" title={title} />
-      <Box className={cls.tabWrap}>
-         <Box>
-            Перевозчик
-         </Box>
-      </Box>
+  
       <Box mb="24px">
         <Box>
           <p className={cls.textFieldName}> {t("Мобильный телефон")} *</p>

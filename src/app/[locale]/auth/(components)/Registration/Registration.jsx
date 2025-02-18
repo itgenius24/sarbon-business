@@ -18,11 +18,7 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import {
-  ErroModalIcon,
-  PhoneIconRigister,
-  QrCodeIcon,
-} from "@/assets/icons/icons";
+import { ErroModalIcon, PhoneIconRigister } from "@/assets/icons/icons";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { AuthTitle } from "../AuthTitle";
 import cls from "./styles.module.scss";
@@ -32,11 +28,23 @@ import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export const Registration = () => {
-  const { onSubmit,handleSubmit, isPending, t, control, setOpen, open, watch, setType } =
-    useRegistrationProps();
-      const searchParams = useSearchParams();
+  const {
+    onSubmit,
+    handleSubmit,
+    isPending,
+    t,
+    control,
+    closeModal,
+    setOpen,
+    open,
+    watch,
+    locale,
+    setType,
+  } = useRegistrationProps();
+  const searchParams = useSearchParams();
 
   return (
     <>
@@ -47,14 +55,17 @@ export const Registration = () => {
         justifyContent={`space-between`}
         width={`100%`}
         height={"100%"}
-       
-        
       >
         <Box width={`100%`}>
           <AuthTitle mb="32px" title={`Создать аккаунт на Sarbon`} />
           <p className={cls.tabTitle}>Укажите ваш профиль деятельности</p>
-          <Tabs defaultIndex={ searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0}  onChange={(e) => setType(e)}>
-            <TabList  className={cls.tabWrap}>
+          <Tabs
+            defaultIndex={
+              searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0
+            }
+            onChange={(e) => setType(e)}
+          >
+            <TabList className={cls.tabWrap}>
               <Tab
                 className={cls.btn}
                 color={`rgba(126, 123, 134, 1)`}
@@ -86,24 +97,27 @@ export const Registration = () => {
                 }}
                 className={cls.btn}
               >
-                 Заказчик
+                Заказчик
               </Tab>
             </TabList>
-              <TabPanels>
+            <TabPanels>
               <TabPanel padding={0} margin={0}>
-              
-                  <Box  mb="24px">
-                    <Box>
-                      <p className={cls.textFieldName}>
-                        {t("Мобильный телефон")} *
-                      </p>
-                      <FormInternationInput control={control} name={`phone`} />
-                    </Box>
+                <Box mb="24px">
+                  <Box>
+                    <p className={cls.textFieldName}>
+                      {t("Мобильный телефон")} *
+                    </p>
+                    <FormInternationInput control={control} name={`phone`} />
                   </Box>
-                  <Button onClick={handleSubmit(onSubmit)} size="md" type="submit" isLoading={isPending}>
-                    Регистрация
-                  </Button>
-             
+                </Box>
+                <Button
+                  onClick={handleSubmit(onSubmit)}
+                  size="md"
+                  type="submit"
+                  isLoading={isPending}
+                >
+                  Регистрация
+                </Button>
               </TabPanel>
               <TabPanel padding={0} margin={0}>
                 <Box width={`100%`}>
@@ -185,47 +199,79 @@ export const Registration = () => {
             </TabPanels>
           </Tabs>
         </Box>
-        <Text
-          cursor={`pointer`}
-          fontWeight={600}
-          mt="20%"
-          fontSize="14px"
-          color="var(--primary)"
-          lineHeight="20px"
+        <Link
+          href={`/${locale}/auth`}
+          style={{
+            cursor: `pointer`,
+            fontWeight: 600,
+            marginTop: `20%`,
+            fontSize: `14px`,
+            color: "var(--primary)",
+            lineHeight: "20px",
+          }}
         >
           {t("У меня уже есть аккаунт")}
-        </Text>
+        </Link>
       </Box>
 
       <Modal isOpen={open} isCentered>
-        <ModalOverlay />
+        <ModalOverlay onClick={closeModal} />
         <ModalContent>
           <ModalHeader>
             <ErroModalIcon />
           </ModalHeader>
-          <ModalCloseButton onClick={() => setOpen(false)} />
+          <ModalCloseButton onClick={() => closeModal()} />
           <ModalBody>
-            <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              {t("Водитель с номером")} {watch(`phone`)}{" "}
-              {t("уже регистрирован в Sarbon")}
-            </p>
-            <Box mt={`24px`}>
-              <p
-                style={{
-                  fontWeight: 400,
-                  fontSize: "14px",
-                  lineHeight: `20px`,
-                }}
-              >
-                {t(
-                  "Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей"
-                )}
-                <a style={{ color: `rgba(0, 122, 255, 1)`, cursor: `pointer` }}>
-                  {" "}
-                  {t("службой поддержки")}
-                </a>
-              </p>
-            </Box>
+            {open === `driver` && (
+              <Box>
+                <p
+                  style={{
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    lineHeight: `22px`,
+                  }}
+                >
+                  {t(
+                    "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное"
+                  )}
+                  <a
+                    target="_blank"
+                    href="https://links.sarbon.me/"
+                    style={{
+                      color: `rgba(0, 122, 255, 1)`,
+                      cursor: `pointer`,
+                      marginLeft: `5px`,
+                    }}
+                  >
+                    {t("приложение Sarbon")}
+                  </a>
+                </p>
+              </Box>
+            )}
+
+            {open === `exspiditor` && (
+              <Box>
+                <p
+                  style={{
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    lineHeight: `22px`,
+                  }}
+                >
+                  {t("Аккаунт с этим номером уже существует.")}
+                  <Link
+                    href={`/${locale}/auth`}
+                    style={{
+                      color: `rgba(0, 122, 255, 1)`,
+                      cursor: `pointer`,
+                      marginLeft: `5px`,
+                    }}
+                  >
+                    {t("Войдите или восстановите доступ.")}
+                  </Link>
+                </p>
+              </Box>
+            )}
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>

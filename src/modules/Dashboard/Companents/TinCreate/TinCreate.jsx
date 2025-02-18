@@ -6,12 +6,13 @@ import { TextField } from "@/components/TextField";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { CheckIcon } from "@/assets/icons/icons";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+import { ContainerAnalitik } from "@/components/ContainerAnalitik/Container";
 
 const TinCreateModule = () => {
   const { setValue, control, watch, register, errors, t,handleSubmit,onSubmit,your_id,router } = useTinCreate();
 
   return (
-    <Container my={`40px`}>
+    <ContainerAnalitik my={`40px`}>
       <Flex width={"100%"} justifyContent={"space-between"}>
         <Heading size={"md"} mb={"24px"}>
           Данные перевозчика - {your_id}
@@ -153,7 +154,7 @@ const TinCreateModule = () => {
                       additionalItemName="currency"
                       width="100%"
                       placeholder={t("Вес")}
-                      additionalItemPlaceholder="Sum"
+                      additionalItemPlaceholder="UZS"
                       additionalItemOptions={[{label:`UZS`,value:`UZS`},{label:`USD`,value:`USD`}]}
                  
                       type="number"
@@ -266,7 +267,7 @@ const TinCreateModule = () => {
           </Box>
         </Box>
       </Flex>
-    </Container>
+    </ContainerAnalitik>
   );
 };
 

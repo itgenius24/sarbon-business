@@ -26,6 +26,8 @@
     transition: all 0.3s ease-in-out;
   }
 
+  
+
   &:hover {
     .prev {
       opacity: 1;
@@ -34,6 +36,14 @@
     .next {
       opacity: 1;
       transition: all 0.3s ease-in-out;
+    }
+  }
+  @media (max-width: 1700px) {
+    .prev {
+      left: 30px;
+    }
+    .next {
+      right: 30px;
     }
   }
 
@@ -96,7 +106,7 @@
         box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
         padding: 16px 26px 15px 15px;
         top: 100px;
-        right: 140px;
+        right: 100px;
       }
       .statist2 {
         position: absolute !important;
@@ -105,7 +115,7 @@
         box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
         padding: 16px 26px 15px 15px;
         top: 205px;
-        right: 50px;
+        right: 10px;
         z-index: 1;
       }
       .statist3 {
@@ -115,7 +125,7 @@
         box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
         padding: 16px 26px 15px 15px;
         bottom: 145px;
-        right: 0px;
+        right: -40px;
         z-index: 1;
       }
       .title {

@@ -24,6 +24,7 @@ export const Forgot = () => {
     setOpen,
     open,
     watch,
+    closeModal
   } = useForgotProps();
 
   return (
@@ -41,33 +42,37 @@ export const Forgot = () => {
       />
       
       <Modal isOpen={open} isCentered>
-        <ModalOverlay />
+        <ModalOverlay onClick={closeModal} />
         <ModalContent>
           <ModalHeader>
             <ErroModalIcon />
           </ModalHeader>
-          <ModalCloseButton onClick={() => setOpen(false)} />
+          <ModalCloseButton onClick={() => closeModal()} />
           <ModalBody>
-            <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              {t("Водитель с номером")} {watch(`phone`)} {t("не зарегистрирован в системе")}
-            </p>
-            <Box mt={`24px`}>
-              <p
-                style={{
-                  fontWeight: 400,
-                  fontSize: "14px",
-                  lineHeight: `20px`,
-                }}
-              >
-                {t(
-                  "Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей"
-                )}
-                <a style={{ color: `rgba(0, 122, 255, 1)`, cursor: `pointer` }}>
-                  {" "}
-                  {t("службой поддержки")}
-                </a>
-              </p>
-            </Box>
+          <Box>
+                <p
+                  style={{
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    lineHeight: `22px`,
+                  }}
+                >
+                  {t(
+                    "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное"
+                  )}
+                  <a
+                    target="_blank"
+                    href="https://links.sarbon.me/"
+                    style={{
+                      color: `rgba(0, 122, 255, 1)`,
+                      cursor: `pointer`,
+                      marginLeft: `5px`,
+                    }}
+                  >
+                    {t("приложение Sarbon")}
+                  </a>
+                </p>
+              </Box>
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>

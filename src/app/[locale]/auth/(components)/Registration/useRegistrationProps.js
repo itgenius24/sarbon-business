@@ -77,13 +77,23 @@ export const useRegistrationProps = () => {
 
   const setType = (type) => {
     router.push(`?type=${type}`);
+  };
+
+  const closeModal = () => {
+    setNomer(``)
+    setOpen(false)
   }
 
-
   useEffect(() => {
-    if (useList?.count > 0) {
-      setOpen(true);
-    } else {
+    if (
+      useList?.response?.[0]?.role_id === "921464fa-8308-46b7-9b66-363acf654e40"
+    ) {
+      setOpen(`driver`);
+    } else if (
+      useList?.response?.[0]?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"
+    ) {
+      setOpen(`exspiditor`);
+    } else if (useList?.count === 0) {
       phoneMutation.mutate({
         recipient: nomer,
         text: "code",
@@ -104,6 +114,8 @@ export const useRegistrationProps = () => {
     setOpen,
     open,
     watch,
+    locale,
+    closeModal,
     setType,
   };
 };

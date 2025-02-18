@@ -227,6 +227,7 @@ const MainPage = ({locale}) => {
                       bottom={0}
                       position={`absolute`}
                       zIndex={1}
+                      left={`20px`}
                     >
                       <Image
                         width={500}
@@ -238,8 +239,9 @@ const MainPage = ({locale}) => {
                     <Box
                       style={calculateOffset(-0.009)}
                       top={`50px`}
-                      left={`80px`}
+                      left={`20px`}
                       position={`absolute`}
+                      
                     >
                       <Image
                         width={500}
