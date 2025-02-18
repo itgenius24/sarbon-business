@@ -134,73 +134,7 @@ const MainPage = ({locale}) => {
             }}
             {...settings}
           >
-            <Box key={`1`} className={cls.sliderCardWrap}>
-              <Container>
-                <Flex className={cls.cardWrap}>
-                  <Box className={cls.cardLeft}>
-                    <h1 className={cls.cardTitle}>
-                      Заказ найдется <br /> всегда
-                    </h1>
-                    <p className={cls.cardDeck}>
-                      Sarbon — это удобное приложение сервис для водителей, где
-                      можно быстро находить заказы, получать с удобными
-                      способами оплаты. Скачайте прямо сейчас
-                    </p>
-                    <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
-                      <a
-                        className={cls.mobileAppLink}
-                        href={
-                          "https://apps.apple.com/uz/app/furgo/id6475668788"
-                        }
-                        target="_blank"
-                      >
-                        <Image
-                          src={AppStore}
-                          alt="App store"
-                          width={135}
-                          height={40}
-                        />
-                      </a>
-
-                      <a
-                        style={{ cursor: `pointer` }}
-                        className={cls.mobileAppLink}
-                        href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
-                        target="_blank"
-                      >
-                        <Image
-                          src={GooglePlay}
-                          alt="Google play"
-                          width={135}
-                          height={40}
-                        />
-                      </a>
-                    </Flex>
-                  </Box>
-                  <Box   onMouseMove={handleMouseMove}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave} position={`relative`} className={cls.cardRight}>
-                    <Box style={calculateOffset(0.009)} position={`relative`} top={`-30px`} zIndex={1}>
-                      <Image
-                        width={450}
-                        height={450}
-                        src={slider11}
-                        alt="sliderImg"
-                      />
-                    </Box>
-                    <Box style={calculateOffset(-0.009)} bottom={`50px`} left={`130px`} position={`absolute`}>
-                      <Image
-                        width={450}
-                        height={450}
-                        src={slider12}
-                        alt="sliderImg"
-                      />
-                    </Box>
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-            <Box
+          <Box
               key={`2`}
               className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}
             >
@@ -292,6 +226,73 @@ const MainPage = ({locale}) => {
                 </Flex>
               </Container>
             </Box>
+            <Box key={`1`} className={cls.sliderCardWrap}>
+              <Container>
+                <Flex className={cls.cardWrap}>
+                  <Box className={cls.cardLeft}>
+                    <h1 className={cls.cardTitle}>
+                      Заказ найдется <br /> всегда
+                    </h1>
+                    <p className={cls.cardDeck}>
+                      Sarbon — это удобное приложение сервис для водителей, где
+                      можно быстро находить заказы, получать с удобными
+                      способами оплаты. Скачайте прямо сейчас
+                    </p>
+                    <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
+                      <a
+                        className={cls.mobileAppLink}
+                        href={
+                          "https://apps.apple.com/uz/app/furgo/id6475668788"
+                        }
+                        target="_blank"
+                      >
+                        <Image
+                          src={AppStore}
+                          alt="App store"
+                          width={135}
+                          height={40}
+                        />
+                      </a>
+
+                      <a
+                        style={{ cursor: `pointer` }}
+                        className={cls.mobileAppLink}
+                        href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
+                        target="_blank"
+                      >
+                        <Image
+                          src={GooglePlay}
+                          alt="Google play"
+                          width={135}
+                          height={40}
+                        />
+                      </a>
+                    </Flex>
+                  </Box>
+                  <Box   onMouseMove={handleMouseMove}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave} position={`relative`} className={cls.cardRight}>
+                    <Box style={calculateOffset(0.009)} position={`relative`} top={`-30px`} zIndex={1}>
+                      <Image
+                        width={450}
+                        height={450}
+                        src={slider11}
+                        alt="sliderImg"
+                      />
+                    </Box>
+                    <Box style={calculateOffset(-0.009)} bottom={`50px`} left={`130px`} position={`absolute`}>
+                      <Image
+                        width={450}
+                        height={450}
+                        src={slider12}
+                        alt="sliderImg"
+                      />
+                    </Box>
+                  </Box>
+                </Flex>
+              </Container>
+            </Box>
+            
             <Box key={`3`} className={cls.sliderCardWrap}>
               <Container>
                 <Flex className={cls.cardWrap}>

@@ -21,7 +21,7 @@ export const MainLayout = ({ locale, children }) => {
     params: {
       data: JSON.stringify({
         user_id_2: authStore.userData?.guid,
-        is_read:false
+        views: false
       }),
     },
     querySettings: {
@@ -30,8 +30,9 @@ export const MainLayout = ({ locale, children }) => {
       ),
       refetchInterval:30000,
     },
-
   });
+
+  
 
   const isAuthPage =
     pathname.includes("auth") || pathname.includes(`share-location`);

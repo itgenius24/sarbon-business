@@ -60,6 +60,7 @@ export const Registration = () => {
           <AuthTitle mb="32px" title={`Создать аккаунт на Sarbon`} />
           <p className={cls.tabTitle}>Укажите ваш профиль деятельности</p>
           <Tabs
+          
             defaultIndex={
               searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0
             }

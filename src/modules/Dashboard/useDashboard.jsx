@@ -743,11 +743,7 @@ export const useDashboard = (locale) => {
     },
   ];
   const columns4 = [
-    {
-      title: `Id`,
-      dataIndex: "number_of_order",
-      width: 200,
-    },
+ 
     {
       title: `Груз id`,
       dataIndex: "number_of_order",
