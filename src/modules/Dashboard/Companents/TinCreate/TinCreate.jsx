@@ -153,7 +153,7 @@ const TinCreateModule = () => {
                       register={register}
                       additionalItemName="currency"
                       width="100%"
-                      placeholder={t("Вес")}
+                      placeholder={t("Уставный фонд")}
                       additionalItemPlaceholder="UZS"
                       additionalItemOptions={[{label:`UZS`,value:`UZS`},{label:`USD`,value:`USD`}]}
                  
