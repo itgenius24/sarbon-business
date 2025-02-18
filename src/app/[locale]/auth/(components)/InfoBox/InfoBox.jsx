@@ -1,7 +1,7 @@
 import Image from "next/image";
 import cls from "./styles.module.scss";
 import Auth1 from "@/assets/images/auth4.jpg";
-import Auth2 from "@/assets/images/auth2.jpg";
+import Auth2 from "@/assets/images/auth6.jpg";
 import Auth3 from "@/assets/images/auth3.jpg";
 
 import { useGetLang } from "@/hooks/useGetLang";
