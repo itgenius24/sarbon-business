@@ -116,7 +116,7 @@ export const useSearchLoad = () => {
           prepayment: watch(`prepayment2`) ? `true` : ``,
           spot: watch(`spot2`) ? `true` : ``,
           in_spot: watch(`in_spot2`) ? `true` : ``,
-          vehicle_type_id: watch(`vehicle_type_id2`)?.value,
+          vehicle_type_id: watch(`vehicle_type_id`)?.value ?  [watch(`vehicle_type_id`)?.value] : [],,
           min_volume: +watch(`min_volume2`) || 0,
           max_volume: +watch(`max_volume2`) || 0,
           min_weight: +watch(`min_weight2`) || 0,
