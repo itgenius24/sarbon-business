@@ -5,7 +5,6 @@
   position: relative;
   transition: all 1s ease-in-out;
 
-
   .prev {
     position: absolute;
     opacity: 0;
@@ -25,8 +24,6 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
   }
-
-  
 
   &:hover {
     .prev {
@@ -208,10 +205,9 @@
       .imgWrap {
         overflow: hidden;
         transition: 0.5s;
-      .image{
-
-            transition: 0.5s;
-      }
+        .image {
+          transition: 0.5s;
+        }
         &:hover {
           .image {
             transform: scale(1.1);
@@ -243,11 +239,11 @@
     border-top-right-radius: 100px;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: 50% 100%;
+    background-size: 50rem 100%;
     background-image: url(../../../../assets//images/man2.jpg);
     .contendTetx {
       background-color: rgba(0, 51, 153, 1);
-      width: 50%;
+      width: 460px;
       padding: 52px 49px;
       position: absolute;
       right: 0;
@@ -258,6 +254,11 @@
         line-height: 36px;
         letter-spacing: -2%;
         color: white;
+      }
+      @media (max-width: 1026px) {
+        padding: 32px 29px;
+      width: 350px;
+
       }
     }
   }
@@ -278,7 +279,6 @@
       gap: 34px;
       transition: 0.5s;
       height: 119px;
-   
 
       .textCard {
         h5 {
@@ -303,9 +303,8 @@
         transition: 0.5s;
       }
       @media (max-width: 800px) {
-      height: 150px;
-      padding: 16px 22px;
-
+        height: 150px;
+        padding: 16px 22px;
       }
     }
   }
@@ -356,13 +355,12 @@
     color: rgba(38, 189, 73, 1);
     width: fit-content;
   }
-  @media (max-width:800px) {
-    .bottomPageFlex{
-         flex-direction: column;
-         justify-content:flex-start;
-         align-items: flex-start;
-         row-gap: 20px;
+  @media (max-width: 800px) {
+    .bottomPageFlex {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      row-gap: 20px;
     }
   }
- 
 }

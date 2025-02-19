@@ -43,7 +43,7 @@ export const useMyLoadsMainProps = () => {
   const { t } = useTranslation();
 
   const [hasMore, setHasMore] = useState(true);
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(40);
 
   const goodComment = [
     {
