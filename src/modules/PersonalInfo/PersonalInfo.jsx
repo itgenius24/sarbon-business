@@ -22,7 +22,7 @@ export const PersonalInfo = () => {
     getProfileFormProps,
     handleSubmit,
     submitForm,
-    isPending,
+    isLoading,
     router,
   } = usePersonalInfoProps();
   const {t} = useTranslation();
@@ -63,7 +63,7 @@ export const PersonalInfo = () => {
               {t(`Отмена`)}
             </Button>
             <Button
-              isLoading={isPending}
+              isLoading={isLoading}
               type="submit"
               fontSize={isLargerThan845 ? "16px" : "15px"}
               h={isLargerThan845 ? "40px" : "52px"}

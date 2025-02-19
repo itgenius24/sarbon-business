@@ -138,7 +138,7 @@ const MainPage = ({locale}) => {
               key={`2`}
               className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}
             >
-              <Container>
+              <Container maxWidth={`1320px`}>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
@@ -227,7 +227,7 @@ const MainPage = ({locale}) => {
               </Container>
             </Box>
             <Box key={`1`} className={cls.sliderCardWrap}>
-              <Container>
+              <Container maxWidth={`1320px`}>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
@@ -294,7 +294,7 @@ const MainPage = ({locale}) => {
             </Box>
             
             <Box key={`3`} className={cls.sliderCardWrap}>
-              <Container>
+              <Container maxWidth={`1320px`}>
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
@@ -346,7 +346,7 @@ const MainPage = ({locale}) => {
                 Почему выбирают <br /> Sarbon?
               </h1>
 
-              <Container>
+              <Container maxWidth={`1320px`}>
                 <Box className={cls.cardWrapQuestion}>
                   {cards.map((item) => (
                     <Box key={item.id} className={cls.card}>
@@ -430,7 +430,7 @@ const MainPage = ({locale}) => {
 
       {
         !token &&    <article className={cls.bottomPage}>
-        <Container>
+        <Container maxWidth={`1320px`}>
           <Flex className={cls.bottomPageFlex} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
             <Box >
               <p className={cls.titleBottom}>

@@ -15,7 +15,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CarsCardMobile } from "./component/CarsCard/CarsCardMobile";
 
 export const DriversList = () => {
-  const { t, data, handleDelete, isPending } = useDriversList();
+  const { t, data, handleDelete, isLoading } = useDriversList();
 
   const router = useRouter();
   const locale = useGetLang();
@@ -60,7 +60,7 @@ export const DriversList = () => {
                 />
               )
             )
-          ) : isPending ? (
+          ) : isLoading ? (
             <LoadingSpinner />
           ) : (
             <Flex
@@ -75,7 +75,7 @@ export const DriversList = () => {
           )}
         </Box>
        {
-        !isPending &&  <Button
+        !isLoading &&  <Button
           //  margin={`15px 15px`}
           marginTop={`20px`}
           width={`100%`}

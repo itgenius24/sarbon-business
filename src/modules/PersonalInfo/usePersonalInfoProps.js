@@ -19,7 +19,7 @@ export const usePersonalInfoProps = () => {
 
   const toast = useToast();
 
-  const { mutate , isPending } = useUpdateUserInfo({
+  const { mutate , isLoading } = useUpdateUserInfo({
     onSuccess() {
       toast({
         title: "Успешно изменено!",
@@ -67,7 +67,7 @@ export const usePersonalInfoProps = () => {
     getProfileFormProps,
     handleSubmit,
     submitForm,
-    isPending,
+    isLoading,
     router,
   };
 };

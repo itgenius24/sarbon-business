@@ -12,7 +12,7 @@ import FormInternationInput from "@/components/Input/FormInternationalInput";
 export const PhoneForm = ({
   onSubmit,
   navigateLogin,
-  isPending,
+  isLoading,
   backText = "Вернуться на Войти",
   title = "Регистрация нового участника на Sarbon",
   register = () => {},
@@ -35,7 +35,7 @@ export const PhoneForm = ({
           <FormInternationInput control={control} name={`phone`} />
         </Box>
       </Box>
-      <Button size="md" type="submit" isLoading={isPending}>
+      <Button size="md" type="submit" isLoading={isLoading}>
         {firstBtnText}
       </Button>
       <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">

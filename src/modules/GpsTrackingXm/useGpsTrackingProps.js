@@ -332,7 +332,7 @@ export const useGpsTrackingProps = () => {
     }
   }, []);
 
-  const { mutate: dataMutate, isPending } = useGetCarDispatcher({
+  const { mutate: dataMutate, isLoading:dataMutateLoadin } = useGetCarDispatcher({
     onSuccess: (data) => {
       if (data?.response?.length) {
         let data2 = data?.response?.map((item) => ({
@@ -601,7 +601,7 @@ export const useGpsTrackingProps = () => {
     onSubmit,
     handleSubmit,
     driverName: true,
-    isLoading: isPending,
+    isLoading: dataMutateLoadin,
     locationPending,
     setValue,
     setChecked,

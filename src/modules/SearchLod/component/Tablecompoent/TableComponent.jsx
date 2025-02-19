@@ -101,7 +101,7 @@ export const TableComponent = ({
 
   const { mutate: updateUer } = useUpdateUserData({});
 
-  const { mutate: pridlojetData, isPending } =
+  const { mutate: pridlojetData, isLoading } =
     useLogistikaGpsTrackingFilterDriverPred({
       onSuccess: (res) => {
         setCarId();
@@ -748,7 +748,7 @@ export const TableComponent = ({
                   </Button>
                   <Button
                     isDisabled={selectCargo.length === 0}
-                    isLoading={isPending}
+                    isLoading={isLoading}
                     onClick={() => handlePred()}
                     className={cls.topButton}
                     size="md"
@@ -981,7 +981,7 @@ export const TableComponent = ({
                   {t("Отменить")}
                 </Button>
                 <Button
-                  isLoading={isPending}
+                  isLoading={isLoading}
                   onClick={() => handlePred()}
                   className={cls.topButton}
                   size="md"

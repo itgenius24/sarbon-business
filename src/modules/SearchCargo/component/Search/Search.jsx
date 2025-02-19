@@ -14,7 +14,7 @@ export const Search = (props={}) => {
     register,
     watch,
     errors,
-    isPending,
+    isLoading,
     startDate,
     setStartDate,
     volumeMeasurementOptions,
@@ -108,7 +108,7 @@ export const Search = (props={}) => {
           </Box>
         </>
         <>
-          <Button isLoading={isPending} type="submit" maxW={isLargerThan845 ? "180px" : "100%"}>
+          <Button isLoading={isLoading} type="submit" maxW={isLargerThan845 ? "180px" : "100%"}>
            {t(
             "Найти машину"
            )}

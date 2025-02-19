@@ -207,10 +207,10 @@ export const CarsCard = ({
             >
               <p className={cls.loadType}>{item?.trailer_type_id_data?.[`name_${locale}`] ? item?.trailer_type_id_data?.[`name_${locale}`] : item?.trailer_type_id_data?.name}</p>
               <Flex gap={2}>
-                <Flex gap={1} alignItems={"center"}>
+                <Flex whiteSpace={`nowrap`} gap={1} alignItems={"center"}>
                   <StoneIcon /> { item?.capacity} т.
                 </Flex>
-                <Flex gap={1} alignItems={"center"}>
+                <Flex whiteSpace={`nowrap`} gap={1} alignItems={"center"}>
                   <LoadOulineIcon /> {item?.height} m3
                 </Flex>
               </Flex>

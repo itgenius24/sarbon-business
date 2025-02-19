@@ -136,7 +136,7 @@ export const TopContentPerfomet = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const { mutate: dataLocation, isPending } = useGetWithLocation({
+  const { mutate: dataLocation, isLoading } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
     },
@@ -178,7 +178,7 @@ export const TopContentPerfomet = () => {
   return (
     <Box>
       <>
-        {isPending ? (
+        {isLoading ? (
           <LoadingSpinner />
         ) : 
         
@@ -299,7 +299,7 @@ export const TopContentPerfomet = () => {
                       className={cls.accordionPanel}
                       position={`relative`}
                     >
-                      {getGPSHistory.isPending ? (
+                      {getGPSHistory.isLoading ? (
                         <Box height={"600px"}>
                           <LoadingSpinner />
                         </Box>

@@ -29,7 +29,7 @@ export const MyCarsDispatcherModule = () => {
     deleteFuntion,
     nameFilter,
     filter1,
-    isPending,
+    isLoading,
     register,
     setSearchFn,
     search,
@@ -143,7 +143,7 @@ export const MyCarsDispatcherModule = () => {
             <Box mt={6} width={`fit-contend`}>
               <Button
                 width={`fit-contend`}
-                isLoading={isPending}
+                isLoading={isLoading}
                 onClick={addPage}
                 className={cls.btnLoad}
               >
@@ -152,7 +152,7 @@ export const MyCarsDispatcherModule = () => {
             </Box>
           )}
 
-          {/* {isPending ? (
+          {/* {isLoading ? (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>

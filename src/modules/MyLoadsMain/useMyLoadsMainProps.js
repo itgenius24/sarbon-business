@@ -503,7 +503,7 @@ export const useMyLoadsMainProps = () => {
     isLoading:
       Boolean(
         role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-          getNewPred.isPending &&
+          getNewPred.isLoading &&
           orderStatus === `new`
       ) || cargosData.isLoading,
     hasMore,
@@ -520,7 +520,7 @@ export const useMyLoadsMainProps = () => {
     setDataPred,
     dataPred,
     getExcelFileFn,
-    isPendingExe: getExcelFile.isPending,
+    isLoadingExe: getExcelFile.isLoading,
     open,
     setOpen,
     goodComment,

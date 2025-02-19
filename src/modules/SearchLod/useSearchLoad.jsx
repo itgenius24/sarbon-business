@@ -30,7 +30,7 @@ export const useSearchLoad = () => {
     formState,
   } = useForm({});
 
-  const { mutate: getCargoPost, isPending: isPendingLo } = useGetCargoPost({
+  const { mutate: getCargoPost, isLoading: isLoadingLo } = useGetCargoPost({
     onSuccess: (res) => {
       const data = res?.response;
       setTotal(res?.count?.[0]?.totalCount);
@@ -148,7 +148,7 @@ export const useSearchLoad = () => {
     setStatus2,
     setPage,
     page,
-    isPendingLo,
+    isLoadingLo,
     onSubmit,
     total,
   };

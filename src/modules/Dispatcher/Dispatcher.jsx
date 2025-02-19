@@ -131,14 +131,14 @@ export const DispatcherModule = () => {
           <Box mt={6} width={`fit-contend`}>
             <Button
               width={`fit-contend`}
-              // isLoading={isPending}
+              // isLoading={isLoading}
               onClick={addPage}
               className={cls.btnLoad}
             >
               Загрузить еще 50
             </Button>
           </Box>
-          {/* {isPending ? (
+          {/* {isLoading ? (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>

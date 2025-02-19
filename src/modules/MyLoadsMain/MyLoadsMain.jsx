@@ -51,7 +51,7 @@ export const MyLoadsMain = () => {
     waitingDriverCount,
     setDataPred,
     dataPred,
-    isPendingExe,
+    isLoadingExe,
     getExcelFileFn,
     open,
     setOpen,
@@ -116,7 +116,7 @@ export const MyLoadsMain = () => {
           {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" && (
             <Box position={`relative`}>
               <Button
-                isLoading={isPendingExe}
+                isLoading={isLoadingExe}
                 onClick={getExcelFileFn}
                 // isDisabled={true}
                 style={{

@@ -34,7 +34,7 @@ export const Registration = () => {
   const {
     onSubmit,
     handleSubmit,
-    isPending,
+    isLoading,
     t,
     control,
     closeModal,
@@ -115,7 +115,7 @@ export const Registration = () => {
                   onClick={handleSubmit(onSubmit)}
                   size="md"
                   type="submit"
-                  isLoading={isPending}
+                  isLoading={isLoading}
                 >
                   Регистрация
                 </Button>

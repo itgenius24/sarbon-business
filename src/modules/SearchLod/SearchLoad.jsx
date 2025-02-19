@@ -28,7 +28,7 @@ export const SearchLoadModule = () => {
     setStatus2,
     setPage,
     page,
-    isPendingLo,
+    isLoadingLo,
     onSubmit,
     total,
   } = useSearchLoad();
@@ -99,10 +99,10 @@ export const SearchLoadModule = () => {
             status2={status2}
             setStatus2={setStatus2}
             setPage={setPage}
-            isPendingLo={isPendingLo}
+            isLoadingLo={isLoadingLo}
           />
         </Box>
-        {!isPendingLo && dataRes?.length !== total && dataRes?.length > 0 && (
+        {!isLoadingLo && dataRes?.length !== total && dataRes?.length > 0 && (
           <Button
             mt={`24px`}
             width={`fit-content`}
