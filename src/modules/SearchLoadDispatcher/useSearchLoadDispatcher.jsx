@@ -47,6 +47,7 @@ export const useSearchLoadDispatcher = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const [negotiableOption, setNegotiableOption] = useState([]);
+  const dispatcher_type = authStore?.userData?.dispatcher_type;
 
   const {
     handleSubmit,
@@ -57,9 +58,8 @@ export const useSearchLoadDispatcher = () => {
     reset,
     setValue,
   } = useForm({});
-  const [value, setValueR] = useState(`val1`);
+  const [value, setValueR] = useState(dispatcher_type?.[0] === `top_dispatcher` ? `val1` : `val2` );
 
-  const dispatcher_type = authStore?.userData?.dispatcher_type;
 
   useEffect(() => {
     if (dispatcher_type?.[0] === `top_dispatcher`) {

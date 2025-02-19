@@ -213,7 +213,7 @@ export const MyLoadsMain = () => {
             })
           )}
           {!cargos?.length && !isLoading && <Empty t={t} />}
-          {/* {isLoading && <LoadingSpinner />} */}
+          {isLoading && <LoadingSpinner />}
         </Box>
       </Container>
       <Modal size={`xl`} isOpen={open} onClose={() => setOpen(null)}>

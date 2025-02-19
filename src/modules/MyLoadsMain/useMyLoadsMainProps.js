@@ -484,7 +484,7 @@ export const useMyLoadsMainProps = () => {
     setDebouncedLimit((prev) => prev + 6);
   }
 
-  console.log(`scroll`, window)
+  console.log(`scroll`, document.scrollingElement)
 
   const handleScroll = () => {
 
