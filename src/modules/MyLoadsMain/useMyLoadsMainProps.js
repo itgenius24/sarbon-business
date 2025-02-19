@@ -476,7 +476,7 @@ export const useMyLoadsMainProps = () => {
   const setDebouncedLimit = useDebounce(setLimit, 450);
 
   function handleLoadMore() {
-    setDebouncedLimit((prev) => prev + 6);
+    setDebouncedLimit((prev) => prev + 40);
   }
 
  
