@@ -302,7 +302,7 @@ export const useMyLoadsMainProps = () => {
             : undefined,
         with_relations: true,
         // response_status: ["approve_from_driver"],
-        provisions: [ "approve_from_driver"],
+        provisions: ["approve_from_driver"],
       }),
     },
     { enabled: false }
@@ -409,8 +409,6 @@ export const useMyLoadsMainProps = () => {
     }
   }
 
-
-
   function handleAccept(id, driverId) {
     pushNotification.mutate({
       data: {
@@ -421,7 +419,6 @@ export const useMyLoadsMainProps = () => {
       },
     });
 
-   
     updateResponseMutation.mutate(
       {
         data: {
@@ -459,7 +456,6 @@ export const useMyLoadsMainProps = () => {
       });
     }
     setDataPred(false);
-
   }
 
   function handleDelete(id) {
@@ -467,7 +463,6 @@ export const useMyLoadsMainProps = () => {
   }
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
-
 
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
@@ -484,28 +479,8 @@ export const useMyLoadsMainProps = () => {
     setDebouncedLimit((prev) => prev + 6);
   }
 
+ 
 
-  const handleScroll = () => {
-
-    if (ref.current) {
-      const isVisible = isVisibleInViewport(ref.current);
-  
-
-  
-      if (Math.abs(document.documentElement.scrollHeight-window.pageYOffset) === window.innerHeight ) {
-        setDebouncedLimit((prev) => prev + 6);
-      }
-    }
-  };
-  
-  useEffect(() => {
-    document.addEventListener("scroll", handleScroll, { capture: true });
-  
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  
   useEffect(() => {
     if (
       cargosData.data?.count &&
@@ -561,5 +536,6 @@ export const useMyLoadsMainProps = () => {
     hoverRating,
     setHoverRating,
     onSubmit,
+    addPage:handleLoadMore,
   };
 };

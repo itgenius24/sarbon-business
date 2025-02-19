@@ -25,9 +25,14 @@ import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
 import authStore from "@/store/auth.store";
 import { useState } from "react";
-import { ExelIcon, IconCeckNewStatusIcon, StarGoodsIcon, StarOutlineIcon } from "@/assets/icons/icons";
+import {
+  ExelIcon,
+  IconCeckNewStatusIcon,
+  StarGoodsIcon,
+  StarOutlineIcon,
+} from "@/assets/icons/icons";
 import { CheckboxComment } from "./components/CheckboxComment";
-import styles from './style.module.scss';
+import styles from "./style.module.scss";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
 
@@ -52,7 +57,9 @@ export const MyLoadsMain = () => {
     setOpen,
     goodComment,
     badComment,
-    register,watch,setValue,
+    register,
+    watch,
+    setValue,
     handleCheckboxChange,
     comments,
     setComments,
@@ -60,11 +67,12 @@ export const MyLoadsMain = () => {
     setSelectedRating,
     hoverRating,
     setHoverRating,
-    onSubmit
+    onSubmit,
+    addPage,
   } = useMyLoadsMainProps();
   const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
- 
+
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -90,7 +98,6 @@ export const MyLoadsMain = () => {
     prepayment: t(`Предоплата`),
   };
 
-
   const [disabled, setDisabled] = useState(false);
 
   return (
@@ -108,22 +115,6 @@ export const MyLoadsMain = () => {
           </Heading>
           {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" && (
             <Box position={`relative`}>
-              {/* <span
-                style={{
-                  position: `absolute`,
-                  top: `-10px`,
-                  zIndex: `111`,
-                  fontSize: `9px`,
-                  fontWeight: 700,
-                  padding: `0px 10px`,
-                  borderRadius: `11px`,
-                  background: `red`,
-                  color: `white`,
-                  right: 10,
-                }}
-              >
-                СКОРО
-              </span> */}
               <Button
                 isLoading={isPendingExe}
                 onClick={getExcelFileFn}
@@ -191,7 +182,6 @@ export const MyLoadsMain = () => {
                     orderStatus={orderStatus}
                     handleDelete={handleDelete}
                     handleAccept={handleAccept}
-          
                     isLargerThan768={isLargerThan768}
                     cargo={cargo}
                   />
@@ -214,6 +204,17 @@ export const MyLoadsMain = () => {
           )}
           {!cargos?.length && !isLoading && <Empty t={t} />}
           {isLoading && <LoadingSpinner />}
+          {cargos?.length > 0 && (
+            <Box width={`fit-content`}>
+              <Button
+                isLoading={isLoading}
+                onClick={addPage}
+                // className={cls.btnLoad}
+              >
+                Загрузить еще
+              </Button>
+            </Box>
+          )}
         </Box>
       </Container>
       <Modal size={`xl`} isOpen={open} onClose={() => setOpen(null)}>
@@ -249,7 +250,11 @@ export const MyLoadsMain = () => {
                 {(selectedRating > 3 || selectedRating === 0) &&
                   goodComment.map((item) => {
                     return (
-                      <CheckboxComment defaultChecked={comments.includes(item.key)}  onChange={() => handleCheckboxChange(item.key)} key={item.key}>
+                      <CheckboxComment
+                        defaultChecked={comments.includes(item.key)}
+                        onChange={() => handleCheckboxChange(item.key)}
+                        key={item.key}
+                      >
                         {item.label}
                       </CheckboxComment>
                     );
@@ -259,7 +264,11 @@ export const MyLoadsMain = () => {
                   selectedRating >= 1 &&
                   badComment.map((item) => {
                     return (
-                      <CheckboxComment defaultChecked={comments.includes(item.key)}  onChange={() => handleCheckboxChange(item.key)} key={item.key}>
+                      <CheckboxComment
+                        defaultChecked={comments.includes(item.key)}
+                        onChange={() => handleCheckboxChange(item.key)}
+                        key={item.key}
+                      >
                         {item.label}
                       </CheckboxComment>
                     );
@@ -267,8 +276,15 @@ export const MyLoadsMain = () => {
               </Flex>
             </Box>
             <Box mt={`24px`}>
-              <Heading fontSize={`18px`} lineHeight={`30px`} fontWeight={400}>Комментарий</Heading>
-              <CustomTextarea textLimit={200} watch={watch}  register={register} name={`comment`}  />
+              <Heading fontSize={`18px`} lineHeight={`30px`} fontWeight={400}>
+                Комментарий
+              </Heading>
+              <CustomTextarea
+                textLimit={200}
+                watch={watch}
+                register={register}
+                name={`comment`}
+              />
             </Box>
           </ModalBody>
 

@@ -271,7 +271,7 @@ export const useSearchLoadDispatcher = () => {
     setData(() => [...filteredData]);
   };
 
-  const { mutate: createUserAdress, isPending: createAdressisPending } =
+  const { mutate: createUserAdress, isLoading:createAdressisPending } =
     useCreateAddressMutation({
       onSuccess: () => {
         setData((prevData) =>
