@@ -111,12 +111,7 @@ export const useSearchLoadDispatcher = () => {
         }
       }
     },
-    onError:() => {
-      setRefe(true)
-      setData([]);
-      setOldData([]);
-      setPage(0);
-    }
+  
   });
 
   useEffect(() => {
@@ -288,6 +283,12 @@ export const useSearchLoadDispatcher = () => {
         );
         setId([]);
       },
+      onError:() => {
+        setRefe(true)
+        setData([]);
+        setOldData([]);
+        setPage(0);
+      }
     });
 
   const onSubmit = () => {
