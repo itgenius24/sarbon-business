@@ -44,7 +44,7 @@ export const useDashboard = (locale) => {
     enabled: Boolean(firmId?.firm_data?.guid),
   });
 
-  const { mutate: filterData, isPending } =
+  const { mutate: filterData, isLoading:filterDataLoadin } =
     useLogistikaGpsTrackingFilterDriverPred({
       onSuccess: (res) => {
         setData(res);
@@ -889,15 +889,15 @@ export const useDashboard = (locale) => {
     columns4,
     data,
     setStatus,
-    isPending,
-    isLoading: isPending,
+    isLoading,
+    filterDataLoadin: filterDataLoadin,
     date,
     setDate,
     setDate2,
     setCurrentPage,
     currentPage,
     getExcelFileFn,
-    isLoadingExe: getExcelFile.isPending,
+    isLoadingExe: getExcelFile.isLoading,
     firmData: firmData?.response,
     isOpen,
     onOpen,

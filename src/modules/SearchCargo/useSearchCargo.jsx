@@ -212,14 +212,14 @@ export const useSearchCargo = () => {
     }
   }, [getCarNumnber?.count > 0, inputValue?.length]);
 
-  const { mutate, isPending } = useCreateVehicle({
+  const { mutate, isLoading } = useCreateVehicle({
     onSuccess: (res) => {
       // reset()
       setIsPopupOpen(true);
       // router.push(`/${locale}/my-cars`);
     },
   });
-  const { mutate: updateW, isPending: upisPending } = useUpdateVehicle({
+  const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
       // setIsPopupOpen(true)
       // reset()
@@ -271,7 +271,7 @@ export const useSearchCargo = () => {
     watch,
     control,
     reset,
-    loading: isPending ? isPending : upisPending,
+    loading: isLoading ? isLoading : upisLoading,
     errors,
     carTypeOptions,
     weightMeasurementOptions,

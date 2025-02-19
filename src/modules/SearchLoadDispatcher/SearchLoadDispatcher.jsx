@@ -44,7 +44,7 @@ export const SearchLoadDispatcherModule = () => {
     nameFilterMawiniNomer,
     tipFilter,
     timeFilter,
-    isPending,
+    isLoading,
     filter1,
     filter2,
     filter3,
@@ -56,7 +56,7 @@ export const SearchLoadDispatcherModule = () => {
     ids,
     observerRef,
     onSubmit,
-    createAdressisPending,
+    createAdressisLoading,
     dispatcherFilter,
     setValueR,
     value,
@@ -233,7 +233,7 @@ export const SearchLoadDispatcherModule = () => {
                 />
               ))}
 
-            {isPending ? (
+            {isLoading ? (
               <Box
                 height={data.length > 0 ? `6vh` : `4vh`}
 
@@ -268,7 +268,7 @@ export const SearchLoadDispatcherModule = () => {
               left={`32px`}
             >
               <Button
-                isLoading={isPending}
+                isLoading={isLoading}
                 onClick={addPage}
                 className={cls.btnLoad}
               >
@@ -289,7 +289,7 @@ export const SearchLoadDispatcherModule = () => {
                 {t(`Выбрано`)}: {ids?.length}
               </p>
               <Button
-                isLoading={createAdressisPending}
+                isLoading={createAdressisLoading}
                 onClick={onSubmit}
                 isDisabled={ids?.length === 0}
                 className={cls.btnAddLoad}

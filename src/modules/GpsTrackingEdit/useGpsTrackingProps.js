@@ -260,7 +260,7 @@ export const useGpsTrackingProps = () => {
 
 
 
-  const { mutate: dataMutate, isPending } = useGetCar({
+  const { mutate: dataMutate, isLoading } = useGetCar({
     onSuccess: (data) => {
       if (data?.response?.length === 50) {
         if (carsArr >= 100) {
@@ -321,7 +321,7 @@ export const useGpsTrackingProps = () => {
     return carsArr?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
 
-  const { mutate: getLocation, isPending: locationPending } = useLocation({
+  const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
       // console.log(`dats`, data2);
@@ -602,7 +602,7 @@ export const useGpsTrackingProps = () => {
     onSubmit,
     handleSubmit,
     driverName: true,
-    isLoading: isPending,
+    isLoading: isLoading,
     locationPending,
     setValue,
     setChecked,

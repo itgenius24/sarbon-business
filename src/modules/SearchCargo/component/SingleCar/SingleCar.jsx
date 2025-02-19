@@ -315,12 +315,12 @@ export const SingleCar = ({
                       return (
                         <Card
                           onClick={() => {
-                            if (!offerFromCustomer.isPending) {
+                            if (!offerFromCustomer.isLoading) {
                               handleOffer(item.guid);
                             }
                           }}
                           style={{
-                            cursor: offerFromCustomer.isPending
+                            cursor: offerFromCustomer.isLoading
                               ? "progress"
                               : "pointer",
                           }}

@@ -171,12 +171,12 @@ export const TopContent = ({
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const { mutate: dataLocation, isPending } = useGetWithLocation({
+  const { mutate: dataLocation, isLoading } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
     },
   });
-  console.log("LoadingSpinner", isPending);
+  console.log("LoadingSpinner", isLoading);
   useEffect(() => {
     if (paramsId) {
       dataLocation({ data: { object_data: { cargo_id: paramsId, }, }, });
@@ -348,7 +348,7 @@ export const TopContent = ({
             )} */}
           </Box>
 
-          {isPending ? (
+          {isLoading ? (
             <LoadingSpinner />
           ) : (
             <Accordion allowToggle>
@@ -449,7 +449,7 @@ export const TopContent = ({
 
                       <AccordionPanel>
                         {
-                        getGPSHistory.isPending ? <Box height={"600px"}>
+                        getGPSHistory.isLoading ? <Box height={"600px"}>
                           <LoadingSpinner />
                         </Box> :<YMaps>
                           <AccordionMap

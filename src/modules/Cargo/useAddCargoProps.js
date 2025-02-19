@@ -1205,7 +1205,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     setDirectContractOpen,
     userId2: data?.users_id_2,
     setIsPhotoChanged,
-    isAcceptRejectLoading: updateResponseMutation.isPending,
+    isAcceptRejectLoading: updateResponseMutation.isLoading,
     loadingOptions,
     handleOpenTemplateModal,
     handleCloseTemplateModal,

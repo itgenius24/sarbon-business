@@ -508,7 +508,7 @@ const StepFive = ({ status }) => {
           >
             <Button
               // isDisabled={!watch("accept") || isClicked}
-              isLoading={createCargo.isPending || createAddress.isPending}
+              isLoading={createCargo.isLoading || createAddress.isLoading}
               size="md"
               maxWidth="223px"
               onClick={onSubmitF}
@@ -539,7 +539,7 @@ const StepFive = ({ status }) => {
         secondBtnCallback={() => shablonF()}
         isDisabled={!watch("template_name")}
         secondBtnProps={{
-          isLoading: createCargo.isPending || createAddress.isPending,
+          isLoading: createCargo.isLoading || createAddress.isLoading,
         }}
         secondBtnText={t("Сохранить")}
       >

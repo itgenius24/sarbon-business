@@ -7,6 +7,7 @@ import React from "react";
 import { Logo } from "../../../../components/Logo/Logo";
 import { LocaleDropdown } from "@/components/LocaleDropdown";
 import { ContainerNav } from "@/components/container/Container";
+import { Container } from "@/components/Container";
 
 export default function AuthLayout({ children, params: { locale, auth } }) {
   const isRegisterForm = auth?.[0];
@@ -66,12 +67,13 @@ export default function AuthLayout({ children, params: { locale, auth } }) {
               </Box>
             </ContainerNav>
           </Box>
-          <ContainerNav
+          <Container 
+           maxW={`1444px`}
             m={!isLargerThan845 && `0px`}
             p={!isLargerThan845 && `0px`}
           >
             <div className={cls.formWrapper2}>{children}</div>
-          </ContainerNav>
+          </Container>
         </Box>
       )}
     </>

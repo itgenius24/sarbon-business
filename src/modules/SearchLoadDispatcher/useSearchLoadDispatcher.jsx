@@ -85,7 +85,6 @@ export const useSearchLoadDispatcher = () => {
 
   const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
-
       if (res?.response?.length) {
         setRefe(false);
         setIsfilter(false)
@@ -112,6 +111,12 @@ export const useSearchLoadDispatcher = () => {
         }
       }
     },
+    onError:() => {
+      setRefe(true)
+      setData([]);
+      setOldData([]);
+      setPage(0);
+    }
   });
 
   useEffect(() => {
@@ -266,7 +271,7 @@ export const useSearchLoadDispatcher = () => {
     setData(() => [...filteredData]);
   };
 
-  const { mutate: createUserAdress, isPending: createAdressisPending } =
+  const { mutate: createUserAdress, isLoading:createAdressisLoading } =
     useCreateAddressMutation({
       onSuccess: () => {
         setData((prevData) =>
@@ -334,7 +339,7 @@ export const useSearchLoadDispatcher = () => {
     data: data,
     ids,
     addPage,
-    isPending: isLoading,
+    isLoading: isLoading,
     nameFilter,
     nameFilterMawini,
     nameFilterMawiniNomer,
@@ -346,7 +351,7 @@ export const useSearchLoadDispatcher = () => {
     observerRef,
     showButton,
     onSubmit,
-    createAdressisPending,
+    createAdressisLoading,
     onChange,
     value,
     setValueR,

@@ -55,7 +55,7 @@ export const useSearchCar = () => {
     return format(new Date(val), "dd.MM.yyyy HH:mm");
   };
 
-  const { mutate, isPending } = useGetCarListOnSubmit({
+  const { mutate, isLoading } = useGetCarListOnSubmit({
     onSuccess(data) {
       if(data?.response?.length) {
         setCarsArr(data?.response);
@@ -109,7 +109,7 @@ export const useSearchCar = () => {
       watch,
       getAddressOptions,
       errors,
-      isPending,
+      isLoading,
       setValue,
       startDate,
       setStartDate,

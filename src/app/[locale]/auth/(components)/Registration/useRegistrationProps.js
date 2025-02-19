@@ -108,7 +108,7 @@ export const useRegistrationProps = () => {
     errors,
     navigateLogin,
     onSubmit,
-    isPending: phoneMutation.isPending,
+    isLoading: phoneMutation.isLoading  ,
     t,
     control,
     setOpen,

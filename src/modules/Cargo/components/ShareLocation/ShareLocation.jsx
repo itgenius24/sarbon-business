@@ -153,7 +153,7 @@ export const ShareLocationModule = () => {
     },
   });
 
-  const { mutate: dataLocation, isPending } = useGetWithLocation({
+  const { mutate: dataLocation, isLoading } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
     },
@@ -315,7 +315,7 @@ export const ShareLocationModule = () => {
           </h2>
         </Box>
         <>
-          {isPending ? (
+          {isLoading ? (
             <LoadingSpinner />
           ) : getOfferCount?.data?.response?.length > 0 ? (
             <Accordion defaultIndex={[0]} allowToggle>
@@ -441,7 +441,7 @@ export const ShareLocationModule = () => {
                       </AccordionButton>
 
                       <AccordionPanel position={`relative`}>
-                        {getGPSHistory.isPending ? (
+                        {getGPSHistory.isLoading ? (
                           <Box height={"600px"}>
                             <LoadingSpinner />
                           </Box>

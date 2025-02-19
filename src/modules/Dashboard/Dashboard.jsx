@@ -64,9 +64,9 @@ const Dashboard = ({ locale }) => {
     columns3,
     columns4,
     data,
-    isPending,
-    setStatus,
     isLoading,
+    setStatus,
+    filterDataLoadin,
     date,
     setDate,
     setDate2,
@@ -243,7 +243,7 @@ const Dashboard = ({ locale }) => {
               <TabPanels>
                 <TabPanel>
                   <CTable
-                    isLoading={isPending}
+                    isLoading={filterDataLoadin}
                     columns={columns2}
                     data={data.response}
                     setCurrentPage={setCurrentPage}
@@ -252,7 +252,7 @@ const Dashboard = ({ locale }) => {
                 </TabPanel>
                 <TabPanel>
                   <CTable
-                    isLoading={isPending}
+                    isLoading={filterDataLoadin}
                     columns={columns1}
                     data={data.response}
                     setCurrentPage={setCurrentPage}
@@ -261,7 +261,7 @@ const Dashboard = ({ locale }) => {
                 </TabPanel>
                 <TabPanel>
                   <CTable
-                    isLoading={isPending}
+                    isLoading={filterDataLoadin}
                     columns={columns3}
                     data={data.response}
                     setCurrentPage={setCurrentPage}
@@ -270,7 +270,7 @@ const Dashboard = ({ locale }) => {
                 </TabPanel>
                 <TabPanel>
                   <CTable
-                    isLoading={isPending}
+                    isLoading={filterDataLoadin}
                     columns={columns4}
                     data={data.response}
                     setCurrentPage={setCurrentPage}

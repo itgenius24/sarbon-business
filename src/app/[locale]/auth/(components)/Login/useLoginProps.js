@@ -145,7 +145,7 @@ export const useLoginProps = () => {
     errors,
     onSubmit,
     navigateRegistration,
-    isPending: loginOne.isLoading || login.isLoading,
+    isLoading: loginOne.isLoading || login.isLoading,
     onRememberChange,
     t,
     handleTogglePasswordVisibility,

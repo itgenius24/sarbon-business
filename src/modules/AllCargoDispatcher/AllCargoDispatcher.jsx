@@ -124,7 +124,7 @@ export const AllCargoDispatcher = () => {
           ))}
 
           {/* ))}
-          {isPending ? (
+          {isLoading ? (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>

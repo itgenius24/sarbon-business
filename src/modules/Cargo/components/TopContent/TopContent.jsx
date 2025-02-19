@@ -191,7 +191,7 @@ export const TopContent = ({
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const { mutate: dataLocation, isPending } = useGetWithLocation({
+  const { mutate: dataLocation, isLoading } = useGetWithLocation({
     onSuccess: (res) => {
       setUserData(res?.response);
       setUserId(res?.response?.[0]?.order?.[0]?.users_gps?.users_id);
@@ -443,7 +443,7 @@ export const TopContent = ({
             )}
           </Flex>
 
-          {isPending ? (
+          {isLoading ? (
             <LoadingSpinner />
           ) : (
             <Accordion defaultIndex={[0]} allowToggle>
@@ -663,7 +663,7 @@ export const TopContent = ({
                       </AccordionButton>
 
                       <AccordionPanel position={`relative`}>
-                        {getGPSHistory.isPending ? (
+                        {getGPSHistory.isLoading ? (
                           <Box height={"600px"}>
                             <LoadingSpinner />
                           </Box>

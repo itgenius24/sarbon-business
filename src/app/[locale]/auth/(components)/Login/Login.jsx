@@ -33,7 +33,7 @@ export const Login = () => {
     onSubmit,
     register,
     navigateRegistration,
-    isPending,
+    isLoading,
     onRememberChange,
     t,
     isPasswordVisible,
@@ -100,7 +100,7 @@ export const Login = () => {
             </Link>
           </div>
 
-          <Button mt="24px" size="md" type="submit" isLoading={isPending}>
+          <Button mt="24px" size="md" type="submit" isLoading={isLoading}>
             {t("Войти")}
           </Button>
         </Box>

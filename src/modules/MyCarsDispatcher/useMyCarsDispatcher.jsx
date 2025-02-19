@@ -28,7 +28,7 @@ export const useMyCarsDispatcher = () => {
   const [debouncedValue] = useDebounce2(search, 500);
   const containerRef = useRef(null);
 
-  const { mutate, isPending } = useGetCar({
+  const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
       if (res?.response?.length) {
         setRefe(false);
@@ -119,7 +119,7 @@ export const useMyCarsDispatcher = () => {
   const setDebouncedLimit = useDebounce(setPage, 250);
 
   const handleScroll = () => {
-    if (!isPending) {
+    if (!isLoading) {
       if (containerRef.current) {
         const isVisible = isVisibleInViewport(containerRef.current);
 
@@ -284,7 +284,7 @@ export const useMyCarsDispatcher = () => {
     deleteFuntion,
     nameFilter,
     filter1,
-    isPending,
+    isLoading,
     t,
     register,
     setSearchFn,

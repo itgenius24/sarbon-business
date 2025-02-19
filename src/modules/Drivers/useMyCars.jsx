@@ -62,7 +62,7 @@ export const useMyCars = () => {
     },
   });
 
-  const { mutate: checkUserData, isPending: isLoadingCrate } =
+  const { mutate: checkUserData, isLoading: isLoadingCrate } =
     useOfferFromCustomerMutation({
       onSuccess: (res) => {
         if (res?.response?.length === 0) {
@@ -82,7 +82,7 @@ export const useMyCars = () => {
       },
     });
 
-  const { mutate: updateDsate, isPending } = useUpdateUser({
+  const { mutate: updateDsate, isLoading } = useUpdateUser({
     onSuccess: (res) => {
       setIsPopupOpen(true);
       // router.push(`/${locale}/drivers`);
@@ -161,7 +161,7 @@ export const useMyCars = () => {
     setIsPopupOpen,
     isPopupOpen,
     id,
-    isLoading: isPending ? isPending : isLoadingCrate,
+    isLoading: isLoading ? isLoading : isLoadingCrate,
     copyFunction,
     open,
     setOpen,

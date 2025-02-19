@@ -302,7 +302,7 @@ export const useMyLoadsMainProps = () => {
             : undefined,
         with_relations: true,
         // response_status: ["approve_from_driver"],
-        provisions: [ "approve_from_driver"],
+        provisions: ["approve_from_driver"],
       }),
     },
     { enabled: false }
@@ -409,8 +409,6 @@ export const useMyLoadsMainProps = () => {
     }
   }
 
-
-
   function handleAccept(id, driverId) {
     pushNotification.mutate({
       data: {
@@ -421,7 +419,6 @@ export const useMyLoadsMainProps = () => {
       },
     });
 
-   
     updateResponseMutation.mutate(
       {
         data: {
@@ -459,7 +456,6 @@ export const useMyLoadsMainProps = () => {
       });
     }
     setDataPred(false);
-
   }
 
   function handleDelete(id) {
@@ -467,7 +463,6 @@ export const useMyLoadsMainProps = () => {
   }
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
-
 
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
@@ -484,30 +479,8 @@ export const useMyLoadsMainProps = () => {
     setDebouncedLimit((prev) => prev + 6);
   }
 
-  console.log(`scroll`, document.scrollingElement)
+ 
 
-  const handleScroll = () => {
-
-    if (ref.current) {
-      const isVisible = isVisibleInViewport(ref.current);
-  
-      const scrolledToBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight; // 10px bufer
-  
-      if ((scrolledToBottom)) {
-        setDebouncedLimit((prev) => prev + 6);
-      }
-    }
-  };
-  
-  useEffect(() => {
-    document.addEventListener("scroll", handleScroll, { capture: true });
-  
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  
   useEffect(() => {
     if (
       cargosData.data?.count &&
@@ -530,7 +503,7 @@ export const useMyLoadsMainProps = () => {
     isLoading:
       Boolean(
         role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-          getNewPred.isPending &&
+          getNewPred.isLoading &&
           orderStatus === `new`
       ) || cargosData.isLoading,
     hasMore,
@@ -547,7 +520,7 @@ export const useMyLoadsMainProps = () => {
     setDataPred,
     dataPred,
     getExcelFileFn,
-    isPendingExe: getExcelFile.isPending,
+    isLoadingExe: getExcelFile.isLoading,
     open,
     setOpen,
     goodComment,
@@ -563,5 +536,6 @@ export const useMyLoadsMainProps = () => {
     hoverRating,
     setHoverRating,
     onSubmit,
+    addPage:handleLoadMore,
   };
 };

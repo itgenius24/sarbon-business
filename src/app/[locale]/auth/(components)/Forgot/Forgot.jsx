@@ -30,7 +30,7 @@ export const Forgot = () => {
   return (
     <>
       <PhoneForm
-        // isPending={isPending}
+        // isLoading={isLoading}
         navigateLogin={navigateLogin}
         onSubmit={handleSubmit(onSubmit)}
         backText={t("Вернуться на Войти")}
