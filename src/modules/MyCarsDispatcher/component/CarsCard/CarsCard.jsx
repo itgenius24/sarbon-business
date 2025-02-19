@@ -46,17 +46,17 @@ console.log(`salom`,item?.order_data && item.order_data )
         <Flex alignItems={`center`} gap={`6px`}>
           <Avatar
             size="sm"
-            src={item?.driver_data?.[0]?.photo}
-            name={item?.driver_data?.[0]?.full_name}
+            src={item?.driver_data?.photo}
+            name={item?.driver_data?.full_name}
           />
           <Box>
-            <p className={cls.title}>{item?.driver_data?.[0]?.full_name}</p>
+            <p className={cls.title}>{item?.driver_data?.full_name}</p>
             <a
               target="_blank"
-              href={`https://t.me/${item?.driver_data?.[0]?.phone}`}
+              href={`https://t.me/${item?.driver_data?.phone}`}
               className={cls.tel}
             >
-              {item?.driver_data?.[0]?.phone}{" "}
+              {item?.driver_data?.phone}{" "}
             </a>
           </Box>
         </Flex>
