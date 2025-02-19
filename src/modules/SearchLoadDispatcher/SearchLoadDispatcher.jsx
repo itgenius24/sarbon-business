@@ -13,7 +13,12 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import { IocnFilter, IocnSortBack, IocnSortTop, PlusIcon } from "@/assets/icons/icons";
+import {
+  IocnFilter,
+  IocnSortBack,
+  IocnSortTop,
+  PlusIcon,
+} from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -58,15 +63,13 @@ export const SearchLoadDispatcherModule = () => {
     onChange,
     containerRef,
     search,
+    isFilter,
     setSearchFn,
-  
   } = useSearchLoadDispatcher();
-
- 
 
   return (
     <>
-      <Container my="40px">
+      <Container maxW={`1444px`} my="40px">
         <Box position={`relative`} height={`100%`}>
           <Flex width={"100%"} justifyContent={"space-between"}>
             <Heading
@@ -136,7 +139,13 @@ export const SearchLoadDispatcherModule = () => {
                 onClick={() => nameFilter()}
               >
                 <p className={cls.filterTitle}>{t(`Имя водителя`)}</p>
-                {filter1 === 1 ? <IocnSortTop /> : filter1 === 2 ?   <IocnSortBack /> : <IocnFilter />}
+                {filter1 === 1 ? (
+                  <IocnSortTop />
+                ) : filter1 === 2 ? (
+                  <IocnSortBack />
+                ) : (
+                  <IocnFilter />
+                )}
               </Flex>
               <Flex
                 cursor={`pointer`}
@@ -147,8 +156,13 @@ export const SearchLoadDispatcherModule = () => {
                 onClick={() => nameFilterMawini()}
               >
                 <p className={cls.filterTitle}>{t(`Владелец машины`)}</p>
-                {filter2 === 1 ? <IocnSortTop /> : filter2 === 2 ?   <IocnSortBack /> : <IocnFilter />}
-
+                {filter2 === 1 ? (
+                  <IocnSortTop />
+                ) : filter2 === 2 ? (
+                  <IocnSortBack />
+                ) : (
+                  <IocnFilter />
+                )}
               </Flex>
 
               <Flex
@@ -206,33 +220,35 @@ export const SearchLoadDispatcherModule = () => {
             background={`white`}
             minH={`60vh`}
           >
-            {!isPending && data?.map((item, index) => (
-              <CarsCard
-                t={t}
-                key={index}
-                index={index}
-                item={item}
-                handleCheckboxChange={handleCheckboxChange}
-                ids={ids?.map((item) => item?.guid)}
-                containerRef={null}
-              />
-            ))}
+            {!isFilter &&
+              data?.map((item, index) => (
+                <CarsCard
+                  t={t}
+                  key={index}
+                  index={index}
+                  item={item}
+                  handleCheckboxChange={handleCheckboxChange}
+                  ids={ids?.map((item) => item?.guid)}
+                  containerRef={null}
+                />
+              ))}
 
             {isPending ? (
               <Box
-                height={`5vh`}
+                height={data.length > 0 ? `6vh` : `4vh`}
+
                 display={`flex`}
                 justifyContent={`center`}
                 alignItems={`center`}
                 flexDirection={`column`}
                 // background={`red`}
-                // paddingTop={data?.length > 0 ? `10px` : `150px`}
+                paddingTop={data.length > 0 ? `0px` : `150px`}
               >
                 <LoadingSpinner />
               </Box>
             ) : (
               <Box
-                height={data?.length > 0 ? `5vh` : `60vh`}
+                height={data?.length > 0 ? `6vh` : `60vh`}
                 display={`flex`}
                 justifyContent={`center`}
                 alignItems={`center`}
@@ -244,20 +260,23 @@ export const SearchLoadDispatcherModule = () => {
               </Box>
             )}
           </Box>
-          <Box
-            position={`absolute`}
-            zIndex={`876543`}
-            bottom={`20px`}
-            left={`32px`}
-          >
-            <Button
-              isLoading={isPending}
-              onClick={addPage}
-              className={cls.btnLoad}
+          {value !== `val2` && (
+            <Box
+              position={`absolute`}
+              zIndex={`876543`}
+              bottom={`20px`}
+              left={`32px`}
             >
-              Загрузить еще 50
-            </Button>
-          </Box>
+              <Button
+                isLoading={isPending}
+                onClick={addPage}
+                className={cls.btnLoad}
+              >
+                Загрузить еще 50
+              </Button>
+            </Box>
+          )}
+
           <Flex
             className={cls.sticiy}
             alignItems={`center`}
@@ -266,7 +285,9 @@ export const SearchLoadDispatcherModule = () => {
             background={`white`}
           >
             <Flex gap={`50px`} className={cls.addUser}>
-              <p className={cls.addText}>{t(`Выбрано`)}: {ids?.length}</p>
+              <p className={cls.addText}>
+                {t(`Выбрано`)}: {ids?.length}
+              </p>
               <Button
                 isLoading={createAdressisPending}
                 onClick={onSubmit}

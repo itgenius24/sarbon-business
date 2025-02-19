@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@/utils/yupResolver";
 import { useCheckUser, useGetUserData, usePhoneMutation } from "@/services/api";
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 export const useRegistrationProps = () => {
   const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [nomer, setNomer] = useState();
   const locale = useGetLang();
@@ -74,10 +75,25 @@ export const useRegistrationProps = () => {
     setNomer(data.phone);
   }
 
+  const setType = (type) => {
+    router.push(`?type=${type}`);
+  };
+
+  const closeModal = () => {
+    setNomer(``)
+    setOpen(false)
+  }
+
   useEffect(() => {
-    if (useList?.count > 0) {
-      setOpen(true);
-    } else {
+    if (
+      useList?.response?.[0]?.role_id === "921464fa-8308-46b7-9b66-363acf654e40"
+    ) {
+      setOpen(`driver`);
+    } else if (
+      useList?.response?.[0]?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"
+    ) {
+      setOpen(`exspiditor`);
+    } else if (useList?.count === 0) {
       phoneMutation.mutate({
         recipient: nomer,
         text: "code",
@@ -98,5 +114,8 @@ export const useRegistrationProps = () => {
     setOpen,
     open,
     watch,
+    locale,
+    closeModal,
+    setType,
   };
 };

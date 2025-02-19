@@ -445,7 +445,7 @@ const StepFour = ({ status }) => {
               <Box mt={"40px"}>
                 <h2 className={cls.title}>
                   
-                {t(`Водители FURGO смогут предложить свою ставку`)}
+                {t(`Водители SARBON смогут предложить свою ставку`)}
                 </h2>
                 <p className={cls.subTitle2}>{t(`Можно предлагать`)}</p>
                 <Flex className={cls.checkWrap} mt={2} gap={"22px"}>

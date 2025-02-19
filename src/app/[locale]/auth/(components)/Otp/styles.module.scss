@@ -2,6 +2,12 @@
   color: var(--primary);
   font-weight: 400;
 }
+.otpWrap{
+  @media (max-width: 768px) {
+    width: 390px;
+    padding: 15px;
+  }
+}
 
 .container {
   display: flex;
@@ -64,12 +70,12 @@
 }
 
 .buttonWrapper {
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 @include lg {
   .buttonWrapper {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   .subtitle {

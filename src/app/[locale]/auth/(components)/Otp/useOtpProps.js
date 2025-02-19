@@ -56,21 +56,24 @@ export const useOtpProps = () => {
   });
 
   function onChange (value) {
+    if(value?.length === 6){
+      registrationMutation.mutate({
+        data:{
+          sms_id: smsId,
+          otp: value,
+          phone: phone,
+          client_type_id: "9bb1227a-0c90-4c70-bcee-b2563d32f7a0",
+          role_id: "48871d27-7361-4f69-8fe4-b54daf270739"
+        },
+        login_strategy: "PHONE_OTP"
+      });
+    }
     setValue(value);
     setError(false);
   }
 
   function handleSendOtp () {
-    registrationMutation.mutate({
-      data:{
-        sms_id: smsId,
-        otp: value,
-        phone: phone,
-        client_type_id: "9bb1227a-0c90-4c70-bcee-b2563d32f7a0",
-        role_id: "48871d27-7361-4f69-8fe4-b54daf270739"
-      },
-      login_strategy: "PHONE_OTP"
-    });
+  
   }
 
   const phoneMutation = usePhoneMutation({

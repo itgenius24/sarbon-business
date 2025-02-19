@@ -1,8 +1,8 @@
 import { Container as ChakraContainer } from "@chakra-ui/react";
 
-export const Container = ({ children, ...props }) => {
+export const ContainerNav = ({ children, ...props }) => {
 
-  return <ChakraContainer maxW="1258px" width="100%" {...props}>
+  return <ChakraContainer maxW="98%" width="100%" {...props}>
     {children}
   </ChakraContainer>;
 };

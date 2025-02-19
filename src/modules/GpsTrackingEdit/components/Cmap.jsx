@@ -19,6 +19,7 @@ import {
   GreenMapIcon,
   TelegramIcon,
   WatsapIcon,
+  RefeIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -134,6 +135,12 @@ const Cmap = memo(
       copy(contendHoverState?.users_id_data?.phone);
     });
 
+    const resetMap = () => {
+      if (mapRef.current) {
+        mapRef.current.setCenter(coordinates, 4);
+      }
+    };
+
     return (
       <Map
         instanceRef={mapRef}
@@ -158,6 +165,9 @@ const Cmap = memo(
           "control.ZoomControl",
         ]}
       >
+       <div onClick={resetMap} className={cls.backMap}>
+                <RefeIcon />
+              </div>
         <TypeSelector
           mapTypes={[
             "yandex#map",
@@ -181,8 +191,6 @@ const Cmap = memo(
             cornerRadius: "50%",
           }}
         />
-        {console.log(`type`, type)}
-
         <Clusterer
           // modules={["clusterer.addon.balloon", "clusterer.addon.hint"]}
           options={{

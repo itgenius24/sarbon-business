@@ -41,7 +41,7 @@ export default function ContactPage({ params }) {
           {/* directory?.email */}
           <ContactCard title={t("Локация")} desc={t("Локация нашего офиса")} type="location" content={`Богишамол, Дом 57.`} />
           {/* address */}
-          <ContactCard title={t("Колл-центр")} desc={t("Доступен 24/7")} type="phone" content={`+998941201212`} />  
+          <ContactCard title={t("Колл-центр")} desc={t("Доступен 24/7")} type="phone" content={`+998950056611`} />  
           {/* directory?.phone_number */}
         </Box>
       </Container>

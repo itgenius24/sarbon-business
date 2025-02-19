@@ -44,10 +44,9 @@ export const MyCarsDispatcherModule = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-
   return (
     <>
-      <Container my="40px">
+      <Container  maxW={`1444px`} my="40px">
         <Flex width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}
@@ -62,8 +61,7 @@ export const MyCarsDispatcherModule = () => {
                 {t(`Всего`)}: <span>{count?.count || 0}</span>
               </p>
               <p>
-                {t(`Свободных`)}:
-                <span>{count?.free_count || 0}</span>
+                {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
               </p>
             </Box>
             {isSuperDispatcher === "approved" && (
@@ -141,16 +139,19 @@ export const MyCarsDispatcherModule = () => {
                 deleteFuntion={deleteFuntion}
               />
             ))}
-          <Box mt={6} width={`fit-contend`}>
-            <Button
-              width={`fit-contend`}
-              isLoading={isPending}
-              onClick={addPage}
-              className={cls.btnLoad}
-            >
-              Загрузить еще 50
-            </Button>
-          </Box>
+          {data?.length > 50 && (
+            <Box mt={6} width={`fit-contend`}>
+              <Button
+                width={`fit-contend`}
+                isLoading={isPending}
+                onClick={addPage}
+                className={cls.btnLoad}
+              >
+                Загрузить еще 50
+              </Button>
+            </Box>
+          )}
+
           {/* {isPending ? (
             <Box pt={`20px`}>
               <LoadingSpinner />

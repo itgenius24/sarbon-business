@@ -28,10 +28,10 @@
   max-width: 100px;
   border-bottom: 1px solid rgba(0, 0, 0, 0);
 
-  // &:hover {
-  //   color: rgba(0, 122, 255, 1);
-  //   border-bottom: 1px solid rgba(0, 122, 255, 1);
-  // }
+  &:hover {
+    color: rgba(0, 122, 255, 1);
+    border-bottom: 1px solid rgba(0, 122, 255, 1);
+  }
 }
 
 .tinWrap {

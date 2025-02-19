@@ -20,6 +20,7 @@ const itemsService = {
   updateNoDriver: (data) => request.post("/v2/items/dispatcher_drivers", data),
   updateUser: (data) => request.put("/v2/items/users", data),
   createFeedback: (data) => request.post("/v2/items/review", data),
+  createLogHistory: (data) => request.post("/v2/items/log_history", data),
   createVehicle: (data) => request.post("/v2/items/vehicle", data),
   updateVehicle: (data) => request.put("/v2/items/vehicle", data),
   deleteVehicle: (data) => request.delete(`/v2/items/vehicle/${data.id}`, {data:JSON.stringify({data:{}})}),
@@ -32,6 +33,8 @@ const itemsService = {
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
+  getNote: (params) => request.get("/v2/object-slim/get-list/note", { params }),
+  updateNote: (data) => request.put(`/v2/items/note`, data),
   getDriverPosition: (params) => request.get("/v2/object-slim/get-list/gps_history", { params }),
   deleteOrder: (id) => request.delete(`/v2/items/order/${id}`,{data:JSON.stringify({data:{}})}),
 
@@ -44,6 +47,13 @@ export const useGetCargoList = ({params = { data: JSON.stringify({}) },querySett
   return useQuery({
     queryKey: ["object/getCargo", params],
     queryFn: () => itemsService.getCargo(params),...querySettings
+  });
+};
+
+export const useGetNoteList = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  return useQuery({
+    queryKey: ["object/getNote", params],
+    queryFn: () => itemsService.getNote(params),...querySettings
   });
 };
 
@@ -161,14 +171,24 @@ export const useUpdateNoDriver= (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateNoDriver(data), ...mutationSettings });
 };
 
+
+
 export const useUpdateUserData = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.updateUser2(data), ...mutationSettings });
+};
+
+export const useUpdateNoteData = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.updateNote(data), ...mutationSettings });
 };
 
 
 
 export const useCreateFeedback = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.createFeedback(data), ...mutationSettings });
+};
+
+export const useCreateLogHistory = (mutationSettings) => {
+  return useMutation({ mutationFn: (data) => itemsService.createLogHistory(data), ...mutationSettings });
 };
 
 export const useCreateVehicle = (mutationSettings) => {

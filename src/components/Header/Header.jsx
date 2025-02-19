@@ -16,6 +16,7 @@ import { LocaleDropdown } from "../LocaleDropdown";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import UserImg from "@/assets/images/user.png";
+import { ContainerNav } from "../container/Container";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -53,8 +54,8 @@ const Header = observer(({ elements }) => {
       borderBottom="1px solid"
       borderBottomColor="brand.200"
     >
-      <Container>
-        <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
+      <ContainerNav>
+        <Box  as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
               <Logo />
@@ -126,17 +127,17 @@ const Header = observer(({ elements }) => {
                       <Link
                         // className={clsx(cls.loginLink)}
                         className={clsx(cls.registerLink)}
-                        title={t("Войти")}
+                        title={t("Вход")}
                         href={`/${locale ? locale : `ru`}/auth`}
                       >
-                        {t("Войти")}
+                        {t("Вход")}
                       </Link>
                       <Link
                         className={clsx(cls.registerLink)}
-                        title={t("Зарегистрироваться")}
+                        title={t("Регистрация")}
                         href={`/${locale ? locale : `ru`}/auth/registration`}
                       >
-                        {t("Зарегистрироваться")}
+                        {t("Регистрация")}
                       </Link>
                     </>
                   )}
@@ -184,10 +185,10 @@ const Header = observer(({ elements }) => {
                   <Link
                     // className={clsx(cls.loginLink,cls.registerLinkMobile2)}
                     className={clsx(cls.registerLink, cls.registerLinkMobile)}
-                    title={t("Войти")}
+                    title={t("Вход")}
                     href={`/${locale}/auth`}
                   >
-                    {t("Войти")}
+                    {t("Вход")}
                   </Link>
                   <Link
                     className={clsx(
@@ -195,10 +196,10 @@ const Header = observer(({ elements }) => {
                       cls.registerLinkMobile,
                       cls.registerLinkMobileRes
                     )}
-                    title={t("Зарегистрироваться")}
+                    title={t("Регистрация")}
                     href={`/${locale}/auth/registration`}
                   >
-                    {t("Зарегистрироваться")}
+                    {t("Регистрация")}
                   </Link>
                 </Flex>
               )}
@@ -235,7 +236,7 @@ const Header = observer(({ elements }) => {
             </Flex>
           </Box>
         </Box>
-      </Container>
+      </ContainerNav>
     </Box>
   );
 });

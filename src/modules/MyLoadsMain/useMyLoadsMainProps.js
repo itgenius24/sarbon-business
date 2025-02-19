@@ -217,7 +217,7 @@ export const useMyLoadsMainProps = () => {
   });
 
   const getOfferCargo = useGetOffer(getCargoFilterParams, {
-    enabled: !!userId && !isCargo && hasMore,
+    enabled: Boolean(!!userId && !isCargo && hasMore),
     placeholderData: keepPreviousData,
   });
 
@@ -468,6 +468,7 @@ export const useMyLoadsMainProps = () => {
 
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
+
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
     setOrderStatus(value);
@@ -483,25 +484,30 @@ export const useMyLoadsMainProps = () => {
     setDebouncedLimit((prev) => prev + 6);
   }
 
+  console.log(`scroll`, document.scrollingElement)
+
   const handleScroll = () => {
-    console.log(`ref`, ref);
+
     if (ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
-
-      if (isVisible && hasMore) {
+  
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight; // 10px bufer
+  
+      if ((scrolledToBottom)) {
         setDebouncedLimit((prev) => prev + 6);
       }
     }
   };
-
+  
   useEffect(() => {
     document.addEventListener("scroll", handleScroll, { capture: true });
-
+  
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  
   useEffect(() => {
     if (
       cargosData.data?.count &&

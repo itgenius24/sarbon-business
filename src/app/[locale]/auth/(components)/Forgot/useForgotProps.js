@@ -69,9 +69,18 @@ export const useForgotProps = () => {
     },
   });
 
+
+  const closeModal = () => {
+    setNomer(``)
+    setOpen(false)
+  }
+
+  
+
   useEffect(() => {
-    if (useList?.count > 0) {
-      console.log("useList?.count", useList?.response[0]?.guid);
+
+
+    if (useList?.response?.[0]?.role_id && useList?.response?.[0]?.role_id !== "921464fa-8308-46b7-9b66-363acf654e40") {
       phoneMutation.mutate({
         recipient: nomer,
         text: "code",
@@ -79,7 +88,7 @@ export const useForgotProps = () => {
       });
       authStore.setAuthData("userId", useList?.response[0]?.guid);
 
-    } else if(useList?.count === 0) {
+    } else if( useList?.response?.[0]?.role_id && useList?.response?.[0]?.role_id === "921464fa-8308-46b7-9b66-363acf654e40") {
       setOpen(true);
     }
   }, [useList?.count]);
@@ -101,6 +110,7 @@ export const useForgotProps = () => {
     control,
     setOpen,
     open,
-    watch
+    watch,
+    closeModal
   };
 };

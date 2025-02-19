@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  useGetCargoPost,
-} from "@/services/api";
+import { useCreateLogHistory, useGetCargoPost } from "@/services/api";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
@@ -20,7 +18,7 @@ export const useSearchLoad = () => {
   const [dataResOld, setDataResOld] = useState([]);
   const [status2, setStatus2] = useState(false);
   const [page, setPage] = useState(1);
-  const [total,setTotal] = useState()
+  const [total, setTotal] = useState();
   const firm_id = authStore.userData.firm_id;
 
   const {
@@ -35,20 +33,32 @@ export const useSearchLoad = () => {
   const { mutate: getCargoPost, isPending: isPendingLo } = useGetCargoPost({
     onSuccess: (res) => {
       const data = res?.response;
-      setTotal(res?.count?.[0]?.totalCount)
-      if(status2){
+      setTotal(res?.count?.[0]?.totalCount);
+      if (status2) {
         setDataRes(data);
-        setDataResOld(data)
-      }else if(page > 1){
-        setDataRes((res) => [...res,...data])
-        setDataResOld((res) => [...res,...data]);
-      }else{
+        setDataResOld(data);
+      } else if (page > 1) {
+        setDataRes((res) => [...res, ...data]);
+        setDataResOld((res) => [...res, ...data]);
+      } else {
         setDataRes(data);
-        setDataResOld(data)
+        setDataResOld(data);
       }
       setStatus2(false);
     },
   });
+
+  const { mutate: logHistory } = useCreateLogHistory({});
+
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `search_cargo`,
+      },
+    });
+  }, []);
 
   const watchedValues = useWatch({
     control,
@@ -64,36 +74,38 @@ export const useSearchLoad = () => {
       "only_for_me",
     ],
   });
-  
+
   // `from` va `to` qiymatlarini debounce qilish (500ms kechikish)
   const [debouncedFrom] = useDebounce(watch(`from`), 300);
   const [debouncedTo] = useDebounce(watch(`to`), 300);
-  
-  const dataCargo = useMemo(() => ({
-    data: {
-      object_data: {
-        from: debouncedFrom || "",
-        to: debouncedTo || "",
-        prepayment: watch(`prepayment`) ? true : "",
-        spot: watch(`spot`) ? true : "",
-        in_spot: watch(`in_spot`) ? true : "",
-        vehicle_type_id: watch(`vehicle_type_id`)?.value ?  [watch(`vehicle_type_id`)?.value] : [],
-        min_volume: +watch(`min_volume`) || 0,
-        max_volume: +watch(`max_volume`) || 0,
-        min_weight: +watch(`min_weight`) || 0,
-        max_weight: +watch(`max_weight`) || 0,
-        only_for_me: watch(`only_for_me`) || 0,
-        firm_id,
-        page,
-        limit: 50,
+
+  const dataCargo = useMemo(
+    () => ({
+      data: {
+        object_data: {
+          from: debouncedFrom || "",
+          to: debouncedTo || "",
+          prepayment: watch(`prepayment`) ? true : "",
+          spot: watch(`spot`) ? true : "",
+          in_spot: watch(`in_spot`) ? true : "",
+          vehicle_type_id: watch(`vehicle_type_id`)?.value ?  [watch(`vehicle_type_id`)?.value] : [],
+          min_volume: +watch(`min_volume`) || 0,
+          max_volume: +watch(`max_volume`) || 0,
+          min_weight: +watch(`min_weight`) || 0,
+          max_weight: +watch(`max_weight`) || 0,
+          only_for_me: watch(`only_for_me`) || 0,
+          firm_id,
+          page,
+          limit: 50,
+        },
       },
-    },
-  }), [debouncedFrom, debouncedTo, watchedValues, firm_id, page]);
-  
+    }),
+    [debouncedFrom, debouncedTo, watchedValues, firm_id, page]
+  );
+
   useEffect(() => {
     getCargoPost(dataCargo);
   }, [dataCargo]);
-
 
   const onSubmit = () => {
     const dataCargo = {
@@ -138,6 +150,6 @@ export const useSearchLoad = () => {
     page,
     isPendingLo,
     onSubmit,
-    total
+    total,
   };
 };

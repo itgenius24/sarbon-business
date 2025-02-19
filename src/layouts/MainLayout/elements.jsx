@@ -186,32 +186,32 @@ export const useElements = (lang) => {
     ];
   } else {
     return [
-      {
-        path: `/${lang || "ru"}/`,
-        label: "Главный",
-      },
-      {
-        path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
-        label: "Добавить груз",
-      },
-      {
-        path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
-        label: "Мои грузы",
-      },
-      {
-        path: `/${lang || "ru"}/distance-calculation`,
-        label: "Расчет расстояний",
-      },
+      // {
+      //   path: `/${lang || "ru"}/`,
+      //   label: "Главный",
+      // },
+      // {
+      //   path: isAuth ? `/${lang || "ru"}/add-cargo` : `/${lang || "ru"}/auth`,
+      //   label: "Добавить груз",
+      // },
+      // {
+      //   path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
+      //   label: "Мои грузы",
+      // },
+      // {
+      //   path: `/${lang || "ru"}/distance-calculation`,
+      //   label: "Расчет расстояний",
+      // },
       // {
       //   path: `/${lang || "ru"}/search-car`,
       //   label: "Поиск машин",
       // },
-      {
-        path: isAuth
-          ? `/${lang || "ru"}/gps-tracking`
-          : `/${lang || "ru"}/auth`,
-        label: "GPS tracking",
-      },
+      // {
+      //   path: isAuth
+      //     ? `/${lang || "ru"}/gps-tracking`
+      //     : `/${lang || "ru"}/auth`,
+      //   label: "GPS tracking",
+      // },
     ];
   }
 };

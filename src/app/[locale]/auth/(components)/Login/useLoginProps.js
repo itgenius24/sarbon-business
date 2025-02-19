@@ -21,6 +21,7 @@ export const useLoginProps = () => {
   const analiticTypeId = process.env.NEXT_PUBLIC_ANALITIK_TYPE_ID;
 
   const [remember, setRemember] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const defaultUserData = localStorage.getItem("loginData")
     ? JSON.parse(localStorage.getItem("loginData")).username
@@ -77,7 +78,11 @@ export const useLoginProps = () => {
       const clientTypeId =
         data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
           ?.client_types?.response?.[0]?.guid;
-    
+      console.log(
+        `salom`,
+        data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
+          ?.client_types?.response?.[0]
+      );
       if (
         clientTypeId === customerTypeId ||
         clientTypeId === expeditorTypeId ||
@@ -93,6 +98,12 @@ export const useLoginProps = () => {
           client_type: clientTypeId,
           environment_ids: ["11b59b25-8772-456a-84e1-20bdfdd32506"],
         });
+      } else if (
+        data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
+          ?.client_types?.response?.[0]?.guid ===
+        "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5"
+      ) {
+        setOpen(true);
       } else {
         toast({
           title: t("Этот пользователь не заказчик"),
@@ -134,12 +145,13 @@ export const useLoginProps = () => {
     errors,
     onSubmit,
     navigateRegistration,
-    isPending: loginOne.isPending || login.isPending,
+    isPending: loginOne.isLoading || login.isLoading,
     onRememberChange,
     t,
     handleTogglePasswordVisibility,
     isPasswordVisible,
     navigateToMain,
     locale,
+    open,setOpen
   };
 };

@@ -1,0 +1,368 @@
+.sliderWrap {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(242, 242, 242, 1);
+  position: relative;
+  transition: all 1s ease-in-out;
+
+
+  .prev {
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+    top: 45%;
+    left: 59px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  .next {
+    position: absolute;
+    opacity: 0;
+
+    z-index: 1;
+    top: 45%;
+    right: 59px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  
+
+  &:hover {
+    .prev {
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
+    }
+    .next {
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  @media (max-width: 1700px) {
+    .prev {
+      left: 30px;
+    }
+    .next {
+      right: 30px;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .prev {
+      display: none !important;
+    }
+    .next {
+      display: none !important;
+    }
+  }
+}
+
+.sliderCardWrap {
+  width: 100%;
+  height: 1000%;
+  background-color: rgba(242, 242, 242, 1);
+  position: relative;
+  .cardWrap {
+    width: 100%;
+    height: 528px;
+    justify-content: space-between;
+    align-items: center;
+    // background-color: red;
+    .cardLeft {
+      width: 50%;
+      display: flex;
+      //   padding: 100px;
+      flex-direction: column;
+      .cardTitle {
+        font-weight: 700;
+        font-size: 44px;
+        line-height: 44px;
+        letter-spacing: 0%;
+        color: rgba(33, 31, 38, 1);
+      }
+      .cardDeck {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0%;
+        margin-top: 33px;
+        color: rgba(33, 31, 38, 1);
+
+        // width: 80%;
+      }
+    }
+    .cardRight {
+      padding-left: 40px;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      //   background-color: red
+      .statist1 {
+        position: absolute !important;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
+        padding: 16px 26px 15px 15px;
+        top: 100px;
+        right: 100px;
+      }
+      .statist2 {
+        position: absolute !important;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
+        padding: 16px 26px 15px 15px;
+        top: 205px;
+        right: 10px;
+        z-index: 1;
+      }
+      .statist3 {
+        position: absolute !important;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 5px 16px 20px 0px rgba(14, 15, 28, 0.12);
+        padding: 16px 26px 15px 15px;
+        bottom: 145px;
+        right: -40px;
+        z-index: 1;
+      }
+      .title {
+        font-weight: 900;
+        font-size: 16px;
+        line-height: 20px;
+        color: rgba(63, 74, 91, 1);
+      }
+      .subTitle {
+        font-weight: 600;
+        font-size: 14px;
+        color: rgba(63, 74, 91, 1);
+      }
+    }
+
+    @media (max-width: 800px) {
+      height: 450px !important;
+
+      .cardLeft {
+        width: 100%;
+        .cardTitle {
+          font-size: 40px;
+          line-height: 38px;
+        }
+      }
+      .cardRight {
+        display: none;
+      }
+    }
+  }
+}
+.sliderCardWrap2 {
+  background-color: rgba(38, 189, 73, 1);
+  .cardTitle {
+    color: white !important;
+    line-height: 52px !important;
+  }
+}
+
+.questionPage {
+  width: 100%;
+  padding-top: 90px;
+  padding-bottom: 90px;
+  background-color: white;
+  .questionTitle {
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 55px;
+    letter-spacing: 0%;
+    color: rgba(33, 31, 38, 1);
+
+    text-align: center;
+  }
+  .cardWrapQuestion {
+    margin-top: 62px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 54px;
+    .card {
+      width: 100%;
+      flex-grow: 2;
+      .cartTitle {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 26px;
+        letter-spacing: -2%;
+        margin-top: 29px;
+        color: rgba(33, 31, 38, 1);
+      }
+      .cartDeck {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 22px;
+        letter-spacing: 0%;
+        margin-top: 10px;
+        color: rgba(140, 144, 148, 1);
+        padding-bottom: 29px;
+      }
+      .imgWrap {
+        overflow: hidden;
+        transition: 0.5s;
+      .image{
+
+            transition: 0.5s;
+      }
+        &:hover {
+          .image {
+            transform: scale(1.1);
+            transition: 0.5s;
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 800px) {
+    .cardWrapQuestion {
+      grid-template-columns: repeat(1, 1fr);
+    }
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}
+
+.biznesPage {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding-bottom: 110px;
+  gap: 98px;
+  .bgPage {
+    width: 45%;
+    height: 628px;
+    position: relative;
+    border-top-right-radius: 100px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 50% 100%;
+    background-image: url(../../../../assets//images/man2.jpg);
+    .contendTetx {
+      background-color: rgba(0, 51, 153, 1);
+      width: 50%;
+      padding: 52px 49px;
+      position: absolute;
+      right: 0;
+      bottom: 40px;
+      h2 {
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 36px;
+        letter-spacing: -2%;
+        color: white;
+      }
+    }
+  }
+  .rightConten {
+    width: 35.5%;
+    .rightContenTitle {
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 55px;
+      letter-spacing: -2%;
+      color: rgba(33, 31, 38, 1);
+    }
+    .rightContenCard {
+      padding: 26px 32px;
+      border-radius: 5px;
+      background-color: rgba(242, 246, 252, 1);
+      align-items: center;
+      gap: 34px;
+      transition: 0.5s;
+      height: 119px;
+   
+
+      .textCard {
+        h5 {
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 26px;
+          letter-spacing: -2%;
+          color: rgba(33, 31, 38, 1);
+        }
+        p {
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 22px;
+          letter-spacing: 0%;
+          color: rgba(33, 31, 38, 1);
+          margin-top: 5px;
+        }
+      }
+
+      &:hover {
+        transform: scale(1.05);
+        transition: 0.5s;
+      }
+      @media (max-width: 800px) {
+      height: 150px;
+      padding: 16px 22px;
+
+      }
+    }
+  }
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    gap: 58px;
+
+    .bgPage {
+      width: 100%;
+      height: 428px;
+      border-top-right-radius: 60px;
+      background-size: cover;
+      background-position: 50%;
+      .contendTetx {
+        display: block;
+        width: 100%;
+        padding: 20px;
+      }
+    }
+    .rightConten {
+      width: 93%;
+    }
+  }
+}
+
+.bottomPage {
+  width: 100%;
+  background-color: rgba(38, 189, 73, 1);
+  padding: 35px 0px;
+
+  .titleBottom {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 38px;
+    letter-spacing: 0%;
+    color: white;
+  }
+  .deckBottom {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    color: white;
+  }
+  .btnBottom {
+    background-color: white !important;
+    color: rgba(38, 189, 73, 1);
+    width: fit-content;
+  }
+  @media (max-width:800px) {
+    .bottomPageFlex{
+         flex-direction: column;
+         justify-content:flex-start;
+         align-items: flex-start;
+         row-gap: 20px;
+    }
+  }
+ 
+}
