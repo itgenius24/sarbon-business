@@ -122,10 +122,10 @@ const MainPage = ({locale}) => {
     <>
       <article>
         <Box className={cls.sliderWrap}>
-          <Box onClick={() => previous() } className={cls.prev}>
+          <Box as="button" onClick={() => previous() } className={cls.prev}>
             <PrevIconMain />
           </Box>
-          <Box onClick={() => next() } className={cls.next}>
+          <Box as="button"  onClick={() => next() } className={cls.next}>
             <NextIconMain />
           </Box>
           <Slider
