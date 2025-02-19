@@ -85,7 +85,6 @@ export const useSearchLoadDispatcher = () => {
 
   const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
-
       if (res?.response?.length) {
         setRefe(false);
         setIsfilter(false)
@@ -112,6 +111,12 @@ export const useSearchLoadDispatcher = () => {
         }
       }
     },
+    onError:() => {
+      setRefe(true)
+      setData([]);
+      setOldData([]);
+      setPage(0);
+    }
   });
 
   useEffect(() => {

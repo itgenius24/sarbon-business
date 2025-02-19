@@ -484,17 +484,15 @@ export const useMyLoadsMainProps = () => {
     setDebouncedLimit((prev) => prev + 6);
   }
 
-  console.log(`scroll`, document.scrollingElement)
 
   const handleScroll = () => {
 
     if (ref.current) {
       const isVisible = isVisibleInViewport(ref.current);
   
-      const scrolledToBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight; // 10px bufer
+
   
-      if ((scrolledToBottom)) {
+      if (Math.abs(document.documentElement.scrollHeight-window.pageYOffset) === window.innerHeight ) {
         setDebouncedLimit((prev) => prev + 6);
       }
     }
