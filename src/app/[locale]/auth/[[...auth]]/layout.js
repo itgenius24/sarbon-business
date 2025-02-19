@@ -6,9 +6,7 @@ import { InfoBox } from "../(components)/InfoBox";
 import React from "react";
 import { Logo } from "../../../../components/Logo/Logo";
 import { LocaleDropdown } from "@/components/LocaleDropdown";
-import { Container } from "@/components/Container";
 import { ContainerNav } from "@/components/container/Container";
-import { useSearchParams } from "next/navigation";
 
 export default function AuthLayout({ children, params: { locale, auth } }) {
   const isRegisterForm = auth?.[0];
@@ -33,7 +31,10 @@ export default function AuthLayout({ children, params: { locale, auth } }) {
                   justifyContent="space-between"
                   alignItems={`center`}
                 >
-                  <Logo width={134} height={134} />
+                  <Logo
+                    width={isLargerThan845 ? 134 : 150}
+                    height={isLargerThan845 ? 134 : 150}
+                  />
 
                   <LocaleDropdown locale={locale} />
                 </Box>
@@ -49,6 +50,7 @@ export default function AuthLayout({ children, params: { locale, auth } }) {
             >
               <div className={cls.formWrapper}>{children}</div>
             </Box>
+
           </Box>
           <Box className={cls.imgWrap} height={`100%`} width={`50%`}>
             <InfoBox />

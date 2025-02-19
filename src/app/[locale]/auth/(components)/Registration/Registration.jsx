@@ -189,10 +189,10 @@ export const Registration = () => {
                     возможностью отслеживания обратитесь к нам по номеру:
                   </p>
 
-                  <a href={`tel:+998974140180`}>
+                  <a href={`tel:+998950056611`}>
                     <Flex className={cls.phone}>
                       <PhoneIconRigister />
-                      +998 97 414 0180
+                      +998 95 005 66 11
                     </Flex>
                   </a>
                 </Box>

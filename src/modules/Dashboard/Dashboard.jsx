@@ -40,7 +40,6 @@ import SimpleLoader from "@/components/Loaders/SimpleLoader";
 import { formatNumber } from "@/utils/formatNumber";
 import { ContainerAnalitik } from "@/components/ContainerAnalitik/Container";
 
-const notificationSound = "/mixkit-magic-notification-ring-2344.mp3";
 
 ChartJS.register(
   CategoryScale,
@@ -82,16 +81,16 @@ const Dashboard = ({ locale }) => {
     editFn,
   } = useDashboard(locale);
 
-  const notificationFn = () => {
-    Notification.requestPermission();
-    const audio = new Audio(notificationSound); // O'zingizga kerakli audio fayl yo'lini kiriting
-    audio.play();
-    new Notification("Xabaringiz bor!", {
-      body: "Sizga yangi xabar keldi. Iltimos tekshiring!",
-      icon: "/custom-icon.png", // Maxsus ikonka
-      vibrate: [200, 100, 200], // Vibration (mobil qurilmalar uchun)
-    });
-  };
+  // const notificationFn = () => {
+  //   Notification.requestPermission();
+  //   const audio = new Audio(notificationSound); // O'zingizga kerakli audio fayl yo'lini kiriting
+  //   audio.play();
+  //   new Notification("Xabaringiz bor!", {
+  //     body: "Sizga yangi xabar keldi. Iltimos tekshiring!",
+  //     icon: "/custom-icon.png", // Maxsus ikonka
+  //     vibrate: [200, 100, 200], // Vibration (mobil qurilmalar uchun)
+  //   });
+  // };
 
   return (
     <>

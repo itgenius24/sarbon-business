@@ -21,6 +21,7 @@ export const useSearchLoadDispatcher = () => {
   const locale = useGetLang();
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+  const [counFree, setCountFree] = useState(0);
   const [oldData, setOldData] = useState([]);
   const [filter1, setFilter1] = useState(0);
   const [filter2, setFilter2] = useState(false);
@@ -30,7 +31,7 @@ export const useSearchLoadDispatcher = () => {
   const [filter6, setFilter6] = useState(false);
   const [search, setSearch] = useState(``);
   const [debouncedValue] = useDebounce2(search, 500);
-
+  const [isFilter,setIsfilter] = useState(false)
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
   const [refe, setRefe] = useState(false);
@@ -45,6 +46,8 @@ export const useSearchLoadDispatcher = () => {
   const userData = authStore.userData;
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
+  const [negotiableOption, setNegotiableOption] = useState([]);
+
   const {
     handleSubmit,
     control,
@@ -56,20 +59,38 @@ export const useSearchLoadDispatcher = () => {
   } = useForm({});
   const [value, setValueR] = useState(`val1`);
 
-  const negotiableOption = [
-    {
-      value: `val1`,
-      label: t(`Отображать все`) + ` ${count}`,
-    },
+  const dispatcher_type = authStore?.userData?.dispatcher_type;
 
-  ];
+  useEffect(() => {
+    if (dispatcher_type?.[0] === `top_dispatcher`) {
+      setNegotiableOption([
+        {
+          value: `val1`,
+          label: t(`Отображать все`) + ` ${count}`,
+        },
+        {
+          value: `val2`,
+          label: t(`Только свободные`) + ` ${counFree}`,
+        },
+      ]);
+    }else{
+      setNegotiableOption([
+        {
+          value: `val2`,
+          label: t(`Только свободные`) + ` ${counFree}`,
+        },
+      ]);
+    }
+  }, [count]);
 
-  const { mutate, isPending } = useGetCar({
+  const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
-  
+
       if (res?.response?.length) {
         setRefe(false);
+        setIsfilter(false)
         setCount(res?.count?.totalCount);
+        setCountFree(res?.FreeCount?.totalCount)
         const vehicles = [{ trailer_type: t(`Без трейлера`) }];
         const filteredData = res?.response.map((item) => ({
           ...item,
@@ -82,11 +103,10 @@ export const useSearchLoadDispatcher = () => {
         const uniqueData = filteredData.filter(
           (item) => !oldData.some((stateItem) => stateItem?.guid === item?.guid)
         );
-
-        if(debouncedValue){
+        if (debouncedValue) {
           setData(uniqueData);
           setOldData(uniqueData);
-        }else{
+        } else {
           setData((prev) => [...prev, ...uniqueData]);
           setOldData((prev) => [...prev, ...uniqueData]);
         }
@@ -100,35 +120,14 @@ export const useSearchLoadDispatcher = () => {
         object_data: {
           page: debouncedValue?.length > 0 ? 0 : page,
           search: debouncedValue,
-          limit: debouncedValue?.length > 0 ? 1000 : limit,
+          limit: debouncedValue?.length > 0 || value === `val2` ? 1000 : limit,
           firm_id: ``,
+          only_free: value === `val2` ? true : false,
         },
       },
     };
     mutate(data);
-  }, [page, refe, debouncedValue?.length]);
-
-  const setDebouncedLimit = useDebounce(setPage, 250);
-
-  const handleScroll = () => {
-    if (!isPending) {
-      if (containerRef.current) {
-        const isVisible = isVisibleInViewport(containerRef.current);
-
-        if (isVisible) {
-          setDebouncedLimit((res) => res + 1);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("scroll", handleScroll, { capture: true });
-
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  }, [page, refe, debouncedValue?.length, value]);
 
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));
@@ -136,10 +135,9 @@ export const useSearchLoadDispatcher = () => {
     setData([]);
     setOldData([]);
     setPage(0);
+    setIsfilter(true)
     // }
   };
-
-
 
   const addPage = () => {
     setPage(page + 1);
@@ -153,7 +151,7 @@ export const useSearchLoadDispatcher = () => {
   const nameFilter = () => {
     setFilter1((prevFilter) => {
       const newFilter = prevFilter >= 2 ? 0 : prevFilter + 1;
-  
+
       const sortedData = [...data].sort((a, b) => {
         if (newFilter === 1) {
           return a.full_name.localeCompare(b.full_name);
@@ -163,17 +161,16 @@ export const useSearchLoadDispatcher = () => {
         return 0; // 0 bo'lsa tartib o'zgarmaydi
       });
 
-      if(newFilter === 0) {
+      if (newFilter === 0) {
         setData(oldData);
-      }else{
+      } else {
         setData(sortedData);
       }
-  
+
       // setData(sortedData);
       return newFilter;
     });
   };
- 
 
   const nameFilterMawini = () => {
     setFilter2(!filter2);
@@ -315,6 +312,10 @@ export const useSearchLoadDispatcher = () => {
 
   const onChange = (e) => {
     setValueR(e);
+    setData([]);
+    setOldData([]);
+    setPage(0);
+    setIsfilter(true)
   };
 
   return {
@@ -333,7 +334,7 @@ export const useSearchLoadDispatcher = () => {
     data: data,
     ids,
     addPage,
-    isPending,
+    isPending: isLoading,
     nameFilter,
     nameFilterMawini,
     nameFilterMawiniNomer,
@@ -353,5 +354,6 @@ export const useSearchLoadDispatcher = () => {
     setSearchFn,
     containerRef,
     count,
+    isFilter
   };
 };

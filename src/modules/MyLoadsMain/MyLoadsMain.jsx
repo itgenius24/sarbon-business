@@ -95,7 +95,7 @@ export const MyLoadsMain = () => {
 
   return (
     <Box px={"20px"} py="24px">
-      <Container>
+      <Container maxW={`1444px`}>
         <Flex alignItems={`center`} justifyContent={`space-between`}>
           <Heading
             p={3}
@@ -175,6 +175,7 @@ export const MyLoadsMain = () => {
                       dataPred={dataPred}
                       open={open}
                       setOpen={setOpen}
+                      ref={ref}
                     />
                   );
                 })}
@@ -212,7 +213,7 @@ export const MyLoadsMain = () => {
             })
           )}
           {!cargos?.length && !isLoading && <Empty t={t} />}
-          {isLoading && <LoadingSpinner />}
+          {/* {isLoading && <LoadingSpinner />} */}
         </Box>
       </Container>
       <Modal size={`xl`} isOpen={open} onClose={() => setOpen(null)}>
