@@ -68,7 +68,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
       <Box pt={isLargerThan1190 ? "48px" : "10px"} >
         <NavigationWrap cls={cls} addCargoProps={addCargoProps} clsx={clsx} />
-        <Container maxW={`1432px`} height="100%">
+        <Container  height="100%">
           <Box
             className={cls.contentWrapper}
             as="article"

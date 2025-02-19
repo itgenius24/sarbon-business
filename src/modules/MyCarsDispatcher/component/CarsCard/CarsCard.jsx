@@ -32,7 +32,7 @@ import { forwardRef } from "react";
 export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef,t }) => {
   const router = useRouter();
   const locale = useGetLang();
-console.log(`salom`,item?.order_data && item.order_data )
+
 
   return (
     <Flex
@@ -88,7 +88,7 @@ console.log(`salom`,item?.order_data && item.order_data )
       </Box>
       <Box className={`${cls.contend} ${cls.contend3}`}>
         <p className={cls.title}>
-          {item?.vehicle_data?.trailer_type_id_data?.[`name_${locale}`] ? item?.vehicle_data?.trailer_type_id_data?.[`name_${locale}`] : item?.vehicle_data?.trailer_type_id_data?.name }
+          {item?.trailer_type_id_data?.[`name_${locale}`] ? item?.trailer_type_id_data?.[`name_${locale}`] : item?.trailer_type_id_data?.name }
         </p>
 
         <Flex>
