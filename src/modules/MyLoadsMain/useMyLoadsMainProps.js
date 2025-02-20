@@ -27,7 +27,6 @@ const predlojeniya = "/predlojeniya.mp3";
 const vispolneniya = "/vispolneniya.mp3";
 const zavishon = "/zavishon.mp3";
 
-
 export const useMyLoadsMainProps = () => {
   const [open, setOpen] = useState(false);
   const params = useSearchParams();
@@ -53,8 +52,6 @@ export const useMyLoadsMainProps = () => {
 
   const [hasMore, setHasMore] = useState(true);
   const [limit, setLimit] = useState(40);
-
-
 
   const goodComment = [
     {
@@ -131,22 +128,24 @@ export const useMyLoadsMainProps = () => {
     },
   });
 
-  const {mutate} = useUpdateNoteData()
+  const { mutate } = useUpdateNoteData();
 
-  const { data:notification, isFetching } = useGetNoteList({
+  const { data: notification, isFetching } = useGetNoteList({
     params: {
       data: JSON.stringify({
         users_id_2: authStore.userData?.guid,
         views: false,
-        with_relations: true
+        with_relations: true,
       }),
     },
     querySettings: {
       enabled: Boolean(
-        authStore.userData?.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && pathname.includes(`my-loads`)
-      ), 
+        authStore.userData?.role_id ===
+          "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+          pathname.includes(`my-loads`)
+      ),
       onSuccess: (res) => {
-        if(res.response?.length > 0){
+        if (res.response?.length > 0) {
           notificationFn(res);
         }
       },
@@ -154,7 +153,6 @@ export const useMyLoadsMainProps = () => {
     },
   });
 
- 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
       setAccept(true);
@@ -282,16 +280,14 @@ export const useMyLoadsMainProps = () => {
 
   const notificationFn = (res) => {
     mutate({
-      data:{
+      data: {
         views: true,
-        guid:res?.response?.[0]?.guid
-      }
-    })
-  
-    let audioUrl = ``;
+        guid: res?.response?.[0]?.guid,
+      },
+    });
+
     Notification.requestPermission();
-    if(res?.response?.[0]?.type === "предложение"){
-      audioUrl = predlojeniya;
+    if (res?.response?.[0]?.type === "предложение") {
       getNewPred.mutate({
         data: {
           object_data: {
@@ -299,24 +295,48 @@ export const useMyLoadsMainProps = () => {
           },
         },
       });
-    }else if(res?.response?.[0]?.type === "в исполнении"){
-      audioUrl = vispolneniya;
-      getOfferCargo.refetch()
-    } else  if(res?.response?.[0]?.type === "завершенный"){
-      audioUrl = zavishon;
-      getOfferCargo.refetch()
+      const audio = new Audio(predlojeniya);
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    } else if (res?.response?.[0]?.type === "в исполнении") {
+      getOfferCargo.refetch();
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+      const audio = new Audio(vispolneniya);
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    } else if (res?.response?.[0]?.type === "завершенный") {
+      getOfferCargo.refetch();
+      const audio = new Audio(zavishon);
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+      
     }
-
-    const audio = new Audio(audioUrl); 
-    audio.play();
-    new Notification(res?.response?.[0]?.title, {
-      body: res?.response?.[0]?.notification,
-      icon: "/custom-icon.png", 
-      vibrate: [200, 100, 200], 
-    });
   };
-
- 
 
   useEffect(() => {
     if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
@@ -552,8 +572,6 @@ export const useMyLoadsMainProps = () => {
     setDebouncedLimit((prev) => prev + 40);
   }
 
- 
-
   useEffect(() => {
     if (
       cargosData.data?.count &&
@@ -609,6 +627,6 @@ export const useMyLoadsMainProps = () => {
     hoverRating,
     setHoverRating,
     onSubmit,
-    addPage:handleLoadMore,
+    addPage: handleLoadMore,
   };
 };

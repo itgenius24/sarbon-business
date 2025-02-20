@@ -66,7 +66,7 @@ export const Registration = () => {
             }
             onChange={(e) => setType(e)}
           >
-            <TabList className={cls.tabWrap}>
+            <TabList borderBottom={`0px`} className={cls.tabWrap}>
               <Tab
                 className={cls.btn}
                 color={`rgba(126, 123, 134, 1)`}
