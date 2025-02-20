@@ -150,7 +150,7 @@ export const useMyLoadsMainProps = () => {
           notificationFn(res);
         }
       },
-      refetchInterval: 30000,
+      refetchInterval: 10000,
     },
   });
 

@@ -155,7 +155,7 @@ export const Performed = forwardRef(
                 <p className={styles.rightTitle}>
                   {t(`Предоплата`)}:
                   {cargo?.payment_type?.[0] === "prepayment"
-                    ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code}`
+                    ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code || ``}`
                     : `Нет`}
                 </p>
               </div>

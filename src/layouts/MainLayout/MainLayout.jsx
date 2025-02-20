@@ -44,7 +44,7 @@ export const MainLayout = ({ locale, children }) => {
           notificationFn(res);
         }
       },
-      refetchInterval: 30000,
+      refetchInterval: 10000,
     },
   });
 
