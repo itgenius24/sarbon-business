@@ -204,7 +204,7 @@ export const MyLoadsMain = () => {
           )}
           {!cargos?.length && !isLoading && <Empty t={t} />}
           {isLoading && <LoadingSpinner />}
-          {cargos?.length > 0 && (
+          {cargos?.length >= 40 && (
             <Box width={`fit-content`}>
               <Button
                 isLoading={isLoading}
