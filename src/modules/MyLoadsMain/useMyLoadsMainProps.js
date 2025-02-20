@@ -4,22 +4,29 @@ import {
   useDeleteCargo,
   useGetExcelPost,
   useGetNewPred,
+  useGetNoteList,
   useGetOffer,
+  useGetOfferCount,
   useGetUserCargo,
   usePushNotificationMutation,
   useUpdateNoDriver,
+  useUpdateNoteData,
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { keyframes, useToast } from "@chakra-ui/react";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import useDebounce from "@/hooks/useDebounce";
-import { keepPreviousData } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
+import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { boolean, object } from "yup";
 import { useForm } from "react-hook-form";
 import { set } from "date-fns";
 import { useTranslation } from "react-i18next";
+const predlojeniya = "/predlojeniya.mp3";
+const vispolneniya = "/vispolneniya.mp3";
+const zavishon = "/zavishon.mp3";
+
 
 export const useMyLoadsMainProps = () => {
   const [open, setOpen] = useState(false);
@@ -34,6 +41,8 @@ export const useMyLoadsMainProps = () => {
   const { register, watch, setValue } = useForm();
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   const [data, setData] = useState([]);
   const [dataDis, setDataDis] = useState([]);
@@ -44,6 +53,8 @@ export const useMyLoadsMainProps = () => {
 
   const [hasMore, setHasMore] = useState(true);
   const [limit, setLimit] = useState(40);
+
+
 
   const goodComment = [
     {
@@ -96,6 +107,54 @@ export const useMyLoadsMainProps = () => {
     );
   };
 
+  const getNewPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setData(data);
+      setAccept(false);
+    },
+  });
+
+  const getNoDisPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setDataDis(data);
+      setAccept(false);
+    },
+  });
+
+  const {mutate} = useUpdateNoteData()
+
+  const { data:notification, isFetching } = useGetNoteList({
+    params: {
+      data: JSON.stringify({
+        users_id_2: authStore.userData?.guid,
+        views: false,
+        with_relations: true
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(
+        authStore.userData?.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && pathname.includes(`my-loads`)
+      ), 
+      onSuccess: (res) => {
+        if(res.response?.length > 0){
+          notificationFn(res);
+        }
+      },
+      refetchInterval: 30000,
+    },
+  });
+
+ 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
       setAccept(true);
@@ -221,29 +280,43 @@ export const useMyLoadsMainProps = () => {
     placeholderData: keepPreviousData,
   });
 
-  const getNewPred = useGetNewPred({
-    onSuccess: (res) => {
-      const data = res?.response?.[0]?.order?.map((item) => ({
-        ...item,
-        users_id_data: item.users_id_data?.[0],
-        users_id_2_data: item?.users_id_2_data?.[0],
-      }));
-      setData(data);
-      setAccept(false);
-    },
-  });
+  const notificationFn = (res) => {
+    mutate({
+      data:{
+        views: true,
+        guid:res?.response?.[0]?.guid
+      }
+    })
+  
+    let audioUrl = ``;
+    Notification.requestPermission();
+    if(res?.response?.[0]?.type === "предложение"){
+      audioUrl = predlojeniya;
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+    }else if(res?.response?.[0]?.type === "в исполнении"){
+      audioUrl = vispolneniya;
+      getOfferCargo.refetch()
+    } else  if(res?.response?.[0]?.type === "завершенный"){
+      audioUrl = zavishon;
+      getOfferCargo.refetch()
+    }
 
-  const getNoDisPred = useGetNewPred({
-    onSuccess: (res) => {
-      const data = res?.response?.[0]?.order?.map((item) => ({
-        ...item,
-        users_id_data: item.users_id_data?.[0],
-        users_id_2_data: item?.users_id_2_data?.[0],
-      }));
-      setDataDis(data);
-      setAccept(false);
-    },
-  });
+    const audio = new Audio(audioUrl); 
+    audio.play();
+    new Notification(res?.response?.[0]?.title, {
+      body: res?.response?.[0]?.notification,
+      icon: "/custom-icon.png", 
+      vibrate: [200, 100, 200], 
+    });
+  };
+
+ 
 
   useEffect(() => {
     if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
@@ -272,7 +345,7 @@ export const useMyLoadsMainProps = () => {
     });
   }, [Boolean(orderStatus === `no_dispatcher`), accept]);
 
-  const getOfferCount = useGetOffer(
+  const getOfferCount = useGetOfferCount(
     {
       limit,
       offset: 0,

@@ -11,8 +11,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useGetNoteList, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
-
-const notificationSound = "/new.mp3";
+const predlojeniya = "/predlojeniya.mp3";
+const vispolneniya = "/vispolneniya.mp3";
+const zavishon = "/zavishon.mp3";
 
 export const MainLayout = ({ locale, children }) => {
   const elements = useElements(locale);
@@ -20,6 +21,7 @@ export const MainLayout = ({ locale, children }) => {
  
 
   const pathname = usePathname();
+
 
 
 
@@ -35,7 +37,7 @@ export const MainLayout = ({ locale, children }) => {
     },
     querySettings: {
       enabled: Boolean(
-        authStore.userData?.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+        authStore.userData?.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !pathname.includes(`my-loads`)
       ), 
       onSuccess: (res) => {
         if(res.response?.length > 0){
@@ -47,21 +49,32 @@ export const MainLayout = ({ locale, children }) => {
   });
 
   const notificationFn = (res) => {
-    // mutate({
-    //   data:{
-    //     views: true,
-    //     guid:res?.response?.[0]?.guid
-    //   }
-    // })
+    mutate({
+      data:{
+        views: true,
+        guid:res?.response?.[0]?.guid
+      }
+    })
+  
+    let audioUrl = ``;
     Notification.requestPermission();
-    const audio = new Audio(notificationSound); // O'zingizga kerakli audio fayl yo'lini kiriting
+    if(res?.response?.[0]?.type === "предложение"){
+      audioUrl = predlojeniya;
+    }else if(res?.response?.[0]?.type === "в исполнении"){
+      audioUrl = vispolneniya;
+    } else  if(res?.response?.[0]?.type === "завершенный"){
+      audioUrl = zavishon;
+    }
+
+    const audio = new Audio(audioUrl); 
     audio.play();
     new Notification(res?.response?.[0]?.title, {
       body: res?.response?.[0]?.notification,
-      icon: "/custom-icon.png", // Maxsus ikonka
-      vibrate: [200, 100, 200], // Vibration (mobil qurilmalar uchun)
+      icon: "/custom-icon.png", 
+      vibrate: [200, 100, 200], 
     });
   };
+
 
 
   const isAuthPage =

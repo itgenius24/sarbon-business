@@ -53,7 +53,7 @@ export const Performed = forwardRef(
       complete_the_order: t("завершить заказ"),
       breaking: t("Поломка"),
       road_accident: t("ДТП"),
-      in_active: t("неактивен"),
+      in_active: t("неактивен"), 
     };
   
     const obj = {
@@ -346,7 +346,7 @@ export const Performed = forwardRef(
                 justifyContent={`space-between`}
                 alignItems={`center`}
               >
-                {(orderStatus === `no_dispatcher`) && (
+                {/* {(orderStatus === `no_dispatcher`) && (
                   <Flex gap={`11px`}>
                     <Button
                       onClick={(e) => {
@@ -369,7 +369,7 @@ export const Performed = forwardRef(
                       {t(`Принять`)}
                     </Button>
                   </Flex>
-                )}
+                )} */}
                 <Box>
                   {orderStatus == "performed" && (
                     <>
@@ -384,7 +384,7 @@ export const Performed = forwardRef(
                       </p>
                     </>
                   )}
-                  {orderStatus === `new` && (
+                  {(orderStatus === `new` || orderStatus ===  `no_dispatcher`) && (
                     <>
                       <span className={styles.cardBodyTitle}>
                         {t(`Статус`)}:
@@ -499,7 +499,7 @@ export const Performed = forwardRef(
                     {t(`Показать на карте`)}
                   </Button>
                 )}
-                {orderStatus === `new` && (
+                {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
                   <Flex gap={`11px`}>
                     <Button
                       onClick={(e) => {
