@@ -60,7 +60,7 @@ export function middleware(request) {
   ) {
     return NextResponse.redirect(new URL("/ru", request.url));
   } else if (roleagesAuth.includes(currentPath) && !company_id) {
-    return NextResponse.redirect(new URL("/ru", request.url));
+    return NextResponse.redirect(new URL("/ru/auth", request.url));
   }
   return NextResponse.next();
 }
