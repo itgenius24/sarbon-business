@@ -218,6 +218,7 @@ export const MyCarsModule = () => {
               justifyContent={"space-between"}
               alignItems={"center"}
               className={cls.selectCargoBottom}
+              background={`red`}
             >
               <Checkbox
                 onChange={(e) => setIsCheckboxChecked(e.target.checked)}
