@@ -75,7 +75,7 @@ class Store {
 
     // Cookie'larni o'chirish
     nookies.destroy(ctx, "token");
-    nookies.destroy(ctx, "userData",JSON.stringify({}), { path: "/", maxAge: 30 * 24 * 60 * 60 });
+    nookies.set(ctx, "userData",JSON.stringify({}), { path: "/", maxAge: 30 * 24 * 60 * 60 });
     nookies.destroy(ctx, "role");
   }
 

@@ -78,11 +78,6 @@ export const useLoginProps = () => {
       const clientTypeId =
         data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
           ?.client_types?.response?.[0]?.guid;
-      console.log(
-        `salom`,
-        data?.companies?.[0]?.projects?.[0]?.resource_environments?.[0]
-          ?.client_types?.response?.[0]
-      );
       if (
         clientTypeId === customerTypeId ||
         clientTypeId === expeditorTypeId ||

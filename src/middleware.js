@@ -3,27 +3,63 @@ import { NextResponse } from "next/server";
 import { parseCookies } from "nookies";
 
 export function middleware(request) {
+  const cookies = request?.cookies;
+  const company_id = cookies.get("userData")
+    ? JSON.parse(cookies.get("userData")?.value || {})?.role_id
+    : null; // company_id
 
-  const cookies = request?.cookies 
-  const company_id =  cookies.get("userData")  ?  JSON.parse(cookies.get("userData")?.value||{})?.role_id : null; // company_id
+  const roleOnePages = [
+    "/ru/add-cargo",
+    "/ru/my-load",
+    "/ru/search-car",
+    "/dashboard",
+  ];
+  const roleagesZ = ["/dashboard"];
+  const roleagesD = [
+    "/dashboard",
+  ];
 
-
-
-
-  const roleOnePages = ["/ru/add-cargo", "/ru/my-load", "/ru/search-car","/dashboard"]; 
-  const roleagesZ = ["/dashboard"]; 
-  const roleagesD = ["/dashboard"];
+  const roleagesAuth = [
+    "/dashboard",
+    "/add-cargo",
+    "/my-load",
+    "/search-car",
+    "/my-loads",
+    "/my-cars",
+    "/gps-tracking-xm",
+    "/gps-tracking-test",
+    "/gps-tracking-xm",
+    "/gps-tracking-dispatcher",
+    "/gps-tracking",
+    "/drivers",
+    "/dispatcher",
+    "/my-cars-dispatcher",
+    "/performed",
+    "/search-load-dispatcher",
+    "/search-load",
+    "/search-car",
+    "/add-cargo-test",
+  ]
 
   const currentPath = request.nextUrl.pathname.substring(3);
 
-  if (roleOnePages.includes(currentPath) && company_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2` ) {
+
+  if (
+    roleOnePages.includes(currentPath) &&
+    company_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
+  ) {
     return NextResponse.redirect(new URL("/ru", request.url));
-  } else if (roleagesZ.includes(currentPath) && company_id === "48871d27-7361-4f69-8fe4-b54daf270739" ) {
+  } else if (
+    roleagesZ.includes(currentPath) &&
+    company_id === "48871d27-7361-4f69-8fe4-b54daf270739"
+  ) {
     return NextResponse.redirect(new URL("/ru", request.url));
-  }
-  else if (roleagesD.includes(currentPath) && company_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ) {
+  } else if (
+    roleagesD.includes(currentPath) &&
+    company_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+  ) {
     return NextResponse.redirect(new URL("/ru", request.url));
-  }else if(roleagesD.includes(currentPath) &&  !company_id){
+  } else if (roleagesAuth.includes(currentPath) && !company_id) {
     return NextResponse.redirect(new URL("/ru", request.url));
   }
   return NextResponse.next();
