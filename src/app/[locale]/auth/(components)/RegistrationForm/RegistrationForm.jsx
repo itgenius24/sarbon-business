@@ -69,7 +69,10 @@ export const RegistrationForm = () => {
     login,
     loadin,
     locale,
-    setOpen,open,phone,router
+    setOpen,
+    open,
+    phone,
+    router,
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -84,14 +87,13 @@ export const RegistrationForm = () => {
   return (
     <>
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-       <Box padding={isLargerThan845 ? 0 : `0px 16px`}>
-       <AuthTitle
-          w={`100%`}
-          mb={ isLargerThan845 ?  "32px" : `10px`}
-          title={t("Регистрация нового участника на Sarbon")}
-        />
-
-       </Box>
+        <Box padding={isLargerThan845 ? 0 : `0px 16px`}>
+          <AuthTitle
+            w={`100%`}
+            mb={isLargerThan845 ? "32px" : `10px`}
+            title={t("Регистрация нового участника на Sarbon")}
+          />
+        </Box>
         {isLargerThan845 ? (
           <Box
             className={cls.registerWrap}
@@ -480,7 +482,7 @@ export const RegistrationForm = () => {
           </Checkbox> */}
           </Box>
           <Button
-            width={ isLargerThan845 ?  `20%` : `100%`}
+            width={isLargerThan845 ? `20%` : `100%`}
             type="submit"
             mb="16px"
             isLoading={loadin}
@@ -492,96 +494,93 @@ export const RegistrationForm = () => {
         </Box>
       </Box>
 
-
-{
-  isLargerThan845 ?  <Modal isOpen={isPopupOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <CheckModalIcon />
-          </ModalHeader>
-          {/* <ModalCloseButton onClick={() => setIsPopupOpen(false)} /> */}
-          <ModalBody>
-            <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              Профиль успешно добавлен!
-            </p>
-            <p style={{ fontWeight: 400, fontSize: "14px" }}>
-              Теперь можно добавлять автопарк и водителей
-            </p>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              onClick={() => login(`my-cars`)}
-              style={{
-                background: "white",
-                border: "1px solid rgba(208, 213, 221, 1)",
-                color: "black",
-              }}
-              className={cls.btnOutline}
-              mr={3}
-            >
-              Добавить машину
-            </Button>
-            <Button
-              style={{
-                background: "white",
-                border: "1px solid rgba(208, 213, 221, 1)",
-                color: "black",
-              }}
-              className={cls.btngreen}
-              onClick={() => login(`drivers`)}
-            >
-              Добавить водителя
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal> : 
-
-      <Drawer placement="bottom" isOpen={isPopupOpen}>
-            <DrawerOverlay />
-            <DrawerContent borderRadius="12px 12px 0 0">
-              <DrawerHeader>
+      {isLargerThan845 ? (
+        <Modal isOpen={isPopupOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
               <CheckModalIcon />
-              </DrawerHeader>
-            
-              <DrawerBody>
-             <Flex flexDirection={`column`} rowGap={`20px`}>
-             <p style={{ fontWeight: 600, fontSize: "20px" }}>
-              Профиль успешно добавлен!
-            </p>
-            <p style={{ fontWeight: 400, fontSize: "16px" }}>
-              Теперь можно добавлять автопарк и водителей
-            </p>
-             </Flex>
-              </DrawerBody>
-              <DrawerFooter mb={`20px`}>
-               <Flex width={`100%`} flexDirection={`column`} rowGap={`10px`}>
-               <Button
-              onClick={() => login(`my-cars`)}
-             backgroundColor={`var(--primary-text)`}
-              mr={3}
-            >
-              Добавить машину
-            </Button>
-            <Button
-              style={{
-                background: "white",
-                border: "1px solid rgba(208, 213, 221, 1)",
-                color: "black",
-              }}
-              className={cls.btngreen}
-              onClick={() => login(`drivers`)}
-            >
-              Добавить водителя
-            </Button>
-               </Flex>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-}
-     
+            </ModalHeader>
+            {/* <ModalCloseButton onClick={() => setIsPopupOpen(false)} /> */}
+            <ModalBody>
+              <p style={{ fontWeight: 600, fontSize: "18px" }}>
+                Профиль успешно добавлен!
+              </p>
+              <p style={{ fontWeight: 400, fontSize: "14px" }}>
+                Теперь можно добавлять автопарк и водителей
+              </p>
+            </ModalBody>
 
+            <ModalFooter>
+              <Button
+                onClick={() => login(`my-cars`)}
+                style={{
+                  background: "white",
+                  border: "1px solid rgba(208, 213, 221, 1)",
+                  color: "black",
+                }}
+                className={cls.btnOutline}
+                mr={3}
+              >
+                Добавить машину
+              </Button>
+              <Button
+                style={{
+                  background: "white",
+                  border: "1px solid rgba(208, 213, 221, 1)",
+                  color: "black",
+                }}
+                className={cls.btngreen}
+                onClick={() => login(`drivers`)}
+              >
+                Добавить водителя
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      ) : (
+        <Drawer placement="bottom" isOpen={isPopupOpen}>
+          <DrawerOverlay />
+          <DrawerContent borderRadius="12px 12px 0 0">
+            <DrawerHeader>
+              <CheckModalIcon />
+            </DrawerHeader>
+
+            <DrawerBody>
+              <Flex flexDirection={`column`} rowGap={`20px`}>
+                <p style={{ fontWeight: 600, fontSize: "20px" }}>
+                  Профиль успешно добавлен!
+                </p>
+                <p style={{ fontWeight: 400, fontSize: "16px" }}>
+                  Теперь можно добавлять автопарк и водителей
+                </p>
+              </Flex>
+            </DrawerBody>
+            <DrawerFooter mb={`20px`}>
+              <Flex width={`100%`} flexDirection={`column`} rowGap={`10px`}>
+                <Button
+                  onClick={() => login(`my-cars`)}
+                  backgroundColor={`var(--primary-text)`}
+                  mr={3}
+                >
+                  Добавить машину
+                </Button>
+                <Button
+                  style={{
+                    background: "white",
+                    border: "1px solid rgba(208, 213, 221, 1)",
+                    color: "black",
+                  }}
+                  className={cls.btngreen}
+                  onClick={() => login(`drivers`)}
+                >
+                  Добавить водителя
+                </Button>
+              </Flex>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )}
 
       <Modal isOpen={open} isCentered>
         <ModalOverlay />
@@ -603,18 +602,15 @@ export const RegistrationForm = () => {
                 }}
               >
                 {t(
-                  "Чтобы добавить его в свой список, пожалуйста, свяжитесь с нашей"
+                  "Этот телефон или почта уже зарегистрированы! Пожалуйста, используйте другой"
                 )}
-                <a style={{ color: `rgba(0, 122, 255, 1)`, cursor: `pointer` }}>
-                 
-                  {t("службой поддержки")}
-                </a>
               </p>
             </Box>
           </ModalBody>
           <ModalFooter>
-          <Button onClick={() => router.push(`/${locale}/auth`)}>{t(`Войти`)}</Button>
-
+            <Button onClick={() => router.push(`/${locale}/auth`)}>
+              {t(`Войти`)}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
