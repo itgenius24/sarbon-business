@@ -1,6 +1,6 @@
 "use client";
 
-import "./styles.scss";
+import "./style.css";
 import { Select } from "chakra-react-select";
 import { Controller, useForm } from "react-hook-form";
 

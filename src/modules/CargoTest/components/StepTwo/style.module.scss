@@ -158,21 +158,21 @@
 }
 
 .nextBtn {
-  width: fit-content;
+  width: fit-content !important;
   padding: 27px 28px !important;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 18px !important;
+  font-weight: 600 !important;
   background-color: var(--primary)!important;
-  margin-top: 30px;
+  margin-top: 30px !important;
   @media (max-width: 600px) {
-  width: 100%;
+  width: 100% !important;
   padding: 16px !important;
   }
 }
 
 .clearBtn {
-  display: none;
+  display: none !important;
   @media (max-width: 600px) {
-    display: block;
+    display: block !important;
   }
 }

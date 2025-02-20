@@ -27,10 +27,10 @@
 
 @include breakpoint-down(600px) {
   .topButtons {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-    display: none;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 15px !important;
+    display: none !important;
   }
 
   .topButton {
@@ -301,10 +301,10 @@
 }
 
 .navigationWrap {
-  display: flex;
+  display: flex !important;
 
   @media (max-width: 600px) {
-    display: none;
+    display: none !important;
   }
 }
 
