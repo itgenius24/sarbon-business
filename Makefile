@@ -21,4 +21,3 @@ push-image:
 clear-image:
 	docker rmi ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG}
 	docker rmi ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
-
