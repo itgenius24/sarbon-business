@@ -1,15 +1,15 @@
 .modalContent {
-  position: relative;
-  background-image: url('/svg/popup-decorative.svg');
-  background-repeat: no-repeat;
-  background-position: -10px -10px;
+  position: relative !important;
+  background-image: url('/svg/popup-decorative.svg') !important;
+  background-repeat: no-repeat !important;
+  background-position: -10px -10px !important;
 }
 .modalContent2{
   position: relative;
 }
 
 .modalBody {
-  padding-top: 28px;
+  padding-top: 28px !important;
 }
 
 .modalIcon {

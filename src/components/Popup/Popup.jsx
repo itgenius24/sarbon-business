@@ -28,7 +28,7 @@ export const Popup = ({
  const {t} = useTranslation();
   return <Modal isOpen={isOpen} onClose={onClose} isCentered>
     <ModalOverlay />
-    <ModalContent className={status !== `second` ? cls.modalContent:cls.modalContent2}>
+    <ModalContent className={status !== `second` ? cls.modalContent : cls.modalContent2}>
       <ModalHeader>
         <ModalCloseButton />
       </ModalHeader>
