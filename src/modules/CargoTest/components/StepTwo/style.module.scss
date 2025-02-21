@@ -109,11 +109,11 @@
   transform: translate(-50%, -50%);
   background-color: white;
   @media (max-width: 600px) {
-    transform: translate(0%, 0%);
-    position: relative;
-    left: 0;
-    margin-top: -15px;
-    transform: rotate(90deg);
+    transform: translate(0%, 0%) !important;
+    position: relative !important;
+    left: 0 !important;
+    margin-top: -15px !important;
+    transform: rotate(90deg) !important;
   }
 }
 .locationWrap {
