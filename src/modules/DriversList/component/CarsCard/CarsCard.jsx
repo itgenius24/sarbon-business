@@ -49,8 +49,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
   const locale = useGetLang();
 
   const order = item?.orders?.filter((item) => item.provisions.includes(`performed`));
-
-
+  
   return (
     <Box
       className={cls.cardWrap}
