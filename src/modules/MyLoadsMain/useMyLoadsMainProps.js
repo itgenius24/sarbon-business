@@ -146,6 +146,7 @@ export const useMyLoadsMainProps = () => {
       ),
       onSuccess: (res) => {
         if (res.response?.length > 0) {
+          console.log(`res`,res)
           notificationFn(res);
         }
       },
@@ -279,12 +280,12 @@ export const useMyLoadsMainProps = () => {
   });
 
   const notificationFn = (res) => {
-    mutate({
-      data: {
-        views: true,
-        guid: res?.response?.[0]?.guid,
-      },
-    });
+    // mutate({
+    //   data: {
+    //     views: true,
+    //     guid: res?.response?.[0]?.guid,
+    //   },
+    // });
 
     Notification.requestPermission();
     if (res?.response?.[0]?.type === "предложение") {
