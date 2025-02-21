@@ -478,6 +478,14 @@ export const useGetOffer = (params, settings) => {
   });
 };
 
+export const useGetOfferCount = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOfferCount", params],
+    queryFn: () => objectService.getOffer(params),
+    ...settings,
+  });
+};
+
 export const useGetOfferPagination = (params, settings) => {
   return useInfiniteQuery({
     queryKey: ["object/getOfferPagination", params],

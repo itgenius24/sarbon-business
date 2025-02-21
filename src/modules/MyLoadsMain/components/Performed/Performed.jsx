@@ -42,6 +42,7 @@ export const Performed = forwardRef(
   
     const router = useRouter();
     const locale = useGetLang();
+    
     const performedStatuses = {
       no_status: t("нет статуса"),
       go_to_load: t("иду на загрузку"),
@@ -53,7 +54,7 @@ export const Performed = forwardRef(
       complete_the_order: t("завершить заказ"),
       breaking: t("Поломка"),
       road_accident: t("ДТП"),
-      in_active: t("неактивен"),
+      in_active: t("неактивен"), 
     };
   
     const obj = {
@@ -155,7 +156,7 @@ export const Performed = forwardRef(
                 <p className={styles.rightTitle}>
                   {t(`Предоплата`)}:
                   {cargo?.payment_type?.[0] === "prepayment"
-                    ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code}`
+                    ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code || ``}`
                     : `Нет`}
                 </p>
               </div>
@@ -188,7 +189,7 @@ export const Performed = forwardRef(
               </div>
               {(orderStatus === `new` || orderStatus === `cancellation` || orderStatus === `no_dispatcher`) && (
                 <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>{t(`Сообщение`)}</span>
+                  <span className={styles.cardBodyTitle}>{t(`Сообщение`)} </span>
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
@@ -202,9 +203,10 @@ export const Performed = forwardRef(
               {orderStatus !== `new` && orderStatus !== `cancellation` && (
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
-                    {t(`Статус`)}:
-                    {cargo?.finished_time &&
-                      format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)}{" "}
+                    {t(`Статус`)}: 
+                    {orderStatus === `archive`  ? cargo?.archive_time &&
+                      format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)  :cargo?.performed_time &&
+                       format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
                   </span>
                   <p className={styles.cardName}>
                     {
@@ -346,7 +348,7 @@ export const Performed = forwardRef(
                 justifyContent={`space-between`}
                 alignItems={`center`}
               >
-                {(orderStatus === `no_dispatcher`) && (
+                {/* {(orderStatus === `no_dispatcher`) && (
                   <Flex gap={`11px`}>
                     <Button
                       onClick={(e) => {
@@ -369,7 +371,7 @@ export const Performed = forwardRef(
                       {t(`Принять`)}
                     </Button>
                   </Flex>
-                )}
+                )} */}
                 <Box>
                   {orderStatus == "performed" && (
                     <>
@@ -384,7 +386,7 @@ export const Performed = forwardRef(
                       </p>
                     </>
                   )}
-                  {orderStatus === `new` && (
+                  {(orderStatus === `new` || orderStatus ===  `no_dispatcher`) && (
                     <>
                       <span className={styles.cardBodyTitle}>
                         {t(`Статус`)}:
@@ -401,13 +403,16 @@ export const Performed = forwardRef(
   
                   {orderStatus === `cancellation` && (
                     <>
-                      <span className={styles.cardBodyTitle}>{t(`Статус`)}</span>
+                      <span className={styles.cardBodyTitle}>{t(`Статус`)}
+                      {cargo?.cancel_time &&
+                        format(cargo?.cancel_time, ` dd.MM.yyyy, HH:mm`)}
+                      </span>
                       <p
                         style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                       >
                         {cargo?.who_cancellation?.includes(`customer`)
                           ? `${t(`Был отменен вами`)}: `
-                          : ``}
+                          : t(`Отменённые`)}
                       </p>
                     </>
                   )}
@@ -499,7 +504,7 @@ export const Performed = forwardRef(
                     {t(`Показать на карте`)}
                   </Button>
                 )}
-                {orderStatus === `new` && (
+                {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
                   <Flex gap={`11px`}>
                     <Button
                       onClick={(e) => {

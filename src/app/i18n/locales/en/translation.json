@@ -544,6 +544,8 @@
   "Дизель":"Diesel",
   "Бензин":"Gasoline",
   "Метан":"Methane",
-  "Евро":"Euro"
+  "Евро":"Euro",
+    "Завершение":"Completion",
+  "Предложение без диспетчера":"Offer without dispatcher"
 
 }

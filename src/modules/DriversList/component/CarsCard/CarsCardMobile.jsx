@@ -48,14 +48,14 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const order = item?.orders?.filter((item) => item?.provisions?.includes(`performed`));
+  const order = item?.orders?.filter((item) => item.provisions.includes(`performed`));
 
 
   return (
     <Box
       className={cls.cardWrap}
       borderTop={`4px solid  ${
-         order?.length > 0  ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+         order?.length > 1 ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Flex justifyContent={`space-between`} width={`100%`}>
@@ -157,10 +157,10 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
 
       <Flex mt={`20px`} alignItems={`flex-end`} gap={"30px"} width={"100%"}>
         <Box width={"100%"}>
-          { order?.length > 0  ? (
+          { order?.length > 1 ? (
             <Box
               background={
-                 order?.length > 0  ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
+                 order?.length > 1 ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
               }
               gap={"30px"}
               alignItems={"center"}

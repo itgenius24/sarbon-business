@@ -66,9 +66,11 @@ export const CargoTest = observer(({ id, status, locale }) => {
 
   return (
     <AddCargoProvider value={{ ...addCargoProps, isEditing }}>
-      <Box pt={isLargerThan1190 ? "48px" : "10px"} >
-        <NavigationWrap cls={cls} addCargoProps={addCargoProps} clsx={clsx} />
-        <Container  height="100%">
+      <Box pt={isLargerThan1190 ? "48px" : "10px"}>
+        {!isLargerThan800 && (
+          <NavigationWrap cls={cls} addCargoProps={addCargoProps} clsx={clsx} />
+        )}
+        <Container height="100%">
           <Box
             className={cls.contentWrapper}
             as="article"
@@ -85,7 +87,9 @@ export const CargoTest = observer(({ id, status, locale }) => {
                 mb={isLargerThan1190 ? "32px" : "10px"}
               >
                 {isLargerThan1190 && (
-                  <Heading color={`var(--primary-text)`} size="md">{t("Добавить груз")}</Heading>
+                  <Heading color={`var(--primary-text)`} size="md">
+                    {t("Добавить груз")}
+                  </Heading>
                 )}
                 <Box className={cls.topButtons} display="flex" columnGap="12px">
                   <Button

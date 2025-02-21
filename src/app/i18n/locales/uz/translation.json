@@ -19,6 +19,7 @@
   "Поиск машин": "Mashina qidirish",
   "Страница": "Sahifa",
   "из": "dan",
+  
   "Новости": "Yangiliklar",
   "Изменить": "O'zgartirish",
   "Удалить": "O'chirish",
@@ -572,7 +573,9 @@
   "Дизель":"Dizel",
   "Бензин":"Benzin",
   "Метан":"Metan",
-  "Евро":"Euro"
+  "Евро":"Euro",
+  "Завершение":"Tugallash",
+  "Предложение без диспетчера":"Dispetchersiz taklif"
 
 
 

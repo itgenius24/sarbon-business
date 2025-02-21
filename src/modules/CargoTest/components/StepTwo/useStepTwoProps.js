@@ -164,7 +164,7 @@ const useStepTwoProps = () => {
   function getPlaceMarkAddress(coords) {
     yMaps?.geocode(coords).then(function (res) {
       var firstGeoObject = res.geoObjects.get(0);
-      var countryCode = firstGeoObject.getCountryCode();
+      var countryCode = firstGeoObject?.getCountryCode()?.toUpperCase();
       var countryName = res.geoObjects.get(0)?._xalEntities.country;
       var flagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
 
@@ -213,7 +213,7 @@ const useStepTwoProps = () => {
       name,  location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
     );
     const country_code =
-      location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toLowerCase();
+      location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toUpperCase();
     const country_name =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address
         ?.Components?.[0]?.name;

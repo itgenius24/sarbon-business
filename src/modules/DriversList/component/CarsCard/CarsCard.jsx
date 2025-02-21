@@ -50,12 +50,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
 
   const order = item?.orders?.filter((item) => item?.provisions?.includes(`performed`));
 
-  console.log(`order`,item?.vehicles?.[0] )
   return (
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-       order?.length > 0 ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+       order?.length > 1 ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Box className={cls.popup}>
@@ -152,10 +151,10 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <p className={cls.subTitle}>{item?.user?.phone}</p>
             </Box>
           </Flex>
-          { order?.length > 0 ? (
+          {order?.length > 1 ? (
             <Flex
               background={
-                 order?.length > 0
+                order?.length > 1
                   ? "rgba(0, 122, 255, 0.08)"
                   : "rgba(21, 186, 77, 1)"
               }

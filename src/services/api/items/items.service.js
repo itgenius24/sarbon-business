@@ -57,6 +57,13 @@ export const useGetNoteList = ({params = { data: JSON.stringify({}) },querySetti
   });
 };
 
+export const useGetNoteListFirst = ({params = { data: JSON.stringify({}) },querySettings}) => {
+  return useQuery({
+    queryKey: ["object/getNoteFirst", params],
+    queryFn: () => itemsService.getNote(params),...querySettings
+  });
+};
+
 export const useGetDriverPosition = ({params = { data: JSON.stringify({}) },querySettings}) => {
   return useQuery({
     queryKey: ["object/getDriverPosition", params],

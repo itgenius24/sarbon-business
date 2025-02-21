@@ -4,24 +4,31 @@ import {
   useDeleteCargo,
   useGetExcelPost,
   useGetNewPred,
+  useGetNoteList,
   useGetOffer,
+  useGetOfferCount,
   useGetUserCargo,
   usePushNotificationMutation,
   useUpdateNoDriver,
+  useUpdateNoteData,
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import { keyframes, useToast } from "@chakra-ui/react";
-import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
+import { useToast } from "@chakra-ui/react";
 import useDebounce from "@/hooks/useDebounce";
-import { keepPreviousData } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
-import { boolean, object } from "yup";
-import { useForm } from "react-hook-form";
-import { set } from "date-fns";
-import { useTranslation } from "react-i18next";
+import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export const useMyLoadsMainProps = () => {
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+const predlojeniya = "/predlojeniya.mp3";
+const predlojeniyauz = "/predlojeniyauz.mp3";
+const vispolneniya = "/vispolneniya.mp3";
+const vispolneniyauz = "/vispolneniyauz.mp3";
+const zavishon = "/zavishon.mp3";
+const zavishonuz = "/zavishonuz.mp3";
+
+export const useMyLoadsMainProps = (locale) => {
   const [open, setOpen] = useState(false);
   const params = useSearchParams();
   const role_id = authStore.userData.role_id;
@@ -34,7 +41,8 @@ export const useMyLoadsMainProps = () => {
   const { register, watch, setValue } = useForm();
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-
+  const pathname = usePathname();
+   console.log(`locale`,locale)
   const [data, setData] = useState([]);
   const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;
@@ -95,6 +103,57 @@ export const useMyLoadsMainProps = () => {
           : [...prev, key] // Aks holda qo'shish
     );
   };
+
+  const getNewPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setData(data);
+      setAccept(false);
+    },
+  });
+
+  const getNoDisPred = useGetNewPred({
+    onSuccess: (res) => {
+      const data = res?.response?.[0]?.order?.map((item) => ({
+        ...item,
+        users_id_data: item.users_id_data?.[0],
+        users_id_2_data: item?.users_id_2_data?.[0],
+      }));
+      setDataDis(data);
+      setAccept(false);
+    },
+  });
+
+  const { mutate } = useUpdateNoteData();
+
+  
+
+  // const { data: notification2 } = useGetNoteList({
+  //   params: {
+  //     data: JSON.stringify({
+  //       // users_id_2: ``,
+  //       views: false,
+  //       with_relations: true,
+  //     }),
+  //   },
+  //   querySettings: {
+  //     enabled: Boolean(
+  //       authStore.userData?.role_id ===
+  //         "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+  //         pathname.includes(`my-loads`)
+  //     ),
+  //     onSuccess: (res) => {
+  //       if (res.response?.length > 0) {
+  //         notificationFn(res);
+  //       }
+  //     },
+  //     refetchInterval: 10000,
+  //   },
+  // });
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
@@ -199,12 +258,6 @@ export const useMyLoadsMainProps = () => {
     data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
   }
-  //  else if (orderStatus === "new") {
-  //   const data = JSON.parse(getCargoFilterParams.data);
-  //   data.provisions = ["approve_by_customer"];
-  //   // data.response_status = ["approve_by_customer"];
-  //   getCargoFilterParams.data = JSON.stringify(data);
-  // }
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
     enabled:
@@ -221,29 +274,64 @@ export const useMyLoadsMainProps = () => {
     placeholderData: keepPreviousData,
   });
 
-  const getNewPred = useGetNewPred({
-    onSuccess: (res) => {
-      const data = res?.response?.[0]?.order?.map((item) => ({
-        ...item,
-        users_id_data: item.users_id_data?.[0],
-        users_id_2_data: item?.users_id_2_data?.[0],
-      }));
-      setData(data);
-      setAccept(false);
-    },
-  });
+  const notificationFn = (res) => {
+    // mutate({
+    //   data: {
+    //     views: true,
+    //     guid: res?.response?.[0]?.guid,
+    //   },
+    // });
 
-  const getNoDisPred = useGetNewPred({
-    onSuccess: (res) => {
-      const data = res?.response?.[0]?.order?.map((item) => ({
-        ...item,
-        users_id_data: item.users_id_data?.[0],
-        users_id_2_data: item?.users_id_2_data?.[0],
-      }));
-      setDataDis(data);
-      setAccept(false);
-    },
-  });
+    Notification.requestPermission();
+    if (res?.response?.[0]?.type === "предложение") {
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+      const audio = new Audio(locale === `uz` ? predlojeniyauz : predlojeniya);
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    } else if (res?.response?.[0]?.type === "в исполнении") {
+      getOfferCargo.refetch();
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+      const audio = new Audio(locale === `uz` ? vispolneniyauz : vispolneniya);
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    } else if (res?.response?.[0]?.type === "завершенный") {
+      getOfferCargo.refetch();
+      const audio = new Audio(locale === `uz` ? zavishonuz : zavishon);
+      getNewPred.mutate({
+        data: {
+          object_data: {
+            dispetchir_id: userId,
+          },
+        },
+      });
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    }
+  };
 
   useEffect(() => {
     if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
@@ -272,7 +360,7 @@ export const useMyLoadsMainProps = () => {
     });
   }, [Boolean(orderStatus === `no_dispatcher`), accept]);
 
-  const getOfferCount = useGetOffer(
+  const getOfferCount = useGetOfferCount(
     {
       limit,
       offset: 0,
@@ -378,6 +466,7 @@ export const useMyLoadsMainProps = () => {
           guid: cargo?.guid,
           provisions: ["cancellation"],
           who_cancellation: ["customer"],
+          cancel_time: new Date()
         },
       },
       {
@@ -467,7 +556,7 @@ export const useMyLoadsMainProps = () => {
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
     setOrderStatus(value);
-    setLimit(6);
+    setLimit(40);
     setHasMore(true);
   }
 
@@ -478,8 +567,6 @@ export const useMyLoadsMainProps = () => {
   function handleLoadMore() {
     setDebouncedLimit((prev) => prev + 40);
   }
-
- 
 
   useEffect(() => {
     if (
@@ -536,6 +623,6 @@ export const useMyLoadsMainProps = () => {
     hoverRating,
     setHoverRating,
     onSubmit,
-    addPage:handleLoadMore,
+    addPage: handleLoadMore,
   };
 };

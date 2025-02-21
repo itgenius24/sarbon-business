@@ -9,59 +9,70 @@ import { useElements } from "./elements";
 import clsx from "clsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useGetNoteList, useUpdateNoteData } from "@/services/api";
+import { useGetNoteListFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
-
-const notificationSound = "/new.mp3";
+const predlojeniya = "/predlojeniya.mp3";
+const predlojeniyauz = "/predlojeniyauz.mp3";
+const vispolneniya = "/vispolneniya.mp3";
+const vispolneniyauz = "/vispolneniyauz.mp3";
+const zavishon = "/zavishon.mp3";
+const zavishonuz = "/zavishonuz.mp3";
 
 export const MainLayout = ({ locale, children }) => {
   const elements = useElements(locale);
 
- 
-
   const pathname = usePathname();
 
+  const { mutate } = useUpdateNoteData();
 
-
-  // const {mutate} = useUpdateNoteData()
-
-  // const { data, isFetching } = useGetNoteList({
+  // const { data, isFetching } = useGetNoteListFirst({
   //   params: {
   //     data: JSON.stringify({
   //       users_id_2: authStore.userData?.guid,
   //       views: false,
+  //       with_relations: true,
   //     }),
   //   },
   //   querySettings: {
   //     enabled: Boolean(
-  //       authStore.userData?.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
-  //     ), 
+  //       authStore.userData?.role_id ===
+  //         "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+  //         !pathname.includes(`my-loads`)
+  //     ),
   //     onSuccess: (res) => {
-  //       if(res.response?.length > 0){
+  //       if (res.response?.length > 0) {
   //         notificationFn(res);
   //       }
   //     },
-  //     refetchInterval: 30000,
+  //     refetchInterval: 10000,
   //   },
   // });
 
-  // const notificationFn = (res) => {
-  //   mutate({
-  //     data:{
-  //       views: true,
-  //       guid:res?.response?.[0]?.guid
-  //     }
-  //   })
-  //   Notification.requestPermission();
-  //   const audio = new Audio(notificationSound); // O'zingizga kerakli audio fayl yo'lini kiriting
-  //   audio.play();
-  //   new Notification(res?.response?.[0]?.title, {
-  //     body: res?.response?.[0]?.notification,
-  //     icon: "/custom-icon.png", // Maxsus ikonka
-  //     vibrate: [200, 100, 200], // Vibration (mobil qurilmalar uchun)
-  //   });
-  // };
+  const notificationFn = (res) => {
+    mutate({
+      data: {
+        views: true,
+        guid: res?.response?.[0]?.guid,
+      },
+    });
+    let audioUrl = ``;
+    Notification.requestPermission();
+    if (res?.response?.[0]?.type === "предложение") {
+      audioUrl = locale === `uz` ? predlojeniyauz : predlojeniya;
+    } else if (res?.response?.[0]?.type === "в исполнении") {
+      audioUrl = locale === `uz` ? vispolneniyauz : vispolneniya;
+    } else if (res?.response?.[0]?.type === "завершенный") {
+      audioUrl = locale === `uz` ? zavishonuz : zavishon;
+    }
 
+    const audio = new Audio(audioUrl);
+    audio.play();
+    new Notification(res?.response?.[0]?.title, {
+      body: res?.response?.[0]?.notification,
+      icon: "/custom-icon.png",
+      vibrate: [200, 100, 200],
+    });
+  };
 
   const isAuthPage =
     pathname.includes("auth") || pathname.includes(`share-location`);

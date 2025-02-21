@@ -1,5 +1,5 @@
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useTopFilterProps = ({ filterList=[] }) => {
   const params = useSearchParams()
@@ -7,6 +7,10 @@ export const useTopFilterProps = ({ filterList=[] }) => {
   const label = params.get(`label`)
 
   const [activeTab, setActiveTab] = useState(value ? {value:value,label:label} : filterList[0]);
+
+  // useEffect(() => {
+  //   setActiveTab({value:value,label:label})
+  // }, [value]);
 
   function handleTabClick({ label, value }) {
     setActiveTab({ label, value });
