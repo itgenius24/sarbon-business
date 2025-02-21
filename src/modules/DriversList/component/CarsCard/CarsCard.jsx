@@ -48,8 +48,8 @@ export const CarsCard = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const order = item?.orders?.filter((item) => item.provisions.includes(`performed`));
-  
+  const order = item?.orders?.filter((item) => item?.provisions?.includes(`performed`));
+
   return (
     <Box
       className={cls.cardWrap}
