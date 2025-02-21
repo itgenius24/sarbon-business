@@ -28,8 +28,9 @@ const itemsService = {
   createUser: (data) => request.post("/v2/items/users", data),
   checkUser: (data) => request.post("/v2/object/get-list/users", data),
   checkUserRegister: (data) => request.post("/v2/object-slim/get-list/users", data),
-  getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
+  getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),  
   getExcelFile: (data) => request.post("/v1/invoke_function/logistika-get-list-sorted-gps-history", data),
+  getNotification: (data) => request.post("/v1/invoke_function/logistika-notification", data),
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
@@ -57,12 +58,21 @@ export const useGetNoteList = ({params = { data: JSON.stringify({}) },querySetti
   });
 };
 
-export const useGetNoteListFirst = ({params = { data: JSON.stringify({}) },querySettings}) => {
+
+export const useGetNotification = ({data, querySettings}) => {
   return useQuery({
-    queryKey: ["object/getNoteFirst", params],
-    queryFn: () => itemsService.getNote(params),...querySettings
+    queryKey: ["notificationsData2", data],
+    queryFn: () => itemsService.getNotification(data), ...querySettings,
   });
 };
+
+export const useGetNotificationFirst = ({data, querySettings}) => {
+  return useQuery({
+    queryKey: ["notificationsFirst", data],
+    queryFn: () => itemsService.getNotification(data), ...querySettings,
+  });
+};
+
 
 export const useGetDriverPosition = ({params = { data: JSON.stringify({}) },querySettings}) => {
   return useQuery({
@@ -78,14 +88,15 @@ export const useCreateAdMutation = (mutationSettings) => {
 };
 export const useGetCargoPost = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.getCargoPost(data), ...mutationSettings });
+
+  
 };
+
+
 
 export const useGetExcelPost = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => itemsService.getExcelFile(data), ...mutationSettings });
 };
-
-
-
 
 
 export const useUpdateAdMutation = (mutationSettings) => {
