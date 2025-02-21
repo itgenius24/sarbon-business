@@ -20,7 +20,6 @@ import { TopFilter } from "@/components/TopFilter";
 import { filterTabsDis, filterTabsZ } from "./data";
 import { useTranslation } from "@/app/i18n/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { useGetLang } from "@/hooks/useGetLang";
 import { Empty } from "./components/Empty";
 import { Performed } from "./components/Performed";
 import authStore from "@/store/auth.store";
@@ -36,7 +35,7 @@ import styles from "./style.module.scss";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
 
-export const MyLoadsMain = () => {
+export const MyLoadsMain = ({locale}) => {
   const {
     cargos,
     onFilterChange,
@@ -69,11 +68,11 @@ export const MyLoadsMain = () => {
     setHoverRating,
     onSubmit,
     addPage,
-  } = useMyLoadsMainProps();
+  } = useMyLoadsMainProps(locale);
   const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
-  const locale = useGetLang();
+
 
   const { t } = useTranslation(locale, "translations");
 

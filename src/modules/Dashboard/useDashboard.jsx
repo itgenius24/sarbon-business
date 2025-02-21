@@ -802,7 +802,7 @@ export const useDashboard = (locale) => {
             background={`#fff`}
             label={row.to}
           >
-            <p>{row?.to?.slice(0, 20)}...</p>
+            <p style={{width:`100px`}}>{row?.to?.slice(0, 20)}...</p>
           </Tooltip>
         ) : (
           row?.to

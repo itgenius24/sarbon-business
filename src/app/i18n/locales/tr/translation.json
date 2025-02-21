@@ -549,7 +549,9 @@
   "Дизель":"Dizel",
   "Бензин":"Benzin",
   "Метан":"Metan",
-  "Евро":"Avro"
+  "Евро":"Avro",
+  "Завершение":"Tamamlama",
+  "Предложение без диспетчера":"Sevk görevlisi olmadan teklif"
 
 
 }

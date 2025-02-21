@@ -14,20 +14,21 @@ import {
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import { keyframes, useToast } from "@chakra-ui/react";
-import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
+import { useToast } from "@chakra-ui/react";
 import useDebounce from "@/hooks/useDebounce";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { boolean, object } from "yup";
+
 import { useForm } from "react-hook-form";
-import { set } from "date-fns";
 import { useTranslation } from "react-i18next";
 const predlojeniya = "/predlojeniya.mp3";
+const predlojeniyauz = "/predlojeniyauz.mp3";
 const vispolneniya = "/vispolneniya.mp3";
+const vispolneniyauz = "/vispolneniyauz.mp3";
 const zavishon = "/zavishon.mp3";
+const zavishonuz = "/zavishonuz.mp3";
 
-export const useMyLoadsMainProps = () => {
+export const useMyLoadsMainProps = (locale) => {
   const [open, setOpen] = useState(false);
   const params = useSearchParams();
   const role_id = authStore.userData.role_id;
@@ -41,8 +42,7 @@ export const useMyLoadsMainProps = () => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const pathname = usePathname();
-  const queryClient = useQueryClient();
-
+   console.log(`locale`,locale)
   const [data, setData] = useState([]);
   const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;
@@ -130,7 +130,7 @@ export const useMyLoadsMainProps = () => {
 
   const { mutate } = useUpdateNoteData();
 
-  const { data: notification, isFetching } = useGetNoteList({
+  const { data: notification,  } = useGetNoteList({
     params: {
       data: JSON.stringify({
         users_id_2: authStore.userData?.guid,
@@ -146,13 +146,37 @@ export const useMyLoadsMainProps = () => {
       ),
       onSuccess: (res) => {
         if (res.response?.length > 0) {
-          console.log(`res`,res)
+          console.log(`res`, res);
           notificationFn(res);
         }
       },
       refetchInterval: 10000,
     },
   });
+
+
+  // const { data: notification2 } = useGetNoteList({
+  //   params: {
+  //     data: JSON.stringify({
+  //       // users_id_2: ``,
+  //       views: false,
+  //       with_relations: true,
+  //     }),
+  //   },
+  //   querySettings: {
+  //     enabled: Boolean(
+  //       authStore.userData?.role_id ===
+  //         "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+  //         pathname.includes(`my-loads`)
+  //     ),
+  //     onSuccess: (res) => {
+  //       if (res.response?.length > 0) {
+  //         notificationFn(res);
+  //       }
+  //     },
+  //     refetchInterval: 10000,
+  //   },
+  // });
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
@@ -257,12 +281,6 @@ export const useMyLoadsMainProps = () => {
     data.order_status = [orderStatus];
     getAllUserCargoParams.data = JSON.stringify(data);
   }
-  //  else if (orderStatus === "new") {
-  //   const data = JSON.parse(getCargoFilterParams.data);
-  //   data.provisions = ["approve_by_customer"];
-  //   // data.response_status = ["approve_by_customer"];
-  //   getCargoFilterParams.data = JSON.stringify(data);
-  // }
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
     enabled:
@@ -296,7 +314,7 @@ export const useMyLoadsMainProps = () => {
           },
         },
       });
-      const audio = new Audio(predlojeniya);
+      const audio = new Audio(locale === `uz` ? predlojeniyauz : predlojeniya);
       audio.play();
       new Notification(res?.response?.[0]?.title, {
         body: res?.response?.[0]?.notification,
@@ -312,7 +330,7 @@ export const useMyLoadsMainProps = () => {
           },
         },
       });
-      const audio = new Audio(vispolneniya);
+      const audio = new Audio(locale === `uz` ? vispolneniyauz : vispolneniya);
       audio.play();
       new Notification(res?.response?.[0]?.title, {
         body: res?.response?.[0]?.notification,
@@ -321,7 +339,7 @@ export const useMyLoadsMainProps = () => {
       });
     } else if (res?.response?.[0]?.type === "завершенный") {
       getOfferCargo.refetch();
-      const audio = new Audio(zavishon);
+      const audio = new Audio(locale === `uz` ? zavishonuz : zavishon);
       getNewPred.mutate({
         data: {
           object_data: {
@@ -335,7 +353,6 @@ export const useMyLoadsMainProps = () => {
         icon: "/custom-icon.png",
         vibrate: [200, 100, 200],
       });
-      
     }
   };
 
@@ -472,6 +489,7 @@ export const useMyLoadsMainProps = () => {
           guid: cargo?.guid,
           provisions: ["cancellation"],
           who_cancellation: ["customer"],
+          cancel_time: new Date()
         },
       },
       {
@@ -561,7 +579,7 @@ export const useMyLoadsMainProps = () => {
   function onFilterChange({ label, value }) {
     router.push(`?value=${value}&label=${label}`);
     setOrderStatus(value);
-    setLimit(6);
+    setLimit(40);
     setHasMore(true);
   }
 

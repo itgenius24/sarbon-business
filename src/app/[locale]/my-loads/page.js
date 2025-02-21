@@ -3,8 +3,9 @@
 import { MyLoadsMain } from "@/modules/MyLoadsMain";
 import { Box } from "@chakra-ui/react";
 
-export default function MyLoads() {
+export default function MyLoads({params}) {
+  const { locale } = params;
   return <Box>
-    <MyLoadsMain />
+    <MyLoadsMain locale={locale} />
   </Box>;
 }

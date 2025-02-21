@@ -204,7 +204,7 @@ const Dashboard = ({ locale }) => {
           </Flex>
 
           <Box padding={`16px`} position={`relative`} borderRadius={`12px`} backgroundColor={`white`}>
-            {isLoading && <SimpleLoader />}
+            {filterDataLoadin && <SimpleLoader />}
             <Tabs
               onChange={(el) => {
                 setStatus(el), setCurrentPage(1);

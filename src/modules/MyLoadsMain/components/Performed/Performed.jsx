@@ -42,6 +42,7 @@ export const Performed = forwardRef(
   
     const router = useRouter();
     const locale = useGetLang();
+    
     const performedStatuses = {
       no_status: t("нет статуса"),
       go_to_load: t("иду на загрузку"),
@@ -188,7 +189,7 @@ export const Performed = forwardRef(
               </div>
               {(orderStatus === `new` || orderStatus === `cancellation` || orderStatus === `no_dispatcher`) && (
                 <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>{t(`Сообщение`)}</span>
+                  <span className={styles.cardBodyTitle}>{t(`Сообщение`)} </span>
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
@@ -202,9 +203,10 @@ export const Performed = forwardRef(
               {orderStatus !== `new` && orderStatus !== `cancellation` && (
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
-                    {t(`Статус`)}:
-                    {cargo?.finished_time &&
-                      format(cargo?.finished_time, ` dd.MM.yyyy, HH:mm`)}{" "}
+                    {t(`Статус`)}: 
+                    {orderStatus === `archive`  ? cargo?.archive_time &&
+                      format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)  :cargo?.performed_time &&
+                       format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
                   </span>
                   <p className={styles.cardName}>
                     {
@@ -401,13 +403,16 @@ export const Performed = forwardRef(
   
                   {orderStatus === `cancellation` && (
                     <>
-                      <span className={styles.cardBodyTitle}>{t(`Статус`)}</span>
+                      <span className={styles.cardBodyTitle}>{t(`Статус`)}
+                      {cargo?.cancel_time &&
+                        format(cargo?.cancel_time, ` dd.MM.yyyy, HH:mm`)}
+                      </span>
                       <p
                         style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
                       >
                         {cargo?.who_cancellation?.includes(`customer`)
                           ? `${t(`Был отменен вами`)}: `
-                          : ``}
+                          : t(`Отменённые`)}
                       </p>
                     </>
                   )}
