@@ -131,30 +131,30 @@ export const useMyLoadsMainProps = (locale) => {
 
   const { mutate } = useUpdateNoteData();
 
-  const { data: data2, } = useGetNotification({
-    data: {
-      data: {
-        object_data: {
-          type: `notification`,
-          users_id_2: authStore.userData?.guid,
-          views: false,
-        },
-      },
-    },
-    querySettings: {
-      enabled: Boolean(
-        authStore.userData?.role_id ===
-          "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-          pathname.includes(`my-loads`)
-      ),
-      onSuccess: (res) => {
-        if (res.response?.length > 0) {
-          notificationFn(res);
-        }
-      },
-      refetchInterval: 10000,
-    },
-  });
+  // const { data: data2, } = useGetNotification({
+  //   data: {
+  //     data: {
+  //       object_data: {
+  //         type: `notification`,
+  //         users_id_2: authStore.userData?.guid,
+  //         views: false,
+  //       },
+  //     },
+  //   },
+  //   querySettings: {
+  //     enabled: Boolean(
+  //       authStore.userData?.role_id ===
+  //         "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+  //         pathname.includes(`my-loads`)
+  //     ),
+  //     onSuccess: (res) => {
+  //       if (res.response?.length > 0) {
+  //         notificationFn(res);
+  //       }
+  //     },
+  //     refetchInterval: 10000,
+  //   },
+  // });
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {

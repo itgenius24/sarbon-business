@@ -31,7 +31,7 @@ export function middleware(request) {
     "/dashboard",
     "/my-load",
     "/search-car",
-    "/my-loads",
+    // "/my-loads",
     "/my-cars",
     "/gps-tracking-test",
     "/gps-tracking-dispatcher",
