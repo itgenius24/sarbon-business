@@ -9,7 +9,7 @@ import { useElements } from "./elements";
 import clsx from "clsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useGetNoteListFirst, useUpdateNoteData } from "@/services/api";
+import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
 const predlojeniya = "/predlojeniya.mp3";
 const predlojeniyauz = "/predlojeniyauz.mp3";
@@ -25,13 +25,17 @@ export const MainLayout = ({ locale, children }) => {
 
   const { mutate } = useUpdateNoteData();
 
-  // const { data, isFetching } = useGetNoteListFirst({
-  //   params: {
-  //     data: JSON.stringify({
-  //       users_id_2: authStore.userData?.guid,
-  //       views: false,
-  //       with_relations: true,
-  //     }),
+
+
+  // const { data: data2, } = useGetNotificationFirst({
+  //   data: {
+  //     data: {
+  //       object_data: {
+  //         type: `notification`,
+  //         users_id_2: authStore.userData?.guid,
+  //         views: false,
+  //       },
+  //     },
   //   },
   //   querySettings: {
   //     enabled: Boolean(
@@ -40,6 +44,7 @@ export const MainLayout = ({ locale, children }) => {
   //         !pathname.includes(`my-loads`)
   //     ),
   //     onSuccess: (res) => {
+      
   //       if (res.response?.length > 0) {
   //         notificationFn(res);
   //       }

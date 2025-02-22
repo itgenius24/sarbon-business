@@ -5,6 +5,7 @@ import {
   useGetExcelPost,
   useGetNewPred,
   useGetNoteList,
+  useGetNotification,
   useGetOffer,
   useGetOfferCount,
   useGetUserCargo,
@@ -42,7 +43,7 @@ export const useMyLoadsMainProps = (locale) => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const pathname = usePathname();
-   console.log(`locale`,locale)
+  console.log(`locale`, locale);
   const [data, setData] = useState([]);
   const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;
@@ -130,15 +131,15 @@ export const useMyLoadsMainProps = (locale) => {
 
   const { mutate } = useUpdateNoteData();
 
-  
-
-  // const { data: notification2 } = useGetNoteList({
-  //   params: {
-  //     data: JSON.stringify({
-  //       // users_id_2: ``,
-  //       views: false,
-  //       with_relations: true,
-  //     }),
+  // const { data: data2, } = useGetNotification({
+  //   data: {
+  //     data: {
+  //       object_data: {
+  //         type: `notification`,
+  //         users_id_2: authStore.userData?.guid,
+  //         views: false,
+  //       },
+  //     },
   //   },
   //   querySettings: {
   //     enabled: Boolean(
@@ -275,22 +276,32 @@ export const useMyLoadsMainProps = (locale) => {
   });
 
   const notificationFn = (res) => {
-    // mutate({
-    //   data: {
-    //     views: true,
-    //     guid: res?.response?.[0]?.guid,
-    //   },
-    // });
+    mutate({
+      data: {
+        views: true,
+        guid: res?.response?.[0]?.guid,
+      },
+    });
 
     Notification.requestPermission();
     if (res?.response?.[0]?.type === "предложение") {
-      getNewPred.mutate({
-        data: {
-          object_data: {
-            dispetchir_id: userId,
+      if(res?.response?.[0]?.users_id_2){
+        getNewPred.mutate({
+          data: {
+            object_data: {
+              dispetchir_id: userId,
+            },
           },
-        },
-      });
+        });
+      }else{
+        getNoDisPred.mutate({
+          data: {
+            object_data: {
+              dispetchir_id: ``,
+            },
+          },
+        });
+      }
       const audio = new Audio(locale === `uz` ? predlojeniyauz : predlojeniya);
       audio.play();
       new Notification(res?.response?.[0]?.title, {
@@ -466,7 +477,7 @@ export const useMyLoadsMainProps = (locale) => {
           guid: cargo?.guid,
           provisions: ["cancellation"],
           who_cancellation: ["customer"],
-          cancel_time: new Date()
+          cancel_time: new Date(),
         },
       },
       {
