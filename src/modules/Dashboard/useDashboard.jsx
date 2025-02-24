@@ -5,6 +5,7 @@ import {
   useDispatcherFirmsEdit,
   useGetExcelPost,
   useGetFirmInfo,
+  useGetOffer,
   useGetUserCargo2,
   useGetUserData,
   useGetVehicle2,
@@ -162,6 +163,11 @@ export const useDashboard = (locale) => {
       }),
     },
   });
+
+ 
+
+
+
   const { data: useListDis } = useGetUserData({
     params: {
       data: JSON.stringify({
@@ -307,6 +313,24 @@ export const useDashboard = (locale) => {
     );
   };
 
+  const { data: perfomed } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`performed`],
+    }),
+  });
+
+  const { data: archive } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`archive`],
+    }),
+  });
+
+  const { data: newData } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`new`,`approve_by_customer`],
+    }),
+  });
+
   const topStatis = [
     {
       id: 1,
@@ -344,7 +368,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: 0,
+      total:newData?.count || 0,
       deck: `Общее кол-во предложений`,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
@@ -358,21 +382,21 @@ export const useDashboard = (locale) => {
     },
     {
       id: 3,
-      total: 0,
+      total: perfomed?.count || 0,
       deck: `Общее кол-во в исполнении`,
       bg: `rgba(255, 192, 0, 1)`,
       color: `rgba(255, 192, 0, 0.3)`,
     },
     {
       id: 4,
-      total: 0,
+      total: archive?.count || 0,
       deck: `Общее кол-во завершённых`,
       bg: `rgba(146, 208, 80, 1)`,
       color: `rgba(146, 208, 80, 1)`,
     },
   ];
 
-  console.log(`data`,data)
+ 
 
   const chartData = {
     labels: [
@@ -380,10 +404,10 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${ data?.new?.[0]?.total_count || 0})`,
-      `Предложений б-д (${ 0})`,
+      `Предложений (${data?.new?.[0]?.total_count || 0})`,
+      `Предложений б-д (${0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
-      `Завершённых (${data?.archive?.[0]?.total_count ||0})`,
+      `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
     ],
     datasets: [
       {
@@ -396,7 +420,7 @@ export const useDashboard = (locale) => {
           data?.new?.[0]?.total_count || 0,
           0,
           data?.performed?.[0]?.total_count || 0,
-          data?.archive?.[0]?.total_count ||0,
+          data?.archive?.[0]?.total_count || 0,
         ],
         borderColor: "transparent",
         backgroundColor: [
@@ -943,7 +967,7 @@ export const useDashboard = (locale) => {
               {row?.user_history_data?.last_move_time &&
                 format(row?.user_history_data?.last_move_time, `HH:mm`)}
             </p>
-            <p style={{ whiteSpace: `nowrap`,textAlign: `center` }}>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
               {row?.user_history_data?.last_move_time &&
                 format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
             </p>
