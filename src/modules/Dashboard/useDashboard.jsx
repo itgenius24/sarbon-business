@@ -455,7 +455,7 @@ export const useDashboard = (locale) => {
               </p>
               <p style={{ whiteSpace: `nowrap` }}>
                 {row?.user_history_data?.last_move_time &&
-                  format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+                  format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
               </p>
             </>
           );
