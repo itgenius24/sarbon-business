@@ -344,21 +344,21 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total:  0,
+      total: 0,
       deck: `Общее кол-во предложений`,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
     },
     {
       id: 2,
-      total:  0,
+      total: 0,
       deck: `Общее кол-во предложений без диспетчеров`,
       bg: `rgba(165, 165, 165, 1)`,
       color: `rgba(165, 165, 165, 0.3)`,
     },
     {
       id: 3,
-      total:  0,
+      total: 0,
       deck: `Общее кол-во в исполнении`,
       bg: `rgba(255, 192, 0, 1)`,
       color: `rgba(255, 192, 0, 0.3)`,
@@ -931,37 +931,72 @@ export const useDashboard = (locale) => {
     {
       title: `Последняя активность`,
       dataIndex: "createdAt",
-      width: 200,
+      width: 150,
+      render: (_, row) => {
+        const date = new Date(row?.user_history_data?.last_move_time);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`,textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+            </p>
+          </>
+        );
+      },
     },
     {
       title: `Диспетчер`,
-      dataIndex: "createdAt",
+      dataIndex: "full_name",
       width: 200,
     },
     {
       title: `Общее кол-во машин`,
-      dataIndex: "createdAt",
+      dataIndex: "",
       width: 200,
     },
     {
       title: `Общее кол-во свободных`,
-      dataIndex: "createdAt",
+      dataIndex: "",
       width: 200,
     },
     {
       title: `Общее кол-во в исполнении`,
-      dataIndex: "createdAt",
+      dataIndex: "",
       width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`performed`)
+        );
+        return data?.[0]?.count;
+      },
     },
     {
       title: `Общее кол-во завершённых`,
-      dataIndex: "createdAt",
+      dataIndex: "",
       width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`archive`)
+        );
+
+        return data?.[0]?.count;
+      },
     },
     {
       title: `Общее кол-во предложений`,
-      dataIndex: "createdAt",
+      dataIndex: "",
       width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`new`)
+        );
+        return data?.[0]?.count;
+      },
     },
   ];
 
