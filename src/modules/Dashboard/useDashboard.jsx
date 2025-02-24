@@ -372,16 +372,18 @@ export const useDashboard = (locale) => {
     },
   ];
 
+  console.log(`data`,data)
+
   const chartData = {
     labels: [
       `Водитель (${data?.driver_count?.[0]?.total_count || 0})`,
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${0})`,
-      `Предложений б-д (${0})`,
-      `В исполнении (${0})`,
-      `Завершённых (${0})`,
+      `Предложений (${ data?.new?.[0]?.total_count || 0})`,
+      `Предложений б-д (${ 0})`,
+      `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
+      `Завершённых (${data?.archive?.[0]?.total_count ||0})`,
     ],
     datasets: [
       {
@@ -391,10 +393,10 @@ export const useDashboard = (locale) => {
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
+          data?.new?.[0]?.total_count || 0,
           0,
-          0,
-          0,
-          0,
+          data?.performed?.[0]?.total_count || 0,
+          data?.archive?.[0]?.total_count ||0,
         ],
         borderColor: "transparent",
         backgroundColor: [
