@@ -66,7 +66,6 @@ export const useGpsTrackingProps = () => {
 
   const [debouncedValue] = useDebounce(distance, 500);
 
-
   useEffect(() => {
     if (checked) {
       document.body.classList.add("no-scroll");
@@ -139,23 +138,21 @@ export const useGpsTrackingProps = () => {
         ...intervalLocations,
         watch("to"),
       ]);
-
     }
   }
 
+  const { mutate: logHistory } = useCreateLogHistory({});
 
-    const { mutate: logHistory } = useCreateLogHistory({});
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `gps_track`,
+      },
+    });
+  }, []);
 
-    useEffect(() => {
-      logHistory({
-        data: {
-          users_id: authStore.userData.guid,
-          last_move_time: new Date(),
-          menu: `gps_track`,
-        },
-      });
-    }, []);
- 
   let draggingIndex = null;
 
   const handleDragStart = (e, index) => {
@@ -258,8 +255,6 @@ export const useGpsTrackingProps = () => {
   const toast = useToast();
   console.log(`carsArr`, carsArr);
 
-
-
   const { mutate: dataMutate, isLoading } = useGetCar({
     onSuccess: (data) => {
       if (data?.response?.length === 50) {
@@ -275,9 +270,11 @@ export const useGpsTrackingProps = () => {
         );
         // console.log(`carsArr21`, data2?.map((item) => ({ ...item, user: item?.user?.users_id_data})));
 
-
         if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
-          data2 = data2?.map((item) => ({ ...item, user: item?.user?.users_id_data}));
+          data2 = data2?.map((item) => ({
+            ...item,
+            user: item?.user?.users_id_data,
+          }));
         }
         if (
           watch(`load_type_id`)?.value ||
@@ -376,8 +373,8 @@ export const useGpsTrackingProps = () => {
       data: watch("users_id")
         ? dataUserDataID
         : watch(`car_type`)?.value
-          ? carTypeDataFIlter
-          : uniqueData,
+        ? carTypeDataFIlter
+        : uniqueData,
     };
   }, [
     watch("users_id"),
@@ -387,7 +384,6 @@ export const useGpsTrackingProps = () => {
     carsArr?.length,
     uniqueData,
   ]);
-
 
   const { mutate: getCarRefueling } = useGetCarRefueling({
     onSuccess: (res) => {
@@ -488,9 +484,18 @@ export const useGpsTrackingProps = () => {
             volume: watch("volume"),
             limit: 50,
             page: offset,
-            firm_id: role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" ? firm_id : undefined,
-            type: role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? "dispatcher" : undefined,
-            dispatcher_id: role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? disId : undefined,
+            firm_id:
+              role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f"
+                ? firm_id
+                : undefined,
+            type:
+              role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+                ? "dispatcher"
+                : undefined,
+            dispatcher_id:
+              role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+                ? disId
+                : undefined,
           },
         },
       });

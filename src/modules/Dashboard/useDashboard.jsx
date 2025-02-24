@@ -38,13 +38,14 @@ export const useDashboard = (locale) => {
     [`1`]: `ekspiditor`,
     [`2`]: `truck`,
     [`3`]: `cargo`,
+    [`4`]: `dispatcher`,
   };
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
     enabled: Boolean(firmId?.firm_data?.guid),
   });
 
-  const { mutate: filterData, isLoading:filterDataLoadin } =
+  const { mutate: filterData, isLoading: filterDataLoadin } =
     useLogistikaGpsTrackingFilterDriverPred({
       onSuccess: (res) => {
         setData(res);
@@ -310,21 +311,21 @@ export const useDashboard = (locale) => {
     {
       id: 1,
       total: useList?.count || 0,
-      deck: `Общее количество водителей`,
+      deck: `Общее кол-во водителей`,
       bg: `rgba(0, 51, 153, 1)`,
       color: `rgba(0, 51, 153, 0.3)`,
     },
     {
       id: 2,
       total: useExsList?.count || 0,
-      deck: `Общее количество перевозчиков`,
+      deck: `Общее кол-во перевозчиков`,
       bg: `rgba(21, 186, 77, 1)`,
       color: `rgba(21, 186, 77, 0.3)`,
     },
     {
       id: 3,
       total: vehicle?.count || 0,
-      deck: `Общее количество транспортных средств `,
+      deck: `Общее кол-во транспортных средств `,
       bg: `rgba(0, 122, 255, 1)`,
       color: `rgba(0, 122, 255, 0.3)`,
     },
@@ -335,9 +336,39 @@ export const useDashboard = (locale) => {
           (sum, item) => sum + item?.accepted_offers,
           0
         ) || 0,
-      deck: `Общее количество активных грузов`,
+      deck: `Общее кол-во активных грузов`,
       bg: `rgba(193, 187, 32, 1)`,
       color: `rgba(193, 187, 32, 0.3)`,
+    },
+  ];
+  const topStatis2 = [
+    {
+      id: 1,
+      total:  0,
+      deck: `Общее кол-во предложений`,
+      bg: `rgba(142, 170, 219, 1)`,
+      color: `rgba(142, 170, 219, 0.3)`,
+    },
+    {
+      id: 2,
+      total:  0,
+      deck: `Общее кол-во предложений без диспетчеров`,
+      bg: `rgba(165, 165, 165, 1)`,
+      color: `rgba(165, 165, 165, 0.3)`,
+    },
+    {
+      id: 3,
+      total:  0,
+      deck: `Общее кол-во в исполнении`,
+      bg: `rgba(255, 192, 0, 1)`,
+      color: `rgba(255, 192, 0, 0.3)`,
+    },
+    {
+      id: 4,
+      total: 0,
+      deck: `Общее кол-во завершённых`,
+      bg: `rgba(146, 208, 80, 1)`,
+      color: `rgba(146, 208, 80, 1)`,
     },
   ];
 
@@ -347,6 +378,10 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
+      `Предложений (${0})`,
+      `Предложений б-д (${0})`,
+      `В исполнении (${0})`,
+      `Завершённых (${0})`,
     ],
     datasets: [
       {
@@ -356,6 +391,10 @@ export const useDashboard = (locale) => {
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
+          0,
+          0,
+          0,
+          0,
         ],
         borderColor: "transparent",
         backgroundColor: [
@@ -363,6 +402,10 @@ export const useDashboard = (locale) => {
           "rgba(21, 186, 77, 1)",
           "rgba(0, 122, 255, 1)",
           "rgba(193, 187, 32, 1)",
+          "rgba(142, 170, 219, 1)",
+          "rgba(165, 165, 165, 1)",
+          "rgba(255, 192, 0, 1)",
+          "rgba(146, 208, 80, 1)",
         ],
         barPercentage: 0.4,
         categoryPercentage: 0.4,
@@ -383,6 +426,7 @@ export const useDashboard = (locale) => {
   };
 
   const options = {
+    maintainAspectRatio: false,
     indexAxis: "y",
     elements: {
       bar: {
@@ -436,7 +480,7 @@ export const useDashboard = (locale) => {
         if (currentYear === year) {
           return (
             <>
-              <p style={{ whiteSpace: `nowrap`,textAlign:`center` }}>
+              <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
                 {row?.user_history_data?.last_move_time &&
                   format(row?.user_history_data?.last_move_time, `HH:mm`)}
               </p>
@@ -449,7 +493,7 @@ export const useDashboard = (locale) => {
         } else {
           return (
             <>
-              <p style={{ whiteSpace: `nowrap`,textAlign:`center` }}>
+              <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
                 {row?.user_history_data?.last_move_time &&
                   format(row?.user_history_data?.last_move_time, `HH:mm`)}
               </p>
@@ -464,7 +508,7 @@ export const useDashboard = (locale) => {
 
       width: 200,
     },
-  
+
     {
       title: `Тел Номер`,
       dataIndex: "phone",
@@ -491,7 +535,12 @@ export const useDashboard = (locale) => {
           <p style={{ width: `200px` }}>{row?.firm_data?.company_name}</p>
         ) : (
           <span
-            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic`,whiteSpace:`nowrap` }}
+            style={{
+              fontSize: `14px`,
+              fontWeight: 400,
+              fontStyle: `italic`,
+              whiteSpace: `nowrap`,
+            }}
           >
             Нет названия фирмы
           </span>
@@ -549,7 +598,7 @@ export const useDashboard = (locale) => {
       dataIndex: "createdAt",
       render: (_, row) => (
         <p style={{ whiteSpace: `nowrap` }}>
-          { row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
         </p>
       ),
 
@@ -689,7 +738,11 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => <span style={{whiteSpace:`nowrap`}}>{ row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}</span>,
+      render: (_, row) => (
+        <span style={{ whiteSpace: `nowrap` }}>
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+        </span>
+      ),
       width: 200,
     },
     {
@@ -743,7 +796,6 @@ export const useDashboard = (locale) => {
     },
   ];
   const columns4 = [
- 
     {
       title: `Груз id`,
       dataIndex: "number_of_order",
@@ -767,7 +819,7 @@ export const useDashboard = (locale) => {
       dataIndex: "createdAt",
       render: (_, row) => (
         <p style={{ whiteSpace: `nowrap` }}>
-          { row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
         </p>
       ),
 
@@ -784,7 +836,7 @@ export const useDashboard = (locale) => {
             background={`#fff`}
             label={row.from}
           >
-            <p>{row?.from?.slice(0, 20)}...</p>
+            <p style={{ width: `130px` }}>{row?.from?.slice(0, 20)}...</p>
           </Tooltip>
         ) : (
           row?.from
@@ -802,7 +854,7 @@ export const useDashboard = (locale) => {
             background={`#fff`}
             label={row.to}
           >
-            <p style={{width:`100px`}}>{row?.to?.slice(0, 20)}...</p>
+            <p style={{ width: `140px` }}>{row?.to?.slice(0, 20)}...</p>
           </Tooltip>
         ) : (
           row?.to
@@ -875,8 +927,47 @@ export const useDashboard = (locale) => {
     },
   ];
 
+  const columns5 = [
+    {
+      title: `Последняя активность`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+    {
+      title: `Диспетчер`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во машин`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во свободных`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во в исполнении`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во завершённых`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во предложений`,
+      dataIndex: "createdAt",
+      width: 200,
+    },
+  ];
+
   return {
     topStatis,
+    topStatis2,
     chartData,
     options,
     setStartDate,
@@ -887,6 +978,7 @@ export const useDashboard = (locale) => {
     columns2,
     columns3,
     columns4,
+    columns5,
     data,
     setStatus,
     isLoading,

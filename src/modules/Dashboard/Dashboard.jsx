@@ -53,6 +53,7 @@ ChartJS.register(
 const Dashboard = ({ locale }) => {
   const {
     topStatis,
+    topStatis2,
     chartData,
     options,
     setStartDate,
@@ -63,6 +64,7 @@ const Dashboard = ({ locale }) => {
     columns2,
     columns3,
     columns4,
+    columns5,
     data,
     isLoading,
     setStatus,
@@ -81,22 +83,54 @@ const Dashboard = ({ locale }) => {
     editFn,
   } = useDashboard(locale);
 
-  // const notificationFn = () => {
-  //   Notification.requestPermission();
-  //   const audio = new Audio(notificationSound); // O'zingizga kerakli audio fayl yo'lini kiriting
-  //   audio.play();
-  //   new Notification("Xabaringiz bor!", {
-  //     body: "Sizga yangi xabar keldi. Iltimos tekshiring!",
-  //     icon: "/custom-icon.png", // Maxsus ikonka
-  //     vibrate: [200, 100, 200], // Vibration (mobil qurilmalar uchun)
-  //   });
-  // };
+
 
   return (
     <>
       <ContainerAnalitik my={`40px`}>
         <Flex flexDirection={`column`} rowGap={`30px`}>
           <Flex gap={`20px`}>
+          <Flex
+              flexWrap={`wrap`}
+              width={`35%`}
+              gap={`20px`}
+              justifyContent={`space-between`}
+            >
+              {topStatis2.map((item) => (
+                <Box
+                  width={`100%`}
+                  borderRadius={`12px`}
+                  backgroundColor={item.color}
+                  key={item.id}
+                  border={`1px solid ${item.bg}`}
+                  p={`20px 16px`}
+                  className={cls.card}
+                >
+                  {isLoading ? (
+                    <Spinner color="brand.500" size="md" />
+                  ) : (
+                    <Heading
+                      color={`black`}
+                      fontSize={`30px`}
+                      lineHeight={`30px`}
+                      fontWeight={`600`}
+                    >
+                      <SlotCounter value={item.total} />
+                    </Heading>
+                  )}
+
+                  <Heading
+                    mt={`12px`}
+                    color={`black`}
+                    fontSize={`18px`}
+                    lineHeight={`30px`}
+                    fontWeight={`400`}
+                  >
+                    {item.deck}
+                  </Heading>
+                </Box>
+              ))}
+            </Flex>
             <Flex
               borderRadius={`12px`}
               justifyContent={`center`}
@@ -150,11 +184,12 @@ const Dashboard = ({ locale }) => {
                   </Flex>
                 </Flex>
                 <Flex justifyContent={`center`}>
-                  <Box width={`90%`}>
+                  <Box width={`100%`} h={`100%`}>
                     <Bar
+                      minBarLength={`4000px`}
                       options={options}
                       data={chartData}
-                      style={{ background: "white", width: `100%` }}
+                      style={{ background: "white", width: `100%`,height:`500px` }}
                     />
                   </Box>
                 </Flex>
@@ -162,7 +197,7 @@ const Dashboard = ({ locale }) => {
             </Flex>
             <Flex
               flexWrap={`wrap`}
-              width={`50%`}
+              width={`35%`}
               gap={`20px`}
               justifyContent={`space-between`}
             >
@@ -217,6 +252,7 @@ const Dashboard = ({ locale }) => {
                   <Tab> Перевозчик</Tab>
                   <Tab> Транспорт</Tab>
                   <Tab> Груз</Tab>
+                  <Tab> Диспетчеры</Tab>
                 </TabList>
                 <Button
                   width={`fit-content`}
@@ -272,6 +308,15 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns4}
+                    data={data.response}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <CTable
+                    isLoading={filterDataLoadin}
+                    columns={columns5}
                     data={data.response}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}

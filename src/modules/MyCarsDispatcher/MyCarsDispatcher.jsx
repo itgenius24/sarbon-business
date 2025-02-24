@@ -77,15 +77,6 @@ export const MyCarsDispatcherModule = () => {
                 {t(`Добавить водителя`)}
               </Button>
             )}
-            {/* <Button
-              onClick={() =>
-                router.push(`/${locale}/my-cars-dispatcher/create`)
-              }
-              width={"fit-content"}
-              leftIcon={<PlusIcon />}
-            >
-              Добавить водителя
-            </Button> */}
           </Flex>
         </Flex>
         <Flex>

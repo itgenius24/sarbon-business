@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  useCreateLogHistory,
   useGetCar,
   useGetCarDispatcher,
   useGetCarRefueling,
@@ -97,6 +98,19 @@ export const useGpsTrackingProps = () => {
     control,
     name: "locations",
   });
+
+  const { mutate: logHistory } = useCreateLogHistory({});
+
+
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `gps_track`,
+      },
+    });
+  }, []);
 
   const mapIcon = {
     empty: GreenMapIcon,
