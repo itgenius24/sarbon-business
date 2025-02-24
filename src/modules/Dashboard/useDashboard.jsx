@@ -331,6 +331,15 @@ export const useDashboard = (locale) => {
     }),
   });
 
+  const { data: bzData } = useGetOffer({
+    data: JSON.stringify({
+      users_id_3:null,
+      provisions: [`new`],
+
+    }),
+  });
+
+
   const topStatis = [
     {
       id: 1,
@@ -375,7 +384,7 @@ export const useDashboard = (locale) => {
     },
     {
       id: 2,
-      total: 0,
+      total: bzData?.count || 0,
       deck: `Общее кол-во предложений без диспетчеров`,
       bg: `rgba(165, 165, 165, 1)`,
       color: `rgba(165, 165, 165, 0.3)`,
@@ -405,7 +414,7 @@ export const useDashboard = (locale) => {
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
       `Предложений (${data?.new?.[0]?.total_count || 0})`,
-      `Предложений б-д (${0})`,
+      `Предложений б-д (${data?.free?.[0]?.total_count ||0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
     ],
@@ -418,7 +427,7 @@ export const useDashboard = (locale) => {
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
           data?.new?.[0]?.total_count || 0,
-          0,
+          data?.free?.[0]?.total_count ||0,
           data?.performed?.[0]?.total_count || 0,
           data?.archive?.[0]?.total_count || 0,
         ],
