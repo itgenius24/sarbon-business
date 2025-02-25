@@ -1037,13 +1037,25 @@ export const useDashboard = (locale) => {
         return data?.[0]?.count;
       },
     },
+   
     {
       title: `Общее кол-во предложений`,
       dataIndex: "",
       width: 200,
       render: (_, row) => {
         const data = row?.orders_status_counts?.filter((item) =>
-          item?._id?.includes(`new`)
+          item?._id?.includes(`new`) &&  item?._id?.includes("approve_by_customer")
+        );
+        return data?.[0]?.count;
+      },
+    },
+    {
+      title: `Ждём водителя`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`new`) &&  item?._id?.includes("approve_from_driver")
         );
         return data?.[0]?.count;
       },
