@@ -700,7 +700,7 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => row.createdAt && format(row.createdAt, `yyyy-MM-dd`),
+      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}</p>,
       width: 200,
     },
     {
