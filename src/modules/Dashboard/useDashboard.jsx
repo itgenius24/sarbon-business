@@ -327,6 +327,8 @@ export const useDashboard = (locale) => {
     }),
   });
 
+  console.log(`newData`,newData)
+
   const { data: bzData } = useGetOffer({
     data: JSON.stringify({
       users_id_3: null,
@@ -371,7 +373,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: newData?.count || 0,
+      total: newData?.response?.filter(item => item?.users_id_3)?.length || 0,
       deck: `Общее кол-во предложений`,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,

@@ -105,7 +105,7 @@ export const MyCarsDispatcherModule = () => {
           </Box>
         </Flex>
 
-        {/* <SarbonTable columns={columns} data={data} /> */}
+        {/* <SarbonTable variant="card" columns={columns} data={data} /> */}
         <Box mt={"37px"}>
           <Flex
             p={"10px 36px"}

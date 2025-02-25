@@ -40,7 +40,7 @@ import {
   Portal,
   Tooltip,
 } from "@chakra-ui/react";
-import { render } from "sass";
+
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
