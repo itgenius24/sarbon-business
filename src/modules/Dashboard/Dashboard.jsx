@@ -40,7 +40,6 @@ import SimpleLoader from "@/components/Loaders/SimpleLoader";
 import { formatNumber } from "@/utils/formatNumber";
 import { ContainerAnalitik } from "@/components/ContainerAnalitik/Container";
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -83,14 +82,12 @@ const Dashboard = ({ locale }) => {
     editFn,
   } = useDashboard(locale);
 
-
-
   return (
     <>
       <ContainerAnalitik my={`40px`}>
         <Flex flexDirection={`column`} rowGap={`30px`}>
           <Flex gap={`20px`}>
-          <Flex
+            <Flex
               flexWrap={`wrap`}
               width={`35%`}
               gap={`20px`}
@@ -189,7 +186,11 @@ const Dashboard = ({ locale }) => {
                       minBarLength={`4000px`}
                       options={options}
                       data={chartData}
-                      style={{ background: "white", width: `100%`,height:`500px` }}
+                      style={{
+                        background: "white",
+                        width: `100%`,
+                        height: `500px`,
+                      }}
                     />
                   </Box>
                 </Flex>
@@ -238,7 +239,12 @@ const Dashboard = ({ locale }) => {
             </Flex>
           </Flex>
 
-          <Box padding={`16px`} position={`relative`} borderRadius={`12px`} backgroundColor={`white`}>
+          <Box
+            padding={`16px`}
+            position={`relative`}
+            borderRadius={`12px`}
+            backgroundColor={`white`}
+          >
             {filterDataLoadin && <SimpleLoader />}
             <Tabs
               onChange={(el) => {
@@ -248,7 +254,7 @@ const Dashboard = ({ locale }) => {
             >
               <Flex width={`100%`} justifyContent={`space-between`}>
                 <TabList>
-                <Tab> Диспетчеры</Tab>
+                  <Tab> Диспетчеры</Tab>
                   <Tab> Водитель</Tab>
                   <Tab> Перевозчик</Tab>
                   <Tab> Транспорт</Tab>
@@ -277,7 +283,7 @@ const Dashboard = ({ locale }) => {
               />
 
               <TabPanels>
-              <TabPanel>
+                <TabPanel>
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns5}
@@ -287,7 +293,6 @@ const Dashboard = ({ locale }) => {
                   />
                 </TabPanel>
                 <TabPanel>
-
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns2}
@@ -323,7 +328,6 @@ const Dashboard = ({ locale }) => {
                     currentPage={currentPage}
                   />
                 </TabPanel>
-             
               </TabPanels>
             </Tabs>
           </Box>
@@ -517,7 +521,8 @@ const Dashboard = ({ locale }) => {
                   >
                     <p className={cls.boxTitle}>Уставный фонд</p>
                     <p className={cls.boxDesc}>
-                      { firmData?.capital &&  formatNumber(firmData?.capital)} {` ${firmData?.currency || ``}`}
+                      {firmData?.capital && formatNumber(firmData?.capital)}{" "}
+                      {` ${firmData?.currency || ``}`}
                     </p>
                   </Flex>
                 </Box>
