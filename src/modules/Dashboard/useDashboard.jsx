@@ -35,11 +35,11 @@ export const useDashboard = (locale) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const filter = {
-    [`0`]: `driver`,
-    [`1`]: `ekspiditor`,
-    [`2`]: `truck`,
-    [`3`]: `cargo`,
-    [`4`]: `dispatcher`,
+    [`0`]: `dispatcher`,
+    [`1`]: `driver`,
+    [`2`]: `ekspiditor`,
+    [`3`]: `truck`,
+    [`4`]: `cargo`,
   };
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
@@ -327,6 +327,8 @@ export const useDashboard = (locale) => {
     }),
   });
 
+  console.log(`newData`,newData)
+
   const { data: bzData } = useGetOffer({
     data: JSON.stringify({
       users_id_3: null,
@@ -371,7 +373,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: newData?.count || 0,
+      total: newData?.response?.filter(item => item?.users_id_3)?.length || 0,
       deck: `Общее кол-во предложений`,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
