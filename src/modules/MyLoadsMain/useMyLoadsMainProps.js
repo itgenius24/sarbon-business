@@ -44,7 +44,6 @@ export const useMyLoadsMainProps = (locale) => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const pathname = usePathname();
-  console.log(`locale`, locale);
   const [data, setData] = useState([]);
   const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;

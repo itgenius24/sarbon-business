@@ -335,15 +335,15 @@ export const ShareLocationModule = () => {
                           <div className={cls.userWrap}>
                             <Avatar
                               color={"white"}
-                              name={user?.users_id_data?.full_name}
+                              name={`FN`}
                               src={user?.users_id_data?.photo}
                             />
                             <div className={cls.user}>
                               <p className={cls.userName}>
-                                {user?.users_id_data?.full_name}
+                                {/* {user?.users_id_data?.full_name.slice(0,1)} */}
                               </p>
                               <p className={cls.userTel}>
-                                {user?.users_id_data?.phone}
+                                +998 XXX XX XX
                               </p>
                             </div>
                           </div>
@@ -404,7 +404,7 @@ export const ShareLocationModule = () => {
                               <FurIcon />
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>
-                                  {t("Версия Furgo")}
+                                  {t("Версия Sarbon")}
                                 </p>
                                 <p className={cls.phoneItemName}>
                                   {
@@ -455,8 +455,8 @@ export const ShareLocationModule = () => {
                                   item?.long,
                                 ])}
                                 driverPosition={[
-                                  user?.users_gps?.lat,
-                                  user?.users_gps?.long,
+                                  getDriverLocation?.data.response?.[0]?.lat,
+                                  getDriverLocation?.data.response?.[0]?.long,
                                 ]}
                                 getMaps={getMaps}
                               />
@@ -573,7 +573,7 @@ export const ShareLocationModule = () => {
                               </Box>
                             </Flex>
                           </Flex>
-                          <Flex
+                          {/* <Flex
                             gap={`39px`}
                             background={`rgba(237, 246, 255, 1)`}
                             borderRadius={`10px`}
@@ -604,7 +604,7 @@ export const ShareLocationModule = () => {
                                 {user?.cargo_id_data?.currency_id_data?.code}
                               </p>
                             </Box>
-                          </Flex>
+                          </Flex> */}
                         </Flex>
                       </AccordionPanel>
                     </AccordionItem>
