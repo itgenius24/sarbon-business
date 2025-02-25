@@ -164,10 +164,6 @@ export const useDashboard = (locale) => {
     },
   });
 
- 
-
-
-
   const { data: useListDis } = useGetUserData({
     params: {
       data: JSON.stringify({
@@ -327,18 +323,16 @@ export const useDashboard = (locale) => {
 
   const { data: newData } = useGetOffer({
     data: JSON.stringify({
-      provisions: [`new`,`approve_by_customer`],
+      provisions: [`new`, `approve_by_customer`],
     }),
   });
 
   const { data: bzData } = useGetOffer({
     data: JSON.stringify({
-      users_id_3:null,
+      users_id_3: null,
       provisions: [`new`],
-
     }),
   });
-
 
   const topStatis = [
     {
@@ -377,7 +371,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total:newData?.count || 0,
+      total: newData?.count || 0,
       deck: `Общее кол-во предложений`,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
@@ -405,8 +399,6 @@ export const useDashboard = (locale) => {
     },
   ];
 
- 
-
   const chartData = {
     labels: [
       `Водитель (${data?.driver_count?.[0]?.total_count || 0})`,
@@ -414,7 +406,7 @@ export const useDashboard = (locale) => {
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
       `Предложений (${data?.new?.[0]?.total_count || 0})`,
-      `Предложений б-д (${data?.free?.[0]?.total_count ||0})`,
+      `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
     ],
@@ -427,7 +419,7 @@ export const useDashboard = (locale) => {
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
           data?.new?.[0]?.total_count || 0,
-          data?.free?.[0]?.total_count ||0,
+          data?.free?.[0]?.total_count || 0,
           data?.performed?.[0]?.total_count || 0,
           data?.archive?.[0]?.total_count || 0,
         ],
@@ -747,18 +739,19 @@ export const useDashboard = (locale) => {
       title: "Последняя активность",
       dataIndex: "",
       render: (_, row) => {
-          return  <>
-              <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
-                {row?.gps_history?.update_time &&
-                  format(row?.gps_history?.update_time, `HH:mm`)}
-              </p>
-              <p style={{ whiteSpace: `nowrap`,textAlign: `center`  }}>
-                {row?.gps_history?.update_time &&
-                  format(row?.gps_history?.update_time, `yyyy-MM-dd`)}
-              </p>
-            </>
-          
-        
+        const now = new Date(row?.gps_history?.update_time);
+        now.setHours(now.getHours() - 5);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.gps_history?.update_time && format(now, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.gps_history?.update_time && format(now, `yyyy-MM-dd`)}
+            </p>
+          </>
+        );
       },
 
       width: 200,

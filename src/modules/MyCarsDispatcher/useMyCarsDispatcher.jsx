@@ -14,7 +14,12 @@ import { useForm } from "react-hook-form";
 import { useDebounce as useDebounce2 } from "use-debounce";
 import useDebounce from "@/hooks/useDebounce";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
-import { CencelMapIcon, CheckBlueIcon, GreenCarIcon, QuestionBlueIcon } from "@/assets/icons/icons";
+import {
+  CencelMapIcon,
+  CheckBlueIcon,
+  GreenCarIcon,
+  QuestionBlueIcon,
+} from "@/assets/icons/icons";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
@@ -36,27 +41,26 @@ export const useMyCarsDispatcher = () => {
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
 
-
-   const statusData = [
-      {
-        id: 1,
-        type: "empty",
-        icon: GreenCarIcon,
-        title: "Свободная",
-      },
-      {
-        id: 2,
-        type: "someone_cargo",
-        icon: QuestionBlueIcon,
-      title:t( "Занята чужим грузом")
-      },
-      {
-        id: 3,
-        type: "broke_down",
-        icon: CencelMapIcon,
-        title:t( "Неисправна")
-      },
-    ];
+  const statusData = [
+    {
+      id: 1,
+      type: "empty",
+      icon: GreenCarIcon,
+      title: "Свободная",
+    },
+    {
+      id: 2,
+      type: "someone_cargo",
+      icon: QuestionBlueIcon,
+      title: t("Занята чужим грузом"),
+    },
+    {
+      id: 3,
+      type: "broke_down",
+      icon: CencelMapIcon,
+      title: t("Неисправна"),
+    },
+  ];
 
   const { mutate: logHistory } = useCreateLogHistory({});
 
@@ -96,8 +100,6 @@ export const useMyCarsDispatcher = () => {
       }
     },
   });
-
- 
 
   useEffect(() => {
     const dataReq = {
@@ -152,25 +154,23 @@ export const useMyCarsDispatcher = () => {
   };
 
   const { mutate: userUpdate } = useUpdateUserInfo({
-      onSuccess() {
-        setRefe(true);
-        setData([]);
-        setOldData([]);
-        setOpen(false);
-  
-      },
-      onError() {},
-    });
-  
-console.log(open)
-  const statusIconChange = () =>{
+    onSuccess() {
+      setRefe(true);
+      setData([]);
+      setOldData([]);
+      setOpen(false);
+    },
+    onError() {},
+  });
 
+  console.log(open);
+  const statusIconChange = () => {
     const body = {
       guid: open.driver_data?.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
-  }
+  };
 
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));
@@ -194,8 +194,6 @@ console.log(open)
     }
   };
 
-
-
   useEffect(() => {
     document.addEventListener("scroll", handleScroll, { capture: true });
 
@@ -204,7 +202,6 @@ console.log(open)
     };
   }, []);
 
-  
   return {
     data,
     deleteFuntion,
@@ -218,8 +215,10 @@ console.log(open)
     count,
     addPage,
     statusData,
-    iconStatus, setIconStatus,
-    open, setOpen,
-    statusIconChange
+    iconStatus,
+    setIconStatus,
+    open,
+    setOpen,
+    statusIconChange,
   };
 };
