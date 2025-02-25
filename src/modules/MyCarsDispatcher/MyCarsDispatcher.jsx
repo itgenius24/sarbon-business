@@ -8,6 +8,13 @@ import {
   Flex,
   Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useMediaQuery,
 } from "@chakra-ui/react";
 
@@ -21,6 +28,9 @@ import { CarsCard } from "./component/CarsCard/CarsCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import authStore from "@/store/auth.store";
 import { TextField } from "@/components/TextField";
+import { Modak } from "next/font/google";
+import CheckBoxComponent from "../GpsTrackingDispatcher/components/CheckBoxComponent";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 export const MyCarsDispatcherModule = () => {
   const {
@@ -30,12 +40,17 @@ export const MyCarsDispatcherModule = () => {
     nameFilter,
     filter1,
     isLoading,
-    register,
     setSearchFn,
     search,
-    containerRef,
+    statusData,
     count,
     addPage,
+    open,
+    setOpen,
+    iconStatus,
+    setIconStatus,
+    statusIconChange,
+    columns,
   } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
@@ -44,11 +59,11 @@ export const MyCarsDispatcherModule = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  console.log(`data`,data)
+
 
   return (
     <>
-      <Container  maxW={`1444px`} my="40px">
+      <Container maxW={`1444px`} my="40px">
         <Flex width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}
@@ -77,15 +92,6 @@ export const MyCarsDispatcherModule = () => {
                 {t(`Добавить водителя`)}
               </Button>
             )}
-            {/* <Button
-              onClick={() =>
-                router.push(`/${locale}/my-cars-dispatcher/create`)
-              }
-              width={"fit-content"}
-              leftIcon={<PlusIcon />}
-            >
-              Добавить водителя
-            </Button> */}
           </Flex>
         </Flex>
         <Flex>
@@ -98,6 +104,8 @@ export const MyCarsDispatcherModule = () => {
             />
           </Box>
         </Flex>
+
+        {/* <SarbonTable columns={columns} data={data} /> */}
         <Box mt={"37px"}>
           <Flex
             p={"10px 36px"}
@@ -130,12 +138,12 @@ export const MyCarsDispatcherModule = () => {
             </Flex>
           </Flex>
         </Box>
-        <div id="scroll-container">
+        <div>
           {data?.length > 0 &&
             data?.map((item) => (
               <CarsCard
                 t={t}
-                // containerRef={containerRef}
+                setOpen={setOpen}
                 key={item?.driver_data?.guid}
                 item={item}
                 deleteFuntion={deleteFuntion}
@@ -165,6 +173,48 @@ export const MyCarsDispatcherModule = () => {
           )} */}
         </div>
       </Container>
+
+      <Modal isOpen={open} onClose={() => setOpen(false)} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Статус машины</ModalHeader>
+          <ModalCloseButton onClick={() => setOpen(false)} />
+          <ModalBody>
+            {statusData.map((item) => (
+              <CheckBoxComponent
+                key={item.id}
+                onClick={() => setIconStatus(item.type)}
+                active={item.type === iconStatus}
+              >
+                <Flex gap={3} alignItems={"center"}>
+                  <item.icon /> <spa>{item.title}</spa>
+                </Flex>
+              </CheckBoxComponent>
+            ))}
+          </ModalBody>
+          <ModalFooter>
+            <Flex  gap={2}>
+              <Button
+                onClick={() => setOpen(false)}
+                className={cls.topButton}
+                variant="secondaryWhite"
+                size="md"
+                border="1px solid #D0D5DD"
+              >
+                Отменить
+              </Button>
+              <Button
+                isDisabled={Boolean(!iconStatus)}
+                onClick={statusIconChange}
+                className={cls.topButton}
+                size="md"
+              >
+                Сохранить
+              </Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

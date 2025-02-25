@@ -11,25 +11,13 @@ import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Tooltip } from "@chakra-ui/react";
 import { statusColor } from "../../data";
 import authStore from "@/store/auth.store";
 import { forwardRef } from "react";
 
 export const Performed = forwardRef(
-  ({
-    cargo,
-    orderStatus,
-    handleCancel,
-    setDataPred,
-    setOpen,
-  },ref) => {
+  ({ cargo, orderStatus, handleCancel, setDataPred, setOpen }, ref) => {
     {
       cargo?.offer_time
         ? format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)
@@ -39,10 +27,10 @@ export const Performed = forwardRef(
     }
     const { t } = useTranslation();
     const role_id = authStore.userData.role_id;
-  
+
     const router = useRouter();
     const locale = useGetLang();
-    
+
     const performedStatuses = {
       no_status: t("нет статуса"),
       go_to_load: t("иду на загрузку"),
@@ -54,16 +42,14 @@ export const Performed = forwardRef(
       complete_the_order: t("завершить заказ"),
       breaking: t("Поломка"),
       road_accident: t("ДТП"),
-      in_active: t("неактивен"), 
+      in_active: t("неактивен"),
     };
-  
+
     const obj = {
       after_payment: t(`Оплата после завершения`),
       prepayment: t(`Предоплата`),
     };
-  
-   
-  
+
     return (
       <div ref={ref} className={styles.performed}>
         <div className={styles.performedCard}>
@@ -100,8 +86,9 @@ export const Performed = forwardRef(
                       : cargo?.cargo_id_data?.load_time &&
                         format(
                           new Date(cargo?.cargo_id_data?.load_time).setHours(
-                            new Date(cargo?.cargo_id_data?.load_time).getHours() -
-                              5
+                            new Date(
+                              cargo?.cargo_id_data?.load_time
+                            ).getHours() - 5
                           ),
                           "dd-MMMM",
                           { locale: ru }
@@ -119,7 +106,10 @@ export const Performed = forwardRef(
                       background={`#fff`}
                       label={`${cargo?.cargo_id_data?.to}`}
                     >
-                      <span>{`${cargo?.cargo_id_data?.to.slice(0, 20)}...`}</span>
+                      <span>{`${cargo?.cargo_id_data?.to.slice(
+                        0,
+                        20
+                      )}...`}</span>
                     </Tooltip>
                   ) : (
                     cargo?.cargo_id_data?.to
@@ -127,7 +117,7 @@ export const Performed = forwardRef(
                 </h3>
                 <p>
                   {cargo?.cargo_id_data?.address_id_2_data?.name}
-  
+
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_b
                       ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase()} / ${t(
@@ -156,7 +146,9 @@ export const Performed = forwardRef(
                 <p className={styles.rightTitle}>
                   {t(`Предоплата`)}:
                   {cargo?.payment_type?.[0] === "prepayment"
-                    ? ` ${cargo?.prepayment} ${cargo?.currency_id_data?.code || ``}`
+                    ? ` ${cargo?.prepayment} ${
+                        cargo?.currency_id_data?.code || ``
+                      }`
                     : `Нет`}
                 </p>
               </div>
@@ -187,9 +179,13 @@ export const Performed = forwardRef(
                 <span className={styles.cardBodyTitle}>{t(`Телефон`)}</span>
                 <p className={styles.cardName}>{cargo?.users_id_data?.phone}</p>
               </div>
-              {(orderStatus === `new` || orderStatus === `cancellation` || orderStatus === `no_dispatcher`) && (
+              {(orderStatus === `new` ||
+                orderStatus === `cancellation` ||
+                orderStatus === `no_dispatcher`) && (
                 <div className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>{t(`Сообщение`)} </span>
+                  <span className={styles.cardBodyTitle}>
+                    {t(`Сообщение`)}{" "}
+                  </span>
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
@@ -200,26 +196,49 @@ export const Performed = forwardRef(
                   </p>
                 </div>
               )}
-              {orderStatus !== `new` && orderStatus !== `cancellation` && (
-                <div className={styles.cardItem}>
+              {(orderStatus !== `new` &&
+                orderStatus !== `cancellation`) &&
+                orderStatus === `archive` ? (
+                  <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
-                    {t(`Статус`)}: 
-                    {orderStatus === `archive`  ? cargo?.archive_time &&
-                      format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)  :cargo?.performed_time &&
-                       format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
+                    {t(`Сообщение`)}      {orderStatus === `archive`
+                        ? cargo?.archive_time &&
+                          format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)
+                        : cargo?.performed_time &&
+                          format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
                   </span>
-                  <p className={styles.cardName}>
-                    {
-                      performedStatuses[
-                        cargo?.indicate_status?.[0]
-                          ? cargo?.indicate_status?.[0]
-                          : `Не cтатус`
-                      ]
-                    }
-                    {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
+                  <p
+                    className={styles.cardName}
+                    dangerouslySetInnerHTML={{
+                      __html: cargo?.comment,
+                    }}
+                  >
+                    {/* {cargo?.comment} */}
                   </p>
                 </div>
-              )}
+                ):  (
+                  <div className={styles.cardItem}>
+                    <span className={styles.cardBodyTitle}>
+                      {t(`Статус`)}:
+                      {orderStatus === `archive`
+                        ? cargo?.archive_time &&
+                          format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)
+                        : cargo?.performed_time &&
+                          format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
+                    </span>
+                    <p className={styles.cardName}>
+                      {
+                        performedStatuses[
+                          cargo?.indicate_status?.[0]
+                            ? cargo?.indicate_status?.[0]
+                            : `Не cтатус`
+                        ]
+                      }
+                      {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
+                    </p>
+                  </div>
+                )
+                }
             </div>
             <div className={styles.card}>
               <Flex width={`100%`} justifyContent={`space-between`}>
@@ -233,7 +252,9 @@ export const Performed = forwardRef(
                     </p>
                   </div>
                   <div className={styles.cardItem}>
-                    <span className={styles.cardBodyTitle}>{t(`Транспорт`)}</span>
+                    <span className={styles.cardBodyTitle}>
+                      {t(`Транспорт`)}
+                    </span>
                     <p className={styles.cardName}>
                       {cargo?.[`car_type_${locale}`]
                         ? cargo?.[`car_type_${locale}`]
@@ -252,7 +273,9 @@ export const Performed = forwardRef(
                   </div>
                 </Flex>
                 <div style={{ textAlign: `right` }} className={styles.cardItem}>
-                  <span className={styles.cardBodyTitle}>{t(`Номер груза`)}</span>
+                  <span className={styles.cardBodyTitle}>
+                    {t(`Номер груза`)}
+                  </span>
                   <p className={styles.cardName}>
                     {cargo?.cargo_id_data?.number_of_order}
                   </p>
@@ -275,7 +298,7 @@ export const Performed = forwardRef(
                     />
                     <Box>
                       <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
-  
+
                       <p
                         style={{ lineHeight: `28px` }}
                         className={styles.cardName}
@@ -296,7 +319,7 @@ export const Performed = forwardRef(
                     </Box>
                   </Flex>
                 )}
-  
+
               {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" &&
                 orderStatus === `archive` &&
                 !cargo?.review && (
@@ -306,7 +329,9 @@ export const Performed = forwardRef(
                     gap={`7px`}
                     alignItems={`center`}
                   >
-                    <Button onClick={() => setOpen(cargo)}>Оставить отзыв</Button>
+                    <Button onClick={() => setOpen(cargo)}>
+                      Оставить отзыв
+                    </Button>
                   </Flex>
                 )}
               {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
@@ -323,7 +348,7 @@ export const Performed = forwardRef(
                     />
                     <Box>
                       <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
-  
+
                       <p
                         style={{ lineHeight: `28px` }}
                         className={styles.cardName}
@@ -386,7 +411,8 @@ export const Performed = forwardRef(
                       </p>
                     </>
                   )}
-                  {(orderStatus === `new` || orderStatus ===  `no_dispatcher`) && (
+                  {(orderStatus === `new` ||
+                    orderStatus === `no_dispatcher`) && (
                     <>
                       <span className={styles.cardBodyTitle}>
                         {t(`Статус`)}:
@@ -394,21 +420,30 @@ export const Performed = forwardRef(
                           format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
                       </span>
                       <p
-                        style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
+                        style={{
+                          fontWeight: 400,
+                          fontSize: `18px`,
+                          gap: `6px`,
+                        }}
                       >
                         {t(`Предложение`)}:
                       </p>
                     </>
                   )}
-  
+
                   {orderStatus === `cancellation` && (
                     <>
-                      <span className={styles.cardBodyTitle}>{t(`Статус`)}
-                      {cargo?.cancel_time &&
-                        format(cargo?.cancel_time, ` dd.MM.yyyy, HH:mm`)}
+                      <span className={styles.cardBodyTitle}>
+                        {t(`Статус`)}
+                        {cargo?.cancel_time &&
+                          format(cargo?.cancel_time, ` dd.MM.yyyy, HH:mm`)}
                       </span>
                       <p
-                        style={{ fontWeight: 400, fontSize: `18px`, gap: `6px` }}
+                        style={{
+                          fontWeight: 400,
+                          fontSize: `18px`,
+                          gap: `6px`,
+                        }}
                       >
                         {cargo?.who_cancellation?.includes(`customer`)
                           ? `${t(`Был отменен вами`)}: `
@@ -418,7 +453,7 @@ export const Performed = forwardRef(
                   )}
                 </Box>
               </Flex>
-  
+
               {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 (orderStatus === `new` || orderStatus === `performed`) && (
                   <Flex
@@ -433,7 +468,7 @@ export const Performed = forwardRef(
                     />
                     <Box>
                       <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
-  
+
                       <p
                         style={{ lineHeight: `28px` }}
                         className={styles.cardName}
@@ -454,7 +489,7 @@ export const Performed = forwardRef(
                     </Box>
                   </Flex>
                 )}
-  
+
               {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 orderStatus === `performed` && (
                   <Flex
@@ -469,7 +504,7 @@ export const Performed = forwardRef(
                     />
                     <Box>
                       <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
-  
+
                       <p
                         style={{ lineHeight: `28px` }}
                         className={styles.cardName}
@@ -568,10 +603,7 @@ export const Performed = forwardRef(
             )} */}
           </div>
         </div>
-  
-     
       </div>
     );
   }
-)
-
+);

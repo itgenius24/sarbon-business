@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  useCreateLogHistory,
   useGetCar,
   useGetCarDispatcher,
   useGetCarRefueling,
@@ -66,7 +67,6 @@ export const useGpsTrackingProps = () => {
 
   const [debouncedValue] = useDebounce(distance, 500);
 
-
   useEffect(() => {
     if (checked) {
       document.body.classList.add("no-scroll");
@@ -97,6 +97,18 @@ export const useGpsTrackingProps = () => {
     control,
     name: "locations",
   });
+
+  const { mutate: logHistory } = useCreateLogHistory({});
+
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `gps_track`,
+      },
+    });
+  }, []);
 
   const mapIcon = {
     empty: GreenMapIcon,
@@ -315,15 +327,14 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: dataMutate, isLoading } = useGetCarDispatcher({
     onSuccess: (data) => {
-    
       if (data?.response?.length) {
         let data2 = data?.response?.map((item) => ({
           ...item,
           user: item?.users_id_data?.[0],
           vehicles: [item?.vehicle_id_data],
           firm_data: item?.firm_data,
-          users_gps:[item],
-          orders: item?.order_data ?  [item?.order_data] : undefined,
+          users_gps: [item],
+          orders: item?.order_data ? [item?.order_data] : undefined,
         }));
         setCarsArr((res) => [...res, ...data2]);
       }
@@ -361,22 +372,21 @@ export const useGpsTrackingProps = () => {
     });
   };
 
+  const { mutate: getCarRefueling } = useGetCarRefueling({
+    onSuccess: (res) => {
+      setRemainingData(res?.data?.data);
+    },
+  });
 
-    const { mutate: getCarRefueling } = useGetCarRefueling({
-      onSuccess: (res) => {
-        setRemainingData(res?.data?.data);
-      },
-    });
-  
-    useEffect(() => {
-      if (remainingData.length === 0) {
-        getCarRefueling({
-          data: {
-            object_data: {},
-          },
-        });
-      }
-    }, []);
+  useEffect(() => {
+    if (remainingData.length === 0) {
+      getCarRefueling({
+        data: {
+          object_data: {},
+        },
+      });
+    }
+  }, []);
 
   const filteredData = filterData(carsArr, checkboxStatuses);
 
@@ -422,8 +432,6 @@ export const useGpsTrackingProps = () => {
     carsArr?.length,
     uniqueData,
   ]);
-
-
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,

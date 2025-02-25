@@ -138,17 +138,17 @@ a {
 }
 
 .css-1dyuvm3 {
-  background-color: rgba(230, 224, 233, 1);
+  background-color: rgba(230, 224, 233, 1) !important;
   .chakra-switch__thumb {
-    background: rgba(121, 116, 126, 1);
+    background: rgba(121, 116, 126, 1) !important;
   }
 }
 
 .css-1dyuvm3[aria-checked="true"],
 .css-1dyuvm3[data-checked] {
-  background-color: #007aff;
+  background-color: #007aff !important;
   .chakra-switch__thumb {
-    background: rgb(255, 255, 255);
+    background: rgb(255, 255, 255) !important;
   }
 }
 

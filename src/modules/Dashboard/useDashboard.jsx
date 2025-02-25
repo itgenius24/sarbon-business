@@ -5,6 +5,7 @@ import {
   useDispatcherFirmsEdit,
   useGetExcelPost,
   useGetFirmInfo,
+  useGetOffer,
   useGetUserCargo2,
   useGetUserData,
   useGetVehicle2,
@@ -38,13 +39,14 @@ export const useDashboard = (locale) => {
     [`1`]: `ekspiditor`,
     [`2`]: `truck`,
     [`3`]: `cargo`,
+    [`4`]: `dispatcher`,
   };
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
     enabled: Boolean(firmId?.firm_data?.guid),
   });
 
-  const { mutate: filterData, isLoading:filterDataLoadin } =
+  const { mutate: filterData, isLoading: filterDataLoadin } =
     useLogistikaGpsTrackingFilterDriverPred({
       onSuccess: (res) => {
         setData(res);
@@ -161,6 +163,7 @@ export const useDashboard = (locale) => {
       }),
     },
   });
+
   const { data: useListDis } = useGetUserData({
     params: {
       data: JSON.stringify({
@@ -306,25 +309,50 @@ export const useDashboard = (locale) => {
     );
   };
 
+  const { data: perfomed } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`performed`],
+    }),
+  });
+
+  const { data: archive } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`archive`],
+    }),
+  });
+
+  const { data: newData } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`new`, `approve_by_customer`],
+    }),
+  });
+
+  const { data: bzData } = useGetOffer({
+    data: JSON.stringify({
+      users_id_3: null,
+      provisions: [`new`],
+    }),
+  });
+
   const topStatis = [
     {
       id: 1,
       total: useList?.count || 0,
-      deck: `Общее количество водителей`,
+      deck: `Общее кол-во водителей`,
       bg: `rgba(0, 51, 153, 1)`,
       color: `rgba(0, 51, 153, 0.3)`,
     },
     {
       id: 2,
       total: useExsList?.count || 0,
-      deck: `Общее количество перевозчиков`,
+      deck: `Общее кол-во перевозчиков`,
       bg: `rgba(21, 186, 77, 1)`,
       color: `rgba(21, 186, 77, 0.3)`,
     },
     {
       id: 3,
       total: vehicle?.count || 0,
-      deck: `Общее количество транспортных средств `,
+      deck: `Общее кол-во транспортных средств `,
       bg: `rgba(0, 122, 255, 1)`,
       color: `rgba(0, 122, 255, 0.3)`,
     },
@@ -335,9 +363,39 @@ export const useDashboard = (locale) => {
           (sum, item) => sum + item?.accepted_offers,
           0
         ) || 0,
-      deck: `Общее количество активных грузов`,
+      deck: `Общее кол-во активных грузов`,
       bg: `rgba(193, 187, 32, 1)`,
       color: `rgba(193, 187, 32, 0.3)`,
+    },
+  ];
+  const topStatis2 = [
+    {
+      id: 1,
+      total: newData?.count || 0,
+      deck: `Общее кол-во предложений`,
+      bg: `rgba(142, 170, 219, 1)`,
+      color: `rgba(142, 170, 219, 0.3)`,
+    },
+    {
+      id: 2,
+      total: bzData?.count || 0,
+      deck: `Общее кол-во предложений без диспетчеров`,
+      bg: `rgba(165, 165, 165, 1)`,
+      color: `rgba(165, 165, 165, 0.3)`,
+    },
+    {
+      id: 3,
+      total: perfomed?.count || 0,
+      deck: `Общее кол-во в исполнении`,
+      bg: `rgba(255, 192, 0, 1)`,
+      color: `rgba(255, 192, 0, 0.3)`,
+    },
+    {
+      id: 4,
+      total: archive?.count || 0,
+      deck: `Общее кол-во завершённых`,
+      bg: `rgba(146, 208, 80, 1)`,
+      color: `rgba(146, 208, 80, 1)`,
     },
   ];
 
@@ -347,6 +405,10 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
+      `Предложений (${data?.new?.[0]?.total_count || 0})`,
+      `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
+      `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
+      `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
     ],
     datasets: [
       {
@@ -356,6 +418,10 @@ export const useDashboard = (locale) => {
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
+          data?.new?.[0]?.total_count || 0,
+          data?.free?.[0]?.total_count || 0,
+          data?.performed?.[0]?.total_count || 0,
+          data?.archive?.[0]?.total_count || 0,
         ],
         borderColor: "transparent",
         backgroundColor: [
@@ -363,6 +429,10 @@ export const useDashboard = (locale) => {
           "rgba(21, 186, 77, 1)",
           "rgba(0, 122, 255, 1)",
           "rgba(193, 187, 32, 1)",
+          "rgba(142, 170, 219, 1)",
+          "rgba(165, 165, 165, 1)",
+          "rgba(255, 192, 0, 1)",
+          "rgba(146, 208, 80, 1)",
         ],
         barPercentage: 0.4,
         categoryPercentage: 0.4,
@@ -383,6 +453,7 @@ export const useDashboard = (locale) => {
   };
 
   const options = {
+    maintainAspectRatio: false,
     indexAxis: "y",
     elements: {
       bar: {
@@ -436,7 +507,7 @@ export const useDashboard = (locale) => {
         if (currentYear === year) {
           return (
             <>
-              <p style={{ whiteSpace: `nowrap`,textAlign:`center` }}>
+              <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
                 {row?.user_history_data?.last_move_time &&
                   format(row?.user_history_data?.last_move_time, `HH:mm`)}
               </p>
@@ -449,13 +520,13 @@ export const useDashboard = (locale) => {
         } else {
           return (
             <>
-              <p style={{ whiteSpace: `nowrap`,textAlign:`center` }}>
+              <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
                 {row?.user_history_data?.last_move_time &&
                   format(row?.user_history_data?.last_move_time, `HH:mm`)}
               </p>
               <p style={{ whiteSpace: `nowrap` }}>
                 {row?.user_history_data?.last_move_time &&
-                  format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+                  format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
               </p>
             </>
           );
@@ -464,7 +535,7 @@ export const useDashboard = (locale) => {
 
       width: 200,
     },
-  
+
     {
       title: `Тел Номер`,
       dataIndex: "phone",
@@ -491,7 +562,12 @@ export const useDashboard = (locale) => {
           <p style={{ width: `200px` }}>{row?.firm_data?.company_name}</p>
         ) : (
           <span
-            style={{ fontSize: `14px`, fontWeight: 400, fontStyle: `italic`,whiteSpace:`nowrap` }}
+            style={{
+              fontSize: `14px`,
+              fontWeight: 400,
+              fontStyle: `italic`,
+              whiteSpace: `nowrap`,
+            }}
           >
             Нет названия фирмы
           </span>
@@ -549,7 +625,7 @@ export const useDashboard = (locale) => {
       dataIndex: "createdAt",
       render: (_, row) => (
         <p style={{ whiteSpace: `nowrap` }}>
-          { row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
         </p>
       ),
 
@@ -624,7 +700,7 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => row.createdAt && format(row.createdAt, `yyyy-MM-dd`),
+      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}</p>,
       width: 200,
     },
     {
@@ -659,6 +735,27 @@ export const useDashboard = (locale) => {
         ),
       width: 200,
     },
+    {
+      title: "Последняя активность",
+      dataIndex: "",
+      render: (_, row) => {
+        const now = new Date(row?.gps_history?.update_time);
+        now.setHours(now.getHours() - 5);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.gps_history?.update_time && format(now, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.gps_history?.update_time && format(now, `yyyy-MM-dd`)}
+            </p>
+          </>
+        );
+      },
+
+      width: 200,
+    },
   ];
   const columns3 = [
     {
@@ -689,7 +786,11 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => <span style={{whiteSpace:`nowrap`}}>{ row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}</span>,
+      render: (_, row) => (
+        <span style={{ whiteSpace: `nowrap` }}>
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+        </span>
+      ),
       width: 200,
     },
     {
@@ -743,7 +844,6 @@ export const useDashboard = (locale) => {
     },
   ];
   const columns4 = [
- 
     {
       title: `Груз id`,
       dataIndex: "number_of_order",
@@ -767,7 +867,7 @@ export const useDashboard = (locale) => {
       dataIndex: "createdAt",
       render: (_, row) => (
         <p style={{ whiteSpace: `nowrap` }}>
-          { row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
         </p>
       ),
 
@@ -784,7 +884,7 @@ export const useDashboard = (locale) => {
             background={`#fff`}
             label={row.from}
           >
-            <p>{row?.from?.slice(0, 20)}...</p>
+            <p style={{ width: `130px` }}>{row?.from?.slice(0, 20)}...</p>
           </Tooltip>
         ) : (
           row?.from
@@ -802,7 +902,7 @@ export const useDashboard = (locale) => {
             background={`#fff`}
             label={row.to}
           >
-            <p style={{width:`100px`}}>{row?.to?.slice(0, 20)}...</p>
+            <p style={{ width: `140px` }}>{row?.to?.slice(0, 20)}...</p>
           </Tooltip>
         ) : (
           row?.to
@@ -875,8 +975,82 @@ export const useDashboard = (locale) => {
     },
   ];
 
+  const columns5 = [
+    {
+      title: `Последняя активность`,
+      dataIndex: "createdAt",
+      width: 150,
+      render: (_, row) => {
+        const date = new Date(row?.user_history_data?.last_move_time);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+            </p>
+          </>
+        );
+      },
+    },
+    {
+      title: `Диспетчер`,
+      dataIndex: "full_name",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во машин`,
+      dataIndex: "",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во свободных`,
+      dataIndex: "",
+      width: 200,
+    },
+    {
+      title: `Общее кол-во в исполнении`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`performed`)
+        );
+        return data?.[0]?.count;
+      },
+    },
+    {
+      title: `Общее кол-во завершённых`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`archive`)
+        );
+
+        return data?.[0]?.count;
+      },
+    },
+    {
+      title: `Общее кол-во предложений`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        const data = row?.orders_status_counts?.filter((item) =>
+          item?._id?.includes(`new`)
+        );
+        return data?.[0]?.count;
+      },
+    },
+  ];
+
   return {
     topStatis,
+    topStatis2,
     chartData,
     options,
     setStartDate,
@@ -887,6 +1061,7 @@ export const useDashboard = (locale) => {
     columns2,
     columns3,
     columns4,
+    columns5,
     data,
     setStatus,
     isLoading,

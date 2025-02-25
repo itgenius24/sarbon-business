@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import SimpleLoader from "../Loaders/SimpleLoader";
 
 const CTable = ({
-  pageSize = 10,
+  pageSize = 100,
   setPageSize,
   // currentPage = 1,
   // setCurrentPage = () => {},
