@@ -165,15 +165,11 @@ export const MyCarsDispatcherModule = () => {
             </Box>
           )}
 
-          {isLoading ? (
+          {isLoading && (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>
-          ) : (
-            <Box height={`50px`} mt={`20px`}>
-              <LoadingSpinner />
-            </Box>
-          )}
+          ) }
         </div>
       </Container>
 

@@ -157,7 +157,7 @@ export const useMyCarsDispatcher = () => {
       filterType: (val) => nameFilter(val),
       width: 200,
       render: (row, index) => (
-        <Flex alignItems={`center`} gap={`6px`}>
+        <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar
             size="sm"
             src={row?.driver_data?.photo}
