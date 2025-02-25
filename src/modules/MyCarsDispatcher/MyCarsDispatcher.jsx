@@ -38,7 +38,6 @@ export const MyCarsDispatcherModule = () => {
     data,
     deleteFuntion,
     nameFilter,
-    filter1,
     isLoading,
     setSearchFn,
     search,
@@ -51,6 +50,7 @@ export const MyCarsDispatcherModule = () => {
     setIconStatus,
     statusIconChange,
     columns,
+    rowClassName,
   } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
@@ -105,10 +105,10 @@ export const MyCarsDispatcherModule = () => {
           </Box>
         </Flex>
 
-       {/* <Box mt={"37px"}>
-          <SarbonTable variant="card" columns={columns} data={data} />
-       </Box> */}
-        <Box mt={"37px"}>
+       <Box mt={"37px"}>
+          <SarbonTable rowClassName={rowClassName} variant="card" columns={columns} data={data} />
+       </Box>
+        {/* <Box mt={"37px"}>
           <Flex
             p={"10px 36px"}
             justifyContent={"space-between"}
@@ -137,11 +137,12 @@ export const MyCarsDispatcherModule = () => {
               alignItems={`center`}
             >
               <p>{t(`Статус`)}</p>
+              {filter1 ? <IocnSortBack /> : <IocnFilter />}
             </Flex>
           </Flex>
-        </Box>
+        </Box> */}
         <div>
-          {data?.length > 0 &&
+          {/* {data?.length > 0 &&
             data?.map((item) => (
               <CarsCard
                 t={t}
@@ -150,7 +151,7 @@ export const MyCarsDispatcherModule = () => {
                 item={item}
                 deleteFuntion={deleteFuntion}
               />
-            ))}
+            ))} */}
           {data?.length >= 50 && count?.count > data?.length && (
             <Box mt={6} width={`fit-contend`}>
               <Button
@@ -164,7 +165,7 @@ export const MyCarsDispatcherModule = () => {
             </Box>
           )}
 
-          {/* {isLoading ? (
+          {isLoading ? (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>
@@ -172,7 +173,7 @@ export const MyCarsDispatcherModule = () => {
             <Box height={`50px`} mt={`20px`}>
               <LoadingSpinner />
             </Box>
-          )} */}
+          )}
         </div>
       </Container>
 

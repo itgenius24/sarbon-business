@@ -19,7 +19,6 @@ import {
   BatareyIcon,
   BluetoothIcon2,
   CencelMapIcon,
-  CheckBlueIcon,
   CricleArrovIcon,
   GreenCarIcon,
   LocationActiveIcon,
@@ -51,13 +50,11 @@ export const useMyCarsDispatcher = () => {
   const { t } = useTranslation(locale, "translations");
   const disId = authStore.userData?.id;
   const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [refe, setRefe] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
-  const [filter1, setFilter1] = useState(false);
-  const [isAscending, setIsAscending] = useState(true); // Saralash tartibini saqlash uchun holat
+
   const [search, setSearch] = useState(``);
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
@@ -86,9 +83,78 @@ export const useMyCarsDispatcher = () => {
     },
   ];
 
+  const { mutate: logHistory } = useCreateLogHistory({});
+
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `my_driver`,
+      },
+    });
+  }, []);
+
+  const { mutate, isLoading } = useGetCar({
+    onSuccess: (res) => {
+      if (res?.response?.length) {
+        setRefe(false);
+        setCount({
+          count: res?.count?.total_count,
+          free_count: res?.FreeCount?.free_count,
+        });
+
+        let data = res?.response;
+        const uniqueData = data.filter(
+          (item) =>
+            !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
+        );
+        setData((prev) => [...prev, ...uniqueData]); 
+        setOldData((prev) => [...prev, ...uniqueData]); 
+      }
+    },
+  });
+
+  useEffect(() => {
+    const dataReq = {
+      data: {
+        object_data: {
+          page: debouncedValue?.length > 0 ? 0 : page,
+          search: debouncedValue,
+          limit: debouncedValue?.length > 0 ? 1000 : limit,
+          type: "dispatcher",
+          dispatcher_id: disId,
+        },
+      },
+    };
+
+    mutate(dataReq);
+  }, [page, limit, debouncedValue?.length, refe]);
+
+  const addPage = () => {
+    setPage((pa) => pa + 1);
+  };
+
+  const nameFilter = (val) => {
+    if (val !== `all`) {
+      const sortedData = oldData?.sort((a, b) =>
+        val === `top`
+          ? a?.driver_data?.full_name.localeCompare(b?.driver_data?.full_name)
+          : b?.driver_data?.full_name.localeCompare(a?.driver_data?.full_name)
+      );
+
+      setData(sortedData);
+    } else {
+      setData(oldData);
+    }
+  };
+
   const columns = [
     {
       title: t(`Водитель`),
+      filter: true,
+      key: "driver_data",
+      filterType: (val) => nameFilter(val),
       width: 200,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`6px`}>
@@ -261,7 +327,7 @@ export const useMyCarsDispatcher = () => {
                     >
                       <PopoverArrow />
                       <PopoverBody>
-                        <Box
+                        {/* <Box
                           style={{ padding: `10px 8px` }}
                           _hover={{
                             backgroundColor: `rgb(247, 247, 247)`,
@@ -276,7 +342,7 @@ export const useMyCarsDispatcher = () => {
                           }}
                         >
                           {t(`Изменить статус`)}
-                        </Box>
+                        </Box> */}
                         <Box
                           style={{ padding: `10px 8px`, color: `red` }}
                           _hover={{
@@ -305,80 +371,8 @@ export const useMyCarsDispatcher = () => {
     },
   ];
 
-  const { mutate: logHistory } = useCreateLogHistory({});
-
-  useEffect(() => {
-    logHistory({
-      data: {
-        users_id: authStore.userData.guid,
-        last_move_time: new Date(),
-        menu: `my_driver`,
-      },
-    });
-  }, []);
-
-  const { mutate, isLoading } = useGetCar({
-    onSuccess: (res) => {
-      if (res?.response?.length) {
-        setRefe(false);
-        setCount({
-          count: res?.count?.total_count,
-          free_count: res?.FreeCount?.free_count,
-        });
-
-        let data = res?.response;
-        const uniqueData = data.filter(
-          (item) =>
-            !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
-        );
-        //  if(page > 1){
-        const uniqueData2 = data.filter((item) =>
-          oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
-        );
-        setData2((prev) => [...prev, ...uniqueData2]);
-
-        //  }
-        setData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni data ga qo'shish
-        setOldData((prev) => [...prev, ...uniqueData]); // Yangi ma'lumotlarni oldData ga qo'shish
-      }
-    },
-  });
-
-  useEffect(() => {
-    const dataReq = {
-      data: {
-        object_data: {
-          page: debouncedValue?.length > 0 ? 0 : page,
-          search: debouncedValue,
-          limit: debouncedValue?.length > 0 ? 1000 : limit,
-          type: "dispatcher",
-          dispatcher_id: disId,
-        },
-      },
-    };
-
-    mutate(dataReq);
-  }, [page, limit, debouncedValue?.length, refe]);
-
-  const addPage = () => {
-    setPage((pa) => pa + 1);
-  };
-
-  const nameFilter = () => {
-    setFilter1(!filter1);
-    const sortedData = data?.sort(
-      (a, b) =>
-        isAscending
-          ? a?.driver_data?.[0]?.full_name.localeCompare(
-              b?.driver_data?.[0]?.full_name
-            ) // Alfavit bo'yicha
-          : b?.driver_data?.[0]?.full_name.localeCompare(
-              a?.driver_data?.[0]?.full_name
-            ) // Teskari alfavit bo'yicha
-    );
-
-    setData(() => [...sortedData]);
-    setIsAscending(!isAscending); // Tartibni almashtirish
+  const rowClassName = (row) => {
+    return row?.order_data ? cls.bussy : cls.free;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
@@ -406,7 +400,6 @@ export const useMyCarsDispatcher = () => {
     onError() {},
   });
 
-  console.log(open);
   const statusIconChange = () => {
     const body = {
       guid: open.driver_data?.guid,
@@ -449,7 +442,7 @@ export const useMyCarsDispatcher = () => {
     data,
     deleteFuntion,
     nameFilter,
-    filter1,
+
     isLoading,
     t,
     register,
@@ -464,5 +457,6 @@ export const useMyCarsDispatcher = () => {
     setOpen,
     statusIconChange,
     columns,
+    rowClassName,
   };
 };

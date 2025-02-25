@@ -25,7 +25,7 @@ export const AccordionMap = ({
   const mapState = {
     center:
        [41.3405737, 69.2928081],
-    zoom: 11,
+    zoom: 3,
   };
 
   const shipper = getMaps?.data?.response.filter(
@@ -40,6 +40,7 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
+    
 
   useEffect(() => {
     const ymaps = window.ymaps;
@@ -102,11 +103,8 @@ export const AccordionMap = ({
     strokeOpacity: 1, // Opacity of the polyline
   };
 
-  const polylineGeruzOptions = {
-    strokeColor: "#000000", // Color of the polyline
-    strokeWidth: 4, // Width of the polyline
-    strokeOpacity: 1, // Opacity of the polyline
-  };
+
+
   return (
     // <YMaps>
     <Map
@@ -137,7 +135,7 @@ export const AccordionMap = ({
         ]}
       />
       <Placemark
-        geometry={getDriverPosition?.length >0  ? getDriverPosition?.[0] : driverPosition}
+        geometry={getDriverPosition?.length > 0  ? getDriverPosition?.[0] : driverPosition}
         // properties={{
         //   balloonContent: `<div style='padding: 10px; font-size: 14px;'>
         //           <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>erer</p>
