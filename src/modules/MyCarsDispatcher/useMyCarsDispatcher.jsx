@@ -89,7 +89,7 @@ export const useMyCarsDispatcher = () => {
   const columns = [
     {
       title: t(`Водитель`),
-      width: 250,
+      width: 200,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`6px`}>
           <Avatar
@@ -112,7 +112,7 @@ export const useMyCarsDispatcher = () => {
     },
     {
       title: t(`Владелец машины`),
-      width: 250,
+      width: 200,
       render: (row, index) => {
         row?.firm_data ? (
           <Flex alignItems={`center`} gap={`6px`}>
@@ -141,7 +141,7 @@ export const useMyCarsDispatcher = () => {
     },
     {
       title: t(`Машина`),
-      width: 250,
+      width: 200,
       render: (row, index) => (
         <>
           <p className={cls.title}>
@@ -183,7 +183,7 @@ export const useMyCarsDispatcher = () => {
     },
     {
       title: t(`Статус`),
-      width: 250,
+      width: 400,
       render: (row, index) => (
         <Flex>
           <Flex

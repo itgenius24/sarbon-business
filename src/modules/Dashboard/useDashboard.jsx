@@ -35,11 +35,11 @@ export const useDashboard = (locale) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const filter = {
-    [`0`]: `driver`,
-    [`1`]: `ekspiditor`,
-    [`2`]: `truck`,
-    [`3`]: `cargo`,
-    [`4`]: `dispatcher`,
+    [`0`]: `dispatcher`,
+    [`1`]: `driver`,
+    [`2`]: `ekspiditor`,
+    [`3`]: `truck`,
+    [`4`]: `cargo`,
   };
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {

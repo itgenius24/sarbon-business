@@ -248,11 +248,11 @@ const Dashboard = ({ locale }) => {
             >
               <Flex width={`100%`} justifyContent={`space-between`}>
                 <TabList>
+                <Tab> Диспетчеры</Tab>
                   <Tab> Водитель</Tab>
                   <Tab> Перевозчик</Tab>
                   <Tab> Транспорт</Tab>
                   <Tab> Груз</Tab>
-                  <Tab> Диспетчеры</Tab>
                 </TabList>
                 <Button
                   width={`fit-content`}
@@ -277,7 +277,17 @@ const Dashboard = ({ locale }) => {
               />
 
               <TabPanels>
+              <TabPanel>
+                  <CTable
+                    isLoading={filterDataLoadin}
+                    columns={columns5}
+                    data={data.response}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </TabPanel>
                 <TabPanel>
+
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns2}
@@ -313,15 +323,7 @@ const Dashboard = ({ locale }) => {
                     currentPage={currentPage}
                   />
                 </TabPanel>
-                <TabPanel>
-                  <CTable
-                    isLoading={filterDataLoadin}
-                    columns={columns5}
-                    data={data.response}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
-                  />
-                </TabPanel>
+             
               </TabPanels>
             </Tabs>
           </Box>
