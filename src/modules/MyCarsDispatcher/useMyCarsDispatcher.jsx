@@ -15,11 +15,35 @@ import { useDebounce as useDebounce2 } from "use-debounce";
 import useDebounce from "@/hooks/useDebounce";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
+  BatareyFullIcon,
+  BatareyIcon,
+  BluetoothIcon2,
   CencelMapIcon,
   CheckBlueIcon,
+  CricleArrovIcon,
   GreenCarIcon,
+  LocationActiveIcon,
+  PopupIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
+import cls from "./style.module.scss";
+import {
+  Avatar,
+  Box,
+  Flex,
+  IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
+  Tooltip,
+} from "@chakra-ui/react";
+import { render } from "sass";
+import Image from "next/image";
+import { flegCountry } from "@/utils/flegCountry";
+import { format } from "date-fns";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
@@ -59,6 +83,225 @@ export const useMyCarsDispatcher = () => {
       type: "broke_down",
       icon: CencelMapIcon,
       title: t("Неисправна"),
+    },
+  ];
+
+  const columns = [
+    {
+      title: t(`Водитель`),
+      width: 250,
+      render: (row, index) => (
+        <Flex alignItems={`center`} gap={`6px`}>
+          <Avatar
+            size="sm"
+            src={row?.driver_data?.photo}
+            name={row?.driver_data?.full_name}
+          />
+          <Box>
+            <p className={cls.title}>{row?.driver_data?.full_name}</p>
+            <a
+              target="_blank"
+              href={`https://t.me/${row?.driver_data?.phone}`}
+              className={cls.tel}
+            >
+              {row?.driver_data?.phone}{" "}
+            </a>
+          </Box>
+        </Flex>
+      ),
+    },
+    {
+      title: t(`Владелец машины`),
+      width: 250,
+      render: (row, index) => {
+        row?.firm_data ? (
+          <Flex alignItems={`center`} gap={`6px`}>
+            <Avatar
+              size="sm"
+              src={row?.firm_data?.logo}
+              name={row?.firm_data?.full_name}
+            />
+            <Box>
+              <p className={cls.title}>{row?.firm_data?.full_name}</p>
+              <a
+                target="_blank"
+                href={`https://t.me/${row?.firm_data?.phone_number}`}
+                className={cls.tel}
+              >
+                {row?.firm_data?.phone_number}
+              </a>
+            </Box>
+          </Flex>
+        ) : (
+          <p className={cls.title}>
+            <span className={cls.subTitle}>{t(`Владелец водитель`)}</span>
+          </p>
+        );
+      },
+    },
+    {
+      title: t(`Машина`),
+      width: 250,
+      render: (row, index) => (
+        <>
+          <p className={cls.title}>
+            {row?.trailer_type_id_data?.[`name_${locale}`]
+              ? row?.trailer_type_id_data?.[`name_${locale}`]
+              : row?.trailer_type_id_data?.name}
+          </p>
+
+          <Flex>
+            <p className={cls.subTitle1}>
+              <span style={{ marginRight: `9px` }} className={cls.subTitle}>
+                {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
+              </span>
+            </p>
+
+            <Tooltip
+              border={`1px solid rgba(219, 216, 227, 1)`}
+              background={`white`}
+              color={`black`}
+              placement="top-end"
+              label={row?.vehicle_data?.car_country || `uz`}
+            >
+              <Image
+                alt="w"
+                style={{
+                  width: `30px`,
+                  height: `20px`,
+                  marginRight: `9px`,
+                }}
+                width={100}
+                height={100}
+                src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
+              />
+            </Tooltip>
+            <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
+          </Flex>
+        </>
+      ),
+    },
+    {
+      title: t(`Статус`),
+      width: 250,
+      render: (row, index) => (
+        <Flex>
+          <Flex
+            background={
+              row?.order_data
+                ? ` rgba(0, 122, 255, 0.08)`
+                : `rgba(229, 243, 235, 1)`
+            }
+            className={cls.locationWrap}
+          >
+            {row?.order_data ? (
+              <Box>
+                <p className={cls.locationTitle}>{t(`Занята`)}: </p>
+                <p className={cls.subBlueTitle}>
+                  {row?.order_data?.cargo_data?.[0]?.number_of_order}
+                </p>
+              </Box>
+            ) : (
+              <Box>
+                <p className={cls.locationTitle2}>{t(`Свободна`)}: </p>
+                <p className={cls.subBlueTitle2}>{t(`Найти груз`)}</p>
+              </Box>
+            )}
+
+            {row?.gps_data && (
+              <>
+                <Flex alignItems={`center`} gap={2}>
+                  <LocationActiveIcon /> <CricleArrovIcon />
+                  <p className={cls.title}>{t(`Вкл`)}. </p>
+                  <p className={cls.subBlueTitle}>
+                    {row?.gps_data[0]?.update_time &&
+                      format(row?.gps_data[0]?.update_time, `yyyy-MM-dd`)}
+                  </p>
+                </Flex>
+                <Flex alignItems={"center"} gap={2}>
+                  <BluetoothIcon2 />
+                  <p className={cls.subTitle}>
+                    <span className={cls.title}>{t(`Вкл`)}. </span>
+                  </p>
+                </Flex>
+                <Flex alignItems={"center"} gap={2}>
+                  {row?.gps_data[0]?.battery > 20 ? (
+                    <BatareyFullIcon />
+                  ) : (
+                    <BatareyIcon />
+                  )}
+                  <p className={cls.subTitle}>
+                    <span className={cls.title}>
+                      {row?.gps_data[0]?.battery}%{" "}
+                    </span>
+                  </p>
+                </Flex>
+              </>
+            )}
+          </Flex>
+          <Box className={cls.popup}>
+            <Popover placement={"bottom-start"}>
+              {({ isOpen, onClose }) => (
+                <>
+                  <PopoverTrigger>
+                    <IconButton
+                      size={"sm"}
+                      borderRadius={"50%"}
+                      icon={<PopupIcon />}
+                      width="40px"
+                      _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
+                      backgroundColor={"white"}
+                    />
+                  </PopoverTrigger>
+                  <Portal>
+                    <PopoverContent
+                      boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
+                      border={"1px solid rgba(234, 236, 240, 1"}
+                      className={cls.popoverCon}
+                    >
+                      <PopoverArrow />
+                      <PopoverBody>
+                        {/* <Box
+                        style={{ padding: `10px 8px` }}
+                        _hover={{
+                          backgroundColor: `rgb(247, 247, 247)`,
+                          borderRadius: `6px`,
+                          color: `rgba(33, 31, 38, 1)`,
+                          cursor: `pointer`,
+                        }}
+                        className={cls.menuItem}
+                        onClick={() => {
+                          setOpen(item)
+                          onClose();
+                        }}
+                      >
+                        {t(`Изменить статус`)}
+                      </Box> */}
+                        <Box
+                          style={{ padding: `10px 8px`, color: `red` }}
+                          _hover={{
+                            backgroundColor: `rgb(247, 247, 247)`,
+                            borderRadius: `6px`,
+                            color: `rgba(255, 255, 255, 1)`,
+                            cursor: `pointer`,
+                          }}
+                          className={cls.menuItem}
+                          onClick={() => {
+                            deleteFuntion(row?.guid);
+                            onClose();
+                          }}
+                        >
+                          {t(`Удалить водителя`)}
+                        </Box>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Portal>
+                </>
+              )}
+            </Popover>
+          </Box>
+        </Flex>
+      ),
     },
   ];
 
@@ -220,5 +463,6 @@ export const useMyCarsDispatcher = () => {
     open,
     setOpen,
     statusIconChange,
+    columns,
   };
 };

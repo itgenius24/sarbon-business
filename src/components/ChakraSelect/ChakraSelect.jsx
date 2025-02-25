@@ -36,9 +36,9 @@ export const ChakraSelect = ({
             classNamePrefix="chakra-select"
             useBasicStyles
             isClearable={isClearable}
-            customInputProps={(props) => {
-              return <Input backgroundColor={`red`} {...props} />;
-            }}
+            // customInputProps={(props) => {
+            //   return <Input onChange={(e) => console.log(`el`,e)} backgroundColor={`red`} {...props} />;
+            // }}
             size={size}
             chakraStyles={{
               control: (base, state) => ({
