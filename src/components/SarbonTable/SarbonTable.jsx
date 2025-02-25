@@ -80,7 +80,7 @@ const SarbonTable = ({
         >
           {isTooltip && statusTooltip(item)}
           {columns.map((column) => (
-            <Box key={column.title} width={`${column.width}%`}>
+            <Box  key={column.title} width={`${column.width}%`}>
               {column?.render(item, index)}
             </Box>
           ))}
