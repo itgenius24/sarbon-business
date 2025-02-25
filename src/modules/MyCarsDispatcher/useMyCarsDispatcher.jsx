@@ -4,6 +4,7 @@ import {
   useCreateLogHistory,
   useDeletedeleteDispacersDriver,
   useGetCar,
+  useUpdateUserInfo,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
@@ -13,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { useDebounce as useDebounce2 } from "use-debounce";
 import useDebounce from "@/hooks/useDebounce";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
+import { CencelMapIcon, CheckBlueIcon, GreenCarIcon, QuestionBlueIcon } from "@/assets/icons/icons";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
@@ -31,6 +33,30 @@ export const useMyCarsDispatcher = () => {
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
   const containerRef = useRef(null);
+  const [iconStatus, setIconStatus] = useState(``);
+  const [open, setOpen] = useState(false);
+
+
+   const statusData = [
+      {
+        id: 1,
+        type: "empty",
+        icon: GreenCarIcon,
+        title: "Свободная",
+      },
+      {
+        id: 2,
+        type: "someone_cargo",
+        icon: QuestionBlueIcon,
+      title:t( "Занята чужим грузом")
+      },
+      {
+        id: 3,
+        type: "broke_down",
+        icon: CencelMapIcon,
+        title:t( "Неисправна")
+      },
+    ];
 
   const { mutate: logHistory } = useCreateLogHistory({});
 
@@ -71,10 +97,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  console.log(
-    `data2`,
-    data2.map((item) => item?.driver_data?.[0]?.full_name)
-  );
+ 
 
   useEffect(() => {
     const dataReq = {
@@ -128,6 +151,27 @@ export const useMyCarsDispatcher = () => {
     });
   };
 
+  const { mutate: userUpdate } = useUpdateUserInfo({
+      onSuccess() {
+        setRefe(true);
+        setData([]);
+        setOldData([]);
+        setOpen(false);
+  
+      },
+      onError() {},
+    });
+  
+console.log(open)
+  const statusIconChange = () =>{
+
+    const body = {
+      guid: open.driver_data?.guid,
+      provisions: [iconStatus],
+    };
+    userUpdate({ data: body });
+  }
+
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));
     if (val?.replace(/\+/g, "")) {
@@ -150,6 +194,8 @@ export const useMyCarsDispatcher = () => {
     }
   };
 
+
+
   useEffect(() => {
     document.addEventListener("scroll", handleScroll, { capture: true });
 
@@ -158,146 +204,7 @@ export const useMyCarsDispatcher = () => {
     };
   }, []);
 
-  //   const ids = [
-  //     "Aknazarov Abdurasul",
-  //     "Davlatov Alisher Tursunboy o'g'li",
-  //     "Shoimardanov Fazliddin",
-  //     "Ahmatov Jorabek",
-  //     "Кутбиддинов",
-  //     "Тогаев Толиь",
-  //     "Haqberdiyev Murot",
-  //     "Abdullayev Komolidin",
-  //     "Nizomov Mashrabjin",
-  //     "Haydarov Jonibek",
-  //     "Авулов",
-  //     "Shomurodov Diyorbek",
-  //     "Ismoilov Furqatbek",
-  //     "Yetyichayev Anvar",
-  //     "Oktamov Azamat",
-  //     "Mustifoqulov Odiljon",
-  //     "Sobirov Axrorjon Shokirjon ogli",
-  //     "Hamidov Ibrohim aka",
-  //     "Pardayev Ozodjon",
-  //     "Husanov Sanjar",
-  //     "Убайдуллаев Баходир",
-  //     "Aliqulov Tulqin",
-  //     "Худайназаров Муроджон",
-  //     "Гулямов Лочин",
-  //     "Ahmajonov Rustamjon",
-  //     "Qunduziv Anvar",
-  //     "Rahmatov Oktam",
-  //     "Нишанов Рахматжон",
-  //     "Nurmetov Nurmamad",
-  //     "Мирзаев Мухитдин",
-  //     "Aknazarov Abdurasul",
-  //     "Ураков Шерзодбек Ахмаджонович",
-  //     "Davlatov Alisher Tursunboy o'g'li",
-  //     "яАлимов Хайдарали",
-  //     "Shoimardanov Fazliddin",
-  //     "Обидов Ихлосбек И",
-  //     "Тошбоев Комилжон",
-  //     "Ahmatov Jorabek",
-  //     "Сайдалиев Хакимжон Солижонович",
-  //     "Кутбиддинов",
-  //     "Жораев Боирали Курбонаиевич",
-  //     "Тогаев Толиь",
-  //     "Насретдинов Мирфозил  Исмоилович",
-  //     "Haqberdiyev Murot",
-  //     "Моментов Исомиддин",
-  //     "Abdullayev Komolidin",
-  //     "Бозоров Жаъфар Шавкатович",
-  //     "Nizomov Mashrabjin",
-  //     "Худайназаров Муроджон",
-  //     "Гулямов Лочин",
-  //     "Ahmajonov Rustamjon",
-  //     "Qunduziv Anvar",
-  //     "Rahmatov Oktam",
-  //     "дадабоев Икболлиддин",
-  //     "Авулов",
-  //     "Tursunov Oybek",
-  //     "Shomurodov Diyorbek",
-  //     "QURANBAYEV BUNYOD",
-  //     "Ismoilov Furqatbek",
-  //     "Ahmedov Fayzullo",
-  //     "Yetyichayev Anvar",
-  //     "Guzarov Nodirbek",
-  //     "Oktamov Azamat",
-  //     "Abdulaziz Juraboyev",
-  //     "Mustifoqulov Odiljon",
-  //     "Ахмедов Лазизжон Махамаджанович",
-  //     "Sobirov Axrorjon Shokirjon ogli",
-  //     "ibrohim umarov",
-  //     "Hamidov Ibrohim aka",
-  //     "Рустамов Мухсин",
-  //     "Pardayev Ozodjon",
-  //     "Gulomjonov Zoir",
-  //     "Husanov Sanjar",
-  //     "TURDIBOYEV FOZILJON FAZLIDDINJON O'G'LI",
-  //     "Убайдуллаев Баходир",
-  //     "Худайназаров Муроджон",
-  //     "Гулямов Лочин",
-  //     "Ahmajonov Rustamjon",
-  //     "Qunduziv Anvar",
-  //     "Rahmatov Oktam",
-  //     "дадабоев Икболлиддин",
-  //     "Тураев Шухрат",
-  //     "Нишанов Рахматжон",
-  //     "ShukurufSirojon",
-  //     "Ergashev Ziynatshoh",
-  //     "Ахмедов Бахром",
-  //     "Nurmetov Nurmamad",
-  //     "Джангабаев Сардор",
-  //     "Мирзаев Мухитдин",
-  //     "Кабулов Умиджон",
-  //     "Aknazarov Abdurasul",
-  //     "Rajabov Jasurbek Obidovich",
-  //     "Ураков Шерзодбек Ахмаджонович",
-  //     "Shirinov Feruz Maxmudovich",
-  //     "Davlatov Alisher Tursunboy o'g'li",
-  //     "Тулаганов Откир",
-  //     "яАлимов Хайдарали",
-  //     "Жамолидинов Тохиржон",
-  //     "Shoimardanov Fazliddin",
-  //     "Алимов Мухтар",
-  //     "Обидов Ихлосбек И",
-  //     "Худайназаров Муроджон",
-  //     "Гулямов Лочин",
-  //     "Ahmajonov Rustamjon",
-  //     "Qunduziv Anvar",
-  //     "Rahmatov Oktam",
-  //     "дадабоев Икболлиддин",
-  //     "Тураев Шухрат",
-  //     "Тошбоев Комилжон",
-  //     "Шокиров Хамдамбек",
-  //     "Ahmatov Jorabek",
-  //     "Эсонбоев солижон",
-  //     "Сайдалиев Хакимжон Солижонович",
-  //     "одилов Лочин",
-  //     "Кутбиддинов",
-  //     "Мирзаяров Шербек",
-  //     "Жораев Боирали Курбонаиевич",
-  //     "Гуламов Самир",
-  //     "Тогаев Толиь",
-  //     "Бобамирзаев Бахтиёр Усмонович",
-  //     "Насретдинов Мирфозил  Исмоилович",
-  //     "Абдуллаев Азам",
-  //     "Haqberdiyev Murot",
-  //     "Илхомжон Тешабаев",
-  //     "Моментов Исомиддин",
-  //     "Жалилов Анваржон",
-  //     "Abdullayev Komolidin",
-  //     "Shoabdullayev  Shoakbar",
-  //     "Бозоров Жаъфар Шавкатович",
-  //     "Худайназаров Муроджон",
-  //     "Гулямов Лочин",
-  //     "Ahmajonov Rustamjon",
-  //     "Qunduziv Anvar",
-  //     "Rahmatov Oktam",
-  //     "дадабоев Икболлиддин",
-  //     "Тураев Шухрат"
-  // ]
-
-  // console.log(`ids`,ids)
+  
   return {
     data,
     deleteFuntion,
@@ -308,8 +215,11 @@ export const useMyCarsDispatcher = () => {
     register,
     setSearchFn,
     search,
-    containerRef,
     count,
     addPage,
+    statusData,
+    iconStatus, setIconStatus,
+    open, setOpen,
+    statusIconChange
   };
 };

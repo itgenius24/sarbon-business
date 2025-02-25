@@ -67,7 +67,6 @@ export const useGpsTrackingProps = () => {
 
   const [debouncedValue] = useDebounce(distance, 500);
 
-
   useEffect(() => {
     if (checked) {
       document.body.classList.add("no-scroll");
@@ -100,7 +99,6 @@ export const useGpsTrackingProps = () => {
   });
 
   const { mutate: logHistory } = useCreateLogHistory({});
-
 
   useEffect(() => {
     logHistory({
@@ -329,15 +327,14 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: dataMutate, isLoading } = useGetCarDispatcher({
     onSuccess: (data) => {
-    
       if (data?.response?.length) {
         let data2 = data?.response?.map((item) => ({
           ...item,
           user: item?.users_id_data?.[0],
           vehicles: [item?.vehicle_id_data],
           firm_data: item?.firm_data,
-          users_gps:[item],
-          orders: item?.order_data ?  [item?.order_data] : undefined,
+          users_gps: [item],
+          orders: item?.order_data ? [item?.order_data] : undefined,
         }));
         setCarsArr((res) => [...res, ...data2]);
       }
@@ -375,22 +372,21 @@ export const useGpsTrackingProps = () => {
     });
   };
 
+  const { mutate: getCarRefueling } = useGetCarRefueling({
+    onSuccess: (res) => {
+      setRemainingData(res?.data?.data);
+    },
+  });
 
-    const { mutate: getCarRefueling } = useGetCarRefueling({
-      onSuccess: (res) => {
-        setRemainingData(res?.data?.data);
-      },
-    });
-  
-    useEffect(() => {
-      if (remainingData.length === 0) {
-        getCarRefueling({
-          data: {
-            object_data: {},
-          },
-        });
-      }
-    }, []);
+  useEffect(() => {
+    if (remainingData.length === 0) {
+      getCarRefueling({
+        data: {
+          object_data: {},
+        },
+      });
+    }
+  }, []);
 
   const filteredData = filterData(carsArr, checkboxStatuses);
 
@@ -436,8 +432,6 @@ export const useGpsTrackingProps = () => {
     carsArr?.length,
     uniqueData,
   ]);
-
-
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,

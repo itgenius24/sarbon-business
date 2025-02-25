@@ -743,6 +743,26 @@ export const useDashboard = (locale) => {
         ),
       width: 200,
     },
+    {
+      title: "Последняя активность",
+      dataIndex: "",
+      render: (_, row) => {
+          return  <>
+              <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+                {row?.gps_history?.update_time &&
+                  format(row?.gps_history?.update_time, `HH:mm`)}
+              </p>
+              <p style={{ whiteSpace: `nowrap`,textAlign: `center`  }}>
+                {row?.gps_history?.update_time &&
+                  format(row?.gps_history?.update_time, `yyyy-MM-dd`)}
+              </p>
+            </>
+          
+        
+      },
+
+      width: 200,
+    },
   ];
   const columns3 = [
     {
