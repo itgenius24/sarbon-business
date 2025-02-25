@@ -373,7 +373,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: newData?.response?.filter(item => item?.users_id_3)?.length || 0,
+      total: newData?.count - bzData?.count || 0,
       deck: `Общее кол-во предложений`,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
@@ -407,7 +407,7 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${data?.new?.[0]?.total_count || 0})`,
+      `Предложений (${data?.new?.[0]?.total_count - data?.free?.[0]?.total_count || 0})`,
       `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,

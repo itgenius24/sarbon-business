@@ -114,7 +114,7 @@ export const useMyCarsDispatcher = () => {
       title: t(`Владелец машины`),
       width: 200,
       render: (row, index) => {
-        row?.firm_data ? (
+        return row?.firm_data ? (
           <Flex alignItems={`center`} gap={`6px`}>
             <Avatar
               size="sm"
@@ -187,6 +187,7 @@ export const useMyCarsDispatcher = () => {
       render: (row, index) => (
         <Flex>
           <Flex
+            alignItems={`center`}
             background={
               row?.order_data
                 ? ` rgba(0, 122, 255, 0.08)`
@@ -203,8 +204,7 @@ export const useMyCarsDispatcher = () => {
               </Box>
             ) : (
               <Box>
-                <p className={cls.locationTitle2}>{t(`Свободна`)}: </p>
-                <p className={cls.subBlueTitle2}>{t(`Найти груз`)}</p>
+                <p className={cls.locationTitle2}>{t(`Свободна`)} </p>
               </Box>
             )}
 
@@ -261,22 +261,22 @@ export const useMyCarsDispatcher = () => {
                     >
                       <PopoverArrow />
                       <PopoverBody>
-                        {/* <Box
-                        style={{ padding: `10px 8px` }}
-                        _hover={{
-                          backgroundColor: `rgb(247, 247, 247)`,
-                          borderRadius: `6px`,
-                          color: `rgba(33, 31, 38, 1)`,
-                          cursor: `pointer`,
-                        }}
-                        className={cls.menuItem}
-                        onClick={() => {
-                          setOpen(item)
-                          onClose();
-                        }}
-                      >
-                        {t(`Изменить статус`)}
-                      </Box> */}
+                        <Box
+                          style={{ padding: `10px 8px` }}
+                          _hover={{
+                            backgroundColor: `rgb(247, 247, 247)`,
+                            borderRadius: `6px`,
+                            color: `rgba(33, 31, 38, 1)`,
+                            cursor: `pointer`,
+                          }}
+                          className={cls.menuItem}
+                          onClick={() => {
+                            setOpen(row);
+                            onClose();
+                          }}
+                        >
+                          {t(`Изменить статус`)}
+                        </Box>
                         <Box
                           style={{ padding: `10px 8px`, color: `red` }}
                           _hover={{
