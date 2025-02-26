@@ -21,6 +21,9 @@ import {
   CencelMapIcon,
   CricleArrovIcon,
   GreenCarIcon,
+  IocnFilter,
+  IocnSortBack,
+  IocnSortTop,
   LocationActiveIcon,
   PopupIcon,
   QuestionBlueIcon,
@@ -54,7 +57,8 @@ export const useMyCarsDispatcher = () => {
   const [refe, setRefe] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
-
+  const [filterStatus,setFilterStatus] = useState(`all`)
+  const [filterTime,setFilterTime] = useState(`all`)
   const [search, setSearch] = useState(``);
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
@@ -109,8 +113,8 @@ export const useMyCarsDispatcher = () => {
           (item) =>
             !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
         );
-        setData((prev) => [...prev, ...uniqueData]); 
-        setOldData((prev) => [...prev, ...uniqueData]); 
+        setData((prev) => [...prev, ...uniqueData]);
+        setOldData((prev) => [...prev, ...uniqueData]);
       }
     },
   });
@@ -148,6 +152,59 @@ export const useMyCarsDispatcher = () => {
       setData(oldData);
     }
   };
+
+  const statusFIlter = () => {
+    if (filterStatus === `all`) {
+      setFilterStatus(`top`);
+      const sortedData = oldData?.sort((a, b) =>
+        a?.order_data
+          ? 1
+          : b?.order_data
+          ? -1
+          : 0
+      );
+
+      setData(sortedData);
+    } else if (filterStatus === `top`) {
+      setFilterStatus(`back`);
+      const sortedData = oldData?.sort((a, b) =>
+        a?.order_data
+          ? -1
+          : b?.order_data
+          ? 1
+          : 0
+      );
+
+      setData(sortedData);
+    } else {
+      setFilterStatus(`all`);
+      setData(oldData);
+    }
+  }
+
+  const timeFilter = () => {
+    if (filterTime === `all`) {
+      setFilterTime(`top`);
+      const sortedData = data?.sort((a, b) =>
+        new Date(a?.gps_data[0]?.update_time) - new Date(b?.gps_data[0]?.update_time)
+      );
+
+      setData(sortedData);
+    } else if (filterTime === `top`) {
+      setFilterTime(`back`);
+      const sortedData = data?.sort((a, b) =>
+        new Date(b?.gps_data[0]?.update_time) - new Date(a?.gps_data[0]?.update_time)
+      );
+
+      setData(sortedData);
+    } else if(filterTime === `back`) {
+      setFilterTime(`all`);
+      setData(oldData);
+    }
+
+  };
+
+  console.log(`filterTime2`,oldData,data)
 
   const columns = [
     {
@@ -248,7 +305,30 @@ export const useMyCarsDispatcher = () => {
       ),
     },
     {
-      title: t(`Статус`),
+      title: (
+        <Flex  width={`50%`} justifyContent={`space-between`}>
+          <Flex onClick={statusFIlter} className={cls.filterWrap}  gap={`5px`} alignItems={`center`}>
+           <p className={cls.headerTh}> {t(`Статус`)}</p>
+            {filterStatus === `top` ? (
+              <IocnSortTop />
+            ) : filterStatus === `back` ? (
+              <IocnSortBack />
+            ) : (
+              <IocnFilter />
+            )}
+          </Flex>
+          <Flex onClick={timeFilter}  className={cls.filterWrap}  gap={`5px`} alignItems={`center`}>
+           <p className={cls.headerTh}> {t(`Время`)}</p>
+            {filterTime === `top` ? (
+              <IocnSortTop />
+            ) : filterTime === `back` ? (
+              <IocnSortBack />
+            ) : (
+              <IocnFilter />
+            )}
+          </Flex>
+        </Flex>
+      ),
       width: 400,
       render: (row, index) => (
         <Flex>
