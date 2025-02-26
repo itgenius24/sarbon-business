@@ -515,7 +515,7 @@ export const useDashboard = (locale) => {
               </p>
               <p style={{ whiteSpace: `nowrap` }}>
                 {row?.user_history_data?.last_move_time &&
-                  format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+                  format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
               </p>
             </>
           );
@@ -997,7 +997,7 @@ export const useDashboard = (locale) => {
             </p>
             <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
               {row?.user_history_data?.last_move_time &&
-                format(row?.user_history_data?.last_move_time, `yyyy-dd-MM`)}
+                format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
             </p>
           </>
         );
@@ -1013,32 +1013,43 @@ export const useDashboard = (locale) => {
       dataIndex: "",
       width: 200,
       render: (_, row) => {
-          const empty = row?.drivers_count?.empty || 0;
-          const someone_cargo = row?.drivers_count?.someone_cargo || 0;
-          const broke_down = row?.drivers_count?.broke_down || 0;
-          const newDriver = row?.drivers_count?.new || 0;
-          const unknown = row?.drivers_count?.unknown || 0;
-          return  <p style={{textAlign:`center`}}>{empty + someone_cargo + broke_down + newDriver + unknown}</p> 
-      }
-        
+        const empty = row?.drivers_count?.empty || 0;
+        const someone_cargo = row?.drivers_count?.someone_cargo || 0;
+        const broke_down = row?.drivers_count?.broke_down || 0;
+        const newDriver = row?.drivers_count?.new || 0;
+        const unknown = row?.drivers_count?.unknown || 0;
+        return (
+          <p style={{ textAlign: `center` }}>
+            {empty + someone_cargo + broke_down + newDriver + unknown}
+          </p>
+        );
+      },
     },
     {
       title: `Общее кол-во свободных`,
       dataIndex: "",
       width: 200,
-      render: (_, row) => <p style={{textAlign:`center`}}>{row?.drivers_count?.empty}</p>,
+      render: (_, row) => (
+        <p style={{ textAlign: `center` }}>{row?.drivers_count?.empty}</p>
+      ),
     },
     {
       title: `Занята чужим грузом`,
       dataIndex: "",
       width: 200,
-      render: (_, row) => <p style={{textAlign:`center`}}>{row?.drivers_count?.someone_cargo}</p>,
+      render: (_, row) => (
+        <p style={{ textAlign: `center` }}>
+          {row?.drivers_count?.someone_cargo}
+        </p>
+      ),
     },
     {
       title: `Неисправна`,
       dataIndex: "",
       width: 200,
-      render: (_, row) => <p style={{textAlign:`center`}}>{row?.drivers_count?.broke_down}</p> ,
+      render: (_, row) => (
+        <p style={{ textAlign: `center` }}>{row?.drivers_count?.broke_down}</p>
+      ),
     },
     {
       title: `Общее кол-во предложений`,
@@ -1050,7 +1061,11 @@ export const useDashboard = (locale) => {
         //     item?._id?.includes(`new`) &&
         //     item?._id?.includes("approve_by_customer")
         // );
-        return <p style={{textAlign:`center`}}>{row?.orders_status_counts?.new}</p> ;
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.new}
+          </p>
+        );
       },
     },
     // {
@@ -1074,7 +1089,11 @@ export const useDashboard = (locale) => {
         // const data = row?.orders_status_counts?.filter((item) =>
         //   item?._id?.includes(`performed`)
         // );
-        return <p style={{textAlign:`center`}}>{row?.orders_status_counts?.performed}</p> ;
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.performed}
+          </p>
+        );
       },
     },
     {
@@ -1086,7 +1105,11 @@ export const useDashboard = (locale) => {
         //   item?._id?.includes(`archive`)
         // );
 
-        return <p style={{textAlign:`center`}}>{row?.orders_status_counts?.archive}</p> ;
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.archive}
+          </p>
+        );
       },
     },
   ];

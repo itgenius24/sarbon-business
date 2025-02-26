@@ -38,7 +38,7 @@ export const ChakraSelect = ({
             classNamePrefix="chakra-select"
             useBasicStyles
             isClearable={isClearable}
-          
+           
             size={size}
             chakraStyles={{
               control: (base, state) => ({
