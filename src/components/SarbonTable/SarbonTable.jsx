@@ -61,7 +61,7 @@ const SarbonTable = ({
                 )}
               </Flex>
             ) : (
-              <Box className={cls.headerTh}>{item.title}</Box>
+              <Box width={`100%`} className={cls.headerTh}>{item.title}</Box>
             )}
           </Flex>
         ))}

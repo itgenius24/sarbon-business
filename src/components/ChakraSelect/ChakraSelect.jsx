@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@chakra-ui/react";
+
 import "./style.css";
 import { Select } from "chakra-react-select";
 import { Controller, useForm } from "react-hook-form";
@@ -25,6 +25,7 @@ export const ChakraSelect = ({
       render={({ field: { onChange, value } }) => {
         return (
           <Select
+            // onPaste={(e) => console.log(`elda`,e)}
             onChange={(val) => {
               onChange(val ? val?.value : '');
               customOnChange(val ? val : {});
@@ -32,13 +33,12 @@ export const ChakraSelect = ({
             options={options}
             value={options?.find((option) => option.value === value?.value)}
             // menuIsOpen
+            
             menuPortalTarget={ typeof document !== "undefined" && document.body}
             classNamePrefix="chakra-select"
             useBasicStyles
             isClearable={isClearable}
-            // customInputProps={(props) => {
-            //   return <Input onChange={(e) => console.log(`el`,e)} backgroundColor={`red`} {...props} />;
-            // }}
+          
             size={size}
             chakraStyles={{
               control: (base, state) => ({

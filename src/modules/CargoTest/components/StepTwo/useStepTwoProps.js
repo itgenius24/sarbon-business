@@ -202,6 +202,7 @@ const useStepTwoProps = () => {
   }
 
   const hanleAdress = (location, name, index, type, id) => {
+    
     if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);

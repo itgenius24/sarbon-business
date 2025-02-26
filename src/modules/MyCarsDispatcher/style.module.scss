@@ -103,6 +103,11 @@
     font-size: 14px;
     color: rgba(33, 31, 38, 1);
     line-height: 20px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
   }
   .subBlueTitle2 {
     font-weight: 400;
@@ -207,3 +212,28 @@
   
 
 
+
+    .filterWrap {
+      .headerTh {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 28px;
+        text-transform: uppercase;
+        color: rgba(126, 123, 134, 1);
+      }
+      svg {
+        opacity:  0;
+      }
+      &:hover {
+        .headerTh {
+          color: rgba(0, 122, 255, 1);
+        }
+        svg {
+          opacity: 1;
+    
+          path {
+            fill: rgba(0, 122, 255, 1) !important;
+          }
+        }
+      }
+    }

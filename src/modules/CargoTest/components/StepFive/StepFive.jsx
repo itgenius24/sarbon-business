@@ -61,6 +61,7 @@ const StepFive = ({ status }) => {
     check,
   } = useAddCargoContext();
 
+
   const { value: userData } = useGetStoreData(authStore, "userData");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPopupOpen2, setIsPopupOpen2] = useState(false);
@@ -195,6 +196,8 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
+        lat: loadings[0]?.cor?.split(" ")[0] * 1,
+        long: loadings[0]?.cor?.split(" ")[1] * 1,
         create_time: new Date(),
         notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,
@@ -247,10 +250,7 @@ const StepFive = ({ status }) => {
         map_id_3: check ? undefined : watch("payment_type_2")?.value,
 
         // step5
-        // load_time: addDaysToDate(
-        //   loadings[0].from_date || new Date(),
-        //   loadings[0].loading_num?.value
-        // ),
+        
         load_time: loadings[0].from_date || new Date(),
         date: unloading[unloading.length - 1].to_date || new Date(),
         phone: watch(`contact`),
@@ -291,6 +291,8 @@ const StepFive = ({ status }) => {
     const requestData = {
       data: {
         // step 1
+        lat: loadings[0]?.cor?.split(" ")[0] * 1,
+        long: loadings[0]?.cor?.split(" ")[1] * 1,
         create_time: new Date(),
         notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,

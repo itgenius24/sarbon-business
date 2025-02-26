@@ -152,6 +152,11 @@ export const MyCarsDispatcherModule = () => {
                 deleteFuntion={deleteFuntion}
               />
             ))} */}
+            {isLoading && data?.length <= 50 && (
+            <Box pt={`20px`}>
+              <LoadingSpinner />
+            </Box>
+          )}
           {data?.length >= 50 && count?.count > data?.length && (
             <Box mt={6} width={`fit-contend`}>
               <Button
@@ -165,11 +170,7 @@ export const MyCarsDispatcherModule = () => {
             </Box>
           )}
 
-          {isLoading && (
-            <Box pt={`20px`}>
-              <LoadingSpinner />
-            </Box>
-          ) }
+         
         </div>
       </Container>
 

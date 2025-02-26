@@ -21,6 +21,9 @@ import {
   CencelMapIcon,
   CricleArrovIcon,
   GreenCarIcon,
+  IocnFilter,
+  IocnSortBack,
+  IocnSortTop,
   LocationActiveIcon,
   PopupIcon,
   QuestionBlueIcon,
@@ -29,6 +32,7 @@ import cls from "./style.module.scss";
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   IconButton,
   Popover,
@@ -54,7 +58,8 @@ export const useMyCarsDispatcher = () => {
   const [refe, setRefe] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
-
+  const [filterStatus, setFilterStatus] = useState(`all`);
+  const [filterTime, setFilterTime] = useState(`all`);
   const [search, setSearch] = useState(``);
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
@@ -105,15 +110,46 @@ export const useMyCarsDispatcher = () => {
         });
 
         let data = res?.response;
-        const uniqueData = data.filter(
-          (item) =>
-            !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
-        );
-        setData((prev) => [...prev, ...uniqueData]); 
-        setOldData((prev) => [...prev, ...uniqueData]); 
+        const uniqueData = data
+          .filter(
+            (item) =>
+              !oldData.some(
+                (stateItem) => stateItem?.users_id === item?.users_id
+              )
+          )
+          ?.map((item) => {
+            if (
+              item?.order_data ||
+              item?.driver_data?.provisions?.[0] === `our_cargo`
+            ) {
+              return {
+                ...item,
+                status: `Занята`,
+              };
+            } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
+              return {
+                ...item,
+                status: `Занята чужим грузом`,
+              };
+            } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
+              return {
+                ...item,
+                status: `Неисправна`,
+              };
+            } else {
+              return {
+                ...item,
+                status: `Свободная`,
+              };
+            }
+          });
+        setData((prev) => [...prev, ...uniqueData]);
+        setOldData((prev) => [...prev, ...uniqueData]);
       }
     },
   });
+
+  console.log(`data`, data);
 
   useEffect(() => {
     const dataReq = {
@@ -148,6 +184,58 @@ export const useMyCarsDispatcher = () => {
       setData(oldData);
     }
   };
+
+  const statusFIlter = () => {
+    if (filterStatus === `all`) {
+      setFilterStatus(`top`);
+      const sortedData = data?.sort((a, b) =>
+        a?.status.localeCompare(b?.status)
+      );
+      setData(sortedData);
+    } else if (filterStatus === `top`) {
+      setFilterStatus(`back`);
+      const sortedData = data?.sort((a, b) =>
+        b?.status.localeCompare(a?.status)
+      );
+      setData(sortedData);
+    }
+    else if(filterStatus === `back`) {
+      setFilterStatus(`all`);
+      setData(oldData);
+    }
+  };
+
+  const timeFilter = () => {
+    if (filterTime === `all`) {
+      setFilterTime(`top`);
+      const filterData = data?.filter(
+        (item) => item?.gps_data?.[0]?.update_time
+      );
+      const sortedData = filterData?.sort(
+        (a, b) =>
+          new Date(b?.gps_data[0]?.update_time) -
+          new Date(a?.gps_data[0]?.update_time)
+      );
+
+      setData(sortedData);
+    } else if (filterTime === `top`) {
+      setFilterTime(`back`);
+      const filterData = data?.filter((item) => item.gps_data[0]?.update_time);
+
+      const sortedData = filterData?.sort(
+        (a, b) =>
+          new Date(a?.gps_data[0]?.update_time) -
+          new Date(b?.gps_data[0]?.update_time)
+      );
+
+      setData(sortedData);
+    } else if (filterTime === `back`) {
+      setFilterTime(`all`);
+      setData(oldData);
+    }
+  };
+
+  console.log(`filterTime2`, oldData, data);
 
   const columns = [
     {
@@ -248,126 +336,179 @@ export const useMyCarsDispatcher = () => {
       ),
     },
     {
-      title: t(`Статус`),
-      width: 400,
-      render: (row, index) => (
-        <Flex>
+      title: (
+        <Flex width={`50%`} justifyContent={`space-between`}>
           <Flex
+            onClick={statusFIlter}
+            className={cls.filterWrap}
+            gap={`5px`}
             alignItems={`center`}
-            background={
-              row?.order_data
-                ? ` rgba(0, 122, 255, 0.08)`
-                : `rgba(229, 243, 235, 1)`
-            }
-            className={cls.locationWrap}
+            cursor={`pointer`}
+            as={`button`}
           >
-            {row?.order_data ? (
-              <Box>
-                <p className={cls.locationTitle}>{t(`Занята`)}: </p>
-                <p className={cls.subBlueTitle}>
-                  {row?.order_data?.cargo_data?.[0]?.number_of_order}
-                </p>
-              </Box>
+            <p className={cls.headerTh}> {t(`Статус`)}</p>
+            {filterStatus === `top` ? (
+              <IocnSortTop />
+            ) : filterStatus === `back` ? (
+              <IocnSortBack />
             ) : (
-              <Box>
-                <p className={cls.locationTitle2}>{t(`Свободна`)} </p>
-              </Box>
-            )}
-
-            {row?.gps_data && (
-              <>
-                <Flex alignItems={`center`} gap={2}>
-                  <LocationActiveIcon /> <CricleArrovIcon />
-                  <p className={cls.title}>{t(`Вкл`)}. </p>
-                  <p className={cls.subBlueTitle}>
-                    {row?.gps_data[0]?.update_time &&
-                      format(row?.gps_data[0]?.update_time, `yyyy-MM-dd`)}
-                  </p>
-                </Flex>
-                <Flex alignItems={"center"} gap={2}>
-                  <BluetoothIcon2 />
-                  <p className={cls.subTitle}>
-                    <span className={cls.title}>{t(`Вкл`)}. </span>
-                  </p>
-                </Flex>
-                <Flex alignItems={"center"} gap={2}>
-                  {row?.gps_data[0]?.battery > 20 ? (
-                    <BatareyFullIcon />
-                  ) : (
-                    <BatareyIcon />
-                  )}
-                  <p className={cls.subTitle}>
-                    <span className={cls.title}>
-                      {row?.gps_data[0]?.battery}%{" "}
-                    </span>
-                  </p>
-                </Flex>
-              </>
+              <IocnFilter />
             )}
           </Flex>
-          <Box className={cls.popup}>
-            <Popover placement={"bottom-start"}>
-              {({ isOpen, onClose }) => (
-                <>
-                  <PopoverTrigger>
-                    <IconButton
-                      size={"sm"}
-                      borderRadius={"50%"}
-                      icon={<PopupIcon />}
-                      width="40px"
-                      _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
-                      backgroundColor={"white"}
-                    />
-                  </PopoverTrigger>
-                  <Portal>
-                    <PopoverContent
-                      boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
-                      border={"1px solid rgba(234, 236, 240, 1"}
-                      className={cls.popoverCon}
-                    >
-                      <PopoverArrow />
-                      <PopoverBody>
-                        {/* <Box
-                          style={{ padding: `10px 8px` }}
-                          _hover={{
-                            backgroundColor: `rgb(247, 247, 247)`,
-                            borderRadius: `6px`,
-                            color: `rgba(33, 31, 38, 1)`,
-                            cursor: `pointer`,
-                          }}
-                          className={cls.menuItem}
-                          onClick={() => {
-                            setOpen(row);
-                            onClose();
-                          }}
-                        >
-                          {t(`Изменить статус`)}
-                        </Box> */}
-                        <Box
-                          style={{ padding: `10px 8px`, color: `red` }}
-                          _hover={{
-                            backgroundColor: `rgb(247, 247, 247)`,
-                            borderRadius: `6px`,
-                            color: `rgba(255, 255, 255, 1)`,
-                            cursor: `pointer`,
-                          }}
-                          className={cls.menuItem}
-                          onClick={() => {
-                            deleteFuntion(row?.guid);
-                            onClose();
-                          }}
-                        >
-                          {t(`Удалить водителя`)}
-                        </Box>
-                      </PopoverBody>
-                    </PopoverContent>
-                  </Portal>
-                </>
-              )}
-            </Popover>
-          </Box>
+          <Flex
+            onClick={timeFilter}
+            className={cls.filterWrap}
+            gap={`5px`}
+            alignItems={`center`}
+            cursor={`pointer`}
+            as={`button`}
+          >
+            <p className={cls.headerTh}> {t(`Время`)}</p>
+            {filterTime === `top` ? (
+              <IocnSortTop />
+            ) : filterTime === `back` ? (
+              <IocnSortBack />
+            ) : (
+              <IocnFilter />
+            )}
+          </Flex>
         </Flex>
       ),
+      width: 400,
+      render: (row, index) => {
+        const order =
+          row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
+        const status = row?.driver_data?.provisions?.[0];
+        const statusName =
+          status === `someone_cargo`
+            ? `Занята чужим грузом`
+            : status === `broke_down`
+            ? `Неисправна`
+            : `Свободная`;
+        return (
+          <Flex>
+            <Flex
+              alignItems={`center`}
+              background={
+                order ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
+              }
+              className={cls.locationWrap}
+            >
+              {order ? (
+                <Box>
+                  <p className={cls.locationTitle}>{t(`Занята`)}: </p>
+                  <p className={cls.subBlueTitle}>
+                    {row?.order_data?.cargo_data?.number_of_order}
+                  </p>
+                </Box>
+              ) : (
+                <Box>
+                  <p
+                    onClick={() => setOpen(row)}
+                    className={cls.locationTitle2}
+                  >
+                    {t(statusName)}
+                  </p>
+                </Box>
+              )}
+
+              {row?.gps_data && (
+                <>
+                  <Flex alignItems={`center`} gap={2}>
+                    <LocationActiveIcon /> <CricleArrovIcon />
+                    <p className={cls.title}>{t(`Вкл`)}. </p>
+                    <p className={cls.subBlueTitle}>
+                      {row?.gps_data[0]?.update_time &&
+                        format(row?.gps_data[0]?.update_time, `yyyy-MM-dd`)}
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    <BluetoothIcon2 />
+                    <p className={cls.subTitle}>
+                      <span className={cls.title}>{t(`Вкл`)}. </span>
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    {row?.gps_data[0]?.battery > 20 ? (
+                      <BatareyFullIcon />
+                    ) : (
+                      <BatareyIcon />
+                    )}
+                    <p className={cls.subTitle}>
+                      <span className={cls.title}>
+                        {row?.gps_data[0]?.battery || 0}%
+                      </span>
+                    </p>
+                  </Flex>
+                </>
+              )}
+            </Flex>
+            <Box className={cls.popup}>
+              <Popover placement={"bottom-start"}>
+                {({ isOpen, onClose }) => (
+                  <>
+                    <PopoverTrigger>
+                      <IconButton
+                        size={"sm"}
+                        borderRadius={"50%"}
+                        icon={<PopupIcon />}
+                        width="40px"
+                        _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
+                        backgroundColor={"white"}
+                      />
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent
+                        boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
+                        border={"1px solid rgba(234, 236, 240, 1"}
+                        className={cls.popoverCon}
+                      >
+                        <PopoverArrow />
+                        <PopoverBody>
+                          {!order && (
+                            <Box
+                              style={{ padding: `10px 8px` }}
+                              _hover={{
+                                backgroundColor: `rgb(247, 247, 247)`,
+                                borderRadius: `6px`,
+                                color: `rgba(33, 31, 38, 1)`,
+                                cursor: `pointer`,
+                              }}
+                              className={cls.menuItem}
+                              onClick={() => {
+                                setOpen(row);
+                                onClose();
+                              }}
+                            >
+                              {t(`Изменить статус`)}
+                            </Box>
+                          )}
+                          <Box
+                            style={{ padding: `10px 8px`, color: `red` }}
+                            _hover={{
+                              backgroundColor: `rgb(247, 247, 247)`,
+                              borderRadius: `6px`,
+                              color: `rgba(255, 255, 255, 1)`,
+                              cursor: `pointer`,
+                            }}
+                            className={cls.menuItem}
+                            onClick={() => {
+                              deleteFuntion(row?.guid);
+                              onClose();
+                            }}
+                          >
+                            {t(`Удалить водителя`)}
+                          </Box>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Portal>
+                  </>
+                )}
+              </Popover>
+            </Box>
+          </Flex>
+        );
+      },
     },
   ];
 
