@@ -43,7 +43,7 @@ const DriverCheck = ({
   );
 
   const dispatcher = authStore.userData;
-
+ console.log(`contendSingle`,contendSingle)
 
   const statuses = {
     no_status: "Нет статуса",
@@ -278,7 +278,7 @@ const DriverCheck = ({
               </p>
             </Flex>
           </Box>
-          <Button
+          {/* <Button
             onClick={() => {
               setCenterModalType("changeIcon");
               setIconStatus(contendSingle?.user?.provisions?.[0]);
@@ -289,7 +289,7 @@ const DriverCheck = ({
             className={cls.btnBlueOutline}
           >
           {t(`Занята нашим грузом`)}
-          </Button>
+          </Button> */}
           <Box className={cls.cardWrapOutline}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>
               <Avatar name={dispatcher?.full_name} src={dispatcher?.photo} />

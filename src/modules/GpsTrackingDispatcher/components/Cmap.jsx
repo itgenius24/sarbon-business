@@ -209,7 +209,7 @@ const Cmap = memo(
               const BalloonContent = () => (
                 <div id="balloon-content" className={cls.balloon_content_empty}>
                   <div className={cls.wrap} style={{ height: "45px" }}>
-                    {carInfo?.user?.provisions?.[0] === "empty" ? (
+                    { !carInfo?.order_data && carInfo?.user?.provisions?.[0] === "empty" ? (
                       <>
                         <GreenCarIcon />
                         <span className={cls.balloonName}>Свободен</span>
@@ -225,7 +225,7 @@ const Cmap = memo(
                           Ожидание
                         </span>
                       </>
-                    ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
+                    ) : carInfo?.order_data || carInfo?.user?.provisions?.[0] === "our_cargo" ? (
                       <>
                         <CheckBlueIcon />
                         <span
@@ -534,7 +534,7 @@ const Cmap = memo(
                       iconImageHref:
                         "data:image/svg+xml;charset=UTF-8," +
                         encodeURIComponent(
-                          mapIcon[carInfo?.user?.provisions?.[0]] ||
+                          mapIcon[carInfo?.order_data ? `our_cargo` : carInfo?.user?.provisions?.[0]] ||
                             GreenMapIcon
                         ),
                       iconImageSize:
@@ -546,7 +546,7 @@ const Cmap = memo(
                     modules={["geoObject.addon.balloon"]}
                     onClick={() => {
                       setContendSingle(carInfo);
-                      if (carInfo?.user?.provisions?.[0] === "our_cargo") {
+                      if ( carInfo?.order_data ||  carInfo?.user?.provisions?.[0] === "our_cargo") {
                         setModalType("driverCheck");
                       } else if (
                         carInfo?.user?.provisions?.[0] === "someone_cargo"

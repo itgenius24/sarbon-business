@@ -103,6 +103,11 @@
     font-size: 14px;
     color: rgba(33, 31, 38, 1);
     line-height: 20px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
   }
   .subBlueTitle2 {
     font-weight: 400;
