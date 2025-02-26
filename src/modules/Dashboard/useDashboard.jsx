@@ -1012,21 +1012,32 @@ export const useDashboard = (locale) => {
       title: `Общее кол-во водителей`,
       dataIndex: "",
       width: 200,
+      render: (_, row) => {
+          const empty = row?.drivers_count?.empty || 0;
+          const someone_cargo = row?.drivers_count?.someone_cargo || 0;
+          const broke_down = row?.drivers_count?.broke_down || 0;
+          const newDriver = row?.drivers_count?.new || 0;
+          return empty + someone_cargo + broke_down + newDriver
+      }
+        
     },
     {
       title: `Общее кол-во свободных`,
       dataIndex: "",
       width: 200,
+      render: (_, row) => row?.drivers_count?.empty,
     },
     {
       title: `Занята чужим грузом`,
       dataIndex: "",
       width: 200,
+      render: (_, row) => row?.drivers_count?.someone_cargo,
     },
     {
       title: `Неисправна`,
       dataIndex: "",
       width: 200,
+      render: (_, row) => row?.drivers_count?.broke_down,
     },
     {
       title: `Общее кол-во предложений`,
@@ -1041,19 +1052,19 @@ export const useDashboard = (locale) => {
         return row?.orders_status_counts?.new;
       },
     },
-    {
-      title: `Ждём водителя`,
-      dataIndex: "",
-      width: 200,
-      render: (_, row) => {
-        // const data = row?.orders_status_counts?.filter(
-        //   (item) =>
-        //     item?._id?.includes(`new`) &&
-        //     item?._id?.includes("approve_from_driver")
-        // );
-        return row?.orders_status_counts?.new;
-      },
-    },
+    // {
+    //   title: `Ждём водителя`,
+    //   dataIndex: "",
+    //   width: 200,
+    //   render: (_, row) => {
+    //     // const data = row?.orders_status_counts?.filter(
+    //     //   (item) =>
+    //     //     item?._id?.includes(`new`) &&
+    //     //     item?._id?.includes("approve_from_driver")
+    //     // );
+    //     return row?.orders_status_counts?.new;
+    //   },
+    // },
     {
       title: `Общее кол-во в исполнении`,
       dataIndex: "",
