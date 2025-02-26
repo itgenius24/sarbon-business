@@ -1018,15 +1018,18 @@ export const useDashboard = (locale) => {
         const broke_down = row?.drivers_count?.broke_down || 0;
         const newDriver = row?.drivers_count?.new || 0;
         const unknown = row?.drivers_count?.unknown || 0;
-        const our_cargo = row?.drivers_count?.our_cargo || 0;
+        const our_cargo = row?.drivers_count?.our_cargo || 0; 
+        const waiting_for_driver = row?.drivers_count?.waiting_for_driver || 0; 
         return (
           <p style={{ textAlign: `center` }}>
-            {empty +
+            { empty +
               someone_cargo +
               broke_down +
               newDriver +
               unknown +
-              our_cargo}
+              our_cargo + 
+              waiting_for_driver
+              }
           </p>
         );
       },
@@ -1076,19 +1079,19 @@ export const useDashboard = (locale) => {
         );
       },
     },
-    // {
-    //   title: `Ждём водителя`,
-    //   dataIndex: "",
-    //   width: 200,
-    //   render: (_, row) => {
-    //     // const data = row?.orders_status_counts?.filter(
-    //     //   (item) =>
-    //     //     item?._id?.includes(`new`) &&
-    //     //     item?._id?.includes("approve_from_driver")
-    //     // );
-    //     return row?.orders_status_counts?.new;
-    //   },
-    // },
+    {
+      title: `Ждём водителя`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter(
+        //   (item) =>
+        //     item?._id?.includes(`new`) &&
+        //     item?._id?.includes("approve_from_driver")
+        // );
+        return row?.drivers_count?.waiting_for_driver ;
+      },
+    },
     {
       title: `Общее кол-во в исполнении`,
       dataIndex: "",
