@@ -1030,7 +1030,7 @@ export const useDashboard = (locale) => {
       dataIndex: "",
       width: 200,
       render: (_, row) => (
-        <p style={{ textAlign: `center` }}>{row?.drivers_count?.empty}</p>
+        <p style={{ textAlign: `center` }}>{row?.drivers_count?.empty + row?.drivers_count?.unknown || 0 }</p>
       ),
     },
     {
