@@ -110,15 +110,46 @@ export const useMyCarsDispatcher = () => {
         });
 
         let data = res?.response;
-        const uniqueData = data.filter(
-          (item) =>
-            !oldData.some((stateItem) => stateItem?.users_id === item?.users_id)
-        );
+        const uniqueData = data
+          .filter(
+            (item) =>
+              !oldData.some(
+                (stateItem) => stateItem?.users_id === item?.users_id
+              )
+          )
+          ?.map((item) => {
+            if (
+              item?.order_data ||
+              item?.driver_data?.provisions?.[0] === `our_cargo`
+            ) {
+              return {
+                ...item,
+                status: `Занята`,
+              };
+            } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
+              return {
+                ...item,
+                status: `Занята чужим грузом`,
+              };
+            } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
+              return {
+                ...item,
+                status: `Неисправна`,
+              };
+            } else {
+              return {
+                ...item,
+                status: `Свободная`,
+              };
+            }
+          });
         setData((prev) => [...prev, ...uniqueData]);
         setOldData((prev) => [...prev, ...uniqueData]);
       }
     },
   });
+
+  console.log(`data`, data);
 
   useEffect(() => {
     const dataReq = {
@@ -157,19 +188,18 @@ export const useMyCarsDispatcher = () => {
   const statusFIlter = () => {
     if (filterStatus === `all`) {
       setFilterStatus(`top`);
-      const sortedData = oldData?.sort((a, b) =>
-        a?.order_data ? 1 : b?.order_data ? -1 : 0
+      const sortedData = data?.sort((a, b) =>
+        a?.status.localeCompare(b?.status)
       );
-
       setData(sortedData);
     } else if (filterStatus === `top`) {
       setFilterStatus(`back`);
-      const sortedData = oldData?.sort((a, b) =>
-        a?.order_data ? -1 : b?.order_data ? 1 : 0
+      const sortedData = data?.sort((a, b) =>
+        b?.status.localeCompare(a?.status)
       );
-
       setData(sortedData);
-    } else {
+    }
+    else if(filterStatus === `back`) {
       setFilterStatus(`all`);
       setData(oldData);
     }
@@ -178,7 +208,10 @@ export const useMyCarsDispatcher = () => {
   const timeFilter = () => {
     if (filterTime === `all`) {
       setFilterTime(`top`);
-      const sortedData = data?.sort(
+      const filterData = data?.filter(
+        (item) => item?.gps_data?.[0]?.update_time
+      );
+      const sortedData = filterData?.sort(
         (a, b) =>
           new Date(b?.gps_data[0]?.update_time) -
           new Date(a?.gps_data[0]?.update_time)
@@ -187,7 +220,9 @@ export const useMyCarsDispatcher = () => {
       setData(sortedData);
     } else if (filterTime === `top`) {
       setFilterTime(`back`);
-      const sortedData = data?.sort(
+      const filterData = data?.filter((item) => item.gps_data[0]?.update_time);
+
+      const sortedData = filterData?.sort(
         (a, b) =>
           new Date(a?.gps_data[0]?.update_time) -
           new Date(b?.gps_data[0]?.update_time)
@@ -308,6 +343,8 @@ export const useMyCarsDispatcher = () => {
             className={cls.filterWrap}
             gap={`5px`}
             alignItems={`center`}
+            cursor={`pointer`}
+            as={`button`}
           >
             <p className={cls.headerTh}> {t(`Статус`)}</p>
             {filterStatus === `top` ? (
@@ -323,6 +360,8 @@ export const useMyCarsDispatcher = () => {
             className={cls.filterWrap}
             gap={`5px`}
             alignItems={`center`}
+            cursor={`pointer`}
+            as={`button`}
           >
             <p className={cls.headerTh}> {t(`Время`)}</p>
             {filterTime === `top` ? (
@@ -337,17 +376,21 @@ export const useMyCarsDispatcher = () => {
       ),
       width: 400,
       render: (row, index) => {
-        const order = row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
+        const order =
+          row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
         const status = row?.driver_data?.provisions?.[0];
-        const statusName = status === `someone_cargo` ? `Занята чужим грузом` :  status === `broke_down` ? `Неисправна` : `Свободная`;
+        const statusName =
+          status === `someone_cargo`
+            ? `Занята чужим грузом`
+            : status === `broke_down`
+            ? `Неисправна`
+            : `Свободная`;
         return (
           <Flex>
             <Flex
               alignItems={`center`}
               background={
-                order
-                  ? ` rgba(0, 122, 255, 0.08)`
-                  : `rgba(229, 243, 235, 1)`
+                order ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
               }
               className={cls.locationWrap}
             >
