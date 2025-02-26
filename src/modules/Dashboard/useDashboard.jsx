@@ -1021,7 +1021,12 @@ export const useDashboard = (locale) => {
         const our_cargo = row?.drivers_count?.our_cargo || 0;
         return (
           <p style={{ textAlign: `center` }}>
-            {empty + someone_cargo + broke_down + newDriver + unknown + our_cargo}
+            {empty +
+              someone_cargo +
+              broke_down +
+              newDriver +
+              unknown +
+              our_cargo}
           </p>
         );
       },
@@ -1031,7 +1036,9 @@ export const useDashboard = (locale) => {
       dataIndex: "",
       width: 200,
       render: (_, row) => (
-        <p style={{ textAlign: `center` }}>{row?.drivers_count?.empty + row?.drivers_count?.unknown || 0 }</p>
+        <p style={{ textAlign: `center` }}>
+          {row?.drivers_count?.empty + (row?.drivers_count?.unknown || 0)}
+        </p>
       ),
     },
     {
