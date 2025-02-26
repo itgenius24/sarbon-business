@@ -38,6 +38,14 @@ const Filter = ({
 }) => {
   const { t } = useTranslation(locale);
 
+  const handleInputChange = (newValue, { action }) => {
+    console.log(`newValue`, newValue,action);
+    if (action === "input-change") {
+      setValue(`users_id_search`,newValue.replace(/\s+/g, ""));
+    }
+  };
+
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={4} alignItems={"flex-start"}>
@@ -191,6 +199,8 @@ const Filter = ({
                 name="users_id"
                 placeholder={t("Имя или номер телефона...")}
                 control={control}
+                inputValue={watch(`users_id_search`)}
+                onInputChange={handleInputChange}
               />
             </Box>
           </Flex>

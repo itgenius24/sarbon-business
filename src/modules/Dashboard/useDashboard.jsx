@@ -327,7 +327,7 @@ export const useDashboard = (locale) => {
     }),
   });
 
-  console.log(`newData`,newData)
+  console.log(`newData`, newData);
 
   const { data: bzData } = useGetOffer({
     data: JSON.stringify({
@@ -407,7 +407,7 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${data?.new?.[0]?.total_count  || 0})`,
+      `Предложений (${data?.new?.[0]?.total_count || 0})`,
       `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
@@ -702,7 +702,11 @@ export const useDashboard = (locale) => {
     {
       title: `Дата созд`,
       dataIndex: "createdAt",
-      render: (_, row) => <p style={{whiteSpace:`nowrap`}}>{row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}</p>,
+      render: (_, row) => (
+        <p style={{ whiteSpace: `nowrap` }}>
+          {row.createdAt && format(row.createdAt, `yyyy-MM-dd`)}
+        </p>
+      ),
       width: 200,
     },
     {
@@ -1005,7 +1009,7 @@ export const useDashboard = (locale) => {
       width: 200,
     },
     {
-      title: `Общее кол-во машин`,
+      title: `Общее кол-во водителей`,
       dataIndex: "",
       width: 200,
     },
@@ -1015,38 +1019,26 @@ export const useDashboard = (locale) => {
       width: 200,
     },
     {
-      title: `Общее кол-во в исполнении`,
+      title: `Занята чужим грузом`,
       dataIndex: "",
       width: 200,
-      render: (_, row) => {
-        const data = row?.orders_status_counts?.filter((item) =>
-          item?._id?.includes(`performed`)
-        );
-        return data?.[0]?.count;
-      },
     },
     {
-      title: `Общее кол-во завершённых`,
+      title: `Неисправна`,
       dataIndex: "",
       width: 200,
-      render: (_, row) => {
-        const data = row?.orders_status_counts?.filter((item) =>
-          item?._id?.includes(`archive`)
-        );
-
-        return data?.[0]?.count;
-      },
     },
-   
     {
       title: `Общее кол-во предложений`,
       dataIndex: "",
       width: 200,
       render: (_, row) => {
-        const data = row?.orders_status_counts?.filter((item) =>
-          item?._id?.includes(`new`) &&  item?._id?.includes("approve_by_customer")
-        );
-        return data?.[0]?.count;
+        // const data = row?.orders_status_counts?.filter(
+        //   (item) =>
+        //     item?._id?.includes(`new`) &&
+        //     item?._id?.includes("approve_by_customer")
+        // );
+        return row?.orders_status_counts?.new;
       },
     },
     {
@@ -1054,10 +1046,35 @@ export const useDashboard = (locale) => {
       dataIndex: "",
       width: 200,
       render: (_, row) => {
-        const data = row?.orders_status_counts?.filter((item) =>
-          item?._id?.includes(`new`) &&  item?._id?.includes("approve_from_driver")
-        );
-        return data?.[0]?.count;
+        // const data = row?.orders_status_counts?.filter(
+        //   (item) =>
+        //     item?._id?.includes(`new`) &&
+        //     item?._id?.includes("approve_from_driver")
+        // );
+        return row?.orders_status_counts?.new;
+      },
+    },
+    {
+      title: `Общее кол-во в исполнении`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter((item) =>
+        //   item?._id?.includes(`performed`)
+        // );
+        return row?.orders_status_counts?.performed;
+      },
+    },
+    {
+      title: `Общее кол-во завершённых`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter((item) =>
+        //   item?._id?.includes(`archive`)
+        // );
+
+        return row?.orders_status_counts?.archive;
       },
     },
   ];
