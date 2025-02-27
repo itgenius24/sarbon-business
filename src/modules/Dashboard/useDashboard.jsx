@@ -1063,6 +1063,34 @@ export const useDashboard = (locale) => {
       ),
     },
     {
+      title: `Общее кол-во в исполнении`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter((item) =>
+        //   item?._id?.includes(`performed`)
+        // );
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.performed}
+          </p>
+        );
+      },
+    },
+     // {
+    //   title: `Ждём водителя`,
+    //   dataIndex: "",
+    //   width: 200,
+    //   render: (_, row) => {
+    //     // const data = row?.orders_status_counts?.filter(
+    //     //   (item) =>
+    //     //     item?._id?.includes(`new`) &&
+    //     //     item?._id?.includes("approve_from_driver")
+    //     // );
+    //     return row?.drivers_count?.waiting_for_driver ;
+    //   },
+    // },
+    {
       title: `Общее кол-во предложений`,
       dataIndex: "",
       width: 200,
@@ -1079,34 +1107,8 @@ export const useDashboard = (locale) => {
         );
       },
     },
-    // {
-    //   title: `Ждём водителя`,
-    //   dataIndex: "",
-    //   width: 200,
-    //   render: (_, row) => {
-    //     // const data = row?.orders_status_counts?.filter(
-    //     //   (item) =>
-    //     //     item?._id?.includes(`new`) &&
-    //     //     item?._id?.includes("approve_from_driver")
-    //     // );
-    //     return row?.drivers_count?.waiting_for_driver ;
-    //   },
-    // },
-    {
-      title: `Общее кол-во в исполнении`,
-      dataIndex: "",
-      width: 200,
-      render: (_, row) => {
-        // const data = row?.orders_status_counts?.filter((item) =>
-        //   item?._id?.includes(`performed`)
-        // );
-        return (
-          <p style={{ textAlign: `center` }}>
-            {row?.orders_status_counts?.performed}
-          </p>
-        );
-      },
-    },
+   
+   
     {
       title: `Общее кол-во завершённых`,
       dataIndex: "",
