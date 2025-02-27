@@ -499,6 +499,11 @@ export const useDashboard = (locale) => {
 
   const columns1 = [
     {
+      title: "No",
+      dataIndex:`number`,
+      width: 40,
+    },
+    {
       title: "Последняя активность",
       dataIndex: "",
       render: (_, row) => {
@@ -685,6 +690,11 @@ export const useDashboard = (locale) => {
   ];
   const columns2 = [
     {
+      title: "No",
+      dataIndex:`number`,
+      width: 40,
+    },
+    {
       title: `ID`,
       dataIndex: "your_id",
       width: 200,
@@ -764,6 +774,11 @@ export const useDashboard = (locale) => {
     },
   ];
   const columns3 = [
+    {
+      title: "No",
+      dataIndex:`number`,
+      width: 40,
+    },
     {
       title: `ID`,
       dataIndex: "unit_id",
@@ -850,6 +865,11 @@ export const useDashboard = (locale) => {
     },
   ];
   const columns4 = [
+    {
+      title: "No",
+      dataIndex:`number`,
+      width: 40,
+    },
     {
       title: `Груз id`,
       dataIndex: "number_of_order",
@@ -982,6 +1002,11 @@ export const useDashboard = (locale) => {
   ];
 
   const columns5 = [
+    {
+      title: "No",
+      dataIndex:`number`,
+      width: 40,
+    },
     {
       title: `Последняя активность`,
       dataIndex: "createdAt",

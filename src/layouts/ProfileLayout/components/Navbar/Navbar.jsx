@@ -43,10 +43,9 @@ export const Navbar = () => {
   const pathname = usePathname();
 
   const path = pathname.split("/")[3];
-const {t} = useTranslation();
+  const {t} = useTranslation();
   const locale = useGetLang();
 
-  console.log({ locale });
 
   return <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
     {
