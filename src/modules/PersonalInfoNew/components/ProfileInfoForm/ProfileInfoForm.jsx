@@ -134,6 +134,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
             background={`white`}
             width={`100%`}
             as={`button`}
+            type="button"
             gap={`6px`}
             justifyContent={`center`}
             alignItems={`center`}

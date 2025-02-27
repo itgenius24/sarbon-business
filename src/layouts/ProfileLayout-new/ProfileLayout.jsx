@@ -1,6 +1,6 @@
 import cls from "./styles.module.scss";
 import { Container } from "@/components/Container";
-import { Box, Flex, Heading, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { LeftHeaderCard } from "./components/LeftHeaderCard";
 import { Navbar } from "./components/Navbar";
@@ -18,6 +18,7 @@ import Image from "next/image";
 
 export const ProfileLayout = ({ children }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  const {onClose,isOpen,onOpen} = useDisclosure()
 
   const pathname = usePathname();
 
@@ -29,7 +30,8 @@ export const ProfileLayout = ({ children }) => {
   const { t } = useTranslation(locale, "translations");
 
   return (
-    <div className="fade-in">
+    <>
+      <div className="fade-in">
       <Container my="40px">
         <Flex
           width={`100%`}
@@ -94,7 +96,7 @@ export const ProfileLayout = ({ children }) => {
                     ООО Uztrans Logistics Group
                   </Text>
                   <Flex alignItems={`center`} mt={`16px`} gap={`12px`}>
-                    <Box >
+                    <Box>
                       <ProfileNoIcon />
                     </Box>
                     <Box >
@@ -115,6 +117,22 @@ export const ProfileLayout = ({ children }) => {
           {isLargerThan845 && <Box flexGrow={1}>{children}</Box>}
         </div>
       </Container>
+      
     </div>
+    <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+          
+          </ModalBody>
+
+          <ModalFooter>
+          
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };

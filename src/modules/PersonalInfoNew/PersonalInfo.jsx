@@ -38,13 +38,13 @@ export const PersonalInfo = () => {
         footer={
           <ButtonGroup
             width={isLargerThan845 ? "auto" : "100%"}
-            ml={isLargerThan845 ? "auto" : "0"}
+            // ml={isLargerThan845 ? "auto" : "0"}
             spacing={isLargerThan845 ? "2" : "0"}
             display={isLargerThan845 ? "inline-flex" : "flex"}
             flexDirection={isLargerThan845 ? "row" : "column-reverse"}
             rowGap={isLargerThan845 ? "0" : "8px"}
           >
-            <Button
+            {/* <Button
               h={isLargerThan845 ? "40px" : "52px"}
               p="10px 16px"
               variant="outline"
@@ -53,16 +53,16 @@ export const PersonalInfo = () => {
               fontSize={isLargerThan845 ? "16px" : "15px"}
             >
               {t(`Отмена`)}
-            </Button>
+            </Button> */}
             <Button
               isLoading={isLoading}
               type="submit"
               fontSize={isLargerThan845 ? "16px" : "15px"}
-              h={isLargerThan845 ? "40px" : "52px"}
-              p="10px 16px"
+              // h={isLargerThan845 ? "40px" : "52px"}
+              // p="10px 16px"
               variant="solid"
             >
-              {t(`Сохранить`)}
+              {t(`Сохранить профиль`)}
             </Button>
           </ButtonGroup>
         }
