@@ -374,7 +374,7 @@ export const useDashboard = (locale) => {
     {
       id: 1,
       total: newData?.count - bzData?.count || 0,
-      deck: `Общее кол-во предложений`,
+      deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
     },
@@ -1049,17 +1049,22 @@ export const useDashboard = (locale) => {
       dataIndex: "",
       width: 200,
       render: (_, row) => (
-        <p style={{ textAlign: `center` }}>
+        <Flex width={`100%`} justifyContent={`center`}>
+           <p style={{ width:`100px`, textAlign: `center` }}>
           {row?.drivers_count?.someone_cargo}
         </p>
+        </Flex>
+       
       ),
     },
     {
       title: `Неисправна`,
       dataIndex: "",
-      width: 200,
+      width: 100,
       render: (_, row) => (
-        <p style={{ textAlign: `center` }}>{row?.drivers_count?.broke_down}</p>
+        <Flex width={`100%`} justifyContent={`center`}>
+          <p style={{ width:`70px`, textAlign: `center` }}>{row?.drivers_count?.broke_down}</p>
+        </Flex>
       ),
     },
     {
@@ -1091,7 +1096,7 @@ export const useDashboard = (locale) => {
     //   },
     // },
     {
-      title: `Общее кол-во предложений`,
+      title: `Общее кол-во предложений и ждём вод.`,
       dataIndex: "",
       width: 200,
       render: (_, row) => {
