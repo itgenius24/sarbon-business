@@ -284,10 +284,12 @@ export const useSearchLoadDispatcher = () => {
         setId([]);
       },
       onError:() => {
+        setId([]);
         setRefe(true)
         setData([]);
         setOldData([]);
         setPage(0);
+       
       }
     });
 

@@ -1,0 +1,52 @@
+
+
+.fields {
+  display: flex;
+  column-gap: 32px;
+  margin-top: 30px
+}
+
+.profilePhoto {
+  display: none;
+}
+
+.loginWrap{
+  border-radius: 8px;
+  padding: 26px 30px;
+  background-color: rgba(237, 239, 245, 1);
+}
+
+@include breakpoint-down(845px) {
+  .fileUpload {
+    display: none;
+  }
+
+  .fields {
+    flex-direction: column;
+    row-gap: 16px;
+  }
+
+  .profilePhoto {
+    width: 104px;
+    height: 104px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .profileImg {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .profileIcon {
+    position: absolute;
+    top: calc(100% - 24px);
+    left: calc(100% - 24px);
+  }
+
+}

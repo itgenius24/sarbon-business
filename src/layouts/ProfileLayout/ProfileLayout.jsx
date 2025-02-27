@@ -30,7 +30,7 @@ export const ProfileLayout = ({ children }) => {
         isLargerThan845 && <Heading 
         color={`var(--primary-text)`}
          size="md" mb="24px">
-          {t("Профиль")}
+          {t("Профиль компании")}
         </Heading>
       }
       {

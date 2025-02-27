@@ -1,0 +1,117 @@
+import cls from "./styles.module.scss";
+import clsx from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { navList } from "./elements";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
+import { CustomLogOutButton } from "../CustomLogOutButton";
+import { useGetLang } from "@/hooks/useGetLang";
+import { useTranslation } from "react-i18next";
+import { CkoraIcon } from "@/assets/icons/icons";
+
+const tabStyles = {
+  alignItems: "center",
+  p: "14px 16px",
+  bg: "white",
+  _hover: { bg: "brand.50" },
+};
+
+const CAccordion = ({ children = "", content = "", defaultIndex }) => {
+  return (
+    <Accordion allowToggle defaultIndex={defaultIndex}>
+      <AccordionItem border="none" p="0">
+        <AccordionButton _hover={{ bg: "none" }} p="0" fontSize="16px">
+          <Box flex={1}>{children}</Box>
+        </AccordionButton>
+        <AccordionPanel p="0">{content}</AccordionPanel>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
+export const Navbar = () => {
+  const pathname = usePathname();
+  const path = pathname.split("/")[3];
+
+  const { t } = useTranslation();
+  const locale = useGetLang();
+
+  return (
+    <Box className={cls.navbar}>
+      {navList.map((nav, i) => {
+        if (nav.children) {
+          const index = nav.children.findIndex((child) =>
+            pathname.includes(child.path)
+          );
+
+          return (
+            <CAccordion
+              key={i}
+              defaultIndex={index === -1 ? 1 : 0}
+              content={
+                <Flex direction="column">
+                  {nav.children.map((child, i) => {
+                    return (
+                      <Link
+                        className={clsx(cls.link, {
+                          [cls.active]: pathname.includes(child.path),
+                        })}
+                        href={`/${locale}` + child.path}
+                        key={i}
+                      >
+                        {child.icon}
+                        <span>{t(`${child.title}`)}</span>
+                      </Link>
+                    );
+                  })}
+                </Flex>
+              }
+            >
+              <Flex {...tabStyles}>
+                {nav?.icon}{" "}
+                <Text
+                  lineHeight="20px"
+                  fontWeight={500}
+                  ml="10px"
+                  color="icon.base"
+                >
+                  {t(`${nav?.title}`)}
+                </Text>{" "}
+                <AccordionIcon ml="auto" color={"icon.base"} />
+              </Flex>
+            </CAccordion>
+          );
+        }
+
+        return (
+          <Link
+            className={clsx(cls.link, {
+              [cls.active]: (!path && i === 0) || nav.path.includes(path),
+              [cls.disabled]: nav.disabled,
+            })}
+            href={
+              nav.disabled
+                ? `/${locale}` + pathname.slice(3, pathname.length)
+                : `/${locale}` + nav.path
+            }
+            key={i}
+          >
+            <Box className={cls.icon}>{nav.icon}</Box>
+            <span>{t(`${nav.title}`)}</span>
+            {nav.disabled && <CkoraIcon />}
+          </Link>
+        );
+      })}
+      {/* <CustomLogOutButton /> */}
+    </Box>
+  );
+};

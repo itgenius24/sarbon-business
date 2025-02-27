@@ -287,7 +287,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns5}
-                    data={data.response}
+                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -296,7 +296,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns2}
-                    data={data.response}
+                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -305,7 +305,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns1}
-                    data={data.response}
+                     data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -314,7 +314,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns3}
-                    data={data.response}
+                     data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -323,7 +323,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns4}
-                    data={data.response}
+                     data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />

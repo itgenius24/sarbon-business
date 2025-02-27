@@ -11,7 +11,7 @@ export const MainContentCard = ({ children, footer, ...rest }) => {
       borderColor="brand.200"
       {...rest}
     >
-      {children && <CardBody p={isLargerThan845 ? "24px" : "10px"}>{children}</CardBody>}
+      {children && <CardBody p={isLargerThan845 ? "40px" : "10px"}>{children}</CardBody>}
       {footer && (
         <>
           <Divider />
