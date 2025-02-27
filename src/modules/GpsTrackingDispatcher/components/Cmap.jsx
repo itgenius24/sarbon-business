@@ -290,6 +290,14 @@ const Cmap = memo(
                           href={`https://t.me/${carInfo?.user?.phone}`}
                           id="click"
                           className={cls.footerBoxLink}
+                          onCopy={(event) => {
+                            event.preventDefault(); 
+                            console.log(`selectedText`, window.getSelection().toString())
+
+                            const selectedText = window.getSelection().toString().replace(/\s+/g, "");  
+                            event.clipboardData.setData("text/plain", selectedText);
+
+                          }}
                         >
                           {formatPhoneNumber(carInfo?.user?.phone)}
                         </a>

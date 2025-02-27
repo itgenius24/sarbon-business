@@ -199,8 +199,9 @@ const Filter = ({
                 name="users_id"
                 placeholder={t("Имя или номер телефона...")}
                 control={control}
-                inputValue={watch(`users_id_search`)}
-                onInputChange={handleInputChange}
+                // inputValue={ watch(`users_id`) ?  watch(`users_id`): watch(`users_id_search`)}
+                // onInputChange={handleInputChange}
+                
               />
             </Box>
           </Flex>

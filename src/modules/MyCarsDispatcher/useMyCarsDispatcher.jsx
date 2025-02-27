@@ -136,10 +136,15 @@ export const useMyCarsDispatcher = () => {
                 ...item,
                 status: `Неисправна`,
               };
-            } else {
+            } else if(item?.driver_data?.provisions?.[0] === `empty`) {
               return {
                 ...item,
                 status: `Свободная`,
+              };
+            } else{
+              return {
+                ...item,
+                status: ``,
               };
             }
           });
@@ -149,7 +154,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  console.log(`data`, data);
+
 
   useEffect(() => {
     const dataReq = {
@@ -407,7 +412,7 @@ export const useMyCarsDispatcher = () => {
                     onClick={() => setOpen(row)}
                     className={cls.locationTitle2}
                   >
-                    {t(statusName)}
+                    {t(row?.status)}
                   </p>
                 </Box>
               )}
