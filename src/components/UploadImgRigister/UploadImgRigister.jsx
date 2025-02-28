@@ -13,11 +13,12 @@ export const UploadImgRigister = ({
   icon,
   text,
   isColor = false,
+  height = `184px`
 }) => {
   const locale = useGetLang();
   const handleImageUpload = async (e) => {
     const result = await fileUpload(e);
-    // setValue("image", result?.link);
+ 
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
   };
 
@@ -35,10 +36,9 @@ export const UploadImgRigister = ({
           position="relative"
           alignItems="center"
           justifyContent="center"
-          // ml="auto"
           maxWidth={"540px"}
           width="184px"
-          height="184px"
+          height={height}
           borderRadius="12px"
           border="1px solid"
           borderColor="brand.200"
@@ -46,6 +46,9 @@ export const UploadImgRigister = ({
         >
           <Image
             className={cls.img}
+            style={{
+              height:height
+            }}
             src={watch(name)}
             alt="cargo"
             width={184}
@@ -82,7 +85,7 @@ export const UploadImgRigister = ({
           as="label"
           // ml="auto"
           width="184px"
-          height={"184px"}
+          height={height}
           cursor={"pointer"}
         >
           <input

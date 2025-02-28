@@ -342,6 +342,7 @@ export const useGpsTrackingProps = () => {
           firm_data: item?.firm_data,
           orders: item?.order_data ? [item?.order_data] : undefined,
         }));
+        // console.log(`data2`,data2)
         setCarsArr((res) => [...res, ...data2]);
       }
     },

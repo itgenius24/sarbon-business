@@ -57,15 +57,25 @@ export const useMyCarsDispatcher = () => {
   const [oldData, setOldData] = useState([]);
   const [refe, setRefe] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(50);
+  const [limit, setLimit] = useState(500);
   const [filterStatus, setFilterStatus] = useState(`all`);
-  const [filterTime, setFilterTime] = useState(`all`);
+  const [filterTime, setFilterTime] = useState(`default`);
   const [search, setSearch] = useState(``);
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
   const containerRef = useRef(null);
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
+
+  const [visibleData, setVisibleData] = useState(data.slice(0, 50));
+  const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
+
+  const loadMore = () => {
+    const nextPage = pageUi + 1;
+    const nextData = data.slice(0, nextPage * 50); // Avvalgi + yangi 50 ta
+    setVisibleData(nextData);
+    setPageUi(nextPage);
+  };
 
   const statusData = [
     {
@@ -136,12 +146,12 @@ export const useMyCarsDispatcher = () => {
                 ...item,
                 status: `Неисправна`,
               };
-            } else if(item?.driver_data?.provisions?.[0] === `empty`) {
+            } else if (item?.driver_data?.provisions?.[0] === `empty`) {
               return {
                 ...item,
                 status: `Свободная`,
               };
-            } else{
+            } else {
               return {
                 ...item,
                 status: ``,
@@ -150,11 +160,10 @@ export const useMyCarsDispatcher = () => {
           });
         setData((prev) => [...prev, ...uniqueData]);
         setOldData((prev) => [...prev, ...uniqueData]);
+        setVisibleData(uniqueData?.slice(0, 50));
       }
     },
   });
-
-
 
   useEffect(() => {
     const dataReq = {
@@ -165,12 +174,13 @@ export const useMyCarsDispatcher = () => {
           limit: debouncedValue?.length > 0 ? 1000 : limit,
           type: "dispatcher",
           dispatcher_id: disId,
+          sort_time: filterTime,
         },
       },
     };
 
     mutate(dataReq);
-  }, [page, limit, debouncedValue?.length, refe]);
+  }, [page, limit, debouncedValue?.length, refe, filterTime?.length]);
 
   const addPage = () => {
     setPage((pa) => pa + 1);
@@ -203,44 +213,30 @@ export const useMyCarsDispatcher = () => {
         b?.status.localeCompare(a?.status)
       );
       setData(sortedData);
-    }
-    else if(filterStatus === `back`) {
+    } else if (filterStatus === `back`) {
       setFilterStatus(`all`);
       setData(oldData);
     }
   };
 
   const timeFilter = () => {
-    if (filterTime === `all`) {
+    if (filterTime === `default`) {
       setFilterTime(`top`);
-      const filterData = data?.filter(
-        (item) => item?.gps_data?.[0]?.update_time
-      );
-      const sortedData = filterData?.sort(
-        (a, b) =>
-          new Date(b?.gps_data[0]?.update_time) -
-          new Date(a?.gps_data[0]?.update_time)
-      );
-
-      setData(sortedData);
+      setData([]);
+      setOldData([]);
+      setVisibleData([]);
     } else if (filterTime === `top`) {
-      setFilterTime(`back`);
-      const filterData = data?.filter((item) => item.gps_data[0]?.update_time);
-
-      const sortedData = filterData?.sort(
-        (a, b) =>
-          new Date(a?.gps_data[0]?.update_time) -
-          new Date(b?.gps_data[0]?.update_time)
-      );
-
-      setData(sortedData);
-    } else if (filterTime === `back`) {
-      setFilterTime(`all`);
-      setData(oldData);
+      setFilterTime(`bottom`);
+      setData([]);
+      setOldData([]);
+      setVisibleData([]);
+    } else if (filterTime === `bottom`) {
+      setFilterTime(`default`);
+      setData([]);
+      setOldData([]);
+      setVisibleData([]);
     }
   };
-
-  console.log(`filterTime2`, oldData, data);
 
   const columns = [
     {
@@ -371,7 +367,7 @@ export const useMyCarsDispatcher = () => {
             <p className={cls.headerTh}> {t(`Время`)}</p>
             {filterTime === `top` ? (
               <IocnSortTop />
-            ) : filterTime === `back` ? (
+            ) : filterTime === `bottom` ? (
               <IocnSortBack />
             ) : (
               <IocnFilter />
@@ -538,10 +534,56 @@ export const useMyCarsDispatcher = () => {
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
-      setRefe(true);
-      setData([]);
-      setOldData([]);
       setOpen(false);
+      setIconStatus(``)
+      if (iconStatus === `our_cargo`) {
+        return setVisibleData((prevData) =>
+          prevData.map((item) =>
+            item.guid === open.guid ? { ...item, status: `Занята` } : item
+          )
+        );
+      } else if (iconStatus === `someone_cargo`) {
+        return setVisibleData((prevData) =>
+          prevData.map((item) =>
+            item.guid === open.guid
+              ? { ...item, status: `Занята чужим грузом` }
+              : item
+          )
+        );
+      } else if (iconStatus === `broke_down`) {
+        return setVisibleData((prevData) =>
+          prevData.map((item) =>
+            item.guid === open.guid
+              ? {
+                  ...item,
+                  status: `Неисправна`,
+                }
+              : item
+          )
+        );
+      } else if (iconStatus === `empty`) {
+        return setVisibleData((prevData) =>
+          prevData.map((item) =>
+            item.guid === open.guid
+              ? {
+                  ...item,
+                  status: `Свободная`,
+                }
+              : item
+          )
+        );
+      } else {
+        return setVisibleData((prevData) =>
+          prevData.map((item) =>
+            item.guid === open.guid
+              ? {
+                  ...item,
+                  status: ``,
+                }
+              : item
+          )
+        );
+      }
     },
     onError() {},
   });
@@ -558,6 +600,7 @@ export const useMyCarsDispatcher = () => {
     setSearch(val?.replace(/\+/g, ""));
     if (val?.replace(/\+/g, "")) {
       setData([]);
+      setVisibleData([])
       setOldData([]);
       setPage(0);
     }
@@ -585,7 +628,7 @@ export const useMyCarsDispatcher = () => {
   }, []);
 
   return {
-    data,
+    data: visibleData,
     deleteFuntion,
     nameFilter,
 
@@ -595,7 +638,7 @@ export const useMyCarsDispatcher = () => {
     setSearchFn,
     search,
     count,
-    addPage,
+    addPage: loadMore,
     statusData,
     iconStatus,
     setIconStatus,

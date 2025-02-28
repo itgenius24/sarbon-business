@@ -108,50 +108,8 @@ export const MyCarsDispatcherModule = () => {
        <Box mt={"37px"}>
           <SarbonTable rowClassName={rowClassName} variant="card" columns={columns} data={data} />
        </Box>
-        {/* <Box mt={"37px"}>
-          <Flex
-            p={"10px 36px"}
-            justifyContent={"space-between"}
-            mt={"32px"}
-            width={"100%"}
-          >
-            <Flex
-              cursor={`pointer`}
-              className={cls.th}
-              gap={2}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-              onClick={nameFilter}
-            >
-              <p className={cls.filterTitle}>{t(`Водитель`)}</p>
-              {filter1 ? <IocnSortBack /> : <IocnFilter />}
-            </Flex>
-            <p className={cls.th}>{t(`Владелец машины`)}</p>
-            <p className={cls.th}>{t(`Машина`)}</p>
-
-            <Flex
-              gap={2}
-              cursor={`pointer`}
-              className={cls.th}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-            >
-              <p>{t(`Статус`)}</p>
-              {filter1 ? <IocnSortBack /> : <IocnFilter />}
-            </Flex>
-          </Flex>
-        </Box> */}
+       
         <div>
-          {/* {data?.length > 0 &&
-            data?.map((item) => (
-              <CarsCard
-                t={t}
-                setOpen={setOpen}
-                key={item?.driver_data?.guid}
-                item={item}
-                deleteFuntion={deleteFuntion}
-              />
-            ))} */}
             {isLoading && data?.length <= 50 && (
             <Box pt={`20px`}>
               <LoadingSpinner />

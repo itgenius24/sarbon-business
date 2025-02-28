@@ -1,7 +1,24 @@
 import cls from "./styles.module.scss";
-import { Email, PasswordIconNav, PhotoIcon } from "@/assets/icons/icons";
+import {
+  Email,
+  EyeIcon,
+  EyeIconOff,
+  PasswordIconNav,
+  PhotoIcon,
+} from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react";
 import UserImg from "@/assets/images/user.png";
 import FileUpload from "@/components/FileUpload";
 import { SkeletonComp } from "@/components/Skeleton";
@@ -11,9 +28,23 @@ import { useTranslation } from "react-i18next";
 import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/TextFieldWithAdditionAut";
 
 export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
-  const { rules, full_name, email, photo, isLoading, handleImageUpload } =
-    useProfileInfoFormProps(setValue);
+  const {
+    rules,
+    full_name,
+    email,
+    photo,
+    isLoading,
+    handleImageUpload,
+    isOpen,
+    onClose,
+    onOpen,
+    isPasswordVisible,
+    setPasswordVisible,
+    isPasswordVisible2,
+    setPasswordVisible2,
+  } = useProfileInfoFormProps(setValue);
   const { t } = useTranslation();
+
   if (isLoading) return <SkeletonComp />;
 
   return (
@@ -126,6 +157,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
             placeholder="•••••••"
           />
           <Flex
+            onClick={onOpen}
             borderRadius={`6px`}
             border={`1px solid rgba(0, 122, 255, 1)`}
             color={`rgba(0, 122, 255, 1)`}
@@ -144,6 +176,80 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
           </Flex>
         </Flex>
       </Box>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Text mt={`10px`} fontSize={`18px`} fontWeight={600}>
+              Сменить пароль
+            </Text>
+          </ModalHeader>
+
+          <ModalBody>
+            <Flex rowGap={`30px`} flexDirection={`column`}>
+              <TextField
+                register={register}
+                rules={{
+                  required: {
+                    value: true,
+                    message: t("Это поле обязательно для заполнения"),
+                  },
+                }}
+                errors={errors}
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                label={t("Старый пароль")}
+                placeholder={t("Введите текущий пароль...")}
+                addonAfter={
+                  <button
+                    type="button"
+                    onClick={() => setPasswordVisible(!isPasswordVisible)}
+                  >
+                    {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
+                  </button>
+                }
+              />
+              <TextField
+                register={register}
+                rules={{
+                  required: {
+                    value: true,
+                    message: t("Это поле обязательно для заполнения"),
+                  },
+                }}
+                errors={errors}
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                label={t("Новый пароль")}
+                placeholder={t("Минимум 6 символов...")}
+                addonAfter={
+                  <button
+                    type="button"
+                    onClick={() => setPasswordVisible2(!isPasswordVisible2)}
+                  >
+                    {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
+                  </button>
+                }
+              />xa 
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter gap={`12px`}>
+            <Button>Сохранить пароль</Button>
+            <Button
+              onClick={onClose}
+              _hover={{
+                background: `white`,
+              }}
+              backgroundColor={`white`}
+              color={`black`}
+              border={`1px solid rgba(208, 213, 221, 1)`}
+            >
+              Отмена
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
