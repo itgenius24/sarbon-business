@@ -48,7 +48,7 @@ export const TextFieldWithAdditionAut = ({
       className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}
       style={{ zIndex }}
     >
-         <Controller
+       <Controller
         name={additionalItemName}
         control={control || dropdownControl}
         render={({ field }) => {
@@ -79,6 +79,7 @@ export const TextFieldWithAdditionAut = ({
                     className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field?.value?.value })}
                     onClick={() => {
                       field.onChange(item);
+                   
                       handleClose();
                     }}
                   >

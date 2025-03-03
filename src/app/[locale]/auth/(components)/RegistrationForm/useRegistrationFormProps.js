@@ -217,9 +217,7 @@ export const useRegistrationFormProps = () => {
             tin: nomer?.inn,
             company_name:
               status === 1
-                ? `${
-                    watch(`company_type`)?.value
-                      ? watch(`company_type`)?.value
+                ? `${ watch(`company_type`)?.value? watch(`company_type`)?.value
                       : `OOO`
                   } ${nomer?.companyName}`
                 : undefined,

@@ -12,6 +12,39 @@
   border-radius: 6px;
   background-color: white;
 }
+.imgUploadWrap {
+  width: 80px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .imgUpload {
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.445);
+    display: none;
+    transition: all 0.5s ease-in-out;
+   
+  }
+  &:hover {
+    transition: all 0.5s ease-in-out;
+
+    .imgUpload {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+}
+
 .plan {
   align-items: center;
   gap: 5px;

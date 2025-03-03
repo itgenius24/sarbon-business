@@ -253,16 +253,6 @@ export const Performed = forwardRef(
                   </div>
                   <div className={styles.cardItem}>
                     <span className={styles.cardBodyTitle}>
-                      {t(`Транспорт`)}
-                    </span>
-                    <p className={styles.cardName}>
-                      {cargo?.[`car_type_${locale}`]
-                        ? cargo?.[`car_type_${locale}`]
-                        : cargo?.car_type}
-                    </p>
-                  </div>
-                  <div className={styles.cardItem}>
-                    <span className={styles.cardBodyTitle}>
                       {t(`Вес, объём`)}
                     </span>
                     <p className={styles.cardName}>
@@ -271,6 +261,17 @@ export const Performed = forwardRef(
                       {cargo?.cargo_id_data?.volume_m3} m³
                     </p>
                   </div>
+                  <div className={styles.cardItem}>
+                    <span className={styles.cardBodyTitle}>
+                      {t(`Транспорт`)}
+                    </span>
+                    <p className={styles.cardName}>
+                      {cargo?.[`car_type_${locale}`]
+                        ? cargo?.[`car_type_${locale}`]
+                        : cargo?.car_type}  {cargo?.vehicle_id_data?.car_number && ` / ${cargo?.vehicle_id_data?.car_number}`}
+                    </p>
+                  </div>
+                
                 </Flex>
                 <div style={{ textAlign: `right` }} className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>

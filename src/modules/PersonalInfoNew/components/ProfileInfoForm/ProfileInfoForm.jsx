@@ -24,11 +24,18 @@ import { useProfileInfoFormProps } from "./useProfileInfoFormProps";
 import { useTranslation } from "react-i18next";
 import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/TextFieldWithAdditionAut";
 
-export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
+export const ProfileInfoForm = ({
+  errors,
+  watch,
+  reset,
+  register,
+  setValue,
+}) => {
   const {
     rules,
     full_name,
     email,
+    login,
     photo,
     isLoading,
     handleImageUpload,
@@ -39,7 +46,9 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
     setPasswordVisible,
     isPasswordVisible2,
     setPasswordVisible2,
-  } = useProfileInfoFormProps(setValue);
+    changePass,
+  } = useProfileInfoFormProps(setValue, reset, watch);
+
   const { t } = useTranslation();
 
   if (isLoading) return <SkeletonComp />;
@@ -57,7 +66,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
       <div className={cls.fields}>
         <TextFieldWithAdditionAut
           label={t("Название орзанизации *")}
-          name="companyName"
+          name="company_name"
           register={register}
           additionalItemName="company_type"
           additionalItemDefaultIndex={0}
@@ -82,7 +91,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
         <TextField
           register={register}
           errors={errors}
-          name="fName"
+          name="tin"
           label={t("ИНН организации *")}
           defaultValue={full_name?.split(" ")?.[1]}
           placeholder="Введите номер ИНН..."
@@ -92,7 +101,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
         <TextField
           register={register}
           errors={errors}
-          name="fName"
+          name="phone_number"
           label={t("Номер телефона")}
           defaultValue={full_name?.split(" ")?.[1]}
           placeholder="Введите номер для связи..."
@@ -100,7 +109,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
         <TextField
           register={register}
           errors={errors}
-          name="fName"
+          name="full_name"
           label={t("Имя и фамилия руководителя ")}
           defaultValue={full_name?.split(" ")?.[1]}
           placeholder="Имя фамилия..."
@@ -121,7 +130,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
         <TextField
           register={register}
           errors={errors}
-          name="fName"
+          name="building_address"
           label={t("Юридический адрес")}
           defaultValue={full_name?.split(" ")?.[1]}
           placeholder="Страна, город улица, дом..."
@@ -138,12 +147,13 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
         </Text>
         <Flex alignItems={`self-end`} gap={`32px`}>
           <TextField
+            disabled
             register={register}
             errors={errors}
-            name="fName"
+            name="login"
             label={t("Логин")}
-            defaultValue={full_name?.split(" ")?.[1]}
-            placeholder="Логин"
+            // defaultValue={login}
+            placeholder={login}
           />
           <TextField
             disabled
@@ -193,7 +203,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
                   },
                 }}
                 errors={errors}
-                name="password"
+                name="old_password"
                 type={isPasswordVisible ? "text" : "password"}
                 label={t("Старый пароль")}
                 placeholder={t("Введите текущий пароль...")}
@@ -215,7 +225,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
                   },
                 }}
                 errors={errors}
-                name="password"
+                name="new_password"
                 type={isPasswordVisible ? "text" : "password"}
                 label={t("Новый пароль")}
                 placeholder={t("Минимум 6 символов...")}
@@ -227,12 +237,12 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
                     {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
                   </button>
                 }
-              />xa 
+              />
             </Flex>
           </ModalBody>
 
           <ModalFooter gap={`12px`}>
-            <Button>Сохранить пароль</Button>
+            <Button onClick={changePass}>Сохранить пароль</Button>
             <Button
               onClick={onClose}
               _hover={{

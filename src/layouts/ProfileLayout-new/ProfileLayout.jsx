@@ -15,6 +15,7 @@ import {
   Text,
   useDisclosure,
   useMediaQuery,
+  useToast,
 } from "@chakra-ui/react";
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { LeftHeaderCard } from "./components/LeftHeaderCard";
@@ -27,6 +28,7 @@ import {
   ProfileNoIcon,
   ProfilePlusIcon,
   TextIcon,
+  UploadProfileIcon,
 } from "@/assets/icons/icons";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -34,12 +36,18 @@ import Image from "next/image";
 import { UploadImgRigister } from "@/components/UploadImgRigister";
 import { useForm } from "react-hook-form";
 import { UploadImg } from "@/components/UploadImg";
+import { useGetFirmInfo, useUpdateUserInfo } from "@/services/api";
+import authStore from "@/store/auth.store";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ProfileLayout = ({ children }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const { onClose, isOpen, onOpen } = useDisclosure();
 
   const pathname = usePathname();
+  const toast = useToast();
+
+  const query = useQueryClient();
 
   const { data } = useGetUserInfoHook();
 
@@ -48,6 +56,45 @@ export const ProfileLayout = ({ children }) => {
   const { control, watch, setValue } = useForm();
 
   const { t } = useTranslation(locale, "translations");
+
+  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id);
+
+  const { mutate: userData, isLoading } = useUpdateUserInfo({
+    onSuccess() {
+      toast({
+        title: "Успешно изменено!",
+        description: "Вы успешно обновили этого пользователя",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      query.invalidateQueries(["items/firm/id"]);
+      query.invalidateQueries(["items/users/id"]);
+      onClose()
+    },
+    onError() {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить пользователя!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+  });
+
+  const handleUpload = () => {
+    userData({
+      data: {
+        guid: authStore.userData.guid,
+        photo: watch(`img`),
+      },
+    });
+  };
+
+console.log(`data`,data )
 
   return (
     <>
@@ -115,17 +162,31 @@ export const ProfileLayout = ({ children }) => {
                 <Box className={cls.leftContend}>
                   <Box className={cls.profileNameWrap}>
                     <Text className={cls.profileName}>
-                      ООО Uztrans Logistics Group
+                      {firmData?.response?.company_name}
                     </Text>
                     <Flex alignItems={`center`} mt={`16px`} gap={`12px`}>
-                      <Box onClick={onOpen}>
-                        <ProfileNoIcon />
+                      <Box className={cls.imgUploadWrap} onClick={onOpen}>
+                        <Box className={cls.imgUpload}>
+                          <UploadProfileIcon />
+                        </Box>
+                        {
+                          data?.photo ? <>
+                            <Image src={data?.photo} alt="profileImg" width={200} height={200} />
+                          </> :  <ProfileNoIcon />
+                        }
+                        
                       </Box>
                       <Box>
                         <Text className={cls.profileType}>
-                          Перевозчик / Юр. лицо
+                          Перевозчик /
+                          {firmData?.response?.tip_account?.[0] ===
+                          `legal_owner`
+                            ? `Юр. лицо`
+                            : `Физ. лицо`}
                         </Text>
-                        <Text className={cls.profileId}>ID: U-000003033</Text>
+                        <Text className={cls.profileId}>
+                          ID: {data?.your_id}
+                        </Text>
                       </Box>
                     </Flex>
                   </Box>
@@ -144,7 +205,12 @@ export const ProfileLayout = ({ children }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Text mt={`10px`} textAlign={`center`} fontSize={`18px`} fontWeight={600}>
+            <Text
+              mt={`10px`}
+              textAlign={`center`}
+              fontSize={`18px`}
+              fontWeight={600}
+            >
               Лого компании
             </Text>
           </ModalHeader>
@@ -160,7 +226,6 @@ export const ProfileLayout = ({ children }) => {
               <Box>
                 <UploadImgRigister
                   height={`113px`}
-                 
                   icon={<TextIcon />}
                   text={`Загрузить фото`}
                   control={control}
@@ -173,10 +238,18 @@ export const ProfileLayout = ({ children }) => {
           </ModalBody>
 
           <ModalFooter gap={`12px`}>
-            <Button>Сохранить</Button>
-            <Button onClick={onClose} _hover={{
-              background:`white`
-            }} backgroundColor={`white`} color={`black`} border={`1px solid rgba(208, 213, 221, 1)`} >Отмена</Button>
+            <Button onClick={() => handleUpload()}>Сохранить</Button>
+            <Button
+              onClick={onClose}
+              _hover={{
+                background: `white`,
+              }}
+              backgroundColor={`white`}
+              color={`black`}
+              border={`1px solid rgba(208, 213, 221, 1)`}
+            >
+              Отмена
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

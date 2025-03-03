@@ -336,7 +336,7 @@ export const useDashboard = (locale) => {
   newData?.response?.filter(
     (item) =>
       item.provisions.includes("new") &&
-      item.provisions.includes("approve_from_customer")
+      item.provisions.includes("approve_by_customer")
   )?.length;
 
   const { data: bzData } = useGetOffer({
@@ -1142,7 +1142,10 @@ export const useDashboard = (locale) => {
         // );
         return (
           <p style={{ textAlign: `center` }}>
-            {row?.orders_status_counts?.new}
+            {row?.orders_status_counts?.new || 0 + 
+              row?.orders_status_counts?.approve_by_customer || 0 + 
+              row?.orders_status_counts?.approve_by_driver || 0 
+            }
           </p>
         );
       },

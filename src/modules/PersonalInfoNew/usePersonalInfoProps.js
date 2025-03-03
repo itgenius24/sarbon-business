@@ -1,11 +1,12 @@
-import { useUpdateUserInfo } from "@/services/api";
+import { useRegisterFirEditmMutation, useUpdateUserInfo } from "@/services/api";
 import authStore from "@/store/auth.store";
+import { normalizeName } from "@/utils/normalizeName";
 import { useToast } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export const usePersonalInfoProps = () => {
-
   const router = useRouter();
 
   const {
@@ -14,12 +15,15 @@ export const usePersonalInfoProps = () => {
     watch,
     register,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({});
 
   const toast = useToast();
 
-  const { mutate , isLoading } = useUpdateUserInfo({
+  const query = useQueryClient()
+
+  const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
       toast({
         title: "Успешно изменено!",
@@ -29,6 +33,8 @@ export const usePersonalInfoProps = () => {
         isClosable: true,
         position: "top-right",
       });
+      query.invalidateQueries(["items/firm/id"])
+      query.invalidateQueries(["items/users/id"])
     },
     onError() {
       toast({
@@ -39,19 +45,44 @@ export const usePersonalInfoProps = () => {
         isClosable: true,
         position: "top-right",
       });
-    }
+    },
   });
 
-  const submitForm=(data)=> {
-    const { photo, email,name="",fName="" } = data || {};
+
+
+  const { mutate } = useRegisterFirEditmMutation({
+    onSuccess: (data) => {
+      userData({
+        data: {
+          guid: authStore.userData.guid,
+          firm_id: data?.guid,
+          email: watch(`email`),
+          user_status: ["rejected"],
+          phone: watch(`phone_number`),
+          full_name: normalizeName(watch(`full_name`)),
+        },
+      });
+    },
+  });
+
+  const submitForm = (data) => {
     const body = {
-      guid: authStore.userData.id,
-      photo: photo,
-      email: email,
-      full_name: `${name} ${fName}`,
+      guid: data.guid,
+      company_name: `${
+        watch(`company_type`)?.value ? watch(`company_type`)?.value : `OOO`
+      } ${data?.company_name}`,
+      tin: data?.tin,
+      phone_number: data?.phone_number,
+      full_name: data?.full_name,
+      email: data?.email,
+      building_address: data?.building_address,
     };
+    console.log(`company_type`,body,watch(`company_type`))
+
     mutate({ data: body });
   };
+
+
 
   const getProfileFormProps = (otherProps) => {
     return {
@@ -60,6 +91,7 @@ export const usePersonalInfoProps = () => {
       control,
       register,
       setValue,
+      reset,
       ...otherProps,
     };
   };

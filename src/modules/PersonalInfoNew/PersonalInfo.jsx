@@ -27,6 +27,9 @@ export const PersonalInfo = () => {
   } = usePersonalInfoProps();
   const {t} = useTranslation();
 
+ 
+
+
   return (
     <Box>
       <Box display={isLargerThan845 ? "block" : "flex"} alignItems="center">
@@ -38,28 +41,15 @@ export const PersonalInfo = () => {
         footer={
           <ButtonGroup
             width={isLargerThan845 ? "auto" : "100%"}
-            // ml={isLargerThan845 ? "auto" : "0"}
             spacing={isLargerThan845 ? "2" : "0"}
             display={isLargerThan845 ? "inline-flex" : "flex"}
             flexDirection={isLargerThan845 ? "row" : "column-reverse"}
             rowGap={isLargerThan845 ? "0" : "8px"}
           >
-            {/* <Button
-              h={isLargerThan845 ? "40px" : "52px"}
-              p="10px 16px"
-              variant="outline"
-              color="brand.700"
-              borderColor="brand.300"
-              fontSize={isLargerThan845 ? "16px" : "15px"}
-            >
-              {t(`Отмена`)}
-            </Button> */}
             <Button
               isLoading={isLoading}
               type="submit"
               fontSize={isLargerThan845 ? "16px" : "15px"}
-              // h={isLargerThan845 ? "40px" : "52px"}
-              // p="10px 16px"
               variant="solid"
             >
               {t(`Сохранить профиль`)}
