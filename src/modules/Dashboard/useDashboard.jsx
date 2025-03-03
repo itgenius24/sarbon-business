@@ -149,7 +149,7 @@ export const useDashboard = (locale) => {
           all_date:
             startDate || endDate ? false : date2.length > 0 ? false : true,
           type: "dashboard",
-          limit: 1000,
+          limit: 2000,
           page: 1,
         },
       },
