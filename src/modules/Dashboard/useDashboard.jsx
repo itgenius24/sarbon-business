@@ -1132,7 +1132,7 @@ export const useDashboard = (locale) => {
         // );
         return (
           <p style={{ textAlign: `center` }}>
-            {row?.orders_status_counts?.new || 0 + row.orders_status_counts?.new_proposal_from_director || 0}
+            {row?.orders_status_counts?.new}
           </p>
         );
       },

@@ -19,11 +19,8 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import UserImg from "@/assets/images/user.png";
-import FileUpload from "@/components/FileUpload";
 import { SkeletonComp } from "@/components/Skeleton";
 import { useProfileInfoFormProps } from "./useProfileInfoFormProps";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/TextFieldWithAdditionAut";
 
