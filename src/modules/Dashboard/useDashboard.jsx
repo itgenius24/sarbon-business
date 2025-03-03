@@ -407,7 +407,7 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${data?.new?.[0]?.total_count || 0})`,
+      `Предложений (${(data?.new?.[0]?.total_count || 0) -  (data?.free?.[0]?.total_count || 0)})`,
       `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
@@ -420,7 +420,7 @@ export const useDashboard = (locale) => {
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
-          data?.new?.[0]?.total_count || 0,
+          (data?.new?.[0]?.total_count || 0) -  (data?.free?.[0]?.total_count || 0),
           data?.free?.[0]?.total_count || 0,
           data?.performed?.[0]?.total_count || 0,
           data?.archive?.[0]?.total_count || 0,
@@ -1132,7 +1132,7 @@ export const useDashboard = (locale) => {
         // );
         return (
           <p style={{ textAlign: `center` }}>
-            {row?.orders_status_counts?.new}
+            {row?.orders_status_counts?.new || 0 + row.orders_status_counts?.new_proposal_from_director || 0}
           </p>
         );
       },
