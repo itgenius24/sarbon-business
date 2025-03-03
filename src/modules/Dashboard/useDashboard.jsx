@@ -323,11 +323,21 @@ export const useDashboard = (locale) => {
 
   const { data: newData } = useGetOffer({
     data: JSON.stringify({
-      provisions: [`new`, `approve_by_customer`],
+      provisions: [`new`],
     }),
   });
 
-  console.log(`newData`, newData);
+  const newCount =
+  newData?.response?.filter(
+    (item) =>
+      item.provisions.includes("new") &&
+      item.provisions.includes("approve_from_driver")
+  )?.length +
+  newData?.response?.filter(
+    (item) =>
+      item.provisions.includes("new") &&
+      item.provisions.includes("approve_from_customer")
+  )?.length;
 
   const { data: bzData } = useGetOffer({
     data: JSON.stringify({
@@ -373,7 +383,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: newData?.count - bzData?.count || 0,
+      total: newCount || 0 - bzData?.count || 0,
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,

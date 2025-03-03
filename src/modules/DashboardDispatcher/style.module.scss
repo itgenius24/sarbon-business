@@ -1,0 +1,108 @@
+.month {
+  color: rgba(126, 123, 134, 1);
+  font-weight: 400;
+  border-bottom: 1px dashed rgba(126, 123, 134, 1);
+  cursor: pointer;
+}
+
+.clear {
+  color: red;
+  font-weight: 400;
+  border-bottom: 1px dashed red;
+  cursor: pointer;
+}
+
+.card {
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.04);
+    // border-width: 2px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.tin {
+  width: fit-content;
+  max-width: 100px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+
+  &:hover {
+    color: rgba(0, 122, 255, 1);
+    border-bottom: 1px solid rgba(0, 122, 255, 1);
+  
+  }
+}
+
+.tinWrap {
+  svg {
+    opacity: 0;
+  }
+  &:hover {
+    svg {
+      opacity: 1;
+    }
+  }
+}
+.activeMonth {
+  color: var(--primary);
+  font-weight: 400;
+  // border-bottom: 1px dashed rgba(126, 123, 134, 1);
+  cursor: pointer;
+}
+
+.titleModal {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(33, 31, 38, 1);
+  line-height: 28px;
+}
+
+.linkModal {
+  font-size: 14px;
+  color: rgba(0, 122, 255, 1);
+  font-weight: 400;
+  line-height: 16px;
+}
+.cardTitle {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  margin-bottom: 10px;
+}
+
+.boxTitle {
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: rgba(126, 123, 134, 1);
+}
+.boxDesc {
+ max-width: 60%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: rgba(33, 31, 38, 1);
+}
+
+.primaryBox {
+  background: rgba(237, 239, 245, 1);
+  border-bottom: 1px solid rgba(226, 228, 234, 1);
+  min-height: 42px;
+  align-items: center;
+  padding: 10px 8px;
+}
+
+.outlineBox {
+  background: white;
+  border-bottom: 1px solid rgba(226, 228, 234, 1);
+  min-height: 42px;
+  align-items: center;
+  padding: 10px 8px;
+}
