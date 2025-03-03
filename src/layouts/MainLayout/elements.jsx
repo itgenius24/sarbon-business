@@ -80,10 +80,10 @@ export const useElements = (lang) => {
         path: `/${lang || "ru"}/`,
         label: "Главный",
       },
-      {
-        path: `/${lang || "ru"}/dashboard-dispatcher`,
-        label: "Аналитика",
-      },
+      // {
+      //   path: `/${lang || "ru"}/dashboard-dispatcher`,
+      //   label: "Аналитика",
+      // },
       {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
         label: "Мои грузы",
