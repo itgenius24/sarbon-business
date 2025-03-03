@@ -75,6 +75,10 @@ const objectService = {
     request.put("/v2/items/dispatcher_and_firms", data),
   getOffer: (params) =>
     request.get("/v2/object-slim/get-list/order", { params }),
+  getOfferDispatcher: (params) =>
+    request.get("/v2/object-slim/get-list/dispatcher_drivers", { params }),
+  getOfferDispatcherFirms: (params) =>
+    request.get("/v2/object-slim/get-list/dispatcher_and_firms", { params }),
   getCargoById: (params) =>
     request.get("/v2/object-slim/get-list/cargo", { params }),
   getMaps: (params) =>
@@ -470,6 +474,8 @@ export const useGetUserCargoPagination = (params, settings) => {
   });
 };
 
+
+
 export const useGetOffer = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOffer", params],
@@ -477,6 +483,24 @@ export const useGetOffer = (params, settings) => {
     ...settings,
   });
 };
+
+
+export const useGetOfferDispatcher = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOfferDispatcher", params],
+    queryFn: () => objectService.getOfferDispatcher(params),
+    ...settings,
+  });
+};
+
+export const useGetOfferDispatcherFirms = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOfferDispatcherFirms", params],
+    queryFn: () => objectService.getOfferDispatcherFirms(params),
+    ...settings,
+  });
+};
+
 
 export const useGetOfferCount = (params, settings) => {
   return useQuery({

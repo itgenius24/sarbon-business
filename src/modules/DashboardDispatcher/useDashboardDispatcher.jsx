@@ -5,7 +5,10 @@ import {
   useDispatcherFirmsEdit,
   useGetExcelPost,
   useGetFirmInfo,
+  useGetNewPredData,
   useGetOffer,
+  useGetOfferDispatcher,
+  useGetOfferDispatcherFirms,
   useGetUserCargo2,
   useGetUserData,
   useGetVehicle2,
@@ -19,6 +22,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Dropdown } from "@/components/Dropdown";
+import authStore from "@/store/auth.store";
 
 export const useDashboardDispatcher = (locale) => {
   const router = useRouter();
@@ -129,6 +133,8 @@ export const useDashboardDispatcher = (locale) => {
     filterData({
       data: {
         object_data: {
+          dispatcher_id:authStore.userData?.guid,
+
           filter: filter[status],
           start_date:
             date2.length > 0
@@ -156,12 +162,10 @@ export const useDashboardDispatcher = (locale) => {
     });
   }, [startDate, endDate, status, date2, load]);
 
-  const { data: useList } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-      }),
-    },
+  const { data: useList } = useGetOfferDispatcher({
+    data: JSON.stringify({
+      users_id_2: authStore?.userData?.guid,
+    }),
   });
 
   const { data: useListDis } = useGetUserData({
@@ -179,12 +183,10 @@ export const useDashboardDispatcher = (locale) => {
     },
   });
 
-  const { data: useExsList } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        client_type_id: "a25d605c-d153-4ddf-8590-e4cda176ef93",
-      }),
-    },
+  const { data: useExsList } = useGetOfferDispatcherFirms({
+    data: JSON.stringify({
+      users_id: authStore?.userData?.guid,
+    }),
   });
 
   const {
@@ -309,32 +311,49 @@ export const useDashboardDispatcher = (locale) => {
     );
   };
 
-  const { data: perfomed } = useGetOffer({
-    data: JSON.stringify({
-      provisions: [`performed`],
-    }),
-  });
+
 
   const { data: archive } = useGetOffer({
     data: JSON.stringify({
+      users_id_3: authStore?.userData?.guid,
+      with_relations: true,
       provisions: [`archive`],
     }),
   });
 
-  const { data: newData } = useGetOffer({
-    data: JSON.stringify({
-      provisions: [`new`, `approve_by_customer`],
-    }),
+  const { data: newData } = useGetNewPredData({
+    data: {
+      data: {
+        object_data: {
+          dispetchir_id: authStore.userData.id,
+          provisions: [`new`],
+        },
+      },
+    },
   });
 
-  console.log(`newData`, newData);
-
-  const { data: bzData } = useGetOffer({
-    data: JSON.stringify({
-      users_id_3: null,
-      provisions: [`new`],
-    }),
+  const { data: bzData } = useGetNewPredData({
+    data: {
+      data: {
+        object_data: {
+          dispetchir_id: ``,
+          provisions: [`new`],
+        },
+      },
+    },
   });
+
+  const {data:perfomed} = useGetOffer(
+    {
+      data: JSON.stringify({
+        users_id_3: authStore?.userData?.guid,
+        with_relations: true,
+        "provisions":["performed"]
+      }),
+    },
+  );
+
+  console.log(`newData`, perfomed);
 
   const topStatis = [
     {
@@ -407,7 +426,9 @@ export const useDashboardDispatcher = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${(data?.new?.[0]?.total_count || 0) -  (data?.free?.[0]?.total_count || 0)})`,
+      `Предложений (${
+        (data?.new?.[0]?.total_count || 0) - (data?.free?.[0]?.total_count || 0)
+      })`,
       `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
@@ -420,7 +441,8 @@ export const useDashboardDispatcher = (locale) => {
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
-          (data?.new?.[0]?.total_count || 0) -  (data?.free?.[0]?.total_count || 0),
+          (data?.new?.[0]?.total_count || 0) -
+            (data?.free?.[0]?.total_count || 0),
           data?.free?.[0]?.total_count || 0,
           data?.performed?.[0]?.total_count || 0,
           data?.archive?.[0]?.total_count || 0,
@@ -496,8 +518,6 @@ export const useDashboardDispatcher = (locale) => {
       },
     },
   };
-
- 
 
   return {
     topStatis,

@@ -31,6 +31,7 @@ const itemsService = {
   getCargoPost: (data) => request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),  
   getExcelFile: (data) => request.post("/v1/invoke_function/logistika-get-list-sorted-gps-history", data),
   getNotification: (data) => request.post("/v1/invoke_function/logistika-notification", data),
+  getNewPred: (data) => request.post("/v1/invoke_function/logistika-favourite-cargo", data),
   updateUser2: (data) => request.put(`/v2/items/users`, data),
   sendNotification: (data) => request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
   getCargo: (params) => request.get("/v2/object-slim/get-list/cargo", { params }),
@@ -63,6 +64,13 @@ export const useGetNotification = ({data, querySettings}) => {
   return useQuery({
     queryKey: ["notificationsData2", data],
     queryFn: () => itemsService.getNotification(data), ...querySettings,
+  });
+};
+
+export const useGetNewPredData = ({data, querySettings}) => {
+  return useQuery({
+    queryKey: ["getNewPred", data],
+    queryFn: () => itemsService.getNewPred(data), ...querySettings,
   });
 };
 
