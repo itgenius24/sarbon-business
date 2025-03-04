@@ -12,7 +12,7 @@ const nestedList = [
 
 export const navList = [
   { id: 0, title: "Личные данные", icon: <User2 />, path: "/profile/personal-data", disabled:false },
-  { id: 1, title: "Уведомления", icon: <NotificationProfileIcon />, path: "/", disabled:false },
+  { id: 1, title: "Уведомления", icon: <NotificationProfileIcon />, path: "/", disabled:true },
   { id: 2, title: "Покупка / продажа техники", icon: <FuraNavIcon />, path: "/", disabled:true },
   { id: 3, title: "Поиск водителей", icon: <DriverNavIcon />, path: "/", disabled:true },
   { id: 4, title: "Справочник", icon: <NoteNAvIcon />, path: "/", disabled:false },

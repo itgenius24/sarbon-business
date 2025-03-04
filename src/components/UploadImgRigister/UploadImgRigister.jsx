@@ -12,6 +12,9 @@ export const UploadImgRigister = ({
   name,
   icon,
   text,
+  width=`184px`,
+  borderRadius= `12px`,
+  padding="6px",
   isColor = false,
   height = `184px`
 }) => {
@@ -39,15 +42,17 @@ export const UploadImgRigister = ({
           maxWidth={"540px"}
           width="184px"
           height={height}
-          borderRadius="12px"
+          borderRadius={borderRadius}
           border="1px solid"
           borderColor="brand.200"
-          padding="6px"
+          padding={padding}
         >
           <Image
             className={cls.img}
             style={{
-              height:height
+              height:height,
+              width:width,
+              borderRadius:borderRadius
             }}
             src={watch(name)}
             alt="cargo"
@@ -78,7 +83,7 @@ export const UploadImgRigister = ({
           justifyContent="center"
           // mt="24px"
           border="2px solid var(--quat_grey, rgba(219, 216, 227, 1))"
-          borderRadius="12px"
+          borderRadius={borderRadius}
           background={
             isColor ? "rgba(246, 247, 248, 1)" : "rgba(255, 255, 255, 1)"
           }

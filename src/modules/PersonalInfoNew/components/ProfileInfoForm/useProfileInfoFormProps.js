@@ -6,12 +6,12 @@ import { useDisclosure, useToast } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-export const useProfileInfoFormProps = (setValue, reset,watch) => {
+export const useProfileInfoFormProps = (setValue, reset, watch) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isPasswordVisible2, setPasswordVisible2] = useState(false);
   const toast = useToast();
-  const query = useQueryClient()
+  const query = useQueryClient();
   const handleImageUpload = async (e) => {
     const result = await fileUpload(e);
     setValue("photo", result?.link);
@@ -21,8 +21,18 @@ export const useProfileInfoFormProps = (setValue, reset,watch) => {
     required: { value: true, message: "Это поле обязательно для заполнения" },
   };
 
-  const { data: { full_name, email, photo, login } = {}, isLoading } =
-    useGetUserInfoHook();
+  const {
+    data: {
+      full_name,
+      email,
+      photo,
+      login,
+      passport_code,
+      passport_scan,
+      pnfl,
+    } = {},
+    isLoading,
+  } = useGetUserInfoHook();
 
   const { data } = useGetFirmInfo(authStore?.userData?.firm_id, {
     onSuccess: (res) => {
@@ -37,45 +47,48 @@ export const useProfileInfoFormProps = (setValue, reset,watch) => {
           label: res?.response?.company_name?.split(" ")?.[0],
         },
         email: email,
-       
+        passport_code: passport_code,
+        passport_scan: passport_scan,
+        pnfl: pnfl,
       });
     },
+    enabled: Boolean(full_name),
   });
 
   const { mutate: userData } = useUpdateUserInfo({
-      onSuccess() {
-        toast({
-          title: "Успешно изменено!",
-          description: "Вы успешно обновили этого пользователя",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "top-right",
-        });
-        query.invalidateQueries(["items/firm/id"])
-        query.invalidateQueries(["items/users/id"])
-        onClose()
-        setValue(`new_password`,``)
-        setValue(`old_password`,``)
-      },
-      onError() {
-        toast({
-          title: "Ошибка",
-          description: "Не удалось обновить пользователя!",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "top-right",
-        });
-      },
-    });
+    onSuccess() {
+      toast({
+        title: "Успешно изменено!",
+        description: "Вы успешно обновили этого пользователя",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      query.invalidateQueries(["items/firm/id"]);
+      query.invalidateQueries(["items/users/id"]);
+      onClose();
+      setValue(`new_password`, ``);
+      setValue(`old_password`, ``);
+    },
+    onError() {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить пользователя!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+  });
 
   const changePass = () => {
     // if(watch(`new_password`) === watch(`old_password`))
     userData({
       data: {
         guid: authStore.userData.guid,
-        password: watch(`new_password`)
+        password: watch(`new_password`),
       },
     });
     // else{
@@ -88,8 +101,15 @@ export const useProfileInfoFormProps = (setValue, reset,watch) => {
     //     position: "top-right",
     //   });
     // }
-  }
+  };
 
+  const formatPhoneNumber = (value) => {
+    let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
+    if (input.length > 3) input = input.slice(0, 3) + " " + input.slice(3);
+    if (input.length > 6) input = input.slice(0, 6) + " " + input.slice(6, 8);
+    if (input.length > 9) input = input.slice(0, 9); // Qo'shimcha raqamlarni olib tashlash
+    return input;
+  };
 
   return {
     rules,
@@ -107,5 +127,6 @@ export const useProfileInfoFormProps = (setValue, reset,watch) => {
     isPasswordVisible2,
     setPasswordVisible2,
     changePass,
+    formatPhoneNumber,
   };
 };
