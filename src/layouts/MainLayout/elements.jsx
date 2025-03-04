@@ -47,7 +47,7 @@ export const useElements = (lang) => {
       },
       {
         path: `/${lang || "ru"}/dashboard-dispatcher`,
-        label: "Аналитика",
+        label: "Dashboard",
       },
       {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
@@ -86,7 +86,7 @@ export const useElements = (lang) => {
       },
       {
         path: `/${lang || "ru"}/dashboard-dispatcher`,
-        label: "Аналитика",
+        label: "Dashboard",
       },
       {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
