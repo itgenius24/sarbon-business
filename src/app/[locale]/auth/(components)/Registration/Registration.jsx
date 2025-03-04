@@ -18,7 +18,7 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { ErroModalIcon, PhoneIconRigister } from "@/assets/icons/icons";
+import { AppleAuthIcon, ErroModalIcon, GoogleIcon, PhoneIconRigister } from "@/assets/icons/icons";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { AuthTitle } from "../AuthTitle";
 import cls from "./styles.module.scss";
@@ -43,6 +43,8 @@ export const Registration = () => {
     watch,
     locale,
     setType,
+    handleGoogleLogin,
+    handleAppleLogin
   } = useRegistrationProps();
   const searchParams = useSearchParams();
 
@@ -60,7 +62,6 @@ export const Registration = () => {
           <AuthTitle mb="32px" title={`Создать аккаунт на Sarbon`} />
           <p className={cls.tabTitle}>Укажите ваш профиль деятельности</p>
           <Tabs
-          
             defaultIndex={
               searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0
             }
@@ -111,6 +112,7 @@ export const Registration = () => {
                     <FormInternationInput control={control} name={`phone`} />
                   </Box>
                 </Box>
+
                 <Button
                   onClick={handleSubmit(onSubmit)}
                   size="md"
@@ -119,6 +121,17 @@ export const Registration = () => {
                 >
                   Регистрация
                 </Button>
+                <div className={cls.divider}>
+                  <span>Регистрация через соцсеть</span>
+                </div>
+                <Flex mt={`24px`} width={`100%`} gap={`15px`} justifyContent={`space-between`}>
+                    <Button  onClick={handleGoogleLogin} leftIcon={<GoogleIcon />} className={cls.btnAuth}>
+                        Продолжить с Google
+                    </Button>
+                    <Button onClick={handleAppleLogin}   leftIcon={<AppleAuthIcon />}   className={cls.btnAuth}>
+                        Продолжить с Apple
+                    </Button>
+                </Flex>
               </TabPanel>
               <TabPanel padding={0} margin={0}>
                 <Box width={`100%`}>

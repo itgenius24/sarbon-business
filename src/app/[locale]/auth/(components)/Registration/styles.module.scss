@@ -72,6 +72,33 @@ margin-bottom: 4px;
 
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #222; /* Matn rangi */
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 34px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc; /* Chiziq rangi */
+  margin: 0 10px;
+}
+
+.btnAuth{
+  border: 1px solid  rgba(199, 199, 204, 1) !important;
+  border-radius: 6.5px !important;
+  font-size: 13px !important;
+  color: rgba(126, 123, 134, 1) !important;
+  background-color: white !important;
+}
+
+
 @include lg {
   .buttonWrapper {
     margin-bottom: 16px;

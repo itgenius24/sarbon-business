@@ -7,13 +7,17 @@ import authStore from "@/store/auth.store";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useState } from "react";
+import { signInWithApple, signInWithGoogle } from "@/utils/fribaseAuth";
 
 export const useRegistrationProps = () => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [nomer, setNomer] = useState();
+  const [user, setUser] = useState(null);
   const locale = useGetLang();
+
+  console.log(`user`,user)
 
   const { t } = useTranslation(locale, "translations");
 
@@ -102,6 +106,21 @@ export const useRegistrationProps = () => {
     }
   }, [useList?.count]);
 
+
+  const handleGoogleLogin = async () => {
+
+
+    const user = await signInWithGoogle();
+    setUser(user);
+  };
+
+  const handleAppleLogin = async () => {
+    console.log(`result`)
+
+    const user = await signInWithApple();
+    setUser(user);
+  };
+
   return {
     handleSubmit,
     register,
@@ -117,5 +136,7 @@ export const useRegistrationProps = () => {
     locale,
     closeModal,
     setType,
+    handleGoogleLogin,
+    handleAppleLogin
   };
 };
