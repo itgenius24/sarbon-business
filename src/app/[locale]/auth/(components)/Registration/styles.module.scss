@@ -89,6 +89,14 @@ margin-bottom: 4px;
   border-bottom: 1px solid #ccc; /* Chiziq rangi */
   margin: 0 10px;
 }
+.btnAuthGroup{
+  
+  @media (max-width:800px) {
+     gap: 10px;
+     justify-content: center;
+     flex-direction: column;
+  }
+}
 
 .btnAuth{
   border: 1px solid  rgba(199, 199, 204, 1) !important;
@@ -96,6 +104,7 @@ margin-bottom: 4px;
   font-size: 13px !important;
   color: rgba(126, 123, 134, 1) !important;
   background-color: white !important;
+
 }
 
 

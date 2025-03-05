@@ -17,8 +17,14 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
-import { AppleAuthIcon, ErroModalIcon, GoogleIcon, PhoneIconRigister } from "@/assets/icons/icons";
+import {
+  AppleAuthIcon,
+  ErroModalIcon,
+  GoogleIcon,
+  PhoneIconRigister,
+} from "@/assets/icons/icons";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { AuthTitle } from "../AuthTitle";
 import cls from "./styles.module.scss";
@@ -44,9 +50,11 @@ export const Registration = () => {
     locale,
     setType,
     handleGoogleLogin,
-    handleAppleLogin
+    handleAppleLogin,
   } = useRegistrationProps();
   const searchParams = useSearchParams();
+
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   return (
     <>
@@ -124,13 +132,27 @@ export const Registration = () => {
                 <div className={cls.divider}>
                   <span>Регистрация через соцсеть</span>
                 </div>
-                <Flex mt={`24px`} width={`100%`} gap={`15px`} justifyContent={`space-between`}>
-                    <Button  onClick={handleGoogleLogin} leftIcon={<GoogleIcon />} className={cls.btnAuth}>
-                        Продолжить с Google
-                    </Button>
-                    <Button onClick={handleAppleLogin}   leftIcon={<AppleAuthIcon />}   className={cls.btnAuth}>
-                        Продолжить с Apple
-                    </Button>
+                <Flex
+                  mt={`24px`}
+                  width={`100%`}
+                  gap={`15px`}
+                  justifyContent={`space-between`}
+                  className={cls.btnAuthGroup}
+                >
+                  <Button
+                    onClick={handleGoogleLogin}
+                    leftIcon={<GoogleIcon />}
+                    className={cls.btnAuth}
+                  >
+                    Продолжить с Google
+                  </Button>
+                  <Button
+                    onClick={handleAppleLogin}
+                    leftIcon={<AppleAuthIcon />}
+                    className={cls.btnAuth}
+                  >
+                    Продолжить с Apple
+                  </Button>
                 </Flex>
               </TabPanel>
               <TabPanel padding={0} margin={0}>
