@@ -112,7 +112,7 @@ export const RegistrationForm = () => {
                 {authStore?.authData?.mediaAuth ? (
                   <Box className={cls.box}>
                     <Flex width={`fit-content`} justifyContent={`space-around`} alignItems={`center`} className={cls.authWrap}>
-                       <Avatar size={`xs`} src="" name={authStore?.authData?.mediaAuth?.full_name}/>
+                       <Avatar size='sm' src="" name={authStore?.authData?.mediaAuth?.full_name}/>
                        <Box>
                          <Text lineHeight={`18px`} fontSize={`14px`} fontWeight={`600`}>
                             {authStore?.authData?.mediaAuth?.full_name}
@@ -484,6 +484,7 @@ export const RegistrationForm = () => {
             setStatus={setStatus}
             watch={watch}
             setValue={setValue}
+            authStore={authStore}
           />
         )}
 
