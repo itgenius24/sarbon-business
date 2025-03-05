@@ -27,9 +27,6 @@ export const useRegistrationFormProps = () => {
   const [open, setOpen] = useState(false);
 
   const { t } = useTranslation(locale, "translations");
-
-  const { phone, firm_id } = authStore.getAuthData;
-
   const {
     control,
     register,
@@ -39,6 +36,10 @@ export const useRegistrationFormProps = () => {
     formState: { errors },
     setError,
   } = useForm();
+
+  const getAuthData = authStore.getAuthData;
+  const phone = getAuthData?.phone ? getAuthData?.phone : watch(`tel`);
+  const firm_id = getAuthData?.firm_id;
 
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -217,7 +218,9 @@ export const useRegistrationFormProps = () => {
             tin: nomer?.inn,
             company_name:
               status === 1
-                ? `${ watch(`company_type`)?.value? watch(`company_type`)?.value
+                ? `${
+                    watch(`company_type`)?.value
+                      ? watch(`company_type`)?.value
                       : `OOO`
                   } ${nomer?.companyName}`
                 : undefined,
@@ -226,9 +229,9 @@ export const useRegistrationFormProps = () => {
             logo: nomer?.img,
           },
         });
-      } else{
-         setOpen(true)
-         setLoadin(false)
+      } else {
+        setOpen(true);
+        setLoadin(false);
       }
     },
   });
@@ -257,8 +260,13 @@ export const useRegistrationFormProps = () => {
   }
 
   useEffect(() => {
-    setValue("login", phone);
-    setValue("tel", phone);
+    if (authStore?.authData?.mediaAuth) {
+      setValue("email", authStore?.authData?.mediaAuth?.email);
+      setValue("login", authStore?.authData?.mediaAuth?.email);
+    } else {
+      setValue("login", phone);
+      setValue("tel", phone);
+    }
   }, []);
 
   return {
@@ -286,7 +294,7 @@ export const useRegistrationFormProps = () => {
     router,
     login,
     loadin,
-    
+
     open,
     setOpen,
   };

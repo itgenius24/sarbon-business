@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Avatar,
   Box,
   Button,
   Drawer,
@@ -21,6 +22,7 @@ import {
   ModalOverlay,
   Radio,
   RadioGroup,
+  Text,
   Tooltip,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -33,6 +35,7 @@ import {
   ErroModalIcon,
   EyeIcon,
   EyeIconOff,
+  GoogleIcon,
   HelpCircleIcon,
   QuestionIcon,
 } from "@/assets/icons/icons";
@@ -46,6 +49,7 @@ import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/Tex
 import { UploadImg } from "@/components/UploadImg";
 import { UploadImgRigister } from "@/components/UploadImgRigister";
 import MobileRegistrationForm from "./MobileRegistrationForm";
+import authStore from "@/store/auth.store";
 
 export const RegistrationForm = () => {
   const {
@@ -105,74 +109,92 @@ export const RegistrationForm = () => {
             <Box width={`100%`}>
               <Box>
                 <p className={cls.title}>Учётные данные для входа</p>
-                <Box className={cls.box}>
-                  <Box>
-                    <Flex gap={1}>
-                      <p className={cls.label}>Логин</p>
-                      <Tooltip
-                        background={`rgba(21, 186, 77, 1)`}
-                        borderRadius={`6px`}
-                        lineHeight={`18px`}
-                        color={`#fff`}
-                        fontSize={`14px`}
-                        placement="top"
-                        top={`10px`}
-                        label={
-                          <p className={cls.label}>
-                            Вы можете использовать для логина номер телефона,
-                            email или уникальное имя пользователя
-                          </p>
-                        }
-                      >
-                        <div>
-                          <QuestionIcon />
-                        </div>
-                      </Tooltip>
+                {authStore?.authData?.mediaAuth ? (
+                  <Box className={cls.box}>
+                    <Flex width={`fit-content`} justifyContent={`space-around`} alignItems={`center`} className={cls.authWrap}>
+                       <Avatar size={`xs`} src="" name={authStore?.authData?.mediaAuth?.full_name}/>
+                       <Box>
+                         <Text lineHeight={`18px`} fontSize={`14px`} fontWeight={`600`}>
+                            {authStore?.authData?.mediaAuth?.full_name}
+                         </Text>
+                         <Text lineHeight={`15px`} fontSize={`13px`} fontWeight={`400`}>
+                            {authStore?.authData?.mediaAuth?.email}
+                         </Text>
+                       </Box>
+                       <GoogleIcon />
                     </Flex>
-                    <TextField
-                      label=""
-                      name="login"
-                      register={register}
-                      placeholder={t("Введите свое логин")}
-                      errors={errors}
-                      rules={{
-                        required: {
-                          value: true,
-                          message: t("Это поле обязательно"),
-                        },
-                      }}
-                    />
                   </Box>
-                  <Box>
-                    <p className={cls.label}>Придумайте пароль *</p>
-                    <TextField
-                      label=""
-                      register={register}
-                      rules={{
-                        required: {
-                          value: true,
-                          message: t("Это поле обязательно для заполнения"),
-                        },
-                      }}
-                      errors={errors}
-                      name="password"
-                      type={isPasswordVisible ? "text" : "password"}
-                      placeholder={t("Минимум 6 символов...")}
-                      addonAfter={
-                        <button
-                          type="button"
-                          onClick={handleTogglePasswordVisibility}
+                ) : (
+                  <Box className={cls.box}>
+                    <Box>
+                      <Flex gap={1}>
+                        <p className={cls.label}>Логин</p>
+                        <Tooltip
+                          background={`rgba(21, 186, 77, 1)`}
+                          borderRadius={`6px`}
+                          lineHeight={`18px`}
+                          color={`#fff`}
+                          fontSize={`14px`}
+                          placement="top"
+                          top={`10px`}
+                          label={
+                            <p className={cls.label}>
+                              Вы можете использовать для логина номер телефона,
+                              email или уникальное имя пользователя
+                            </p>
+                          }
                         >
-                          {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
-                        </button>
-                      }
-                    />
+                          <div>
+                            <QuestionIcon />
+                          </div>
+                        </Tooltip>
+                      </Flex>
+                      <TextField
+                        label=""
+                        name="login"
+                        register={register}
+                        placeholder={t("Введите свое логин")}
+                        errors={errors}
+                        rules={{
+                          required: {
+                            value: true,
+                            message: t("Это поле обязательно"),
+                          },
+                        }}
+                      />
+                    </Box>
+                    <Box>
+                      <p className={cls.label}>Придумайте пароль *</p>
+                      <TextField
+                        label=""
+                        register={register}
+                        rules={{
+                          required: {
+                            value: true,
+                            message: t("Это поле обязательно для заполнения"),
+                          },
+                        }}
+                        errors={errors}
+                        name="password"
+                        type={isPasswordVisible ? "text" : "password"}
+                        placeholder={t("Минимум 6 символов...")}
+                        addonAfter={
+                          <button
+                            type="button"
+                            onClick={handleTogglePasswordVisibility}
+                          >
+                            {isPasswordVisible ? <EyeIconOff /> : <EyeIcon />}
+                          </button>
+                        }
+                      />
+                    </Box>
                   </Box>
-                </Box>
+                )}
                 <Box mt={`35px`}>
                   <TextField
                     label="Email"
                     name="email"
+                     disabled={authStore?.authData?.mediaAuth && true}
                     register={register}
                     placeholder={t("Введите свое имя")}
                     errors={errors}
@@ -188,17 +210,17 @@ export const RegistrationForm = () => {
                   <TextField
                     label="Номер телефона *"
                     name="tel"
-                    disabled={true}
+                    disabled={authStore?.authData?.mediaAuth && false}
                     register={register}
                     placeholder={t("+998 99 123 4567")}
                     errors={errors}
-                    rules={
+                    rules={ authStore?.authData?.mediaAuth ? 
                       {
-                        // required: {
-                        //   value: true,
-                        //   message: t("Это поле обязательно"),
-                        // },
-                      }
+                        required: {
+                          value: true,
+                          message: t("Это поле обязательно"),
+                        },
+                      } : false
                     }
                   />
                 </Box>

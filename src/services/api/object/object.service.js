@@ -65,8 +65,10 @@ const objectService = {
     request.post("/v1/invoke_function/logistika-gps-tracking-create-history", data),
   getNewPred: (data) =>
     request.post("/v1/invoke_function/logistika-favourite-cargo", data),
-  getLocation: (data) =>
+  getLocation: (data) => 
     request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
+    googleRigister: (data) => 
+    request.post("v1/invoke_function/logistika-get-current-location", data),
   dispatcherFirms: (data) =>
     request.post("/v2/items/dispatcher_and_firms", data),
   deleteDis: (id) => request.delete(`/v2/items/dispatcher_and_firms/${id.id}`,{data:JSON.stringify({data:{}})}),
@@ -212,6 +214,13 @@ export const useLogistikaGpsTrackingFilterDriverPred = (mutationSettings) => {
 export const useLocation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => objectService.getLocation(data),
+    ...mutationSettings,
+  });
+};
+
+export const useGoogleRigister = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.googleRigister(data),
     ...mutationSettings,
   });
 };

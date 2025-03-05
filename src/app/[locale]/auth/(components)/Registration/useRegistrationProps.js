@@ -2,7 +2,12 @@ import * as yup from "yup";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@/utils/yupResolver";
-import { useCheckUser, useGetUserData, usePhoneMutation } from "@/services/api";
+import {
+  useCheckUser,
+  useGetUserData,
+  useGoogleRigister,
+  usePhoneMutation,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
@@ -17,7 +22,7 @@ export const useRegistrationProps = () => {
   const [user, setUser] = useState(null);
   const locale = useGetLang();
 
-  console.log(`user`,user)
+  console.log(`user`, user);
 
   const { t } = useTranslation(locale, "translations");
 
@@ -48,6 +53,7 @@ export const useRegistrationProps = () => {
     onSuccess: (data) => {
       authStore.setAuthData("smsId", data.sms_id);
       authStore.setAuthData("isForgot", false);
+      authStore.setAuthData("mediaAuth", false);
       router.push(`/${locale}/auth/otp`);
     },
     onError: () => {
@@ -84,9 +90,9 @@ export const useRegistrationProps = () => {
   };
 
   const closeModal = () => {
-    setNomer(``)
-    setOpen(false)
-  }
+    setNomer(``);
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (
@@ -106,17 +112,36 @@ export const useRegistrationProps = () => {
     }
   }, [useList?.count]);
 
+  const { mutate: googleRigister } = useGoogleRigister({
+    onSuccess: (res) => {
+      console.log(`res`, res?.response);
+      authStore.setAuthData("phone", ``);
+
+      authStore.setAuthData("mediaAuth", res?.response?.[0]);
+      router.push(`/${locale}/auth/registration-form`);
+    },
+  });
 
   const handleGoogleLogin = async () => {
-
-
     const user = await signInWithGoogle();
+    const body = {
+      display_name: user?.displayName,
+      login_type: user?.email,
+      id_token: user?.uid,
+      access_token: user?.accessToken,
+      type: `register`,
+      register_type: `email`,
+      unique_id: ``,
+    };
+    googleRigister({
+      data: {
+        object_data: body,
+      },
+    });
     setUser(user);
   };
 
   const handleAppleLogin = async () => {
-    console.log(`result`)
-
     const user = await signInWithApple();
     setUser(user);
   };
@@ -127,7 +152,7 @@ export const useRegistrationProps = () => {
     errors,
     navigateLogin,
     onSubmit,
-    isLoading: phoneMutation.isLoading  ,
+    isLoading: phoneMutation.isLoading,
     t,
     control,
     setOpen,
@@ -137,6 +162,6 @@ export const useRegistrationProps = () => {
     closeModal,
     setType,
     handleGoogleLogin,
-    handleAppleLogin
+    handleAppleLogin,
   };
 };
