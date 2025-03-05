@@ -202,13 +202,8 @@ export const useDashboardDispatcher = (locale) => {
     },
   });
 
-  const { data: vehicle } = useGetVehicle2({
-    params: {
-      data: JSON.stringify({
-        car_position: ["alive"],
-      }),
-    },
-  });
+ 
+
 
   const { mutate } = useDispatcherFirms({
     onSuccess: () => {
@@ -372,7 +367,7 @@ export const useDashboardDispatcher = (locale) => {
     },
     {
       id: 3,
-      total: vehicle?.count || 0,
+      total: data?.drivers_unit_count?.[0]?.total_count || 0,
       deck: `Общее кол-во транспортных средств `,
       bg: `rgba(0, 122, 255, 1)`,
       color: `rgba(0, 122, 255, 0.3)`,
