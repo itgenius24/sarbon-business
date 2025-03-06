@@ -483,5 +483,6 @@ export const useMyLoadsMainProps = (locale) => {
     isLargerThan768,
     t: t,
     tabButtons,
+    router
   };
 };

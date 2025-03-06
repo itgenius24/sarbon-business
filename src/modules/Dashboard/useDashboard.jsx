@@ -1062,7 +1062,7 @@ export const useDashboard = (locale) => {
       title: `Диспетчер`,
       dataIndex: "full_name",
       width: 200,
-      render:(_,row) => <p onClick={() => handle(row)}>{row?.full_name}</p>
+      render:(_,row) => <p className={cls.nameDis} onClick={() => handle(row)}>{row?.full_name}</p>
     },
     {
       title: `Общее кол-во водителей`,
