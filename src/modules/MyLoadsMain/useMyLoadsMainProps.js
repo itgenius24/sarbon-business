@@ -43,7 +43,7 @@ export const useMyLoadsMainProps = (locale) => {
   const orderValStatus = params.get(`value`) || ``;
   const index = params.get(`index`) || 0;
 
-  const guid = params.get(`guid`) || 0;
+  const guid = params.get(`guid`) || ``;
   const full_name = params.get(`full_name`) || 0;
 
   const router = useRouter();
@@ -483,5 +483,6 @@ export const useMyLoadsMainProps = (locale) => {
     isLargerThan768,
     t: t,
     tabButtons,
+    router
   };
 };

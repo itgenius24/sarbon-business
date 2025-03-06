@@ -35,6 +35,12 @@
   }
 }
 
+.nameDis{
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
 .tinWrap {
   svg {
     opacity: 0;

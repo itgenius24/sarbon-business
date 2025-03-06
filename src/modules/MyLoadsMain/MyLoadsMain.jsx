@@ -34,6 +34,7 @@ import {
   IconCeckNewStatusIcon,
   LocationIconStep,
   LocationMarkIcon,
+  NavigationBtnLeftIcon,
   StarGoodsIcon,
   StarOutlineIcon,
 } from "@/assets/icons/icons";
@@ -86,8 +87,7 @@ export const MyLoadsMain = ({ locale }) => {
     hanleAdress,
     index,
     tabButtons,
- 
-   
+    router
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
@@ -95,6 +95,26 @@ export const MyLoadsMain = ({ locale }) => {
   return (
     <Box px={"20px"} py="24px">
       <Container maxW={`1444px`}>
+        {guid && (
+          <Button
+            leftIcon={<NavigationBtnLeftIcon />}
+            borderRadius={`4px`}
+            border={`none`}
+            variant={`outline`}
+            background={`rgba(227, 230, 237, 1)`}
+            color={`var(--primary-text)`}
+            mb={`26px`}
+            width={`fit-content`}
+            onClick={() => {
+              router.push(`/${locale}/dashboard`);
+              // (window.location.href = `${
+              //   window.location.origin
+              // }/${`${locale}/my-loads`}`)
+            }}
+          >
+            {t(`Назад`)}
+          </Button>
+        )}
         <Flex alignItems={`center`} justifyContent={`space-between`}>
           <Heading
             fontSize={isLargerThan768 ? "30px" : "22px"}
@@ -161,8 +181,6 @@ export const MyLoadsMain = ({ locale }) => {
           </Box>
         )} */}
 
-      
-
         <Tabs
           onChange={(index) => onFilterChange(index)}
           defaultIndex={index * 1}
@@ -189,7 +207,7 @@ export const MyLoadsMain = ({ locale }) => {
               </Tab>
             ))}
           </TabList>
-          {(role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid) ? (
+          {role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid ? (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <NewPage t={t} orderStatus={`new`} />
@@ -197,39 +215,38 @@ export const MyLoadsMain = ({ locale }) => {
               <TabPanel padding={0}>
                 <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <PerfomedPage t={t} orderStatus={`performed`} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <CancellationPage t={t} orderStatus={`cancellation`} />
               </TabPanel>
-              <TabPanel  padding={0}>
-                 <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
+              <TabPanel padding={0}>
+                <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <NewPage t={t} orderStatus={`no_dispatcher`} />
               </TabPanel>
             </TabPanels>
           ) : (
             <TabPanels padding={`24px 0`}>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <AllPage t={t} orderStatus={``} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <InModerationPage t={t} orderStatus={`in_moderation`} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <PerfomedPage t={t} orderStatus={`performed`} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
-              <TabPanel  padding={0}>
+              <TabPanel padding={0}>
                 <InActivePage t={t} orderStatus={`in_active`} />
               </TabPanel>
             </TabPanels>
           )}
-
         </Tabs>
       </Container>
 

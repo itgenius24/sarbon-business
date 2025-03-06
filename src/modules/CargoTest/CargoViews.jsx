@@ -216,9 +216,10 @@ export const CargoViews = observer(({ id, status, locale }) => {
               onClick={() =>
              {
               addCargoProps.handleResetForm();
-                (window.location.href = `${
-                  window.location.origin
-                }/${`${locale}/my-loads`}`)
+              router.back()
+                // (window.location.href = `${
+                //   window.location.origin
+                // }/${`${locale}/my-loads`}`)
              }
               }
             >
