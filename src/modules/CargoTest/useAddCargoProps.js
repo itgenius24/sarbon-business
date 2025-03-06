@@ -924,8 +924,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         file_4: data.file_4,
         file_5: data.file_5,
         cargo_type: {
-          value: data.cargo_type_id_data?.guid,
-          label: data.cargo_type_id_data?.name,
+          value:  data?.cargo_type_id ? data?.cargo_type_id :  data.cargo_type_id_data?.guid,
+          label:  data?.product_type ? data?.product_type : data.cargo_type_id_data?.name,
         },
         cargo_type_search: data.cargo_type_id_data?.name,
         weight_measurement: data.weight,
@@ -942,8 +942,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         packaging_quantity: data.package_quantity,
         gps_monitoring: data.gps_monitoring,
         car_type: {
-          value: data.vehicle_type_id_data?.guid,
-          label: data.vehicle_type_id_data?.name,
+          value: data?.vehicle_type_id ? data?.vehicle_type_id : data.vehicle_type_id_data?.guid,
+          label: data?.car_type ? data?.car_type : data.vehicle_type_id_data?.name,
         },
         order_status:
           data.order_status?.[0] === `in_active`
@@ -1026,6 +1026,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         lat: data?.lat * 1,
         long: data?.long* 1,
       });
+
+      setValue(`cargo_type`, {
+        value:  data?.cargo_type_id ? data?.cargo_type_id :  data.cargo_type_id_data?.guid,
+        label:  data?.product_type ? data?.product_type : data.cargo_type_id_data?.name,
+      })
     }
   }
 

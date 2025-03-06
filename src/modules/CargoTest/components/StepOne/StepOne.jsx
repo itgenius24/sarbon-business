@@ -46,6 +46,8 @@ const StepOne = ({ status }) => {
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
+  
   return (
     <Box className={cls.containerCards}>
       <Box className={cls.step1}>

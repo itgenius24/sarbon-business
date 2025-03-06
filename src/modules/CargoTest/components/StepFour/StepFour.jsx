@@ -86,7 +86,9 @@ const StepFour = ({ status }) => {
     setValue(`price_prepayment_unit`, selectedOption);
   };
 
-  console.log(watch(`price_prepayment_unit`))
+  console.log(`salom`,watch(`price_prepayment_unit`)?.label?.charAt(0).toUpperCase() , watch(`price_prepayment_unit`)
+  ?.label?.slice(1)
+  .toLowerCase() )
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
@@ -399,13 +401,9 @@ const StepFour = ({ status }) => {
                             ? watch(`price_prepayment`)
                             : 0)}
 
-                        {` ${
-                          watch(`price_prepayment_unit`)
-                            ?.label?.charAt(0)
-                            .toUpperCase() +
-                          watch(`price_prepayment_unit`)
+                        {` ${watch(`price_prepayment_unit`)?.label?.charAt(0).toUpperCase() + watch(`price_prepayment_unit`)
                             ?.label?.slice(1)
-                            .toLowerCase()
+                            .toLowerCase() || `Доллар`
                         }`}
                       </p>
                     </Box>
