@@ -21,7 +21,6 @@ import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Dropdown } from "@/components/Dropdown";
 import authStore from "@/store/auth.store";
 
 export const useDashboardDispatcher = (locale) => {
@@ -202,13 +201,8 @@ export const useDashboardDispatcher = (locale) => {
     },
   });
 
-  const { data: vehicle } = useGetVehicle2({
-    params: {
-      data: JSON.stringify({
-        car_position: ["alive"],
-      }),
-    },
-  });
+ 
+
 
   const { mutate } = useDispatcherFirms({
     onSuccess: () => {
@@ -321,16 +315,14 @@ export const useDashboardDispatcher = (locale) => {
     }),
   });
 
-  const { data: newData } = useGetNewPredData({
-    data: {
-      data: {
-        object_data: {
-          dispetchir_id: authStore.userData.id,
-          provisions: [`new`],
-        },
-      },
-    },
-  });
+
+
+    const { data: newData } = useGetOffer({
+      data: JSON.stringify({
+        provisions: [`new`],
+        users_id_3:authStore?.userData?.id
+      }),
+    });
 
   const { data: bzData } = useGetNewPredData({
     data: {
@@ -352,8 +344,17 @@ export const useDashboardDispatcher = (locale) => {
       }),
     },
   );
-
-  console.log(`newData`, perfomed);
+  const newCount =
+    newData?.response?.filter(
+      (item) =>
+        item.provisions.includes("new") &&
+        item.provisions.includes("approve_from_driver")
+    )?.length +
+    newData?.response?.filter(
+      (item) =>
+        item.provisions.includes("new") &&
+        item.provisions.includes("approve_by_customer")
+    )?.length;
 
   const topStatis = [
     {
@@ -372,7 +373,7 @@ export const useDashboardDispatcher = (locale) => {
     },
     {
       id: 3,
-      total: vehicle?.count || 0,
+      total: data?.drivers_unit_count?.[0]?.total_count || 0,
       deck: `Общее кол-во транспортных средств `,
       bg: `rgba(0, 122, 255, 1)`,
       color: `rgba(0, 122, 255, 0.3)`,
@@ -389,10 +390,11 @@ export const useDashboardDispatcher = (locale) => {
       color: `rgba(193, 187, 32, 0.3)`,
     },
   ];
+
   const topStatis2 = [
     {
       id: 1,
-      total: newData?.count - bzData?.count || 0,
+      total: (newCount || 0) -  (bzData?.count || 0),
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,

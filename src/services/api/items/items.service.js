@@ -39,6 +39,7 @@ const itemsService = {
   updateNote: (data) => request.put(`/v2/items/note`, data),
   getDriverPosition: (params) => request.get("/v2/object-slim/get-list/gps_history", { params }),
   deleteOrder: (id) => request.delete(`/v2/items/order/${id}`,{data:JSON.stringify({data:{}})}),
+ 
 
 
 };
@@ -73,6 +74,9 @@ export const useGetNewPredData = ({data, querySettings}) => {
     queryFn: () => itemsService.getNewPred(data), ...querySettings,
   });
 };
+
+
+
 
 export const useGetNotificationFirst = ({data, querySettings}) => {
   return useQuery({

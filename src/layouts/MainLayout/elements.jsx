@@ -46,6 +46,10 @@ export const useElements = (lang) => {
         label: "Главный",
       },
       {
+        path: `/${lang || "ru"}/dashboard-dispatcher`,
+        label: "Dashboard",
+      },
+      {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
         label: "Мои грузы",
       },
@@ -80,10 +84,10 @@ export const useElements = (lang) => {
         path: `/${lang || "ru"}/`,
         label: "Главный",
       },
-      // {
-      //   path: `/${lang || "ru"}/dashboard-dispatcher`,
-      //   label: "Аналитика",
-      // },
+      {
+        path: `/${lang || "ru"}/dashboard-dispatcher`,
+        label: "Dashboard",
+      },
       {
         path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
         label: "Мои грузы",

@@ -29,7 +29,9 @@ import {
   ProfilePlusIcon,
   TextIcon,
   UploadProfileIcon,
+  UserProfileIcon,
 } from "@/assets/icons/icons";
+import UserImg from "@/assets/images/user.png";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -71,7 +73,7 @@ export const ProfileLayout = ({ children }) => {
       });
       query.invalidateQueries(["items/firm/id"]);
       query.invalidateQueries(["items/users/id"]);
-      onClose()
+      onClose();
     },
     onError() {
       toast({
@@ -94,7 +96,7 @@ export const ProfileLayout = ({ children }) => {
     });
   };
 
-console.log(`data`,data )
+  console.log(`data`, data?.photo);
 
   return (
     <>
@@ -106,7 +108,9 @@ console.log(`data`,data )
             justifyContent={`space-between`}
           >
             <Heading color={`rgba(33, 31, 38, 1)`} size="md" mb="24px">
-              {t("Профиль компании")}
+              {firmData?.response?.tip_account?.[0] === `legal_owner`
+                ? t("Профиль компании")
+                : t("Мой профиль")}
             </Heading>
             <Box className={cls.balanceWrap}>
               <Flex className={cls.plan}>
@@ -159,39 +163,84 @@ console.log(`data`,data )
           <div className={cls.contentWrapper}>
             {(pathname === defaultPath || isLargerThan845) && (
               <Box flexGrow={isLargerThan845 ? 0 : 1}>
-                <Box className={cls.leftContend}>
-                  <Box className={cls.profileNameWrap}>
-                    <Text className={cls.profileName}>
-                      {firmData?.response?.company_name}
-                    </Text>
-                    <Flex alignItems={`center`} mt={`16px`} gap={`12px`}>
-                      <Box className={cls.imgUploadWrap} onClick={onOpen}>
-                        <Box className={cls.imgUpload}>
-                          <UploadProfileIcon />
+                {firmData?.response?.tip_account?.[0] === `legal_owner` ? (
+                  <Box className={cls.leftContend}>
+                    <Box className={cls.profileNameWrap}>
+                      <Text className={cls.profileName}>
+                        {firmData?.response?.company_name}
+                      </Text>
+                      <Flex alignItems={`center`} mt={`16px`} gap={`12px`}>
+                        <Box className={cls.imgUploadWrap} onClick={onOpen}>
+                          <Box className={cls.imgUpload}>
+                            <UploadProfileIcon />
+                          </Box>
+                          {data?.photo ? (
+                            <>
+                              <Image
+                                src={`${data?.photo?.includes(`https`) ? `` : process.env.NEXT_PUBLIC_MEDIA_URL}${
+                                  data?.photo || ""
+                                }`}
+                                alt="profileImg"
+                                width={200}
+                                height={200}
+                              />
+                            </>
+                          ) : (
+                            <ProfileNoIcon />
+                          )}
                         </Box>
-                        {
-                          data?.photo ? <>
-                            <Image src={data?.photo} alt="profileImg" width={200} height={200} />
-                          </> :  <ProfileNoIcon />
-                        }
-                        
-                      </Box>
-                      <Box>
-                        <Text className={cls.profileType}>
-                          Перевозчик /
-                          {firmData?.response?.tip_account?.[0] ===
-                          `legal_owner`
-                            ? `Юр. лицо`
-                            : `Физ. лицо`}
-                        </Text>
-                        <Text className={cls.profileId}>
-                          ID: {data?.your_id}
-                        </Text>
-                      </Box>
-                    </Flex>
+                        <Box>
+                          <Text className={cls.profileType}>
+                            Перевозчик / Юр. лицо
+                          </Text>
+                          <Text className={cls.profileId}>
+                            ID: {data?.your_id}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Box>
+                    <Navbar locale={locale} />
                   </Box>
-                  <Navbar locale={locale} />
-                </Box>
+                ) : (
+                  <Box className={cls.leftContend2}>
+                    <Box className={cls.profileNameWrap}>
+                      <Flex alignItems={`center`} mt={`10px`} gap={`12px`}>
+                        <Box
+                          className={cls.imgUploadWrapCricle}
+                          onClick={onOpen}
+                        >
+                          <Box className={cls.imgUpload}>
+                            <UploadProfileIcon />
+                          </Box>
+
+                          <Image
+                            src={
+                              data?.photo
+                                ? `${data?.photo?.includes(`https`) ? `` : process.env.NEXT_PUBLIC_MEDIA_URL}${
+                                    data?.photo || ""
+                                  }`
+                                : UserImg
+                            }
+                            alt="profileImg"
+                            width={200}
+                            height={200}
+                          />
+                        </Box>
+                        <Box>
+                          <Text>{data?.full_name}</Text>
+                          <Text className={cls.profileType}>
+                            Перевозчик / Физ. лицо
+                          </Text>
+                          <Text className={cls.profileId}>
+                            ID: {data?.your_id}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Box>
+
+                    <Navbar locale={locale} />
+                  </Box>
+                )}
               </Box>
             )}
             {pathname !== defaultPath && !isLargerThan845 && (
@@ -211,7 +260,9 @@ console.log(`data`,data )
               fontSize={`18px`}
               fontWeight={600}
             >
-              Лого компании
+              {firmData?.response?.tip_account?.[0] === `legal_owner`
+                ? `Лого компании`
+                : `Фото профиля`}
             </Text>
           </ModalHeader>
 
@@ -225,13 +276,20 @@ console.log(`data`,data )
             >
               <Box>
                 <UploadImgRigister
-                  height={`113px`}
-                  icon={<TextIcon />}
+                  icon={
+                    firmData?.response?.tip_account?.[0] === `legal_owner` ? (
+                      <TextIcon />
+                    ) : (
+                      <UserProfileIcon />
+                    )
+                  }
                   text={`Загрузить фото`}
                   control={control}
                   watch={watch}
                   setValue={setValue}
                   name={`img`}
+                  borderRadius={`50%`}
+                  padding={0}
                 />
               </Box>
             </Flex>

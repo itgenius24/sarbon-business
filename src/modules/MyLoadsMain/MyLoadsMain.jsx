@@ -27,6 +27,8 @@ import { useState } from "react";
 import {
   ExelIcon,
   IconCeckNewStatusIcon,
+  LocationIconStep,
+  LocationMarkIcon,
   StarGoodsIcon,
   StarOutlineIcon,
 } from "@/assets/icons/icons";
@@ -34,8 +36,10 @@ import { CheckboxComment } from "./components/CheckboxComment";
 import styles from "./style.module.scss";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
+import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
+import { TextField } from "@/components/TextField";
 
-export const MyLoadsMain = ({locale}) => {
+export const MyLoadsMain = ({ locale }) => {
   const {
     cargos,
     onFilterChange,
@@ -66,13 +70,16 @@ export const MyLoadsMain = ({locale}) => {
     setSelectedRating,
     hoverRating,
     setHoverRating,
+    results,
+    setResults,
+    address,
+    setAddress,
     onSubmit,
     addPage,
+    hanleAdress,
   } = useMyLoadsMainProps(locale);
   const role_id = authStore.userData.role_id;
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-
-
 
   const { t } = useTranslation(locale, "translations");
 
@@ -104,7 +111,6 @@ export const MyLoadsMain = ({locale}) => {
       <Container maxW={`1444px`}>
         <Flex alignItems={`center`} justifyContent={`space-between`}>
           <Heading
-            p={3}
             fontSize={isLargerThan768 ? "30px" : "22px"}
             size="md"
             mb="24px"
@@ -130,6 +136,45 @@ export const MyLoadsMain = ({locale}) => {
             </Box>
           )}
         </Flex>
+
+        {role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
+          <Box width={`40%`} mb={`20px`} className={styles.locationWrap}>
+            <TextField
+              label={``}
+              placeholder={t("Укажите пункт назначения")}
+              additionalItemTheme={`light`}
+              register={register}
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+              name={`from`}
+              additionalItemPlaceholder={
+                <span className={styles.additionalIcons}>
+                  <LocationMarkIcon />
+                </span>
+              }
+            />
+            {results.length > 0 && address?.length > 0 && (
+              <Box className={styles.optionsWrap}>
+                {results?.map((location, idx) => (
+                  <Flex
+                    onClick={() => hanleAdress(location, `from`, "loading")}
+                    key={idx}
+                    gap={3}
+                    alignItems={"center"}
+                  >
+                    <LocationIconStep />
+
+                    <p
+                      className={styles.item}
+                    >{`${location?.GeoObject?.name}`}</p>
+                  </Flex>
+                ))}
+              </Box>
+            )}
+          </Box>
+        )}
+
         <TopFilter
           driverCount={driverCount}
           noDataDisCount={noDataDisCount}
@@ -208,7 +253,7 @@ export const MyLoadsMain = ({locale}) => {
               <Button
                 isLoading={isLoading}
                 onClick={addPage}
-                // className={cls.btnLoad}
+                // className={styles.btnLoad}
               >
                 Загрузить еще
               </Button>

@@ -328,16 +328,16 @@ export const useDashboard = (locale) => {
   });
 
   const newCount =
-  newData?.response?.filter(
-    (item) =>
-      item.provisions.includes("new") &&
-      item.provisions.includes("approve_from_driver")
-  )?.length +
-  newData?.response?.filter(
-    (item) =>
-      item.provisions.includes("new") &&
-      item.provisions.includes("approve_by_customer")
-  )?.length;
+    newData?.response?.filter(
+      (item) =>
+        item.provisions.includes("new") &&
+        item.provisions.includes("approve_from_driver")
+    )?.length +
+    newData?.response?.filter(
+      (item) =>
+        item.provisions.includes("new") &&
+        item.provisions.includes("approve_by_customer")
+    )?.length;
 
   const { data: bzData } = useGetOffer({
     data: JSON.stringify({
@@ -345,6 +345,18 @@ export const useDashboard = (locale) => {
       provisions: [`new`],
     }),
   });
+
+  const newData1 = bzData?.response?.filter(
+    (item) =>
+      item?.provisions?.includes(`new`) &&
+      item?.provisions?.includes(`approve_from_driver`)
+  )?.length;
+  const newData2 = bzData?.response?.filter(
+    (item) =>
+      item?.provisions?.includes(`new`) &&
+      item?.provisions?.includes(`approve_by_customer`)
+  )?.length;
+
 
   const topStatis = [
     {
@@ -383,14 +395,14 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: newCount || 0 - bzData?.count || 0,
+      total: (newCount || 0) -  (newData1 + newData2 || 0),
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
     },
     {
       id: 2,
-      total: bzData?.count || 0,
+      total: newData1 + newData2 || 0,
       deck: `Общее кол-во предложений без диспетчеров`,
       bg: `rgba(165, 165, 165, 1)`,
       color: `rgba(165, 165, 165, 0.3)`,
@@ -417,7 +429,9 @@ export const useDashboard = (locale) => {
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
       `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
-      `Предложений (${(data?.new?.[0]?.total_count || 0) -  (data?.free?.[0]?.total_count || 0)})`,
+      `Предложений (${
+        (data?.new?.[0]?.total_count || 0) - (data?.free?.[0]?.total_count || 0)
+      })`,
       `Предложений б-д (${data?.free?.[0]?.total_count || 0})`,
       `В исполнении (${data?.performed?.[0]?.total_count || 0})`,
       `Завершённых (${data?.archive?.[0]?.total_count || 0})`,
@@ -430,7 +444,8 @@ export const useDashboard = (locale) => {
           data?.eks_count?.[0]?.total_count || 0,
           data?.truck_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
-          (data?.new?.[0]?.total_count || 0) -  (data?.free?.[0]?.total_count || 0),
+          (data?.new?.[0]?.total_count || 0) -
+            (data?.free?.[0]?.total_count || 0),
           data?.free?.[0]?.total_count || 0,
           data?.performed?.[0]?.total_count || 0,
           data?.archive?.[0]?.total_count || 0,
@@ -510,7 +525,7 @@ export const useDashboard = (locale) => {
   const columns1 = [
     {
       title: "No",
-      dataIndex:`number`,
+      dataIndex: `number`,
       width: 40,
     },
     {
@@ -701,7 +716,7 @@ export const useDashboard = (locale) => {
   const columns2 = [
     {
       title: "No",
-      dataIndex:`number`,
+      dataIndex: `number`,
       width: 40,
     },
     {
@@ -786,7 +801,7 @@ export const useDashboard = (locale) => {
   const columns3 = [
     {
       title: "No",
-      dataIndex:`number`,
+      dataIndex: `number`,
       width: 40,
     },
     {
@@ -877,7 +892,7 @@ export const useDashboard = (locale) => {
   const columns4 = [
     {
       title: "No",
-      dataIndex:`number`,
+      dataIndex: `number`,
       width: 40,
     },
     {
@@ -1014,7 +1029,7 @@ export const useDashboard = (locale) => {
   const columns5 = [
     {
       title: "No",
-      dataIndex:`number`,
+      dataIndex: `number`,
       width: 40,
     },
     {
@@ -1053,18 +1068,16 @@ export const useDashboard = (locale) => {
         const broke_down = row?.drivers_count?.broke_down || 0;
         const newDriver = row?.drivers_count?.new || 0;
         const unknown = row?.drivers_count?.unknown || 0;
-        const our_cargo = row?.drivers_count?.our_cargo || 0; 
-        // const waiting_for_driver = row?.drivers_count?.waiting_for_driver || 0; 
+        const our_cargo = row?.drivers_count?.our_cargo || 0;
+        // const waiting_for_driver = row?.drivers_count?.waiting_for_driver || 0;
         return (
           <p style={{ textAlign: `center` }}>
-            { empty +
+            {empty +
               someone_cargo +
               broke_down +
               newDriver +
               unknown +
-              our_cargo 
-            
-              }
+              our_cargo}
           </p>
         );
       },
@@ -1085,11 +1098,10 @@ export const useDashboard = (locale) => {
       width: 200,
       render: (_, row) => (
         <Flex width={`100%`} justifyContent={`center`}>
-           <p style={{ width:`100px`, textAlign: `center` }}>
-          {row?.drivers_count?.someone_cargo}
-        </p>
+          <p style={{ width: `100px`, textAlign: `center` }}>
+            {row?.drivers_count?.someone_cargo}
+          </p>
         </Flex>
-       
       ),
     },
     {
@@ -1098,7 +1110,9 @@ export const useDashboard = (locale) => {
       width: 100,
       render: (_, row) => (
         <Flex width={`100%`} justifyContent={`center`}>
-          <p style={{ width:`70px`, textAlign: `center` }}>{row?.drivers_count?.broke_down}</p>
+          <p style={{ width: `70px`, textAlign: `center` }}>
+            {row?.drivers_count?.broke_down}
+          </p>
         </Flex>
       ),
     },
@@ -1117,7 +1131,7 @@ export const useDashboard = (locale) => {
         );
       },
     },
-     // {
+    // {
     //   title: `Ждём водителя`,
     //   dataIndex: "",
     //   width: 200,
@@ -1142,16 +1156,15 @@ export const useDashboard = (locale) => {
         // );
         return (
           <p style={{ textAlign: `center` }}>
-            {row?.orders_status_counts?.new || 0 + 
-              row?.orders_status_counts?.approve_by_customer || 0 + 
-              row?.orders_status_counts?.approve_by_driver || 0 
-            }
+            {row?.orders_status_counts?.new ||
+              0 + row?.orders_status_counts?.approve_by_customer ||
+              0 + row?.orders_status_counts?.approve_from_driver ||
+              0}
           </p>
         );
       },
     },
-   
-   
+
     {
       title: `Общее кол-во завершённых`,
       dataIndex: "",

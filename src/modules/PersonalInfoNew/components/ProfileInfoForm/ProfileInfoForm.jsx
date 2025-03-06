@@ -47,7 +47,10 @@ export const ProfileInfoForm = ({
     isPasswordVisible2,
     setPasswordVisible2,
     changePass,
+    formatPhoneNumber
   } = useProfileInfoFormProps(setValue, reset, watch);
+
+  console.log(`watch`,errors);
 
   const { t } = useTranslation();
 
@@ -61,81 +64,178 @@ export const ProfileInfoForm = ({
         fontSize={`22px`}
         color={`rgba(33, 31, 38, 1)`}
       >
-        Мои данные
+      {
+        watch(`tip_account`)?.[0] === `legal_owner` ? `Мои данные` : `Персональные данные`
+      }
+       
       </Text>
-      <div className={cls.fields}>
-        <TextFieldWithAdditionAut
-          label={t("Название орзанизации *")}
-          name="company_name"
-          register={register}
-          additionalItemName="company_type"
-          additionalItemDefaultIndex={0}
-          placeholder={t("Введите названи...")}
-          errors={errors}
-          type="text"
-          width="100%"
-          rules={{
-            required: {
-              value: true,
-              message: t("Это поле обязательно"),
-            },
-          }}
-          additionalItemOptions={[
-            { label: `OOO`, value: `OOO` },
-            { label: `MChJ`, value: `MChJ` },
-            { label: `XK`, value: `XK` },
-          ]}
-          zIndex={20}
-          // after={watch(`price_prepayment_unit`)?.label}
-        />
-        <TextField
-          register={register}
-          errors={errors}
-          name="tin"
-          label={t("ИНН организации *")}
-          defaultValue={full_name?.split(" ")?.[1]}
-          placeholder="Введите номер ИНН..."
-        />
-      </div>
-      <div className={cls.fields}>
-        <TextField
-          register={register}
-          errors={errors}
-          name="phone_number"
-          label={t("Номер телефона")}
-          defaultValue={full_name?.split(" ")?.[1]}
-          placeholder="Введите номер для связи..."
-        />
-        <TextField
-          register={register}
-          errors={errors}
-          name="full_name"
-          label={t("Имя и фамилия руководителя ")}
-          defaultValue={full_name?.split(" ")?.[1]}
-          placeholder="Имя фамилия..."
-        />
-      </div>
-      <div className={cls.fields}>
-        <TextField
-          addonBefore={<Email />}
-          register={register}
-          errors={errors}
-          type="email"
-          name="email"
-          label={t("Почта")}
-          rules={rules}
-          defaultValue={email}
-          placeholder="artlaliwer@gmail.com"
-        />
-        <TextField
-          register={register}
-          errors={errors}
-          name="building_address"
-          label={t("Юридический адрес")}
-          defaultValue={full_name?.split(" ")?.[1]}
-          placeholder="Страна, город улица, дом..."
-        />
-      </div>
+
+      {watch(`tip_account`)?.[0] === `legal_owner` ? (
+        <Box>
+          <div className={cls.fields}>
+            <TextFieldWithAdditionAut
+              label={t("Название орзанизации *")}
+              name="company_name"
+              register={register}
+              additionalItemName="company_type"
+              additionalItemDefaultIndex={0}
+              placeholder={t("Введите названи...")}
+              errors={errors}
+              type="text"
+              width="100%"
+              rules={{
+                required: {
+                  value: true,
+                  message: t("Это поле обязательно"),
+                },
+              }}
+              additionalItemOptions={[
+                { label: `OOO`, value: `OOO` },
+                { label: `MChJ`, value: `MChJ` },
+                { label: `XK`, value: `XK` },
+              ]}
+              zIndex={20}
+              // after={watch(`price_prepayment_unit`)?.label}
+            />
+            <TextField
+              register={register}
+              errors={errors}
+              name="tin"
+              label={t("ИНН организации *")}
+              defaultValue={full_name?.split(" ")?.[1]}
+              placeholder="Введите номер ИНН..."
+            />
+          </div>
+          <div className={cls.fields}>
+            <TextField
+              register={register}
+              errors={errors}
+              name="phone_number"
+              label={t("Номер телефона")}
+              defaultValue={full_name?.split(" ")?.[1]}
+              placeholder="Введите номер для связи..."
+            />
+            <TextField
+              register={register}
+              errors={errors}
+              name="full_name"
+              label={t("Имя и фамилия руководителя ")}
+              defaultValue={full_name?.split(" ")?.[1]}
+              placeholder="Имя фамилия..."
+            />
+          </div>
+          <div className={cls.fields}>
+            <TextField
+              addonBefore={<Email />}
+              register={register}
+              errors={errors}
+              type="email"
+              name="email"
+              label={t("Почта")}
+              rules={rules}
+              defaultValue={email}
+              placeholder="artlaliwer@gmail.com"
+            />
+            <TextField
+              register={register}
+              errors={errors}
+              name="building_address"
+              label={t("Юридический адрес")}
+              defaultValue={full_name?.split(" ")?.[1]}
+              placeholder="Страна, город улица, дом..."
+            />
+          </div>
+        </Box>
+      ) : (
+        <Box>
+          <div className={cls.fields}>
+            <TextField
+              register={register}
+              errors={errors}
+              name="full_name"
+              label={t("Фамилия, имя")}
+              placeholder="Фамилия, имя"
+            />
+            <Box width={`100%`}>
+              <p className={cls.label}>Серия и номер паспорта *</p>
+              <Flex gap={`20px`}>
+                <Box width={`30%`}>
+                  <TextField
+                    register={register}
+                    errors={errors}
+                    name="passport_scan"
+                    placeholder="AA"
+                    rules={{
+                      required: "Это поле обязательно",
+                      validate: (value) => {
+                        if (!/^[A-Z]*$/.test(value)) {
+                          return "Faqat harflar kiriting";
+                        }
+                        if (value.length !== 2) {
+                          return "Faqat ikkita harf kiriting";
+                        }
+                        return true;
+                      },
+                    }}
+                    onChange={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/[^A-Za-z]/g, "") // Remove any non-letter characters
+                        .toUpperCase()
+                        .slice(0, 2); // Limit to 2 characters
+                    }}
+                  />
+                </Box>
+                <TextField
+                  register={register}
+                  errors={errors}
+                  name="passport_code"
+                  placeholder="000 00 00"
+                  rules={{
+                    required: "Telefon raqami majburiy",
+                    validate: (value) =>
+                      /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
+                      "Format noto‘g‘ri",
+                    onChange: (e) => {
+                      e.target.value = formatPhoneNumber(e.target.value);
+                    },
+                  }}
+                />
+              </Flex>
+            </Box>
+          </div>
+          <div className={cls.fields}>
+            <TextField
+              register={register}
+              errors={errors}
+              name="phone_number"
+              label={t("Номер телефона")}
+              placeholder="Введите номер для связи..."
+            />
+            <TextField
+              register={register}
+              errors={errors}
+              name="pnfl"
+              label={t("ПИНФЛ")}
+              placeholder="ПИНФЛ"
+            />
+          </div>
+          <div className={cls.fields}>
+            <TextField
+              addonBefore={<Email />}
+              register={register}
+              errors={errors}
+              type="email"
+              name="email"
+              label={t("Почта")}
+              rules={rules}
+              defaultValue={email}
+              placeholder="artlaliwer@gmail.com"
+            />
+            <Box width={`100%`}></Box>
+          </div>
+        </Box>
+      )}
+
       <Box className={cls.loginWrap} mt={`40px`}>
         <Text
           marginBottom={`20px`}

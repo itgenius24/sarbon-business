@@ -17,9 +17,10 @@ import {
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import useDebounce from "@/hooks/useDebounce";
+import useDebounce2 from "@/hooks/useDebounce";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDebounce } from "use-debounce";
 
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -32,6 +33,7 @@ const zavishonuz = "/zavishonuz.mp3";
 
 export const useMyLoadsMainProps = (locale) => {
   const [open, setOpen] = useState(false);
+
   const params = useSearchParams();
   const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
@@ -47,6 +49,9 @@ export const useMyLoadsMainProps = (locale) => {
   const [data, setData] = useState([]);
   const [dataDis, setDataDis] = useState([]);
   const userId = authStore.userData.id;
+  const [results, setResults] = useState([]);
+  const [address, setAddress] = useState("");
+  const [debouncedValue] = useDebounce(address, 500);
 
   const toast = useToast();
   const { t } = useTranslation();
@@ -99,7 +104,7 @@ export const useMyLoadsMainProps = (locale) => {
   const { mutate: logHistory } = useCreateLogHistory({});
 
   useEffect(() => {
-    if(authStore.userData.role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`){
+    if (authStore.userData.role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`) {
       logHistory({
         data: {
           users_id: authStore.userData.guid,
@@ -109,7 +114,6 @@ export const useMyLoadsMainProps = (locale) => {
       });
     }
   }, []);
-
 
   const handleCheckboxChange = (key) => {
     setComments(
@@ -146,7 +150,7 @@ export const useMyLoadsMainProps = (locale) => {
 
   const { mutate } = useUpdateNoteData();
 
-  const { data: data2, } = useGetNotification({
+  const { data: data2 } = useGetNotification({
     data: {
       data: {
         object_data: {
@@ -275,15 +279,24 @@ export const useMyLoadsMainProps = (locale) => {
     getAllUserCargoParams.data = JSON.stringify(data);
   }
 
-  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled:
-      !!userId &&
-      (orderStatus === "" ||
-        orderStatus === "in_moderation" ||
-        orderStatus === "in_active") &&
-      hasMore,
-    placeholderData: keepPreviousData,
-  });
+ 
+
+  const getAllUserCargo = useGetUserCargo(
+    {
+      ...getAllUserCargoParams,
+      search: orderStatus === `` && debouncedValue?.length > 0 ? watch(`from`) : undefined,
+    },
+    {
+      enabled:
+        !!userId &&
+        (orderStatus === "" ||
+          orderStatus === "in_moderation" ||
+          watch(`from`)?.length > 0 ||
+          orderStatus === "in_active") &&
+        hasMore,
+      placeholderData: keepPreviousData,
+    }
+  );
 
   const getOfferCargo = useGetOffer(getCargoFilterParams, {
     enabled: Boolean(!!userId && !isCargo && hasMore),
@@ -300,7 +313,7 @@ export const useMyLoadsMainProps = (locale) => {
 
     Notification.requestPermission();
     if (res?.response?.[0]?.type === "предложение") {
-      if(res?.response?.[0]?.users_id_2){
+      if (res?.response?.[0]?.users_id_2) {
         getNewPred.mutate({
           data: {
             object_data: {
@@ -308,7 +321,7 @@ export const useMyLoadsMainProps = (locale) => {
             },
           },
         });
-      }else{
+      } else {
         getNoDisPred.mutate({
           data: {
             object_data: {
@@ -577,6 +590,36 @@ export const useMyLoadsMainProps = (locale) => {
     deleteCargo.mutate({ id });
   }
 
+  const hanleAdress = (location, name) => {
+    setValue(name, `${location?.GeoObject?.name}`);
+
+    setResults([]);
+  };
+
+  const handleGeocode = async () => {
+    const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY; // Yandex API kalitini bu yerga qo'ying
+    const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${debouncedValue}`;
+
+    try {
+      const response = await fetch(geocodeUrl);
+      const data = await response.json();
+      if (data.response) {
+        const geoObjects = data.response.GeoObjectCollection.featureMember;
+        setResults(geoObjects);
+      } else {
+        console.log("Manzil topilmadi");
+      }
+    } catch (error) {
+      console.error("Geokodlashda xatolik:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (address) {
+      handleGeocode();
+    }
+  }, [debouncedValue]);
+
   const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
   function onFilterChange({ label, value }) {
@@ -588,7 +631,7 @@ export const useMyLoadsMainProps = (locale) => {
 
   const ref = useRef(null);
 
-  const setDebouncedLimit = useDebounce(setLimit, 450);
+  const setDebouncedLimit = useDebounce2(setLimit, 450);
 
   function handleLoadMore() {
     setDebouncedLimit((prev) => prev + 40);
@@ -626,7 +669,7 @@ export const useMyLoadsMainProps = (locale) => {
     handleAccept,
     handleCancel,
     ref,
-    handleLoadMore,
+
     driverCount: data?.length,
     noDataDisCount: dataDis?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
@@ -650,5 +693,10 @@ export const useMyLoadsMainProps = (locale) => {
     setHoverRating,
     onSubmit,
     addPage: handleLoadMore,
+    results,
+    setResults,
+    address,
+    setAddress,
+    hanleAdress,
   };
 };
