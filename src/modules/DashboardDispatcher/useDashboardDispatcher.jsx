@@ -426,7 +426,7 @@ export const useDashboardDispatcher = (locale) => {
     labels: [
       `Водитель (${data?.driver_count?.[0]?.total_count || 0})`,
       `Перевозчик (${data?.eks_count?.[0]?.total_count || 0})`,
-      `Транспорт (${data?.truck_count?.[0]?.total_count || 0})`,
+      `Транспорт (${data?.drivers_unit_count?.[0]?.total_count || 0})`,
       `Груз (${data?.cargo_count?.[0]?.total_accepted_offers || 0})`,
       `Предложений (${
         (data?.new?.[0]?.total_count || 0) - (data?.free?.[0]?.total_count || 0)
@@ -441,7 +441,7 @@ export const useDashboardDispatcher = (locale) => {
         data: [
           data?.driver_count?.[0]?.total_count || 0,
           data?.eks_count?.[0]?.total_count || 0,
-          data?.truck_count?.[0]?.total_count || 0,
+          data?.drivers_unit_count?.[0]?.total_count || 0,
           data?.cargo_count?.[0]?.total_accepted_offers || 0,
           (data?.new?.[0]?.total_count || 0) -
             (data?.free?.[0]?.total_count || 0),
