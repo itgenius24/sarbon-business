@@ -522,6 +522,11 @@ export const useDashboard = (locale) => {
     },
   };
 
+  const handle = (row) => {
+    router.push(`/${locale}/my-loads?guid=${row?.guid}&full_name=${row?.full_name}`);
+
+  }
+
   const columns1 = [
     {
       title: "No",
@@ -1057,6 +1062,7 @@ export const useDashboard = (locale) => {
       title: `Диспетчер`,
       dataIndex: "full_name",
       width: 200,
+      render:(_,row) => <p onClick={() => handle(row)}>{row?.full_name}</p>
     },
     {
       title: `Общее кол-во водителей`,

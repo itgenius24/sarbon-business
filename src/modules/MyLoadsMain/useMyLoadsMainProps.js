@@ -42,7 +42,10 @@ export const useMyLoadsMainProps = (locale) => {
   const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
   const index = params.get(`index`) || 0;
-  
+
+  const guid = params.get(`guid`) || 0;
+  const full_name = params.get(`full_name`) || 0;
+
   const router = useRouter();
   const [accept, setAccept] = useState(false);
   const [orderStatus, setOrderStatus] = useState(orderValStatus);
@@ -56,8 +59,8 @@ export const useMyLoadsMainProps = (locale) => {
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState("");
   const [debouncedValue] = useDebounce(address, 500);
-  
-  console.log(`index`,index)
+
+  console.log(`index`, index);
 
   const toast = useToast();
 
@@ -65,9 +68,9 @@ export const useMyLoadsMainProps = (locale) => {
   const [limit, setLimit] = useState(40);
 
   const tabButtons =
-  role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`
-    ? filterTabsDis
-    : filterTabsZ;
+    role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid
+      ? filterTabsDis
+      : filterTabsZ;
 
   const goodComment = [
     {
@@ -207,10 +210,6 @@ export const useMyLoadsMainProps = (locale) => {
     });
   }
 
-
-
-
-
   const { data: getNewPred, refetch: refetchNewPred } = useGetNewPredData({
     data: {
       data: {
@@ -284,7 +283,7 @@ export const useMyLoadsMainProps = (locale) => {
         refetchNoDisPred();
       }
       getOfferCount.refetch();
-      getWaitingDriverCount?.refetch()
+      getWaitingDriverCount?.refetch();
       const audio = new Audio(locale === `uz` ? predlojeniyauz : predlojeniya);
       audio.play();
       new Notification(res?.response?.[0]?.title, {
@@ -294,7 +293,7 @@ export const useMyLoadsMainProps = (locale) => {
       });
     } else if (res?.response?.[0]?.type === "в исполнении") {
       getOfferCount.refetch();
-      getWaitingDriverCount?.refetch()
+      getWaitingDriverCount?.refetch();
       refetchNewPred();
       const audio = new Audio(locale === `uz` ? vispolneniyauz : vispolneniya);
       audio.play();
@@ -305,7 +304,7 @@ export const useMyLoadsMainProps = (locale) => {
       });
     } else if (res?.response?.[0]?.type === "завершенный") {
       getOfferCount.refetch();
-      getWaitingDriverCount?.refetch()
+      getWaitingDriverCount?.refetch();
       const audio = new Audio(locale === `uz` ? zavishonuz : zavishon);
       refetchNewPred();
       audio.play();
@@ -324,14 +323,10 @@ export const useMyLoadsMainProps = (locale) => {
     }
   }, []);
 
-
-
   useEffect(() => {
     getOfferCount.refetch();
     getWaitingDriverCount.refetch();
   }, [accept, orderStatus]);
-
- 
 
   const downloadByLanguage = async (url) => {
     try {
@@ -364,7 +359,6 @@ export const useMyLoadsMainProps = (locale) => {
       },
     });
   };
-
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -422,12 +416,16 @@ export const useMyLoadsMainProps = (locale) => {
     }
   }, [debouncedValue]);
 
-
   function onFilterChange(index) {
-    const data = tabButtons[index]
-    router.push(`?value=${data?.value}&label=${data?.label}&index=${index}`);
+    const data = tabButtons[index];
+    router.push(
+      `?value=${data?.value}&label=${data?.label}&index=${index}${
+        guid ? `&guid=${guid}&full_name=${full_name}` : ``
+      }`
+    );
   }
 
+  
   const ref = useRef(null);
 
   const setDebouncedLimit = useDebounce2(setLimit, 450);
@@ -449,8 +447,6 @@ export const useMyLoadsMainProps = (locale) => {
     setComments([]);
   };
 
-  
-
   return {
     hasMore,
     onFilterChange,
@@ -465,6 +461,8 @@ export const useMyLoadsMainProps = (locale) => {
     badComment,
     register,
     watch,
+    guid,
+    full_name,
     setValue,
     setComments,
     handleCheckboxChange,
@@ -484,6 +482,6 @@ export const useMyLoadsMainProps = (locale) => {
     handleClick,
     isLargerThan768,
     t: t,
-    tabButtons
+    tabButtons,
   };
 };

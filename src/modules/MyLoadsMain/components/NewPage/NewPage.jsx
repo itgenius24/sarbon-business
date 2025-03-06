@@ -32,6 +32,10 @@ export const NewPage = ({ orderStatus, t }) => {
     obj,
     isLoading,
   } = useNewPageProps(orderStatus, t);
+
+
+  console.log(`newData`,newData?.length < 0)
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -48,8 +52,9 @@ export const NewPage = ({ orderStatus, t }) => {
             handleCancel={handleCancel}
           />
         ))}
-        {newData?.length < 0 && <Empty t={t} />}
       </Box>
+      {newData?.length === 0 && <Empty t={t} />}
+
       <Modal isOpen={dataPred} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

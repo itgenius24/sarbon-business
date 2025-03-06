@@ -6,10 +6,14 @@ import {
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const useNewPageProps = (orderStatus, t) => {
   const toast = useToast();
+  const params = useSearchParams();
+
+  const guid = params.get(`guid`) || 0;
   const userId = authStore.userData.id;
   const [disabled, setDisabled] = useState(false);
   const [dataPred, setDataPred] = useState(``);
@@ -22,7 +26,7 @@ const useNewPageProps = (orderStatus, t) => {
     data: {
       data: {
         object_data: {
-          dispetchir_id: orderStatus === `new` ? userId : ``,
+          dispetchir_id: orderStatus === `new` ? (guid ? guid : userId) : ``,
           provisions: orderStatus === `new` ? [`new`] : undefined,
         },
       },
@@ -127,7 +131,7 @@ const useNewPageProps = (orderStatus, t) => {
     setDataPred(false);
   };
   return {
-    newData,
+    newData:newData || [],
     isLoading: isFetching,
     setDataPred,
     handleAccept,

@@ -500,6 +500,14 @@ export const useGetOffer = (params, settings) => {
   });
 };
 
+export const useGetOfferTab = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOfferTab", params],
+    queryFn: () => objectService.getOffer(params),
+    ...settings,
+  });
+};
+
 
 export const useGetOfferDispatcher = (params, settings) => {
   return useQuery({

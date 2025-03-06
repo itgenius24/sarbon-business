@@ -26,8 +26,8 @@ const useProps = (orderStatus, t) => {
       enabled:Boolean(orderStatus === ``),
       refetchOnWindowFocus:false,
       onSuccess:(res) =>{
-        const data = res?.response || []
-        setData([...data,...data])
+        const resData = res?.response || []
+        setData([...data,...resData])
       }
     }
   );

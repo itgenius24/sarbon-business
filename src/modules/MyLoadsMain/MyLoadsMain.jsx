@@ -50,6 +50,7 @@ import { InModerationPage } from "./components/InModerationPage/InModerationPage
 import { InActivePage } from "./components/InActivePage/InActivePage";
 import { AllPage } from "./components/AllPage/AllPage";
 import { ArchivePage } from "./components/ArchivePage/ArchivePage";
+import { CancellationPage } from "./components/CancellationPage/CancellationPage";
 
 export const MyLoadsMain = ({ locale }) => {
   const {
@@ -72,6 +73,8 @@ export const MyLoadsMain = ({ locale }) => {
     hoverRating,
     isLargerThan768,
     t,
+    guid,
+    full_name,
     results,
     handleMouseEnter,
     handleMouseLeave,
@@ -83,6 +86,8 @@ export const MyLoadsMain = ({ locale }) => {
     hanleAdress,
     index,
     tabButtons,
+ 
+   
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
@@ -97,7 +102,7 @@ export const MyLoadsMain = ({ locale }) => {
             mb="24px"
             color={`var(--primary-text)`}
           >
-            {t("Мои грузы")}
+            {guid ? full_name : t("Мои грузы")}
           </Heading>
           {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" && (
             <Box position={`relative`}>
@@ -184,7 +189,7 @@ export const MyLoadsMain = ({ locale }) => {
               </Tab>
             ))}
           </TabList>
-          {role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` ? (
+          {(role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid) ? (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <NewPage t={t} orderStatus={`new`} />
@@ -192,34 +197,34 @@ export const MyLoadsMain = ({ locale }) => {
               <TabPanel padding={0}>
                 <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
               </TabPanel>
-              <TabPanel>
+              <TabPanel  padding={0}>
                 <PerfomedPage t={t} orderStatus={`performed`} />
               </TabPanel>
-              <TabPanel>
-                <PerfomedPage t={t} orderStatus={`cancellation`} />
+              <TabPanel  padding={0}>
+                <CancellationPage t={t} orderStatus={`cancellation`} />
               </TabPanel>
-              <TabPanel>
+              <TabPanel  padding={0}>
                  <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
-              <TabPanel>
-                <PerfomedPage t={t} orderStatus={`no_dispatcher`} />
+              <TabPanel  padding={0}>
+                <NewPage t={t} orderStatus={`no_dispatcher`} />
               </TabPanel>
             </TabPanels>
           ) : (
             <TabPanels padding={`24px 0`}>
-              <TabPanel>
+              <TabPanel  padding={0}>
                 <AllPage t={t} orderStatus={``} />
               </TabPanel>
-              <TabPanel>
+              <TabPanel  padding={0}>
                 <InModerationPage t={t} orderStatus={`in_moderation`} />
               </TabPanel>
-              <TabPanel>
+              <TabPanel  padding={0}>
                 <PerfomedPage t={t} orderStatus={`performed`} />
               </TabPanel>
-              <TabPanel>
+              <TabPanel  padding={0}>
                 <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
-              <TabPanel>
+              <TabPanel  padding={0}>
                 <InActivePage t={t} orderStatus={`in_active`} />
               </TabPanel>
             </TabPanels>
