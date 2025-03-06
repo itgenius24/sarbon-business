@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 
 import cls from "./style.module.scss";
 import { Performed } from "../Performed";
@@ -8,7 +8,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import useProps from "./useProps";
 
 export const ArchivePage = ({ orderStatus, t,setOpen }) => {
-  const { cargoData,isLoading,isFetching } = useProps(orderStatus, t);
+  const { cargoData,isLoading,isFetching,addPage } = useProps(orderStatus, t);
 
   if(isLoading && cargoData?.length < 0)  {
     return <LoadingSpinner />

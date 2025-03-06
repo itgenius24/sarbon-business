@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 
 import cls from "./style.module.scss";
 import { Performed } from "../Performed";

@@ -34,7 +34,8 @@ const usePerfomedPageProps = (orderStatus, t) => {
       enabled: Boolean(orderStatus),
       refetchOnWindowFocus:false,
       onSuccess:(res) =>{
-        setData([...data,...res?.response])
+        const data = res?.response || []
+        setData([...data,...data])
       }
     }
   );

@@ -51,8 +51,7 @@ export const useMyLoadsMainProps = (locale) => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const pathname = usePathname();
-  const [data, setData] = useState([]);
-  const [dataDis, setDataDis] = useState([]);
+
   const userId = authStore.userData.id;
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState("");
@@ -165,8 +164,6 @@ export const useMyLoadsMainProps = (locale) => {
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
       setAccept(true);
-      setData([]);
-      getOfferCargo.refetch();
     },
     onError(res) {
       console.error(res);
@@ -371,13 +368,13 @@ export const useMyLoadsMainProps = (locale) => {
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
-      setTimeout(() => {
-        if (isCargo) {
-          // getAllUserCargo.refetch();
-        } else {
-          // getOfferCargo.refetch();
-        }
-      }, 800);
+      // setTimeout(() => {
+      //   // if (isCargo) {
+      //   //   // getAllUserCargo.refetch();
+      //   // } else {
+      //   //   // getOfferCargo.refetch();
+      //   // }
+      // }, 800);
       toast({
         position: "top-right",
         title: "Груз успешно удален",

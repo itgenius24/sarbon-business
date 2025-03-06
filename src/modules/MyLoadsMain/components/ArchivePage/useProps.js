@@ -33,7 +33,8 @@ const useProps = (orderStatus, t) => {
       enabled:Boolean(orderStatus === `archive`),
       refetchOnWindowFocus:false,
       onSuccess:(res) =>{
-        setData([...data,...res?.response])
+        const data = res?.response || []
+        setData([...data,...data])
       }
     }
   );
