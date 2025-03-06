@@ -1,9 +1,4 @@
-import authStore from "@/store/auth.store";
 
-const role_id = authStore.userData.role_id;
-
-
- 
 export const filterTabsDis = [
   {
     label: "Предложение",
@@ -25,10 +20,6 @@ export const filterTabsDis = [
     label: "Завершение",
     value: "archive",
   },
-  // {
-  //   label: "Архив",
-  //   value: "in_active",
-  // },
   {
     label: "Предложение без диспетчера",
     value: "no_dispatcher",
@@ -61,8 +52,6 @@ export const filterTabstopDis = [
   },
 ];
 
-
- 
 export const filterTabsZ = [
   {
     label: "Все",
@@ -82,54 +71,10 @@ export const filterTabsZ = [
     value: "archive",
   },
   {
-    
     label: "Архив",
     value: "in_active",
   },
 ];
-
-// export const filterTabsZ = [
-//   {
-//     label: "Все",
-//     value: "",
-   
-//   },
-//   {
-//     label: "В модерации",
-//     value: "in_moderation",
-  
-//   },
-//   {
-//     label: "Предложение",
-//     value: "new",
-
-//   },
-//   {
-//     label: "Ждём водителя",
-//     value: "approve_from_driver",
-//   },
-//   {
-//     label: "В исполнение",
-//     value: "performed",
-//   },
-//   {
-//     label: "Отменённые",
-//     value: "cancellation",
-//   },
-//   {
-//     label: "Завершение",
-//     value: "archive",
-//   },
-//   {
-//     label: "Архив",
-//     value: "in_active",
-//   },
-// ];
-
-
-
-
-
 
 export const statusColor = {
   in_moderation: `rgba(193, 187, 32, 1)`,

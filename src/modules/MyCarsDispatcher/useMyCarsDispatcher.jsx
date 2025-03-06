@@ -67,6 +67,8 @@ export const useMyCarsDispatcher = () => {
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
 
+  const [deleteId, setDeleteId] = useState(``);
+
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
 
@@ -519,14 +521,15 @@ export const useMyCarsDispatcher = () => {
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
     onSuccess: () => {
-      setRefe(true);
-      setData([]);
-      setOldData([]);
+      setVisibleData((prevData) =>
+        prevData.filter((item) => item.guid !== deleteId)
+      );
+      setDeleteId(``);
     },
   });
 
   const deleteFuntion = (id) => {
-    console.log(`deleteFuntion`, id);
+    setDeleteId(id);
     deleteUser({
       id,
     });
@@ -535,7 +538,7 @@ export const useMyCarsDispatcher = () => {
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
       setOpen(false);
-      setIconStatus(``)
+      setIconStatus(``);
       if (iconStatus === `our_cargo`) {
         return setVisibleData((prevData) =>
           prevData.map((item) =>
@@ -600,32 +603,11 @@ export const useMyCarsDispatcher = () => {
     setSearch(val?.replace(/\+/g, ""));
     if (val?.replace(/\+/g, "")) {
       setData([]);
-      setVisibleData([])
+      setVisibleData([]);
       setOldData([]);
       setPage(0);
     }
   };
-  const setDebouncedLimit = useDebounce(setPage, 250);
-
-  const handleScroll = () => {
-    if (!isLoading) {
-      if (containerRef.current) {
-        const isVisible = isVisibleInViewport(containerRef.current);
-
-        if (isVisible) {
-          setDebouncedLimit((res) => res + 1);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("scroll", handleScroll, { capture: true });
-
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return {
     data: visibleData,

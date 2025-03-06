@@ -11,6 +11,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -38,22 +43,20 @@ import { CustomTextarea } from "@/components/CustomTextarea";
 import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
 import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
 import { TextField } from "@/components/TextField";
+import { NewPage } from "./components/NewPage/NewPage";
+import { ApproveFromDriver } from "./components/ApproveFromDriver/ApproveFromDriver";
+import { PerfomedPage } from "./components/PerfomedPage/PerfomedPage";
+import { InModerationPage } from "./components/InModerationPage/InModerationPage";
+import { InActivePage } from "./components/InActivePage/InActivePage";
+import { AllPage } from "./components/AllPage/AllPage";
+import { ArchivePage } from "./components/ArchivePage/ArchivePage";
 
 export const MyLoadsMain = ({ locale }) => {
   const {
-    cargos,
     onFilterChange,
-    handleDelete,
-    orderStatus,
-    handleAccept,
-    handleCancel,
-    ref,
-    isLoading,
     driverCount,
     noDataDisCount,
     waitingDriverCount,
-    setDataPred,
-    dataPred,
     isLoadingExe,
     getExcelFileFn,
     open,
@@ -65,46 +68,24 @@ export const MyLoadsMain = ({ locale }) => {
     setValue,
     handleCheckboxChange,
     comments,
-    setComments,
     selectedRating,
-    setSelectedRating,
     hoverRating,
-    setHoverRating,
+    isLargerThan768,
+    t,
     results,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleClick,
     setResults,
     address,
     setAddress,
     onSubmit,
-    addPage,
     hanleAdress,
+    index,
+    tabButtons,
   } = useMyLoadsMainProps(locale);
+
   const role_id = authStore.userData.role_id;
-  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-
-  const { t } = useTranslation(locale, "translations");
-
-  const handleMouseEnter = (index) => {
-    setHoverRating(index);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverRating(0);
-  };
-
-  const handleClick = (index) => {
-    setSelectedRating(index);
-    setComments([]);
-  };
-
-  const onClose = () => {
-    setDataPred(false);
-  };
-  const obj = {
-    after_payment: t(`Оплата после завершения`),
-    prepayment: t(`Предоплата`),
-  };
-
-  const [disabled, setDisabled] = useState(false);
 
   return (
     <Box px={"20px"} py="24px">
@@ -175,92 +156,78 @@ export const MyLoadsMain = ({ locale }) => {
           </Box>
         )} */}
 
-        <TopFilter
-          driverCount={driverCount}
-          noDataDisCount={noDataDisCount}
-          waitingDriverCount={waitingDriverCount}
-          onChange={onFilterChange}
-          filterList={
-            role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`
-              ? filterTabsDis
-              : filterTabsZ
-          }
-        />
-        <Box display="flex" flexDirection="column" rowGap="16px">
-          {orderStatus == "performed" ||
-          orderStatus == "new" ||
-          orderStatus == "approve_from_driver" ||
-          orderStatus == "cancellation" ||
-          orderStatus == "new" ||
-          orderStatus == "no_dispatcher" ||
-          orderStatus == "archive" ? (
-            <>
-              {cargos?.length > 0 &&
-                cargos?.map((cargo, index) => {
-                  return (
-                    <Performed
-                      orderStatus={orderStatus}
-                      key={index}
-                      handleAccept={handleAccept}
-                      handleCancel={handleCancel}
-                      cargo={cargo}
-                      setDisabled={setDisabled}
-                      disabled={disabled}
-                      setDataPred={setDataPred}
-                      dataPred={dataPred}
-                      open={open}
-                      setOpen={setOpen}
-                      ref={ref}
-                    />
-                  );
-                })}
-            </>
-          ) : (
-            cargos?.length > 0 &&
-            cargos?.map((cargo, index) => {
-              if (index === cargos.length - 1) {
-                return (
-                  <LoadsCard
-                    ref={ref}
-                    key={cargo?.guid}
-                    orderStatus={orderStatus}
-                    handleDelete={handleDelete}
-                    handleAccept={handleAccept}
-                    isLargerThan768={isLargerThan768}
-                    cargo={cargo}
-                  />
-                );
-              } else {
-                return (
-                  <LoadsCard
-                    // ref={ref}
-                    key={cargo?.guid}
-                    orderStatus={orderStatus}
-                    handleDelete={handleDelete}
-                    handleAccept={handleAccept}
-                    isLargerThan768={isLargerThan768}
-                    // {...cargo}
-                    cargo={cargo}
-                  />
-                );
-              }
-            })
-          )}
-          {!cargos?.length && !isLoading && <Empty t={t} />}
-          {isLoading && <LoadingSpinner />}
-          {cargos?.length >= 40 && (
-            <Box width={`fit-content`}>
-              <Button
-                isLoading={isLoading}
-                onClick={addPage}
-                // className={styles.btnLoad}
+      
+
+        <Tabs
+          onChange={(index) => onFilterChange(index)}
+          defaultIndex={index * 1}
+          variant="unstyled"
+        >
+          <TabList background={`#F2F3F5`} justifyContent={`space-between`}>
+            {tabButtons?.map((item) => (
+              <Tab
+                className={styles.tab}
+                _selected={{ background: `#FFFFFF` }}
+                key={item.value}
               >
-                Загрузить еще
-              </Button>
-            </Box>
+                {item.label}
+                {item.value === "new" && driverCount && (
+                  <div className={styles.count}>{driverCount}</div>
+                )}
+                {item.value === "approve_from_driver" &&
+                  waitingDriverCount > 0 && (
+                    <div className={styles.count}>{waitingDriverCount}</div>
+                  )}
+                {item.value === "no_dispatcher" && noDataDisCount > 0 && (
+                  <div className={styles.count}>{noDataDisCount}</div>
+                )}
+              </Tab>
+            ))}
+          </TabList>
+          {role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` ? (
+            <TabPanels padding={`24px 0`}>
+              <TabPanel padding={0}>
+                <NewPage t={t} orderStatus={`new`} />
+              </TabPanel>
+              <TabPanel padding={0}>
+                <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
+              </TabPanel>
+              <TabPanel>
+                <PerfomedPage t={t} orderStatus={`performed`} />
+              </TabPanel>
+              <TabPanel>
+                <PerfomedPage t={t} orderStatus={`cancellation`} />
+              </TabPanel>
+              <TabPanel>
+                 <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
+              </TabPanel>
+              <TabPanel>
+                <PerfomedPage t={t} orderStatus={`no_dispatcher`} />
+              </TabPanel>
+            </TabPanels>
+          ) : (
+            <TabPanels padding={`24px 0`}>
+              <TabPanel>
+                <AllPage t={t} orderStatus={``} />
+              </TabPanel>
+              <TabPanel>
+                <InModerationPage t={t} orderStatus={`in_moderation`} />
+              </TabPanel>
+              <TabPanel>
+                <PerfomedPage t={t} orderStatus={`performed`} />
+              </TabPanel>
+              <TabPanel>
+                <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
+              </TabPanel>
+              <TabPanel>
+                <InActivePage t={t} orderStatus={`in_active`} />
+              </TabPanel>
+            </TabPanels>
           )}
-        </Box>
+
+        </Tabs>
       </Container>
+
       <Modal size={`xl`} isOpen={open} onClose={() => setOpen(null)}>
         <ModalOverlay />
         <ModalContent>
@@ -335,99 +302,6 @@ export const MyLoadsMain = ({ locale }) => {
           <ModalFooter>
             <Button width={`100%`} mr={3} onClick={() => onSubmit()}>
               Готово
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal isOpen={dataPred} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
-            <Text fontSize={`18px`}>
-              {t(`Принять предложение от`)} {dataPred?.users_id_data?.full_name}
-              ?
-            </Text>
-
-            <Flex
-              mt={`25px`}
-              justifyContent={`space-between`}
-              alignItems={`center`}
-            >
-              <Box>
-                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  {t(`Тип оплаты`)}
-                </p>
-                <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {dataPred?.payment_type
-                    ? obj[dataPred?.payment_type?.[0]]
-                    : dataPred?.cargo_id_data?.payment_type}
-                </p>
-              </Box>
-              <Box>
-                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  {t(`Предоплата`)}
-                </p>
-                <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {dataPred?.payment_type?.[0] === "prepayment"
-                    ? `${dataPred?.prepayment} ${dataPred?.currency_id_data?.code}`
-                    : 0}
-                </p>
-              </Box>
-              <Box>
-                <p style={{ fontWeight: 400 }} className={styles.subTitle}>
-                  {t(`Общая сумма`)}
-                </p>
-                <p style={{ fontWeight: 600 }} className={styles.title}>
-                  {dataPred?.offers} {dataPred?.currency_id_data?.code}
-                </p>
-              </Box>
-            </Flex>
-            <Flex
-              alignItems={`center`}
-              background={`rgba(237, 239, 245, 1)`}
-              padding={`7.5px`}
-              borderRadius={`4px`}
-              mt={`15px`}
-            >
-              <CheckboxModalPred
-                defaultChecked={disabled}
-                onChange={(e) => setDisabled(e.target.checked)}
-              >
-                {t(`Я согласовал это предложение с заказчиком*`)}
-              </CheckboxModalPred>
-            </Flex>
-          </ModalBody>
-          <ModalFooter gap={`10px`} className={styles.modalFooter} mt="0px">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose();
-                // handleCancel(cargo.guid);
-              }}
-              className={styles.bntOutline}
-              style={{
-                background: `#fff`,
-                border: `1px solid rgba(208, 213, 221, 1)`,
-                color: `black`,
-              }}
-            >
-              {t(`Отказать`)}
-            </Button>
-            <Button
-              isDisabled={!disabled}
-              style={{ background: `rgba(21, 186, 77, 1)` }}
-              leftIcon={<IconCeckNewStatusIcon />}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAccept(dataPred?.guid, dataPred?.users_id_2);
-              }}
-              className={styles.bntNew}
-            >
-              {t(`Да, принять`)}
             </Button>
           </ModalFooter>
         </ModalContent>

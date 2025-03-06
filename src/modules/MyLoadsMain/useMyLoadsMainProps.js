@@ -5,6 +5,7 @@ import {
   useDeleteCargo,
   useGetExcelPost,
   useGetNewPred,
+  useGetNewPredData,
   useGetNoteList,
   useGetNotification,
   useGetOffer,
@@ -16,7 +17,7 @@ import {
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { useMediaQuery, useToast } from "@chakra-ui/react";
 import useDebounce2 from "@/hooks/useDebounce";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -24,6 +25,7 @@ import { useDebounce } from "use-debounce";
 
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { filterTabsDis, filterTabsZ } from "./data";
 const predlojeniya = "/predlojeniya.mp3";
 const predlojeniyauz = "/predlojeniyauz.mp3";
 const vispolneniya = "/vispolneniya.mp3";
@@ -33,11 +35,14 @@ const zavishonuz = "/zavishonuz.mp3";
 
 export const useMyLoadsMainProps = (locale) => {
   const [open, setOpen] = useState(false);
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
+  const { t } = useTranslation(locale, "translations");
   const params = useSearchParams();
   const role_id = authStore.userData.role_id;
   const orderValStatus = params.get(`value`) || ``;
-  const [dataPred, setDataPred] = useState(false);
+  const index = params.get(`index`) || 0;
+  
   const router = useRouter();
   const [accept, setAccept] = useState(false);
   const [orderStatus, setOrderStatus] = useState(orderValStatus);
@@ -52,12 +57,18 @@ export const useMyLoadsMainProps = (locale) => {
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState("");
   const [debouncedValue] = useDebounce(address, 500);
+  
+  console.log(`index`,index)
 
   const toast = useToast();
-  const { t } = useTranslation();
 
   const [hasMore, setHasMore] = useState(true);
   const [limit, setLimit] = useState(40);
+
+  const tabButtons =
+  role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`
+    ? filterTabsDis
+    : filterTabsZ;
 
   const goodComment = [
     {
@@ -123,30 +134,6 @@ export const useMyLoadsMainProps = (locale) => {
           : [...prev, key] // Aks holda qo'shish
     );
   };
-
-  const getNewPred = useGetNewPred({
-    onSuccess: (res) => {
-      const data = res?.response?.[0]?.order?.map((item) => ({
-        ...item,
-        users_id_data: item.users_id_data?.[0],
-        users_id_2_data: item?.users_id_2_data?.[0],
-      }));
-      setData(data);
-      setAccept(false);
-    },
-  });
-
-  const getNoDisPred = useGetNewPred({
-    onSuccess: (res) => {
-      const data = res?.response?.[0]?.order?.map((item) => ({
-        ...item,
-        users_id_data: item.users_id_data?.[0],
-        users_id_2_data: item?.users_id_2_data?.[0],
-      }));
-      setDataDis(data);
-      setAccept(false);
-    },
-  });
 
   const { mutate } = useUpdateNoteData();
 
@@ -223,181 +210,30 @@ export const useMyLoadsMainProps = (locale) => {
     });
   }
 
-  const getAllUserCargoParams = {
-    limit,
-    offset: 0,
-    data: JSON.stringify({
-      users_id: userId,
-      with_relations: true,
-      cargo_type: ["cargo"],
-    }),
-  };
 
-  const getCargoFilterParams = {
-    limit,
-    offset: 0,
-    data: JSON.stringify({
-      // users_id_3: userId,
-      users_id_2:
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
-          ? undefined
-          : orderStatus === "new"
-          ? undefined
-          : userId,
-      users_id_3:
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? userId : undefined,
-      with_relations: true,
-    }),
-  };
 
-  const isCargo =
-    !orderStatus ||
-    orderStatus === "in_moderation" ||
-    orderStatus === `in_active`;
 
-  if (orderStatus === "approve_from_driver") {
-    const data = JSON.parse(getCargoFilterParams.data);
-    // data.response_status = [orderStatus];
-    // data.provisions = ["new"];
-    (data.provisions = ["approve_from_driver"]),
-      (getCargoFilterParams.data = JSON.stringify(data));
-  } else if (
-    orderStatus === "performed" ||
-    orderStatus === "cancellation" ||
-    orderStatus === "archive"
-  ) {
-    const data = JSON.parse(getCargoFilterParams.data);
-    data.provisions = [orderStatus];
-    getCargoFilterParams.data = JSON.stringify(data);
-  } else if (orderStatus === "in_moderation") {
-    const data = JSON.parse(getAllUserCargoParams.data);
-    data.order_status = [orderStatus];
-    getAllUserCargoParams.data = JSON.stringify(data);
-  } else if (orderStatus === "in_active") {
-    const data = JSON.parse(getAllUserCargoParams.data);
-    data.order_status = [orderStatus];
-    getAllUserCargoParams.data = JSON.stringify(data);
-  }
 
- 
-
-  const getAllUserCargo = useGetUserCargo(
-    {
-      ...getAllUserCargoParams,
-      search: orderStatus === `` && debouncedValue?.length > 0 ? watch(`from`) : undefined,
-    },
-    {
-      enabled:
-        !!userId &&
-        (orderStatus === "" ||
-          orderStatus === "in_moderation" ||
-          watch(`from`)?.length > 0 ||
-          orderStatus === "in_active") &&
-        hasMore,
-      placeholderData: keepPreviousData,
-    }
-  );
-
-  const getOfferCargo = useGetOffer(getCargoFilterParams, {
-    enabled: Boolean(!!userId && !isCargo && hasMore),
-    placeholderData: keepPreviousData,
-  });
-
-  const notificationFn = (res) => {
-    mutate({
-      data: {
-        views: true,
-        guid: res?.response?.[0]?.guid,
-      },
-    });
-
-    Notification.requestPermission();
-    if (res?.response?.[0]?.type === "предложение") {
-      if (res?.response?.[0]?.users_id_2) {
-        getNewPred.mutate({
-          data: {
-            object_data: {
-              dispetchir_id: userId,
-            },
-          },
-        });
-      } else {
-        getNoDisPred.mutate({
-          data: {
-            object_data: {
-              dispetchir_id: ``,
-            },
-          },
-        });
-      }
-      const audio = new Audio(locale === `uz` ? predlojeniyauz : predlojeniya);
-      audio.play();
-      new Notification(res?.response?.[0]?.title, {
-        body: res?.response?.[0]?.notification,
-        icon: "/custom-icon.png",
-        vibrate: [200, 100, 200],
-      });
-    } else if (res?.response?.[0]?.type === "в исполнении") {
-      getOfferCargo.refetch();
-      getNewPred.mutate({
-        data: {
-          object_data: {
-            dispetchir_id: userId,
-          },
-        },
-      });
-      const audio = new Audio(locale === `uz` ? vispolneniyauz : vispolneniya);
-      audio.play();
-      new Notification(res?.response?.[0]?.title, {
-        body: res?.response?.[0]?.notification,
-        icon: "/custom-icon.png",
-        vibrate: [200, 100, 200],
-      });
-    } else if (res?.response?.[0]?.type === "завершенный") {
-      getOfferCargo.refetch();
-      const audio = new Audio(locale === `uz` ? zavishonuz : zavishon);
-      getNewPred.mutate({
-        data: {
-          object_data: {
-            dispetchir_id: userId,
-          },
-        },
-      });
-      audio.play();
-      new Notification(res?.response?.[0]?.title, {
-        body: res?.response?.[0]?.notification,
-        icon: "/custom-icon.png",
-        vibrate: [200, 100, 200],
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
-      // router.push(`?value=new&label=Предложение`);
-      setOrderStatus(`new`);
-    }
-  }, []);
-
-  useEffect(() => {
-    getNewPred.mutate({
+  const { data: getNewPred, refetch: refetchNewPred } = useGetNewPredData({
+    data: {
       data: {
         object_data: {
           dispetchir_id: userId,
+          provisions: [`new`],
         },
       },
-    });
-  }, [Boolean(orderStatus === "new"), accept]);
+    },
+  });
 
-  useEffect(() => {
-    getNoDisPred.mutate({
+  const { data: getNoDisPred, refetch: refetchNoDisPred } = useGetNewPredData({
+    data: {
       data: {
         object_data: {
           dispetchir_id: ``,
         },
       },
-    });
-  }, [Boolean(orderStatus === `no_dispatcher`), accept]);
+    },
+  });
 
   const getOfferCount = useGetOfferCount(
     {
@@ -435,34 +271,70 @@ export const useMyLoadsMainProps = (locale) => {
     { enabled: false }
   );
 
+  const notificationFn = (res) => {
+    mutate({
+      data: {
+        views: true,
+        guid: res?.response?.[0]?.guid,
+      },
+    });
+
+    Notification.requestPermission();
+    if (res?.response?.[0]?.type === "предложение") {
+      if (res?.response?.[0]?.users_id_2) {
+        refetchNewPred();
+      } else {
+        refetchNoDisPred();
+      }
+      getOfferCount.refetch();
+      getWaitingDriverCount?.refetch()
+      const audio = new Audio(locale === `uz` ? predlojeniyauz : predlojeniya);
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    } else if (res?.response?.[0]?.type === "в исполнении") {
+      getOfferCount.refetch();
+      getWaitingDriverCount?.refetch()
+      refetchNewPred();
+      const audio = new Audio(locale === `uz` ? vispolneniyauz : vispolneniya);
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    } else if (res?.response?.[0]?.type === "завершенный") {
+      getOfferCount.refetch();
+      getWaitingDriverCount?.refetch()
+      const audio = new Audio(locale === `uz` ? zavishonuz : zavishon);
+      refetchNewPred();
+      audio.play();
+      new Notification(res?.response?.[0]?.title, {
+        body: res?.response?.[0]?.notification,
+        icon: "/custom-icon.png",
+        vibrate: [200, 100, 200],
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" && !orderValStatus) {
+      // router.push(`?value=new&label=Предложение`);
+      setOrderStatus(`new`);
+    }
+  }, []);
+
+
+
   useEffect(() => {
     getOfferCount.refetch();
     getWaitingDriverCount.refetch();
   }, [accept, orderStatus]);
 
-  const deleteCargo = useDeleteCargo({
-    onSuccess() {
-      setTimeout(() => {
-        if (isCargo) {
-          getAllUserCargo.refetch();
-        } else {
-          getOfferCargo.refetch();
-        }
-      }, 800);
-      toast({
-        position: "top-right",
-        title: "Груз успешно удален",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-    },
-    onError(res) {
-      console.error(res);
-    },
-  });
-
-  const updateNoDriver = useUpdateNoDriver({});
+ 
 
   const downloadByLanguage = async (url) => {
     try {
@@ -496,95 +368,28 @@ export const useMyLoadsMainProps = (locale) => {
     });
   };
 
-  const pushNotification = usePushNotificationMutation();
 
-  function handleCancel(cargo) {
-    updateResponseMutation.mutate(
-      {
-        data: {
-          guid: cargo?.guid,
-          provisions: ["cancellation"],
-          who_cancellation: ["customer"],
-          cancel_time: new Date(),
-        },
-      },
-      {
-        onSuccess() {
-          if (isCargo) {
-            getAllUserCargo.refetch();
-          } else {
-            getOfferCargo.refetch();
-          }
-          toast({
-            position: "top-right",
-            title: "Груз отказан",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        },
-      }
-    );
-
-    if (orderStatus === `no_dispatcher`) {
-      updateNoDriver.mutate({
-        data: {
-          users_id: cargo?.users_id,
-          users_id_2: authStore.userData.guid,
-          firm_id: authStore.userData.firm_id || ``,
-        },
+  const deleteCargo = useDeleteCargo({
+    onSuccess() {
+      setTimeout(() => {
+        if (isCargo) {
+          // getAllUserCargo.refetch();
+        } else {
+          // getOfferCargo.refetch();
+        }
+      }, 800);
+      toast({
+        position: "top-right",
+        title: "Груз успешно удален",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
       });
-    }
-  }
-
-  function handleAccept(id, driverId) {
-    pushNotification.mutate({
-      data: {
-        object_data: {
-          guid: driverId,
-          responses: id,
-        },
-      },
-    });
-
-    updateResponseMutation.mutate(
-      {
-        data: {
-          guid: id,
-          users_id_3: userId,
-          approve_time_from_dispatcher: new Date().toISOString(),
-          provisions: ["new", "approve_from_driver"],
-          // response_status: ["approve_from_driver"],
-        },
-      },
-      {
-        onSuccess() {
-          if (isCargo) {
-            getAllUserCargo.refetch();
-          } else {
-            getOfferCargo.refetch();
-          }
-          toast({
-            position: "top-right",
-            title: "Груз принят",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        },
-      }
-    );
-    if (orderStatus === `no_dispatcher`) {
-      updateNoDriver.mutate({
-        data: {
-          users_id: dataPred?.users_id,
-          users_id_2: authStore.userData.guid,
-          firm_id: authStore.userData.firm_id || ``,
-        },
-      });
-    }
-    setDataPred(false);
-  }
+    },
+    onError(res) {
+      console.error(res);
+    },
+  });
 
   function handleDelete(id) {
     deleteCargo.mutate({ id });
@@ -620,13 +425,10 @@ export const useMyLoadsMainProps = (locale) => {
     }
   }, [debouncedValue]);
 
-  const cargosData = isCargo ? getAllUserCargo : getOfferCargo;
 
-  function onFilterChange({ label, value }) {
-    router.push(`?value=${value}&label=${label}`);
-    setOrderStatus(value);
-    setLimit(40);
-    setHasMore(true);
+  function onFilterChange(index) {
+    const data = tabButtons[index]
+    router.push(`?value=${data?.value}&label=${data?.label}&index=${index}`);
   }
 
   const ref = useRef(null);
@@ -637,44 +439,27 @@ export const useMyLoadsMainProps = (locale) => {
     setDebouncedLimit((prev) => prev + 40);
   }
 
-  useEffect(() => {
-    if (
-      cargosData.data?.count &&
-      cargosData.data?.count === cargosData.data?.response.length
-    ) {
-      setHasMore(false);
-    } else {
-      setHasMore(true);
-    }
-  }, [getAllUserCargo.data, getOfferCargo.data]);
+  const handleMouseEnter = (index) => {
+    setHoverRating(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverRating(0);
+  };
+
+  const handleClick = (index) => {
+    setSelectedRating(index);
+    setComments([]);
+  };
+
+  
 
   return {
-    cargos:
-      orderStatus === `new`
-        ? data
-        : orderStatus === `no_dispatcher`
-        ? dataDis
-        : cargosData.data?.response,
-
-    isLoading:
-      Boolean(
-        role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-          getNewPred.isLoading &&
-          orderStatus === `new`
-      ) || cargosData.isLoading,
     hasMore,
     onFilterChange,
-    handleDelete,
-    orderStatus,
-    handleAccept,
-    handleCancel,
-    ref,
-
-    driverCount: data?.length,
-    noDataDisCount: dataDis?.length,
+    driverCount: getNewPred?.response?.[0]?.order?.length,
+    noDataDisCount: getNewPred?.response?.[0]?.order?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
-    setDataPred,
-    dataPred,
     getExcelFileFn,
     isLoadingExe: getExcelFile.isLoading,
     open,
@@ -687,10 +472,9 @@ export const useMyLoadsMainProps = (locale) => {
     setComments,
     handleCheckboxChange,
     comments,
-    selectedRating,
-    setSelectedRating,
     hoverRating,
-    setHoverRating,
+    selectedRating,
+    index,
     onSubmit,
     addPage: handleLoadMore,
     results,
@@ -698,5 +482,11 @@ export const useMyLoadsMainProps = (locale) => {
     address,
     setAddress,
     hanleAdress,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleClick,
+    isLargerThan768,
+    t: t,
+    tabButtons
   };
 };

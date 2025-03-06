@@ -380,6 +380,13 @@ export const useGetUserCargo = (params , settings) => {
   });
 };
 
+export const useGetUserCargoPa = (params , settings) => {
+  return useQuery({
+    queryKey: ["object/getUserCargoPA", params],
+    queryFn: () => objectService.getUserCargo(params),
+    ...settings,
+  });
+};
 
 export const useGetCarNumber = ({
   params = { data: JSON.stringify({}) },
