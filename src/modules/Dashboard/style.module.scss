@@ -36,8 +36,11 @@
 }
 
 .nameDis{
+  cursor: pointer;
+  color:rgba(0, 122, 255, 1) ;
   &:hover{
     text-decoration: underline;
+    cursor: pointer;
   }
 }
 
