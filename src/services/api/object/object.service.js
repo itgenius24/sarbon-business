@@ -380,6 +380,13 @@ export const useGetUserCargo = (params , settings) => {
   });
 };
 
+export const useGetUserCargoPa = (params , settings) => {
+  return useQuery({
+    queryKey: ["object/getUserCargoPA", params],
+    queryFn: () => objectService.getUserCargo(params),
+    ...settings,
+  });
+};
 
 export const useGetCarNumber = ({
   params = { data: JSON.stringify({}) },
@@ -488,6 +495,14 @@ export const useGetUserCargoPagination = (params, settings) => {
 export const useGetOffer = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOffer", params],
+    queryFn: () => objectService.getOffer(params),
+    ...settings,
+  });
+};
+
+export const useGetOfferTab = (params, settings) => {
+  return useQuery({
+    queryKey: ["object/getOfferTab", params],
     queryFn: () => objectService.getOffer(params),
     ...settings,
   });

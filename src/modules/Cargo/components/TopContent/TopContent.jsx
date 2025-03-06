@@ -99,6 +99,8 @@ export const TopContent = ({
   const searchParams = useSearchParams();
   const firm_id = authStore.userData.firm_id;
   const paramsId = searchParams.get("car_id");
+  const driver_id = searchParams.get("driver_id"); 
+  const params = useParams()
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
   const [offset, setOffset] = useState(0);
@@ -203,7 +205,7 @@ export const TopContent = ({
     if (paramsId || id === `performed`) {
       dataLocation({
         data: {
-          object_data: { cargo_id: paramsId ? paramsId : ``, firm_id: `` },
+          object_data: { cargo_id: paramsId ? paramsId : ``, firm_id: ``,driver_id:driver_id},
         },
       });
     }
@@ -303,6 +305,8 @@ export const TopContent = ({
       `https://sarbon.me/${locale}/share-location?user_id=${user?.users_gps?.users_id}&cargo_id=${cargoData?.cargo_id_data?.guid}&order_id=${user?.guid}`
     );
   };
+
+  console.log(`userData`,params?.cargo?.[1])
 
   return (
     <Box>

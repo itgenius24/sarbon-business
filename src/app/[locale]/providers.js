@@ -9,7 +9,16 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 export function Providers({ children }) {
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(() => new QueryClient(
+  //   {
+  //     defaultOptions: {
+	// 	queries: {
+	// 		refetchOnWindowFocus: false,
+	// 		retry: false,
+	// 	},
+	// },
+  //   }
+  ));
   
 
   useEffect(() => {

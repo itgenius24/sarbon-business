@@ -532,7 +532,7 @@ export const Performed = forwardRef(
                     leftIcon={<MapIcon />}
                     onClick={() =>
                       router.push(
-                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}&driver_id=${cargo?.users_id_data?.guid}`
                       )
                     }
                     className={styles.bntMap}
