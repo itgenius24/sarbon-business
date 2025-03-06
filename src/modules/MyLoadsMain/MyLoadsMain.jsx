@@ -137,7 +137,7 @@ export const MyLoadsMain = ({ locale }) => {
           )}
         </Flex>
 
-        {role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
+        {/* {role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
           <Box width={`40%`} mb={`20px`} className={styles.locationWrap}>
             <TextField
               label={``}
@@ -173,7 +173,7 @@ export const MyLoadsMain = ({ locale }) => {
               </Box>
             )}
           </Box>
-        )}
+        )} */}
 
         <TopFilter
           driverCount={driverCount}
