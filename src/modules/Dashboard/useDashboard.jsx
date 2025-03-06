@@ -357,6 +357,7 @@ export const useDashboard = (locale) => {
       item?.provisions?.includes(`approve_by_customer`)
   )?.length;
 
+
   const topStatis = [
     {
       id: 1,
@@ -394,7 +395,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: (newCount || 0) -  (bzData?.count || 0),
+      total: (newCount || 0) -  (newData1 + newData2 || 0),
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
