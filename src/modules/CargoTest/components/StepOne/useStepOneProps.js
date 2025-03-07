@@ -38,7 +38,6 @@ const useStepOneProps = () => {
   const locale = useGetLang();
 
   useEffect(() => {
-    console.log(`salom`);
     if (
       watch("cargo_type")?.label &&
       watch("weight_measurement") &&

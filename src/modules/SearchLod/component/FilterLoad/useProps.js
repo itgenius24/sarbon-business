@@ -63,12 +63,7 @@ export const useProps = ({ setValue }) => {
       name,
       `${location?.GeoObject?.name}`
     );
-    // setValue(
-    //   name.slice(0,-2),
-    //   `${location?.GeoObject?.name}${
-    //     location?.GeoObject?.description ? ` ,${location?.GeoObject?.description}` : ``
-    //   }`
-    // );
+ 
     setResults([]);
   };
 

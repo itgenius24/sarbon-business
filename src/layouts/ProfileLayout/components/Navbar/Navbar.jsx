@@ -37,57 +37,74 @@ const CAccordion = ({ children = "", content = "", defaultIndex }) => {
   );
 };
 
-
 export const Navbar = () => {
-
   const pathname = usePathname();
 
   const path = pathname.split("/")[3];
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const locale = useGetLang();
 
-
-  return <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
-    {
-      navList.map((nav, i) => {
-
+  return (
+    <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
+      {navList.map((nav, i) => {
         if (nav.children) {
+          const index = nav.children.findIndex((child) =>
+            pathname.includes(child.path)
+          );
 
-          const index = nav.children.findIndex((child) => pathname.includes(child.path));
-
-          return <CAccordion
-            key={i}
-            defaultIndex={index === -1 ? 1 : 0}
-            content={
-              <Flex direction="column">
-                {
-                  nav.children.map((child, i) => {
-                    return <Link className={clsx(cls.link, { [cls.active]: pathname.includes(child.path) })} href={`/${locale}` + child.path} key={i}>
-                      {child.icon}
-                      <span>{t(`${child.title}`)}</span>
-                    </Link>;
-                  })
-                }
+          return (
+            <CAccordion
+              key={i}
+              defaultIndex={index === -1 ? 1 : 0}
+              content={
+                <Flex direction="column">
+                  {nav.children.map((child, i) => {
+                    return (
+                      <Link
+                        className={clsx(cls.link, {
+                          [cls.active]: pathname.includes(child.path),
+                        })}
+                        href={`/${locale}` + child.path}
+                        key={i}
+                      >
+                        {child.icon}
+                        <span>{t(`${child.title}`)}</span>
+                      </Link>
+                    );
+                  })}
+                </Flex>
+              }
+            >
+              <Flex {...tabStyles}>
+                {nav?.icon}{" "}
+                <Text
+                  lineHeight="20px"
+                  fontWeight={500}
+                  ml="10px"
+                  color="icon.base"
+                >
+                  {t(`${nav?.title}`)}
+                </Text>{" "}
+                <AccordionIcon ml="auto" color={"icon.base"} />
               </Flex>
-            }
-          >
-            <Flex {...tabStyles}>
-              {nav?.icon}{" "}
-              <Text lineHeight="20px" fontWeight={500} ml="10px" color="icon.base">
-                {t(`${nav?.title}`)}
-              </Text>{" "}
-              <AccordionIcon ml="auto" color={"icon.base"} />
-            </Flex>
-          </CAccordion>;
+            </CAccordion>
+          );
         }
 
-        return <Link className={clsx(cls.link, { [cls.active]: !path && i === 0 || nav.path.includes(path) })} href={`/${locale}` + nav.path} key={i}>
-          {nav.icon}
-          <span>{t(`${nav.title}`)}</span>
-        </Link>;
-
-      })
-    }
-    <CustomLogOutButton />
-  </Box>;
+        return (
+          <Link
+            className={clsx(cls.link, {
+              [cls.active]: (!path && i === 0) || nav.path.includes(path),
+            })}
+            href={`/${locale}` + nav.path}
+            key={i}
+          >
+            {nav.icon}
+            <span>{t(`${nav.title}`)}</span>
+          </Link>
+        );
+      })}
+      <CustomLogOutButton />
+    </Box>
+  );
 };
