@@ -9,17 +9,17 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 export function Providers({ children }) {
-  const [queryClient] = React.useState(() => new QueryClient(
-  //   {
-  //     defaultOptions: {
-	// 	queries: {
-	// 		refetchOnWindowFocus: false,
-	// 		retry: false,
-	// 	},
-	// },
-  //   }
-  ));
-  
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // refetchOnWindowFocus: false,
+            retry: false,
+          },
+        },
+      })
+  );
 
   useEffect(() => {
     if (window.location.hostname.includes("furgo")) {
@@ -37,7 +37,8 @@ export function Providers({ children }) {
               load: "Map,Placemark",
               apikey: process.env.NEXT_PUBLIC_YANDEX_MAP_KEY,
               suggest_apikey: process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY,
-            }}>
+            }}
+          >
             {children}
           </YMaps>
         </QueryClientProvider>

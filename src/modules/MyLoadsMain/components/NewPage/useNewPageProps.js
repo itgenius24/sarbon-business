@@ -1,5 +1,6 @@
 import {
   useGetNewPredData,
+  useGetNewPredData2,
   usePushNotificationMutation,
   useUpdateNoDriver,
   useUpdateResponse,
@@ -9,7 +10,13 @@ import { useToast } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-const useNewPageProps = (orderStatus, t) => {
+const useNewPageProps = (
+  orderStatus,
+  t,
+  refetchNewPred,
+  refetchNoDisPred,
+  refetchWaitingDriverCount
+) => {
   const toast = useToast();
   const params = useSearchParams();
 
@@ -22,7 +29,11 @@ const useNewPageProps = (orderStatus, t) => {
     prepayment: t(`Предоплата`),
   };
 
-  const { data: newData, isFetching } = useGetNewPredData({
+  const {
+    data: newData,
+    isFetching,
+    refetch,
+  } = useGetNewPredData2({
     data: {
       data: {
         object_data: {
@@ -39,49 +50,64 @@ const useNewPageProps = (orderStatus, t) => {
           users_id_2_data: item?.users_id_2_data?.[0],
         })),
     },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
-  const pushNotification = usePushNotificationMutation();
+  const pushNotification = usePushNotificationMutation({
+    onSuccess: () => {
+      refetch();
+      refetchNewPred();
+      refetchNoDisPred();
+      refetchWaitingDriverCount();
+    },
+  });
   const updateNoDriver = useUpdateNoDriver({});
   const updateResponseMutation = useUpdateResponse({
-    onSuccess: () => {},
+    onSuccess: () => {
+      refetch();
+      refetchNewPred();
+      refetchNoDisPred();
+      refetchWaitingDriverCount();
+      setDataPred({});
+    },
     onError(res) {
       console.error(res);
     },
   });
 
   function handleAccept(id, driverId) {
-    pushNotification.mutate({
-      data: {
-        object_data: {
-          guid: driverId,
-          responses: id,
-        },
-      },
-    });
+    // pushNotification.mutate({
+    //   data: {
+    //     object_data: {
+    //       guid: driverId,
+    //       responses: id,
+    //     },
+    //   },
+    // });
 
-    updateResponseMutation.mutate(
-      {
-        data: {
-          guid: id,
-          users_id_3: userId,
-          approve_time_from_dispatcher: new Date().toISOString(),
-          provisions: ["new", "approve_from_driver"],
-          // response_status: ["approve_from_driver"],
-        },
-      },
-      {
-        onSuccess() {
-          toast({
-            position: "top-right",
-            title: "Груз принят",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        },
-      }
-    );
+    // updateResponseMutation.mutate(
+    //   {
+    //     data: {
+    //       guid: id,
+    //       users_id_3: userId,
+    //       approve_time_from_dispatcher: new Date().toISOString(),
+    //       provisions: ["new", "approve_from_driver"],
+    //       // response_status: ["approve_from_driver"],
+    //     },
+    //   },
+    //   {
+    //     onSuccess() {
+    //       toast({
+    //         position: "top-right",
+    //         title: "Груз принят",
+    //         status: "success",
+    //         duration: 2000,
+    //         isClosable: true,
+    //       });
+    //     },
+    //   }
+    // );
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
         data: {
@@ -131,7 +157,7 @@ const useNewPageProps = (orderStatus, t) => {
     setDataPred(false);
   };
   return {
-    newData:newData || [],
+    newData: newData || [],
     isLoading: isFetching,
     setDataPred,
     handleAccept,

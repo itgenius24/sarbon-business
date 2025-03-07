@@ -87,7 +87,10 @@ export const MyLoadsMain = ({ locale }) => {
     hanleAdress,
     index,
     tabButtons,
-    router
+    router,
+    refetchNewPred,
+    refetchNoDisPred,
+    refetchWaitingDriverCount,
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
@@ -210,7 +213,13 @@ export const MyLoadsMain = ({ locale }) => {
           {role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid ? (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
-                <NewPage t={t} orderStatus={`new`} />
+                <NewPage
+                  refetchNoDisPred={refetchNoDisPred}
+                  refetchWaitingDriverCount={refetchWaitingDriverCount}
+                  refetchNewPred={refetchNewPred}
+                  t={t}
+                  orderStatus={`new`}
+                />
               </TabPanel>
               <TabPanel padding={0}>
                 <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
@@ -225,7 +234,13 @@ export const MyLoadsMain = ({ locale }) => {
                 <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
               <TabPanel padding={0}>
-                <NewPage t={t} orderStatus={`no_dispatcher`} />
+                <NewPage
+                  refetchNoDisPred={refetchNoDisPred}
+                  refetchWaitingDriverCount={refetchWaitingDriverCount}
+                  refetchNewPred={refetchNewPred}
+                  t={t}
+                  orderStatus={`no_dispatcher`}
+                />
               </TabPanel>
             </TabPanels>
           ) : (

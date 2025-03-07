@@ -32,7 +32,7 @@ export const Performed = forwardRef(
     const locale = useGetLang();
 
     const performedStatuses = {
-      no_status: t("нет статуса"),
+      no_status: t("Hет статуса"),
       go_to_load: t("иду на загрузку"),
       wait_for_the_download: t("жду загрузку"),
       loading: t("загружаюсь"),
@@ -189,10 +189,11 @@ export const Performed = forwardRef(
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
-                      __html: cargo?.comment,
+                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение` ,
                     }}
                   >
-                    {/* {cargo?.comment} */}
+             
+                   
                   </p>
                 </div>
               )}
@@ -544,7 +545,7 @@ export const Performed = forwardRef(
                   <Flex gap={`11px`}>
                     <Button
                       onClick={(e) => {
-                        e.stopPropagation();
+                        // e.stopPropagation();
                         handleCancel(cargo);
                       }}
                       className={styles.bntOutline}
@@ -554,7 +555,7 @@ export const Performed = forwardRef(
                     <Button
                       leftIcon={<IconCeckNewStatusIcon />}
                       onClick={(e) => {
-                        e.stopPropagation();
+                        // e.stopPropagation();
                         setDataPred(cargo);
                       }}
                       className={styles.bntNew}

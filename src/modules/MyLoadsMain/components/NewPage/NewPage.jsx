@@ -19,7 +19,13 @@ import { IconCeckNewStatusIcon } from "@/assets/icons/icons";
 import { Empty } from "../Empty";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
-export const NewPage = ({ orderStatus, t }) => {
+export const NewPage = ({
+  orderStatus,
+  t,
+  refetchNewPred,
+  refetchNoDisPred,
+  refetchWaitingDriverCount,
+}) => {
   const {
     newData,
     setDataPred,
@@ -31,14 +37,15 @@ export const NewPage = ({ orderStatus, t }) => {
     setDisabled,
     obj,
     isLoading,
-  } = useNewPageProps(orderStatus, t);
+  } = useNewPageProps(
+    orderStatus,
+    t,
+    refetchNewPred,
+    refetchNoDisPred,
+    refetchWaitingDriverCount
+  );
 
 
-  console.log(`newData`,newData?.length < 0)
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <>
@@ -53,7 +60,12 @@ export const NewPage = ({ orderStatus, t }) => {
           />
         ))}
       </Box>
-      {newData?.length === 0 && <Empty t={t} />}
+      
+      {newData?.length === 0 && !isLoading && <Empty t={t} />}
+
+      {
+        newData?.length === 0 && isLoading && <LoadingSpinner />
+      }
 
       <Modal isOpen={dataPred} onClose={onClose} isCentered>
         <ModalOverlay />

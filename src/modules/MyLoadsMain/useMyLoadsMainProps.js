@@ -483,6 +483,9 @@ export const useMyLoadsMainProps = (locale) => {
     isLargerThan768,
     t: t,
     tabButtons,
-    router
+    router,
+    refetchNewPred,
+    refetchNoDisPred,
+    refetchWaitingDriverCount: getWaitingDriverCount?.refetch()
   };
 };

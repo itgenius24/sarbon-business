@@ -75,6 +75,12 @@ export const useGetNewPredData = ({data, querySettings}) => {
   });
 };
 
+export const useGetNewPredData2 = ({data, querySettings}) => {
+  return useQuery({
+    queryKey: ["getNewPred2", data],
+    queryFn: () => itemsService.getNewPred(data), ...querySettings,
+  });
+};
 
 
 
