@@ -69,7 +69,7 @@ const useNewPageProps = (
       refetchNewPred();
       refetchNoDisPred();
       refetchWaitingDriverCount();
-      setDataPred({});
+      setDataPred(``);
     },
     onError(res) {
       console.error(res);
@@ -77,37 +77,37 @@ const useNewPageProps = (
   });
 
   function handleAccept(id, driverId) {
-    // pushNotification.mutate({
-    //   data: {
-    //     object_data: {
-    //       guid: driverId,
-    //       responses: id,
-    //     },
-    //   },
-    // });
+    pushNotification.mutate({
+      data: {
+        object_data: {
+          guid: driverId,
+          responses: id,
+        },
+      },
+    });
 
-    // updateResponseMutation.mutate(
-    //   {
-    //     data: {
-    //       guid: id,
-    //       users_id_3: userId,
-    //       approve_time_from_dispatcher: new Date().toISOString(),
-    //       provisions: ["new", "approve_from_driver"],
-    //       // response_status: ["approve_from_driver"],
-    //     },
-    //   },
-    //   {
-    //     onSuccess() {
-    //       toast({
-    //         position: "top-right",
-    //         title: "Груз принят",
-    //         status: "success",
-    //         duration: 2000,
-    //         isClosable: true,
-    //       });
-    //     },
-    //   }
-    // );
+    updateResponseMutation.mutate(
+      {
+        data: {
+          guid: id,
+          users_id_3: userId,
+          approve_time_from_dispatcher: new Date().toISOString(),
+          provisions: ["new", "approve_from_driver"],
+          // response_status: ["approve_from_driver"],
+        },
+      },
+      {
+        onSuccess() {
+          toast({
+            position: "top-right",
+            title: "Груз принят",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        },
+      }
+    );
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
         data: {
@@ -166,6 +166,7 @@ const useNewPageProps = (
     onClose,
     disabled,
     setDisabled,
+    disabledBtn:updateResponseMutation.isLoading,
     obj,
   };
 };

@@ -37,12 +37,14 @@ export const NewPage = ({
     setDisabled,
     obj,
     isLoading,
+    disabledBtn
   } = useNewPageProps(
     orderStatus,
     t,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount
+    refetchWaitingDriverCount,
+   
   );
 
 
@@ -144,7 +146,7 @@ export const NewPage = ({
               {t(`Отказать`)}
             </Button>
             <Button
-              isDisabled={!disabled}
+              isDisabled={!disabled || disabledBtn}
               style={{ background: `rgba(21, 186, 77, 1)` }}
               leftIcon={<IconCeckNewStatusIcon />}
               onClick={(e) => {
