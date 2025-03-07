@@ -81,10 +81,30 @@
       color: rgba(126, 123, 134, 1);
     }
   }
+  .title2{
+    font-weight: 600;
+    font-size: 14px;
+    color: rgba(33, 31, 38, 1);
+    line-height: 12px;
+    span{
+      color:rgba(0, 122, 255, 1);
+      font-size: 13px;
+
+    }
+    .spanDisabled{
+    color: rgba(126, 123, 134, 1);
+    font-size: 13px;
+    font-weight: 400;
+
+
+
+    }
+  }
   .subTitle {
     font-weight: 400;
     font-size: 14px;
     color: rgba(126, 123, 134, 1);
+    line-height: 12px;
   }
   .locationTitle {
     font-weight: 500;

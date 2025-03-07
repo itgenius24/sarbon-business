@@ -15,16 +15,21 @@ import { useDebounce as useDebounce2 } from "use-debounce";
 import useDebounce from "@/hooks/useDebounce";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
+  BatareyDisabledIcon,
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon2,
   CencelMapIcon,
   CricleArrovIcon,
+  FurDisabledIcon,
+  FurIcon,
   GreenCarIcon,
   IocnFilter,
   IocnSortBack,
   IocnSortTop,
   LocationActiveIcon,
+  LocationDisabledIcon,
+  LocationIcon,
   PopupIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
@@ -392,6 +397,7 @@ export const useMyCarsDispatcher = () => {
           <Flex>
             <Flex
               alignItems={`center`}
+              
               background={
                 order ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
               }
@@ -415,21 +421,36 @@ export const useMyCarsDispatcher = () => {
                 </Box>
               )}
 
-              {row?.gps_data && (
-                <>
-                  <Flex alignItems={`center`} gap={2}>
-                    <LocationActiveIcon /> <CricleArrovIcon />
-                    <p className={cls.title}>{t(`Вкл`)}. </p>
-                    <p className={cls.subBlueTitle}>
-                      {row?.gps_data[0]?.update_time &&
-                        format(row?.gps_data[0]?.update_time, `yyyy-MM-dd`)}
-                    </p>
+              {row?.gps_data?.length > 0 ? (
+                <Flex width={`100%`} justifyContent={`space-between`}>
+                  <Flex  ml={`10px`} alignItems={`center`} gap={2}>
+                    <Flex gap={`3px`} alignItems={`center`}>
+                      <LocationActiveIcon />
+                      <Box>
+                        <p className={cls.subTitle}>Геолокация</p>
+                        <p className={cls.title2}>
+                          {t(`Вкл`)}.{" "}
+                          <span className={cls.subBlueTitle2}>
+                            {row?.gps_data[0]?.update_time &&
+                              format(
+                                row?.gps_data[0]?.update_time,
+                                `yyyy-MM-dd`
+                              )}
+                          </span>{" "}
+                        </p>
+                      </Box>
+                    </Flex>
                   </Flex>
-                  <Flex alignItems={"center"} gap={2}>
-                    <BluetoothIcon2 />
-                    <p className={cls.subTitle}>
-                      <span className={cls.title}>{t(`Вкл`)}. </span>
-                    </p>
+                  <Flex alignItems={`center`} gap={2}>
+                    <Flex gap={`3px`} alignItems={`center`}>
+                      <FurIcon />
+                      <Box>
+                        <p className={cls.subTitle}>Версия Sarbon</p>
+                        <p className={cls.title2}>
+                          {row?.gps_data[0]?.version}
+                        </p>
+                      </Box>
+                    </Flex>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
                     {row?.gps_data[0]?.battery > 20 ? (
@@ -443,7 +464,43 @@ export const useMyCarsDispatcher = () => {
                       </span>
                     </p>
                   </Flex>
-                </>
+                </Flex>
+              ) : (
+                <Flex width={`100%`} justifyContent={`space-between`}>
+                  <Flex ml={`10px`} alignItems={`center`} gap={2}>
+                    <Flex gap={`3px`} alignItems={`center`}>
+                      <LocationDisabledIcon />
+                      <Box>
+                        <p className={cls.subTitle}>Геолокация</p>
+                        <p className={cls.title2}>
+                          {t(`Выкл`)}. <span className={cls.spanDisabled}>Нет данных</span>
+                        </p>
+                      </Box>
+                    </Flex>
+                  </Flex>
+                  <Flex alignItems={`center`} gap={2}>
+                    <Flex gap={`4px`} alignItems={`center`}>
+                      <FurDisabledIcon />
+                      <Box>
+                        <p className={cls.subTitle}>Версия Sarbon</p>
+                        <p className={cls.title2}>
+                         ---
+                        </p>
+                      </Box>
+                    </Flex>
+                  </Flex>
+                  <Flex alignItems={`center`} gap={2}>
+                    <Flex gap={`4px`} alignItems={`center`}>
+                    <BatareyDisabledIcon />
+                      <Box>
+                        <p className={cls.subTitle}>Батарея</p>
+                        <p className={cls.title2}>
+                          ---
+                        </p>
+                      </Box>
+                    </Flex>
+                  </Flex>
+                </Flex>
               )}
             </Flex>
             <Box className={cls.popup}>
