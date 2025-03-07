@@ -13,16 +13,13 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
+import {PlusIcon } from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
-import { CarsCard } from "./component/CarsCard/CarsCard";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-import authStore from "@/store/auth.store";
-import { TextField } from "@/components/TextField";
 import { useMyDispatcher } from "./useMyDispatcher";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 export const DispatcherModule = () => {
   const {
@@ -35,15 +32,16 @@ export const DispatcherModule = () => {
     setSearchFn,
     deleteFuntion,
     addPage,
+    columns
   } = useMyDispatcher();
   const router = useRouter();
   const locale = useGetLang();
 
-  const isSuperDispatcher = authStore?.userData?.user_status?.[0];
-
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  // console.log(`salom`,)
+  const rowClassName = (row) => {
+      return cls.order
+  }
   return (
     <>
       <Container my="40px">
@@ -93,61 +91,11 @@ export const DispatcherModule = () => {
             </Button>
           </Flex>
         </Flex>
+
         <Box mt={"37px"}>
-          <Flex
-            p={"10px 36px"}
-            justifyContent={"space-between"}
-            mt={"32px"}
-            width={"100%"}
-          >
-            <p className={cls.th}>{t(`имя Диспетчера`)}</p>
-            <p className={cls.th}>{t(`Номер телефона`)}</p>
-            <Flex
-              cursor={`pointer`}
-              className={cls.th}
-              gap={2}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-              // onClick={nameFilter}
-            >
-              <p className={cls.filterTitle}>{t(`Машины`)}</p>
-              {/* {false ? <IocnSortBack /> : <IocnFilter />} */}
-            </Flex>
-            <p className={cls.th}>{t(`Предложения`)}</p>
-            <p className={cls.th}>{t(`в исполнении`)}</p>
-            <p className={cls.th}>{t(`Статус аккаунта`)}</p>
-          </Flex>
+          <SarbonTable rowClassName={rowClassName}  variant="card" columns={columns}  data={[1,2,3,4]} />
         </Box>
-        <div id="scroll-container">
-          {[1, 2, 3, 4]?.map((item) => (
-            <CarsCard
-              t={t}
-              // containerRef={containerRef}
-              key={item?.driver_data?.guid}
-              item={item}
-              deleteFuntion={deleteFuntion}
-            />
-          ))}
-          <Box mt={6} width={`fit-contend`}>
-            <Button
-              width={`fit-contend`}
-              // isLoading={isLoading}
-              onClick={addPage}
-              className={cls.btnLoad}
-            >
-              Загрузить еще 50
-            </Button>
-          </Box>
-          {/* {isLoading ? (
-            <Box pt={`20px`}>
-              <LoadingSpinner />
-            </Box>
-          ) : (
-            <Box height={`50px`} mt={`20px`}>
-              <LoadingSpinner />
-            </Box>
-          )} */}
-        </div>
+
       </Container>
     </>
   );

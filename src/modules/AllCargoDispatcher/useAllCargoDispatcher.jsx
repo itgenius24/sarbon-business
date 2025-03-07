@@ -34,6 +34,55 @@ export const useAllCargoDispatcher = () => {
     setValueR(e);
   };
 
+  const columns = [
+    {
+      title: t(`Откуда`),
+      width: 350,
+      // filter: true,
+      // key: `from`,
+      // filterType: (type) => handleSorFrom(type),
+      render: (row, index) => `12ki3e3k`,
+    
+    },
+    {
+      title: t(`Куда`),
+      width: 350,
+      render: (row, index) => `223e23e`,
+    
+    },
+    {
+      title: t(`Когда забрать`),
+      width: 250,
+      filter: true,
+      key: `time`,
+      filterType: (type) => console.log(type),
+      render: (row, index) => `3wedwedwe`,
+    },
+    {
+      title: t(`Когда доставить`),
+      width: 250,
+      render: (row, index) => `4dwedwed`,
+    
+    },
+    {
+      title: t(`Общая Стомость`),
+      width: 250,
+      render: (row, index) => `5fefwef`,
+    
+    },
+    {
+      title: t(`предоплатА`),
+      width: 250,
+      render: (row, index) => `6sefwsefwe`,
+    
+    },
+    {
+      title: t(`Диспетчер`),
+      width: 270,
+      render: (row, index) => `7dfsrdferr`,
+    },
+  ]
+
   return {
     t,
     register,
@@ -43,6 +92,7 @@ export const useAllCargoDispatcher = () => {
     negotiableOption,
     valueR,
     setValueR,
-    onChange
+    onChange,
+    columns,
   };
 };

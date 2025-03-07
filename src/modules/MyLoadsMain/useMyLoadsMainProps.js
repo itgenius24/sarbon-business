@@ -451,7 +451,7 @@ export const useMyLoadsMainProps = (locale) => {
     hasMore,
     onFilterChange,
     driverCount: getNewPred?.response?.[0]?.order?.length,
-    noDataDisCount: getNewPred?.response?.[0]?.order?.length,
+    noDataDisCount: getNoDisPred?.response?.[0]?.order?.length,
     waitingDriverCount: getWaitingDriverCount.data?.count,
     getExcelFileFn,
     isLoadingExe: getExcelFile.isLoading,

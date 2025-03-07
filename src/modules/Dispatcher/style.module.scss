@@ -13,45 +13,10 @@
   }
 }
 
-.th {
-  font-weight: 600;
-  color: rgba(126, 123, 134, 1);
-  font-size: 13px;
-  text-transform: uppercase;
-  max-width: 100%;
-  .filterTitle{
-    &:hover{
-       color: rgba(0, 122, 255, 1);
-    }
 
-    
- }
- &:hover{
-   svg{
-     path{
-       fill: rgba(0, 122, 255, 1) !important;
-     }
-   }
-  }
-  &:nth-child(1) {
-    width: 300px;
-  }
-  &:nth-child(2) {
-    width: 300px;
-  }
-  &:nth-child(3) {
-    width: 200px;
-  }
-  &:nth-child(4) {
-    width: 200px;
-  }
-  &:nth-child(5) {
-    width: 200px;
-  }
-  &:nth-child(6) {
-    width: 250px;
-  }
-  
+.order{
+  border-left: 4px solid rgba(21, 186, 77, 1);
+
 }
 
 

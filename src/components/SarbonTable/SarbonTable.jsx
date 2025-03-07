@@ -43,6 +43,7 @@ const SarbonTable = ({
           >
             {item?.filter ? (
               <Flex
+                as={`button`}
                 alignItems={`center`}
                 className={cls.filterWrap}
                 gap={`5px`}
@@ -61,31 +62,58 @@ const SarbonTable = ({
                 )}
               </Flex>
             ) : (
-              <Box width={`100%`} className={cls.headerTh}>{item.title}</Box>
+              <Box width={`100%`} className={cls.headerTh}>
+                {item.title}
+              </Box>
             )}
           </Flex>
         ))}
       </Flex>
-      {data.map((item, index) => (
-        <Flex
-          onClick={() => onRow(item)}
-          position={`relative`}
-          alignItems={`center`}
-          width={`100%`}
-          justifyContent={`space-between`}
-          className={`${cls[variant]} ${
-            rowClassName(item) ? rowClassName(item) : ``
-          }`}
-          key={index}
-        >
-          {isTooltip && statusTooltip(item)}
-          {columns.map((column) => (
-            <Box  key={column.title} width={`${column.width}%`}>
-              {column?.render(item, index)}
-            </Box>
+      {variant === `table` ? (
+        <Box className={cls.tableWrap}>
+          {data.map((item, index) => (
+            <Flex
+              onClick={() => onRow(item)}
+              position={`relative`}
+              alignItems={`center`}
+              width={`100%`}
+              justifyContent={`space-between`}
+              className={`${cls[variant]} ${
+                rowClassName(item) ? rowClassName(item) : ``
+              }`}
+              key={index}
+            >
+              {isTooltip && statusTooltip(item)}
+              {columns.map((column) => (
+                <Box key={column.title} width={`${column.width}%`}>
+                  {column?.render(item, index)}
+                </Box>
+              ))}
+            </Flex>
           ))}
-        </Flex>
-      ))}
+        </Box>
+      ) : (
+        data.map((item, index) => (
+          <Flex
+            onClick={() => onRow(item)}
+            position={`relative`}
+            alignItems={`center`}
+            width={`100%`}
+            justifyContent={`space-between`}
+            className={`${cls[variant]} ${
+              rowClassName(item) ? rowClassName(item) : ``
+            }`}
+            key={index}
+          >
+            {isTooltip && statusTooltip(item)}
+            {columns.map((column) => (
+              <Box key={column.title} width={`${column.width}%`}>
+                {column?.render(item, index)}
+              </Box>
+            ))}
+          </Flex>
+        ))
+      )}
     </Box>
   );
 };

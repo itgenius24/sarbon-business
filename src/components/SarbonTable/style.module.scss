@@ -45,19 +45,21 @@
   // border-left: 4px solid white;
 }
 
-.table {
-  width: 100%;
-  padding: 10px 24px;
-  position: relative !important;
+.tableWrap{
   background-color: white;
-   
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 10px 24px;
+  padding-bottom: 30px;
 }
 
-.table::after{
-  position: absolute !important;
+.table {
   width: 100%;
-  top: 0;
-  left: 0;
-  height: 4px;
-  background-color: black;
- }
+  padding: 10px 0;
+  position: relative !important;
+  background-color: white;
+  border-bottom: 1px solid rgba(219, 216, 227, 1);
+}
+
+
+

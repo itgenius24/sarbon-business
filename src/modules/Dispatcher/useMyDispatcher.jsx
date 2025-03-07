@@ -38,6 +38,47 @@ export const useMyDispatcher = () => {
 
   }
 
+  const columns = [
+    {
+      title: t(`имя Диспетчера`),
+      width: 350,
+      render: (row, index) => `12ki3e3k`,
+    
+    },
+    {
+      title: t(`Номер телефона`),
+      width: 350,
+      render: (row, index) => `223e23e`,
+    
+    },
+    {
+      title: t(`Машины`),
+      width: 250,
+      filter: true,
+      key: `time`,
+      filterType: (type) => console.log(type),
+      render: (row, index) => `3wedwedwe`,
+    },
+    {
+      title: t(`Предложения`),
+      width: 250,
+      render: (row, index) => `4dwedwed`,
+    
+    },
+    {
+      title: t(`в исполнении`),
+      width: 250,
+      render: (row, index) => `5fefwef`,
+    
+    },
+    {
+      title: t(`Статус аккаунта`),
+      width: 250,
+      render: (row, index) => `6sefwsefwe`,
+    
+    },
+  ]
+
   return {
     t,
     option,
@@ -47,6 +88,7 @@ export const useMyDispatcher = () => {
     search,
     setSearchFn,
     deleteFuntion,
-    addPage
+    addPage,
+    columns
   };
 };

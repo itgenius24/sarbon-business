@@ -7,6 +7,7 @@ import {
   useGetCarListOnSubmit,
   useGetUserGpsByIDData,
   useGetUserGpsData,
+  useOfferFromCustomerMutation,
   useUpdateUser,
 } from "@/services/api";
 import { useEffect, useState } from "react";
@@ -52,22 +53,54 @@ export const useMyCars = () => {
     )
   );
 
-  const [open,setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const firm_id = authStore.userData.firm_id;
- 
+
+  const { mutate } = useCreateUser({
+    onSuccess: (res) => {
+      // router.push(`/${locale}/drivers`);
+      setIsPopupOpen(true);
+    },
+  });
+
+  const { mutate: checkUserData, isLoading: isLoadingCrate } =
+    useOfferFromCustomerMutation({
+      onSuccess: (res) => {
+        if (res?.response?.length === 0) {
+          mutate({
+            data: {
+              ...getValues(),
+              create_time: new Date(),
+              login: getValues().full_name,
+              firm_id,
+              role_id: "785678f2-fae7-4a00-8766-99ea67d3784f" ,
+              client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
+            },
+          });
+        } else {
+          setOpen(true);
+        }
+      },
+    });
+
+  const { mutate: updateDsate, isLoading } = useUpdateUser({
+    onSuccess: (res) => {
+      setIsPopupOpen(true);
+      // router.push(`/${locale}/dispatcher`);
+    },
+  });
 
   const getUserGps = useGetUserGpsByIDData({
     params: {
       data: JSON.stringify({
-        // client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
+        // client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
         //  firm_id,
         guid: id,
         with_relations: true,
       }),
     },
   });
-
 
   useEffect(() => {
     if (id) {
@@ -79,13 +112,45 @@ export const useMyCars = () => {
   }, [getUserGps?.data?.response]);
 
   const onSubmit = (val) => {
-  
+    if (id) {
+      updateDsate({
+        data: {
+          full_name: normalizeName(val.full_name),
+          phone: val?.phone,
+          firm_id,
+          // password:val?.password,
+          passport_scan: val?.passport_scan,
+          passport_code: val?.passport_code,
+          drivers_license: val?.drivers_license,
+          photo: val?.photo,
+          login: val?.phone,
+          guid: getUserGps?.data?.response[0]?.guid,
+          role_id: "785678f2-fae7-4a00-8766-99ea67d3784f" ,
+          client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
+        },
+      });
+    } else {
+      checkUserData({
+        data: {
+          object_data: {
+            phone: val?.phone?.startsWith("+")
+              ? val?.phone?.slice(1)
+              : val?.phone,
+            type: `register`,
+            register_type: "phone",
+            email:``
+          },
+        },
+      });
+    }
   };
+
   const copyFunction = () => {
     setCopied();
     setIsPopupOpen(false);
-    router.push(`/${locale}/drivers`);
+    router.push(`/${locale}/dispatcher`);
   };
+  
   return {
     t,
     control,

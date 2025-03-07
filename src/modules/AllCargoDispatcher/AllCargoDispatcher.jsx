@@ -23,6 +23,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import authStore from "@/store/auth.store";
 import { TextField } from "@/components/TextField";
 import { useAllCargoDispatcher } from "./useAllCargoDispatcher";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 export const AllCargoDispatcher = () => {
   const {
@@ -32,7 +33,7 @@ export const AllCargoDispatcher = () => {
     deleteFuntion,
     negotiableOption,
     valueR,
-
+    columns,
     onChange,
   } = useAllCargoDispatcher();
   const router = useRouter();
@@ -42,7 +43,6 @@ export const AllCargoDispatcher = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  // console.log(`salom`,)
   return (
     <>
       <Container my="40px">
@@ -88,52 +88,9 @@ export const AllCargoDispatcher = () => {
           </RadioGroup>
         </Flex>
         <Box mt={"37px"}>
-          <Flex
-            p={"10px 36px"}
-            justifyContent={"space-between"}
-            mt={"32px"}
-            width={"100%"}
-          >
-            <p className={cls.th}>{t(`Откуда`)}</p>
-            <p className={cls.th}>{t(`Куда`)}</p>
-
-            <Flex
-              cursor={`pointer`}
-              className={cls.th}
-              gap={2}
-              justifyContent={`flex-start`}
-              alignItems={`center`}
-            >
-              <p className={cls.filterTitle}>{t(`Когда забрать`)}</p>
-              {/* {false ? <IocnSortBack /> : <IocnFilter />} */}
-            </Flex>
-            <p className={cls.th}>{t(`Когда доставить`)}</p>
-            <p className={cls.th}>{t(`Общая Стомость`)}</p>
-            <p className={cls.th}>{t(`предоплатА`)}</p>
-            <p className={cls.th}>{t(`Диспетчер`)}</p>
-          </Flex>
+            <SarbonTable variant="table" columns={columns} data={[1,2,3]}  />
         </Box>
-        <div  className={cls.itemWrap}  id="scroll-container">
-          {[1, 2, 3, 4].map((item) => (
-            <CarsCard
-              t={t}
-              key={item}
-              item={item}
-              deleteFuntion={deleteFuntion}
-            />
-          ))}
-
-          {/* ))}
-          {isLoading ? (
-            <Box pt={`20px`}>
-              <LoadingSpinner />
-            </Box>
-          ) : (
-            <Box height={`50px`} mt={`20px`}>
-              <LoadingSpinner />
-            </Box>
-          )} */}
-        </div>
+     
       </Container>
     </>
   );
