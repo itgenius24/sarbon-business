@@ -213,16 +213,20 @@ export const useMyCarsDispatcher = () => {
       const sortedData = data?.sort((a, b) =>
         a?.status.localeCompare(b?.status)
       );
-      setData(sortedData);
+      const nextData = sortedData.slice(0, pageUi * 50);
+
+      setVisibleData(nextData);
     } else if (filterStatus === `top`) {
       setFilterStatus(`back`);
       const sortedData = data?.sort((a, b) =>
         b?.status.localeCompare(a?.status)
       );
-      setData(sortedData);
+      const nextData = sortedData.slice(0, pageUi * 50);
+      setVisibleData(nextData);
     } else if (filterStatus === `back`) {
       setFilterStatus(`all`);
-      setData(oldData);
+      const nextData = data.slice(0, pageUi * 50);
+      setVisibleData(nextData);
     }
   };
 
@@ -397,7 +401,6 @@ export const useMyCarsDispatcher = () => {
           <Flex>
             <Flex
               alignItems={`center`}
-              
               background={
                 order ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
               }
@@ -423,7 +426,7 @@ export const useMyCarsDispatcher = () => {
 
               {row?.gps_data?.length > 0 ? (
                 <Flex width={`100%`} justifyContent={`space-between`}>
-                  <Flex  ml={`10px`} alignItems={`center`} gap={2}>
+                  <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationActiveIcon />
                       <Box>
@@ -473,7 +476,8 @@ export const useMyCarsDispatcher = () => {
                       <Box>
                         <p className={cls.subTitle}>Геолокация</p>
                         <p className={cls.title2}>
-                          {t(`Выкл`)}. <span className={cls.spanDisabled}>Нет данных</span>
+                          {t(`Выкл`)}.{" "}
+                          <span className={cls.spanDisabled}>Нет данных</span>
                         </p>
                       </Box>
                     </Flex>
@@ -483,20 +487,16 @@ export const useMyCarsDispatcher = () => {
                       <FurDisabledIcon />
                       <Box>
                         <p className={cls.subTitle}>Версия Sarbon</p>
-                        <p className={cls.title2}>
-                         ---
-                        </p>
+                        <p className={cls.title2}>---</p>
                       </Box>
                     </Flex>
                   </Flex>
                   <Flex alignItems={`center`} gap={2}>
                     <Flex gap={`4px`} alignItems={`center`}>
-                    <BatareyDisabledIcon />
+                      <BatareyDisabledIcon />
                       <Box>
                         <p className={cls.subTitle}>Батарея</p>
-                        <p className={cls.title2}>
-                          ---
-                        </p>
+                        <p className={cls.title2}>---</p>
                       </Box>
                     </Flex>
                   </Flex>
@@ -670,7 +670,6 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-
     isLoading,
     t,
     register,

@@ -211,7 +211,7 @@ export const Performed = forwardRef(
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
-                      __html: cargo?.comment,
+                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение` ,
                     }}
                   >
                     {/* {cargo?.comment} */}
