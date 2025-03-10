@@ -43,7 +43,8 @@ const StepThere = ({ status }) => {
     handleCloseBelts,
     handleOpenLiftingCapacity,
     handleCloseLiftingCapacity,
-
+    setIsGradusOpen,
+    isGradusOpen,
     isFtlOpen,
     isReymenOpen,
     handleIsFtlOpen,
@@ -279,6 +280,19 @@ const StepThere = ({ status }) => {
                     className={cls.button}
                   >
                     {t("Ремней, шт")}
+                  </Button>
+                )}
+                {!isReymenOpen && (
+                  <Button
+                    key="packagingBtn7"
+                    leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
+                    variant="reset"
+                    onClick={handleIsReymenOpen}
+                    color="rgba(126, 123, 134, 1)"
+                    fontWeight={400}
+                    className={cls.button}
+                  >
+                    {t("Температурный режим")}
                   </Button>
                 )}
               </Flex>

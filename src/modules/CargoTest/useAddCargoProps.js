@@ -62,6 +62,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   );
   const [isFtlOpen, setIsFtlOpen] = useState(formStore.isFtlOpen);
   const [isReymenOpen, setIsReymenOpen] = useState(formStore.isReymenOpen);
+  const [isGradusOpen, setIsGradusOpen] = useState(formStore.isGradusOpen);
 
   const [directContractOpen, setDirectContractOpen] = useState(
     formStore.directContractOpen
@@ -871,6 +872,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     setAccessOpen(false);
     setIsFtlOpen(false);
     setIsReymenOpen(false);
+    setIsGradusOpen(false);
     setBeltsOpen(false);
     setLiftingCapacityOpen(false);
     setPrepaymentFuelOpen(false);
@@ -1264,6 +1266,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     isReymenOpen,
     setIsFtlOpen,
     setIsReymenOpen,
+    setIsGradusOpen,
+    isGradusOpen,
     isBeltsOpen,
     setBeltsOpen,
     isLiftingCapacityOpen,

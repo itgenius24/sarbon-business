@@ -20,12 +20,10 @@ export const AccordionMap = ({
   gpsHistory,
   driverPosition,
   getMaps,
-
   getDriverPosition,
 }) => {
   const map = useRef(null);
 
-  console.log(`data`,getMaps?.data?.response)
 
   const shipper = getMaps?.data?.response.filter(
     (item) => item.type?.[0] === `shipper`
@@ -39,8 +37,6 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
-
-  
   useEffect(() => {
     const ymaps = window.ymaps;
 
@@ -103,7 +99,7 @@ export const AccordionMap = ({
               strokeStyle: "dash",
             });
           })
-          .catch((err) => console.log(`error`,err))
+          .catch((err) => console.log(`error`, err));
       }
     }, 3000);
   }, [gpsHistory]);
@@ -127,9 +123,9 @@ export const AccordionMap = ({
       height={"600px"}
       modules={["multiRouter.MultiRoute"]}
       state={{
-    center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
-    zoom:11 ,
-  }}
+        center: driverPosition ? driverPosition : [41.3405737, 69.2928081],
+        zoom: 11,
+      }}
       instanceRef={map}
       options={{
         maxZoom: 17,

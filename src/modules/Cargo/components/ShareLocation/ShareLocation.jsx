@@ -198,7 +198,7 @@ export const ShareLocationModule = () => {
   const address1 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.from;
   const address2 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.to;
 
-  console.log(`salom`, getOfferCount?.data?.response);
+  console.log(`salom`, allPositions);
   return (
     <Container>
       <Box mt={20}>

@@ -127,6 +127,7 @@ class Store {
         "isBeltsOpen",
         "isFtlOpen",
         "isReymenOpen",
+        "isGradusOpen",
         "isLiftingCapacityOpen",
         "prepaymentFuelOpen",
         "directContractOpen",
@@ -148,6 +149,7 @@ class Store {
   isBeltsOpen = false
   isFtlOpen= false
   isReymenOpen = false
+  isGradusOpen = false
   isLiftingCapacityOpen = false
   prepaymentFuelOpen = false
   directContractOpen = false
@@ -161,6 +163,7 @@ class Store {
     this.isBeltsOpen = false;
     this.isFtlOpen= false
     this.isReymenOpen = false
+    this.isGradusOpen = false
     this.isLiftingCapacityOpen = false;
     this.prepaymentFuelOpen = false;
     this.directContractOpen = false;

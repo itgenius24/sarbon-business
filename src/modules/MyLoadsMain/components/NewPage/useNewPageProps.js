@@ -51,7 +51,6 @@ const useNewPageProps = (
         })),
     },
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 
   const pushNotification = usePushNotificationMutation({
