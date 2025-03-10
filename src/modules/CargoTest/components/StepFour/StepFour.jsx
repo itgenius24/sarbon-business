@@ -5,7 +5,9 @@ import {
   Heading,
   Radio,
   RadioGroup,
+ 
   Switch,
+ 
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -223,6 +225,20 @@ const StepFour = ({ status }) => {
                     isChecked={check}
                     onChange={(e) => setCheck(e.target.checked)}
                     size={"md"}
+                    sx={{
+    "& .chakra-switch__track": {
+      backgroundColor: "rgba(230, 224, 233, 1) !important",
+    },
+    "&[data-checked] .chakra-switch__track": {
+      backgroundColor: "#007aff !important",
+    },
+    "& .chakra-switch__thumb": {
+      background: "rgba(121, 116, 126, 1) !important",
+    },
+    "&[data-checked] .chakra-switch__thumb": {
+      background: "rgb(255, 255, 255) !important",
+    },
+  }}
                   />
                 </Flex>
               )}
