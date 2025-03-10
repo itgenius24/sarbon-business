@@ -143,7 +143,7 @@ const StepOne = ({ status }) => {
                       additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("Вес")}
-                      additionalItemPlaceholder="T"
+                      additionalItemPlaceholder="т"
                       additionalItemOptions={weightMeasurementOptions}
                       disabled={!canEdit}
                       type="number"

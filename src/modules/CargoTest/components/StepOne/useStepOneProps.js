@@ -129,7 +129,9 @@ const useStepOneProps = () => {
   const getPackages = useGetPackage();
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
-    ?.map((item) => ({ label: item.Symbol, value: item.guid }));
+    ?.map((item) => ({ label: item.Symbol === `T` ? `т` : item.Symbol , value: item.guid }));
+
+    console.log(`weightMeasurementOptions`,weightMeasurementOptions)
 
   const packageOptions = getPackages.data?.response?.map((item) => ({
     label: item?.name,

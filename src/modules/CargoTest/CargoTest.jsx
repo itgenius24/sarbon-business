@@ -145,7 +145,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         addCargoProps.watch("volume_measurement")
                           ? `${
                               addCargoProps.watch("cargo_type").label
-                            } ${addCargoProps.watch("weight_measurement")}T 
+                            } ${addCargoProps.watch("weight_measurement")}т
                           ${addCargoProps.watch("volume_measurement")}m³`
                           : t("не заполнено")}
                       </span>
