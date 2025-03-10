@@ -60,7 +60,7 @@ export const useMyLoadsMainProps = (locale) => {
   const [address, setAddress] = useState("");
   const [debouncedValue] = useDebounce(address, 500);
 
-  console.log(`index`, index);
+  const query = useQueryClient();
 
   const toast = useToast();
 
@@ -279,8 +279,10 @@ export const useMyLoadsMainProps = (locale) => {
     if (res?.response?.[0]?.type === "предложение") {
       if (res?.response?.[0]?.users_id_2) {
         refetchNewPred();
+        query.invalidateQueries(["getNewPred2"]);
       } else {
         refetchNoDisPred();
+        query.invalidateQueries(["getNewPred2"]);
       }
       getOfferCount.refetch();
       getWaitingDriverCount?.refetch();

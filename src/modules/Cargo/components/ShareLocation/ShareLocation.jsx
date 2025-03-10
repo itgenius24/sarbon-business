@@ -91,7 +91,7 @@ export const ShareLocationModule = () => {
     { enabled: !!userId }
   );
 
-  // console.log(`getDriverLocation`, getDriverLocation?.data?.response?.[0]);
+  console.log(`getDriverLocation`, getDriverLocation?.data?.response?.[0]);
 
   const getMaps = useGetMaps(
     {

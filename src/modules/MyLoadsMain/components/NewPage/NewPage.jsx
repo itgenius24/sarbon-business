@@ -37,7 +37,9 @@ export const NewPage = ({
     setDisabled,
     obj,
     isLoading,
-    disabledBtn
+    disabledBtn,
+    isOpen,
+    onOpen
   } = useNewPageProps(
     orderStatus,
     t,
@@ -52,6 +54,7 @@ export const NewPage = ({
   return (
     <>
       <Box>
+      
         {newData?.map((item, index) => (
           <Performed
             orderStatus={orderStatus}
@@ -59,6 +62,7 @@ export const NewPage = ({
             key={index}
             cargo={item}
             handleCancel={handleCancel}
+            onOpen={onOpen}
           />
         ))}
       </Box>
@@ -69,7 +73,7 @@ export const NewPage = ({
         newData?.length === 0 && isLoading && <LoadingSpinner />
       }
 
-      <Modal isOpen={dataPred} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>

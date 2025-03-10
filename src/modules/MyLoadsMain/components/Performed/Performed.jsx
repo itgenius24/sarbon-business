@@ -17,7 +17,7 @@ import authStore from "@/store/auth.store";
 import { forwardRef } from "react";
 
 export const Performed = forwardRef(
-  ({ cargo, orderStatus, handleCancel, setDataPred, setOpen }, ref) => {
+  ({ cargo, orderStatus, handleCancel, setDataPred,onOpen, setOpen }, ref) => {
     {
       cargo?.offer_time
         ? format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)
@@ -557,6 +557,7 @@ export const Performed = forwardRef(
                       onClick={(e) => {
                         // e.stopPropagation();
                         setDataPred(cargo);
+                        onOpen()
                       }}
                       className={styles.bntNew}
                     >

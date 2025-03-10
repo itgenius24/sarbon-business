@@ -6,7 +6,8 @@ import {
   useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { useToast } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
+import { Boogaloo } from "next/font/google";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -24,10 +25,13 @@ const useNewPageProps = (
   const userId = authStore.userData.id;
   const [disabled, setDisabled] = useState(false);
   const [dataPred, setDataPred] = useState(``);
+  const {isOpen,onClose,onOpen} =  useDisclosure()
   const obj = {
     after_payment: t(`Оплата после завершения`),
     prepayment: t(`Предоплата`),
   };
+
+
 
   const {
     data: newData,
@@ -49,6 +53,7 @@ const useNewPageProps = (
           users_id_data: item.users_id_data?.[0],
           users_id_2_data: item?.users_id_2_data?.[0],
         })),
+        enabled :Boolean(orderStatus === `new` || orderStatus === `no_dispatcher`)
     },
     refetchOnWindowFocus: false,
   });
@@ -59,16 +64,21 @@ const useNewPageProps = (
       refetchNewPred();
       refetchNoDisPred();
       refetchWaitingDriverCount();
+      onClose()
     },
   });
-  const updateNoDriver = useUpdateNoDriver({});
+  const updateNoDriver = useUpdateNoDriver({
+    onSuccess: () => {
+      onClose()
+    },
+  });
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
       refetch();
       refetchNewPred();
       refetchNoDisPred();
       refetchWaitingDriverCount();
-      setDataPred(``);
+      onClose()
     },
     onError(res) {
       console.error(res);
@@ -152,9 +162,7 @@ const useNewPageProps = (
     }
   }
 
-  const onClose = () => {
-    setDataPred(false);
-  };
+ 
   return {
     newData: newData || [],
     isLoading: isFetching,
@@ -167,6 +175,8 @@ const useNewPageProps = (
     setDisabled,
     disabledBtn:updateResponseMutation.isLoading,
     obj,
+    onOpen,
+    isOpen
   };
 };
 

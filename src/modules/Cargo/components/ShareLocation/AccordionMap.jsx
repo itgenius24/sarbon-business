@@ -21,6 +21,8 @@ export const AccordionMap = ({
   getMaps,
   getDriverPosition,
 }) => {
+
+  console.log(`getDriverPosition`,getDriverPosition)
   const map = useRef(null);
   const mapState = {
     center:
@@ -40,6 +42,7 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
+    
     
 
   useEffect(() => {
