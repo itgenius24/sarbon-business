@@ -65,7 +65,7 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
-    console.log(`zoom`, zoom);
+   
     if (!isClient) {
       return null; // Render nothing during SSR
     }

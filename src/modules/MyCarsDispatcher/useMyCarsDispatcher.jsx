@@ -4,6 +4,8 @@ import {
   useCreateLogHistory,
   useDeletedeleteDispacersDriver,
   useGetCar,
+  useGetCarData,
+  useGetNotification,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
@@ -117,63 +119,8 @@ export const useMyCarsDispatcher = () => {
     });
   }, []);
 
-  const { mutate, isLoading } = useGetCar({
-    onSuccess: (res) => {
-      if (res?.response?.length) {
-        setRefe(false);
-        setCount({
-          count: res?.count?.total_count,
-          free_count: res?.FreeCount?.free_count,
-        });
-
-        let data = res?.response;
-        const uniqueData = data
-          .filter(
-            (item) =>
-              !oldData.some(
-                (stateItem) => stateItem?.users_id === item?.users_id
-              )
-          )
-          ?.map((item) => {
-            if (
-              item?.order_data ||
-              item?.driver_data?.provisions?.[0] === `our_cargo`
-            ) {
-              return {
-                ...item,
-                status: `Занята`,
-              };
-            } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
-              return {
-                ...item,
-                status: `Занята чужим грузом`,
-              };
-            } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
-              return {
-                ...item,
-                status: `Неисправна`,
-              };
-            } else if (item?.driver_data?.provisions?.[0] === `empty`) {
-              return {
-                ...item,
-                status: `Свободная`,
-              };
-            } else {
-              return {
-                ...item,
-                status: ``,
-              };
-            }
-          });
-        setData((prev) => [...prev, ...uniqueData]);
-        setOldData((prev) => [...prev, ...uniqueData]);
-        setVisibleData(uniqueData?.slice(0, 50));
-      }
-    },
-  });
-
-  useEffect(() => {
-    const dataReq = {
+  const { data: getCarData,isLoading,refetch } = useGetCarData({
+    data: {
       data: {
         object_data: {
           page: debouncedValue?.length > 0 ? 0 : page,
@@ -184,14 +131,65 @@ export const useMyCarsDispatcher = () => {
           sort_time: filterTime,
         },
       },
-    };
+    },
+    querySettings:{
+      onSuccess: (res) => {
+        if (res?.response?.length) {
+          setRefe(false);
+          setCount({
+            count: res?.count?.total_count,
+            free_count: res?.FreeCount?.free_count,
+          });
+  
+          let data = res?.response;
+          const uniqueData = data
+            .filter(
+              (item) =>
+                !oldData.some(
+                  (stateItem) => stateItem?.users_id === item?.users_id
+                )
+            )
+            ?.map((item) => {
+              if (
+                item?.order_data ||
+                item?.driver_data?.provisions?.[0] === `our_cargo`
+              ) {
+                return {
+                  ...item,
+                  status: `Занята`,
+                };
+              } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
+                return {
+                  ...item,
+                  status: `Занята чужим грузом`,
+                };
+              } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
+                return {
+                  ...item,
+                  status: `Неисправна`,
+                };
+              } else if (item?.driver_data?.provisions?.[0] === `empty`) {
+                return {
+                  ...item,
+                  status: `Свободная`,
+                };
+              } else {
+                return {
+                  ...item,
+                  status: ``,
+                };
+              }
+            });
+          setData((prev) => [...prev, ...uniqueData]);
+          setOldData((prev) => [...prev, ...uniqueData]);
+          setVisibleData(uniqueData?.slice(0, 50));
+        }
+      },
+      refetchOnWindowFocus: false,
 
-    mutate(dataReq);
-  }, [page, limit, debouncedValue?.length, refe, filterTime?.length]);
+    }
+  });
 
-  const addPage = () => {
-    setPage((pa) => pa + 1);
-  };
 
   const nameFilter = (val) => {
     if (val !== `all`) {

@@ -138,6 +138,14 @@ export const useGetManualList = (
   });
 };
 
+
+export const useGetCarData = ({data, querySettings}) => {
+  return useQuery({
+    queryKey: ["useGetCarData", data],
+    queryFn: () => objectService.getCar(data), ...querySettings,
+  });
+};
+
 export const useGetCarListOnSubmit = (mutationSettings) => {
   return useMutation({
     mutationFn: (params) => objectService.getCarList(params),
