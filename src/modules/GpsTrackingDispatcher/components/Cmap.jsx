@@ -163,7 +163,7 @@ const Cmap = memo(
           }}
         />
 
-        {zoom >= 20 ? (
+        {/* {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const BalloonContent = () => (
@@ -943,10 +943,20 @@ const Cmap = memo(
                 );
               })}
           </Clusterer>
-        )}
+        )} */}
 
-        {locationData &&
-          locationData.map((item) => {
+        {/* <Clusterer
+            options={{
+              clusterIconColor: "rgba(52, 199, 89, 1)",
+              style: {
+                backgroundColor: "rgba(52, 199, 89, 1)",
+                color: "white",
+                borderRadius: "50%",
+              },
+            }}
+          > */}
+  {locationData &&
+          locationData.map((item,index) => {
             const BalloonContentCargo = () => (
               <div
                 id="balloon-content_cargo"
@@ -1043,8 +1053,8 @@ const Cmap = memo(
                     }}
                     key={item?.guid}
                     geometry={[
-                      item.location_name.split(" ")[0] * 1,
-                      item.location_name.split(" ")[1] * 1,
+                      item.location_name.split(" ")[0] * 1 + index * 0.0001, 
+                      item.location_name.split(" ")[1] * 1 + index * 0.0001
                     ]}
                     properties={{
                       balloonContent: balloonContentCargo,
@@ -1076,6 +1086,9 @@ const Cmap = memo(
               </>
             );
           })}
+          {/* </Clusterer> */}
+
+      
       </Map>
     );
   }

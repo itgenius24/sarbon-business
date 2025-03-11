@@ -72,6 +72,7 @@ export default function GpsTrackingDispatcher() {
     addAdress,
     setLocationData,
     refueling,
+    locationPending,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -88,7 +89,7 @@ export default function GpsTrackingDispatcher() {
             cls={cls}
             getCarListProps={!isLoading ? getCarListProps : []}
             coordinates={coordinates}
-            locationData={loadCheck ? locationData : []}
+            locationData={ !locationPending && loadCheck ? locationData : []}
             setLoadState={setLoadState}
             setModalType={setModalType}
             mapIcon={mapIcon}
@@ -102,7 +103,7 @@ export default function GpsTrackingDispatcher() {
             cls={cls}
             getCarListProps={!isLoading ? getCarListProps : []}
             coordinates={coordinates}
-            locationData={loadCheck ? locationData : []}
+            locationData={ !locationPending && loadCheck ? locationData : []}
             setLoadState={setLoadState}
             setModalType={setModalType}
             mapIcon={mapIcon}

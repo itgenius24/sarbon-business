@@ -760,7 +760,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     if (id) {
       requestData.data.guid = id;
 
-      console.log(`requestData`,requestData)
+      console.log(`req`,requestData)
 
       updateCargo.mutate(requestData);
     } else {
