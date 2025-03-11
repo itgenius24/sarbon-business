@@ -700,7 +700,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         package_quantity: +watch(`packaging_quantity`) || 0,
         length: +watch(`length`),
         width: watch(`width`),
-
+        lat: watch(`loadings`)[0]?.cor?.split(" ")[0] * 1,
+        long: watch(`loadings`)[0]?.cor?.split(" ")[1] * 1,
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
 
@@ -758,6 +759,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
     if (id) {
       requestData.data.guid = id;
+
+      console.log(`requestData`,requestData)
 
       updateCargo.mutate(requestData);
     } else {
