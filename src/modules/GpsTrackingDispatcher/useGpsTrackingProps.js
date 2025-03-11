@@ -358,6 +358,8 @@ export const useGpsTrackingProps = () => {
         setOffsetCAr(offsetCar + 1);
       }
       if (data?.data?.response?.length) {
+         
+        
         setLocationData((res) => [...res, ...data2]);
       }
       if (data?.data?.response?.length === null && !closeRes) {
