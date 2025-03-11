@@ -16,7 +16,7 @@
         display: flex;
         justify-content: flex-start;
         gap: 20px;
-        h3 {
+        h3 {  
           font-size: 24px;
           font-weight: 600;
         }
@@ -46,6 +46,7 @@
       .card {
         display: flex;
         justify-content: flex-start;
+        align-items: center;
         gap: 70px;
         border-bottom: 1px solid rgba(150, 148, 158, 0.363);
         .bntOutline {
@@ -80,8 +81,8 @@
           background: transparent;
         }
         .cardItem {
-          padding: 24px 0;
-          min-width: 280px;
+          padding: 22px 0;
+          min-width:  180px;
           .cardBodyTitle {
             font-size: 14px;
             font-weight: 400;

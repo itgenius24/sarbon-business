@@ -84,7 +84,7 @@ const Dashboard = ({ locale }) => {
 
   return (
     <>
-      <ContainerAnalitik my={`40px`}>
+      <Box width={`98%`} margin={`30px auto`} >
         <Flex flexDirection={`column`} rowGap={`30px`}>
           <Flex gap={`20px`}>
             <Flex
@@ -553,7 +553,7 @@ const Dashboard = ({ locale }) => {
         {/* <Button width={`fit-content`} onClick={notificationFn}>
         Notification
       </Button> */}
-      </ContainerAnalitik>
+      </Box>
     </>
   );
 };

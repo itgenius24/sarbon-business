@@ -31,8 +31,10 @@ export const DispatcherModule = () => {
     search,
     setSearchFn,
     deleteFuntion,
+    data,
     addPage,
-    columns
+    columns,
+
   } = useMyDispatcher();
   const router = useRouter();
   const locale = useGetLang();
@@ -93,7 +95,7 @@ export const DispatcherModule = () => {
         </Flex>
 
         <Box mt={"37px"}>
-          <SarbonTable rowClassName={rowClassName}  variant="card" columns={columns}  data={[1,2,3,4]} />
+          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.guid}`)} rowClassName={rowClassName}  variant="card" columns={columns}  data={data} />
         </Box>
 
       </Container>

@@ -1,3 +1,6 @@
+
+
+
 .tableWrapper {
   width: 100%;
   overflow-x: auto;
@@ -135,6 +138,8 @@
   }
 }
 
+
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -215,6 +220,7 @@
   }
   tr {
     width: 100%;
+    // background-color: red;
     border-bottom: 1px solid #ced9e3;
     // cursor: pointer;
     &:hover {

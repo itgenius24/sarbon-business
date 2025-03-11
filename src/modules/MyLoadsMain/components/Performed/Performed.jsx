@@ -284,7 +284,7 @@ export const Performed = forwardRef(
                 </div>
               </Flex>
             </div>
-            <div className={styles.card}>
+            <div style={{justifyContent: orderStatus ===  "performed" || orderStatus === `cancellation` ? `space-between`:`flex-start`}}  className={styles.card}>
               {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 (orderStatus === `archive` ||
                   orderStatus === `approve_from_driver`) && (
@@ -375,30 +375,6 @@ export const Performed = forwardRef(
                 justifyContent={`space-between`}
                 alignItems={`center`}
               >
-                {/* {(orderStatus === `no_dispatcher`) && (
-                  <Flex gap={`11px`}>
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      
-                        handleCancel(cargo);
-                      }}
-                      className={styles.bntOutline}
-                    >
-                      {t(`Отказать`)}
-                    </Button>
-                    <Button
-                      leftIcon={<IconCeckNewStatusIcon />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setDataPred(cargo);
-                      }}
-                      // className={styles.bntNew}
-                    >
-                      {t(`Принять`)}
-                    </Button>
-                  </Flex>
-                )} */}
                 <Box>
                   {orderStatus == "performed" && (
                     <>
@@ -459,7 +435,7 @@ export const Performed = forwardRef(
               {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 (orderStatus === `new` || orderStatus === `performed`) && (
                   <Flex
-                    width={`100%`}
+                   
                     className={styles.cardItem}
                     gap={`7px`}
                     alignItems={`center`}
@@ -527,10 +503,12 @@ export const Performed = forwardRef(
                     </Box>
                   </Flex>
                 )}
-              <Box className={styles.cardItem}>
+              <Box  className={styles.cardItem}>
                 {orderStatus == "performed" && (
                   <Button
+                   width={`fit-content`}
                     leftIcon={<MapIcon />}
+                    boxSizing={`border-box`}
                     onClick={() =>
                       router.push(
                         `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}&driver_id=${cargo?.users_id_data?.guid}`

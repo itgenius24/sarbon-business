@@ -1,15 +1,29 @@
 import { PlusIcon, UserDisIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 import SlotCounter from "react-slot-counter";
 import cls from "./style.module.scss";
 import React from "react";
 import { useProfileDis } from "./useProfileDis";
 import { filterTabstopDis } from "../MyLoadsMain/data";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
+import { NewPage } from "../MyLoadsMain/components/NewPage/NewPage";
+import { ApproveFromDriver } from "../MyLoadsMain/components/ApproveFromDriver/ApproveFromDriver";
+import { PerfomedPage } from "../MyLoadsMain/components/PerfomedPage/PerfomedPage";
+import { CancellationPage } from "../MyLoadsMain/components/CancellationPage/CancellationPage";
+import { ArchivePage } from "../MyLoadsMain/components/ArchivePage/ArchivePage";
 
 const ProfileDispatcher = () => {
-  const { status, t, tab, setTabs,columns } = useProfileDis();
+  const { status, t, tab, setTabs, columns } = useProfileDis();
 
   return (
     <Container my="40px">
@@ -17,6 +31,7 @@ const ProfileDispatcher = () => {
         width={"100%"}
         justifyContent={"space-between"}
         alignItems={"center"}
+        h={`122px`}
       >
         <Flex gap={`19px`} alignItems={"center"}>
           {/* <Image
@@ -67,18 +82,58 @@ const ProfileDispatcher = () => {
                   borderRight={`1px solid rgba(219, 216, 227, 1)`}
                 >
                   <p className={cls.statisName}>Завершенные</p>
-                  <p className={cls.statisRes}><SlotCounter value={`31`} /></p>
+                  <p className={cls.statisRes}>
+                    <SlotCounter value={`31`} />
+                  </p>
                 </Box>
                 <Box pl={`20px`}>
                   <p className={cls.statisName}>Cумма заказов (UZS) </p>
-                  <p className={cls.statisRes}> <SlotCounter value={`424,056,0001`} /></p>
+                  <p className={cls.statisRes}>
+                    {" "}
+                    <SlotCounter value={`424,056,0001`} />
+                  </p>
                 </Box>
               </Flex>
             </Box>
           )}
         </Flex>
       </Flex>
-      <Flex width={`100%`} gap={`40px`}  mt={`40px`}>
+
+      <Tabs variant={`unstyled`}>
+        <Flex width={`100%`} gap={`40px`} mt={`40px`}>
+          <TabList className={cls.tab}>
+            {filterTabstopDis.map((item) => (
+              <Tab
+                onClick={() => setTabs(item.value)}
+                className={tab === item.value ? cls.activeBtn : cls.tabBtn}
+                key={item.value}
+              >
+                {item.label}
+              </Tab>
+            ))}
+          </TabList>
+
+          <TabPanels width={`70%`} >
+            <TabPanel padding={0}>
+              <NewPage t={t} orderStatus={`new`} />
+            </TabPanel>
+            <TabPanel padding={0}>
+              <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
+            </TabPanel>
+            <TabPanel padding={0}>
+              <PerfomedPage t={t} orderStatus={`performed`} />
+            </TabPanel>
+             <TabPanel padding={0}>
+                            <CancellationPage t={t} orderStatus={`cancellation`} />
+                          </TabPanel>
+                          <TabPanel padding={0}>
+                            <ArchivePage   t={t} orderStatus={`archive`} />
+                          </TabPanel>
+          </TabPanels>
+        </Flex>
+      </Tabs>
+
+      {/* <Flex width={`100%`} gap={`40px`} mt={`40px`}>
         <Box className={cls.tab}>
           {filterTabstopDis.map((item) => (
             <Button
@@ -91,9 +146,14 @@ const ProfileDispatcher = () => {
           ))}
         </Box>
         <Box width={`80%`}>
-        <SarbonTable variant="card" width="100%"  data={[1,2,3]} columns={columns} />
+          <SarbonTable
+            variant="card"
+            width="100%"
+            data={[1, 2, 3]}
+            columns={columns}
+          />
         </Box>
-      </Flex>
+      </Flex> */}
     </Container>
   );
 };
