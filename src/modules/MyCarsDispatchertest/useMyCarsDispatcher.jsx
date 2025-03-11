@@ -17,6 +17,7 @@ import { useDebounce as useDebounce2 } from "use-debounce";
 import useDebounce from "@/hooks/useDebounce";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
+  AddUserIcon,
   BatareyDisabledIcon,
   BatareyFullIcon,
   BatareyIcon,
@@ -54,6 +55,7 @@ import {
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
+import { Checkbox } from "@/components/Checkbox";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
@@ -119,7 +121,11 @@ export const useMyCarsDispatcher = () => {
     });
   }, []);
 
-  const { data: getCarData,isLoading,refetch } = useGetCarData({
+  const {
+    data: getCarData,
+    isLoading,
+    refetch,
+  } = useGetCarData({
     data: {
       data: {
         object_data: {
@@ -132,7 +138,7 @@ export const useMyCarsDispatcher = () => {
         },
       },
     },
-    querySettings:{
+    querySettings: {
       onSuccess: (res) => {
         if (res?.response?.length) {
           setRefe(false);
@@ -140,7 +146,7 @@ export const useMyCarsDispatcher = () => {
             count: res?.count?.total_count,
             free_count: res?.FreeCount?.free_count,
           });
-  
+
           let data = res?.response;
           const uniqueData = data
             .filter(
@@ -158,7 +164,9 @@ export const useMyCarsDispatcher = () => {
                   ...item,
                   status: `Занята`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
+              } else if (
+                item?.driver_data?.provisions?.[0] === `someone_cargo`
+              ) {
                 return {
                   ...item,
                   status: `Занята чужим грузом`,
@@ -186,10 +194,8 @@ export const useMyCarsDispatcher = () => {
         }
       },
       refetchOnWindowFocus: false,
-
-    }
+    },
   });
-
 
   const nameFilter = (val) => {
     if (val !== `all`) {
@@ -347,7 +353,7 @@ export const useMyCarsDispatcher = () => {
     },
     {
       title: (
-        <Flex width={`50%`} justifyContent={`space-between`}>
+        <Flex width={`60%`} justifyContent={`space-between`}>
           <Flex
             onClick={statusFIlter}
             className={cls.filterWrap}
@@ -384,7 +390,7 @@ export const useMyCarsDispatcher = () => {
           </Flex>
         </Flex>
       ),
-      width: 400,
+      width: 250,
       render: (row, index) => {
         const order =
           row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
@@ -423,7 +429,7 @@ export const useMyCarsDispatcher = () => {
               )}
 
               {row?.gps_data?.length > 0 ? (
-                <Flex width={`100%`} justifyContent={`space-between`}>
+                <Flex>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationActiveIcon />
@@ -442,32 +448,9 @@ export const useMyCarsDispatcher = () => {
                       </Box>
                     </Flex>
                   </Flex>
-                  <Flex alignItems={`center`} gap={2}>
-                    <Flex gap={`5px`} alignItems={`center`}>
-                      <FurIcon />
-                      <Box>
-                        <p className={cls.subTitle}>Версия Sarbon</p>
-                        <p className={cls.title2}>
-                          {row?.gps_data[0]?.version}
-                        </p>
-                      </Box>
-                    </Flex>
-                  </Flex>
-                  <Flex alignItems={"center"} gap={2}>
-                    {row?.gps_data[0]?.battery > 20 ? (
-                      <BatareyFullIcon />
-                    ) : (
-                      <BatareyIcon />
-                    )}
-                    <p className={cls.subTitle}>
-                      <span className={cls.title}>
-                        {row?.gps_data[0]?.battery || 0}%
-                      </span>
-                    </p>
-                  </Flex>
                 </Flex>
               ) : (
-                <Flex width={`100%`} justifyContent={`space-between`}>
+                <Flex>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationDisabledIcon />
@@ -480,93 +463,33 @@ export const useMyCarsDispatcher = () => {
                       </Box>
                     </Flex>
                   </Flex>
-                  <Flex alignItems={`center`} gap={2}>
-                    <Flex gap={`4px`} alignItems={`center`}>
-                      <FurDisabledIcon />
-                      <Box>
-                        <p className={cls.subTitle}>Версия Sarbon</p>
-                        <p className={cls.title2}>---</p>
-                      </Box>
-                    </Flex>
-                  </Flex>
-                  <Flex alignItems={`center`} gap={2}>
-                    <Flex gap={`4px`} alignItems={`center`}>
-                      <BatareyDisabledIcon />
-                      <Box>
-                        <p className={cls.subTitle}>Батарея</p>
-                        <p className={cls.title2}>---</p>
-                      </Box>
-                    </Flex>
-                  </Flex>
                 </Flex>
               )}
             </Flex>
-            <Box className={cls.popup}>
-              <Popover placement={"bottom-start"}>
-                {({ isOpen, onClose }) => (
-                  <>
-                    <PopoverTrigger>
-                      <IconButton
-                        size={"sm"}
-                        borderRadius={"50%"}
-                        icon={<PopupIcon />}
-                        width="40px"
-                        _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
-                        backgroundColor={"white"}
-                      />
-                    </PopoverTrigger>
-                    <Portal>
-                      <PopoverContent
-                        boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
-                        border={"1px solid rgba(234, 236, 240, 1"}
-                        className={cls.popoverCon}
-                      >
-                        <PopoverArrow />
-                        <PopoverBody>
-                          {!order && (
-                            <Box
-                              style={{ padding: `10px 8px` }}
-                              _hover={{
-                                backgroundColor: `rgb(247, 247, 247)`,
-                                borderRadius: `6px`,
-                                color: `rgba(33, 31, 38, 1)`,
-                                cursor: `pointer`,
-                              }}
-                              className={cls.menuItem}
-                              onClick={() => {
-                                setOpen(row);
-                                onClose();
-                              }}
-                            >
-                              {t(`Изменить статус`)}
-                            </Box>
-                          )}
-                          <Box
-                            style={{ padding: `10px 8px`, color: `red` }}
-                            _hover={{
-                              backgroundColor: `rgb(247, 247, 247)`,
-                              borderRadius: `6px`,
-                              color: `rgba(255, 255, 255, 1)`,
-                              cursor: `pointer`,
-                            }}
-                            className={cls.menuItem}
-                            onClick={() => {
-                              deleteFuntion(row?.guid);
-                              onClose();
-                            }}
-                          >
-                            {t(`Удалить водителя`)}
-                          </Box>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Portal>
-                  </>
-                )}
-              </Popover>
-            </Box>
           </Flex>
         );
       },
+    },
+    {
+      title: `Диспетчер`,
+      width: 230,
+      render: (row, index) => (
+        <Flex width={`100%`} justifyContent={`space-between`} alignItems={`center`}>
+          <Flex  alignItems={`center`} gap={`9px`}>
+            {/* <Avatar  width={`40px`} height={`40px`}    src="" /> */}
+            <AddUserIcon />
+            <Box>
+              <p className={cls.disName}>Без диспетчера</p>
+              <p className={cls.addDisText}>Назначить диспетчера</p>
+            </Box>
+          </Flex>
+            <Checkbox
+                            // id={item?.guid}
+                            // defaultChecked={ids.includes(item?.guid)}
+                            // onClick={() => handleCheckboxChange(item)}
+                          ></Checkbox>
+        </Flex>
+      ),
     },
   ];
 

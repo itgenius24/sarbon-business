@@ -2,11 +2,8 @@
 
 import {
   useCreateLogHistory,
-  useDeletedeleteDispacersDriver,
-  useGetCar,
+
   useGetCarData,
-  useGetNotification,
-  useUpdateUserInfo,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
@@ -14,15 +11,11 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import { useForm } from "react-hook-form";
 import { useDebounce as useDebounce2 } from "use-debounce";
-import useDebounce from "@/hooks/useDebounce";
-import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
   BatareyDisabledIcon,
   BatareyFullIcon,
   BatareyIcon,
-  BluetoothIcon2,
   CencelMapIcon,
-  CricleArrovIcon,
   FurDisabledIcon,
   FurIcon,
   GreenCarIcon,
@@ -31,23 +24,13 @@ import {
   IocnSortTop,
   LocationActiveIcon,
   LocationDisabledIcon,
-  LocationIcon,
-  PopupIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
 import cls from "./style.module.scss";
 import {
   Avatar,
   Box,
-  Button,
   Flex,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
   Tooltip,
 } from "@chakra-ui/react";
 
@@ -55,7 +38,7 @@ import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
 
-export const useMyCarsDispatcher = () => {
+export const useDriverProps = () => {
   const { register, watch } = useForm();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -253,7 +236,7 @@ export const useMyCarsDispatcher = () => {
       filter: true,
       key: "driver_data",
       filterType: (val) => nameFilter(val),
-      width: 200,
+      width: 250,
       render: (row, index) => (
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar
@@ -276,7 +259,7 @@ export const useMyCarsDispatcher = () => {
     },
     {
       title: t(`Владелец машины`),
-      width: 200,
+      width: 250,
       render: (row, index) => {
         return row?.firm_data ? (
           <Flex alignItems={`center`} gap={`6px`}>
@@ -305,7 +288,7 @@ export const useMyCarsDispatcher = () => {
     },
     {
       title: t(`Машина`),
-      width: 200,
+      width: 250,
       render: (row, index) => (
         <>
           <p className={cls.title}>
@@ -365,26 +348,9 @@ export const useMyCarsDispatcher = () => {
               <IocnFilter />
             )}
           </Flex>
-          <Flex
-            onClick={timeFilter}
-            className={cls.filterWrap}
-            gap={`5px`}
-            alignItems={`center`}
-            cursor={`pointer`}
-            as={`button`}
-          >
-            <p className={cls.headerTh}> {t(`Время`)}</p>
-            {filterTime === `top` ? (
-              <IocnSortTop />
-            ) : filterTime === `bottom` ? (
-              <IocnSortBack />
-            ) : (
-              <IocnFilter />
-            )}
-          </Flex>
         </Flex>
       ),
-      width: 400,
+      width: 300,
       render: (row, index) => {
         const order =
           row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
@@ -398,7 +364,9 @@ export const useMyCarsDispatcher = () => {
         return (
           <Flex>
             <Flex
+             width={`100%`}
               alignItems={`center`}
+              justifyContent={`space-between`}
               background={
                 order ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
               }
@@ -423,7 +391,7 @@ export const useMyCarsDispatcher = () => {
               )}
 
               {row?.gps_data?.length > 0 ? (
-                <Flex width={`100%`} justifyContent={`space-between`}>
+                <Flex  justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationActiveIcon />
@@ -442,8 +410,8 @@ export const useMyCarsDispatcher = () => {
                       </Box>
                     </Flex>
                   </Flex>
-                  <Flex alignItems={`center`} gap={2}>
-                    <Flex gap={`5px`} alignItems={`center`}>
+                  {/* <Flex alignItems={`center`} gap={2}>
+                    <Flex gap={`3px`} alignItems={`center`}>
                       <FurIcon />
                       <Box>
                         <p className={cls.subTitle}>Версия Sarbon</p>
@@ -464,10 +432,10 @@ export const useMyCarsDispatcher = () => {
                         {row?.gps_data[0]?.battery || 0}%
                       </span>
                     </p>
-                  </Flex>
+                  </Flex> */}
                 </Flex>
               ) : (
-                <Flex width={`100%`} justifyContent={`space-between`}>
+                <Flex  justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationDisabledIcon />
@@ -480,7 +448,7 @@ export const useMyCarsDispatcher = () => {
                       </Box>
                     </Flex>
                   </Flex>
-                  <Flex alignItems={`center`} gap={2}>
+                  {/* <Flex alignItems={`center`} gap={2}>
                     <Flex gap={`4px`} alignItems={`center`}>
                       <FurDisabledIcon />
                       <Box>
@@ -497,73 +465,10 @@ export const useMyCarsDispatcher = () => {
                         <p className={cls.title2}>---</p>
                       </Box>
                     </Flex>
-                  </Flex>
+                  </Flex> */}
                 </Flex>
               )}
             </Flex>
-            <Box className={cls.popup}>
-              <Popover placement={"bottom-start"}>
-                {({ isOpen, onClose }) => (
-                  <>
-                    <PopoverTrigger>
-                      <IconButton
-                        size={"sm"}
-                        borderRadius={"50%"}
-                        icon={<PopupIcon />}
-                        width="40px"
-                        _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
-                        backgroundColor={"white"}
-                      />
-                    </PopoverTrigger>
-                    <Portal>
-                      <PopoverContent
-                        boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
-                        border={"1px solid rgba(234, 236, 240, 1"}
-                        className={cls.popoverCon}
-                      >
-                        <PopoverArrow />
-                        <PopoverBody>
-                          {!order && (
-                            <Box
-                              style={{ padding: `10px 8px` }}
-                              _hover={{
-                                backgroundColor: `rgb(247, 247, 247)`,
-                                borderRadius: `6px`,
-                                color: `rgba(33, 31, 38, 1)`,
-                                cursor: `pointer`,
-                              }}
-                              className={cls.menuItem}
-                              onClick={() => {
-                                setOpen(row);
-                                onClose();
-                              }}
-                            >
-                              {t(`Изменить статус`)}
-                            </Box>
-                          )}
-                          <Box
-                            style={{ padding: `10px 8px`, color: `red` }}
-                            _hover={{
-                              backgroundColor: `rgb(247, 247, 247)`,
-                              borderRadius: `6px`,
-                              color: `rgba(255, 255, 255, 1)`,
-                              cursor: `pointer`,
-                            }}
-                            className={cls.menuItem}
-                            onClick={() => {
-                              deleteFuntion(row?.guid);
-                              onClose();
-                            }}
-                          >
-                            {t(`Удалить водителя`)}
-                          </Box>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Portal>
-                  </>
-                )}
-              </Popover>
-            </Box>
           </Flex>
         );
       },
@@ -574,85 +479,6 @@ export const useMyCarsDispatcher = () => {
     return row?.order_data ? cls.bussy : cls.free;
   };
 
-  const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
-    onSuccess: () => {
-      setVisibleData((prevData) =>
-        prevData.filter((item) => item.guid !== deleteId)
-      );
-      setDeleteId(``);
-    },
-  });
-
-  const deleteFuntion = (id) => {
-    setDeleteId(id);
-    deleteUser({
-      id,
-    });
-  };
-
-  const { mutate: userUpdate } = useUpdateUserInfo({
-    onSuccess() {
-      setOpen(false);
-      setIconStatus(``);
-      if (iconStatus === `our_cargo`) {
-        return setVisibleData((prevData) =>
-          prevData.map((item) =>
-            item.guid === open.guid ? { ...item, status: `Занята` } : item
-          )
-        );
-      } else if (iconStatus === `someone_cargo`) {
-        return setVisibleData((prevData) =>
-          prevData.map((item) =>
-            item.guid === open.guid
-              ? { ...item, status: `Занята чужим грузом` }
-              : item
-          )
-        );
-      } else if (iconStatus === `broke_down`) {
-        return setVisibleData((prevData) =>
-          prevData.map((item) =>
-            item.guid === open.guid
-              ? {
-                  ...item,
-                  status: `Неисправна`,
-                }
-              : item
-          )
-        );
-      } else if (iconStatus === `empty`) {
-        return setVisibleData((prevData) =>
-          prevData.map((item) =>
-            item.guid === open.guid
-              ? {
-                  ...item,
-                  status: `Свободная`,
-                }
-              : item
-          )
-        );
-      } else {
-        return setVisibleData((prevData) =>
-          prevData.map((item) =>
-            item.guid === open.guid
-              ? {
-                  ...item,
-                  status: ``,
-                }
-              : item
-          )
-        );
-      }
-    },
-    onError() {},
-  });
-
-  const statusIconChange = () => {
-    const body = {
-      guid: open.driver_data?.guid,
-      provisions: [iconStatus],
-    };
-    userUpdate({ data: body });
-  };
 
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));
@@ -666,7 +492,6 @@ export const useMyCarsDispatcher = () => {
 
   return {
     data: visibleData,
-    deleteFuntion,
     nameFilter,
     isLoading,
     t,
@@ -680,7 +505,6 @@ export const useMyCarsDispatcher = () => {
     setIconStatus,
     open,
     setOpen,
-    statusIconChange,
     columns,
     rowClassName,
   };

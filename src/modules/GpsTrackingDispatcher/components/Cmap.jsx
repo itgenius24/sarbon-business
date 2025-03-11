@@ -65,6 +65,9 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
+
+    console.log(`locationData`,locationData)
+
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();
       if (selection) {

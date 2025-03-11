@@ -21,6 +21,7 @@ import { ApproveFromDriver } from "../MyLoadsMain/components/ApproveFromDriver/A
 import { PerfomedPage } from "../MyLoadsMain/components/PerfomedPage/PerfomedPage";
 import { CancellationPage } from "../MyLoadsMain/components/CancellationPage/CancellationPage";
 import { ArchivePage } from "../MyLoadsMain/components/ArchivePage/ArchivePage";
+import DriversDispachers from "./components/Drivers/Drivers";
 
 const ProfileDispatcher = () => {
   const { status, t, tab, setTabs, columns } = useProfileDis();
@@ -50,22 +51,7 @@ const ProfileDispatcher = () => {
           </Box>
         </Flex>
         <Flex>
-          {tab === `driver` ? (
-            <Flex gap={`28px`}>
-              <Box className={cls.countrWrap}>
-                <p>
-                  {t(`Всего`)}: <span>36</span>
-                </p>
-                <p>
-                  {t(`Свободных`)}:<span>36</span>
-                </p>
-              </Box>
-
-              <Button width={"fit-content"} leftIcon={<PlusIcon />}>
-                {t(`Добавить водителя`)}
-              </Button>
-            </Flex>
-          ) : (
+   
             <Box>
               <Flex
                 gap={`16px`}
@@ -95,7 +81,7 @@ const ProfileDispatcher = () => {
                 </Box>
               </Flex>
             </Box>
-          )}
+          
         </Flex>
       </Flex>
 
@@ -113,7 +99,7 @@ const ProfileDispatcher = () => {
             ))}
           </TabList>
 
-          <TabPanels width={`70%`} >
+          <TabPanels width={`70%`}>
             <TabPanel padding={0}>
               <NewPage t={t} orderStatus={`new`} />
             </TabPanel>
@@ -123,12 +109,16 @@ const ProfileDispatcher = () => {
             <TabPanel padding={0}>
               <PerfomedPage t={t} orderStatus={`performed`} />
             </TabPanel>
-             <TabPanel padding={0}>
-                            <CancellationPage t={t} orderStatus={`cancellation`} />
-                          </TabPanel>
-                          <TabPanel padding={0}>
-                            <ArchivePage   t={t} orderStatus={`archive`} />
-                          </TabPanel>
+            <TabPanel padding={0}>
+              <CancellationPage t={t} orderStatus={`cancellation`} />
+            </TabPanel>
+            <TabPanel padding={0}>
+              <ArchivePage t={t} orderStatus={`archive`} />
+            </TabPanel>
+
+            <TabPanel padding={0}>
+            <DriversDispachers/>
+            </TabPanel>
           </TabPanels>
         </Flex>
       </Tabs>
