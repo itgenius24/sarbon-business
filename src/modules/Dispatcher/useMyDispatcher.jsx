@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useDebounce as useDebounce2 } from "use-debounce";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import cls from "./style.module.scss";
 import authStore from "@/store/auth.store";
@@ -32,33 +32,63 @@ export const useMyDispatcher = () => {
   const { t } = useTranslation(locale, "translations");
   const [search, setSearch] = useState(``);
   const [debouncedValue] = useDebounce2(search, 500);
-  const [valueR, setValueR] = useState(`val1`);
+  const [valueR, setValueR] = useState(`active`);
 
-  const option = [
-    {
-      value: `val1`,
-      label: t(`Активные`) + ` (22)`,
-    },
-    {
-      value: `val2`,
-      label: t(`Неактивные`) + `(1)`,
-    },
-  ];
+  const [dataDis, setDataDis] = useState([]);
 
-  const { data: dataDis, refetch } = useGetCreateAddress({
+  const { data: dataRes, refetch } = useGetCreateAddress({
     data: {
       data: {
         object_data: {
           type: "top_dispatcher",
-          search:debouncedValue,
+          search: debouncedValue,
           dispatcher_id: authStore.userData.guid,
         },
       },
     },
   });
 
+  useEffect(() => {
+    if (valueR === `active`) {
+      setDataDis(
+        dataRes?.response?.filter(
+          (item) => item?.user_status_counts?.[0]?._id === "approved"
+        )
+      );
+    } else {
+      setDataDis(
+        dataRes?.response?.filter(
+          (item) => item?.user_status_counts?.[0]?._id === "blocked"
+        )
+      );
+    }
+  }, [valueR,dataRes]);
+
+  const option = [
+    {
+      value: `active`,
+      label:
+        t(`Активные`) +
+        ` (${
+          dataRes?.response?.filter(
+            (item) => item?.user_status_counts?.[0]?._id === "approved"
+          )?.length
+        })`,
+    },
+    {
+      value: `blocked`,
+      label:
+        t(`Неактивные`) +
+        `(${
+          dataRes?.response?.filter(
+            (item) => item?.user_status_counts?.[0]?._id === "blocked"
+          )?.length
+        })`,
+    },
+  ];
+
   const setSearchFn = (e) => {
-    setSearch(e)
+    setSearch(e);
   };
 
   const { mutate: deleteData } = useDeleteDisTop({
@@ -140,7 +170,7 @@ export const useMyDispatcher = () => {
             {" "}
             {row?.first_dispatcher_data?.user_status?.[0] === `blocked`
               ? `Отключен`
-              : `Active`}{" "}
+              : `Active`}
           </p>
           <Box className={cls.popup}>
             <Popover placement={"bottom-start"}>
@@ -249,7 +279,7 @@ export const useMyDispatcher = () => {
 
   return {
     t,
-    data: dataDis?.response,
+    data: dataDis,
     option,
     valueR,
     setValueR,
