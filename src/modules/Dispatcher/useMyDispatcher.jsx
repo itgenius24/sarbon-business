@@ -155,7 +155,7 @@ export const useMyDispatcher = () => {
     {
       title: t(`в исполнении`),
       width: 250,
-      render: (row, index) => row?.vehicle_count,
+      render: (row, index) => row?.performed_count,
     },
     {
       title: t(`Статус аккаунта`),
@@ -167,7 +167,6 @@ export const useMyDispatcher = () => {
           width={`100%`}
         >
           <p>
-            {" "}
             {row?.first_dispatcher_data?.user_status?.[0] === `blocked`
               ? `Отключен`
               : `Active`}
