@@ -16,7 +16,7 @@ export const ContactCard = ({
     {
       type !== "location"
         ? <a className={cls.link} target="_blank" href={addressLink ? addressLink : type === "email" ? `mailto:${content}` : type === "phone" ? `tel:${content}` : content}>{content}</a>
-        : <a target="_blank" href={`https://yandex.com/maps/?ll=69.291684,41.340317&z=15&pt=69.291684,41.340317pm2rdm`} className={cls.link}>{content}</a>
+        : <a target="_blank" href={`https://yandex.uz/maps/10335/tashkent/?ll=69.292768%2C41.340453&mode=whatshere&pt=69.291684%2C41.340317pm2rdm&whatshere%5Bpoint%5D=69.292878%2C41.340541&whatshere%5Bzoom%5D=17&z=20.52`} className={cls.link}>{content}</a>
     }
   </div>;
 };
