@@ -347,6 +347,11 @@ const StepFour = ({ status }) => {
                       additionalItemDefaultIndex={0}
                       placeholder={t("Введите сумму")}
                       errors={errors}
+                      onKeyDown={(e) => {
+                        if (e.key === "." || e.key === "," || e.key === "e") {
+                          e.preventDefault();
+                        }
+                      }}
                       type="number"
                       width="100%"
                       additionalItemOptions={paymentOptions}
@@ -374,6 +379,11 @@ const StepFour = ({ status }) => {
                       additionalItemDefaultIndex={0}
                       placeholder={t("Введите сумму")}
                       errors={errors}
+                      onKeyDown={(e) => {
+                        if (e.key === "." || e.key === "," || e.key === "e") {
+                          e.preventDefault();
+                        }
+                      }}
                       type="number"
                       width="100%"
                       additionalItemOptions={paymentOptions}
@@ -399,6 +409,11 @@ const StepFour = ({ status }) => {
                         additionalItemDefaultIndex={0}
                         placeholder={t("Введите сумму")}
                         errors={errors}
+                        onKeyDown={(e) => {
+                        if (e.key === "." || e.key === "," || e.key === "e") {
+                          e.preventDefault();
+                        }
+                      }}
                         type="number"
                         width="100%"
                         additionalItemOptions={paymentOptions}

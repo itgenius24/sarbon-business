@@ -13,40 +13,6 @@
   }
 }
 
-.th {
-  font-weight: 600;
-  color: rgba(126, 123, 134, 1);
-  font-size: 13px;
-  text-transform: uppercase;
-  max-width: 100%;
-  .filterTitle{
-    &:hover{
-       color: rgba(0, 122, 255, 1);
-    }
-
-    
- }
- &:hover{
-   svg{
-     path{
-       fill: rgba(0, 122, 255, 1) !important;
-     }
-   }
-  }
-  &:nth-child(1) {
-    width: 500px;
-  }
-  &:nth-child(2) {
-    width: 500px;
-  }
-  &:nth-child(3) {
-    width: 500px;
-  }
-  &:nth-child(4) {
-    width: 100%;
-  }
-  
-}
 
 .disName{
 
@@ -69,6 +35,14 @@ text-decoration-thickness: 0%;
 color: rgba(0, 122, 255, 1);
 cursor: pointer;
 
+}
+.disSubText{
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+  color: rgba(126, 123, 134, 1);
 }
 
 .input{
@@ -256,29 +230,65 @@ cursor: pointer;
     }
   
 
+    .sticiy{
+      position: sticky;
+      bottom: 0;
+      height: 100px;
+      width: 100%;
+      // background-color: white;
+
+    }
+
+    .addUser{
+      width: fit-content;
+      padding: 8px 16px;  
+      border-radius: 8px;
+      align-items: center;
+      box-shadow: 0px 6px 12px 6px rgba(33, 31, 38, 0.14);
+      background-color: white;
+      .addText{
+       font-weight: 600;
+       white-space:nowrap;
+       font-size: 18px;
+      }
+   
+   }
+
+   .btnDelete{
+    background-color: rgba(249, 245, 255, 1);
+    color: rgba(255, 59, 48, 1);
+    border: 1px solid rgba(233, 215, 254, 1);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    &:hover{
+      background-color: rgba(249, 245, 255, 1);
+    color: rgba(255, 59, 48, 1);
+
+    }
+
+   }
 
 
-    .filterWrap {
+   .filterWrap {
+    .headerTh {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 28px;
+      text-transform: uppercase;
+      color: rgba(126, 123, 134, 1);
+    }
+    svg {
+      opacity:  0;
+    }
+    &:hover {
       .headerTh {
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 28px;
-        text-transform: uppercase;
-        color: rgba(126, 123, 134, 1);
+        color: rgba(0, 122, 255, 1);
       }
       svg {
-        opacity:  0;
-      }
-      &:hover {
-        .headerTh {
-          color: rgba(0, 122, 255, 1);
-        }
-        svg {
-          opacity: 1;
-    
-          path {
-            fill: rgba(0, 122, 255, 1) !important;
-          }
+        opacity: 1;
+  
+        path {
+          fill: rgba(0, 122, 255, 1) !important;
         }
       }
     }
+  }

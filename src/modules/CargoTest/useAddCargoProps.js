@@ -1030,6 +1030,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         country_to: data?.country_to ? data?.country_to : ``,
         lat: data?.lat * 1,
         long: data?.long* 1,
+        gradusFrom:data?.gradusFrom,
+        gradusTo:data?.gradusTo,
       });
 
       setValue(`cargo_type`, {

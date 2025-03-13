@@ -72,6 +72,7 @@ const objectService = {
   dispatcherFirms: (data) =>
     request.post("/v2/items/dispatcher_and_firms", data),
   deleteDis: (id) => request.delete(`/v2/items/dispatcher_and_firms/${id.id}`,{data:JSON.stringify({data:{}})}),
+  deleteDisTop: (id) => request.delete(`/v2/items/dispatcher_teams/${id.id}`,{data:JSON.stringify({data:{}})}),
 
   dispatcherFirmsEdit: (data) =>
     request.put("/v2/items/dispatcher_and_firms", data),
@@ -163,6 +164,13 @@ export const useGetCar = (mutationSettings) => {
   export const useDeleteDis = (mutationSettings) => {
     return useMutation({ mutationFn: (data) => objectService.deleteDis(data), ...mutationSettings });
   };
+
+  export const useDeleteDisTop = (mutationSettings) => {
+    return useMutation({ mutationFn: (data) => objectService.deleteDisTop(data), ...mutationSettings });
+  };
+
+
+  
 
   
 

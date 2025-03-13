@@ -42,7 +42,7 @@ export const DispatcherModule = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const rowClassName = (row) => {
-      return cls.order
+      return row?.first_dispatcher_data?.user_status?.[0] === `blocked` ? cls.blocked :  cls.order
   }
   return (
     <>
@@ -94,8 +94,8 @@ export const DispatcherModule = () => {
           </Flex>
         </Flex>
 
-        <Box mt={"37px"}>
-          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.guid}`)} rowClassName={rowClassName}  variant="card" columns={columns}  data={data} />
+        <Box mt={"37px"} mb={`10px`}>
+          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.first_dispatcher_data?.guid}`)} rowClassName={rowClassName}  variant="card" columns={columns}  data={data} />
         </Box>
 
       </Container>

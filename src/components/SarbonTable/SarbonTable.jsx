@@ -29,11 +29,12 @@ const SarbonTable = ({
   };
 
   return (
-    <Box {...props} width={width} overflowX={`auto`}>
+    <Box {...props} width={width}    pb={`10px`} overflowX={`auto`}>
       <Flex
         justifyContent={`space-between`}
         width={`100%`}
         className={cls.headerWrap}
+      
       >
         {columns.map((item, index) => (
           <Flex
@@ -104,6 +105,7 @@ const SarbonTable = ({
               rowClassName(item) ? rowClassName(item) : ``
             }`}
             key={index}
+
           >
             {isTooltip && statusTooltip(item)}
             {columns.map((column) => (

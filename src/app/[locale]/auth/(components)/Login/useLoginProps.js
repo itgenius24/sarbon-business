@@ -1,6 +1,11 @@
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useLoginMutation, useOneLoginMutation } from "@/services/api";
+import {
+  useGetUseMutation,
+  useGetUserGpsByIDData,
+  useLoginMutation,
+  useOneLoginMutation,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -22,6 +27,7 @@ export const useLoginProps = () => {
 
   const [remember, setRemember] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataUser, setDataUser] = useState({});
 
   const defaultUserData = localStorage.getItem("loginData")
     ? JSON.parse(localStorage.getItem("loginData")).username
@@ -42,20 +48,47 @@ export const useLoginProps = () => {
     },
   });
 
+  const { mutate: getUserByIdData,isLoading:getUseLoading } = useGetUseMutation({
+    onSuccess: (res) => {
+      if (
+        res?.response?.[0]?.user_status?.[0] === `blocked`
+      ) {
+        toast({
+          title: t("Это заблокированный пользователь."),
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        authStore.login({
+          user: {
+            firm_id: dataUser.user_data?.firm_id,
+            full_name: dataUser.user_data?.full_name,
+            id: dataUser?.user_data.guid,
+            ...dataUser?.user_data,
+            client_id: dataUser?.client_type?.id,
+            role_id: dataUser?.role?.id,
+          },
+          token: dataUser?.token,
+          role: dataUser?.role,
+        });
+        router.push(`/${locale ? locale : `ru`}`);
+      }
+
+      setDataUser({});
+    },
+  });
+
   const login = useLoginMutation({
     onSuccess: (data) => {
-      authStore.login({
-        user: {
-          firm_id: data.user_data?.firm_id,
-          full_name: data.user_data?.full_name,
-          id: data?.user_data.guid,
-          ...data?.user_data,
-          client_id: data?.client_type?.id,
-          role_id: data?.role?.id,
-        },
-        token: data?.token,
-        role: data?.role,
+      getUserByIdData({
+        data: JSON.stringify({
+          guid: data?.user_data.guid,
+          with_relations: true,
+        }),
       });
+      setDataUser(data);
+
       if (remember) {
         localStorage.setItem(
           "loginData",
@@ -66,7 +99,7 @@ export const useLoginProps = () => {
         );
       }
 
-      router.push(`/${locale ? locale : `ru`}`);
+      
     },
     onError: (error) => {
       console.log(error);
@@ -140,13 +173,14 @@ export const useLoginProps = () => {
     errors,
     onSubmit,
     navigateRegistration,
-    isLoading: loginOne.isLoading || login.isLoading,
+    isLoading: loginOne.isLoading || login.isLoading || getUseLoading,
     onRememberChange,
     t,
     handleTogglePasswordVisibility,
     isPasswordVisible,
     navigateToMain,
     locale,
-    open,setOpen
+    open,
+    setOpen,
   };
 };

@@ -1,11 +1,13 @@
 "use client";
 
 import {
+  useCreateAddressMutation,
   useCreateLogHistory,
   useDeletedeleteDispacersDriver,
-  useGetCar,
+  useDeleteDisAll,
   useGetCarData,
-  useGetNotification,
+  useGetCreateAddress,
+  useGetUserData,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
@@ -14,51 +16,31 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import { useForm } from "react-hook-form";
 import { useDebounce as useDebounce2 } from "use-debounce";
-import useDebounce from "@/hooks/useDebounce";
-import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
   AddUserIcon,
-  BatareyDisabledIcon,
-  BatareyFullIcon,
-  BatareyIcon,
-  BluetoothIcon2,
   CencelMapIcon,
-  CricleArrovIcon,
-  FurDisabledIcon,
-  FurIcon,
   GreenCarIcon,
   IocnFilter,
   IocnSortBack,
   IocnSortTop,
   LocationActiveIcon,
   LocationDisabledIcon,
-  LocationIcon,
-  PopupIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
 import cls from "./style.module.scss";
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Avatar, Box, Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
 
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
 import { Checkbox } from "@/components/Checkbox";
+import { useSearchParams } from "next/navigation";
 
 export const useMyCarsDispatcher = () => {
+  const searchParams = useSearchParams();
+  const disUrlId = searchParams.get(`id`);
   const { register, watch } = useForm();
+  const { onOpen, isOpen, onClose } = useDisclosure();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const disId = authStore.userData?.id;
@@ -72,10 +54,13 @@ export const useMyCarsDispatcher = () => {
   const [search, setSearch] = useState(``);
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
-  const containerRef = useRef(null);
+  const [searchDis, setSearchDIs] = useState(``);
+  const [debouncedValueDIs] = useDebounce2(searchDis, 500);
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
-
+  const [ids, setId] = useState([]);
+  const [userdata, setUserData] = useState({});
+  const [userDisRes, setUserDisRes] = useState({});
   const [deleteId, setDeleteId] = useState(``);
 
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
@@ -250,6 +235,16 @@ export const useMyCarsDispatcher = () => {
       setData([]);
       setOldData([]);
       setVisibleData([]);
+    }
+  };
+
+  const handleCheckboxChange = (user) => {
+    if (ids?.map((item) => item?.guid).includes(user?.guid)) {
+      // Agar id arrayda bo'lsa, uni olib tashlaymiz
+      setId((prevIds) => prevIds.filter((item) => item?.guid !== user?.guid));
+    } else {
+      // Agar id yo'q bo'lsa, uni qo'shamiz
+      setId((prevIds) => [...prevIds, user]);
     }
   };
 
@@ -474,20 +469,43 @@ export const useMyCarsDispatcher = () => {
       title: `Диспетчер`,
       width: 230,
       render: (row, index) => (
-        <Flex width={`100%`} justifyContent={`space-between`} alignItems={`center`}>
-          <Flex  alignItems={`center`} gap={`9px`}>
-            {/* <Avatar  width={`40px`} height={`40px`}    src="" /> */}
-            <AddUserIcon />
-            <Box>
-              <p className={cls.disName}>Без диспетчера</p>
-              <p className={cls.addDisText}>Назначить диспетчера</p>
-            </Box>
-          </Flex>
-            <Checkbox
-                            // id={item?.guid}
-                            // defaultChecked={ids.includes(item?.guid)}
-                            // onClick={() => handleCheckboxChange(item)}
-                          ></Checkbox>
+        <Flex
+          width={`100%`}
+          justifyContent={`space-between`}
+          alignItems={`center`}
+        >
+          {row?.dispatcher_full_data ? (
+            <Flex alignItems={`center`} gap={`9px`}>
+              <Avatar
+                width={`40px`}
+                height={`40px`}
+                name={row?.dispatcher_full_data?.full_name}
+                src={row?.dispatcher_full_data?.photo}
+              />
+
+              <Box>
+                <p className={cls.disName}>
+                  {row?.dispatcher_full_data?.full_name}
+                </p>
+                <p className={cls.disSubText}>0 машин</p>
+              </Box>
+            </Flex>
+          ) : (
+            <Flex alignItems={`center`} gap={`9px`}>
+              <AddUserIcon />
+
+              <Box>
+                <p className={cls.disName}>Без диспетчера</p>
+                <p className={cls.addDisText}>Назначить диспетчера</p>
+              </Box>
+            </Flex>
+          )}
+
+          <Checkbox
+            id={row?.guid}
+            defaultChecked={ids.includes(row?.guid)}
+            onClick={() => handleCheckboxChange(row)}
+          ></Checkbox>
         </Flex>
       ),
     },
@@ -506,11 +524,18 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
+  const { mutate: deleteData } = useDeleteDisAll();
+
   const deleteFuntion = (id) => {
     setDeleteId(id);
-    deleteUser({
-      id,
+
+    deleteData({
+      ids: ids.map((item) => item.guid),
     });
+
+    // deleteUser({
+    //   id,
+    // });
   };
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -587,6 +612,98 @@ export const useMyCarsDispatcher = () => {
     }
   };
 
+  const { data: dataDis } = useGetCreateAddress({
+    data: {
+      data: {
+        object_data: {
+          type: "top_dispatcher",
+          search: debouncedValueDIs,
+          dispatcher_id: authStore.userData.guid,
+        },
+      },
+    },
+    querySettings: {
+      onSuccess: (res) => {
+        const targetId = disUrlId;
+        const targetIndex = res?.response?.findIndex(
+          (item) => item?.first_dispatcher_data?.guid === targetId
+        );
+
+        if (targetIndex > -1) {
+          const [targetItem] = res.response.splice(targetIndex, 1);
+          setUserData(targetItem);
+
+          setUserDisRes({ ...res, response: [targetItem, ...res.response] });
+        } else {
+          setUserDisRes(res);
+        }
+      },
+    },
+  });
+
+  const { mutate: createUserAdress, isLoading: createDisLoading } =
+    useCreateAddressMutation({
+      onSuccess: () => {
+        setVisibleData((prevData) =>
+          prevData.map((item) => {
+            const processedItem = ids.find((pItem) => pItem.guid === item.guid);
+            const data = item;
+            if (processedItem) {
+              data.dispatcher_full_data = {
+                full_name: userdata?.first_dispatcher_data?.full_name,
+                photo: userdata?.first_dispatcher_data?.photo,
+              };
+
+              return data;
+            }
+            return item;
+          })
+        );
+        onClose();
+        setId([]);
+      },
+      onError: () => {
+        setId([]);
+        setData([]);
+        setOldData([]);
+        setPage(0);
+        refetch();
+      },
+    });
+
+  const addSubDis = () => {
+    const data = {
+      data: {
+        object_data: {
+          type: "dispatcher",
+          name: ids?.map((item) => ({
+            firm_id: item?.firm_id || ``,
+            driver_id: item?.guid,
+          })),
+          dispatcher_id: userdata?.first_dispatcher_data?.guid,
+        },
+      },
+    };
+
+    // setVisibleData((prevData) =>
+    //   prevData.map((item) => {
+    //     const processedItem = ids.find((pItem) => pItem.guid === item.guid);
+    //     const data = item;
+    //     if (processedItem) {
+    //       data.dispatcher_full_data = {
+    //         full_name: userdata?.full_name,
+    //         photo: userdata?.photo,
+    //       };
+
+    //       return data;
+    //     }
+    //     return item;
+    //   })
+    // );
+
+    // createUserAdress(data);
+  };
+
   return {
     data: visibleData,
     deleteFuntion,
@@ -606,5 +723,16 @@ export const useMyCarsDispatcher = () => {
     statusIconChange,
     columns,
     rowClassName,
+    ids,
+    userdata,
+    setUserData,
+    dataDis: userDisRes?.response,
+    addSubDis,
+    onOpen,
+    isOpen,
+    onClose,
+    createDisLoading,
+    searchDis,
+    setSearchDIs,
   };
 };

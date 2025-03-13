@@ -6,6 +6,8 @@ const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 const authService = {
   oneLogin: (data) => authRequest.post(`/v2/multi-company/one-login?project_id=${projectId}`, data),
+  getUserGpsBYData: (params) =>
+    request.get("/v2/object-slim/get-list/users", { params }),
   login: (data) => authRequest.post(`/v2/login?project_id=${projectId}`, data),
   phone: (data) => authRequest.post(`/v2/auth/send-code?project_id=${projectId}`, data ),
   otp: (data) => authRequest.post(`/v2/login/with-option?project-id=${projectId}`, data),
@@ -18,6 +20,13 @@ const authService = {
 export const useOneLoginMutation = (mutationSettings = {}) => {
   return useMutation({
     mutationFn: authService.oneLogin,
+    ...mutationSettings
+  });
+};
+
+export const useGetUseMutation = (mutationSettings = {}) => {
+  return useMutation({
+    mutationFn: authService.getUserGpsBYData,
     ...mutationSettings
   });
 };

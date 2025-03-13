@@ -1,4 +1,5 @@
 import { Avatar, Box, Flex, useMediaQuery } from "@chakra-ui/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +9,9 @@ export const useProfileDis = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const { t } = useTranslation();
   const [filter, setFilter] = useState(1);
+  const router  = useRouter()
+    const params = useSearchParams();
+    const guid = params.get(`guid`) || 0;
 
   const columns = [
     {
@@ -53,5 +57,7 @@ export const useProfileDis = () => {
     tab,
     setTabs,
     columns,
+    router,
+    guid
   };
 };

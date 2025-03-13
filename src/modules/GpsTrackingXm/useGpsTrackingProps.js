@@ -47,8 +47,8 @@ export const useGpsTrackingProps = () => {
   const [offset, setOffset] = useState(1);
   const [offsetCar, setOffsetCAr] = useState(1);
   const [contendSingle, setContendSingle] = useState();
-  const [iconStatus, setIconStatus] = useState(``);
-  const [modalType, setModalType] = useState("");
+    const [iconStatus, setIconStatus] = useState(``);
+    const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
   const [loadState, setLoadState] = useState({});
   const [loadHoverState, setHoverLoadState] = useState({});

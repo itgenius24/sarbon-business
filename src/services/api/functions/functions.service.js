@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const { default: request } = require("@/services/request");
 
@@ -10,6 +10,16 @@ const functionsService = {
   getSortedGPSHistory: (data) => request.post("/v1/invoke_function/logistika-get-list-sorted-gps-history", data),
   getWidtLocation: (data) => request.post("/v1/invoke_function/logistika-get-users-with-location", data),
 };
+
+
+export const useGetCreateAddress = ({ data, querySettings }) => {
+  return useQuery({
+    queryKey: ["useGetCreateAddress", data],
+    queryFn: () => functionsService.createAddress(data),
+    ...querySettings,
+  });
+};
+
 
 export const useGetLoadingMutation = (mutationSettings) => {
   return useMutation({ mutationFn: (data) => functionsService.getLoadings(data), ...mutationSettings });

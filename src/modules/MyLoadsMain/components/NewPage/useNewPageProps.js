@@ -20,7 +20,6 @@ const useNewPageProps = (
 ) => {
   const toast = useToast();
   const params = useSearchParams();
-
   const guid = params.get(`guid`) || 0;
   const userId = authStore.userData.id;
   const [disabled, setDisabled] = useState(false);

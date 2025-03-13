@@ -346,6 +346,8 @@ export const useDashboard = (locale) => {
     }),
   });
 
+  console.log(`bzData`,bzData)
+
   const newData1 = bzData?.response?.filter(
     (item) =>
       item?.provisions?.includes(`new`) &&

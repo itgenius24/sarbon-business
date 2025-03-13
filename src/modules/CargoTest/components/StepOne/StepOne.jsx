@@ -47,7 +47,6 @@ const StepOne = ({ status }) => {
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  
   return (
     <Box className={cls.containerCards}>
       <Box className={cls.step1}>
@@ -147,6 +146,11 @@ const StepOne = ({ status }) => {
                       additionalItemOptions={weightMeasurementOptions}
                       disabled={!canEdit}
                       type="number"
+                      onKeyDown={(e) => {
+                        if (e.key === "." || e.key === "," || e.key === "e") {
+                          e.preventDefault();
+                        }
+                      }}
                       zIndex={90}
                     />
                     {canEdit && (
@@ -184,6 +188,11 @@ const StepOne = ({ status }) => {
                       placeholder={t("Объем")}
                       additionalItemPlaceholder="m³"
                       disabled={!canEdit}
+                      onKeyDown={(e) => {
+                        if (e.key === "." || e.key === "," || e.key === "e") {
+                          e.preventDefault();
+                        }
+                      }}
                       type="number"
                     />
                     {canEdit && (

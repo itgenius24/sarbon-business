@@ -306,7 +306,7 @@ export const TopContent = ({
     );
   };
 
-  console.log(`userData`,params?.cargo?.[1])
+  console.log(`userData`,userData)
 
   return (
     <Box>
@@ -562,7 +562,7 @@ export const TopContent = ({
                                   {t(`Батарея`)}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {user?.users_gps?.battery}%{" "}
+                                  {user?.users_gps?.battery}%
                                 </p>
                               </div>
                             </div>
@@ -683,8 +683,8 @@ export const TopContent = ({
                                   item?.long,
                                 ])}
                                 driverPosition={[
-                                  user?.users_gps?.lat,
-                                  user?.users_gps?.long,
+                                  getDriverLocation?.data?.response?.[0]?.lat,
+                                  getDriverLocation?.data?.response?.[0]?.long,
                                 ]}
                                 getMaps={getMaps}
                               />

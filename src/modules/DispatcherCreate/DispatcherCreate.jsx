@@ -78,7 +78,7 @@ export const DispatcherCreate = ({ locale }) => {
     <>
       <Container p={0} my={isLargerThan845 ? "40px" : `20px`}>
         <Button
-        onClick={() => router.push(`/${locale}/dispatcher`)}
+          onClick={() => router.push(`/${locale}/dispatcher`)}
           mb={`20px`}
           _hover={{ backgroundColor: `rgba(227, 230, 237, 1)` }}
           width={`fit-content`}

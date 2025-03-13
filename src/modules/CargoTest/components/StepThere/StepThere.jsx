@@ -43,7 +43,8 @@ const StepThere = ({ status }) => {
     handleCloseBelts,
     handleOpenLiftingCapacity,
     handleCloseLiftingCapacity,
-    setIsGradusOpen,
+    handleIsGradusOpen,
+    handleCloseIsGradus,
     isGradusOpen,
     isFtlOpen,
     isReymenOpen,
@@ -282,12 +283,12 @@ const StepThere = ({ status }) => {
                     {t("Ремней, шт")}
                   </Button>
                 )}
-                {!isReymenOpen && (
+                {!isGradusOpen && (
                   <Button
                     key="packagingBtn7"
                     leftIcon={<PlusIcon color="rgba(126, 123, 134, 1)" />}
                     variant="reset"
-                    onClick={handleIsReymenOpen}
+                    onClick={handleIsGradusOpen}
                     color="rgba(126, 123, 134, 1)"
                     fontWeight={400}
                     className={cls.button}
@@ -672,6 +673,79 @@ const StepThere = ({ status }) => {
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
                   onClick={handleCloseIsReymenOpen} // Toggles the packaging section
+                  variant={"outline"}
+                  className={cls.closeDecktopIcon}
+                />
+              </Box>
+            )}
+            {isGradusOpen && (
+              <Box
+                className={cls.additionalFields}
+                display="flex"
+                width={"100%"}
+                alignItems="center"
+                mt="24px"
+                justifyContent={"space-between"}
+                key="packagingBtn7"
+              >
+                <Box width={`100%`}>
+                  <Flex
+                    alignItems={`center`}
+                    width={`100%`}
+                    justifyContent={`space-between`}
+                  >
+                    <p className={cls.stepTitle2}>{t("Температурный режим")}</p>
+                    <IconButton
+                      border={"none"}
+                      width={"fit-content"}
+                      icon={<CloseStepIcon />}
+                      onClick={handleCloseIsGradus} // Toggles the packaging section
+                      variant={"outline"}
+                      className={cls.closeMobileIcon}
+                    />
+                  </Flex>
+                  <Flex gap={`20px`} width={`30%`}>
+                  <TextFieldWithAddition
+                      className={cls.textField2}
+                      errors={errors}
+                      control={control}
+                      name="gradusFrom"
+                      register={register}
+                      additionalItemName="weight_unit"
+                      width="160px"
+                      placeholder={t("от")}
+                      additionalItemPlaceholder="°C"
+                      // additionalItemOptions={[{label:`°C`,values:`°C`}]}
+                      disabled={!canEdit}
+                      additionalItemTheme={"light"}
+                      type="number"
+                      zIndex={90}
+                     
+                    />
+                    <TextFieldWithAddition
+                      className={cls.textField2}
+                      errors={errors}
+                      control={control}
+                      name="gradusTo"
+                      additionalItemTheme={"light"}
+                      register={register}
+                      additionalItemName="weight_unit"
+                      width="160px"
+                      placeholder={t("до")}
+                      additionalItemPlaceholder="°C"
+                      // additionalItemOptions={[{label:`°C`,values:`°C`}]}
+                      disabled={!canEdit}
+                      type="number"
+                      zIndex={90}
+                    />
+                  </Flex>
+                </Box>
+
+                <IconButton
+                  border={"none"}
+                  width={"fit-content"}
+                  icon={<CloseStepIcon />}
+                  onClick={handleCloseIsGradus} // Toggles the packaging section
                   variant={"outline"}
                   className={cls.closeDecktopIcon}
                 />

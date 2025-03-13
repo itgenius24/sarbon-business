@@ -2,6 +2,7 @@
 
 import {
   useCheckUser,
+  useCreateDispatcherTeams,
   useCreateUser,
   useGetAddress,
   useGetCarListOnSubmit,
@@ -27,7 +28,7 @@ export const useMyCars = () => {
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  console.log(`id`, id);
+
 
   const router = useRouter();
 
@@ -57,9 +58,18 @@ export const useMyCars = () => {
 
   const firm_id = authStore.userData.firm_id;
 
-  const { mutate } = useCreateUser({
+
+  const {mutate:createDispatcherTeams} = useCreateDispatcherTeams()
+
+  const { mutate,isLoading:useLoading } = useCreateUser({
     onSuccess: (res) => {
-      // router.push(`/${locale}/drivers`);
+      console.log(`res`,res)
+      createDispatcherTeams({
+        data:{
+          users_id:authStore.userData.guid,
+          users_id_2:res?.guid
+        }
+      })
       setIsPopupOpen(true);
     },
   });
@@ -165,7 +175,7 @@ export const useMyCars = () => {
     setIsPopupOpen,
     isPopupOpen,
     id,
-    isLoading:false,
+    isLoading:isLoadingCrate ||  isLoading || useLoading ,
     copyFunction,
     open,
     setOpen

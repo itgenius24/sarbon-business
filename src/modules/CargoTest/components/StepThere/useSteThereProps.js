@@ -30,6 +30,8 @@ const useStepThereProps = () => {
     isReymenOpen,
     setIsFtlOpen,
     setIsReymenOpen,
+    setIsGradusOpen,
+    isGradusOpen,
     setLoad,
     load,
     handleResetForm,
@@ -80,8 +82,16 @@ const useStepThereProps = () => {
     setIsReymenOpen(true);
   }
 
+  function handleIsGradusOpen() {
+    setIsGradusOpen(true);
+  }
+
   function handleCloseIsReymenOpen() {
     setIsReymenOpen(false);
+  }
+
+  function handleCloseIsGradus() {
+    setIsGradusOpen(false);
   }
 
   function handleCloseRequirement() {
@@ -252,7 +262,10 @@ const useStepThereProps = () => {
     handleCloseIsFtlOpen,
     handleIsReymenOpen,
     handleCloseIsReymenOpen,
-
+    handleIsGradusOpen,
+    handleCloseIsGradus,
+    setIsGradusOpen,
+    isGradusOpen,
     register,
     errors,
     canEdit,

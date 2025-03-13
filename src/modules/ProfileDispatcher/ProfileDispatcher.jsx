@@ -23,8 +23,8 @@ import { CancellationPage } from "../MyLoadsMain/components/CancellationPage/Can
 import { ArchivePage } from "../MyLoadsMain/components/ArchivePage/ArchivePage";
 import DriversDispachers from "./components/Drivers/Drivers";
 
-const ProfileDispatcher = () => {
-  const { status, t, tab, setTabs, columns } = useProfileDis();
+const ProfileDispatcher = ({locale}) => {
+  const { status, t, tab, setTabs, columns,router,guid } = useProfileDis();
 
   return (
     <Container my="40px">
@@ -47,7 +47,7 @@ const ProfileDispatcher = () => {
               <span className={cls.date}>Сегодня 12:36</span>
             </Flex>
             <p className={cls.disName}>Шорасулов Олим </p>
-            <p className={cls.disSetting}>Настройки профиля</p>
+            <p onClick={() => router.push(`/${locale}/dispatcher/create?id=${guid}`)} className={cls.disSetting}>Настройки профиля</p>
           </Box>
         </Flex>
         <Flex>

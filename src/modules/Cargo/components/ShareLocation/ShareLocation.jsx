@@ -350,7 +350,7 @@ export const ShareLocationModule = () => {
 
                           <div className={cls.phoneDataWrap}>
                             <div className={cls.item}>
-                              {getDriverLocation?.data?.response?.[0].gps ? (
+                              {getDriverLocation?.data?.response?.[0]?.gps ? (
                                 <LocationActiveIcon />
                               ) : (
                                 <LocationMobileIcon />
@@ -368,14 +368,13 @@ export const ShareLocationModule = () => {
                                     style={{ fontWeight: 600 }}
                                     className={cls.phoneItemName}
                                   >
-                                    {getDriverLocation?.data?.response?.[0].gps
+                                    {getDriverLocation?.data?.response?.[0]?.gps
                                       ? "Выкл "
                                       : "Откл "}
                                   </span>
                                   <ResToreIcon />
                                   <span className={cls.phoneItemTitle}>
-                                    {getDriverLocation?.data?.response?.[0]
-                                      .update_time &&
+                                    {getDriverLocation?.data?.response?.[0]?.update_time &&
                                       formatDateTime(
                                         getDriverLocation?.data?.response?.[0]
                                           .update_time
@@ -385,7 +384,7 @@ export const ShareLocationModule = () => {
                               </div>
                             </div>
                             <div className={cls.item}>
-                              {getDriverLocation?.data?.response?.[0].os ===
+                              {getDriverLocation?.data?.response?.[0]?.os ===
                               "android" ? (
                                 <AndroidIcon />
                               ) : (
@@ -396,7 +395,7 @@ export const ShareLocationModule = () => {
                                   {t("Смартфон")}
                                 </p>
                                 <p className={cls.phoneItemName}>
-                                  {getDriverLocation?.data?.response?.[0].os}{" "}
+                                  {getDriverLocation?.data?.response?.[0]?.os}{" "}
                                 </p>
                               </div>
                             </div>
@@ -408,15 +407,14 @@ export const ShareLocationModule = () => {
                                 </p>
                                 <p className={cls.phoneItemName}>
                                   {
-                                    getDriverLocation?.data?.response?.[0]
-                                      .version
+                                    getDriverLocation?.data?.response?.[0]?.version
                                   }{" "}
                                 </p>
                               </div>
                             </div>
 
                             <div className={cls.item}>
-                              {getDriverLocation?.data?.response?.[0].battery >
+                              {getDriverLocation?.data?.response?.[0]?.battery >
                               19 ? (
                                 <BatareyFullIcon />
                               ) : (
@@ -429,7 +427,7 @@ export const ShareLocationModule = () => {
                                 <p className={cls.phoneItemName}>
                                   {
                                     getDriverLocation?.data?.response?.[0]
-                                      .battery
+                                      ?.battery
                                   }
                                   %{" "}
                                 </p>
