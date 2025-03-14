@@ -493,10 +493,12 @@ export const useMyCarsDispatcher = () => {
           ) : (
             <Flex alignItems={`center`} gap={`9px`}>
               <AddUserIcon />
-
               <Box>
                 <p className={cls.disName}>Без диспетчера</p>
-                <p className={cls.addDisText}>Назначить диспетчера</p>
+                <p onClick={() => {
+                  handleCheckboxChange(row)
+                  onOpen()
+                }} className={cls.addDisText}>Назначить диспетчера</p>
               </Box>
             </Flex>
           )}
