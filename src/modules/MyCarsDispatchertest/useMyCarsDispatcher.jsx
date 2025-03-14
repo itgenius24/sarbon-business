@@ -524,7 +524,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  const { mutate: deleteData } = useDeleteDisAll();
+  const { mutate: deleteData,isLoading:deleteLoding } = useDeleteDisAll();
 
   const deleteFuntion = (id) => {
     setDeleteId(id);
@@ -533,9 +533,7 @@ export const useMyCarsDispatcher = () => {
       ids: ids.map((item) => item.guid),
     });
 
-    // deleteUser({
-    //   id,
-    // });
+
   };
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -760,6 +758,8 @@ export const useMyCarsDispatcher = () => {
     createDisLoading,
     searchDis,
     setSearchDIs,
-    removeSubDis
+    removeSubDis,
+    removeDisLoading,
+    deleteLoding
   };
 };

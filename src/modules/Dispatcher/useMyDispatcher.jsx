@@ -234,7 +234,7 @@ export const useMyDispatcher = () => {
                           className={cls.menuItem}
                           onClick={() => {
                             router.push(
-                              `/${locale}/my-cars-dispatchertest?id=${row?.first_dispatcher_data?.guid}`
+                              `/${locale}/my-cars-dispatcher-top?id=${row?.first_dispatcher_data?.guid}`
                             );
                           }}
                         >

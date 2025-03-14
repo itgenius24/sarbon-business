@@ -71,7 +71,7 @@
   padding: 2px;
   background-color: rgba(227, 230, 237, 1);
   border-radius: 12px;
-  flex-direction: column;
+  flex-direction: column !important;
   .tabBtn { 
     background: transparent;
     color: rgba(102, 112, 133, 1);

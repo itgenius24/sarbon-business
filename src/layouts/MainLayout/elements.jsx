@@ -186,7 +186,7 @@ export const useElements = (lang) => {
 
     return menu;
   } else if (role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") {
-    return [
+    return [ 
       {
         path: `/${lang || "ru"}/`,
         label: "Главный",
