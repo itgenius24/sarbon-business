@@ -22,9 +22,14 @@ import { PerfomedPage } from "../MyLoadsMain/components/PerfomedPage/PerfomedPag
 import { CancellationPage } from "../MyLoadsMain/components/CancellationPage/CancellationPage";
 import { ArchivePage } from "../MyLoadsMain/components/ArchivePage/ArchivePage";
 import DriversDispachers from "./components/Drivers/Drivers";
+import Image from "next/image";
+import { format } from "date-fns";
+import { formatDateTime } from "@/utils/formatDateTime";
 
-const ProfileDispatcher = ({locale}) => {
-  const { status, t, tab, setTabs, columns,router,guid } = useProfileDis();
+const ProfileDispatcher = ({ locale }) => {
+  const { status, t, tab, setTabs, columns, router, guid, userData,date } =
+    useProfileDis();
+
 
   return (
     <Container my="40px">
@@ -35,53 +40,66 @@ const ProfileDispatcher = ({locale}) => {
         h={`122px`}
       >
         <Flex gap={`19px`} alignItems={"center"}>
-          {/* <Image
-            style={{ width: `100px`, height: `100px`, borderRadius: `100%` }}
-            width={150}
-            height={150}
-          /> */}
-          <UserDisIcon />
+          {userData?.photo ? (
+            <Image
+              style={{ width: `100px`, height: `100px`, borderRadius: `100%` }}
+              src={
+                userData?.photo
+                  ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
+                      userData?.photo || ""
+                    }`
+                  : "/images/avatar.png"
+              }
+              width={150}
+              height={150}
+            />
+          ) : (
+            <UserDisIcon />
+          )}
+
           <Box>
             <Flex>
               <p className={cls.disTitle}>Диспетчер</p>
-              <span className={cls.date}>Сегодня 12:36</span>
+              <span className={cls.date}>{date && formatDateTime(date)}</span>
             </Flex>
-            <p className={cls.disName}>Шорасулов Олим </p>
-            <p onClick={() => router.push(`/${locale}/dispatcher/create?id=${guid}`)} className={cls.disSetting}>Настройки профиля</p>
+            <p className={cls.disName}>{userData?.full_name} </p>
+            <p
+              onClick={() =>
+                router.push(`/${locale}/dispatcher/create?id=${guid}`)
+              }
+              className={cls.disSetting}
+            >
+              Настройки профиля
+            </p>
           </Box>
         </Flex>
         <Flex>
-   
-            <Box>
-              <Flex
-                gap={`16px`}
-                alignItems={`center]`}
-                justifyContent={`flex-end`}
-              >
-                <p className={cls.month}>Неделя</p>
-                <p className={cls.month}>Месяц</p>
-                <p className={cls.month}>Все время</p>
-              </Flex>
-              <Flex className={cls.statisWrap}>
-                <Box
-                  pr={`20px`}
-                  borderRight={`1px solid rgba(219, 216, 227, 1)`}
-                >
-                  <p className={cls.statisName}>Завершенные</p>
-                  <p className={cls.statisRes}>
-                    <SlotCounter value={`31`} />
-                  </p>
-                </Box>
-                <Box pl={`20px`}>
-                  <p className={cls.statisName}>Cумма заказов (UZS) </p>
-                  <p className={cls.statisRes}>
-                    {" "}
-                    <SlotCounter value={`424,056,0001`} />
-                  </p>
-                </Box>
-              </Flex>
-            </Box>
-          
+          <Box>
+            <Flex
+              gap={`16px`}
+              alignItems={`center]`}
+              justifyContent={`flex-end`}
+            >
+              <p className={cls.month}>Неделя</p>
+              <p className={cls.month}>Месяц</p>
+              <p className={cls.month}>Все время</p>
+            </Flex>
+            <Flex className={cls.statisWrap}>
+              <Box pr={`20px`} borderRight={`1px solid rgba(219, 216, 227, 1)`}>
+                <p className={cls.statisName}>Завершенные</p>
+                <p className={cls.statisRes}>
+                  <SlotCounter value={`31`} />
+                </p>
+              </Box>
+              <Box pl={`20px`}>
+                <p className={cls.statisName}>Cумма заказов (UZS) </p>
+                <p className={cls.statisRes}>
+                  {" "}
+                  <SlotCounter value={`424,056,0001`} />
+                </p>
+              </Box>
+            </Flex>
+          </Box>
         </Flex>
       </Flex>
 
@@ -117,33 +135,11 @@ const ProfileDispatcher = ({locale}) => {
             </TabPanel>
 
             <TabPanel padding={0}>
-            <DriversDispachers/>
+              <DriversDispachers />
             </TabPanel>
           </TabPanels>
         </Flex>
       </Tabs>
-
-      {/* <Flex width={`100%`} gap={`40px`} mt={`40px`}>
-        <Box className={cls.tab}>
-          {filterTabstopDis.map((item) => (
-            <Button
-              onClick={() => setTabs(item.value)}
-              className={tab === item.value ? cls.activeBtn : cls.tabBtn}
-              key={item.value}
-            >
-              {item.label}
-            </Button>
-          ))}
-        </Box>
-        <Box width={`80%`}>
-          <SarbonTable
-            variant="card"
-            width="100%"
-            data={[1, 2, 3]}
-            columns={columns}
-          />
-        </Box>
-      </Flex> */}
     </Container>
   );
 };

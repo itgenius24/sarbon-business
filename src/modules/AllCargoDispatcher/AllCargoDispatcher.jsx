@@ -4,7 +4,6 @@ import { Container } from "@/components/Container";
 
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Input,
@@ -12,16 +11,7 @@ import {
   RadioGroup,
   useMediaQuery,
 } from "@chakra-ui/react";
-
-import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
-
-import { useRouter } from "next/navigation";
-import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
-import { CarsCard } from "./component/CarsCard/CarsCard";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-import authStore from "@/store/auth.store";
-import { TextField } from "@/components/TextField";
 import { useAllCargoDispatcher } from "./useAllCargoDispatcher";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
@@ -29,17 +19,15 @@ export const AllCargoDispatcher = () => {
   const {
     t,
     search,
+    setSearch,
     setSearchFn,
     deleteFuntion,
     negotiableOption,
     valueR,
     columns,
     onChange,
+    data
   } = useAllCargoDispatcher();
-  const router = useRouter();
-  const locale = useGetLang();
-
-  const isSuperDispatcher = authStore?.userData?.user_status?.[0];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -55,12 +43,12 @@ export const AllCargoDispatcher = () => {
             {t("Все грузы")}
           </Heading>
         </Flex>
-        <Flex  width={`100%`} justifyContent={`space-between`}>
+        <Flex width={`100%`} justifyContent={`space-between`}>
           <Box width={`40%`}>
             <Input
               value={search}
               className={cls.input}
-              placeholder={t("Имя диспетчера, номер машины или телефон")}
+              placeholder={t("Имя диспетчера, телефон, город")}
               onChange={(e) => setSearchFn(e.target?.value)}
             />
           </Box>
@@ -88,9 +76,8 @@ export const AllCargoDispatcher = () => {
           </RadioGroup>
         </Flex>
         <Box mt={"37px"}>
-            <SarbonTable variant="table" columns={columns} data={[1,2,3]}  />
+          <SarbonTable variant="table" columns={columns} data={data || []} />
         </Box>
-     
       </Container>
     </>
   );

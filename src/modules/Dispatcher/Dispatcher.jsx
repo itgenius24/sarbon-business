@@ -95,7 +95,7 @@ export const DispatcherModule = () => {
         </Flex>
 
         <Box mt={"37px"} mb={`10px`}>
-          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.first_dispatcher_data?.guid}`)} rowClassName={rowClassName}  variant="card" columns={columns}  data={data} />
+          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.first_dispatcher_data?.guid}&date=${row?.log_history?.last_move_time}`)} rowClassName={rowClassName}  variant="card" columns={columns}  data={data} />
         </Box>
 
       </Container>

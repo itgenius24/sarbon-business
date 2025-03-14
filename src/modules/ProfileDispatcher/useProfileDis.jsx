@@ -1,3 +1,4 @@
+import { useGetUserGpsByIDData } from "@/services/api";
 import { Avatar, Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -12,6 +13,7 @@ export const useProfileDis = () => {
   const router  = useRouter()
     const params = useSearchParams();
     const guid = params.get(`guid`) || 0;
+    const date = params.get(`date`) || 0;
 
   const columns = [
     {
@@ -51,6 +53,17 @@ export const useProfileDis = () => {
     },
   ];
 
+    const getUserGps = useGetUserGpsByIDData({
+      params: {
+        data: JSON.stringify({
+          // client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
+          //  firm_id,
+          guid: guid,
+          with_relations: true,
+        }),
+      },
+    });
+
   return {
     status,
     t,
@@ -58,6 +71,8 @@ export const useProfileDis = () => {
     setTabs,
     columns,
     router,
-    guid
+    guid,
+    userData:getUserGps?.data?.response?.[0],
+    date
   };
 };

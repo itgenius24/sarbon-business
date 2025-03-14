@@ -17,7 +17,7 @@ export const useLocaleDropdownProps = ({ locale }) => {
     },
     {
       value: "uz",
-      label: "Узбекский",
+      label: "O'zbekcha",
       shortName: "Уз",
       icon: "https://flagcdn.com/w320/uz.png",
     },
@@ -29,13 +29,13 @@ export const useLocaleDropdownProps = ({ locale }) => {
     },
     {
       value: "tr",
-      label: "Turkish",
+      label: "Türkçe",
       shortName: "Tr",
       icon: "https://flagcdn.com/w320/tr.png",
     },
     {
       value: "zh",
-      label: "Chinese",
+      label: "简体中文",
       shortName: "Ch",
       icon: "https://flagcdn.com/w320/cn.png",
     },

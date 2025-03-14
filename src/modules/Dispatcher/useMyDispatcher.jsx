@@ -33,7 +33,8 @@ export const useMyDispatcher = () => {
   const [search, setSearch] = useState(``);
   const [debouncedValue] = useDebounce2(search, 500);
   const [valueR, setValueR] = useState(`active`);
-
+  const [countActive,setCountActive] = useState(0)
+  const [countNeActive,setCountNeActive] = useState(0)
   const [dataDis, setDataDis] = useState([]);
 
   const { data: dataRes, refetch } = useGetCreateAddress({
@@ -42,10 +43,25 @@ export const useMyDispatcher = () => {
         object_data: {
           type: "top_dispatcher",
           search: debouncedValue,
+          filter:valueR,
           dispatcher_id: authStore.userData.guid,
         },
       },
     },
+    querySettings:{
+      onSuccess:(res) => {
+        if(!countActive){
+          setCountActive(res?.response?.filter(
+            (item) => item?.user_status_counts?.[0]?._id === "approved"
+          )?.length)
+        }
+        if(!countNeActive){
+          setCountNeActive(res?.response?.filter(
+            (item) => item?.user_status_counts?.[0]?._id === "blocked"
+          )?.length)
+        }
+      }
+    }
   });
 
   useEffect(() => {
@@ -70,9 +86,7 @@ export const useMyDispatcher = () => {
       label:
         t(`Активные`) +
         ` (${
-          dataRes?.response?.filter(
-            (item) => item?.user_status_counts?.[0]?._id === "approved"
-          )?.length
+          countActive
         })`,
     },
     {
@@ -80,9 +94,7 @@ export const useMyDispatcher = () => {
       label:
         t(`Неактивные`) +
         `(${
-          dataRes?.response?.filter(
-            (item) => item?.user_status_counts?.[0]?._id === "blocked"
-          )?.length
+         countNeActive
         })`,
     },
   ];
@@ -150,7 +162,7 @@ export const useMyDispatcher = () => {
     {
       title: t(`Предложения`),
       width: 250,
-      render: (row, index) => ``,
+      render: (row, index) => row?.new_count
     },
     {
       title: t(`в исполнении`),

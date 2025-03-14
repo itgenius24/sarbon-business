@@ -72,7 +72,7 @@ const SarbonTable = ({
       </Flex>
       {variant === `table` ? (
         <Box className={cls.tableWrap}>
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <Flex
               onClick={() => onRow(item)}
               position={`relative`}

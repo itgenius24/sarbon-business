@@ -52,7 +52,11 @@ export const MyCarsDispatcherModule = () => {
     isOpen,
     onClose,
     createDisLoading,
-    searchDis, setSearchDIs
+    searchDis,
+    setSearchDIs,
+    removeSubDis,
+    removeDisLoading,
+    deleteLoding
   } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
@@ -123,51 +127,51 @@ export const MyCarsDispatcherModule = () => {
             </Box>
           )}
 
-          {
-            data?.length > 0  &&  <Flex
-            className={cls.sticiy}
-            alignItems={`center`}
-            justifyContent={`center`}
-            mt={`20px`}
-          >
-            <Flex gap={`16px`} className={cls.addUser}>
-              <p className={cls.addText}>{t(`Выбрано`)}: {ids?.length}</p>
-              <Button
-                // isLoading={createAdressisLoading}
-                onClick={onOpen}
-                isDisabled={ids?.length === 0}
-                className={cls.btnAddLoad}
-              >
-                {t(`Назначить диспетчера`)}
-              </Button>
-              {isRemoveDisBtn?.length > 0 && (
+          {data?.length > 0 && (
+            <Flex
+              className={cls.sticiy}
+              alignItems={`center`}
+              justifyContent={`center`}
+              mt={`20px`}
+            >
+              <Flex gap={`16px`} className={cls.addUser}>
+                <p className={cls.addText}>
+                  {t(`Выбрано`)}: {ids?.length}
+                </p>
                 <Button
-                  // isLoading={createAdressisLoading}
-                  // onClick={onSubmit}
+                  isLoading={createDisLoading}
+                  onClick={onOpen}
                   isDisabled={ids?.length === 0}
                   className={cls.btnAddLoad}
                 >
-                  {t(`Открепить диспетчера`)}
+                  {t(`Назначить диспетчера`)}
                 </Button>
-              )}
+                {isRemoveDisBtn?.length > 0 && (
+                  <Button
+                    isLoading={removeDisLoading}
+                    onClick={removeSubDis}
+                    isDisabled={ids?.length === 0}
+                    className={cls.btnAddLoad}
+                  >
+                    {t(`Открепить диспетчера`)}
+                  </Button>
+                )}
 
-              <Button
-                // isLoading={createAdressisLoading}
-                onClick={deleteFuntion}
-                isDisabled={ids?.length === 0}
-                _disabled={{
-                  background: `rgba(249, 245, 255, 1)`,
-                  opacity: 0.5,
-                }}
-                className={cls.btnDelete}
-              >
-                {t(`Удалить выбранные`)}
-              </Button>
+                <Button
+                  isLoading={deleteLoding}
+                  onClick={deleteFuntion}
+                  isDisabled={ids?.length === 0}
+                  _disabled={{
+                    background: `rgba(249, 245, 255, 1)`,
+                    opacity: 0.5,
+                  }}
+                  className={cls.btnDelete}
+                >
+                  {t(`Удалить выбранные`)}
+                </Button>
+              </Flex>
             </Flex>
-          </Flex>
-          }
-
-         
+          )}
 
           <div>
             {data?.length >= 50 && count?.count > data?.length && (

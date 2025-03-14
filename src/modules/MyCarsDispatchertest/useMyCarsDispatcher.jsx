@@ -474,18 +474,18 @@ export const useMyCarsDispatcher = () => {
           justifyContent={`space-between`}
           alignItems={`center`}
         >
-          {row?.dispatcher_full_data ? (
+          {row?.first_dispatcher_data ? (
             <Flex alignItems={`center`} gap={`9px`}>
               <Avatar
                 width={`40px`}
                 height={`40px`}
-                name={row?.dispatcher_full_data?.full_name}
-                src={row?.dispatcher_full_data?.photo}
+                name={row?.first_dispatcher_data?.full_name}
+                src={row?.first_dispatcher_data?.photo}
               />
 
               <Box>
                 <p className={cls.disName}>
-                  {row?.dispatcher_full_data?.full_name}
+                  {row?.first_dispatcher_data?.full_name}
                 </p>
                 <p className={cls.disSubText}>0 машин</p>
               </Box>
@@ -618,6 +618,7 @@ export const useMyCarsDispatcher = () => {
         object_data: {
           type: "top_dispatcher",
           search: debouncedValueDIs,
+          filter:`active`,
           dispatcher_id: authStore.userData.guid,
         },
       },
@@ -649,11 +650,36 @@ export const useMyCarsDispatcher = () => {
             const processedItem = ids.find((pItem) => pItem.guid === item.guid);
             const data = item;
             if (processedItem) {
-              data.dispatcher_full_data = {
+              data.first_dispatcher_data = {
                 full_name: userdata?.first_dispatcher_data?.full_name,
                 photo: userdata?.first_dispatcher_data?.photo,
               };
 
+              return data;
+            }
+            return item;
+          })
+        );
+        onClose();
+        setId([]);
+      },
+      onError: () => {
+        setId([]);
+        setData([]);
+        setOldData([]);
+        setPage(0);
+        refetch();
+      },
+    });
+    const { mutate: userAdressRemove, isLoading: removeDisLoading } =
+    useCreateAddressMutation({
+      onSuccess: () => {
+        setVisibleData((prevData) =>
+          prevData.map((item) => {
+            const processedItem = ids.find((pItem) => pItem.guid === item.guid);
+            const data = item;
+            if (processedItem) {
+              data.first_dispatcher_data = undefined;
               return data;
             }
             return item;
@@ -676,6 +702,7 @@ export const useMyCarsDispatcher = () => {
       data: {
         object_data: {
           type: "dispatcher",
+          positive:true,
           name: ids?.map((item) => ({
             firm_id: item?.firm_id || ``,
             driver_id: item?.guid,
@@ -685,23 +712,22 @@ export const useMyCarsDispatcher = () => {
       },
     };
 
-    // setVisibleData((prevData) =>
-    //   prevData.map((item) => {
-    //     const processedItem = ids.find((pItem) => pItem.guid === item.guid);
-    //     const data = item;
-    //     if (processedItem) {
-    //       data.dispatcher_full_data = {
-    //         full_name: userdata?.full_name,
-    //         photo: userdata?.photo,
-    //       };
+    createUserAdress(data);
+  };
 
-    //       return data;
-    //     }
-    //     return item;
-    //   })
-    // );
+  const removeSubDis = () => {
+    const removeData = ids?.filter(item => item.first_dispatcher_data)
+    const data = {
+      data: {
+        object_data: {
+          type: "dispatcher",
+          positive:true,
+          ids:  removeData?.map((item) => item?.first_dispatcher_data?.guid),
+        },
+      },
+    };
 
-    // createUserAdress(data);
+    userAdressRemove(data);
   };
 
   return {
@@ -734,5 +760,6 @@ export const useMyCarsDispatcher = () => {
     createDisLoading,
     searchDis,
     setSearchDIs,
+    removeSubDis
   };
 };

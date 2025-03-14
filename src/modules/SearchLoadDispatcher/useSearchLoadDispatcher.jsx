@@ -298,6 +298,7 @@ export const useSearchLoadDispatcher = () => {
       data: {
         object_data: {
           type: "dispatcher",
+          positive:true,
           name: ids?.map((item) => ({
             firm_id: item?.firm_id || ``,
             driver_id: item?.guid,
