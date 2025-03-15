@@ -62,7 +62,7 @@ export const useMyCarsDispatcher = () => {
   const [userdata, setUserData] = useState({});
   const [userDisRes, setUserDisRes] = useState({});
   const [deleteId, setDeleteId] = useState(``);
-
+  const [value, setValueR] = useState(`active`)
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
 
@@ -120,6 +120,7 @@ export const useMyCarsDispatcher = () => {
           type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
+          filter:value
         },
       },
     },
@@ -181,6 +182,17 @@ export const useMyCarsDispatcher = () => {
       refetchOnWindowFocus: false,
     },
   });
+
+  const negotiableOption  = [
+    {
+      value: `active`,
+      label: t(`Всего`) + ` ${0}`,
+    },
+    {
+      value: `in_active`,
+      label: t(`Только свободные`) + ` ${0}`,
+    },
+  ]
 
   const nameFilter = (val) => {
     if (val !== `all`) {
@@ -730,6 +742,14 @@ export const useMyCarsDispatcher = () => {
     userAdressRemove(data);
   };
 
+  const onChange = (e) => {
+    setValueR(e);
+    setData([]);
+    setOldData([]);
+    setPage(0);
+
+  };
+
   return {
     data: visibleData,
     deleteFuntion,
@@ -762,6 +782,10 @@ export const useMyCarsDispatcher = () => {
     setSearchDIs,
     removeSubDis,
     removeDisLoading,
-    deleteLoding
+    deleteLoding,
+    negotiableOption,
+    onChange,
+    value
+
   };
 };

@@ -8,6 +8,8 @@ import {
   Flex,
   Heading,
   Input,
+  Radio,
+  RadioGroup,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -56,7 +58,10 @@ export const MyCarsDispatcherModule = () => {
     setSearchDIs,
     removeSubDis,
     removeDisLoading,
-    deleteLoding
+    deleteLoding,
+    negotiableOption,
+    onChange,
+    value
   } = useMyCarsDispatcher();
   const router = useRouter();
   const locale = useGetLang();
@@ -79,7 +84,7 @@ export const MyCarsDispatcherModule = () => {
             >
               {t("Ваши водители")}
             </Heading>
-            <Flex gap={`28px`}>
+            {/* <Flex gap={`28px`}>
               <Box className={cls.countrWrap}>
                 <p>
                   {t(`Всего`)}: <span>{count?.count || 0}</span>
@@ -99,9 +104,9 @@ export const MyCarsDispatcherModule = () => {
                   {t(`Добавить водителя`)}
                 </Button>
               )}
-            </Flex>
+            </Flex> */}
           </Flex>
-          <Flex>
+          <Flex width={`100%`} justifyContent={`space-between`}>
             <Box width={`40%`}>
               <Input
                 value={search}
@@ -110,6 +115,28 @@ export const MyCarsDispatcherModule = () => {
                 onChange={(e) => setSearchFn(e.target?.value)}
               />
             </Box>
+            <RadioGroup onChange={(e) => onChange(e)} value={value}>
+              <Flex gap={"30px"}>
+                {negotiableOption &&
+                  negotiableOption.map((item) => (
+                    <Radio
+                      key={item.value}
+                      border={"1px solid rgba(208, 213, 221, 1)"}
+                      value={item.value}
+                      size={"md"}
+                    >
+                      <span
+                        className={
+                          value === item.value ? cls.ActiveRadio : cls.radio
+                        }
+                      >
+                        {item?.label?.charAt(0).toUpperCase() +
+                          item?.label?.slice(1).toLowerCase()}
+                      </span>
+                    </Radio>
+                  ))}
+              </Flex>
+            </RadioGroup>
           </Flex>
 
           <Box mt={"37px"}>
