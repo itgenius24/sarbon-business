@@ -163,7 +163,7 @@ const Cmap = memo(
           }}
         />
 
-        {/* {zoom >= 20 ? (
+        {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const BalloonContent = () => (
@@ -943,18 +943,9 @@ const Cmap = memo(
                 );
               })}
           </Clusterer>
-        )} */}
+        )} 
 
-        {/* <Clusterer
-            options={{
-              clusterIconColor: "rgba(52, 199, 89, 1)",
-              style: {
-                backgroundColor: "rgba(52, 199, 89, 1)",
-                color: "white",
-                borderRadius: "50%",
-              },
-            }}
-          > */}
+      
   {locationData &&
           locationData.map((item,index) => {
             const BalloonContentCargo = () => (
@@ -1086,7 +1077,7 @@ const Cmap = memo(
               </>
             );
           })}
-          {/* </Clusterer> */}
+   
 
       
       </Map>
