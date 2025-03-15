@@ -65,7 +65,6 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
-   
     if (!isClient) {
       return null; // Render nothing during SSR
     }

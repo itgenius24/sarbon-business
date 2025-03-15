@@ -89,24 +89,19 @@ export const useElements = (lang) => {
         label: "Dashboard",
       },
       {
-        path: isAuth
-          ? `/${lang || "ru"}/dispatcher`
-          : `/${lang || "ru"}/auth`,
-        label: "Диспетчеры",
+        path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
+        label: "Мои грузы",
       },
       {
         path: isAuth
-          ? `/${lang || "ru"}/all-cargo-dispatcher`
+          ? `/${lang || "ru"}/my-cars-dispatcher`
           : `/${lang || "ru"}/auth`,
-        label: "Грузы диспетчеров",
+        label: "Мои водители",
       },
-      {
-        path: isAuth
-          ? `/${lang || "ru"}/my-cars-dispatcher-top`
-          : `/${lang || "ru"}/auth`,
-        label: "Водители",
-      },
-
+      // {
+      //   path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
+      //   label: "Поиск грузов",
+      // },
       {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
