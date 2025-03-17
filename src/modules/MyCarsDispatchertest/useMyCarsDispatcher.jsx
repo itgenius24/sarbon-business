@@ -64,6 +64,9 @@ export const useMyCarsDispatcher = () => {
   const [value, setValueR] = useState(`active`);
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
+  const idsId = ids?.map(item => item?.driver_data?.guid)
+
+  console.log(`idsData`,ids)
 
   const loadMore = () => {
     const nextPage = pageUi + 1;
@@ -250,8 +253,9 @@ export const useMyCarsDispatcher = () => {
   };
 
   const handleCheckboxChange = (user) => {
-    if (ids?.map((item) => item?.driver_data?.guid).includes(user?.driver_data?.guid)) {
-      setId((prevIds) => prevIds.filter((item) => item?.driver_data?.guid !== user?.driver_data?.guid));
+    console.log(`salom`,user)
+    if (ids?.map((item) => item?.guid).includes(user?.guid)) {
+      setId((prevIds) => prevIds.filter((item) => item?.guid !== user?.guid));
     } else {
       setId((prevIds) => [...prevIds, user]);
     }
@@ -482,6 +486,7 @@ export const useMyCarsDispatcher = () => {
           width={`100%`}
           justifyContent={`space-between`}
           alignItems={`center`}
+          onClick={(e) => e.stopPropagation() }
         >
           {row?.first_dispatcher_data ? (
             <Flex alignItems={`center`} gap={`9px`}>
@@ -505,7 +510,8 @@ export const useMyCarsDispatcher = () => {
               <Box>
                 <p className={cls.disName}>Без диспетчера</p>
                 <p
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     handleCheckboxChange(row);
                     onOpen();
                   }}
@@ -518,9 +524,13 @@ export const useMyCarsDispatcher = () => {
           )}
 
           <Checkbox
-            id={row?.driver_data?.guid}
-            defaultChecked={ids.includes(row?.driver_data?.guid)}
-            onClick={() => handleCheckboxChange(row)}
+            id={row?.guid}
+            defaultChecked={idsId.includes(row?.driver_data?.guid)}
+            checked={idsId.includes(row?.driver_data?.guid)}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleCheckboxChange(row)
+            }}
           ></Checkbox>
         </Flex>
       ),
@@ -528,7 +538,8 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    return ids.includes(row?.driver_data?.guid) ? cls.border: cls.no_border ;
+    console.log(`ids`,idsId.includes(row?.driver_data?.guid))
+    return idsId.includes(row?.driver_data?.guid) ? cls.border: cls.no_border ;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({

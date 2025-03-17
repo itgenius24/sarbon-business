@@ -62,11 +62,11 @@ cursor: pointer;
   }
 }
 
-.bussy{
-  border-left: 4px solid rgba(0, 122, 255, 1);
+.border{
+  border: 1px solid rgba(0, 122, 255, 1);
 }
-.free{
-  border-left: 4px solid rgba(21, 186, 77, 1);
+.no_border{
+  border: 1px solid rgb(255, 255, 255);
 }
 
   .title {
