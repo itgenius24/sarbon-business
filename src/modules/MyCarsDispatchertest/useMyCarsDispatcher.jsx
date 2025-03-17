@@ -528,7 +528,7 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    return ids.includes(row?.driver_data?.guid) ? cls.border: ;
+    return ids.includes(row?.driver_data?.guid) ? cls.border: cls.no_border ;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
