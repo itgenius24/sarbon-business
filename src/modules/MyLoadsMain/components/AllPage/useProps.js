@@ -53,7 +53,7 @@ const useProps = (orderStatus, t) => {
     },
   });
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     deleteCargo.mutate({ id });
   }
 
