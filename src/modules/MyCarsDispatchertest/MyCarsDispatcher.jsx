@@ -59,7 +59,7 @@ export const MyCarsDispatcherModule = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const isRemoveDisBtn = ids?.filter((item) => item.dispatcher_full_data);
+  const isRemoveDisBtn = ids?.filter((item) => item.first_dispatcher_data);
 
   return (
     <>
