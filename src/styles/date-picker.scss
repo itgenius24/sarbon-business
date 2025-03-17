@@ -58,7 +58,8 @@
 }
 
 .react-datepicker__day--selected.react-datepicker__day--selected {
-  border-radius: 50% !important;
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;  
   background-color: rgba(0, 51, 153, 1) !important;
   color: white !important;
 
@@ -76,7 +77,8 @@
 }
 
 .react-datepicker__day--selected.react-datepicker__day--in-range {
-  border-radius: 0 !important;
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;  
   background-color: rgba(0, 51, 153, 1) !important;
   color: #fff !important;
 

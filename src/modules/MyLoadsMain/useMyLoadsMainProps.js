@@ -362,35 +362,12 @@ export const useMyLoadsMainProps = (locale) => {
     });
   };
 
-  const deleteCargo = useDeleteCargo({
-    onSuccess() {
-      // setTimeout(() => {
-      //   // if (isCargo) {
-      //   //   // getAllUserCargo.refetch();
-      //   // } else {
-      //   //   // getOfferCargo.refetch();
-      //   // }
-      // }, 800);
-      toast({
-        position: "top-right",
-        title: "Груз успешно удален",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-    },
-    onError(res) {
-      console.error(res);
-    },
-  });
 
-  function handleDelete(id) {
-    deleteCargo.mutate({ id });
-  }
+
+
 
   const hanleAdress = (location, name) => {
     setValue(name, `${location?.GeoObject?.name}`);
-
     setResults([]);
   };
 
@@ -488,6 +465,6 @@ export const useMyLoadsMainProps = (locale) => {
     router,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount: getWaitingDriverCount?.refetch()
+    refetchWaitingDriverCount: getWaitingDriverCount?.refetch(),
   };
 };

@@ -8,7 +8,7 @@ import useProps from "./useProps";
 
 export const AllPage = ({orderStatus,t}) => {
 
-    const { cargoData,isLoading,addPage,isFetching, } = useProps(orderStatus, t);
+    const { cargoData,isLoading,addPage,isFetching,handleDelete } = useProps(orderStatus, t);
 
 
     if(isLoading && cargoData?.length < 0)  {
@@ -20,7 +20,7 @@ export const AllPage = ({orderStatus,t}) => {
         <Box>
           {cargoData?.length > 0 ? (
             cargoData?.map((item, index) => (
-              <LoadsCard orderStatus={orderStatus} key={index} cargo={item} />
+              <LoadsCard handleDelete={handleDelete} orderStatus={orderStatus} key={index} cargo={item} />
             ))
           ) : (
             <Empty t={t} />
