@@ -719,7 +719,8 @@ export const useMyCarsDispatcher = () => {
             firm_id: item?.firm_id || ``,
             driver_id: item?.guid,
           })),
-          dispatcher_id: userdata?.first_dispatcher_data?.guid,
+          first_dispatcher_id: userdata?.first_dispatcher_data?.guid,
+          dispatcher_id:authStore.userData.guid,
         },
       },
     };
