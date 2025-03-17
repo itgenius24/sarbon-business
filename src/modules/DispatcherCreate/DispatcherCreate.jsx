@@ -206,7 +206,7 @@ export const DispatcherCreate = ({ locale }) => {
               </Flex>
             </Box>
             <Box>
-              <p className={cls.textFieldName}>{t("Скан паспорта")} *</p>
+              <p className={cls.textFieldName}>{t("Скан паспорта")}</p>
               <UploadImg
                 isColor={true}
                 watch={watch}

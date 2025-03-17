@@ -436,6 +436,9 @@ export const useGetUserGpsByIDData = ({
     ...querySettings,
   });
 };
+
+
+
 export const useGetVehicleSingle = ({
   params = { data: JSON.stringify({}) },
   querySettings,

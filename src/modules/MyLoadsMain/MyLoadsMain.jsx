@@ -246,7 +246,7 @@ export const MyLoadsMain = ({ locale }) => {
           ) : (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
-                <AllPage t={t} orderStatus={``} />
+                <AllPage   t={t} orderStatus={``} />
               </TabPanel>
               <TabPanel padding={0}>
                 <InModerationPage t={t} orderStatus={`in_moderation`} />

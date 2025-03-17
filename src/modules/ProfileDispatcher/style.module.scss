@@ -65,6 +65,13 @@
   }
 }
 
+.activeMonth {
+  color: var(--primary);
+  font-weight: 400;
+  // border-bottom: 1px dashed rgba(126, 123, 134, 1);
+  cursor: pointer;
+}
+
 .tab {
   width:300px;
   height: 100%;

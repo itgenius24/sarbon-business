@@ -54,14 +54,6 @@ export const useDashboardDispatcher = (locale) => {
       onSuccess: (res) => {
         setData(res);
         setCurrentPage(1);
-        if (filter[status] === `ekspiditor`) {
-          res?.response?.forEach((element) => {
-            // return setValue(`cargo_type_${element?.guid}`, {
-            //   label: element?.dispatcher_and_firms_data_details.full_name,
-            //   value: element?.dispatcher_and_firms_data_details?.guid,
-            // });
-          });
-        }
       },
     });
 

@@ -201,12 +201,12 @@
         padding: 16px 14px;
         border-radius: 12px;
         .cargoType {
-          width: 7vw;
+          width:50%;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           @media (max-width: 1556px) {
-            width: 4vw;
+            width:50%;
           }
         }
       }

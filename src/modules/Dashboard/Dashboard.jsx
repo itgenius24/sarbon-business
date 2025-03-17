@@ -142,7 +142,7 @@ const Dashboard = ({ locale }) => {
                   mb={`24px`}
                   width={`100%`}
                 >
-                  <Box width={`30%`}>
+                  <Box className={`dateWrap`} width={`35%`}>
                     <DatePicker
                       onChange={() => {
                         setDate(``), setDate2([]);

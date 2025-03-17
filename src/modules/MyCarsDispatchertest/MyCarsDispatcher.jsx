@@ -8,18 +8,13 @@ import {
   Flex,
   Heading,
   Input,
-  useDisclosure,
+  Radio,
+  RadioGroup,
   useMediaQuery,
 } from "@chakra-ui/react";
-
-import { PlusIcon } from "@/assets/icons/icons";
-
-import { useRouter } from "next/navigation";
-import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import authStore from "@/store/auth.store";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import ModalStatus from "./component/ModalStatus/ModalStatus";
 import ModalAddDis from "./component/ModalAddDis/ModalAddDis";
@@ -56,16 +51,16 @@ export const MyCarsDispatcherModule = () => {
     setSearchDIs,
     removeSubDis,
     removeDisLoading,
-    deleteLoding
+    deleteLoding,
+    negotiableOption,
+    onChange,
+    handleCheckboxChange,
+    value
   } = useMyCarsDispatcher();
-  const router = useRouter();
-  const locale = useGetLang();
-
-  const isSuperDispatcher = authStore?.userData?.user_status?.[0];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const isRemoveDisBtn = ids?.filter((item) => item.dispatcher_full_data);
+  const isRemoveDisBtn = ids?.filter((item) => item.first_dispatcher_data);
 
   return (
     <>
@@ -79,7 +74,7 @@ export const MyCarsDispatcherModule = () => {
             >
               {t("Ваши водители")}
             </Heading>
-            <Flex gap={`28px`}>
+            {/* <Flex gap={`28px`}>
               <Box className={cls.countrWrap}>
                 <p>
                   {t(`Всего`)}: <span>{count?.count || 0}</span>
@@ -99,9 +94,9 @@ export const MyCarsDispatcherModule = () => {
                   {t(`Добавить водителя`)}
                 </Button>
               )}
-            </Flex>
+            </Flex> */}
           </Flex>
-          <Flex>
+          <Flex width={`100%`} justifyContent={`space-between`}>
             <Box width={`40%`}>
               <Input
                 value={search}
@@ -110,11 +105,34 @@ export const MyCarsDispatcherModule = () => {
                 onChange={(e) => setSearchFn(e.target?.value)}
               />
             </Box>
+            <RadioGroup onChange={(e) => onChange(e)} value={value}>
+              <Flex gap={"30px"}>
+                {negotiableOption &&
+                  negotiableOption.map((item) => (
+                    <Radio
+                      key={item.value}
+                      border={"1px solid rgba(208, 213, 221, 1)"}
+                      value={item.value}
+                      size={"md"}
+                    >
+                      <span
+                        className={
+                          value === item.value ? cls.ActiveRadio : cls.radio
+                        }
+                      >
+                        {item?.label?.charAt(0).toUpperCase() +
+                          item?.label?.slice(1).toLowerCase()}
+                      </span>
+                    </Radio>
+                  ))}
+              </Flex>
+            </RadioGroup>
           </Flex>
 
           <Box mt={"37px"}>
             <SarbonTable
               rowClassName={rowClassName}
+              onRow={(row) => handleCheckboxChange(row)}
               variant="card"
               columns={columns}
               data={data}
@@ -157,7 +175,7 @@ export const MyCarsDispatcherModule = () => {
                   </Button>
                 )}
 
-                <Button
+                {/* <Button
                   isLoading={deleteLoding}
                   onClick={deleteFuntion}
                   isDisabled={ids?.length === 0}
@@ -168,7 +186,7 @@ export const MyCarsDispatcherModule = () => {
                   className={cls.btnDelete}
                 >
                   {t(`Удалить выбранные`)}
-                </Button>
+                </Button> */}
               </Flex>
             </Flex>
           )}

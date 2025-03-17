@@ -1,4 +1,4 @@
-import { useGetOffer, useGetUserCargo, useGetUserCargoPa } from "@/services/api";
+import { useDeleteCargo, useGetOffer, useGetUserCargo, useGetUserCargoPa } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
@@ -36,11 +36,34 @@ const useProps = (orderStatus, t) => {
     setLimit(prev => prev + 40)
   }
 
+  const deleteCargo = useDeleteCargo({
+    onSuccess() {
+      setData([])
+      getAllUserCargo.refetch()
+      toast({
+        position: "top-right",
+        title: "Груз успешно удален",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError(res) {
+      console.error(res);
+    },
+  });
+
+  const handleDelete = () => {
+    deleteCargo.mutate({ id });
+  }
+
+
   return {
     cargoData: data,
     isLoading: getAllUserCargo?.isLoading,
     isFetching:getAllUserCargo?.isFetching,
-    addPage
+    addPage,
+    handleDelete
   };
 };
 

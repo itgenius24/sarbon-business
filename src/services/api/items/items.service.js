@@ -66,6 +66,8 @@ const itemsService = {
   updateNote: (data) => request.put(`/v2/items/note`, data),
   getDriverPosition: (params) =>
     request.get("/v2/object-slim/get-list/gps_history", { params }),
+  getPhoneUser: (params) =>
+    request.get("/v2/object-slim/get-list/users", { params }),
   deleteOrder: (id) =>
     request.delete(`/v2/items/order/${id}`, {
       data: JSON.stringify({ data: {} }),
@@ -338,6 +340,13 @@ export const useDeleteUsers = (mutationSettings) => {
 export const useCreateUser = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.createUser(data),
+    ...mutationSettings,
+  });
+};
+
+export const useGetPhone = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.getPhoneUser(data),
     ...mutationSettings,
   });
 };
