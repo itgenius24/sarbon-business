@@ -27,9 +27,19 @@ import { format } from "date-fns";
 import { formatDateTime } from "@/utils/formatDateTime";
 
 const ProfileDispatcher = ({ locale }) => {
-  const { status, t, tab, setTabs, columns, router, guid, userData,date } =
-    useProfileDis();
-
+  const {
+    status,
+    t,
+    tab,
+    setTabs,
+    columns,
+    router,
+    guid,
+    userData,
+    date,
+    setDateType,
+    dateType,
+  } = useProfileDis();
 
   return (
     <Container my="40px">
@@ -80,9 +90,24 @@ const ProfileDispatcher = ({ locale }) => {
               alignItems={`center]`}
               justifyContent={`flex-end`}
             >
-              <p className={cls.month}>Неделя</p>
-              <p className={cls.month}>Месяц</p>
-              <p className={cls.month}>Все время</p>
+              <p
+                className={dateType === `weekly` ? cls.activeMonth : cls.month}
+                onClick={() => setDateType(`weekly`)}
+              >
+                Неделя
+              </p>
+              <p
+                className={dateType === `monthly` ? cls.activeMonth : cls.month}
+                onClick={() => setDateType(`monthly`)}
+              >
+                Месяц
+              </p>
+              <p
+                className={dateType === `clear` ? cls.activeMonth : cls.month}
+                onClick={() => setDateType(`clear`)}
+              >
+                Все время
+              </p>
             </Flex>
             <Flex className={cls.statisWrap}>
               <Box pr={`20px`} borderRight={`1px solid rgba(219, 216, 227, 1)`}>
@@ -95,7 +120,7 @@ const ProfileDispatcher = ({ locale }) => {
                 <p className={cls.statisName}>Cумма заказов (UZS) </p>
                 <p className={cls.statisRes}>
                   {" "}
-                  <SlotCounter value={`424,056,0001`} />
+                  <SlotCounter value={`0`} />
                 </p>
               </Box>
             </Flex>

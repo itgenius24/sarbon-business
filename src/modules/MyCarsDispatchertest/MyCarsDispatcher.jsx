@@ -10,18 +10,11 @@ import {
   Input,
   Radio,
   RadioGroup,
-  useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
-
-import { PlusIcon } from "@/assets/icons/icons";
-
-import { useRouter } from "next/navigation";
-import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import authStore from "@/store/auth.store";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import ModalStatus from "./component/ModalStatus/ModalStatus";
 import ModalAddDis from "./component/ModalAddDis/ModalAddDis";
@@ -63,10 +56,6 @@ export const MyCarsDispatcherModule = () => {
     onChange,
     value
   } = useMyCarsDispatcher();
-  const router = useRouter();
-  const locale = useGetLang();
-
-  const isSuperDispatcher = authStore?.userData?.user_status?.[0];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 

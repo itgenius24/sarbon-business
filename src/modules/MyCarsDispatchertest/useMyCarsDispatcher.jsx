@@ -7,7 +7,6 @@ import {
   useDeleteDisAll,
   useGetCarData,
   useGetCreateAddress,
-  useGetUserData,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
@@ -62,7 +61,7 @@ export const useMyCarsDispatcher = () => {
   const [userdata, setUserData] = useState({});
   const [userDisRes, setUserDisRes] = useState({});
   const [deleteId, setDeleteId] = useState(``);
-  const [value, setValueR] = useState(`active`)
+  const [value, setValueR] = useState(`active`);
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
 
@@ -120,7 +119,7 @@ export const useMyCarsDispatcher = () => {
           type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
-          filter:value
+          filter: value,
         },
       },
     },
@@ -183,7 +182,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  const negotiableOption  = [
+  const negotiableOption = [
     {
       value: `active`,
       label: t(`Всего`) + ` ${0}`,
@@ -192,7 +191,7 @@ export const useMyCarsDispatcher = () => {
       value: `in_active`,
       label: t(`Только свободные`) + ` ${0}`,
     },
-  ]
+  ];
 
   const nameFilter = (val) => {
     if (val !== `all`) {
@@ -251,11 +250,9 @@ export const useMyCarsDispatcher = () => {
   };
 
   const handleCheckboxChange = (user) => {
-    if (ids?.map((item) => item?.guid).includes(user?.guid)) {
-      // Agar id arrayda bo'lsa, uni olib tashlaymiz
-      setId((prevIds) => prevIds.filter((item) => item?.guid !== user?.guid));
+    if (ids?.map((item) => item?.driver_data?.guid).includes(user?.driver_data?.guid)) {
+      setId((prevIds) => prevIds.filter((item) => item?.driver_data?.guid !== user?.driver_data?.guid));
     } else {
-      // Agar id yo'q bo'lsa, uni qo'shamiz
       setId((prevIds) => [...prevIds, user]);
     }
   };
@@ -507,17 +504,22 @@ export const useMyCarsDispatcher = () => {
               <AddUserIcon />
               <Box>
                 <p className={cls.disName}>Без диспетчера</p>
-                <p onClick={() => {
-                  handleCheckboxChange(row)
-                  onOpen()
-                }} className={cls.addDisText}>Назначить диспетчера</p>
+                <p
+                  onClick={() => {
+                    handleCheckboxChange(row);
+                    onOpen();
+                  }}
+                  className={cls.addDisText}
+                >
+                  Назначить диспетчера
+                </p>
               </Box>
             </Flex>
           )}
 
           <Checkbox
-            id={row?.guid}
-            defaultChecked={ids.includes(row?.guid)}
+            id={row?.driver_data?.guid}
+            defaultChecked={ids.includes(row?.driver_data?.guid)}
             onClick={() => handleCheckboxChange(row)}
           ></Checkbox>
         </Flex>
@@ -538,7 +540,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  const { mutate: deleteData,isLoading:deleteLoding } = useDeleteDisAll();
+  const { mutate: deleteData, isLoading: deleteLoding } = useDeleteDisAll();
 
   const deleteFuntion = (id) => {
     setDeleteId(id);
@@ -546,8 +548,6 @@ export const useMyCarsDispatcher = () => {
     deleteData({
       ids: ids.map((item) => item.guid),
     });
-
-
   };
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -630,7 +630,7 @@ export const useMyCarsDispatcher = () => {
         object_data: {
           type: "top_dispatcher",
           search: debouncedValueDIs,
-          filter:`active`,
+          filter: `active`,
           dispatcher_id: authStore.userData.guid,
         },
       },
@@ -683,12 +683,12 @@ export const useMyCarsDispatcher = () => {
         refetch();
       },
     });
-    const { mutate: userAdressRemove, isLoading: removeDisLoading } =
+  const { mutate: userAdressRemove, isLoading: removeDisLoading } =
     useCreateAddressMutation({
       onSuccess: () => {
         setVisibleData((prevData) =>
           prevData.map((item) => {
-            const processedItem = ids.find((pItem) => pItem.guid === item.guid);
+            const processedItem = ids.find((pItem) => pItem.driver_data?.guid === item.driver_data?.guid);
             const data = item;
             if (processedItem) {
               data.first_dispatcher_data = undefined;
@@ -714,13 +714,13 @@ export const useMyCarsDispatcher = () => {
       data: {
         object_data: {
           type: "dispatcher",
-          positive:true,
+          positive: true,
           name: ids?.map((item) => ({
             firm_id: item?.firm_id || ``,
-            driver_id: item?.guid,
+            driver_id: item?.driver_data?.guid,
           })),
           first_dispatcher_id: userdata?.first_dispatcher_data?.guid,
-          dispatcher_id:authStore.userData.guid,
+          dispatcher_id: authStore.userData.guid,
         },
       },
     };
@@ -729,13 +729,13 @@ export const useMyCarsDispatcher = () => {
   };
 
   const removeSubDis = () => {
-    const removeData = ids?.filter(item => item.first_dispatcher_data)
+    const removeData = ids?.filter((item) => item.first_dispatcher_data);
     const data = {
       data: {
         object_data: {
           type: "dispatcher",
-          positive:true,
-          ids:  removeData?.map((item) => item?.first_dispatcher_data?.guid),
+          positive: true,
+          ids: removeData?.map((item) => item?.first_dispatcher_data?.guid),
         },
       },
     };
@@ -748,7 +748,6 @@ export const useMyCarsDispatcher = () => {
     setData([]);
     setOldData([]);
     setPage(0);
-
   };
 
   return {
@@ -786,7 +785,6 @@ export const useMyCarsDispatcher = () => {
     deleteLoding,
     negotiableOption,
     onChange,
-    value
-
+    value,
   };
 };
