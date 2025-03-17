@@ -6,7 +6,7 @@ export const useAboutUsProps = () => {
       title: "Главная",
       href: "/",
     },
-    { title: "О системе Furgo", },
+    { title: "О системе Sarbon", },
   ];
 
   const directory = useGetDirectory({ data: JSON.stringify({ status:["about_system_logistics"], with_relations: true }), });

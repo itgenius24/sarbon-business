@@ -25,7 +25,7 @@ export default function AboutUsPage({ params }) {
     }
     <Box padding={isLargerThan768 ? 0 : "12px"} borderRadius={isLargerThan768 ? 0 : "12px"} bgColor={isLargerThan768 ? "transparent" : "white"}>
       <Heading fontSize={isLargerThan768 ? "36px" : "25px"} lineHeight="44px" mb={isLargerThan768 ? "24px" : "8px"}>
-        {t("О системе Furgo")}
+        {t("О системе Sarbon")}
       </Heading>
       <Text
         fontWeight="400"

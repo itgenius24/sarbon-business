@@ -262,22 +262,28 @@ table{
   .react-datepicker{
      align-items: flex-start !important;
   }
+
+.react-datepicker__day--selected.react-datepicker__day--selected {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;  
+  background-color: rgba(0, 51, 153, 1) !important;
+  color: white !important;
+
+  &:hover {
+    // border-radius: 50% !important;
+    color: white !important;
+    background-color: rgba(0, 51, 153, 1) !important;
+  }
+  
+}
   .react-datepicker__navigation--next{
-    right: 0 !important;
+    right: 20px !important;
+    top: 27px !important;
+
+  }
+
+  .react-datepicker__navigation--previous {
+    left: 20px !important;
+    top: 27px !important;
   }
 }
-
-// .css-1dyuvm3 {
-//   background-color: rgba(230, 224, 233, 1) !important;
-//   .chakra-switch__thumb {
-//     background: rgba(121, 116, 126, 1) !important;
-//   }
-// }
-
-// .css-1dyuvm3[aria-checked="true"],
-// .css-1dyuvm3[data-checked] {
-//   background-color: #007aff !important;
-//   .chakra-switch__thumb {
-//     background: rgb(255, 255, 255) !important;
-//   }
-// }
