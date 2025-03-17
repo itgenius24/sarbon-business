@@ -38,7 +38,7 @@ import { useSearchParams } from "next/navigation";
 export const useMyCarsDispatcher = () => {
   const searchParams = useSearchParams();
   const disUrlId = searchParams.get(`id`);
-  const { register, watch } = useForm();
+  const { control, errors, register, setError, setValue, watch } = useForm();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -62,11 +62,23 @@ export const useMyCarsDispatcher = () => {
   const [userDisRes, setUserDisRes] = useState({});
   const [deleteId, setDeleteId] = useState(``);
   const [value, setValueR] = useState(`active`);
+  const [startDate, setStartDate] = useState(() => {
+    const today = new Date();
+    const lastWeek = new Date();
+    lastWeek.setDate(today.getDate() - 7);
+    return lastWeek;
+  });
+
+  const [endDate, setEndDate] = useState(() => {
+    const today = new Date();
+    return today; // YYYY-MM-DD format
+  });
+
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
-  const idsId = ids?.map(item => item?.driver_data?.guid)
+  const idsId = ids?.map((item) => item?.driver_data?.guid);
 
-  console.log(`visibleData`,visibleData)
+  console.log(`visibleData`, watch(`driver`)?.value);
 
   const loadMore = () => {
     const nextPage = pageUi + 1;
@@ -119,10 +131,19 @@ export const useMyCarsDispatcher = () => {
           page: debouncedValue?.length > 0 ? 0 : page,
           search: debouncedValue,
           limit: debouncedValue?.length > 0 ? 4000 : limit,
-          type: "top_dispatcher",
+          type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
           filter: value,
+          first_dispatcher_id: watch(`driver`)?.value,
+          start_date:
+            startDate?.getDate() === endDate?.getDate()
+              ? formatDate(startDate, 0, 0, 0)
+              : new Date(startDate),
+          end_date:
+            startDate?.getDate() === endDate?.getDate()
+              ? formatDate(endDate, 23, 59, 59)
+              : new Date(endDate),
         },
       },
     },
@@ -253,7 +274,7 @@ export const useMyCarsDispatcher = () => {
   };
 
   const handleCheckboxChange = (user) => {
-    console.log(`salom`,user)
+    console.log(`salom`, user);
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {
       setId((prevIds) => prevIds.filter((item) => item?.guid !== user?.guid));
     } else {
@@ -270,11 +291,7 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
-          <Avatar
-            size="sm"
-            src={row?.photo}
-            name={row?.full_name}
-          />
+          <Avatar size="sm" src={row?.photo} name={row?.full_name} />
           <Box>
             <p className={cls.title}>{row?.full_name}</p>
             <a
@@ -426,7 +443,7 @@ export const useMyCarsDispatcher = () => {
                   </p>
                 </Box>
               ) : (
-                <Box >
+                <Box>
                   <p
                     onClick={() => setOpen(row)}
                     className={cls.locationTitle2}
@@ -486,7 +503,7 @@ export const useMyCarsDispatcher = () => {
           width={`100%`}
           justifyContent={`space-between`}
           alignItems={`center`}
-          onClick={(e) => e.stopPropagation() }
+          onClick={(e) => e.stopPropagation()}
         >
           {row?.first_dispatcher_data ? (
             <Flex alignItems={`center`} gap={`9px`}>
@@ -511,7 +528,7 @@ export const useMyCarsDispatcher = () => {
                 <p className={cls.disName}>Без диспетчера</p>
                 <p
                   onClick={(e) => {
-                    e.stopPropagation()
+                    e.stopPropagation();
                     handleCheckboxChange(row);
                     onOpen();
                   }}
@@ -528,8 +545,8 @@ export const useMyCarsDispatcher = () => {
             defaultChecked={idsId.includes(row?.driver_data?.guid)}
             checked={idsId.includes(row?.driver_data?.guid)}
             onClick={(e) => {
-              e.stopPropagation()
-              handleCheckboxChange(row)
+              e.stopPropagation();
+              handleCheckboxChange(row);
             }}
           ></Checkbox>
         </Flex>
@@ -538,8 +555,8 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    console.log(`ids`,idsId.includes(row?.driver_data?.guid))
-    return idsId.includes(row?.driver_data?.guid) ? cls.border: cls.no_border ;
+    console.log(`ids`, idsId.includes(row?.driver_data?.guid));
+    return idsId.includes(row?.driver_data?.guid) ? cls.border : cls.no_border;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
@@ -699,7 +716,9 @@ export const useMyCarsDispatcher = () => {
       onSuccess: () => {
         setVisibleData((prevData) =>
           prevData.map((item) => {
-            const processedItem = ids.find((pItem) => pItem.driver_data?.guid === item.driver_data?.guid);
+            const processedItem = ids.find(
+              (pItem) => pItem.driver_data?.guid === item.driver_data?.guid
+            );
             const data = item;
             if (processedItem) {
               data.first_dispatcher_data = undefined;
@@ -797,6 +816,16 @@ export const useMyCarsDispatcher = () => {
     negotiableOption,
     onChange,
     value,
-    handleCheckboxChange
+    handleCheckboxChange,
+    setStartDate,
+    startDate,
+    endDate,
+    setEndDate,
+    control,
+    errors,
+    register,
+    setError,
+    setValue,
+    watch,
   };
 };

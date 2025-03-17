@@ -18,6 +18,8 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import ModalStatus from "./component/ModalStatus/ModalStatus";
 import ModalAddDis from "./component/ModalAddDis/ModalAddDis";
+import { DatePicker } from "@/components/DatePicker";
+import { Dropdown } from "@/components/Dropdown";
 
 export const MyCarsDispatcherModule = () => {
   const {
@@ -55,7 +57,17 @@ export const MyCarsDispatcherModule = () => {
     negotiableOption,
     onChange,
     handleCheckboxChange,
-    value
+    value,
+    setStartDate,
+    startDate,
+    endDate,
+    setEndDate,
+    control,
+    errors,
+    register,
+    setError,
+    setValue,
+    watch,
   } = useMyCarsDispatcher();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -74,29 +86,8 @@ export const MyCarsDispatcherModule = () => {
             >
               {t("Ваши водители")}
             </Heading>
-            {/* <Flex gap={`28px`}>
-              <Box className={cls.countrWrap}>
-                <p>
-                  {t(`Всего`)}: <span>{count?.count || 0}</span>
-                </p>
-                <p>
-                  {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
-                </p>
-              </Box>
-              {isSuperDispatcher === "approved" && (
-                <Button
-                  onClick={() =>
-                    router.push(`/${locale}/my-cars-dispatcher/create`)
-                  }
-                  width={"fit-content"}
-                  leftIcon={<PlusIcon />}
-                >
-                  {t(`Добавить водителя`)}
-                </Button>
-              )}
-            </Flex> */}
           </Flex>
-          <Flex width={`100%`} justifyContent={`space-between`}>
+          <Flex width={`100%`} alignItems={`center`} justifyContent={`space-between`}>
             <Box width={`40%`}>
               <Input
                 value={search}
@@ -105,28 +96,36 @@ export const MyCarsDispatcherModule = () => {
                 onChange={(e) => setSearchFn(e.target?.value)}
               />
             </Box>
-            <RadioGroup onChange={(e) => onChange(e)} value={value}>
-              <Flex gap={"30px"}>
-                {negotiableOption &&
-                  negotiableOption.map((item) => (
-                    <Radio
-                      key={item.value}
-                      border={"1px solid rgba(208, 213, 221, 1)"}
-                      value={item.value}
-                      size={"md"}
-                    >
-                      <span
-                        className={
-                          value === item.value ? cls.ActiveRadio : cls.radio
-                        }
-                      >
-                        {item?.label?.charAt(0).toUpperCase() +
-                          item?.label?.slice(1).toLowerCase()}
-                      </span>
-                    </Radio>
-                  ))}
-              </Flex>
-            </RadioGroup>
+
+            <Flex gap={`16px`} justifyContent={`flex-end`} width={`50%`}>
+              <Box className="dateWrap" width={`35%`}>
+                <p className={cls.label}>Выбор периода</p>
+                <DatePicker
+                  isClearable={false}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
+                  range
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  maxDate={new Date()}
+                />
+              </Box>
+              <Box className="dateWrap" width={`35%`}>
+                <p className={cls.label}>Диспетчер</p>
+                <Dropdown
+                  control={control}
+                  required
+                  register={register}
+                  watch={watch}
+                  name="driver"
+                  options={dataDis?.map(item => ({value:item?.first_dispatcher_data?.guid,label:item?.first_dispatcher_data?.full_name}))}
+                  errors={errors}
+                  placeholder={t("Показать все")}
+                  setValue={setValue}
+                  isClear
+                />
+              </Box>
+            </Flex>
           </Flex>
 
           <Box mt={"37px"}>

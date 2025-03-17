@@ -1,43 +1,35 @@
-.countrWrap{
-
-
-
-  p{
+.countrWrap {
+  p {
     font-size: 16px;
     color: rgba(33, 31, 38, 1);
     font-weight: 400;
     line-height: 25px;
-    span{
+    span {
       font-weight: 600;
     }
   }
 }
 
-
-.disName{
-
-font-weight: 600;
-font-size: 14px;
-line-height: 18px;
-letter-spacing: 0px;
-color: rgba(33, 31, 38, 1);
-
+.disName {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0px;
+  color: rgba(33, 31, 38, 1);
 }
-.addDisText{
-font-weight: 400;
-font-size: 14px;
-line-height: 18px;
-letter-spacing: -0.08px;
-text-decoration: underline;
-text-decoration-style: solid;
-text-decoration-offset: 0%;
-text-decoration-thickness: 0%;
-color: rgba(0, 122, 255, 1);
-cursor: pointer;
-
+.addDisText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-offset: 0%;
+  text-decoration-thickness: 0%;
+  color: rgba(0, 122, 255, 1);
+  cursor: pointer;
 }
-.disSubText{
-
+.disSubText {
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
@@ -45,7 +37,7 @@ cursor: pointer;
   color: rgba(126, 123, 134, 1);
 }
 
-.input{
+.input {
   width: 100%;
   max-height: 44px;
   position: relative;
@@ -53,8 +45,7 @@ cursor: pointer;
   border-radius: 8px;
   border: 1px solid var(--brand-300);
   &:not(:placeholder-shown) {
-    background-color: white; 
-   
+    background-color: white;
   }
   &::placeholder {
     color: var(--brand-500);
@@ -62,245 +53,244 @@ cursor: pointer;
   }
 }
 
-.border{
+.border {
   border: 1px solid rgba(0, 122, 255, 1);
 }
-.no_border{
+.no_border {
   border: 1px solid rgb(255, 255, 255);
 }
 
-  .title {
-    font-weight: 600;
-    font-size: 14px;
-    color: rgba(33, 31, 38, 1);
-    span {
-      font-style: italic;
-      color: rgba(126, 123, 134, 1);
-    }
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+  span {
+    font-style: italic;
+    color: rgba(126, 123, 134, 1);
   }
-  .title2{
-    font-weight: 600;
-    font-size: 14px;
-    color: rgba(33, 31, 38, 1);
-    line-height: 12px;
-    white-space: nowrap;
+}
+.title2 {
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+  line-height: 12px;
+  white-space: nowrap;
 
-    span{
-      color:rgba(0, 122, 255, 1);
-      font-size: 13px;
-
-    }
-    .spanDisabled{
+  span {
+    color: rgba(0, 122, 255, 1);
+    font-size: 13px;
+  }
+  .spanDisabled {
     color: rgba(126, 123, 134, 1);
     font-size: 13px;
     font-weight: 400;
-
-
-
-    }
   }
-  .subTitle {
-    font-weight: 400;
-    font-size: 14px;
-    color: rgba(126, 123, 134, 1);
-    line-height: 12px;
-  }
-  .locationTitle {
-    font-weight: 500;
-    font-size: 14px;
-    color: rgba(0, 122, 255, 1);
-    line-height: 20px;
-  }
-  .subBlueTitle {
-    font-weight: 400;
-    font-size: 14px;
-    color: rgba(0, 122, 255, 1);
-    line-height: 20px;
-  }
-  .locationTitle2 {
-    font-weight: 500;
-    font-size: 14px;
-    color: rgba(33, 31, 38, 1);
-    line-height: 20px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-  }
-  .subBlueTitle2 {
-    font-weight: 400;
-    font-size: 14px;
-    color: rgba(33, 31, 38, 1);
-    line-height: 20px;
-    white-space: nowrap;
-  }
-  .statusWrap {
-    background-color: rgba(0, 122, 255, 0.08);
-    border-radius: 10px;
-    padding: 7px 15px;
-    margin-top: 14px;
-  }
-
-  .popup {
-    position: relative;
-    right: -10px;
-    top: -15px;
-  }
-  .profileWrap {
-    padding: 16px 12px;
-    background-color: rgba(0, 122, 255, 0.08);
-    border-radius: 10px;
-    width: 100%;
-    margin-top: 8px;
-  }
-  .profileWrap2 {
-    border: 1px solid rgba(219, 216, 227, 1);
-    padding: 16px 12px;
-    border-radius: 10px;
-    width: 100%;
-    margin-top: 8px;
-    background-color: white;
-  }
-  .subTitle2Blue {
-    font-weight: 400;
-    font-size: 14px;
-    color: rgba(0, 122, 255, 1);
-    padding-bottom: 3px;
+}
+.subTitle {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(126, 123, 134, 1);
+  line-height: 12px;
+}
+.locationTitle {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(0, 122, 255, 1);
+  line-height: 20px;
+}
+.subBlueTitle {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(0, 122, 255, 1);
+  line-height: 20px;
+}
+.locationTitle2 {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+  line-height: 20px;
+  &:hover {
     text-decoration: underline;
     cursor: pointer;
+    transition: all 0.3s;
   }
+}
+.subBlueTitle2 {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+  line-height: 20px;
+  white-space: nowrap;
+}
+.statusWrap {
+  background-color: rgba(0, 122, 255, 0.08);
+  border-radius: 10px;
+  padding: 7px 15px;
+  margin-top: 14px;
+}
 
-  .popoverCon {
-    // border: 1px solid rgba(234, 236, 240, 1) !important;
-    // background-color: red !important;
-    .menuItem {
-      // padding: 20px 8px !important;
-      font-weight: 500;
-      font-size: 14px;
-      // background-color: rgba(0, 122, 255, 1) !important;
-    }
+.popup {
+  position: relative;
+  right: -10px;
+  top: -15px;
+}
+.profileWrap {
+  padding: 16px 12px;
+  background-color: rgba(0, 122, 255, 0.08);
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+.profileWrap2 {
+  border: 1px solid rgba(219, 216, 227, 1);
+  padding: 16px 12px;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 8px;
+  background-color: white;
+}
+.subTitle2Blue {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(0, 122, 255, 1);
+  padding-bottom: 3px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.popoverCon {
+  // border: 1px solid rgba(234, 236, 240, 1) !important;
+  // background-color: red !important;
+  .menuItem {
+    // padding: 20px 8px !important;
+    font-weight: 500;
+    font-size: 14px;
+    // background-color: rgba(0, 122, 255, 1) !important;
   }
+}
 
- 
-    .flag {
-      width: 29px;
-      height: 18px;
-    }
-    .country_code {
-      color: rgba(126, 123, 134, 1);
-      font-size: 14px;
-      font-weight: 500;
-      text-transform: uppercase;
-      text-align: center;
-      margin-top: 4px;
-    }
-    .title {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(33, 31, 38, 1);
-      line-height: 16px;
-      // white-space: nowrap;
-      // overflow: hidden;
-      // text-overflow: ellipsis;
-    }
-    .subTitle1 {
-      font-weight: 400;
-      font-size: 14px;
-      color: rgba(126, 123, 134, 1) !important;
-    }
-    .subTitle {
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(33, 31, 38, 1);
-      line-height: 20px;
-      font-weight: 400;
-      color: rgba(126, 123, 134, 1);
-    }
-    .tel {
-      color: rgba(33, 31, 38, 1);
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 20px;
-      text-decoration: underline dotted;
-    }
-    .locationWrap {
-      width: 90%;
-      padding: 9px 14px;
-      border-radius: 10px;
-      // background: rgba(0, 122, 255, 0.08);
-      justify-content: space-between;
-    }
-  
+.flag {
+  width: 29px;
+  height: 18px;
+}
+.country_code {
+  color: rgba(126, 123, 134, 1);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 4px;
+}
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(33, 31, 38, 1);
+  line-height: 16px;
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+}
+.subTitle1 {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(126, 123, 134, 1) !important;
+}
+.subTitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(33, 31, 38, 1);
+  line-height: 20px;
+  font-weight: 400;
+  color: rgba(126, 123, 134, 1);
+}
+.tel {
+  color: rgba(33, 31, 38, 1);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: underline dotted;
+}
+.locationWrap {
+  width: 90%;
+  padding: 9px 14px;
+  border-radius: 10px;
+  // background: rgba(0, 122, 255, 0.08);
+  justify-content: space-between;
+}
 
-    .sticiy{
-      position: sticky;
-      bottom: 0;
-      height: 100px;
-      width: 100%;
-      // background-color: white;
+.sticiy {
+  position: sticky;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  // background-color: white;
+}
 
-    }
+.label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: rgba(52, 64, 84, 1);
+  margin-bottom: 6px;
+}
 
-    .addUser{
-      width: fit-content;
-      padding: 8px 16px;  
-      border-radius: 8px;
-      align-items: center;
-      box-shadow: 0px 6px 12px 6px rgba(33, 31, 38, 0.14);
-      background-color: white;
-      .addText{
-       font-weight: 600;
-       white-space:nowrap;
-       font-size: 18px;
-      }
-   
-   }
+.addUser {
+  width: fit-content;
+  padding: 8px 16px;
+  border-radius: 8px;
+  align-items: center;
+  box-shadow: 0px 6px 12px 6px rgba(33, 31, 38, 0.14);
+  background-color: white;
+  .addText {
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 18px;
+  }
+}
 
-   .btnDelete{
+.btnDelete {
+  background-color: rgba(249, 245, 255, 1) !important;
+  color: rgba(255, 59, 48, 1) !important;
+  border: 1px solid rgba(233, 215, 254, 1) !important;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05) !important;
+  &:hover {
     background-color: rgba(249, 245, 255, 1) !important;
     color: rgba(255, 59, 48, 1) !important;
-    border: 1px solid rgba(233, 215, 254, 1) !important;
-    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05) !important;
-    &:hover{
-      background-color: rgba(249, 245, 255, 1) !important;
-    color: rgba(255, 59, 48, 1) !important;
-
-    }
-
-   }
-
-   .ActiveRadio{
-    font-weight: 500;
-    font-size: 14px;
-    color: rgba(33, 31, 38, 1);
   }
-  .radio{
-    font-weight: 500;
-    font-size: 14px;
+}
+
+.ActiveRadio {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(33, 31, 38, 1);
+}
+.radio {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(126, 123, 134, 1);
+}
+.filterWrap {
+  .headerTh {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 28px;
+    text-transform: uppercase;
     color: rgba(126, 123, 134, 1);
   }
-   .filterWrap {
+  svg {
+    opacity: 0;
+  }
+  &:hover {
     .headerTh {
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 28px;
-      text-transform: uppercase;
-      color: rgba(126, 123, 134, 1);
+      color: rgba(0, 122, 255, 1);
     }
     svg {
-      opacity:  0;
-    }
-    &:hover {
-      .headerTh {
-        color: rgba(0, 122, 255, 1);
-      }
-      svg {
-        opacity: 1;
-  
-        path {
-          fill: rgba(0, 122, 255, 1) !important;
-        }
+      opacity: 1;
+
+      path {
+        fill: rgba(0, 122, 255, 1) !important;
       }
     }
   }
+}

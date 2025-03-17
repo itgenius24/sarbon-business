@@ -63,7 +63,7 @@ import { ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
 import { Container } from "@/components/Container";
 
-export const ShareLocationModule = () => {
+export const ShareLocationModule = ({locale}) => {
   const searchParams = useSearchParams();
   // const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
@@ -77,7 +77,7 @@ export const ShareLocationModule = () => {
   const [orderId2, setOrderId2] = useState(orderId);
 
   const firm_id = authStore.userData.firm_id;
-  const locale = useGetLang();
+
 
   const { t } = useTranslation(locale, "translations");
 
@@ -198,7 +198,6 @@ export const ShareLocationModule = () => {
   const address1 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.from;
   const address2 = getOfferCount?.data?.response?.[0]?.cargo_id_data?.to;
 
-  console.log(`salom`, allPositions);
   return (
     <Container>
       <Box mt={20}>

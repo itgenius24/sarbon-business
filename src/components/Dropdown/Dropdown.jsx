@@ -42,7 +42,7 @@ export const Dropdown = ({
   clearable,
   isTop = false,
 }) => {
-  const height = Math.floor(options && (options.length * 50) / 2);
+  const height = Math.floor(options && (options.length * 100) / 2);
 
   const optionsHeight = `${height > 200 ? 200 : height}px`;
   const { t } = useTranslation();
