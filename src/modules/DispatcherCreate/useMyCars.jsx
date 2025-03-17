@@ -6,6 +6,7 @@ import {
   useCreateUser,
   useGetAddress,
   useGetCarListOnSubmit,
+  useGetPhone,
   useGetUserGpsByIDData,
   useGetUserGpsData,
   useOfferFromCustomerMutation,
@@ -27,8 +28,6 @@ export const useMyCars = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-
 
   const router = useRouter();
 
@@ -58,19 +57,27 @@ export const useMyCars = () => {
 
   const firm_id = authStore.userData.firm_id;
 
+  const { mutate: createDispatcherTeams } = useCreateDispatcherTeams();
 
-  const {mutate:createDispatcherTeams} = useCreateDispatcherTeams()
-
-  const { mutate,isLoading:useLoading } = useCreateUser({
+  const { mutate: phoneGet } = useGetPhone({
     onSuccess: (res) => {
-      console.log(`res`,res)
       createDispatcherTeams({
-        data:{
-          users_id:authStore.userData.guid,
-          users_id_2:res?.guid
-        }
-      })
+        data: {
+          users_id: authStore.userData.guid,
+          users_id_2: res?.response?.[0]?.guid,
+        },
+      });
       setIsPopupOpen(true);
+    },
+  });
+
+  const { mutate, isLoading: useLoading } = useCreateUser({
+    onSuccess: (res) => {
+      phoneGet({
+        data: JSON.stringify({
+          phone: res?.phone?.replace("+", ""),
+        }),
+      });
     },
   });
 
@@ -84,7 +91,7 @@ export const useMyCars = () => {
               create_time: new Date(),
               login: getValues().full_name,
               firm_id,
-              role_id: "785678f2-fae7-4a00-8766-99ea67d3784f" ,
+              role_id: "785678f2-fae7-4a00-8766-99ea67d3784f",
               client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
             },
           });
@@ -135,7 +142,7 @@ export const useMyCars = () => {
           photo: val?.photo,
           login: val?.phone,
           guid: getUserGps?.data?.response[0]?.guid,
-          role_id: "785678f2-fae7-4a00-8766-99ea67d3784f" ,
+          role_id: "785678f2-fae7-4a00-8766-99ea67d3784f",
           client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
         },
       });
@@ -148,7 +155,7 @@ export const useMyCars = () => {
               : val?.phone,
             type: `register`,
             register_type: "phone",
-            email:``
+            email: ``,
           },
         },
       });
@@ -160,7 +167,7 @@ export const useMyCars = () => {
     setIsPopupOpen(false);
     router.push(`/${locale}/dispatcher`);
   };
-  
+
   return {
     t,
     control,
@@ -175,9 +182,9 @@ export const useMyCars = () => {
     setIsPopupOpen,
     isPopupOpen,
     id,
-    isLoading:isLoadingCrate ||  isLoading || useLoading ,
+    isLoading: isLoadingCrate || isLoading || useLoading,
     copyFunction,
     open,
-    setOpen
+    setOpen,
   };
 };
