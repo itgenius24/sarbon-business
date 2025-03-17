@@ -528,7 +528,7 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    return row?.order_data ? cls.bussy : cls.free;
+    // return ids.includes(row?.driver_data?.guid) ? cls.border: ;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
@@ -734,7 +734,7 @@ export const useMyCarsDispatcher = () => {
       data: {
         object_data: {
           type: "dispatcher",
-          positive: true,
+          positive: false,
           ids: removeData?.map((item) => item?.first_dispatcher_data?.guid),
         },
       },
@@ -786,5 +786,6 @@ export const useMyCarsDispatcher = () => {
     negotiableOption,
     onChange,
     value,
+    handleCheckboxChange
   };
 };

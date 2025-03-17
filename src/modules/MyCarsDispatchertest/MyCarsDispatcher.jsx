@@ -54,6 +54,7 @@ export const MyCarsDispatcherModule = () => {
     deleteLoding,
     negotiableOption,
     onChange,
+    handleCheckboxChange,
     value
   } = useMyCarsDispatcher();
 
@@ -131,6 +132,7 @@ export const MyCarsDispatcherModule = () => {
           <Box mt={"37px"}>
             <SarbonTable
               rowClassName={rowClassName}
+              onRow={(row) => handleCheckboxChange(row)}
               variant="card"
               columns={columns}
               data={data}
