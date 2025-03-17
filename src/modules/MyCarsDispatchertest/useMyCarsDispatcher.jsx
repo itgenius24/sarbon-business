@@ -528,7 +528,7 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    // return ids.includes(row?.driver_data?.guid) ? cls.border: ;
+    return ids.includes(row?.driver_data?.guid) ? cls.border: ;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
@@ -735,7 +735,7 @@ export const useMyCarsDispatcher = () => {
         object_data: {
           type: "dispatcher",
           positive: false,
-          ids: removeData?.map((item) => item?.first_dispatcher_data?.guid),
+          ids: removeData?.map((item) => item?.guid),
         },
       },
     };
