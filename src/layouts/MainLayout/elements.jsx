@@ -195,6 +195,10 @@ export const useElements = (lang) => {
         path: `/${lang || "ru"}/dashboard`,
         label: "Аналитика",
       },
+      {
+        path: `/${lang || "ru"}/active-user`,
+        label: "Журнал активности",
+      },
     ];
   } else {
     return [

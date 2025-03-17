@@ -175,7 +175,7 @@ export const MyCarsDispatcherModule = () => {
                   </Button>
                 )}
 
-                <Button
+                {/* <Button
                   isLoading={deleteLoding}
                   onClick={deleteFuntion}
                   isDisabled={ids?.length === 0}
@@ -186,7 +186,7 @@ export const MyCarsDispatcherModule = () => {
                   className={cls.btnDelete}
                 >
                   {t(`Удалить выбранные`)}
-                </Button>
+                </Button> */}
               </Flex>
             </Flex>
           )}

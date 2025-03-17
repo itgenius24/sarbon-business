@@ -40,7 +40,7 @@ const ModalAddDis = ({
           >
             <Box>
               <p>Назначить диспетчера</p>
-              <p style={{fontSize:`14px`,fontWeight:600,color:`rgba(0, 51, 153, 1)`}}>Выбрано 136 машин</p>
+              <p style={{fontSize:`14px`,fontWeight:600,color:`rgba(0, 51, 153, 1)`}}>Выбрано 0 машин</p>
             </Box>
 
             <Box width={`40%`}>

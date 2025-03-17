@@ -1,7 +1,6 @@
 // @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "../../styles/date-picker.scss";
 @import "../../styles/table.scss";
-
 :root {
   --brand-900: #101828;
   --brand-800: #1d2939;
@@ -258,6 +257,15 @@ table{
   width: 100%;
 }
 
+
+.dateWrap{
+  .react-datepicker{
+     align-items: flex-start !important;
+  }
+  .react-datepicker__navigation--next{
+    right: 0 !important;
+  }
+}
 
 // .css-1dyuvm3 {
 //   background-color: rgba(230, 224, 233, 1) !important;

@@ -13,6 +13,7 @@ const SarbonTable = ({
   props,
   variant = `table`,
   width = `1407px`,
+  isSticky = false,
   onRow = () => {},
 }) => {
   const [filters, setFilters] = useState(
@@ -29,47 +30,44 @@ const SarbonTable = ({
   };
 
   return (
-    <Box {...props} width={width}    pb={`10px`} overflowX={`auto`}>
-      <Flex
-        justifyContent={`space-between`}
-        width={`100%`}
-        className={cls.headerWrap}
-      
-      >
-        {columns.map((item, index) => (
-          <Flex
-            className={cls.headerThWrap}
-            width={`${item.width}%`}
-            key={index}
-          >
-            {item?.filter ? (
-              <Flex
-                as={`button`}
-                alignItems={`center`}
-                className={cls.filterWrap}
-                gap={`5px`}
-                cursor={`pointer`}
-                onClick={() => {
-                  handleFilterChange(item);
-                }}
-              >
-                <Box className={cls.headerTh}>{item.title}</Box>
-                {filters[item.key] === `top` ? (
-                  <IocnSortTop />
-                ) : filters[item.key] === `back` ? (
-                  <IocnSortBack />
-                ) : (
-                  <IocnFilter />
-                )}
-              </Flex>
-            ) : (
-              <Box width={`100%`} className={cls.headerTh}>
-                {item.title}
-              </Box>
-            )}
-          </Flex>
-        ))}
-      </Flex>
+    <Box height={`100%`} {...props} width={width} pb={`10px`} overflowX={isSticky ? `none`: `scroll`}>
+      <Box position={ isSticky ?  `sticky`: `relative`} zIndex={`1`} top={0} width={`100%`}>
+        <Flex justifyContent={`space-between`} className={cls.headerWrap}>
+          {columns.map((item, index) => (
+            <Flex
+              className={cls.headerThWrap}
+              width={`${item.width}%`}
+              key={index}
+            >
+              {item?.filter ? (
+                <Flex
+                  as={`button`}
+                  alignItems={`center`}
+                  className={cls.filterWrap}
+                  gap={`5px`}
+                  cursor={`pointer`}
+                  onClick={() => {
+                    handleFilterChange(item);
+                  }}
+                >
+                  <Box className={cls.headerTh}>{item.title}</Box>
+                  {filters[item.key] === `top` ? (
+                    <IocnSortTop />
+                  ) : filters[item.key] === `back` ? (
+                    <IocnSortBack />
+                  ) : (
+                    <IocnFilter />
+                  )}
+                </Flex>
+              ) : (
+                <Box width={`100%`} className={cls.headerTh}>
+                  {item.title}
+                </Box>
+              )}
+            </Flex>
+          ))}
+        </Flex>
+      </Box>
       {variant === `table` ? (
         <Box className={cls.tableWrap}>
           {data?.map((item, index) => (
@@ -105,7 +103,6 @@ const SarbonTable = ({
               rowClassName(item) ? rowClassName(item) : ``
             }`}
             key={index}
-
           >
             {isTooltip && statusTooltip(item)}
             {columns.map((column) => (

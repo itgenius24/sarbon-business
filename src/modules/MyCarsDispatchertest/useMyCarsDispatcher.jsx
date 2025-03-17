@@ -66,7 +66,7 @@ export const useMyCarsDispatcher = () => {
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
   const idsId = ids?.map(item => item?.driver_data?.guid)
 
-  console.log(`idsData`,ids)
+  console.log(`visibleData`,visibleData)
 
   const loadMore = () => {
     const nextPage = pageUi + 1;
@@ -118,8 +118,8 @@ export const useMyCarsDispatcher = () => {
         object_data: {
           page: debouncedValue?.length > 0 ? 0 : page,
           search: debouncedValue,
-          limit: debouncedValue?.length > 0 ? 1000 : limit,
-          type: "dispatcher",
+          limit: debouncedValue?.length > 0 ? 4000 : limit,
+          type: "top_dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
           filter: value,
@@ -272,17 +272,17 @@ export const useMyCarsDispatcher = () => {
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar
             size="sm"
-            src={row?.driver_data?.photo}
-            name={row?.driver_data?.full_name}
+            src={row?.photo}
+            name={row?.full_name}
           />
           <Box>
-            <p className={cls.title}>{row?.driver_data?.full_name}</p>
+            <p className={cls.title}>{row?.full_name}</p>
             <a
               target="_blank"
-              href={`https://t.me/${row?.driver_data?.phone}`}
+              href={`https://t.me/${row?.phone}`}
               className={cls.tel}
             >
-              {row?.driver_data?.phone}{" "}
+              {row?.phone}{" "}
             </a>
           </Box>
         </Flex>
