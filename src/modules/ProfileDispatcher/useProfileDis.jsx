@@ -67,48 +67,40 @@ export const useProfileDis = () => {
   };
 
   useEffect(() => {
-    if (date === "weekly") {
+    if (dateType === "weekly") {
       getWeekRange();
-    } else if (date === "monthly") {
+    } else if (dateType === "monthly") {
       getMonthRange();
-    } else if (date === "clear") {
+    } else if (dateType === "clear") {
       setDate2([]);
     }
-  }, [date]);
+  }, [dateType]);
 
 
-  // useEffect(() => {
-  //   filterData({
-  //     data: {
-  //       object_data: {
-  //         dispatcher_id:guid,
+  useEffect(() => {
+    filterData({
+      data: {
+        object_data: {
+          dispatcher_id:guid,
 
-  //         filter: filter[status],
-  //         start_date:
-  //           date2.length > 0
-  //             ? date2[0]
-  //             : startDate
-  //             ? startDate?.getDate() === endDate?.getDate()
-  //               ? formatDate(startDate, 0, 0, 0)
-  //               : new Date(startDate)
-  //             : ``,
-  //         end_date:
-  //           date2.length > 0
-  //             ? date2[1]
-  //             : endDate
-  //             ? startDate?.getDate() === endDate?.getDate()
-  //               ? formatDate(endDate, 23, 59, 59)
-  //               : new Date(endDate)
-  //             : ``,
-  //         all_date:
-  //           startDate || endDate ? false : date2.length > 0 ? false : true,
-  //         type: "dashboard",
-  //         limit: 1000,
-  //         page: 1,
-  //       },
-  //     },
-  //   });
-  // }, [startDate, endDate, status, date2, load]);
+          filter: `dispatcher`,
+          start_date:
+            date2.length > 0 ? date2[0] :  ``,
+          end_date:
+            date2.length > 0
+              ? date2[1]
+              : ``,
+          all_date:
+          date2.length > 0 ? false : true,
+          type: "dashboard",
+          limit: 1000,
+          page: 1,
+        },
+      },
+    });
+  }, [ status, date2]);
+
+
 
 
   const columns = [
@@ -172,5 +164,6 @@ export const useProfileDis = () => {
     date,
     setDateType,
     dateType,
+    data
   };
 };

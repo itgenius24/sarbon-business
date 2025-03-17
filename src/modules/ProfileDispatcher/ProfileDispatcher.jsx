@@ -39,6 +39,7 @@ const ProfileDispatcher = ({ locale }) => {
     date,
     setDateType,
     dateType,
+    data
   } = useProfileDis();
 
   return (
@@ -113,7 +114,7 @@ const ProfileDispatcher = ({ locale }) => {
               <Box pr={`20px`} borderRight={`1px solid rgba(219, 216, 227, 1)`}>
                 <p className={cls.statisName}>Завершенные</p>
                 <p className={cls.statisRes}>
-                  <SlotCounter value={`31`} />
+                  <SlotCounter value={data?.archive?.[0]?.total_count || 0} />
                 </p>
               </Box>
               <Box pl={`20px`}>

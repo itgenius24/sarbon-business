@@ -422,7 +422,7 @@ export const useMyCarsDispatcher = () => {
                   </p>
                 </Box>
               ) : (
-                <Box>
+                <Box >
                   <p
                     onClick={() => setOpen(row)}
                     className={cls.locationTitle2}
