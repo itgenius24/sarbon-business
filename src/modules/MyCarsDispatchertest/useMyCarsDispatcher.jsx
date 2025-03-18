@@ -569,7 +569,6 @@ export const useMyCarsDispatcher = () => {
       ),
     },
   ];
-  console.log(`ids`, watch(`driver`)?.value);
 
 
   const rowClassName = (row) => {

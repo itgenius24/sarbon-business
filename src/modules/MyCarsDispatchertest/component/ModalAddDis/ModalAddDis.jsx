@@ -27,6 +27,7 @@ const ModalAddDis = ({
   addUserFn,
   searchDis,
   setSearchDIs,
+  ids
 }) => {
   return (
     <Modal size={`2xl`} isOpen={open} onClose={onClose} isCentered>
@@ -48,7 +49,7 @@ const ModalAddDis = ({
                 }}
               >
                 Выбрано{" "}
-                {userdataDis?.reduce((acc, num) => acc + num?.vehicle_count, 0)}{" "}
+                {ids?.length}{" "}
                 машин
               </p>
             </Box>

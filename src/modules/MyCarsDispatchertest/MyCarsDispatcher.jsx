@@ -245,6 +245,8 @@ export const MyCarsDispatcherModule = () => {
         addUserFn={addSubDis}
         searchDis={searchDis}
         setSearchDIs={setSearchDIs}
+        ids={ids}
+
       />
     </>
   );

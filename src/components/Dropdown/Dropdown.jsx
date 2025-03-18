@@ -12,6 +12,7 @@ import {
 import { useMemo } from "react";
 import { convertLatinToCyril } from "@/utils/convertLatinToCyril";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@chakra-ui/react";
 
 export const Dropdown = ({
   options = [],
@@ -40,6 +41,7 @@ export const Dropdown = ({
   index,
   isMulti,
   clearable,
+  isLoading = false,
   isTop = false,
 }) => {
   const height = Math.floor(options && (options.length * 100) / 2);
@@ -106,9 +108,18 @@ export const Dropdown = ({
                       disabled={disabled}
                       autoComplete="off"
                     />
+                    {
+                      console.log(`isLoading && !disabled`,(isLoading && !disabled))
+                    }
+                    {(isLoading) &&  (
+                      <span className={cls.rightIcon}>
+                        <Spinner size={`sm`} />
+                      </span>
+                    )}
                     <span className={cls.leftIcon}>
                       <SearchIcon />
                     </span>
+
                     {watch(searchName) && (
                       <span
                         className={cls.rightIcon}
@@ -161,6 +172,7 @@ export const Dropdown = ({
                         {placeholder ? placeholder : t(placeholder)}
                       </span>
                     )}
+
                     {watch(name)?.value && isClear ? (
                       <span
                         className={cls.rightIcon}

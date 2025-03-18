@@ -92,7 +92,7 @@ export const DispatcherCreate = ({ locale }) => {
         <Heading
           size={isLargerThan845 ? "md" : "sm"}
           mb={isLargerThan845 ? "24px" : "12px"}
-          color={`var(--primary-text)`}
+          color={`rgba(33, 31, 38, 1)`}
           ml={isLargerThan845 ? 0 : `10px`}
         >
           {t("Добавление нового диспетчера")}

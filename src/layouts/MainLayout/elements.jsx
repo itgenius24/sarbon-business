@@ -117,7 +117,7 @@ export const useElements = (lang) => {
       // },
       {
         path: isAuth
-          ? `/${lang || "ru"}/gps-tracking-dispatcher`
+          ? `/${lang || "ru"}/gps-tracking-dispatcher-top`
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
