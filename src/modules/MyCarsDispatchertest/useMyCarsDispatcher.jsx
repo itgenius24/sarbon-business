@@ -120,11 +120,18 @@ export const useMyCarsDispatcher = () => {
     });
   }, []);
 
+  const formatDate = (date, hours, minutes, seconds) => {
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, seconds, 0);
+    return newDate;
+  };
+
+
   const {
     data: getCarData,
     isLoading,
     refetch,
-    
+
   } = useGetCarData({
     data: {
       data: {
@@ -823,8 +830,7 @@ export const useMyCarsDispatcher = () => {
     endDate,
     setEndDate,
     control,
-    errors,
-    register,
+    errors, 
     setError,
     setValue,
     watch,
