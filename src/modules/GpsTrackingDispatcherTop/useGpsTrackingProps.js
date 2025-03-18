@@ -347,17 +347,17 @@ export const useGpsTrackingProps = () => {
           search: debouncedValueDriver,
           limit: debouncedValueDriver?.length > 0 ? 1000 : 500,
           type: "dispatcher",
-          dispatcher_id: watch(`dispatcher`)?.value,
+          dispatcher_id: authStore.userData.guid,
+          first_dispatcher_id: watch(`dispatcher`)?.value,
           sort_time: `default`,
         },
       },
     },
     querySettings: {
-      enabled: Boolean(watch(`dispatcher`)?.value),
       select: (res) =>
         res?.response?.map((item) => ({
-          value: item?.driver_data?.guid,
-          label: item?.driver_data?.full_name,
+          value: item?.guid,
+          label: item?.full_name,
         })),
     },
   });

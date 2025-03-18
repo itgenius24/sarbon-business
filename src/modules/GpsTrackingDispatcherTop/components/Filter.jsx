@@ -90,7 +90,6 @@ const Filter = ({
             name="driver"
             options={getCarData}
             errors={errors}
-            disabled={!watch(`dispatcher`)?.value}
             control={control}
             watch={watch}
             setValue={setValue}
