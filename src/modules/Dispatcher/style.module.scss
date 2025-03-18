@@ -16,10 +16,12 @@
 
 .order{
   border-left: 4px solid rgba(21, 186, 77, 1);
+  cursor: pointer;
 }
 .blocked{
   border-left: 4px solid rgba(126, 123, 134, 1);
   opacity: 0.4;
+  cursor: pointer;
 }
 
 

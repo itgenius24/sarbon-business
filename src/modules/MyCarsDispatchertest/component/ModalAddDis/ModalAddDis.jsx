@@ -50,7 +50,7 @@ const ModalAddDis = ({
               >
                 Выбрано{" "}
                 {ids?.length}{" "}
-                машин
+                водители
               </p>
             </Box>
 

@@ -76,7 +76,7 @@ export const useMyCarsDispatcher = () => {
 
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
-  const idsId = ids?.map((item) => item?.driver_data?.guid);
+  const idsId = ids?.map((item) => item?.guid);
 
   console.log(`visibleData`, watch(`driver`)?.value);
 
@@ -174,25 +174,25 @@ export const useMyCarsDispatcher = () => {
             ?.map((item) => {
               if (
                 item?.order_data ||
-                item?.driver_data?.provisions?.[0] === `our_cargo`
+                item?.provisions?.[0] === `our_cargo`
               ) {
                 return {
                   ...item,
                   status: `Занята`,
                 };
               } else if (
-                item?.driver_data?.provisions?.[0] === `someone_cargo`
+                item?.provisions?.[0] === `someone_cargo`
               ) {
                 return {
                   ...item,
                   status: `Занята чужим грузом`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
+              } else if (item?.provisions?.[0] === `broke_down`) {
                 return {
                   ...item,
                   status: `Неисправна`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `empty`) {
+              } else if (item?.provisions?.[0] === `empty`) {
                 return {
                   ...item,
                   status: `Свободная`,
@@ -228,8 +228,8 @@ export const useMyCarsDispatcher = () => {
     if (val !== `all`) {
       const sortedData = oldData?.sort((a, b) =>
         val === `top`
-          ? a?.driver_data?.full_name.localeCompare(b?.driver_data?.full_name)
-          : b?.driver_data?.full_name.localeCompare(a?.driver_data?.full_name)
+          ? a?.full_name.localeCompare(b?.full_name)
+          : b?.full_name.localeCompare(a?.full_name)
       );
 
       setData(sortedData);
@@ -300,17 +300,17 @@ export const useMyCarsDispatcher = () => {
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar
             size="sm"
-            src={row?.driver_data?.photo}
-            name={row?.driver_data?.full_name}
+            src={row?.photo}
+            name={row?.full_name}
           />
           <Box>
-            <p className={cls.title}>{row?.driver_data?.full_name}</p>
+            <p className={cls.title}>{row?.full_name}</p>
             <a
               target="_blank"
-              href={`https://t.me/${row?.driver_data?.phone}`}
+              href={`https://t.me/${row?.phone}`}
               className={cls.tel}
             >
-              {row?.driver_data?.phone}{" "}
+              {row?.phone}{" "}
             </a>
           </Box>
         </Flex>
@@ -434,8 +434,8 @@ export const useMyCarsDispatcher = () => {
       width: 250,
       render: (row, index) => {
         const order =
-          row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
-        const status = row?.driver_data?.provisions?.[0];
+          row?.order_data || row?.provisions?.[0] === `our_cargo`;
+        const status = row?.provisions?.[0];
         const statusName =
           status === `someone_cargo`
             ? `Занята чужим грузом`
@@ -469,7 +469,7 @@ export const useMyCarsDispatcher = () => {
                 </Box>
               )}
 
-              {row?.gps_data?.length > 0 ? (
+              {row?.gps_data ? (
                 <Flex>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
@@ -479,9 +479,9 @@ export const useMyCarsDispatcher = () => {
                         <p className={cls.title2}>
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
-                            {row?.gps_data[0]?.update_time &&
+                            {row?.gps_data?.update_time &&
                               format(
-                                row?.gps_data[0]?.update_time,
+                                row?.gps_data?.update_time,
                                 `yyyy-MM-dd`
                               )}
                           </span>{" "}
@@ -524,6 +524,7 @@ export const useMyCarsDispatcher = () => {
           {row?.first_dispatcher_data ? (
             <Flex alignItems={`center`} gap={`9px`}>
               <Avatar
+               size="sm"
                 width={`40px`}
                 height={`40px`}
                 name={row?.first_dispatcher_data?.full_name}
@@ -558,8 +559,8 @@ export const useMyCarsDispatcher = () => {
 
           <Checkbox
             id={row?.guid}
-            defaultChecked={idsId.includes(row?.driver_data?.guid)}
-            checked={idsId.includes(row?.driver_data?.guid)}
+            defaultChecked={idsId.includes(row?.guid)}
+            checked={idsId.includes(row?.guid)}
             onClick={(e) => {
               e.stopPropagation();
               handleCheckboxChange(row);
@@ -572,7 +573,7 @@ export const useMyCarsDispatcher = () => {
 
 
   const rowClassName = (row) => {
-    return idsId.includes(row?.driver_data?.guid) ? cls.border : cls.no_border;
+    return idsId.includes(row?.guid) ? cls.border : cls.no_border;
   };
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
@@ -652,7 +653,7 @@ export const useMyCarsDispatcher = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid: open.driver_data?.guid,
+      guid: ope?.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
@@ -733,7 +734,7 @@ export const useMyCarsDispatcher = () => {
         setVisibleData((prevData) =>
           prevData.map((item) => {
             const processedItem = ids.find(
-              (pItem) => pItem.driver_data?.guid === item.driver_data?.guid
+              (pItem) => pIte?.guid === ite?.guid
             );
             const data = item;
             if (processedItem) {
@@ -763,7 +764,7 @@ export const useMyCarsDispatcher = () => {
           positive: true,
           name: ids?.map((item) => ({
             firm_id: item?.firm_id || ``,
-            driver_id: item?.driver_data?.guid,
+            driver_id: item?.guid,
           })),
           first_dispatcher_id: userdata?.first_dispatcher_data?.guid,
           dispatcher_id: authStore.userData.guid,
