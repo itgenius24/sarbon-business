@@ -129,6 +129,7 @@ export const useMyCarsDispatcher = () => {
   const {
     data: getCarData,
     isLoading,
+    isFetching,
     refetch,
   } = useGetCarData({
     data: {
@@ -533,7 +534,7 @@ export const useMyCarsDispatcher = () => {
                 <p className={cls.disName}>
                   {row?.first_dispatcher_data?.full_name}
                 </p>
-                <p className={cls.disSubText}>0 машин</p>
+                <p className={cls.disSubText}> машин</p>
               </Box>
             </Flex>
           ) : (
@@ -568,7 +569,7 @@ export const useMyCarsDispatcher = () => {
       ),
     },
   ];
-  console.log(`ids`, visibleData);
+  console.log(`ids`, watch(`driver`)?.value);
 
 
   const rowClassName = (row) => {
@@ -800,6 +801,7 @@ export const useMyCarsDispatcher = () => {
     setData([]);
     setOldData([]);
     setPage(0);
+    setVisibleData([])
   }
     
 
@@ -807,7 +809,7 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading,
+    isLoading:isLoading,
     t,
     register,
     setSearchFn,

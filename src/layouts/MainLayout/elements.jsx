@@ -85,7 +85,7 @@ export const useElements = (lang) => {
         label: "Главный",
       },
       {
-        path: `/${lang || "ru"}/dashboard-dispatcher`,
+        path: `/${lang || "ru"}/dashboard-dispatcher-top`,
         label: "Dashboard",
       },
       {

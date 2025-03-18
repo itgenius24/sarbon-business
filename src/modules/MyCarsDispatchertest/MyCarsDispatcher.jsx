@@ -88,7 +88,11 @@ export const MyCarsDispatcherModule = () => {
               {t("Ваши водители")}
             </Heading>
           </Flex>
-          <Flex width={`100%`} alignItems={`center`} justifyContent={`space-between`}>
+          <Flex
+            width={`100%`}
+            alignItems={`center`}
+            justifyContent={`space-between`}
+          >
             <Box width={`40%`}>
               <Input
                 value={search}
@@ -118,11 +122,14 @@ export const MyCarsDispatcherModule = () => {
                   control={control}
                   required
                   register={register}
-                  onChangeSelect={(e) => clearFn() }
+                  onChangeSelect={(e) => clearFn()}
                   clearFn={clearFn}
                   watch={watch}
                   name="driver"
-                  options={dataDis?.map(item => ({value:item?.first_dispatcher_data?.guid,label:item?.first_dispatcher_data?.full_name}))}
+                  options={dataDis?.map((item) => ({
+                    value: item?.first_dispatcher_data?.guid,
+                    label: item?.first_dispatcher_data?.full_name,
+                  }))}
                   errors={errors}
                   placeholder={t("Показать все")}
                   setValue={setValue}
