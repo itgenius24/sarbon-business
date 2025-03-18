@@ -152,23 +152,23 @@ export const useMyCarsDispatcher = () => {
             ?.map((item) => {
               if (
                 item?.order_data ||
-                item?.driver_data?.provisions?.[0] === `our_cargo`
+                item?.provisions?.[0] === `our_cargo`
               ) {
                 return {
                   ...item,
                   status: `Занята`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
+              } else if (item?.provisions?.[0] === `someone_cargo`) {
                 return {
                   ...item,
                   status: `Занята чужим грузом`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
+              } else if (item?.provisions?.[0] === `broke_down`) {
                 return {
                   ...item,
                   status: `Неисправна`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `empty`) {
+              } else if (item?.provisions?.[0] === `empty`) {
                 return {
                   ...item,
                   status: `Свободная`,
@@ -195,8 +195,8 @@ export const useMyCarsDispatcher = () => {
     if (val !== `all`) {
       const sortedData = oldData?.sort((a, b) =>
         val === `top`
-          ? a?.driver_data?.full_name.localeCompare(b?.driver_data?.full_name)
-          : b?.driver_data?.full_name.localeCompare(a?.driver_data?.full_name)
+          ? a?.full_name.localeCompare(b?.full_name)
+          : b?.full_name.localeCompare(a?.full_name)
       );
 
       setData(sortedData);
@@ -258,17 +258,17 @@ export const useMyCarsDispatcher = () => {
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar
             size="sm"
-            src={row?.driver_data?.photo}
-            name={row?.driver_data?.full_name}
+            src={row?.photo}
+            name={row?.full_name}
           />
           <Box>
-            <p className={cls.title}>{row?.driver_data?.full_name}</p>
+            <p className={cls.title}>{row?.full_name}</p>
             <a
               target="_blank"
-              href={`https://t.me/${row?.driver_data?.phone}`}
+              href={`https://t.me/${row?.phone}`}
               className={cls.tel}
             >
-              {row?.driver_data?.phone}{" "}
+              {row?.phone}{" "}
             </a>
           </Box>
         </Flex>
@@ -387,8 +387,8 @@ export const useMyCarsDispatcher = () => {
       width: 400,
       render: (row, index) => {
         const order =
-          row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
-        const status = row?.driver_data?.provisions?.[0];
+          row?.order_data || row?.provisions?.[0] === `our_cargo`;
+        const status = row?.provisions?.[0];
         const statusName =
           status === `someone_cargo`
             ? `Занята чужим грузом`
@@ -422,7 +422,7 @@ export const useMyCarsDispatcher = () => {
                 </Box>
               )}
 
-              {row?.gps_data?.length > 0 ? (
+              {row?.gps_data  ? (
                 <Flex width={`100%`} justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
@@ -432,9 +432,9 @@ export const useMyCarsDispatcher = () => {
                         <p className={cls.title2}>
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
-                            {row?.gps_data[0]?.update_time &&
+                            {row?.gps_data?.update_time &&
                               format(
-                                row?.gps_data[0]?.update_time,
+                                row?.gps_data?.update_time,
                                 `yyyy-MM-dd`
                               )}
                           </span>{" "}
@@ -448,20 +448,20 @@ export const useMyCarsDispatcher = () => {
                       <Box>
                         <p className={cls.subTitle}>Версия Sarbon</p>
                         <p className={cls.title2}>
-                          {row?.gps_data[0]?.version}
+                          {row?.gps_data?.version}
                         </p>
                       </Box>
                     </Flex>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
-                    {row?.gps_data[0]?.battery > 20 ? (
+                    {row?.gps_data?.battery > 20 ? (
                       <BatareyFullIcon />
                     ) : (
                       <BatareyIcon />
                     )}
                     <p className={cls.subTitle}>
                       <span className={cls.title}>
-                        {row?.gps_data[0]?.battery || 0}%
+                        {row?.gps_data?.battery || 0}%
                       </span>
                     </p>
                   </Flex>
@@ -648,7 +648,7 @@ export const useMyCarsDispatcher = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid: open.driver_data?.guid,
+      guid: open.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
