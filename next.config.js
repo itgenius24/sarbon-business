@@ -3,9 +3,9 @@
 const path = require("path");
 
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
     prependData: `

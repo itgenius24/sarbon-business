@@ -535,7 +535,7 @@ export const useMyCarsDispatcher = () => {
                 <p className={cls.disName}>
                   {row?.first_dispatcher_data?.full_name}
                 </p>
-                <p className={cls.disSubText}> машин</p>
+                <p className={cls.disSubText}> 0 машин</p>
               </Box>
             </Flex>
           ) : (
@@ -653,7 +653,7 @@ export const useMyCarsDispatcher = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid: ope?.guid,
+      guid: open?.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
@@ -734,7 +734,7 @@ export const useMyCarsDispatcher = () => {
         setVisibleData((prevData) =>
           prevData.map((item) => {
             const processedItem = ids.find(
-              (pItem) => pIte?.guid === ite?.guid
+              (pItem) => pItem?.guid === item?.guid
             );
             const data = item;
             if (processedItem) {
