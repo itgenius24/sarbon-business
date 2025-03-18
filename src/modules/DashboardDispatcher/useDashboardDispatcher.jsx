@@ -36,6 +36,7 @@ export const useDashboardDispatcher = (locale) => {
   const [firmId, setFirmId] = useState(``);
   const [load, setLoad] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatcher_type = authStore?.userData?.dispatcher_type;
 
   const filter = {
     [`0`]: `dispatcher`,
@@ -124,9 +125,12 @@ export const useDashboardDispatcher = (locale) => {
     filterData({
       data: {
         object_data: {
-          dispatcher_id:authStore.userData?.guid,
+          dispatcher_id: authStore.userData?.guid,
 
-          filter: filter[status],
+          filter:
+            dispatcher_type?.[0] === `first_dispatcher`
+              ? `dispatcher`
+              : `top_dispatcher`,
           start_date:
             date2.length > 0
               ? date2[0]
@@ -192,9 +196,6 @@ export const useDashboardDispatcher = (locale) => {
       }),
     },
   });
-
- 
-
 
   const { mutate } = useDispatcherFirms({
     onSuccess: () => {
@@ -297,8 +298,6 @@ export const useDashboardDispatcher = (locale) => {
     );
   };
 
-
-
   const { data: archive } = useGetOffer({
     data: JSON.stringify({
       users_id_3: authStore?.userData?.guid,
@@ -307,14 +306,12 @@ export const useDashboardDispatcher = (locale) => {
     }),
   });
 
-
-
-    const { data: newData } = useGetOffer({
-      data: JSON.stringify({
-        provisions: [`new`],
-        users_id_3:authStore?.userData?.id
-      }),
-    });
+  const { data: newData } = useGetOffer({
+    data: JSON.stringify({
+      provisions: [`new`],
+      users_id_3: authStore?.userData?.id,
+    }),
+  });
 
   const { data: bzData } = useGetNewPredData({
     data: {
@@ -327,15 +324,13 @@ export const useDashboardDispatcher = (locale) => {
     },
   });
 
-  const {data:perfomed} = useGetOffer(
-    {
-      data: JSON.stringify({
-        users_id_3: authStore?.userData?.guid,
-        with_relations: true,
-        "provisions":["performed"]
-      }),
-    },
-  );
+  const { data: perfomed } = useGetOffer({
+    data: JSON.stringify({
+      users_id_3: authStore?.userData?.guid,
+      with_relations: true,
+      provisions: ["performed"],
+    }),
+  });
   const newCount =
     newData?.response?.filter(
       (item) =>
@@ -386,7 +381,7 @@ export const useDashboardDispatcher = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: (newCount || 0) -  (bzData?.count || 0),
+      total: (newCount || 0) - (bzData?.count || 0),
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,

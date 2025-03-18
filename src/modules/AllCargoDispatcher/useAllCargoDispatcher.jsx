@@ -174,7 +174,8 @@ export const useAllCargoDispatcher = () => {
       width: 250,
       render: (row, index) => (
         <Box>
-          {row?.cargo?.bid_cash ? (
+
+          {(row?.cargo?.bid_cash || row?.offers) ? (
             <Flex gap={`5px`} alignItems={`center`}>
               <Tooltip
                 hasArrow
@@ -202,8 +203,8 @@ export const useAllCargoDispatcher = () => {
                 </span>
               </Tooltip>
               <p className={cls.countryName}>
-                {row?.cargo?.bid_cash}{" "}
-                {row?.cargo?.currency_id_data?.[0]?.code || `USD`}
+                {row?.cargo?.bid_cash || row?.offers} {` `}
+                {row?.currency_data[0]?.code || `USD`}
               </p>
             </Flex>
           ) : (
@@ -219,12 +220,12 @@ export const useAllCargoDispatcher = () => {
       width: 250,
       render: (row, index) => (
         <Box>
-          {row?.cargo?.bid_cash ? (
+          {row?.cargo?.bid_cash || row?.offers ? (
             <>
               <span className={cls.countryName}>
-                {row?.cargo?.prepayment_percentage > 0
-                  ? `${row?.cargo?.prepayment_percentage} ${
-                      row?.cargo?.currency_id_data?.[0]?.code || `USD`
+                {(row?.cargo?.prepayment_percentage > 0 || row?.prepayment > 0)
+                  ? `${row?.cargo?.prepayment_percentage || row?.prepayment} ${
+                      row?.currency_data[0]?.code || `USD`
                     }`
                   : t("Без предоплаты")}
               </span>

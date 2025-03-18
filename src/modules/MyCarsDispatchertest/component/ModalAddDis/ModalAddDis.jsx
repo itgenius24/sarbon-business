@@ -27,6 +27,7 @@ const ModalAddDis = ({
   addUserFn,
   searchDis,
   setSearchDIs,
+  ids
 }) => {
   return (
     <Modal size={`2xl`} isOpen={open} onClose={onClose} isCentered>
@@ -40,7 +41,17 @@ const ModalAddDis = ({
           >
             <Box>
               <p>Назначить диспетчера</p>
-              <p style={{fontSize:`14px`,fontWeight:600,color:`rgba(0, 51, 153, 1)`}}>Выбрано 0 машин</p>
+              <p
+                style={{
+                  fontSize: `14px`,
+                  fontWeight: 600,
+                  color: `rgba(0, 51, 153, 1)`,
+                }}
+              >
+                Выбрано{" "}
+                {ids?.length}{" "}
+                водители
+              </p>
             </Box>
 
             <Box width={`40%`}>
@@ -83,7 +94,7 @@ const ModalAddDis = ({
                       color: `rgba(126, 123, 134, 1)`,
                     }}
                   >
-                    0 машин
+                    {item?.vehicle_count} машин
                   </p>
                 </Box>
               </Flex>

@@ -19,7 +19,7 @@ export const DatePicker = ({
   placeholder,
   label,
   disabled,
-  isClearable = false,
+  isClearable = true,
   minDate = "",
   maxDate = "",
 }) => {
@@ -65,7 +65,7 @@ export const DatePicker = ({
           monthsShown={monthsShown || 2}
           minDate={minDate}
           maxDate={maxDate}
-          isClearable={startDate}
+          isClearable={isClearable}
           value={startDate}
           customInput={
             <CustomInputDate

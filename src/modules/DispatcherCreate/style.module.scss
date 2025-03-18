@@ -3,7 +3,7 @@
     font-size: 14px;
     // margin-bottom: 5px;
     height: 30px;
-    color: var(--primary-text);
+    color: rgba(33, 31, 38, 1);
     @media (max-width:872px) {
         font-size: 15px;
         color: black;
@@ -19,16 +19,16 @@
 }
 
 .nextBtn{
-    width: fit-content;
+    width: fit-content !important;
     padding: 27px 28px !important;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 18px !important;
+    font-weight: 600 !important;
      background-color: var(--primary-text) !important;
-     margin-top: 30px;
+     margin-top: 30px !important;
      @media (max-width:872px) {
-        font-size: 15px;
-        width: 100%;
-        font-weight: 600;
-        margin: 0px 10px;
+        font-size: 15px !important;
+        width: 100% !important;
+        font-weight: 600 !important;
+        margin: 0px 10px !important;
     }
   }

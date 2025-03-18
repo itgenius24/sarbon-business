@@ -89,8 +89,9 @@ export const useMyCars = () => {
             data: {
               ...getValues(),
               create_time: new Date(),
-              login: getValues().full_name,
+              login: getValues().phone,
               firm_id,
+              dispatcher_type:[`first_dispatcher`],
               role_id: "785678f2-fae7-4a00-8766-99ea67d3784f",
               client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
             },
@@ -135,7 +136,6 @@ export const useMyCars = () => {
           full_name: normalizeName(val.full_name),
           phone: val?.phone,
           firm_id,
-          // password:val?.password,
           passport_scan: val?.passport_scan,
           passport_code: val?.passport_code,
           drivers_license: val?.drivers_license,

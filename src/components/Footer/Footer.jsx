@@ -7,8 +7,7 @@ import cls from "./styles.module.scss";
 import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
-import GalaxyStore from "@/assets/images/galaxy-store.svg";
-import { Logo } from "../Logo";
+
 import { Box, Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
@@ -30,7 +29,7 @@ export const Footer = () => {
     ],
     center: [
       {
-        title: t("О системе Furgo"),
+        title: t("О системе Sarbon"),
         link: `/${locale}/about-us`,
       },
       {

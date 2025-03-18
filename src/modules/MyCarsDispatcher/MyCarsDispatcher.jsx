@@ -81,7 +81,7 @@ export const MyCarsDispatcherModule = () => {
                 {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
               </p>
             </Box>
-            {isSuperDispatcher === "approved" && (
+            {/* {isSuperDispatcher === "approved" && (
               <Button
                 onClick={() =>
                   router.push(`/${locale}/my-cars-dispatcher/create`)
@@ -91,7 +91,7 @@ export const MyCarsDispatcherModule = () => {
               >
                 {t(`Добавить водителя`)}
               </Button>
-            )}
+            )} */}
           </Flex>
         </Flex>
         <Flex>

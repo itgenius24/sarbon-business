@@ -6,6 +6,8 @@
   ],
   "plugins": ["svg-jsx"],
   "rules": {
+     "some-rule": "off",
+      "@next/next/no-html-link-for-pages": "off",
     "indent": ["warn", 2, { "ignoredNodes": ["ConditionalExpression", "SwitchCase"] }],
     // "quotes": ["warn", "double"],
     // "semi": ["error", "always"],

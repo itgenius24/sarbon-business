@@ -37,6 +37,7 @@ import {
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 
 export const useDriverProps = () => {
   const { register, watch } = useForm();
@@ -56,6 +57,9 @@ export const useDriverProps = () => {
   const containerRef = useRef(null);
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
+     const params = useSearchParams();
+    
+    const guid =  params.get(`guid`) || 0;
 
   const [deleteId, setDeleteId] = useState(``);
 
@@ -110,7 +114,7 @@ export const useDriverProps = () => {
           search: debouncedValue,
           limit: debouncedValue?.length > 0 ? 1000 : limit,
           type: "dispatcher",
-          dispatcher_id: disId,
+          dispatcher_id: guid ? guid : disId,
           sort_time: filterTime,
         },
       },

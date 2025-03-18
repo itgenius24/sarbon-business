@@ -85,7 +85,7 @@ export const useElements = (lang) => {
         label: "Главный",
       },
       {
-        path: `/${lang || "ru"}/dashboard-dispatcher`,
+        path: `/${lang || "ru"}/dashboard-dispatcher-top`,
         label: "Dashboard",
       },
       {
@@ -112,7 +112,7 @@ export const useElements = (lang) => {
       // },
       {
         path: isAuth
-          ? `/${lang || "ru"}/gps-tracking-dispatcher`
+          ? `/${lang || "ru"}/gps-tracking-dispatcher-top`
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },

@@ -4,16 +4,31 @@ import { Dropdown } from "@/components/Dropdown";
 import { Box, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import { useProps } from "./useProps";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
-import cls from './style.module.scss';
-
+import cls from "./style.module.scss";
+import { DatePicker } from "@/components/DatePicker";
 
 const ActiveUserPage = ({ locale }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const { control, errors, register, setError, setValue, watch, t,columns } =
-    useProps();
+  const {
+    control,
+    errors,
+    register,
+    setError,
+    setValue,
+    watch,
+    t,
+    columns,
+    data,
+    setStartDate,
+    startDate,
+    endDate,
+    setEndDate,
+    roleData,
+    useList
+  } = useProps();
 
   return (
-    <Box >
+    <Box>
       <Container my="40px">
         <Flex
           width={"100%"}
@@ -27,7 +42,7 @@ const ActiveUserPage = ({ locale }) => {
           >
             Журнал активности
           </Heading>
-          <Flex  gap={`16px`} alignItems={`center`}>
+          <Flex gap={`16px`} alignItems={`center`}>
             <Box width={`252px`}>
               <Dropdown
                 control={control}
@@ -35,10 +50,11 @@ const ActiveUserPage = ({ locale }) => {
                 register={register}
                 watch={watch}
                 name="role"
-                options={[{ label: `driver`, value: `driver` }]}
+                options={roleData || []}
                 errors={errors}
                 placeholder={t("Все роли")}
                 setValue={setValue}
+                isClear
               />
             </Box>
             <Box width={`252px`}>
@@ -48,19 +64,34 @@ const ActiveUserPage = ({ locale }) => {
                 register={register}
                 watch={watch}
                 name="user"
-                options={[{ label: `driver`, value: `driver` }]}
+                options={useList}
                 errors={errors}
                 placeholder={t("Пользователь")}
+                searchable
                 setValue={setValue}
+                searchName={`search`}
+
               />
             </Box>
-            <Box width={`252px`}>
-       
+            <Box className="dateWrap" width={`280px`}>
+              <DatePicker
+                endDate={endDate}
+                setEndDate={setEndDate}
+                range
+                startDate={startDate}
+                setStartDate={setStartDate}
+                placeholder={`По времени`}
+              />
             </Box>
           </Flex>
         </Flex>
-        <Box   mt={`25px`}  > 
-           <SarbonTable isSticky variant="table" columns={columns} data={[1,2,3]} />
+        <Box mt={`25px`}>
+          <SarbonTable
+            isSticky
+            variant="table"
+            columns={columns}
+            data={data}
+          />
         </Box>
       </Container>
     </Box>

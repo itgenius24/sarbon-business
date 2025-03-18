@@ -173,10 +173,17 @@ export const useGetCar = (mutationSettings) => {
   
 
   
+  export const useGetCarDispatcherPost = ({ data, querySettings }) => {
+    return useQuery({
+      queryKey: ["getCarDispatcher", data],
+      queryFn: () => objectService.getCarDispatcher(data),
+      ...querySettings,
+    });
+  };
 
   export const useGetCarDispatcher = (mutationSettings) => {
     return useMutation({
-      mutationFn: (params) => objectService. getCarDispatcher(params),
+      mutationFn: (params) => objectService.getCarDispatcher(params),
       ...mutationSettings,
     });
     };

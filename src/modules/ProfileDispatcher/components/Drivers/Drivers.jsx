@@ -10,10 +10,8 @@ const DriversDispachers = () => {
     t,
     data,
     isLoading,
-
     count,
     addPage,
-
     columns,
     rowClassName,
   } = useDriverProps();

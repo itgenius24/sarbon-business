@@ -152,6 +152,14 @@ export const useMyDispatcher = () => {
       render: (row, index) => row?.first_dispatcher_data?.phone,
     },
     {
+      title: t(`Водители`),
+      width: 250,
+      filter: true,
+      key: `time`,
+      filterType: (type) => console.log(type),
+      render: (row, index) => 0,
+    },
+    {
       title: t(`Машины`),
       width: 250,
       filter: true,

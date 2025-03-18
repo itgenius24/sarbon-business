@@ -1,0 +1,24 @@
+
+
+.imgBox {
+  position: relative;
+}
+.name {
+    width: 90%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: rgba(33, 31, 38, 1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.id{
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    color: rgba(126, 123, 134, 1);
+}
