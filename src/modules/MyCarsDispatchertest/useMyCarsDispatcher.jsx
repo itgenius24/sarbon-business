@@ -78,8 +78,6 @@ export const useMyCarsDispatcher = () => {
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
   const idsId = ids?.map((item) => item?.guid);
 
-  console.log(`visibleData`, watch(`driver`)?.value);
-
   const loadMore = () => {
     const nextPage = pageUi + 1;
     const nextData = data.slice(0, nextPage * 50); // Avvalgi + yangi 50 ta
@@ -172,17 +170,12 @@ export const useMyCarsDispatcher = () => {
                 )
             )
             ?.map((item) => {
-              if (
-                item?.order_data ||
-                item?.provisions?.[0] === `our_cargo`
-              ) {
+              if (item?.order_data || item?.provisions?.[0] === `our_cargo`) {
                 return {
                   ...item,
                   status: `Занята`,
                 };
-              } else if (
-                item?.provisions?.[0] === `someone_cargo`
-              ) {
+              } else if (item?.provisions?.[0] === `someone_cargo`) {
                 return {
                   ...item,
                   status: `Занята чужим грузом`,
@@ -298,11 +291,7 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
-          <Avatar
-            size="sm"
-            src={row?.photo}
-            name={row?.full_name}
-          />
+          <Avatar size="sm" src={row?.photo} name={row?.full_name} />
           <Box>
             <p className={cls.title}>{row?.full_name}</p>
             <a
@@ -433,8 +422,7 @@ export const useMyCarsDispatcher = () => {
       ),
       width: 250,
       render: (row, index) => {
-        const order =
-          row?.order_data || row?.provisions?.[0] === `our_cargo`;
+        const order = row?.order_data || row?.provisions?.[0] === `our_cargo`;
         const status = row?.provisions?.[0];
         const statusName =
           status === `someone_cargo`
@@ -480,10 +468,7 @@ export const useMyCarsDispatcher = () => {
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
                             {row?.gps_data?.update_time &&
-                              format(
-                                row?.gps_data?.update_time,
-                                `yyyy-MM-dd`
-                              )}
+                              format(row?.gps_data?.update_time, `yyyy-MM-dd`)}
                           </span>{" "}
                         </p>
                       </Box>
@@ -524,7 +509,7 @@ export const useMyCarsDispatcher = () => {
           {row?.first_dispatcher_data ? (
             <Flex alignItems={`center`} gap={`9px`}>
               <Avatar
-               size="sm"
+                size="sm"
                 width={`40px`}
                 height={`40px`}
                 name={row?.first_dispatcher_data?.full_name}
@@ -570,7 +555,6 @@ export const useMyCarsDispatcher = () => {
       ),
     },
   ];
-
 
   const rowClassName = (row) => {
     return idsId.includes(row?.guid) ? cls.border : cls.no_border;
@@ -719,6 +703,7 @@ export const useMyCarsDispatcher = () => {
         );
         onClose();
         setId([]);
+        setUserData({});
       },
       onError: () => {
         setId([]);
@@ -746,6 +731,7 @@ export const useMyCarsDispatcher = () => {
         );
         onClose();
         setId([]);
+        setUserData({});
       },
       onError: () => {
         setId([]);
@@ -801,15 +787,14 @@ export const useMyCarsDispatcher = () => {
     setData([]);
     setOldData([]);
     setPage(0);
-    setVisibleData([])
-  }
-    
+    setVisibleData([]);
+  };
 
   return {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading:isLoading,
+    isLoading: isLoading,
     t,
     register,
     setSearchFn,
@@ -851,6 +836,6 @@ export const useMyCarsDispatcher = () => {
     setError,
     setValue,
     watch,
-    clearFn
+    clearFn,
   };
 };

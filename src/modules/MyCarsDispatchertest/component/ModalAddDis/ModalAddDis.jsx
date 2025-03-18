@@ -94,7 +94,7 @@ const ModalAddDis = ({
                       color: `rgba(126, 123, 134, 1)`,
                     }}
                   >
-                    {item?.vehicle_count} машин
+                    {item?.driver_count} водителей
                   </p>
                 </Box>
               </Flex>
