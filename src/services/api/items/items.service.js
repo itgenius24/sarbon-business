@@ -68,6 +68,10 @@ const itemsService = {
     request.get("/v2/object-slim/get-list/gps_history", { params }),
   getPhoneUser: (params) =>
     request.get("/v2/object-slim/get-list/users", { params }),
+  getActionUser: (params) =>
+    request.get("/v2/object-slim/get-list/action_histories", { params }),
+  getRole: (params) =>
+    request.get("/v2/object-slim/get-list/role", { params }),
   deleteOrder: (id) =>
     request.delete(`/v2/items/order/${id}`, {
       data: JSON.stringify({ data: {} }),
@@ -127,6 +131,15 @@ export const useGetNewPredData2 = ({ data, querySettings }) => {
   });
 };
 
+export const useGetUserPost = ({ data, querySettings }) => {
+  return useQuery({
+    queryKey: ["checkUserRegister", data],
+    queryFn: () => itemsService.checkUser(data),
+    ...querySettings,
+  });
+};
+
+
 export const useGetNotificationFirst = ({ data, querySettings }) => {
   return useQuery({
     queryKey: ["notificationsFirst", data],
@@ -134,6 +147,7 @@ export const useGetNotificationFirst = ({ data, querySettings }) => {
     ...querySettings,
   });
 };
+
 
 export const useGetDriverPosition = ({
   params = { data: JSON.stringify({}) },
@@ -145,6 +159,29 @@ export const useGetDriverPosition = ({
     ...querySettings,
   });
 };
+
+export const useGetActionUser = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getActionUser", params],
+    queryFn: () => itemsService.getActionUser(params),
+    ...querySettings,
+  });
+};
+
+export const useGetRole = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getRole", params],
+    queryFn: () => itemsService.getRole(params),
+    ...querySettings,
+  });
+};
+
 
 export const useCreateAdMutation = (mutationSettings) => {
   return useMutation({

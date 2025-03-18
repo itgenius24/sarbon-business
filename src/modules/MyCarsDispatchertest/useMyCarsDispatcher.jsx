@@ -126,12 +126,10 @@ export const useMyCarsDispatcher = () => {
     return newDate;
   };
 
-
   const {
     data: getCarData,
     isLoading,
     refetch,
-
   } = useGetCarData({
     data: {
       data: {
@@ -299,15 +297,19 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
-          <Avatar size="sm" src={row?.photo} name={row?.full_name} />
+          <Avatar
+            size="sm"
+            src={row?.driver_data?.photo}
+            name={row?.driver_data?.full_name}
+          />
           <Box>
-            <p className={cls.title}>{row?.full_name}</p>
+            <p className={cls.title}>{row?.driver_data?.full_name}</p>
             <a
               target="_blank"
-              href={`https://t.me/${row?.phone}`}
+              href={`https://t.me/${row?.driver_data?.phone}`}
               className={cls.tel}
             >
-              {row?.phone}{" "}
+              {row?.driver_data?.phone}{" "}
             </a>
           </Box>
         </Flex>
@@ -337,7 +339,7 @@ export const useMyCarsDispatcher = () => {
           </Flex>
         ) : (
           <p className={cls.title}>
-            <span className={cls.subTitle}>{t(`Владелец водитель`)}</span>
+            <span className={cls.subTitle}>{t(`Без перевозчика`)}</span>
           </p>
         );
       },
@@ -345,44 +347,49 @@ export const useMyCarsDispatcher = () => {
     {
       title: t(`Машина`),
       width: 200,
-      render: (row, index) => (
-        <>
-          <p className={cls.title}>
-            {row?.trailer_type_id_data?.[`name_${locale}`]
-              ? row?.trailer_type_id_data?.[`name_${locale}`]
-              : row?.trailer_type_id_data?.name}
-          </p>
-
-          <Flex>
-            <p className={cls.subTitle1}>
-              <span style={{ marginRight: `9px` }} className={cls.subTitle}>
-                {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
-              </span>
+      render: (row, index) =>
+        row?.trailer_type_id_data ? (
+          <>
+            <p className={cls.title}>
+              {row?.trailer_type_id_data?.[`name_${locale}`]
+                ? row?.trailer_type_id_data?.[`name_${locale}`]
+                : row?.trailer_type_id_data?.name}
             </p>
 
-            <Tooltip
-              border={`1px solid rgba(219, 216, 227, 1)`}
-              background={`white`}
-              color={`black`}
-              placement="top-end"
-              label={row?.vehicle_data?.car_country || `uz`}
-            >
-              <Image
-                alt="w"
-                style={{
-                  width: `30px`,
-                  height: `20px`,
-                  marginRight: `9px`,
-                }}
-                width={100}
-                height={100}
-                src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
-              />
-            </Tooltip>
-            <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
-          </Flex>
-        </>
-      ),
+            <Flex>
+              <p className={cls.subTitle1}>
+                <span style={{ marginRight: `9px` }} className={cls.subTitle}>
+                  {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
+                </span>
+              </p>
+
+              <Tooltip
+                border={`1px solid rgba(219, 216, 227, 1)`}
+                background={`white`}
+                color={`black`}
+                placement="top-end"
+                label={row?.vehicle_data?.car_country || `uz`}
+              >
+                <Image
+                  alt="w"
+                  style={{
+                    width: `30px`,
+                    height: `20px`,
+                    marginRight: `9px`,
+                  }}
+                  width={100}
+                  height={100}
+                  src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
+                />
+              </Tooltip>
+              <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
+            </Flex>
+          </>
+        ) : (
+          <p className={cls.title}>
+            <span className={cls.subTitle}>{t(`Без машины`)}</span>
+          </p>
+        ),
     },
     {
       title: (
@@ -561,9 +568,10 @@ export const useMyCarsDispatcher = () => {
       ),
     },
   ];
+  console.log(`ids`, visibleData);
+
 
   const rowClassName = (row) => {
-    console.log(`ids`, idsId.includes(row?.driver_data?.guid));
     return idsId.includes(row?.driver_data?.guid) ? cls.border : cls.no_border;
   };
 
@@ -788,6 +796,13 @@ export const useMyCarsDispatcher = () => {
     setPage(0);
   };
 
+  const clearFn = () => {
+    setData([]);
+    setOldData([]);
+    setPage(0);
+  }
+    
+
   return {
     data: visibleData,
     deleteFuntion,
@@ -830,9 +845,10 @@ export const useMyCarsDispatcher = () => {
     endDate,
     setEndDate,
     control,
-    errors, 
+    errors,
     setError,
     setValue,
     watch,
+    clearFn
   };
 };

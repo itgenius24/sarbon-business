@@ -68,6 +68,7 @@ export const MyCarsDispatcherModule = () => {
     setError,
     setValue,
     watch,
+    clearFn,
   } = useMyCarsDispatcher();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -106,6 +107,7 @@ export const MyCarsDispatcherModule = () => {
                   setEndDate={setEndDate}
                   range
                   startDate={startDate}
+                  onChange={clearFn}
                   setStartDate={setStartDate}
                   maxDate={new Date()}
                 />
@@ -116,6 +118,8 @@ export const MyCarsDispatcherModule = () => {
                   control={control}
                   required
                   register={register}
+                  onChangeSelect={(e) => clearFn() }
+                  clearFn={clearFn}
                   watch={watch}
                   name="driver"
                   options={dataDis?.map(item => ({value:item?.first_dispatcher_data?.guid,label:item?.first_dispatcher_data?.full_name}))}

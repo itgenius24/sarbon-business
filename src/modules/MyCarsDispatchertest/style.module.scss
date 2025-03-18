@@ -66,7 +66,11 @@
   color: rgba(33, 31, 38, 1);
   span {
     font-style: italic;
-    color: rgba(126, 123, 134, 1);
+    color: rgba(126, 123, 134, 1); 
+    text-align: center;
+    padding: 12px 20px;
+    background-color: rgba(246, 247, 248, 1);
+    border-radius: 10px;
   }
 }
 .title2 {
