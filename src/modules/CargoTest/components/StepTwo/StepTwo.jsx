@@ -65,6 +65,7 @@ const StepTwo = ({ status }) => {
     handLeCheck,
     handLeCheck2,
     handleResetForm,
+    setDisabled
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -128,6 +129,11 @@ const StepTwo = ({ status }) => {
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace" || e.key === "Delete") {
+                          setDisabled(true)
+                        }
+                      }}
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
                           setAddress(e.target.value);
@@ -330,6 +336,11 @@ const StepTwo = ({ status }) => {
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace" || e.key === "Delete") {
+                          setDisabled(true)
+                        }
+                      }}
                       onChange={(e) => {
                           setActiveIndex(`unloading[${index}].address`),
                           setAddress(e.target.value);
@@ -355,7 +366,7 @@ const StepTwo = ({ status }) => {
                     />
                     {activeIndex === `unloading[${index}].address` &&
                       results.length > 0 &&
-                      address?.length && (
+                      address?.length > 0 ? (
                         <Box className={cls.optionsWrap}>
                           {results?.map((location, idx) => (
                             <Flex
@@ -379,7 +390,7 @@ const StepTwo = ({ status }) => {
                             </Flex>
                           ))}
                         </Box>
-                      )}
+                      ) : ``}
                   </Box>
                   <Flex
                     alignItems={"center"}
