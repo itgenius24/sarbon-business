@@ -100,6 +100,7 @@ export const useDriverProps = () => {
   const {
     data: getCarData,
     isLoading,
+    isFetching,
     refetch,
   } = useGetCarData({
     data: {
@@ -160,7 +161,7 @@ export const useDriverProps = () => {
               } else {
                 return {
                   ...item,
-                  status: ``,
+                  status: `Нет Статус`,
                 };
               }
             });
@@ -491,7 +492,7 @@ export const useDriverProps = () => {
   return {
     data: visibleData,
     nameFilter,
-    isLoading,
+    isLoading:isLoading || isFetching,
     t,
     register,
     setSearchFn,
