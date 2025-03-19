@@ -259,6 +259,7 @@ table{
 
 
 .dateWrap{
+
   .react-datepicker{
      align-items: flex-start !important;
   }
@@ -285,5 +286,11 @@ table{
   .react-datepicker__navigation--previous {
     left: 20px !important;
     top: 27px !important;
+  }
+}
+
+.left{
+  .react-datepicker-popper{
+    left: -190px !important;
   }
 }

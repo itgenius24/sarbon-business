@@ -40,8 +40,8 @@ export const useDashboard = (locale) => {
     [`2`]: `ekspiditor`,
     [`3`]: `truck`,
     [`4`]: `cargo`,
-    [`5`]: `dispatcher`,
-    [`6`]: `cargo`,
+    [`5`]: `top_dispatcher`,
+    [`6`]: `customer`,
   };
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {

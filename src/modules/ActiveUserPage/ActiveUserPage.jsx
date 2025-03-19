@@ -73,7 +73,7 @@ const ActiveUserPage = ({ locale }) => {
 
               />
             </Box>
-            <Box className="dateWrap" width={`280px`}>
+            <Box className="dateWrap left" width={`280px`}>
               <DatePicker
                 endDate={endDate}
                 setEndDate={setEndDate}
