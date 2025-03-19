@@ -176,7 +176,7 @@ export const useMyCarsDispatcher = () => {
               } else {
                 return {
                   ...item,
-                  status: ``,
+                  status: `Нет Статус`,
                 };
               }
             });
@@ -412,7 +412,7 @@ export const useMyCarsDispatcher = () => {
                   </p>
                 </Box>
               ) : (
-                <Box>
+                <Box width={`20%`}>
                   <p
                     onClick={() => setOpen(row)}
                     className={cls.locationTitle2}
@@ -636,7 +636,7 @@ export const useMyCarsDispatcher = () => {
             item.guid === open.guid
               ? {
                   ...item,
-                  status: ``,
+                  status: `Нет Статус`,
                 }
               : item
           )
