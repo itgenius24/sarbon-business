@@ -193,7 +193,7 @@ export const useMyCarsDispatcher = () => {
               } else {
                 return {
                   ...item,
-                  status: ``,
+                  status: `Нет Статус`,
                 };
               }
             });
@@ -625,7 +625,7 @@ export const useMyCarsDispatcher = () => {
             item.guid === open.guid
               ? {
                   ...item,
-                  status: ``,
+                  status: `Нет Статус`,
                 }
               : item
           )
@@ -677,7 +677,7 @@ export const useMyCarsDispatcher = () => {
 
           setUserDisRes({ ...res, response: [targetItem, ...res.response] });
         } else {
-          setUserDisRes(res);
+          setUserDisRes({...res,response:[...res.response,{first_dispatcher_data:{guid:``,full_name:`Без диспетчера`},}]});
         }
       },
     },

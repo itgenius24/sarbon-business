@@ -73,14 +73,7 @@ export const MyCarsDispatcherModule = () => {
             {t("Ваши водители")}
           </Heading>
           <Flex gap={`28px`}>
-            <Box className={cls.countrWrap}>
-              <p>
-                {t(`Всего`)}: <span>{count?.count || 0}</span>
-              </p>
-              <p>
-                {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
-              </p>
-            </Box>
+           
             {/* {isSuperDispatcher === "approved" && (
               <Button
                 onClick={() =>
@@ -94,7 +87,7 @@ export const MyCarsDispatcherModule = () => {
             )} */}
           </Flex>
         </Flex>
-        <Flex>
+        <Flex width={`100%`} justifyContent={`space-between`} alignItems={`center`} >
           <Box width={`40%`}>
             <Input
               value={search}
@@ -103,6 +96,14 @@ export const MyCarsDispatcherModule = () => {
               onChange={(e) => setSearchFn(e.target?.value)}
             />
           </Box>
+          <Box className={cls.countrWrap}>
+              <p>
+                {t(`Всего`)}: <span>{count?.count || 0}</span>
+              </p>
+              <p>
+                {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
+              </p>
+            </Box>
         </Flex>
 
        <Box mt={"37px"}>

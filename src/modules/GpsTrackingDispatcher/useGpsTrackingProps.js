@@ -500,7 +500,7 @@ export const useGpsTrackingProps = () => {
             limit: 1000,
             page: offset,
             type: "dispatcher",
-            dispetchir_id: disId,
+            first_dispatcher_id: disId,
           },
         },
       });
