@@ -354,6 +354,7 @@ export const useGpsTrackingProps = () => {
       },
     },
     querySettings: {
+      refetchOnWindowFocus:false,
       select: (res) =>
         res?.response?.map((item) => ({
           value: item?.guid,
@@ -362,7 +363,7 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-  // console.log(`getCarData`, getCarData);
+
 
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
@@ -399,7 +400,7 @@ export const useGpsTrackingProps = () => {
       },
     },
     querySettings: {
-      onSuccess: (data) => {
+      select: (data) => {
         if (data?.response?.length) {
           let data2 = data?.response?.map((item) => ({
             ...item,
@@ -409,7 +410,7 @@ export const useGpsTrackingProps = () => {
             users_gps: [item],
             orders: item?.order_data ? [item?.order_data] : undefined,
           }));
-          setCarsArr((res) => [...res, ...data2]);
+          return data2
         }
       },
       refetchOnWindowFocus: false,
@@ -438,7 +439,7 @@ export const useGpsTrackingProps = () => {
       id = watch("users_id");
     }
 
-    return carsArr?.filter((item) => item?.user?.guid === id);
+    return dataDriverMap?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
@@ -479,9 +480,9 @@ export const useGpsTrackingProps = () => {
     }
   }, []);
 
-  const filteredData = filterData(carsArr, checkboxStatuses);
+  const filteredData = filterData(dataDriverMap, checkboxStatuses);
 
-  const uniqueData = filteredData.reduce((acc, current) => {
+  const uniqueData = filteredData?.reduce((acc, current) => {
     const xistingItem = acc.find(
       (item) => item?.user?.guid === current?.user?.guid
     );
@@ -491,7 +492,7 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
 
-  const dataUserDataID = dataUserID.reduce((acc, current) => {
+  const dataUserDataID = dataUserID?.reduce((acc, current) => {
     const xistingItem = acc.find(
       (item) => item?.user?.guid === current?.user?.guid
     );
@@ -501,7 +502,7 @@ export const useGpsTrackingProps = () => {
     return acc;
   }, []);
 
-  const carTypeDataFIlter = uniqueData.filter(
+  const carTypeDataFIlter = uniqueData?.filter(
     (item) =>
       item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
       watch(`car_type`)?.value
@@ -520,7 +521,7 @@ export const useGpsTrackingProps = () => {
     watch(`car_type`)?.value,
     dataUserID,
     filteredData,
-    carsArr?.length,
+    dataDriverMap,
     uniqueData,
   ]);
 
@@ -568,7 +569,7 @@ export const useGpsTrackingProps = () => {
     userUpdate({ data: body });
   };
 
-  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
+  const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
     console.log("offsetCar");
@@ -744,6 +745,7 @@ export const useGpsTrackingProps = () => {
     refueling: remainingData,
     dataDis: dataDis,
     getCarData,
-    driverLoading
+    driverLoading,
+    setCarsArr
   };
 };

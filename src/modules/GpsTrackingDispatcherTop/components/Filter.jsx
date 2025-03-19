@@ -37,7 +37,9 @@ const Filter = ({
   loadCheck,
   dataDis,
   getCarData,
-  driverLoading
+  driverLoading,
+  setCarsArr
+
 }) => {
   const { t } = useTranslation(locale);
 
@@ -83,6 +85,7 @@ const Filter = ({
             setValue={setValue}
             handleInputClear={handleInputClear}
             clearable
+            onChangeSelect={(e) =>{ console.log(`val`,e); setCarsArr([]);handleInputClear}}
           />
           <Dropdown
             placeholder={t("Водитель")}
@@ -97,7 +100,8 @@ const Filter = ({
             clearable
             searchable
             searchName="driver_search"
-            isLoading={driverLoading}
+            isLoading={false}
+            onChangeSelect={() => { setCarsArr([]);handleInputClear}}
           />
         </Box>
         <Box className={cls.cardWrap}>

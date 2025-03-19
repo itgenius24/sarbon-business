@@ -75,7 +75,8 @@ export default function GpsTrackingDispatcherTop() {
     locationPending,
     dataDis,
     getCarData,
-    driverLoading
+    driverLoading,
+    setCarsArr
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -155,6 +156,7 @@ export default function GpsTrackingDispatcherTop() {
                   dataDis={dataDis}
                   getCarData={getCarData}
                   driverLoading={driverLoading}
+                  setCarsArr={setCarsArr}
                 />
               )}
               {modalType === "driverFree" && (
