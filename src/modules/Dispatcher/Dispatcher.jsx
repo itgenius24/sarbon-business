@@ -56,7 +56,7 @@ export const DispatcherModule = () => {
             {t("Диспетчеры")}
           </Heading>
         </Flex>
-        <Flex width={`100%`} justifyContent={`space-between`}>
+        <Flex width={`100%`} alignItems={`center`} justifyContent={`space-between`}>
           <Box width={`40%`}>
             <Input
               value={search}

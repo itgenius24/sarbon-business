@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useCreateLogHistory,
-
-  useGetCarData,
-} from "@/services/api";
+import { useCreateLogHistory, useGetCarData } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -27,12 +23,7 @@ import {
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
 import cls from "./style.module.scss";
-import {
-  Avatar,
-  Box,
-  Flex,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Avatar, Box, Flex, Tooltip } from "@chakra-ui/react";
 
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
@@ -57,9 +48,9 @@ export const useDriverProps = () => {
   const containerRef = useRef(null);
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
-     const params = useSearchParams();
-    
-    const guid =  params.get(`guid`) || 0;
+  const params = useSearchParams();
+
+  const guid = params.get(`guid`) || 0;
 
   const [deleteId, setDeleteId] = useState(``);
 
@@ -106,7 +97,11 @@ export const useDriverProps = () => {
     });
   }, []);
 
-  const { data: getCarData,isLoading,refetch } = useGetCarData({
+  const {
+    data: getCarData,
+    isLoading,
+    refetch,
+  } = useGetCarData({
     data: {
       data: {
         object_data: {
@@ -119,7 +114,7 @@ export const useDriverProps = () => {
         },
       },
     },
-    querySettings:{
+    querySettings: {
       onSuccess: (res) => {
         if (res?.response?.length) {
           setRefe(false);
@@ -127,7 +122,7 @@ export const useDriverProps = () => {
             count: res?.count?.total_count,
             free_count: res?.FreeCount?.free_count,
           });
-  
+
           let data = res?.response;
           const uniqueData = data
             .filter(
@@ -139,23 +134,25 @@ export const useDriverProps = () => {
             ?.map((item) => {
               if (
                 item?.order_data ||
-                item?.driver_data?.provisions?.[0] === `our_cargo`
+                item?.provisions?.[0] === `our_cargo`
               ) {
                 return {
                   ...item,
                   status: `Занята`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `someone_cargo`) {
+              } else if (
+                item?.provisions?.[0] === `someone_cargo`
+              ) {
                 return {
                   ...item,
                   status: `Занята чужим грузом`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `broke_down`) {
+              } else if (item?.provisions?.[0] === `broke_down`) {
                 return {
                   ...item,
                   status: `Неисправна`,
                 };
-              } else if (item?.driver_data?.provisions?.[0] === `empty`) {
+              } else if (item?.provisions?.[0] === `empty`) {
                 return {
                   ...item,
                   status: `Свободная`,
@@ -173,17 +170,15 @@ export const useDriverProps = () => {
         }
       },
       refetchOnWindowFocus: false,
-
-    }
+    },
   });
-
 
   const nameFilter = (val) => {
     if (val !== `all`) {
       const sortedData = oldData?.sort((a, b) =>
         val === `top`
-          ? a?.driver_data?.full_name.localeCompare(b?.driver_data?.full_name)
-          : b?.driver_data?.full_name.localeCompare(a?.driver_data?.full_name)
+          ? a?.full_name.localeCompare(b?.full_name)
+          : b?.full_name.localeCompare(a?.full_name)
       );
 
       setData(sortedData);
@@ -245,17 +240,17 @@ export const useDriverProps = () => {
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar
             size="sm"
-            src={row?.driver_data?.photo}
-            name={row?.driver_data?.full_name}
+            src={row?.photo}
+            name={row?.full_name}
           />
           <Box>
-            <p className={cls.title}>{row?.driver_data?.full_name}</p>
+            <p className={cls.title}>{row?.full_name}</p>
             <a
               target="_blank"
-              href={`https://t.me/${row?.driver_data?.phone}`}
+              href={`https://t.me/${row?.phone}`}
               className={cls.tel}
             >
-              {row?.driver_data?.phone}{" "}
+              {row?.phone}{" "}
             </a>
           </Box>
         </Flex>
@@ -357,8 +352,8 @@ export const useDriverProps = () => {
       width: 300,
       render: (row, index) => {
         const order =
-          row?.order_data || row?.driver_data?.provisions?.[0] === `our_cargo`;
-        const status = row?.driver_data?.provisions?.[0];
+          row?.order_data || row?.provisions?.[0] === `our_cargo`;
+        const status = row?.provisions?.[0];
         const statusName =
           status === `someone_cargo`
             ? `Занята чужим грузом`
@@ -368,7 +363,7 @@ export const useDriverProps = () => {
         return (
           <Flex>
             <Flex
-             width={`100%`}
+              width={`100%`}
               alignItems={`center`}
               justifyContent={`space-between`}
               background={
@@ -394,8 +389,8 @@ export const useDriverProps = () => {
                 </Box>
               )}
 
-              {row?.gps_data?.length > 0 ? (
-                <Flex  justifyContent={`space-between`}>
+              {row?.gps_data ? (
+                <Flex justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationActiveIcon />
@@ -404,9 +399,9 @@ export const useDriverProps = () => {
                         <p className={cls.title2}>
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
-                            {row?.gps_data[0]?.update_time &&
+                            {row?.gps_data?.update_time &&
                               format(
-                                row?.gps_data[0]?.update_time,
+                                row?.gps_data?.update_time,
                                 `yyyy-MM-dd`
                               )}
                           </span>{" "}
@@ -420,26 +415,26 @@ export const useDriverProps = () => {
                       <Box>
                         <p className={cls.subTitle}>Версия Sarbon</p>
                         <p className={cls.title2}>
-                          {row?.gps_data[0]?.version}
+                          {row?.gps_data?.version}
                         </p>
                       </Box>
                     </Flex>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
-                    {row?.gps_data[0]?.battery > 20 ? (
+                    {row?.gps_data?.battery > 20 ? (
                       <BatareyFullIcon />
                     ) : (
                       <BatareyIcon />
                     )}
                     <p className={cls.subTitle}>
                       <span className={cls.title}>
-                        {row?.gps_data[0]?.battery || 0}%
+                        {row?.gps_data?.battery || 0}%
                       </span>
                     </p>
                   </Flex> */}
                 </Flex>
               ) : (
-                <Flex  justifyContent={`space-between`}>
+                <Flex justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
                       <LocationDisabledIcon />
@@ -482,7 +477,6 @@ export const useDriverProps = () => {
   const rowClassName = (row) => {
     return row?.order_data ? cls.bussy : cls.free;
   };
-
 
   const setSearchFn = (val) => {
     setSearch(val?.replace(/\+/g, ""));

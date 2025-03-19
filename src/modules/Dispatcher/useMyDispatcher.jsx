@@ -157,7 +157,7 @@ export const useMyDispatcher = () => {
       filter: true,
       key: `time`,
       filterType: (type) => console.log(type),
-      render: (row, index) => 0,
+      render: (row, index) => row?.driver_count,
     },
     {
       title: t(`Машины`),

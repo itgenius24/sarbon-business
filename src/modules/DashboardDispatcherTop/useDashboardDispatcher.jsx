@@ -519,7 +519,7 @@ export const useDashboardDispatcher = (locale) => {
     setEndDate,
     data,
     setStatus,
-    isLoading,
+    isLoading:isFetching,
     filterDataLoadin: filterDataLoadin,
     date,
     setDate,
