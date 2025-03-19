@@ -14,11 +14,12 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
   TelegramOpasitiyIcon,
   WatsapOpasitiyIcon,
 } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { useGetCompanyList, useGetExcelPost } from "@/services/api";
+import { useGetCompanyList, useGetExcelPost, useGetUserGpsByIDData } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
@@ -68,6 +69,18 @@ const DriverFree = ({
       onClose();
     }, 1000);
   };
+
+    const getUserGps = useGetUserGpsByIDData({
+      params: {
+        data: JSON.stringify({
+
+          guid: contendSingle?.disp_data?.[0]?.users_id_2,
+          with_relations: true,
+        }),
+      },
+    });
+
+ 
 
   const getCompanyList = useGetCompanyList(
     {
@@ -421,6 +434,37 @@ const DriverFree = ({
             </Flex>
           </Box>
         )}
+
+        {
+          getUserGps?.data?.response &&   <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={getUserGps?.data?.response?.[0]?.full_name}
+                src={getUserGps?.data?.response?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {getUserGps?.data?.response?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                <a
+                    href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                  >
+                    <TelegramIcon />
+                  </a>
+                  <p className={cls.cardStartSubTitleZTel}>
+                    {getUserGps?.data?.response?.[0]?.phone}
+                  </p>
+                
+            
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        }
+
+      
 
         <Button
           onClick={() => setCenterModalType(`selectCargo`)}
