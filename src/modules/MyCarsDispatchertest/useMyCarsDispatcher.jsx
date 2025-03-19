@@ -796,7 +796,7 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading: isLoading,
+    isLoading: isLoading ||isFetching,
     t,
     register,
     setSearchFn,
