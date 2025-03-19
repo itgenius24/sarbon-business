@@ -32,6 +32,8 @@ const DriverCheck = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
+
+  console.log(`contendSingle`, contendSingle);
   
   const getOfferCount = useGetOffer(
     {
