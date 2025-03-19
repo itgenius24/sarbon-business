@@ -119,7 +119,7 @@ export const useMyCarsDispatcher = () => {
     });
   }, []);
 
-  const { data: getCarData,isLoading,refetch } = useGetCarData({
+  const { data: getCarData,isLoading,isFetching,refetch } = useGetCarData({
     data: {
       data: {
         object_data: {
@@ -127,7 +127,7 @@ export const useMyCarsDispatcher = () => {
           search: debouncedValue,
           limit: debouncedValue?.length > 0 ? 1000 : limit,
           type: "dispatcher",
-          dispatcher_id: disId,
+          first_dispatcher_id: disId,
           sort_time: filterTime,
         },
       },
@@ -668,7 +668,7 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading,
+    isLoading:isFetching,
     t,
     register,
     setSearchFn,
