@@ -107,6 +107,7 @@ export const MyCarsDispatcherModule = () => {
               <Box className="dateWrap" width={`35%`}>
                 <p className={cls.label}>Выбор периода</p>
                 <DatePicker
+                disabled={watch(`driver`)?.label === `Без диспетчера`}
                   isClearable={false}
                   endDate={endDate}
                   setEndDate={setEndDate}

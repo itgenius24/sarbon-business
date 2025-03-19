@@ -19,7 +19,7 @@ export const CustomInputDate = forwardRef(
         className={cls.dateInput}
         onClick={onClick}
         ref={ref}
-        style={{ width: width || "100%" }}
+        style={{ width: width || "100%", opacity: disabled ? 0.5 : 1 }}
         disabled={disabled}
       >
         <span className={cls.dateInputInner}>

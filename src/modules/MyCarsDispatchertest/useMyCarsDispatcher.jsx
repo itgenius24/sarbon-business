@@ -140,13 +140,13 @@ export const useMyCarsDispatcher = () => {
           type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
-          filter: !watch(`driver`)?.value ?  `is_empty` :  value ,
+          filter: watch(`driver`)?.label === `Без диспетчера` ?  `is_empty` :  value ,
           first_dispatcher_id: watch(`driver`)?.value,
-          start_date:
+          start_date: watch(`driver`)?.label === `Без диспетчера` ? `` : 
             startDate?.getDate() === endDate?.getDate()
               ? formatDate(startDate, 0, 0, 0)
               : new Date(startDate),
-          end_date:
+          end_date: watch(`driver`)?.label === `Без диспетчера` ? `` :
             startDate?.getDate() === endDate?.getDate()
               ? formatDate(endDate, 23, 59, 59)
               : new Date(endDate),

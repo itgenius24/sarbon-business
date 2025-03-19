@@ -93,6 +93,7 @@ const Filter = ({
             name="driver"
             options={getCarData}
             errors={errors}
+            register={register}
             control={control}
             watch={watch}
             setValue={setValue}
