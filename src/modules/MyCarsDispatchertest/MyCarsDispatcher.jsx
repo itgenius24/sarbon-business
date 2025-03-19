@@ -69,6 +69,7 @@ export const MyCarsDispatcherModule = () => {
     setValue,
     watch,
     clearFn,
+    userDisResOption
   } = useMyCarsDispatcher();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -126,7 +127,7 @@ export const MyCarsDispatcherModule = () => {
                   clearFn={clearFn}
                   watch={watch}
                   name="driver"
-                  options={dataDis?.map((item) => ({
+                  options={userDisResOption?.map((item) => ({
                     value: item?.first_dispatcher_data?.guid,
                     label: item?.first_dispatcher_data?.full_name,
                   }))}

@@ -60,6 +60,7 @@ export const useMyCarsDispatcher = () => {
   const [ids, setId] = useState([]);
   const [userdata, setUserData] = useState({});
   const [userDisRes, setUserDisRes] = useState({});
+  const [userDisResOption, setUserDisResOption] = useState({});
   const [deleteId, setDeleteId] = useState(``);
   const [value, setValueR] = useState(`active`);
   const [startDate, setStartDate] = useState(() => {
@@ -139,7 +140,7 @@ export const useMyCarsDispatcher = () => {
           type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
-          filter: value,
+          filter: !watch(`driver`)?.value ?  `is_empty` :  value ,
           first_dispatcher_id: watch(`driver`)?.value,
           start_date:
             startDate?.getDate() === endDate?.getDate()
@@ -677,7 +678,8 @@ export const useMyCarsDispatcher = () => {
 
           setUserDisRes({ ...res, response: [targetItem, ...res.response] });
         } else {
-          setUserDisRes({...res,response:[...res.response,{first_dispatcher_data:{guid:``,full_name:`Без диспетчера`},}]});
+          setUserDisRes({...res,response:[...res.response]});
+          setUserDisResOption({...res,response:[{first_dispatcher_data:{guid:``,full_name:`Без диспетчера`}},...res.response]})
         }
       },
     },
@@ -837,5 +839,6 @@ export const useMyCarsDispatcher = () => {
     setValue,
     watch,
     clearFn,
+    userDisResOption:userDisResOption?.response
   };
 };
