@@ -40,6 +40,8 @@ export const useDashboard = (locale) => {
     [`2`]: `ekspiditor`,
     [`3`]: `truck`,
     [`4`]: `cargo`,
+    [`5`]: `dispatcher`,
+    [`6`]: `cargo`,
   };
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
@@ -1096,7 +1098,7 @@ export const useDashboard = (locale) => {
       width: 200,
       render: (_, row) => (
         <p style={{ textAlign: `center` }}>
-          {row?.drivers_count?.empty + (row?.drivers_count?.unknown || 0)}
+          {row?.drivers_count?.empty + (row?.drivers_count?.unknown || 0) || 0}
         </p>
       ),
     },
@@ -1191,6 +1193,202 @@ export const useDashboard = (locale) => {
     },
   ];
 
+  const columns6 = [
+    {
+      title: "No",
+      dataIndex: `number`,
+      width: 40,
+    },
+    {
+      title: `Последняя активность`,
+      dataIndex: "createdAt",
+      width: 150,
+      render: (_, row) => {
+        const date = new Date(row?.user_history_data?.last_move_time);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
+            </p>
+          </>
+        );
+      },
+    },
+    {
+      title: `Топ Диспетчер`,
+      dataIndex: "full_name",
+      width: 200,
+      render:(_,row) => <p className={cls.nameDis} onClick={() => handle(row)}>{row?.full_name}</p>
+    },
+    {
+      title: `Общее кол-во водителей`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        const empty = row?.drivers_count?.empty || 0;
+        const someone_cargo = row?.drivers_count?.someone_cargo || 0;
+        const broke_down = row?.drivers_count?.broke_down || 0;
+        const newDriver = row?.drivers_count?.new || 0;
+        const unknown = row?.drivers_count?.unknown || 0;
+        const our_cargo = row?.drivers_count?.our_cargo || 0;
+        // const waiting_for_driver = row?.drivers_count?.waiting_for_driver || 0;
+        return (
+          <p style={{ textAlign: `center` }}>
+            {empty +
+              someone_cargo +
+              broke_down +
+              newDriver +
+              unknown +
+              our_cargo}
+          </p>
+        );
+      },
+    },
+    {
+      title: `Общее кол-во свободных`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => (
+        <p style={{ textAlign: `center` }}>
+          {row?.drivers_count?.empty + (row?.drivers_count?.unknown || 0) || 0}
+        </p>
+      ),
+    },
+    {
+      title: `Занята чужим грузом`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => (
+        <Flex width={`100%`} justifyContent={`center`}>
+          <p style={{ width: `100px`, textAlign: `center` }}>
+            {row?.drivers_count?.someone_cargo}
+          </p>
+        </Flex>
+      ),
+    },
+    {
+      title: `Неисправна`,
+      dataIndex: "",
+      width: 100,
+      render: (_, row) => (
+        <Flex width={`100%`} justifyContent={`center`}>
+          <p style={{ width: `70px`, textAlign: `center` }}>
+            {row?.drivers_count?.broke_down}
+          </p>
+        </Flex>
+      ),
+    },
+    {
+      title: `Общее кол-во в исполнении`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter((item) =>
+        //   item?._id?.includes(`performed`)
+        // );
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.performed}
+          </p>
+        );
+      },
+    },
+    // {
+    //   title: `Ждём водителя`,
+    //   dataIndex: "",
+    //   width: 200,
+    //   render: (_, row) => {
+    //     // const data = row?.orders_status_counts?.filter(
+    //     //   (item) =>
+    //     //     item?._id?.includes(`new`) &&
+    //     //     item?._id?.includes("approve_from_driver")
+    //     // );
+    //     return row?.drivers_count?.waiting_for_driver ;
+    //   },
+    // },
+    {
+      title: `Общее кол-во предложений и ждём вод.`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter(
+        //   (item) =>
+        //     item?._id?.includes(`new`) &&
+        //     item?._id?.includes("approve_by_customer")
+        // );
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.new ||
+              0 + row?.orders_status_counts?.approve_by_customer ||
+              0 + row?.orders_status_counts?.approve_from_driver ||
+              0}
+          </p>
+        );
+      },
+    },
+
+    {
+      title: `Общее кол-во завершённых`,
+      dataIndex: "",
+      width: 200,
+      render: (_, row) => {
+        // const data = row?.orders_status_counts?.filter((item) =>
+        //   item?._id?.includes(`archive`)
+        // );
+
+        return (
+          <p style={{ textAlign: `center` }}>
+            {row?.orders_status_counts?.archive}
+          </p>
+        );
+      },
+    },
+  ];
+
+  const columns7 = [
+    {
+      title:`Последняя активность`,
+      dataIndex:``,
+      width:250
+    },
+    {
+      title:`Заказчик`,
+      dataIndex:``,
+      width:250
+    },
+    {
+      title:`Общее кол-во активных грузов`,
+      dataIndex:``,
+      width:250
+    },
+    {
+      title:`Неактивный`,
+      dataIndex:``,
+      width:250
+    },
+    {
+      title:`В модерация`,
+      dataIndex:``,
+      width:250
+    },
+    {
+      title:`Отклонений`,
+      dataIndex:``,
+      width:250
+    },
+    {
+      title:`Общее кол-во Завершённых`,
+      dataIndex:``,
+      width:250
+    },
+  ]
+
   return {
     topStatis,
     topStatis2,
@@ -1205,6 +1403,8 @@ export const useDashboard = (locale) => {
     columns3,
     columns4,
     columns5,
+    columns6,
+    columns7,
     data,
     setStatus,
     isLoading,

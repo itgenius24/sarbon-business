@@ -64,6 +64,8 @@ const Dashboard = ({ locale }) => {
     columns3,
     columns4,
     columns5,
+    columns6,
+    columns7,
     data,
     isLoading,
     setStatus,
@@ -259,6 +261,8 @@ const Dashboard = ({ locale }) => {
                   <Tab> Перевозчик</Tab>
                   <Tab> Транспорт</Tab>
                   <Tab> Груз</Tab>
+                  <Tab> Топ Диспетчер</Tab>
+                  <Tab>Продажник</Tab>
                 </TabList>
                 <Button
                   width={`fit-content`}
@@ -324,6 +328,24 @@ const Dashboard = ({ locale }) => {
                     isLoading={filterDataLoadin}
                     columns={columns4}
                      data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <CTable
+                    isLoading={filterDataLoadin}
+                    columns={columns6}
+                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <CTable
+                    isLoading={filterDataLoadin}
+                    columns={columns7}
+                    data={[]}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
