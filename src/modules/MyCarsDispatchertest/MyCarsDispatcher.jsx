@@ -202,7 +202,7 @@ export const MyCarsDispatcherModule = () => {
           )}
 
           <div>
-            {data?.length >= 50 (
+            {data?.length >= 50 && (
               <Box
                 position={`absolute`}
                 zIndex={`876543`}
