@@ -110,7 +110,7 @@ export const useDriverProps = () => {
           search: debouncedValue,
           limit: debouncedValue?.length > 0 ? 1000 : limit,
           type: "dispatcher",
-          dispatcher_id: guid ? guid : disId,
+          first_dispatcher_id: guid ? guid : disId,
           sort_time: filterTime,
         },
       },
@@ -376,7 +376,7 @@ export const useDriverProps = () => {
                 <Box>
                   <p className={cls.locationTitle}>{t(`Занята`)}: </p>
                   <p className={cls.subBlueTitle}>
-                    {row?.order_data?.cargo_data?.number_of_order}
+                    {row?.your_id}
                   </p>
                 </Box>
               ) : (
@@ -476,7 +476,7 @@ export const useDriverProps = () => {
   ];
 
   const rowClassName = (row) => {
-    return row?.order_data ? cls.bussy : cls.free;
+    return (row?.order_data || row?.provisions?.[0] === `our_cargo`) ? cls.bussy : cls.free;
   };
 
   const setSearchFn = (val) => {

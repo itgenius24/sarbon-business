@@ -34,14 +34,19 @@ const Header = observer(({ elements }) => {
     router.push(`/${locale ? locale : `ru`}/profile`);
   };
 
+  const dispacherType = authStore?.userData?.dispatcher_type
+
   const userData = useGetUserInfoHook();
 
   const photo = userData.data?.photo;
 
-
-
-
   const [isNavOpen, setNavOpen] = useState(false);
+
+  const roleName = {
+    ["527d2017-2dc2-4449-9eeb-08fc1aafa469"] : `Директор`,
+    ["785678f2-fae7-4a00-8766-99ea67d3784f"] : dispacherType?.[0] === `top_dispatcher`? `Топ-диспетчер` : `Диспетчер`,
+    ["48871d27-7361-4f69-8fe4-b54daf270739"] : `Заказчик`
+  }
 
   function handleToggleNav() {
     setNavOpen(!isNavOpen);
@@ -55,7 +60,7 @@ const Header = observer(({ elements }) => {
       borderBottomColor="brand.200"
     >
       <ContainerNav>
-        <Box  as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
+        <Box as="nav" className={clsx(cls.nav, { [cls.open]: isNavOpen })}>
           <Box className={cls.leftBox}>
             <Box className={cls.logo}>
               <Logo />
@@ -148,7 +153,7 @@ const Header = observer(({ elements }) => {
                     {/* </IconButton> */}
                   </Box>
                   {isAuth && (
-                    <>
+                    <Flex gap={`9px`} alignItems="center"> 
                       <Box
                         onClick={goToProfile}
                         className={cls.userIcon}
@@ -156,13 +161,15 @@ const Header = observer(({ elements }) => {
                       >
                         <Image
                           src={
-                            (photo === "photo" || photo === "")
+                            photo === "photo" || photo === ""
                               ? UserImg
                               : !photo?.includes("http")
                               ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
                                   photo || ""
                                 }`
-                              : photo?.includes("http") ? photo : UserImg
+                              : photo?.includes("http")
+                              ? photo
+                              : UserImg
                           }
                           alt="ww"
                           width={40}
@@ -171,10 +178,12 @@ const Header = observer(({ elements }) => {
                           style={{ height: "100%" }}
                         />
                       </Box>
-                      {/* <Box ml="16px">
-                    <LogOutBtn />
-                  </Box> */}
-                    </>
+                      <Box>
+                           <p className={cls.full_name}>{userData?.data?.full_name}</p>
+                           <p className={cls.role}>{roleName[authStore.userData.role_id]}</p>
+                      </Box>
+                    
+                    </Flex>
                   )}
                 </Box>
               </Box>
@@ -204,35 +213,34 @@ const Header = observer(({ elements }) => {
                 </Flex>
               )}
 
-              {
-                !pathname?.includes("app-download") &&   <button className={cls.burgerBtn} onClick={handleToggleNav}>
-                <svg id="hamburger" viewBox="0 0 60 40">
-                  <g
-                    stroke="#70707B"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path
-                      className={cls.topLine}
-                      id="top-line"
-                      d="M10,10 L50,10 Z"
-                    ></path>
-                    <path
-                      className={cls.middleLine}
-                      id="middle-line"
-                      d="M10,20 L50,20 Z"
-                    ></path>
-                    <path
-                      className={cls.bottomLine}
-                      id="bottom-line"
-                      d="M10,30 L50,30 Z"
-                    ></path>
-                  </g>
-                </svg>
-              </button>
-              }
-            
+              {!pathname?.includes("app-download") && (
+                <button className={cls.burgerBtn} onClick={handleToggleNav}>
+                  <svg id="hamburger" viewBox="0 0 60 40">
+                    <g
+                      stroke="#70707B"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path
+                        className={cls.topLine}
+                        id="top-line"
+                        d="M10,10 L50,10 Z"
+                      ></path>
+                      <path
+                        className={cls.middleLine}
+                        id="middle-line"
+                        d="M10,20 L50,20 Z"
+                      ></path>
+                      <path
+                        className={cls.bottomLine}
+                        id="bottom-line"
+                        d="M10,30 L50,30 Z"
+                      ></path>
+                    </g>
+                  </svg>
+                </button>
+              )}
             </Flex>
           </Box>
         </Box>

@@ -527,7 +527,8 @@ export const useDashboard = (locale) => {
   };
 
   const handle = (row) => {
-    router.push(`/${locale}/my-loads?guid=${row?.guid}&full_name=${row?.full_name}`);
+    // router.push(`/${locale}/my-loads?guid=${row?.guid}&full_name=${row?.full_name}`);
+    router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.guid}&date=${row?.user_history_data?.last_move_time || ``}`)
 
   }
 
