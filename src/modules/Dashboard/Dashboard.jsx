@@ -261,8 +261,8 @@ const Dashboard = ({ locale }) => {
                   <Tab> Перевозчик</Tab>
                   <Tab> Транспорт</Tab>
                   <Tab> Груз</Tab>
-                  {/* <Tab> Топ Диспетчер</Tab>
-                  <Tab>Продажник</Tab> */}
+                  <Tab> Топ Диспетчер</Tab>
+                  <Tab>Продажник</Tab>
                 </TabList>
                 <Button
                   width={`fit-content`}
