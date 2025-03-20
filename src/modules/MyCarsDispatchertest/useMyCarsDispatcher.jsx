@@ -220,7 +220,7 @@ export const useMyCarsDispatcher = () => {
 
   const nameFilter = (val) => {
     if (val !== `all`) {
-      const sortedData = oldData?.sort((a, b) =>
+      const sortedData = data?.sort((a, b) =>
         val === `top`
           ? a?.full_name.localeCompare(b?.full_name)
           : b?.full_name.localeCompare(a?.full_name)
@@ -521,7 +521,7 @@ export const useMyCarsDispatcher = () => {
                 <p className={cls.disName}>
                   {row?.first_dispatcher_data?.full_name}
                 </p>
-                <p className={cls.disSubText}> 0 машин</p>
+                <p className={cls.disSubText}> {row?.first_dispatcher_data?.phone}</p>
               </Box>
             </Flex>
           ) : (
@@ -696,8 +696,8 @@ export const useMyCarsDispatcher = () => {
               data.first_dispatcher_data = {
                 full_name: userdata?.first_dispatcher_data?.full_name,
                 photo: userdata?.first_dispatcher_data?.photo,
+                phone:userdata?.first_dispatcher_data?.phone,
               };
-
               return data;
             }
             return item;

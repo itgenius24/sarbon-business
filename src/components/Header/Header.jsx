@@ -34,7 +34,7 @@ const Header = observer(({ elements }) => {
     router.push(`/${locale ? locale : `ru`}/profile`);
   };
 
-  const dispacherType = authStore?.userData?.dispatcher_type
+  const dispacherType = authStore?.userData?.dispatcher_type;
 
   const userData = useGetUserInfoHook();
 
@@ -43,10 +43,11 @@ const Header = observer(({ elements }) => {
   const [isNavOpen, setNavOpen] = useState(false);
 
   const roleName = {
-    ["527d2017-2dc2-4449-9eeb-08fc1aafa469"] : `Директор`,
-    ["785678f2-fae7-4a00-8766-99ea67d3784f"] : dispacherType?.[0] === `top_dispatcher`? `Топ-диспетчер` : `Диспетчер`,
-    ["48871d27-7361-4f69-8fe4-b54daf270739"] : `Заказчик`
-  }
+    ["527d2017-2dc2-4449-9eeb-08fc1aafa469"]: `Директор`,
+    ["785678f2-fae7-4a00-8766-99ea67d3784f"]:
+      dispacherType?.[0] === `top_dispatcher` ? `Топ-диспетчер` : `Диспетчер`,
+    ["48871d27-7361-4f69-8fe4-b54daf270739"]: `Заказчик`,
+  };
 
   function handleToggleNav() {
     setNavOpen(!isNavOpen);
@@ -153,12 +154,13 @@ const Header = observer(({ elements }) => {
                     {/* </IconButton> */}
                   </Box>
                   {isAuth && (
-                    <Flex gap={`9px`} alignItems="center"> 
-                      <Box
-                        onClick={goToProfile}
-                        className={cls.userIcon}
-                        ml="16px"
-                      >
+                    <Flex
+                      cursor={`pointer`}
+                      onClick={goToProfile}
+                      gap={`9px`}
+                      alignItems="center"
+                    >
+                      <Box className={cls.userIcon} ml="16px">
                         <Image
                           src={
                             photo === "photo" || photo === ""
@@ -179,10 +181,13 @@ const Header = observer(({ elements }) => {
                         />
                       </Box>
                       <Box>
-                           <p className={cls.full_name}>{userData?.data?.full_name}</p>
-                           <p className={cls.role}>{roleName[authStore.userData.role_id]}</p>
+                        <p className={cls.full_name}>
+                          {userData?.data?.full_name}
+                        </p>
+                        <p className={cls.role}>
+                          {roleName[authStore.userData.role_id]}
+                        </p>
                       </Box>
-                    
                     </Flex>
                   )}
                 </Box>

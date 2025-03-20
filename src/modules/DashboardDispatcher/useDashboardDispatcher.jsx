@@ -343,6 +343,7 @@ export const useDashboardDispatcher = (locale) => {
         item.provisions.includes("approve_by_customer")
     )?.length;
 
+
   const topStatis = [
     {
       id: 1,
@@ -381,28 +382,28 @@ export const useDashboardDispatcher = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: (newCount || 0) - (bzData?.count || 0),
+      total: data?.new?.[0]?.total_count || 0,
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
     },
     {
       id: 2,
-      total: bzData?.count || 0,
+      total: data?.free?.[0]?.total_count || 0,
       deck: `Общее кол-во предложений без диспетчеров`,
       bg: `rgba(165, 165, 165, 1)`,
       color: `rgba(165, 165, 165, 0.3)`,
     },
     {
       id: 3,
-      total: perfomed?.count || 0,
+      total:data?.performed?.[0]?.total_count || 0,
       deck: `Общее кол-во в исполнении`,
       bg: `rgba(255, 192, 0, 1)`,
       color: `rgba(255, 192, 0, 0.3)`,
     },
     {
       id: 4,
-      total: archive?.count || 0,
+      total: data?.archive?.[0]?.total_count || 0,
       deck: `Общее кол-во завершённых`,
       bg: `rgba(146, 208, 80, 1)`,
       color: `rgba(146, 208, 80, 1)`,

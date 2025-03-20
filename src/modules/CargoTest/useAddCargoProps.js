@@ -401,7 +401,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     { enabled: !!templateId }
   );
 
-  // console.log("getMaps222", getMaps?.data);
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
       if (data.response?.length > 2) {
@@ -470,11 +469,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       }
     });
 
-    console.log(`!canEdit`, !canEdit);
 
-    // if(canEdit){
-    //   router.push(`/${locale}/my-loads`);
-    // }else{
     createAddress.mutate(
       {
         data: {

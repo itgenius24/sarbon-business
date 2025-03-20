@@ -30,7 +30,7 @@ const SarbonTable = ({
   };
 
   return (
-    <Box height={`100%`} {...props} width={width} pb={`10px`} overflowX={isSticky ? `none`: `scroll`}>
+    <Box height={`100%`} {...props} width={width} pb={`10px`} overflowX={isSticky ? `none`: `auto`}>
       <Box position={ isSticky ?  `sticky`: `relative`} zIndex={`1`} top={0} width={`100%`}>
         <Flex justifyContent={`space-between`} className={cls.headerWrap}>
           {columns.map((item, index) => (
