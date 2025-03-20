@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
@@ -17,6 +18,7 @@ const FormInternationInput = ({
       defaultValue={defaultValue}
       render={({ field: { onChange, value } }) => (
         <PhoneInput
+  
           name={name}
            defaultCountry="uz"
           value={value}

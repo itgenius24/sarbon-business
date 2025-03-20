@@ -119,6 +119,12 @@ export const DispatcherCreate = ({ locale }) => {
                 errors={errors}
                 name="full_name"
                 placeholder={t("Имя и фамилия водителя")}
+                rules={{
+                    required: {
+                      value: true,
+                      message: t("Это поле обязательно для заполнения"),
+                    },
+                  }}
               />
             </Box>
             <Box>
@@ -194,7 +200,7 @@ export const DispatcherCreate = ({ locale }) => {
                   name="passport_code"
                   placeholder={t("000 00 00")}
                   rules={{
-                    required: t("Номер телефона обязателен"),
+                    required: t("Это поле объязательно"),
                     validate: (value) =>
                       /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
                       t("Неверный формат"),

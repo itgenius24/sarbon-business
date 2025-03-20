@@ -30,8 +30,19 @@ const SarbonTable = ({
   };
 
   return (
-    <Box height={`100%`} {...props} width={width} pb={`10px`} overflowX={isSticky ? `none`: `auto`}>
-      <Box position={ isSticky ?  `sticky`: `relative`} zIndex={`1`} top={0} width={`100%`}>
+    <Box
+      height={`100%`}
+      {...props}
+      width={width}
+      pb={`10px`}
+      overflowX={isSticky ? `none` : `auto`}
+    >
+      <Box
+        position={isSticky ? `sticky` : `relative`}
+        zIndex={`1`}
+        top={0}
+        width={`100%`}
+      >
         <Flex justifyContent={`space-between`} className={cls.headerWrap}>
           {columns.map((item, index) => (
             <Flex
@@ -43,9 +54,13 @@ const SarbonTable = ({
                 <Flex
                   as={`button`}
                   alignItems={`center`}
+                  width={`100%`}
                   className={cls.filterWrap}
                   gap={`5px`}
                   cursor={`pointer`}
+                  justifyContent={item?.align ? item?.align : `start`}
+                  // justifyContent={`center`}
+                  marginLeft={item?.align ? `15px` : 0}
                   onClick={() => {
                     handleFilterChange(item);
                   }}
@@ -60,7 +75,11 @@ const SarbonTable = ({
                   )}
                 </Flex>
               ) : (
-                <Box width={`100%`} className={cls.headerTh}>
+                <Box
+                  textAlign={item?.align ? item?.align : `left`}
+                  width={`100%`}
+                  className={cls.headerTh}
+                >
                   {item.title}
                 </Box>
               )}
@@ -84,7 +103,11 @@ const SarbonTable = ({
             >
               {isTooltip && statusTooltip(item)}
               {columns.map((column) => (
-                <Box key={column.title} width={`${column.width}%`}>
+                <Box
+                  textAlign={column?.align ? column?.align : `left`}
+                  key={column.title}
+                  width={`${column.width}%`}
+                >
                   {column?.render(item, index)}
                 </Box>
               ))}
@@ -106,7 +129,11 @@ const SarbonTable = ({
           >
             {isTooltip && statusTooltip(item)}
             {columns.map((column) => (
-              <Box key={column.title} width={`${column.width}%`}>
+              <Box
+                textAlign={column?.align ? column?.align : `left`}
+                key={column.title}
+                width={`${column.width}%`}
+              >
                 {column?.render(item, index)}
               </Box>
             ))}
