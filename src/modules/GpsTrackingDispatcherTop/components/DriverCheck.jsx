@@ -15,8 +15,9 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
-import { useGetOffer } from "@/services/api";
+import { useGetOffer, useGetUserGpsByIDData } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
@@ -31,6 +32,8 @@ const DriverCheck = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
+
+  console.log(`contendSingle`, contendSingle);
   
   const getOfferCount = useGetOffer(
     {
@@ -42,8 +45,15 @@ const DriverCheck = ({
     { enabled: Boolean(contendSingle?.user?.guid) }
   );
 
-  const dispatcher = authStore.userData;
- console.log(`contendSingle`,contendSingle)
+   const getUserGps = useGetUserGpsByIDData({
+      params: {
+        data: JSON.stringify({
+          guid: contendSingle?.disp_data?.[0]?.users_id_2,
+          with_relations: true,
+        }),
+      },
+    });
+
 
   const statuses = {
     no_status: "Нет статуса",
@@ -290,48 +300,32 @@ const DriverCheck = ({
           >
           {t(`Занята нашим грузом`)}
           </Button> */}
-          <Box className={cls.cardWrapOutline}>
-            <Flex width={"100%"} alignItems={"center"} gap={3}>
-              <Avatar name={dispatcher?.full_name} src={dispatcher?.photo} />
-              <Box>
-                <p
-                  style={{
-                    fontWeight: 500,
-                    fontSize: `14px`,
-                    lineHeight: `18px`,
-                    color: `rgba(126, 123, 134, 1)`,
-                  }}
-                >
-                  Диспетчер:{" "}
-                </p>
-                <p className={cls.name2}>
-                  {dispatcher?.full_name} <br />
-                  {dispatcher?.your_id}
-                </p>
-                {contendSingle?.orders?.[0]?.approve_time_from_dispatcher && (
-                  <p
-                    style={{
-                      fontWeight: 400,
-                      fontSize: `13px`,
-                      lineHeight: `18px`,
-                      color: `rgba(126, 123, 134, 1)`,
-                    }}
-                  >
-                    {format(
-                      new Date(
-                        contendSingle?.orders?.[0]?.approve_time_from_dispatcher
-                      ).setHours(
-                        new Date(
-                          contendSingle?.orders?.[0]?.approve_time_from_dispatcher
-                        ).getHours() - 5
-                      ),
-                      "yyyy-MM-dd, HH:mm"
-                    )}
-                  </p>
-                )}
-              </Box>
-            </Flex>
-          </Box>
+         {getUserGps?.data?.response && (
+                 <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
+                   <Flex width={"100%"} alignItems={"center"} gap={3}>
+                     <Avatar
+                       name={getUserGps?.data?.response?.[0]?.full_name}
+                       src={getUserGps?.data?.response?.[0]?.full_name}
+                     />
+                     <Box>
+                       <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                       <p style={{ fontSize: `16px` }} className={cls.name}>
+                         {getUserGps?.data?.response?.[0]?.full_name}
+                       </p>
+                       <Flex alignItems={"center"} gap={2}>
+                         <a
+                           href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                         >
+                           <TelegramIcon />
+                         </a>
+                         <p className={cls.cardStartSubTitleZTel}>
+                           {getUserGps?.data?.response?.[0]?.phone}
+                         </p>
+                       </Flex>
+                     </Box>
+                   </Flex>
+                 </Box>
+               )}
         </Flex>
       )}
     </div>

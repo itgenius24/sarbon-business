@@ -551,7 +551,7 @@ export const useMyCarsDispatcher = () => {
                             }}
                             className={cls.menuItem}
                             onClick={() => {
-                              deleteFuntion(row?.guid);
+                              deleteFuntion(row?.dis_dr_data?.guid);
                               onClose();
                             }}
                           >
@@ -577,7 +577,7 @@ export const useMyCarsDispatcher = () => {
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
     onSuccess: () => {
       setVisibleData((prevData) =>
-        prevData.filter((item) => item.guid !== deleteId)
+        prevData.filter((item) => item.dis_dr_data?.guid !== deleteId)
       );
       setDeleteId(``);
     },

@@ -108,9 +108,7 @@ export const Dropdown = ({
                       disabled={disabled}
                       autoComplete="off"
                     />
-                    {
-                      console.log(`isLoading && !disabled`,(isLoading && !disabled))
-                    }
+                  
                     {(isLoading) &&  (
                       <span className={cls.rightIcon}>
                         <Spinner size={`sm`} />
@@ -173,7 +171,7 @@ export const Dropdown = ({
                       </span>
                     )}
 
-                    {watch(name)?.value && isClear ? (
+                    {watch(name)?.label && isClear ? (
                       <span
                         className={cls.rightIcon}
                         onClick={(e) => {

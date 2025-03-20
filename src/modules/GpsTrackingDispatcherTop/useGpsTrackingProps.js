@@ -335,6 +335,8 @@ export const useGpsTrackingProps = () => {
     },
   });
 
+ 
+
   const {
     data: getCarData,
     isFetching: driverLoading,
@@ -400,17 +402,18 @@ export const useGpsTrackingProps = () => {
       },
     },
     querySettings: {
-      select: (data) => {
+      onSuccess: (data) => {
         if (data?.response?.length) {
           let data2 = data?.response?.map((item) => ({
             ...item,
-            user: item?.users_id_data?.[0],
+            user: {...item?.users_id_data?.[0],provisions:item?.order_data ? [`our_cargo`] : item?.users_id_data?.[0]?.provisions},
             vehicles: [item?.vehicle_id_data],
             firm_data: item?.firm_data,
             users_gps: [item],
             orders: item?.order_data ? [item?.order_data] : undefined,
+            
           }));
-          return data2
+          setCarsArr(data2)
         }
       },
       refetchOnWindowFocus: false,
@@ -439,7 +442,7 @@ export const useGpsTrackingProps = () => {
       id = watch("users_id");
     }
 
-    return dataDriverMap?.filter((item) => item?.user?.guid === id);
+    return carsArr?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
@@ -460,7 +463,7 @@ export const useGpsTrackingProps = () => {
 
   const filterData = (data, checkboxStatuses) => {
     return data?.filter((item) => {
-      return item?.user?.provisions?.some((status) => checkboxStatuses[status]);
+      return item?.user?.provisions?.some((status) =>  checkboxStatuses[status])  ;
     });
   };
 
@@ -480,7 +483,7 @@ export const useGpsTrackingProps = () => {
     }
   }, []);
 
-  const filteredData = filterData(dataDriverMap, checkboxStatuses);
+  const filteredData = filterData(carsArr, checkboxStatuses);
 
   const uniqueData = filteredData?.reduce((acc, current) => {
     const xistingItem = acc.find(
@@ -521,7 +524,7 @@ export const useGpsTrackingProps = () => {
     watch(`car_type`)?.value,
     dataUserID,
     filteredData,
-    dataDriverMap,
+    carsArr,
     uniqueData,
   ]);
 

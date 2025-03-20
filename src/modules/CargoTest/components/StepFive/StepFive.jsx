@@ -54,13 +54,10 @@ const StepFive = ({ status }) => {
     loadings,
     unloading,
     errors,
-
     load,
     mone,
-
     check,
   } = useAddCargoContext();
-
 
   const { value: userData } = useGetStoreData(authStore, "userData");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -157,7 +154,7 @@ const StepFive = ({ status }) => {
   const createCargo = useCreateCargoMutation({
     onSuccess: (data) => {
       setGuid(data.guid);
-      console.log(`data.guid`, data.guid);
+
       let loadingsData = loadings.map((item, index) => ({
         address: item?.address,
         date: new Date(item.from_date),
@@ -167,6 +164,7 @@ const StepFive = ({ status }) => {
         type: ["shipper"],
         expectations: +item.loading_num?.value || 0,
       }));
+
       let unloadinData = unloading.map((item, index) => ({
         address: item?.address,
         date: new Date(item.to_date),
@@ -236,8 +234,8 @@ const StepFive = ({ status }) => {
         load_around_the_clock: watch(`is_ltl`),
         distance: distance?.distance,
         firm_id,
-        gradusFrom:watch(`gradusFrom`),
-        gradusTo:watch(`gradusTo`),
+        gradusFrom: watch(`gradusFrom`),
+        gradusTo: watch(`gradusTo`),
 
         //step4
 
@@ -252,7 +250,7 @@ const StepFive = ({ status }) => {
         map_id_3: check ? undefined : watch("payment_type_2")?.value,
 
         // step5
-        
+
         load_time: loadings[0].from_date || new Date(),
         date: unloading[unloading.length - 1].to_date || new Date(),
         phone: watch(`contact`),
@@ -276,13 +274,15 @@ const StepFive = ({ status }) => {
       },
     };
     if (user_type?.[0] === `approved`) {
-      createCargo.mutate(requestData);
-    }else{
+      if (loadings.length > 0 && unloading.length > 0) {
+        createCargo.mutate(requestData);
+      }
+    } else {
       toast({
         title: t("Вам это запрещено"),
         status: "error",
         duration: 3000,
-        position:`top-right`,
+        position: `top-right`,
         isClosable: true,
       });
     }
@@ -332,8 +332,8 @@ const StepFive = ({ status }) => {
         load_type: getTrueKeys(load),
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
-        gradusFrom:watch(`gradusFrom`),
-        gradusTo:watch(`gradusTo`),
+        gradusFrom: watch(`gradusFrom`),
+        gradusTo: watch(`gradusTo`),
 
         //step4
 
@@ -378,19 +378,19 @@ const StepFive = ({ status }) => {
       },
     };
     if (user_type?.[0] === `approved`) {
-      createCargo.mutate(requestData);
-    }
-    else{
+      if (loadings.length > 0 && unloading.length > 0) {
+        createCargo.mutate(requestData);
+      }
+    } else {
       toast({
         title: t("Вам это запрещено"),
         status: "error",
         duration: 3000,
-        position:`top-right`,
+        position: `top-right`,
         isClosable: true,
       });
     }
   };
-
 
   const clearF = () => {
     handleResetForm();
@@ -485,7 +485,7 @@ const StepFive = ({ status }) => {
               </a>
             </Text>
           </Checkbox> */}
-          
+
           <Checkbox
             defaultChecked={watch(`notification`)}
             name="notification"
@@ -495,15 +495,26 @@ const StepFive = ({ status }) => {
               <Text fontSize="14px" maxWidth="396px" width="100%">
                 {t("Уведомить водителей об этом грузе")}
               </Text>
-              <Tooltip boxShadow={`none`} hasArrow placement="top" fontWeight={400} fontSize={`14px`} background={`rgba(219, 216, 227, 1)`} borderRadius={`4px`} color={`black`} label={t(`После модерации уведомление о грузе будет отправлено всем водителям из базы Sarbon`)}>
-                 <div>
+              <Tooltip
+                boxShadow={`none`}
+                hasArrow
+                placement="top"
+                fontWeight={400}
+                fontSize={`14px`}
+                background={`rgba(219, 216, 227, 1)`}
+                borderRadius={`4px`}
+                color={`black`}
+                label={t(
+                  `После модерации уведомление о грузе будет отправлено всем водителям из базы Sarbon`
+                )}
+              >
+                <div>
                   <QuestionIcon />
-                 </div>
+                </div>
               </Tooltip>
             </Flex>
-
           </Checkbox>
-          
+
           <Box
             mt="16px"
             display="flex"

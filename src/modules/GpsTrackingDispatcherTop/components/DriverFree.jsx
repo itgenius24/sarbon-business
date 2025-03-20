@@ -14,11 +14,16 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
   TelegramOpasitiyIcon,
   WatsapOpasitiyIcon,
 } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { useGetCompanyList, useGetExcelPost } from "@/services/api";
+import {
+  useGetCompanyList,
+  useGetExcelPost,
+  useGetUserGpsByIDData,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
@@ -69,6 +74,15 @@ const DriverFree = ({
     }, 1000);
   };
 
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: contendSingle?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+  });
+
   const getCompanyList = useGetCompanyList(
     {
       data: JSON.stringify({
@@ -105,10 +119,10 @@ const DriverFree = ({
     getExcelFile.mutate({
       data: {
         object_data: {
-          driver_name:contendSingle?.user?.full_name,
-          driver_number:contendSingle?.user?.phone,
+          driver_name: contendSingle?.user?.full_name,
+          driver_number: contendSingle?.user?.phone,
           type: "dispatcher_driver",
-          dispatcher_name:authStore.userData.full_name,
+          dispatcher_name: authStore.userData.full_name,
           distance: +watch(`distance`),
           lat: contendSingle.lat * 1,
           long: contendSingle?.long * 1,
@@ -361,8 +375,6 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-    
-
         {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button
             onClick={() => {
@@ -422,13 +434,40 @@ const DriverFree = ({
           </Box>
         )}
 
-        <Button
+        {getUserGps?.data?.response && (
+          <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={getUserGps?.data?.response?.[0]?.full_name}
+                src={getUserGps?.data?.response?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {getUserGps?.data?.response?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <a
+                    href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                  >
+                    <TelegramIcon />
+                  </a>
+                  <p className={cls.cardStartSubTitleZTel}>
+                    {getUserGps?.data?.response?.[0]?.phone}
+                  </p>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        )}
+
+        {/* <Button
           onClick={() => setCenterModalType(`selectCargo`)}
           size={`lg`}
           className={cls.btngreen}
         >
           {t(`Предложить груз`)}
-        </Button>
+        </Button> */}
         <TextField
           // className={cls.textField}
           errors={errors}
@@ -466,7 +505,7 @@ const DriverFree = ({
                 width: `100%`,
               }}
             >
-             Список ближайших груз в Excel
+              Список ближайших груз в Excel
             </p>
           </Flex>
         </Box>

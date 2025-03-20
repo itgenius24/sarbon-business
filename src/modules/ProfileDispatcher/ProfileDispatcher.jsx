@@ -71,7 +71,7 @@ const ProfileDispatcher = ({ locale }) => {
           <Box>
             <Flex>
               <p className={cls.disTitle}>Диспетчер</p>
-              <span className={cls.date}>{date && formatDateTime(date)}</span>
+              <span className={cls.date}>{date ? formatDateTime(date) : ``}</span>
             </Flex>
             <p className={cls.disName}>{userData?.full_name} </p>
             <p

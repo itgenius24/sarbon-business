@@ -259,13 +259,14 @@ table{
 
 
 .dateWrap{
+
   .react-datepicker{
      align-items: flex-start !important;
   }
 
 .react-datepicker__day--selected.react-datepicker__day--selected {
-  border-top-left-radius: 50% !important;
-  border-bottom-left-radius: 50% !important;  
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;  
   background-color: rgba(0, 51, 153, 1) !important;
   color: white !important;
 
@@ -285,5 +286,11 @@ table{
   .react-datepicker__navigation--previous {
     left: 20px !important;
     top: 27px !important;
+  }
+}
+
+.left{
+  .react-datepicker-popper{
+    left: -190px !important;
   }
 }

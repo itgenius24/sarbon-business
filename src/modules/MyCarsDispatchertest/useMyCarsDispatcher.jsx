@@ -60,6 +60,7 @@ export const useMyCarsDispatcher = () => {
   const [ids, setId] = useState([]);
   const [userdata, setUserData] = useState({});
   const [userDisRes, setUserDisRes] = useState({});
+  const [userDisResOption, setUserDisResOption] = useState({});
   const [deleteId, setDeleteId] = useState(``);
   const [value, setValueR] = useState(`active`);
   const [startDate, setStartDate] = useState(() => {
@@ -139,13 +140,13 @@ export const useMyCarsDispatcher = () => {
           type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
-          filter: value,
+          filter: watch(`driver`)?.label === `Без диспетчера` ?  `is_empty` :  value ,
           first_dispatcher_id: watch(`driver`)?.value,
-          start_date:
+          start_date: watch(`driver`)?.label === `Без диспетчера` ? `` : 
             startDate?.getDate() === endDate?.getDate()
               ? formatDate(startDate, 0, 0, 0)
               : new Date(startDate),
-          end_date:
+          end_date: watch(`driver`)?.label === `Без диспетчера` ? `` :
             startDate?.getDate() === endDate?.getDate()
               ? formatDate(endDate, 23, 59, 59)
               : new Date(endDate),
@@ -219,7 +220,7 @@ export const useMyCarsDispatcher = () => {
 
   const nameFilter = (val) => {
     if (val !== `all`) {
-      const sortedData = oldData?.sort((a, b) =>
+      const sortedData = data?.sort((a, b) =>
         val === `top`
           ? a?.full_name.localeCompare(b?.full_name)
           : b?.full_name.localeCompare(a?.full_name)
@@ -520,7 +521,7 @@ export const useMyCarsDispatcher = () => {
                 <p className={cls.disName}>
                   {row?.first_dispatcher_data?.full_name}
                 </p>
-                <p className={cls.disSubText}> 0 машин</p>
+                <p className={cls.disSubText}> {row?.first_dispatcher_data?.phone}</p>
               </Box>
             </Flex>
           ) : (
@@ -677,7 +678,8 @@ export const useMyCarsDispatcher = () => {
 
           setUserDisRes({ ...res, response: [targetItem, ...res.response] });
         } else {
-          setUserDisRes({...res,response:[...res.response,{first_dispatcher_data:{guid:``,full_name:`Без диспетчера`},}]});
+          setUserDisRes({...res,response:[...res.response]});
+          setUserDisResOption({...res,response:[{first_dispatcher_data:{guid:``,full_name:`Без диспетчера`}},...res.response]})
         }
       },
     },
@@ -694,8 +696,8 @@ export const useMyCarsDispatcher = () => {
               data.first_dispatcher_data = {
                 full_name: userdata?.first_dispatcher_data?.full_name,
                 photo: userdata?.first_dispatcher_data?.photo,
+                phone:userdata?.first_dispatcher_data?.phone,
               };
-
               return data;
             }
             return item;
@@ -794,7 +796,7 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading: isLoading,
+    isLoading: isLoading ||isFetching,
     t,
     register,
     setSearchFn,
@@ -837,5 +839,6 @@ export const useMyCarsDispatcher = () => {
     setValue,
     watch,
     clearFn,
+    userDisResOption:userDisResOption?.response
   };
 };

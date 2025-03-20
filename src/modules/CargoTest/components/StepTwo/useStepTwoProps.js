@@ -1,5 +1,5 @@
 import { useAddCargoContext } from "../../providers";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useInsertionEffect, useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 
@@ -37,6 +37,8 @@ const useStepTwoProps = () => {
     getValues,
     handleResetForm,
   } = useAddCargoContext();
+
+  console.log(`disabled`, disabled);
 
   useEffect(() => {
     if (canEdit && watch(`as_soon_as_b`)) {
@@ -93,16 +95,15 @@ const useStepTwoProps = () => {
     ] = watchFields;
 
     if (
-      loadingAddress &&
-      unloadingAddress &&
-      (loadingDate || asSoonAsA) &&
-      (asSoonAsB || unloadingDate)
+     ( loadingAddress &&  unloadingAddress) && (loadingDate || asSoonAsA) && (asSoonAsB || unloadingDate)
     ) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
   }, [watchFields]);
+
+  
 
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
@@ -352,6 +353,7 @@ const useStepTwoProps = () => {
     handLeCheck,
     handLeCheck2,
     handleResetForm,
+    setDisabled
   };
 };
 

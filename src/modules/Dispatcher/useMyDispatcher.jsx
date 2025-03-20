@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import cls from "./style.module.scss";
 import authStore from "@/store/auth.store";
+import { fi } from "date-fns/locale";
 
 export const useMyDispatcher = () => {
   const router = useRouter();
@@ -33,9 +34,10 @@ export const useMyDispatcher = () => {
   const [search, setSearch] = useState(``);
   const [debouncedValue] = useDebounce2(search, 500);
   const [valueR, setValueR] = useState(`active`);
-  const [countActive,setCountActive] = useState(0)
-  const [countNeActive,setCountNeActive] = useState(0)
+  const [countActive, setCountActive] = useState(0);
+  const [countNeActive, setCountNeActive] = useState(0);
   const [dataDis, setDataDis] = useState([]);
+  const [data, setData] = useState([]);
 
   const { data: dataRes, refetch } = useGetCreateAddress({
     data: {
@@ -43,25 +45,30 @@ export const useMyDispatcher = () => {
         object_data: {
           type: "top_dispatcher",
           search: debouncedValue,
-          filter:valueR,
+          filter: valueR,
           dispatcher_id: authStore.userData.guid,
         },
       },
     },
-    querySettings:{
-      onSuccess:(res) => {
-        if(!countActive){
-          setCountActive(res?.response?.filter(
-            (item) => item?.user_status_counts?.[0]?._id === "approved"
-          )?.length)
+    querySettings: {
+      onSuccess: (res) => {
+        if (!countActive) {
+          setCountActive(
+            res?.response?.filter(
+              (item) => item?.user_status_counts?.[0]?._id === "approved"
+            )?.length
+          );
         }
-        if(!countNeActive){
-          setCountNeActive(res?.response?.filter(
-            (item) => item?.user_status_counts?.[0]?._id === "blocked"
-          )?.length)
+        if (!countNeActive) {
+          setCountNeActive(
+            res?.response?.filter(
+              (item) => item?.user_status_counts?.[0]?._id === "blocked"
+            )?.length
+          );
         }
-      }
-    }
+        setData(res?.response);
+      },
+    },
   });
 
   useEffect(() => {
@@ -78,24 +85,16 @@ export const useMyDispatcher = () => {
         )
       );
     }
-  }, [valueR,dataRes]);
+  }, [valueR, dataRes]);
 
   const option = [
     {
       value: `active`,
-      label:
-        t(`Активные`) +
-        ` (${
-          countActive
-        })`,
+      label: t(`Активные`) + ` (${countActive})`,
     },
     {
       value: `blocked`,
-      label:
-        t(`Неактивные`) +
-        `(${
-         countNeActive
-        })`,
+      label: t(`Неактивные`) + `(${countNeActive})`,
     },
   ];
 
@@ -140,9 +139,70 @@ export const useMyDispatcher = () => {
 
   const addPage = () => {};
 
+  const driverSort = (status) => {
+    if (status === `top`) {
+      setData(data?.sort((a, b) => b?.driver_count - a?.driver_count));
+    } else if (status === `back`) {
+      setData(data?.sort((a, b) => a?.driver_count - b?.driver_count));
+    } else {
+      setData(dataDis);
+    }
+  };
+
+  const carsSort = (status) => {
+    if (status === `top`) {
+      setData(data?.sort((a, b) => b?.vehicle_count - a?.vehicle_count));
+    } else if (status === `back`) {
+      setData(data?.sort((a, b) => a?.vehicle_count - b?.vehicle_count));
+    } else {
+      setData(dataDis);
+    }
+  };
+
+  const newSort = (status) => {
+    if (status === `top`) {
+      setData(data?.sort((a, b) => b?.new_count - a?.new_count));
+    } else if (status === `back`) {
+      setData(data?.sort((a, b) => a?.new_count - b?.new_count));
+    } else {
+      setData(dataDis);
+    }
+  };
+
+  const perfometSort = (status) => {
+    if (status === `top`) {
+      setData(data?.sort((a, b) => b?.performed_count - a?.performed_count));
+    } else if (status === `back`) {
+      setData(data?.sort((a, b) => a?.performed_count - b?.performed_count));
+    } else {
+      setData(dataDis);
+    }
+  };
+
+  const nameSort = (status) => {
+    if (status !== `all`) {
+      setData(
+        data?.sort((a, b) =>
+          status === `top`
+            ? a?.first_dispatcher_data?.full_name.localeCompare(
+                b?.first_dispatcher_data?.full_name
+              )
+            : b?.first_dispatcher_data?.full_name.localeCompare(
+                a?.first_dispatcher_data?.full_name
+              )
+        )
+      );
+    } else {
+      setData(dataDis);
+    }
+  };
+
   const columns = [
     {
       title: t(`имя Диспетчера`),
+      filter: true,
+      key: `first_dispatcher_data.full_name`,
+      filterType: (type) => nameSort(type),
       width: 350,
       render: (row, index) => row?.first_dispatcher_data?.full_name,
     },
@@ -155,26 +215,32 @@ export const useMyDispatcher = () => {
       title: t(`Водители`),
       width: 250,
       filter: true,
-      key: `time`,
-      filterType: (type) => console.log(type),
+      key: `driversCount`,
+      filterType: (type) => driverSort(type),
       render: (row, index) => row?.driver_count,
     },
     {
       title: t(`Машины`),
       width: 250,
       filter: true,
-      key: `time`,
-      filterType: (type) => console.log(type),
+      key: `carsCount`,
+      filterType: (type) => carsSort(type),
       render: (row, index) => row?.vehicle_count,
     },
     {
       title: t(`Предложения`),
       width: 250,
-      render: (row, index) => row?.new_count
+      filter: true,
+      key: `newCount`,
+      filterType: (type) => newSort(type),
+      render: (row, index) => row?.new_count,
     },
     {
       title: t(`в исполнении`),
       width: 250,
+      filter: true,
+      key: `performedCount`,
+      filterType: (type) => perfometSort(type),
       render: (row, index) => row?.performed_count,
     },
     {
@@ -298,7 +364,7 @@ export const useMyDispatcher = () => {
 
   return {
     t,
-    data: dataDis,
+    data: data,
     option,
     valueR,
     setValueR,

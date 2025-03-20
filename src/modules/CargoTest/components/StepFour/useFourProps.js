@@ -62,7 +62,7 @@ const useFourProps = () => {
     }));
 
   useEffect(() => {
-    if (watch("price_after_order") || check) {
+    if ((watch("price_after_order") || check || watch("price_after_order") === 0) &&  watch("price_after_order") >= 0) {
       setDisabled(false);
     } else {
       setDisabled(true);

@@ -36,17 +36,18 @@ export const useAllCargoDispatcher = () => {
       },
     },
     querySettings: {
+      select: (res) => {
+        return {...res,response:res?.response?.flatMap(element => element.orders || [])};
+      },
       onSuccess: (res) => {
         setCount(res?.active_count)
-        res?.response?.map((element) => {
-          setData((prev) => [...prev, ...element.orders]);
-        });
+        setData(res?.response)
       },
       refetchOnWindowFocus: false,
     },
   });
 
-  console.log(`dataRes2`, count);
+
 
   const negotiableOption = [
     {
@@ -70,13 +71,61 @@ export const useAllCargoDispatcher = () => {
   const onChange = (e) => {
     setValueR(e);
     setData([]);
-
   };
+
+  const fromSort = (val) => {
+    if (val !== `all`) {
+      const sortedData = data?.sort((a, b) =>
+        val === `top`
+          ? a?.cargo?.from.localeCompare(b?.cargo?.from)
+          : b?.cargo?.from.localeCompare(a?.cargo?.from)
+      );
+
+      setData(sortedData);
+    } else {
+      setData(dataRes?.response);
+    }
+  };
+
+
+  const toSort = (val) => {
+    if (val !== `all`) {
+      const sortedData = data?.sort((a, b) =>
+        val === `top`
+          ? a?.cargo?.to.localeCompare(b?.cargo?.to)
+          : b?.cargo?.to.localeCompare(a?.cargo?.to)
+      );
+
+      setData(sortedData);
+    } else {
+      setData(dataRes?.response);
+    }
+  };
+
+  const timeSort = (val) => {
+    if (val !== "all") {
+      const sortedData = [...data]?.sort((a, b) => {
+        const timeA = new Date(a?.cargo?.load_time).getTime();
+        const timeB = new Date(b?.cargo?.load_time).getTime();
+  
+        return val === "top" ? timeA - timeB : timeB - timeA;
+      });
+  
+      setData(sortedData);
+    } else {
+      setData(dataRes?.response);
+    }
+  };
+  
+
+
 
   const columns = [
     {
       title: t(`Откуда`),
       width: 350,
+      filter:true,
+      filterType:(type) => fromSort(type) ,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`7px`}>
           <Image
@@ -111,6 +160,8 @@ export const useAllCargoDispatcher = () => {
     {
       title: t(`Куда`),
       width: 350,
+      filter:true,
+      filterType:(type) => toSort(type) ,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`7px`}>
           <Image
@@ -147,7 +198,7 @@ export const useAllCargoDispatcher = () => {
       width: 250,
       filter: true,
       key: `time`,
-      filterType: (type) => console.log(type),
+      filterType: (type) => timeSort(type),
       render: (row, index) =>
         row?.cargo?.load_time ? (
           <p className={cls.countryName}>
