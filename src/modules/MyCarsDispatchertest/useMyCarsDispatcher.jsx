@@ -225,10 +225,13 @@ export const useMyCarsDispatcher = () => {
           ? a?.full_name.localeCompare(b?.full_name)
           : b?.full_name.localeCompare(a?.full_name)
       );
+      const nextData = sortedData.slice(0, pageUi * 50);
 
-      setData(sortedData);
+      setVisibleData(nextData);
+     
     } else {
-      setData(oldData);
+      const nextData = oldData.slice(0, pageUi * 50);
+      setVisibleData(nextData);
     }
   };
 
@@ -250,7 +253,7 @@ export const useMyCarsDispatcher = () => {
       setVisibleData(nextData);
     } else if (filterStatus === `back`) {
       setFilterStatus(`all`);
-      const nextData = data.slice(0, pageUi * 50);
+      const nextData = oldData.slice(0, pageUi * 50);
       setVisibleData(nextData);
     }
   };
@@ -341,17 +344,17 @@ export const useMyCarsDispatcher = () => {
       render: (row, index) =>
         row?.trailer_type_id_data ? (
           <>
-            <p className={cls.title}>
+            <p className={cls.carType}>
               {row?.trailer_type_id_data?.[`name_${locale}`]
                 ? row?.trailer_type_id_data?.[`name_${locale}`]
                 : row?.trailer_type_id_data?.name}
             </p>
 
             <Flex>
-              <p className={cls.subTitle1}>
-                <span style={{ marginRight: `9px` }} className={cls.subTitle}>
+              <p className={cls.number}>
+                
                   {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
-                </span>
+               
               </p>
 
               <Tooltip
@@ -373,7 +376,7 @@ export const useMyCarsDispatcher = () => {
                   src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
                 />
               </Tooltip>
-              <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
+              <p className={cls.number}><span>{row?.vehicle_data?.car_number}</span></p>
             </Flex>
           </>
         ) : (

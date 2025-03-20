@@ -133,7 +133,7 @@ export const MyCarsDispatcherModule = () => {
                     label: item?.first_dispatcher_data?.full_name,
                   }))}
                   errors={errors}
-                  placeholder={t("Показать все")}
+                  placeholder={t("Все диспетчеры")}
                   setValue={setValue}
                   isClear
                 />
