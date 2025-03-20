@@ -118,6 +118,21 @@ export const useAllCargoDispatcher = () => {
   };
   
 
+  const timeSortDate = (val) => {
+    if (val !== "all") {
+      const sortedData = [...data]?.sort((a, b) => {
+        const timeA = new Date(a?.cargo?.date).getTime();
+        const timeB = new Date(b?.cargo?.date).getTime();
+  
+        return val === "top" ? timeA - timeB : timeB - timeA;
+      });
+  
+      setData(sortedData);
+    } else {
+      setData(dataRes?.response);
+    }
+  };
+
 
 
   const columns = [
@@ -211,6 +226,9 @@ export const useAllCargoDispatcher = () => {
     {
       title: t(`Когда доставить`),
       width: 250,
+      filter: true,
+      key: `time`,
+      filterType: (type) => timeSortDate(type),
       render: (row, index) =>
         row?.cargo?.date ? (
           <p className={cls.countryName}>
