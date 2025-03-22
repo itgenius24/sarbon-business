@@ -85,23 +85,28 @@ export const useElements = (lang) => {
         label: "Главный",
       },
       {
-        path: `/${lang || "ru"}/dashboard-dispatcher`,
+        path: `/${lang || "ru"}/dashboard-dispatcher-top`,
         label: "Dashboard",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
-        label: "Мои грузы",
+        path: isAuth
+          ? `/${lang || "ru"}/dispatcher`
+          : `/${lang || "ru"}/auth`,
+        label: "Диспетчеры",
       },
       {
         path: isAuth
-          ? `/${lang || "ru"}/my-cars-dispatcher`
+          ? `/${lang || "ru"}/all-cargo-dispatcher`
           : `/${lang || "ru"}/auth`,
-        label: "Мои водители",
+        label: "Грузы диспетчеров",
       },
-      // {
-      //   path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
-      //   label: "Поиск грузов",
-      // },
+      {
+        path: isAuth
+          ? `/${lang || "ru"}/my-cars-dispatcher-top`
+          : `/${lang || "ru"}/auth`,
+        label: "Водители",
+      },
+
       {
         path: `/${lang || "ru"}/distance-calculation`,
         label: "Расчет расстояний",
@@ -112,10 +117,11 @@ export const useElements = (lang) => {
       // },
       {
         path: isAuth
-          ? `/${lang || "ru"}/gps-tracking-dispatcher`
+          ? `/${lang || "ru"}/gps-tracking-dispatcher-top`
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
+
     ];
   } else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
     let menu = [];
