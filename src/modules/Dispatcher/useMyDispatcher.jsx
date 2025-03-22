@@ -105,6 +105,8 @@ export const useMyDispatcher = () => {
   const { mutate: deleteData } = useDeleteDisTop({
     onSuccess: () => {
       refetch();
+      setCountActive(0);
+      setCountNeActive(0);
     },
   });
 
@@ -117,6 +119,8 @@ export const useMyDispatcher = () => {
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
       refetch();
+      setCountActive(0);
+      setCountNeActive(0);
     },
     onError(er) {
       console.log(er);
@@ -218,6 +222,7 @@ export const useMyDispatcher = () => {
       key: `driversCount`,
       filterType: (type) => driverSort(type),
       render: (row, index) => row?.driver_count,
+      align:  `center`,
     },
     {
       title: t(`Машины`),
@@ -226,6 +231,8 @@ export const useMyDispatcher = () => {
       key: `carsCount`,
       filterType: (type) => carsSort(type),
       render: (row, index) => row?.vehicle_count,
+      align:  `center`,
+
     },
     {
       title: t(`Предложения`),
@@ -234,6 +241,8 @@ export const useMyDispatcher = () => {
       key: `newCount`,
       filterType: (type) => newSort(type),
       render: (row, index) => row?.new_count,
+      align:  `center`,
+
     },
     {
       title: t(`в исполнении`),
@@ -242,6 +251,8 @@ export const useMyDispatcher = () => {
       key: `performedCount`,
       filterType: (type) => perfometSort(type),
       render: (row, index) => row?.performed_count,
+      align:  `center`,
+
     },
     {
       title: t(`Статус аккаунта`),
@@ -255,7 +266,7 @@ export const useMyDispatcher = () => {
           <p>
             {row?.first_dispatcher_data?.user_status?.[0] === `blocked`
               ? `Отключен`
-              : `Active`}
+              : `Активный`}
           </p>
           <Box className={cls.popup}>
             <Popover placement={"bottom-start"}>
