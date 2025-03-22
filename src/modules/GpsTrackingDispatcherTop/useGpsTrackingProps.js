@@ -746,7 +746,7 @@ export const useGpsTrackingProps = () => {
     addAdress,
     setLocationData,
     refueling: remainingData,
-    dataDis: dataDis,
+    dataDis: dataDis.filter(item => item.gps_data),
     getCarData,
     driverLoading,
     setCarsArr
