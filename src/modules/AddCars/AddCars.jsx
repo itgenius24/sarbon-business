@@ -9,6 +9,7 @@ const AddCars = () => {
   const canvasRef = useRef(null);
   const [text, setText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [url,setUrl] = useState(null);
   const [flashOn, setFlashOn] = useState(false);
   let track = null; // Chiroqni boshqarish uchun
   const toggleFlashlight = async () => {
@@ -35,7 +36,7 @@ const AddCars = () => {
 
   useEffect(() => {
     startCamera();
-  }, [!text]);
+  }, [!text,!url]);
 
   // 📌 Kamerani ishga tushirish
   const startCamera = async () => {
@@ -103,48 +104,50 @@ const AddCars = () => {
   const captureImage = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
-
+  
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
-    // 📌 To‘rtburchak o‘lchamlarini olish
-    const rectWidth = 350;
-    const rectHeight = 230;
-    const x = (video.videoWidth - rectWidth) / 2;
-    const y = (video.videoHeight - rectHeight) / 2;
-
-    // 📌 Faqat to‘rtburchakni olish
+  
+    // 1️⃣ Haqiqiy video o‘lchamlarini olish
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+  
+    // 2️⃣ O‘rtadan kesib olish uchun to‘rtburchak o‘lchami
+    const rectWidth = 390;
+    const rectHeight = 250;
+    const x = (videoWidth - rectWidth) / 2;
+    const y = (videoHeight - rectHeight) / 2;
+  
+    // 3️⃣ Canvas hajmini to‘g‘ri o‘rnatish
     canvas.width = rectWidth;
     canvas.height = rectHeight;
+  
+    // 4️⃣ Video tasviridan kerakli qismini olish
     ctx.drawImage(
       video,
-      x,
-      y,
-      rectWidth,
-      rectHeight,
-      0,
-      0,
-      rectWidth,
-      rectHeight
+      x, y, rectWidth, rectHeight,  // Video ichidagi kesish joyi
+      0, 0, rectWidth, rectHeight   // Canvas'ga chizish
     );
-
+  
     const imageDataURL = canvas.toDataURL("image/png");
-    const processedImage = await preprocessImage(imageDataURL);
-
+    setUrl(imageDataURL);
+  
+    // 5️⃣ OCR orqali matnni tanib olish
     const {
       data: { text },
     } = await Tesseract.recognize(imageDataURL, "eng+uzb", {
       tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     });
-
+  
     setText(text);
     setIsProcessing(false);
   };
+  
 
   return (
     <>
-      {!text && (
+      {!url && (
         <div className={styles.container}>
           {/* Kamera */}
           <video ref={videoRef} autoPlay playsInline className={styles.video} />
@@ -174,11 +177,12 @@ const AddCars = () => {
         </div>
       )}
 
-      {text && (
+      {url && (
         <div className={styles.result}>
           <h3>Ajratilgan matn:</h3>
           <p>{text}</p>
-          <Button onClick={() => setText("")}>Qayta urunish</Button>
+          <Button onClick={() => {setText("");setUrl(null)}}>Qayta urunish</Button>
+          <img src={url} alt="Rasm" />
         </div>
       )}
     </>

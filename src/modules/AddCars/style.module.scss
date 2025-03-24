@@ -10,7 +10,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    // object-fit: cover;
+    object-fit: cover;
   }
   
   .overlay {
@@ -26,8 +26,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 350px;
-    height: 210px;
+    width: 390px;
+    height: 250px;
     transform: translate(-50%, -50%);
     background: transparent;
     border: 2px dashed white;
