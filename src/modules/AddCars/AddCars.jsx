@@ -16,7 +16,7 @@ const AddCars = () => {
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }, // Orqa kamera
+          video: true, 
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
