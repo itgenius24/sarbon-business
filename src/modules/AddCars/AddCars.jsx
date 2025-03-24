@@ -43,11 +43,13 @@ const AddCars = () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          width: { exact: 1920 },  // 📌 Sifatni aniq 1920px ga o‘rnatish
-        height: { exact: 1080 }, // 📌 Sifatni aniq 1080px ga o‘rnatish
+          width: { exact: 1920 },
+        height: { exact: 1080 },
         facingMode: "environment",
-        frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
-        focusMode: "continuous",  // 📌 Autofokusni yoqish
+        frameRate: { ideal: 30, max: 60 },  // 📌 Yuqori kadr tezligi
+        exposureMode: "continuous",        // 📌 Doimiy ekspozitsiya
+        whiteBalanceMode: "continuous",    // 📌 Oq rang balansini avtomatik qilish
+        brightness: 1.5,  
         },
       });
       if (videoRef.current) {
