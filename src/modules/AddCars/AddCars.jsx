@@ -16,7 +16,11 @@ const AddCars = () => {
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true, 
+          video: {
+            width: { ideal: 1920 },  // Full HD (ideal - eng yaxshi mavjud o‘lchamni tanlaydi)
+            height: { ideal: 1080 },
+            facingMode: "environment", // Orqa kamera (old kamera uchun 'user' yozing)
+          }
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
