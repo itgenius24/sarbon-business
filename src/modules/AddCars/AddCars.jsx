@@ -167,7 +167,7 @@ const AddCars = () => {
           <h3>Ajratilgan matn:</h3>
           <p>1:{data?.stateNumber}</p>
           <p>2:{data?.model}</p>
-          <p>3:{data.color}</p>
+          <p>3:{data?.color}</p>
           <p>4:{data?.owner}</p>
           <p>5:{data?.address}</p>
           <p>6:{data?.date}</p>
