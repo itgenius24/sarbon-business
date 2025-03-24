@@ -9,24 +9,31 @@ const AddCars = () => {
   const canvasRef = useRef(null);
   const [text, setText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [cameraError, setCameraError] = useState(null);
+
 
   useEffect(() => {
-    startCamera();
-  }, [!text]);
-
-  // 📌 Kamerani ishga tushirish
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
-      });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
+    const startCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }, // Orqa kamera
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (err) {
+        setCameraError(err.message);
       }
-    } catch (err) {
-      console.error("Kameraga ruxsat yo'q:", err);
-    }
-  };
+    };
+
+    startCamera();
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        let tracks = videoRef.current.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+    };
+  }, [!text]);
 
   // 📌 Rasmni olish va OCR qilish
   const captureImage = async () => {
@@ -75,12 +82,13 @@ const AddCars = () => {
     <>
     {
       !text &&  <div className={styles.container}>
+     
         {/* Kamera */}
         <video ref={videoRef} autoPlay playsInline className={styles.video} />
 
         {/* 📌 To‘rtburchakni markazga joylashtirish */}
         <div className={styles.overlay}>
-          <div className={styles.box}></div>
+          <div className={styles.box}>  <p style={{color:`white`}}>{cameraError}</p></div>
         </div>
 
         {/* 📌 OCR tugmasi */}
@@ -97,7 +105,7 @@ const AddCars = () => {
         <canvas ref={canvasRef} style={{ display: "none" }} />
       </div>
     }
-    
+
      
 
       {text && (
