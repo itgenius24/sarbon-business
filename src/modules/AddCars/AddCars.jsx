@@ -116,8 +116,8 @@ const AddCars = () => {
     const videoHeight = video.videoHeight;
   
     // 2️⃣ O‘rtadan kesib olish uchun to‘rtburchak o‘lchami
-    const rectWidth = 805;
-    const rectHeight = 585;
+    const rectWidth = 950;
+    const rectHeight = 510;
     const x = (videoWidth - rectWidth) / 2;
     const y = (videoHeight - rectHeight) / 2;
   
