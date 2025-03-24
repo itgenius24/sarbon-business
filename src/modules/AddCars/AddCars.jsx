@@ -9,57 +9,24 @@ const AddCars = () => {
   const canvasRef = useRef(null);
   const [text, setText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [cameraError, setCameraError] = useState(null);
-
 
   useEffect(() => {
-    const startCamera = async () => {
-      if (window.location.protocol !== "https:" && window.location.hostname !== "localhost") {
-        setCameraError("Kamera faqat HTTPS orqali ishlaydi!");
-        return;
-      }
-
-      let constraints = {
-        video: {
-          width: { ideal: 1920 },  // Full HD sifat
-          height: { ideal: 1080 },
-          facingMode: "environment", // Orqa kamera (old kamera uchun 'user' yozing)
-        }
-      };
-
-      try {
-        let stream;
-
-        if (navigator.mediaDevices?.getUserMedia) {
-          stream = await navigator.mediaDevices.getUserMedia(constraints);
-        } else if (navigator.webkitGetUserMedia) {
-          stream = await new Promise((resolve, reject) => {
-            navigator.webkitGetUserMedia(constraints, resolve, reject);
-          });
-        } else if (navigator.mozGetUserMedia) {
-          stream = await new Promise((resolve, reject) => {
-            navigator.mozGetUserMedia(constraints, resolve, reject);
-          });
-        } else {
-          throw new Error("Sizning brauzeringiz kamerani qo‘llab-quvvatlamaydi!");
-        }
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        setCameraError(err.message);
-      }
-    };
-
     startCamera();
+  }, [!text]);
 
-    return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+  // 📌 Kamerani ishga tushirish
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
       }
-    };
-  }, [text]); // text o‘zgarganda kamerani qayta yuklash
+    } catch (err) {
+      console.error("Kameraga ruxsat yo'q:", err);
+    }
+  };
 
   // 📌 Rasmni olish va OCR qilish
   const captureImage = async () => {
@@ -72,7 +39,7 @@ const AddCars = () => {
 
     // 📌 To‘rtburchak o‘lchamlarini olish
     const rectWidth = 350;
-    const rectHeight = 210;
+    const rectHeight = 230;
     const x = (video.videoWidth - rectWidth) / 2;
     const y = (video.videoHeight - rectHeight) / 2;
 
@@ -93,12 +60,12 @@ const AddCars = () => {
 
     const imageDataURL = canvas.toDataURL("image/png");
 
-    // 📌 OCR ishlatish
     const {
       data: { text },
     } = await Tesseract.recognize(imageDataURL, "eng+uzb", {
-      logger: (m) => console.log(m),
+      tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     });
+
 
     setText(text);
     setIsProcessing(false);
@@ -106,33 +73,30 @@ const AddCars = () => {
 
   return (
     <>
-    {
-      !text &&  <div className={styles.container}>
-     
-        {/* Kamera */}
-        <video ref={videoRef} autoPlay playsInline className={styles.video} />
+      {!text && (
+        <div className={styles.container}>
+          {/* Kamera */}
+          <video ref={videoRef} autoPlay playsInline className={styles.video} />
 
-        {/* 📌 To‘rtburchakni markazga joylashtirish */}
-        <div className={styles.overlay}>
-          <div className={styles.box}>  <p style={{color:`white`}}>{cameraError}</p></div>
+          {/* 📌 To‘rtburchakni markazga joylashtirish */}
+          <div className={styles.overlay}>
+            <div className={styles.box}></div>
+          </div>
+
+          {/* 📌 OCR tugmasi */}
+          <button
+            onClick={captureImage}
+            disabled={isProcessing}
+            className={styles.button}
+          >
+            {isProcessing ? "Matn ajratilyapti..." : "Rasmga olish"}
+          </button>
+
+          {/* 📌 OCR matn natijasi */}
+
+          <canvas ref={canvasRef} style={{ display: "none" }} />
         </div>
-
-        {/* 📌 OCR tugmasi */}
-        <button
-          onClick={captureImage}
-          disabled={isProcessing}
-          className={styles.button}
-        >
-          {isProcessing ? "Matn ajratilyapti..." : "Rasmga olish"}
-        </button>
-
-        {/* 📌 OCR matn natijasi */}
-
-        <canvas ref={canvasRef} style={{ display: "none" }} />
-      </div>
-    }
-
-     
+      )}
 
       {text && (
         <div className={styles.result}>
