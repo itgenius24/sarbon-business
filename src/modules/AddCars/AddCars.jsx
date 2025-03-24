@@ -60,49 +60,26 @@ const AddCars = () => {
     }
   };
 
-  const preprocessImage = (imageDataURL) => {
-    return new Promise((resolve) => {
-      let img = new Image();
-      img.src = imageDataURL;
-      img.onload = function () {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
 
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        // 📌 Rasmni grayscale (qora-oq) formatga o'tkazish
-        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let pixels = imageData.data;
-
-        for (let i = 0; i < pixels.length; i += 4) {
-          let avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3; // O'rtacha rang
-          pixels[i] = avg; // Red
-          pixels[i + 1] = avg; // Green
-          pixels[i + 2] = avg; // Blue
-        }
-
-        ctx.putImageData(imageData, 0, 0);
-
-        // 📌 Binarizatsiya qilish (threshold = 128)
-        let binaryData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let binaryPixels = binaryData.data;
-
-        for (let i = 0; i < binaryPixels.length; i += 4) {
-          let value = binaryPixels[i] > 128 ? 255 : 0; // Agar 128 dan yuqori bo'lsa oq, past bo'lsa qora
-          binaryPixels[i] = value;
-          binaryPixels[i + 1] = value;
-          binaryPixels[i + 2] = value;
-        }
-
-        ctx.putImageData(binaryData, 0, 0);
-
-        // 📌 Qayta ishlangan rasmni chiqarish
-        resolve(canvas.toDataURL("image/png"));
-      };
-    });
+  const extractDataByNumbers = (text) => {
+    const regexPatterns = {
+      stateNumber: /1\.\s*([A-Z0-9]+)/, // 1. 4052ECA
+      model: /2\.\s*([\w\s-]+)/, // 2. MAN TGX
+      color: /3\.\s*([\w\s-]+)/, // 3. OQ BELIY
+      owner: /4\.\s*"([^"]+)"/, // 4. "PARADISE FRUIT LOGISTIC" MCHJ
+      address: /5\.\s*([\w\s,]+)/, // 5. FARG'ONA VILOYATI, OLTIARIQ TUMANI
+      date: /6\.\s*(\d{2}\.\d{2}\.\d{4})/, // 6. 17.05.2024
+    };
+  
+    let extractedData = {};
+    for (let key in regexPatterns) {
+      let match = text.match(regexPatterns[key]);
+      extractedData[key] = match ? match[1] : "Aniqlanmadi";
+    }
+  
+    return extractedData;
   };
+
 
   // 📌 Rasmni olish va OCR qilish
   const captureImage = async () => {
@@ -143,8 +120,10 @@ const AddCars = () => {
     } = await Tesseract.recognize(imageDataURL, "eng+uzb", {
       tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     });
+
+
   
-    setText(text);
+    setText(extractDataByNumbers(text));
     setIsProcessing(false);
   };
   
