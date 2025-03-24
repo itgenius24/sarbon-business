@@ -14,15 +14,36 @@ const AddCars = () => {
 
   useEffect(() => {
     const startCamera = async () => {
+      if (window.location.protocol !== "https:" && window.location.hostname !== "localhost") {
+        setCameraError("Kamera faqat HTTPS orqali ishlaydi!");
+        return;
+      }
+
+      let constraints = {
+        video: {
+          width: { ideal: 1920 },  // Full HD sifat
+          height: { ideal: 1080 },
+          facingMode: "environment", // Orqa kamera (old kamera uchun 'user' yozing)
+        }
+      };
+
       try {
-        
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: { ideal: 1920 },  // Full HD (ideal - eng yaxshi mavjud o‘lchamni tanlaydi)
-            height: { ideal: 1080 },
-            facingMode: "environment", // Orqa kamera (old kamera uchun 'user' yozing)
-          }
-        });
+        let stream;
+
+        if (navigator.mediaDevices?.getUserMedia) {
+          stream = await navigator.mediaDevices.getUserMedia(constraints);
+        } else if (navigator.webkitGetUserMedia) {
+          stream = await new Promise((resolve, reject) => {
+            navigator.webkitGetUserMedia(constraints, resolve, reject);
+          });
+        } else if (navigator.mozGetUserMedia) {
+          stream = await new Promise((resolve, reject) => {
+            navigator.mozGetUserMedia(constraints, resolve, reject);
+          });
+        } else {
+          throw new Error("Sizning brauzeringiz kamerani qo‘llab-quvvatlamaydi!");
+        }
+
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -32,13 +53,13 @@ const AddCars = () => {
     };
 
     startCamera();
+
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
-        let tracks = videoRef.current.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
+        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
       }
     };
-  }, [!text]);
+  }, [text]); // text o‘zgarganda kamerani qayta yuklash
 
   // 📌 Rasmni olish va OCR qilish
   const captureImage = async () => {
