@@ -119,7 +119,7 @@ const AddCars = () => {
   
     // 2️⃣ O‘rtadan kesib olish uchun to‘rtburchak o‘lchami
     const rectWidth = 950;
-    const rectHeight = 510;
+    const rectHeight = 560;
     const x = (videoWidth - rectWidth) / 2;
     const y = (videoHeight - rectHeight) / 2;
   
