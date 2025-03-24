@@ -150,7 +150,7 @@ export const useGpsTrackingProps = () => {
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
     if (multiRoute) {
-      const intervalLocations = locationNames.filter((item) => item !== "");
+      const intervalLocations = locationNames?.filter((item) => item !== "");
       multiRoute.model.setReferencePoints([
         watch("from"),
         ...intervalLocations,
@@ -746,7 +746,7 @@ export const useGpsTrackingProps = () => {
     addAdress,
     setLocationData,
     refueling: remainingData,
-    dataDis: dataDis.filter(item => item.gps_data),
+    dataDis: dataDis?.filter(item => item.gps_data),
     getCarData,
     driverLoading,
     setCarsArr
