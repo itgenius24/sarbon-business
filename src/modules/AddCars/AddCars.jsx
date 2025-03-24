@@ -134,7 +134,7 @@ const AddCars = () => {
 
     const {
       data: { text },
-    } = await Tesseract.recognize(processedImage, "eng+uzb", {
+    } = await Tesseract.recognize(imageDataURL, "eng+uzb", {
       tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     });
 
