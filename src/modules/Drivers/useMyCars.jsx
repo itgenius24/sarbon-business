@@ -45,6 +45,7 @@ export const useMyCars = () => {
     setValue,
     getValues,
   } = useForm({});
+  
   const [isCopied, setCopied] = useClipboard(
     JSON.stringify(
       `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`

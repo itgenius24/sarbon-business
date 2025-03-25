@@ -24,6 +24,7 @@ export const useLoginProps = () => {
   const expeditorTypeId = process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID;
   const dispachaerTypeId = process.env.NEXT_PUBLIC_DISPACR_TYPE_ID;
   const analiticTypeId = process.env.NEXT_PUBLIC_ANALITIK_TYPE_ID;
+  const dillerTypeId = process.env.NEXT_PUBLIC_DILLER_TYPE_ID;
 
   const [remember, setRemember] = useState(false);
   const [open, setOpen] = useState(false);
@@ -115,7 +116,8 @@ export const useLoginProps = () => {
         clientTypeId === customerTypeId ||
         clientTypeId === expeditorTypeId ||
         clientTypeId === dispachaerTypeId ||
-        clientTypeId === analiticTypeId
+        clientTypeId === analiticTypeId || 
+        clientTypeId === dillerTypeId
       ) {
         login.mutate({
           username: watch("username"),

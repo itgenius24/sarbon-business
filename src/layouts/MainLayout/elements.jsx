@@ -89,9 +89,7 @@ export const useElements = (lang) => {
         label: "Dashboard",
       },
       {
-        path: isAuth
-          ? `/${lang || "ru"}/dispatcher`
-          : `/${lang || "ru"}/auth`,
+        path: isAuth ? `/${lang || "ru"}/dispatcher` : `/${lang || "ru"}/auth`,
         label: "Диспетчеры",
       },
       {
@@ -121,7 +119,6 @@ export const useElements = (lang) => {
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
-
     ];
   } else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
     let menu = [];
@@ -187,7 +184,7 @@ export const useElements = (lang) => {
 
     return menu;
   } else if (role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") {
-    return [ 
+    return [
       {
         path: `/${lang || "ru"}/`,
         label: "Главный",
@@ -199,6 +196,17 @@ export const useElements = (lang) => {
       {
         path: `/${lang || "ru"}/active-user`,
         label: "Журнал активности",
+      },
+    ];
+  } else if (role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b") {
+    return [
+      {
+        path: `/${lang || "ru"}/my-cars-dillers`,
+        label: "Мои Водители",
+      },
+      {
+        path: `/${lang || "ru"}/add-cars`,
+        label: "Добавить Водители",
       },
     ];
   } else {

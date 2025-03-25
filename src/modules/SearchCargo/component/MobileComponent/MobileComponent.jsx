@@ -113,7 +113,6 @@ const MobileComponent = ({
                 zIndex={90}
               />
               <Flex gap={`17px`} mt={1}>
-                {/* <span className={cls.subTitle}>{t("Пример")}: </span> */}
                 <p
                   onClick={() => {
                     setValue(`capacity`, `20`, {

@@ -107,6 +107,7 @@ export const useSearchCargo = () => {
       with_removal: watch(`with_removal`),
     });
   }, [watch(`top`), watch(`side`), watch(`back`), watch(`with_removal`)]);
+  
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
@@ -176,14 +177,6 @@ export const useSearchCargo = () => {
   }, [useList]);
 
   useEffect(() => {
-    console.log(
-      `wsw1`,
-      (getCarNumnber?.count > 1 ||
-        getCarNumnber?.count === 0 ||
-        !getCarNumnber ||
-        id) &&
-        inputValue?.length > 0
-    );
 
     if (getCarNumnber?.count === 1) {
       if (useList?.response && useList?.response?.car_number === inputValue) {
@@ -219,6 +212,7 @@ export const useSearchCargo = () => {
       // router.push(`/${locale}/my-cars`);
     },
   });
+
   const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
       // setIsPopupOpen(true)
