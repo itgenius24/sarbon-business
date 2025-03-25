@@ -131,7 +131,7 @@ export const CarsCardMObile = ({
           }
         </Flex>
         <Flex gap={`10px`} justifyContent={`space-between`}>
-          <Flex width={"50%"} rowGap={`18px`} flexDirection={`column`}>
+          <Flex width={"50%"} rowGap={`15px`} flexDirection={`column`}>
             <Box
               flexDirection={`column`}
               mr={5}

@@ -67,7 +67,7 @@ const useProsp = () => {
 
   const data = {
     data: {
-      trailer_type_id: watch(`trailer_type_id?`)?.value,
+      trailer_type_id: watch(`trailer_type_id`)?.value,
       capacity: +watch(`capacity`) || 0,
       height: +watch(`height`) || 0,
       car_number: watch(`car_number`),
