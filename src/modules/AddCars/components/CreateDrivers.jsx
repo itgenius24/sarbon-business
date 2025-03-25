@@ -36,8 +36,6 @@ const CreateDrivers = ({
     return input;
   };
 
-  console.log(`errors`, errors);
-
   return (
     <>
       <Flex
@@ -74,7 +72,7 @@ const CreateDrivers = ({
               icon={<Img3UploadIcon />}
               register={register}
               errors={errors}
-              // rules={}
+              rules={{required: t("Это поле объязательно")}}
             />
           </Box>
         </Flex>

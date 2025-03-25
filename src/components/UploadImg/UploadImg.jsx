@@ -100,7 +100,7 @@ export const UploadImg = ({
           // mt="24px"
           border={
             errors?.[name]
-              ? `2px solid red`
+              ? `2px dashed red`
               : `2px dashed  rgba(219, 216, 227, 1)`
           }
           borderRadius="12px"
@@ -116,6 +116,7 @@ export const UploadImg = ({
           <input
           
             id={name}
+            name={name}
             className="visually-hidden"
             type="file"
             accept="image/*"
@@ -146,8 +147,8 @@ export const UploadImg = ({
               textAlign="center"
               // p={"2px"}
               mt={"20px"}
-              color="rgba(0, 122, 255, 1)"
-              borderBottom="1.5px dashed rgba(0, 122, 255, 1)"
+              color={ errors?.[name] ? `red`:  "rgba(0, 122, 255, 1)"}
+              borderBottom={`1.5px dashed ${errors?.[name] ? `red`:  "rgba(0, 122, 255, 1)"}`}
               width={`fit-content`}
             >
               {text}

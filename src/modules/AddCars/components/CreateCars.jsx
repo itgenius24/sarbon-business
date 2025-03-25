@@ -77,7 +77,9 @@ const CreateCars = ({
               name={"front_side_trailer"}
               icon={<ImgploadIcon1 />}
               text={t("Фото техпаспорта спереди *")}
+              register={register}
               errors={errors}
+              rules={{required: t("Это поле объязательно")}}
             />
             <UploadImg
               watch={watch}
@@ -85,7 +87,9 @@ const CreateCars = ({
               name={"back_side_trailer"}
               icon={<ImgploadIcon1 />}
               text={t("Фото техпаспорта сзади *")}
+              register={register}
               errors={errors}
+              rules={{required: t("Это поле объязательно")}}
             />
           </Flex>
         </Box>
