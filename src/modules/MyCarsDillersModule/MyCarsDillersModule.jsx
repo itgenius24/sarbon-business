@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
 import { CarsCardMObile } from "./component/CarsCardMobile/CarsCardMObile";
+import { formatNumber } from "@/utils/formatNumber";
+import { splitNumber } from "@/utils/splitNumber";
 
 export const MyCarsDillersModule = () => {
   const { t,tabCange,vehicle,handleDelete } = useMyCars();
@@ -78,7 +80,7 @@ export const MyCarsDillersModule = () => {
                </Box>
                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
-                  <p className={cls.tabCount}> {(vehicle?.[0]?.salary || 0) * vehicle?.length} sum</p>
+                  <p className={cls.tabCount}> {splitNumber((vehicle?.[0]?.salary || 0) * vehicle?.length || 0)} sum</p>
                </Box>
             </Flex>
               {
@@ -96,7 +98,7 @@ export const MyCarsDillersModule = () => {
                </Box>
                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
-                  <p className={cls.tabCount}> {(vehicle?.[0]?.salary || 0) * vehicle?.length} sum</p>
+                  <p className={cls.tabCount}> {splitNumber((vehicle?.[0]?.salary || 0) * vehicle?.length || 0)} sum</p>
                </Box>
             </Flex>
               {
@@ -114,7 +116,7 @@ export const MyCarsDillersModule = () => {
                </Box>
                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
-                  <p className={cls.tabCount}> {(vehicle?.[0]?.salary || 0) * vehicle?.length} sum</p>
+                  <p className={cls.tabCount}> {splitNumber((vehicle?.[0]?.salary || 0) * vehicle?.length || 0)} sum</p>
                </Box>
             </Flex>
               {
