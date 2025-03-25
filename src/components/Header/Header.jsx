@@ -231,7 +231,7 @@ const Header = observer(({ elements }) => {
                 !isLargerThan845 && (
                   <Box
                     mr={`20px`}
-                    onClick={() => router.push(`/${locale}/add-cars`)}
+                    onClick={() => {router.push(`/${locale}/add-cars`);setNavOpen(false)}}
                     as="button"
                   >
                     <AddDillerMunu />

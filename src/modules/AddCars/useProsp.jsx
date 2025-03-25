@@ -281,7 +281,7 @@ const useProsp = () => {
           mutate({
             data: {
               create_time: new Date(),
-              login: getValues().full_name,
+              login: getValues().phone,
               photo: getValues().photo,
               phone: getValues().phone,
               drivers_license: getValues().drivers_license,

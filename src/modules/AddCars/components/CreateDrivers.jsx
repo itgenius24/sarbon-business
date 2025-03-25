@@ -36,6 +36,8 @@ const CreateDrivers = ({
     return input;
   };
 
+  console.log(`errors`, errors);
+
   return (
     <>
       <Flex
@@ -65,7 +67,6 @@ const CreateDrivers = ({
               </Heading>
             </Flex>
             <UploadImg
-            
               watch={watch}
               setValue={setValue}
               name={"drivers_license"}
@@ -130,9 +131,11 @@ const CreateDrivers = ({
             />
           </Flex>
         </Box>
-        <Box   mt={`25px`}
+        <Box
+          mt={`25px`}
           paddingBottom={`25px`}
-          borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+        >
           <p className={cls.textFieldName}>{t("Имя и фамилия")} *</p>
           <TextField
             register={register}
@@ -145,17 +148,29 @@ const CreateDrivers = ({
           />
         </Box>
 
-        <Box   mt={`25px`}
+        <Box
+          mt={`25px`}
           paddingBottom={`25px`}
-          borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+        >
           <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
-          <FormInternationInput control={control} name={`phone`} />
+          <TextField
+            register={register}
+            errors={errors}
+            name="phone"
+            placeholder={t("Телефон водителя")}
+            rules={{
+              required: t("Это поле объязательно "),
+            }}
+          />
         </Box>
 
         {!id && (
-          <Box    mt={`25px`}
-          paddingBottom={`25px`}
-          borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+          <Box
+            mt={`25px`}
+            paddingBottom={`25px`}
+            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          >
             <p className={cls.textFieldName}>{t("Придумайте пароль")} *</p>
             <TextField
               register={register}
@@ -178,16 +193,8 @@ const CreateDrivers = ({
           </Box>
         )}
 
-        <Box
-           mt={`25px`}
-        
-         
-        >
-          <p
-            className={cls.textFieldName}
-          >
-            {t("Фото водителя")}
-          </p>
+        <Box mt={`25px`}>
+          <p className={cls.textFieldName}>{t("Фото водителя")}</p>
 
           <UploadImg
             isColor={true}
