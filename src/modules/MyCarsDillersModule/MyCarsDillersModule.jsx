@@ -74,7 +74,7 @@ export const MyCarsDillersModule = () => {
                <p className={cls.nameTab}>{t(`В модерации`)}</p>
                <Box>
                   <p className={cls.tabCountName}>Добавлено</p>
-                  <p className={cls.tabCount}>{vehicle?.length || 3}</p>
+                  <p className={cls.tabCount}>{vehicle?.length || 0}</p>
                </Box>
                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
