@@ -1,4 +1,5 @@
 import {
+  DriversIcon,
   EyeIcon,
   EyeIconOff,
   Img3UploadIcon,
@@ -7,7 +8,7 @@ import {
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { TextField } from "@/components/TextField";
 import { UploadImg } from "@/components/UploadImg";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 const CreateDrivers = ({
@@ -19,6 +20,7 @@ const CreateDrivers = ({
   control,
   watch,
   setValue,
+  id,
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -39,99 +41,121 @@ const CreateDrivers = ({
       <Flex
         width={"100%"}
         background={"white"}
-        borderRadius={"12px"}
-        gap={`35px`}
-        padding={`31px 10px`}
-        mt={ `15px`}
+        // gap={`35px`}
+        padding={`20px 10px`}
+        mt={`15px`}
         flexDirection={`column`}
       >
         <Flex
           flexDirection={"column"}
           rowGap={isLargerThan845 ? "20px" : `40px`}
           width={"100%"}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(0, 0, 0, 0.1)`}
         >
-    
           <Box>
+            <Flex mb={`18px`} alignItems={`center`} gap={`6px`}>
+              <DriversIcon />
+              <Heading
+                color={`var(--primary-text)`}
+                fontSize={`20px`}
+                fontWeight={600}
+              >
+                {t("Добавление водителя")}
+              </Heading>
+            </Flex>
             <UploadImg
-              isColor={true}
+            
               watch={watch}
               setValue={setValue}
               name={"drivers_license"}
               text={t("Фото водительского удостоверения *")}
               icon={<Img3UploadIcon />}
+              register={register}
+              errors={errors}
+              // rules={}
             />
           </Box>
-  
         </Flex>
-        <Flex
-          flexDirection={"column"}
-          rowGap={isLargerThan845 ? "20px" : `40px`}
-          width={"100%"}
+
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(0, 0, 0, 0.1)`}
         >
-          <Box>
-            <p className={cls.textFieldName}>
-              {t("Серия и номер водит. удостоверения")} *
-            </p>
-            <Flex gap={`20px`}>
-              <Box width={`30%`}>
-                <TextField
-                  register={register}
-                  errors={errors}
-                  name="passport_scan"
-                  placeholder={t("AA")}
-                  rules={{
-                    required: t("Это поле обязательно"),
-                    validate: (value) => {
-                      if (!/^[A-Z]*$/.test(value)) {
-                        return t("Введите только буквы");
-                      }
-                      if (value.length !== 2) {
-                        return t("Введите только две буквы");
-                      }
-                      return true;
-                    },
-                  }}
-                  onChange={(e) => {
+          <p className={cls.textFieldName}>
+            {t("Серия и номер водит. удостоверения")} *
+          </p>
+          <Flex gap={`20px`}>
+            <Box width={`30%`}>
+              <TextField
+                register={register}
+                errors={errors}
+                name="passport_scan"
+                placeholder={t("AA")}
+                rules={{
+                  required: true,
+                  // validate: (value) => {
+                  //   // if (!/^[A-Z]*$/.test(value)) {
+                  //   //   return t("Введите только буквы");
+                  //   // }
+                  //   if (value.length <= 1) {
+                  //     return t("Введите только две буквы");
+                  //   }
+                  //   return true;
+                  // },
+                  onChange: (e) => {
                     e.target.value = e.target.value
                       .replace(/[^A-Za-z]/g, "")
                       .toUpperCase()
                       .slice(0, 2);
-                  }}
-                />
-              </Box>
-              <TextField
-                register={register}
-                errors={errors}
-                name="passport_code"
-                placeholder={t("000 00 00")}
-                rules={{
-                  required: t("Номер телефона обязателен"),
-                  validate: (value) =>
-                    /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
-                    t("Неверный формат"),
-                  onChange: (e) => {
-                    e.target.value = formatPhoneNumber(e.target.value);
                   },
                 }}
               />
-            </Flex>
-          </Box>
-          <Box>
-              <p className={cls.textFieldName}>{t("Имя и фамилия")} *</p>
-              <TextField
-                register={register}
-                errors={errors}
-                name="full_name"
-                placeholder={t("Имя и фамилия водителя")}
-              />
             </Box>
+            <TextField
+              register={register}
+              errors={errors}
+              name="passport_code"
+              placeholder={t("000 00 00")}
+              rules={{
+                required: t("Это поле объязательно "),
+                validate: (value) =>
+                  /^\d{3} \d{2} \d{2}$/.test(formatPhoneNumber(value)) ||
+                  t("Неверный формат"),
+                onChange: (e) => {
+                  e.target.value = formatPhoneNumber(e.target.value);
+                },
+              }}
+            />
+          </Flex>
+        </Box>
+        <Box   mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+          <p className={cls.textFieldName}>{t("Имя и фамилия")} *</p>
+          <TextField
+            register={register}
+            errors={errors}
+            name="full_name"
+            placeholder={t("Имя и фамилия водителя")}
+            rules={{
+              required: t("Это поле объязательно "),
+            }}
+          />
+        </Box>
 
-          <Box>
-            <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
-            <FormInternationInput control={control} name={`phone`} />
-          </Box>
-      
-          <Box>
+        <Box   mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+          <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
+          <FormInternationInput control={control} name={`phone`} />
+        </Box>
+
+        {!id && (
+          <Box    mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
             <p className={cls.textFieldName}>{t("Придумайте пароль")} *</p>
             <TextField
               register={register}
@@ -152,19 +176,17 @@ const CreateDrivers = ({
               }
             />
           </Box>
-        </Flex>
-        <Flex
-          flexDirection={"column"}
-          rowGap={isLargerThan845 ? "10px" : 0}
-          textAlign={isLargerThan845 ? "center" : `left`}
-          width={isLargerThan845 ? "50%" : `100%`}
+        )}
+
+        <Box
+           mt={`25px`}
+        
+         
         >
           <p
             className={cls.textFieldName}
-            style={{ display: isLargerThan845 ? `none` : `block` }}
           >
             {t("Фото водителя")}
-            
           </p>
 
           <UploadImg
@@ -175,9 +197,7 @@ const CreateDrivers = ({
             text={t("Загрузить фото")}
             icon={<UserIcon2 />}
           />
-      
-    
-        </Flex>
+        </Box>
       </Flex>
     </>
   );

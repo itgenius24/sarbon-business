@@ -453,7 +453,7 @@ export const useGetVehicleSingle = ({
   return useQuery({
     queryKey: ["object/getCargo", params],
     queryFn: () => objectService.getVehicleSin(params),
-    querySettings,
+    ...querySettings,
   });
 };
 

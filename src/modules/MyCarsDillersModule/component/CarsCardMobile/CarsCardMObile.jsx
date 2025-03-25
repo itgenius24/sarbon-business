@@ -39,13 +39,12 @@ export const CarsCardMObile = ({
   color,
   handleUpdateId,
   handleDelete,
+  type,
 }) => {
   const router = useRouter();
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-
-  console.log(`item`, item);
 
   return (
     <Box className={cls.cardWrap1}>
@@ -56,7 +55,10 @@ export const CarsCardMObile = ({
         justifyContent={`space-between`}
         background={color || `red`}
       >
-        <p className={cls.titleHeader}>Ждет модерацию</p>
+        <p className={cls.titleHeader}>
+
+          {type === 0 ? `Ждет модерацию` : type === 1 ? `Одобрено` : `Оплачено`}
+        </p>
         <p className={cls.titleHeader}>
           {format(item?.create_time, `dd.MM.yyyy, hh:mm`)}
         </p>
@@ -66,10 +68,12 @@ export const CarsCardMObile = ({
         <Flex
           alignItems={`center`}
           width={`100%`}
+          h={`40px`}
           justifyContent={`space-between`}
         >
           <p className={cls.title}>{item?.marka}</p>
-          <Box className={cls.popup}>
+          {
+            type === 0  &&  <Box className={cls.popup}>
             <Popover placement={"bottom-start"}>
               <PopoverTrigger>
                 <IconButton
@@ -100,24 +104,11 @@ export const CarsCardMObile = ({
                       className={cls.menuItem}
                       onClick={() =>
                         router.push(
-                          `/${locale}/my-cars/create?id=${item?.guid}`
+                          `/${locale}/add-cars?id=${item?.guid}&user_id=${item?.users_id}`
                         )
                       }
                     >
                       {t("Редактировать машину")}
-                    </Box>
-                    <Box
-                      style={{ padding: `10px 8px` }}
-                      _hover={{
-                        backgroundColor: `rgba(0, 122, 255, 1)`,
-                        borderRadius: `6px`,
-                        color: `rgba(255, 255, 255, 1)`,
-                        cursor: `pointer`,
-                      }}
-                      className={cls.menuItem}
-                      onClick={() => handleUpdateId(item?.guid)}
-                    >
-                      {t("Открепить водителя")}
                     </Box>
                     <Box
                       style={{ padding: `10px 8px`, color: `red` }}
@@ -137,6 +128,7 @@ export const CarsCardMObile = ({
               </Portal>
             </Popover>
           </Box>
+          }
         </Flex>
         <Flex gap={`10px`} justifyContent={`space-between`}>
           <Flex width={"50%"} rowGap={`18px`} flexDirection={`column`}>
@@ -167,7 +159,7 @@ export const CarsCardMObile = ({
                   translateArray(item?.download_type)?.join(",")}
               </p>
             </Box>
-            <Box >
+            <Box>
               <p className={cls.subTitle}>{t("Дополнительно")}:</p>
               <p className={cls.title}>
                 {item?.adr} {item?.tir ? `TIR` : ""}{" "}

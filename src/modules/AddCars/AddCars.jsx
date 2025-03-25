@@ -39,20 +39,14 @@ const AddCars = () => {
     isPopupOpen,
     setIsPopupOpen,
     copyFunction,
-    router,
+    router,id,
+    carTypeOptions
   } = useProsp();
 
   return (
     <>
       <Container p={0} my={isLargerThan845 ? "40px" : `20px`}>
-        <Heading
-          fontSize={`20px`}
-          mb={isLargerThan845 ? "24px" : "12px"}
-          ml={isLargerThan845 ? 0 : `10px`}
-          textAlign={`center`}
-        >
-          {t("Добавление нового водителя")}
-        </Heading>
+       
         <CreateDrivers
           register={register}
           errors={errors}
@@ -62,17 +56,11 @@ const AddCars = () => {
           setValue={setValue}
           isLargerThan845={isLargerThan845}
           cls={cls}
+          id={id}
         />
-        <Heading
-          fontSize={`20px`}
-          mb={isLargerThan845 ? "24px" : "12px"}
-          ml={isLargerThan845 ? 0 : `10px`}
-          textAlign={`center`}
-          mt={`22px`}
-        >
-          {t("Добавить машину")}
-        </Heading>
+    
         <CreateCars
+        carTypeOptions={carTypeOptions}
           setinputValue={setinputValue}
           register={register}
           euroTypeOptions={euroTypeOptions}

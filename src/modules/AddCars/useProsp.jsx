@@ -2,6 +2,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import {
   useCreateUser,
   useCreateVehicle,
+  useDeleteVehicle,
   useGetCarNumber,
   useGetFuelInfo,
   useGetPhone,
@@ -17,7 +18,7 @@ import { countries } from "@/utils/country";
 import { normalizeName } from "@/utils/normalizeName";
 import { useMediaQuery } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useClipboard from "react-use-clipboard";
@@ -28,12 +29,11 @@ const useProsp = () => {
   const searchParams = useSearchParams();
   const [inputValue, setinputValue] = useState(``);
   const id = searchParams.get(`id`);
+  const user_id = searchParams.get(`user_id`);
   const [load, setLoad] = useState({});
- const router = useRouter();
+  const router = useRouter();
   const { t } = useTranslation(locale, "translations");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  
 
   const {
     handleSubmit,
@@ -60,11 +60,10 @@ const useProsp = () => {
       with_removal: watch(`with_removal`),
     });
   }, [watch(`top`), watch(`side`), watch(`back`), watch(`with_removal`)]);
-  
+
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
-
 
   const data = {
     data: {
@@ -115,7 +114,6 @@ const useProsp = () => {
           phone: watch(`phone`)?.replace("+", ""),
         }),
       });
-      
     },
   });
 
@@ -163,9 +161,18 @@ const useProsp = () => {
   const getUserGps = useGetUserGpsByIDData({
     params: {
       data: JSON.stringify({
-        guid: id,
+        guid: user_id,
         with_relations: true,
       }),
+    },
+    querySettings: {
+      enabled: Boolean(user_id),
+      onSuccess: (res) => {
+        reset({
+          ...res?.response[0],
+          password: "",
+        });
+      },
     },
   });
 
@@ -177,8 +184,7 @@ const useProsp = () => {
 
   const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
-      // router.push(`/${locale}/my-cars`);
-    },
+      router.push(`/${locale}/my-cars-dillers`);    },
   });
 
   const { data: useList } = useGetVehicleSingle({
@@ -187,6 +193,56 @@ const useProsp = () => {
     },
     querySettings: {
       enabled: Boolean(id),
+      onSuccess: (res) => {
+        console.log(`res`, res);
+        const trilerVal = carTypeOptions?.filter(
+          (item) => item?.value === res?.response?.trailer_type_id
+        );
+
+        res?.response?.download_type.forEach((name) => {
+          setValue(name, true); // Mark the checkbox with the matching name as true
+        });
+
+        setValue(`trailer_type_id`, trilerVal?.[0]);
+        setValue(
+          `fuel_id`,
+          fuel &&
+            fuel?.response
+              ?.filter((item) => item?.guid === res?.response?.fuel_id)
+              ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0]
+        );
+        setValue(
+          `car_country`,
+          countries
+            ?.filter((item) => item?.code === res?.response?.car_country)
+            ?.map((item) => ({
+              label: item[`name_${locale}`],
+              value: item?.code,
+            }))?.[0]
+        );
+        setValue(
+          `eco_standart`,
+          euroTypeOptions
+            ?.filter((item) => item?.value === res?.response?.eco_standart)
+            ?.map((item) => ({ label: item?.value, value: item?.value }))?.[0]
+        );
+        setValue(`capacity`, res?.response?.capacity);
+        setValue(`height`, res?.response?.height);
+        setValue(`marka`, res?.response?.marka);
+        setValue(`cemt`, res?.response?.cemt);
+        setValue(`tir`, res?.response?.tir);
+        setValue(`pneumatic`, res?.response?.pneumatic);
+        setValue(`coupling`, res?.response?.coupling);
+        setValue(`konika`, res?.response?.konika);
+        setValue(`adr`, res?.response?.adr);
+        setValue(`back_side_trailer`, res?.response?.back_side_trailer);
+        setValue(`front_side_trailer`, res?.response?.front_side_trailer);
+        setValue(`car_photo`, res?.response?.car_photo);
+        setValue(`car_number`, res?.response?.car_number);
+        
+
+        setinputValue(res?.response?.car_number);
+      },
     },
   });
 
@@ -218,48 +274,6 @@ const useProsp = () => {
     }
   }, [getCarNumnber?.count > 0, inputValue?.length]);
 
-  useEffect(() => {
-    if (id) {
-      const trilerVal = carTypeOptions?.filter(
-        (item) => item?.value === useList?.response?.trailer_type_id
-      );
-
-      useList?.response?.download_type.forEach((name) => {
-        setValue(name, true); // Mark the checkbox with the matching name as true
-      });
-
-      reset({
-        ...useList?.response,
-        trailer_type_id: trilerVal?.[0],
-        fuel_id:
-          fuel &&
-          fuel?.response
-            ?.filter((item) => item?.guid === useList?.response?.fuel_id)
-            ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0],
-        car_country: countries
-          ?.filter((item) => item?.code === useList?.response?.car_country)
-          ?.map((item) => ({
-            label: item[`name_${locale}`],
-            value: item?.code,
-          }))?.[0],
-        eco_standart: euroTypeOptions
-          ?.filter((item) => item?.value === useList?.response?.eco_standart)
-          ?.map((item) => ({ label: item?.value, value: item?.value }))?.[0],
-      });
-
-      setinputValue(useList?.response?.car_number);
-    }
-  }, [useList]);
-
-  useEffect(() => {
-    if (id) {
-      reset({
-        ...getUserGps?.data?.response[0],
-        password: "",
-      });
-    }
-  }, [getUserGps?.data?.response]);
-
   const { mutate: checkUserData, isLoading: isLoadingCrate } =
     useOfferFromCustomerMutation({
       onSuccess: (res) => {
@@ -285,6 +299,7 @@ const useProsp = () => {
       },
     });
 
+ 
   const onSubmit = (val) => {
     if (id) {
       updateDsate({
@@ -322,7 +337,7 @@ const useProsp = () => {
   const copyFunction = () => {
     setCopied();
     setIsPopupOpen(false);
-    router.push(`/${locale}/drivers`);
+    router.push(`/${locale}/my-cars-dillers`);
   };
 
   return {
@@ -343,7 +358,9 @@ const useProsp = () => {
     isPopupOpen,
     setIsPopupOpen,
     copyFunction,
-    router
+    router,
+    id,
+    carTypeOptions
   };
 };
 

@@ -6,7 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
-import { Box, Button, Flex, ListItem, UnorderedList, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  ListItem,
+  UnorderedList,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
@@ -220,13 +227,16 @@ const Header = observer(({ elements }) => {
                 </Flex>
               )}
 
-              {
-                role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b" && !isLargerThan845 &&  (
-                  <Box  mr={`20px`} onClick={() => router.push(`/${locale}/add-cars`)} as="button">
-                      <AddDillerMunu />
+              {role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b" &&
+                !isLargerThan845 && (
+                  <Box
+                    mr={`20px`}
+                    onClick={() => router.push(`/${locale}/add-cars`)}
+                    as="button"
+                  >
+                    <AddDillerMunu />
                   </Box>
-                )
-              }
+                )}
 
               {!pathname?.includes("app-download") && (
                 <button className={cls.burgerBtn} onClick={handleToggleNav}>

@@ -3,12 +3,22 @@
   font-size: 14px;
   // margin-bottom: 5px;
   height: 30px;
+  color: rgba(33, 31, 38, 1);
   color: var(--primary-text);
   @media (max-width: 872px) {
-    font-size: 15px;
-    color: black;
+    font-size: 16px;
+    color: rgba(33, 31, 38, 1);
     font-weight: 600;
+    margin-bottom: 12px;
   }
+}
+.textFieldName2{
+ color: rgba(33, 31, 38, 1);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 0%;
+  
 }
 
 .subTitle {

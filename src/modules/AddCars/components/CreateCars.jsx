@@ -1,6 +1,7 @@
 import {
   EyeIcon,
   EyeIconOff,
+  FuraAddIcon,
   Img3UploadIcon,
   ImgploadIcon1,
   ImgUload2,
@@ -15,7 +16,17 @@ import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/Tex
 import { UploadImg } from "@/components/UploadImg";
 import { useGetFuelInfo } from "@/services/api";
 import { countries } from "@/utils/country";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Flex,
+  Heading,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 
 const CreateCars = ({
@@ -30,6 +41,7 @@ const CreateCars = ({
   locale,
   euroTypeOptions,
   setinputValue,
+  carTypeOptions
 }) => {
   const { data: fuel } = useGetFuelInfo();
   return (
@@ -37,36 +49,54 @@ const CreateCars = ({
       <Flex
         width={"100%"}
         background={"white"}
-        borderRadius={"12px"}
-        gap={`35px`}
-        padding={ `10px 10px`}
-        mt={ `20px`}
+        padding={`10px 10px`}
+        mt={`10px`}
         flexDirection={`column`}
       >
-        <Box className={cls.ImgWrap} width={"100%"}>
-          <p className={cls.textFieldName}>{t("Фото Техпаспорта спереди")}*</p>
+        <Box
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          className={cls.ImgWrap}
+          width={"100%"}
+        >
+          <Flex mt={`10px`} mb={`16px`} alignItems={`center`} gap={`6px`}>
+            <FuraAddIcon />
+            <Heading
+              color={`var(--primary-text)`}
+              fontSize={`20px`}
+              fontWeight={600}
+            >
+              {t("Добавление машины")}
+            </Heading>
+          </Flex>
           <Flex mt={`10px`} gap={4} flexDirection={`column`}>
             <UploadImg
-              isColor={true}
+              
               watch={watch}
               setValue={setValue}
               name={"front_side_trailer"}
               icon={<ImgploadIcon1 />}
-              text={t("Загрузить фото спереди")}
+              text={t("Фото техпаспорта спереди *")}
               errors={errors}
             />
             <UploadImg
-              isColor={true}
               watch={watch}
               setValue={setValue}
               name={"back_side_trailer"}
               icon={<ImgploadIcon1 />}
-              text={t("Загрузить фото сзади")}
+              text={t("Фото техпаспорта сзади *")}
               errors={errors}
             />
           </Flex>
         </Box>
-        <Flex className={cls.inputWrap} width={`100%`} gap={"24px"}>
+        <Flex
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          className={cls.inputWrap}
+          width={`100%`}
+          gap={"24px"}
+        >
           <Box width={`100%`}>
             <p className={cls.textFieldName}>{t("Грузоподъёмность")}*</p>
             <TextFieldWithAdditionCar
@@ -191,56 +221,13 @@ const CreateCars = ({
             </Flex>
           </Box>
         </Flex>
+
         <Box
-          // borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
           width={`100%`}
         >
-          <p className={cls.textFieldName}>{t("Требования")}</p>
-          <Box
-            mt={"5px"}
-            display="flex"
-            rowGap={`20px`}
-            flexDirection={`column`}
-            columnGap="24px"
-          >
-            <Checkbox
-              defaultChecked={watch(`coupling`)}
-              register={register}
-              name="coupling"
-            >
-              {t("Сцепка")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`pneumatic`)}
-              register={register}
-              name="pneumatic"
-            >
-              {t("Пневмоход")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`konika`)}
-              register={register}
-              name="konika"
-            >
-              {t("Коники")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`tir`)}
-              register={register}
-              name="tir"
-            >
-              {t("TIR")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`cemt`)}
-              register={register}
-              name="cemt"
-            >
-              {t("CEMT (ЕКМТ) ")}
-            </Checkbox>
-          </Box>
-        </Box>
-        <Box width={`100%`}>
           <p className={cls.textFieldName}>
             {t("Страна регистрации автомобиля")}
           </p>
@@ -260,7 +247,6 @@ const CreateCars = ({
             required={t("Это поле обязательно")}
             width={"100%"}
             className={cls.dropdown}
-            // searchName="cargo_type_search"
           />
           <Flex gap={`12px`} mt={1}>
             <span className={cls.subLabel}>{t(`Пример`)}: </span>
@@ -296,7 +282,66 @@ const CreateCars = ({
             </p>
           </Flex>
         </Box>
-        <Box width={`100%`}>
+         <Box   mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`} width={"100%"}>
+                  <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
+                  <Dropdown
+                    control={control}
+                    register={register}
+                    watch={watch}
+                    placeholder={t("Выберите тип кузова")}
+                    name="trailer_type_id"
+                    options={carTypeOptions}
+                    errors={errors}
+                    // error={t}
+        
+                    required={t("Это поле обязательно")}
+                    width={"100%"}
+                    className={cls.dropdown}
+                    searchName="cargo_type_search"
+                  />
+        
+                  <Flex className={cls.primerWrap} gap={`12px`} mt={1}>
+                    <span className={cls.subLabel}>Пример: </span>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "trailer_type_id",
+                          {
+                            label: "Тентованный полуприцеп",
+                            value: "caa172e3-4c30-4fdb-a6fd-e74c0c325d0a",
+                          },
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      Тентованный полуприцеп,
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "trailer_type_id",
+                          {
+                            label: "Рефрижератор",
+                            value: "38221f2f-882c-4f15-8afe-632d20282e19",
+                          },
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      Рефрижератор
+                    </p>
+                  </Flex>
+                </Box>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}
+        >
           <p className={cls.textFieldName}>{t("Госномер")} *</p>
           <TextField
             register={register}
@@ -318,7 +363,12 @@ const CreateCars = ({
             <span className={cls.subTitle}></span>
           </Flex>
         </Box>
-        <Box width={`100%`}>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}
+        >
           <p className={cls.textFieldName}>{t("Марка машины")}</p>
           <TextField
             // rules={rules}
@@ -376,7 +426,12 @@ const CreateCars = ({
             </p>
           </Flex>
         </Box>
-        <Box width={`100%`}>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}
+        >
           <p className={cls.textFieldName}>{t("Экологический класс")}</p>
 
           <Dropdown
@@ -441,7 +496,12 @@ const CreateCars = ({
             </p>
           </Flex>
         </Box>
-        <Box width={`100%`}>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}
+        >
           <p className={cls.textFieldName}>{t("Тип топлива")}</p>
           <Dropdown
             control={control}
@@ -509,7 +569,12 @@ const CreateCars = ({
             </p>
           </Flex>
         </Box>
-        <Box width={"100%"}>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={"100%"}
+        >
           <p className={cls.textFieldName}>{t("Фото машины")}</p>
           <Flex gap={4} className={cls.ImgWrap}>
             <UploadImg
@@ -524,44 +589,129 @@ const CreateCars = ({
             />
           </Flex>
         </Box>
-        <Box marginBottom={`20px`} width={`100%`}>
-          <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
-          <Box
-            mt={"5px"}
-            display="flex"
-            rowGap={`20px`}
-            flexDirection={`column`}
-            columnGap="24px"
-          >
-            <Checkbox
-              defaultChecked={watch(`top`)}
-              register={register}
-              name="top"
-            >
-              {t("Верхняя")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`side`)}
-              register={register}
-              name="side"
-            >
-              {t("Боковая")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`back`)}
-              register={register}
-              name="back"
-            >
-              {t("Задняя")}
-            </Checkbox>
-            <Checkbox
-              defaultChecked={watch(`with_removal`)}
-              register={register}
-              name="with_removal"
-            >
-              {t("Со снятием стоек")}
-            </Checkbox>
-          </Box>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}
+        >
+          <Accordion allowMultiple>
+            <AccordionItem border={`none`}>
+              <AccordionButton
+                justifyContent="space-between"
+                alignItems={`center`}
+                p={0}
+                _hover={{ backgroundColor: `white` }}
+                width={`100%`}
+           
+              >
+                <p className={cls.textFieldName2}>{t("Тип загрузки")}</p>
+                <AccordionIcon />
+              </AccordionButton>
+
+              <AccordionPanel p={0}>
+                <Box
+                  mt={"20px"}
+                  display="flex"
+                  rowGap={`20px`}
+                  flexDirection={`column`}
+                  columnGap="24px"
+                >
+                  <Checkbox
+                    defaultChecked={watch(`top`)}
+                    register={register}
+                    name="top"
+                  >
+                    {t("Верхняя")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`side`)}
+                    register={register}
+                    name="side"
+                  >
+                    {t("Боковая")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`back`)}
+                    register={register}
+                    name="back"
+                  >
+                    {t("Задняя")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`with_removal`)}
+                    register={register}
+                    name="with_removal"
+                  >
+                    {t("Со снятием стоек")}
+                  </Checkbox>
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </Box>
+        <Box mt={`25px`} paddingBottom={`25px`} width={`100%`}>
+          <Accordion allowMultiple>
+            <AccordionItem border={`none`}>
+              <AccordionButton
+              
+                justifyContent="space-between"
+                alignItems={`center`}
+                p={0}
+                _hover={{ backgroundColor: `white` }}
+                width={`100%`}
+              >
+                <p className={cls.textFieldName2}>{t("Дополнительно")}</p>
+                <AccordionIcon />
+              </AccordionButton>
+
+              <AccordionPanel p={0}>
+                <Box
+                  mt={"20px"}
+                  display="flex"
+                  rowGap={`20px`}
+                  flexDirection={`column`}
+                  columnGap="24px"
+                >
+                  <Checkbox
+                    defaultChecked={watch(`coupling`)}
+                    register={register}
+                    name="coupling"
+                  >
+                    {t("Сцепка")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`pneumatic`)}
+                    register={register}
+                    name="pneumatic"
+                  >
+                    {t("Пневмоход")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`konika`)}
+                    register={register}
+                    name="konika"
+                  >
+                    {t("Коники")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`tir`)}
+                    register={register}
+                    name="tir"
+                  >
+                    {t("TIR")}
+                  </Checkbox>
+                  <Checkbox
+                    defaultChecked={watch(`cemt`)}
+                    register={register}
+                    name="cemt"
+                  >
+                    {t("CEMT (ЕКМТ) ")}
+                  </Checkbox>
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </Box>
       </Flex>
     </>
