@@ -1,10 +1,11 @@
-"use client";
+"use client"
 import React, { useEffect, useRef, useState } from "react";
 import Tesseract from "tesseract.js";
-import styles from "./style.module.scss";
+import Webcam from "react-webcam";
+import styles from './style.module.scss';
 import { Button, Flex } from "@chakra-ui/react";
 
-const Camera = () => {
+const CameraModule = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [text, setText] = useState("");
@@ -159,19 +160,12 @@ const Camera = () => {
           {/* 📌 OCR matn natijasi */}
 
           <canvas ref={canvasRef} style={{ display: "none" }} />
+
         </div>
       )}
 
       {url && (
         <div className={styles.result}>
-          <h3>Ajratilgan matn:</h3>
-          <p>1:{data?.stateNumber}</p>
-          <p>2:{data?.model}</p>
-          <p>3:{data?.color}</p>
-          <p>4:{data?.owner}</p>
-          <p>5:{data?.address}</p>
-          <p>6:{data?.date}</p>
-          <p>8:{data?.code}</p>
             <p>{text}</p>
           <Button
             onClick={() => {
@@ -188,4 +182,36 @@ const Camera = () => {
   );
 };
 
-export default Camera;
+export default CameraModule;
+
+
+// const processImage = async (imageSrc) => {
+//   const img = new Image();
+//   img.src = imageSrc;
+//   img.onload = async () => {
+//     const canvas = document.createElement("canvas");
+//     const ctx = canvas.getContext("2d");
+//     canvas.width = img.width;
+//     canvas.height = img.height;
+//     ctx.drawImage(img, 0, 0);
+
+//     // Oq-qora qilib konvertatsiya qilish
+//     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+//     const pixels = imageData.data;
+//     for (let i = 0; i < pixels.length; i += 4) {
+//       const avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+//       if (avg < 100) { // Qora yozuvlar
+//         pixels[i] = pixels[i + 1] = pixels[i + 2] = 0; // Qora
+//       } else {
+//         pixels[i] = pixels[i + 1] = pixels[i + 2] = 255; // Oq
+//       }
+//     }
+//     ctx.putImageData(imageData, 0, 0);
+
+//     // OCR matnni o‘qish
+//     Tesseract.recognize(canvas.toDataURL(), "uzb+eng", { logger: (m) => console.log(m) }).then(({ data: { text } }) => {
+//       setText(text);
+//     });
+//   };
+// };
+
