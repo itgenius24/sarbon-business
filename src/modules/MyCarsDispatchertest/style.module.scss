@@ -37,19 +37,20 @@
   color: rgba(126, 123, 134, 1);
 }
 
+
 .input {
-  width: 100%;
-  max-height: 44px;
-  position: relative;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--brand-300);
+  width: 100% !important;
+  max-height: 44px !important;
+  position: relative !important;
+  // padding: 10px 14px;
+  border-radius: 8px !important;
+  border: 1px solid rgba(219, 216, 227, 1) !important;
   &:not(:placeholder-shown) {
-    background-color: white;
+    background-color: white !important;
   }
   &::placeholder {
-    color: var(--brand-500);
-    font-weight: 400;
+    color: var(--brand-500) !important;
+    font-weight: 400 !important;
   }
 }
 

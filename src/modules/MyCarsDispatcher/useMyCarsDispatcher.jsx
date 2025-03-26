@@ -298,15 +298,15 @@ export const useMyCarsDispatcher = () => {
           </Flex>
         ) : (
           <p className={cls.title}>
-            <span className={cls.subTitle}>{t(`Владелец водитель`)}</span>
-          </p>
+          <span className={cls.subTitle}>{t(`Без перевозчика`)}</span>
+        </p>
         );
       },
     },
     {
       title: t(`Машина`),
       width: 200,
-      render: (row, index) => (
+      render: (row, index) => row?.trailer_type_id_data ? (
         <>
           <p className={cls.title}>
             {row?.trailer_type_id_data?.[`name_${locale}`]
@@ -343,6 +343,10 @@ export const useMyCarsDispatcher = () => {
             <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
           </Flex>
         </>
+      ):(
+        <p className={cls.title}>
+        <span className={cls.subTitle}>{t(`Без машины`)}</span>
+      </p>
       ),
     },
     {

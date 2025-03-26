@@ -13,7 +13,7 @@ const useProps = (orderStatus, t) => {
 
   const getAllUserCargo = useGetUserCargoPa(
     {
-      limit:40,
+      limit:100,
       offset: limit,
       data: JSON.stringify({
         users_id: userId,
@@ -33,7 +33,7 @@ const useProps = (orderStatus, t) => {
   );
 
   const addPage = () =>{
-    setLimit(prev => prev + 40)
+    setLimit(prev => prev + 100)
   }
 
   const deleteCargo = useDeleteCargo({
@@ -57,6 +57,8 @@ const useProps = (orderStatus, t) => {
     deleteCargo.mutate({ id });
   }
 
+
+  // console.log(`filter`,data?.filter(item => item?.order_status?.[0] === `active`))
 
   return {
     cargoData: data,

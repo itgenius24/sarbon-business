@@ -8,6 +8,8 @@ import {
   Flex,
   Heading,
   Input,
+  InputGroup,
+  InputLeftElement,
   Radio,
   RadioGroup,
   useMediaQuery,
@@ -20,6 +22,7 @@ import ModalStatus from "./component/ModalStatus/ModalStatus";
 import ModalAddDis from "./component/ModalAddDis/ModalAddDis";
 import { DatePicker } from "@/components/DatePicker";
 import { Dropdown } from "@/components/Dropdown";
+import { SearchIcon } from "@/assets/icons/icons";
 
 export const MyCarsDispatcherModule = () => {
   const {
@@ -69,7 +72,7 @@ export const MyCarsDispatcherModule = () => {
     setValue,
     watch,
     clearFn,
-    userDisResOption
+    userDisResOption,
   } = useMyCarsDispatcher();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -95,12 +98,17 @@ export const MyCarsDispatcherModule = () => {
             justifyContent={`space-between`}
           >
             <Box width={`40%`}>
-              <Input
-                value={search}
-                className={cls.input}
-                placeholder={t("Имя водителя, номер машины или телефон")}
-                onChange={(e) => setSearchFn(e.target?.value)}
-              />
+              <InputGroup  >
+                <InputLeftElement>
+                  <SearchIcon />
+                </InputLeftElement>
+                <Input
+                  value={search}
+                  className={cls.input}
+                  placeholder={t("Имя водителя, номер машины или телефон")}
+                  onChange={(e) => setSearchFn(e.target?.value)}
+                />
+              </InputGroup>
             </Box>
 
             <Flex gap={`16px`} justifyContent={`flex-end`} width={`50%`}>
@@ -248,7 +256,6 @@ export const MyCarsDispatcherModule = () => {
         searchDis={searchDis}
         setSearchDIs={setSearchDIs}
         ids={ids}
-
       />
     </>
   );

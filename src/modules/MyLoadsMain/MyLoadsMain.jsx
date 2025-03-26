@@ -90,7 +90,7 @@ export const MyLoadsMain = ({ locale }) => {
     router,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount,
+    refetchWaitingDriverCount,orderStatus
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
@@ -231,7 +231,7 @@ export const MyLoadsMain = ({ locale }) => {
                 <CancellationPage t={t} orderStatus={`cancellation`} />
               </TabPanel>
               <TabPanel padding={0}>
-                <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
+                <ArchivePage setOpen={setOpen} t={t} orderStatus={orderStatus} />
               </TabPanel>
               <TabPanel padding={0}>
                 <NewPage

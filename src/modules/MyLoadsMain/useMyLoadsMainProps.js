@@ -469,5 +469,6 @@ export const useMyLoadsMainProps = (locale) => {
     refetchNewPred,
     refetchNoDisPred,
     refetchWaitingDriverCount: getWaitingDriverCount?.refetch(),
+    orderStatus
   };
 };
