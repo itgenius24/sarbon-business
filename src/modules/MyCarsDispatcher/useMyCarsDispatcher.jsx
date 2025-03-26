@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCreateActionHistoriesMutation,
   useCreateLogHistory,
   useDeletedeleteDispacersDriver,
   useGetCar,
@@ -119,7 +120,12 @@ export const useMyCarsDispatcher = () => {
     });
   }, []);
 
-  const { data: getCarData,isLoading,isFetching,refetch } = useGetCarData({
+  const {
+    data: getCarData,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetCarData({
     data: {
       data: {
         object_data: {
@@ -132,7 +138,7 @@ export const useMyCarsDispatcher = () => {
         },
       },
     },
-    querySettings:{
+    querySettings: {
       onSuccess: (res) => {
         if (res?.response?.length) {
           setRefe(false);
@@ -140,7 +146,7 @@ export const useMyCarsDispatcher = () => {
             count: res?.count?.total_count,
             free_count: res?.FreeCount?.free_count,
           });
-  
+
           let data = res?.response;
           const uniqueData = data
             .filter(
@@ -150,10 +156,7 @@ export const useMyCarsDispatcher = () => {
                 )
             )
             ?.map((item) => {
-              if (
-                item?.order_data ||
-                item?.provisions?.[0] === `our_cargo`
-              ) {
+              if (item?.order_data || item?.provisions?.[0] === `our_cargo`) {
                 return {
                   ...item,
                   status: `Занята`,
@@ -186,10 +189,8 @@ export const useMyCarsDispatcher = () => {
         }
       },
       refetchOnWindowFocus: false,
-
-    }
+    },
   });
-
 
   const nameFilter = (val) => {
     if (val !== `all`) {
@@ -256,11 +257,7 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
-          <Avatar
-            size="sm"
-            src={row?.photo}
-            name={row?.full_name}
-          />
+          <Avatar size="sm" src={row?.photo} name={row?.full_name} />
           <Box>
             <p className={cls.title}>{row?.full_name}</p>
             <a
@@ -298,56 +295,57 @@ export const useMyCarsDispatcher = () => {
           </Flex>
         ) : (
           <p className={cls.title}>
-          <span className={cls.subTitle}>{t(`Без перевозчика`)}</span>
-        </p>
+            <span className={cls.subTitle}>{t(`Без перевозчика`)}</span>
+          </p>
         );
       },
     },
     {
       title: t(`Машина`),
       width: 200,
-      render: (row, index) => row?.trailer_type_id_data ? (
-        <>
-          <p className={cls.title}>
-            {row?.trailer_type_id_data?.[`name_${locale}`]
-              ? row?.trailer_type_id_data?.[`name_${locale}`]
-              : row?.trailer_type_id_data?.name}
-          </p>
-
-          <Flex>
-            <p className={cls.subTitle1}>
-              <span style={{ marginRight: `9px` }} className={cls.subTitle}>
-                {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
-              </span>
+      render: (row, index) =>
+        row?.trailer_type_id_data ? (
+          <>
+            <p className={cls.title}>
+              {row?.trailer_type_id_data?.[`name_${locale}`]
+                ? row?.trailer_type_id_data?.[`name_${locale}`]
+                : row?.trailer_type_id_data?.name}
             </p>
 
-            <Tooltip
-              border={`1px solid rgba(219, 216, 227, 1)`}
-              background={`white`}
-              color={`black`}
-              placement="top-end"
-              label={row?.vehicle_data?.car_country || `uz`}
-            >
-              <Image
-                alt="w"
-                style={{
-                  width: `30px`,
-                  height: `20px`,
-                  marginRight: `9px`,
-                }}
-                width={100}
-                height={100}
-                src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
-              />
-            </Tooltip>
-            <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
-          </Flex>
-        </>
-      ):(
-        <p className={cls.title}>
-        <span className={cls.subTitle}>{t(`Без машины`)}</span>
-      </p>
-      ),
+            <Flex>
+              <p className={cls.subTitle1}>
+                <span style={{ marginRight: `9px` }} className={cls.subTitle}>
+                  {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
+                </span>
+              </p>
+
+              <Tooltip
+                border={`1px solid rgba(219, 216, 227, 1)`}
+                background={`white`}
+                color={`black`}
+                placement="top-end"
+                label={row?.vehicle_data?.car_country || `uz`}
+              >
+                <Image
+                  alt="w"
+                  style={{
+                    width: `30px`,
+                    height: `20px`,
+                    marginRight: `9px`,
+                  }}
+                  width={100}
+                  height={100}
+                  src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
+                />
+              </Tooltip>
+              <p className={cls.subTitle1}>{row?.vehicle_data?.car_number}</p>
+            </Flex>
+          </>
+        ) : (
+          <p className={cls.title}>
+            <span className={cls.subTitle}>{t(`Без машины`)}</span>
+          </p>
+        ),
     },
     {
       title: (
@@ -390,8 +388,7 @@ export const useMyCarsDispatcher = () => {
       ),
       width: 400,
       render: (row, index) => {
-        const order =
-          row?.order_data || row?.provisions?.[0] === `our_cargo`;
+        const order = row?.order_data || row?.provisions?.[0] === `our_cargo`;
         const status = row?.provisions?.[0];
         const statusName =
           status === `someone_cargo`
@@ -426,7 +423,7 @@ export const useMyCarsDispatcher = () => {
                 </Box>
               )}
 
-              {row?.gps_data  ? (
+              {row?.gps_data ? (
                 <Flex width={`100%`} justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex gap={`3px`} alignItems={`center`}>
@@ -437,10 +434,7 @@ export const useMyCarsDispatcher = () => {
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
                             {row?.gps_data?.update_time &&
-                              format(
-                                row?.gps_data?.update_time,
-                                `yyyy-MM-dd`
-                              )}
+                              format(row?.gps_data?.update_time, `yyyy-MM-dd`)}
                           </span>{" "}
                         </p>
                       </Box>
@@ -451,9 +445,7 @@ export const useMyCarsDispatcher = () => {
                       <FurIcon />
                       <Box>
                         <p className={cls.subTitle}>Версия Sarbon</p>
-                        <p className={cls.title2}>
-                          {row?.gps_data?.version}
-                        </p>
+                        <p className={cls.title2}>{row?.gps_data?.version}</p>
                       </Box>
                     </Flex>
                   </Flex>
@@ -577,9 +569,24 @@ export const useMyCarsDispatcher = () => {
   const rowClassName = (row) => {
     return row?.order_data ? cls.bussy : cls.free;
   };
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
     onSuccess: () => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `unpin_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`delete`],
+        },
+      });
       setVisibleData((prevData) =>
         prevData.filter((item) => item.dis_dr_data?.guid !== deleteId)
       );
@@ -594,10 +601,26 @@ export const useMyCarsDispatcher = () => {
     });
   };
 
+
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `changed_driver_status`,
+          role_id: authStore.userData?.role_id,
+          action_type:[`update`],
+        },
+      });
+
       setOpen(false);
       setIconStatus(``);
+
       if (iconStatus === `our_cargo`) {
         return setVisibleData((prevData) =>
           prevData.map((item) =>
@@ -672,7 +695,7 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading:isFetching,
+    isLoading: isFetching,
     t,
     register,
     setSearchFn,

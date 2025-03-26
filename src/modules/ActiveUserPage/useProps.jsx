@@ -1,8 +1,4 @@
-import {
-  useGetActionUser,
-  useGetRole,
-  useGetUserPost,
-} from "@/services/api";
+import { useGetActionUser, useGetRole, useGetUserPost } from "@/services/api";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,11 +20,11 @@ export const useProps = () => {
     params: {
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
-        users_id:watch(`user`)?.value,
-        action_time:{
-          $gte:startDate,
-          $lt:endDate
-        }
+        users_id: watch(`user`)?.value,
+        action_time: {
+          $gte: startDate,
+          $lt: endDate,
+        },
       }),
     },
   });
@@ -36,7 +32,14 @@ export const useProps = () => {
   const { data: roleData } = useGetRole({
     querySettings: {
       select: (res) =>
-        res?.response?.map((item) => ({ label: item.name, value: item.guid })),
+        res?.response
+          ?.filter(
+            (item) =>
+              item?.name?.trim() === `Диспетчер` ||
+              item?.name === `Заказчик` ||
+              item?.name === `Экспедитор`
+          )
+          ?.map((item) => ({ label: item.name, value: item.guid })),
     },
   });
 

@@ -1,4 +1,5 @@
 import {
+  useCreateActionHistoriesMutation,
   useGetNewPredData,
   useGetNewPredData2,
   usePushNotificationMutation,
@@ -24,13 +25,11 @@ const useNewPageProps = (
   const userId = authStore.userData.id;
   const [disabled, setDisabled] = useState(false);
   const [dataPred, setDataPred] = useState(``);
-  const {isOpen,onClose,onOpen} =  useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const obj = {
     after_payment: t(`Оплата после завершения`),
     prepayment: t(`Предоплата`),
   };
-
-
 
   const {
     data: newData,
@@ -41,7 +40,8 @@ const useNewPageProps = (
       data: {
         object_data: {
           dispetchir_id: orderStatus === `new` ? (guid ? guid : userId) : ``,
-          provisions: orderStatus === `new` ? ["new", "approve_by_customer"] : undefined,
+          provisions:
+            orderStatus === `new` ? ["new", "approve_by_customer"] : undefined,
         },
       },
     },
@@ -52,7 +52,9 @@ const useNewPageProps = (
           users_id_data: item.users_id_data?.[0],
           users_id_2_data: item?.users_id_2_data?.[0],
         })),
-        enabled :Boolean(orderStatus === `new` || orderStatus === `no_dispatcher`)
+      enabled: Boolean(
+        orderStatus === `new` || orderStatus === `no_dispatcher`
+      ),
     },
     refetchOnWindowFocus: false,
   });
@@ -63,12 +65,12 @@ const useNewPageProps = (
       refetchNewPred();
       refetchNoDisPred();
       refetchWaitingDriverCount();
-      onClose()
+      onClose();
     },
   });
   const updateNoDriver = useUpdateNoDriver({
     onSuccess: () => {
-      onClose()
+      onClose();
     },
   });
   const updateResponseMutation = useUpdateResponse({
@@ -77,12 +79,14 @@ const useNewPageProps = (
       refetchNewPred();
       refetchNoDisPred();
       refetchWaitingDriverCount();
-      onClose()
+      onClose();
     },
     onError(res) {
       console.error(res);
     },
   });
+
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   function handleAccept(id, driverId) {
     pushNotification.mutate({
@@ -116,6 +120,41 @@ const useNewPageProps = (
         },
       }
     );
+
+    if (orderStatus === `new`) {
+      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `top_dispatcher`,
+            action_comment: `accept_order`,
+            role_id: authStore.userData?.role_id,
+            action_type:[`update`],
+          },
+        });
+      } else if (
+        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `first_dispatcher`,
+            action_comment: `accept_order`,
+            role_id: authStore.userData?.role_id,
+            action_type:[`update`],
+          },
+        });
+      }
+    }
+
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
         data: {
@@ -124,6 +163,37 @@ const useNewPageProps = (
           firm_id: authStore.userData.firm_id || ``,
         },
       });
+      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `top_dispatcher`,
+            action_comment: `accept_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+          },
+        });
+      } else if (
+        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `first_dispatcher`,
+            action_comment: `accept_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+          },
+        });
+      }
     }
   }
 
@@ -150,6 +220,40 @@ const useNewPageProps = (
       }
     );
 
+    if (orderStatus === `new`) {
+      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `top_dispatcher`,
+            action_comment: `cancel_order`,
+            role_id: authStore.userData?.role_id,
+            action_type:[`update`],
+          },
+        });
+      } else if (
+        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `first_dispatcher`,
+            action_comment: `cancel_order`,
+            role_id: authStore.userData?.role_id,
+            action_type:[`update`],
+          },
+        });
+      }
+    }
+
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
         data: {
@@ -158,10 +262,40 @@ const useNewPageProps = (
           firm_id: authStore.userData.firm_id || ``,
         },
       });
+      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `top_dispatcher`,
+            action_comment: `cancel_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type:[`update`],
+          },
+        });
+      } else if (
+        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: authStore.userData.your_id,
+            action_time: new Date(),
+            role_slug: `first_dispatcher`,
+            action_comment: `cancel_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type:[`update`],
+          },
+        });
+      }
     }
   }
 
- 
   return {
     newData: newData || [],
     isLoading: isFetching,
@@ -172,10 +306,10 @@ const useNewPageProps = (
     onClose,
     disabled,
     setDisabled,
-    disabledBtn:updateResponseMutation.isLoading,
+    disabledBtn: updateResponseMutation.isLoading,
     obj,
     onOpen,
-    isOpen
+    isOpen,
   };
 };
 

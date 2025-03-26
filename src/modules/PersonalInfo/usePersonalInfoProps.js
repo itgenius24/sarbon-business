@@ -1,4 +1,4 @@
-import { useUpdateUserInfo } from "@/services/api";
+import { useCreateActionHistoriesMutation, useUpdateUserInfo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -19,8 +19,24 @@ export const usePersonalInfoProps = () => {
 
   const toast = useToast();
 
+    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+
   const { mutate , isLoading } = useUpdateUserInfo({
     onSuccess() {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `changed_own_info`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       toast({
         title: "Успешно изменено!",
         description: "Вы успешно обновили этого пользователя",
