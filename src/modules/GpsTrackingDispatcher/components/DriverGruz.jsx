@@ -101,7 +101,6 @@ const DriverGruz = ({
       },
     });
   };
-  const { mutate: actionCreateData } = useCreateActionHistoriesMutation();
 
 
   const downloadByLanguage = async (url) => {
@@ -122,7 +121,7 @@ const DriverGruz = ({
 
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
-      actionCreateData({
+      actionCreate({
         data: {
           user_name: authStore.userData.full_name,
           phone_number: authStore.userData?.phone,
