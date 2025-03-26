@@ -1225,7 +1225,7 @@ export const useDashboard = (locale) => {
       title: `Топ Диспетчер`,
       dataIndex: "full_name",
       width: 200,
-      render:(_,row) => <p className={cls.nameDis} onClick={() => handle(row)}>{row?.full_name}</p>
+      render:(_,row) => <p >{row?.full_name}</p>
     },
     {
       title: `Общее кол-во водителей`,
@@ -1360,7 +1360,7 @@ export const useDashboard = (locale) => {
     },
     {
       title:`Заказчик`,
-      dataIndex:``,
+      dataIndex:`full_name`,
       width:250
     },
     {

@@ -345,7 +345,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns7}
-                    data={[]}
+                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />

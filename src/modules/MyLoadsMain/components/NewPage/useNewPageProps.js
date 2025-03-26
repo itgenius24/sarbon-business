@@ -41,7 +41,7 @@ const useNewPageProps = (
       data: {
         object_data: {
           dispetchir_id: orderStatus === `new` ? (guid ? guid : userId) : ``,
-          provisions: orderStatus === `new` ? [`new`] : undefined,
+          provisions: orderStatus === `new` ? ["new", "approve_by_customer"] : undefined,
         },
       },
     },

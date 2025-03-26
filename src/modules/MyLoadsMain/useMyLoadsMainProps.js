@@ -117,7 +117,7 @@ export const useMyLoadsMainProps = (locale) => {
   const { mutate: logHistory } = useCreateLogHistory({});
 
   useEffect(() => {
-    if (authStore.userData.role_id === `785678f2-fae7-4a00-8766-99ea67d3784f`) {
+    if (authStore.userData.role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || authStore.userData.role_id === "48871d27-7361-4f69-8fe4-b54daf270739") {
       logHistory({
         data: {
           users_id: authStore.userData.guid,
@@ -127,6 +127,9 @@ export const useMyLoadsMainProps = (locale) => {
       });
     }
   }, []);
+
+
+
 
   const handleCheckboxChange = (key) => {
     setComments(

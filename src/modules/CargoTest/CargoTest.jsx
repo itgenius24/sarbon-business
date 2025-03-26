@@ -39,6 +39,8 @@ import StepFive from "./components/StepFive/StepFive";
 import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
 import NavigationWrap from "./components/NavigationWrap/NavigationWrap";
+import { useCreateLogHistory } from "@/services/api";
+import authStore from "@/store/auth.store";
 
 export const CargoTest = observer(({ id, status, locale }) => {
   const [cargoIndex, setCargoIndex] = useState(1);
@@ -49,6 +51,17 @@ export const CargoTest = observer(({ id, status, locale }) => {
 
   const [isLargerThan1190] = useMediaQuery("(min-width: 1190px)");
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
+  const { mutate: logHistory } = useCreateLogHistory({});
+
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `cargo_create`,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (
