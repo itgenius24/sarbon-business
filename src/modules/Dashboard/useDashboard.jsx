@@ -1366,27 +1366,34 @@ export const useDashboard = (locale) => {
     {
       title:`Общее кол-во активных грузов`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.cargo_status_counts?.active
     },
     {
       title:`Неактивный`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.cargo_status_counts?.in_active
     },
     {
       title:`В модерация`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.cargo_status_counts?.in_moderation
     },
     {
       title:`Отклонений`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.orders_status_counts?.cancellation
+
     },
     {
       title:`Общее кол-во Завершённых`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.orders_status_counts?.archive
+
     },
   ]
 

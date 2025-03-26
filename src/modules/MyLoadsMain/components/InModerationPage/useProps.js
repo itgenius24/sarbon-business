@@ -8,7 +8,7 @@ const useProps = (orderStatus, t) => {
   const toast = useToast();
   const role_id = authStore.userData.role_id;
   const userId = authStore.userData.id;
-  const [limit, setLimit] = useState(40);
+  const [limit, setLimit] = useState(0);
 
   const getAllUserCargo = useGetUserCargo(
     {
