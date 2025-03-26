@@ -1356,7 +1356,23 @@ export const useDashboard = (locale) => {
     {
       title:`Последняя активность`,
       dataIndex:``,
-      width:250
+      width:250,
+      render: (_, row) => {
+        const date = new Date(row?.user_history_data?.last_move_time);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
+            </p>
+          </>
+        );
+      },
     },
     {
       title:`Заказчик`,
