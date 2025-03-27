@@ -101,7 +101,7 @@ export const useProps = () => {
           <p className={cls.actionTime}>
             {format(
               new Date(row?.action_time).setHours(
-                new Date(row?.action_time).getHours() - 5
+                new Date(row?.action_time).getHours() 
               ),
               `dd.MM.yyyy`
             )}
@@ -109,9 +109,9 @@ export const useProps = () => {
             <span>
               {format(
                 new Date(row?.action_time).setHours(
-                  new Date(row?.action_time).getHours() - 5
+                  new Date(row?.action_time).getHours() 
                 ),
-                `hh:mm`
+                `HH:mm`
               )}
             </span>
           </p>
