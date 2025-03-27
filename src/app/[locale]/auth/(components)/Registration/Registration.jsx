@@ -150,6 +150,7 @@ export const Registration = () => {
                     onClick={handleAppleLogin}
                     leftIcon={<AppleAuthIcon />}
                     className={cls.btnAuth}
+                    isDisabled
                   >
                     Продолжить с Apple
                   </Button>

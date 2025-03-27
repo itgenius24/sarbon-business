@@ -8,6 +8,7 @@ import {
   useOfferFromCustomerMutation,
   useRegisterFirmMutation,
   useRegisterUserMutation,
+  useUpdateUser,
 } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -144,31 +145,88 @@ export const useRegistrationFormProps = () => {
     },
   });
 
+  const { mutate: useUpdate } = useUpdateUser({
+    onSuccess: (data) => {
+      setEnab(true);
+    },
+    onError(error) {
+      setLoadin(false);
+      if (error.data?.data?.includes("user_unq_login")) {
+        toast({
+          title: t("Такой логин уже зарегистрирован"),
+          status: "error",
+          position: "top right",
+        });
+        setError("login", { message: t("Такой логин уже зарегистрирован") });
+        // router.push(`/${locale}/auth/login`);
+      } else if (error.data?.data?.includes("user_project_idx_unique")) {
+        toast({
+          title: t("Такой номер уже зарегистрирован"),
+          status: "error",
+          position: "top right",
+        });
+      } else {
+        toast({
+          title: t("Произошла ошибка при регистрации"),
+          status: "error",
+          position: "top right",
+        });
+      }
+    },
+  });
+
   const registerFirmMutation = useRegisterFirmMutation({
     onSuccess: (data) => {
-      registerUserMutation.mutate({
-        data: {
-          role_id:
-            value === `C2`
-              ? "48871d27-7361-4f69-8fe4-b54daf270739"
-              : "f81d3c3d-228d-479e-a2b1-9948c98640f2",
-          client_type_id:
-            value === `C2`
-              ? clientTypeOptions[1].value
-              : "a25d605c-d153-4ddf-8590-e4cda176ef93",
-          phone: phone,
-          full_name: normalizeName(watch(`full_name`)),
-          login: watch(`login`),
-          password: watch(`password`),
-          firm_id: data?.guid,
-          photo: watch(`img`),
-          email: watch(`email`),
-          user_status: ["rejected"],
-          passport_code: status === 1 ? watch(`passport_code`) : undefined,
-          passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
-          create_time: new Date(),
-        },
-      });
+      if (authStore?.authData?.mediaAuth) {
+        useUpdate({
+          data: {
+            role_id:
+              value === `C2`
+                ? "48871d27-7361-4f69-8fe4-b54daf270739"
+                : "f81d3c3d-228d-479e-a2b1-9948c98640f2",
+            client_type_id:
+              value === `C2`
+                ? clientTypeOptions[1].value
+                : "a25d605c-d153-4ddf-8590-e4cda176ef93",
+            phone: phone,
+            full_name: normalizeName(watch(`full_name`)),
+            login: watch(`login`),
+            password: watch(`password`),
+            firm_id: data?.guid,
+            photo: watch(`img`),
+            email: watch(`email`),
+            user_status: ["rejected"],
+            passport_code: status === 1 ? watch(`passport_code`) : undefined,
+            passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
+            create_time: new Date(),
+            guid: authStore?.authData?.mediaAuth?.guid,
+          },
+        });
+      } else {
+        registerUserMutation.mutate({
+          data: {
+            role_id:
+              value === `C2`
+                ? "48871d27-7361-4f69-8fe4-b54daf270739"
+                : "f81d3c3d-228d-479e-a2b1-9948c98640f2",
+            client_type_id:
+              value === `C2`
+                ? clientTypeOptions[1].value
+                : "a25d605c-d153-4ddf-8590-e4cda176ef93",
+            phone: phone,
+            full_name: normalizeName(watch(`full_name`)),
+            login: watch(`login`),
+            password: watch(`password`),
+            firm_id: data?.guid,
+            photo: watch(`img`),
+            email: watch(`email`),
+            user_status: ["rejected"],
+            passport_code: status === 1 ? watch(`passport_code`) : undefined,
+            passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
+            create_time: new Date(),
+          },
+        });
+      }
     },
     onError(error) {
       setLoadin(false);
@@ -240,15 +298,37 @@ export const useRegistrationFormProps = () => {
     authStore.setAuthData("firm_id", data.company?.value);
     setNomer(data);
     setLoadin(true);
-    offerFromCustomer.mutate({
-      data: {
-        object_data: {
-          email: watch(`email`),
-          phone: phone?.startsWith("+") ? phone?.slice(1) : phone,
-          type: `register`,
+    if (authStore?.authData?.mediaAuth) {
+      registerFirmMutation.mutate({
+        data: {
+          company_direction: ["company_customer"],
+          tip_account: status === 1 ? ["legal_owner"] : ["physic_owner"],
+          full_name: data?.full_name,
+          tin: data?.inn,
+          company_name:
+            status === 1
+              ? `${
+                  watch(`company_type`)?.value
+                    ? watch(`company_type`)?.value
+                    : `OOO`
+                } ${data?.companyName}`
+              : undefined,
+          building_address: data?.adress,
+          phone_number: phone,
+          logo: data?.img,
         },
-      },
-    });
+      });
+    } else {
+      offerFromCustomer.mutate({
+        data: {
+          object_data: {
+            email: watch(`email`),
+            phone: phone?.startsWith("+") ? phone?.slice(1) : phone,
+            type: `register`,
+          },
+        },
+      });
+    }
   }
 
   function handleTogglePasswordVisibility() {

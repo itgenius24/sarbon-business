@@ -2,11 +2,14 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
   useGetUseMutation,
+  useGetUserGpsBYData,
   useGetUserGpsByIDData,
+  useGoogleRigister,
   useLoginMutation,
   useOneLoginMutation,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
+import { signInWithGoogle } from "@/utils/fribaseAuth";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -149,6 +152,67 @@ export const useLoginProps = () => {
     },
   });
 
+  const { mutate: getUserData } = useGetUserGpsBYData({
+    onSuccess:(res) => {
+      authStore.login({
+        user: {
+          firm_id: res?.response?.[0].firm_id,
+          full_name: res?.response?.[0].full_name,
+          id: res?.response?.[0]?.guid,
+          ...res?.response?.[0],
+          client_id: res?.response?.[0]?.client_type_id,
+          role_id: res?.response?.[0]?.role_id_data?.guid,
+        },
+        token: {},
+        role: {},
+      });
+      authStore.setAuthData("phone", ``);
+      authStore.setAuthData("mediaAuth", {});
+      router.push(`/${locale ? locale : `ru`}`);
+
+    }
+  });
+
+  const { mutate: googleRigister } = useGoogleRigister({
+    onSuccess: (res) => {
+      if (res?.response?.[0].phone) {
+        getUserData({
+          data: JSON.stringify({
+            guid: res?.response?.[0].guid,
+            with_relations: true,
+          }),
+        });
+      } else {
+        toast({
+          title: t("Вы не зарегистрированы с этим email"),
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    },
+  });
+
+    const handleGoogleLogin = async () => {
+      const user = await signInWithGoogle();
+      const body = {
+        display_name: user?.displayName,
+        login_type: user?.email,
+        id_token: user?.uid,
+        access_token: user?.accessToken,
+        type: `register`,
+        register_type: `email`,
+        unique_id: ``,
+        user_type: `carrier`,
+      };
+      googleRigister({
+        data: {
+          object_data: body,
+        },
+      });
+
+    };
+
   function navigateRegistration() {
     router.push(`/${locale}/auth/registration`);
   }
@@ -169,6 +233,8 @@ export const useLoginProps = () => {
     setPasswordVisible(!isPasswordVisible);
   }
 
+
+
   return {
     handleSubmit,
     register,
@@ -184,5 +250,6 @@ export const useLoginProps = () => {
     locale,
     open,
     setOpen,
+    handleGoogleLogin,
   };
 };
