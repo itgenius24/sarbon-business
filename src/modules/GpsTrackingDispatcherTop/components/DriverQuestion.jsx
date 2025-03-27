@@ -211,7 +211,7 @@ const DriverQuestion = ({
             </Box>
           </Flex>
         </Box>
-        <Button
+        {/* <Button
           onClick={() => {
             setCenterModalType("changeIcon");
             setIconStatus(contendSingle?.user?.provisions?.[0]);
@@ -222,7 +222,7 @@ const DriverQuestion = ({
           className={cls.btnBlueOutline}
         >
           Занята чужим грузом
-        </Button>
+        </Button> */}
         {/* <Box className={cls.cardWrapOutline}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
             <Avatar  name="B"  />

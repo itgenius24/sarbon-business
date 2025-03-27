@@ -20,6 +20,7 @@ import {
 } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
 import {
+  useCreateActionHistoriesMutation,
   useGetCompanyList,
   useGetExcelPost,
   useGetUserGpsByIDData,
@@ -109,9 +110,26 @@ const DriverFree = ({
     }
   };
 
+
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
       downloadByLanguage(res?.url);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `export_axcell_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
     },
   });
 
@@ -375,7 +393,7 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-        {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
+        {/* {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
           <Button
             onClick={() => {
               setCenterModalType("changeIcon");
@@ -401,7 +419,7 @@ const DriverFree = ({
           >
             {t(`Машина cвободна`)}
           </Button>
-        )}
+        )} */}
         {getCompanyList?.data?.response?.[0] && (
           <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>

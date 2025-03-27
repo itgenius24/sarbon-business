@@ -85,7 +85,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
             onClick={() => setModalType("filter")}
           />
         </Flex>
-        <Button
+        {/* <Button
           mt={`17px`}
           rightIcon={<NextBtnIcon />}
           size={`lg`}
@@ -93,7 +93,7 @@ const DriverExpectation = ({ cls,setModalType,contendSingle }) => {
           onClick={() => setPopupOpen(true)}
         >
           Ждём подтверждение водителя
-        </Button>
+        </Button> */}
         <Box className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
             <LocationActiveIcon />

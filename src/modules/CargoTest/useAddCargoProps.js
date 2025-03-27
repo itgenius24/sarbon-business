@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {  useForm } from "react-hook-form";
 import {
+  useCreateActionHistoriesMutation,
   useCreateAddressMutation,
   useCreateCargoMutation,
   useDeleteCargo,
@@ -335,6 +336,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   });
 
   const deleteCargo = useDeleteCargo({
+
     onSuccess() {
       toast({
         position: "top-right",
@@ -515,8 +517,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
+        const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
   const updateCargo = useUpdateCargo({
+    
     onSuccess(data) {
+    
       let loadingsData = watch(`loadings`).map((item, index) => ({
         address: item?.address,
         date: new Date(item.from_date),
@@ -577,6 +583,19 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const deleteTemplate = useDeleteCargo({
     onSuccess() {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id:watch(`number_of_order`),
+          action_time: new Date(),
+          role_slug: `customer`,
+          action_comment: `delete_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      }); 
       toast({
         title: t("Шаблон успешно удален"),
         status: "success",
@@ -664,6 +683,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     };
 
     updateCargo.mutate({ data });
+    
   };
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
@@ -754,10 +774,21 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
     if (id) {
       requestData.data.guid = id;
-
-      console.log(`req`,requestData)
-
       updateCargo.mutate(requestData);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id:watch(`number_of_order`),
+          action_time: new Date(),
+          role_slug: `customer`,
+          action_comment: `edit_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      }); 
+
     } else {
       if (data.isTemp) {
         requestData.data.cargo_type = ["template"];
@@ -775,6 +806,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       });
     }
   }
+
+
 
   function onCancelClick() {
     getOfferCargoById.refetch();
@@ -1027,6 +1060,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         long: data?.long* 1,
         gradusFrom:data?.gradusFrom,
         gradusTo:data?.gradusTo,
+        number_of_order:data?.number_of_order
       });
 
       setValue(`cargo_type`, {

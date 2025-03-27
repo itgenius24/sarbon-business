@@ -1,4 +1,4 @@
-import { useDeleteCargo, useGetOffer, useGetUserCargo, useGetUserCargoPa } from "@/services/api";
+import { useCreateActionHistoriesMutation, useDeleteCargo, useGetOffer, useGetUserCargo, useGetUserCargoPa } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,8 @@ const useProps = (orderStatus, t) => {
   const userId = authStore.userData.id;
   const [limit, setLimit] = useState(0);
   const [data,setData] = useState([])
+        const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const getAllUserCargo = useGetUserCargoPa(
     {
@@ -38,6 +40,7 @@ const useProps = (orderStatus, t) => {
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
+    
       setData([])
       getAllUserCargo.refetch()
       toast({
@@ -54,7 +57,21 @@ const useProps = (orderStatus, t) => {
   });
 
   const handleDelete = (id) => {
-    deleteCargo.mutate({ id });
+    console.log(`ids`,id)
+    deleteCargo.mutate({ id:id?.guid });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id:id?.number_of_order,
+        action_time: new Date(),
+        role_slug: `customer`,
+        action_comment: `delete_cargo`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`update`],
+      },
+    }); 
   }
 
 

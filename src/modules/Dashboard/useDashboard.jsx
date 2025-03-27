@@ -1372,7 +1372,7 @@ export const useDashboard = (locale) => {
             </p>
           </>
         );
-      },
+      },  
     },
     {
       title:`Заказчик`,

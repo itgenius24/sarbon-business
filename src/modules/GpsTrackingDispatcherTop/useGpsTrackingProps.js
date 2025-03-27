@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  useCreateActionHistoriesMutation,
   useCreateLogHistory,
   useGetCar,
   useGetCarData,
@@ -537,9 +538,24 @@ export const useGpsTrackingProps = () => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `unpin_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setCenterModalType(``);
       setAddressAdd("");
       if (iconStatus === "empty") {

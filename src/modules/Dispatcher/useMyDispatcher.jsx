@@ -3,6 +3,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { PopupIcon } from "@/assets/icons/icons";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
+  useCreateActionHistoriesMutation,
   useDeleteDisTop,
   useGetCreateAddress,
   useGetUserData,
@@ -71,6 +72,9 @@ export const useMyDispatcher = () => {
     },
   });
 
+    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+
   useEffect(() => {
     if (valueR === `active`) {
       setDataDis(
@@ -107,6 +111,19 @@ export const useMyDispatcher = () => {
       refetch();
       setCountActive(0);
       setCountNeActive(0);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData?.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `delete_first_dispatcher`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`delete`],
+        },
+      });
     },
   });
 
@@ -116,11 +133,14 @@ export const useMyDispatcher = () => {
     });
   };
 
+  
+
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
       refetch();
       setCountActive(0);
       setCountNeActive(0);
+    
     },
     onError(er) {
       console.log(er);
@@ -133,6 +153,19 @@ export const useMyDispatcher = () => {
         guid: data?.guid,
         user_status:
           data?.user_status?.[0] === `blocked` ? ["approved"] : ["blocked"],
+      },
+    });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: data?.your_id,
+        action_time: new Date(),
+        role_slug: `top_dispatcher`,
+        action_comment: `blocked_first_dispatcher`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`update`],
       },
     });
   };

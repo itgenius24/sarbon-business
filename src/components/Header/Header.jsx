@@ -40,7 +40,13 @@ const Header = observer(({ elements }) => {
   const { t } = useTranslation(locale, "translations");
 
   const goToProfile = () => {
-    router.push(`/${locale ? locale : `ru`}/profile`);
+    if(authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"){
+    router.push(`/${locale ? locale : `ru`}/profile-xm`);
+
+    }else{
+      router.push(`/${locale ? locale : `ru`}/profile`);
+
+    }
   };
 
   const dispacherType = authStore?.userData?.dispatcher_type;

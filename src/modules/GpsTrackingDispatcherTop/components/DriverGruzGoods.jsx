@@ -19,7 +19,7 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { useUpdateCargo } from "@/services/api";
+import { useCreateActionHistoriesMutation, useUpdateCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -41,15 +41,31 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocationData }) => {
-  console.log("loadState", loadState);
+
 const { t } = useTranslation();
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);
   }
 
+        const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: loadState?.number_of_order,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `booking_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setPopupOpen(false);
       setModalType("filter");
       const find = locationData?.map((item) => {

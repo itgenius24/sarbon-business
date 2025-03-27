@@ -2,6 +2,7 @@
 
 import {
   useCheckUser,
+  useCreateActionHistoriesMutation,
   useCreateUser,
   useGetAddress,
   useGetCarListOnSubmit,
@@ -51,6 +52,7 @@ export const useMyCars = () => {
       `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`
     )
   );
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const [open, setOpen] = useState(false);
 
@@ -60,6 +62,19 @@ export const useMyCars = () => {
     onSuccess: (res) => {
       // router.push(`/${locale}/drivers`);
       setIsPopupOpen(true);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `create_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
     },
   });
 
@@ -86,6 +101,19 @@ export const useMyCars = () => {
   const { mutate: updateDsate, isLoading } = useUpdateUser({
     onSuccess: (res) => {
       setIsPopupOpen(true);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: getUserGps?.data?.response[0].your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `changed_driver_info`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       // router.push(`/${locale}/drivers`);
     },
   });

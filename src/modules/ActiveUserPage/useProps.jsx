@@ -7,14 +7,20 @@ import cls from "./style.module.scss";
 import { Flex } from "@chakra-ui/react";
 import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
+import { commentObj, roleObj } from "@/utils/actionComment";
 
 export const useProps = () => {
   const { control, errors, register, setError, setValue, watch } = useForm();
-  const [startDate, setStartDate] = useState(``);
-  const [endDate, setEndDate] = useState(``);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
+  const formatDate = (date, hours, minutes, seconds) => {
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, seconds, 0);
+    return newDate;
+  };
 
   const { data: actionData } = useGetActionUser({
     params: {
@@ -22,11 +28,12 @@ export const useProps = () => {
         role_id: watch(`role`)?.value,
         users_id: watch(`user`)?.value,
         action_time: {
-          $gte: startDate,
-          $lt: endDate,
+          $gte:  formatDate(startDate, 0, 0, 0) ,
+          $lt:  formatDate(endDate, 23, 59, 59) ,
         },
       }),
     },
+   
   });
 
   const { data: roleData } = useGetRole({
@@ -118,14 +125,14 @@ export const useProps = () => {
     {
       title: `Роль`,
       width: 250,
-      render: (row, index) => row?.role_slug,
+      render: (row, index) => roleObj[row?.role_slug],
     },
     {
       title: `Действие`,
       width: 500,
       render: (row, index) => (
         <p className={cls.actionName}>
-          {row?.action_comment}: {` `} <span>{row?.increment_id}</span>
+          { commentObj[row?.action_comment]}: {` `} <span>{row?.increment_id}</span>
         </p>
       ),
     },

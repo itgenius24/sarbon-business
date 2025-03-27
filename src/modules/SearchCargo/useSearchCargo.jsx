@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCreateActionHistoriesMutation,
   useCreateVehicle,
   useGetAddress,
   useGetCarListOnSubmit,
@@ -127,6 +128,8 @@ export const useSearchCargo = () => {
     label: item?.name,
     value: item?.guid,
   }));
+    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const { data: useList } = useGetVehicleSingle({
     params: {
@@ -148,9 +151,11 @@ export const useSearchCargo = () => {
         (item) => item?.value === useList?.response?.adr
       );
 
-      useList?.response?.download_type.forEach((name) => {
-        setValue(name, true); // Mark the checkbox with the matching name as true
-      });
+      if(useList?.response?.download_type){
+        useList?.response?.download_type?.forEach((name) => {
+          setValue(name, true); // Mark the checkbox with the matching name as true
+        });
+      }
 
       reset({
         ...useList?.response,
@@ -209,6 +214,19 @@ export const useSearchCargo = () => {
     onSuccess: (res) => {
       // reset()
       setIsPopupOpen(true);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `create_unit`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
       // router.push(`/${locale}/my-cars`);
     },
   });
@@ -217,7 +235,21 @@ export const useSearchCargo = () => {
     onSuccess: () => {
       // setIsPopupOpen(true)
       // reset()
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `edit_unit`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       router.push(`/${locale}/my-cars`);
+
     },
   });
 

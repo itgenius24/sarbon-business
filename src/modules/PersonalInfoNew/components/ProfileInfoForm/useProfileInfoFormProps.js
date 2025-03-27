@@ -1,5 +1,5 @@
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
-import { useGetFirmInfo, useUpdateUserInfo } from "@/services/api";
+import { useCreateActionHistoriesMutation, useGetFirmInfo, useUpdateUserInfo } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
 import authStore from "@/store/auth.store";
 import { useDisclosure, useToast } from "@chakra-ui/react";
@@ -33,6 +33,8 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
     } = {},
     isLoading,
   } = useGetUserInfoHook();
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const { data } = useGetFirmInfo(authStore?.userData?.firm_id, {
     onSuccess: (res) => {
@@ -57,6 +59,7 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
 
   const { mutate: userData } = useUpdateUserInfo({
     onSuccess() {
+    
       toast({
         title: "Успешно изменено!",
         description: "Вы успешно обновили этого пользователя",
@@ -89,6 +92,19 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
       data: {
         guid: authStore.userData.guid,
         password: watch(`new_password`),
+      },
+    });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: authStore.userData.your_id,
+        action_time: new Date(),
+        role_slug: `carrier`,
+        action_comment: `changed_own_password`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`update`],
       },
     });
     // else{

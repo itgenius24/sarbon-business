@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCreateActionHistoriesMutation,
   useDeleteUsers,
   useGetAddress,
   useGetCar,
@@ -41,6 +42,7 @@ export const useDriversList = () => {
   } = useForm({});
 
   const firm_id = authStore.userData.firm_id;
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   
   const { mutate,isLoading } = useGetCar({
@@ -64,6 +66,19 @@ export const useDriversList = () => {
   const { mutate: dalete } = useDeleteUsers({
     onSuccess: () => {
       setStatus(true)
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id:  authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `deleted_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`delete`],
+        },
+      });
     },
   });
 

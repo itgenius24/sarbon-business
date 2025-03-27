@@ -20,7 +20,7 @@ import {
 import { Popup } from "@/components/Popup";
 import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { useGetExcelPost, useUpdateCargo } from "@/services/api";
+import { useCreateActionHistoriesMutation, useGetExcelPost, useUpdateCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -66,6 +66,19 @@ const DriverGruz = ({
 
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: loadState?.number_of_order,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `booking_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setPopupOpen(false);
       setModalType("filter");
       const find = locationData?.map((item) => {
@@ -90,6 +103,9 @@ const DriverGruz = ({
     });
   };
 
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+
   const downloadByLanguage = async (url) => {
     try {
       const link = document.createElement("a");
@@ -107,6 +123,19 @@ const DriverGruz = ({
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
       downloadByLanguage(res?.url);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: loadState?.number_of_order,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `export_axcell_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
     },
   });
 
@@ -253,7 +282,7 @@ const DriverGruz = ({
             <p className={cls.cardName}>{loadState?.number_of_order}</p>
           </Box>
         </Box>
-        {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
+        {/* {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
           <Button
             onClick={() => setPopupOpen(true)}
             size={"lg"}
@@ -261,7 +290,7 @@ const DriverGruz = ({
           >
             {t(`Забронировать груз`)}
           </Button>
-        )}
+        )} */}
         <TextField
           // className={cls.textField}
           errors={errors}

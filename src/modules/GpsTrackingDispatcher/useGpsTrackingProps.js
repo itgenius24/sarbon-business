@@ -459,7 +459,7 @@ export const useGpsTrackingProps = () => {
           increment_id: authStore.userData.your_id,
           action_time: new Date(),
           role_slug: `first_dispatcher`,
-          action_comment: `unpin_driver`,
+          action_comment: `changed_driver_status`,
           role_id: authStore.userData?.role_id,
           action_type: [`update`],
         },

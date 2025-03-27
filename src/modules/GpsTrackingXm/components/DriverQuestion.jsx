@@ -220,7 +220,7 @@ const DriverQuestion = ({
           </Flex>
         </Box>
 
-        {user_type?.[0] === `approved` && (
+        {/* {user_type?.[0] === `approved` && (
           <Button
             onClick={() => {
               setCenterModalType("changeIcon");
@@ -233,7 +233,7 @@ const DriverQuestion = ({
           >
             Занята чужим грузом
           </Button>
-        )}
+        )} */}
 
         {/* <Box className={cls.cardWrapOutline}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>

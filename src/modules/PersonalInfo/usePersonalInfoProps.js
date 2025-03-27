@@ -1,11 +1,13 @@
-import { useCreateActionHistoriesMutation, useUpdateUserInfo } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useUpdateUserInfo,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export const usePersonalInfoProps = () => {
-
   const router = useRouter();
 
   const {
@@ -19,10 +21,11 @@ export const usePersonalInfoProps = () => {
 
   const toast = useToast();
 
-    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const roleName = authStore.userData.dispatcher_type?.[0]
 
-  const { mutate , isLoading } = useUpdateUserInfo({
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
+  const { mutate, isLoading } = useUpdateUserInfo({
     onSuccess() {
       actionCreate({
         data: {
@@ -31,7 +34,7 @@ export const usePersonalInfoProps = () => {
           user_id: authStore.userData.guid,
           increment_id: authStore.userData.your_id,
           action_time: new Date(),
-          role_slug: `first_dispatcher`,
+          role_slug: roleName ? roleName : authStore.userData?.role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"  ? `ceo`: `customer`,
           action_comment: `changed_own_info`,
           role_id: authStore.userData?.role_id,
           action_type: [`update`],
@@ -55,11 +58,11 @@ export const usePersonalInfoProps = () => {
         isClosable: true,
         position: "top-right",
       });
-    }
+    },
   });
 
-  const submitForm=(data)=> {
-    const { photo, email,name="",fName="" } = data || {};
+  const submitForm = (data) => {
+    const { photo, email, name = "", fName = "" } = data || {};
     const body = {
       guid: authStore.userData.id,
       photo: photo,

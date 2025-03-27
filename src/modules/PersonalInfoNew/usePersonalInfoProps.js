@@ -1,4 +1,4 @@
-import { useRegisterFirEditmMutation, useUpdateUserInfo } from "@/services/api";
+import { useCreateActionHistoriesMutation, useRegisterFirEditmMutation, useUpdateUserInfo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { normalizeName } from "@/utils/normalizeName";
 import { useToast } from "@chakra-ui/react";
@@ -22,6 +22,8 @@ export const usePersonalInfoProps = () => {
   const toast = useToast();
 
   const query = useQueryClient();
+    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
@@ -50,8 +52,19 @@ export const usePersonalInfoProps = () => {
 
   const { mutate } = useRegisterFirEditmMutation({
     onSuccess: (data) => {
-    // console.log(`company_type`, watch(`passport_code`) );
-
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `changed_own_info`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       userData({
         data: {
           guid: authStore.userData.guid,
