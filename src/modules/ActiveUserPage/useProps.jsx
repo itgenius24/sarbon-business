@@ -7,12 +7,14 @@ import cls from "./style.module.scss";
 import { Flex } from "@chakra-ui/react";
 import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
-import { commentObj, roleObj } from "@/utils/actionComment";
+import { commentObj, nameToRole, roleObj } from "@/utils/actionComment";
+import copy from "copy-to-clipboard";
 
 export const useProps = () => {
   const { control, errors, register, setError, setValue, watch } = useForm();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [roleData, setRoleData] = useState([]);
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
@@ -22,33 +24,45 @@ export const useProps = () => {
     return newDate;
   };
 
+     const copyFn = (text) => {
+  
+        copy(
+         text
+        );
+      };
+  
+
   const { data: actionData } = useGetActionUser({
     params: {
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
         users_id: watch(`user`)?.value,
+        role_slug:watch(`role`)?.role_slug,
         action_time: {
-          $gte:  formatDate(startDate, 0, 0, 0) ,
-          $lt:  formatDate(endDate, 23, 59, 59) ,
+          $gte: formatDate(startDate, 0, 0, 0),
+          $lt: formatDate(endDate, 23, 59, 59),
         },
       }),
     },
-   
+    querySettings:{
+      select:(res) => {
+       return res.response.filter(item => (!item?.user_name?.toLocaleLowerCase()?.includes(`test`) && !item?.user_name?.includes(`CЕО`))&& item?.user_name)
+      }
+    }
   });
 
-  const { data: roleData } = useGetRole({
+  const { data: roles } = useGetRole({
     querySettings: {
-      select: (res) =>
-        res?.response
-          ?.filter(
-            (item) =>
-              item?.name?.trim() === `Диспетчер` ||
-              item?.name === `Заказчик` ||
-              item?.name === `Экспедитор`
-          )
-          ?.map((item) => ({ label: item.name, value: item.guid })),
+      onSuccess: (res) => {
+          const data = res?.response?.filter((item) =>item?.name?.trim() === `Диспетчер` || item?.name === `Заказчик` ||item?.name === `Экспедитор`)
+          const result = data?.map(item =>({ label: item.name, value: item.guid,role_slug:nameToRole[item.name?.trim()]}))
+         
+          setRoleData([...result,{label:`Tоп Диспетчер`,value:`785678f2-fae7-4a00-8766-99ea67d3784f`,role_slug:`top_dispatcher`}])
+      },
     },
   });
+
+  console.log(`salom`,roleData)
 
   const { data: useList } = useGetUserPost({
     data: {
@@ -57,6 +71,8 @@ export const useProps = () => {
         order: {},
         search: debouncedValue || ``,
         limit: 1000,
+        role_id: watch(`role`)?.value,
+        dispatcher_type:watch(`role`)?.role_slug === `top_dispatcher` ? `top_dispatcher` : watch(`role`)?.role_slug === `first_dispatcher` ? `first_dispatcher` :  undefined,
         view_fields: [
           "full_name",
           "email",
@@ -101,7 +117,7 @@ export const useProps = () => {
           <p className={cls.actionTime}>
             {format(
               new Date(row?.action_time).setHours(
-                new Date(row?.action_time).getHours() 
+                new Date(row?.action_time).getHours()
               ),
               `dd.MM.yyyy`
             )}
@@ -109,7 +125,7 @@ export const useProps = () => {
             <span>
               {format(
                 new Date(row?.action_time).setHours(
-                  new Date(row?.action_time).getHours() 
+                  new Date(row?.action_time).getHours()
                 ),
                 `HH:mm`
               )}
@@ -132,7 +148,8 @@ export const useProps = () => {
       width: 500,
       render: (row, index) => (
         <p className={cls.actionName}>
-          { commentObj[row?.action_comment]}: {` `} <span>{row?.increment_id}</span>
+          {commentObj[row?.action_comment]}: {` `}{" "}
+          <span onClick={() => copyFn(row?.increment_id)}>{row?.increment_id}</span>
         </p>
       ),
     },
@@ -163,7 +180,7 @@ export const useProps = () => {
     watch,
     t,
     columns,
-    data: actionData?.response,
+    data: actionData,
     setStartDate,
     startDate,
     endDate,

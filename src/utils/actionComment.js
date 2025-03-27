@@ -32,7 +32,13 @@ export const commentObj = {
 export const roleObj = {
     [`carrier`]:`Заказчик`,
     [`first_dispatcher`]:`Диспетчер`,
-    [`top_dispatcher`]:` Топ Диспетчер`,
+    [`top_dispatcher`]:`Tоп Диспетчер`,
     [`customer`]:`Экспедитор`,
-   
+    [`ceo`]:`Ceo`
+}
+
+export const nameToRole = {
+    [`Заказчик`]:`carrier`,
+    [`Диспетчер`]:`first_dispatcher`,
+    [`Экспедитор`]:`customer`,
 }

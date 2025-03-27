@@ -451,19 +451,7 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
-      actionCreate({
-        data: {
-          user_name: authStore.userData.full_name,
-          phone_number: authStore.userData?.phone,
-          user_id: authStore.userData.guid,
-          increment_id: authStore.userData.your_id,
-          action_time: new Date(),
-          role_slug: `first_dispatcher`,
-          action_comment: `changed_driver_status`,
-          role_id: authStore.userData?.role_id,
-          action_type: [`update`],
-        },
-      });
+   
       setCenterModalType(``);
       setAddressAdd("");
       if (iconStatus === "empty") {
@@ -574,6 +562,19 @@ export const useGpsTrackingProps = () => {
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: authStore.userData.your_id,
+        action_time: new Date(),
+        role_slug: `first_dispatcher`,
+        action_comment: `changed_driver_status`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`update`],
+      },
+    });
   };
 
   const handleCheckboxChange = (status) => {
