@@ -26,7 +26,8 @@ export const commentObj = {
     [`create_cargo`]:`Добавил груз`,
     [`delete_cargo`]:`Удалил груз`,
     [`edit_cargo`]:`Редактировал груз`,
-    
+    [`add_driver_to_dispatcher`]:`Назначил водителей диспетчеру`,
+    [`delete_driver_to_dispatcher`]:`Открепил водителей`,
 }
 
 export const roleObj = {

@@ -24,45 +24,62 @@ export const useProps = () => {
     return newDate;
   };
 
-     const copyFn = (text) => {
-  
-        copy(
-         text
-        );
-      };
-  
+  const copyFn = (text) => {
+    copy(text);
+  };
 
   const { data: actionData } = useGetActionUser({
     params: {
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
         users_id: watch(`user`)?.value,
-        role_slug:watch(`role`)?.role_slug,
+        role_slug: watch(`role`)?.role_slug,
         action_time: {
           $gte: formatDate(startDate, 0, 0, 0),
           $lt: formatDate(endDate, 23, 59, 59),
         },
       }),
     },
-    querySettings:{
-      select:(res) => {
-       return res.response.filter(item => (!item?.user_name?.toLocaleLowerCase()?.includes(`test`) && !item?.user_name?.includes(`CЕО`))&& item?.user_name)
-      }
-    }
+    querySettings: {
+      select: (res) => {
+        return res.response.filter(
+          (item) =>
+            !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
+            !item?.user_name?.includes(`CЕО`) &&
+            item?.user_name
+        );
+      },
+    },
   });
 
   const { data: roles } = useGetRole({
     querySettings: {
       onSuccess: (res) => {
-          const data = res?.response?.filter((item) =>item?.name?.trim() === `Диспетчер` || item?.name === `Заказчик` ||item?.name === `Экспедитор`)
-          const result = data?.map(item =>({ label: item.name, value: item.guid,role_slug:nameToRole[item.name?.trim()]}))
-         
-          setRoleData([...result,{label:`Tоп Диспетчер`,value:`785678f2-fae7-4a00-8766-99ea67d3784f`,role_slug:`top_dispatcher`}])
+        const data = res?.response?.filter(
+          (item) =>
+            item?.name?.trim() === `Диспетчер` ||
+            item?.name === `Заказчик` ||
+            item?.name === `Экспедитор`
+        );
+        const result = data?.map((item) => ({
+          label: item.name,
+          value: item.guid,
+          role_slug: nameToRole[item.name?.trim()],
+        }));
+
+        setRoleData([
+          ...result,
+          {
+            label: `Tоп Диспетчер`,
+            value: `785678f2-fae7-4a00-8766-99ea67d3784f`,
+            role_slug: `top_dispatcher`,
+          },
+        ]);
       },
     },
   });
 
-  console.log(`salom`,roleData)
+  console.log(`salom`, roleData);
 
   const { data: useList } = useGetUserPost({
     data: {
@@ -72,7 +89,12 @@ export const useProps = () => {
         search: debouncedValue || ``,
         limit: 1000,
         role_id: watch(`role`)?.value,
-        dispatcher_type:watch(`role`)?.role_slug === `top_dispatcher` ? `top_dispatcher` : watch(`role`)?.role_slug === `first_dispatcher` ? `first_dispatcher` :  undefined,
+        dispatcher_type:
+          watch(`role`)?.role_slug === `top_dispatcher`
+            ? `top_dispatcher`
+            : watch(`role`)?.role_slug === `first_dispatcher`
+            ? `first_dispatcher`
+            : undefined,
         view_fields: [
           "full_name",
           "email",
@@ -101,10 +123,17 @@ export const useProps = () => {
     },
     querySettings: {
       select: (res) =>
-        res?.response?.map((item) => ({
-          label: item.full_name,
-          value: item.guid,
-        })),
+        res?.response
+          ?.filter(
+            (item) =>
+              item.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2" ||
+              item.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
+              item.role_id === "48871d27-7361-4f69-8fe4-b54daf270739"
+          )
+          .map((item) => ({
+            label: item.full_name,
+            value: item.guid,
+          })),
     },
   });
 
@@ -149,7 +178,9 @@ export const useProps = () => {
       render: (row, index) => (
         <p className={cls.actionName}>
           {commentObj[row?.action_comment]}: {` `}{" "}
-          <span onClick={() => copyFn(row?.increment_id)}>{row?.increment_id}</span>
+          <span onClick={() => copyFn(row?.increment_id)}>
+            {row?.increment_id}
+          </span>
         </p>
       ),
     },
