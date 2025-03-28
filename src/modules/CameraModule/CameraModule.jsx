@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import Tesseract from "tesseract.js";
 import Webcam from "react-webcam";
-import styles from './style.module.scss';
+import styles from "./style.module.scss";
 import { Button, Flex } from "@chakra-ui/react";
 
 const CameraModule = () => {
@@ -62,23 +62,6 @@ const CameraModule = () => {
     }
   };
 
-  const extractDataByNumbers = (text) => {
-    text = text.replace(/[^A-Z0-9a-z\s,.-]/g, "").replace(/\s+/g, " ");
-
-    const regexPatterns = {
-      stateNumber: text.match(/1\.\s*([A-Z0-9]+)/)?.[1]?.trim(), // 1. 4052ECA
-      model: text.match(/2\.\s*([\w\s-]+)/)?.[1]?.trim(), // 2. MAN TGX
-      color: text.match(/3\.\s*([\w\s-]+)/)?.[1]?.trim(), // 3. OQ BELIY
-      owner: text.match(/4\.\s*"([^"]+)"/)?.[1]?.trim(), // 4. "PARADISE FRUIT LOGISTIC" MCHJ
-      address: text.match(/5\.\s*([\w\s,]+)/)?.[1]?.trim(), // 5. FARG'ONA VILOYATI, OLTIARIQ TUMANI
-      date: text.match(/6\.\s*(\d{2}\.\d{2}\.\d{4})/)?.[1]?.trim(), // 6. 17.05.2024
-      code: text.match(/8\.\s*([A-Z0-9]+)/), // 7. 123456789
-    };
-
-    setData(regexPatterns);
-  };
-
-  // 📌 Rasmni olish va OCR qilish
   const captureImage = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
@@ -87,21 +70,15 @@ const CameraModule = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    // 1️⃣ Haqiqiy video o‘lchamlarini olish
-    const videoWidth = video.videoWidth;
-    const videoHeight = video.videoHeight;
+    const rectWidth = 290;
+    const rectHeight = 270;
 
-    // 2️⃣ O‘rtadan kesib olish uchun to‘rtburchak o‘lchami
-    const rectWidth = 950;
-    const rectHeight = 560;
-    const x = (videoWidth - rectWidth) / 2;
-    const y = (videoHeight - rectHeight) / 2;
+    const x = 170;
+    const y = 130;
 
-    // 3️⃣ Canvas hajmini to‘g‘ri o‘rnatish
     canvas.width = rectWidth;
     canvas.height = rectHeight;
 
-    // 4️⃣ Video tasviridan kerakli qismini olish
     ctx.drawImage(
       video,
       x,
@@ -123,8 +100,6 @@ const CameraModule = () => {
     } = await Tesseract.recognize(imageDataURL, "eng+uzb", {
       tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     });
-
-    extractDataByNumbers(text);
 
     setText(text);
     setIsProcessing(false);
@@ -160,13 +135,12 @@ const CameraModule = () => {
           {/* 📌 OCR matn natijasi */}
 
           <canvas ref={canvasRef} style={{ display: "none" }} />
-
         </div>
       )}
 
       {url && (
         <div className={styles.result}>
-            <p>{text}</p>
+          <p>{text}</p>
           <Button
             onClick={() => {
               setText("");
@@ -183,7 +157,6 @@ const CameraModule = () => {
 };
 
 export default CameraModule;
-
 
 // const processImage = async (imageSrc) => {
 //   const img = new Image();
@@ -214,4 +187,3 @@ export default CameraModule;
 //     });
 //   };
 // };
-
