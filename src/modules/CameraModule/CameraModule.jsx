@@ -45,13 +45,14 @@ const CameraModule = () => {
     navigator.mediaDevices
       .getUserMedia({
         video: {
-          // width: { exact: 1920 },
-          // height: { exact: 1080 },
           facingMode: "environment",
-          frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
-          exposureMode: "continuous", // 📌 Doimiy ekspozitsiya
-          whiteBalanceMode: "continuous", // 📌 Oq rang balansini avtomatik qilish
-          brightness: 1.5,
+          frameRate: { ideal: 30, max: 60 },
+          exposureMode: "continuous",
+          whiteBalanceMode: "continuous",
+          brightness: 0.8, // 📌 Yorqinlikni kamaytirish
+          contrast: 1.2, // 📌 Kontrastni oshirish
+          sharpness: 1.5, // 📌 Keskinlikni oshirish
+          focusMode: "continuous",
         },
       })
       .then((stream) => {
