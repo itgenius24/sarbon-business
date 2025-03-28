@@ -52,36 +52,35 @@ export const useLoginProps = () => {
     },
   });
 
-  const { mutate: getUserByIdData,isLoading:getUseLoading } = useGetUseMutation({
-    onSuccess: (res) => {
-      if (
-        res?.response?.[0]?.user_status?.[0] === `blocked`
-      ) {
-        toast({
-          title: t("Это заблокированный пользователь."),
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        authStore.login({
-          user: {
-            firm_id: dataUser.user_data?.firm_id,
-            full_name: dataUser.user_data?.full_name,
-            id: dataUser?.user_data.guid,
-            ...dataUser?.user_data,
-            client_id: dataUser?.client_type?.id,
-            role_id: dataUser?.role?.id,
-          },
-          token: dataUser?.token,
-          role: dataUser?.role,
-        });
-        router.push(`/${locale ? locale : `ru`}`);
-      }
+  const { mutate: getUserByIdData, isLoading: getUseLoading } =
+    useGetUseMutation({
+      onSuccess: (res) => {
+        if (res?.response?.[0]?.user_status?.[0] === `blocked`) {
+          toast({
+            title: t("Это заблокированный пользователь."),
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          authStore.login({
+            user: {
+              firm_id: dataUser.user_data?.firm_id,
+              full_name: dataUser.user_data?.full_name,
+              id: dataUser?.user_data.guid,
+              ...dataUser?.user_data,
+              client_id: dataUser?.client_type?.id,
+              role_id: dataUser?.role?.id,
+            },
+            token: dataUser?.token,
+            role: dataUser?.role,
+          });
+          router.push(`/${locale ? locale : `ru`}`);
+        }
 
-      setDataUser({});
-    },
-  });
+        setDataUser({});
+      },
+    });
 
   const login = useLoginMutation({
     onSuccess: (data) => {
@@ -102,8 +101,6 @@ export const useLoginProps = () => {
           })
         );
       }
-
-      
     },
     onError: (error) => {
       console.log(error);
@@ -119,7 +116,7 @@ export const useLoginProps = () => {
         clientTypeId === customerTypeId ||
         clientTypeId === expeditorTypeId ||
         clientTypeId === dispachaerTypeId ||
-        clientTypeId === analiticTypeId || 
+        clientTypeId === analiticTypeId ||
         clientTypeId === dillerTypeId
       ) {
         login.mutate({
@@ -153,7 +150,7 @@ export const useLoginProps = () => {
   });
 
   const { mutate: getUserData } = useGetUserGpsBYData({
-    onSuccess:(res) => {
+    onSuccess: (res) => {
       authStore.login({
         user: {
           firm_id: res?.response?.[0].firm_id,
@@ -169,8 +166,7 @@ export const useLoginProps = () => {
       authStore.setAuthData("phone", ``);
       authStore.setAuthData("mediaAuth", {});
       router.push(`/${locale ? locale : `ru`}`);
-
-    }
+    },
   });
 
   const { mutate: googleRigister } = useGoogleRigister({
@@ -189,29 +185,34 @@ export const useLoginProps = () => {
           duration: 3000,
           isClosable: true,
         });
+        authStore.setAuthData("phone", ``);
+        authStore.setAuthData("mediaAuth", res?.response?.[0]);
+        router.push(`/${locale}/auth/registration-form`);
       }
     },
   });
 
-    const handleGoogleLogin = async () => {
-      const user = await signInWithGoogle();
-      const body = {
-        display_name: user?.displayName,
-        login_type: user?.email,
-        id_token: user?.uid,
-        access_token: user?.accessToken,
-        type: `register`,
-        register_type: `email`,
-        unique_id: ``,
-        user_type: `carrier`,
-      };
-      googleRigister({
-        data: {
-          object_data: body,
-        },
-      });
+  const handleGoogleLogin = async () => {
+    const user = await signInWithGoogle();
 
+
+
+    const body = {
+      display_name: user?.displayName,
+      login_type: user?.email,
+      id_token: user?.uid,
+      access_token: user?.accessToken,
+      type: `register`,
+      register_type: `email`,
+      unique_id: ``,
+      user_type: `carrier`,
     };
+    googleRigister({
+      data: {
+        object_data: body,
+      },
+    });
+  };
 
   function navigateRegistration() {
     router.push(`/${locale}/auth/registration`);
@@ -232,8 +233,6 @@ export const useLoginProps = () => {
   function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
-
-
 
   return {
     handleSubmit,
