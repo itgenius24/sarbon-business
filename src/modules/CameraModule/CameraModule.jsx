@@ -78,7 +78,7 @@ const CameraModule = () => {
 
     // Kesish koordinatalari (markazdan)
     const x = (videoWidth - frameWidth) / 2;
-    const y = (videoHeight - frameHeight) / 1.7;
+    const y = (videoHeight - frameHeight) / 1.3;
 
     // Canvas o‘lchamini ramka o‘lchamiga moslash
     canvas.width = frameWidth;
