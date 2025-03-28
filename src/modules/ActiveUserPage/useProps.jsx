@@ -46,7 +46,7 @@ export const useProps = () => {
           (item) =>
             !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
             !item?.user_name?.includes(`CЕО`) &&
-            item?.user_name
+            item?.user_name &&  item?.role_slug !== `voditel`
         );
       },
     },
