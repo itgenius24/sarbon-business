@@ -19,7 +19,10 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { useCreateActionHistoriesMutation, useUpdateCargo } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useUpdateCargo,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -40,16 +43,20 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocationData }) => {
-  console.log("loadState", loadState);
-const { t } = useTranslation();
+const DriverGruzGoods = ({
+  cls,
+  setModalType,
+  loadState,
+  locationData,
+  setLocationData,
+}) => {
+  const { t } = useTranslation();
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);
   }
 
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
@@ -127,7 +134,11 @@ const { t } = useTranslation();
               <p className={cls.cardStartTitle}>{loadState?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
-                <span>{  loadState?.as_soon_as_a ? t( `Готов к загрузке`) :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                <span>
+                  {loadState?.as_soon_as_a
+                    ? t(`Готов к загрузке`)
+                    : format(loadState?.load_time, "yyyy-MM-dd")}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -139,7 +150,12 @@ const { t } = useTranslation();
               <p className={cls.cardStartTitle}> {loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_to?.toUpperCase()} /
-                <span> { loadState?.as_soon_as_b ? t( `Как можно скорее`) :  format(loadState?.date, "yyyy-MM-dd")}</span>
+                <span>
+                  {" "}
+                  {loadState?.as_soon_as_b
+                    ? t(`Как можно скорее`)
+                    : format(loadState?.date, "yyyy-MM-dd")}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -181,7 +197,7 @@ const { t } = useTranslation();
           <Flex mt={3} justifyContent={"space-between"}>
             <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
             <p className={cls.cardStartSubTitle}>
-              Тип оплаты:{" "}
+              Тип оплаты:
               <span>
                 {loadState?.map_id_data?.payment_type?.length > 15
                   ? `${loadState?.map_id_data?.payment_type?.slice(0, 15)}...`
@@ -194,7 +210,7 @@ const { t } = useTranslation();
               {loadState?.bid_cash} {loadState?.currency_id_data?.code}
             </p>
             <p className={cls.cardStartSubTitle}>
-              {t(`Предоплата`)}:{" "}
+              {t(`Предоплата`)}:
               <span>{loadState?.prepayment_percentage > 0 ? "Дa" : "Нет"}</span>
             </p>
           </Flex>
@@ -249,7 +265,8 @@ const { t } = useTranslation();
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}
+              .
             </p>
           </ModalBody>
 
@@ -264,7 +281,7 @@ const { t } = useTranslation();
               colorScheme="blue"
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(193, 187, 32, 1)" }}
