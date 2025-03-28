@@ -20,7 +20,7 @@ import {
 import { Popup } from "@/components/Popup";
 import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { useGetExcelPost, useUpdateCargo } from "@/services/api";
+import { useCreateActionHistoriesMutation, useGetExcelPost, useUpdateCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -56,16 +56,28 @@ const DriverGruz = ({
   const { t } = useTranslation();
 
   const role_id = authStore.userData.role_id;
-
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);
   }
 
-  console.log(`load`, loadState);
+    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: loadState?.number_of_order,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `booking_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setPopupOpen(false);
       setModalType("filter");
       const find = locationData?.map((item) => {
@@ -90,6 +102,7 @@ const DriverGruz = ({
     });
   };
 
+
   const downloadByLanguage = async (url) => {
     try {
       const link = document.createElement("a");
@@ -104,11 +117,28 @@ const DriverGruz = ({
       console.log(2);
     }
   };
+
+
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: loadState?.number_of_order,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `export_axcell_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
       downloadByLanguage(res?.url);
     },
   });
+
+  
 
   const getExcelFileFn = () => {
     getExcelFile.mutate({

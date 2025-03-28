@@ -1,8 +1,4 @@
-import {
-  useGetActionUser,
-  useGetRole,
-  useGetUserPost,
-} from "@/services/api";
+import { useGetActionUser, useGetRole, useGetUserPost } from "@/services/api";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,34 +7,79 @@ import cls from "./style.module.scss";
 import { Flex } from "@chakra-ui/react";
 import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
+import { commentObj, nameToRole, roleObj } from "@/utils/actionComment";
+import copy from "copy-to-clipboard";
 
 export const useProps = () => {
   const { control, errors, register, setError, setValue, watch } = useForm();
-  const [startDate, setStartDate] = useState(``);
-  const [endDate, setEndDate] = useState(``);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [roleData, setRoleData] = useState([]);
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
+  const formatDate = (date, hours, minutes, seconds) => {
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, seconds, 0);
+    return newDate;
+  };
+
+  const copyFn = (text) => {
+    copy(text);
+  };
 
   const { data: actionData } = useGetActionUser({
     params: {
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
-        users_id:watch(`user`)?.value,
-        action_time:{
-          $gte:startDate,
-          $lt:endDate
-        }
+        users_id: watch(`user`)?.value,
+        role_slug: watch(`role`)?.role_slug,
+        action_time: {
+          $gte: formatDate(startDate, 0, 0, 0),
+          $lt: formatDate(endDate, 23, 59, 59),
+        },
       }),
+    },
+    querySettings: {
+      select: (res) => {
+        return res.response.filter(
+          (item) =>
+            !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
+            !item?.user_name?.includes(`CЕО`) &&
+            item?.user_name &&  item?.role_slug !== `voditel`
+        );
+      },
     },
   });
 
-  const { data: roleData } = useGetRole({
+  const { data: roles } = useGetRole({
     querySettings: {
-      select: (res) =>
-        res?.response?.map((item) => ({ label: item.name, value: item.guid })),
+      onSuccess: (res) => {
+        const data = res?.response?.filter(
+          (item) =>
+            item?.name?.trim() === `Диспетчер` ||
+            item?.name === `Заказчик` ||
+            item?.name === `Экспедитор`
+        );
+        const result = data?.map((item) => ({
+          label: item.name,
+          value: item.guid,
+          role_slug: nameToRole[item.name?.trim()],
+        }));
+
+        setRoleData([
+          ...result,
+          {
+            label: `Tоп Диспетчер`,
+            value: `785678f2-fae7-4a00-8766-99ea67d3784f`,
+            role_slug: `top_dispatcher`,
+          },
+        ]);
+      },
     },
   });
+
+  console.log(`salom`, roleData);
 
   const { data: useList } = useGetUserPost({
     data: {
@@ -47,6 +88,13 @@ export const useProps = () => {
         order: {},
         search: debouncedValue || ``,
         limit: 1000,
+        role_id: watch(`role`)?.value,
+        dispatcher_type:
+          watch(`role`)?.role_slug === `top_dispatcher`
+            ? `top_dispatcher`
+            : watch(`role`)?.role_slug === `first_dispatcher`
+            ? `first_dispatcher`
+            : undefined,
         view_fields: [
           "full_name",
           "email",
@@ -75,10 +123,17 @@ export const useProps = () => {
     },
     querySettings: {
       select: (res) =>
-        res?.response?.map((item) => ({
-          label: item.full_name,
-          value: item.guid,
-        })),
+        res?.response
+          ?.filter(
+            (item) =>
+              item.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2" ||
+              item.role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
+              item.role_id === "48871d27-7361-4f69-8fe4-b54daf270739"
+          )
+          .map((item) => ({
+            label: item.full_name,
+            value: item.guid,
+          })),
     },
   });
 
@@ -91,7 +146,7 @@ export const useProps = () => {
           <p className={cls.actionTime}>
             {format(
               new Date(row?.action_time).setHours(
-                new Date(row?.action_time).getHours() - 5
+                new Date(row?.action_time).getHours()
               ),
               `dd.MM.yyyy`
             )}
@@ -99,9 +154,9 @@ export const useProps = () => {
             <span>
               {format(
                 new Date(row?.action_time).setHours(
-                  new Date(row?.action_time).getHours() - 5
+                  new Date(row?.action_time).getHours()
                 ),
-                `hh:mm`
+                `HH:mm`
               )}
             </span>
           </p>
@@ -115,14 +170,17 @@ export const useProps = () => {
     {
       title: `Роль`,
       width: 250,
-      render: (row, index) => row?.role_slug,
+      render: (row, index) => roleObj[row?.role_slug],
     },
     {
       title: `Действие`,
       width: 500,
       render: (row, index) => (
         <p className={cls.actionName}>
-          {row?.action_comment}: {` `} <span>{row?.increment_id}</span>
+          {commentObj[row?.action_comment]}: {` `}{" "}
+          <span onClick={() => copyFn(row?.increment_id)}>
+            {row?.increment_id}
+          </span>
         </p>
       ),
     },
@@ -153,7 +211,7 @@ export const useProps = () => {
     watch,
     t,
     columns,
-    data: actionData?.response,
+    data: actionData,
     setStartDate,
     startDate,
     endDate,

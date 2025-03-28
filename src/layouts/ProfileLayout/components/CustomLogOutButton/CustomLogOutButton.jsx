@@ -3,6 +3,7 @@
 import { ExitDoor } from "@/assets/icons/icons";
 import { Popup } from "@/components/Popup";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useCreateActionHistoriesMutation } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { Button, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -19,10 +20,31 @@ export const CustomLogOutButton = () => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
 
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+      const roleName = authStore.userData.dispatcher_type?.[0]
+  
   const [isOpen, setIsOut] = useState(false);
 
   const handleLogOut = async () => {
+  
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: roleName ? roleName : authStore.userData?.role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" ? `ceo`: `customer`,
+          action_comment: `log_out`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
+    
+  
     await authStore.logout();
+    await authStore.setAuthData("phone", ``);
+    await authStore.setAuthData("mediaAuth", {})
     router.push(`/${locale ? locale :`ru`}/auth/login`);
   };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCreateActionHistoriesMutation,
   useCreateVehicle,
   useGetAddress,
   useGetCarListOnSubmit,
@@ -107,6 +108,7 @@ export const useSearchCargo = () => {
       with_removal: watch(`with_removal`),
     });
   }, [watch(`top`), watch(`side`), watch(`back`), watch(`with_removal`)]);
+  
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
@@ -126,6 +128,8 @@ export const useSearchCargo = () => {
     label: item?.name,
     value: item?.guid,
   }));
+    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const { data: useList } = useGetVehicleSingle({
     params: {
@@ -147,9 +151,11 @@ export const useSearchCargo = () => {
         (item) => item?.value === useList?.response?.adr
       );
 
-      useList?.response?.download_type.forEach((name) => {
-        setValue(name, true); // Mark the checkbox with the matching name as true
-      });
+      if(useList?.response?.download_type){
+        useList?.response?.download_type?.forEach((name) => {
+          setValue(name, true); // Mark the checkbox with the matching name as true
+        });
+      }
 
       reset({
         ...useList?.response,
@@ -176,14 +182,6 @@ export const useSearchCargo = () => {
   }, [useList]);
 
   useEffect(() => {
-    console.log(
-      `wsw1`,
-      (getCarNumnber?.count > 1 ||
-        getCarNumnber?.count === 0 ||
-        !getCarNumnber ||
-        id) &&
-        inputValue?.length > 0
-    );
 
     if (getCarNumnber?.count === 1) {
       if (useList?.response && useList?.response?.car_number === inputValue) {
@@ -216,14 +214,42 @@ export const useSearchCargo = () => {
     onSuccess: (res) => {
       // reset()
       setIsPopupOpen(true);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `create_unit`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
       // router.push(`/${locale}/my-cars`);
     },
   });
+
   const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
       // setIsPopupOpen(true)
       // reset()
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `edit_unit`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       router.push(`/${locale}/my-cars`);
+
     },
   });
 

@@ -24,6 +24,7 @@ import { CustomTextarea } from "@/components/CustomTextarea";
 import { useSSR, useTranslation } from "react-i18next";
 import { Checkbox } from "@/components/Checkbox";
 import {
+  useCreateActionHistoriesMutation,
   useCreateAddressMutation,
   useCreateCargoMutation,
   useGetPaymentType,
@@ -68,6 +69,7 @@ const StepFive = ({ status }) => {
   const router = useRouter();
   const locale = useGetLang();
   const user_type = authStore?.userData?.user_status;
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const firm_id = authStore.userData.firm_id;
   const getTrueKeys = (obj) => {
@@ -153,6 +155,19 @@ const StepFive = ({ status }) => {
 
   const createCargo = useCreateCargoMutation({
     onSuccess: (data) => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `customer`,
+          action_comment: `create_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
       setGuid(data.guid);
 
       let loadingsData = loadings.map((item, index) => ({

@@ -2,6 +2,7 @@
 
 import {
   useCheckUser,
+  useCreateActionHistoriesMutation,
   useCreateDispatcherTeams,
   useCreateUser,
   useGetAddress,
@@ -52,6 +53,8 @@ export const useMyCars = () => {
       `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`
     )
   );
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const [open, setOpen] = useState(false);
 
@@ -78,6 +81,19 @@ export const useMyCars = () => {
           phone: res?.phone?.replace("+", ""),
         }),
       });
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `create_first_diaptcher`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
     },
   });
 
@@ -102,9 +118,23 @@ export const useMyCars = () => {
       },
     });
 
+
   const { mutate: updateDsate, isLoading } = useUpdateUser({
     onSuccess: (res) => {
       setIsPopupOpen(true);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: getUserGps?.data?.response[0].your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `update_first_dispatcher`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       // router.push(`/${locale}/dispatcher`);
     },
   });
@@ -119,6 +149,8 @@ export const useMyCars = () => {
       }),
     },
   });
+
+
 
   useEffect(() => {
     if (id) {

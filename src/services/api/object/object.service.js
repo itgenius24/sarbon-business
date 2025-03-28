@@ -249,6 +249,12 @@ export const useGoogleRigister = (mutationSettings) => {
 };
 
 
+export const useGetUserGpsBYData = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.getUserGpsBYData(data),
+    ...mutationSettings,
+  });
+};
 
 export const useDispatcherFirms = (mutationSettings) => {
   return useMutation({
@@ -453,7 +459,7 @@ export const useGetVehicleSingle = ({
   return useQuery({
     queryKey: ["object/getCargo", params],
     queryFn: () => objectService.getVehicleSin(params),
-    querySettings,
+    ...querySettings,
   });
 };
 

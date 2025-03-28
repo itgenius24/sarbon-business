@@ -6,38 +6,40 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadsCard } from "../LoadsCard";
 import useProps from "./useProps";
 
-export const AllPage = ({orderStatus,t}) => {
+export const AllPage = ({ orderStatus, t }) => {
+  const { cargoData, isLoading, addPage, isFetching, handleDelete } = useProps(
+    orderStatus,
+    t
+  );
 
-    const { cargoData,isLoading,addPage,isFetching,handleDelete } = useProps(orderStatus, t);
+  if (isLoading && cargoData?.length < 0) {
+    return <LoadingSpinner />;
+  }
 
+  return (
+    <>
+      <Box>
+        {cargoData?.length > 0 ? (
+          cargoData?.map((item, index) => (
+            <LoadsCard
+              handleDelete={handleDelete}
+              orderStatus={orderStatus}
+              key={index}
+              cargo={item}
+            />
+          ))
+        ) : (
+          <Empty t={t} />
+        )}
+      </Box>
 
-    if(isLoading && cargoData?.length < 0)  {
-      return <LoadingSpinner />
-    }
-    
-    return (
-      <>
-        <Box>
-          {cargoData?.length > 0 ? (
-            cargoData?.map((item, index) => (
-              <LoadsCard handleDelete={handleDelete} orderStatus={orderStatus} key={index} cargo={item} />
-            ))
-          ) : (
-            <Empty t={t} />
-          )}
+      {cargoData?.length >= 100 && (
+        <Box mt={`15px`} width={`fit-content`}>
+          <Button isLoading={isFetching} onClick={addPage}>
+            Загрузить еще
+          </Button>
         </Box>
-
-        {cargoData?.length >= 40 && (
-            <Box mt={`15px`} width={`fit-content`}>
-              <Button
-                isLoading={isFetching}
-                onClick={addPage}
-              >
-                Загрузить еще
-              </Button>
-            </Box>
-          )}
-      </>
-    );
-  
-}
+      )}
+    </>
+  );
+};

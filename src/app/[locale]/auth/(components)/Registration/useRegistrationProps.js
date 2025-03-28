@@ -5,6 +5,8 @@ import { yupResolver } from "@/utils/yupResolver";
 import {
   useCheckUser,
   useGetUserData,
+  useGetUserGpsBYData,
+  useGetUserGpsByIDData,
   useGoogleRigister,
   usePhoneMutation,
 } from "@/services/api";
@@ -112,13 +114,41 @@ export const useRegistrationProps = () => {
     }
   }, [useList?.count]);
 
+  const { mutate: getUserData } = useGetUserGpsBYData({
+    onSuccess:(res) => {
+      authStore.login({
+        user: {
+          firm_id: res?.response?.[0].firm_id,
+          full_name: res?.response?.[0].full_name,
+          id: res?.response?.[0]?.guid,
+          ...res?.response?.[0],
+          client_id: res?.response?.[0]?.client_type_id,
+          role_id: res?.response?.[0]?.role_id_data?.guid,
+        },
+        token: {},
+        role: {},
+      });
+      authStore.setAuthData("phone", ``);
+      authStore.setAuthData("mediaAuth", {});
+      router.push(`/${locale ? locale : `ru`}`);
+
+    }
+  });
+
   const { mutate: googleRigister } = useGoogleRigister({
     onSuccess: (res) => {
-      console.log(`res`, res?.response);
-      authStore.setAuthData("phone", ``);
-
-      authStore.setAuthData("mediaAuth", res?.response?.[0]);
-      router.push(`/${locale}/auth/registration-form`);
+      if (res?.response?.[0].phone) {
+        getUserData({
+          data: JSON.stringify({
+            guid: res?.response?.[0].guid,
+            with_relations: true,
+          }),
+        });
+      } else {
+        authStore.setAuthData("phone", ``);
+        authStore.setAuthData("mediaAuth", res?.response?.[0]);
+        router.push(`/${locale}/auth/registration-form`);
+      }
     },
   });
 
@@ -132,6 +162,7 @@ export const useRegistrationProps = () => {
       type: `register`,
       register_type: `email`,
       unique_id: ``,
+      user_type: `carrier`,
     };
     googleRigister({
       data: {

@@ -133,12 +133,12 @@ export const TextFieldWithAddition = ({
                             handleClose();
                           }}
                         >
-                          <span className={cls.additionalItemOptionLabel}>
+                          <p className={cls.additionalItemOptionLabel}>
                             <span>{item.label}</span>
                             {item.value === field?.value?.value && (
                               <CheckIcon />
                             )}
-                          </span>
+                          </p>
                         </button>
                       );
                     })}

@@ -530,7 +530,7 @@ export const TableComponent = ({
       </Box>
 
       {centerModalType && isLargerThan845 ? (
-        <div className={cls.modalOver}>
+        <div className={cls.modalOver} onClick={() => setCenterModalType(``)}>
           <div className={cls.selectCargo}>
             <Flex
               justifyContent={"space-between"}
@@ -762,7 +762,7 @@ export const TableComponent = ({
         </div>
       ) : (
         <Drawer placement="bottom" isOpen={centerModalType}>
-          <DrawerOverlay />
+          <DrawerOverlay onClick={() => setCenterModalType(``)} />
           <DrawerContent borderRadius="12px 12px 0 0">
             <DrawerHeader>
               <Flex

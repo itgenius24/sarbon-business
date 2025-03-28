@@ -75,6 +75,7 @@ const ActiveUserPage = ({ locale }) => {
             </Box>
             <Box className="dateWrap left" width={`280px`}>
               <DatePicker
+                isClearable={false}
                 endDate={endDate}
                 setEndDate={setEndDate}
                 range

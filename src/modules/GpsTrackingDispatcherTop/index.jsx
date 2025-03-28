@@ -22,7 +22,7 @@ import LoadingMap from "../Cargo/components/LoadingMap";
 import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 
-export default function GpsTrackingDispatcherTop() {
+export default function GpsTrackingDispatcherTop({locale}) {
   const {
     register,
     errors,
@@ -79,7 +79,7 @@ export default function GpsTrackingDispatcherTop() {
     setCarsArr
   } = useGpsTrackingProps();
 
-  const locale = useGetLang();
+
 
   const { t } = useTranslation(locale, "translations");
   console.log(`getCarListProps?.data`, getCarListProps);

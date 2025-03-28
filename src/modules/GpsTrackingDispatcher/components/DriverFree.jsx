@@ -18,7 +18,7 @@ import {
   WatsapOpasitiyIcon,
 } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { useGetCompanyList, useGetExcelPost } from "@/services/api";
+import { useCreateActionHistoriesMutation, useGetCompanyList, useGetExcelPost } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
@@ -95,9 +95,25 @@ const DriverFree = ({
     }
   };
 
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
       downloadByLanguage(res?.url);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `export_axcell_cargo`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
     },
   });
 

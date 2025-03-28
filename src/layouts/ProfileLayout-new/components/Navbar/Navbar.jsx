@@ -111,7 +111,7 @@ export const Navbar = () => {
           </Link>
         );
       })}
-      {/* <CustomLogOutButton /> */}
+      <CustomLogOutButton />
     </Box>
   );
 };

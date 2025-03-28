@@ -8,6 +8,8 @@ import {
   Flex,
   Heading,
   Input,
+  InputGroup,
+  InputLeftElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,7 +20,12 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import { IocnFilter, IocnSortBack, PlusIcon } from "@/assets/icons/icons";
+import {
+  IocnFilter,
+  IocnSortBack,
+  PlusIcon,
+  SearchIcon,
+} from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -59,8 +66,6 @@ export const MyCarsDispatcherModule = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-
-
   return (
     <>
       <Container maxW={`1444px`} my="40px">
@@ -73,7 +78,6 @@ export const MyCarsDispatcherModule = () => {
             {t("Ваши водители")}
           </Heading>
           <Flex gap={`28px`}>
-           
             {/* {isSuperDispatcher === "approved" && (
               <Button
                 onClick={() =>
@@ -87,36 +91,50 @@ export const MyCarsDispatcherModule = () => {
             )} */}
           </Flex>
         </Flex>
-        <Flex width={`100%`} justifyContent={`space-between`} alignItems={`center`} >
+        <Flex
+          width={`100%`}
+          justifyContent={`space-between`}
+          alignItems={`center`}
+        >
           <Box width={`40%`}>
-            <Input
-              value={search}
-              className={cls.input}
-              placeholder={t("Имя водителя, номер машины или телефон")}
-              onChange={(e) => setSearchFn(e.target?.value)}
-            />
+            <InputGroup>
+              <InputLeftElement>
+                <SearchIcon />
+              </InputLeftElement>
+              <Input
+                value={search}
+                className={cls.input}
+                placeholder={t("Имя водителя, номер машины или телефон")}
+                onChange={(e) => setSearchFn(e.target?.value)}
+              />
+            </InputGroup>
           </Box>
           <Box className={cls.countrWrap}>
-              <p>
-                {t(`Всего`)}: <span>{count?.count || 0}</span>
-              </p>
-              <p>
-                {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
-              </p>
-            </Box>
+            <p>
+              {t(`Всего`)}: <span>{count?.count || 0}</span>
+            </p>
+            <p>
+              {t(`Свободных`)}:<span>{count?.free_count || 0}</span>
+            </p>
+          </Box>
         </Flex>
 
-       <Box mt={"37px"}>
-          <SarbonTable rowClassName={rowClassName} variant="card" columns={columns} data={data} />
-       </Box>
-       
+        <Box mt={"37px"}>
+          <SarbonTable
+            rowClassName={rowClassName}
+            variant="card"
+            columns={columns}
+            data={data}
+          />
+        </Box>
+
         <div>
-            {isLoading && data?.length <= 50 && (
+          {isLoading && data?.length <= 50 && (
             <Box pt={`20px`}>
               <LoadingSpinner />
             </Box>
           )}
-          {data?.length >= 50  && (
+          {data?.length >= 50 && (
             <Box mt={6} width={`fit-contend`}>
               <Button
                 width={`fit-contend`}
@@ -128,8 +146,6 @@ export const MyCarsDispatcherModule = () => {
               </Button>
             </Box>
           )}
-
-         
         </div>
       </Container>
 
@@ -152,7 +168,7 @@ export const MyCarsDispatcherModule = () => {
             ))}
           </ModalBody>
           <ModalFooter>
-            <Flex  gap={2}>
+            <Flex gap={2}>
               <Button
                 onClick={() => setOpen(false)}
                 className={cls.topButton}

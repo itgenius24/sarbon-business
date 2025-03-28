@@ -154,7 +154,8 @@
 }
 
 .additionalItem {
-  max-width: 261px;
+  max-width: 161px;
+  // width: 100%;
   height: 100%;
   position: relative;
   padding: 10px 7px;
@@ -166,8 +167,8 @@
 }
 
 .additionalItem2 {
-  max-width: 261px;
-  width: 120px;
+  max-width: 161px;
+  width: 100%;
   height: 100%;
   position: relative;
   padding: 10px 14px;
@@ -199,7 +200,7 @@
 .additionalItemLabelWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .additionalItemLabelWrapper2 {
@@ -227,6 +228,7 @@
   padding: 10px 8px;
   border-radius: 6px;
   cursor: pointer;
+  
 }
 
 .additionalItemOption.active {

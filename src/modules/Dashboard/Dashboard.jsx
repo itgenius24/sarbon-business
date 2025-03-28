@@ -262,7 +262,7 @@ const Dashboard = ({ locale }) => {
                   <Tab> Транспорт</Tab>
                   <Tab> Груз</Tab>
                   <Tab> Топ Диспетчер</Tab>
-                  <Tab>Продажник</Tab>
+                  <Tab>Заказчик</Tab>
                 </TabList>
                 <Button
                   width={`fit-content`}
@@ -345,7 +345,7 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns7}
-                    data={[]}
+                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />

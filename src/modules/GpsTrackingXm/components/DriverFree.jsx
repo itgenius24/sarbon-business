@@ -308,7 +308,7 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-        {user_type?.[0] === `approved` &&
+        {/* {user_type?.[0] === `approved` &&
           (contendSingle?.user?.provisions?.[0] === `broke_down` ? (
             <Button
               onClick={() => {
@@ -335,7 +335,7 @@ const DriverFree = ({
             >
               {t(`Машина cвободна`)}
             </Button>
-          ))}
+          ))} */}
 
         {contendSingle?.firm_data?.firm_data?.[0] &&
           user_type?.[0] === `approved` && (
@@ -374,7 +374,7 @@ const DriverFree = ({
             </Box>
           )}
 
-        {user_type?.[0] === `approved` && (
+        {/* {user_type?.[0] === `approved` && (
           <Button
             onClick={() => setCenterModalType(`selectCargo`)}
             size={`lg`}
@@ -382,7 +382,7 @@ const DriverFree = ({
           >
             {t(`Предложить груз`)}
           </Button>
-        )}
+        )} */}
       </Flex>
     </div>
   );

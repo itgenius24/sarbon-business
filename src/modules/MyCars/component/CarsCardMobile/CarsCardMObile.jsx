@@ -67,7 +67,12 @@ export const CarsCardMObile = ({
           : "rgba(21, 186, 77, 1)"
       } `}
     >
-      <Flex alignItems={`center`} mb={`5px`} width={`100%`} justifyContent={`space-between`}>
+      <Flex
+        alignItems={`center`}
+        mb={`5px`}
+        width={`100%`}
+        justifyContent={`space-between`}
+      >
         <p className={cls.title}>{item?.marka}</p>
         <Box className={cls.popup}>
           <Popover placement={"bottom-start"}>
@@ -159,7 +164,7 @@ export const CarsCardMObile = ({
               </Flex>
             </Flex>
           </Box>
-          <Box >
+          <Box>
             <p className={cls.subTitle}>{t("Тип загрузки")}:</p>
             <p className={cls.title}>
               {item?.download_type &&
@@ -169,7 +174,7 @@ export const CarsCardMObile = ({
           <Box mt={`16px`}>
             <p className={cls.subTitle}>{t("Дополнительно")}:</p>
             <p className={cls.title}>
-              {item?.adr} {item.tir ? `TIR ` : ""} 
+              {item?.adr} {item.tir ? `TIR ` : ""}
             </p>
           </Box>
         </Flex>
@@ -243,8 +248,6 @@ export const CarsCardMObile = ({
           </Flex>
         </Box>
       </Flex>
-
-    
 
       <Flex mt={`14px`} alignItems={"center"} gap={"30px"} width={"100%"}>
         <Box width={"100%"}>
@@ -331,7 +334,7 @@ export const CarsCardMObile = ({
                       <p className={cls.subBlueTitle}>{t(`Найти груз`)}</p>
                     </Box>
                   )}
-                  <Flex alignItems={`flex-end`} flexDirection={`column`} >
+                  <Flex alignItems={`flex-end`} flexDirection={`column`}>
                     <Flex>
                       <LocationActiveIcon />
                       <p className={cls.title}>{t("Вкл")}. </p>
@@ -348,27 +351,31 @@ export const CarsCardMObile = ({
                   </Flex>
                 </Flex>
 
-               <Flex mt={`10px`} width={`100%`} justifyContent={`space-between`}>
-               <Flex alignItems={"center"} gap={2}>
-                  <BluetoothIcon />
-                  <p className={cls.subTitle}>
-                    {t("Bluetooth")}:{" "}
-                    <span className={cls.title}>{t("Вкл")}. </span>
-                  </p>
+                <Flex
+                  mt={`10px`}
+                  width={`100%`}
+                  justifyContent={`space-between`}
+                >
+                  <Flex alignItems={"center"} gap={2}>
+                    <BluetoothIcon />
+                    <p className={cls.subTitle}>
+                      {t("Bluetooth")}:{" "}
+                      <span className={cls.title}>{t("Вкл")}. </span>
+                    </p>
+                  </Flex>
+                  <Flex alignItems={"center"} gap={2}>
+                    {response?.response?.[0]?.battery > 20 ? (
+                      <BatareyFullIcon />
+                    ) : (
+                      <BatareyIcon />
+                    )}
+                    <p className={cls.subTitle}>
+                      <span className={cls.title}>
+                        {response?.response?.[0]?.battery} %{" "}
+                      </span>
+                    </p>
+                  </Flex>
                 </Flex>
-                <Flex alignItems={"center"} gap={2}>
-                  {response?.response?.[0]?.battery > 20 ? (
-                    <BatareyFullIcon />
-                  ) : (
-                    <BatareyIcon />
-                  )}
-                  <p className={cls.subTitle}>
-                    <span className={cls.title}>
-                      {response?.response?.[0]?.battery} %{" "}
-                    </span>
-                  </p>
-                </Flex>
-               </Flex>
               </Flex>
             </Box>
           ) : (
@@ -383,9 +390,7 @@ export const CarsCardMObile = ({
               <Box width={"100%"}>
                 <p className={cls.subTitle}>{t("Водитель")}:</p>
                 {item.users_id_data ? (
-                  <Box
-                    className={cls.profileWrap}
-                  >
+                  <Box className={cls.profileWrap}>
                     <Flex gap={3}>
                       <Avatar
                         src={item?.users_id_data?.photo}

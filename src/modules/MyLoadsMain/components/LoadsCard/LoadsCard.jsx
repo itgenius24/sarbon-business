@@ -310,7 +310,7 @@ export const LoadsCard = forwardRef(
             name: cargo?.short_name,
           })}
           status="delete"
-          btn2Callback={() => onDeleteAccept(cargo?.guid)}
+          btn2Callback={() => onDeleteAccept(cargo)}
         />
       </>
     );

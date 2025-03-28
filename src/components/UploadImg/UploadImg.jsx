@@ -13,7 +13,9 @@ export const UploadImg = ({
   icon,
   text,
   isColor = false,
-  errors = {},
+  register = () => {},
+  errors,
+  rules={},
 }) => {
   const locale = useGetLang();
 
@@ -24,7 +26,6 @@ export const UploadImg = ({
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
   };
 
-  // console.log(`errors[name]`,errors)
 
   return (
     <Box
@@ -34,7 +35,7 @@ export const UploadImg = ({
       maxW="540px"
       width="100%"
     >
-      {watch(name) ? (
+      {watch(name)?.length > 0 ? (
         <Box>
           <Box
             display="flex"
@@ -98,13 +99,13 @@ export const UploadImg = ({
           justifyContent="center"
           // mt="24px"
           border={
-            errors[name]
-              ? `2px solid red`
+            errors?.[name]
+              ? `2px dashed red`
               : `2px dashed  rgba(219, 216, 227, 1)`
           }
           borderRadius="12px"
           background={
-            isColor ? "rgba(246, 247, 248, 1)" : "rgba(255, 255, 255, 1)"
+            isColor ? "rgba(246, 247, 248, 1)" : "rgba(237, 239, 245, 1)"
           }
           as="label"
           ml="auto"
@@ -113,9 +114,13 @@ export const UploadImg = ({
           cursor={"pointer"}
         >
           <input
+          
+            id={name}
+            name={name}
             className="visually-hidden"
             type="file"
             accept="image/*"
+            {...register(name, rules)}
             onChange={(e) => {
               handleImageUpload(e);
             }}
@@ -128,7 +133,6 @@ export const UploadImg = ({
           >
             <Box
               mx="auto"
-              // mb="12px"
               width="100%"
               height="100%"
               display={"flex"}
@@ -143,8 +147,8 @@ export const UploadImg = ({
               textAlign="center"
               // p={"2px"}
               mt={"20px"}
-              color="rgba(0, 122, 255, 1)"
-              borderBottom="1.5px dashed rgba(0, 122, 255, 1)"
+              color={ errors?.[name] ? `red`:  "rgba(0, 122, 255, 1)"}
+              borderBottom={`1.5px dashed ${errors?.[name] ? `red`:  "rgba(0, 122, 255, 1)"}`}
               width={`fit-content`}
             >
               {text}

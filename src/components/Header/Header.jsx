@@ -6,7 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
 import { Container } from "../Container";
-import { Box, Button, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  ListItem,
+  UnorderedList,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../Logo";
 import { observer } from "mobx-react-lite";
@@ -17,6 +24,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import UserImg from "@/assets/images/user.png";
 import { ContainerNav } from "../container/Container";
+import { AddDillerMunu } from "@/assets/icons/icons";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -25,13 +33,20 @@ const Header = observer(({ elements }) => {
 
   const isAuth = authStore.getIsAuth;
   const pathname = usePathname();
-
+  const role_id = authStore.userData.role_id;
   const locale = useGetLang();
+  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const { t } = useTranslation(locale, "translations");
 
   const goToProfile = () => {
-    router.push(`/${locale ? locale : `ru`}/profile`);
+    if(authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"){
+    router.push(`/${locale ? locale : `ru`}/profile-xm`);
+
+    }else{
+      router.push(`/${locale ? locale : `ru`}/profile`);
+
+    }
   };
 
   const dispacherType = authStore?.userData?.dispatcher_type;
@@ -218,11 +233,22 @@ const Header = observer(({ elements }) => {
                 </Flex>
               )}
 
+              {role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b" &&
+                !isLargerThan845 && (
+                  <Box
+                    mr={`20px`}
+                    onClick={() => {router.push(`/${locale}/add-cars`);setNavOpen(false)}}
+                    as="button"
+                  >
+                    <AddDillerMunu />
+                  </Box>
+                )}
+
               {!pathname?.includes("app-download") && (
                 <button className={cls.burgerBtn} onClick={handleToggleNav}>
                   <svg id="hamburger" viewBox="0 0 60 40">
                     <g
-                      stroke="#70707B"
+                      stroke="rgba(33, 31, 38, 1)"
                       strokeWidth="4"
                       strokeLinecap="round"
                       strokeLinejoin="round"

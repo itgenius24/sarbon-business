@@ -1225,7 +1225,7 @@ export const useDashboard = (locale) => {
       title: `Топ Диспетчер`,
       dataIndex: "full_name",
       width: 200,
-      render:(_,row) => <p className={cls.nameDis} onClick={() => handle(row)}>{row?.full_name}</p>
+      render:(_,row) => <p >{row?.full_name}</p>
     },
     {
       title: `Общее кол-во водителей`,
@@ -1356,37 +1356,60 @@ export const useDashboard = (locale) => {
     {
       title:`Последняя активность`,
       dataIndex:``,
-      width:250
+      width:250,
+      render: (_, row) => {
+        const date = new Date(row?.user_history_data?.last_move_time);
+
+        return (
+          <>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `HH:mm`)}
+            </p>
+            <p style={{ whiteSpace: `nowrap`, textAlign: `center` }}>
+              {row?.user_history_data?.last_move_time &&
+                format(row?.user_history_data?.last_move_time, `yyyy-MM-dd`)}
+            </p>
+          </>
+        );
+      },  
     },
     {
       title:`Заказчик`,
-      dataIndex:``,
+      dataIndex:`full_name`,
       width:250
     },
     {
       title:`Общее кол-во активных грузов`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.cargo_status_counts?.active
     },
     {
       title:`Неактивный`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.cargo_status_counts?.in_active
     },
     {
       title:`В модерация`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.cargo_status_counts?.in_moderation
     },
     {
       title:`Отклонений`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.orders_status_counts?.cancellation
+
     },
     {
       title:`Общее кол-во Завершённых`,
       dataIndex:``,
-      width:250
+      width:250,
+      render:(_,row) => row?.orders_status_counts?.archive
+
     },
   ]
 

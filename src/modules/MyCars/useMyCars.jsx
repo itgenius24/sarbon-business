@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCreateActionHistoriesMutation,
   useDeleteVehicle,
   useGetAddress,
   useGetCar,
@@ -53,6 +54,8 @@ export const useMyCars = () => {
     },
     { enabled: true }
   );
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
 
   const { data: useList } = useGetUserData({
     params: {
@@ -71,6 +74,7 @@ export const useMyCars = () => {
 
   const { mutate } = useUpdateVehicle({
     onSuccess: () => {
+ 
       getVehicle.refetch();
       setCenterModalType(false);
       setStatus(true);
@@ -81,6 +85,19 @@ export const useMyCars = () => {
   const { mutate: dalete } = useDeleteVehicle({
     onSuccess: () => {
       getVehicle.refetch();
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `delete_unit`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`delete`],
+        },
+      });
       setCenterModalType(false);
     },
   });
@@ -93,6 +110,19 @@ export const useMyCars = () => {
       },
     };
     mutate(data);
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: authStore.userData.your_id,
+        action_time: new Date(),
+        role_slug: `carrier`,
+        action_comment: `delete_driver`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`update`],
+      },
+    });
   };
 
   const handleDelete = (id) => {
@@ -109,6 +139,19 @@ export const useMyCars = () => {
       },
     };
     mutate(data);
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: authStore.userData.your_id,
+        action_time: new Date(),
+        role_slug: `carrier`,
+        action_comment: `edit_driver`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`update`],
+      },
+    });
   };
 
   const { mutate: dataMutate } = useGetCar({

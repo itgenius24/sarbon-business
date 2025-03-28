@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCreateActionHistoriesMutation,
   useCreateAddressMutation,
   useCreateLogHistory,
   useDeletedeleteDispacersDriver,
@@ -573,7 +574,26 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  const { mutate: deleteData, isLoading: deleteLoding } = useDeleteDisAll();
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
+
+  const { mutate: deleteData, isLoading: deleteLoding } = useDeleteDisAll({
+    onSuccess:() => {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `unpin_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type:[`delete`],
+        },
+      });
+    }
+  });
 
   const deleteFuntion = (id) => {
     setDeleteId(id);
@@ -582,9 +602,23 @@ export const useMyCarsDispatcher = () => {
       ids: ids.map((item) => item.guid),
     });
   };
+  
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `changed_driver_status`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setOpen(false);
       setIconStatus(``);
       if (iconStatus === `our_cargo`) {
@@ -691,6 +725,7 @@ export const useMyCarsDispatcher = () => {
   const { mutate: createUserAdress, isLoading: createDisLoading } =
     useCreateAddressMutation({
       onSuccess: () => {
+        
         setVisibleData((prevData) =>
           prevData.map((item) => {
             const processedItem = ids.find((pItem) => pItem.guid === item.guid);

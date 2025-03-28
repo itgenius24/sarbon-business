@@ -21,6 +21,7 @@ const itemsService = {
     }),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   createCargo: (data) => request.post("/v2/items/cargo", data),
+  actionHistories: (data) => request.post("/v2/items/action_histories", data),
   createPeriod: (data) => request.post("/v2/items/period", data),
   updateResponse: (data) => request.put("/v2/items/order", data),
   updateNoDriver: (data) => request.post("/v2/items/dispatcher_drivers", data),
@@ -259,6 +260,13 @@ export const useGetClientType = (params = {}) => {
 export const useCreateCargoMutation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.createCargo(data),
+    ...mutationSettings,
+  });
+};
+
+export const useCreateActionHistoriesMutation = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.actionHistories(data),
     ...mutationSettings,
   });
 };

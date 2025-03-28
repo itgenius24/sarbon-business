@@ -8,7 +8,7 @@ import useProps from "./useProps";
 import { LoadsCard } from "../LoadsCard";
 
 export const InModerationPage = ({ orderStatus, t }) => {
-  const { cargoData, isLoading, addPage,isFetching } = useProps(orderStatus, t);
+  const { cargoData, isLoading, addPage,isFetching,handleDelete } = useProps(orderStatus, t);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -19,7 +19,7 @@ export const InModerationPage = ({ orderStatus, t }) => {
       <Box>
         {cargoData?.length > 0 ? (
           cargoData?.map((item, index) => (
-            <LoadsCard orderStatus={orderStatus} key={index} cargo={item} />
+            <LoadsCard orderStatus={orderStatus} key={index} cargo={item}  handleDelete={handleDelete} />
           ))
         ) : (
           <Empty t={t} />

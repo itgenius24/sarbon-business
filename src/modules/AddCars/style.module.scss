@@ -1,0 +1,65 @@
+.textFieldName {
+  font-weight: 600;
+  font-size: 14px;
+  // margin-bottom: 5px;
+  height: 30px;
+  color: rgba(33, 31, 38, 1);
+  color: var(--primary-text);
+  @media (max-width: 872px) {
+    font-size: 16px;
+    color: rgba(33, 31, 38, 1);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+}
+.textFieldName2{
+ color: rgba(33, 31, 38, 1);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 0%;
+  
+}
+
+.subTitle {
+  font-weight: 400;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(126, 123, 134, 1);
+}
+
+.subLabel {
+  color: rgba(126, 123, 134, 1);
+  font-size: 14px;
+  font-weight: 400;
+  @media (max-width: 872px) {
+    font-size: 13px;
+  }
+}
+
+.quickWord {
+  color: var(--blue-color);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  border-bottom: 1.5px dashed var(--blue-color);
+  @media (max-width: 872px) {
+    font-size: 13px;
+  }
+  //    text-decoration: underline dotted;
+}
+
+.nextBtn {
+  width: fit-content;
+  padding: 27px 28px !important;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: var(--primary-text) !important;
+  margin-top: 60px;
+  @media (max-width: 872px) {
+    font-size: 15px;
+    width: 100%;
+    font-weight: 600;
+    margin: 20px 10px;
+  }
+}

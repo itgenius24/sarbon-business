@@ -204,7 +204,7 @@ const DriverGruz = ({
             </p>
           </Flex>
         </Box>
-        {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
+        {/* {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
           <Button
             onClick={() => setPopupOpen(true)}
             size={"lg"}
@@ -212,7 +212,7 @@ const DriverGruz = ({
           >
             {t(`Забронировать груз`)}
           </Button>
-        )}
+        )} */}
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
