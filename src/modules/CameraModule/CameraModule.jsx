@@ -41,54 +41,60 @@ const CameraModule = () => {
   }, [!text, !url]);
 
   // 📌 Kamerani ishga tushirish
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+  const startCamera = () => {
+    navigator.mediaDevices
+      .getUserMedia({
         video: {
-          width: { exact: 1920 },
-          height: { exact: 1080 },
+          // width: { exact: 1920 },
+          // height: { exact: 1080 },
           facingMode: "environment",
-          frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
-          exposureMode: "continuous", // 📌 Doimiy ekspozitsiya
-          whiteBalanceMode: "continuous", // 📌 Oq rang balansini avtomatik qilish
-          brightness: 1.5,
+          // frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
+          // exposureMode: "continuous", // 📌 Doimiy ekspozitsiya
+          // whiteBalanceMode: "continuous", // 📌 Oq rang balansini avtomatik qilish
+          // brightness: 1.5,
         },
+      })
+      .then((stream) => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
       });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-    } catch (err) {
-      console.error("Kameraga ruxsat yo'q:", err);
-    }
   };
 
   const captureImage = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
-
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    const rectWidth = 290;
-    const rectHeight = 270;
+    // Video o‘lchamini olish
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
 
-    const x = 170;
-    const y = 130;
+    // Ramka o‘lchami (doimo 390x250)
+    const frameWidth = 190;
+    const frameHeight = 130;
 
-    canvas.width = rectWidth;
-    canvas.height = rectHeight;
+    // Kesish koordinatalari (markazdan)
+    const x = (videoWidth - frameWidth) / 2;
+    const y = (videoHeight - frameHeight) / 1.8;
 
+    // Canvas o‘lchamini ramka o‘lchamiga moslash
+    canvas.width = frameWidth;
+    canvas.height = frameHeight;
+
+    // Video dan markaziy qismini kesib olish
     ctx.drawImage(
       video,
       x,
       y,
-      rectWidth,
-      rectHeight, // Video ichidagi kesish joyi
+      frameWidth,
+      frameHeight, // Video ichidan kesish
       0,
       0,
-      rectWidth,
-      rectHeight // Canvas'ga chizish
+      frameWidth,
+      frameHeight // Canvas'ga tushirish
     );
 
     const imageDataURL = canvas.toDataURL("image/png");
@@ -113,7 +119,7 @@ const CameraModule = () => {
           <video ref={videoRef} autoPlay playsInline className={styles.video} />
 
           {/* 📌 To‘rtburchakni markazga joylashtirish */}
-          <div className={styles.overlay}>
+          <div id="box" className={styles.overlay}>
             <div className={styles.box}></div>
           </div>
 
