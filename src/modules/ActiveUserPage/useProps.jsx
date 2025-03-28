@@ -62,7 +62,7 @@ export const useProps = () => {
             item?.name === `Экспедитор`
         );
         const result = data?.map((item) => ({
-          label: item.name,
+          label: item?.name === `Экспедитор`  ? `Перевозчик`:  item.name,
           value: item.guid,
           role_slug: nameToRole[item.name?.trim()],
         }));
