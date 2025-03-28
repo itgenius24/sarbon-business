@@ -73,12 +73,12 @@ const CameraModule = () => {
     const videoHeight = video.videoHeight;
 
     // Ramka o‘lchami (doimo 390x250)
-    const frameWidth = 190;
-    const frameHeight = 130;
+    const frameWidth = 300;
+    const frameHeight = 330;
 
     // Kesish koordinatalari (markazdan)
     const x = (videoWidth - frameWidth) / 2;
-    const y = (videoHeight - frameHeight) / 1.8;
+    const y = (videoHeight - frameHeight) / 1.2;
 
     // Canvas o‘lchamini ramka o‘lchamiga moslash
     canvas.width = frameWidth;
