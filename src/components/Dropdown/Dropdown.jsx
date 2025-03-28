@@ -43,6 +43,7 @@ export const Dropdown = ({
   clearable,
   isLoading = false,
   isTop = false,
+  isCheck = true
 }) => {
   const height = Math.floor(options && (options.length * 100) / 2);
 
@@ -276,7 +277,7 @@ export const Dropdown = ({
                     {option.label}
                     {(option.guid
                       ? option.guid === value?.guid
-                      : option.value === value?.value) && (
+                      : option.value === value?.value) && isCheck && (
                       <span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

@@ -55,6 +55,7 @@ const ActiveUserPage = ({ locale }) => {
                 placeholder={t("Все роли")}
                 setValue={setValue}
                 isClear
+                isCheck={false}
               />
             </Box>
             <Box width={`252px`}>
@@ -70,6 +71,7 @@ const ActiveUserPage = ({ locale }) => {
                 searchable
                 setValue={setValue}
                 searchName={`search`}
+                isCheck={false}
 
               />
             </Box>
