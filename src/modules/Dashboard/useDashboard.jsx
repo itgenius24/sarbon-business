@@ -1446,5 +1446,6 @@ export const useDashboard = (locale) => {
     onClose,
     firmId,
     editFn,
+    setData,
   };
 };

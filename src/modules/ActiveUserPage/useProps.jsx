@@ -30,10 +30,13 @@ export const useProps = () => {
 
   const { data: actionData } = useGetActionUser({
     params: {
+      limit:100,
+      offset:0,
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
         users_id: watch(`user`)?.value,
         role_slug: watch(`role`)?.role_slug,
+   
         action_time: {
           $gte: formatDate(startDate, 0, 0, 0),
           $lt: formatDate(endDate, 23, 59, 59),

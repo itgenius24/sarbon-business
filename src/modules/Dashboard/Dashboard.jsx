@@ -82,6 +82,7 @@ const Dashboard = ({ locale }) => {
     onClose,
     firmId,
     editFn,
+    setData
   } = useDashboard(locale);
 
   return (
@@ -251,6 +252,7 @@ const Dashboard = ({ locale }) => {
             <Tabs
               onChange={(el) => {
                 setStatus(el), setCurrentPage(1);
+                setData({})
               }}
               variant="unstyled"
             >
