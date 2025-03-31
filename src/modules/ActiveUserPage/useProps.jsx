@@ -50,8 +50,9 @@ export const useProps = () => {
         return res.response.filter(
           (item) =>
             !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
-            !item?.user_name?.includes(`CЕО`) &&
-            item?.user_name &&  item?.role_slug !== `voditel`
+            !item?.user_name?.includes(`CЕО`) 
+            // &&
+            // item?.user_name &&  item?.role_slug !== `voditel`
         );
       },
       onSuccess:(res) =>{
