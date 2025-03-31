@@ -15,6 +15,8 @@ export const useProps = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [roleData, setRoleData] = useState([]);
+  const [offset,setOffset] = useState(0)
+  const [data,setData] = useState([])
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
@@ -28,10 +30,10 @@ export const useProps = () => {
     copy(text);
   };
 
-  const { data: actionData } = useGetActionUser({
+  const { data: actionData,isFetching } = useGetActionUser({
     params: {
       limit:100,
-      offset:0,
+      offset:offset,
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
         users_id: watch(`user`)?.value,
@@ -52,6 +54,11 @@ export const useProps = () => {
             item?.user_name &&  item?.role_slug !== `voditel`
         );
       },
+      onSuccess:(res) =>{
+        const resData = res || []
+        setData([...data,...resData])
+      },
+      refetchOnWindowFocus:false,
     },
   });
 
@@ -82,7 +89,7 @@ export const useProps = () => {
     },
   });
 
-  console.log(`salom`, roleData);
+ 
 
   const { data: useList } = useGetUserPost({
     data: {
@@ -205,6 +212,10 @@ export const useProps = () => {
     },
   ];
 
+  const addPage = () =>{
+    setOffset(prev => prev + 100)
+  }
+
   return {
     control,
     errors,
@@ -214,12 +225,15 @@ export const useProps = () => {
     watch,
     t,
     columns,
-    data: actionData,
+    data: data,
     setStartDate,
     startDate,
     endDate,
     setEndDate,
     roleData,
     useList,
+    addPage,
+    isFetching,
+    setData
   };
 };

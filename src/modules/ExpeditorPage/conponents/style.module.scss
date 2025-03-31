@@ -3,8 +3,8 @@
 .imgBox {
   position: relative;
 }
-.name {
-    width: 90%;
+.nameEllipsis {
+  // width: 70%;
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
@@ -14,6 +14,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: rgba(33, 31, 38, 1);
+}
 
 .id{
     font-weight: 400;
@@ -21,4 +28,19 @@
     line-height: 20px;
     letter-spacing: 0%;
     color: rgba(126, 123, 134, 1);
+}
+
+.imgLe{
+  width: 72px;
+  height: 55px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  object-fit: contain;
+ 
+}
+
+.img{
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
 }

@@ -1,5 +1,6 @@
 export const commentObj = {
     [`log_out`]:`Вышел из своего аккаунта`,
+    [`delete_account`]:`Вышел из своего аккаунта`,
     [`changed_own_info`]:`Изменил личные данные`,
     [`changed_own_password`]:`Изменил пароль`,
     [`export_axcell_driver`]:`Скачал список машин`,

@@ -1,7 +1,7 @@
 "use client";
 import { Container } from "@/components/Container";
 import { Dropdown } from "@/components/Dropdown";
-import { Box, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import { useProps } from "./useProps";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import cls from "./style.module.scss";
@@ -24,7 +24,10 @@ const ActiveUserPage = ({ locale }) => {
     endDate,
     setEndDate,
     roleData,
-    useList
+    useList,
+    addPage,
+    isFetching,
+    setData,
   } = useProps();
 
   return (
@@ -56,6 +59,8 @@ const ActiveUserPage = ({ locale }) => {
                 setValue={setValue}
                 isClear
                 isCheck={false}
+                onChangeSelect={() => setData([])}
+                clearFn={() => setData([])}
               />
             </Box>
             <Box width={`252px`}>
@@ -72,7 +77,8 @@ const ActiveUserPage = ({ locale }) => {
                 setValue={setValue}
                 searchName={`search`}
                 isCheck={false}
-
+                onChangeSelect={() => setData([])}
+                clearFn={() => setData([])}
               />
             </Box>
             <Box className="dateWrap left" width={`280px`}>
@@ -84,18 +90,21 @@ const ActiveUserPage = ({ locale }) => {
                 startDate={startDate}
                 setStartDate={setStartDate}
                 placeholder={`По времени`}
+                onChange={() => setData([])}
               />
             </Box>
           </Flex>
         </Flex>
         <Box mt={`25px`}>
-          <SarbonTable
-            isSticky
-            variant="table"
-            columns={columns}
-            data={data}
-          />
+          <SarbonTable isSticky variant="table" columns={columns} data={data} />
         </Box>
+        {data?.length >= 100 && (
+          <Box mt={`15px`} width={`fit-content`}>
+            <Button isLoading={isFetching} onClick={addPage}>
+              Загрузить еще
+            </Button>
+          </Box>
+        )}
       </Container>
     </Box>
   );

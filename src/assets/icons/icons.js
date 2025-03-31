@@ -101,6 +101,16 @@ export const ExitDoorNoIcon = () => (
 
 );
 
+export const UserIconLg = () => (
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="72" height="72" rx="36" fill="#D9D9D9"/>
+<rect x="0.5" y="0.5" width="71" height="71" rx="35.5" stroke="black" stroke-opacity="0.1"/>
+<path d="M44.2291 26.0014C44.2291 30.4204 40.5447 34.0029 36.0001 34.0029C31.4553 34.0029 27.771 30.4204 27.771 26.0014C27.771 21.5824 31.4553 18 36.0001 18C40.5447 18 44.2291 21.5824 44.2291 26.0014Z" fill="white"/>
+<path d="M50.4008 49.9986C50.4008 42.2652 43.9534 35.9961 36 35.9961C28.0467 35.9961 21.5992 42.2652 21.5992 49.9986H50.4008Z" fill="white"/>
+</svg>
+
+);
+
 export const SelectionArrow = ({ style }) => (
   <svg
     width="20"
