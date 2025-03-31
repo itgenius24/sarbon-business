@@ -80,7 +80,7 @@ export const useProps = () => {
     {
       title: `Номер телефона`,
       width: 270,
-      render: (row, index) => <a className={cls.link} href={`https://t.me/${row?.phone_number}`}>{row?.phone_number}</a>,
+      render: (row, index) => <a className={cls.link} href={`https://t.me/${row?.phone_number}`} target="_blank">{row?.phone_number}</a>,
     },
     {
       title: `Регистрация`,
