@@ -15,6 +15,7 @@ import {
   InputRightElement,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -554,7 +555,7 @@ export const TableComponent = ({
                 height={`40px`}
               >
                 <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
-                {dataRes?.length > 0 && (
+                {dataUser?.length > 0 ? (
                   <InputGroup width={`40%`} className={cls.inputWrap}>
                     <Input
                       placeholder={t("Поиск")}
@@ -565,7 +566,7 @@ export const TableComponent = ({
                       <SearchIcon />
                     </InputRightElement>
                   </InputGroup>
-                )}
+                ):<ModalCloseButton onClick={onClose} />}
               </Flex>
             </ModalHeader>
             <ModalBody minHeight={`400px`}>
@@ -759,7 +760,7 @@ export const TableComponent = ({
                   {t("Только свободные водители")}
                 </Checkbox>
 
-               
+                {dataUser?.length > 0 && (
                   <Flex gap={2}>
                     <Button
                       className={cls.topButton}
@@ -770,7 +771,7 @@ export const TableComponent = ({
                     >
                       {t("Отменить")}
                     </Button>
-                    {filteredData?.length > 0 && (
+                    
                     <Button
                       isDisabled={selectCargo.length === 0}
                       isLoading={isLoading}
@@ -780,9 +781,8 @@ export const TableComponent = ({
                     >
                       {t("Предложить")}
                     </Button>
-                  )}
                   </Flex>
-           
+                )}
               </Flex>
             </ModalFooter>
           </ModalContent>

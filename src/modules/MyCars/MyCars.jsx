@@ -15,12 +15,24 @@ import {
   DrawerOverlay,
   Flex,
   Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
 
 import { useMyCars } from "./useMyCars";
-import { LoadOulineIcon, PlusIcon, StoneIcon, UserIconCerate } from "@/assets/icons/icons";
+import {
+  LoadOulineIcon,
+  PlusIcon,
+  StoneIcon,
+  UserIconCerate,
+} from "@/assets/icons/icons";
 
 import { CarsCard } from "./component/CarsCard/CarsCard";
 import { useRouter } from "next/navigation";
@@ -106,16 +118,16 @@ export const MyCarsModule = () => {
               ))}
 
           {(data?.length === 0 || !data) && (
-              <Flex
-                className={cls.noData}
-                width={`100%`}
-                height={`170px`}
-                alignItems={`center`}
-                justifyContent={`center`}
-              >
-                {t("У вас еще нет добавленных машину")}
-              </Flex>
-            )}
+            <Flex
+              className={cls.noData}
+              width={`100%`}
+              height={`170px`}
+              alignItems={`center`}
+              justifyContent={`center`}
+            >
+              {t("У вас еще нет добавленных машину")}
+            </Flex>
+          )}
         </Box>
 
         <Button
@@ -128,125 +140,134 @@ export const MyCarsModule = () => {
           {t("Добавить новую машину")}
         </Button>
       </Container>
-      {centerModalType && isLargerThan845 && (
-        <div className={cls.modalOver}>
-          <div className={cls.selectCargo}>
-            <Flex
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              className={cls.selectCargoTop}
-            >
-              <p className={cls.topTitle}>
-                {t("Назначить водителя для")} <br />{" "}
-                <span>
-                  {carId?.marka} {carId?.car_number}
-                </span>
-              </p>
-            </Flex>
-            <Box className={cls.modalContend}>
-              {dataModal?.length > 0 ? (
-                dataModal?.map((item) => {
-                  return (
-                    <CheckBoxComponent
-                      opacity={item?.vehicles?.[0] ? 0.5 : 1}
-                      key={item?.user?.guid}
-                      onClick={() =>
-                        item?.vehicles?.[0] ? null : setUserId(item?.user?.guid)
-                      }
-                      active={item?.user?.guid === userId}
-                    >
-                      <Box className={cls.countryWrap}>
-                        <Flex gap={3}>
-                          <Avatar
-                            name={item?.user?.full_name}
-                            src={item?.user?.photo}
-                          />
-                          <Box>
-                            <p className={cls.name}>{item?.user?.full_name}</p>
-                            <p className={cls.subTitle}>{item?.user?.phone}</p>
-                          </Box>
-                        </Flex>
-                        {item?.vehicles?.[0] && (
-                          <Flex
-                            flexDirection={`column`}
-                            mr={5}
-                            alignItems={`flex-end`}
-                            className={cls.subTitle2}
-                          >
-                            <p className={cls.loadType}>
-                              {`${item?.vehicles?.[0]?.marka} ${
-                                item?.vehicles?.[0]?.car_number
-                                  ? item?.vehicles?.[0]?.car_number
-                                  : ``
-                              }`}
-                            </p>
-                            <Flex gap={2}>
-                              <Flex gap={1} alignItems={"center"}>
-                                <StoneIcon />
-                                {item?.vehicles?.[0]?.capacity} т.
-                              </Flex>
-                              <Flex gap={1} alignItems={"center"}>
-                                <LoadOulineIcon />
-                                {item?.vehicles?.[0]?.height} m3
+      { isLargerThan845 && (
+        <Modal size={`2xl`} isCentered isOpen={centerModalType}>
+          <ModalOverlay onClick={() => setCenterModalType(``)} />
+          <ModalContent>
+            <ModalHeader borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+              <Flex justifyContent={"space-between"} alignItems={"center"}>
+                <p className={cls.topTitle}>
+                  {t("Назначить водителя для")} <br />
+                  <span>
+                    {carId?.marka} {carId?.car_number}
+                  </span>
+                </p>
+              </Flex>
+              <ModalCloseButton  onClick={() => setCenterModalType(``)} />
+            </ModalHeader>
+            <ModalBody minHeight={`400px`}>
+              <Box className={cls.modalContend} >
+                {dataModal?.length > 0 ? (
+                  dataModal?.map((item) => {
+                    return (
+                      <CheckBoxComponent
+                        opacity={item?.vehicles?.[0] ? 0.5 : 1}
+                        key={item?.user?.guid}
+                        onClick={() =>
+                          item?.vehicles?.[0]
+                            ? null
+                            : setUserId(item?.user?.guid)
+                        }
+                        active={item?.user?.guid === userId}
+                      >
+                        <Box className={cls.countryWrap}>
+                          <Flex gap={3}>
+                            <Avatar
+                              name={item?.user?.full_name}
+                              src={item?.user?.photo}
+                            />
+                            <Box>
+                              <p className={cls.name}>
+                                {item?.user?.full_name}
+                              </p>
+                              <p className={cls.subTitle}>
+                                {item?.user?.phone}
+                              </p>
+                            </Box>
+                          </Flex>
+                          {item?.vehicles?.[0] && (
+                            <Flex
+                              flexDirection={`column`}
+                              mr={5}
+                              alignItems={`flex-end`}
+                              className={cls.subTitle2}
+                            >
+                              <p className={cls.loadType}>
+                                {`${item?.vehicles?.[0]?.marka} ${
+                                  item?.vehicles?.[0]?.car_number
+                                    ? item?.vehicles?.[0]?.car_number
+                                    : ``
+                                }`}
+                              </p>
+                              <Flex gap={2}>
+                                <Flex gap={1} alignItems={"center"}>
+                                  <StoneIcon />
+                                  {item?.vehicles?.[0]?.capacity} т.
+                                </Flex>
+                                <Flex gap={1} alignItems={"center"}>
+                                  <LoadOulineIcon />
+                                  {item?.vehicles?.[0]?.height} m3
+                                </Flex>
                               </Flex>
                             </Flex>
-                          </Flex>
-                        )}
-                      </Box>
-                    </CheckBoxComponent>
-                  );
-                })
-              ) : (
-                <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
-                 <UserIconCerate />
+                          )}
+                        </Box>
+                      </CheckBoxComponent>
+                    );
+                  })
+                ) : (
+                  <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
+                    <UserIconCerate />
 
-                  <Text color={"blackAlpha.400"} fontSize={"18px"}>
-                    {t("У вас пока нет водителей")}
-                  </Text>
+                    <Text color={"blackAlpha.400"} fontSize={"18px"}>
+                      {t("У вас пока нет водителей")}
+                    </Text>
+                    <Button
+                      onClick={() => router.push(`/${locale}/drivers`)}
+                      className={cls.topButton}
+                      size="md"
+                      width={`fit-content`}
+                    >
+                      {t("Добавить водителя")}
+                    </Button>
+                  </Flex>
+                )}
+              </Box>
+            </ModalBody>
+            <ModalFooter borderTop={`1px solid rgba(219, 216, 227, 1)`}>
+              <Flex
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                width={`100%`}
+              >
+                <Checkbox
+                  onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+                >
+                  {t("Только свободные водители")}
+                </Checkbox>
+                <Flex gap={2}>
                   <Button
-                    onClick={() => router.push(`/${locale}/drivers`)}
+                    className={cls.topButton}
+                    onClick={() => setCenterModalType("")}
+                    variant="secondaryWhite"
+                    size="md"
+                    border="1px solid #D0D5DD"
+                  >
+                    {t("Отменить")}
+                  </Button>
+                  <Button
+                    onClick={() => handleUpdate()}
                     className={cls.topButton}
                     size="md"
-                    width={`fit-content`}
+                    isDisabled={!userId}
                   >
-                    {t("Добавить водителя")}
+                    {t("Сохранить")}
                   </Button>
                 </Flex>
-              )}
-            </Box>
-            <Flex
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              className={cls.selectCargoBottom}
-
-              // background={`red`}
-            >
-              <Checkbox
-                onChange={(e) => setIsCheckboxChecked(e.target.checked)}
-              >
-                {t("Только свободные водители")}
-              </Checkbox>
-              <Flex gap={2}>
-                <Button
-                  className={cls.topButton}
-                  onClick={() => setCenterModalType("")}
-                  variant="secondaryWhite"
-                  size="md"
-                  border="1px solid #D0D5DD"
-                >
-                  {t("Отменить")}
-                </Button>
-                <Button
-                  onClick={() => handleUpdate()}
-                  className={cls.topButton}
-                  size="md"
-                >
-                  {t("Сохранить")}
-                </Button>
               </Flex>
-            </Flex>
-          </div>
-        </div>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       )}
       {!isLargerThan845 && (
         <Drawer placement="bottom" isOpen={centerModalType}>
