@@ -6,13 +6,15 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadsCard } from "../LoadsCard";
 import useProps from "./useProps";
 
-export const AllPage = ({ orderStatus, t }) => {
-  const { cargoData, isLoading, addPage, isFetching, handleDelete } = useProps(
+export const AllPage = ({ orderStatus, t,search = ``,address = `` }) => {
+  const { cargoData, isLoading, addPage, isFetching, handleDelete, } = useProps(
     orderStatus,
-    t
+    t,
+    search,
+    address
   );
 
-  if (isLoading && cargoData?.length < 0) {
+  if (isFetching ) {
     return <LoadingSpinner />;
   }
 

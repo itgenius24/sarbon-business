@@ -43,6 +43,8 @@ const objectService = {
     request.get("/v2/object-slim/get-list/map", { params }),
   getUserCargo: (params) =>
     request.get("/v2/object-slim/get-list/cargo", { params }),
+  getCargoAll: (data) =>
+    request.post("/v2/object/get-list/cargo", data),
   getCarList: (params) =>
     request.get("/v2/object-slim/get-list/route", { params }),
   getLogistikaGpsTrackingFilterDriver: (data) =>
@@ -387,6 +389,18 @@ export const useGetUserCargo2 = ({
     ...querySettings,
   });
 };
+
+
+export const useGetUserCargoAll = ({ data, querySettings }) => {
+  return useQuery({
+    queryKey: ["getCargoAll", data],
+    queryFn: () => objectService.getCargoAll(data),
+    ...querySettings,
+  });
+};
+
+
+
 
 export const useGetVehicle2 = ({
   params = { data: JSON.stringify({}) },
