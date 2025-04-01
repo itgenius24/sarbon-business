@@ -223,7 +223,7 @@ const StepFive = ({ status }) => {
         width: watch(`width`),
         height: +watch(`height`),
         photo: watch(`image`),
-        payment_type: check ? `` :  watch("payment_type")?.label,
+        payment_type: check ? undefined :  watch("payment_type")?.label,
         order_status: watch(`loadResId`)
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
@@ -329,7 +329,7 @@ const StepFive = ({ status }) => {
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
         distance: distance?.distance,
-        payment_type: check ? `` :  watch("payment_type")?.label,
+        payment_type: check ? undefined :  watch("payment_type")?.label,
         firm_id,
         //  step3
 
