@@ -751,7 +751,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
-        payment_type: watch("payment_type")?.label,
+        payment_type: check ? `` : watch("payment_type")?.label,
 
         // guid: watch(`loadResId`),
 
