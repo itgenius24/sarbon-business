@@ -159,7 +159,6 @@ const ProfileDispatcher = ({ locale }) => {
             <TabPanel padding={0}>
               <ArchivePage t={t} orderStatus={`archive`} />
             </TabPanel>
-
             <TabPanel padding={0}>
               <DriversDispachers />
             </TabPanel>

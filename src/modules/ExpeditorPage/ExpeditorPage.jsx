@@ -4,10 +4,9 @@ import React from "react";
 import { useProps } from "./useProps";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const ExpeditorPage = ({ locale }) => {
-  const { column, isLargerThan845, t, expeditorData, addPage, isFetching } =
+  const { column, isLargerThan845, t, expeditorData, addPage, isFetching,router } =
     useProps();
   return (
     <Container my={`40px`}>
@@ -18,10 +17,8 @@ const ExpeditorPage = ({ locale }) => {
       >
         {t("Перевозчики")}
       </Heading>
-      {
-        isFetching ? <LoadingSpinner /> : <>
-        <Box mt={`35px`}>
-        <SarbonTable variant="card" columns={column} data={expeditorData} />
+      <Box mt={`35px`}>
+        <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher-expeditor/user-management`)} variant="card" columns={column} data={expeditorData} />
       </Box>
       {expeditorData?.length >= 100 && (
         <Box mt={`15px`} width={`fit-content`}>
@@ -30,9 +27,6 @@ const ExpeditorPage = ({ locale }) => {
           </Button>
         </Box>
       )}
-        </>
-      }
-     
     </Container>
   );
 };

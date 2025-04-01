@@ -7,12 +7,14 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import authStore from "@/store/auth.store";
 import cls from './style.module.scss';
+import { useRouter } from "next/navigation";
 
 export const useProps = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const router = useRouter()
 
   const { data: expeditorData, isFetching } = useGetCarData({
     data: {
@@ -43,6 +45,8 @@ export const useProps = () => {
     {
       title: `Перевозчик`,
       width: 450,
+      filter:true,
+      filterType: (type) => console.log(`type`,type),
       render: (row, index) => (
         <Imgprofile
           company_name={row?.company_name}
@@ -100,5 +104,6 @@ export const useProps = () => {
     expeditorData: data,
     addPage,
     isFetching,
+    router
   };
 };

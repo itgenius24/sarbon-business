@@ -70,7 +70,8 @@ export const useProps = () => {
           (item) =>
             item?.name?.trim() === `Диспетчер` ||
             item?.name === `Заказчик` ||
-            item?.name === `Экспедитор`
+            item?.name === `Экспедитор` ||
+            item.name === "Водитель"
         );
         const result = data?.map((item) => ({
           label: item?.name === `Экспедитор`  ? `Перевозчик`:  item.name,
