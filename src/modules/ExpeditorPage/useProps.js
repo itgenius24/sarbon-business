@@ -21,7 +21,7 @@ export const useProps = () => {
           page: page,
           limit: 100,
           type: "carrier",
-          dispatcher_id: authStore.userData.guid,
+          first_dispatcher_id: authStore.userData.guid,
         },
       },
     },

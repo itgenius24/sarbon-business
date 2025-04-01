@@ -4,6 +4,7 @@ import React from "react";
 import { useProps } from "./useProps";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const ExpeditorPage = ({ locale }) => {
   const { column, isLargerThan845, t, expeditorData, addPage, isFetching } =
@@ -17,7 +18,9 @@ const ExpeditorPage = ({ locale }) => {
       >
         {t("Перевозчики")}
       </Heading>
-      <Box mt={`35px`}>
+      {
+        isFetching ? <LoadingSpinner /> : <>
+        <Box mt={`35px`}>
         <SarbonTable variant="card" columns={column} data={expeditorData} />
       </Box>
       {expeditorData?.length >= 100 && (
@@ -27,6 +30,9 @@ const ExpeditorPage = ({ locale }) => {
           </Button>
         </Box>
       )}
+        </>
+      }
+     
     </Container>
   );
 };
