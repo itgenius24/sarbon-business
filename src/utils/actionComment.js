@@ -19,7 +19,7 @@ export const commentObj = {
     [`offer_to_driver`]:`Предложил груз`,
     [`create_driver`]:`Добавил нового водителя`,
     [`changed_driver_info`]:`Изменил данные водителя`,
-    [`deleted_driver`]:`Удалил водителя`,
+    [`delete_driver`]:`Удалил водителя`,
     [`create_unit`]:`Добавил новую машину`,
     [`edit_unit`]:`Редактировал машину`,
     [`edit_driver`]:`Открепил водителя`,
