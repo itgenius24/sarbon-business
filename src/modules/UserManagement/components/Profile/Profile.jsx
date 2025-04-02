@@ -7,7 +7,7 @@ import StarRating from "../StarRating/StarRating";
 import { flegCountry } from "@/utils/flegCountry";
 import { LoadOulineIcon, StoneIcon } from "@/assets/icons/icons";
 
-const Profile = ({ type = `voditel` }) => {
+const Profile = ({ type = `` }) => {
   return (
     <Box className={cls.box}>
       <Heading fontSize="20px">

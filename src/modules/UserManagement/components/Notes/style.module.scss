@@ -1,0 +1,50 @@
+.box {
+  padding: 28px 32px;
+  background-color: white;
+  border-radius: 16px;
+}
+
+.statusWrap {
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(38, 189, 73, 0);
+  gap: 5px;
+  align-items: center;
+}
+.statusActiveWrap {
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid rgb(38, 189, 73);
+  gap: 5px;
+  align-items: center;
+}
+
+.statusName {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: rgba(33, 31, 38, 1);
+  cursor: pointer;
+}
+
+.resItem {
+  border: 1px solid rgba(185, 182, 191, 1);
+  padding: 22px 15px;
+  border-radius: 16px;
+}
+.flex1 {
+  width: 200px;
+  border-right: 1px solid rgba(185, 182, 191, 1);
+}
+.flex2 {
+  width: 100%;
+  padding: 13px 5px 13px 18px;
+
+  .text {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+  }
+}

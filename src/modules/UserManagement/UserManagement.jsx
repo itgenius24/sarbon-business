@@ -69,7 +69,7 @@ const UserManagement = ({ locale }) => {
         </Flex>
       </Flex>
 
-      <Tabs variant={`unstyled`}>
+      <Tabs defaultIndex={0} variant={`unstyled`}>
         <Flex width={`100%`} gap={`40px`} mt={`20px`}>
           <TabList className={cls.tab}>
             {filterTabs.map((item) => (

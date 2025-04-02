@@ -4,13 +4,13 @@ import { useTranslation } from "react-i18next";
 
 export const useProps = () => {
 
-  const [tab, setTabs] = useState(`new`);
+  const [tab, setTabs] = useState(`0`);
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const { t } = useTranslation();
 
    const  filterTabs = [
     {value:`0`,label:`Данные перевозчика`},
-    {value:`1`,label:`Примечания`}
+    {value:`1`,label:`Надёжность`}
    ]
 
   return {

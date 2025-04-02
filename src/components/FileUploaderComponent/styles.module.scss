@@ -1,0 +1,26 @@
+.logoLInk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
+.img {
+  width: 180px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.uploadName {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  white-space: nowrap;
+  color: rgba(126, 123, 134, 1);
+}
