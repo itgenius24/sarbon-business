@@ -160,7 +160,7 @@ const StepFive = ({ status }) => {
           user_name: authStore.userData.full_name,
           phone_number: authStore.userData?.phone,
           user_id: authStore.userData.guid,
-          increment_id: authStore.userData.your_id,
+          increment_id: data?.number_of_order,
           action_time: new Date(),
           role_slug: `customer`,
           action_comment: `create_cargo`,
