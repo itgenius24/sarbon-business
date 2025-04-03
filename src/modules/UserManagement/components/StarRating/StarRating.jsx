@@ -3,7 +3,7 @@ import { useState } from "react";
 import cls from "./style.module.scss";
 import { StartIconProfile } from "@/assets/icons/icons";
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating,comment }) => {
   return (
     <Box width={`100%`}>
       <Flex gap={`5px`} alignItems={`center`}>
@@ -21,7 +21,7 @@ const StarRating = ({ rating }) => {
           {rating}.{5 - rating}
         </p>
       </Flex>
-      <p className={cls.text}>(16 отзывов)</p>
+      <p className={cls.text}>({comment || 0} отзывов)</p>
     </Box>
   );
 };

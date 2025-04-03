@@ -20,7 +20,20 @@ import Notes from "./components/Notes/Notes";
 import Profile from "./components/Profile/Profile";
 
 const UserManagement = ({ locale }) => {
-  const { t, tab, setTabs, filterTabs } = useProps();
+  const {
+    t,
+    tab,
+    setTabs,
+    filterTabs,
+    vehicles_data_size,
+    driver_size,
+    firmData,
+    router,
+    reliabilitiy,
+    time,
+    rating,
+    rev_count,
+  } = useProps();
 
   return (
     <Container my="15px">
@@ -28,7 +41,6 @@ const UserManagement = ({ locale }) => {
         width={"100%"}
         justifyContent={"space-between"}
         alignItems={"center"}
-     
       >
         <Box>
           <Button
@@ -40,36 +52,37 @@ const UserManagement = ({ locale }) => {
             color={`var(--primary-text)`}
             mb={`10px`}
             width={`fit-content`}
-           
             fontSize={`12px`}
             height={`35px`}
             onClick={() => {
-              // router.back();
+              router.back();
             }}
           >
             {t(`Вернутся в список`)}
           </Button>
 
-          <Heading fontSize="30px">ООО Uztrans Logistics Group</Heading>
+          <Heading fontSize="30px">{firmData?.response?.company_name}</Heading>
         </Box>
 
-        <Flex className={cls.statisWrap}>
-          <Box pr={`20px`} borderRight={`1px solid rgba(219, 216, 227, 1)`}>
-            <p className={cls.statisName}>Водители</p>
-            <p className={cls.statisRes}>
-              <SlotCounter value={0} />
-            </p>
-          </Box>
-          <Box pl={`20px`}>
-            <p className={cls.statisName}>Машины </p>
-            <p className={cls.statisRes}>
-              <SlotCounter value={`0`} />
-            </p>
-          </Box>
-        </Flex>
+        {driver_size >= 0 && (
+          <Flex className={cls.statisWrap}>
+            <Box pr={`20px`} borderRight={`1px solid rgba(219, 216, 227, 1)`}>
+              <p className={cls.statisName}>Водители</p>
+              <p className={cls.statisRes}>
+                <SlotCounter value={driver_size || 0} />
+              </p>
+            </Box>
+            <Box pl={`20px`}>
+              <p className={cls.statisName}>Машины </p>
+              <p className={cls.statisRes}>
+                <SlotCounter value={vehicles_data_size || 0} />
+              </p>
+            </Box>
+          </Flex>
+        )}
       </Flex>
 
-      <Tabs defaultIndex={0} variant={`unstyled`}>
+      <Tabs isLazy defaultIndex={0} variant={`unstyled`}>
         <Flex width={`100%`} gap={`40px`} mt={`20px`}>
           <TabList className={cls.tab}>
             {filterTabs.map((item) => (
@@ -85,7 +98,16 @@ const UserManagement = ({ locale }) => {
 
           <TabPanels width={`70%`}>
             <TabPanel padding={0}>
-              <Profile />
+              <Profile
+                type={driver_size >= 0 ? `expeditor` : `driver`}
+                vehicles_data_size={vehicles_data_size}
+                driver_size={driver_size}
+                data={firmData?.response}
+                reliabilitiy={reliabilitiy}
+                rev_count={rev_count}
+                time={time}
+                rating={rating}
+              />
             </TabPanel>
             <TabPanel padding={0}>
               <Notes />

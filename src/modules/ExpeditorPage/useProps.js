@@ -53,6 +53,7 @@ export const useProps = () => {
           yu_id={row?.users_data?.[0]?.your_id}
           type={row?.tip_account?.[0]}
           img={row?.logo}
+          status={row?.reliabilitiy?.status?.[0]}
         />
       ),
     },

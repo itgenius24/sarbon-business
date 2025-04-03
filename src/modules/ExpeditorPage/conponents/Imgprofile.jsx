@@ -2,13 +2,23 @@
 
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import cls from "./style.module.scss";
-import { ExitDoorNoIcon, UserIconLg } from "@/assets/icons/icons";
+import { BadIcon, ExitDoorNoIcon, NotesIcon, UserIconLg } from "@/assets/icons/icons";
 import Image from "next/image";
 
-const Imgprofile = ({ company_name, yu_id, type, img = `` }) => {
+const Imgprofile = ({ company_name, yu_id, type, img = ``,status }) => {
+   const statusObjIcon = {
+    bad:<BadIcon />,
+    note:<NotesIcon />,
+    great:<NotesIcon />
+   }
   return (
     <Flex alignItems={`center`} className={cls.wrap} gap={`18px`}>
       <Box className={cls.imgBox}>
+         <Box className={cls.icon}>
+           {
+            status &&  statusObjIcon[status]
+           }
+          </Box>
         {type === `legal_owner` ? (
           img?.includes(`https`) && img ? (
             <Image className={cls.imgLe} width={200} height={200} src={img} alt="logo" />

@@ -96,7 +96,7 @@ export const ProfileLayout = ({ children }) => {
     });
   };
 
-  console.log(`data`, data?.photo);
+ 
 
   return (
     <>

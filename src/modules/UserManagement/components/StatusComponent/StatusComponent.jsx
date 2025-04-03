@@ -9,12 +9,13 @@ import cls from './style.module.scss';
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
-const StatusComponent = ({ status, date }) => {
+const StatusComponent = ({ status = `bad`, date }) => {
+console.log(`status`,status)
   const statusObj = {
-    success: () => {
+    great: () => {
       return { text: `Отлично`, icon: <SuccessIconProfile />,color:`rgba(38, 189, 73, 1)` };
     },
-    reject: () => {
+    bad: () => {
       return { text: `Плохо`, icon: <RejectIcon /> ,color:`rgba(236, 26, 26, 1)`};
     },
     note: () => {
@@ -22,10 +23,10 @@ const StatusComponent = ({ status, date }) => {
     },
   };
   return <Flex gap={`14px`} alignItems={`center`} >
-       {statusObj[status]()?.icon}
+       { status && statusObj[status]()?.icon}
        <Box>
-        <p  className={cls.text} style={{color:statusObj[status]()?.color}}>{statusObj[status]()?.text}</p>
-        <p  className={cls.data}>{format(date,`dd MMMM yyyy`,{locale:ru})}</p>
+        <p  className={cls.text} style={{color: status && statusObj[status]()?.color}}>{ status && statusObj[status]()?.text}</p>
+        <p  className={cls.data}>{date && format(date,`dd MMMM yyyy`,{locale:ru})}</p>
        </Box>
   </Flex>;
 };

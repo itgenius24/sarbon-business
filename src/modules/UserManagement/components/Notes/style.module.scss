@@ -19,6 +19,22 @@
   align-items: center;
 }
 
+.statusErrorWrap{
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid rgb(246, 10, 10);
+  gap: 5px;
+  align-items: center;
+}
+.errorLabel{
+
+font-weight: 400;
+font-size: 14px;
+line-height: 26px;
+letter-spacing: 0%;
+color: rgba(255, 0, 0, 1);
+}
+
 .statusName {
   font-weight: 500;
   font-size: 12px;

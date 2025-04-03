@@ -5,29 +5,46 @@ import Image from "next/image";
 import StatusComponent from "../StatusComponent/StatusComponent";
 import StarRating from "../StarRating/StarRating";
 import { flegCountry } from "@/utils/flegCountry";
-import { LoadOulineIcon, StoneIcon } from "@/assets/icons/icons";
+import {
+  LoadOulineIcon,
+  ProfileIconDriverBig,
+  ProfileIconXMBig,
+  StoneIcon,
+} from "@/assets/icons/icons";
 
-const Profile = ({ type = `` }) => {
+const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy,time,
+  rating,
+  rev_count }) => {
+  const typeUser = {
+    ["legal_owner"]: `Юр. лицо`,
+    [`physic_owner`]: `Физ. лицо`,
+  };
   return (
     <Box className={cls.box}>
       <Heading fontSize="20px">
-        Данные {type === `voditel` ? `водителя` : `перевозчика`}{" "}
+        Данные {type === `driver` ? `водителя` : `перевозчика`}{" "}
       </Heading>
       <Flex gap={`50px`} mt={`20px`}>
         <Flex flexDirection={`column`} rowGap={`16px`}>
-        {/* <ProfileIconDriverBig /> */}
-          <Image
-            width={300}
-            height={300}
-            alt={`lo`}
-            src={`/images/avatar.png`}
-            className={type === `voditel` ? cls.radiusImg : cls.image}
-          />
-          <StatusComponent status={`success`} date={new Date()} />
-          <StarRating rating={3} />
+          {data?.logo ? (
+            <Image
+              width={300}
+              height={300}
+              alt={`lo`}
+              src={data?.logo || ``}
+              className={type === `driver` ? cls.radiusImg : cls.image}
+            />
+          ) : type === `driver` ? (
+            <ProfileIconDriverBig />
+          ) : (
+            <ProfileIconXMBig />
+          )}
+
+          <StatusComponent status={reliabilitiy} date={time} />
+          <StarRating rating={rev_count || 0} comment={rating? rating : 0} />
         </Flex>
 
-        {type === `voditel` ? (
+        {type === `driver` ? (
           <Flex flexDirection={`column`} rowGap={`27px`}>
             <Box>
               <p className={cls.label}>Имя</p>
@@ -86,35 +103,36 @@ const Profile = ({ type = `` }) => {
           <Flex flexDirection={`column`} rowGap={`27px`}>
             <Box>
               <p className={cls.label}>Полное наименование</p>
-              <p className={cls.name}>
-                Uztrans Logistics Group Mas`uliyati cheklangan jamiyat
-              </p>
+              <p className={cls.name}>{data?.company_name}</p>
             </Box>
             <Box>
               <p className={cls.label}>Имя руководителя</p>
-              <p className={cls.name}>Абдурахмонов Дилшод</p>
+              <p className={cls.name}> {data?.full_name}</p>
             </Box>
             <Box>
               <p className={cls.label}>Тип аккаунта</p>
-              <p className={cls.name}>Юридическое лицо</p>
+              <p className={cls.name}>{typeUser[data?.tip_account?.[0]]}</p>
             </Box>
             <Box>
               <p className={cls.label}>ИНН Оргазинации</p>
-              <p className={cls.nameLink}>304299004</p>
+              <p className={cls.nameLink}>{data?.tin}</p>
             </Box>
             <Box>
               <p className={cls.label}>Номер телефона</p>
-              <a href={`https://t.me/998930776161`} className={cls.nameLink}>
-                +998 93 0776161
+              <a
+                href={`https://t.me/${data?.phone_number}`}
+                className={cls.nameLink}
+              >
+                {data?.phone_number}
               </a>
             </Box>
             <Box>
               <p className={cls.label}>Количество водителей</p>
-              <p className={cls.nameLink}>31</p>
+              <p className={cls.nameLink}>{driver_size || 0}</p>
             </Box>
             <Box>
               <p className={cls.label}>Количество машин</p>
-              <p className={cls.nameLink}>40</p>
+              <p className={cls.nameLink}>{vehicles_data_size || 0}</p>
             </Box>
           </Flex>
         )}

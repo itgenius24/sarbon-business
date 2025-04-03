@@ -3,6 +3,11 @@
 .imgBox {
   position: relative;
 }
+.icon{
+  position: absolute;
+  top: -2px;
+  right: -2px;
+}
 .nameEllipsis {
   // width: 70%;
   font-weight: 600;
@@ -36,6 +41,7 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   object-fit: contain;
+  border-style: inset;
  
 }
 
@@ -43,4 +49,8 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
+  border-style: inset;
+  object-fit: contain;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
 }
