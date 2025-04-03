@@ -146,7 +146,7 @@ export const MyLoadsMain = ({ locale }) => {
           )}
         </Flex>
 
-        {/* {role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
+        {role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
           <Box width={`40%`} mb={`20px`} className={styles.locationWrap}>
             <TextField
               label={``}
@@ -155,6 +155,9 @@ export const MyLoadsMain = ({ locale }) => {
               register={register}
               onChange={(e) => {
                 setAddress(e.target.value);
+                if(e.target.value.length === 0){
+                  setValue(`from`,``)
+                }
               }}
               name={`from`}
               additionalItemPlaceholder={
@@ -182,9 +185,10 @@ export const MyLoadsMain = ({ locale }) => {
               </Box>
             )}
           </Box>
-        )} */}
+        )}
 
         <Tabs
+        isLazy
           onChange={(index) => onFilterChange(index)}
           defaultIndex={index * 1}
           variant="unstyled"
@@ -246,7 +250,7 @@ export const MyLoadsMain = ({ locale }) => {
           ) : (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
-                <AllPage   t={t} orderStatus={``} />
+                <AllPage address={address} search={watch(`from`)}  t={t} orderStatus={``} />
               </TabPanel>
               <TabPanel padding={0}>
                 <InModerationPage t={t} orderStatus={`in_moderation`} />

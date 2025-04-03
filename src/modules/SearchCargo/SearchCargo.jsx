@@ -84,6 +84,7 @@ export const SearchCargoModule = () => {
 
   return (
     <>
+     
       <Container my={isLargerThan845 ? "24px" : "24px"}>
         <Heading
           size={isLargerThan845 ? "md" : "sm"}

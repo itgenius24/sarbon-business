@@ -77,6 +77,11 @@ const itemsService = {
     request.delete(`/v2/items/order/${id}`, {
       data: JSON.stringify({ data: {} }),
     }),
+    reliabilities: (id) =>
+      request.delete(`/v2/items/reliabilities/${id}`, {
+        data: JSON.stringify({ data: {} }),
+      }),
+    
   deleteDis: (data) =>
     request.delete(
       `/v1/object/project-id=f539f64b-961e-4c6c-8534-140091f7f27b`,
@@ -294,6 +299,13 @@ export const useDeletedeleteDispacersDriver = (mutationSettings) => {
 export const useDeleteOrder = (mutationSettings) => {
   return useMutation({
     mutationFn: ({ id }) => itemsService.deleteOrder(id),
+    ...mutationSettings,
+  });
+};
+
+export const useDeleteReliabilities = (mutationSettings) => {
+  return useMutation({
+    mutationFn: ({ id }) => itemsService.reliabilities(id),
     ...mutationSettings,
   });
 };

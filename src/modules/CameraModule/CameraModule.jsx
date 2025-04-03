@@ -45,13 +45,13 @@ const CameraModule = () => {
     navigator.mediaDevices
       .getUserMedia({
         video: {
-          width: { exact: 1920 },
-          height: { exact: 1080 },
+          // width: { exact: 1920 },
+          // height: { exact: 1080 },
           facingMode: "environment",
-          frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
-          exposureMode: "continuous", // 📌 Doimiy ekspozitsiya
-          whiteBalanceMode: "continuous", // 📌 Oq rang balansini avtomatik qilish
-          brightness: 1.5,
+          // frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
+          // exposureMode: "continuous", // 📌 Doimiy ekspozitsiya
+          // whiteBalanceMode: "continuous", // 📌 Oq rang balansini avtomatik qilish
+          // brightness: 1.5,
         },
       })
       .then((stream) => {
@@ -73,8 +73,8 @@ const CameraModule = () => {
     const videoHeight = video.videoHeight;
 
     // Ramka o‘lchami (doimo 390x250)
-    const frameWidth = 300;
-    const frameHeight = 330;
+    const frameWidth = 190;
+    const frameHeight = 0;
 
     // Kesish koordinatalari (markazdan)
     const x = (videoWidth - frameWidth) / 2;

@@ -96,7 +96,7 @@ export const ProfileLayout = ({ children }) => {
     });
   };
 
-  console.log(`data`, data?.photo);
+ 
 
   return (
     <>
@@ -177,9 +177,11 @@ export const ProfileLayout = ({ children }) => {
                           {data?.photo ? (
                             <>
                               <Image
-                                src={`${data?.photo?.includes(`https`) ? `` : process.env.NEXT_PUBLIC_MEDIA_URL}${
-                                  data?.photo || ""
-                                }`}
+                                src={`${
+                                  data?.photo?.includes(`https`)
+                                    ? ``
+                                    : process.env.NEXT_PUBLIC_MEDIA_URL
+                                }${data?.photo || ""}`}
                                 alt="profileImg"
                                 width={200}
                                 height={200}
@@ -216,9 +218,11 @@ export const ProfileLayout = ({ children }) => {
                           <Image
                             src={
                               data?.photo
-                                ? `${data?.photo?.includes(`https`) ? `` : process.env.NEXT_PUBLIC_MEDIA_URL}${
-                                    data?.photo || ""
-                                  }`
+                                ? `${
+                                    data?.photo?.includes(`https`)
+                                      ? ``
+                                      : process.env.NEXT_PUBLIC_MEDIA_URL
+                                  }${data?.photo || ""}`
                                 : UserImg
                             }
                             alt="profileImg"

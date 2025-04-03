@@ -13,6 +13,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -21,6 +28,7 @@ import {
   PopoverTrigger,
   Text,
   Tooltip,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -69,8 +77,8 @@ export const TableComponent = ({
   const [search, setSearch] = useState("");
   const [carId, setCarId] = useState();
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
-
-  const [centerModalType, setCenterModalType] = useState();
+  const {isOpen,onClose,onOpen} = useDisclosure()
+  const [centerModalType, setCenterModalType] = useState(null);
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
   const toast = useToast();
@@ -96,6 +104,7 @@ export const TableComponent = ({
       setStatus(true);
       setStatus2(true);
       setCenterModalType(false);
+      onClose()
     },
   });
 
@@ -108,6 +117,7 @@ export const TableComponent = ({
         setSelectCargo([]);
         setStatus(true);
         setCenterModalType(false);
+        onClose()
         setStatus2(true);
       },
     });
@@ -233,7 +243,10 @@ export const TableComponent = ({
   };
 
   const deleteOrder = (data) => {
-    const order = data?.orders?.filter((item) => item.provisions?.filter((el) => el !== `performed`)?.[0] !== `performed`);
+    const order = data?.orders?.filter(
+      (item) =>
+        item.provisions?.filter((el) => el !== `performed`)?.[0] !== `performed`
+    );
     if (order?.length > 0) {
       deleteOrderData({ id: order?.[0]?.guid });
 
@@ -514,6 +527,7 @@ export const TableComponent = ({
   const onRow = (item) => {
     setCarId(item);
     setCenterModalType(true);
+    onOpen()
   };
 
   return (
@@ -529,44 +543,70 @@ export const TableComponent = ({
         />
       </Box>
 
-      {centerModalType && isLargerThan845 ? (
-        <div className={cls.modalOver} onClick={() => setCenterModalType(``)}>
-          <div className={cls.selectCargo}>
-            <Flex
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              className={cls.selectCargoTop}
-              height={`90px`}
-            >
-              <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
-              {(dataRes?.length > 0) &&(
-                <InputGroup className={cls.inputWrap}>
-                  <Input
-                    placeholder={t("Поиск")}
-                    className={cls.input}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                  <InputRightElement>
-                    <SearchIcon />
-                  </InputRightElement>
-                </InputGroup>
-              )}
-            </Flex>
-            <Box className={cls.modalContend}>
-              {filteredData?.length > 0 ? (
-                filteredData?.map((item) => {
-                  const provisionsData = item?.orders?.filter(
-                    (item) =>
-                      item.provisions?.includes(`performed`) ||
-                      item.provisions?.includes(`approve_from_driver`) ||
-                      item.provisions?.includes(`new_proposal_from_director`) ||
-                      item.provisions?.includes(`approve_by_customer`)
-                  );
-                  return (
-                    <CheckBoxComponent
-                      key={item?.user?.guid}
-                      onClick={() => {
-                        if (
+      { isLargerThan845 ? (
+        <Modal size={`2xl`} isCentered isOpen={isOpen}>
+          <ModalOverlay onClick={onClose}/>
+          <ModalContent>
+            <ModalHeader  borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+              <Flex
+                justifyContent={"space-between"}
+                alignItems={"center"}
+               
+                height={`40px`}
+              >
+                <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
+                {dataUser?.length > 0 ? (
+                  <InputGroup width={`40%`} className={cls.inputWrap}>
+                    <Input
+                      placeholder={t("Поиск")}
+                      className={cls.input}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <InputRightElement>
+                      <SearchIcon />
+                    </InputRightElement>
+                  </InputGroup>
+                ):<ModalCloseButton onClick={onClose} />}
+              </Flex>
+            </ModalHeader>
+            <ModalBody minHeight={`400px`}>
+              <Box>
+                {filteredData?.length > 0 ? (
+                  filteredData?.map((item) => {
+                    const provisionsData = item?.orders?.filter(
+                      (item) =>
+                        item.provisions?.includes(`performed`) ||
+                        item.provisions?.includes(`approve_from_driver`) ||
+                        item.provisions?.includes(
+                          `new_proposal_from_director`
+                        ) ||
+                        item.provisions?.includes(`approve_by_customer`)
+                    );
+                    return (
+                      <CheckBoxComponent
+                        key={item?.user?.guid}
+                        onClick={() => {
+                          if (
+                            provisionsData?.[0]?.provisions?.includes(
+                              `performed`
+                            ) ||
+                            provisionsData?.[0]?.provisions?.includes(
+                              `approve_from_driver`
+                            ) ||
+                            provisionsData?.[0]?.provisions?.includes(
+                              `new_proposal_from_director`
+                            ) ||
+                            provisionsData?.[0]?.provisions?.includes(
+                              `approve_by_customer`
+                            )
+                          ) {
+                            // deleteOrder(item) emas, faqat onOpen() chaqirildi
+                          } else {
+                            handleSelect(item?.user?.guid);
+                          }
+                        }}
+                        active={selectCargo.includes(item?.user?.guid)}
+                        status={
                           provisionsData?.[0]?.provisions?.includes(
                             `performed`
                           ) ||
@@ -579,15 +619,9 @@ export const TableComponent = ({
                           provisionsData?.[0]?.provisions?.includes(
                             `approve_by_customer`
                           )
-                        ) {
-                          // deleteOrder(item) emas, faqat onOpen() chaqirildi
-                        } else {
-                          handleSelect(item?.user?.guid);
                         }
-                      }}
-                      active={selectCargo.includes(item?.user?.guid)}
-                      status={
-                        provisionsData?.[0]?.provisions?.includes(
+                      >
+                        {provisionsData?.[0]?.provisions?.includes(
                           `performed`
                         ) ||
                         provisionsData?.[0]?.provisions?.includes(
@@ -598,171 +632,164 @@ export const TableComponent = ({
                         ) ||
                         provisionsData?.[0]?.provisions?.includes(
                           `approve_by_customer`
-                        )
-                      }
-                    >
-                      {provisionsData?.[0]?.provisions?.includes(`performed`) ||
-                      provisionsData?.[0]?.provisions?.includes(
-                        `approve_from_driver`
-                      ) ||
-                      provisionsData?.[0]?.provisions?.includes(
-                        `new_proposal_from_director`
-                      ) ||
-                      provisionsData?.[0]?.provisions?.includes(
-                        `approve_by_customer`
-                      ) ? (
-                        <>
-                          {provisionsData?.[0]?.provisions?.includes(
-                            `approve_by_customer`
-                          ) && (
-                            <TooltipComponets
-                              cls={cls}
-                              status={`check`}
-                              label={`Водитель подтвердил`}
-                              color={`rgba(21, 186, 77, 1)`}
-                            />
-                          )}
-                          {provisionsData?.[0]?.provisions?.includes(
-                            `performed`
-                          ) && (
-                            <TooltipComponets
-                              cls={cls}
-                              status={`check`}
-                              label={`Водитель занят`}
-                              color={`rgba(21, 186, 77, 1)`}
-                            />
-                          )}
-                          {(provisionsData?.[0]?.provisions?.includes(
-                            `approve_from_driver`
-                          ) ||
-                            provisionsData?.[0]?.provisions?.includes(
-                              `new_proposal_from_director`
-                            )) && (
-                            <TooltipComponets
-                              cls={cls}
-                              status={`approve_from_driver`}
-                              label={`Ждем подтверждение водителя`}
-                              color={`rgba(193, 187, 32, 1)`}
-                            />
-                          )}
+                        ) ? (
+                          <>
+                            {provisionsData?.[0]?.provisions?.includes(
+                              `approve_by_customer`
+                            ) && (
+                              <TooltipComponets
+                                cls={cls}
+                                status={`check`}
+                                label={`Водитель подтвердил`}
+                                color={`rgba(21, 186, 77, 1)`}
+                              />
+                            )}
+                            {provisionsData?.[0]?.provisions?.includes(
+                              `performed`
+                            ) && (
+                              <TooltipComponets
+                                cls={cls}
+                                status={`check`}
+                                label={`Водитель занят`}
+                                color={`rgba(21, 186, 77, 1)`}
+                              />
+                            )}
+                            {(provisionsData?.[0]?.provisions?.includes(
+                              `approve_from_driver`
+                            ) ||
+                              provisionsData?.[0]?.provisions?.includes(
+                                `new_proposal_from_director`
+                              )) && (
+                              <TooltipComponets
+                                cls={cls}
+                                status={`approve_from_driver`}
+                                label={`Ждем подтверждение водителя`}
+                                color={`rgba(193, 187, 32, 1)`}
+                              />
+                            )}
 
-                          <Popover>
-                            <PopoverTrigger>
-                              <Box as="button" className={cls.countryWrap}>
-                                <Flex gap={3}>
-                                  <Avatar
-                                    name={item?.user?.full_name}
-                                    src={item?.user?.photo}
-                                  />
-                                  <Box>
-                                    <p className={cls.name}>
-                                      {item?.user?.full_name}
-                                    </p>
-                                    <p className={cls.subTitle}>
-                                      {item?.user?.phone}
-                                    </p>
-                                  </Box>
-                                </Flex>
-                              </Box>
-                            </PopoverTrigger>
-
-                            <PopoverContent
-                              background={`white`}
-                              position={`relative`}
-                              border={`none`}
-                              boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                              width={`300px`}
-                            >
-                              <PopoverArrow size={`lg`} />
-                              <PopoverBody fontWeight={400}>
-                                <PopoverCloseButton />
-                                <Box onClick={() => deleteOrder(item)}>
-                                  {t("Отменить предложение")}
+                            <Popover>
+                              <PopoverTrigger>
+                                <Box as="button" className={cls.countryWrap}>
+                                  <Flex gap={3}>
+                                    <Avatar
+                                      name={item?.user?.full_name}
+                                      src={item?.user?.photo}
+                                    />
+                                    <Box>
+                                      <p className={cls.name}>
+                                        {item?.user?.full_name}
+                                      </p>
+                                      <p className={cls.subTitle}>
+                                        {item?.user?.phone}
+                                      </p>
+                                    </Box>
+                                  </Flex>
                                 </Box>
-                              </PopoverBody>
-                            </PopoverContent>
-                          </Popover>
-                        </>
-                      ) : (
-                        <Box className={cls.countryWrap}>
-                          <Flex gap={3}>
-                            <Avatar
-                              name={item?.user?.full_name}
-                              src={item?.user?.photo}
-                            />
-                            <Box>
-                              <p className={cls.name}>
-                                {item?.user?.full_name}
-                              </p>
-                              <p className={cls.subTitle}>
-                                {item?.user?.phone}
-                              </p>
-                            </Box>
-                          </Flex>
-                        </Box>
-                      )}
-                    </CheckBoxComponent>
-                  );
-                })
-              ) : (
-                <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
-                  <UserIconCerate />
+                              </PopoverTrigger>
 
-                  <Text color={"blackAlpha.400"} fontSize={"18px"}>
-                    {t("У вас пока нет водителей")}
-                  </Text>
-                  <Button
-                    onClick={() => router.push(`/${locale}/drivers/create`)}
-                    className={cls.topButton}
-                    size="md"
-                    width={`fit-content`}
-                  >
-                    {t("Добавить водителя")}
-                  </Button>
-                </Flex>
-              )}
-            </Box>
-            <Flex
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              className={cls.selectCargoBottom}
-              height={`90px`}
-            >
-              <Checkbox
-                defaultChecked={isCheckboxChecked}
-                onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+                              <PopoverContent
+                                background={`white`}
+                                position={`relative`}
+                                border={`none`}
+                                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                width={`300px`}
+                              >
+                                <PopoverArrow size={`lg`} />
+                                <PopoverBody fontWeight={400}>
+                                  <PopoverCloseButton />
+                                  <Box onClick={() => deleteOrder(item)}>
+                                    {t("Отменить предложение")}
+                                  </Box>
+                                </PopoverBody>
+                              </PopoverContent>
+                            </Popover>
+                          </>
+                        ) : (
+                          <Box className={cls.countryWrap}>
+                            <Flex gap={3}>
+                              <Avatar
+                                name={item?.user?.full_name}
+                                src={item?.user?.photo}
+                              />
+                              <Box>
+                                <p className={cls.name}>
+                                  {item?.user?.full_name}
+                                </p>
+                                <p className={cls.subTitle}>
+                                  {item?.user?.phone}
+                                </p>
+                              </Box>
+                            </Flex>
+                          </Box>
+                        )}
+                      </CheckBoxComponent>
+                    );
+                  })
+                ) : (
+                  <Flex direction={"column"} alignItems={"center"} gap={"30px"}>
+                    <UserIconCerate />
+
+                    <Text color={"blackAlpha.400"} fontSize={"18px"}>
+                      {t("У вас пока нет водителей")}
+                    </Text>
+                    <Button
+                      onClick={() => router.push(`/${locale}/drivers/create`)}
+                      className={cls.topButton}
+                      size="md"
+                      width={`fit-content`}
+                    >
+                      {t("Добавить водителя")}
+                    </Button>
+                  </Flex>
+                )}
+              </Box>
+            </ModalBody>
+            <ModalFooter  borderTop={`1px solid rgba(219, 216, 227, 1)`}>
+              <Flex
+                width={`100%`}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                className={cls.selectCargoBottom}
+                height={`45px`}
               >
-                {t("Только свободные водители")}
-              </Checkbox>
+                <Checkbox
+                  defaultChecked={isCheckboxChecked}
+                  onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+                >
+                  {t("Только свободные водители")}
+                </Checkbox>
 
-              {filteredData?.length > 0 && (
-                <Flex gap={2}>
-                  <Button
-                    className={cls.topButton}
-                    onClick={() => setCenterModalType("")}
-                    variant="secondaryWhite"
-                    size="md"
-                    border="1px solid #D0D5DD"
-                  >
-                    {t("Отменить")}
-                  </Button>
-                  <Button
-                    isDisabled={selectCargo.length === 0}
-                    isLoading={isLoading}
-                    onClick={() => handlePred()}
-                    className={cls.topButton}
-                    size="md"
-                  >
-                    {t("Предложить")}
-                  </Button>
-                </Flex>
-              )}
-            </Flex>
-          </div>
-        </div>
+                {dataUser?.length > 0 && (
+                  <Flex gap={2}>
+                    <Button
+                      className={cls.topButton}
+                      onClick={() => onClose()}
+                      variant="secondaryWhite"
+                      size="md"
+                      border="1px solid #D0D5DD"
+                    >
+                      {t("Отменить")}
+                    </Button>
+                    
+                    <Button
+                      isDisabled={selectCargo.length === 0}
+                      isLoading={isLoading}
+                      onClick={() => handlePred()}
+                      className={cls.topButton}
+                      size="md"
+                    >
+                      {t("Предложить")}
+                    </Button>
+                  </Flex>
+                )}
+              </Flex>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       ) : (
-        <Drawer placement="bottom" isOpen={centerModalType}>
-          <DrawerOverlay onClick={() => setCenterModalType(``)} />
+        <Drawer placement="bottom" isOpen={isOpen}>
+          <DrawerOverlay onClick={onClose} />
           <DrawerContent borderRadius="12px 12px 0 0">
             <DrawerHeader>
               <Flex

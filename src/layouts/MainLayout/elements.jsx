@@ -54,6 +54,10 @@ export const useElements = (lang) => {
         label: "Мои грузы",
       },
       {
+        path: isAuth ? `/${lang || "ru"}/dispatcher-expeditor` : `/${lang || "ru"}/auth`,
+        label: "Перевозчики",
+      },
+      {
         path: isAuth
           ? `/${lang || "ru"}/my-cars-dispatcher`
           : `/${lang || "ru"}/auth`,

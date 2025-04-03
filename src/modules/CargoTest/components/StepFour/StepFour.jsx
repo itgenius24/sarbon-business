@@ -5,9 +5,7 @@ import {
   Heading,
   Radio,
   RadioGroup,
- 
   Switch,
- 
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -88,9 +86,11 @@ const StepFour = ({ status }) => {
     setValue(`price_prepayment_unit`, selectedOption);
   };
 
-  console.log(`salom`,watch(`price_prepayment_unit`)?.label?.charAt(0).toUpperCase() , watch(`price_prepayment_unit`)
-  ?.label?.slice(1)
-  .toLowerCase() )
+  console.log(
+    `salom`,
+    watch(`price_prepayment_unit`)?.label?.charAt(0).toUpperCase(),
+    watch(`price_prepayment_unit`)?.label?.slice(1).toLowerCase()
+  );
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
@@ -140,68 +140,38 @@ const StepFour = ({ status }) => {
               alignItems={"center"}
               justifyContent={"space-between"}
             >
-              <Flex  gap={`50px`} >
-              <Flex gap={`8px`} alignItems={`center`}>
-                <Box className={cls.logoWrapMobile}>
-                  <NoteIcon />
-                </Box>
-                <p className={cls.stepTitle}>{t(`Оплата`)}</p>
-              </Flex>
-              <Flex className={cls.radioWrap} gap={"50px"}>
-                {!check && !status && currencyOptions ? (
-                  <RadioGroup
-                    defaultValue={
-                      watch(`price_prepayment_unit`)?.label || `доллар`
-                    } // Set the default value
-                    onChange={(e) => onChange(e)}
-                  >
-                    <Flex gap={"19px"}>
-                      {currencyOptions &&
-                        currencyOptions.map((item) => (
-                          <Radio
-                            key={item.label}
-                            border={"1px solid rgba(208, 213, 221, 1)"}
-                            value={item.label}
-                            size={"md"}
-                            _checked={{
-                              bg: "white", // Custom background color
-                              border: `5px solid rgba(0, 122, 255, 1)`,
-                            }}
-                          >
-                            <span
-                              className={
-                                watch(`price_prepayment_unit`)?.label ===
-                                item.label
-                                  ? cls.ActiveRadio
-                                  : cls.radio
-                              }
-                            >
-                              {item?.label?.charAt(0).toUpperCase() +
-                                item?.label?.slice(1).toLowerCase()}
-                            </span>
-                          </Radio>
-                        ))}
-                    </Flex>
-                  </RadioGroup>
-                ) : (
-                  status && (
+              <Flex gap={`50px`}>
+                <Flex gap={`8px`} alignItems={`center`}>
+                  <Box className={cls.logoWrapMobile}>
+                    <NoteIcon />
+                  </Box>
+                  <p className={cls.stepTitle}>{t(`Оплата`)}</p>
+                </Flex>
+                <Flex className={cls.radioWrap} gap={"50px"}>
+                  {!check && !status && currencyOptions ? (
                     <RadioGroup
-                      isDisabled={!canEdit}
-                      onChange={(e) => onChangeNa(e)}
-                      value={value}
+                      defaultValue={
+                        watch(`price_prepayment_unit`)?.label || `доллар`
+                      } // Set the default value
+                      onChange={(e) => onChange(e)}
                     >
-                      <Flex gap={"10px"}>
-                        {negotiableOption &&
-                          negotiableOption.map((item) => (
+                      <Flex gap={"19px"}>
+                        {currencyOptions &&
+                          currencyOptions.map((item) => (
                             <Radio
-                              key={item.value}
+                              key={item.label}
                               border={"1px solid rgba(208, 213, 221, 1)"}
-                              value={item.value}
+                              value={item.label}
                               size={"md"}
+                              _checked={{
+                                bg: "white", // Custom background color
+                                border: `5px solid rgba(0, 122, 255, 1)`,
+                              }}
                             >
                               <span
                                 className={
-                                  value === item.value
+                                  watch(`price_prepayment_unit`)?.label ===
+                                  item.label
                                     ? cls.ActiveRadio
                                     : cls.radio
                                 }
@@ -213,9 +183,39 @@ const StepFour = ({ status }) => {
                           ))}
                       </Flex>
                     </RadioGroup>
-                  )
-                )}
-              </Flex>
+                  ) : (
+                    status && (
+                      <RadioGroup
+                        isDisabled={!canEdit}
+                        onChange={(e) => onChangeNa(e)}
+                        value={value}
+                      >
+                        <Flex gap={"10px"}>
+                          {negotiableOption &&
+                            negotiableOption.map((item) => (
+                              <Radio
+                                key={item.value}
+                                border={"1px solid rgba(208, 213, 221, 1)"}
+                                value={item.value}
+                                size={"md"}
+                              >
+                                <span
+                                  className={
+                                    value === item.value
+                                      ? cls.ActiveRadio
+                                      : cls.radio
+                                  }
+                                >
+                                  {item?.label?.charAt(0).toUpperCase() +
+                                    item?.label?.slice(1).toLowerCase()}
+                                </span>
+                              </Radio>
+                            ))}
+                        </Flex>
+                      </RadioGroup>
+                    )
+                  )}
+                </Flex>
               </Flex>
 
               {!status && (
@@ -226,19 +226,19 @@ const StepFour = ({ status }) => {
                     onChange={(e) => setCheck(e.target.checked)}
                     size={"md"}
                     sx={{
-    "& .chakra-switch__track": {
-      backgroundColor: "rgba(230, 224, 233, 1) !important",
-    },
-    "&[data-checked] .chakra-switch__track": {
-      backgroundColor: "#007aff !important",
-    },
-    "& .chakra-switch__thumb": {
-      background: "rgba(121, 116, 126, 1) !important",
-    },
-    "&[data-checked] .chakra-switch__thumb": {
-      background: "rgb(255, 255, 255) !important",
-    },
-  }}
+                      "& .chakra-switch__track": {
+                        backgroundColor: "rgba(230, 224, 233, 1) !important",
+                      },
+                      "&[data-checked] .chakra-switch__track": {
+                        backgroundColor: "#007aff !important",
+                      },
+                      "& .chakra-switch__thumb": {
+                        background: "rgba(121, 116, 126, 1) !important",
+                      },
+                      "&[data-checked] .chakra-switch__thumb": {
+                        background: "rgb(255, 255, 255) !important",
+                      },
+                    }}
                   />
                 </Flex>
               )}
@@ -410,10 +410,10 @@ const StepFour = ({ status }) => {
                         placeholder={t("Введите сумму")}
                         errors={errors}
                         onKeyDown={(e) => {
-                        if (e.key === "." || e.key === "," || e.key === "e") {
-                          e.preventDefault();
-                        }
-                      }}
+                          if (e.key === "." || e.key === "," || e.key === "e") {
+                            e.preventDefault();
+                          }
+                        }}
                         type="number"
                         width="100%"
                         additionalItemOptions={paymentOptions}
@@ -432,9 +432,13 @@ const StepFour = ({ status }) => {
                             ? watch(`price_prepayment`)
                             : 0)}
 
-                        {` ${watch(`price_prepayment_unit`)?.label?.charAt(0).toUpperCase() + watch(`price_prepayment_unit`)
-                            ?.label?.slice(1)
-                            .toLowerCase() || `Доллар`
+                        {` ${
+                          watch(`price_prepayment_unit`)
+                            ?.label?.charAt(0)
+                            .toUpperCase() +
+                            watch(`price_prepayment_unit`)
+                              ?.label?.slice(1)
+                              .toLowerCase() || `Доллар`
                         }`}
                       </p>
                     </Box>
@@ -473,8 +477,7 @@ const StepFour = ({ status }) => {
             ) : (
               <Box mt={"40px"}>
                 <h2 className={cls.title}>
-                  
-                {t(`Водители SARBON смогут предложить свою ставку`)}
+                  {t(`Водители SARBON смогут предложить свою ставку`)}
                 </h2>
                 <p className={cls.subTitle2}>{t(`Можно предлагать`)}</p>
                 <Flex className={cls.checkWrap} mt={2} gap={"22px"}>

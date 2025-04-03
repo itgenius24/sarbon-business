@@ -1238,7 +1238,7 @@ export const useDashboard = (locale) => {
         const newDriver = row?.drivers_count?.new || 0;
         const unknown = row?.drivers_count?.unknown || 0;
         const our_cargo = row?.drivers_count?.our_cargo || 0;
-        // const waiting_for_driver = row?.drivers_count?.waiting_for_driver || 0;
+        const waiting_for_driver = row?.drivers_count?.waiting_for_driver || 0;
         return (
           <p style={{ textAlign: `center` }}>
             {empty +
@@ -1246,7 +1246,7 @@ export const useDashboard = (locale) => {
               broke_down +
               newDriver +
               unknown +
-              our_cargo}
+              our_cargo + waiting_for_driver}
           </p>
         );
       },
@@ -1446,5 +1446,6 @@ export const useDashboard = (locale) => {
     onClose,
     firmId,
     editFn,
+    setData,
   };
 };

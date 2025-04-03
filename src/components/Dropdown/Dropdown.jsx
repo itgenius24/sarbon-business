@@ -125,6 +125,7 @@ export const Dropdown = ({
                         onClick={() => {
                           setValue(searchName, "");
                           setValue(name, {});
+                          clearFn()
                         }}
                       >
                         <CircleCloseIcon />

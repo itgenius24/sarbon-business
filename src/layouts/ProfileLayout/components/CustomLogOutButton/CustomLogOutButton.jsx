@@ -45,6 +45,8 @@ export const CustomLogOutButton = () => {
     await authStore.logout();
     await authStore.setAuthData("phone", ``);
     await authStore.setAuthData("mediaAuth", {})
+    window.history.replaceState(null, "", `/${locale}/auth/login`);
+
     router.push(`/${locale ? locale :`ru`}/auth/login`);
   };
 

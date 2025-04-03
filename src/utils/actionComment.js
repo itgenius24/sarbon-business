@@ -1,5 +1,6 @@
 export const commentObj = {
     [`log_out`]:`Вышел из своего аккаунта`,
+    [`delete_account`]:`Водитель удалил приложение`,
     [`changed_own_info`]:`Изменил личные данные`,
     [`changed_own_password`]:`Изменил пароль`,
     [`export_axcell_driver`]:`Скачал список машин`,
@@ -18,7 +19,7 @@ export const commentObj = {
     [`offer_to_driver`]:`Предложил груз`,
     [`create_driver`]:`Добавил нового водителя`,
     [`changed_driver_info`]:`Изменил данные водителя`,
-    [`deleted_driver`]:`Удалил водителя`,
+    [`delete_driver`]:`Удалил водителя`,
     [`create_unit`]:`Добавил новую машину`,
     [`edit_unit`]:`Редактировал машину`,
     [`edit_driver`]:`Открепил водителя`,
@@ -32,12 +33,11 @@ export const commentObj = {
 
 export const roleObj = {
     [`carrier`]:`Перевозчик`,
+    [`voditel`]:`Водитель`,
     [`first_dispatcher`]:`Диспетчер`,
     [`top_dispatcher`]:`Tоп Диспетчер`,
     [`customer`]:`Заказчик`,
     [`ceo`]:`Ceo`
-
-    
 }
 
 export const nameToRole = {

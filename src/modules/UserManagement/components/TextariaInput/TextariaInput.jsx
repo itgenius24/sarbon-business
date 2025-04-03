@@ -1,0 +1,42 @@
+import { Box, Flex, Textarea } from "@chakra-ui/react";
+import React from "react";
+import cls from "./style.module.scss";
+import { DeleteFileIcon, FileUploadIcon } from "@/assets/icons/icons";
+import Image from "next/image";
+import FileConponent from "../FileConponent/FileConponent";
+
+const TextariaInput = ({ files, deleteFile,setCommentFn,comment, error }) => {
+  return (
+    <Box className={cls.inputWrap} border={`1px solid ${error ? `red`: `rgba(208, 213, 221, 1)`}`}>
+      {files?.length > 0 && (
+        <Flex className={cls.filesWrap}>
+          {files.map((item) => (
+            <FileConponent
+              deleteFile={deleteFile}
+              isCreate
+              cls={cls}
+              key={item.name}
+              item={item}
+            />
+          ))}
+        </Flex>
+      )}
+      <Textarea
+        placeholder="Напишите текст..."
+        _placeholder={{
+          fontSize: "16px",
+          color: "rgba(102, 112, 133, 1)",
+          fontWeight: 400,
+        }}
+        value={comment}
+        paddingTop={files.length > 0 ? `0px` : `10px`}
+        focusBorderColor="transparent"
+        _hover={{ borderColor: "transparent" }}
+        className={cls.textarea}
+        onChange={(e) => setCommentFn(e.target.value)}
+      />
+    </Box>
+  );
+};
+
+export default TextariaInput;

@@ -26,6 +26,7 @@ export const UploadImg = ({
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
   };
 
+  console.log(`name`,watch(name))
 
   return (
     <Box

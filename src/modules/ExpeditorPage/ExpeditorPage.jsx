@@ -1,12 +1,20 @@
-"use client"
+"use client";
 import { Container } from "@/components/Container";
 import React from "react";
 import { useProps } from "./useProps";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 const ExpeditorPage = ({ locale }) => {
-  const { column, isLargerThan845, t } = useProps();
+  const {
+    column,
+    isLargerThan845,
+    t,
+    expeditorData,
+    addPage,
+    isFetching,
+    router,
+  } = useProps();
   return (
     <Container my={`40px`}>
       <Heading
@@ -17,8 +25,24 @@ const ExpeditorPage = ({ locale }) => {
         {t("Перевозчики")}
       </Heading>
       <Box mt={`35px`}>
-        <SarbonTable variant="card"  columns={column} data={[12,3,4,5]}/>
+        <SarbonTable
+          onRow={(row) =>
+            router.push(
+              `/${locale}/dispatcher-expeditor/user-management?driver_size=${row?.users_data_size}&vehicles_data_size=${row?.vehicles_data_size}&guid=${row.guid}&reliabilitiy=${row?.reliabilitiy?.status?.[0] || ``}&rev_count=${row?.reviews_count}&time=${row?.reliabilitiy?.create_time || ``}&rating=${row?.users_data?.[0]?.rating || 0}`
+            )
+          }
+          variant="card"
+          columns={column}
+          data={expeditorData}
+        />
       </Box>
+      {expeditorData?.length >= 100 && (
+        <Box mt={`15px`} width={`fit-content`}>
+          <Button isLoading={isFetching} onClick={addPage}>
+            Загрузить еще
+          </Button>
+        </Box>
+      )}
     </Container>
   );
 };

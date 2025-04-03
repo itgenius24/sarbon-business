@@ -1,21 +1,57 @@
-"use client"
+"use client";
 
-import { Box, Flex } from "@chakra-ui/react"
-import cls from './style.module.scss';
-import { ExitDoorNoIcon } from "@/assets/icons/icons";
+import { Box, Flex, Tooltip } from "@chakra-ui/react";
+import cls from "./style.module.scss";
+import { BadIcon, ExitDoorNoIcon, NotesIcon, UserIconLg } from "@/assets/icons/icons";
+import Image from "next/image";
 
-const Imgprofile = ({IsUser}) => {
+const Imgprofile = ({ company_name, yu_id, type, img = ``,status }) => {
+   const statusObjIcon = {
+    bad:<BadIcon />,
+    note:<NotesIcon />,
+    great:<NotesIcon />
+   }
   return (
-    <Flex alignItems={`center`} width={`100%`} className={cls.wrap} gap={`18px`}>
-          <Box className={cls.imgBox}>
-             <ExitDoorNoIcon />
+    <Flex alignItems={`center`} className={cls.wrap} gap={`18px`}>
+      <Box className={cls.imgBox}>
+         <Box className={cls.icon}>
+           {
+            status &&  statusObjIcon[status]
+           }
           </Box>
-          <Box>
-            <p className={cls.name}>ООО Uztrans Logistics Group</p>
-            <p className={cls.id}>ID: U-000003033</p>
-          </Box>
-    </Flex>
-  )
-}
+        {type === `legal_owner` ? (
+          img?.includes(`https`) && img ? (
+            <Image className={cls.imgLe} width={200} height={200} src={img} alt="logo" />
+          ) : (
+            <ExitDoorNoIcon />
+          )
+        ) : (
+          img?.includes(`https`) && img ? (
+            <Image className={cls.img} width={200} height={200} src={img} alt="logo" />
+          ) : (
+            <UserIconLg />
+          )
+         
+        )}
+      </Box>
+      <Box>
+        {company_name?.length > 20 ? (
+          <Tooltip
+            color={`black`}
+            boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+            background={`#fff`}
+            label={company_name}
+          >
+            <p> {company_name?.slice(0, 20)}...</p>
+          </Tooltip>
+        ) : (
+          <p className={cls.name}>{company_name}</p>
+        )}
 
-export default Imgprofile
+        <p className={cls.id}>{yu_id}</p>
+      </Box>
+    </Flex>
+  );
+};
+
+export default Imgprofile;

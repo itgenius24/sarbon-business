@@ -87,7 +87,7 @@ const SarbonTable = ({
           ))}
         </Flex>
       </Box>
-      {variant === `table` ? (
+      { data.length > 0 ?  variant === `table` ? (
         <Box className={cls.tableWrap}>
           {data?.map((item, index) => (
             <Flex
@@ -139,7 +139,13 @@ const SarbonTable = ({
             ))}
           </Flex>
         ))
-      )}
+      ):
+      <>
+      {/* <Box display={`flex`} alignItems={`center`} justifyContent={`center`} background={`white`} height={`100px`} borderRadius={`10px`} color={`rgba(33, 31, 38, 1)`}>
+          Нет данных
+       </Box> */}
+      </>
+      }
     </Box>
   );
 };

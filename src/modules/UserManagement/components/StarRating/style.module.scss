@@ -1,0 +1,25 @@
+.activeStar {
+  svg {
+    path {
+      fill: rgba(241, 165, 75, 1) !important;
+    }
+  }
+}
+
+.rating {
+  font-weight: 500;
+  font-size: 17.6px;
+  line-height: 22px;
+  letter-spacing: 0px;
+  color: rgba(33, 31, 38, 1);
+}
+
+.text{
+font-weight: 400;
+font-size: 12px;
+line-height: 20px;
+letter-spacing: 0px;
+color: rgba(126, 123, 134, 1);
+text-align: center;
+margin-top: 2px;
+}

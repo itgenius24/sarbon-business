@@ -15,6 +15,8 @@ export const useProps = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [roleData, setRoleData] = useState([]);
+  const [offset,setOffset] = useState(0)
+  const [data,setData] = useState([])
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
@@ -28,12 +30,15 @@ export const useProps = () => {
     copy(text);
   };
 
-  const { data: actionData } = useGetActionUser({
+  const { data: actionData,isFetching } = useGetActionUser({
     params: {
+      limit:100,
+      offset:offset,
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
         users_id: watch(`user`)?.value,
         role_slug: watch(`role`)?.role_slug,
+   
         action_time: {
           $gte: formatDate(startDate, 0, 0, 0),
           $lt: formatDate(endDate, 23, 59, 59),
@@ -45,10 +50,16 @@ export const useProps = () => {
         return res.response.filter(
           (item) =>
             !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
-            !item?.user_name?.includes(`CЕО`) &&
-            item?.user_name &&  item?.role_slug !== `voditel`
+            !item?.user_name?.includes(`CЕО`) 
+            // &&
+            // item?.user_name &&  item?.role_slug !== `voditel`
         );
       },
+      onSuccess:(res) =>{
+        const resData = res || []
+        setData([...data,...resData])
+      },
+      refetchOnWindowFocus:false,
     },
   });
 
@@ -59,7 +70,8 @@ export const useProps = () => {
           (item) =>
             item?.name?.trim() === `Диспетчер` ||
             item?.name === `Заказчик` ||
-            item?.name === `Экспедитор`
+            item?.name === `Экспедитор` ||
+            item.name === "Водитель"
         );
         const result = data?.map((item) => ({
           label: item?.name === `Экспедитор`  ? `Перевозчик`:  item.name,
@@ -79,7 +91,7 @@ export const useProps = () => {
     },
   });
 
-  console.log(`salom`, roleData);
+ 
 
   const { data: useList } = useGetUserPost({
     data: {
@@ -202,6 +214,10 @@ export const useProps = () => {
     },
   ];
 
+  const addPage = () =>{
+    setOffset(prev => prev + 100)
+  }
+
   return {
     control,
     errors,
@@ -211,12 +227,15 @@ export const useProps = () => {
     watch,
     t,
     columns,
-    data: actionData,
+    data: data,
     setStartDate,
     startDate,
     endDate,
     setEndDate,
     roleData,
     useList,
+    addPage,
+    isFetching,
+    setData
   };
 };
