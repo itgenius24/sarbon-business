@@ -547,7 +547,7 @@ export const useMyCarsDispatcher = () => {
                             }}
                             className={cls.menuItem}
                             onClick={() => {
-                              deleteFuntion(row?.dis_dr_data?.guid);
+                              deleteFuntion(row?.dis_dr_data?.guid,row.your_id);
                               onClose();
                             }}
                           >
@@ -574,19 +574,7 @@ export const useMyCarsDispatcher = () => {
 
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
     onSuccess: () => {
-      actionCreate({
-        data: {
-          user_name: authStore.userData.full_name,
-          phone_number: authStore.userData?.phone,
-          user_id: authStore.userData.guid,
-          increment_id: authStore.userData.your_id,
-          action_time: new Date(),
-          role_slug: `first_dispatcher`,
-          action_comment: `unpin_driver`,
-          role_id: authStore.userData?.role_id,
-          action_type: [`delete`],
-        },
-      });
+     
       setVisibleData((prevData) =>
         prevData.filter((item) => item.dis_dr_data?.guid !== deleteId)
       );
@@ -594,30 +582,30 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  const deleteFuntion = (id) => {
+  const deleteFuntion = (id,your_id) => {
     setDeleteId(id);
     deleteUser({
       id,
+    });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: your_id,
+        action_time: new Date(),
+        role_slug: `first_dispatcher`,
+        action_comment: `unpin_driver`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`delete`],
+      },
     });
   };
 
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
-      actionCreate({
-        data: {
-          user_name: authStore.userData.full_name,
-          phone_number: authStore.userData?.phone,
-          user_id: authStore.userData.guid,
-          increment_id: authStore.userData.your_id,
-          action_time: new Date(),
-          role_slug: `first_dispatcher`,
-          action_comment: `changed_driver_status`,
-          role_id: authStore.userData?.role_id,
-          action_type:[`update`],
-        },
-      });
-
+    
       setOpen(false);
       setIconStatus(``);
 
@@ -673,12 +661,28 @@ export const useMyCarsDispatcher = () => {
     onError() {},
   });
 
+  console.log(`open`,open)
+
   const statusIconChange = () => {
     const body = {
       guid: open.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: open?.your_id,
+        action_time: new Date(),
+        role_slug: `first_dispatcher`,
+        action_comment: `changed_driver_status`,
+        role_id: authStore.userData?.role_id,
+        action_type:[`update`],
+      },
+    });
+
   };
 
   const setSearchFn = (val) => {
