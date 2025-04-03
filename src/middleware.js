@@ -8,6 +8,7 @@ export function middleware(request) {
     ? JSON.parse(cookies.get("userData")?.value || {})?.role_id
     : null; 
 
+
   const roleExspePages = [
     "/ru/add-cargo",
     "/ru/my-load",
@@ -83,9 +84,13 @@ export function middleware(request) {
     "/search-load",
     "/search-car",
     "/add-cargo-test",
+    "/profile",
+    "/profile-xm",
   ];
 
+
   const currentPath = request.nextUrl.pathname.substring(3);
+
   if (
     roleExspePages.includes(currentPath) &&
     company_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
@@ -101,7 +106,7 @@ export function middleware(request) {
     company_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
   ) {
     return NextResponse.redirect(new URL("/ru/", request.url));
-  } else if (roleagesAuth.includes(currentPath) && !company_id) {
+  } else if (roleagesAuth.includes(currentPath) && company_id === undefined) {
     return NextResponse.redirect(new URL("/ru/auth", request.url));
   }
   return NextResponse.next();
