@@ -111,25 +111,27 @@ export const useMyDispatcher = () => {
       refetch();
       setCountActive(0);
       setCountNeActive(0);
-      actionCreate({
-        data: {
-          user_name: authStore.userData.full_name,
-          phone_number: authStore.userData?.phone,
-          user_id: authStore.userData.guid,
-          increment_id: authStore.userData?.your_id,
-          action_time: new Date(),
-          role_slug: `top_dispatcher`,
-          action_comment: `delete_first_dispatcher`,
-          role_id: authStore.userData?.role_id,
-          action_type: [`delete`],
-        },
-      });
+     
     },
   });
 
-  const deleteFuntion = (id) => {
+  const deleteFuntion = (id,your_id) => {
+    console.log(`your_id`,your_id)
     deleteData({
       id: id,
+    });
+    actionCreate({
+      data: {
+        user_name: authStore.userData.full_name,
+        phone_number: authStore.userData?.phone,
+        user_id: authStore.userData.guid,
+        increment_id: your_id || ``,
+        action_time: new Date(),
+        role_slug: `top_dispatcher`,
+        action_comment: `delete_first_dispatcher`,
+        role_id: authStore.userData?.role_id,
+        action_type: [`delete`],
+      },
     });
   };
 
@@ -388,7 +390,7 @@ export const useMyDispatcher = () => {
                           }}
                           className={cls.menuItem}
                           onClick={() => {
-                            deleteFuntion(row?.guid);
+                            deleteFuntion(row?.guid,row?.first_dispatcher_data?.your_id);
                             onClose();
                           }}
                         >

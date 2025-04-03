@@ -67,7 +67,6 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     },
   });
 
-  console.log(`contendSingle`,getAllUserCargo.data?.response)
 
   function handleOffer() {
     setDisabled(true);

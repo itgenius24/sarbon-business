@@ -66,7 +66,6 @@ const Cmap = memo(
     }, []);
 
 
-    console.log(`locationData`,locationData?.map(item => ([item?.lat,item?.long,item?.number_of_order])))
 
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();

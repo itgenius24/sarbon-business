@@ -78,7 +78,6 @@ export default function GpsTrackingDispatcher() {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`getCarListProps?.data`, getCarListProps);
 
   return (
     <>

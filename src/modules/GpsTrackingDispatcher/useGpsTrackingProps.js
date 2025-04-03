@@ -487,7 +487,6 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    console.log("offsetCar");
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
@@ -567,7 +566,7 @@ export const useGpsTrackingProps = () => {
         user_name: authStore.userData.full_name,
         phone_number: authStore.userData?.phone,
         user_id: authStore.userData.guid,
-        increment_id: authStore.userData.your_id,
+        increment_id: contendSingle?.user.your_id,
         action_time: new Date(),
         role_slug: `first_dispatcher`,
         action_comment: `changed_driver_status`,
