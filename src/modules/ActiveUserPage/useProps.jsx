@@ -36,7 +36,7 @@ export const useProps = () => {
       offset:offset,
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
-        users_id: watch(`user`)?.value,
+        user_id: watch(`user`)?.value,
         role_slug: watch(`role`)?.role_slug,
    
         action_time: {
