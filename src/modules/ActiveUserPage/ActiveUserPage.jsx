@@ -107,7 +107,10 @@ const ActiveUserPage = ({ locale }) => {
                 startDate={startDate}
                 setStartDate={setStartDate}
                 placeholder={`Дата с`}
-           
+                onChange={() => {
+                  setValue(`date`, ``);
+                  setData([]);
+                }}
               />
             </Box>
             <Box className="dateWrap one" width={`160px`}>
@@ -118,6 +121,10 @@ const ActiveUserPage = ({ locale }) => {
                 startDate={endDate}
                 setStartDate={setEndDate}
                 placeholder={`Дата по`}
+                onChange={() => {
+                  setValue(`date`, ``);
+                  setData([]);
+                }}
               />
             </Box>
           </Flex>
