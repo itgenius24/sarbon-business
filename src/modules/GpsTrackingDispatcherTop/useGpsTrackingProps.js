@@ -361,8 +361,7 @@ export const useGpsTrackingProps = () => {
         res?.response?.map((item) => ({
           value: item?.guid,
           label: item?.full_name,
-          lat:item?.lat,
-          long:item?.long,
+          gps_data: item?.gps_data,
         })),
     },
   });
@@ -765,7 +764,7 @@ export const useGpsTrackingProps = () => {
     setLocationData,
     refueling: remainingData,
     dataDis: dataDis,
-    getCarData,
+    getCarData:getCarData?.filter(item => item?.gps_data),
     driverLoading,
     setCarsArr
   };
