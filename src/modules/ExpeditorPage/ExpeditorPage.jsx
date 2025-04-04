@@ -28,7 +28,7 @@ const ExpeditorPage = ({ locale }) => {
         <SarbonTable
           onRow={(row) =>
             router.push(
-              `/${locale}/dispatcher-expeditor/user-management?driver_size=${row?.users_data_size}&vehicles_data_size=${row?.vehicles_data_size}&guid=${row.guid}&reliabilitiy=${row?.reliabilitiy?.status?.[0] || ``}&rev_count=${row?.reviews_count}&time=${row?.reliabilitiy?.create_time || ``}&rating=${row?.users_data?.[0]?.rating || 0}`
+              `/${locale}/dispatcher-expeditor/user-management?driver_size=${row?.users_data_size}&vehicles_data_size=${row?.vehicles_data_size}&guid=${row.guid}&reliabilitiy=${row?.reliabilitiy?.status?.[0] || ``}&rev_count=${row?.reviews_count}&time=${row?.reliabilitiy?.create_time || ``}&rating=${row?.users_data?.[0]?.rating || 0}&type=expeditor`
             )
           }
           variant="card"

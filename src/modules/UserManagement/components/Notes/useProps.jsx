@@ -15,6 +15,8 @@ const useProps = () => {
   const [comment, setComment] = useState();
   const params = useSearchParams();
   const guid = params.get(`guid`);
+  const user_type = params.get(`type`);
+  const user_id = params.get(`user_id`);
   const [errors, setError] = useState({});
 
   const statusArr = [
@@ -44,7 +46,8 @@ const useProps = () => {
     data: {
       data: {
         object_data: {
-          firm_id: guid,
+          firm_id: user_type === `driver` ? undefined : guid,
+          driver_id: user_type === `driver` ? user_id : undefined,
           type: `reliabilitiy`,
         },
       },
@@ -121,7 +124,8 @@ const useProps = () => {
             status: statusActive.value,
             comment: comment,
             dispatcher_id: authStore.userData.guid,
-            firm_id: guid,
+            firm_id: user_type === `driver` ? undefined: guid,
+            driver_id: user_type === `driver` ? user_id : undefined,
             type: `reliabilitiy`,
           },
         },

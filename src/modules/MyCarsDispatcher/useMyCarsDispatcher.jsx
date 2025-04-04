@@ -55,10 +55,12 @@ import {
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
   const locale = useGetLang();
+  const router = useRouter()
   const { t } = useTranslation(locale, "translations");
   const disId = authStore.userData?.id;
   const [data, setData] = useState([]);
@@ -256,7 +258,11 @@ export const useMyCarsDispatcher = () => {
       filterType: (val) => nameFilter(val),
       width: 200,
       render: (row, index) => (
-        <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
+        <Flex onClick={() =>  
+          router.push(
+            `/${locale}/dispatcher-expeditor/user-management?user_id=${row.guid || ``}&type=driver`
+          )
+        } cursor={`pointer`} width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar size="sm" src={row?.photo} name={row?.full_name} />
           <Box>
             <p className={cls.title}>{row?.full_name}</p>

@@ -33,7 +33,10 @@ const UserManagement = ({ locale }) => {
     time,
     rating,
     rev_count,
+    user_type
   } = useProps();
+
+
 
   return (
     <Container my="15px">
@@ -64,7 +67,7 @@ const UserManagement = ({ locale }) => {
           <Heading fontSize="30px">{firmData?.response?.company_name}</Heading>
         </Box>
 
-        {driver_size >= 0 && (
+        {user_type === `expeditor` && (
           <Flex className={cls.statisWrap}>
             <Box pr={`20px`} borderRight={`1px solid rgba(219, 216, 227, 1)`}>
               <p className={cls.statisName}>Водители</p>
@@ -99,7 +102,7 @@ const UserManagement = ({ locale }) => {
           <TabPanels width={`70%`}>
             <TabPanel padding={0}>
               <Profile
-                type={driver_size >= 0 ? `expeditor` : `driver`}
+                type={user_type}
                 vehicles_data_size={vehicles_data_size}
                 driver_size={driver_size}
                 data={firmData?.response}

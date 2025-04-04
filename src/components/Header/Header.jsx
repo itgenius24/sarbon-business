@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { Logo } from "../Logo";
+import { Logo } from "../Logo/Logo";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
@@ -40,12 +40,10 @@ const Header = observer(({ elements }) => {
   const { t } = useTranslation(locale, "translations");
 
   const goToProfile = () => {
-    if(authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"){
-    router.push(`/${locale ? locale : `ru`}/profile-xm`);
-
-    }else{
+    if (authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") {
+      router.push(`/${locale ? locale : `ru`}/profile-xm`);
+    } else {
       router.push(`/${locale ? locale : `ru`}/profile`);
-
     }
   };
 
@@ -92,8 +90,9 @@ const Header = observer(({ elements }) => {
                         href={element.path}
                         className={clsx(cls.itemLink, {
                           [cls.activeLink]: index
-                            ? pathname.includes(element.path)
-                            : pathname === element.path,
+                            ? pathname.slice(4).includes(element.path.slice(4))
+                            : pathname === element.path ||
+                              (pathname.slice(3) === `` && index === 0),
                         })}
                       >
                         {t(element.label)}
@@ -237,7 +236,10 @@ const Header = observer(({ elements }) => {
                 !isLargerThan845 && (
                   <Box
                     mr={`20px`}
-                    onClick={() => {router.push(`/${locale}/add-cars`);setNavOpen(false)}}
+                    onClick={() => {
+                      router.push(`/${locale}/add-cars`);
+                      setNavOpen(false);
+                    }}
                     as="button"
                   >
                     <AddDillerMunu />

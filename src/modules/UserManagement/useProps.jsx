@@ -15,11 +15,12 @@ export const useProps = () => {
   const rev_count = params.get(`rev_count`);
   const time = params.get(`time`);
   const rating = params.get(`rating`);
+  const user_type = params.get(`type`);
 
   const { t } = useTranslation();
 
   const filterTabs = [
-    { value: `0`, label: `Данные перевозчика` },
+    { value: `0`, label: `Данные ${user_type === `driver` ? `водителя` : `перевозчика`}` },
     { value: `1`, label: `Надёжность` },
   ];
 
@@ -42,6 +43,7 @@ export const useProps = () => {
     router,
     guid,
     time,
-    rating
+    rating,
+    user_type
   };
 };
