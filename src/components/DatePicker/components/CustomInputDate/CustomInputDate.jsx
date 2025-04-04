@@ -10,7 +10,8 @@ export const CustomInputDate = forwardRef(
     width,
     cPlaceholder,
     disabled,
-    isClearable
+    isClearable,
+    leftText
   }, ref) => {
     const {t} = useTranslation();
     return (
@@ -42,9 +43,10 @@ export const CustomInputDate = forwardRef(
             </svg>
           </span>
           }
+       
           {value ? (
             <span className={cls.dateInputValue}>
-              <span className={cls.dateInputValue}>{value || ""}</span>
+              <span className={cls.dateInputValue}>{leftText && `${leftText} ` || ``}{value || ""}</span>
             </span>
           ) : (
             <span className={cls.placeholder}>

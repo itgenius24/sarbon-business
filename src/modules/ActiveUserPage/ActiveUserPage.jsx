@@ -123,6 +123,7 @@ const ActiveUserPage = ({ locale }) => {
                 startDate={startDate}
                 setStartDate={setStartDate}
                 placeholder={`Дата с`}
+                leftText={`с`}
                 onChange={() => {
                   setValue(`date`, ``);
                   setData([]);
@@ -137,6 +138,7 @@ const ActiveUserPage = ({ locale }) => {
                 startDate={endDate}
                 setStartDate={setEndDate}
                 placeholder={`Дата по`}
+                leftText={`по`}
                 onChange={() => {
                   setValue(`date`, ``);
                   setData([]);

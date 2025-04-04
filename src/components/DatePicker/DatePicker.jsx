@@ -22,6 +22,7 @@ export const DatePicker = ({
   isClearable = true,
   minDate = "",
   maxDate = "",
+  leftText
 }) => {
   if (!onChange || !startDate || (!endDate && range)) {
     // console.warn("onChange, startDate and endDate are required props for RangePicker component");
@@ -98,6 +99,7 @@ export const DatePicker = ({
               disabled={disabled}
               cPlaceholder={placeholder}
               width={inputWidth}
+              leftText={leftText}
             />
           }
           renderDayContents={renderDayContents}
