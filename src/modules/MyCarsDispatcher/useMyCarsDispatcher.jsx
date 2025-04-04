@@ -60,7 +60,7 @@ import { useRouter } from "next/navigation";
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
   const locale = useGetLang();
-  const router = useRouter()
+  const router = useRouter();
   const { t } = useTranslation(locale, "translations");
   const disId = authStore.userData?.id;
   const [data, setData] = useState([]);
@@ -250,6 +250,14 @@ export const useMyCarsDispatcher = () => {
     }
   };
 
+  const pushRouter = (row) => {
+    router.push(
+      `/${locale}/dispatcher-expeditor/user-management?user_id=${
+        row.guid || ``
+      }&type=driver`
+    );
+  };
+
   const columns = [
     {
       title: t(`Водитель`),
@@ -258,15 +266,23 @@ export const useMyCarsDispatcher = () => {
       filterType: (val) => nameFilter(val),
       width: 200,
       render: (row, index) => (
-        <Flex onClick={() =>  
-          router.push(
-            `/${locale}/dispatcher-expeditor/user-management?user_id=${row.guid || ``}&type=driver`
-          )
-        } cursor={`pointer`} width={`fit-content`} alignItems={`center`} gap={`6px`}>
-          <Avatar size="sm" src={row?.photo} name={row?.full_name} />
+        <Flex
+         onClick={() => pushRouter(row)}
+          cursor={`pointer`}
+          width={`fit-content`}
+          alignItems={`center`}
+          gap={`6px`}
+        >
+          <Avatar
+          c
+            size="sm"
+            src={row?.photo}
+            name={row?.full_name}
+          />
           <Box>
-            <p className={cls.title}>{row?.full_name}</p>
+            <p   className={cls.title}>{row?.full_name}</p>
             <a
+            onClick={(e) => e.stopPropagation()}
               target="_blank"
               href={`https://t.me/${row?.phone}`}
               className={cls.tel}
@@ -553,7 +569,10 @@ export const useMyCarsDispatcher = () => {
                             }}
                             className={cls.menuItem}
                             onClick={() => {
-                              deleteFuntion(row?.dis_dr_data?.guid,row.your_id);
+                              deleteFuntion(
+                                row?.dis_dr_data?.guid,
+                                row.your_id
+                              );
                               onClose();
                             }}
                           >
@@ -577,10 +596,8 @@ export const useMyCarsDispatcher = () => {
   };
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
-
   const { mutate: deleteUser } = useDeletedeleteDispacersDriver({
     onSuccess: () => {
-     
       setVisibleData((prevData) =>
         prevData.filter((item) => item.dis_dr_data?.guid !== deleteId)
       );
@@ -588,7 +605,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  const deleteFuntion = (id,your_id) => {
+  const deleteFuntion = (id, your_id) => {
     setDeleteId(id);
     deleteUser({
       id,
@@ -608,10 +625,8 @@ export const useMyCarsDispatcher = () => {
     });
   };
 
-
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
-    
       setOpen(false);
       setIconStatus(``);
 
@@ -667,7 +682,7 @@ export const useMyCarsDispatcher = () => {
     onError() {},
   });
 
-  console.log(`open`,open)
+  console.log(`open`, open);
 
   const statusIconChange = () => {
     const body = {
@@ -685,10 +700,9 @@ export const useMyCarsDispatcher = () => {
         role_slug: `first_dispatcher`,
         action_comment: `changed_driver_status`,
         role_id: authStore.userData?.role_id,
-        action_type:[`update`],
+        action_type: [`update`],
       },
     });
-
   };
 
   const setSearchFn = (val) => {

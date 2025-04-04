@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import cls from "./style.module.scss";
-import { Flex } from "@chakra-ui/react";
+import { filter, Flex } from "@chakra-ui/react";
 import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
 import { commentObj, nameToRole, roleObj } from "@/utils/actionComment";
@@ -13,10 +13,12 @@ import copy from "copy-to-clipboard";
 export const useProps = () => {
   const { control, errors, register, setError, setValue, watch } = useForm();
   const [startDate, setStartDate] = useState(new Date());
+  const [startSelectDate, setStartSelectDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [roleData, setRoleData] = useState([]);
-  const [offset,setOffset] = useState(0)
-  const [data,setData] = useState([])
+  const [offset, setOffset] = useState(0);
+  const [data, setData] = useState([]);
+  const [dataOld, setDataOld] = useState([]);
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
@@ -30,15 +32,15 @@ export const useProps = () => {
     copy(text);
   };
 
-  const { data: actionData,isFetching } = useGetActionUser({
+  const { data: actionData, isFetching } = useGetActionUser({
     params: {
-      limit:100,
-      offset:offset,
+      limit: 100,
+      offset: offset,
       data: JSON.stringify({
         role_id: watch(`role`)?.value,
         user_id: watch(`user`)?.value,
         role_slug: watch(`role`)?.role_slug,
-   
+
         action_time: {
           $gte: formatDate(startDate, 0, 0, 0),
           $lt: formatDate(endDate, 23, 59, 59),
@@ -50,16 +52,17 @@ export const useProps = () => {
         return res.response.filter(
           (item) =>
             !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
-            !item?.user_name?.includes(`CЕО`) 
-            // &&
-            // item?.user_name &&  item?.role_slug !== `voditel`
+            !item?.user_name?.includes(`CЕО`)
+          // &&
+          // item?.user_name &&  item?.role_slug !== `voditel`
         );
       },
-      onSuccess:(res) =>{
-        const resData = res || []
-        setData([...data,...resData])
+      onSuccess: (res) => {
+        const resData = res || [];
+        setData([...data, ...resData]);
+        setDataOld([...data, ...resData]);
       },
-      refetchOnWindowFocus:false,
+      refetchOnWindowFocus: false,
     },
   });
 
@@ -74,7 +77,7 @@ export const useProps = () => {
             item.name === "Водитель"
         );
         const result = data?.map((item) => ({
-          label: item?.name === `Экспедитор`  ? `Перевозчик`:  item.name,
+          label: item?.name === `Экспедитор` ? `Перевозчик` : item.name,
           value: item.guid,
           role_slug: nameToRole[item.name?.trim()],
         }));
@@ -90,8 +93,6 @@ export const useProps = () => {
       },
     },
   });
-
- 
 
   const { data: useList } = useGetUserPost({
     data: {
@@ -149,10 +150,28 @@ export const useProps = () => {
     },
   });
 
+  const timeSortDate = (val) => {
+    if (val !== "all") {
+      const sortedData = [...data]?.sort((a, b) => {
+        const timeA = new Date(a?.action_time).getTime();
+        const timeB = new Date(b?.action_time).getTime();
+  
+        return val === "top" ? timeA - timeB : timeB - timeA;
+      });
+  
+      setData(sortedData);
+    } else {
+      setData(dataOld);
+    }
+  };
+
   const columns = [
     {
       title: `Дата и время`,
-      width: 250,
+      width: 180,
+      filter: true,
+      key: `date`,
+      filterType: (type) =>timeSortDate(type),
       render: (row, index) =>
         row?.action_time && (
           <p className={cls.actionTime}>
@@ -176,7 +195,7 @@ export const useProps = () => {
     },
     {
       title: `Пользователь`,
-      width: 250,
+      width: 340,
       render: (row, index) => row?.user_name,
     },
     {
@@ -214,17 +233,17 @@ export const useProps = () => {
     },
   ];
 
-  const addPage = () =>{
-    setOffset(prev => prev + 100)
-  }
+  const addPage = () => {
+    setOffset((prev) => prev + 100);
+  };
 
-  const dateValues  = [
+  const dateValues = [
     { label: `Сегодня`, value: `Сегодня` },
     { label: `3 дня`, value: `3 дня` },
     { label: `Неделя`, value: `Неделя` },
     { label: `Месяц`, value: `Месяц` },
     { label: `3 месяца`, value: `3 месяца` },
-  ]
+  ];
 
   function handleSelect(e) {
     const selected = e.value;
@@ -232,19 +251,19 @@ export const useProps = () => {
     let newStartDate = new Date();
 
     switch (selected) {
-      case 'Сегодня':
+      case "Сегодня":
         newStartDate = today;
         break;
-      case '3 дня':
-        newStartDate.setDate(today.getDate() - 2); // 2 kun oldin
+      case "3 дня":
+        newStartDate.setDate(today.getDate() - 2); 
         break;
-      case 'Неделя':
+      case "Неделя":
         newStartDate.setDate(today.getDate() - 6);
         break;
-      case 'Месяц':
+      case "Месяц":
         newStartDate.setMonth(today.getMonth() - 1);
         break;
-      case '3 месяца':
+      case "3 месяца":
         newStartDate.setMonth(today.getMonth() - 3);
         break;
       default:
@@ -253,11 +272,18 @@ export const useProps = () => {
 
     setStartDate(newStartDate);
     setEndDate(today);
-    setData([]);
-    setOffset(0)
+    setStartSelectDate(newStartDate);
+
+    if (
+      format(newStartDate, `dd.MM.yyyy`) === format(startDate, `dd.MM.yyyy`)
+    ) {
+      return;
+    } else {
+      setData([]);
+      setDataOld([]);
+      setOffset(0);
+    }
   }
-
-
 
   return {
     control,
@@ -279,6 +305,9 @@ export const useProps = () => {
     isFetching,
     setData,
     handleSelect,
-    dateValues
+    dateValues,
+    startSelectDate,
+    setStartSelectDate,
+    setDataOld
   };
 };

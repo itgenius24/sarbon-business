@@ -90,9 +90,10 @@ const Header = observer(({ elements }) => {
                         href={element.path}
                         className={clsx(cls.itemLink, {
                           [cls.activeLink]: index
-                            ? pathname.slice(4).includes(element.path.slice(4))
-                            : pathname === element.path ||
-                              (pathname.slice(3) === `` && index === 0),
+                            ? pathname.includes(element.path)
+                            : pathname === element.path
+                            //  ||
+                            //   (pathname.slice(3) === `` && index === 0),
                         })}
                       >
                         {t(element.label)}

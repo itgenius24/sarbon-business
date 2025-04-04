@@ -336,7 +336,6 @@ export const useGpsTrackingProps = () => {
     },
   });
 
- 
 
   const {
     data: getCarData,
@@ -362,10 +361,13 @@ export const useGpsTrackingProps = () => {
         res?.response?.map((item) => ({
           value: item?.guid,
           label: item?.full_name,
+          lat:item?.lat,
+          long:item?.long,
         })),
     },
   });
 
+  console.log(`dataDis`, getCarData);
 
 
   const weightMeasurementOptions = getMeasurement.data?.response
@@ -762,7 +764,7 @@ export const useGpsTrackingProps = () => {
     addAdress,
     setLocationData,
     refueling: remainingData,
-    dataDis: dataDis?.filter(item => item.gps_data),
+    dataDis: dataDis,
     getCarData,
     driverLoading,
     setCarsArr

@@ -6,6 +6,7 @@ import { useProps } from "./useProps";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import cls from "./style.module.scss";
 import { DatePicker } from "@/components/DatePicker";
+import { format } from "date-fns";
 
 const ActiveUserPage = ({ locale }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -29,7 +30,9 @@ const ActiveUserPage = ({ locale }) => {
     isFetching,
     setData,
     dateValues,
-    handleSelect
+    handleSelect,
+    startSelectDate,setStartSelectDate,
+    setDataOld
   } = useProps();
 
   return (
@@ -61,8 +64,12 @@ const ActiveUserPage = ({ locale }) => {
                 setValue={setValue}
                 isClear
                 isCheck={false}
-                onChangeSelect={() => setData([])}
-                clearFn={() => setData([])}
+                onChangeSelect={() => {
+                  setDataOld([]);
+                  setData([])}}
+                clearFn={() => {
+                  setDataOld([]);
+                  setData([])}}
               />
             </Box>
             <Box width={`252px`}>
@@ -79,8 +86,12 @@ const ActiveUserPage = ({ locale }) => {
                 setValue={setValue}
                 searchName={`search`}
                 isCheck={false}
-                onChangeSelect={() => setData([])}
-                clearFn={() => setData([])}
+                onChangeSelect={() => {
+                  setDataOld([]);
+                  setData([])}}
+                clearFn={() => {
+                  setDataOld([]);
+                  setData([])}}
               />
             </Box>
             <Box width={`160px`}>
@@ -96,7 +107,12 @@ const ActiveUserPage = ({ locale }) => {
                 setValue={setValue}
                 isCheck={false}
                 onChangeSelect={(e) => handleSelect(e)}
-                clearFn={() => {setData([]); setStartDate(new Date()); setEndDate(new Date())}}
+                clearFn={() => {
+                  if (format(startDate, `dd.MM.yyyy`) === format(startSelectDate, `dd.MM.yyyy`)) {
+                    return;
+                  }else{
+                  setData([]); setDataOld([]); setStartDate(new Date()); setEndDate(new Date()),setStartSelectDate(new Date());}}
+                  }
               />
             </Box>
             <Box className="dateWrap one" width={`160px`}>
