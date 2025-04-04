@@ -165,6 +165,22 @@ export const useProps = () => {
     }
   };
 
+  const nameSort = (val) => {
+    if (val !== `all`) {
+      const sortedData = data?.sort((a, b) =>
+        val === `top`
+          ? a?.user_name.localeCompare(b?.user_name)
+          : b?.user_name.localeCompare(a?.user_name)
+      );
+
+      setData(sortedData);
+    } else {
+      setData(dataOld);
+    }
+  };
+
+
+
   const columns = [
     {
       title: `Дата и время`,
@@ -195,6 +211,9 @@ export const useProps = () => {
     },
     {
       title: `Пользователь`,
+      filter: true,
+      key: `user`,
+      filterType: (type) =>nameSort(type),
       width: 340,
       render: (row, index) => row?.user_name,
     },
