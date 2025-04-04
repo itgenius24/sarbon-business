@@ -28,6 +28,8 @@ const ActiveUserPage = ({ locale }) => {
     addPage,
     isFetching,
     setData,
+    dateValues,
+    handleSelect
   } = useProps();
 
   return (
@@ -45,7 +47,7 @@ const ActiveUserPage = ({ locale }) => {
           >
             Журнал активности
           </Heading>
-          <Flex gap={`16px`} alignItems={`center`}>
+          <Flex gap={`10px`} alignItems={`center`}>
             <Box width={`252px`}>
               <Dropdown
                 control={control}
@@ -81,16 +83,41 @@ const ActiveUserPage = ({ locale }) => {
                 clearFn={() => setData([])}
               />
             </Box>
-            <Box className="dateWrap left" width={`280px`}>
+            <Box width={`160px`}>
+              <Dropdown
+                control={control}
+                register={register}
+                watch={watch}
+                name="date"
+                isClear
+                options={dateValues}
+                errors={errors}
+                placeholder={t("Период")}
+                setValue={setValue}
+                isCheck={false}
+                onChangeSelect={(e) => handleSelect(e)}
+                clearFn={() => {setData([]); setStartDate(new Date()); setEndDate(new Date())}}
+              />
+            </Box>
+            <Box className="dateWrap one" width={`160px`}>
               <DatePicker
                 isClearable={false}
-                endDate={endDate}
-                setEndDate={setEndDate}
-                range
+                dateFormat="dd.MM.yyyy"
+                selected={startDate}
                 startDate={startDate}
                 setStartDate={setStartDate}
-                placeholder={`По времени`}
-                onChange={() => setData([])}
+                placeholder={`Дата с`}
+           
+              />
+            </Box>
+            <Box className="dateWrap one" width={`160px`}>
+              <DatePicker
+                isClearable={false}
+                dateFormat="dd.MM.yyyy"
+                selected={endDate}
+                startDate={endDate}
+                setStartDate={setEndDate}
+                placeholder={`Дата по`}
               />
             </Box>
           </Flex>

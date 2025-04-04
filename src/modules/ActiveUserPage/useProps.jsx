@@ -218,6 +218,47 @@ export const useProps = () => {
     setOffset(prev => prev + 100)
   }
 
+  const dateValues  = [
+    { label: `Сегодня`, value: `Сегодня` },
+    { label: `3 дня`, value: `3 дня` },
+    { label: `Неделя`, value: `Неделя` },
+    { label: `Месяц`, value: `Месяц` },
+    { label: `3 месяца`, value: `3 месяца` },
+  ]
+
+  function handleSelect(e) {
+    const selected = e.value;
+    const today = new Date();
+    let newStartDate = new Date();
+
+    switch (selected) {
+      case 'Сегодня':
+        newStartDate = today;
+        break;
+      case '3 дня':
+        newStartDate.setDate(today.getDate() - 2); // 2 kun oldin
+        break;
+      case 'Неделя':
+        newStartDate.setDate(today.getDate() - 6);
+        break;
+      case 'Месяц':
+        newStartDate.setMonth(today.getMonth() - 1);
+        break;
+      case '3 месяца':
+        newStartDate.setMonth(today.getMonth() - 3);
+        break;
+      default:
+        newStartDate = today;
+    }
+
+    setStartDate(newStartDate);
+    setEndDate(today);
+    setData([]);
+    setOffset(0)
+  }
+
+
+
   return {
     control,
     errors,
@@ -236,6 +277,8 @@ export const useProps = () => {
     useList,
     addPage,
     isFetching,
-    setData
+    setData,
+    handleSelect,
+    dateValues
   };
 };

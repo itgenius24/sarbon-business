@@ -294,3 +294,24 @@ table{
     left: -190px !important;
   }
 }
+
+.one{
+  .react-datepicker-popper{
+    left: -50px !important;
+  }
+  .react-datepicker__day--selected.react-datepicker__day--selected {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;  
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;  
+    background-color: rgba(0, 51, 153, 1)  !important;
+    color: white !important;
+  
+    &:hover {
+      // border-radius: 50% !important;
+      color: white !important;
+      background-color: rgba(0, 51, 153, 1) !important;
+    }
+    
+  }
+}

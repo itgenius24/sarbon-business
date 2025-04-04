@@ -90,7 +90,7 @@ export const DatePicker = ({
           monthsShown={monthsShown || 1}
           minDate={minDate}
           maxDate={maxDate}
-          isClearable={startDate}
+          isClearable={isClearable}
           customInput={
             <CustomInputDate
               setStartDate={setStartDate}
