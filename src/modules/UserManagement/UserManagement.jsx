@@ -28,6 +28,7 @@ const UserManagement = ({ locale }) => {
     vehicles_data_size,
     driver_size,
     firmData,
+    userData,
     router,
     reliabilitiy,
     time,
@@ -64,7 +65,7 @@ const UserManagement = ({ locale }) => {
             {t(`Вернутся в список`)}
           </Button>
 
-          <Heading fontSize="30px">{firmData?.response?.company_name}</Heading>
+          <Heading fontSize="30px">{ user_type === `driver` ? userData?.response?.[0]?.full_name :  firmData?.response?.company_name}</Heading>
         </Box>
 
         {user_type === `expeditor` && (
@@ -85,7 +86,7 @@ const UserManagement = ({ locale }) => {
         )}
       </Flex>
 
-      <Tabs isLazy defaultIndex={0} variant={`unstyled`}>
+      <Tabs isLazy  defaultIndex={0} variant={`unstyled`}>
         <Flex width={`100%`} gap={`40px`} mt={`20px`}>
           <TabList className={cls.tab}>
             {filterTabs.map((item) => (
@@ -110,6 +111,8 @@ const UserManagement = ({ locale }) => {
                 rev_count={rev_count}
                 time={time}
                 rating={rating}
+                userData={userData?.response?.[0]}
+                locale={locale}
               />
             </TabPanel>
             <TabPanel padding={0}>

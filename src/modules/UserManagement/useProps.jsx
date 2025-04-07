@@ -1,4 +1,4 @@
-import { useGetFirmInfo } from "@/services/api";
+import { useGetFirmInfo, useGetNewPredData } from "@/services/api";
 import { Avatar, Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,6 +16,8 @@ export const useProps = () => {
   const time = params.get(`time`);
   const rating = params.get(`rating`);
   const user_type = params.get(`type`);
+  const user_id = params.get(`user_id`);
+
 
   const { t } = useTranslation();
 
@@ -25,9 +27,24 @@ export const useProps = () => {
   ];
 
   const { data: firmData } = useGetFirmInfo(guid, {
-    enabled: Boolean(guid),
+    enabled: Boolean(guid && tab === `0` ),
   });
-  
+
+    const { data: userData,refetch } = useGetNewPredData({
+      data: {
+        data: {
+          object_data: {
+          
+            driver_id: user_id,
+            type: `reliabilitiy_driver`,
+          },
+        },
+      },
+      querySettings:{
+        enabled: Boolean(user_id && tab === `0` ),
+      }
+    });
+
  
 
   return {
@@ -40,6 +57,7 @@ export const useProps = () => {
     rev_count,
     driver_size,
     firmData,
+    userData,
     router,
     guid,
     time,

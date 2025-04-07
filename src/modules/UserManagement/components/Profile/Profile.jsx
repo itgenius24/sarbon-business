@@ -11,10 +11,20 @@ import {
   ProfileIconXMBig,
   StoneIcon,
 } from "@/assets/icons/icons";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
-const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy,time,
+const Profile = ({
+  type = ``,
+  vehicles_data_size,
+  driver_size,
+  data,
+  reliabilitiy,
+  time,
   rating,
-  rev_count }) => {
+  rev_count,
+  userData,
+  locale
+}) => {
   const typeUser = {
     ["legal_owner"]: `Юр. лицо`,
     [`physic_owner`]: `Физ. лицо`,
@@ -24,14 +34,15 @@ const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy
       <Heading fontSize="20px">
         Данные {type === `driver` ? `водителя` : `перевозчика`}{" "}
       </Heading>
-      <Flex gap={`50px`} mt={`20px`}>
+     <Flex>
+     <Flex gap={`50px`} mt={`20px`}>
         <Flex flexDirection={`column`} rowGap={`16px`}>
-          {data?.logo ? (
+          {(data?.logo || userData?.photo )? (
             <Image
               width={300}
               height={300}
               alt={`lo`}
-              src={data?.logo || ``}
+              src={type === `driver` ? userData?.photo : data?.logo || ``}
               className={type === `driver` ? cls.radiusImg : cls.image}
             />
           ) : type === `driver` ? (
@@ -40,15 +51,33 @@ const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy
             <ProfileIconXMBig />
           )}
 
-          <StatusComponent status={reliabilitiy} date={time} />
-          <StarRating rating={rev_count || 0} comment={rating? rating : 0} />
+          {
+           ( userData?.reliabilitiy?.status?.[0] ||  reliabilitiy) &&   <StatusComponent
+            status={
+              type === `driver`
+                ? userData?.reliabilitiy?.status?.[0]
+                : reliabilitiy
+            }
+            date={
+              type === `driver` ? userData?.reliabilitiy?.create_time : time
+            }
+          />
+          }
+
+        
+          <StarRating
+            rating={
+              type === `driver` ? userData?.reviews_count : rev_count || 0
+            }
+            comment={type === `driver` ? userData?.rating : rating ? rating : 0}
+          />
         </Flex>
 
         {type === `driver` ? (
           <Flex flexDirection={`column`} rowGap={`27px`}>
             <Box>
               <p className={cls.label}>Имя</p>
-              <p className={cls.name}>Абдурахмонов Дилшод</p>
+              <p className={cls.name}>{userData?.full_name}</p>
             </Box>
             <Box>
               <p className={cls.label}>Водит. удостоверения</p>
@@ -56,21 +85,22 @@ const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy
             </Box>
             <Box>
               <p className={cls.label}>Номер телефона</p>
-              <a href={`https://t.me/998930776161`} className={cls.nameLink}>
-                +998 93 0776161
+              <a href={`https://t.me/${userData?.phone}`} className={cls.nameLink}>
+               {formatPhoneNumber(userData?.phone)}
               </a>
             </Box>
             <Box>
               <p className={cls.label}>Машина</p>
-              <p className={cls.name}>Тентованный полуприцеп</p>
-
+              {
+                userData?.trailer_type_id_data ?  <>
+                <p className={cls.name}>{userData?.trailer_type_id_data?.[`name_${locale}`]}</p>
               <Flex alignItems={`center`} gap={`16px`} marginTop={`8px`}>
                 <Flex gap={`10px`}>
                   <Flex gap={`3px`} alignItems={`center`}>
-                    <StoneIcon /> <p className={cls.subTitle1}> 20 т</p>
+                    <StoneIcon /> <p className={cls.subTitle1}> {userData?.vehicle_data?.height}  т</p>
                   </Flex>
                   <Flex gap={`3px`} alignItems={`center`}>
-                    <LoadOulineIcon /> <p className={cls.subTitle1}> 20 м3</p>
+                    <LoadOulineIcon /> <p className={cls.subTitle1}> {userData?.vehicle_data?.capacity} м3</p>
                   </Flex>
                 </Flex>
 
@@ -91,12 +121,15 @@ const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy
                       }}
                       width={100}
                       height={100}
-                      src={flegCountry(`uz`)}
+                      src={flegCountry(userData?.vehicle_data?.car_country)}
                     />
                   </Tooltip>
-                  <p className={cls.subTitle1}>01 A 123 NN</p>
+                  <p className={cls.subTitle1}>{userData?.vehicle_data?.car_number}</p>
                 </Flex>
               </Flex>
+                </>:<p className={cls.noCar}>Без машины</p>
+              }
+            
             </Box>
           </Flex>
         ) : (
@@ -137,6 +170,11 @@ const Profile = ({ type = ``, vehicles_data_size, driver_size, data,reliabilitiy
           </Flex>
         )}
       </Flex>
+      {/* <Box  className={cls.gpsWrap}>
+
+        wssa
+      </Box> */}
+     </Flex>
     </Box>
   );
 };

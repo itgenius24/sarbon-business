@@ -252,7 +252,7 @@ export const useMyCarsDispatcher = () => {
 
   const pushRouter = (row) => {
     router.push(
-      `/${locale}/dispatcher-expeditor/user-management?user_id=${
+      `/${locale}/my-cars-dispatcher/profile-driver?user_id=${
         row.guid || ``
       }&type=driver`
     );
@@ -423,7 +423,7 @@ export const useMyCarsDispatcher = () => {
             <Flex
               alignItems={`center`}
               background={
-                order ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
+                (order || row?.status === `Занята чужим грузом`) ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
               }
               className={cls.locationWrap}
             >
