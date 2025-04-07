@@ -209,6 +209,72 @@ const useNewPageProps = (
       },
       {
         onSuccess() {
+          if (orderStatus === `new`) {
+            if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+              actionCreate({
+                data: {
+                  user_name: authStore.userData.full_name,
+                  phone_number: authStore.userData?.phone,
+                  user_id: authStore.userData.guid,
+                  increment_id: cargo?.cargo_id_data?.number_of_order,
+                  action_time: new Date(),
+                  role_slug: `top_dispatcher`,
+                  action_comment: `cancel_order`,
+                  role_id: authStore.userData?.role_id,
+                  action_type:[`update`],
+                },
+              });
+            } else if (
+              authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+            ) {
+              actionCreate({
+                data: {
+                  user_name: authStore.userData.full_name,
+                  phone_number: authStore.userData?.phone,
+                  user_id: authStore.userData.guid,
+                  increment_id: cargo?.cargo_id_data?.number_of_order,
+                  action_time: new Date(),
+                  role_slug: `first_dispatcher`,
+                  action_comment: `cancel_order`,
+                  role_id: authStore.userData?.role_id,
+                  action_type:[`update`],
+                },
+              });
+            }
+          }
+          if (orderStatus === `no_dispatcher`) {
+            if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+              actionCreate({
+                data: {
+                  user_name: authStore.userData.full_name,
+                  phone_number: authStore.userData?.phone,
+                  user_id: authStore.userData.guid,
+                  increment_id: cargo?.cargo_id_data?.number_of_order,
+                  action_time: new Date(),
+                  role_slug: `top_dispatcher`,
+                  action_comment: `cancel_order_free_driver`,
+                  role_id: authStore.userData?.role_id,
+                  action_type:[`update`],
+                },
+              });
+            } else if (
+              authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+            ) {
+              actionCreate({
+                data: {
+                  user_name: authStore.userData.full_name,
+                  phone_number: authStore.userData?.phone,
+                  user_id: authStore.userData.guid,
+                  increment_id: cargo?.cargo_id_data?.number_of_order,
+                  action_time: new Date(),
+                  role_slug: `first_dispatcher`,
+                  action_comment: `cancel_order_free_driver`,
+                  role_id: authStore.userData?.role_id,
+                  action_type:[`update`],
+                },
+              });
+            }
+          }
           toast({
             position: "top-right",
             title: "Груз отказан",
@@ -220,40 +286,6 @@ const useNewPageProps = (
       }
     );
 
-    if (orderStatus === `new`) {
-      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
-        actionCreate({
-          data: {
-            user_name: authStore.userData.full_name,
-            phone_number: authStore.userData?.phone,
-            user_id: authStore.userData.guid,
-            increment_id: cargo?.cargo_id_data?.number_of_order,
-            action_time: new Date(),
-            role_slug: `top_dispatcher`,
-            action_comment: `cancel_order`,
-            role_id: authStore.userData?.role_id,
-            action_type:[`update`],
-          },
-        });
-      } else if (
-        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
-      ) {
-        actionCreate({
-          data: {
-            user_name: authStore.userData.full_name,
-            phone_number: authStore.userData?.phone,
-            user_id: authStore.userData.guid,
-            increment_id: cargo?.cargo_id_data?.number_of_order,
-            action_time: new Date(),
-            role_slug: `first_dispatcher`,
-            action_comment: `cancel_order`,
-            role_id: authStore.userData?.role_id,
-            action_type:[`update`],
-          },
-        });
-      }
-    }
-
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
         data: {
@@ -262,37 +294,6 @@ const useNewPageProps = (
           firm_id: authStore.userData.firm_id || ``,
         },
       });
-      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
-        actionCreate({
-          data: {
-            user_name: authStore.userData.full_name,
-            phone_number: authStore.userData?.phone,
-            user_id: authStore.userData.guid,
-            increment_id: cargo?.cargo_id_data?.number_of_order,
-            action_time: new Date(),
-            role_slug: `top_dispatcher`,
-            action_comment: `cancel_order_free_driver`,
-            role_id: authStore.userData?.role_id,
-            action_type:[`update`],
-          },
-        });
-      } else if (
-        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
-      ) {
-        actionCreate({
-          data: {
-            user_name: authStore.userData.full_name,
-            phone_number: authStore.userData?.phone,
-            user_id: authStore.userData.guid,
-            increment_id: cargo?.cargo_id_data?.number_of_order,
-            action_time: new Date(),
-            role_slug: `first_dispatcher`,
-            action_comment: `cancel_order_free_driver`,
-            role_id: authStore.userData?.role_id,
-            action_type:[`update`],
-          },
-        });
-      }
     }
   }
 

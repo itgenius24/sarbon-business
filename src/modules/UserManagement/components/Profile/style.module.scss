@@ -11,12 +11,12 @@
   border-style: inset;
   object-fit: contain;
 }
-.radiusImg{
-    width: 160px;
-    height:160px;
-    border-radius: 50%;
-    border: 2.25px solid rgba(0, 0, 0, 0.1);
-    border-style: inset;
+.radiusImg {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2.25px solid rgba(0, 0, 0, 0.1);
+  border-style: inset;
 }
 .label {
   font-weight: 400;
@@ -25,7 +25,7 @@
   letter-spacing: 0px;
   color: rgba(126, 123, 134, 1);
 }
-.noCar{
+.noCar {
   font-style: italic;
   font-weight: 600;
   margin-top: 10px;
@@ -43,7 +43,6 @@
   letter-spacing: 0%;
   margin-top: 6px;
   color: rgba(33, 31, 38, 1);
-
 }
 .nameLink {
   width: fit-content;
@@ -58,22 +57,53 @@
   border-bottom: 1px dashed rgba(0, 51, 153, 1);
 }
 
+.subTitle1 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color: rgba(33, 31, 38, 1);
+}
 
-
-
-  .subTitle1 {
+.gpsWrap {
+  width: 25%;
+  margin-left: auto;
+  height: fit-content;
+  padding: 20px 27px;
+  border-radius: 10px;
+}
+.gruzId {
+  color: rgba(0, 122, 255, 1);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  span {
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0px;
-    color: rgba(33, 31, 38, 1);
   }
+}
+.freeStatus {
+  color: rgba(33, 31, 38, 1);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0px;
+}
 
-  .gpsWrap{
-    width: 20%;
-    margin-left: auto;
-    height: fit-content;
-    padding: 20px 27px;
-    border-radius: 10px;
-    background-color: rgba(235, 245, 255, 1);
+.text {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  color: rgba(33, 31, 38, 1);
+  .time {
+    color: rgba(0, 122, 255, 1);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0px;
   }
+}

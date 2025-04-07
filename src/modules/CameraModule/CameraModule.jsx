@@ -1,195 +1,192 @@
 "use client";
+import { Box, Button } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import Tesseract from "tesseract.js";
-import Webcam from "react-webcam";
-import styles from "./style.module.scss";
-import { Button, Flex } from "@chakra-ui/react";
 
-const CameraModule = () => {
+const Camera = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [text, setText] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [url, setUrl] = useState(null);
-  const [flashOn, setFlashOn] = useState(false);
-  const [data, setData] = useState(null);
-  let track = null; // Chiroqni boshqarish uchun
-  const toggleFlashlight = async () => {
-    if (!videoRef.current) return;
-
-    const stream = videoRef.current.srcObject;
-    if (!stream) return;
-
-    if (!track) {
-      track = stream.getVideoTracks()[0]; // Kameraning video trackini olish
-    }
-
-    const capabilities = track.getCapabilities(); // Qurilmaning imkoniyatlarini olish
-
-    if (capabilities.torch) {
-      await track.applyConstraints({
-        advanced: [{ torch: !flashOn }],
-      });
-      setFlashOn(!flashOn);
-    } else {
-      alert("Sizning qurilmangizda chiroqni yoqish imkoniyati yo‘q!");
-    }
-  };
+  const frameRef = useRef(null);
+  const [showCaptureBtn, setShowCaptureBtn] = useState(false);
+  const [picture, setPicture] = useState(null);
 
   useEffect(() => {
-    startCamera();
-  }, [!text, !url]);
-
-  // 📌 Kamerani ishga tushirish
-  const startCamera = () => {
-    navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          // width: { exact: 1920 },
-          // height: { exact: 1080 },
-          facingMode: "environment",
-          // frameRate: { ideal: 30, max: 60 }, // 📌 Yuqori kadr tezligi
-          // exposureMode: "continuous", // 📌 Doimiy ekspozitsiya
-          // whiteBalanceMode: "continuous", // 📌 Oq rang balansini avtomatik qilish
-          // brightness: 1.5,
-        },
-      })
-      .then((stream) => {
+    const startCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+        });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
-      });
-  };
+      } catch (err) {
+        alert("Kamerani ishga tushirib bo‘lmadi: " + err.message);
+      }
+    };
 
-  const captureImage = async () => {
-    if (isProcessing) return;
-    setIsProcessing(true);
+    startCamera();
+
+    const interval = setInterval(() => {
+      checkCardPosition();
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [!picture]);
+
+  const checkCardPosition = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+    const frame = frameRef.current;
+    if (!video || !canvas || !frame) return;
+
     const ctx = canvas.getContext("2d");
+    const { videoWidth, videoHeight } = video;
+    if (!videoWidth || !videoHeight) return;
 
-    // Video o‘lchamini olish
-    const videoWidth = video.videoWidth;
-    const videoHeight = video.videoHeight;
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
+    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
 
-    // Ramka o‘lchami (doimo 390x250)
-    const frameWidth = 190;
-    const frameHeight = 0;
+    const frameRect = frame.getBoundingClientRect();
+    const videoRect = video.getBoundingClientRect();
 
-    // Kesish koordinatalari (markazdan)
-    const x = (videoWidth - frameWidth) / 2;
-    const y = (videoHeight - frameHeight) / 2;
+    const x =
+      (frameRect.left - videoRect.left) * (videoWidth / videoRect.width);
+    const y =
+      (frameRect.top - videoRect.top) * (videoHeight / videoRect.height);
+    const width = frameRect.width * (videoWidth / videoRect.width);
+    const height = frameRect.height * (videoHeight / videoRect.height);
 
-    // Canvas o‘lchamini ramka o‘lchamiga moslash
-    canvas.width = frameWidth;
-    canvas.height = frameHeight;
+    const imageData = ctx.getImageData(x, y, width, height);
+    let avgLuminance = 0;
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      const r = imageData.data[i];
+      const g = imageData.data[i + 1];
+      const b = imageData.data[i + 2];
+      const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+      avgLuminance += luminance;
+    }
+    avgLuminance /= imageData.data.length / 4;
 
-    // Video dan markaziy qismini kesib olish
-    ctx.drawImage(
-      video,
-      x,
-      y,
-      frameWidth,
-      frameHeight, // Video ichidan kesish
-      0,
-      0,
-      frameWidth,
-      frameHeight // Canvas'ga tushirish
-    );
-
-    const imageDataURL = canvas.toDataURL("image/png");
-    setUrl(imageDataURL);
-
-    // 5️⃣ OCR orqali matnni tanib olish
-    const {
-      data: { text },
-    } = await Tesseract.recognize(imageDataURL, "eng+uzb", {
-      tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    });
-
-    setText(text);
-    setIsProcessing(false);
+    // Agar kartaga o‘xshash narsa ramkada bo‘lsa, tugmani ko‘rsatamiz
+    setShowCaptureBtn(avgLuminance < 150);
   };
 
+  const handleCapture = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const frame = frameRef.current;
+    const ctx = canvas.getContext('2d');
+  
+    const { videoWidth, videoHeight } = video;
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
+    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+    const frameRect = frame.getBoundingClientRect();
+    const videoRect = video.getBoundingClientRect();
+  
+    const x = (frameRect.left - videoRect.left) * (videoWidth / videoRect.width);
+    const y = (frameRect.top - videoRect.top) * (videoHeight / videoRect.height);
+    const width = frameRect.width * (videoWidth / videoRect.width);
+    const height = frameRect.height * (videoHeight / videoRect.height);
+  
+    // Faqat ramka ichidagi qismni alohida canvasga chizamiz
+    const cropCanvas = document.createElement('canvas');
+    cropCanvas.width = width;
+    cropCanvas.height = height;
+    const cropCtx = cropCanvas.getContext('2d');
+    cropCtx.drawImage(canvas, x, y, width, height, 0, 0, width, height);
+  
+    const croppedImage = cropCanvas.toDataURL('image/png');
+    setPicture(croppedImage);
+    console.log('Kesilgan rasm:', croppedImage);
+
+  };
+  
   return (
-    <>
-      {!url && (
-        <div className={styles.container}>
-          {/* Kamera */}
-          <video ref={videoRef} autoPlay playsInline className={styles.video} />
+   <>
+     <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "790px",
+        overflow: "hidden",
+        background: "#000",
+      }}
+    >
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+      />
 
-          {/* 📌 To‘rtburchakni markazga joylashtirish */}
-          <div id="box" className={styles.overlay}>
-            <div className={styles.box}></div>
-          </div>
+      {/* ID karta ramkasi */}
+      <div
+        ref={frameRef}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "80vw",
+          maxWidth: "300px",
+          aspectRatio: "1.6",
+          border: "3px dashed lime",
+          transform: "translate(-50%, -50%)",
+          zIndex: 2,
+        }}
+      ></div>
 
-          {/* 📌 OCR tugmasi */}
-          <Flex
-            className={styles.button}
-            alignItems={`center`}
-            justifyContent={`center`}
-            gap={4}
-          >
-            <Button onClick={captureImage} disabled={isProcessing}>
-              {isProcessing ? "Matn ajratilyapti..." : "Rasmga olish"}
-            </Button>
-            <Button onClick={toggleFlashlight}>
-              {flashOn ? "Chiroqni o‘chirish" : "Chiroqni yoqish"}
-            </Button>
-          </Flex>
+      {/* Canvas (yashirin) */}
+      <canvas ref={canvasRef} style={{ display: "none" }} />
 
-          {/* 📌 OCR matn natijasi */}
-
-          <canvas ref={canvasRef} style={{ display: "none" }} />
-        </div>
+      {/* Rasmga olish tugmasi */}
+      {showCaptureBtn && (
+        <button
+          onClick={handleCapture}
+          style={{
+            position: "absolute",
+            bottom: "30px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            padding: "15px 30px",
+            fontSize: "18px",
+            background: "limegreen",
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            zIndex: 3,
+          }}
+        >
+          📸 Rasmga olish
+        </button>
       )}
-
-      {url && (
-        <div className={styles.result}>
-          <p>{text}</p>
-          <Button
-            onClick={() => {
-              setText("");
-              setUrl(null);
-            }}
-          >
-            Qayta urunish
-          </Button>
-          <img src={url} alt="Rasm" />
-        </div>
-      )}
-    </>
+     
+    </div>
+     {picture && (
+      <Box>
+        <img
+          src={picture}
+          alt="Captured"
+          style={{
+            width: "300px",
+            height: "100%",
+            borderRadius: "10px",
+            zIndex: 3,
+          }}
+        />
+        <Button onClick={() => setPicture(null)}>❌ Rasmni o‘chirish</Button>
+      </Box>
+    )}
+   </>
   );
 };
 
-export default CameraModule;
-
-// const processImage = async (imageSrc) => {
-//   const img = new Image();
-//   img.src = imageSrc;
-//   img.onload = async () => {
-//     const canvas = document.createElement("canvas");
-//     const ctx = canvas.getContext("2d");
-//     canvas.width = img.width;
-//     canvas.height = img.height;
-//     ctx.drawImage(img, 0, 0);
-
-//     // Oq-qora qilib konvertatsiya qilish
-//     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-//     const pixels = imageData.data;
-//     for (let i = 0; i < pixels.length; i += 4) {
-//       const avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
-//       if (avg < 100) { // Qora yozuvlar
-//         pixels[i] = pixels[i + 1] = pixels[i + 2] = 0; // Qora
-//       } else {
-//         pixels[i] = pixels[i + 1] = pixels[i + 2] = 255; // Oq
-//       }
-//     }
-//     ctx.putImageData(imageData, 0, 0);
-
-//     // OCR matnni o‘qish
-//     Tesseract.recognize(canvas.toDataURL(), "uzb+eng", { logger: (m) => console.log(m) }).then(({ data: { text } }) => {
-//       setText(text);
-//     });
-//   };
-// };
+export default Camera;

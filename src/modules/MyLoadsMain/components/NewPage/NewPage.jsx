@@ -62,6 +62,7 @@ export const NewPage = ({
             key={index}
             cargo={item}
             handleCancel={handleCancel}
+            disabledCancelBtn={disabledBtn}
             onOpen={onOpen}
           />
         ))}

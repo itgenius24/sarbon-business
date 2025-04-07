@@ -17,7 +17,7 @@ import authStore from "@/store/auth.store";
 import { forwardRef } from "react";
 
 export const Performed = forwardRef(
-  ({ cargo, orderStatus, handleCancel, setDataPred,onOpen, setOpen }, ref) => {
+  ({ cargo, orderStatus, handleCancel, setDataPred,onOpen, setOpen,disabledCancelBtn }, ref) => {
     {
       cargo?.offer_time
         ? format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)
@@ -522,6 +522,7 @@ export const Performed = forwardRef(
                 {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
                   <Flex gap={`11px`}>
                     <Button
+                    isLoading={disabledCancelBtn}
                       onClick={(e) => {
                         // e.stopPropagation();
                         handleCancel(cargo);
