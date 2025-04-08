@@ -1,10 +1,13 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import {
+  useCreateAddressMutation,
   useCreateUser,
   useCreateVehicle,
   useDeleteVehicle,
   useGetCarNumber,
+  useGetCreateAddress,
   useGetFuelInfo,
+  useGetNewPred,
   useGetPhone,
   useGetTrailerType,
   useGetUserGpsByIDData,
@@ -34,6 +37,8 @@ const useProsp = () => {
   const router = useRouter();
   const { t } = useTranslation(locale, "translations");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [loadingFront, setLoadingFront] = useState(false);
+  const [loadingBack, setLoadingBack] = useState(false);
 
   const {
     handleSubmit,
@@ -79,19 +84,35 @@ const useProsp = () => {
       konika: watch(`konika`), // or false
       adr: watch(`adr`)?.value || ``,
       back_side_trailer: watch(`back_side_trailer`), //url cdn
+      back_side_trailer_1: watch(`back_side_trailer_1`), //url cdn
       front_side_trailer: watch(`front_side_trailer`), //url cdn
+      front_side_trailer_1: watch(`front_side_trailer_1`), //url cdn
       car_photo: watch(`car_photo`), //url cdn
       download_type: getTrueKeys(load),
       car_position: ["moderation"],
       status: [`active`],
       users_id_3: authStore.userData.guid,
       car_country: watch(`car_country`)?.value,
-      fuel_id: watch(`fuel_id`)?.value
-        ? watch(`fuel_id`).fuel_id?.value
-        : watch(`fuel_id`),
+      fuel_type: watch(`fuel_type`),
       eco_standart: watch(`eco_standart`)?.value,
       guid: id ? id : undefined,
       create_time: id ? undefined : new Date(),
+
+      address: watch(`address`) || undefined,
+      color: watch(`color`) || undefined,
+      engine_power: watch(`engine_power`) || undefined,
+      gross_weight: watch(`gross_weight`) || undefined,
+      issue_date: watch(`issue_date`) || undefined,
+      owner: watch(`owner`) || undefined,
+      seating_capacity: watch(`seating_capacity`) || undefined,
+      special_marks: watch(`special_marks`) || undefined,
+      standing_capacity: watch(`standing_capacity`) || undefined,
+      tax_id: watch(`tax_id`) || undefined,
+      traffic_department: watch(`traffic_department`) || undefined,
+      unladen_weight: watch(`unladen_weight`) || undefined,
+      year_of_manufacture: watch(`year_of_manufacture`) || undefined,
+      engine_number: watch(`engine_number`) || undefined,
+      type: watch(`type`) || undefined,
     },
   };
 
@@ -184,7 +205,8 @@ const useProsp = () => {
 
   const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
-      router.push(`/${locale}/my-cars-dillers`);    },
+      router.push(`/${locale}/my-cars-dillers`);
+    },
   });
 
   const { data: useList } = useGetVehicleSingle({
@@ -194,7 +216,6 @@ const useProsp = () => {
     querySettings: {
       enabled: Boolean(id),
       onSuccess: (res) => {
-        console.log(`res`, res);
         const trilerVal = carTypeOptions?.filter(
           (item) => item?.value === res?.response?.trailer_type_id
         );
@@ -204,13 +225,7 @@ const useProsp = () => {
         });
 
         setValue(`trailer_type_id`, trilerVal?.[0]);
-        setValue(
-          `fuel_id`,
-          fuel &&
-            fuel?.response
-              ?.filter((item) => item?.guid === res?.response?.fuel_id)
-              ?.map((item) => ({ label: item?.name, value: item?.guid }))?.[0]
-        );
+
         setValue(
           `car_country`,
           countries
@@ -220,12 +235,14 @@ const useProsp = () => {
               value: item?.code,
             }))?.[0]
         );
+
         setValue(
           `eco_standart`,
           euroTypeOptions
             ?.filter((item) => item?.value === res?.response?.eco_standart)
             ?.map((item) => ({ label: item?.value, value: item?.value }))?.[0]
         );
+        setValue(`fuel_type`, res?.response?.fuel_type);
         setValue(`capacity`, res?.response?.capacity);
         setValue(`height`, res?.response?.height);
         setValue(`marka`, res?.response?.marka);
@@ -236,11 +253,11 @@ const useProsp = () => {
         setValue(`konika`, res?.response?.konika);
         setValue(`adr`, res?.response?.adr);
         setValue(`back_side_trailer`, res?.response?.back_side_trailer);
+        setValue(`back_side_trailer_1`, res?.response?.back_side_trailer_1);
         setValue(`front_side_trailer`, res?.response?.front_side_trailer);
+        setValue(`front_side_trailer_1`, res?.response?.front_side_trailer_1);
         setValue(`car_photo`, res?.response?.car_photo);
         setValue(`car_number`, res?.response?.car_number);
-        
-
         setinputValue(res?.response?.car_number);
       },
     },
@@ -299,7 +316,6 @@ const useProsp = () => {
       },
     });
 
- 
   const onSubmit = (val) => {
     if (id) {
       updateDsate({
@@ -334,6 +350,87 @@ const useProsp = () => {
     }
   };
 
+  const { mutate: uploadAiData } = useGetNewPred({
+    onSuccess: (res) => {
+      const jsonData = JSON.parse(
+        res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
+      );
+
+      console.log(`jsonData`, jsonData);
+      if (jsonData?.model) {
+        setValue(`marka`, jsonData?.model);
+      }
+      if (jsonData?.license_plate) {
+        setValue(`car_number`, jsonData?.license_plate);
+      }
+      if (jsonData?.chassis_number) {
+        setValue(`car_vin_number`, jsonData?.chassis_number);
+      }
+      if (jsonData?.fuel_type) {
+        setValue(`fuel_type`, jsonData?.fuel_type);
+      }
+      if (jsonData?.address) {
+        setValue(`address`, jsonData?.address);
+      }
+      if (jsonData?.color) {
+        setValue(`color`, jsonData?.color);
+      }
+      if (jsonData?.engine_number) {
+        setValue(`engine_number`, jsonData?.engine_number);
+      }
+      if (jsonData?.engine_power) {
+        setValue(`engine_power`, jsonData?.engine_power);
+      }
+      if (jsonData?.gross_weight) {
+        setValue(`gross_weight`, jsonData?.gross_weight);
+      }
+      if (jsonData?.issue_date) {
+        setValue(`issue_date`, jsonData?.issue_date);
+      }
+      if (jsonData?.owner) {
+        setValue(`owner`, jsonData?.owner);
+      }
+      if (jsonData?.seating_capacity) {
+        setValue(`seating_capacity`, jsonData?.seating_capacity);
+      }
+      if (jsonData?.special_marks) {
+        setValue(`special_marks`, jsonData?.special_marks);
+      }
+      if (jsonData?.standing_capacity) {
+        setValue(`standing_capacity`, jsonData?.standing_capacity);
+      }
+      if (jsonData?.tax_id) {
+        setValue(`tax_id`, jsonData?.tax_id);
+      }
+      if (jsonData?.traffic_department) {
+        setValue(`traffic_department`, jsonData?.traffic_department);
+      }
+      if (jsonData?.type) {
+        setValue(`type`, jsonData?.type);
+      }
+      if (jsonData?.unladen_weight) {
+        setValue(`unladen_weight`, jsonData?.unladen_weight);
+      }
+      if (jsonData?.year_of_manufacture) {
+        setValue(`year_of_manufacture`, jsonData?.year_of_manufacture);
+      }
+
+      setLoadingFront(false);
+      setLoadingBack(false);
+    },
+  });
+
+  const uploadAi = (link) => {
+    uploadAiData({
+      data: {
+        object_data: {
+          type: "licence",
+          links: [link],
+        },
+      },
+    });
+  };
+
   const copyFunction = () => {
     setCopied();
     setIsPopupOpen(false);
@@ -360,7 +457,12 @@ const useProsp = () => {
     copyFunction,
     router,
     id,
-    carTypeOptions
+    carTypeOptions,
+    setLoadingFront,
+    setLoadingBack,
+    loadingBack,
+    loadingFront,
+    uploadAi: uploadAi,
   };
 };
 

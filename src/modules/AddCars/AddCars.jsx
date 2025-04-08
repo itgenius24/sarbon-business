@@ -40,7 +40,12 @@ const AddCars = () => {
     setIsPopupOpen,
     copyFunction,
     router,id,
-    carTypeOptions
+    carTypeOptions,
+    setLoadingFront,
+    setLoadingBack,
+    loadingBack,
+    loadingFront,
+    uploadAi
   } = useProsp();
 
   return (
@@ -60,7 +65,7 @@ const AddCars = () => {
         />
     
         <CreateCars
-        carTypeOptions={carTypeOptions}
+          carTypeOptions={carTypeOptions}
           setinputValue={setinputValue}
           register={register}
           euroTypeOptions={euroTypeOptions}
@@ -72,6 +77,12 @@ const AddCars = () => {
           isLargerThan845={isLargerThan845}
           cls={cls}
           locale={locale}
+          setLoadingFront={setLoadingFront}
+          uploadAi={uploadAi}
+          setLoadingBack={setLoadingBack}
+          loadingBack={loadingBack}
+          loadingFront={loadingFront}
+
         />
 
         <Button

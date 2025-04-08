@@ -1,4 +1,5 @@
 import {
+  CloseIconOutline,
   EyeIcon,
   EyeIconOff,
   FuraAddIcon,
@@ -41,7 +42,12 @@ const CreateCars = ({
   locale,
   euroTypeOptions,
   setinputValue,
-  carTypeOptions
+  carTypeOptions,
+  uploadAi,
+  setLoadingFront,
+  setLoadingBack,
+  loadingBack,
+  loadingFront,
 }) => {
   const { data: fuel } = useGetFuelInfo();
   return (
@@ -71,7 +77,6 @@ const CreateCars = ({
           </Flex>
           <Flex mt={`10px`} gap={4} flexDirection={`column`}>
             <UploadImg
-              
               watch={watch}
               setValue={setValue}
               name={"front_side_trailer"}
@@ -79,7 +84,10 @@ const CreateCars = ({
               text={t("Фото техпаспорта спереди *")}
               register={register}
               errors={errors}
-              rules={{required: t("Это поле объязательно")}}
+              rules={{ required: t("Это поле объязательно") }}
+              setLoading={setLoadingFront}
+              isLoading={loadingFront}
+              uploadAi={uploadAi}
             />
             <UploadImg
               watch={watch}
@@ -89,7 +97,10 @@ const CreateCars = ({
               text={t("Фото техпаспорта сзади *")}
               register={register}
               errors={errors}
-              rules={{required: t("Это поле объязательно")}}
+              rules={{ required: t("Это поле объязательно") }}
+              uploadAi={uploadAi}
+              setLoading={setLoadingBack}
+              isLoading={loadingBack}
             />
           </Flex>
         </Box>
@@ -286,60 +297,63 @@ const CreateCars = ({
             </p>
           </Flex>
         </Box>
-         <Box   mt={`25px`}
+        <Box
+          mt={`25px`}
           paddingBottom={`25px`}
-          borderBottom={`1px solid rgba(219, 216, 227, 1)`} width={"100%"}>
-                  <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
-                  <Dropdown
-                    control={control}
-                    register={register}
-                    watch={watch}
-                    placeholder={t("Выберите тип кузова")}
-                    name="trailer_type_id"
-                    options={carTypeOptions}
-                    errors={errors}
-                    // error={t}
-        
-                    required={t("Это поле обязательно")}
-                    width={"100%"}
-                    className={cls.dropdown}
-                    searchName="cargo_type_search"
-                  />
-        
-                  <Flex className={cls.primerWrap} gap={`12px`} mt={1}>
-                    <span className={cls.subLabel}>Пример: </span>
-                    <p
-                      onClick={() =>
-                        setValue(
-                          "trailer_type_id",
-                          {
-                            label: "Тентованный полуприцеп",
-                            value: "caa172e3-4c30-4fdb-a6fd-e74c0c325d0a",
-                          },
-                          { shouldValidate: true, shouldDirty: true }
-                        )
-                      }
-                      className={cls.quickWord}
-                    >
-                      Тентованный полуприцеп,
-                    </p>
-                    <p
-                      onClick={() =>
-                        setValue(
-                          "trailer_type_id",
-                          {
-                            label: "Рефрижератор",
-                            value: "38221f2f-882c-4f15-8afe-632d20282e19",
-                          },
-                          { shouldValidate: true, shouldDirty: true }
-                        )
-                      }
-                      className={cls.quickWord}
-                    >
-                      Рефрижератор
-                    </p>
-                  </Flex>
-                </Box>
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={"100%"}
+        >
+          <p className={cls.textFieldName}>{t("Тип кузова")} *</p>
+          <Dropdown
+            control={control}
+            register={register}
+            watch={watch}
+            placeholder={t("Выберите тип кузова")}
+            name="trailer_type_id"
+            options={carTypeOptions}
+            errors={errors}
+            // error={t}
+
+            required={t("Это поле обязательно")}
+            width={"100%"}
+            className={cls.dropdown}
+            searchName="cargo_type_search"
+          />
+
+          <Flex className={cls.primerWrap} gap={`12px`} mt={1}>
+            <span className={cls.subLabel}>Пример: </span>
+            <p
+              onClick={() =>
+                setValue(
+                  "trailer_type_id",
+                  {
+                    label: "Тентованный полуприцеп",
+                    value: "caa172e3-4c30-4fdb-a6fd-e74c0c325d0a",
+                  },
+                  { shouldValidate: true, shouldDirty: true }
+                )
+              }
+              className={cls.quickWord}
+            >
+              Тентованный полуприцеп,
+            </p>
+            <p
+              onClick={() =>
+                setValue(
+                  "trailer_type_id",
+                  {
+                    label: "Рефрижератор",
+                    value: "38221f2f-882c-4f15-8afe-632d20282e19",
+                  },
+                  { shouldValidate: true, shouldDirty: true }
+                )
+              }
+              className={cls.quickWord}
+            >
+              Рефрижератор
+            </p>
+          </Flex>
+        </Box>
         <Box
           mt={`25px`}
           paddingBottom={`25px`}
@@ -436,6 +450,22 @@ const CreateCars = ({
           borderBottom={`1px solid rgba(219, 216, 227, 1)`}
           width={`100%`}
         >
+          <p className={cls.textFieldName}>{t("Номер кузова (VIN)")}</p>
+          <TextField
+            // rules={rules}
+            errors={errors}
+            name="car_vin_number"
+            register={register}
+            placeholder={t("Необъязательно")}
+            type="text"
+          />
+        </Box>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          width={`100%`}
+        >
           <p className={cls.textFieldName}>{t("Экологический класс")}</p>
 
           <Dropdown
@@ -507,92 +537,16 @@ const CreateCars = ({
           width={`100%`}
         >
           <p className={cls.textFieldName}>{t("Тип топлива")}</p>
-          <Dropdown
-            control={control}
-            register={register}
-            watch={watch}
-            placeholder={t("Название")}
-            name="fuel_id"
-            options={fuel?.response?.map((item) => ({
-              ...item,
-              label: item[`name_${locale}`],
-              value: item?.guid,
-            }))}
+          <TextField
+            // rules={rules}
             errors={errors}
-            // required={t("Это поле обязательно")}
-            width={"50%"}
-            className={cls.dropdown}
-            // searchName="cargo_type_search"
+            name="fuel_type"
+            register={register}
+            placeholder={t("Необъязательно")}
+            type="text"
           />
-          <Flex gap={`12px`} mt={1}>
-            <span className={cls.subLabel}>{t(`Пример`)}: </span>
-            <p
-              onClick={() =>
-                setValue(
-                  "fuel_id",
-                  {
-                    label: t("Дизель"),
-                    value: "187c327c-626d-4531-90f8-93408a011a7b",
-                  },
-                  { shouldValidate: true, shouldDirty: true }
-                )
-              }
-              className={cls.quickWord}
-            >
-              {t(`Дизель`)},
-            </p>
-            <p
-              onClick={() =>
-                setValue(
-                  "fuel_id",
-                  {
-                    label: t("Бензин"),
-                    value: "5f8a08e3-c934-4149-9565-26929111a6c6",
-                  },
-                  { shouldValidate: true, shouldDirty: true }
-                )
-              }
-              className={cls.quickWord}
-            >
-              {t(`Бензин`)},
-            </p>
-            <p
-              onClick={() =>
-                setValue(
-                  "fuel_id",
-                  {
-                    label: t("Метан"),
-                    value: "efaf36e8-0261-4a0a-92fb-975464dbf01e",
-                  },
-                  { shouldValidate: true, shouldDirty: true }
-                )
-              }
-              className={cls.quickWord}
-            >
-              {t(`Метан`)}
-            </p>
-          </Flex>
         </Box>
-        <Box
-          mt={`25px`}
-          paddingBottom={`25px`}
-          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
-          width={"100%"}
-        >
-          <p className={cls.textFieldName}>{t("Фото машины")}</p>
-          <Flex gap={4} className={cls.ImgWrap}>
-            <UploadImg
-              watch={watch}
-              setValue={setValue}
-              name={"car_photo"}
-              icon={<ImgUload2 />}
-              text={t("Загрузить фото машины")}
-              errors={errors}
-              countries={countries}
-              locale={locale}
-            />
-          </Flex>
-        </Box>
+
         <Box
           mt={`25px`}
           paddingBottom={`25px`}
@@ -607,7 +561,6 @@ const CreateCars = ({
                 p={0}
                 _hover={{ backgroundColor: `white` }}
                 width={`100%`}
-           
               >
                 <p className={cls.textFieldName2}>{t("Тип загрузки")}</p>
                 <AccordionIcon />
@@ -654,11 +607,15 @@ const CreateCars = ({
             </AccordionItem>
           </Accordion>
         </Box>
-        <Box mt={`25px`} paddingBottom={`25px`} width={`100%`}>
+        <Box
+          mt={`25px`}
+          paddingBottom={`25px`}
+          width={`100%`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+        >
           <Accordion allowMultiple>
             <AccordionItem border={`none`}>
               <AccordionButton
-              
                 justifyContent="space-between"
                 alignItems={`center`}
                 p={0}
@@ -692,6 +649,14 @@ const CreateCars = ({
                     {t("Пневмоход")}
                   </Checkbox>
                   <Checkbox
+                    defaultChecked={watch(`isTrilerImg`)}
+                    register={register}
+                    name="isTrilerImg"
+                  >
+                    {t("Техпаспорт прицепа")}
+                  </Checkbox>
+
+                  <Checkbox
                     defaultChecked={watch(`konika`)}
                     register={register}
                     name="konika"
@@ -713,9 +678,71 @@ const CreateCars = ({
                     {t("CEMT (ЕКМТ) ")}
                   </Checkbox>
                 </Box>
+                {watch(`isTrilerImg`) && (
+                  <Box
+                    marginTop={`20px`}
+                    paddingTop={`25px`}
+                    borderTop={`1px solid rgba(219, 216, 227, 1)`}
+                  >
+                    <Flex
+                      width={`100%`}
+                      justifyContent={`space-between`}
+                      alignContent={`center`}
+                      marginBottom={`12px`}
+                    >
+                      <p className={cls.textFieldName2}>
+                        {t("Фото техпаспорта прицепа")}
+                      </p>
+                      <Box
+                        onClick={() => setValue(`isTrilerImg`, false)}
+                        cursor={`pointer`}
+                      >
+                        <CloseIconOutline />
+                      </Box>
+                    </Flex>
+
+                    <Flex mt={`10px`} gap={4} flexDirection={`column`}>
+                      <UploadImg
+                        watch={watch}
+                        setValue={setValue}
+                        name={"front_side_trailer_1"}
+                        icon={<ImgploadIcon1 />}
+                        text={t("Фото техпаспорта спереди")}
+                        register={register}
+                        errors={errors}
+                        rules={{ required: t("Это поле объязательно") }}
+                      />
+                      <UploadImg
+                        watch={watch}
+                        setValue={setValue}
+                        name={"back_side_trailer_1"}
+                        icon={<ImgploadIcon1 />}
+                        text={t("Фото техпаспорта сзади")}
+                        register={register}
+                        errors={errors}
+                        rules={{ required: t("Это поле объязательно") }}
+                      />
+                    </Flex>
+                  </Box>
+                )}
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
+        </Box>
+        <Box mt={`25px`} paddingBottom={`25px`} width={"100%"}>
+          <p className={cls.textFieldName}>{t("Фото машины")}</p>
+          <Flex gap={4} className={cls.ImgWrap}>
+            <UploadImg
+              watch={watch}
+              setValue={setValue}
+              name={"car_photo"}
+              icon={<ImgUload2 />}
+              text={t("Загрузить фото машины")}
+              errors={errors}
+              countries={countries}
+              locale={locale}
+            />
+          </Flex>
         </Box>
       </Flex>
     </>
