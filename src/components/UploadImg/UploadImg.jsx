@@ -16,16 +16,17 @@ export const UploadImg = ({
   register = () => {},
   errors,
   rules = {},
-  setLoading,
+  setLoading = () => {},
   isLoading = false,
+  setFileUploadLoading = () => {},
   uploadAi = () => {},
 }) => {
   const locale = useGetLang();
-
+  
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (e,) => {
     setLoading(true);
-    const result = await fileUpload(e);
+    const result = await fileUpload(e,setFileUploadLoading);
     // setValue("image", result?.link);
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
     uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);

@@ -23,7 +23,7 @@ const CreateDrivers = ({
   id,
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-
+  const [isLoading,setFileUploadLoading] = useState(false)
   function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
@@ -73,6 +73,8 @@ const CreateDrivers = ({
               register={register}
               errors={errors}
               rules={{required: t("Это поле объязательно")}}
+              setFileUploadLoading={setFileUploadLoading}
+              isLoading={isLoading}
             />
           </Box>
         </Flex>
