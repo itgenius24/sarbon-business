@@ -38,6 +38,7 @@ export const Dropdown = ({
   onSearchChange = () => {},
   handleInputClear = () => {},
   onChangeSelect = () => {},
+  handleDisabled = () => {},
   index,
   isMulti,
   clearable,
@@ -88,6 +89,8 @@ export const Dropdown = ({
                 if (!disabled) {
                   // e.stopPropagation();
                   handleToggle(e);
+                }else{
+                  handleDisabled()
                 }
               }}
               data-id={name}
@@ -95,8 +98,14 @@ export const Dropdown = ({
             >
               <>
                 {searchable ? (
-                  <div className={cls.inputWrap}>
+                  <div  onClick={() => {
+                      console.log(`clicked`);
+                      if(disabled){
+                       return handleDisabled()
+                      }
+                    }} className={cls.inputWrap}>
                     <input
+                   
                       className={cls.input}
                       {...register(searchName)}
                       defaultValue={watch(searchName)}
@@ -106,7 +115,7 @@ export const Dropdown = ({
                           ? inputPlaceholder
                           : t(inputPlaceholder)
                       }
-                      disabled={disabled}
+                      // disabled={disabled}
                       autoComplete="off"
                     />
                   

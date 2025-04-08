@@ -8,12 +8,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
 import React from "react";
 import { CustomInputDate } from "./components/CustomInputDate";
+import { Box } from "@chakra-ui/react";
 
 export const DatePickerComponent = ({
   control,
   name,
   onChange,
   isDisabled,
+  handleDisabled = () => {},
+  canEdit,
   width=154,
   ...props
 }) => {
@@ -22,9 +25,9 @@ export const DatePickerComponent = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <>
+        <Box onClick={() => !canEdit ? handleDisabled() : null  }>
           <DatePicker
-            disabled={isDisabled}
+            disabled={!canEdit ? !canEdit : isDisabled}
             selected={field.value ? new Date(field.value) : field.value}
             onChange={(date) => {
               field.onChange(date), onChange(date);
@@ -32,10 +35,10 @@ export const DatePickerComponent = ({
             placeholderText="Select date"
             dateFormat="dd.MM.yyyy HH:mm"
             // dateFormat="dd.MM.yyyy"
-            customInput={<CustomInputDate width={`${width}px`} />}
+            customInput={<CustomInputDate canEdit={canEdit}   width={`${width}px`} />}
             {...props}
           />
-        </>
+        </Box>
       )}
     />
   );

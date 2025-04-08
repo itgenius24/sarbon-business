@@ -36,6 +36,7 @@ const useStepTwoProps = () => {
     canEdit,
     getValues,
     handleResetForm,
+    setEditModal
   } = useAddCargoContext();
 
   console.log(`disabled`, disabled);
@@ -353,7 +354,8 @@ const useStepTwoProps = () => {
     handLeCheck,
     handLeCheck2,
     handleResetForm,
-    setDisabled
+    setDisabled,
+    setEditModal
   };
 };
 

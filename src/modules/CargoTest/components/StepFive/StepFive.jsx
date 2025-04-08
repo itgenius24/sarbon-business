@@ -58,6 +58,7 @@ const StepFive = ({ status }) => {
     load,
     mone,
     check,
+    setEditModal
   } = useAddCargoContext();
 
   const { value: userData } = useGetStoreData(authStore, "userData");
@@ -441,6 +442,8 @@ const StepFive = ({ status }) => {
           </Box>
           <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
+                      onClick={() => !canEdit ? setEditModal(true) :null}
+
               disabled={!canEdit}
               additionalItemPosition="left"
               additionalItemTheme="light"
@@ -472,7 +475,7 @@ const StepFive = ({ status }) => {
               )}
             </p>
           </Box>
-          <Box className={cls.itemSubWrap} width={"50%"}>
+          <Box onClick={() => !canEdit ? setEditModal(true): null} className={cls.itemSubWrap} width={"50%"}>
             <CustomTextarea
               disabled={!canEdit}
               name={"note"}

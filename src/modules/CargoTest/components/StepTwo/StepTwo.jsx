@@ -65,7 +65,8 @@ const StepTwo = ({ status }) => {
     handLeCheck,
     handLeCheck2,
     handleResetForm,
-    setDisabled
+    setDisabled,
+    setEditModal
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -125,6 +126,8 @@ const StepTwo = ({ status }) => {
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAdditionMap
+                      onClick={() => !canEdit ? setEditModal(true) :null}
+                     
                       disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
@@ -192,10 +195,12 @@ const StepTwo = ({ status }) => {
                       <span className={cls.label}>{t(`Когда забрать`)}</span>
                       <DatePickerComponent
                         width={198}
+                        handleDisabled={() => setEditModal(true)}
                         showTimeSelect
                         timeFormat="HH:mm" // 24 soatlik format
                         timeIntervals={15}
-                        isDisabled={watch("as_soon_as_a")}
+                        isDisabled={(!canEdit || watch(`as_soon_as_a`))}
+                        canEdit={canEdit}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index, item?.guid);
                         }}
@@ -231,7 +236,7 @@ const StepTwo = ({ status }) => {
                         isClearable={false}
                       />
                     </Box>
-                    <Box className={cls.disabledCeck} mt={5}>
+                    <Box onClick={() => !canEdit ? setEditModal(true):null} className={cls.disabledCeck} mt={5}>
                       <Checkbox
                         isDisabled={!canEdit}
                         width={"16px"}
@@ -332,6 +337,7 @@ const StepTwo = ({ status }) => {
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAdditionMap
                       // onlyFieldDisabled={true}
+                      onClick={() => !canEdit ? setEditModal(true) :null}
                       disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
@@ -401,7 +407,9 @@ const StepTwo = ({ status }) => {
                     <Box width={"198px"}>
                       <span className={cls.label}>{t(`Когда доставить`)}</span>
                       <DatePickerComponent
-                        isDisabled={watch(`as_soon_as_b`)}
+                        isDisabled={( !canEdit || watch(`as_soon_as_b`))}
+                        handleDisabled={() => setEditModal(true)}
+                        canEdit={canEdit}
                         width={198}
                         showTimeSelect
                         timeFormat="HH:mm" // 24 soatlik format
@@ -423,7 +431,7 @@ const StepTwo = ({ status }) => {
                       />
                     </Box>
 
-                    <Box mt={5}>
+                    <Box onClick={() => !canEdit ? setEditModal(true):null}  mt={5}>
                       <Checkbox
                         isDisabled={!canEdit}
                         width={"16px"}

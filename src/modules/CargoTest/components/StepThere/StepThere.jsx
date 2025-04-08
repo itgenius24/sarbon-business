@@ -69,6 +69,7 @@ const StepThere = ({ status }) => {
     handleNumClick,
     onSubmit,
     handleResetForm,
+    setEditModal
   } = useStepThereProps();
 
   const locale = useGetLang();
@@ -103,6 +104,7 @@ const StepThere = ({ status }) => {
                   <Box width={"100%"}>
                     <Dropdown
                       control={control}
+                      handleDisabled={() => setEditModal(true)}
                       required
                       register={register}
                       watch={watch}
@@ -159,12 +161,13 @@ const StepThere = ({ status }) => {
                 >
                   <Box width={"80px"}>
                     <TextField
+                      onClick={() => !canEdit ? setEditModal(true) :null}
                       disabled={!canEdit}
                       register={register}
                       type="number"
                       errors={errors}
                       name="transport_count"
-                      placeholder={t("15")}
+                      placeholder={t("0")}
                     />
                   </Box>
                   <Flex alignItems={"center"}>

@@ -27,7 +27,7 @@ import formStore from "@/store/form.store";
 
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const searchParams = useSearchParams();
-
+  const [editModal, setEditModal] = useState(false);
 
   const pathname = usePathname();
 
@@ -1336,12 +1336,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     setCheck,
     loadings: watch(`loadings`),
     updateStatus,
-    // appendLoading,
-    // removeLoading,
-    // updateLoading,
     unloading: watch(`unloading`),
-    // appendUnloading,
-    // removeUnloading,
-    // updateUnloading,
+     editModal,
+     setEditModal
   };
 };

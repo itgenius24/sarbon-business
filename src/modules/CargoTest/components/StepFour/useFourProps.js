@@ -21,6 +21,7 @@ const useFourProps = () => {
     check,
     setCheck,
     order_status,
+    setEditModal,
   } = useAddCargoContext();
   const [disabled, setDisabled] = useState(true);
   const getCurrency = useGetCurrency();
@@ -131,7 +132,8 @@ const useFourProps = () => {
     order_status,
     canEditActive,
     onSubmit,
-    mone
+    mone,
+    setEditModal
   };
 };
 

@@ -85,6 +85,7 @@ const AddCars = () => {
 
         />
 
+        <Flex className={cls.wrapBtn} >
         <Button
           isLoading={isLoading}
           isDisabled={isBtn}
@@ -93,6 +94,7 @@ const AddCars = () => {
         >
           {t("Сохранить водителя")}
         </Button>
+        </Flex>
       </Container>
       <Drawer placement="bottom" isOpen={isPopupOpen}>
         <DrawerOverlay />

@@ -41,6 +41,8 @@ const StepOne = ({ status }) => {
     handleImageUpload,
     onSubmit,
     handleResetForm,
+    editModal,
+    setEditModal
   } = useStepOneProps();
 
   const locale = useGetLang();
@@ -66,6 +68,7 @@ const StepOne = ({ status }) => {
               <Box width={`100%`}>
                 <p className={cls.textFieldName}></p>
                 <Dropdown
+                   handleDisabled={() => setEditModal(true)}
                   control={control}
                   required
                   register={register}
@@ -134,6 +137,8 @@ const StepOne = ({ status }) => {
                 <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
                   <Box>
                     <TextFieldWithAddition
+                  //  handleDisabled={() => setEditModal(true)}
+                      onClick={() => !canEdit ? setEditModal(true) :null}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -180,6 +185,8 @@ const StepOne = ({ status }) => {
                     {/* <p className={cls.textFieldName}></p> */}
                     <TextFieldWithAddition
                       className={cls.textField2}
+                      onClick={() => !canEdit ? setEditModal(true) :null}
+
                       errors={errors}
                       control={control}
                       name="volume_measurement"

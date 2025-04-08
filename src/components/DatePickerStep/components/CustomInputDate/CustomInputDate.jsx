@@ -10,6 +10,7 @@ export const CustomInputDate = forwardRef(
     width,
     cPlaceholder,
     disabled,
+    canEdit
   }, ref) => {
     const {t} = useTranslation();
     return (
@@ -19,7 +20,7 @@ export const CustomInputDate = forwardRef(
         onClick={onClick}
         ref={ref}
         style={{ width: width || "100%" }}
-        disabled={disabled}
+        disabled={!canEdit ? false: disabled}
       >
         <span className={cls.dateInputInner}>
        

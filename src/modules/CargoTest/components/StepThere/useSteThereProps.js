@@ -34,6 +34,7 @@ const useStepThereProps = () => {
     isGradusOpen,
     setLoad,
     load,
+    setEditModal,
     handleResetForm,
   } = useAddCargoContext();
   const [disabled, setDisabled] = useState(true);
@@ -278,6 +279,7 @@ const useStepThereProps = () => {
     onSubmit,
     disabled,
     handleResetForm,
+    setEditModal
   };
 };
 

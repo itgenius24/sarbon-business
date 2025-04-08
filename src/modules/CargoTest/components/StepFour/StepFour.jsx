@@ -36,6 +36,7 @@ const StepFour = ({ status }) => {
     canEditActive,
     onSubmit,
     mone,
+    setEditModal
   } = useFourProps({});
   const { t } = useTranslation();
 
@@ -86,11 +87,7 @@ const StepFour = ({ status }) => {
     setValue(`price_prepayment_unit`, selectedOption);
   };
 
-  console.log(
-    `salom`,
-    watch(`price_prepayment_unit`)?.label?.charAt(0).toUpperCase(),
-    watch(`price_prepayment_unit`)?.label?.slice(1).toLowerCase()
-  );
+
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
@@ -185,7 +182,8 @@ const StepFour = ({ status }) => {
                     </RadioGroup>
                   ) : (
                     status && (
-                      <RadioGroup
+                    <Box onClick={() => !canEdit ? setEditModal(true) : null}>
+                    <RadioGroup
                         isDisabled={!canEdit}
                         onChange={(e) => onChangeNa(e)}
                         value={value}
@@ -213,6 +211,7 @@ const StepFour = ({ status }) => {
                             ))}
                         </Flex>
                       </RadioGroup>
+                    </Box>
                     )
                   )}
                 </Flex>
@@ -339,6 +338,8 @@ const StepFour = ({ status }) => {
                       )}
                     </Flex>
                     <TextFieldWithAddition
+                      onClick={() => !canEdit ? setEditModal(true) :null}
+
                       disabled={order_status?.[0] === "active" || !canEdit}
                       name="price"
                       register={register}
@@ -371,6 +372,8 @@ const StepFour = ({ status }) => {
                       </Checkbox>
                     </Flex>
                     <TextFieldWithAddition
+                      onClick={() => !canEdit ? setEditModal(true) :null}
+
                       disabled={order_status?.[0] === "active" || disabledP}
                       name="price_prepayment"
                       register={register}

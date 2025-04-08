@@ -27,6 +27,7 @@ export const TextFieldWithAddition = ({
   width = "",
   additionalOnclick = () => {},
   disabled,
+  handleDisabled,
   onlyFieldDisabled,
   onClick,
   rules = {},

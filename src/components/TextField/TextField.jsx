@@ -13,8 +13,10 @@ export const TextField = ({
   addonAfter,
   label,
   bottomText,
+  onClick,
   rules = {},
   placeholder = "",
+  disabled,
   ...props
 }) => {
   return (
@@ -29,6 +31,7 @@ export const TextField = ({
       >
         {addonBefore && <span className={cls.before}>{addonBefore}</span>}
         <input
+         onClick={onClick}
           onWheel={(e) => e.target.blur()}
           className={clsx(
             cls.fieldInput,
@@ -37,9 +40,12 @@ export const TextField = ({
           )}
           id={name}
           type={type}
+          disabled={onClick ? false : disabled}
           placeholder={placeholder}
           {...register(name, rules)}
           {...props}
+
+
         />
         {addonAfter && (
           <span className={cls.after}>{addonAfter}</span>

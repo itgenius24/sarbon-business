@@ -73,7 +73,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
   }, []);
 
   const closePopup = () => {
-    setOpen(false);
+    addCargoProps?.setEditModal(false);
   };
 
   function getTopContent() {
@@ -118,7 +118,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                 maxWidth="323px"
                 paddingLeft={`30px`}
                 paddingRight={`30px`}
-                onClick={() => setOpen(true)}
+                onClick={() => addCargoProps?.setEditModal(true)}
               >
                 {t("Редактировать")}
               </Button>
@@ -431,7 +431,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                       maxWidth="323px"
                       paddingLeft={`30px`}
                       paddingRight={`30px`}
-                      onClick={() => setOpen(true)}
+                      onClick={() => addCargoProps?.setEditModal(true)}
                     >
                       {t("Редактировать")}
                     </Button>
@@ -493,7 +493,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
         btn2Callback={addCargoProps.handleDelete}
       />
       <Popup
-        isOpen={open}
+        isOpen={addCargoProps?.editModal}
         onClose={closePopup}
         mainText={t("Хотите перейти в режим редактирования?", {
           name: addCargoProps.cargoName,

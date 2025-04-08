@@ -88,6 +88,7 @@ const CreateCars = ({
               setLoading={setLoadingFront}
               isLoading={loadingFront}
               uploadAi={uploadAi}
+              
             />
             <UploadImg
               watch={watch}

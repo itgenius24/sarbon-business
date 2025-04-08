@@ -49,17 +49,30 @@
   //    text-decoration: underline dotted;
 }
 
+.wrapBtn{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 60px;
+  @media (max-width: 872px) {
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+  }
+}
+
 .nextBtn {
   width: fit-content;
   padding: 27px 28px !important;
   font-size: 18px;
   font-weight: 600;
   background-color: var(--primary-text) !important;
-  margin-top: 60px;
+ 
   @media (max-width: 872px) {
     font-size: 15px;
-    width: 100%;
+    width: 97%;
     font-weight: 600;
-    margin: 20px 10px;
+   
+    
   }
 }

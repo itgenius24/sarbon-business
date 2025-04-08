@@ -28,6 +28,8 @@ const useStepOneProps = () => {
     isFileUploader,
     setIsFileUploader,
     handleResetForm,
+    editModal,
+    setEditModal
   } = useAddCargoContext();
   const [searchCargo, setSearchCargo] = useState("");
   const [img, setImg] = useState("");
@@ -243,6 +245,8 @@ const useStepOneProps = () => {
     disabledBtn: disabled,
     canEdit,
     handleResetForm,
+    editModal,
+    setEditModal
   };
 };
 
