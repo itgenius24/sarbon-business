@@ -17,7 +17,18 @@ import authStore from "@/store/auth.store";
 import { forwardRef } from "react";
 
 export const Performed = forwardRef(
-  ({ cargo, orderStatus, handleCancel, setDataPred,onOpen, setOpen,disabledCancelBtn }, ref) => {
+  (
+    {
+      cargo,
+      orderStatus,
+      handleCancel,
+      setDataPred,
+      onOpen,
+      setOpen,
+      disabledCancelBtn,
+    },
+    ref
+  ) => {
     {
       cargo?.offer_time
         ? format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)
@@ -48,8 +59,8 @@ export const Performed = forwardRef(
     const obj = {
       after_payment: t(`Оплата после завершения`),
       prepayment: t(`Предоплата`),
-      bank:t(`Банковский перевод`),
-      cash:t(`Наличные`)
+      bank: t(`Банковский перевод`),
+      cash: t(`Наличные`),
     };
 
     return (
@@ -155,7 +166,10 @@ export const Performed = forwardRef(
                 </p>
               </div>
               <div className={styles.text}>
-                <p className={styles.rightTitle}> {cargo?.offers ? t(`Предложения водителя`) : t(`Общая сумма`)}</p>
+                <p className={styles.rightTitle}>
+                  {" "}
+                  {cargo?.offers ? t(`Предложения водителя`) : t(`Общая сумма`)}
+                </p>
                 <p className={styles.totalSum}>
                   {cargo?.offers || cargo?.cargo_id_data?.bid_cash
                     ? `${cargo?.offers || cargo?.cargo_id_data?.bid_cash}  ${
@@ -191,57 +205,54 @@ export const Performed = forwardRef(
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
-                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение` ,
+                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение`,
                     }}
-                  >
-             
-                   
-                  </p>
+                  ></p>
                 </div>
               )}
-              {(orderStatus !== `new` &&
-                orderStatus !== `cancellation`) &&
-                orderStatus === `archive` ? (
-                  <div className={styles.cardItem}>
+              {orderStatus !== `new` &&
+              orderStatus !== `cancellation` &&
+              orderStatus === `archive` ? (
+                <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
-                    {t(`Сообщение`)}      {orderStatus === `archive`
-                        ? cargo?.archive_time &&
-                          format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)
-                        : cargo?.performed_time &&
-                          format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
+                    {t(`Сообщение`)}{" "}
+                    {orderStatus === `archive`
+                      ? cargo?.archive_time &&
+                        format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)
+                      : cargo?.performed_time &&
+                        format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
                   </span>
                   <p
                     className={styles.cardName}
                     dangerouslySetInnerHTML={{
-                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение` ,
+                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение`,
                     }}
                   >
                     {/* {cargo?.comment} */}
                   </p>
                 </div>
-                ):  (
-                  <div className={styles.cardItem}>
-                    <span className={styles.cardBodyTitle}>
-                      {t(`Статус`)}:
-                      {orderStatus === `archive`
-                        ? cargo?.archive_time &&
-                          format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)
-                        : cargo?.performed_time &&
-                          format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
-                    </span>
-                    <p className={styles.cardName}>
-                      {
-                        performedStatuses[
-                          cargo?.indicate_status?.[0]
-                            ? cargo?.indicate_status?.[0]
-                            : `Не cтатус`
-                        ]
-                      }
-                      {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
-                    </p>
-                  </div>
-                )
-                }
+              ) : (
+                <div className={styles.cardItem}>
+                  <span className={styles.cardBodyTitle}>
+                    {t(`Статус`)}:
+                    {orderStatus === `archive`
+                      ? cargo?.archive_time &&
+                        format(cargo?.archive_time, ` dd.MM.yyyy, HH:mm`)
+                      : cargo?.performed_time &&
+                        format(cargo?.performed_time, ` dd.MM.yyyy, HH:mm`)}
+                  </span>
+                  <p className={styles.cardName}>
+                    {
+                      performedStatuses[
+                        cargo?.indicate_status?.[0]
+                          ? cargo?.indicate_status?.[0]
+                          : `Не cтатус`
+                      ]
+                    }
+                    {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
+                  </p>
+                </div>
+              )}
             </div>
             <div className={styles.card}>
               <Flex width={`100%`} justifyContent={`space-between`}>
@@ -259,22 +270,35 @@ export const Performed = forwardRef(
                       {t(`Вес, объём`)}
                     </span>
                     <p className={styles.cardName}>
-                      {cargo?.cargo_id_data?.weight}
+                      {cargo?.cargo_id_data?.weight} т
                       {cargo?.cargo_id_data?.measurement_id_data?.Symbol} /{" "}
                       {cargo?.cargo_id_data?.volume_m3} m³
                     </p>
                   </div>
                   <div className={styles.cardItem}>
                     <span className={styles.cardBodyTitle}>
-                      {t(`Транспорт`)}
+                      {cargo?.vehicle_id_data?.car_number ||
+                      !(
+                        orderStatus === "new" || orderStatus === "no_dispatcher"
+                      )
+                        ? t("Транспорт")
+                        : t("Нет машины")}
                     </span>
-                    <p className={styles.cardName}>
-                      {cargo?.[`car_type_${locale}`]
-                        ? cargo?.[`car_type_${locale}`]
-                        : cargo?.car_type}  {cargo?.vehicle_id_data?.car_number && ` / ${cargo?.vehicle_id_data?.car_number}`}
-                    </p>
+
+                    {cargo?.vehicle_id_data?.car_number ? (
+                      <p className={styles.cardName}>
+                        {(cargo?.[`car_type_${locale}`] || cargo?.car_type) +
+                          ` / ${cargo.vehicle_id_data?.car_number}`}
+                      </p>
+                    ) : orderStatus === "new" ||
+                      orderStatus === "no_dispatcher" ? (
+                      <p className={styles.addCar}>Добавить машину</p>
+                    ) : (
+                      <p className={styles.cardName}>
+                        {cargo?.[`car_type_${locale}`] || cargo?.car_type}
+                      </p>
+                    )}
                   </div>
-                
                 </Flex>
                 <div style={{ textAlign: `right` }} className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
@@ -286,7 +310,15 @@ export const Performed = forwardRef(
                 </div>
               </Flex>
             </div>
-            <div style={{justifyContent: orderStatus ===  "performed" || orderStatus === `cancellation` ? `space-between`:`flex-start`}}  className={styles.card}>
+            <div
+              style={{
+                justifyContent:
+                  orderStatus === "performed" || orderStatus === `cancellation`
+                    ? `space-between`
+                    : `flex-start`,
+              }}
+              className={styles.card}
+            >
               {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 (orderStatus === `archive` ||
                   orderStatus === `approve_from_driver`) && (
@@ -434,10 +466,10 @@ export const Performed = forwardRef(
                 </Box>
               </Flex>
 
-              {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"  ||  role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469")  &&
+              {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
+                role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") &&
                 (orderStatus === `new` || orderStatus === `performed`) && (
                   <Flex
-                   
                     className={styles.cardItem}
                     gap={`7px`}
                     alignItems={`center`}
@@ -470,7 +502,8 @@ export const Performed = forwardRef(
                   </Flex>
                 )}
 
-              {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&   role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469"  &&
+              {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
+                role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469" &&
                 orderStatus === `performed` && (
                   <Flex
                     width={`100%`}
@@ -505,10 +538,10 @@ export const Performed = forwardRef(
                     </Box>
                   </Flex>
                 )}
-              <Box  className={styles.cardItem}>
+              <Box className={styles.cardItem}>
                 {orderStatus == "performed" && (
                   <Button
-                   width={`fit-content`}
+                    width={`fit-content`}
                     leftIcon={<MapIcon />}
                     boxSizing={`border-box`}
                     onClick={() =>
@@ -524,7 +557,7 @@ export const Performed = forwardRef(
                 {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
                   <Flex gap={`11px`}>
                     <Button
-                    isLoading={disabledCancelBtn}
+                      isLoading={disabledCancelBtn}
                       onClick={(e) => {
                         // e.stopPropagation();
                         handleCancel(cargo);
@@ -538,7 +571,7 @@ export const Performed = forwardRef(
                       onClick={(e) => {
                         // e.stopPropagation();
                         setDataPred(cargo);
-                        onOpen()
+                        onOpen();
                       }}
                       className={styles.bntNew}
                     >
