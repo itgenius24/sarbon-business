@@ -15,6 +15,7 @@ import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
 import { UploadImg } from "@/components/UploadImg";
+import { UploadImgMobile } from "@/components/UploadImgMobile";
 import { useGetFuelInfo } from "@/services/api";
 import { countries } from "@/utils/country";
 import {
@@ -76,7 +77,7 @@ const CreateCars = ({
             </Heading>
           </Flex>
           <Flex mt={`10px`} gap={4} flexDirection={`column`}>
-            <UploadImg
+            <UploadImgMobile
               watch={watch}
               setValue={setValue}
               name={"front_side_trailer"}
@@ -88,9 +89,8 @@ const CreateCars = ({
               setLoading={setLoadingFront}
               isLoading={loadingFront}
               uploadAi={uploadAi}
-              
             />
-            <UploadImg
+            <UploadImgMobile
               watch={watch}
               setValue={setValue}
               name={"back_side_trailer"}
@@ -703,7 +703,7 @@ const CreateCars = ({
                     </Flex>
 
                     <Flex mt={`10px`} gap={4} flexDirection={`column`}>
-                      <UploadImg
+                      <UploadImgMobile
                         watch={watch}
                         setValue={setValue}
                         name={"front_side_trailer_1"}
@@ -713,7 +713,7 @@ const CreateCars = ({
                         errors={errors}
                         rules={{ required: t("Это поле объязательно") }}
                       />
-                      <UploadImg
+                      <UploadImgMobile
                         watch={watch}
                         setValue={setValue}
                         name={"back_side_trailer_1"}
@@ -733,7 +733,7 @@ const CreateCars = ({
         <Box mt={`25px`} paddingBottom={`25px`} width={"100%"}>
           <p className={cls.textFieldName}>{t("Фото машины")}</p>
           <Flex gap={4} className={cls.ImgWrap}>
-            <UploadImg
+            <UploadImgMobile
               watch={watch}
               setValue={setValue}
               name={"car_photo"}
