@@ -48,6 +48,7 @@ export const Performed = forwardRef(
     const obj = {
       after_payment: t(`Оплата после завершения`),
       prepayment: t(`Предоплата`),
+      bank:t(`Банковский перевод`)
     };
 
     return (
@@ -139,9 +140,9 @@ export const Performed = forwardRef(
               <div className={styles.text}>
                 <p className={styles.rightTitle}>
                   {t(`Тип оплаты`)}:
-                  {cargo?.payment_type
-                    ? obj[cargo?.payment_type?.[0]]
-                    : cargo?.cargo_id_data?.payment_type}
+                  {cargo?.payment_type?.[0]
+                    ? ` ${obj[cargo?.payment_type?.[0]]}`
+                    : ` ${cargo?.cargo_id_data?.payment_type}`}
                 </p>
                 <p className={styles.rightTitle}>
                   {t(`Предоплата`)}:
@@ -149,7 +150,7 @@ export const Performed = forwardRef(
                     ? ` ${cargo?.prepayment} ${
                         cargo?.currency_id_data?.code || ``
                       }`
-                    : `Нет`}
+                    : ` Нет`}
                 </p>
               </div>
               <div className={styles.text}>
