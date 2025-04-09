@@ -20,7 +20,11 @@ import {
 import { Popup } from "@/components/Popup";
 import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { useCreateActionHistoriesMutation, useGetExcelPost, useUpdateCargo } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useGetExcelPost,
+  useUpdateCargo,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -35,8 +39,15 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
   Tooltip,
 } from "@chakra-ui/react";
+import copy from "copy-to-clipboard";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -61,7 +72,7 @@ const DriverGruz = ({
     setPopupOpen(false);
   }
 
-    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {
@@ -102,7 +113,6 @@ const DriverGruz = ({
     });
   };
 
-
   const downloadByLanguage = async (url) => {
     try {
       const link = document.createElement("a");
@@ -117,7 +127,6 @@ const DriverGruz = ({
       console.log(2);
     }
   };
-
 
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
@@ -137,8 +146,6 @@ const DriverGruz = ({
       downloadByLanguage(res?.url);
     },
   });
-
-  
 
   const getExcelFileFn = () => {
     getExcelFile.mutate({
@@ -197,7 +204,7 @@ const DriverGruz = ({
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
                 <span>
                   {loadState?.as_soon_as_a
-                    ? t( `Готов к загрузке`)
+                    ? t(`Готов к загрузке`)
                     : format(loadState?.load_time, "yyyy-MM-dd")}
                 </span>
               </p>
@@ -213,7 +220,7 @@ const DriverGruz = ({
                 {loadState?.country_code_to?.toUpperCase()} /
                 <span>
                   {loadState?.as_soon_as_b
-                    ? t( `Как можно скорее`)
+                    ? t(`Как можно скорее`)
                     : format(loadState?.date || new Date(), "yyyy-MM-dd")}
                 </span>
               </p>
@@ -278,9 +285,56 @@ const DriverGruz = ({
               </span>
             </p>
           </Flex>
-          <Box>
-            <span className={cls.cardStartSubTitle}>{t(`Номер груза`)}</span>
-            <p className={cls.cardName}>{loadState?.number_of_order}</p>
+          <Box mt={`10px`}>
+            <p className={cls.cardStartSubTitle}>{t(`Номер груза`)}</p>
+            <Popover placement="top-start">
+              <PopoverTrigger>
+                <Button
+                onClick={() => {
+                  copy(
+                    loadState?.number_of_order
+                      );
+                }}
+                  style={{
+                    padding: `1px 0px`,
+                    background: `transparent`,
+                    color: `rgb(0, 0, 0)`,
+                    borderBottom: `1px dashed rgb(0, 0, 0)`,
+                    width: `fit-content`,
+                    borderRadius: `0px`,
+                    lineHeight: `18px`,
+                    height: `25px`,
+                    fontWeight: 500,
+                    fontSize: `16px`,
+                  }}
+                >
+                  <p className={cls.cardName}>{loadState?.number_of_order}</p>
+                </Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent
+                  borderRadius={`4px`}
+                  border={`none`}
+                  bg={`rgba(0, 122, 255, 1)`}
+                  width={`fit-content`}
+                >
+                  <PopoverArrow
+                    className={cls.popoverArrow}
+                    size={`lg`}
+                    bg={`rgba(0, 122, 255, 1)`}
+                  />
+                  <PopoverBody
+                    color={`white`}
+                    borderRadius={`4px`}
+                    border={`none`}
+                    width={`fit-content`}
+                  >
+                    
+                    {t(`Номер груза скопирован`)}
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
           </Box>
         </Box>
         {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
@@ -321,15 +375,16 @@ const DriverGruz = ({
         >
           <Flex alignItems={`center`} gap={1}>
             <ExelIcon />
-             <p style={{
+            <p
+              style={{
                 fontWeight: 600,
                 overflow: `hidden`,
                 textOverflow: `ellipsis`,
                 width: `100%`,
-             }}>
-             
-                Список ближайших машин в Excel
-             </p>
+              }}
+            >
+              Список ближайших машин в Excel
+            </p>
           </Flex>
         </Box>
       </Flex>
@@ -345,7 +400,8 @@ const DriverGruz = ({
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}
+              .
             </p>
           </ModalBody>
 
@@ -360,7 +416,7 @@ const DriverGruz = ({
               className={cls.btnOutline}
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(21, 186, 77, 1)" }}

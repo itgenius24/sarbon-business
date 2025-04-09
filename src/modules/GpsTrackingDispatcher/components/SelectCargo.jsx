@@ -13,6 +13,7 @@ import {
   InputGroup,
   InputRightElement,
   Spinner,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { useMemo, useState } from "react";
 import CheckBoxComponent from "./CheckBoxComponent";
@@ -22,7 +23,14 @@ import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
-const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
+const SelectCargo = ({
+  cls,
+  contendSingle,
+  setCenterModalType,
+  setOffset,
+  statusIconChange,
+  setIconStatus,
+}) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState("");
   const [search, setSearch] = useState("");
@@ -45,12 +53,9 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     if (search) {
       return getAllUserCargo.data?.response?.filter(
         (item) =>
-          item?.from
-            .toLowerCase()
-            .includes(search?.toLowerCase()) ||
-          item?.to
-            .toLowerCase()
-            .includes(search?.toLowerCase())
+          item?.from.toLowerCase().includes(search?.toLowerCase()) ||
+          item?.to.toLowerCase().includes(search?.toLowerCase()) ||
+          item?.number_of_order.toLowerCase().includes(search?.toLowerCase())
       );
     } else {
       return getAllUserCargo.data?.response;
@@ -63,21 +68,20 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
       setDisabled(false);
       setOffset(0);
       setIconStatus("waiting_for_driver");
-      statusIconChange()
+      statusIconChange();
     },
   });
-
 
   function handleOffer() {
     setDisabled(true);
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          cargo_id:selectCargo?.guid,
-          driver_id:contendSingle?.users_id,
-          dispatcher_id:authStore?.userData.id,
-          customer_id:selectCargo?.users_id_data?.guid,
-          firm_id:contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
+          cargo_id: selectCargo?.guid,
+          driver_id: contendSingle?.users_id,
+          dispatcher_id: authStore?.userData.id,
+          customer_id: selectCargo?.users_id_data?.guid,
+          firm_id: contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
         },
       },
     });
@@ -93,6 +97,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
         <p className={cls.topTitle}>{t(`Выберите груз`)}</p>
         <InputGroup className={cls.inputWrap}>
           <Input
+          isDisabled={getAllUserCargo?.isLoading}
             placeholder={t("Поиск")}
             className={cls.input}
             onChange={(e) => setSearch(e.target.value)}
@@ -114,16 +119,34 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
                 >
                   <Box className={cls.countryWrap}>
                     <Flex gap={3}>
-                      <p>
-                        {item.from || item.city_id_data?.name}
-                      </p>{" "}
-                      <NextCheckIcon />{" "}
-                      <p>
-                        
-                        {item.to|| item.city_id_2_data?.name}
-                      </p>{" "}
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${item.from}`}
+                      >
+                        <p>
+                          {item.from?.length >= 20
+                            ? `${item.from?.slice(0, 20)}...`
+                            : item.from}
+                        </p>
+                      </Tooltip>
+                      <NextCheckIcon />
+                      <Tooltip
+                        color={`black`}
+                        boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                        background={`#fff`}
+                        label={`${item.to}`}
+                      >
+                        <p>
+                          {item.to?.length >= 20
+                            ? `${item.to?.slice(0, 20)}...`
+                            : item.to}
+                        </p>
+                      </Tooltip>
+                    
                     </Flex>
-                    <Flex className={cls.subTitle} gap={3}>
+                    <Flex mt={`5px`} className={cls.subTitle} gap={3}>
                       {item?.cargo_type_id_data?.name}
 
                       <Flex gap={1} alignItems={"center"}>
@@ -132,6 +155,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon /> {item?.volume_m3} m3
                       </Flex>
+                      {item?.number_of_order}
                     </Flex>
                   </Box>
                 </CheckBoxComponent>
@@ -175,7 +199,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
             className={cls.topButton}
             size="md"
           >
-             {t(`Предложить`)}
+            {t(`Предложить`)}
           </Button>
         </Flex>
       </Flex>

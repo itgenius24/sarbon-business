@@ -48,7 +48,8 @@ export const Performed = forwardRef(
     const obj = {
       after_payment: t(`Оплата после завершения`),
       prepayment: t(`Предоплата`),
-      bank:t(`Банковский перевод`)
+      bank:t(`Банковский перевод`),
+      cash:t(`Наличные`)
     };
 
     return (
