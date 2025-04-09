@@ -6,7 +6,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { DeleteIcon, UploadCloudBlueIcon } from "@/assets/icons/icons";
 import { fileUpload } from "@/services/fileUpload";
 
-export const UploadImg = ({
+export const UploadImgMobile = ({
   watch,
   setValue,
   name,
@@ -73,7 +73,8 @@ export const UploadImg = ({
                 style={{
                   width: `100%`,
                   height: isLargerThan845 ? `150px` : `210px`,
-                  objectFit:`cover`
+                  objectFit:`contain`,
+                  objectPosition: `center`,
                 }}
               />
             )}
@@ -148,6 +149,7 @@ export const UploadImg = ({
                 onChange={(e) => {
                   handleImageUpload(e);
                 }}
+                {...inputProps}
               />
               <Box
                 display={"flex"}

@@ -7,7 +7,7 @@ import {
 } from "@/assets/icons/icons";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { TextField } from "@/components/TextField";
-import { UploadImg } from "@/components/UploadImg";
+import { UploadImgMobile } from "@/components/UploadImgMobile";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import React, { useState } from "react";
 
@@ -64,7 +64,7 @@ const CreateDrivers = ({
                 {t("Добавление водителя")}
               </Heading>
             </Flex>
-            <UploadImg
+            <UploadImgMobile
               watch={watch}
               setValue={setValue}
               name={"drivers_license"}
@@ -196,7 +196,7 @@ const CreateDrivers = ({
         <Box mt={`25px`}>
           <p className={cls.textFieldName}>{t("Фото водителя")}</p>
 
-          <UploadImg
+          <UploadImgMobile
             isColor={true}
             watch={watch}
             setValue={setValue}
