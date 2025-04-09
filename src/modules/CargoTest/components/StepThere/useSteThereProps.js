@@ -62,6 +62,8 @@ const useStepThereProps = () => {
   }, [watch("car_type")?.value, watch("transport_count")]);
   const getCarType = useGetCarType();
 
+  console.log(`getCarType`,getCarType?.data?.response)
+
   const carTypeOptions = getCarType.data?.response?.map((item) => ({
     label: item?.[`name_${locale}`] ? item?.[`name_${locale}`] : item?.name,
     value: item?.guid,

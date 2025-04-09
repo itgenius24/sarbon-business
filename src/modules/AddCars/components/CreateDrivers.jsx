@@ -21,6 +21,9 @@ const CreateDrivers = ({
   watch,
   setValue,
   id,
+  setLoadingDriver,
+  loadingDriver,
+  uploadAi,
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isLoading,setFileUploadLoading] = useState(false)
@@ -73,8 +76,10 @@ const CreateDrivers = ({
               register={register}
               errors={errors}
               rules={{required: t("Это поле объязательно")}}
-              setFileUploadLoading={setFileUploadLoading}
-              isLoading={isLoading}
+              setLoading={setLoadingDriver}
+              isLoading={loadingDriver}
+              type={`driver_pass`}
+              uploadAi={uploadAi}
             />
           </Box>
         </Flex>

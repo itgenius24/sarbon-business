@@ -31,6 +31,7 @@ export const UploadImgMobile = ({
   setFileUploadLoading = () => {},
   uploadAi = () => {},
   inputProps = {},
+  type=``
 }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
 
@@ -40,8 +41,10 @@ export const UploadImgMobile = ({
     onClose()
     const result = await fileUpload(e, setFileUploadLoading);
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
-    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
+    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link,type);
   };
+
+
 
   return (
     <>

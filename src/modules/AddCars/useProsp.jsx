@@ -39,6 +39,7 @@ const useProsp = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loadingFront, setLoadingFront] = useState(false);
   const [loadingBack, setLoadingBack] = useState(false);
+  const [loadingDriver, setLoadingDriver] = useState(false);
 
   const {
     handleSubmit,
@@ -414,17 +415,33 @@ const useProsp = () => {
       if (jsonData?.year_of_manufacture) {
         setValue(`year_of_manufacture`, jsonData?.year_of_manufacture);
       }
+      if (jsonData?.passport_number) {
+        setValue(`passport_scan`, jsonData?.passport_number?.slice(0, 2));
+      }
+      if (jsonData?.passport_number) {
+        setValue(`passport_code`, jsonData?.passport_number?.slice(2));
+      }
+      if (jsonData?.name) {
+        setValue(
+          `full_name`,
+          `${jsonData?.name?.first_name || ``} ${jsonData?.name?.surname || ``}`
+        );
+      }
 
       setLoadingFront(false);
       setLoadingBack(false);
+      setLoadingDriver(false);
     },
   });
 
-  const uploadAi = (link) => {
+  console.log(`text`, "AF3956559".slice(2));
+
+  const uploadAi = (link, type) => {
     uploadAiData({
       data: {
         object_data: {
           type: "licence",
+          document_type: type,
           links: [link],
         },
       },
@@ -463,6 +480,8 @@ const useProsp = () => {
     loadingBack,
     loadingFront,
     uploadAi: uploadAi,
+    setLoadingDriver,
+    loadingDriver,
   };
 };
 

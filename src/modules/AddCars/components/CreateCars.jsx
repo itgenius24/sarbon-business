@@ -89,6 +89,7 @@ const CreateCars = ({
               setLoading={setLoadingFront}
               isLoading={loadingFront}
               uploadAi={uploadAi}
+              type={`tech_pass`}
             />
             <UploadImgMobile
               watch={watch}
@@ -102,141 +103,11 @@ const CreateCars = ({
               uploadAi={uploadAi}
               setLoading={setLoadingBack}
               isLoading={loadingBack}
+              type={`tech_pass`}
             />
           </Flex>
         </Box>
-        <Flex
-          mt={`25px`}
-          paddingBottom={`25px`}
-          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
-          className={cls.inputWrap}
-          width={`100%`}
-          gap={"24px"}
-        >
-          <Box width={`100%`}>
-            <p className={cls.textFieldName}>{t("Грузоподъёмность")}*</p>
-            <TextFieldWithAdditionCar
-              className={cls.textField}
-              errors={errors}
-              rules={{
-                required: t("Это поле обязательно"),
-              }}
-              control={control}
-              name="capacity"
-              register={register}
-              additionalItemTheme={`light`}
-              additionalItemName="weight_unit"
-              maxWidth="165px"
-              placeholder={t("Вес")}
-              additionalItemPlaceholder="т"
-              // additionalItemOptions={weightMeasurementOptions}
-              type="number"
-              zIndex={90}
-            />
-            <Flex gap={`17px`} mt={1}>
-              <p
-                onClick={() => {
-                  setValue(`capacity`, `20`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  });
-                }}
-                className={cls.quickWord}
-              >
-                20{t("т")},
-              </p>
-              <p
-                onClick={() =>
-                  setValue(`capacity`, `22`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                className={cls.quickWord}
-              >
-                22{t("т")},
-              </p>
-              <p
-                onClick={() =>
-                  setValue(`capacity`, `23`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                className={cls.quickWord}
-              >
-                23{t("т")}
-              </p>
-              <p
-                onClick={() =>
-                  setValue(`capacity`, `24`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                className={cls.quickWord}
-              >
-                24{t("т")}
-              </p>
-            </Flex>
-          </Box>
-          <Box width={`100%`}>
-            <p className={cls.textFieldName}>{t("Объём кузова")}*</p>
-            <TextFieldWithAddition
-              className={cls.textField}
-              errors={errors}
-              control={control}
-              name="height"
-              register={register}
-              rules={{
-                required: t("Это поле обязательно"),
-              }}
-              maxWidth="165px"
-              placeholder={t("Объем")}
-              additionalItemTheme={`light`}
-              additionalItemPlaceholder="м³"
-              type="number"
-              // additionalItemName="volume_unit"
-              // additionalItemOptions={volumeMeasurementOptions}
-            />
-            <Flex gap={`17px`} mt={1}>
-              {/* <span className={cls.subTitle}>{t("Пример")}: </span> */}
-              <p
-                onClick={() =>
-                  setValue(`height`, `96`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                className={cls.quickWord}
-              >
-                96{t("м³")},
-              </p>
-              <p
-                onClick={() =>
-                  setValue(`height`, `105`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                className={cls.quickWord}
-              >
-                105{t("м³")},
-              </p>
-              <p
-                onClick={() =>
-                  setValue(`height`, `120`, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                className={cls.quickWord}
-              >
-                120{t("м³")}
-              </p>
-            </Flex>
-          </Box>
-        </Flex>
+     
 
         <Box
           mt={`25px`}
@@ -531,6 +402,138 @@ const CreateCars = ({
             </p>
           </Flex>
         </Box>
+        <Flex
+          mt={`25px`}
+          paddingBottom={`25px`}
+          borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+          className={cls.inputWrap}
+          width={`100%`}
+          gap={"24px"}
+        >
+          <Box width={`100%`}>
+            <p className={cls.textFieldName}>{t("Грузоподъёмность")}*</p>
+            <TextFieldWithAdditionCar
+              className={cls.textField}
+              errors={errors}
+              rules={{
+                required: t("Это поле обязательно"),
+              }}
+              control={control}
+              name="capacity"
+              register={register}
+              additionalItemTheme={`light`}
+              additionalItemName="weight_unit"
+              maxWidth="165px"
+              placeholder={t("Вес")}
+              additionalItemPlaceholder="т"
+              // additionalItemOptions={weightMeasurementOptions}
+              type="number"
+              zIndex={90}
+            />
+            <Flex gap={`17px`} mt={1}>
+              <p
+                onClick={() => {
+                  setValue(`capacity`, `20`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
+                className={cls.quickWord}
+              >
+                20{t("т")},
+              </p>
+              <p
+                onClick={() =>
+                  setValue(`capacity`, `22`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+                className={cls.quickWord}
+              >
+                22{t("т")},
+              </p>
+              <p
+                onClick={() =>
+                  setValue(`capacity`, `23`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+                className={cls.quickWord}
+              >
+                23{t("т")}
+              </p>
+              <p
+                onClick={() =>
+                  setValue(`capacity`, `24`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+                className={cls.quickWord}
+              >
+                24{t("т")}
+              </p>
+            </Flex>
+          </Box>
+          <Box width={`100%`}>
+            <p className={cls.textFieldName}>{t("Объём кузова")}*</p>
+            <TextFieldWithAddition
+              className={cls.textField}
+              errors={errors}
+              control={control}
+              name="height"
+              register={register}
+              rules={{
+                required: t("Это поле обязательно"),
+              }}
+              maxWidth="165px"
+              placeholder={t("Объем")}
+              additionalItemTheme={`light`}
+              additionalItemPlaceholder="м³"
+              type="number"
+              // additionalItemName="volume_unit"
+              // additionalItemOptions={volumeMeasurementOptions}
+            />
+            <Flex gap={`17px`} mt={1}>
+              {/* <span className={cls.subTitle}>{t("Пример")}: </span> */}
+              <p
+                onClick={() =>
+                  setValue(`height`, `96`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+                className={cls.quickWord}
+              >
+                96{t("м³")},
+              </p>
+              <p
+                onClick={() =>
+                  setValue(`height`, `105`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+                className={cls.quickWord}
+              >
+                105{t("м³")},
+              </p>
+              <p
+                onClick={() =>
+                  setValue(`height`, `120`, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+                className={cls.quickWord}
+              >
+                120{t("м³")}
+              </p>
+            </Flex>
+          </Box>
+        </Flex>
         <Box
           mt={`25px`}
           paddingBottom={`25px`}

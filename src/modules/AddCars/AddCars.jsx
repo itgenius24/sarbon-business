@@ -42,6 +42,9 @@ const AddCars = () => {
     router,id,
     carTypeOptions,
     setLoadingFront,
+    setLoadingDriver,
+    loadingDriver,
+
     setLoadingBack,
     loadingBack,
     loadingFront,
@@ -62,6 +65,9 @@ const AddCars = () => {
           isLargerThan845={isLargerThan845}
           cls={cls}
           id={id}
+          uploadAi={uploadAi}
+          setLoadingDriver={setLoadingDriver}
+          loadingDriver={loadingDriver}
         />
     
         <CreateCars
