@@ -143,7 +143,7 @@ export const UploadImgMobile = ({
                 name={name}
                 className="visually-hidden"
                 type="file"
-                   accept="image/*"
+                // accept="image/*"
                 capture="environment"
                 {...register(name, rules)}
                 onChange={(e) => {
