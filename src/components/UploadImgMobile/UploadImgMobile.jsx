@@ -144,7 +144,7 @@ export const UploadImgMobile = ({
                 className="visually-hidden"
                 type="file"
                    accept="image/*"
-                // capture="environment"
+                capture="environment"
                 {...register(name, rules)}
                 onChange={(e) => {
                   handleImageUpload(e);
