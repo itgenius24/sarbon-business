@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { fileUpload } from "@/services/fileUpload";
 import { CameraIcon, PicturesIcon } from "@/assets/icons/icons";
+import { useRef } from "react";
 
 export const UploadImgMobile = ({
   watch,
@@ -31,20 +32,39 @@ export const UploadImgMobile = ({
   setFileUploadLoading = () => {},
   uploadAi = () => {},
   inputProps = {},
-  type=``
+  type = ``,
+  clearErrors,
 }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
-
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const handleImageUpload = async (e) => {
     setLoading(true);
-    onClose()
+    onClose();
     const result = await fileUpload(e, setFileUploadLoading);
-    setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
-    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link,type);
+    clearErrors(name);
+
+    setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
   };
 
+  const openCamera = () => {
+    const input = document.getElementById(name);
+    input.removeAttribute("accept");
+    input.setAttribute("capture", "environment");
+    input.click();
+  };
+  const openGallery = () => {
+    const input = document.getElementById(name);
+    input.removeAttribute("capture");
+    input.setAttribute("accept", "image/*");
+    input.click();
+  };
 
+  console.log(`salom`);
 
   return (
     <>
@@ -140,7 +160,6 @@ export const UploadImgMobile = ({
             background={
               isColor ? "rgba(246, 247, 248, 1)" : "rgba(237, 239, 245, 1)"
             }
-            as="label"
             ml="auto"
             width="100%"
             height={isLargerThan845 ? `165px` : "237px"}
@@ -190,6 +209,19 @@ export const UploadImgMobile = ({
         )}
       </Box>
 
+      {!watch(name)?.length > 0 && (
+        <input
+          id={name}
+          name={name}
+          className="visually-hidden"
+          type="file"
+          {...register(name, rules)}
+          onChange={(e) => {
+            handleImageUpload(e);
+          }}
+        />
+      )}
+
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent
@@ -213,7 +245,6 @@ export const UploadImgMobile = ({
               padding={`14px`}
               borderRadius={`8px`}
               color={`white`}
-              as="label"
               display={`flex`}
               alignItems={`center`}
               backgroundColor={`var(--primary-text)`}
@@ -221,28 +252,15 @@ export const UploadImgMobile = ({
               gap="8px"
               fontSize={`18px`}
               fontWeight={600}
+              onClick={openCamera}
             >
               <CameraIcon />
               <span>Открыть камеру</span>
-              <input
-                id={name}
-                name={name}
-                className="visually-hidden"
-                type="file"
-                // accept="image/*"
-                capture="environment"
-                {...register(name, rules)}
-                onChange={(e) => {
-                  handleImageUpload(e);
-                }}
-                {...inputProps}
-              />
             </Box>
             <Box
               padding={`14px`}
               borderRadius={`8px`}
               color={`var(--primary-text)`}
-              as="label"
               display={`flex`}
               alignItems={`center`}
               border={`1px solid rgba(208, 213, 221, 1)`}
@@ -251,21 +269,10 @@ export const UploadImgMobile = ({
               fontSize={`18px`}
               fontWeight={600}
               mt={`10px`}
+              onClick={openGallery}
             >
               <PicturesIcon />
               <span>Выбрать из галереи</span>
-              <input
-                id={name}
-                name={name}
-                className="visually-hidden"
-                type="file"
-                accept="image/*"
-                {...register(name, rules)}
-                onChange={(e) => {
-                  handleImageUpload(e);
-                }}
-                {...inputProps}
-              />
             </Box>
           </DrawerBody>
         </DrawerContent>

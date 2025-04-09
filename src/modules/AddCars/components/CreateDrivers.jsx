@@ -24,12 +24,14 @@ const CreateDrivers = ({
   setLoadingDriver,
   loadingDriver,
   uploadAi,
+  clearErrors
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isLoading,setFileUploadLoading] = useState(false)
   function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
+
 
   const formatPhoneNumber = (value) => {
     let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
@@ -80,6 +82,7 @@ const CreateDrivers = ({
               isLoading={loadingDriver}
               type={`driver_pass`}
               uploadAi={uploadAi}
+              clearErrors={clearErrors}
             />
           </Box>
         </Flex>

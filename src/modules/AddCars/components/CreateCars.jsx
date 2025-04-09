@@ -49,6 +49,7 @@ const CreateCars = ({
   setLoadingBack,
   loadingBack,
   loadingFront,
+  clearErrors
 }) => {
   const { data: fuel } = useGetFuelInfo();
   return (
@@ -90,6 +91,7 @@ const CreateCars = ({
               isLoading={loadingFront}
               uploadAi={uploadAi}
               type={`tech_pass`}
+              clearErrors={clearErrors}
             />
             <UploadImgMobile
               watch={watch}
@@ -104,6 +106,7 @@ const CreateCars = ({
               setLoading={setLoadingBack}
               isLoading={loadingBack}
               type={`tech_pass`}
+              clearErrors={clearErrors}
             />
           </Flex>
         </Box>

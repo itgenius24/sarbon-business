@@ -147,14 +147,14 @@ export const Performed = forwardRef(
                 <p className={styles.rightTitle}>
                   {t(`Предоплата`)}:
                   {cargo?.prepayment !== 0
-                    ? ` ${cargo?.prepayment} ${
+                    ? ` ${cargo?.prepayment || ``} ${
                         cargo?.currency_id_data?.code || ``
                       }`
                     : ` Нет`}
                 </p>
               </div>
               <div className={styles.text}>
-                <p className={styles.rightTitle}>{t(`Общая сумма`)}</p>
+                <p className={styles.rightTitle}> {cargo?.offers ? t(`Предложения водителя`) : t(`Общая сумма`)}</p>
                 <p className={styles.totalSum}>
                   {cargo?.offers || cargo?.cargo_id_data?.bid_cash
                     ? `${cargo?.offers || cargo?.cargo_id_data?.bid_cash}  ${

@@ -50,6 +50,7 @@ const useProsp = () => {
     reset,
     setValue,
     setError,
+    clearErrors,
     getValues,
   } = useForm({});
   const [isCopied, setCopied] = useClipboard(
@@ -431,10 +432,13 @@ const useProsp = () => {
       setLoadingFront(false);
       setLoadingBack(false);
       setLoadingDriver(false);
+      clearErrors();
     },
   });
 
-  console.log(`text`, "AF3956559".slice(2));
+
+  console.log(`errors`,errors)
+
 
   const uploadAi = (link, type) => {
     uploadAiData({
@@ -482,6 +486,7 @@ const useProsp = () => {
     uploadAi: uploadAi,
     setLoadingDriver,
     loadingDriver,
+    clearErrors
   };
 };
 

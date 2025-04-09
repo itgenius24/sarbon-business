@@ -200,7 +200,7 @@ export const MyLoadsMain = ({ locale }) => {
                 _selected={{ background: `#FFFFFF` }}
                 key={item.value}
               >
-                {item.label}
+                {t(item.label)}
                 {item.value === "new" && driverCount && (
                   <div className={styles.count}>{driverCount}</div>
                 )}

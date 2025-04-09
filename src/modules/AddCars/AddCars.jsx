@@ -48,7 +48,8 @@ const AddCars = () => {
     setLoadingBack,
     loadingBack,
     loadingFront,
-    uploadAi
+    uploadAi,
+    clearErrors
   } = useProsp();
 
   return (
@@ -68,6 +69,7 @@ const AddCars = () => {
           uploadAi={uploadAi}
           setLoadingDriver={setLoadingDriver}
           loadingDriver={loadingDriver}
+          clearErrors={clearErrors}
         />
     
         <CreateCars
@@ -88,6 +90,8 @@ const AddCars = () => {
           setLoadingBack={setLoadingBack}
           loadingBack={loadingBack}
           loadingFront={loadingFront}
+          clearErrors={clearErrors}
+
 
         />
 
