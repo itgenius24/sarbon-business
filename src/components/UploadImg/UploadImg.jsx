@@ -20,17 +20,18 @@ export const UploadImg = ({
   isLoading = false,
   setFileUploadLoading = () => {},
   uploadAi = () => {},
-  inputProps = {}
+  type,
+  inputProps = {},
 }) => {
   const locale = useGetLang();
-  
+
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const handleImageUpload = async (e,) => {
+  const handleImageUpload = async (e) => {
     setLoading(true);
-    const result = await fileUpload(e,setFileUploadLoading);
-    // setValue("image", result?.link);
+    const result = await fileUpload(e, setFileUploadLoading);
+
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
-    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
+    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
   };
 
   return (
@@ -73,7 +74,7 @@ export const UploadImg = ({
                 style={{
                   width: `100%`,
                   height: isLargerThan845 ? `150px` : `210px`,
-                  objectFit:`cover`
+                  objectFit: `cover`,
                 }}
               />
             )}
@@ -142,8 +143,7 @@ export const UploadImg = ({
                 name={name}
                 className="visually-hidden"
                 type="file"
-                   accept="image/*"
-                // capture="environment"
+                accept="image/*"
                 {...register(name, rules)}
                 onChange={(e) => {
                   handleImageUpload(e);

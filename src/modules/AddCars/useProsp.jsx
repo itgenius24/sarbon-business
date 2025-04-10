@@ -79,17 +79,17 @@ const useProsp = () => {
       height: +watch(`height`) || 0,
       car_number: watch(`car_number`),
       marka: watch(`marka`),
-      cemt: watch(`cemt`), //or false
-      tir: watch(`tir`), // or true
-      pneumatic: watch(`pneumatic`), //or false
-      coupling: watch(`coupling`), // or true
-      konika: watch(`konika`), // or false
+      cemt: watch(`cemt`), 
+      tir: watch(`tir`), 
+      pneumatic: watch(`pneumatic`), 
+      coupling: watch(`coupling`), 
+      konika: watch(`konika`), 
       adr: watch(`adr`)?.value || ``,
-      back_side_trailer: watch(`back_side_trailer`), //url cdn
-      back_side_trailer_1: watch(`back_side_trailer_1`), //url cdn
-      front_side_trailer: watch(`front_side_trailer`), //url cdn
-      front_side_trailer_1: watch(`front_side_trailer_1`), //url cdn
-      car_photo: watch(`car_photo`), //url cdn
+      back_side_trailer: watch(`back_side_trailer`), 
+      back_side_trailer_1: watch(`back_side_trailer_1`), 
+      front_side_trailer: watch(`front_side_trailer`), 
+      front_side_trailer_1: watch(`front_side_trailer_1`), 
+      car_photo: watch(`car_photo`), 
       download_type: getTrueKeys(load),
       car_position: ["moderation"],
       status: [`active`],
@@ -437,7 +437,6 @@ const useProsp = () => {
   });
 
 
-  console.log(`errors`,errors)
 
 
   const uploadAi = (link, type) => {

@@ -27,21 +27,13 @@ import {
 import cls from "./style.module.scss";
 import { useSearchCargo } from "./useSearchCargo";
 import { Dropdown } from "@/components/Dropdown";
-import { useForm } from "react-hook-form";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Checkbox } from "@/components/Checkbox";
 import { TextField } from "@/components/TextField";
-import {
-  CheckModalIcon,
-  ImgploadIcon1,
-  ImgUload2,
-  StepLinkIcon,
-} from "@/assets/icons/icons";
+import { CheckModalIcon, CloseIconOutline, ImgploadIcon1, ImgUload2 } from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
-import { useState } from "react";
 import { countries } from "@/utils/country";
 import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
-import { ChakraSelect } from "@/components/ChakraSelect";
 import { useGetLang } from "@/hooks/useGetLang";
 import MobileComponent from "./component/MobileComponent/MobileComponent";
 
@@ -53,24 +45,23 @@ export const SearchCargoModule = () => {
     register,
     watch,
     control,
-    reset,
     loading,
     errors,
     carTypeOptions,
-    weightMeasurementOptions,
-    packageOptions,
     handleSubmit,
     onSubmit,
     setIsPopupOpen,
     isPopupOpen,
-    adrOptions,
     euroTypeOptions,
     fuels,
     router,
     isBtn,
-    setError,
     setinputValue,
-    getValues,
+    loadingFront,
+    setLoadingFront,
+    loadingBack,
+    setLoadingBack,
+    uploadAi,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
@@ -80,11 +71,8 @@ export const SearchCargoModule = () => {
     },
   };
 
-  console.log(`isLargerThan845`, isLargerThan845);
-
   return (
     <>
-     
       <Container my={isLargerThan845 ? "24px" : "24px"}>
         <Heading
           size={isLargerThan845 ? "md" : "sm"}
@@ -114,8 +102,6 @@ export const SearchCargoModule = () => {
                       name="trailer_type_id"
                       options={carTypeOptions}
                       errors={errors}
-                      // error={t}
-
                       required={t("Это поле обязательно")}
                       width={"100%"}
                       className={cls.dropdown}
@@ -219,25 +205,61 @@ export const SearchCargoModule = () => {
                       </Box>
                     </Box>
                     <Box width={`100%`}>
-                      <p className={cls.textFieldName}>{t("Госномер")} *</p>
+                      <p className={cls.textFieldName}>{t("Марка машины")}</p>
                       <TextField
-                        register={register}
+                        rules={rules}
                         errors={errors}
-                        name="car_number"
-                        placeholder={t("Введите номер транспортного средства")}
-                        rules={{
-                          required: t("Это поле обязательно"),
-                        }}
-                        onChange={(e) => {
-                          console.log(`we`, e.target.value);
-                          e.target.value = e.target.value
-                            .replace(/[^A-Za-z0-9]/g, "")
-                            .toUpperCase();
-                          setinputValue(e.target.value);
-                        }}
+                        name="marka"
+                        register={register}
+                        placeholder={t("Необъязательно")}
+                        type="text"
                       />
-                      <Flex ml={4} gap={2} mt={1}>
-                        <span className={cls.subTitle}></span>
+                      <Flex gap={2} mt={1}>
+                        <span className={cls.subTitle}>{t("Пример")}: </span>
+                        <p
+                          onClick={() =>
+                            setValue(`marka`, `Mercedes-Benz `, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          {t("Mercedes-Benz")},
+                        </p>
+                        <p
+                          onClick={() =>
+                            setValue(`marka`, `Volvo`, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          {t("Volvo")},
+                        </p>
+                        <p
+                          onClick={() =>
+                            setValue(`marka`, `MAN`, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          {t("MAN")},
+                        </p>
+                        <p
+                          onClick={() =>
+                            setValue(`marka`, `Iveco`, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            })
+                          }
+                          className={cls.quickWord}
+                        >
+                          {t("Iveco")}
+                        </p>
                       </Flex>
                     </Box>
                   </Flex>
@@ -262,10 +284,8 @@ export const SearchCargoModule = () => {
                         register={register}
                         additionalItemTheme={`light`}
                         additionalItemName="weight_unit"
-                        // width="160px"
                         placeholder={t("Вес")}
                         additionalItemPlaceholder="т"
-                        // additionalItemOptions={weightMeasurementOptions}
                         type="number"
                         zIndex={90}
                       />
@@ -330,13 +350,10 @@ export const SearchCargoModule = () => {
                         rules={{
                           required: t("Это поле обязательно"),
                         }}
-                        // width="160px"
                         placeholder={t("Объем")}
                         additionalItemTheme={`light`}
                         additionalItemPlaceholder="м³"
                         type="number"
-                        // additionalItemName="volume_unit"
-                        // additionalItemOptions={volumeMeasurementOptions}
                       />
                       <Flex gap={`12px`} mt={1}>
                         <span className={cls.subTitle}>{t("Пример")}: </span>
@@ -377,111 +394,89 @@ export const SearchCargoModule = () => {
                     </Box>
                   </Flex>
                 </Box>
-                <Box width={`50%`}>
-                  <p className={cls.textFieldName}>{t("Марка машины")}</p>
-                  <TextField
-                    rules={rules}
-                    errors={errors}
-                    name="marka"
-                    register={register}
-                    placeholder={t("Необъязательно")}
-                    type="text"
-                  />
-                  <Flex gap={2} mt={1}>
-                    <span className={cls.subTitle}>{t("Пример")}: </span>
-                    <p
-                      onClick={() =>
-                        setValue(`marka`, `Mercedes-Benz `, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t("Mercedes-Benz")},
+                <Flex width={`50%`} gap={"24px"}>
+                  <Box width={`100%`}>
+                    <p className={cls.textFieldName}>{t("Госномер")} *</p>
+                    <TextField
+                      register={register}
+                      errors={errors}
+                      name="car_number"
+                      placeholder={t("Введите госномер...")}
+                      rules={{
+                        required: t("Это поле обязательно"),
+                      }}
+                      onChange={(e) => {
+                        console.log(`we`, e.target.value);
+                        e.target.value = e.target.value
+                          .replace(/[^A-Za-z0-9]/g, "")
+                          .toUpperCase();
+                        setinputValue(e.target.value);
+                      }}
+                    />
+                    <Flex ml={4} gap={2} mt={1}>
+                      <span className={cls.subTitle}></span>
+                    </Flex>
+                  </Box>
+
+                  <Box width={`100%`}>
+                    <p className={cls.textFieldName}>
+                      {t("Номер кузова (VIN)")}
                     </p>
-                    <p
-                      onClick={() =>
-                        setValue(`marka`, `Volvo`, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t("Volvo")},
-                    </p>
-                    <p
-                      onClick={() =>
-                        setValue(`marka`, `MAN`, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t("MAN")},
-                    </p>
-                    <p
-                      onClick={() =>
-                        setValue(`marka`, `Iveco`, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t("Iveco")}
-                    </p>
-                  </Flex>
-                </Box>
+                    <TextField
+                      rules={rules}
+                      errors={errors}
+                      name="car_vin_number"
+                      register={register}
+                      placeholder={t("Необъязательно")}
+                      type="text"
+                    />
+                  </Box>
+                </Flex>
               </Flex>
 
-              <Flex mt={`10px`} gap={"56px"}>
-                <Box width={`100%`} mt={`20px`}>
-                  <p className={cls.textFieldName}>{t("Требования")}</p>
-                  <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
+              <Flex alignItems={`center`} mt={`10px`} gap={"56px"}>
+                <Box width={`100%`}>
+                  <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
+                  <Box
+                    width={`100%`}
+                    mt={`20px`}
+                    display="flex"
+                    columnGap="24px"
+                  >
                     <Checkbox
-                      defaultChecked={watch(`coupling`)}
+                      defaultChecked={watch(`top`)}
                       register={register}
-                      name="coupling"
+                      name="top"
                     >
-                      {t("Сцепка")}
+                      {t("Верхняя")}
                     </Checkbox>
                     <Checkbox
-                      defaultChecked={watch(`pneumatic`)}
+                      defaultChecked={watch(`side`)}
                       register={register}
-                      name="pneumatic"
+                      name="side"
                     >
-                      {t("Пневмоход")}
+                      {t("Боковая")}
                     </Checkbox>
                     <Checkbox
-                      defaultChecked={watch(`konika`)}
+                      defaultChecked={watch(`back`)}
                       register={register}
-                      name="konika"
+                      name="back"
                     >
-                      {t("Коники")}
+                      {t("Задняя")}
                     </Checkbox>
                     <Checkbox
-                      defaultChecked={watch(`tir`)}
+                      defaultChecked={watch(`with_removal`)}
                       register={register}
-                      name="tir"
+                      name="with_removal"
                     >
-                      {t("TIR")}
-                    </Checkbox>
-                    <Checkbox
-                      defaultChecked={watch(`cemt`)}
-                      register={register}
-                      name="cemt"
-                    >
-                      {t("CEMT (ЕКМТ) ")}
+                      {t("Со снятием стоек")}
                     </Checkbox>
                   </Box>
                 </Box>
 
                 <Flex gap={"24px"} width={`100%`} mt={`20px`}>
                   <Box width={`50%`}>
-                    <p className={cls.textFieldName}>{t("Euro type")}</p>
+                    <p className={cls.textFieldName}>{t("Экологический класс")}</p>
 
                     <Dropdown
                       control={control}
@@ -491,10 +486,8 @@ export const SearchCargoModule = () => {
                       name="eco_standart"
                       options={euroTypeOptions}
                       errors={errors}
-                      // required={t("Это поле обязательно")}
                       width={"50%"}
                       className={cls.dropdown}
-                      // searchName="cargo_type_search"
                     />
                     <Flex gap={`12px`} mt={1}>
                       <span className={cls.subTitle}>{t(`Пример`)}: </span>
@@ -547,133 +540,69 @@ export const SearchCargoModule = () => {
                   </Box>
                   <Box width={`50%`}>
                     <p className={cls.textFieldName}>{t("Тип топлива")}</p>
-                    <Dropdown
-                      control={control}
-                      register={register}
-                      watch={watch}
-                      placeholder={t("Название")}
-                      name="fuel_id"
-                      options={fuels?.map((item) => ({
-                        ...item,
-                        label: item[`name_${locale}`],
-                        value: item?.guid,
-                      }))}
+                    <TextField
+                      // rules={rules}
                       errors={errors}
-                      // required={t("Это поле обязательно")}
-                      width={"50%"}
-                      className={cls.dropdown}
-                      // searchName="cargo_type_search"
+                      name="fuel_type"
+                      register={register}
+                      placeholder={t("Название")}
+                      type="text"
                     />
-                    <Flex gap={`12px`} mt={1}>
-                      <span className={cls.subTitle}>{t(`Пример`)}: </span>
-                      <p
-                        onClick={() =>
-                          setValue(
-                            "fuel_id",
-                            {
-                              label: t("Дизель"),
-                              value: "187c327c-626d-4531-90f8-93408a011a7b",
-                            },
-                            { shouldValidate: true, shouldDirty: true }
-                          )
-                        }
-                        className={cls.quickWord}
-                      >
-                        {t(`Дизель`)},
-                      </p>
-                      <p
-                        onClick={() =>
-                          setValue(
-                            "fuel_id",
-                            {
-                              label: t("Бензин"),
-                              value: "5f8a08e3-c934-4149-9565-26929111a6c6",
-                            },
-                            { shouldValidate: true, shouldDirty: true }
-                          )
-                        }
-                        className={cls.quickWord}
-                      >
-                        {t(`Бензин`)},
-                      </p>
-                      <p
-                        onClick={() =>
-                          setValue(
-                            "fuel_id",
-                            {
-                              label: t("Метан"),
-                              value: "efaf36e8-0261-4a0a-92fb-975464dbf01e",
-                            },
-                            { shouldValidate: true, shouldDirty: true }
-                          )
-                        }
-                        className={cls.quickWord}
-                      >
-                        {t(`Метан`)}
-                      </p>
-                    </Flex>
                   </Box>
-
-                  {/* <p className={cls.textFieldName}>{t("ADR")}</p>
-              <Box display="flex" columnGap="22px" alignItems={"center"}>
-                <Box width={"100px"}>
-                  <Dropdown
-                    control={control}
-                    required
-                    register={register}
-                    watch={watch}
-                    placeholder={t("Выберите ARD")}
-                    name="adr"
-                    options={adrOptions}
-                    errors={errors}
-                    width={"100%"}
-                    className={cls.dropdown}
-                    searchName="cargo_type_search"
-                  />
-                </Box>
-                <p className={cls.link}>
-                  Класс{" "}
-                  <a href="https://ru.wikipedia.org/wiki/%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D0%BA%D0%BE%D0%B5_%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%BE%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%B5_%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D1%8B%D1%85_%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%B2">
-                    {" "}
-                    опасности груза
-                  </a>{" "}
-                  <StepLinkIcon />
-                </p>
-              </Box> */}
                 </Flex>
               </Flex>
 
               <Flex gap={"56px"} mt={`20px`}>
-                <Box width={`50%`}>
-                  <p className={cls.textFieldName}>{t("Тип загрузки")}</p>
-                  <Box mt={"15px"} display="flex" columnGap="24px" flexGrow={1}>
+                <Box width={`50%`} mt={`15px`}>
+                  <p className={cls.textFieldName}>{t("Дополнительно")}</p>
+                  <Box
+                    mt={"15px"}
+                    display="flex"
+                    columnGap="24px"
+                    rowGap={`14px`}
+                    flexWrap={`wrap`}
+                  >
                     <Checkbox
-                      defaultChecked={watch(`top`)}
+                      defaultChecked={watch(`isTrilerImg`)}
                       register={register}
-                      name="top"
+                      name="isTrilerImg"
                     >
-                      {t("Верхняя")}
+                      {t("Техпаспорт прицепа")}
                     </Checkbox>
                     <Checkbox
-                      defaultChecked={watch(`side`)}
+                      defaultChecked={watch(`coupling`)}
                       register={register}
-                      name="side"
+                      name="coupling"
                     >
-                      {t("Боковая")}
+                      {t("Сцепка")}
                     </Checkbox>
                     <Checkbox
-                      defaultChecked={watch(`back`)}
+                      defaultChecked={watch(`pneumatic`)}
                       register={register}
-                      name="back"
+                      name="pneumatic"
                     >
-                      {t("Задняя")}
+                      {t("Пневмоход")}
                     </Checkbox>
                     <Checkbox
-                      defaultChecked={watch(`with_removal`)}
+                      defaultChecked={watch(`konika`)}
                       register={register}
-                      name="with_removal"
+                      name="konika"
                     >
-                      {t("Со снятием стоек")}
+                      {t("Коники")}
+                    </Checkbox>
+                    <Checkbox
+                      defaultChecked={watch(`tir`)}
+                      register={register}
+                      name="tir"
+                    >
+                      {t("TIR")}
+                    </Checkbox>
+                    <Checkbox
+                      defaultChecked={watch(`cemt`)}
+                      register={register}
+                      name="cemt"
+                    >
+                      {t("CEMT (ЕКМТ) ")}
                     </Checkbox>
                   </Box>
                 </Box>
@@ -696,6 +625,12 @@ export const SearchCargoModule = () => {
                       icon={<ImgploadIcon1 />}
                       text={t("Загрузить фото спереди")}
                       errors={errors}
+                      register={register}
+                      rules={{ required: t("Это поле объязательно") }}
+                      type={`tech_pass`}
+                      isLoading={loadingFront}
+                      setLoading={setLoadingFront}
+                      uploadAi={uploadAi}
                     />
                     <UploadImg
                       watch={watch}
@@ -704,6 +639,12 @@ export const SearchCargoModule = () => {
                       icon={<ImgploadIcon1 />}
                       text={t("Загрузить фото сзади")}
                       errors={errors}
+                      register={register}
+                      isLoading={loadingBack}
+                      setLoading={setLoadingBack}
+                      uploadAi={uploadAi}
+                      type={`tech_pass`}
+                      rules={{ required: t("Это поле объязательно") }}
                     />
                   </Flex>
                 </Box>
@@ -724,6 +665,52 @@ export const SearchCargoModule = () => {
                   </Flex>
                 </Box>
               </Flex>
+              {watch(`isTrilerImg`) && (
+                <Flex
+                  alignItems={`flex-start`}
+                  width={`50%`}
+                  gap={"24px"}
+                  mt={"32px"}
+                >
+                  <Box className={cls.ImgWrap_2} width={"50%"} mt={"17px"}>
+                    <Flex
+                      width={`100%`}
+                      alignItems={`center`}
+                      justifyContent={`space-between`}
+                    >
+                      <p className={cls.textFieldName}>
+                        {t("Фото техпаспорта прицепа")}
+                      </p>
+                      <Box
+                        cursor={`pointer`}
+                        onClick={() => setValue(`isTrilerImg`, false)}
+                      >
+                        <CloseIconOutline />
+                      </Box>
+                    </Flex>
+                    <Flex mt={`20px`} gap={4}>
+                      <UploadImg
+                        watch={watch}
+                        setValue={setValue}
+                        name={"front_side_trailer_1"}
+                        icon={<ImgploadIcon1 />}
+                        text={t("Загрузить фото спереди")}
+                        errors={errors}
+                        register={register}
+                      />
+                      <UploadImg
+                        watch={watch}
+                        setValue={setValue}
+                        name={"back_side_trailer_1"}
+                        icon={<ImgploadIcon1 />}
+                        text={t("Загрузить фото сзади")}
+                        errors={errors}
+                        register={register}
+                      />
+                    </Flex>
+                  </Box>
+                </Flex>
+              )}
             </Box>
             <Button
               isLoading={loading}

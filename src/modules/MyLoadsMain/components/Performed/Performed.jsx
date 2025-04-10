@@ -73,7 +73,7 @@ export const Performed = forwardRef(
             <div className={styles.leftContend}>
               <div className={styles.text}>
                 <h3>
-                  {cargo?.cargo_id_data?.from?.length > 20 ? (
+                  {cargo?.cargo_id_data?.from?.length > 30 ? (
                     <Tooltip
                       color={`black`}
                       boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
@@ -82,7 +82,7 @@ export const Performed = forwardRef(
                     >
                       <span>{`${cargo?.cargo_id_data?.from.slice(
                         0,
-                        20
+                        30
                       )}...`}</span>
                     </Tooltip>
                   ) : (
@@ -112,7 +112,7 @@ export const Performed = forwardRef(
               <ArrowNextIcon />
               <div className={styles.text}>
                 <h3>
-                  {cargo?.cargo_id_data?.to?.length > 20 ? (
+                  {cargo?.cargo_id_data?.to?.length > 30 ? (
                     <Tooltip
                       color={`black`}
                       boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
@@ -121,7 +121,7 @@ export const Performed = forwardRef(
                     >
                       <span>{`${cargo?.cargo_id_data?.to.slice(
                         0,
-                        20
+                        30
                       )}...`}</span>
                     </Tooltip>
                   ) : (
@@ -292,7 +292,7 @@ export const Performed = forwardRef(
                       </p>
                     ) : orderStatus === "new" ||
                       orderStatus === "no_dispatcher" ? (
-                      <p className={styles.addCar}>Добавить машину</p>
+                      <p onClick={() => router.push(`/${locale}/my-loads/add-car?driver_id=${cargo?.users_id_data?.guid}&guid=${cargo?.guid}&firm_id=${cargo?.users_id_data?.firm_id ? cargo?.users_id_data?.firm_id :0}`)}  className={styles.addCar}>Добавить машину</p>
                     ) : (
                       <p className={styles.cardName}>
                         {cargo?.[`car_type_${locale}`] || cargo?.car_type}

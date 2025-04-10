@@ -10,6 +10,7 @@ import {
   useGetPackage,
   useGetTrailerType,
   useGetVehicleSingle,
+  useUpdateResponse,
   useUpdateVehicle,
 } from "@/services/api";
 import { useEffect, useState } from "react";
@@ -20,16 +21,20 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import { countries } from "@/utils/country";
 
-export const useSearchCargo = () => {
+export const useProps = () => {
   const searchParams = useSearchParams();
   const [inputValue, setinputValue] = useState(``);
   const id = searchParams.get(`id`);
+  const driver_id = searchParams.get(`driver_id`);
+  const guid = searchParams.get(`guid`);
+  const firm_idPrams = searchParams.get(`firm_id`);
   const [loadingFront, setLoadingFront] = useState(false);
   const [loadingBack, setLoadingBack] = useState(false);
   const locale = useGetLang();
   const router = useRouter();
   const { t } = useTranslation(locale, "translations");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   const euroTypeOptions = [
     { label: `${t(`Евро`)}-1`, value: `Евро-1` },
     { label: `${t(`Евро`)}-2`, value: `Евро-2` },
@@ -52,7 +57,6 @@ export const useSearchCargo = () => {
     clearErrors,
   } = useForm({});
   const [load, setLoad] = useState({});
-  const firm_id = authStore.userData.firm_id;
 
   const { data: getCarNumnber } = useGetCarNumber({
     params: {
@@ -164,8 +168,6 @@ export const useSearchCargo = () => {
         id) &&
       inputValue?.length > 0
     ) {
-     
-
       setValue(`car_number`, inputValue, {
         shouldValidate: true,
         shouldDirty: true,
@@ -173,40 +175,55 @@ export const useSearchCargo = () => {
     }
   }, [getCarNumnber?.count > 0, inputValue?.length]);
 
-  const { mutate, isLoading } = useCreateVehicle({
+  const updateResponseMutation = useUpdateResponse({
     onSuccess: (res) => {
       setIsPopupOpen(true);
-      actionCreate({
-        data: {
-          user_name: authStore.userData.full_name,
-          phone_number: authStore.userData?.phone,
-          user_id: authStore.userData.guid,
-          increment_id: authStore.userData.your_id,
-          action_time: new Date(),
-          role_slug: `carrier`,
-          action_comment: `create_unit`,
-          role_id: authStore.userData?.role_id,
-          action_type: [`create`],
-        },
-      });
+    }
+  })
+
+  const { mutate, isLoading } = useCreateVehicle({
+    onSuccess: (res) => {
+
+     
+      updateResponseMutation.mutate({
+        data:{
+          car_type:watch(`trailer_type_id`)?.label,
+          vehicle_id:res?.guid,
+          guid:guid,
+        }
+      })
+
+      // actionCreate({
+      //   data: {
+      //     user_name: authStore.userData.full_name,
+      //     phone_number: authStore.userData?.phone,
+      //     user_id: authStore.userData.guid,
+      //     increment_id: authStore.userData.your_id,
+      //     action_time: new Date(),
+      //     role_slug: `carrier`,
+      //     action_comment: `create_unit`,
+      //     role_id: authStore.userData?.role_id,
+      //     action_type: [`create`],
+      //   },
+      // });
     },
   });
 
   const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
-      actionCreate({
-        data: {
-          user_name: authStore.userData.full_name,
-          phone_number: authStore.userData?.phone,
-          user_id: authStore.userData.guid,
-          increment_id: authStore.userData.your_id,
-          action_time: new Date(),
-          role_slug: `carrier`,
-          action_comment: `edit_unit`,
-          role_id: authStore.userData?.role_id,
-          action_type: [`update`],
-        },
-      });
+      // actionCreate({
+      //   data: {
+      //     user_name: authStore.userData.full_name,
+      //     phone_number: authStore.userData?.phone,
+      //     user_id: authStore.userData.guid,
+      //     increment_id: authStore.userData.your_id,
+      //     action_time: new Date(),
+      //     role_slug: `carrier`,
+      //     action_comment: `edit_unit`,
+      //     role_id: authStore.userData?.role_id,
+      //     action_type: [`update`],
+      //   },
+      // });
       router.push(`/${locale}/my-cars`);
     },
   });
@@ -305,27 +322,27 @@ export const useSearchCargo = () => {
         height: +val.height,
         car_number: val.car_number,
         marka: val.marka,
-        cemt: val.cemt, //or false
-        tir: val.tir, // or true
-        pneumatic: val.pneumatic, //or false
-        coupling: val.coupling, // or true
-        konika: val.konika, // or false
+        cemt: val.cemt,
+        tir: val.tir,
+        pneumatic: val.pneumatic,
+        coupling: val.coupling,
+        konika: val.konika,
         adr: val?.adr?.value || ``,
-        back_side_trailer: val.back_side_trailer, //url cdn
-        back_side_trailer_1: val?.back_side_trailer_1,
-        front_side_trailer: val.front_side_trailer, //url cdn
+        back_side_trailer: val.back_side_trailer,
+        back_side_trailer_1:val?.back_side_trailer_1,
+        users_id:driver_id,
+        front_side_trailer: val.front_side_trailer,
         front_side_trailer_1: val.front_side_trailer_1,
-        car_photo: val.car_photo, //url cdn
+        car_photo: val.car_photo,
         download_type: getTrueKeys(load),
-        car_position: ["moderation"],
+        car_position: ["alive"],
         status: [`active`],
-        firm_id,
+        firm_id:firm_idPrams ? firm_idPrams :undefined,
         car_country: val?.car_country?.value,
         fuel_type: val?.fuel_type,
         eco_standart: val?.eco_standart?.value,
         guid: id ? id : undefined,
         create_time: id ? undefined : new Date(),
-
         address: watch(`address`) || undefined,
         color: watch(`color`) || undefined,
         engine_power: watch(`engine_power`) || undefined,
@@ -367,11 +384,6 @@ export const useSearchCargo = () => {
     isPopupOpen,
     onSubmit,
     handleSubmit,
-    loadingFront,
-    setLoadingFront,
-    loadingBack,
-    setLoadingBack,
-    uploadAi,
     euroTypeOptions,
     router,
     locale,
@@ -380,5 +392,10 @@ export const useSearchCargo = () => {
     getValues,
     isBtn: Object.values(errors)?.length > 0,
     setError: setError,
+    loadingFront,
+    setLoadingFront,
+    loadingBack,
+    setLoadingBack,
+    uploadAi,
   };
 };

@@ -8,6 +8,8 @@
   }
 }
 
+
+
 .primerWrap {
   @media (max-width: 872px) {
     gap: 10px;
@@ -37,39 +39,33 @@
 }
 .subTitle {
   color: rgba(126, 123, 134, 1);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   @media (max-width: 872px) {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 .quickWord {
   color: var(--blue-color);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   cursor: pointer;
   border-bottom: 1.5px dashed var(--blue-color);
   @media (max-width: 872px) {
     font-size: 13px;
   }
+  //    text-decoration: underline dotted;
 }
 .textFieldName {
   font-weight: 600;
   font-size: 14px;
-
+  // margin-bottom: 5px;
   height: 30px;
   color: rgba(33, 31, 38, 1);
   @media (max-width: 872px) {
     font-size: 16px;
     margin-bottom: 10px;
   }
-}
-.textFieldName2 {
-  color: rgba(33, 31, 38, 1);
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 16px;
-  letter-spacing: 0%;
 }
 .additionalFields {
   border-top: 1px solid rgba(219, 216, 227, 1);
@@ -80,6 +76,18 @@
   margin-top: 15px;
   width: 100%;
   padding: 35px;
+  border-radius: 12px;
+  background-color: var(--body-color);
+  @media (max-width: 875px) {
+    padding: 16px;
+    border-radius: 0px;
+  }
+}
+
+.ImgWrap_2 {
+  margin-top: 15px;
+  width: 100%;
+  padding: 19px 35px 35px 35px;
   border-radius: 12px;
   background-color: var(--body-color);
   @media (max-width: 875px) {
@@ -99,19 +107,6 @@
     text-decoration: underline solid !important;
   }
 }
-
-.wrapBtn {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 60px;
-  margin-bottom: 20px;
-  @media (max-width: 872px) {
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-  }
-}
 .nextBtn {
   width: fit-content;
   padding: 27px 28px !important;
@@ -119,12 +114,10 @@
   font-weight: 600;
   background-color: var(--primary-text) !important;
   margin-top: 30px;
+  @media (max-width: 875px) {
+    width: 100%;
+    padding: 16px;
 
-  @media (max-width: 872px) {
-    font-size: 15px;
-    width: 97%;
-    font-weight: 600;
-  margin-top: 0px;
-
+    font-size: 18px;
   }
 }

@@ -225,7 +225,7 @@
   "Введите тип имя": "Tur nomini kiriting",
   "Введите тип номер телефона": "Telefon raqamini kiriting",
   "машин найдено": "avtomobillar topildi",
-  "О системе Furgo": "Sarbon tizimi haqida",
+  "О системе Sarbon": "Sarbon tizimi haqida",
   "Мобильные приложения Furgo": "Sarbon mobil ilovalar",
   "Мобильное приложение": "Mobil ilova",
   "Выберите": "Tanlash",
@@ -576,7 +576,12 @@
   "Евро":"Euro",
   "Завершение":"Tugallangan",
   "Предложение без диспетчера":"Dispetchersiz taklif",
-  "Предложения водителя":"Haydovchi taklifi"
+  "Предложения водителя":"Haydovchi taklifi",
+  "Страна регистрации автомобиля":"Avtomobil ro'yxatga olingan mamlakat",
+  "Экологический класс":"Ekologik sinf",
+  "Техпаспорт прицепа":"Treyler Tex pasporti"
+
+
 
 
 

@@ -54,14 +54,14 @@ export const LoadsCard = forwardRef(
               <div className={cls.leftContend}>
                 <div className={cls.text}>
                   <h3>
-                    {cargo?.from?.length > 20 ? (
+                    {cargo?.from?.length > 30 ? (
                       <Tooltip
                         color={`black`}
                         boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                         background={`#fff`}
                         label={`${cargo?.from}`}
                       >
-                        <span>{`${cargo?.from.slice(0, 20)}...`}</span>
+                        <span>{`${cargo?.from.slice(0, 30)}...`}</span>
                       </Tooltip>
                     ) : (
                       cargo?.from
@@ -86,14 +86,14 @@ export const LoadsCard = forwardRef(
                 <ArrowNextIcon />
                 <div className={cls.text}>
                   <h3>
-                    {cargo?.to?.length > 20 ? (
+                    {cargo?.to?.length > 30 ? (
                       <Tooltip
                         color={`black`}
                         boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
                         background={`#fff`}
                         label={`${cargo?.to}`}
                       >
-                        <span>{`${cargo?.to.slice(0, 20)}...`}</span>
+                        <span>{`${cargo?.to.slice(0, 30)}...`}</span>
                       </Tooltip>
                     ) : (
                       cargo?.to

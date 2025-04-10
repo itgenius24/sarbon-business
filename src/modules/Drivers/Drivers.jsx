@@ -78,7 +78,7 @@ export const DriversModule = ({ locale }) => {
         <Heading
           size={isLargerThan845 ? "md" : "sm"}
           mb={isLargerThan845 ? "24px" : "12px"}
-          color={`var(--primary-text)`}
+          color={`rgba(16, 24, 40, 1)`}
           ml={isLargerThan845 ? 0 : `10px`}
         >
           {t("Добавление нового водителя")}
@@ -92,6 +92,7 @@ export const DriversModule = ({ locale }) => {
           padding={isLargerThan845 ? "61px 53px" : `31px 10px`}
           mt={isLargerThan845 ? "37px" : `15px`}
           flexDirection={isLargerThan845 ? `row` : `column`}
+          boxShadow={`0 2px 0px 0 rgba(0, 0, 0, 0.08)`}
         >
           <Flex
             flexDirection={"column"}
