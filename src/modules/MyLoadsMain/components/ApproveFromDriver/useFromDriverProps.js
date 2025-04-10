@@ -1,4 +1,4 @@
-import { useGetOffer, useUpdateResponse } from "@/services/api";
+import { useCreateActionHistoriesMutation, useGetOffer, useUpdateResponse } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
@@ -45,6 +45,9 @@ const useFromDriverProps = (orderStatus, t) => {
         console.error(res);
       },
     });
+
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+    
 
   function handleCancel(cargo) {
     updateResponseMutation.mutate(
