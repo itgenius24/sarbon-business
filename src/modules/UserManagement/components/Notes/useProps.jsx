@@ -108,6 +108,7 @@ const useProps = () => {
   }
 
   const submitComment = () => {
+    console.log(`ss`,comment)
     if (!statusActive.value) {
       setError({ status: true, comment: false });
     }
@@ -116,7 +117,7 @@ const useProps = () => {
     }
     if (!comment && !statusActive.value) {
       setError({ status: true, comment: true });
-    } else {
+    } if(comment && statusActive.value ) {
       createAddress({
         data: {
           object_data: {

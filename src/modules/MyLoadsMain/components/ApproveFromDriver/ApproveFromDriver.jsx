@@ -8,7 +8,7 @@ import useFromDriverProps from "./useFromDriverProps";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const ApproveFromDriver = ({ orderStatus, t }) => {
-  const { cargoData,isLoading } = useFromDriverProps(orderStatus, t);
+  const { cargoData,isLoading,handleCancel,isLoadingCancel } = useFromDriverProps(orderStatus, t);
 
 
 
@@ -21,7 +21,8 @@ export const ApproveFromDriver = ({ orderStatus, t }) => {
       <Box>
         {cargoData?.length > 0 ? (
           cargoData?.map((item, index) => (
-            <Performed orderStatus={orderStatus} key={index} cargo={item} />
+            <Performed orderStatus={orderStatus} key={index} cargo={item} handleCancel={handleCancel}             disabledCancelBtn={isLoadingCancel}
+ />
           ))
         ) : (
           <Empty t={t} />

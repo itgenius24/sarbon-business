@@ -224,7 +224,7 @@ const Profile = ({
 
               <Box>
                 <p className={cls.text}>
-                  {`Вкл`}.{" "}
+                  { userData?.gps_data ?  `Вкл` : `Выкл`}.{" "}
                   <span
                     className={userData?.gps_data ? cls.time : cls.timeDisabled}
                   >

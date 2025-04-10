@@ -158,6 +158,19 @@
   }
 }
 
+.menuTitle{
+  font-size: 14px;
+  font-weight: 500;
+  color:black ;
+  cursor: pointer;
+}
+
+.cancelStatus{
+  color: black;
+  &:hover{
+    color: rgba(255, 0, 0, 1) !important;
+  }
+}
 
 .addCar{
 width: fit-content;

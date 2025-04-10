@@ -1,8 +1,10 @@
 import {
   ArrowNextIcon,
+  CopyIcon,
   DeleteIcon,
   IconCeckNewStatusIcon,
   MapIcon,
+  OpenPopoverIcon,
 } from "@/assets/icons/icons";
 import styles from "./style.module.scss";
 import { useRouter } from "next/navigation";
@@ -11,7 +13,19 @@ import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
-import { Avatar, Box, Button, Flex, Tooltip } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
+  Tooltip,
+} from "@chakra-ui/react";
 import { statusColor } from "../../data";
 import authStore from "@/store/auth.store";
 import { forwardRef } from "react";
@@ -178,6 +192,54 @@ export const Performed = forwardRef(
                     : t(`По запросу`)}
                 </p>
               </div>
+              {orderStatus === `performed` && (
+                <Box>
+                  <Popover placement="bottom-end">
+                    <PopoverTrigger>
+                      <Box cursor={`pointer`}>
+                        <OpenPopoverIcon />
+                      </Box>
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent
+                        borderRadius={`4px`}
+                        border={`none`}
+                        boxShadow={`0px 12px 16px 10px rgba(16, 24, 40, 0.1)`}
+                        bg={`rgb(255, 255, 255)`}
+                        width={`fit-content`}
+                      >
+                        <PopoverArrow size={`lg`} bg={`rgb(255, 255, 255)`} />
+                        <PopoverBody
+                          color={`white`}
+                          borderRadius={`4px`}
+                          border={`none`}
+                          width={`fit-content`}
+                        >
+                          <Box
+                            className={styles.cancelStatus}
+                            style={{
+                              padding: `7px 8px`,
+                              color: `rgba(33, 31, 38, 1)`,
+                            }}
+                            _hover={{
+                              backgroundColor: `rgb(247, 247, 247)`,
+                              borderRadius: `6px`,
+                              cursor: `pointer`,
+                            }}
+                            onClick={() => {
+                              setDataPred(cargo);
+                              onOpen();
+                              
+                            }}
+                          >
+                            {t(`Oтменить заказ`)}
+                          </Box>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Portal>
+                  </Popover>
+                </Box>
+              )}
             </div>
           </div>
           <div className={styles.cardBody}>
@@ -292,7 +354,22 @@ export const Performed = forwardRef(
                       </p>
                     ) : orderStatus === "new" ||
                       orderStatus === "no_dispatcher" ? (
-                      <p onClick={() => router.push(`/${locale}/my-loads/add-car?driver_id=${cargo?.users_id_data?.guid}&guid=${cargo?.guid}&firm_id=${cargo?.users_id_data?.firm_id ? cargo?.users_id_data?.firm_id :0}`)}  className={styles.addCar}>Добавить машину</p>
+                      <p
+                        onClick={() =>
+                          router.push(
+                            `/${locale}/my-loads/add-car?driver_id=${
+                              cargo?.users_id_data?.guid
+                            }&guid=${cargo?.guid}&firm_id=${
+                              cargo?.users_id_data?.firm_id
+                                ? cargo?.users_id_data?.firm_id
+                                : 0
+                            }`
+                          )
+                        }
+                        className={styles.addCar}
+                      >
+                        Добавить машину
+                      </p>
                     ) : (
                       <p className={styles.cardName}>
                         {cargo?.[`car_type_${locale}`] || cargo?.car_type}
@@ -313,7 +390,9 @@ export const Performed = forwardRef(
             <div
               style={{
                 justifyContent:
-                  orderStatus === "performed" || orderStatus === `cancellation`
+                  orderStatus === "performed" ||
+                  orderStatus === `cancellation` ||
+                  orderStatus === `approve_from_driver`
                     ? `space-between`
                     : `flex-start`,
               }}
@@ -592,32 +671,21 @@ export const Performed = forwardRef(
                   </Button>
                 )}
               </Box>
+
+              {orderStatus === `approve_from_driver` && (
+                <Button
+                  isLoading={disabledCancelBtn}
+                  width={`200px`}
+                  onClick={(e) => {
+                    // e.stopPropagation();
+                    handleCancel(cargo);
+                  }}
+                  className={styles.bntOutline}
+                >
+                  {t(`Отказать`)}
+                </Button>
+              )}
             </div>
-            {/* {orderStatus == "performed" && (
-              <div className={styles.cardFooter}>
-                <div className={styles.cardFooterLeft}>
-                  <div className={styles.cardItem}>
-                    <span className={styles.cardBodyTitle}>Пройдено</span>
-                    <p className={styles.cardName}>
-                      <span>1357 км </span> /{" "}
-                      {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
-                    </p>
-                  </div>
-  
-                  <div
-                    className={styles.btn}
-                    onClick={() =>
-                      router.push(
-                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
-                      )
-                    }
-                  >
-                    <MapIcon /> Показать на карте
-                  </div>
-                </div>
-                <div className={styles.rightContend}></div>
-              </div>
-            )} */}
           </div>
         </div>
       </div>

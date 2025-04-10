@@ -18,6 +18,7 @@ import { useDebounce as useDebounce2 } from "use-debounce";
 import useDebounce from "@/hooks/useDebounce";
 import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
+  BadIcon,
   BatareyDisabledIcon,
   BatareyFullIcon,
   BatareyIcon,
@@ -33,6 +34,7 @@ import {
   LocationActiveIcon,
   LocationDisabledIcon,
   LocationIcon,
+  NotesIcon,
   PopupIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
@@ -258,6 +260,12 @@ export const useMyCarsDispatcher = () => {
     );
   };
 
+  const statusObjIcon = {
+    bad: <BadIcon />,
+    note: <NotesIcon />,
+    great: <NotesIcon />,
+  };
+
   const columns = [
     {
       title: t(`Водитель`),
@@ -267,22 +275,25 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex
-         onClick={() => pushRouter(row)}
+          onClick={() => pushRouter(row)}
           cursor={`pointer`}
           width={`fit-content`}
           alignItems={`center`}
           gap={`6px`}
         >
-          <Avatar
-          c
-            size="sm"
-            src={row?.photo}
-            name={row?.full_name}
-          />
+          <Box position={`relative`}>
+            <Avatar size="sm" src={row?.photo} name={row?.full_name} />
+            {row?.reliabilitiy?.status && (
+              <Box className={cls.status}>
+                {statusObjIcon[row?.reliabilitiy?.status?.[0]]}
+              </Box>
+            )}
+          </Box>
+
           <Box>
-            <p   className={cls.title}>{row?.full_name}</p>
+            <p className={cls.title}>{row?.full_name}</p>
             <a
-            onClick={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
               target="_blank"
               href={`https://t.me/${row?.phone}`}
               className={cls.tel}
@@ -423,7 +434,9 @@ export const useMyCarsDispatcher = () => {
             <Flex
               alignItems={`center`}
               background={
-                (order || row?.status === `Занята чужим грузом`) ? ` rgba(0, 122, 255, 0.08)` : `rgba(229, 243, 235, 1)`
+                order || row?.status === `Занята чужим грузом`
+                  ? ` rgba(0, 122, 255, 0.08)`
+                  : `rgba(229, 243, 235, 1)`
               }
               className={cls.locationWrap}
             >

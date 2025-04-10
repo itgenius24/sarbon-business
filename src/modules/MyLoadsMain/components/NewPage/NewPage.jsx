@@ -39,22 +39,18 @@ export const NewPage = ({
     isLoading,
     disabledBtn,
     isOpen,
-    onOpen
+    onOpen,
   } = useNewPageProps(
     orderStatus,
     t,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount,
-   
+    refetchWaitingDriverCount
   );
-
-
 
   return (
     <>
       <Box>
-      
         {newData?.map((item, index) => (
           <Performed
             orderStatus={orderStatus}
@@ -67,12 +63,10 @@ export const NewPage = ({
           />
         ))}
       </Box>
-      
+
       {newData?.length === 0 && !isLoading && <Empty t={t} />}
 
-      {
-        newData?.length === 0 && isLoading && <LoadingSpinner />
-      }
+      {newData?.length === 0 && isLoading && <LoadingSpinner />}
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -157,6 +151,7 @@ export const NewPage = ({
               onClick={(e) => {
                 e.stopPropagation();
                 handleAccept(dataPred?.guid, dataPred?.users_id_2);
+                onClose()
               }}
               className={cls.bntNew}
             >

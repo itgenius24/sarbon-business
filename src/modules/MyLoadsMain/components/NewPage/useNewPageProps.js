@@ -209,6 +209,7 @@ const useNewPageProps = (
       },
       {
         onSuccess() {
+          onClose()
           if (orderStatus === `new`) {
             if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
               actionCreate({
