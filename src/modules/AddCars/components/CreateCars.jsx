@@ -556,6 +556,55 @@ const CreateCars = ({
             placeholder={t("Необъязательно")}
             type="text"
           />
+            <Flex gap={`12px`} mt={1}>
+                    <span className={cls.subLabel}>{t(`Пример`)}: </span>
+                    <p
+                      onClick={() =>
+                        setValue("fuel_type", `Дизель`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Дизель`)},
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "fuel_type",
+                          `Бензин`,
+
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Бензин`)}
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue("fuel_type", `Метан`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Метан`)}
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue("fuel_type", `Пропан`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Пропан`)}
+                    </p>
+                  </Flex>
         </Box>
 
         <Box
