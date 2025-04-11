@@ -1,12 +1,10 @@
 import {
   useCreateActionHistoriesMutation,
-  useGetOffer,
   useGetOfferTab,
   useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useDisclosure, useToast } from "@chakra-ui/react";
-import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 

@@ -352,8 +352,7 @@ export const Performed = forwardRef(
                         {(cargo?.[`car_type_${locale}`] || cargo?.car_type) +
                           ` / ${cargo.vehicle_id_data?.car_number}`}
                       </p>
-                    ) : orderStatus === "new" ||
-                      orderStatus === "no_dispatcher" ? (
+                    ) :  (
                       <p
                         onClick={() =>
                           router.push(
@@ -370,11 +369,7 @@ export const Performed = forwardRef(
                       >
                         Добавить машину
                       </p>
-                    ) : (
-                      <p className={styles.cardName}>
-                        {cargo?.[`car_type_${locale}`] || cargo?.car_type}
-                      </p>
-                    )}
+                    ) }
                   </div>
                 </Flex>
                 <div style={{ textAlign: `right` }} className={styles.cardItem}>
