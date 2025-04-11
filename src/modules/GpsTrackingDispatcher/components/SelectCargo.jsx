@@ -68,9 +68,10 @@ const SelectCargo = ({
       setDisabled(false);
       setOffset(0);
       setIconStatus("waiting_for_driver");
-      statusIconChange();
+      // statusIconChange();
       setSelectCargo([])
     },
+
     onError:(res) => {
       setSelectCargo([])
       setCenterModalType("");
@@ -198,11 +199,11 @@ const SelectCargo = ({
         )}
       </Box>
       <Flex
-        justifyContent={"flex-end"}
+        justifyContent={`space-between`}
         alignItems={"center"}
         className={cls.selectCargoBottom}
       >
-        {/* <Checkbox>{t( "Отображать только мои грузы")}</Checkbox> */}
+      <p className={cls.count}>Выбрано: {selectCargo?.length} </p>
         <Flex gap={2}>
           <Button
             className={cls.topButton}

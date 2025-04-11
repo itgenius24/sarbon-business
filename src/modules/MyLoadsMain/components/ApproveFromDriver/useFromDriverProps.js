@@ -1,4 +1,8 @@
-import { useCreateActionHistoriesMutation, useGetOffer, useUpdateResponse } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useGetOffer,
+  useUpdateResponse,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useToast } from "@chakra-ui/react";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
@@ -37,17 +41,17 @@ const useFromDriverProps = (orderStatus, t) => {
     },
     {
       enabled: Boolean(orderStatus),
+      refetchOnWindowFocus: false,
     }
   );
 
   const updateResponseMutation = useUpdateResponse({
-      onError(res) {
-        console.error(res);
-      },
-    });
+    onError(res) {
+      console.error(res);
+    },
+  });
 
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-    
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   function handleCancel(cargo) {
     updateResponseMutation.mutate(
@@ -73,7 +77,6 @@ const useFromDriverProps = (orderStatus, t) => {
               role_id: authStore.userData?.role_id,
               action_type: [`update`],
             },
-            
           });
           toast({
             position: "top-right",
@@ -82,7 +85,7 @@ const useFromDriverProps = (orderStatus, t) => {
             duration: 2000,
             isClosable: true,
           });
-          getOfferCargo?.refetch()
+          getOfferCargo?.refetch();
         },
       }
     );
@@ -92,8 +95,8 @@ const useFromDriverProps = (orderStatus, t) => {
     cargoData: getOfferCargo.data?.response,
     isLoading: getOfferCargo?.isFetching,
     isLoadingCancel: updateResponseMutation?.isLoading,
-    
-    handleCancel
+
+    handleCancel,
   };
 };
 
