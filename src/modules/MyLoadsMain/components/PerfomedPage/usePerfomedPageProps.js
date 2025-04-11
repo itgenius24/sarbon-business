@@ -1,6 +1,7 @@
 import {
   useCreateActionHistoriesMutation,
   useGetOfferTab,
+  useUpdateCargo,
   useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
@@ -63,12 +64,16 @@ const usePerfomedPageProps = (orderStatus, t) => {
       console.error(res);
     },
   });
+  const updateCargoData = useUpdateCargo({});
+
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
 
   function handleCancel() {
     onClose();
     if (reason.length > 0) {
+     
       updateResponseMutation.mutate(
         {
           data: {
@@ -110,6 +115,13 @@ const usePerfomedPageProps = (orderStatus, t) => {
           },
         }
       );
+      updateCargoData.mutate({
+        data: {
+          order_status: ["active"],
+          guid: dataPred?.cargo_id_data?.guid,
+          accepted_offers:dataPred?.cargo_id_data?.accepted_offers + 1
+        },
+      });
     } else {
       setError(true);
     }

@@ -69,7 +69,15 @@ const SelectCargo = ({
       setOffset(0);
       setIconStatus("waiting_for_driver");
       statusIconChange();
+      setSelectCargo([])
     },
+    onError:(res) => {
+      setSelectCargo([])
+      setCenterModalType("");
+      setDisabled(false);
+      setOffset(0);
+      
+    }
   });
 
   function handleOffer() {
@@ -77,17 +85,19 @@ const SelectCargo = ({
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          cargo_id: selectCargo?.map(item => item.guid),
+          cargo: selectCargo?.map((item) => ({
+            cargo_id: item.guid,
+            customer_id: item?.users_id_data?.guid,
+          })),
           driver_id: contendSingle?.users_id,
           dispatcher_id: authStore?.userData.id,
-          customer_id: selectCargo?.users_id_data?.guid,
           firm_id: contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
         },
       },
     });
   }
 
-  console.log(`selectCargo`,selectCargo)
+ 
 
   const toggleSelect = (id) => {
     const exists = selectCargo.find((i) => i.guid === id.guid);
@@ -96,7 +106,6 @@ const SelectCargo = ({
     } else {
       setSelectCargo([...selectCargo, id]);
     }
-  
   };
 
   return (
@@ -109,7 +118,7 @@ const SelectCargo = ({
         <p className={cls.topTitle}>{t(`Выберите груз`)}</p>
         <InputGroup className={cls.inputWrap}>
           <Input
-          isDisabled={getAllUserCargo?.isLoading}
+            isDisabled={getAllUserCargo?.isLoading}
             placeholder={t("Поиск")}
             className={cls.input}
             onChange={(e) => setSearch(e.target.value)}
@@ -156,7 +165,6 @@ const SelectCargo = ({
                             : item.to}
                         </p>
                       </Tooltip>
-                    
                     </Flex>
                     <Flex mt={`5px`} className={cls.subTitle} gap={3}>
                       {item?.cargo_type_id_data?.name}

@@ -7,6 +7,8 @@ import {
   ImgploadIcon1,
   ImgploadIcon2,
   ImgUload2,
+  PresepIcon1,
+  PresepIcon2,
   UserIcon2,
 } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
@@ -715,25 +717,25 @@ const CreateCars = ({
                         watch={watch}
                         setValue={setValue}
                         name={"front_side_trailer_1"}
-                        icon={<ImgploadIcon1 />}
+                        icon={<PresepIcon1 />}
                         text={t("Фото техпаспорта спереди")}
                         register={register}
                         errors={errors}
-                        rules={{ required: t("Это поле объязательно") }}
-                        setFileUploadLoading={setFileUploadLoading}
-                        isLoading={isLoading}
+                        // rules={{ required: t("Это поле объязательно") }}
+                        setFileUploadLoading={setFileUploadLoading2}
+                        isLoading={isLoading2}
                       />
                       <UploadImgMobile
                         watch={watch}
                         setValue={setValue}
                         name={"back_side_trailer_1"}
-                        icon={<ImgploadIcon2 />}
+                        icon={<PresepIcon2 />}
                         text={t("Фото техпаспорта сзади")}
                         register={register}
                         errors={errors}
-                        rules={{ required: t("Это поле объязательно") }}
-                        setFileUploadLoading={setFileUploadLoading}
-                        isLoading={isLoading}
+                        // rules={{ required: t("Это поле объязательно") }}
+                        setFileUploadLoading={setFileUploadLoading3}
+                        isLoading={isLoading3}
                       />
                     </Flex>
                   </Box>
@@ -755,7 +757,7 @@ const CreateCars = ({
               countries={countries}
               locale={locale}
               setFileUploadLoading={setFileUploadLoading}
-            isLoading={isLoading}
+              isLoading={isLoading}
             />
           </Flex>
         </Box>
