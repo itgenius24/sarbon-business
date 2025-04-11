@@ -365,9 +365,9 @@ export const useMyCarsDispatcher = () => {
                 : row?.trailer_type_id_data?.name}
             </p>
 
-            <Flex>
+            <Flex alignItems={`center`} mt={`3px`}>
               <p className={cls.number}>
-                {`${row?.vehicle_data?.capacity} `}т / {row?.vehicle_data?.height}м3
+                {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
               </p>
 
               <Tooltip
@@ -380,8 +380,8 @@ export const useMyCarsDispatcher = () => {
                 <Image
                   alt="w"
                   style={{
-                    width: `30px`,
-                    height: `20px`,
+                    width: `24px`,
+                    height: `16px`,
                     marginRight: `9px`,
                   }}
                   width={100}

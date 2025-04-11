@@ -21,21 +21,13 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  IocnFilter,
-  IocnSortBack,
-  PlusIcon,
   SearchIcon,
 } from "@/assets/icons/icons";
 
-import { useRouter } from "next/navigation";
-import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
-import { CarsCard } from "./component/CarsCard/CarsCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import authStore from "@/store/auth.store";
-import { TextField } from "@/components/TextField";
-import { Modak } from "next/font/google";
+
 import CheckBoxComponent from "../GpsTrackingDispatcher/components/CheckBoxComponent";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
@@ -43,8 +35,7 @@ export const MyCarsDispatcherModule = () => {
   const {
     t,
     data,
-    deleteFuntion,
-    nameFilter,
+
     isLoading,
     setSearchFn,
     search,
@@ -59,10 +50,7 @@ export const MyCarsDispatcherModule = () => {
     columns,
     rowClassName,
   } = useMyCarsDispatcher();
-  const router = useRouter();
-  const locale = useGetLang();
 
-  const isSuperDispatcher = authStore?.userData?.user_status?.[0];
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 

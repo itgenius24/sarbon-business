@@ -32,7 +32,7 @@ const SelectCargo = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
-  const [selectCargo, setSelectCargo] = useState("");
+  const [selectCargo, setSelectCargo] = useState([]);
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
   const locale = useGetLang();
@@ -77,7 +77,7 @@ const SelectCargo = ({
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          cargo_id: selectCargo?.guid,
+          cargo_id: selectCargo?.map(item => item.guid),
           driver_id: contendSingle?.users_id,
           dispatcher_id: authStore?.userData.id,
           customer_id: selectCargo?.users_id_data?.guid,
@@ -86,6 +86,18 @@ const SelectCargo = ({
       },
     });
   }
+
+  console.log(`selectCargo`,selectCargo)
+
+  const toggleSelect = (id) => {
+    const exists = selectCargo.find((i) => i.guid === id.guid);
+    if (exists) {
+      setSelectCargo(selectCargo.filter((i) => i.guid !== id.guid));
+    } else {
+      setSelectCargo([...selectCargo, id]);
+    }
+  
+  };
 
   return (
     <div className={cls.selectCargo}>
@@ -114,8 +126,8 @@ const SelectCargo = ({
               return (
                 <CheckBoxComponent
                   key={item.guid}
-                  onClick={() => setSelectCargo(item)}
-                  active={item?.guid === selectCargo?.guid}
+                  onClick={() => toggleSelect(item)}
+                  active={selectCargo?.some((i) => i.guid === item.guid)}
                 >
                   <Box className={cls.countryWrap}>
                     <Flex gap={3}>

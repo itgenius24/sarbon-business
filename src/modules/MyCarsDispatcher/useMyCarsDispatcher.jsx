@@ -197,17 +197,22 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
+  console.log(`data`,data)
+
   const nameFilter = (val) => {
     if (val !== `all`) {
-      const sortedData = oldData?.sort((a, b) =>
+      const sortedData = data?.sort((a, b) =>
         val === `top`
           ? a?.full_name.localeCompare(b?.full_name)
           : b?.full_name.localeCompare(a?.full_name)
       );
+      const nextData = sortedData.slice(0, pageUi * 50);
 
-      setData(sortedData);
+      setVisibleData(nextData);
     } else {
-      setData(oldData);
+      const nextData = oldData.slice(0, pageUi * 50);
+      setVisibleData(nextData);
+
     }
   };
 
@@ -284,7 +289,7 @@ export const useMyCarsDispatcher = () => {
         
         >
           <Box position={`relative`}>
-            <Avatar  width={`50px`} height={`50px`}  size="sm" src={row?.photo} name={row?.full_name} />
+            <Avatar opacity={0.6}  width={`50px`} height={`50px`}  size="sm" src={row?.photo} name={row?.full_name} />
             {row?.reliabilitiy?.status && (
               <Box className={cls.status}>
                 {statusObjIcon[row?.reliabilitiy?.status?.[0]]}
@@ -313,6 +318,7 @@ export const useMyCarsDispatcher = () => {
         return row?.firm_data ? (
           <Flex alignItems={`center`} gap={`10px`}>
             <Avatar
+            opacity={0.6}
               size="sm"
               src={row?.firm_data?.logo}
               name={row?.firm_data?.full_name}
@@ -348,7 +354,7 @@ export const useMyCarsDispatcher = () => {
                 : row?.trailer_type_id_data?.name}
             </p>
 
-            <Flex>
+            <Flex  mt={`3px`} alignItems={`center`}> 
               <p className={cls.subTitle1}>
                 <span style={{ marginRight: `9px` }} className={cls.subTitle}>
                   {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
@@ -365,8 +371,8 @@ export const useMyCarsDispatcher = () => {
                 <Image
                   alt="w"
                   style={{
-                    width: `30px`,
-                    height: `20px`,
+                    width: `24px`,
+                    height: `16px`,
                     marginRight: `9px`,
                   }}
                   width={100}
@@ -437,14 +443,14 @@ export const useMyCarsDispatcher = () => {
               className={cls.locationWrap}
             >
               {order ? (
-                <Box>
+                <Box  width={`27%`}>
                   <p className={cls.locationTitle}>{t(`Занята`)}: </p>
                   <p className={cls.subBlueTitle}>
                     {row?.order_data?.cargo_data?.number_of_order}
                   </p>
                 </Box>
               ) : (
-                <Box width={`20%`}>
+                <Box lineHeight={`16px`} width={`27%`}>
                   <p
                     onClick={() => setOpen(row)}
                     className={cls.locationTitle2}

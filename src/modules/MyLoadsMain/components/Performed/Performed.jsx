@@ -387,7 +387,8 @@ export const Performed = forwardRef(
                 justifyContent:
                   orderStatus === "performed" ||
                   orderStatus === `cancellation` ||
-                  orderStatus === `approve_from_driver`
+                  orderStatus === `approve_from_driver` ||
+                  orderStatus === `new` 
                     ? `space-between`
                     : `flex-start`,
               }}
