@@ -776,7 +776,7 @@ export const CreateCarDis = () => {
               <DrawerFooter mb={`20px`}>
                 <Flex width={`100%`} rowGap={`10px`} flexDirection={`column`}>
                   <Button
-                    onClick={() => router.push(`/${locale}/my-loads`)}
+                    onClick={() => router.back()}
                     style={{
                       width: `100%`,
                       background: "var(--primary-text)",
@@ -786,9 +786,9 @@ export const CreateCarDis = () => {
                     className={cls.btnOutline}
                     mr={3}
                   >
-                    {t("Посмотреть детали")}
+                    {t("Хорошо")}
                   </Button>
-                  <Button
+                  {/* <Button
                     style={{
                       width: `100%`,
                       background: "white",
@@ -799,7 +799,7 @@ export const CreateCarDis = () => {
                     onClick={() => setIsPopupOpen(false)}
                   >
                     {t("Добавить еще")}
-                  </Button>
+                  </Button> */}
                 </Flex>
               </DrawerFooter>
             </DrawerContent>

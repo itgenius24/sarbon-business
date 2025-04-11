@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import cls from "./style.module.scss";
-import { filter, Flex } from "@chakra-ui/react";
+import { filter, Flex, Tooltip } from "@chakra-ui/react";
 import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
 import { commentObj, nameToRole, roleObj } from "@/utils/actionComment";
@@ -155,10 +155,10 @@ export const useProps = () => {
       const sortedData = [...data]?.sort((a, b) => {
         const timeA = new Date(a?.action_time).getTime();
         const timeB = new Date(b?.action_time).getTime();
-  
+
         return val === "top" ? timeA - timeB : timeB - timeA;
       });
-  
+
       setData(sortedData);
     } else {
       setData(dataOld);
@@ -179,15 +179,13 @@ export const useProps = () => {
     }
   };
 
-
-
   const columns = [
     {
       title: `Дата и время`,
       width: 180,
       filter: true,
       key: `date`,
-      filterType: (type) =>timeSortDate(type),
+      filterType: (type) => timeSortDate(type),
       render: (row, index) =>
         row?.action_time && (
           <p className={cls.actionTime}>
@@ -213,7 +211,7 @@ export const useProps = () => {
       title: `Пользователь`,
       filter: true,
       key: `user`,
-      filterType: (type) =>nameSort(type),
+      filterType: (type) => nameSort(type),
       width: 340,
       render: (row, index) => row?.user_name,
     },
@@ -229,7 +227,17 @@ export const useProps = () => {
         <p className={cls.actionName}>
           {commentObj[row?.action_comment]}: {` `}{" "}
           <span onClick={() => copyFn(row?.increment_id)}>
-            {row?.increment_id}
+            {` ${row?.increment_id} `}{" "}
+            {row?.reason && (
+              <Tooltip
+                color={`black`}
+                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                background={`#fff`}
+                label={row?.reason}
+              >
+                <p style={{ width: `140px` }}>{row?.reason?.slice(0, 20)}...</p>
+              </Tooltip>
+            )}
           </span>
         </p>
       ),
@@ -274,7 +282,7 @@ export const useProps = () => {
         newStartDate = today;
         break;
       case "3 дня":
-        newStartDate.setDate(today.getDate() - 2); 
+        newStartDate.setDate(today.getDate() - 2);
         break;
       case "Неделя":
         newStartDate.setDate(today.getDate() - 6);
@@ -327,6 +335,6 @@ export const useProps = () => {
     dateValues,
     startSelectDate,
     setStartSelectDate,
-    setDataOld
+    setDataOld,
   };
 };

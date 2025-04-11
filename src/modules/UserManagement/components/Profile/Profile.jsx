@@ -20,6 +20,7 @@ import {
 } from "@/assets/icons/icons";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 const Profile = ({
   type = ``,
@@ -33,6 +34,7 @@ const Profile = ({
   userData,
   locale,
 }) => {
+  const router = useRouter();
   const typeUser = {
     ["legal_owner"]: `Юр. лицо`,
     [`physic_owner`]: `Физ. лицо`,
@@ -74,10 +76,10 @@ const Profile = ({
 
             <StarRating
               rating={
-                type === `driver` ? userData?.reviews_count : rev_count || 0
+                type === `driver` ? userData?.rating || 0 : rev_count || 0
               }
               comment={
-                type === `driver` ? userData?.rating : rating ? rating : 0
+                type === `driver` ? userData?.reviews_count || 0  : rating ? rating : 0
               }
             />
           </Flex>
@@ -106,7 +108,7 @@ const Profile = ({
                 {userData?.trailer_type_id_data ? (
                   <>
                     <p className={cls.name}>
-                      {userData?.trailer_type_id_data?.[`name_${locale}`]}
+                      {userData?.trailer_type_id_data?.[`name_${locale}`] || userData?.trailer_type_id_data?.name}
                     </p>
                     <Flex alignItems={`center`} gap={`16px`} marginTop={`8px`}>
                       <Flex gap={`10px`}>
@@ -114,14 +116,14 @@ const Profile = ({
                           <StoneIcon />{" "}
                           <p className={cls.subTitle1}>
                             {" "}
-                            {userData?.vehicle_data?.height} т
+                            {userData?.vehicle_data?.capacity} т
                           </p>
                         </Flex>
                         <Flex gap={`3px`} alignItems={`center`}>
                           <LoadOulineIcon />{" "}
                           <p className={cls.subTitle1}>
                             {" "}
-                            {userData?.vehicle_data?.capacity} м3
+                            {userData?.vehicle_data?.height} м3
                           </p>
                         </Flex>
                       </Flex>
@@ -155,7 +157,22 @@ const Profile = ({
                     </Flex>
                   </>
                 ) : (
-                  <p className={cls.noCar}>Без машины</p>
+                  <p
+                   
+                    className={cls.noCar}
+                  >
+                    Без машины. <span  onClick={() =>
+                      router.push(
+                        `/${locale}/my-loads/add-car?driver_id=${
+                          userData?.guid
+                        }&firm_id=${
+                          userData?.firm_id
+                            ? userData?.firm_id
+                            : 0
+                        }`
+                      )
+                    } className={cls.addCar}>Добавить</span>
+                  </p>
                 )}
               </Box>
             </Flex>
@@ -224,7 +241,7 @@ const Profile = ({
 
               <Box>
                 <p className={cls.text}>
-                  { userData?.gps_data ?  `Вкл` : `Выкл`}.{" "}
+                  {userData?.gps_data ? `Вкл` : `Выкл`}.{" "}
                   <span
                     className={userData?.gps_data ? cls.time : cls.timeDisabled}
                   >

@@ -5,6 +5,7 @@ import {
   FuraAddIcon,
   Img3UploadIcon,
   ImgploadIcon1,
+  ImgploadIcon2,
   ImgUload2,
   UserIcon2,
 } from "@/assets/icons/icons";
@@ -49,9 +50,8 @@ const CreateCars = ({
   setLoadingBack,
   loadingBack,
   loadingFront,
-  clearErrors
+  clearErrors,
 }) => {
-  const { data: fuel } = useGetFuelInfo();
   return (
     <>
       <Flex
@@ -97,7 +97,7 @@ const CreateCars = ({
               watch={watch}
               setValue={setValue}
               name={"back_side_trailer"}
-              icon={<ImgploadIcon1 />}
+              icon={<ImgploadIcon2 />}
               text={t("Фото техпаспорта сзади *")}
               register={register}
               errors={errors}
@@ -110,7 +110,6 @@ const CreateCars = ({
             />
           </Flex>
         </Box>
-     
 
         <Box
           mt={`25px`}
@@ -429,7 +428,6 @@ const CreateCars = ({
               maxWidth="165px"
               placeholder={t("Вес")}
               additionalItemPlaceholder="т"
-              // additionalItemOptions={weightMeasurementOptions}
               type="number"
               zIndex={90}
             />

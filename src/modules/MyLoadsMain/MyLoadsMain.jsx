@@ -35,6 +35,7 @@ import {
   LocationIconStep,
   LocationMarkIcon,
   NavigationBtnLeftIcon,
+  SearchIcon,
   StarGoodsIcon,
   StarOutlineIcon,
 } from "@/assets/icons/icons";
@@ -150,6 +151,7 @@ export const MyLoadsMain = ({ locale }) => {
           <Box width={`40%`} mb={`20px`} className={styles.locationWrap}>
             <TextField
               label={``}
+              addonBefore={<SearchIcon />}
               placeholder={t("Укажите пункт назначения")}
               additionalItemTheme={`light`}
               register={register}

@@ -37,6 +37,7 @@ import {
   NotesIcon,
   PopupIcon,
   QuestionBlueIcon,
+  SuccessMiniIcon,
 } from "@/assets/icons/icons";
 import cls from "./style.module.scss";
 import {
@@ -263,7 +264,7 @@ export const useMyCarsDispatcher = () => {
   const statusObjIcon = {
     bad: <BadIcon />,
     note: <NotesIcon />,
-    great: <NotesIcon />,
+    great: <SuccessMiniIcon />,
   };
 
   const columns = [
@@ -279,10 +280,11 @@ export const useMyCarsDispatcher = () => {
           cursor={`pointer`}
           width={`fit-content`}
           alignItems={`center`}
-          gap={`6px`}
+          gap={`10px`}
+        
         >
           <Box position={`relative`}>
-            <Avatar size="sm" src={row?.photo} name={row?.full_name} />
+            <Avatar  width={`50px`} height={`50px`}  size="sm" src={row?.photo} name={row?.full_name} />
             {row?.reliabilitiy?.status && (
               <Box className={cls.status}>
                 {statusObjIcon[row?.reliabilitiy?.status?.[0]]}
@@ -309,11 +311,12 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => {
         return row?.firm_data ? (
-          <Flex alignItems={`center`} gap={`6px`}>
+          <Flex alignItems={`center`} gap={`10px`}>
             <Avatar
               size="sm"
               src={row?.firm_data?.logo}
               name={row?.firm_data?.full_name}
+              width={`50px`} height={`50px`}
             />
             <Box>
               <p className={cls.title}>{row?.firm_data?.full_name}</p>
@@ -421,20 +424,13 @@ export const useMyCarsDispatcher = () => {
       ),
       width: 400,
       render: (row, index) => {
-        const order = row?.order_data || row?.provisions?.[0] === `our_cargo`;
-        const status = row?.provisions?.[0];
-        const statusName =
-          status === `someone_cargo`
-            ? `Занята чужим грузом`
-            : status === `broke_down`
-            ? `Неисправна`
-            : `Свободная`;
+        const order = row?.order_data || row?.provisions?.[0] === `our_cargo`;    
         return (
           <Flex>
             <Flex
               alignItems={`center`}
               background={
-                order || row?.status === `Занята чужим грузом`
+                (order || row?.status === `Занята чужим грузом`)
                   ? ` rgba(0, 122, 255, 0.08)`
                   : `rgba(229, 243, 235, 1)`
               }
@@ -605,7 +601,7 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    return row?.order_data ? cls.bussy : cls.free;
+    return (row?.order_data || row?.provisions?.[0] === `our_cargo` || row?.status === `Занята чужим грузом`) ? cls.bussy : cls.free;
   };
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 

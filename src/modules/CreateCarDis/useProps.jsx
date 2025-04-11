@@ -178,34 +178,36 @@ export const useProps = () => {
   const updateResponseMutation = useUpdateResponse({
     onSuccess: (res) => {
       setIsPopupOpen(true);
-    }
-  })
+    },
+  });
 
   const { mutate, isLoading } = useCreateVehicle({
     onSuccess: (res) => {
+      if (guid) {
+        updateResponseMutation.mutate({
+          data: {
+            car_type: watch(`trailer_type_id`)?.label,
+            vehicle_id: res?.guid,
+            guid: guid,
+          },
+        });
+      }else{
+        setIsPopupOpen(true);
+      }
 
-     
-      updateResponseMutation.mutate({
-        data:{
-          car_type:watch(`trailer_type_id`)?.label,
-          vehicle_id:res?.guid,
-          guid:guid,
-        }
-      })
-
-      // actionCreate({
-      //   data: {
-      //     user_name: authStore.userData.full_name,
-      //     phone_number: authStore.userData?.phone,
-      //     user_id: authStore.userData.guid,
-      //     increment_id: authStore.userData.your_id,
-      //     action_time: new Date(),
-      //     role_slug: `carrier`,
-      //     action_comment: `create_unit`,
-      //     role_id: authStore.userData?.role_id,
-      //     action_type: [`create`],
-      //   },
-      // });
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `create_unit`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`create`],
+        },
+      });
     },
   });
 
@@ -329,20 +331,21 @@ export const useProps = () => {
         konika: val.konika,
         adr: val?.adr?.value || ``,
         back_side_trailer: val.back_side_trailer,
-        back_side_trailer_1:val?.back_side_trailer_1,
-        users_id:driver_id,
+        back_side_trailer_1: val?.back_side_trailer_1,
+        users_id: driver_id,
         front_side_trailer: val.front_side_trailer,
         front_side_trailer_1: val.front_side_trailer_1,
         car_photo: val.car_photo,
         download_type: getTrueKeys(load),
         car_position: ["alive"],
         status: [`active`],
-        firm_id:firm_idPrams ? firm_idPrams :undefined,
+        firm_id: firm_idPrams ? firm_idPrams : undefined,
         car_country: val?.car_country?.value,
         fuel_type: val?.fuel_type,
         eco_standart: val?.eco_standart?.value,
         guid: id ? id : undefined,
         create_time: id ? undefined : new Date(),
+
         address: watch(`address`) || undefined,
         color: watch(`color`) || undefined,
         engine_power: watch(`engine_power`) || undefined,
