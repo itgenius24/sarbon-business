@@ -33,7 +33,7 @@ export const UploadImgMobile = ({
   uploadAi = () => {},
   inputProps = {},
   type = ``,
-  clearErrors,
+  clearErrors=()=>{},
 }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -64,7 +64,6 @@ export const UploadImgMobile = ({
     input.click();
   };
 
-  console.log(`salom`);
 
   return (
     <>

@@ -99,7 +99,7 @@ export const MyCarsDispatcherModule = () => {
           </Flex>
           <Flex
             width={`100%`}
-            alignItems={`center`}
+            alignItems={`flex-end`}
             justifyContent={`space-between`}
           >
             <Box width={`40%`}>

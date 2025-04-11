@@ -32,6 +32,8 @@ const CreateDrivers = ({
     setPasswordVisible(!isPasswordVisible);
   }
 
+    console.log(`salom`,isLoading);
+
 
   const formatPhoneNumber = (value) => {
     let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
@@ -166,6 +168,7 @@ const CreateDrivers = ({
             register={register}
             errors={errors}
             name="phone"
+            type="number"
             placeholder={t("Телефон водителя")}
             rules={{
               required: t("Это поле объязательно "),
@@ -211,6 +214,8 @@ const CreateDrivers = ({
             name={"photo"}
             text={t("Загрузить фото")}
             icon={<UserIcon2 />}
+            setFileUploadLoading={setFileUploadLoading}
+            isLoading={isLoading}
           />
         </Box>
       </Flex>

@@ -52,6 +52,10 @@ const CreateCars = ({
   loadingFront,
   clearErrors,
 }) => {
+    const [isLoading,setFileUploadLoading] = useState(false)
+    const [isLoading2,setFileUploadLoading2] = useState(false)
+    const [isLoading3,setFileUploadLoading3] = useState(false)
+  
   return (
     <>
       <Flex
@@ -716,6 +720,8 @@ const CreateCars = ({
                         register={register}
                         errors={errors}
                         rules={{ required: t("Это поле объязательно") }}
+                        setFileUploadLoading={setFileUploadLoading}
+                        isLoading={isLoading}
                       />
                       <UploadImgMobile
                         watch={watch}
@@ -726,6 +732,8 @@ const CreateCars = ({
                         register={register}
                         errors={errors}
                         rules={{ required: t("Это поле объязательно") }}
+                        setFileUploadLoading={setFileUploadLoading}
+                        isLoading={isLoading}
                       />
                     </Flex>
                   </Box>
@@ -746,6 +754,8 @@ const CreateCars = ({
               errors={errors}
               countries={countries}
               locale={locale}
+              setFileUploadLoading={setFileUploadLoading}
+            isLoading={isLoading}
             />
           </Flex>
         </Box>

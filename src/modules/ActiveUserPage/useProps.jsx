@@ -224,22 +224,34 @@ export const useProps = () => {
       title: `Действие`,
       width: 500,
       render: (row, index) => (
-        <p className={cls.actionName}>
-          {commentObj[row?.action_comment]}: {` `}{" "}
-          <span onClick={() => copyFn(row?.increment_id)}>
-            {` ${row?.increment_id} `}{" "}
-            {row?.reason && (
-              <Tooltip
-                color={`black`}
-                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                background={`#fff`}
-                label={row?.reason}
-              >
-                <p style={{ width: `140px` }}>{row?.reason?.slice(0, 20)}...</p>
-              </Tooltip>
-            )}
-          </span>
-        </p>
+        <>
+          <p className={cls.actionName}>
+            {commentObj[row?.action_comment]}: {` `}{" "}
+            <span onClick={() => copyFn(row?.increment_id)}>
+              {` ${row?.increment_id} `}{" "}
+            </span>
+          </p>
+          {row?.reason && (
+            <p className={cls.commet}>
+              {" "}
+              <span>Причинa:</span>{" "}
+              {row?.reason.length > 20 ? (
+                <Tooltip
+                  color={`black`}
+                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                  background={`#fff`}
+                  label={row?.reason}
+                >
+                  <p style={{ width: `140px` }}>
+                    {row?.reason?.slice(0, 20)}...
+                  </p>
+                </Tooltip>
+              ) : (
+                row?.reason
+              )}
+            </p>
+          )}
+        </>
       ),
     },
     {

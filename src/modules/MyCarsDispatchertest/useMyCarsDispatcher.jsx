@@ -59,8 +59,8 @@ export const useMyCarsDispatcher = () => {
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
   const [ids, setId] = useState([]);
-    const [startSelectDate, setStartSelectDate] = useState(new Date());
-  
+  const [startSelectDate, setStartSelectDate] = useState(new Date());
+
   const [userdata, setUserData] = useState({});
   const [userDisRes, setUserDisRes] = useState({});
   const [userDisResOption, setUserDisResOption] = useState({});
@@ -151,14 +151,19 @@ export const useMyCarsDispatcher = () => {
           type: "dispatcher",
           dispatcher_id: disId,
           sort_time: filterTime,
-          filter:  watch(`driver`)?.label === `Без диспетчера` ?  `is_empty` :  value ,
+          filter:
+            watch(`driver`)?.label === `Без диспетчера` ? `is_empty` : value,
           first_dispatcher_id: watch(`driver`)?.value,
-          start_date:  (watch(`driver`)?.label === `Без диспетчера` || search?.length > 0) ? `` : 
-            startDate?.getDate() === endDate?.getDate()
+          start_date:
+            watch(`driver`)?.label === `Без диспетчера` || search?.length > 0
+              ? ``
+              : startDate?.getDate() === endDate?.getDate()
               ? formatDate(startDate, 0, 0, 0)
               : new Date(startDate),
-          end_date: (watch(`driver`)?.label === `Без диспетчера` || search?.length > 0)  ? `` :
-            startDate?.getDate() === endDate?.getDate()
+          end_date:
+            watch(`driver`)?.label === `Без диспетчера` || search?.length > 0
+              ? ``
+              : startDate?.getDate() === endDate?.getDate()
               ? formatDate(endDate, 23, 59, 59)
               : new Date(endDate),
         },
@@ -239,7 +244,6 @@ export const useMyCarsDispatcher = () => {
       const nextData = sortedData.slice(0, pageUi * 50);
 
       setVisibleData(nextData);
-     
     } else {
       const nextData = oldData.slice(0, pageUi * 50);
       setVisibleData(nextData);
@@ -363,9 +367,7 @@ export const useMyCarsDispatcher = () => {
 
             <Flex>
               <p className={cls.number}>
-                
-                  {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
-               
+                {`${row?.vehicle_data?.capacity} `}т / {row?.vehicle_data?.height}м3
               </p>
 
               <Tooltip
@@ -387,7 +389,9 @@ export const useMyCarsDispatcher = () => {
                   src={flegCountry(row?.vehicle_data?.car_country || `uz`)}
                 />
               </Tooltip>
-              <p className={cls.number}><span>{row?.vehicle_data?.car_number}</span></p>
+              <p className={cls.number}>
+                <span>{row?.vehicle_data?.car_number}</span>
+              </p>
             </Flex>
           </>
         ) : (
@@ -535,7 +539,10 @@ export const useMyCarsDispatcher = () => {
                 <p className={cls.disName}>
                   {row?.first_dispatcher_data?.full_name}
                 </p>
-                <p className={cls.disSubText}> {row?.first_dispatcher_data?.phone}</p>
+                <p className={cls.disSubText}>
+                  {" "}
+                  {row?.first_dispatcher_data?.phone}
+                </p>
               </Box>
             </Flex>
           ) : (
@@ -586,9 +593,8 @@ export const useMyCarsDispatcher = () => {
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
-
   const { mutate: deleteData, isLoading: deleteLoding } = useDeleteDisAll({
-    onSuccess:() => {
+    onSuccess: () => {
       actionCreate({
         data: {
           user_name: authStore.userData.full_name,
@@ -599,10 +605,10 @@ export const useMyCarsDispatcher = () => {
           role_slug: `top_dispatcher`,
           action_comment: `unpin_driver`,
           role_id: authStore.userData?.role_id,
-          action_type:[`delete`],
+          action_type: [`delete`],
         },
       });
-    }
+    },
   });
 
   const deleteFuntion = (id) => {
@@ -612,7 +618,6 @@ export const useMyCarsDispatcher = () => {
       ids: ids.map((item) => item.guid),
     });
   };
-  
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
@@ -683,8 +688,6 @@ export const useMyCarsDispatcher = () => {
     onError() {},
   });
 
-
-
   const statusIconChange = () => {
     const body = {
       guid: open?.guid,
@@ -727,8 +730,19 @@ export const useMyCarsDispatcher = () => {
 
           setUserDisRes({ ...res, response: [targetItem, ...res.response] });
         } else {
-          setUserDisRes({...res,response:[...res.response]});
-          setUserDisResOption({...res,response:[{first_dispatcher_data:{guid:``,full_name:`Без диспетчера`}},...res.response]})
+          setUserDisRes({ ...res, response: [...res.response] });
+          setUserDisResOption({
+            ...res,
+            response: [
+              {
+                first_dispatcher_data: {
+                  guid: ``,
+                  full_name: `Без диспетчера`,
+                },
+              },
+              ...res.response,
+            ],
+          });
         }
       },
     },
@@ -737,7 +751,6 @@ export const useMyCarsDispatcher = () => {
   const { mutate: createUserAdress, isLoading: createDisLoading } =
     useCreateAddressMutation({
       onSuccess: () => {
-        
         setVisibleData((prevData) =>
           prevData.map((item) => {
             const processedItem = ids.find((pItem) => pItem.guid === item.guid);
@@ -746,7 +759,7 @@ export const useMyCarsDispatcher = () => {
               data.first_dispatcher_data = {
                 full_name: userdata?.first_dispatcher_data?.full_name,
                 photo: userdata?.first_dispatcher_data?.photo,
-                phone:userdata?.first_dispatcher_data?.phone,
+                phone: userdata?.first_dispatcher_data?.phone,
               };
               return data;
             }
@@ -828,43 +841,43 @@ export const useMyCarsDispatcher = () => {
     userAdressRemove(data);
   };
 
-    function handleSelect(e) {
-      const selected = e.value;
-      const today = new Date();
-      let newStartDate = new Date();
-  
-      switch (selected) {
-        case "Сегодня":
-          newStartDate = today;
-          break;
-        case "3 дня":
-          newStartDate.setDate(today.getDate() - 2);
-          break;
-        case "Неделя":
-          newStartDate.setDate(today.getDate() - 6);
-          break;
-        case "Месяц":
-          newStartDate.setMonth(today.getMonth() - 1);
-          break;
-        case "3 месяца":
-          newStartDate.setMonth(today.getMonth() - 3);
-          break;
-        default:
-          newStartDate = today;
-      }
-  
-      setStartDate(newStartDate);
-      setEndDate(today);
-      setStartSelectDate(newStartDate);
-  
-      if (
-        format(newStartDate, `dd.MM.yyyy`) === format(startDate, `dd.MM.yyyy`)
-      ) {
-        return;
-      } else {
-        clearFn()
-      }
+  function handleSelect(e) {
+    const selected = e.value;
+    const today = new Date();
+    let newStartDate = new Date();
+
+    switch (selected) {
+      case "Сегодня":
+        newStartDate = today;
+        break;
+      case "3 дня":
+        newStartDate.setDate(today.getDate() - 2);
+        break;
+      case "Неделя":
+        newStartDate.setDate(today.getDate() - 6);
+        break;
+      case "Месяц":
+        newStartDate.setMonth(today.getMonth() - 1);
+        break;
+      case "3 месяца":
+        newStartDate.setMonth(today.getMonth() - 3);
+        break;
+      default:
+        newStartDate = today;
     }
+
+    setStartDate(newStartDate);
+    setEndDate(today);
+    setStartSelectDate(newStartDate);
+
+    if (
+      format(newStartDate, `dd.MM.yyyy`) === format(startDate, `dd.MM.yyyy`)
+    ) {
+      return;
+    } else {
+      clearFn();
+    }
+  }
 
   const onChange = (e) => {
     setValueR(e);
@@ -884,7 +897,7 @@ export const useMyCarsDispatcher = () => {
     data: visibleData,
     deleteFuntion,
     nameFilter,
-    isLoading: isLoading ||isFetching,
+    isLoading: isLoading || isFetching,
     t,
     register,
     setSearchFn,
@@ -927,9 +940,10 @@ export const useMyCarsDispatcher = () => {
     setValue,
     watch,
     clearFn,
-    userDisResOption:userDisResOption?.response,
+    userDisResOption: userDisResOption?.response,
     dateValues,
     startSelectDate,
-    handleSelect
+    handleSelect,
+    setStartSelectDate,
   };
 };
