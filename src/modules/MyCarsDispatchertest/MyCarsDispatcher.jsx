@@ -23,6 +23,7 @@ import ModalAddDis from "./component/ModalAddDis/ModalAddDis";
 import { DatePicker } from "@/components/DatePicker";
 import { Dropdown } from "@/components/Dropdown";
 import { SearchIcon } from "@/assets/icons/icons";
+import { format } from "date-fns";
 
 export const MyCarsDispatcherModule = () => {
   const {
@@ -73,6 +74,10 @@ export const MyCarsDispatcherModule = () => {
     watch,
     clearFn,
     userDisResOption,
+    dateValues,
+    startSelectDate,
+    handleSelect,
+    setStartSelectDate,
   } = useMyCarsDispatcher();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -98,7 +103,7 @@ export const MyCarsDispatcherModule = () => {
             justifyContent={`space-between`}
           >
             <Box width={`40%`}>
-              <InputGroup  >
+              <InputGroup>
                 <InputLeftElement>
                   <SearchIcon />
                 </InputLeftElement>
@@ -112,8 +117,75 @@ export const MyCarsDispatcherModule = () => {
             </Box>
 
             <Flex gap={`16px`} justifyContent={`flex-end`} width={`50%`}>
-              <Box className="dateWrap" width={`35%`}>
+              <Box>
                 <p className={cls.label}>Выбор периода</p>
+                <Flex gap={`16px`} alignItems={`center`}>
+                  <Box width={`160px`}>
+                    <Dropdown
+                      disabled={watch(`driver`)?.label === `Без диспетчера`}
+                     
+                      control={control}
+                      register={register}
+                      watch={watch}
+                      name="date"
+                      isClear
+                      options={dateValues}
+                      errors={errors}
+                      placeholder={t("Период")}
+                      setValue={setValue}
+                      isCheck={false}
+                      onChangeSelect={(e) => handleSelect(e)}
+                      clearFn={() => {
+                        if (
+                          format(startDate, `dd.MM.yyyy`) ===
+                          format(startSelectDate, `dd.MM.yyyy`)
+                        ) {
+                          return;
+                        } else {
+                          clearFn();
+                          setStartDate(new Date());
+                          setEndDate(new Date()),
+                            setStartSelectDate(new Date());
+                        }
+                      }}
+                    />
+                  </Box>
+                  <Box className="dateWrap one" width={`160px`}>
+                    <DatePicker
+                      disabled={watch(`driver`)?.label === `Без диспетчера`}
+                      isClearable={false}
+                      dateFormat="dd.MM.yyyy"
+                      selected={startDate}
+                      startDate={startDate}
+                      setStartDate={setStartDate}
+                      placeholder={`Дата с`}
+                      leftText={`с`}
+                      onChange={() => {
+                        setValue(`date`,``)
+                        clearFn();
+                      }}
+                    />
+                  </Box>
+                  <Box className="dateWrap one" width={`160px`}>
+                    <DatePicker
+                      disabled={watch(`driver`)?.label === `Без диспетчера`}
+                      isClearable={false}
+                      dateFormat="dd.MM.yyyy"
+                      selected={endDate}
+                      startDate={endDate}
+                      setStartDate={setEndDate}
+                      placeholder={`Дата по`}
+                      leftText={`по`}
+                      onChange={() => {
+                        setValue(`date`,``)
+                        clearFn();
+                      }}
+                    />
+                  </Box>
+                </Flex>
+              </Box>
+
+              {/* <Box className="dateWrap" width={`35%`}>
                 <DatePicker
                   disabled={watch(`driver`)?.label === `Без диспетчера`}
                   isClearable={false}
@@ -125,7 +197,7 @@ export const MyCarsDispatcherModule = () => {
                   setStartDate={setStartDate}
                   maxDate={new Date()}
                 />
-              </Box>
+              </Box> */}
               <Box className="dateWrap" width={`35%`}>
                 <p className={cls.label}>Диспетчер</p>
                 <Dropdown

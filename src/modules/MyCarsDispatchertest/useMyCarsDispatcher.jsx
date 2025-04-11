@@ -59,6 +59,8 @@ export const useMyCarsDispatcher = () => {
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
   const [ids, setId] = useState([]);
+    const [startSelectDate, setStartSelectDate] = useState(new Date());
+  
   const [userdata, setUserData] = useState({});
   const [userDisRes, setUserDisRes] = useState({});
   const [userDisResOption, setUserDisResOption] = useState({});
@@ -75,6 +77,14 @@ export const useMyCarsDispatcher = () => {
     const today = new Date();
     return today; // YYYY-MM-DD format
   });
+
+  const dateValues = [
+    { label: `Сегодня`, value: `Сегодня` },
+    { label: `3 дня`, value: `3 дня` },
+    { label: `Неделя`, value: `Неделя` },
+    { label: `Месяц`, value: `Месяц` },
+    { label: `3 месяца`, value: `3 месяца` },
+  ];
 
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
@@ -818,6 +828,44 @@ export const useMyCarsDispatcher = () => {
     userAdressRemove(data);
   };
 
+    function handleSelect(e) {
+      const selected = e.value;
+      const today = new Date();
+      let newStartDate = new Date();
+  
+      switch (selected) {
+        case "Сегодня":
+          newStartDate = today;
+          break;
+        case "3 дня":
+          newStartDate.setDate(today.getDate() - 2);
+          break;
+        case "Неделя":
+          newStartDate.setDate(today.getDate() - 6);
+          break;
+        case "Месяц":
+          newStartDate.setMonth(today.getMonth() - 1);
+          break;
+        case "3 месяца":
+          newStartDate.setMonth(today.getMonth() - 3);
+          break;
+        default:
+          newStartDate = today;
+      }
+  
+      setStartDate(newStartDate);
+      setEndDate(today);
+      setStartSelectDate(newStartDate);
+  
+      if (
+        format(newStartDate, `dd.MM.yyyy`) === format(startDate, `dd.MM.yyyy`)
+      ) {
+        return;
+      } else {
+        clearFn()
+      }
+    }
+
   const onChange = (e) => {
     setValueR(e);
     setData([]);
@@ -879,6 +927,9 @@ export const useMyCarsDispatcher = () => {
     setValue,
     watch,
     clearFn,
-    userDisResOption:userDisResOption?.response
+    userDisResOption:userDisResOption?.response,
+    dateValues,
+    startSelectDate,
+    handleSelect
   };
 };

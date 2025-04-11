@@ -31,8 +31,9 @@ const ActiveUserPage = ({ locale }) => {
     setData,
     dateValues,
     handleSelect,
-    startSelectDate,setStartSelectDate,
-    setDataOld
+    startSelectDate,
+    setStartSelectDate,
+    setDataOld,
   } = useProps();
 
   return (
@@ -66,10 +67,12 @@ const ActiveUserPage = ({ locale }) => {
                 isCheck={false}
                 onChangeSelect={() => {
                   setDataOld([]);
-                  setData([])}}
+                  setData([]);
+                }}
                 clearFn={() => {
                   setDataOld([]);
-                  setData([])}}
+                  setData([]);
+                }}
               />
             </Box>
             <Box width={`252px`}>
@@ -88,10 +91,12 @@ const ActiveUserPage = ({ locale }) => {
                 isCheck={false}
                 onChangeSelect={() => {
                   setDataOld([]);
-                  setData([])}}
+                  setData([]);
+                }}
                 clearFn={() => {
                   setDataOld([]);
-                  setData([])}}
+                  setData([]);
+                }}
               />
             </Box>
             <Box width={`160px`}>
@@ -108,11 +113,18 @@ const ActiveUserPage = ({ locale }) => {
                 isCheck={false}
                 onChangeSelect={(e) => handleSelect(e)}
                 clearFn={() => {
-                  if (format(startDate, `dd.MM.yyyy`) === format(startSelectDate, `dd.MM.yyyy`)) {
+                  if (
+                    format(startDate, `dd.MM.yyyy`) ===
+                    format(startSelectDate, `dd.MM.yyyy`)
+                  ) {
                     return;
-                  }else{
-                  setData([]); setDataOld([]); setStartDate(new Date()); setEndDate(new Date()),setStartSelectDate(new Date());}}
+                  } else {
+                    setData([]);
+                    setDataOld([]);
+                    setStartDate(new Date());
+                    setEndDate(new Date()), setStartSelectDate(new Date());
                   }
+                }}
               />
             </Box>
             <Box className="dateWrap one" width={`160px`}>
