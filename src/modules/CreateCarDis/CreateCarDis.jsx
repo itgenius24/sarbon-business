@@ -33,6 +33,7 @@ import {
   CheckModalIcon,
   CloseIconOutline,
   ImgploadIcon1,
+  ImgploadIcon2,
   ImgUload2,
 } from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
@@ -422,7 +423,7 @@ export const CreateCarDis = () => {
                 <Box width={`100%`}>
                   <p className={cls.textFieldName}>{t("Номер кузова (VIN)")}</p>
                   <TextField
-                    rules={rules}
+                    // rules={rules}
                     errors={errors}
                     name="car_vin_number"
                     register={register}
@@ -539,9 +540,59 @@ export const CreateCarDis = () => {
                     errors={errors}
                     name="fuel_type"
                     register={register}
-                    placeholder={t("Название")}
+                    placeholder={t("Необъязательно")}
                     type="text"
                   />
+                    <Flex gap={`12px`} mt={1}>
+                    <span className={cls.subTitle}>{t(`Пример`)}: </span>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "fuel_type",`Дизель`,
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Дизель`)},
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "fuel_type",`Бензин`,
+                        
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Бензин`)}
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "fuel_type",
+                          `Метан`,
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Метан`)}
+                    </p>
+                    <p
+                      onClick={() =>
+                        setValue(
+                          "fuel_type",
+                          `Пропан`,
+                          { shouldValidate: true, shouldDirty: true }
+                        )
+                      }
+                      className={cls.quickWord}
+                    >
+                      {t(`Пропан`)}
+                    </p>
+                  </Flex>
                 </Box>
               </Flex>
             </Flex>
@@ -630,7 +681,7 @@ export const CreateCarDis = () => {
                     watch={watch}
                     setValue={setValue}
                     name={"back_side_trailer"}
-                    icon={<ImgploadIcon1 />}
+                    icon={<ImgploadIcon2/>}
                     text={t("Загрузить фото сзади")}
                     errors={errors}
                     register={register}
@@ -643,7 +694,7 @@ export const CreateCarDis = () => {
                 </Flex>
               </Box>
               <Box width={"100%"} mt={"17px"}>
-                <p className={cls.textFieldName}>{t("Фото машины")} *</p>
+                <p className={cls.textFieldName}>{t("Фото машины")}</p>
                 <Flex gap={4} className={cls.ImgWrap}>
                   <UploadImg
                     watch={watch}
@@ -666,7 +717,7 @@ export const CreateCarDis = () => {
                 gap={"24px"}
                 mt={"32px"}
               >
-                <Box className={cls.ImgWrap_2} width={"50%"} mt={"17px"}>
+                <Box className={cls.ImgWrap_2}  mt={"17px"}>
                   <Flex
                     width={`100%`}
                     alignItems={`center`}
@@ -696,7 +747,7 @@ export const CreateCarDis = () => {
                       watch={watch}
                       setValue={setValue}
                       name={"back_side_trailer_1"}
-                      icon={<ImgploadIcon1 />}
+                      icon={<ImgploadIcon2 />}
                       text={t("Загрузить фото сзади")}
                       errors={errors}
                       register={register}

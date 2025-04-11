@@ -108,9 +108,9 @@
   }
 }
 .nextBtn {
-  width: fit-content;
+  width: fit-content !important;
   padding: 27px 28px !important;
-  font-size: 18px;
+  font-size: 18px !important;
   font-weight: 600;
   background-color: var(--primary-text) !important;
   margin-top: 30px;
