@@ -45,7 +45,7 @@ const SelectCargo = ({
         object_data:{
           from_lat:contendSingle?.lat,
           from_long:contendSingle?.long,
-          fromRadius:10000000000,
+          from_radius:10000000000,
           page:1,
           limit: 1000,
         }
