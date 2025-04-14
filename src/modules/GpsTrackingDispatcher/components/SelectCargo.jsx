@@ -18,7 +18,11 @@ import {
 import React, { useMemo, useState } from "react";
 import CheckBoxComponent from "./CheckBoxComponent";
 import { Checkbox } from "@/components/Checkbox";
-import { useGetCargoMap, useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
+import {
+  useGetCargoMap,
+  useGetUserCargo,
+  useOfferFromCustomerMutation,
+} from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
@@ -36,24 +40,27 @@ const SelectCargo = ({
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
   const locale = useGetLang();
-  console.log(`contendSingle`,contendSingle)
 
-
-  const {data:dataMap,isLoading} = useGetCargoMap({
-    data:{
-      data:{
-        object_data:{
-          from_lat:contendSingle?.lat,
-          from_long:contendSingle?.long,
-          from_radius:10000000000,
-          page:1,
+  const { data: dataMap, isLoading } = useGetCargoMap({
+    data: {
+      data: {
+        object_data: {
+          from_lat: contendSingle?.lat,
+          from_long: contendSingle?.long,
+          from_radius: 10000000000,
+          page: 1,
           limit: 1000,
-        }
-      }
-    }
-  })
+        },
+      },
+    },
+    querySettings: {
+      select: (res) => ({...res,
+        response: res?.response.sort((a, b) => a.distances - b.distances),
+      }),
+    },
+  });
 
-
+  console.log(`contendSingle`, dataMap);
 
 
   const cargoData = useMemo(() => {
@@ -76,16 +83,15 @@ const SelectCargo = ({
       setOffset(0);
       setIconStatus("waiting_for_driver");
       // statusIconChange();
-      setSelectCargo([])
+      setSelectCargo([]);
     },
 
-    onError:(res) => {
-      setSelectCargo([])
+    onError: (res) => {
+      setSelectCargo([]);
       setCenterModalType("");
       setDisabled(false);
       setOffset(0);
-      
-    }
+    },
   });
 
   function handleOffer() {
@@ -104,8 +110,6 @@ const SelectCargo = ({
       },
     });
   }
-
- 
 
   const toggleSelect = (id) => {
     const exists = selectCargo.find((i) => i.guid === id.guid);
@@ -210,7 +214,7 @@ const SelectCargo = ({
         alignItems={"center"}
         className={cls.selectCargoBottom}
       >
-      <p className={cls.count}>Выбрано: {selectCargo?.length} </p>
+        <p className={cls.count}>Выбрано: {selectCargo?.length} </p>
         <Flex gap={2}>
           <Button
             className={cls.topButton}
