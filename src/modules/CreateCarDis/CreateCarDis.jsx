@@ -35,6 +35,7 @@ import {
   ImgploadIcon1,
   ImgploadIcon2,
   ImgUload2,
+  NavigationBtnLeftIcon,
 } from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
 import { countries } from "@/utils/country";
@@ -66,6 +67,8 @@ export const CreateCarDis = () => {
     loadingBack,
     setLoadingBack,
     uploadAi,
+    full_name,
+    phone,
   } = useProps();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
@@ -78,12 +81,43 @@ export const CreateCarDis = () => {
   return (
     <>
       <Container my={isLargerThan845 ? "24px" : "24px"}>
-        <Heading
-          size={isLargerThan845 ? "md" : "sm"}
-          mb={isLargerThan845 ? "24px" : "12px"}
+        <Button
+          leftIcon={<NavigationBtnLeftIcon />}
+          borderRadius={`4px`}
+          border={`none`}
+          variant={`outline`}
+          background={`rgba(227, 230, 237, 1)`}
+          color={`rgba(0, 122, 255, 1)`}
+          mb={`20px`}
+          width={`fit-content`}
+          fontSize={`12px`}
+          fontWeight={400}
+          height={`35px`}
+          onClick={() => {
+            router.back();
+          }}
         >
-          {t("Добавить машину")}
-        </Heading>
+          {t(`Вернутся в назад`)}
+        </Button>
+        <Flex
+          mb={isLargerThan845 ? "39px" : "12px"}
+          alignItems={`center`}
+          gap={`50px`}
+        >
+          <Heading size={isLargerThan845 ? "md" : "sm"}>
+            {t("Добавить машину")}
+          </Heading>
+          <Flex alignItems={`center`} gap={`50px`}>
+            <Box>
+              <p className={cls.title}>{t(`Водитель`)}</p>
+              <p className={cls.name}>{full_name}</p>
+            </Box>
+            <Box>
+              <p className={cls.title}>{t(`Телефон`)}</p>
+              <p className={cls.name}>+{phone?.trim()}</p>
+            </Box>
+          </Flex>
+        </Flex>
 
         <>
           <Box className={cls.box}>
@@ -543,14 +577,14 @@ export const CreateCarDis = () => {
                     placeholder={t("Необъязательно")}
                     type="text"
                   />
-                    <Flex gap={`12px`} mt={1}>
+                  <Flex gap={`12px`} mt={1}>
                     <span className={cls.subTitle}>{t(`Пример`)}: </span>
                     <p
                       onClick={() =>
-                        setValue(
-                          "fuel_type",`Дизель`,
-                          { shouldValidate: true, shouldDirty: true }
-                        )
+                        setValue("fuel_type", `Дизель`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
                       }
                       className={cls.quickWord}
                     >
@@ -559,8 +593,9 @@ export const CreateCarDis = () => {
                     <p
                       onClick={() =>
                         setValue(
-                          "fuel_type",`Бензин`,
-                        
+                          "fuel_type",
+                          `Бензин`,
+
                           { shouldValidate: true, shouldDirty: true }
                         )
                       }
@@ -570,11 +605,10 @@ export const CreateCarDis = () => {
                     </p>
                     <p
                       onClick={() =>
-                        setValue(
-                          "fuel_type",
-                          `Метан`,
-                          { shouldValidate: true, shouldDirty: true }
-                        )
+                        setValue("fuel_type", `Метан`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
                       }
                       className={cls.quickWord}
                     >
@@ -582,11 +616,10 @@ export const CreateCarDis = () => {
                     </p>
                     <p
                       onClick={() =>
-                        setValue(
-                          "fuel_type",
-                          `Пропан`,
-                          { shouldValidate: true, shouldDirty: true }
-                        )
+                        setValue("fuel_type", `Пропан`, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
                       }
                       className={cls.quickWord}
                     >
@@ -681,7 +714,7 @@ export const CreateCarDis = () => {
                     watch={watch}
                     setValue={setValue}
                     name={"back_side_trailer"}
-                    icon={<ImgploadIcon2/>}
+                    icon={<ImgploadIcon2 />}
                     text={t("Загрузить фото сзади")}
                     errors={errors}
                     register={register}
@@ -717,7 +750,7 @@ export const CreateCarDis = () => {
                 gap={"24px"}
                 mt={"32px"}
               >
-                <Box className={cls.ImgWrap_2}  mt={"17px"}>
+                <Box className={cls.ImgWrap_2} mt={"17px"}>
                   <Flex
                     width={`100%`}
                     alignItems={`center`}

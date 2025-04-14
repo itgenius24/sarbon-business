@@ -19,7 +19,7 @@ import {
 import authStore from "@/store/auth.store";
 import { countries } from "@/utils/country";
 import { normalizeName } from "@/utils/normalizeName";
-import { useMediaQuery } from "@chakra-ui/react";
+import { useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,7 +36,7 @@ const useProsp = () => {
   const [load, setLoad] = useState({});
   const router = useRouter();
   const { t } = useTranslation(locale, "translations");
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const {isOpen,onOpen,onClose} = useDisclosure()
   const [loadingFront, setLoadingFront] = useState(false);
   const [loadingBack, setLoadingBack] = useState(false);
   const [loadingDriver, setLoadingDriver] = useState(false);
@@ -201,7 +201,7 @@ const useProsp = () => {
 
   const { mutate: vehicleData, isLoading: lodingVehicle } = useCreateVehicle({
     onSuccess: (res) => {
-      setIsPopupOpen(true);
+      onOpen()
     },
   });
 
@@ -453,7 +453,8 @@ const useProsp = () => {
 
   const copyFunction = () => {
     setCopied();
-    setIsPopupOpen(false);
+  
+    onClose()
     router.push(`/${locale}/my-cars-dillers`);
   };
 
@@ -472,8 +473,7 @@ const useProsp = () => {
     euroTypeOptions,
     setinputValue,
     isBtn: Object.values(errors)?.length > 0,
-    isPopupOpen,
-    setIsPopupOpen,
+    isOpen,onOpen,onClose,
     copyFunction,
     router,
     id,

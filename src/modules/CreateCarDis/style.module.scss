@@ -8,8 +8,6 @@
   }
 }
 
-
-
 .primerWrap {
   @media (max-width: 872px) {
     gap: 10px;
@@ -21,6 +19,22 @@
   }
 }
 
+.title {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+  color: rgba(126, 123, 134, 1);
+}
+
+.name {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+  color: rgba(33, 31, 38, 1);
+  margin-top: 2px;
+}
 .stepTitle {
   font-weight: 600;
   font-size: 20px;

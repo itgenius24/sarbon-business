@@ -73,48 +73,17 @@ const CreateCars = ({
           className={cls.ImgWrap}
           width={"100%"}
         >
-          <Flex mt={`10px`} mb={`16px`} alignItems={`center`} gap={`6px`}>
+          <Flex mt={`16px`} mb={`10px`} alignItems={`center`} gap={`6px`}>
             <FuraAddIcon />
             <Heading
               color={`var(--primary-text)`}
               fontSize={`20px`}
               fontWeight={600}
             >
-              {t("Добавление машины")}
+              {t("Машина")}
             </Heading>
           </Flex>
-          <Flex mt={`10px`} gap={4} flexDirection={`column`}>
-            <UploadImgMobile
-              watch={watch}
-              setValue={setValue}
-              name={"front_side_trailer"}
-              icon={<ImgploadIcon1 />}
-              text={t("Фото техпаспорта спереди *")}
-              register={register}
-              errors={errors}
-              rules={{ required: t("Это поле объязательно") }}
-              setLoading={setLoadingFront}
-              isLoading={loadingFront}
-              uploadAi={uploadAi}
-              type={`tech_pass`}
-              clearErrors={clearErrors}
-            />
-            <UploadImgMobile
-              watch={watch}
-              setValue={setValue}
-              name={"back_side_trailer"}
-              icon={<ImgploadIcon2 />}
-              text={t("Фото техпаспорта сзади *")}
-              register={register}
-              errors={errors}
-              rules={{ required: t("Это поле объязательно") }}
-              uploadAi={uploadAi}
-              setLoading={setLoadingBack}
-              isLoading={loadingBack}
-              type={`tech_pass`}
-              clearErrors={clearErrors}
-            />
-          </Flex>
+      
         </Box>
 
         <Box

@@ -404,7 +404,7 @@ const StepFour = ({ status }) => {
                         </p>
                       </Flex>
                       <TextFieldWithAddition
-                        disabled={!canEdit}
+                        disabled={true}
                         name="price_after_order"
                         register={register}
                         control={control}

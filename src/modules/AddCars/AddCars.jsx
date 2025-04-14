@@ -36,15 +36,13 @@ const AddCars = () => {
     euroTypeOptions,
     setinputValue,
     isBtn,
-    isPopupOpen,
-    setIsPopupOpen,
     copyFunction,
     router,id,
     carTypeOptions,
     setLoadingFront,
     setLoadingDriver,
     loadingDriver,
-
+    isOpen,onOpen,onClose,
     setLoadingBack,
     loadingBack,
     loadingFront,
@@ -70,6 +68,10 @@ const AddCars = () => {
           setLoadingDriver={setLoadingDriver}
           loadingDriver={loadingDriver}
           clearErrors={clearErrors}
+          setLoadingFront={setLoadingFront}
+          setLoadingBack={setLoadingBack}
+          loadingBack={loadingBack}
+          loadingFront={loadingFront}
         />
     
         <CreateCars
@@ -85,8 +87,8 @@ const AddCars = () => {
           isLargerThan845={isLargerThan845}
           cls={cls}
           locale={locale}
-          setLoadingFront={setLoadingFront}
           uploadAi={uploadAi}
+          setLoadingFront={setLoadingFront}
           setLoadingBack={setLoadingBack}
           loadingBack={loadingBack}
           loadingFront={loadingFront}
@@ -106,7 +108,7 @@ const AddCars = () => {
         </Button>
         </Flex>
       </Container>
-      <Drawer placement="bottom" isOpen={isPopupOpen}>
+      <Drawer placement="bottom" isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent borderRadius="12px 12px 0 0">
           <DrawerHeader>
@@ -114,7 +116,7 @@ const AddCars = () => {
           </DrawerHeader>
           <DrawerCloseButton
             top={`15px`}
-            onClick={() => setIsPopupOpen(false)}
+            onClick={() => onClose()}
           />
           <DrawerBody>
             <Flex flexDirection={`column`} rowGap={`20px`}>

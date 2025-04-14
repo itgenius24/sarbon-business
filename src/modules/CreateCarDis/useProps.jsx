@@ -26,6 +26,9 @@ export const useProps = () => {
   const [inputValue, setinputValue] = useState(``);
   const id = searchParams.get(`id`);
   const driver_id = searchParams.get(`driver_id`);
+  const full_name = searchParams.get(`full_name`);
+  const phone = searchParams.get(`phone`);
+
   const guid = searchParams.get(`guid`);
   const firm_idPrams = searchParams.get(`firm_id`);
   const [loadingFront, setLoadingFront] = useState(false);
@@ -400,5 +403,7 @@ export const useProps = () => {
     loadingBack,
     setLoadingBack,
     uploadAi,
+    full_name,
+    phone
   };
 };

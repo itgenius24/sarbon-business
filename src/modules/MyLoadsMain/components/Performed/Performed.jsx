@@ -356,13 +356,13 @@ export const Performed = forwardRef(
                       <p
                         onClick={() =>
                           router.push(
-                            `/${locale}/my-loads/add-car?driver_id=${
+                            `/${locale}/my-cars-dispatcher/add-car?driver_id=${
                               cargo?.users_id_data?.guid
                             }&guid=${cargo?.guid}&firm_id=${
                               cargo?.users_id_data?.firm_id
                                 ? cargo?.users_id_data?.firm_id
                                 : 0
-                            }`
+                            }&full_name=${cargo?.users_id_data.full_name}&phone=${cargo?.users_id_data.phone}`
                           )
                         }
                         className={styles.addCar}

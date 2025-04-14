@@ -163,13 +163,13 @@ const Profile = ({
                   >
                     Без машины. <span  onClick={() =>
                       router.push(
-                        `/${locale}/my-loads/add-car?driver_id=${
+                        `/${locale}/my-cars-dispatcher/add-car?driver_id=${
                           userData?.guid
                         }&firm_id=${
                           userData?.firm_id
                             ? userData?.firm_id
                             : 0
-                        }`
+                        }&full_name=${userData?.full_name}&phone=${userData?.phone}`
                       )
                     } className={cls.addCar}>Добавить</span>
                   </p>

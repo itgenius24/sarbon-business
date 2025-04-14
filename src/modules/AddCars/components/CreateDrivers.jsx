@@ -3,6 +3,8 @@ import {
   EyeIcon,
   EyeIconOff,
   Img3UploadIcon,
+  ImgploadIcon1,
+  ImgploadIcon2,
   UserIcon2,
 } from "@/assets/icons/icons";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
@@ -24,16 +26,19 @@ const CreateDrivers = ({
   setLoadingDriver,
   loadingDriver,
   uploadAi,
-  clearErrors
+  clearErrors,
+  setLoadingFront,
+  setLoadingBack,
+  loadingBack,
+  loadingFront,
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [isLoading,setFileUploadLoading] = useState(false)
+  const [isLoading, setFileUploadLoading] = useState(false);
   function handleTogglePasswordVisibility() {
     setPasswordVisible(!isPasswordVisible);
   }
 
-    console.log(`salom`,isLoading);
-
+  console.log(`salom`, isLoading);
 
   const formatPhoneNumber = (value) => {
     let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
@@ -62,13 +67,14 @@ const CreateDrivers = ({
         >
           <Box>
             <Flex mb={`18px`} alignItems={`center`} gap={`6px`}>
-              <DriversIcon />
+              {/* <DriversIcon /> */}
               <Heading
                 color={`var(--primary-text)`}
                 fontSize={`20px`}
                 fontWeight={600}
               >
-                {t("Добавление водителя")}
+                {t(`Загрузите фото`)}
+                {/* {t("Добавление водителя")} */}
               </Heading>
             </Flex>
             <UploadImgMobile
@@ -79,7 +85,7 @@ const CreateDrivers = ({
               icon={<Img3UploadIcon />}
               register={register}
               errors={errors}
-              rules={{required: t("Это поле объязательно")}}
+              rules={{ required: t("Это поле объязательно") }}
               setLoading={setLoadingDriver}
               isLoading={loadingDriver}
               type={`driver_pass`}
@@ -89,6 +95,48 @@ const CreateDrivers = ({
           </Box>
         </Flex>
 
+        <Flex mt={`10px`} gap={4} flexDirection={`column`}>
+          <UploadImgMobile
+            watch={watch}
+            setValue={setValue}
+            name={"front_side_trailer"}
+            icon={<ImgploadIcon1 />}
+            text={t("Фото техпаспорта спереди *")}
+            register={register}
+            errors={errors}
+            rules={{ required: t("Это поле объязательно") }}
+            setLoading={setLoadingFront}
+            isLoading={loadingFront}
+            uploadAi={uploadAi}
+            type={`tech_pass`}
+            clearErrors={clearErrors}
+          />
+          <UploadImgMobile
+            watch={watch}
+            setValue={setValue}
+            name={"back_side_trailer"}
+            icon={<ImgploadIcon2 />}
+            text={t("Фото техпаспорта сзади *")}
+            register={register}
+            errors={errors}
+            rules={{ required: t("Это поле объязательно") }}
+            uploadAi={uploadAi}
+            setLoading={setLoadingBack}
+            isLoading={loadingBack}
+            type={`tech_pass`}
+            clearErrors={clearErrors}
+          />
+        </Flex>
+        <Flex mt={`40px`} mb={`10px`} alignItems={`center`} gap={`6px`}>
+          <DriversIcon />
+          <Heading
+            color={`var(--primary-text)`}
+            fontSize={`20px`}
+            fontWeight={600}
+          >
+            {t(`Водитель`)}
+          </Heading>
+        </Flex>
         <Box
           mt={`25px`}
           paddingBottom={`25px`}
@@ -168,7 +216,7 @@ const CreateDrivers = ({
             register={register}
             errors={errors}
             name="phone"
-            type="number"
+            type="text"
             placeholder={t("Телефон водителя")}
             rules={{
               required: t("Это поле объязательно "),
