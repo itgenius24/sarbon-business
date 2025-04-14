@@ -36,7 +36,7 @@ const useProsp = () => {
   const [load, setLoad] = useState({});
   const router = useRouter();
   const { t } = useTranslation(locale, "translations");
-  const {isOpen,onOpen,onClose} = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [loadingFront, setLoadingFront] = useState(false);
   const [loadingBack, setLoadingBack] = useState(false);
   const [loadingDriver, setLoadingDriver] = useState(false);
@@ -79,17 +79,17 @@ const useProsp = () => {
       height: +watch(`height`) || 0,
       car_number: watch(`car_number`),
       marka: watch(`marka`),
-      cemt: watch(`cemt`), 
-      tir: watch(`tir`), 
-      pneumatic: watch(`pneumatic`), 
-      coupling: watch(`coupling`), 
-      konika: watch(`konika`), 
+      cemt: watch(`cemt`),
+      tir: watch(`tir`),
+      pneumatic: watch(`pneumatic`),
+      coupling: watch(`coupling`),
+      konika: watch(`konika`),
       adr: watch(`adr`)?.value || ``,
-      back_side_trailer: watch(`back_side_trailer`), 
-      back_side_trailer_1: watch(`back_side_trailer_1`), 
-      front_side_trailer: watch(`front_side_trailer`), 
-      front_side_trailer_1: watch(`front_side_trailer_1`), 
-      car_photo: watch(`car_photo`), 
+      back_side_trailer: watch(`back_side_trailer`),
+      back_side_trailer_1: watch(`back_side_trailer_1`),
+      front_side_trailer: watch(`front_side_trailer`),
+      front_side_trailer_1: watch(`front_side_trailer_1`),
+      car_photo: watch(`car_photo`),
       download_type: getTrueKeys(load),
       car_position: ["moderation"],
       status: [`active`],
@@ -201,7 +201,7 @@ const useProsp = () => {
 
   const { mutate: vehicleData, isLoading: lodingVehicle } = useCreateVehicle({
     onSuccess: (res) => {
-      onOpen()
+      onOpen();
     },
   });
 
@@ -293,6 +293,8 @@ const useProsp = () => {
     }
   }, [getCarNumnber?.count > 0, inputValue?.length]);
 
+  console.log(`inputValue`, inputValue);
+
   const { mutate: checkUserData, isLoading: isLoadingCrate } =
     useOfferFromCustomerMutation({
       onSuccess: (res) => {
@@ -364,6 +366,7 @@ const useProsp = () => {
       }
       if (jsonData?.license_plate) {
         setValue(`car_number`, jsonData?.license_plate);
+        setinputValue(jsonData?.license_plate);
       }
       if (jsonData?.chassis_number) {
         setValue(`car_vin_number`, jsonData?.chassis_number);
@@ -436,9 +439,6 @@ const useProsp = () => {
     },
   });
 
-
-
-
   const uploadAi = (link, type) => {
     uploadAiData({
       data: {
@@ -453,8 +453,8 @@ const useProsp = () => {
 
   const copyFunction = () => {
     setCopied();
-  
-    onClose()
+
+    onClose();
     router.push(`/${locale}/my-cars-dillers`);
   };
 
@@ -473,7 +473,9 @@ const useProsp = () => {
     euroTypeOptions,
     setinputValue,
     isBtn: Object.values(errors)?.length > 0,
-    isOpen,onOpen,onClose,
+    isOpen,
+    onOpen,
+    onClose,
     copyFunction,
     router,
     id,
@@ -485,7 +487,7 @@ const useProsp = () => {
     uploadAi: uploadAi,
     setLoadingDriver,
     loadingDriver,
-    clearErrors
+    clearErrors,
   };
 };
 

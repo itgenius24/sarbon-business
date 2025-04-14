@@ -187,7 +187,9 @@ const SelectCargo = ({
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon /> {item?.volume_m3} m3
                       </Flex>
-                      {item?.number_of_order}
+                      <span>ID: {item?.number_of_order}</span>
+                      <span>S: {item?.distances?.toFixed(1)} km</span>
+
                     </Flex>
                   </Box>
                 </CheckBoxComponent>

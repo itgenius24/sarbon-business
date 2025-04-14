@@ -37,23 +37,25 @@ const AddCars = () => {
     setinputValue,
     isBtn,
     copyFunction,
-    router,id,
+    router,
+    id,
     carTypeOptions,
     setLoadingFront,
     setLoadingDriver,
     loadingDriver,
-    isOpen,onOpen,onClose,
+    isOpen,
+    onOpen,
+    onClose,
     setLoadingBack,
     loadingBack,
     loadingFront,
     uploadAi,
-    clearErrors
+    clearErrors,
   } = useProsp();
 
   return (
     <>
       <Container p={0} my={isLargerThan845 ? "40px" : `20px`}>
-       
         <CreateDrivers
           register={register}
           errors={errors}
@@ -73,7 +75,7 @@ const AddCars = () => {
           loadingBack={loadingBack}
           loadingFront={loadingFront}
         />
-    
+
         <CreateCars
           carTypeOptions={carTypeOptions}
           setinputValue={setinputValue}
@@ -93,19 +95,17 @@ const AddCars = () => {
           loadingBack={loadingBack}
           loadingFront={loadingFront}
           clearErrors={clearErrors}
-
-
         />
 
-        <Flex className={cls.wrapBtn} >
-        <Button
-          isLoading={isLoading}
-          isDisabled={isBtn}
-          onClick={handleSubmit(onSubmit)}
-          className={cls.nextBtn}
-        >
-          {t("Сохранить водителя")}
-        </Button>
+        <Flex className={cls.wrapBtn}>
+          <Button
+            isLoading={isLoading}
+            isDisabled={isBtn}
+            onClick={handleSubmit(onSubmit)}
+            className={cls.nextBtn}
+          >
+            {t("Сохранить водителя")}
+          </Button>
         </Flex>
       </Container>
       <Drawer placement="bottom" isOpen={isOpen}>
@@ -114,10 +114,7 @@ const AddCars = () => {
           <DrawerHeader>
             <CheckModalIcon />
           </DrawerHeader>
-          <DrawerCloseButton
-            top={`15px`}
-            onClick={() => onClose()}
-          />
+          <DrawerCloseButton top={`15px`} onClick={() => onClose()} />
           <DrawerBody>
             <Flex flexDirection={`column`} rowGap={`20px`}>
               <p style={{ fontWeight: 600, fontSize: "20px" }}>
