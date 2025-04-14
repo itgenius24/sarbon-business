@@ -18,7 +18,7 @@ import {
 import React, { useMemo, useState } from "react";
 import CheckBoxComponent from "./CheckBoxComponent";
 import { Checkbox } from "@/components/Checkbox";
-import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
+import { useGetCargoMap, useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
@@ -36,31 +36,37 @@ const SelectCargo = ({
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
   const locale = useGetLang();
-  const getAllUserCargoParams = {
-    data: JSON.stringify({
-      // users_id: contendSingle.user.guid,
-      with_relations: true,
-      order_status: ["active"],
-      cargo_type: ["cargo"],
-    }),
-  };
+  console.log(`contendSingle`,contendSingle)
 
-  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!contendSingle.user.guid,
-  });
+
+  const {data:dataMap,isLoading} = useGetCargoMap({
+    data:{
+      data:{
+        object_data:{
+          from_lat:contendSingle?.lat,
+          from_long:contendSingle?.long,
+          page:1,
+          limit: 1000,
+        }
+      }
+    }
+  })
+
+
+
 
   const cargoData = useMemo(() => {
     if (search) {
-      return getAllUserCargo.data?.response?.filter(
+      return dataMap?.response?.filter(
         (item) =>
           item?.from.toLowerCase().includes(search?.toLowerCase()) ||
           item?.to.toLowerCase().includes(search?.toLowerCase()) ||
           item?.number_of_order.toLowerCase().includes(search?.toLowerCase())
       );
     } else {
-      return getAllUserCargo.data?.response;
+      return dataMap?.response;
     }
-  }, [search, getAllUserCargo, getAllUserCargo.data?.response]);
+  }, [search, dataMap, dataMap?.response]);
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
@@ -88,7 +94,7 @@ const SelectCargo = ({
         object_data: {
           cargo: selectCargo?.map((item) => ({
             cargo_id: item.guid,
-            customer_id: item?.users_id_data?.guid,
+            customer_id: item?.users_id,
           })),
           driver_id: contendSingle?.users_id,
           dispatcher_id: authStore?.userData.id,
@@ -119,7 +125,7 @@ const SelectCargo = ({
         <p className={cls.topTitle}>{t(`Выберите груз`)}</p>
         <InputGroup className={cls.inputWrap}>
           <Input
-            isDisabled={getAllUserCargo?.isLoading}
+            isDisabled={isLoading}
             placeholder={t("Поиск")}
             className={cls.input}
             onChange={(e) => setSearch(e.target.value)}
@@ -130,7 +136,7 @@ const SelectCargo = ({
         </InputGroup>
       </Flex>
       <Box className={cls.modalContend}>
-        {!getAllUserCargo?.isLoading ? (
+        {!isLoading ? (
           cargoData.length > 0 ? (
             cargoData.map((item) => {
               return (
@@ -168,7 +174,7 @@ const SelectCargo = ({
                       </Tooltip>
                     </Flex>
                     <Flex mt={`5px`} className={cls.subTitle} gap={3}>
-                      {item?.cargo_type_id_data?.name}
+                      {item?.product_type}
 
                       <Flex gap={1} alignItems={"center"}>
                         <StoneIcon /> {item?.weight} т.

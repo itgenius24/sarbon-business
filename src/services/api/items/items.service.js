@@ -189,6 +189,15 @@ export const useGetRole = ({
 };
 
 
+export const useGetCargoMap = ({ data, querySettings }) => {
+  return useQuery({
+    queryKey: ["useGetCargoMap", data],
+    queryFn: () => itemsService.getCargoPost(data),
+    ...querySettings,
+  });
+};
+
+
 export const useCreateAdMutation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.createAd(data),
