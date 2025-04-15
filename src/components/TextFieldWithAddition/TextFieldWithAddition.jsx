@@ -48,16 +48,16 @@ export const TextFieldWithAddition = ({
       className={clsx(cls.field, className, { [cls.disabled]: disabled })}
       style={{ width }}
     >
-      {(label ||additionalItemLabel) && (
-          <div className={clsx(cls.fieldTop)}>
-            {label && <span className={cls.fieldLabel}>{label}</span>}
-            {additionalItemLabel && (
-              <span className={cls.additionalItemLabel}>
-                {additionalItemLabel}
-              </span>
-            )}
-          </div>
-        )}
+      {(label || additionalItemLabel) && (
+        <div className={clsx(cls.fieldTop)}>
+          {label && <span className={cls.fieldLabel}>{label}</span>}
+          {additionalItemLabel && (
+            <span className={cls.additionalItemLabel}>
+              {additionalItemLabel}
+            </span>
+          )}
+        </div>
+      )}
       <div
         className={clsx(cls.contentWrapper, {
           [cls.leftPosition]: additionalItemPosition === "left",
@@ -89,62 +89,64 @@ export const TextFieldWithAddition = ({
           control={control || dropdownControl}
           render={({ field }) => {
             return (
-              <div
-                ref={additionalDropdownRef}
-                className={clsx(cls.additionalItem, {
-                  [cls.lightTheme]: additionalItemTheme === "light",
-                })}
-              >
-                <button
-                  disabled={disabled}
-                  className={clsx(cls.additionalItemContent)}
-                  type="button"
-                  onClick={() => {
-                    if (additionalItemOptions.length > 0) {
-                      handleToggle();
-                    }
-                    additionalOnclick();
-                  }}
+              <div className={cls.wrapper}>
+                <div
+                  ref={additionalDropdownRef}
+                  className={clsx(cls.additionalItem, {
+                    [cls.lightTheme]: additionalItemTheme === "light",
+                  })}
                 >
-                  <span className={cls.additionalItemLabelWrapper}>
-                    <span className={cls.additionalItemLabelText}>
-                      {field.value?.label ||
-                        additionalItemOptions?.[additionalItemDefaultIndex]
-                          ?.label ||
-                        additionalItemPlaceholder}
-                    </span>
-                    {additionalItemOptions.length > 0 && (
-                      <span>
-                        <SelectionArrow />
+                  <button
+                    disabled={disabled}
+                    className={clsx(cls.additionalItemContent)}
+                    type="button"
+                    onClick={() => {
+                      if (additionalItemOptions.length > 0) {
+                        handleToggle();
+                      }
+                      additionalOnclick();
+                    }}
+                  >
+                    <div className={cls.additionalItemLabelWrapper}>
+                      <span className={cls.additionalItemLabelText}>
+                        {field.value?.label ||
+                          additionalItemOptions?.[additionalItemDefaultIndex]
+                            ?.label ||
+                          additionalItemPlaceholder}
                       </span>
-                    )}
-                  </span>
-                </button>
-                {additionalItemOptions.length > 0 && isOpen && (
-                  <div className={cls.additionalItemOptions}>
-                    {additionalItemOptions.map((item, index) => {
-                      return (
-                        <button
-                          key={index}
-                          className={clsx(cls.additionalItemOption, {
-                            [cls.active]: item.value === field?.value?.value,
-                          })}
-                          onClick={() => {
-                            field.onChange(item);
-                            handleClose();
-                          }}
-                        >
-                          <p className={cls.additionalItemOptionLabel}>
-                            <span>{item.label}</span>
-                            {item.value === field?.value?.value && (
-                              <CheckIcon />
-                            )}
-                          </p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+                      {additionalItemOptions.length > 0 && (
+                        <span>
+                          <SelectionArrow />
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                  {additionalItemOptions.length > 0 && isOpen && (
+                    <div className={cls.additionalItemOptions}>
+                      {additionalItemOptions.map((item, index) => {
+                        return (
+                          <button
+                            key={index}
+                            className={clsx(cls.additionalItemOption, {
+                              [cls.active]: item.value === field?.value?.value,
+                            })}
+                            onClick={() => {
+                              field.onChange(item);
+                              handleClose();
+                            }}
+                          >
+                            <p className={cls.additionalItemOptionLabel}>
+                              <span>{item.label}</span>
+                              {item.value === field?.value?.value && (
+                                <CheckIcon />
+                              )}
+                            </p>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
             );
           }}

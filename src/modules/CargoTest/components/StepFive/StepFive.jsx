@@ -137,6 +137,7 @@ const StepFive = ({ status }) => {
     referencePoints: [...getLoadings, ...getUnloading],
   });
 
+  console.log(`country_code_from`,watch(`country_code_from`))
 
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
@@ -288,6 +289,7 @@ const StepFive = ({ status }) => {
         as_soon_as_b: watch(`as_soon_as_b`),
         country_from: watch(`country_from`),
         country_to: watch(`country_to`),
+        belt:+watch(`belt`)
       },
     };
     if (user_type?.[0] === `approved`) {
@@ -392,6 +394,7 @@ const StepFive = ({ status }) => {
         as_soon_as_b: watch(`as_soon_as_b`),
         country_from: watch(`country_from`),
         country_to: watch(`country_to`),
+        belt:+watch(`belt`)
       },
     };
     if (user_type?.[0] === `approved`) {

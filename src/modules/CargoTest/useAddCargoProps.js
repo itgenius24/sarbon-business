@@ -1054,13 +1054,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         },
         money_code: data?.money_code,
         notification: data.notification ? data.notification : false,
-        country_from: data?.country_from ? data?.country_from : ``,
-        country_to: data?.country_to ? data?.country_to : ``,
+        country_code_from: data?.country_code_from ? data?.country_code_from : ``,
+        country_code_to: data?.country_code_to ? data?.country_code_to : ``,
         lat: data?.lat * 1,
         long: data?.long* 1,
         gradusFrom:data?.gradusFrom,
         gradusTo:data?.gradusTo,
-        number_of_order:data?.number_of_order
+        number_of_order:data?.number_of_order,
+        belt:data?.belt
+
       });
 
       setValue(`cargo_type`, {

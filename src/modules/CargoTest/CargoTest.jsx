@@ -272,7 +272,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
             </Box>
           </Box>
         </Container>
-        <Box>
+        <Box  pb={`30px`}>
           {/* <Box className={cls.containerCards}> */}
           {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
           {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}

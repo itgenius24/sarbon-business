@@ -77,6 +77,8 @@ export const Performed = forwardRef(
       cash: t(`Наличные`),
     };
 
+      const dispatcher_type = authStore?.userData?.dispatcher_type;
+    
     return (
       <div ref={ref} className={styles.performed}>
         <div className={styles.performedCard}>
@@ -107,7 +109,7 @@ export const Performed = forwardRef(
                   {cargo?.cargo_id_data?.address_id_data?.name}
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_a
-                      ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase()} / ${t(
+                      ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase() || `UZ`} / ${t(
                           `Готов к загрузке`
                         )}`
                       : cargo?.cargo_id_data?.load_time &&
@@ -147,7 +149,7 @@ export const Performed = forwardRef(
 
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_b
-                      ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase()} / ${t(
+                      ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase() || `UZ`} / ${t(
                           `Как можно скорее`
                         )}`
                       : cargo?.cargo_id_data?.date &&
@@ -192,7 +194,7 @@ export const Performed = forwardRef(
                     : t(`По запросу`)}
                 </p>
               </div>
-              {orderStatus === `performed` && (
+              {(orderStatus === `performed` && dispatcher_type?.[0] === `first_dispatcher`) && (
                 <Box>
                   <Popover placement="bottom-end">
                     <PopoverTrigger>
@@ -347,12 +349,12 @@ export const Performed = forwardRef(
                         : t("Нет машины")}
                     </span>
 
-                    {cargo?.vehicle_id_data?.car_number ? (
+                    {cargo?.vehicle_id_data?.car_number  ? (
                       <p className={styles.cardName}>
                         {(cargo?.[`car_type_${locale}`] || cargo?.car_type) +
                           ` / ${cargo.vehicle_id_data?.car_number}`}
                       </p>
-                    ) :  (
+                    ) :  role_id  === "785678f2-fae7-4a00-8766-99ea67d3784f" ?  (
                       <p
                         onClick={() =>
                           router.push(
@@ -367,9 +369,9 @@ export const Performed = forwardRef(
                         }
                         className={styles.addCar}
                       >
-                        Добавить машину
+                       {t(`Добавить машину`)}
                       </p>
-                    ) }
+                    ): <p className={styles.cardName} >{t(`Еще не добавлен`)}</p> }
                   </div>
                 </Flex>
                 <div style={{ textAlign: `right` }} className={styles.cardItem}>
@@ -488,7 +490,7 @@ export const Performed = forwardRef(
                   {orderStatus == "performed" && (
                     <>
                       <span className={styles.cardBodyTitle}>
-                        {t(`Пройдено`)}
+                        {t(`Pасстояние`)}
                       </span>
                       <p className={styles.cardName}>
                         <span style={{ color: `rgba(0, 122, 255, 1)` }}>
@@ -581,7 +583,7 @@ export const Performed = forwardRef(
                 role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469" &&
                 orderStatus === `performed` && (
                   <Flex
-                    width={`100%`}
+                    width={`fit-content`}
                     className={styles.cardItem}
                     gap={`7px`}
                     alignItems={`center`}

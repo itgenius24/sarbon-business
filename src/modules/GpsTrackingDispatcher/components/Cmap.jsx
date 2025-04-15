@@ -1033,6 +1033,7 @@ const Cmap = memo(
               <>
                 {item.location_name && (
                   <Placemark
+                   draggable={true}
                     onClick={() => {
                       setLoadState(item);
                       if (item?.new_status?.[0] === "occupied_cargo") {
