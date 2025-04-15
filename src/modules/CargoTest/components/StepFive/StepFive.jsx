@@ -137,6 +137,7 @@ const StepFive = ({ status }) => {
     referencePoints: [...getLoadings, ...getUnloading],
   });
 
+
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
       setGuid(data.guid);
@@ -248,7 +249,7 @@ const StepFive = ({ status }) => {
         load_type: getTrueKeys(load),
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
-        distance: distance?.distance,
+        distance: distance?.distance || 0,
         firm_id,
         gradusFrom: watch(`gradusFrom`),
         gradusTo: watch(`gradusTo`),

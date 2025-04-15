@@ -492,9 +492,9 @@ export const Performed = forwardRef(
                       </span>
                       <p className={styles.cardName}>
                         <span style={{ color: `rgba(0, 122, 255, 1)` }}>
-                          1357 км{" "}
+                        {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
                         </span>{" "}
-                        / {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
+                        
                       </p>
                     </>
                   )}
