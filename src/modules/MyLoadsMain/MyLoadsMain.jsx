@@ -91,6 +91,7 @@ export const MyLoadsMain = ({ locale }) => {
     router,
     refetchNewPred,
     refetchNoDisPred,
+    setNotificationId,notificationID,
     refetchWaitingDriverCount,orderStatus
   } = useMyLoadsMainProps(locale);
 
@@ -190,7 +191,7 @@ export const MyLoadsMain = ({ locale }) => {
         )}
 
         <Tabs
-        isLazy
+          isLazy
           onChange={(index) => onFilterChange(index)}
           defaultIndex={index * 1}
           variant="unstyled"
@@ -218,6 +219,17 @@ export const MyLoadsMain = ({ locale }) => {
           </TabList>
           {role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid ? (
             <TabPanels padding={`24px 0`}>
+            <TabPanel padding={0}>
+                <NewPage
+                  refetchNoDisPred={refetchNoDisPred}
+                  refetchWaitingDriverCount={refetchWaitingDriverCount}
+                  refetchNewPred={refetchNewPred}
+                  t={t}
+                  orderStatus={`no_dispatcher`}
+                  setNotificationId={setNotificationId}
+                  notificationID={notificationID}
+                />
+              </TabPanel>
               <TabPanel padding={0}>
                 <NewPage
                   refetchNoDisPred={refetchNoDisPred}
@@ -225,6 +237,7 @@ export const MyLoadsMain = ({ locale }) => {
                   refetchNewPred={refetchNewPred}
                   t={t}
                   orderStatus={`new`}
+                  
                 />
               </TabPanel>
               <TabPanel padding={0}>
@@ -239,15 +252,7 @@ export const MyLoadsMain = ({ locale }) => {
               <TabPanel padding={0}>
                 <ArchivePage setOpen={setOpen} t={t} orderStatus={orderStatus} />
               </TabPanel>
-              <TabPanel padding={0}>
-                <NewPage
-                  refetchNoDisPred={refetchNoDisPred}
-                  refetchWaitingDriverCount={refetchWaitingDriverCount}
-                  refetchNewPred={refetchNewPred}
-                  t={t}
-                  orderStatus={`no_dispatcher`}
-                />
-              </TabPanel>
+           
             </TabPanels>
           ) : (
             <TabPanels padding={`24px 0`}>

@@ -2,24 +2,18 @@ import authStore from "@/store/auth.store";
 import {
   useCreateFeedback,
   useCreateLogHistory,
-  useDeleteCargo,
   useGetExcelPost,
-  useGetNewPred,
   useGetNewPredData,
-  useGetNoteList,
   useGetNotification,
   useGetOffer,
   useGetOfferCount,
-  useGetUserCargo,
-  usePushNotificationMutation,
-  useUpdateNoDriver,
   useUpdateNoteData,
   useUpdateResponse,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useMediaQuery, useToast } from "@chakra-ui/react";
 import useDebounce2 from "@/hooks/useDebounce";
-import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
 
@@ -54,7 +48,7 @@ export const useMyLoadsMainProps = (locale) => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const pathname = usePathname();
-
+  const [notificationID,setNotificationId] = useState(``)
   const userId = authStore.userData.id;
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState("");
@@ -117,7 +111,10 @@ export const useMyLoadsMainProps = (locale) => {
   const { mutate: logHistory } = useCreateLogHistory({});
 
   useEffect(() => {
-    if (authStore.userData.role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || authStore.userData.role_id === "48871d27-7361-4f69-8fe4-b54daf270739") {
+    if (
+      authStore.userData.role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` ||
+      authStore.userData.role_id === "48871d27-7361-4f69-8fe4-b54daf270739"
+    ) {
       logHistory({
         data: {
           users_id: authStore.userData.guid,
@@ -127,9 +124,6 @@ export const useMyLoadsMainProps = (locale) => {
       });
     }
   }, []);
-
-
-
 
   const handleCheckboxChange = (key) => {
     setComments(
@@ -271,12 +265,16 @@ export const useMyLoadsMainProps = (locale) => {
   );
 
   const notificationFn = (res) => {
-    mutate({
-      data: {
-        views: true,
-        guid: res?.response?.[0]?.guid,
-      },
-    });
+    if (res?.response?.[0]?.users_id_2) {
+      mutate({
+        data: {
+          views: true,
+          guid: res?.response?.[0]?.guid,
+        },
+      });
+    } else{
+      setNotificationId(res?.response?.[0]?.guid)
+    }
 
     Notification.requestPermission();
     if (res?.response?.[0]?.type === "предложение") {
@@ -365,10 +363,6 @@ export const useMyLoadsMainProps = (locale) => {
     });
   };
 
-
-
-
-
   const hanleAdress = (location, name) => {
     setValue(name, `${location?.GeoObject?.name}`);
     setResults([]);
@@ -407,7 +401,6 @@ export const useMyLoadsMainProps = (locale) => {
     );
   }
 
-  
   const ref = useRef(null);
 
   const setDebouncedLimit = useDebounce2(setLimit, 450);
@@ -469,6 +462,7 @@ export const useMyLoadsMainProps = (locale) => {
     refetchNewPred,
     refetchNoDisPred,
     refetchWaitingDriverCount: getWaitingDriverCount?.refetch(),
-    orderStatus
+    orderStatus,
+    setNotificationId,notificationID
   };
 };

@@ -833,7 +833,7 @@ export const useMyCarsDispatcher = () => {
         object_data: {
           type: "dispatcher",
           positive: false,
-          ids: removeData?.map((item) => item?.guid),
+          ids: removeData?.map((item) => item?.dis_dr_data?.guid),
         },
       },
     };

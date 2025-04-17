@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  Heading,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,10 +19,14 @@ import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalP
 import { IconCeckNewStatusIcon } from "@/assets/icons/icons";
 import { Empty } from "../Empty";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { CheckboxComment } from "../CheckboxComment";
+import { CustomTextarea } from "@/components/CustomTextarea";
 
 export const NewPage = ({
   orderStatus,
   t,
+  setNotificationId,
+  notificationID,
   refetchNewPred,
   refetchNoDisPred,
   refetchWaitingDriverCount,
@@ -40,12 +45,24 @@ export const NewPage = ({
     disabledBtn,
     isOpen,
     onOpen,
+    canCelIsOpen,
+    canCelOnClose,
+    canCelOnOpen,
+    handleCancelButton,
+    comment,
+    comments,
+    setComments,
+    handleCheckboxChange,
+    watch,
+    register,
   } = useNewPageProps(
     orderStatus,
     t,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount
+    refetchWaitingDriverCount,
+    setNotificationId,
+    notificationID
   );
 
   return (
@@ -151,11 +168,72 @@ export const NewPage = ({
               onClick={(e) => {
                 e.stopPropagation();
                 handleAccept(dataPred?.guid, dataPred?.users_id_2);
-                onClose()
+                onClose();
               }}
               className={cls.bntNew}
             >
               {t(`Да, принять`)}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        size={`2xl`}
+        isOpen={canCelIsOpen}
+        onClose={canCelOnClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Укажите причину отмены</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody>
+            <Box mt={`10px`}>
+              <Flex flexDirection={`column`}>
+                {comment.map((item) => {
+                  return (
+                    <CheckboxComment
+                      type="radio"
+                      defaultChecked={comments?.[0] === item.key}
+                      onChange={() => handleCheckboxChange(item.key)}
+                      key={item.key}
+                    >
+                      {item.label}
+                    </CheckboxComment>
+                  );
+                })}
+              </Flex>
+            </Box>
+            {comments?.[0] === `own_version` && (
+              <Box mt={`24px`}>
+                <Heading fontSize={`18px`} lineHeight={`30px`} fontWeight={400}>
+                  Комментарий
+                </Heading>
+                <CustomTextarea
+                  textLimit={200}
+                  watch={watch}
+                  register={register}
+                  name={`comment`}
+                  placeholder="Введите текст"
+                />
+              </Box>
+            )}
+          </ModalBody>
+          <ModalFooter gap={`10px`} className={cls.modalFooter} mt="0px">
+            <Button
+              isLoading={disabledBtn}
+              isDisabled={
+                watch(`comment`) ? false : comments.length === 0 ? true : false
+              }
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelButton();
+                canCelOnClose();
+              }}
+            >
+              {t(`Отменить предложение`)}
             </Button>
           </ModalFooter>
         </ModalContent>

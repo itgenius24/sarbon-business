@@ -4,32 +4,73 @@ import {
   useGetNewPredData2,
   usePushNotificationMutation,
   useUpdateNoDriver,
+  useUpdateNoteData,
   useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import { Boogaloo } from "next/font/google";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const useNewPageProps = (
   orderStatus,
   t,
   refetchNewPred,
   refetchNoDisPred,
-  refetchWaitingDriverCount
+  refetchWaitingDriverCount,
+  setNotificationId,
+  notificationID
 ) => {
   const toast = useToast();
   const params = useSearchParams();
   const guid = params.get(`guid`) || 0;
   const userId = authStore.userData.id;
   const [disabled, setDisabled] = useState(false);
+  const [comments, setComments] = useState([]);
+  const {watch,register} = useForm()
   const [dataPred, setDataPred] = useState(``);
+  const [cancelData, setCancelData] = useState({});
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: canCelIsOpen,
+    onClose: canCelOnClose,
+    onOpen: canCelOnOpen,
+  } = useDisclosure();
   const obj = {
     after_payment: t(`Оплата после завершения`),
     prepayment: t(`Предоплата`),
   };
+
+  const { mutate } = useUpdateNoteData({
+    onSuccess: () => {
+      setNotificationId(``);
+    },
+  });
+
+  const comment = [
+    {
+      label: "Груз уже закрыт",
+      key: "cargo_closed",
+    },
+    {
+      label: "Предложенная цена нас не устраивает",
+      key: "price_not_yet",
+    },
+    {
+      label: "Погрузка аник эмас",
+      key: "loading_unclear",
+    },
+    {
+      label: "Ваша машина не подходит по габаритам груза",
+      key: "truck_not_fit",
+    },
+    {
+      label: "Свой вариант",
+      key: "own_version",
+    },
+  ];
 
   const {
     data: newData,
@@ -59,6 +100,15 @@ const useNewPageProps = (
     refetchOnWindowFocus: false,
   });
 
+  const handleCheckboxChange = (key) => {
+    setComments(
+      (prev) =>
+        prev.includes(key)
+          ? prev.filter((item) => item !== key) // Agar tanlangan bo'lsa olib tashlash
+          : [key] // Aks holda qo'shish
+    );
+  };
+
   const pushNotification = usePushNotificationMutation({
     onSuccess: () => {
       refetch();
@@ -80,6 +130,7 @@ const useNewPageProps = (
       refetchNoDisPred();
       refetchWaitingDriverCount();
       onClose();
+      canCelIsOpen()
     },
     onError(res) {
       console.error(res);
@@ -89,6 +140,14 @@ const useNewPageProps = (
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   function handleAccept(id, driverId) {
+    if (orderStatus === `no_dispatcher` && notificationID) {
+      mutate({
+        data: {
+          views: true,
+          guid: notificationID,
+        },
+      });
+    }
     pushNotification.mutate({
       data: {
         object_data: {
@@ -133,7 +192,7 @@ const useNewPageProps = (
             role_slug: `top_dispatcher`,
             action_comment: `accept_order`,
             role_id: authStore.userData?.role_id,
-            action_type:[`update`],
+            action_type: [`update`],
           },
         });
       } else if (
@@ -149,7 +208,7 @@ const useNewPageProps = (
             role_slug: `first_dispatcher`,
             action_comment: `accept_order`,
             role_id: authStore.userData?.role_id,
-            action_type:[`update`],
+            action_type: [`update`],
           },
         });
       }
@@ -198,112 +257,137 @@ const useNewPageProps = (
   }
 
   function handleCancel(cargo) {
+    setCancelData(cargo);
+    canCelOnOpen();
+  }
+
+  const handleCancelButton = () => {
+    if (orderStatus === `no_dispatcher` && notificationID) {
+      mutate({
+        data: {
+          views: true,
+          guid: notificationID,
+        },
+      });
+    }
     updateResponseMutation.mutate(
       {
         data: {
-          guid: cargo?.guid,
+          guid: cancelData?.guid,
           provisions: ["cancellation"],
           who_cancellation: ["customer"],
           cancel_time: new Date(),
+          cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
+          reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
         },
       },
-      {
-        onSuccess() {
-          onClose()
-          if (orderStatus === `new`) {
-            if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
-              actionCreate({
-                data: {
-                  user_name: authStore.userData.full_name,
-                  phone_number: authStore.userData?.phone,
-                  user_id: authStore.userData.guid,
-                  increment_id: cargo?.cargo_id_data?.number_of_order,
-                  action_time: new Date(),
-                  role_slug: `top_dispatcher`,
-                  action_comment: `cancel_order`,
-                  role_id: authStore.userData?.role_id,
-                  action_type:[`update`],
-                },
-              });
-            } else if (
-              authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
-            ) {
-              actionCreate({
-                data: {
-                  user_name: authStore.userData.full_name,
-                  phone_number: authStore.userData?.phone,
-                  user_id: authStore.userData.guid,
-                  increment_id: cargo?.cargo_id_data?.number_of_order,
-                  action_time: new Date(),
-                  role_slug: `first_dispatcher`,
-                  action_comment: `cancel_order`,
-                  role_id: authStore.userData?.role_id,
-                  action_type:[`update`],
-                },
-              });
-            }
-          }
-          if (orderStatus === `no_dispatcher`) {
-            if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
-              actionCreate({
-                data: {
-                  user_name: authStore.userData.full_name,
-                  phone_number: authStore.userData?.phone,
-                  user_id: authStore.userData.guid,
-                  increment_id: cargo?.cargo_id_data?.number_of_order,
-                  action_time: new Date(),
-                  role_slug: `top_dispatcher`,
-                  action_comment: `cancel_order_free_driver`,
-                  role_id: authStore.userData?.role_id,
-                  action_type:[`update`],
-                },
-              });
-            } else if (
-              authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
-            ) {
-              actionCreate({
-                data: {
-                  user_name: authStore.userData.full_name,
-                  phone_number: authStore.userData?.phone,
-                  user_id: authStore.userData.guid,
-                  increment_id: cargo?.cargo_id_data?.number_of_order,
-                  action_time: new Date(),
-                  role_slug: `first_dispatcher`,
-                  action_comment: `cancel_order_free_driver`,
-                  role_id: authStore.userData?.role_id,
-                  action_type:[`update`],
-                },
-              });
-            }
-          }
-          toast({
-            position: "top-right",
-            title: "Груз отказан",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        },
-      }
     );
+
+    onClose();
+    if (orderStatus === `new`) {
+      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: cancelData?.cargo_id_data?.number_of_order,
+            action_time: new Date(),
+            role_slug: `top_dispatcher`,
+            action_comment: `cancel_order`,
+            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
+            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+          },
+        });
+      } else if (
+        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: cancelData?.cargo_id_data?.number_of_order,
+            action_time: new Date(),
+            role_slug: `first_dispatcher`,
+            action_comment: `cancel_order`,
+            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
+            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+          },
+        });
+      }
+    }
+    if (orderStatus === `no_dispatcher`) {
+      if (authStore.userData.dispatcher_type?.[0] === `top_dispatcher`) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: cancelData?.cargo_id_data?.number_of_order,
+            action_time: new Date(),
+            role_slug: `top_dispatcher`,
+            action_comment: `cancel_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
+            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+          },
+        });
+      } else if (
+        authStore.userData.dispatcher_type?.[0] === `first_dispatcher`
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: cancelData?.cargo_id_data?.number_of_order,
+            action_time: new Date(),
+            role_slug: `first_dispatcher`,
+            action_comment: `cancel_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],  
+            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
+            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+          },
+        });
+      }
+    }
+    toast({
+      position: "top-right",
+      title: "Груз отказан",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+
+    setComments([])
+    canCelOnClose()
 
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
         data: {
-          users_id: cargo?.users_id,
+          users_id: cancelData?.users_id,
           users_id_2: authStore.userData.guid,
           firm_id: authStore.userData.firm_id || ``,
         },
       });
     }
-  }
+  };
 
   return {
     newData: newData || [],
     isLoading: isFetching,
+    comments, setComments,
     setDataPred,
     handleAccept,
     handleCancel,
+    handleCancelButton,
     dataPred,
     onClose,
     disabled,
@@ -312,6 +396,10 @@ const useNewPageProps = (
     obj,
     onOpen,
     isOpen,
+    canCelIsOpen,
+    canCelOnClose,
+    canCelOnOpen,
+    comment,handleCheckboxChange,watch,register
   };
 };
 

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { useEffect, useMemo, useRef, useState } from "react";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   useCreateActionHistoriesMutation,
   useCreateAddressMutation,
@@ -23,7 +23,6 @@ import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
-
 
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const searchParams = useSearchParams();
@@ -336,7 +335,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   });
 
   const deleteCargo = useDeleteCargo({
-
     onSuccess() {
       toast({
         position: "top-right",
@@ -471,7 +469,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       }
     });
 
-
     createAddress.mutate(
       {
         data: {
@@ -517,12 +514,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
-        const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
   const updateCargo = useUpdateCargo({
-    
     onSuccess(data) {
-    
       let loadingsData = watch(`loadings`).map((item, index) => ({
         address: item?.address,
         date: new Date(item.from_date),
@@ -588,14 +583,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           user_name: authStore.userData.full_name,
           phone_number: authStore.userData?.phone,
           user_id: authStore.userData.guid,
-          increment_id:watch(`number_of_order`),
+          increment_id: watch(`number_of_order`),
           action_time: new Date(),
           role_slug: `customer`,
           action_comment: `delete_cargo`,
           role_id: authStore.userData?.role_id,
           action_type: [`update`],
         },
-      }); 
+      });
       toast({
         title: t("Шаблон успешно удален"),
         status: "success",
@@ -683,7 +678,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     };
 
     updateCargo.mutate({ data });
-    
   };
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
@@ -780,15 +774,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           user_name: authStore.userData.full_name,
           phone_number: authStore.userData?.phone,
           user_id: authStore.userData.guid,
-          increment_id:watch(`number_of_order`),
+          increment_id: watch(`number_of_order`),
           action_time: new Date(),
           role_slug: `customer`,
           action_comment: `edit_cargo`,
           role_id: authStore.userData?.role_id,
           action_type: [`update`],
         },
-      }); 
-
+      });
     } else {
       if (data.isTemp) {
         requestData.data.cargo_type = ["template"];
@@ -806,8 +799,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       });
     }
   }
-
-
 
   function onCancelClick() {
     getOfferCargoById.refetch();
@@ -957,8 +948,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         file_4: data.file_4,
         file_5: data.file_5,
         cargo_type: {
-          value:  data?.cargo_type_id ? data?.cargo_type_id :  data.cargo_type_id_data?.guid,
-          label:  data?.product_type ? data?.product_type : data.cargo_type_id_data?.name,
+          value: data?.cargo_type_id
+            ? data?.cargo_type_id
+            : data.cargo_type_id_data?.guid,
+          label: data?.product_type
+            ? data?.product_type
+            : data.cargo_type_id_data?.name,
         },
         cargo_type_search: data.cargo_type_id_data?.name,
         weight_measurement: data.weight,
@@ -975,8 +970,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         packaging_quantity: data.package_quantity,
         gps_monitoring: data.gps_monitoring,
         car_type: {
-          value: data?.vehicle_type_id ? data?.vehicle_type_id : data.vehicle_type_id_data?.guid,
-          label: data?.car_type ? data?.car_type : data.vehicle_type_id_data?.name,
+          value: data?.vehicle_type_id
+            ? data?.vehicle_type_id
+            : data.vehicle_type_id_data?.guid,
+          label: data?.car_type
+            ? data?.car_type
+            : data.vehicle_type_id_data?.name,
         },
         order_status:
           data.order_status?.[0] === `in_active`
@@ -1054,21 +1053,27 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         },
         money_code: data?.money_code,
         notification: data.notification ? data.notification : false,
-        country_code_from: data?.country_code_from ? data?.country_code_from : ``,
+        country_code_from: data?.country_code_from
+          ? data?.country_code_from
+          : ``,
         country_code_to: data?.country_code_to ? data?.country_code_to : ``,
         lat: data?.lat * 1,
-        long: data?.long* 1,
-        gradusFrom:data?.gradusFrom,
-        gradusTo:data?.gradusTo,
-        number_of_order:data?.number_of_order,
-        belt:data?.belt
-
+        long: data?.long * 1,
+        gradusFrom: data?.gradusFrom,
+        gradusTo: data?.gradusTo,
+        number_of_order: data?.number_of_order,
+        belt: data?.belt,
+        combined_cargo: data?.combined_cargo ? data?.combined_cargo : false,
       });
 
       setValue(`cargo_type`, {
-        value:  data?.cargo_type_id ? data?.cargo_type_id :  data.cargo_type_id_data?.guid,
-        label:  data?.product_type ? data?.product_type : data.cargo_type_id_data?.name,
-      })
+        value: data?.cargo_type_id
+          ? data?.cargo_type_id
+          : data.cargo_type_id_data?.guid,
+        label: data?.product_type
+          ? data?.product_type
+          : data.cargo_type_id_data?.name,
+      });
     }
   }
 
@@ -1339,7 +1344,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     loadings: watch(`loadings`),
     updateStatus,
     unloading: watch(`unloading`),
-     editModal,
-     setEditModal
+    editModal,
+    setEditModal,
   };
 };

@@ -71,8 +71,13 @@
     display: none;
   }
   .inputWrap {
+    @media (max-width: 970px) {
+      flex-wrap: wrap;
+    }
     @media (max-width: 600px) {
       flex-direction: column;
+      flex-wrap: nowrap;
+
     }
   }
   .plusWrap {

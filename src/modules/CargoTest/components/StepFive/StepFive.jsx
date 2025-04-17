@@ -58,7 +58,7 @@ const StepFive = ({ status }) => {
     load,
     mone,
     check,
-    setEditModal
+    setEditModal,
   } = useAddCargoContext();
 
   const { value: userData } = useGetStoreData(authStore, "userData");
@@ -70,7 +70,7 @@ const StepFive = ({ status }) => {
   const router = useRouter();
   const locale = useGetLang();
   const user_type = authStore?.userData?.user_status;
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const firm_id = authStore.userData.firm_id;
   const getTrueKeys = (obj) => {
@@ -137,7 +137,7 @@ const StepFive = ({ status }) => {
     referencePoints: [...getLoadings, ...getUnloading],
   });
 
-  console.log(`country_code_from`,watch(`country_code_from`))
+  console.log(`country_code_from`, watch(`country_code_from`));
 
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {
@@ -226,7 +226,7 @@ const StepFive = ({ status }) => {
         width: watch(`width`),
         height: +watch(`height`),
         photo: watch(`image`),
-        payment_type: check ? undefined :  watch("payment_type")?.label,
+        payment_type: check ? undefined : watch("payment_type")?.label,
         order_status: watch(`loadResId`)
           ? [watch(`order_status`)?.value]
           : ["in_moderation"],
@@ -289,7 +289,10 @@ const StepFive = ({ status }) => {
         as_soon_as_b: watch(`as_soon_as_b`),
         country_from: watch(`country_from`),
         country_to: watch(`country_to`),
-        belt:+watch(`belt`)
+        belt: +watch(`belt`),
+        combined_cargo: watch(`combined_cargo`)
+          ? watch(`combined_cargo`)
+          : false,
       },
     };
     if (user_type?.[0] === `approved`) {
@@ -333,7 +336,7 @@ const StepFive = ({ status }) => {
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
         distance: distance?.distance,
-        payment_type: check ? undefined :  watch("payment_type")?.label,
+        payment_type: check ? undefined : watch("payment_type")?.label,
         firm_id,
         //  step3
 
@@ -394,7 +397,10 @@ const StepFive = ({ status }) => {
         as_soon_as_b: watch(`as_soon_as_b`),
         country_from: watch(`country_from`),
         country_to: watch(`country_to`),
-        belt:+watch(`belt`)
+        belt: +watch(`belt`),
+        combined_cargo: watch(`combined_cargo`)
+          ? watch(`combined_cargo`)
+          : false,
       },
     };
     if (user_type?.[0] === `approved`) {
@@ -446,8 +452,7 @@ const StepFive = ({ status }) => {
           </Box>
           <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
-                      onClick={() => !canEdit ? setEditModal(true) :null}
-
+              onClick={() => (!canEdit ? setEditModal(true) : null)}
               disabled={!canEdit}
               additionalItemPosition="left"
               additionalItemTheme="light"
@@ -479,7 +484,11 @@ const StepFive = ({ status }) => {
               )}
             </p>
           </Box>
-          <Box onClick={() => !canEdit ? setEditModal(true): null} className={cls.itemSubWrap} width={"50%"}>
+          <Box
+            onClick={() => (!canEdit ? setEditModal(true) : null)}
+            className={cls.itemSubWrap}
+            width={"50%"}
+          >
             <CustomTextarea
               disabled={!canEdit}
               name={"note"}

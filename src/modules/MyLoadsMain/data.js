@@ -1,9 +1,14 @@
 
 export const filterTabsDis = [
   {
+    label: "Предложение без диспетчера",
+    value: "no_dispatcher",
+  },
+  {
     label: "Предложение",
     value: "new",
   },
+
   {
     label: "Ждём водителя",
     value: "approve_from_driver",
@@ -20,10 +25,7 @@ export const filterTabsDis = [
     label: "Завершение",
     value: "archive",
   },
-  {
-    label: "Предложение без диспетчера",
-    value: "no_dispatcher",
-  },
+ 
 ];
 export const filterTabstopDis = [
   {

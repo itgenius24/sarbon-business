@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import cls from "./style.module.scss";
-import { Box, Button, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Text,
+  Tooltip,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import {
   CloseStepIcon,
   DeleteIcon,
@@ -8,6 +16,7 @@ import {
   LoadStepIcon,
   NextArrowIcon,
   PlusIcon,
+  QuestionIcon,
   UploadCloudBlueIcon,
   UploadCloudIcon,
 } from "@/assets/icons/icons";
@@ -17,6 +26,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import Image from "next/image";
+import { Checkbox } from "@/components/Checkbox";
 
 const StepOne = ({ status }) => {
   const {
@@ -42,7 +52,7 @@ const StepOne = ({ status }) => {
     onSubmit,
     handleResetForm,
     editModal,
-    setEditModal
+    setEditModal,
   } = useStepOneProps();
 
   const locale = useGetLang();
@@ -64,11 +74,16 @@ const StepOne = ({ status }) => {
               <p className={cls.stepTitle}>{t(`Ваш груз`)}</p>
             </Flex>
 
-            <Flex className={cls.inputWrap} gap={"24px"} mt={"10px"}>
-              <Box width={`100%`}>
+            <Flex
+              alignItems={`center`}
+              className={cls.inputWrap}
+              gap={"24px"}
+              mt={"10px"}
+            >
+              <Box width={isLargerThan845 ? `150%` : `100%`}>
                 <p className={cls.textFieldName}></p>
                 <Dropdown
-                   handleDisabled={() => setEditModal(true)}
+                  handleDisabled={() => setEditModal(true)}
                   control={control}
                   required
                   register={register}
@@ -137,8 +152,8 @@ const StepOne = ({ status }) => {
                 <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
                   <Box>
                     <TextFieldWithAddition
-                  //  handleDisabled={() => setEditModal(true)}
-                      onClick={() => !canEdit ? setEditModal(true) :null}
+                      //  handleDisabled={() => setEditModal(true)}
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -185,8 +200,7 @@ const StepOne = ({ status }) => {
                     {/* <p className={cls.textFieldName}></p> */}
                     <TextFieldWithAddition
                       className={cls.textField2}
-                      onClick={() => !canEdit ? setEditModal(true) :null}
-
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       errors={errors}
                       control={control}
                       name="volume_measurement"
@@ -226,6 +240,19 @@ const StepOne = ({ status }) => {
                     )}
                   </Box>
                 </Flex>
+              </Box>
+              <Box width={`100%`}>
+                <Checkbox
+                  defaultChecked={watch(`combined_cargo`)}
+                  name="combined_cargo"
+                  register={register}
+                >
+                  <Flex gap={1} alignItems={`center`}>
+                    <Text fontSize="14px" maxWidth="396px" width="100%">
+                      {t("Cборный груз")}
+                    </Text>
+                  </Flex>
+                </Checkbox>
               </Box>
             </Flex>
 

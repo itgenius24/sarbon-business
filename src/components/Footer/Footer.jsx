@@ -157,11 +157,12 @@ export const Footer = () => {
                   <a
                     style={{ cursor: `pointer` }}
                     className={cls.mobileAppLink}
-                    href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
+                    download
+                    href="https://bit.ly/sarbonapp"
                     target="_blank"
                   >
                     <Image
-                      src={GooglePlay}
+                      src={AndroidPlay}
                       alt="Google play"
                       width={135}
                       height={40}
