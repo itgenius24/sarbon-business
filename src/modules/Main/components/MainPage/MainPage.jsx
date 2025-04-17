@@ -12,6 +12,7 @@ import slider32 from "../../../../assets/images/slider3.2.png";
 import Image from "next/image";
 import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
+import AndroidPlay from "@/assets/images/android_apk.svg";
 import card1Img from "@/assets/images/card1.jpg";
 import card2Img from "@/assets/images/card2.jpg";
 import card3Img from "@/assets/images/card3.jpg";
@@ -257,11 +258,11 @@ const MainPage = ({locale}) => {
                       <a
                         style={{ cursor: `pointer` }}
                         className={cls.mobileAppLink}
-                        href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
+                        href="https://bit.ly/sarbonapp"
                         target="_blank"
                       >
                         <Image
-                          src={GooglePlay}
+                          src={AndroidPlay}
                           alt="Google play"
                           width={135}
                           height={40}
