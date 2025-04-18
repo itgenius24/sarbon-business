@@ -249,7 +249,7 @@ const StepOne = ({ status }) => {
                 >
                   <Flex gap={1} alignItems={`center`}>
                     <Text fontSize="14px" maxWidth="396px" width="100%">
-                      {t("Cборный груз")}
+                      {t("Сборный груз (LTL)")}
                     </Text>
                   </Flex>
                 </Checkbox>

@@ -1,4 +1,9 @@
-import { useGetActionUser, useGetRole, useGetUserPost } from "@/services/api";
+import {
+  useGetActionUser,
+  useGetNewPredData,
+  useGetRole,
+  useGetUserPost,
+} from "@/services/api";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,26 +37,37 @@ export const useProps = () => {
     copy(text);
   };
 
-  const { data: actionData, isFetching } = useGetActionUser({
-    params: {
-      limit: 100,
-      offset: offset,
-      data: JSON.stringify({
-        role_id: watch(`role`)?.value,
-        user_id: watch(`user`)?.value,
-        role_slug: watch(`role`)?.role_slug,
-
-        action_time: {
-          $gte: formatDate(startDate, 0, 0, 0),
-          $lt: formatDate(endDate, 23, 59, 59),
+  const { data: actionData, isFetching } = useGetNewPredData({
+    data: {
+      data: {
+        object_data: {
+          type: "log_history",
+          role_slug: watch(`role`)?.role_slug || ``,
+          start_time: formatDate(startDate, 0, 0, 0),
+          end_time:formatDate(endDate, 23, 59, 59),
+          user_id: watch(`user`)?.value
         },
-      }),
+      },
     },
+    // params: {
+    //   limit: 100,
+    //   offset: offset,
+    //   data: JSON.stringify({
+    //     role_id: watch(`role`)?.value,
+    //     user_id: watch(`user`)?.value,
+    //     role_slug: watch(`role`)?.role_slug,
+
+    //     action_time: {
+    //       $gte: formatDate(startDate, 0, 0, 0),
+    //       $lt: formatDate(endDate, 23, 59, 59),
+    //     },
+    //   }),
+    // },
     querySettings: {
       select: (res) => {
         return res.response.filter(
           (item) =>
-            !item?.user_name?.toLocaleLowerCase()?.includes(`test`) && 
+            !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
             !item?.user_name?.includes(`CЕО`)
           // &&
           // item?.user_name &&  item?.role_slug !== `voditel`
@@ -72,10 +88,11 @@ export const useProps = () => {
         const data = res?.response?.filter(
           (item) =>
             item?.name?.trim() === `Диспетчер` ||
-            item?.name === `Заказчик` ||
-            item?.name === `Экспедитор` ||
+            // item?.name === `Заказчик` ||
+            // item?.name === `Экспедитор` ||
             item.name === "Водитель"
         );
+        console.log(`data`, data);
         const result = data?.map((item) => ({
           label: item?.name === `Экспедитор` ? `Перевозчик` : item.name,
           value: item.guid,
