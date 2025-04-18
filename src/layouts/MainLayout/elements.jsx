@@ -92,10 +92,10 @@ export const useElements = (lang) => {
         path: `/${lang || "ru"}/dashboard-dispatcher-top`,
         label: "Dashboard",
       },
-      {
-        path: `/${lang || "ru"}/active-user-dis-top`,
-        label: "Журнал активности",
-      },
+      // {
+      //   path: `/${lang || "ru"}/active-user-dis-top`,
+      //   label: "Журнал активности",
+      // },
       {
         path: isAuth ? `/${lang || "ru"}/dispatcher` : `/${lang || "ru"}/auth`,
         label: "Диспетчеры",
