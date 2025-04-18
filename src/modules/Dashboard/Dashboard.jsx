@@ -251,6 +251,7 @@ const Dashboard = ({ locale }) => {
           >
             {filterDataLoadin && <SimpleLoader />}
             <Tabs
+            isLazy
               onChange={(el) => {
                 setStatus(el), setCurrentPage(1);
                 setData({});
@@ -377,7 +378,7 @@ const Dashboard = ({ locale }) => {
                   />
                 </TabPanel>
                 <TabPanel>
-                   <ApkdowloadList />
+                   <ApkdowloadList  />
                 </TabPanel>
               </TabPanels>
             </Tabs>

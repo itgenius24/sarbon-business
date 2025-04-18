@@ -12,11 +12,12 @@ import { Box, Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useCreateApkDownloadMutation } from "@/services/api";
+import { useCreateApkDownloadMutation, useGetCountApk } from "@/services/api";
+import authStore from "@/store/auth.store";
 
 export const Footer = () => {
   const locale = useGetLang();
-
+  const role_id = authStore.userData.role_id
   const pathname = usePathname();
 
   const { t } = useTranslation(locale, "translations");
@@ -67,6 +68,14 @@ export const Footer = () => {
       }
     });
   };
+
+    const { data:apkCount, refetch } = useGetCountApk({
+      params: {
+        data: JSON.stringify({
+        }),
+      },
+    });
+
 
   const downloadByLanguage = async (langId) => {
     try {
@@ -185,6 +194,11 @@ export const Footer = () => {
                     />
                   </a>
                 </li>
+              {
+                role_id ===  "527d2017-2dc2-4449-9eeb-08fc1aafa469" && <li className={cls.mobileAppItem}>
+                   Загрузок: {apkCount?.response?.length || 0}
+                </li>
+              }
                 {/* <li className={cls.mobileAppItem}>
                 <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image
