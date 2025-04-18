@@ -631,8 +631,8 @@ const Cmap = memo(
                     }}
                     key={item?.guid}
                     geometry={[
-                      item.location_name.split(" ")[0],
-                      item.location_name.split(" ")[1],
+                      item.location_name.split(" ")[0] * 1 + index * 0.00001,
+                      item.location_name.split(" ")[1] * 1 + index * 0.00001,
                     ]}
                     properties={{
                       balloonContent: balloonContentCargo,
