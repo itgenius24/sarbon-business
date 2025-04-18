@@ -73,6 +73,7 @@ export default function GpsTrackingDispatcher() {
     setLocationData,
     refueling,
     locationPending,
+    isBalloonOpened, setIsBalloonOpened,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -96,6 +97,8 @@ export default function GpsTrackingDispatcher() {
             isLoading={isLoading}
             setContendSingle={setContendSingle}
             contendHoverState={contendHoverState}
+            isBalloonOpened={isBalloonOpened}
+            setIsBalloonOpened={setIsBalloonOpened}
           />
         ) : (
           <Cmap
@@ -110,6 +113,8 @@ export default function GpsTrackingDispatcher() {
             isLoading={isLoading}
             setContendSingle={setContendSingle}
             contendHoverState={contendHoverState}
+            isBalloonOpened={isBalloonOpened}
+            setIsBalloonOpened={setIsBalloonOpened}
           />
         )}
 

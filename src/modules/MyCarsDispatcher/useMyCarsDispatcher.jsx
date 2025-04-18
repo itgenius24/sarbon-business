@@ -4,9 +4,7 @@ import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
   useDeletedeleteDispacersDriver,
-  useGetCar,
   useGetCarData,
-  useGetNotification,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
@@ -15,16 +13,12 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import { useForm } from "react-hook-form";
 import { useDebounce as useDebounce2 } from "use-debounce";
-import useDebounce from "@/hooks/useDebounce";
-import { isVisibleInViewport } from "@/utils/isVisibleInViewport";
 import {
   BadIcon,
   BatareyDisabledIcon,
   BatareyFullIcon,
   BatareyIcon,
-  BluetoothIcon2,
   CencelMapIcon,
-  CricleArrovIcon,
   FurDisabledIcon,
   FurIcon,
   GreenCarIcon,
@@ -33,7 +27,6 @@ import {
   IocnSortTop,
   LocationActiveIcon,
   LocationDisabledIcon,
-  LocationIcon,
   NotesIcon,
   PopupIcon,
   QuestionBlueIcon,
@@ -43,7 +36,6 @@ import cls from "./style.module.scss";
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   IconButton,
   Popover,
@@ -76,7 +68,6 @@ export const useMyCarsDispatcher = () => {
   const [search, setSearch] = useState(``);
   const [count, setCount] = useState(0);
   const [debouncedValue] = useDebounce2(search, 500);
-  const containerRef = useRef(null);
   const [iconStatus, setIconStatus] = useState(``);
   const [open, setOpen] = useState(false);
 
@@ -125,12 +116,7 @@ export const useMyCarsDispatcher = () => {
     });
   }, []);
 
-  const {
-    data: getCarData,
-    isLoading,
-    isFetching,
-    refetch,
-  } = useGetCarData({
+  const { data: getCarData, isFetching } = useGetCarData({
     data: {
       data: {
         object_data: {
@@ -197,7 +183,7 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  console.log(`data`,data)
+  console.log(`data`, data);
 
   const nameFilter = (val) => {
     if (val !== `all`) {
@@ -212,7 +198,6 @@ export const useMyCarsDispatcher = () => {
     } else {
       const nextData = oldData.slice(0, pageUi * 50);
       setVisibleData(nextData);
-
     }
   };
 
@@ -266,6 +251,16 @@ export const useMyCarsDispatcher = () => {
     );
   };
 
+  const navigateFn = (row) => {
+    console.log(`row`, row);
+    // router.push(
+    //   `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${row?.gps_data?.battery}&createdAt=${row?.gps_data?.createdAt}&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${row?.gps_data?.version}&provisions=${row?.provisions}`
+    // );
+    window.open(
+      `/${locale}/gps-tracking-dispatcher?guid=${row?.guid}&provisions=${row?.provisions}`
+    );
+  };
+
   const statusObjIcon = {
     bad: <BadIcon />,
     note: <NotesIcon />,
@@ -286,10 +281,16 @@ export const useMyCarsDispatcher = () => {
           width={`fit-content`}
           alignItems={`center`}
           gap={`10px`}
-        
         >
           <Box position={`relative`}>
-            <Avatar opacity={0.6}  width={`50px`} height={`50px`}  size="sm" src={row?.photo} name={row?.full_name} />
+            <Avatar
+              opacity={0.6}
+              width={`50px`}
+              height={`50px`}
+              size="sm"
+              src={row?.photo}
+              name={row?.full_name}
+            />
             {row?.reliabilitiy?.status && (
               <Box className={cls.status}>
                 {statusObjIcon[row?.reliabilitiy?.status?.[0]]}
@@ -318,11 +319,12 @@ export const useMyCarsDispatcher = () => {
         return row?.firm_data ? (
           <Flex alignItems={`center`} gap={`10px`}>
             <Avatar
-            opacity={0.6}
+              opacity={0.6}
               size="sm"
               src={row?.firm_data?.logo}
               name={row?.firm_data?.full_name}
-              width={`50px`} height={`50px`}
+              width={`50px`}
+              height={`50px`}
             />
             <Box>
               <p className={cls.title}>{row?.firm_data?.full_name}</p>
@@ -354,7 +356,7 @@ export const useMyCarsDispatcher = () => {
                 : row?.trailer_type_id_data?.name}
             </p>
 
-            <Flex  mt={`3px`} alignItems={`center`}> 
+            <Flex mt={`3px`} alignItems={`center`}>
               <p className={cls.subTitle1}>
                 <span style={{ marginRight: `9px` }} className={cls.subTitle}>
                   {row?.vehicle_data?.capacity}т / {row?.vehicle_data?.height}м3
@@ -430,20 +432,20 @@ export const useMyCarsDispatcher = () => {
       ),
       width: 400,
       render: (row, index) => {
-        const order = row?.order_data || row?.provisions?.[0] === `our_cargo`;    
+        const order = row?.order_data || row?.provisions?.[0] === `our_cargo`;
         return (
           <Flex>
             <Flex
               alignItems={`center`}
               background={
-                (order || row?.status === `Занята чужим грузом`)
+                order || row?.status === `Занята чужим грузом`
                   ? ` rgba(0, 122, 255, 0.08)`
                   : `rgba(229, 243, 235, 1)`
               }
               className={cls.locationWrap}
             >
               {order ? (
-                <Box  width={`27%`}>
+                <Box width={`27%`}>
                   <p className={cls.locationTitle}>{t(`Занята`)}: </p>
                   <p className={cls.subBlueTitle}>
                     {row?.order_data?.cargo_data?.number_of_order}
@@ -463,7 +465,11 @@ export const useMyCarsDispatcher = () => {
               {row?.gps_data ? (
                 <Flex width={`100%`} justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
-                    <Flex gap={`3px`} alignItems={`center`}>
+                    <Flex
+                      onClick={() => navigateFn(row)}
+                      gap={`3px`}
+                      alignItems={`center`}
+                    >
                       <LocationActiveIcon />
                       <Box>
                         <p className={cls.subTitle}>Геолокация</p>
@@ -607,7 +613,11 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const rowClassName = (row) => {
-    return (row?.order_data || row?.provisions?.[0] === `our_cargo` || row?.status === `Занята чужим грузом`) ? cls.bussy : cls.free;
+    return row?.order_data ||
+      row?.provisions?.[0] === `our_cargo` ||
+      row?.status === `Занята чужим грузом`
+      ? cls.bussy
+      : cls.free;
   };
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 

@@ -158,7 +158,7 @@ export const Footer = () => {
                     style={{ cursor: `pointer` }}
                     className={cls.mobileAppLink}
                     download
-                    href="https://bit.ly/sarbonapp"
+                    href="https://pub-ad3c9716f37e4196af319dc25ffb8404.r2.dev/Sarbon%20mobile%201.0.5%20%2812%29-release.apk"
                     target="_blank"
                   >
                     <Image

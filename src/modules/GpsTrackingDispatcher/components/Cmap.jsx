@@ -30,6 +30,7 @@ import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
 import { getSVGIcon } from "@/utils/getSVGIcon";
 import { BalloonContent } from "./BalloonContent";
+import { useSearchParams } from "next/navigation";
 
 const Cmap = memo(
   ({
@@ -37,18 +38,19 @@ const Cmap = memo(
     coordinates,
     cls,
     type,
-
     mapIcon,
     watch,
     setModalType,
-
     locationData,
     setLoadState,
-
+    isBalloonOpened,
+    setIsBalloonOpened,
     setContendSingle,
     contendHoverState,
   }) => {
     const [isClient, setIsClient] = useState(false);
+    const searchParams = useSearchParams();
+    const guid = searchParams.get(`guid`);
     const { t } = useTranslation();
     const [zoom, setZoom] = useState(5);
     const [points, setPoints] = useState([]);
@@ -61,10 +63,42 @@ const Cmap = memo(
     const [pointB, setPointB] = useState(null);
     const [selecting, setSelecting] = useState(false);
     const [types, setType] = useState(``);
+    const placemarkRefs = useRef({});
+
+    console.log(`isBalloonOpened`,isBalloonOpened)
 
     useEffect(() => {
       setIsClient(true);
     }, []);
+
+    useEffect(() => {
+      if (guid && getCarListProps?.data && mapRef.current && !isBalloonOpened) {
+        const timeout = setTimeout(() => {
+          openBalloonById(guid);
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+      }
+    }, [guid, getCarListProps?.data, mapRef.current]);
+
+    const openBalloonById = (id) => {
+      const placemark = placemarkRefs.current[id];
+
+      if (placemark) {
+        const coords = placemark.geometry.getCoordinates();
+        console.log(`coords`, placemark, coords, mapRef);
+
+        // Balloonni ochish
+        placemark.balloon.open();
+        setIsBalloonOpened(true)
+        // Mapni centerga o‘rnatish
+        if (mapRef.current) {
+          mapRef.current.setCenter(coords, 15, {
+            checkZoomRange: true,
+          });
+        }
+      }
+    };
 
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();
@@ -202,7 +236,6 @@ const Cmap = memo(
       ymapsRef.current = ymaps;
       drawRoute(pointA, pointB);
     };
-    console.log(`index`, types);
 
     const handleDragEnd = (e, index) => {
       const newCoords = e.get("target").geometry.getCoordinates();
@@ -365,7 +398,7 @@ const Cmap = memo(
           ]}
         />
 
-        {zoom >= 20 ? (
+        {zoom <= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const balloonContent2 = ReactDOMServer.renderToString(
@@ -380,6 +413,11 @@ const Cmap = memo(
                     carInfo?.users_gps?.[0]?.long,
                   ]}
                   properties={{ balloonContent: balloonContent2 }}
+                  instanceRef={(ref) => {
+                    if (ref) {
+                      placemarkRefs.current[carInfo?.user?.guid] = ref;
+                    }
+                  }}
                   options={{
                     iconLayout: "default#image",
                     iconImageHref:
@@ -446,6 +484,11 @@ const Cmap = memo(
                         carInfo?.users_gps?.[0]?.long,
                       ]}
                       properties={{ balloonContent: balloonContent2 }}
+                      instanceRef={(ref) => {
+                        if (ref) {
+                          placemarkRefs.current[carInfo?.user?.guid] = ref;
+                        }
+                      }}
                       options={{
                         iconLayout: "default#image",
                         iconImageHref:

@@ -80,7 +80,7 @@ const DriverQuestion = ({
             <Box>
               <p className={cls.smallText}>
                 Вкл:{" "}
-                {format(
+                { contendSingle?.users_gps?.[0]?.update_time && format(
                   new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
                   "yyyy-MM-dd, H:mm"
                 )}{" "}
@@ -158,7 +158,7 @@ const DriverQuestion = ({
                 {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
               <p className={cls.cardStartSubTitle}>
-                {format(
+                {  contendSingle?.users_gps?.[0]?.update_time && format(
                   contendSingle?.users_gps?.[0]?.update_time,
                   "yyyy-MM-dd"
                 )}

@@ -55,6 +55,7 @@ const CmapAZS = memo(
     setLoadState,
     setContendSingle,
     contendHoverState,
+  
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
