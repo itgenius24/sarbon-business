@@ -22,6 +22,7 @@ export const useProps = () => {
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
+  
   const formatDate = (date, hours, minutes, seconds) => {
     const newDate = new Date(date);
     newDate.setHours(hours, minutes, seconds, 0);
