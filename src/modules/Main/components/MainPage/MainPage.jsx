@@ -34,11 +34,12 @@ import { Animation, MotionSection } from "@/utils/animation";
 import { fadeinLeft } from "@/utils/animationSetting";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
+import { useCreateApkDownloadMutation } from "@/services/api";
 
-const MainPage = ({locale}) => {
+const MainPage = ({ locale }) => {
   let sliderRef = useRef(null);
-  const router = useRouter()
-  const token = authStore?.token?.access_token
+  const router = useRouter();
+  const token = authStore?.token?.access_token;
   var settings = {
     dots: true,
     // infinite: true,
@@ -97,6 +98,18 @@ const MainPage = ({locale}) => {
     },
   ];
 
+  const { mutate: apkData } = useCreateApkDownloadMutation({});
+
+  const downloadFn = () => {
+    apkData({
+      data: {
+        app_name: navigator.userAgent,
+        count: 1,
+        create_time: new Date(),
+      },
+    });
+  };
+
   const handleMouseMove = (e) => {
     if (!isHovered) return;
     const { clientX, clientY } = e;
@@ -123,10 +136,10 @@ const MainPage = ({locale}) => {
     <>
       <article>
         <Box className={cls.sliderWrap}>
-          <Box as="button" onClick={() => previous() } className={cls.prev}>
+          <Box as="button" onClick={() => previous()} className={cls.prev}>
             <PrevIconMain />
           </Box>
-          <Box as="button"  onClick={() => next() } className={cls.next}>
+          <Box as="button" onClick={() => next()} className={cls.next}>
             <NextIconMain />
           </Box>
           <Slider
@@ -135,7 +148,7 @@ const MainPage = ({locale}) => {
             }}
             {...settings}
           >
-          <Box
+            <Box
               key={`2`}
               className={`${cls.sliderCardWrap} ${cls.sliderCardWrap2}`}
             >
@@ -147,7 +160,12 @@ const MainPage = ({locale}) => {
                       сервисов в Евразии
                     </h1>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
-                      <Button onClick={() => router.push(`/${locale}/about-us`)} width={`fit-content`}>Узнать больше</Button>
+                      <Button
+                        onClick={() => router.push(`/${locale}/about-us`)}
+                        width={`fit-content`}
+                      >
+                        Узнать больше
+                      </Button>
                     </Flex>
                   </Box>
                   <Box
@@ -176,7 +194,6 @@ const MainPage = ({locale}) => {
                       top={`50px`}
                       left={`20px`}
                       position={`absolute`}
-                      
                     >
                       <Image
                         width={500}
@@ -256,7 +273,9 @@ const MainPage = ({locale}) => {
                       </a>
 
                       <a
+                        onClick={() => downloadFn()}
                         style={{ cursor: `pointer` }}
+                        download
                         className={cls.mobileAppLink}
                         href="https://pub-ad3c9716f37e4196af319dc25ffb8404.r2.dev/Sarbon%20mobile%201.0.5%20%2812%29-release.apk"
                         target="_blank"
@@ -270,10 +289,19 @@ const MainPage = ({locale}) => {
                       </a>
                     </Flex>
                   </Box>
-                  <Box   onMouseMove={handleMouseMove}
+                  <Box
+                    onMouseMove={handleMouseMove}
                     onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave} position={`relative`} className={cls.cardRight}>
-                    <Box style={calculateOffset(0.009)} position={`relative`} top={`-30px`} zIndex={1}>
+                    onMouseLeave={handleMouseLeave}
+                    position={`relative`}
+                    className={cls.cardRight}
+                  >
+                    <Box
+                      style={calculateOffset(0.009)}
+                      position={`relative`}
+                      top={`-30px`}
+                      zIndex={1}
+                    >
                       <Image
                         width={450}
                         height={450}
@@ -281,7 +309,12 @@ const MainPage = ({locale}) => {
                         alt="sliderImg"
                       />
                     </Box>
-                    <Box style={calculateOffset(-0.009)} bottom={`50px`} left={`130px`} position={`absolute`}>
+                    <Box
+                      style={calculateOffset(-0.009)}
+                      bottom={`50px`}
+                      left={`130px`}
+                      position={`absolute`}
+                    >
                       <Image
                         width={450}
                         height={450}
@@ -293,7 +326,7 @@ const MainPage = ({locale}) => {
                 </Flex>
               </Container>
             </Box>
-            
+
             <Box key={`3`} className={cls.sliderCardWrap}>
               <Container maxWidth={`1320px`}>
                 <Flex className={cls.cardWrap}>
@@ -307,16 +340,24 @@ const MainPage = ({locale}) => {
                       отслеживайте их через GPS-трекинг.
                     </p>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
-                    <a  href="#scrollTitle">
-                    <Button width={`fit-content`}>Узнать больше</Button>
-
-                    </a>
+                      <a href="#scrollTitle">
+                        <Button width={`fit-content`}>Узнать больше</Button>
+                      </a>
                     </Flex>
                   </Box>
-                  <Box onMouseMove={handleMouseMove}
+                  <Box
+                    onMouseMove={handleMouseMove}
                     onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave} position={`relative`} className={cls.cardRight}>
-                    <Box style={calculateOffset(0.009)} position={`relative`} top={`-25px`} zIndex={1}>
+                    onMouseLeave={handleMouseLeave}
+                    position={`relative`}
+                    className={cls.cardRight}
+                  >
+                    <Box
+                      style={calculateOffset(0.009)}
+                      position={`relative`}
+                      top={`-25px`}
+                      zIndex={1}
+                    >
                       <Image
                         width={450}
                         height={450}
@@ -324,7 +365,12 @@ const MainPage = ({locale}) => {
                         alt="sliderImg"
                       />
                     </Box>
-                    <Box style={calculateOffset(-0.009)} bottom={`45px`} left={`130px`} position={`absolute`}>
+                    <Box
+                      style={calculateOffset(-0.009)}
+                      bottom={`45px`}
+                      left={`130px`}
+                      position={`absolute`}
+                    >
                       <Image
                         width={450}
                         height={450}
@@ -352,7 +398,11 @@ const MainPage = ({locale}) => {
                   {cards.map((item) => (
                     <Box key={item.id} className={cls.card}>
                       <Box className={cls.imgWrap}>
-                         <Image className={cls.image} src={item.img} alt={item.title} />
+                        <Image
+                          className={cls.image}
+                          src={item.img}
+                          alt={item.title}
+                        />
                       </Box>
                       <h3 className={cls.cartTitle}>{item.title}</h3>
                       <p className={cls.cartDeck}>{item.deck}</p>
@@ -391,7 +441,7 @@ const MainPage = ({locale}) => {
               </Box>
               <Flex position={`relative`} className={cls.rightContenCard}>
                 <Box>
-                <SecureIcon />
+                  <SecureIcon />
                 </Box>
                 <Box className={cls.textCard}>
                   <h5>Безопасность сделок </h5>
@@ -403,9 +453,9 @@ const MainPage = ({locale}) => {
               </Flex>
 
               <Flex className={cls.rightContenCard}>
-               <Box>
-                 <CashIcon />
-               </Box>
+                <Box>
+                  <CashIcon />
+                </Box>
                 <Box className={cls.textCard}>
                   <h5>Максимальная выгода </h5>
                   <p>Выбирайте лучшие заказы и снижайте пустые пробеги.</p>
@@ -413,9 +463,9 @@ const MainPage = ({locale}) => {
               </Flex>
 
               <Flex className={cls.rightContenCard}>
-               <Box>
-               <OperatorIocn />
-               </Box>
+                <Box>
+                  <OperatorIocn />
+                </Box>
                 <Box className={cls.textCard}>
                   <h5>Поддержка 24/7 </h5>
                   <p>
@@ -429,26 +479,34 @@ const MainPage = ({locale}) => {
         </Box>
       </article>
 
-      {
-        !token &&    <article className={cls.bottomPage}>
-        <Container maxWidth={`1320px`}>
-          <Flex className={cls.bottomPageFlex} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
-            <Box >
-              <p className={cls.titleBottom}>
-                Найдите груз для вашего транспорта
-              </p>
-              <p className={cls.deckBottom}>
-                Регистрируйтесь и получите доступ к базе актуальных грузов с
-                удобными фильтрами.
-              </p>
-            </Box>
-            <Button onClick={() => router.push(`/${locale}/auth/registration`)} className={cls.btnBottom}>Регистрация</Button>
-          </Flex>
-        </Container>
-      </article>
-      }
-
-    
+      {!token && (
+        <article className={cls.bottomPage}>
+          <Container maxWidth={`1320px`}>
+            <Flex
+              className={cls.bottomPageFlex}
+              alignItems={`center`}
+              justifyContent={`space-between`}
+              width={`100%`}
+            >
+              <Box>
+                <p className={cls.titleBottom}>
+                  Найдите груз для вашего транспорта
+                </p>
+                <p className={cls.deckBottom}>
+                  Регистрируйтесь и получите доступ к базе актуальных грузов с
+                  удобными фильтрами.
+                </p>
+              </Box>
+              <Button
+                onClick={() => router.push(`/${locale}/auth/registration`)}
+                className={cls.btnBottom}
+              >
+                Регистрация
+              </Button>
+            </Flex>
+          </Container>
+        </article>
+      )}
     </>
   );
 };

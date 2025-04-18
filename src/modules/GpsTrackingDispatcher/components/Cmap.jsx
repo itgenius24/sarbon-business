@@ -65,7 +65,6 @@ const Cmap = memo(
     const [types, setType] = useState(``);
     const placemarkRefs = useRef({});
 
-    console.log(`isBalloonOpened`,isBalloonOpened)
 
     useEffect(() => {
       setIsClient(true);
@@ -175,7 +174,6 @@ const Cmap = memo(
         multiRouteRef.current = null;
       }
 
-      console.log(`multiRouteRef.current`, multiRouteRef);
 
       if (multiRouteRef.current) {
         // Agar mavjud marshrut bo'lsa, uni xaritadan o'chirib tashlang
@@ -398,7 +396,7 @@ const Cmap = memo(
           ]}
         />
 
-        {zoom <= 20 ? (
+        {zoom >= 20 || guid ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const balloonContent2 = ReactDOMServer.renderToString(

@@ -22,6 +22,7 @@ const itemsService = {
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   createCargo: (data) => request.post("/v2/items/cargo", data),
   actionHistories: (data) => request.post("/v2/items/action_histories", data),
+  apkDownload: (data) => request.post("/v2/items/apk", data),
   createPeriod: (data) => request.post("/v2/items/period", data),
   updateResponse: (data) => request.put("/v2/items/order", data),
   updateNoDriver: (data) => request.post("/v2/items/dispatcher_drivers", data),
@@ -71,6 +72,8 @@ const itemsService = {
     request.get("/v2/object-slim/get-list/users", { params }),
   getActionUser: (params) =>
     request.get("/v2/object-slim/get-list/action_histories", { params }),
+  getCountApk: (params) =>
+    request.get("/v2/object-slim/get-list/apk", { params }),
   getRole: (params) =>
     request.get("/v2/object-slim/get-list/role", { params }),
   deleteOrder: (id) =>
@@ -166,6 +169,9 @@ export const useGetDriverPosition = ({
   });
 };
 
+
+
+
 export const useGetActionUser = ({
   params = { data: JSON.stringify({}) },
   querySettings,
@@ -173,6 +179,17 @@ export const useGetActionUser = ({
   return useQuery({
     queryKey: ["object/getActionUser", params],
     queryFn: () => itemsService.getActionUser(params),
+    ...querySettings,
+  });
+};
+
+export const useGetCountApk = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCountApk", params],
+    queryFn: () => itemsService.getCountApk(params),
     ...querySettings,
   });
 };
@@ -284,6 +301,16 @@ export const useCreateActionHistoriesMutation = (mutationSettings) => {
     ...mutationSettings,
   });
 };
+
+
+export const useCreateApkDownloadMutation = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.apkDownload(data),
+    ...mutationSettings,
+  });
+};
+
+
 
 export const useCreatePeriodMutation = (mutationSettings) => {
   return useMutation({

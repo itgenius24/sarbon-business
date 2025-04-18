@@ -466,6 +466,7 @@ export const useMyCarsDispatcher = () => {
                 <Flex width={`100%`} justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex
+                    cursor={`pointer`}
                       onClick={() => navigateFn(row)}
                       gap={`3px`}
                       alignItems={`center`}

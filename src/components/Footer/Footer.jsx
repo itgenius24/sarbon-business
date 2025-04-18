@@ -12,6 +12,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useCreateApkDownloadMutation } from "@/services/api";
 
 export const Footer = () => {
   const locale = useGetLang();
@@ -51,6 +52,20 @@ export const Footer = () => {
         link: `/${locale}/site-map`,
       },
     ],
+  };
+
+  const { mutate: apkData } = useCreateApkDownloadMutation({});
+
+
+
+  const downloadFn = () => {
+    apkData({
+      data: {
+        app_name: navigator.userAgent,
+        count: 1,
+        create_time:new Date()
+      }
+    });
   };
 
   const downloadByLanguage = async (langId) => {
@@ -155,6 +170,7 @@ export const Footer = () => {
                 </li>
                 <li className={cls.mobileAppItem}>
                   <a
+                    onClick={() => downloadFn()}
                     style={{ cursor: `pointer` }}
                     className={cls.mobileAppLink}
                     download
