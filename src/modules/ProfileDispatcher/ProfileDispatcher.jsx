@@ -39,7 +39,7 @@ const ProfileDispatcher = ({ locale }) => {
     date,
     setDateType,
     dateType,
-    data
+    data,
   } = useProfileDis();
 
   return (
@@ -71,7 +71,9 @@ const ProfileDispatcher = ({ locale }) => {
           <Box>
             <Flex>
               <p className={cls.disTitle}>Диспетчер</p>
-              <span className={cls.date}>{date ? formatDateTime(date) : ``}</span>
+              <span className={cls.date}>
+                {date ? formatDateTime(date) : ``}
+              </span>
             </Flex>
             <p className={cls.disName}>{userData?.full_name} </p>
             <p
@@ -129,13 +131,18 @@ const ProfileDispatcher = ({ locale }) => {
         </Flex>
       </Flex>
 
-      <Tabs variant={`unstyled`}>
+      <Tabs isLazy variant={`unstyled`}>
         <Flex width={`100%`} gap={`40px`} mt={`40px`}>
           <TabList className={cls.tab}>
             {filterTabstopDis.map((item) => (
               <Tab
                 onClick={() => setTabs(item.value)}
-                className={tab === item.value ? cls.activeBtn : cls.tabBtn}
+                _selected={{
+                  backgroundColor: `white !important`,
+                  color: `rgba(38, 189, 73, 1) !important`,
+                  boxShadow: `0px 0px 2px 0px rgba(0, 0, 0, 0.04) !important`,
+                }}
+                className={cls.tabBtn}
                 key={item.value}
               >
                 {item.label}
@@ -143,7 +150,7 @@ const ProfileDispatcher = ({ locale }) => {
             ))}
           </TabList>
 
-          <TabPanels width={`70%`}>
+          <TabPanels minHeight={`600px`} width={`70%`}>
             <TabPanel padding={0}>
               <NewPage t={t} orderStatus={`new`} />
             </TabPanel>
