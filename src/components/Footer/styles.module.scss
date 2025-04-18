@@ -71,6 +71,7 @@
 .mobileAppList {
   @include reset-list;
   display: flex;
+  align-items: center;
   column-gap: 16px;
 }
 

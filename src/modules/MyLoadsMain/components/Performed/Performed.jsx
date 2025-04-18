@@ -52,6 +52,7 @@ export const Performed = forwardRef(
     }
     const { t } = useTranslation();
     const role_id = authStore.userData.role_id;
+    const dispatcher_type = authStore?.userData?.dispatcher_type;
 
     const router = useRouter();
     const locale = useGetLang();
@@ -77,8 +78,6 @@ export const Performed = forwardRef(
       cash: t(`Наличные`),
     };
 
-      const dispatcher_type = authStore?.userData?.dispatcher_type;
-    
     return (
       <div ref={ref} className={styles.performed}>
         <div className={styles.performedCard}>
@@ -109,9 +108,10 @@ export const Performed = forwardRef(
                   {cargo?.cargo_id_data?.address_id_data?.name}
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_a
-                      ? `${cargo?.cargo_id_data?.country_code_from?.toUpperCase() || `UZ`} / ${t(
-                          `Готов к загрузке`
-                        )}`
+                      ? `${
+                          cargo?.cargo_id_data?.country_code_from?.toUpperCase() ||
+                          `UZ`
+                        } / ${t(`Готов к загрузке`)}`
                       : cargo?.cargo_id_data?.load_time &&
                         format(
                           new Date(cargo?.cargo_id_data?.load_time).setHours(
@@ -149,9 +149,10 @@ export const Performed = forwardRef(
 
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_b
-                      ? `${cargo?.cargo_id_data?.country_code_to?.toUpperCase() || `UZ`} / ${t(
-                          `Как можно скорее`
-                        )}`
+                      ? `${
+                          cargo?.cargo_id_data?.country_code_to?.toUpperCase() ||
+                          `UZ`
+                        } / ${t(`Как можно скорее`)}`
                       : cargo?.cargo_id_data?.date &&
                         format(
                           new Date(cargo?.cargo_id_data?.date).setHours(
@@ -194,54 +195,54 @@ export const Performed = forwardRef(
                     : t(`По запросу`)}
                 </p>
               </div>
-              {(orderStatus === `performed` && dispatcher_type?.[0] === `first_dispatcher`) && (
-                <Box>
-                  <Popover placement="bottom-end">
-                    <PopoverTrigger>
-                      <Box cursor={`pointer`}>
-                        <OpenPopoverIcon />
-                      </Box>
-                    </PopoverTrigger>
-                    <Portal>
-                      <PopoverContent
-                        borderRadius={`4px`}
-                        border={`none`}
-                        boxShadow={`0px 12px 16px 10px rgba(16, 24, 40, 0.1)`}
-                        bg={`rgb(255, 255, 255)`}
-                        width={`fit-content`}
-                      >
-                        <PopoverArrow size={`lg`} bg={`rgb(255, 255, 255)`} />
-                        <PopoverBody
-                          color={`white`}
+              {orderStatus === `performed` &&
+                dispatcher_type?.[0] === `first_dispatcher` && (
+                  <Box>
+                    <Popover placement="bottom-end">
+                      <PopoverTrigger>
+                        <Box cursor={`pointer`}>
+                          <OpenPopoverIcon />
+                        </Box>
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent
                           borderRadius={`4px`}
                           border={`none`}
+                          boxShadow={`0px 12px 16px 10px rgba(16, 24, 40, 0.1)`}
+                          bg={`rgb(255, 255, 255)`}
                           width={`fit-content`}
                         >
-                          <Box
-                            className={styles.cancelStatus}
-                            style={{
-                              padding: `7px 8px`,
-                              color: `rgba(33, 31, 38, 1)`,
-                            }}
-                            _hover={{
-                              backgroundColor: `rgb(247, 247, 247)`,
-                              borderRadius: `6px`,
-                              cursor: `pointer`,
-                            }}
-                            onClick={() => {
-                              setDataPred(cargo);
-                              onOpen();
-                              
-                            }}
+                          <PopoverArrow size={`lg`} bg={`rgb(255, 255, 255)`} />
+                          <PopoverBody
+                            color={`white`}
+                            borderRadius={`4px`}
+                            border={`none`}
+                            width={`fit-content`}
                           >
-                            {t(`Oтменить заказ`)}
-                          </Box>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Portal>
-                  </Popover>
-                </Box>
-              )}
+                            <Box
+                              className={styles.cancelStatus}
+                              style={{
+                                padding: `7px 8px`,
+                                color: `rgba(33, 31, 38, 1)`,
+                              }}
+                              _hover={{
+                                backgroundColor: `rgb(247, 247, 247)`,
+                                borderRadius: `6px`,
+                                cursor: `pointer`,
+                              }}
+                              onClick={() => {
+                                setDataPred(cargo);
+                                onOpen();
+                              }}
+                            >
+                              {t(`Oтменить заказ`)}
+                            </Box>
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
+                  </Box>
+                )}
             </div>
           </div>
           <div className={styles.cardBody}>
@@ -349,12 +350,12 @@ export const Performed = forwardRef(
                         : t("Нет машины")}
                     </span>
 
-                    {cargo?.vehicle_id_data?.car_number  ? (
+                    {cargo?.vehicle_id_data?.car_number ? (
                       <p className={styles.cardName}>
                         {(cargo?.[`car_type_${locale}`] || cargo?.car_type) +
                           ` / ${cargo.vehicle_id_data?.car_number}`}
                       </p>
-                    ) :  role_id  === "785678f2-fae7-4a00-8766-99ea67d3784f" ?  (
+                    ) : role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ? (
                       <p
                         onClick={() =>
                           router.push(
@@ -364,14 +365,18 @@ export const Performed = forwardRef(
                               cargo?.users_id_data?.firm_id
                                 ? cargo?.users_id_data?.firm_id
                                 : 0
-                            }&full_name=${cargo?.users_id_data.full_name}&phone=${cargo?.users_id_data.phone}`
+                            }&full_name=${
+                              cargo?.users_id_data.full_name
+                            }&phone=${cargo?.users_id_data.phone}`
                           )
                         }
                         className={styles.addCar}
                       >
-                       {t(`Добавить машину`)}
+                        {t(`Добавить машину`)}
                       </p>
-                    ): <p className={styles.cardName} >{t(`Еще не добавлен`)}</p> }
+                    ) : (
+                      <p className={styles.cardName}>{t(`Еще не добавлен`)}</p>
+                    )}
                   </div>
                 </Flex>
                 <div style={{ textAlign: `right` }} className={styles.cardItem}>
@@ -390,7 +395,7 @@ export const Performed = forwardRef(
                   orderStatus === "performed" ||
                   orderStatus === `cancellation` ||
                   orderStatus === `approve_from_driver` ||
-                  orderStatus === `new` 
+                  orderStatus === `new`
                     ? `space-between`
                     : `flex-start`,
               }}
@@ -494,9 +499,8 @@ export const Performed = forwardRef(
                       </span>
                       <p className={styles.cardName}>
                         <span style={{ color: `rgba(0, 122, 255, 1)` }}>
-                        {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
+                          {cargo?.cargo_id_data?.distance?.toFixed(1) || 0} км
                         </span>{" "}
-                        
                       </p>
                     </>
                   )}
@@ -631,7 +635,9 @@ export const Performed = forwardRef(
                     {t(`Показать на карте`)}
                   </Button>
                 )}
-                {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
+                {(orderStatus === `new` ||
+                  (orderStatus === `no_dispatcher` &&
+                    dispatcher_type?.[0] === `first_dispatcher`)) && (
                   <Flex gap={`11px`}>
                     <Button
                       isLoading={disabledCancelBtn}
@@ -670,19 +676,20 @@ export const Performed = forwardRef(
                 )}
               </Box>
 
-              {orderStatus === `approve_from_driver` && (
-                <Button
-                  isLoading={disabledCancelBtn}
-                  width={`200px`}
-                  onClick={(e) => {
-                    // e.stopPropagation();
-                    handleCancel(cargo);
-                  }}
-                  className={styles.bntOutline}
-                >
-                  {t(`Отказать`)}
-                </Button>
-              )}
+              {orderStatus === `approve_from_driver` &&
+                dispatcher_type?.[0] === `first_dispatcher` && (
+                  <Button
+                    isLoading={disabledCancelBtn}
+                    width={`200px`}
+                    onClick={(e) => {
+                      // e.stopPropagation();
+                      handleCancel(cargo);
+                    }}
+                    className={styles.bntOutline}
+                  >
+                    {t(`Отказать`)}
+                  </Button>
+                )}
             </div>
           </div>
         </div>

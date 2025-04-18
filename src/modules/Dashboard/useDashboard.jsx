@@ -42,7 +42,12 @@ export const useDashboard = (locale) => {
     [`4`]: `cargo`,
     [`5`]: `top_dispatcher`,
     [`6`]: `customer`,
+    [`7`]: `customer`,
   };
+
+
+
+
 
   const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
     enabled: Boolean(firmId?.firm_data?.guid),

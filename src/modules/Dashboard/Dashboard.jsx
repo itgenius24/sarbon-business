@@ -39,6 +39,7 @@ import { stringsToarray } from "@/utils/stringsToarray";
 import SimpleLoader from "@/components/Loaders/SimpleLoader";
 import { formatNumber } from "@/utils/formatNumber";
 import { ContainerAnalitik } from "@/components/ContainerAnalitik/Container";
+import ApkdowloadList from "./Companents/ApkdowloadList/ApkdowloadList";
 
 ChartJS.register(
   CategoryScale,
@@ -82,12 +83,12 @@ const Dashboard = ({ locale }) => {
     onClose,
     firmId,
     editFn,
-    setData
+    setData,
   } = useDashboard(locale);
 
   return (
     <>
-      <Box width={`98%`} margin={`30px auto`} >
+      <Box width={`98%`} margin={`30px auto`}>
         <Flex flexDirection={`column`} rowGap={`30px`}>
           <Flex gap={`20px`}>
             <Flex
@@ -250,9 +251,10 @@ const Dashboard = ({ locale }) => {
           >
             {filterDataLoadin && <SimpleLoader />}
             <Tabs
+            isLazy
               onChange={(el) => {
                 setStatus(el), setCurrentPage(1);
-                setData({})
+                setData({});
               }}
               variant="unstyled"
             >
@@ -265,6 +267,8 @@ const Dashboard = ({ locale }) => {
                   <Tab> Груз</Tab>
                   <Tab> Топ Диспетчер</Tab>
                   <Tab>Заказчик</Tab>
+                  <Tab>Скачиваний</Tab>
+
                 </TabList>
                 <Button
                   width={`fit-content`}
@@ -293,7 +297,10 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns5}
-                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -302,7 +309,10 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns2}
-                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -311,7 +321,10 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns1}
-                     data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -320,7 +333,10 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns3}
-                     data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -329,7 +345,10 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns4}
-                     data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -338,7 +357,10 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns6}
-                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
@@ -347,10 +369,16 @@ const Dashboard = ({ locale }) => {
                   <CTable
                     isLoading={filterDataLoadin}
                     columns={columns7}
-                    data={data.response?.map((item,index) => ({...item,number:index+1}))}
+                    data={data.response?.map((item, index) => ({
+                      ...item,
+                      number: index + 1,
+                    }))}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                   />
+                </TabPanel>
+                <TabPanel>
+                   <ApkdowloadList  />
                 </TabPanel>
               </TabPanels>
             </Tabs>
