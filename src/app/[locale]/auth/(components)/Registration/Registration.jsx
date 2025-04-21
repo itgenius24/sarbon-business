@@ -67,8 +67,8 @@ export const Registration = () => {
         height={"100%"}
       >
         <Box width={`100%`}>
-          <AuthTitle mb="32px" title={`Создать аккаунт на Sarbon`} />
-          <p className={cls.tabTitle}>Укажите ваш профиль деятельности</p>
+          <AuthTitle mb="32px" title={t(`Создать аккаунт на Sarbon`)} />
+          <p className={cls.tabTitle}>{t(`Укажите ваш профиль деятельности`)}</p>
           <Tabs
             defaultIndex={
               searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0
@@ -85,7 +85,7 @@ export const Registration = () => {
                   color: `rgba(33, 31, 38, 1)`,
                 }}
               >
-                Перевозчик
+                {t(`Перевозчик`)}
               </Tab>
               <Tab
                 color={`rgba(126, 123, 134, 1)`}
@@ -96,7 +96,7 @@ export const Registration = () => {
                 }}
                 className={cls.btn}
               >
-                Водитель
+                {t(`Водитель`)}
               </Tab>
               <Tab
                 color={`rgba(126, 123, 134, 1)`}
@@ -107,7 +107,7 @@ export const Registration = () => {
                 }}
                 className={cls.btn}
               >
-                Заказчик
+                {t(`Заказчик`)}
               </Tab>
             </TabList>
             <TabPanels>
@@ -127,10 +127,10 @@ export const Registration = () => {
                   type="submit"
                   isLoading={isLoading}
                 >
-                  Регистрация
+                  {t(`Регистрация`)}
                 </Button>
                 <div className={cls.divider}>
-                  <span>Регистрация через соцсеть</span>
+                  <span>{t(`Регистрация через соцсеть`)}</span>
                 </div>
                 <Flex
                   mt={`24px`}
@@ -144,7 +144,7 @@ export const Registration = () => {
                     leftIcon={<GoogleIcon />}
                     className={cls.btnAuth}
                   >
-                    Продолжить с Google
+                    {t(`Продолжить с Google`)}
                   </Button>
                   <Button
                     onClick={handleAppleLogin}
@@ -152,7 +152,7 @@ export const Registration = () => {
                     className={cls.btnAuth}
                     isDisabled
                   >
-                    Продолжить с Apple
+                    {t(`Продолжить с Apple`)}
                   </Button>
                 </Flex>
               </TabPanel>
@@ -172,8 +172,7 @@ export const Registration = () => {
                     <Image className={cls.imageQr} src={qrImg} alt="qrImg" />
                     <Box>
                       <p className={cls.qrDeck}>
-                        Чтобы зарегистрироваться и начать получать заказы,
-                        скачайте наше приложение Sarbon.
+                        {t(`Чтобы зарегистрироваться и начать получать заказы, скачайте наше приложение Sarbon`)}.
                       </p>
                       <Flex mt={`30px`} gap={`16px`} alignItems={`center`}>
                         <a
@@ -221,8 +220,7 @@ export const Registration = () => {
                     {t("Регистрация заказчиков временно приостановленна")}
                   </Text>
                   <p className={cls.qrDeck}>
-                    Если у вас имеется груз которого нужно доставить быстро и с
-                    возможностью отслеживания обратитесь к нам по номеру:
+                    {t(`re1Text`)}:
                   </p>
 
                   <a href={`tel:+998950056611`}>
