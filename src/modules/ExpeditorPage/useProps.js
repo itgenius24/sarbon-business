@@ -43,7 +43,7 @@ export const useProps = () => {
 
   const column = [
     {
-      title: `Перевозчик`,
+      title: t(`Перевозчик`),
       width: 450,
       filter:true,
       filterType: (type) => console.log(`type`,type),
@@ -58,7 +58,7 @@ export const useProps = () => {
       ),
     },
     {
-      title: `Имя руководителя`,
+      title: t(`Имя руководителя`),
       width: 250,
       render: (row, index) => <p className={cls.title}>{row?.full_name}</p>,
     },
