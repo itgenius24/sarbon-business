@@ -1,26 +1,17 @@
 "use client";
 import {
-  BlueFuraIcon,
-  BluePendingIcon,
-  BluePhoneIcon,
-  CencelMapIcon,
-  CheckBlueIcon,
-  FilterIcon,
+
   GoodsFuraIcon,
   GoodsPhoneIcon,
-  GreenCarIcon,
   GreenFuraIcon,
   GreenPhoneIcon,
   LoadOulineIcon,
   MapCargoGreenIcon,
   MapCargoLoadGoodsIcon,
-  QuestionBlueIcon,
   StoneIcon,
   GreenMapIcon,
   RefuelingIcon,
   RefuelingIconMap,
-  TelegramIcon,
-  WatsapIcon,
   RefeIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
@@ -29,7 +20,6 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import {
   Clusterer,
   Map,
-  ObjectManager,
   Placemark,
   SearchControl,
   TypeSelector,
@@ -48,7 +38,6 @@ const CmapAZS = memo(
     getCarListProps,
     coordinates,
     cls,
-    type,
     mapIcon,
     watch,
     setModalType,
@@ -56,7 +45,6 @@ const CmapAZS = memo(
     locationData,
     setLoadState,
     setContendSingle,
-    contendHoverState,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);

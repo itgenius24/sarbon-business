@@ -76,7 +76,8 @@ export default function GpsTrackingDispatcherTop({locale}) {
     dataDis,
     getCarData,
     driverLoading,
-    setCarsArr
+    setCarsArr,
+    isBalloonOpened, setIsBalloonOpened,
   } = useGpsTrackingProps();
 
 
@@ -114,6 +115,8 @@ export default function GpsTrackingDispatcherTop({locale}) {
             isLoading={isLoading}
             setContendSingle={setContendSingle}
             contendHoverState={contendHoverState}
+            isBalloonOpened={isBalloonOpened}
+            setIsBalloonOpened={setIsBalloonOpened}
           />
         )}
 

@@ -19,7 +19,7 @@
   "Поиск машин": "Mashina qidirish",
   "Страница": "Sahifa",
   "из": "dan",
-  
+
   "Новости": "Yangiliklar",
   "Изменить": "O'zgartirish",
   "Удалить": "O'chirish",
@@ -273,30 +273,28 @@
   "SVG, PNG, JPG or GIF (max. 800x400px)": "SVG, PNG, JPG yoki GIF (maksimal 800x400px)",
   "Нажмите, чтобы изменить фото": "Rasmni o'zgartirish uchun bosing",
   "Оплата": "To'lov",
-  
-    "Разрешение:": "Ruxsatnoma:",
-    "Детали:": "Tafsilotlar:",
-  
-    "Назовите шаблон": "Shablonga nom bering",
 
-    "не найдено": "topilmadi",
-  "Не активен":"Faol emas",
+  "Разрешение:": "Ruxsatnoma:",
+  "Детали:": "Tafsilotlar:",
 
-    "км от адреса": "manzildan km",
-    "Фото до 10 МБ": "10 MB gacha surat",
-    "Вы уверены что хотите выйти из аккаунта?": "Hisobingizdan chiqmoqchimisiz?",
+  "Назовите шаблон": "Shablonga nom bering",
 
-    "Дата загрузки:": "Yuklash sanasi:",
-    "Нет данных": "Ma'lumot yo'q",
-    "Водитель:": "Haydovchi:",
-    "Дополнительная информация": "Qo'shimcha ma'lumot",
-    "Предложить груз": "Yuk taklif qilish",
-    "Выберите груз": "Yukni tanlang",
-    "Успешно предложен": "Muvaffaqiyatli taklif qilingan",
-    "Груз успешно предложен водителю": "Yuk haydovchiga muvaffaqiyatli taklif qilindi",
-    "У вас нет существующих грузовВыберите груз": "Sizda mavjud yuklar yo'q, yukni tanlang",
-  
-  
+  "не найдено": "topilmadi",
+  "Не активен": "Faol emas",
+
+  "км от адреса": "manzildan km",
+  "Фото до 10 МБ": "10 MB gacha surat",
+  "Вы уверены что хотите выйти из аккаунта?": "Hisobingizdan chiqmoqchimisiz?",
+
+  "Дата загрузки:": "Yuklash sanasi:",
+  "Нет данных": "Ma'lumot yo'q",
+  "Водитель:": "Haydovchi:",
+  "Дополнительная информация": "Qo'shimcha ma'lumot",
+  "Предложить груз": "Yuk taklif qilish",
+  "Выберите груз": "Yukni tanlang",
+  "Успешно предложен": "Muvaffaqiyatli taklif qilingan",
+  "Груз успешно предложен водителю": "Yuk haydovchiga muvaffaqiyatli taklif qilindi",
+  "У вас нет существующих грузовВыберите груз": "Sizda mavjud yuklar yo'q, yukni tanlang",
 
   "Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.": "Kontaktlarni (telefonlar, Skype va boshqalar) ko'rsatmang, aks holda yukingiz moderator tomonidan o'chiriladi",
   "Откуда забрать": "Qayerdan olish",
@@ -479,9 +477,9 @@
   "Параметры груза": "Yuk parametrlari",
   "Вес": "Og'irlik",
   "Объем": "Hajm",
-  "Мои машины":"Mashinalar",
+  "Мои машины": "Mashinalar",
   "Мои водители": "Haydovchilar",
-  "Мои заказы":"Buyurtmalar",
+  "Мои заказы": "Buyurtmalar",
   "Оплата после завершения": "To'lov tugallangandan keyin",
   "Общая сумма": "Jami summa",
   "Товары": "Mahsulotlar",
@@ -565,91 +563,87 @@
   "Статус машины": "Mashina holati",
   "Отображать только мои грузы": "Faqat mening yuklarimni ko'rsatish",
   "Груз будет забронирован и недоступен для других диспетчеров": "Yuk zahiraga qo'yiladi va boshqa dispetcherlar uchun mavjud bo'lmaydi",
-  "У вас нет существующих грузов":"Sizda mavjud yuk yo'q",
-  "Вес от:":"Og'irligi:",
-  "Наличные":"Naqd pul",
-   "Узбекистан":"Uzbekistan",
+  "У вас нет существующих грузов": "Sizda mavjud yuk yo'q",
+  "Вес от:": "Og'irligi:",
+  "Наличные": "Naqd pul",
+  "Узбекистан": "Uzbekistan",
   "Казахстан": "Kazakhstan",
-  "Дизель":"Dizel",
-  "Бензин":"Benzin",
-  "Метан":"Metan",
-  "Евро":"Euro",
-  "Завершение":"Tugallangan",
-  "Предложение без диспетчера":"Dispetchersiz taklif",
-  "Предложения водителя":"Haydovchi taklifi",
-  "Страна регистрации автомобиля":"Avtomobil ro'yxatga olingan mamlakat",
-  "Экологический класс":"Ekologik sinf",
-  "Техпаспорт прицепа":"Treyler Tex pasporti",
-  "Pасстояние":"Masofa",
-    "Еще не добавлен":"Hali qo'shilmagan"
+  "Дизель": "Dizel",
+  "Бензин": "Benzin",
+  "Метан": "Metan",
+  "Евро": "Euro",
+  "Завершение": "Tugallangan",
+  "Предложение без диспетчера": "Dispetchersiz taklif",
+  "Предложения водителя": "Haydovchi taklifi",
+  "Страна регистрации автомобиля": "Avtomobil ro'yxatga olingan mamlakat",
+  "Экологический класс": "Ekologik sinf",
+  "Техпаспорт прицепа": "Treyler Tex pasporti",
+  "Pасстояние": "Masofa",
+  "Еще не добавлен": "Hali qo'shilmagan",
 
+  "Sarbon — биржа грузоперевозок и экосистема логистических сервисов в Евразии": "Sarbon — yuk tashish birjasi va logistika ekotizimi",
+  "Узнать больше": "Batafsil maʼlumot",
+  "активных водителей": "faol haydovchilar",
+  "Треккинг": "Trekka qilish",
+  "мониторинг груза на карте": "Yukni xaritada kuzatish",
+  "успешных грузоперевозок": "muvaffaqiyatli yuk tashishlar",
+  "Заказ найдется всегда": "Buyurtma har doim topiladi",
+  "slider1Text": "Sarbon — bu haydovchilar uchun qulay ilova bo‘lib, u orqali tezda buyurtmalar topish va to‘lovlarni qulay usullarda olish mumkin. Hozir yuklab oling.",
+  "Загрузите автопарк  выгодными рейсами": "Avtoparkni foydali reyslar bilan band qiling",
+  "slider2Text": "Mashinalaringiz va haydovchilaringizni qo‘shing, sizga qulay bo‘lgan yuklarni tanlang, buyurtmalarni nazorat qiling va ularni GPS orqali kuzating.",
+  "Почему выбирают Sarbon?": "Nega Sarbon'ni tanlashadi?",
+  "connect": "Qulay va shaffof tashishlar uchun haydovchilar va buyurtmachilarni bog‘laymiz",
+  "Оптимизируйте свой бизнес с Sarbon": "Sarbon yordamida biznesingizni optimallashtiring",
+  "Безопасность сделок": "Bitimlar xavfsizligi",
+  "ritin": "Reyting tizimi, hujjatlarni tekshirish va nohalol foydalanuvchilardan himoya.",
+  "Максимальная выгода": "Maksimal foyda",
+  "Выбирайте лучшие заказы и снижайте пустые пробеги.": "Eng yaxshi buyurtmalarni tanlang va bo‘sh yurishlarni kamaytiring.",
+  "Поддержка": "Qo‘llab-quvvatlash",
+  "sevice": "Xizmatimiz har doim bog‘lanishda — savollaringizga yordam berishga tayyor.",
+  "Найдите груз для вашего транспорта": "Transportingiz uchun yuk toping",
+  "Регистрируйтесь и получите доступ к базе актуальных грузов с удобными фильтрами.": "Ro‘yxatdan o‘ting va qulay filtrlarga ega dolzarb yuklar bazasiga ega bo‘ling.",
+  "Регистрация": "Ro‘yxatdan o‘tish",
 
+  
+    "Больше заказов — Выше доход": "Ko‘proq buyurtmalar — Ko‘proq daromad",
+    "Находите и выбирайте рейсы, которые выгодны именно вам.": "Aynan siz uchun foydali reyslarni toping va tanlang.",
+    "Удобный поиск и фильтры": "Qulay qidiruv va filtrlar",
+    "Фильтруйте грузы по маршруту, весу, стоимости и условиям.": "Yuklarni yo‘nalish, og‘irlik, narx va shartlarga qarab filtrlang.",
+    "Прямые сделки без посредников": "Vositachilarsiz to‘g‘ridan-to‘g‘ri kelishuvlar",
+    "Работайте напрямую с грузовладельцами, без лишних комиссий и задержек.": "Yuk egalari bilan bevosita, ortiqcha komissiyasiz va kechikishlarsiz ishlang.",
+    "Надежность и безопасность": "Ishonchlilik va xavfsizlik",
+    "Проверенные заказчики, отзывы, рейтинги и защита от недобросовестных клиентов.": "Tekshirilgan mijozlar, sharhlar, reytinglar va ishonchsizlardan himoya.",
+    "Всё под контролем в приложении": "Hammasi ilova orqali nazorat ostida",
+    "Следите за заказами, общайтесь с клиентами и управляйте перевозками онлайн.": "Buyurtmalarni kuzatib boring, mijozlar bilan muloqot qiling va yuk tashishni onlayn boshqaring.",
+    "Оповещения о новых грузах": "Yangi yuklar haqida xabarnomalar",
+    "Не тратьте время на поиск — подходящие заказы сами вас найдут.": "Qidirishga vaqt sarflamang — sizga mos buyurtmalar o‘zi sizni topadi.",
+  "Вход":"Kirish",
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "Вход через соцсеть":"Sotsial tarmoq orqali kirish",
+  "Продолжить с Google":"Google bilan davom etish",
+  "Продолжить с Apple":"Davom etish Apple bilan",
+   "Еще нет аккаунта?": "Hisobingiz yo'qmi?",
+   
+    "Создать аккаунт на Sarbon": "Sarbon’da akkaunt yarating",
+    "Укажите ваш профиль деятельности": "Faoliyat profilingizni kiriting",
+    "Регистрация через соцсеть": "Ijtimoiy tarmoq orqali ro‘yxatdan o‘tish",
+    "Регистрация для водителей только через приложение Sarbon": "Haydovchilar faqat Sarbon ilovasi orqali ro‘yxatdan o‘tishlari mumkin",
+    "Чтобы зарегистрироваться и начать получать заказы, скачайте наше приложение Sarbon": "Ro‘yxatdan o‘tish va buyurtmalarni qabul qilish uchun Sarbon ilovamizni yuklab oling",
+    "Регистрация заказчиков временно приостановленна": "Buyurtmachilarni ro‘yxatdan o‘tkazish vaqtincha to‘xtatilgan",
+    "re1Text": "Agar tez yetkaziladigan va kuzatiladigan yukingiz bo‘lsa, quyidagi raqamga murojaat qiling",
+    "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное": "Siz allaqachon haydovchi sifatida ro‘yxatdan o‘tgansiz. Iltimos, mobil ilova orqali kiring",
+    "приложение Sarbon": "Sarbon ilovasi",
+    "Аккаунт с этим номером уже существует.": "Ushbu raqam bilan akkaunt allaqachon mavjud.",
+    "Войдите или восстановите доступ.": "Tizimga kiring yoki kirishni tiklang.",
+    "Перевозчик": "Tashuvchi",
+    "У меня уже есть аккаунт": "Menda allaqachon akkaunt bor",
+    "О системе Sarbon": "Sarbon tizimi haqida"
 
 
 
   
+  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 }

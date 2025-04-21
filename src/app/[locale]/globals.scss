@@ -26,8 +26,8 @@
   --primary-text: rgba(0, 51, 153, 1);
   --base-white: #ffffff;
   --icon-base: #98a2b3;
-  --blue-color:rgba(0, 122, 255, 1);
-  --body-color:#f6f7f8;
+  --blue-color: rgba(0, 122, 255, 1);
+  --body-color: #f6f7f8;
 }
 
 @media (min-width: 1681px) {
@@ -136,8 +136,6 @@ a {
   }
 }
 
-
-
 .chakra-select__control {
   border-radius: 8px;
   border-color: var(--brand-300);
@@ -235,16 +233,14 @@ a {
   padding: 0px 10px;
 }
 
-
 .star {
   transition: color 0.2s;
 }
 
 .star.active {
-  svg{
+  svg {
     color: gold;
   }
- 
 }
 
 .chart-container {
@@ -252,35 +248,30 @@ a {
   height: 400px;
 }
 
-
-table{
+table {
   width: 100%;
 }
 
-
-.dateWrap{
-
-  .react-datepicker{
-     align-items: flex-start !important;
+.dateWrap {
+  .react-datepicker {
+    align-items: flex-start !important;
   }
 
-.react-datepicker__day--selected.react-datepicker__day--selected {
-  border-top-right-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;  
-  background-color: rgba(0, 51, 153, 1) !important;
-  color: white !important;
-
-  &:hover {
-    // border-radius: 50% !important;
-    color: white !important;
+  .react-datepicker__day--selected.react-datepicker__day--selected {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
     background-color: rgba(0, 51, 153, 1) !important;
+    color: white !important;
+
+    &:hover {
+      // border-radius: 50% !important;
+      color: white !important;
+      background-color: rgba(0, 51, 153, 1) !important;
+    }
   }
-  
-}
-  .react-datepicker__navigation--next{
+  .react-datepicker__navigation--next {
     right: 20px !important;
     top: 27px !important;
-
   }
 
   .react-datepicker__navigation--previous {
@@ -289,37 +280,42 @@ table{
   }
 }
 
-.left{
-  .react-datepicker-popper{
+.left {
+  .react-datepicker-popper {
     left: -190px !important;
   }
 }
 
-.one{
-  .react-datepicker-popper{
+.one {
+  .react-datepicker-popper {
     left: -50px !important;
   }
   .react-datepicker__day--selected.react-datepicker__day--selected {
     border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;  
+    border-bottom-right-radius: 0px !important;
     border-top-left-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;  
-    background-color: rgba(0, 51, 153, 1)  !important;
+    border-bottom-left-radius: 0px !important;
+    background-color: rgba(0, 51, 153, 1) !important;
     color: white !important;
-  
+
     &:hover {
       // border-radius: 50% !important;
       color: white !important;
       background-color: rgba(0, 51, 153, 1) !important;
     }
-    
   }
 }
 
-.ymaps-2-1-79-route-content{
+.ymaps-2-1-79-route-content {
   // font-family: ;
   font-size: 16px !important;
-  .ymaps-2-1-79-route-content__title{
+  .ymaps-2-1-79-route-content__title {
     font-weight: 700;
   }
+}
+
+.distance {
+  font-size: 16px !important;
+
+  font-weight: 700;
 }

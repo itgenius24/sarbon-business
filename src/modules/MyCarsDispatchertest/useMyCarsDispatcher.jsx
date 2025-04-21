@@ -118,6 +118,13 @@ export const useMyCarsDispatcher = () => {
     },
   ];
 
+  const navigateFn = (row) => {
+
+    window.open(
+      `/${locale}/gps-tracking-dispatcher-top?guid=${row?.guid}&provisions=${row?.provisions}`
+    );
+  };
+
   const { mutate: logHistory } = useCreateLogHistory({});
 
   useEffect(() => {
@@ -479,7 +486,8 @@ export const useMyCarsDispatcher = () => {
               {row?.gps_data ? (
                 <Flex>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
-                    <Flex gap={`3px`} alignItems={`center`}>
+                    <Flex  cursor={`pointer`}
+                      onClick={() => navigateFn(row)} gap={`3px`} alignItems={`center`}>
                       <LocationActiveIcon />
                       <Box>
                         <p className={cls.subTitle}>Геолокация</p>

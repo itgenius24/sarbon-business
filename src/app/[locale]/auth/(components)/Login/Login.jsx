@@ -108,7 +108,7 @@ export const Login = () => {
             {t("Войти")}
           </Button>
           <div className={cls.divider}>
-            <span>Вход через соцсеть</span>
+            <span>{t(`Вход через соцсеть`)}</span>
           </div>
           <Flex
             mt={`24px`}
@@ -122,7 +122,7 @@ export const Login = () => {
               leftIcon={<GoogleIcon />}
               className={cls.btnAuth}
             >
-              Продолжить с Google
+             {t("Продолжить с Google")}
             </Button>
             <Button
               // onClick={handleAppleLogin}
@@ -130,7 +130,7 @@ export const Login = () => {
               className={cls.btnAuth}
               isDisabled
             >
-              Продолжить с Apple
+              {t("Продолжить с Apple")}
             </Button>
           </Flex>
         </Box>

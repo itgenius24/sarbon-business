@@ -17,7 +17,7 @@ import authStore from "@/store/auth.store";
 
 export const Footer = () => {
   const locale = useGetLang();
-  const role_id = authStore.userData.role_id
+  const role_id = authStore.userData.role_id;
   const pathname = usePathname();
 
   const { t } = useTranslation(locale, "translations");
@@ -57,25 +57,29 @@ export const Footer = () => {
 
   const { mutate: apkData } = useCreateApkDownloadMutation({});
 
-
-
   const downloadFn = () => {
     apkData({
       data: {
         app_name: navigator.userAgent,
         count: 1,
-        create_time:new Date()
-      }
+        create_time: new Date(),
+      },
     });
   };
 
-    const { data:apkCount, refetch } = useGetCountApk({
-      params: {
-        data: JSON.stringify({
-        }),
-      },
-    });
-
+  const { data: apkCount, refetch } = useGetCountApk({
+    params: {
+      data: JSON.stringify({
+        // create_time: {
+        //   $gte: ``,
+        //   $lt: ``,
+        // },
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"),
+    },
+  });
 
   const downloadByLanguage = async (langId) => {
     try {
@@ -194,11 +198,11 @@ export const Footer = () => {
                     />
                   </a>
                 </li>
-              {
-                role_id ===  "527d2017-2dc2-4449-9eeb-08fc1aafa469" && <li className={cls.mobileAppItem}>
-                   Загрузок: {apkCount?.response?.length || 0}
-                </li>
-              }
+                {role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
+                  <li className={cls.mobileAppItem}>
+                    Загрузок: {apkCount?.response?.length || 0}
+                  </li>
+                )}
                 {/* <li className={cls.mobileAppItem}>
                 <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image

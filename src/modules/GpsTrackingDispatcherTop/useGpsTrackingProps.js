@@ -3,18 +3,14 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
-  useGetCar,
   useGetCarData,
-  useGetCarDispatcher,
   useGetCarDispatcherPost,
   useGetCarRefueling,
   useGetCreateAddress,
   useGetMeasurement,
   useGetTrailerType,
-  useGetUserData,
   useLoadingTypes,
   useLocation,
-  useLogistikaGpsTrackingFilterDriver,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
@@ -29,6 +25,7 @@ import {
 } from "@/assets/icons/icons";
 import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
+import { useSearchParams } from "next/navigation";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
@@ -51,6 +48,10 @@ export const useGpsTrackingProps = () => {
   const { t } = useTranslation(locale, "translations");
 
   const [distanceParameters, setDistanceParameters] = useState({});
+      const searchParams = useSearchParams();
+  
+  const guid = searchParams.get(`guid`);
+  const provisions = searchParams.get(`provisions`);
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
@@ -69,6 +70,7 @@ export const useGpsTrackingProps = () => {
   const [stateMap, setStateMap] = useState(false);
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
+  const [isBalloonOpened, setIsBalloonOpened] = useState(false);
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -91,8 +93,6 @@ export const useGpsTrackingProps = () => {
       document.body.classList.remove("no-scroll");
     };
   }, [checked]);
-
- 
 
   const {
     fields: locations,
@@ -169,64 +169,6 @@ export const useGpsTrackingProps = () => {
       // });
       // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
       // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
-    }
-  }
-
-  function initYmaps() {
-    /**
-     * Creating a multiroute.
-     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
-     */
-
-    if (window?.ymaps) {
-      ymaps.ready(() => {
-        var multiRoute = new ymaps.multiRouter.MultiRoute(
-          { referencePoints: [[], []] },
-          {
-            editorMidPointsType: "via",
-            routeActiveStrokeColor: "#175CD3",
-            editorDrawOver: false,
-          }
-        );
-
-        multiRoute.events.add("update", function () {
-          if (multiRoute.getRoutes().get(0)) {
-            const duration = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("duration").text;
-            const distance = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("distance").text;
-            setDistanceParameters({
-              duration,
-              distance,
-            });
-          }
-        });
-
-        const searchControl = new ymaps.control.SearchControl({
-          options: { float: "right" },
-        });
-
-        // Creating the map with the button added to it.
-        var myMap = new ymaps.Map(
-          "map",
-          {
-            center: [41.40587471972005, 69.46086540238926],
-            zoom: 7,
-            controls: [searchControl],
-          },
-          { buttonMaxWidth: 500 }
-        );
-
-        // Adding a multiroute to the map.
-        myMap.geoObjects.add(multiRoute);
-
-        mapRef.current = myMap;
-        multiRouteRef.current = multiRoute;
-      });
     }
   }
 
@@ -336,7 +278,6 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-
   const {
     data: getCarData,
     isFetching: driverLoading,
@@ -356,7 +297,7 @@ export const useGpsTrackingProps = () => {
       },
     },
     querySettings: {
-      refetchOnWindowFocus:false,
+      refetchOnWindowFocus: false,
       select: (res) =>
         res?.response?.map((item) => ({
           value: item?.guid,
@@ -367,7 +308,6 @@ export const useGpsTrackingProps = () => {
   });
 
   console.log(`dataDis`, getCarData);
-
 
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
@@ -408,14 +348,31 @@ export const useGpsTrackingProps = () => {
         if (data?.response?.length) {
           let data2 = data?.response?.map((item) => ({
             ...item,
-            user: {...item?.users_id_data?.[0],provisions:item?.order_data ? [`our_cargo`] : item?.users_id_data?.[0]?.provisions},
+            user: {
+              ...item?.users_id_data?.[0],
+              provisions: item?.order_data
+                ? [`our_cargo`]
+                : item?.users_id_data?.[0]?.provisions,
+            },
             vehicles: [item?.vehicle_id_data],
             firm_data: item?.firm_data,
             users_gps: [item],
             orders: item?.order_data ? [item?.order_data] : undefined,
-            
           }));
-          setCarsArr(data2)
+          if (guid) {
+            let openData = data2?.filter((item) => item.user?.guid === guid);
+            setContendSingle(openData?.[0]);
+            if (provisions === "empty") {
+              setModalType("driverFree");
+            } else if (provisions === "our_cargo") {
+              setModalType("driverCheck");
+            } else if (provisions === "someone_cargo") {
+              setModalType("driverQuestion");
+            } else if (provisions === "broke_down") {
+              setModalType("driverFree");
+            }
+          }
+          setCarsArr(data2);
         }
       },
       refetchOnWindowFocus: false,
@@ -465,7 +422,7 @@ export const useGpsTrackingProps = () => {
 
   const filterData = (data, checkboxStatuses) => {
     return data?.filter((item) => {
-      return item?.user?.provisions?.some((status) =>  checkboxStatuses[status])  ;
+      return item?.user?.provisions?.some((status) => checkboxStatuses[status]);
     });
   };
 
@@ -539,8 +496,7 @@ export const useGpsTrackingProps = () => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
@@ -686,14 +642,7 @@ export const useGpsTrackingProps = () => {
     setOffset(0);
   };
 
-  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
-  useEffect(() => {
-    const ymapsScript = document.getElementById("yandex-maps-script");
-    if (ymapsScript) {
-      initYmaps();
-    }
-  }, depArr);
 
   return {
     register,
@@ -764,8 +713,9 @@ export const useGpsTrackingProps = () => {
     setLocationData,
     refueling: remainingData,
     dataDis: dataDis,
-    getCarData:getCarData?.filter(item => item?.gps_data),
+    getCarData: getCarData?.filter((item) => item?.gps_data),
     driverLoading,
-    setCarsArr
+    setCarsArr,
+    isBalloonOpened, setIsBalloonOpened,
   };
 };

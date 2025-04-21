@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import cls from "./style.module.scss";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Slider from "react-slick";
@@ -35,9 +35,11 @@ import { fadeinLeft } from "@/utils/animationSetting";
 import authStore from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 import { useCreateApkDownloadMutation } from "@/services/api";
+import { useTranslation } from "react-i18next";
 
 const MainPage = ({ locale }) => {
   let sliderRef = useRef(null);
+  const { t } = useTranslation();
   const router = useRouter();
   const token = authStore?.token?.access_token;
   var settings = {
@@ -156,15 +158,14 @@ const MainPage = ({ locale }) => {
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
-                      Sarbon — биржа грузоперевозок и экосистема логистических
-                      сервисов в Евразии
+                      {t(`Sarbon — биржа грузоперевозок и экосистема логистических сервисов в Евразии`)}
                     </h1>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
                       <Button
                         onClick={() => router.push(`/${locale}/about-us`)}
                         width={`fit-content`}
                       >
-                        Узнать больше
+                        {t(`Узнать больше`)}
                       </Button>
                     </Flex>
                   </Box>
@@ -211,7 +212,7 @@ const MainPage = ({ locale }) => {
                       <TruckIconBlue />
                       <div>
                         <p className={cls.title}>700+</p>
-                        <p className={cls.subTitle}>активных водителей</p>
+                        <p className={cls.subTitle}>{t(`активных водителей`)}</p>
                       </div>
                     </Flex>
 
@@ -222,9 +223,9 @@ const MainPage = ({ locale }) => {
                     >
                       <MapIconE />
                       <div>
-                        <p className={cls.title}>GPS -Треккинг</p>
+                        <p className={cls.title}>GPS - {t(`Треккинг`)}</p>
                         <p className={cls.subTitle}>
-                          мониторинг груза на карте
+                          {t(`мониторинг груза на карте`)}
                         </p>
                       </div>
                     </Flex>
@@ -237,7 +238,7 @@ const MainPage = ({ locale }) => {
                       <LikeIconY />
                       <div>
                         <p className={cls.title}>99.9%</p>
-                        <p className={cls.subTitle}>успешных грузоперевозок</p>
+                        <p className={cls.subTitle}>{t(`успешных грузоперевозок`)}</p>
                       </div>
                     </Flex>
                   </Box>
@@ -249,12 +250,10 @@ const MainPage = ({ locale }) => {
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
-                      Заказ найдется <br /> всегда
+                      {t(`Заказ найдется всегда`)}
                     </h1>
                     <p className={cls.cardDeck}>
-                      Sarbon — это удобное приложение сервис для водителей, где
-                      можно быстро находить заказы, получать с удобными
-                      способами оплаты. Скачайте прямо сейчас
+                     {t(`slider1Text`)}
                     </p>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
                       <a
@@ -332,16 +331,14 @@ const MainPage = ({ locale }) => {
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
-                      Загрузите автопарк <br /> выгодными рейсами!
+                     {t(`Загрузите автопарк  выгодными рейсами`)}!
                     </h1>
                     <p className={cls.cardDeck}>
-                      Добавляйте свои машины и водителей, выбирайте грузы
-                      которые выгодны вам, контролируйте выполнение заказов и
-                      отслеживайте их через GPS-трекинг.
+                      {t(`slider2Text`)}
                     </p>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
                       <a href="#scrollTitle">
-                        <Button width={`fit-content`}>Узнать больше</Button>
+                        <Button width={`fit-content`}>{t(`Узнать больше`)}</Button>
                       </a>
                     </Flex>
                   </Box>
@@ -390,7 +387,7 @@ const MainPage = ({ locale }) => {
           <Animation variants={fadeinLeft}>
             <Box className={cls.questionPage}>
               <h1 id="scrollTitle" className={cls.questionTitle}>
-                Почему выбирают <br /> Sarbon?
+               {t(`Почему выбирают Sarbon?`)}
               </h1>
 
               <Container maxWidth={`1320px`}>
@@ -404,8 +401,8 @@ const MainPage = ({ locale }) => {
                           alt={item.title}
                         />
                       </Box>
-                      <h3 className={cls.cartTitle}>{item.title}</h3>
-                      <p className={cls.cartDeck}>{item.deck}</p>
+                      <h3 className={cls.cartTitle}>{t(item.title)}</h3>
+                      <p className={cls.cartDeck}>{t(item.deck)}</p>
                     </Box>
                   ))}
                 </Box>
@@ -419,14 +416,13 @@ const MainPage = ({ locale }) => {
           <Box className={cls.bgPage}>
             <Box className={cls.contendTetx}>
               <h2>
-                Связываем водителей и заказчиков для удобных и прозрачных
-                перевозок.
+              {t(`connect`)}.
               </h2>
             </Box>
           </Box>
           <Box className={cls.rightConten}>
             <h1 className={cls.rightContenTitle}>
-              Оптимизируйте свой бизнес с Sarbon
+              {t(`Оптимизируйте свой бизнес с Sarbon`)}
             </h1>
 
             <Flex
@@ -444,10 +440,9 @@ const MainPage = ({ locale }) => {
                   <SecureIcon />
                 </Box>
                 <Box className={cls.textCard}>
-                  <h5>Безопасность сделок </h5>
+                  <h5>{t(`Безопасность сделок`)} </h5>
                   <p>
-                    Система рейтингов, проверка документов и защита от
-                    недобросовестных пользователей.
+                   {t(`ritin`)}
                   </p>
                 </Box>
               </Flex>
@@ -457,8 +452,8 @@ const MainPage = ({ locale }) => {
                   <CashIcon />
                 </Box>
                 <Box className={cls.textCard}>
-                  <h5>Максимальная выгода </h5>
-                  <p>Выбирайте лучшие заказы и снижайте пустые пробеги.</p>
+                  <h5>{t(`Максимальная выгода`)}</h5>
+                  <p>{t(`Выбирайте лучшие заказы и снижайте пустые пробеги.`)}</p>
                 </Box>
               </Flex>
 
@@ -467,10 +462,9 @@ const MainPage = ({ locale }) => {
                   <OperatorIocn />
                 </Box>
                 <Box className={cls.textCard}>
-                  <h5>Поддержка 24/7 </h5>
+                  <h5>{t(`Поддержка`)} 24/7 </h5>
                   <p>
-                    Наш сервис всегда на связи, чтобы помочь в решении ваших
-                    вопросов.
+                   {t(`sevice`)}
                   </p>
                 </Box>
               </Flex>
@@ -490,18 +484,17 @@ const MainPage = ({ locale }) => {
             >
               <Box>
                 <p className={cls.titleBottom}>
-                  Найдите груз для вашего транспорта
+                 {t(`Найдите груз для вашего транспорта`)}
                 </p>
                 <p className={cls.deckBottom}>
-                  Регистрируйтесь и получите доступ к базе актуальных грузов с
-                  удобными фильтрами.
+                {t(`Регистрируйтесь и получите доступ к базе актуальных грузов с удобными фильтрами.`)}
                 </p>
               </Box>
               <Button
                 onClick={() => router.push(`/${locale}/auth/registration`)}
                 className={cls.btnBottom}
               >
-                Регистрация
+                {t(`Регистрация`)}
               </Button>
             </Flex>
           </Container>

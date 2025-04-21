@@ -24,13 +24,14 @@ import {
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, use, useEffect, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
 import { getSVGIcon } from "@/utils/getSVGIcon";
 import { BalloonContent } from "./BalloonContent";
 import { useSearchParams } from "next/navigation";
+import { set } from "date-fns";
 
 const Cmap = memo(
   ({
@@ -57,6 +58,8 @@ const Cmap = memo(
     const [distance, setDistance] = useState(null);
     const mapRef = useRef(null);
     const ymapsRef = useRef(null);
+    const polylineRef = useRef(null);
+    const [ballonRef, setBallonRef] = useState(null);
     const multiRouteRef = useRef(null);
     const [clickCount, setClickCount] = useState(0);
     const [pointA, setPointA] = useState(null);
@@ -64,7 +67,6 @@ const Cmap = memo(
     const [selecting, setSelecting] = useState(false);
     const [types, setType] = useState(``);
     const placemarkRefs = useRef({});
-
 
     useEffect(() => {
       setIsClient(true);
@@ -85,15 +87,14 @@ const Cmap = memo(
 
       if (placemark) {
         const coords = placemark.geometry.getCoordinates();
-        console.log(`coords`, placemark, coords, mapRef);
 
         // Balloonni ochish
         placemark.balloon.open();
-        setIsBalloonOpened(true)
+        setIsBalloonOpened(true);
         // Mapni centerga o‘rnatish
         if (mapRef.current) {
-          mapRef.current.setCenter(coords, 15, {
-            checkZoomRange: true,
+          mapRef.current.setCenter(coords, 13, {
+            checkZoomRange: false,
           });
         }
       }
@@ -168,15 +169,21 @@ const Cmap = memo(
       }
     };
 
+    const closeRouteBalloon = () => {
+      const activeRoute = multiRouteRef.current?.getActiveRoute();
+
+      if (activeRoute && activeRoute.balloon) {
+        activeRoute.balloon.close();
+      }
+    };
+
     const drawRoute = (a, b) => {
       if (!ymapsRef.current || !a || !b) {
         mapRef.current.geoObjects.remove(multiRouteRef.current);
         multiRouteRef.current = null;
       }
 
-
       if (multiRouteRef.current) {
-        // Agar mavjud marshrut bo'lsa, uni xaritadan o'chirib tashlang
         mapRef.current.geoObjects.remove(multiRouteRef.current);
         multiRouteRef.current = null;
       }
@@ -199,7 +206,74 @@ const Cmap = memo(
       multiRouteRef.current = multiRoute;
 
       mapRef.current.geoObjects.add(multiRoute);
+
+      multiRoute.model.events.add("requestsuccess", () => {
+        const activeRoute = multiRoute.getActiveRoute();
+
+        if (activeRoute && activeRoute.balloon) {
+          activeRoute.balloon.open();
+          setBallonRef(true);
+        }
+      });
     };
+
+    useEffect(() => {
+      setTimeout(() => {
+        const closeBtn = document.querySelector(
+          `.ymaps-2-1-79-balloon__close-button`
+        );
+
+        if (closeBtn) {
+          closeBtn.addEventListener(`click`, () => {
+            setClickCount(0);
+            setSelecting(false);
+            setPointA(null);
+            setPointB(null);
+            setPoints([]);
+            setDistance(null);
+            setType(``);
+            mapRef.current.geoObjects.remove(multiRouteRef.current);
+            multiRouteRef.current = null;
+            setIsBalloonOpened(false);
+            closeRouteBalloon();
+            setBallonRef(false);
+            setSelecting(false);
+            polylineRef.current = null;
+          });
+        }
+      }, 1000);
+    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
+
+    const getMiddlePoint = ([point1, point2]) => {
+      const lat = (point1[0] + point2[0]) / 2;
+      const lon = (point1[1] + point2[1]) / 2;
+      return [lat, lon];
+    };
+
+    useEffect(() => {
+      if (types === `rules` && points.length > 0) {
+        openBallon();
+      } else {
+        closeBallon();
+      }
+    }, [polylineRef.current, distance, selecting, types]);
+
+    const openBallon = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      const balloonContent = `<p class="distance">Masofa: ${distance} km</p>`;
+      map.balloon.open(getMiddlePoint(points), balloonContent, {
+        closeButton: true,
+      });
+    };
+    const closeBallon = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      map.balloon.close();
+      setBallonRef(false);
+      polylineRef.current = null;
+    };
+
     const startRouteSelection = (type) => {
       setType(type);
 
@@ -236,6 +310,8 @@ const Cmap = memo(
     };
 
     const handleDragEnd = (e, index) => {
+      const map = mapRef.current;
+
       const newCoords = e.get("target").geometry.getCoordinates();
       const newPoints = [...points];
       newPoints[index] = newCoords;
@@ -243,6 +319,9 @@ const Cmap = memo(
       getDistanceInKm(newPoints[0], newPoints[1]);
       if (types === `route`) {
         drawRoute(newPoints[0], newPoints[1]);
+      } else {
+        setBallonRef(true);
+        // map.balloon.close();
       }
     };
 
@@ -361,6 +440,7 @@ const Cmap = memo(
 
         {types === `rules` && (
           <Polyline
+            instanceRef={(ref) => (polylineRef.current = ref)}
             geometry={points}
             onClick={handlePolylineClick}
             options={{
@@ -644,8 +724,8 @@ const Cmap = memo(
                         item?.bid_cash,
                         item?.new_status?.[0]
                       ),
-                      iconImageSize: [60, 72],
-                      iconImageOffset: [-15, -42],
+                      iconImageSize: [60, 40],
+                      iconImageOffset: [-30, -40], // pastki o‘rtaga to‘g‘ri keladi
                     }}
                     onBalloonOpen={(e) => {
                       const placemark = e.get("target");
