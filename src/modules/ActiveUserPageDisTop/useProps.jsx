@@ -1,5 +1,4 @@
 import {
-  useGetActionUser,
   useGetNewPredData,
   useGetRole,
   useGetUserPost,
@@ -9,7 +8,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import cls from "./style.module.scss";
-import { filter, Flex, Tooltip } from "@chakra-ui/react";
+import { Flex, Tooltip } from "@chakra-ui/react";
 import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
 import { commentObj, nameToRole, roleObj } from "@/utils/actionComment";
