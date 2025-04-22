@@ -14,6 +14,7 @@ import { TelegramIcon } from "@/assets/icons/icons";
 import { useDebounce as useDebounce2 } from "use-debounce";
 import { commentObj, nameToRole, roleObj } from "@/utils/actionComment";
 import copy from "copy-to-clipboard";
+import authStore from "@/store/auth.store";
 
 export const useProps = () => {
   const { control, errors, register, setError, setValue, watch } = useForm();
@@ -45,7 +46,8 @@ export const useProps = () => {
           role_slug: watch(`role`)?.role_slug || ``,
           start_time: formatDate(startDate, 0, 0, 0),
           end_time:formatDate(endDate, 23, 59, 59),
-          user_id: watch(`user`)?.value
+          user_id: watch(`user`)?.value,
+          top_dispatcher_id:authStore.userData?.guid,
         },
       },
     },
