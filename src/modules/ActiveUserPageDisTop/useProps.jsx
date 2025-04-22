@@ -30,7 +30,7 @@ export const useProps = () => {
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
   const formatDate = (date, hours, minutes, seconds) => {
     const newDate = new Date(date);
-    newDate.setHours(hours + 5, minutes, seconds,999);
+    newDate.setHours(hours + 5, minutes, seconds, 999);
     return newDate;
   };
 
@@ -45,27 +45,12 @@ export const useProps = () => {
           type: "log_history",
           role_slug: watch(`role`)?.role_slug || ``,
           start_time: formatDate(startDate, 0, 0, 0),
-          end_time:formatDate(endDate, 23, 59, 59),
+          end_time: formatDate(endDate, 23, 59, 59),
           user_id: watch(`user`)?.value,
-          top_dispatcher_id:authStore.userData?.guid,
+          top_dispatcher_id: authStore.userData?.guid,
         },
       },
     },
-    
-    // params: {
-    //   limit: 100,
-    //   offset: offset,
-    //   data: JSON.stringify({
-    //     role_id: watch(`role`)?.value,
-    //     user_id: watch(`user`)?.value,
-    //     role_slug: watch(`role`)?.role_slug,
-
-    //     action_time: {
-    //       $gte: formatDate(startDate, 0, 0, 0),
-    //       $lt: formatDate(endDate, 23, 59, 59),
-    //     },
-    //   }),
-    // },
     querySettings: {
       select: (res) => {
         return res.response.filter(
@@ -84,6 +69,7 @@ export const useProps = () => {
       refetchOnWindowFocus: false,
     },
   });
+
 
   const { data: roles } = useGetRole({
     querySettings: {
@@ -104,11 +90,11 @@ export const useProps = () => {
 
         setRoleData([
           ...result,
-          {
-            label: `Tоп Диспетчер`,
-            value: `785678f2-fae7-4a00-8766-99ea67d3784f`,
-            role_slug: `top_dispatcher`,
-          },
+          // {
+          //   label: `Tоп Диспетчер`,
+          //   value: `785678f2-fae7-4a00-8766-99ea67d3784f`,
+          //   role_slug: `top_dispatcher`,
+          // },
         ]);
       },
     },
@@ -344,6 +330,16 @@ export const useProps = () => {
     }
   }
 
+  console.log(`data`, data
+      ?.filter(
+        (person, index, self) =>
+          index === self.findIndex((p) => p.name === person.name)
+      )
+      ?.map((item) => ({
+        label: item?.user_name,
+        value: item?.user_id,
+      })));
+
   return {
     control,
     errors,
@@ -359,7 +355,15 @@ export const useProps = () => {
     endDate,
     setEndDate,
     roleData,
-    useList,
+    useList: data
+      ?.filter(
+        (person, index, self) =>
+          index === self.findIndex((p) => p.user_name === person.user_name)
+      )
+      ?.map((item) => ({
+        label: item?.user_name,
+        value: item?.user_id,
+      })),
     addPage,
     isFetching,
     setData,

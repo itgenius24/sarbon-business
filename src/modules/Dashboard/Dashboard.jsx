@@ -84,6 +84,8 @@ const Dashboard = ({ locale }) => {
     firmId,
     editFn,
     setData,
+    router,
+    index,
   } = useDashboard(locale);
 
   return (
@@ -251,10 +253,12 @@ const Dashboard = ({ locale }) => {
           >
             {filterDataLoadin && <SimpleLoader />}
             <Tabs
-            isLazy
+            defaultIndex={index * 1}
+              isLazy
               onChange={(el) => {
                 setStatus(el), setCurrentPage(1);
                 setData({});
+                router.push(`?index=${el}`);
               }}
               variant="unstyled"
             >
@@ -268,7 +272,6 @@ const Dashboard = ({ locale }) => {
                   <Tab> Топ Диспетчер</Tab>
                   <Tab>Заказчик</Tab>
                   <Tab>Скачиваний</Tab>
-
                 </TabList>
                 <Button
                   width={`fit-content`}
@@ -378,7 +381,7 @@ const Dashboard = ({ locale }) => {
                   />
                 </TabPanel>
                 <TabPanel>
-                   <ApkdowloadList  />
+                  <ApkdowloadList />
                 </TabPanel>
               </TabPanels>
             </Tabs>

@@ -162,13 +162,13 @@ const ActiveUserPageDisTop = ({ locale }) => {
         <Box mt={`25px`}>
           <SarbonTable isSticky variant="table" columns={columns} data={data} />
         </Box>
-        {data?.length >= 100 && (
+        {/* {data?.length >= 100 && (
           <Box mt={`15px`} width={`fit-content`}>
             <Button isLoading={isFetching} onClick={addPage}>
               Загрузить еще
             </Button>
           </Box>
-        )}
+        )} */}
       </Container>
     </Box>
   );
