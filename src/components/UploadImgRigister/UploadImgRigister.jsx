@@ -21,9 +21,10 @@ export const UploadImgRigister = ({
   const locale = useGetLang();
   const handleImageUpload = async (e) => {
     const result = await fileUpload(e);
- 
+    console.log(`ima`,process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
   };
+
 
   return (
     <Box

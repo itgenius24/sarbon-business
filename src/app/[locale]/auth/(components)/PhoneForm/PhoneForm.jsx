@@ -25,7 +25,7 @@ export const PhoneForm = ({
   const { t } = useTranslation(locale, "translation");
 
   return (
-    <Box height={"650px"} as="form" onSubmit={onSubmit}>
+    <Box width={`100%`} height={"650px"} as="form" onSubmit={onSubmit}>
 
       <AuthTitle mb="32px" title={title} />
   
@@ -38,12 +38,12 @@ export const PhoneForm = ({
       <Button size="md" type="submit" isLoading={isLoading}>
         {firstBtnText}
       </Button>
-      <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">
+      {/* <Text mt="32px" fontSize="14px" color="brand.600" lineHeight="20px">
         {t("Нажимая кнопку «Продолжить», вы принимаете условия")}{" "}
         <a className={cls.link} href="#">
           {t("Пользовательского соглашения")}
         </a>
-      </Text>
+      </Text> */}
     </Box>
   );
 };

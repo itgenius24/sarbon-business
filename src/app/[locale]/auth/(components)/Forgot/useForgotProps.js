@@ -34,7 +34,7 @@ export const useForgotProps = () => {
     handleSubmit,
     formState: { errors },
     control,
-    watch
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
@@ -54,7 +54,7 @@ export const useForgotProps = () => {
     router.back();
   };
 
-  const { data: useList } = useGetUserData({
+  const { data: useList,isFetching } = useGetUserData({
     params: {
       data: JSON.stringify({
         offset: 0,
@@ -66,39 +66,43 @@ export const useForgotProps = () => {
     },
     querySettings: {
       enabled: Boolean(nomer),
+      onSuccess: (res) => {
+        if (
+          res?.response?.[0]?.role_id &&
+          res?.response?.[0]?.role_id !== "921464fa-8308-46b7-9b66-363acf654e40"
+        ) {
+          phoneMutation.mutate({
+            recipient: nomer,
+            text: "code",
+            type: "PHONE",
+          });
+          authStore.setAuthData("userId", res?.response[0]?.guid);
+        } else if (
+          res?.response?.[0]?.role_id &&
+          res?.response?.[0]?.role_id === "921464fa-8308-46b7-9b66-363acf654e40"
+        ) {
+          setOpen(`vodetel`);
+        }
+        else if(res?.response.length === 0){
+          setOpen(`noUser`);
+        }
+      },
     },
   });
 
 
   const closeModal = () => {
-    setNomer(``)
-    setOpen(false)
-  }
-
-  
-
-  useEffect(() => {
-
-
-    if (useList?.response?.[0]?.role_id && useList?.response?.[0]?.role_id !== "921464fa-8308-46b7-9b66-363acf654e40") {
-      phoneMutation.mutate({
-        recipient: nomer,
-        text: "code",
-        type: "PHONE",
-      });
-      authStore.setAuthData("userId", useList?.response[0]?.guid);
-
-    } else if( useList?.response?.[0]?.role_id && useList?.response?.[0]?.role_id === "921464fa-8308-46b7-9b66-363acf654e40") {
-      setOpen(true);
-    }
-  }, [useList?.count]);
+    setNomer(``);
+    setOpen(false);
+  };
 
   function onSubmit(data) {
     authStore.setAuthData("phone", data.phone);
     authStore.setAuthData("isForgot", true);
     setNomer(data.phone);
- 
   }
+
+  console.log(`useList`, isFetching );
 
   return {
     register,
@@ -111,6 +115,7 @@ export const useForgotProps = () => {
     setOpen,
     open,
     watch,
-    closeModal
+    closeModal,
+    isLoading:isFetching || phoneMutation.isLoading,
   };
 };

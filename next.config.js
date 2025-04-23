@@ -15,7 +15,7 @@ const nextConfig = {
         `,
   },
   images: {
-    domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com"],
+    domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com", "cdn-api.furgo.uz"],
     remotePatterns: [
       {
         protocol: "https",
@@ -26,6 +26,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "flagcdn.com",
+        port: "",
+        pathname: "*/media/*",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn-api.furgo.uz",
         port: "",
         pathname: "*/media/*",
       },

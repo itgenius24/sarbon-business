@@ -24,13 +24,13 @@ export const Forgot = () => {
     setOpen,
     open,
     watch,
-    closeModal
+    closeModal,isLoading
   } = useForgotProps();
 
   return (
     <>
       <PhoneForm
-        // isLoading={isLoading}
+        isLoading={isLoading}
         navigateLogin={navigateLogin}
         onSubmit={handleSubmit(onSubmit)}
         backText={t("Вернуться на Войти")}
@@ -40,7 +40,7 @@ export const Forgot = () => {
         register={register}
         control={control}
       />
-      
+
       <Modal isOpen={open} isCentered>
         <ModalOverlay onClick={closeModal} />
         <ModalContent>
@@ -49,30 +49,32 @@ export const Forgot = () => {
           </ModalHeader>
           <ModalCloseButton onClick={() => closeModal()} />
           <ModalBody>
-          <Box>
-                <p
+            <Box>
+              <p
+                style={{
+                  fontWeight: 500,
+                  fontSize: "16px",
+                  lineHeight: `22px`,
+                }}
+              >
+               { open === `vodetel` ?  t(
+                  "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное"
+                ): t(`Данный телефон не прошёл регистрацию в контрольной системе`)}
+              {
+                open === `vodetel` &&   <a
+                  target="_blank"
+                  href="https://links.sarbon.me/"
                   style={{
-                    fontWeight: 500,
-                    fontSize: "16px",
-                    lineHeight: `22px`,
+                    color: `rgba(0, 122, 255, 1)`,
+                    cursor: `pointer`,
+                    marginLeft: `5px`,
                   }}
                 >
-                  {t(
-                    "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное"
-                  )}
-                  <a
-                    target="_blank"
-                    href="https://links.sarbon.me/"
-                    style={{
-                      color: `rgba(0, 122, 255, 1)`,
-                      cursor: `pointer`,
-                      marginLeft: `5px`,
-                    }}
-                  >
-                    {t("приложение Sarbon")}
-                  </a>
-                </p>
-              </Box>
+                  {t("приложение Sarbon")}
+                </a>
+              }
+              </p>
+            </Box>
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>
