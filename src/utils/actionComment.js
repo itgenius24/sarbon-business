@@ -1,5 +1,6 @@
 export const commentObj = {
     [`log_out`]:`Вышел из своего аккаунта`,
+    [`logout`]:`Вышел из своего аккаунта`,
     [`delete_account`]:`Водитель удалил приложение`,
     [`changed_own_info`]:`Изменил личные данные`,
     [`changed_own_password`]:`Изменил пароль`,

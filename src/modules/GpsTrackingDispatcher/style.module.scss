@@ -124,17 +124,16 @@ vertical-align: middle;
     }
   }
 
-
-  .modalWrap {
+  .modalWrapBtn{
     position: absolute;
     top: 0;
-    z-index: 232323;
+    z-index: 1;
     // background: transparent;
     width: 380px;
-    height: 100%;
-    // background-color: r;
+    // background-color: red;
+    // height: ;
     .filterBtn {
-      margin: 20px;
+      margin: 10px;
       padding: 8px 17px;
       background-color: white;
       box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
@@ -145,7 +144,15 @@ vertical-align: middle;
       width: fit-content;
       cursor: pointer;
     }
+   }
 
+
+  .modalWrap {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 380px;
+    height: 100%;
     .filter {
       width: 100%;
       padding: 21px 12px;

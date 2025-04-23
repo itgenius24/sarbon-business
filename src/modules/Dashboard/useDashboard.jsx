@@ -16,18 +16,20 @@ import cls from "./style.module.scss";
 
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Dropdown } from "@/components/Dropdown";
 
 export const useDashboard = (locale) => {
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const index = searchParams.get(`index`);
   const [currentPage, setCurrentPage] = useState(1);
   const { control, register, setValue, errors, watch } = useForm();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [date2, setDate2] = useState([]);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(index || `0`);
   const [date, setDate] = useState(``);
   const [data, setData] = useState({});
   const [firmId, setFirmId] = useState(``);
@@ -1452,5 +1454,7 @@ export const useDashboard = (locale) => {
     firmId,
     editFn,
     setData,
+    router,
+    index
   };
 };
