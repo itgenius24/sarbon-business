@@ -54,7 +54,6 @@ const DriverFree = ({
   register,
   watch,
 }) => {
-  console.log("contendSingle", contendSingle);
   const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(`contendSingle`, contendSingle);
   const { t } = useTranslation();

@@ -59,6 +59,8 @@ const Cmap = memo(
     const mapRef = useRef(null);
     const ymapsRef = useRef(null);
     const polylineRef = useRef(null);
+    const clustererRef = useRef({});
+
     const [ballonRef, setBallonRef] = useState(null);
     const multiRouteRef = useRef(null);
     const [clickCount, setClickCount] = useState(0);
@@ -84,20 +86,35 @@ const Cmap = memo(
 
     const openBalloonById = (id) => {
       const placemark = placemarkRefs.current[id];
+      if (!placemark) return;
 
-      if (placemark) {
-        const coords = placemark.geometry.getCoordinates();
+      const coords = placemark.geometry.getCoordinates();
+      const clusterer = clustererRef.current;
 
-        // Balloonni ochish
-        placemark.balloon.open();
-        setIsBalloonOpened(true);
-        // Mapni centerga o‘rnatish
-        if (mapRef.current) {
-          mapRef.current.setCenter(coords, 13, {
-            checkZoomRange: false,
-          });
+      if (clusterer) {
+        const clusters =
+          clusterer.getClusters?.() ?? clusterer.geoObjects.getArray?.();
+
+        for (let cluster of clusters) {
+          const geoObjects = cluster.getGeoObjects();
+          const match = geoObjects.find((obj) => obj === placemark);
+
+          if (match) {
+            mapRef.current.setCenter(coords, 20, { checkZoomRange: false });
+
+            clusterer.balloon.open(coords, {
+              content: placemark.properties.get("balloonContent"),
+            });
+
+            setIsBalloonOpened(true);
+            return;
+          }
         }
       }
+
+      placemark.balloon.open();
+      setIsBalloonOpened(true);
+      mapRef.current.setCenter(coords, 20, { checkZoomRange: false });
     };
 
     const handleCopy = (event) => {
@@ -476,7 +493,7 @@ const Cmap = memo(
           ]}
         />
 
-        {zoom >= 20 || guid ? (
+        {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const balloonContent2 = ReactDOMServer.renderToString(
@@ -539,6 +556,7 @@ const Cmap = memo(
           })
         ) : (
           <Clusterer
+            instanceRef={(ref) => (clustererRef.current = ref)}
             options={{
               clusterIconColor: "rgba(52, 199, 89, 1)",
               style: {

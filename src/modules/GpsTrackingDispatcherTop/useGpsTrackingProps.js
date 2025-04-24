@@ -5,6 +5,7 @@ import {
   useCreateLogHistory,
   useGetCarData,
   useGetCarDispatcherPost,
+  useGetCargoById,
   useGetCarRefueling,
   useGetCreateAddress,
   useGetMeasurement,
@@ -48,10 +49,25 @@ export const useGpsTrackingProps = () => {
   const { t } = useTranslation(locale, "translations");
 
   const [distanceParameters, setDistanceParameters] = useState({});
-      const searchParams = useSearchParams();
-  
+  const searchParams = useSearchParams();
+
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
+  const full_name = searchParams.get(`full_name`);
+  const battery = searchParams.get(`battery`);
+  const createdAt = searchParams.get(`createdAt`);
+  const os = searchParams.get(`os`);
+  const lat = searchParams.get(`lat`);
+  const long = searchParams.get(`long`);
+  const version = searchParams.get(`version`);
+  const phone = searchParams.get(`phone`);
+  const car_number = searchParams.get(`car_number`) || ``;
+  const car_country = searchParams.get(`car_country`) || `UZ`;
+  const type = searchParams.get(`car_type`) || ``;
+  const capacity = searchParams.get(`car_capacity`) || ``;
+  const height = searchParams.get(`car_height`)   || ``;
+  const car_type_name = searchParams.get(`car_type_name`) || ``;
+  const cargo_guid = searchParams.get(`cargo_guid`);
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
@@ -93,6 +109,68 @@ export const useGpsTrackingProps = () => {
       document.body.classList.remove("no-scroll");
     };
   }, [checked]);
+
+
+  const getCargo = useGetCargoById(
+    {
+      data: JSON.stringify({
+        guid: cargo_guid,
+        with_relations: true,
+      }),
+    },
+
+    {
+      onSuccess: (res) => {
+        const objContend = {
+          user: {
+            full_name,
+            guid,
+            phone,
+            provisions: [provisions],
+          },
+          users_gps: [
+            {
+              battery,
+              update_time: createdAt,
+              os,
+              lat,
+              long,
+              version,
+            },
+          ],
+          vehicles: [
+            {
+              car_country,
+              type,
+              capacity,
+              height,
+              car_number,
+              trailer_type_id_data: {
+                guid: type,
+                name: car_type_name,
+              },
+            },
+          ],
+          orders: [
+            {
+              cargo_id_data: res?.response?.[0],
+            },
+          ],
+        };
+        setContendSingle(objContend);
+        if (provisions === "empty") {
+          setModalType("driverFree");
+        } else if (provisions === "our_cargo") {
+          setModalType("driverCheck");
+        } else if (provisions === "someone_cargo") {
+          setModalType("driverQuestion");
+        } else if (provisions === "broke_down") {
+          setModalType("driverFree");
+        }
+      },
+      enabled: Boolean(cargo_guid),
+    }
+  );
 
   const {
     fields: locations,
@@ -157,18 +235,6 @@ export const useGpsTrackingProps = () => {
         ...intervalLocations,
         watch("to"),
       ]);
-      // if(multiRoute.getRoutes().get(0)) {
-      //   const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-      //   const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-      //   setDistanceParameters({ duration, distance });
-      // }
-      // console.log(multiRoute.getWayPoints());
-      // const locations = [watch("from"), ...locationNames, watch("to")];
-      // locations.forEach((item, index) => {
-      //   console.log(multiRoute.getWayPoints().get(index).properties.getAll());
-      // });
-      // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
-      // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
     }
   }
 
@@ -307,8 +373,6 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-  console.log(`dataDis`, getCarData);
-
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
     ?.map((item) => ({
@@ -359,19 +423,6 @@ export const useGpsTrackingProps = () => {
             users_gps: [item],
             orders: item?.order_data ? [item?.order_data] : undefined,
           }));
-          if (guid) {
-            let openData = data2?.filter((item) => item.user?.guid === guid);
-            setContendSingle(openData?.[0]);
-            if (provisions === "empty") {
-              setModalType("driverFree");
-            } else if (provisions === "our_cargo") {
-              setModalType("driverCheck");
-            } else if (provisions === "someone_cargo") {
-              setModalType("driverQuestion");
-            } else if (provisions === "broke_down") {
-              setModalType("driverFree");
-            }
-          }
           setCarsArr(data2);
         }
       },
@@ -379,21 +430,52 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-  // const { mutate: dataMutate, isLoading } = useGetCarDispatcher({
-  //   onSuccess: (data) => {
-  //     if (data?.response?.length) {
-  //       let data2 = data?.response?.map((item) => ({
-  //         ...item,
-  //         user: item?.users_id_data?.[0],
-  //         vehicles: [item?.vehicle_id_data],
-  //         firm_data: item?.firm_data,
-  //         users_gps: [item],
-  //         orders: item?.order_data ? [item?.order_data] : undefined,
-  //       }));
-  //       setCarsArr((res) => [...res, ...data2]);
-  //     }
-  //   },
-  // });
+
+  useEffect(() => {
+    if (guid && !cargo_guid) {
+      const objContend = {
+        user: {
+          full_name,
+          guid,
+          phone,
+          provisions: [provisions],
+        },
+        users_gps: [
+          {
+            battery,
+            update_time: createdAt,
+            os,
+            lat,
+            long,
+            version,
+          },
+        ],
+        vehicles: [
+          {
+            car_country,
+            type,
+            capacity,
+            height,
+            car_number,
+            trailer_type_id_data: {
+              guid: type,
+              name: car_type_name,
+            },
+          },
+        ],
+      };
+      setContendSingle(objContend);
+      if (provisions === "empty") {
+        setModalType("driverFree");
+      } else if (provisions === "our_cargo") {
+        setModalType("driverCheck");
+      } else if (provisions === "someone_cargo") {
+        setModalType("driverQuestion");
+      } else if (provisions === "broke_down") {
+        setModalType("driverFree");
+      }
+    }
+  }, []);
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -642,8 +724,6 @@ export const useGpsTrackingProps = () => {
     setOffset(0);
   };
 
-
-
   return {
     register,
     locations,
@@ -716,6 +796,7 @@ export const useGpsTrackingProps = () => {
     getCarData: getCarData?.filter((item) => item?.gps_data),
     driverLoading,
     setCarsArr,
-    isBalloonOpened, setIsBalloonOpened,
+    isBalloonOpened,
+    setIsBalloonOpened,
   };
 };

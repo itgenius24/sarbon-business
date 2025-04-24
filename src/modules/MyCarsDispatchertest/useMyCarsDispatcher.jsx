@@ -120,9 +120,21 @@ export const useMyCarsDispatcher = () => {
 
   const navigateFn = (row) => {
 
+    console.log(`row`, row);
     window.open(
-      `/${locale}/gps-tracking-dispatcher-top?guid=${row?.guid}&provisions=${row?.provisions}`
+      `/${locale}/gps-tracking-dispatcher-top?full_name=${row?.full_name}&battery=${row?.gps_data?.battery}&createdAt=${row?.gps_data?.createdAt}&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${row?.gps_data?.version}&guid=${row?.guid}&provisions=${row?.provisions}&phone=${row?.phone}&car_number=${row?.vehicle_data?.car_number || ``}&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
+        row?.vehicle_data?.car_type || ``}&car_capacity=${
+        row?.vehicle_data?.capacity ||``
+      }&car_height=${row?.vehicle_data?.height || ``}&car_type_name=${
+        row?.trailer_type_id_data?.[`name_${locale}`]
+          ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
+          : row?.trailer_type_id_data?.name || ``
+      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}`
     );
+
+    // window.open(
+    //   `/${locale}/gps-tracking-dispatcher-top?guid=${row?.guid}&provisions=${row?.provisions}&time=${row?.gps_data?.update_time}`,
+    // );
   };
 
   const { mutate: logHistory } = useCreateLogHistory({});

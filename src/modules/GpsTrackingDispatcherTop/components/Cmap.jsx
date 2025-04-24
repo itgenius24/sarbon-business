@@ -1,6 +1,5 @@
 "use client";
 import {
-
   GoodsFuraIcon,
   GoodsPhoneIcon,
   GreenFuraIcon,
@@ -36,14 +35,11 @@ const Cmap = memo(
     coordinates,
     cls,
     type,
-
     mapIcon,
     watch,
     setModalType,
-
     locationData,
     setLoadState,
-
     setContendSingle,
     contendHoverState,
     isBalloonOpened,
@@ -55,6 +51,7 @@ const Cmap = memo(
     const [zoom, setZoom] = useState(5);
     const searchParams = useSearchParams();
     const placemarkRefs = useRef({});
+    const clustererRef = useRef({});
     const guid = searchParams.get(`guid`);
     useEffect(() => {
       setIsClient(true);
@@ -72,19 +69,28 @@ const Cmap = memo(
 
     const openBalloonById = (id) => {
       const placemark = placemarkRefs.current[id];
-
-      if (placemark) {
-        const coords = placemark.geometry.getCoordinates();
-        placemark.balloon.open();
-        setIsBalloonOpened(true);
-
-        if (mapRef.current) {
-          mapRef.current.setCenter(coords, 13, {
-            checkZoomRange: false,
+      if (!placemark) return;
+    
+      const coords = placemark.geometry.getCoordinates();
+      const clusterer = clustererRef.current;
+    
+      if (clusterer) {
+        const state = clusterer.getObjectState(placemark);
+    
+        mapRef.current.setCenter(coords, 20, { checkZoomRange: false });
+    
+        if (state.isClustered) {
+          clusterer.balloon.open(coords, {
+            content: placemark.properties.get('balloonContent'),
           });
+        } else {
+          placemark.balloon.open();
         }
+    
+        setIsBalloonOpened(true);
       }
     };
+    
 
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();
@@ -112,14 +118,13 @@ const Cmap = memo(
     }, []);
 
     if (!isClient) {
-      return null; // Render nothing during SSR
+      return null;
     }
 
     let click = document.getElementById(`click`);
 
     click?.addEventListener(`click`, (e) => {
       e.stopPropagation();
-      // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone);
     });
 
@@ -181,7 +186,7 @@ const Cmap = memo(
           }}
         />
 
-        {zoom >= 20 || guid ? (
+        {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const balloonContent2 = ReactDOMServer.renderToString(
@@ -244,6 +249,7 @@ const Cmap = memo(
           })
         ) : (
           <Clusterer
+            instanceRef={(ref) => (clustererRef.current = ref)}
             options={{
               clusterIconColor: "rgba(52, 199, 89, 1)",
               style: {
