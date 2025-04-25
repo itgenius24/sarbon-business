@@ -37,7 +37,7 @@ export const useOtpProps = () => {
           // authStore.setAuthData("userId", data?.user_id);
           router.push(`/${locale}/auth/new-password`);
         } else {
-          router.push(`/${locale}/auth/registration-form`);
+          router.replace(`/${locale}/auth/registration-form`);
         }
       // }
     },

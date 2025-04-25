@@ -32,9 +32,12 @@ import cls from "./styles.module.scss";
 import qrImg from "@/assets/images/qrcode.svg";
 import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
+import AndroidPlay from "@/assets/images/android_apk.svg";
+
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useCreateApkDownloadMutation } from "@/services/api";
 
 export const Registration = () => {
   const {
@@ -56,6 +59,18 @@ export const Registration = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
+  const { mutate: apkData } = useCreateApkDownloadMutation({});
+
+  const downloadFn = () => {
+    apkData({
+      data: {
+        app_name: navigator.userAgent,
+        count: 1,
+        create_time: new Date(),
+      },
+    });
+  };
+
   return (
     <>
       <Box
@@ -68,7 +83,9 @@ export const Registration = () => {
       >
         <Box width={`100%`}>
           <AuthTitle mb="32px" title={t(`Создать аккаунт на Sarbon`)} />
-          <p className={cls.tabTitle}>{t(`Укажите ваш профиль деятельности`)}</p>
+          <p className={cls.tabTitle}>
+            {t(`Укажите ваш профиль деятельности`)}
+          </p>
           <Tabs
             defaultIndex={
               searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0
@@ -168,11 +185,14 @@ export const Registration = () => {
                       "Регистрация для водителей только через приложение Sarbon"
                     )}
                   </Text>
-                  <Flex gap={`29px`} mt={`39px`}>
+                  <Flex alignItems={`center`} gap={`29px`} mt={`39px`}>
                     <Image className={cls.imageQr} src={qrImg} alt="qrImg" />
                     <Box>
                       <p className={cls.qrDeck}>
-                        {t(`Чтобы зарегистрироваться и начать получать заказы, скачайте наше приложение Sarbon`)}.
+                        {t(
+                          `Чтобы зарегистрироваться и начать получать заказы, скачайте наше приложение Sarbon`
+                        )}
+                        .
                       </p>
                       <Flex mt={`30px`} gap={`16px`} alignItems={`center`}>
                         <a
@@ -191,13 +211,15 @@ export const Registration = () => {
                         </a>
 
                         <a
+                          onClick={() => downloadFn()}
                           style={{ cursor: `pointer` }}
                           className={cls.mobileAppLink}
-                          href="https://play.google.com/store/apps/details?id=uz.sarbon.mobile&pcampaignid=web_share"
+                          download
+                          href="https://pub-ad3c9716f37e4196af319dc25ffb8404.r2.dev/Sarbon%20mobile%201.0.5%20%2812%29-release.apk"
                           target="_blank"
                         >
                           <Image
-                            src={GooglePlay}
+                            src={AndroidPlay}
                             alt="Google play"
                             width={135}
                             height={40}
@@ -219,9 +241,7 @@ export const Registration = () => {
                   >
                     {t("Регистрация заказчиков временно приостановленна")}
                   </Text>
-                  <p className={cls.qrDeck}>
-                    {t(`re1Text`)}:
-                  </p>
+                  <p className={cls.qrDeck}>{t(`re1Text`)}:</p>
 
                   <a href={`tel:+998950056611`}>
                     <Flex className={cls.phone}>

@@ -142,7 +142,7 @@
   "Войти": "Kirish",
   "У вас нет аккаунта?": "Hisobingiz yo'qmi?",
   "Логин": "Kirish",
-  "Введите свой логин": "Kirishingizni kiriting",
+  "Введите свой логин": "Loginingizni kiriting",
   "Пароль": "Parol",
   "Введите свий пароль": "Parolingizni kiriting",
   "Этот пользователь не заказчик": "Bu foydalanuvchi buyurtmachi emas",
@@ -604,48 +604,40 @@
   "Регистрируйтесь и получите доступ к базе актуальных грузов с удобными фильтрами.": "Ro‘yxatdan o‘ting va qulay filtrlarga ega dolzarb yuklar bazasiga ega bo‘ling.",
   "Регистрация": "Ro‘yxatdan o‘tish",
 
-  
-    "Больше заказов — Выше доход": "Ko‘proq buyurtmalar — Ko‘proq daromad",
-    "Находите и выбирайте рейсы, которые выгодны именно вам.": "Aynan siz uchun foydali reyslarni toping va tanlang.",
-    "Удобный поиск и фильтры": "Qulay qidiruv va filtrlar",
-    "Фильтруйте грузы по маршруту, весу, стоимости и условиям.": "Yuklarni yo‘nalish, og‘irlik, narx va shartlarga qarab filtrlang.",
-    "Прямые сделки без посредников": "Vositachilarsiz to‘g‘ridan-to‘g‘ri kelishuvlar",
-    "Работайте напрямую с грузовладельцами, без лишних комиссий и задержек.": "Yuk egalari bilan bevosita, ortiqcha komissiyasiz va kechikishlarsiz ishlang.",
-    "Надежность и безопасность": "Ishonchlilik va xavfsizlik",
-    "Проверенные заказчики, отзывы, рейтинги и защита от недобросовестных клиентов.": "Tekshirilgan mijozlar, sharhlar, reytinglar va ishonchsizlardan himoya.",
-    "Всё под контролем в приложении": "Hammasi ilova orqali nazorat ostida",
-    "Следите за заказами, общайтесь с клиентами и управляйте перевозками онлайн.": "Buyurtmalarni kuzatib boring, mijozlar bilan muloqot qiling va yuk tashishni onlayn boshqaring.",
-    "Оповещения о новых грузах": "Yangi yuklar haqida xabarnomalar",
-    "Не тратьте время на поиск — подходящие заказы сами вас найдут.": "Qidirishga vaqt sarflamang — sizga mos buyurtmalar o‘zi sizni topadi.",
-  "Вход":"Kirish",
+  "Больше заказов — Выше доход": "Ko‘proq buyurtmalar — Ko‘proq daromad",
+  "Находите и выбирайте рейсы, которые выгодны именно вам.": "Aynan siz uchun foydali reyslarni toping va tanlang.",
+  "Удобный поиск и фильтры": "Qulay qidiruv va filtrlar",
+  "Фильтруйте грузы по маршруту, весу, стоимости и условиям.": "Yuklarni yo‘nalish, og‘irlik, narx va shartlarga qarab filtrlang.",
+  "Прямые сделки без посредников": "Vositachilarsiz to‘g‘ridan-to‘g‘ri kelishuvlar",
+  "Работайте напрямую с грузовладельцами, без лишних комиссий и задержек.": "Yuk egalari bilan bevosita, ortiqcha komissiyasiz va kechikishlarsiz ishlang.",
+  "Надежность и безопасность": "Ishonchlilik va xavfsizlik",
+  "Проверенные заказчики, отзывы, рейтинги и защита от недобросовестных клиентов.": "Tekshirilgan mijozlar, sharhlar, reytinglar va ishonchsizlardan himoya.",
+  "Всё под контролем в приложении": "Hammasi ilova orqali nazorat ostida",
+  "Следите за заказами, общайтесь с клиентами и управляйте перевозками онлайн.": "Buyurtmalarni kuzatib boring, mijozlar bilan muloqot qiling va yuk tashishni onlayn boshqaring.",
+  "Оповещения о новых грузах": "Yangi yuklar haqida xabarnomalar",
+  "Не тратьте время на поиск — подходящие заказы сами вас найдут.": "Qidirishga vaqt sarflamang — sizga mos buyurtmalar o‘zi sizni topadi.",
+  "Вход": "Kirish",
 
-  "Вход через соцсеть":"Sotsial tarmoq orqali kirish",
-  "Продолжить с Google":"Google bilan davom etish",
-  "Продолжить с Apple":"Davom etish Apple bilan",
-   "Еще нет аккаунта?": "Hisobingiz yo'qmi?",
-   
-    "Создать аккаунт на Sarbon": "Sarbon’da akkaunt yarating",
-    "Укажите ваш профиль деятельности": "Faoliyat profilingizni kiriting",
-    "Регистрация через соцсеть": "Ijtimoiy tarmoq orqali ro‘yxatdan o‘tish",
-    "Регистрация для водителей только через приложение Sarbon": "Haydovchilar faqat Sarbon ilovasi orqali ro‘yxatdan o‘tishlari mumkin",
-    "Чтобы зарегистрироваться и начать получать заказы, скачайте наше приложение Sarbon": "Ro‘yxatdan o‘tish va buyurtmalarni qabul qilish uchun Sarbon ilovamizni yuklab oling",
-    "Регистрация заказчиков временно приостановленна": "Buyurtmachilarni ro‘yxatdan o‘tkazish vaqtincha to‘xtatilgan",
-    "re1Text": "Agar tez yetkaziladigan va kuzatiladigan yukingiz bo‘lsa, quyidagi raqamga murojaat qiling",
-    "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное": "Siz allaqachon haydovchi sifatida ro‘yxatdan o‘tgansiz. Iltimos, mobil ilova orqali kiring",
-    "приложение Sarbon": "Sarbon ilovasi",
-    "Аккаунт с этим номером уже существует.": "Ushbu raqam bilan akkaunt allaqachon mavjud.",
-    "Войдите или восстановите доступ.": "Tizimga kiring yoki kirishni tiklang.",
-    "Перевозчик": "Tashuvchi",
+  "Вход через соцсеть": "Sotsial tarmoq orqali kirish",
+  "Продолжить с Google": "Google bilan davom etish",
+  "Продолжить с Apple": "Davom etish Apple bilan",
+  "Еще нет аккаунта?": "Hisobingiz yo'qmi?",
+
+  "Создать аккаунт на Sarbon": "Sarbon’da akkaunt yarating",
+  "Укажите ваш профиль деятельности": "Faoliyat profilingizni kiriting",
+  "Регистрация через соцсеть": "Ijtimoiy tarmoq orqali ro‘yxatdan o‘tish",
+  "Регистрация для водителей только через приложение Sarbon": "Haydovchilar faqat Sarbon ilovasi orqali ro‘yxatdan o‘tishlari mumkin",
+  "Чтобы зарегистрироваться и начать получать заказы, скачайте наше приложение Sarbon": "Ro‘yxatdan o‘tish va buyurtmalarni qabul qilish uchun Sarbon ilovamizni yuklab oling",
+  "Регистрация заказчиков временно приостановленна": "Buyurtmachilarni ro‘yxatdan o‘tkazish vaqtincha to‘xtatilgan",
+  "re1Text": "Agar tez yetkaziladigan va kuzatiladigan yukingiz bo‘lsa, quyidagi raqamga murojaat qiling",
+  "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное": "Siz allaqachon haydovchi sifatida ro‘yxatdan o‘tgansiz. Iltimos, mobil ilova orqali kiring",
+  "приложение Sarbon": "Sarbon ilovasi",
+  "Аккаунт с этим номером уже существует.": "Ushbu raqam bilan akkaunt allaqachon mavjud.",
+  "Войдите или восстановите доступ.": "Tizimga kiring yoki kirishni tiklang.",
+  "Перевозчик": "Tashuvchi",
   "Перевозчики": "Tashuvchilar",
 
-    "У меня уже есть аккаунт": "Menda allaqachon akkaunt bor",
-    "О системе Sarbon": "Sarbon tizimi haqida"
-
-
-
-  
-  
-
-
-    
+  "У меня уже есть аккаунт": "Menda allaqachon akkaunt bor",
+  "О системе Sarbon": "Sarbon tizimi haqida",
+  "Введите свой пароль": "Parolingizni kiriting"
 }

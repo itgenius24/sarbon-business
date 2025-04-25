@@ -22,7 +22,7 @@ import LoadingMap from "../Cargo/components/LoadingMap";
 import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 
-export default function GpsTrackingDispatcher({locale}) {
+export default function GpsTrackingDispatcher({ locale }) {
   const {
     register,
     errors,
@@ -77,8 +77,6 @@ export default function GpsTrackingDispatcher({locale}) {
     setIsBalloonOpened,
   } = useGpsTrackingProps(locale);
 
-
-
   const { t } = useTranslation(locale, "translations");
 
   return (
@@ -117,7 +115,6 @@ export default function GpsTrackingDispatcher({locale}) {
             isBalloonOpened={isBalloonOpened}
             setIsBalloonOpened={setIsBalloonOpened}
             currentUserLocationData={currentUserLocationData}
-
           />
         )}
 
