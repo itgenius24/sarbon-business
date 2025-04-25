@@ -29,7 +29,7 @@ import authStore from "@/store/auth.store";
 
 const SelectCargo = ({
   cls,
-  contendSingle,
+  currentUserLocationData,
   setCenterModalType,
   setOffset,
   statusIconChange,
@@ -45,8 +45,8 @@ const SelectCargo = ({
     data: {
       data: {
         object_data: {
-          from_lat: contendSingle?.lat,
-          from_long: contendSingle?.long,
+          from_lat: currentUserLocationData?.lat,
+          from_long: currentUserLocationData?.long,
           from_radius: 10000000000,
           page: 1,
           limit: 1000,
@@ -60,7 +60,7 @@ const SelectCargo = ({
     },
   });
 
-  console.log(`contendSingle`, dataMap);
+  console.log(`currentUserLocationData`, dataMap);
 
 
   const cargoData = useMemo(() => {
@@ -103,9 +103,9 @@ const SelectCargo = ({
             cargo_id: item.guid,
             customer_id: item?.users_id,
           })),
-          driver_id: contendSingle?.users_id,
+          driver_id: currentUserLocationData?.users_id,
           dispatcher_id: authStore?.userData.id,
-          firm_id: contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
+          firm_id: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
         },
       },
     });

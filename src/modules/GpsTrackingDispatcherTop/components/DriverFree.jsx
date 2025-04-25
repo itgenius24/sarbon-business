@@ -52,7 +52,7 @@ import { useTranslation } from "react-i18next";
 const DriverFree = ({
   cls,
   setModalType,
-  contendSingle,
+  currentUserLocationData,
   setCenterModalType,
   setIconStatus,
   errors,
@@ -62,13 +62,13 @@ const DriverFree = ({
 }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(`contendSingle`, contendSingle);
+  console.log(`currentUserLocationData`, currentUserLocationData);
   const { t } = useTranslation();
 
   const handleOpen = () => {
     onOpen();
     copy(
-      `https://yandex.com/maps/?ll=${contendSingle?.users_gps?.[0]?.long},${contendSingle?.users_gps?.[0]?.lat}&z=15&pt=${contendSingle?.users_gps?.[0]?.long},${contendSingle?.users_gps?.[0]?.lat},pm2rdm`
+      `https://yandex.com/maps/?ll=${currentUserLocationData?.users_gps?.[0]?.long},${currentUserLocationData?.users_gps?.[0]?.lat}&z=15&pt=${currentUserLocationData?.users_gps?.[0]?.long},${currentUserLocationData?.users_gps?.[0]?.lat},pm2rdm`
     );
     setTimeout(() => {
       onClose();
@@ -78,7 +78,7 @@ const DriverFree = ({
   const getUserGps = useGetUserGpsByIDData({
     params: {
       data: JSON.stringify({
-        guid: contendSingle?.disp_data?.[0]?.users_id_2,
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
         with_relations: true,
       }),
     },
@@ -87,11 +87,11 @@ const DriverFree = ({
   const getCompanyList = useGetCompanyList(
     {
       data: JSON.stringify({
-        guid: contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
+        guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
       }),
     },
     {
-      enabled: Boolean(contendSingle?.firm_data?.firm_data?.[0]?.firm_id),
+      enabled: Boolean(currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id),
     }
   );
 
@@ -122,7 +122,7 @@ const DriverFree = ({
           user_name: authStore.userData.full_name,
           phone_number: authStore.userData?.phone,
           user_id: authStore.userData.guid,
-          increment_id: contendSingle?.user?.your_id,
+          increment_id: currentUserLocationData?.user?.your_id,
           action_time: new Date(),
           role_slug: `top_dispatcher`,
           action_comment: `export_axcell_cargo`,
@@ -137,13 +137,13 @@ const DriverFree = ({
     getExcelFile.mutate({
       data: {
         object_data: {
-          driver_name: contendSingle?.user?.full_name,
-          driver_number: contendSingle?.user?.phone,
+          driver_name: currentUserLocationData?.user?.full_name,
+          driver_number: currentUserLocationData?.user?.phone,
           type: "dispatcher_driver",
           dispatcher_name: authStore.userData.full_name,
           distance: +watch(`distance`),
-          lat: contendSingle.lat * 1,
-          long: contendSingle?.long * 1,
+          lat: currentUserLocationData.lat * 1,
+          long: currentUserLocationData?.long * 1,
         },
       },
     });
@@ -159,11 +159,11 @@ const DriverFree = ({
         >
           <Flex gap={3}>
             <Avatar
-              name={contendSingle?.user?.full_name}
-              src={contendSingle?.user?.photo}
+              name={currentUserLocationData?.user?.full_name}
+              src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
+              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -186,16 +186,16 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(
+                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(
                     new Date(
-                      contendSingle?.users_gps?.[0]?.update_time
+                      currentUserLocationData?.users_gps?.[0]?.update_time
                     ).getHours() - 5
                   ),
                   "yyyy-MM-dd, HH:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
-                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
               <Box>
                 <Popover
@@ -264,7 +264,7 @@ const DriverFree = ({
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.os === "android" ? (
+                {currentUserLocationData?.users_gps?.[0]?.os === "android" ? (
                   <AndroidIcon />
                 ) : (
                   <AppleIcon />
@@ -273,7 +273,7 @@ const DriverFree = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.os}
+                    {currentUserLocationData?.users_gps?.[0]?.os}
                   </p>
                 </Box>
               </Flex>
@@ -285,7 +285,7 @@ const DriverFree = ({
               flexDirection={"column"}
             >
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.battery > 20 ? (
+                {currentUserLocationData?.users_gps?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
                   <BatareyIcon />
@@ -294,7 +294,7 @@ const DriverFree = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.battery}%
+                    {currentUserLocationData?.users_gps?.[0]?.battery}%
                   </p>
                 </Box>
               </Flex>
@@ -304,7 +304,7 @@ const DriverFree = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.version}
+                    {currentUserLocationData?.users_gps?.[0]?.version}
                   </p>
                 </Box>
               </Flex>
@@ -324,24 +324,24 @@ const DriverFree = ({
               color={`black`}
               placement="top-end"
               label={
-                contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                   : t(`Пока нет машины`)
               }
             >
               <p className={cls.cargoType}>
-                {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity} т.
+                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height} m3
+                <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
           </Flex>
@@ -352,7 +352,7 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
-            <span>{contendSingle?.vehicles?.[0]?.fuel_id_data?.name}</span>
+            <span>{currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}</span>
           </Flex>
           <Flex
             p={`10px 0px`}
@@ -361,7 +361,7 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Экологический класс`)}</span>
-            <span>{contendSingle?.vehicles?.[0]?.eco_standart}</span>
+            <span>{currentUserLocationData?.vehicles?.[0]?.eco_standart}</span>
           </Flex>
           <Flex pt={`10px`} width={"100%"} justifyContent={"space-between"}>
             <Flex gap={`5px`} alignItems={`center`}>
@@ -370,7 +370,7 @@ const DriverFree = ({
                 background={`white`}
                 color={`black`}
                 placement="top-end"
-                label={contendSingle?.vehicles?.[0]?.car_country || `uz`}
+                label={currentUserLocationData?.vehicles?.[0]?.car_country || `uz`}
               >
                 <Image
                   style={{
@@ -380,24 +380,24 @@ const DriverFree = ({
                   width={100}
                   height={100}
                   src={flegCountry(
-                    contendSingle?.vehicles?.[0]?.car_country || `uz`
+                    currentUserLocationData?.vehicles?.[0]?.car_country || `uz`
                   )}
                 />
               </Tooltip>
               <Box>
                 <p style={{ color: `black`, fontWeight: 400 }}>
-                  {contendSingle?.vehicles?.[0]?.car_number}
+                  {currentUserLocationData?.vehicles?.[0]?.car_number}
                 </p>
               </Box>
             </Flex>
           </Flex>
         </Box>
 
-        {/* {contendSingle?.user?.provisions?.[0] === `broke_down` ? (
+        {/* {currentUserLocationData?.user?.provisions?.[0] === `broke_down` ? (
           <Button
             onClick={() => {
               setCenterModalType("changeIcon");
-              setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
+              setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
             }}
             leftIcon={<CencelMapIcon />}
             rightIcon={<NextBtnIcon />}
@@ -410,7 +410,7 @@ const DriverFree = ({
           <Button
             onClick={() => {
               setCenterModalType("changeIcon");
-              setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
+              setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
             }}
             leftIcon={<LoadgreenIcon />}
             rightIcon={<NextBtnIcon />}

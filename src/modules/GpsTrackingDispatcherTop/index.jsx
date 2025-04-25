@@ -48,8 +48,8 @@ export default function GpsTrackingDispatcherTop({locale}) {
     distance,
     mapIcon,
     handleClear,
-    setContendSingle,
-    contendSingle,
+    setCurrentUserLocationData,
+    currentUserLocationData,
     setIconStatus,
     iconStatus,
     statusIconChange,
@@ -99,7 +99,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
             mapIcon={mapIcon}
             watch={watch}
             isLoading={isLoading}
-            setContendSingle={setContendSingle}
+            setCurrentUserLocationData={setCurrentUserLocationData}
             contendHoverState={contendHoverState}
           />
         ) : (
@@ -113,11 +113,11 @@ export default function GpsTrackingDispatcherTop({locale}) {
             mapIcon={mapIcon}
             watch={watch}
             isLoading={isLoading}
-            setContendSingle={setContendSingle}
+            setCurrentUserLocationData={setCurrentUserLocationData}
             contendHoverState={contendHoverState}
             isBalloonOpened={isBalloonOpened}
             setIsBalloonOpened={setIsBalloonOpened}
-            contendSingle={contendSingle}
+            currentUserLocationData={currentUserLocationData}
           />
         )}
 
@@ -166,7 +166,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
                 <DriverFree
                   cls={cls}
                   setModalType={setModalType}
-                  contendSingle={contendSingle}
+                  currentUserLocationData={currentUserLocationData}
                   setCenterModalType={setCenterModalType}
                   setIconStatus={setIconStatus}
                   errors={errors}
@@ -179,14 +179,14 @@ export default function GpsTrackingDispatcherTop({locale}) {
                 <DriverExpectation
                   setModalType={setModalType}
                   cls={cls}
-                  contendSingle={contendSingle}
+                  currentUserLocationData={currentUserLocationData}
                   setCenterModalType={setCenterModalType}
                 />
               )}
               {modalType === "driverCheck" && (
                 <DriverCheck
                   cls={cls}
-                  contendSingle={contendSingle}
+                  currentUserLocationData={currentUserLocationData}
                   setCenterModalType={setCenterModalType}
                   setModalType={setModalType}
                   setIconStatus={setIconStatus}
@@ -197,7 +197,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
                   setModalType={setModalType}
                   addressAdd={addressAdd}
                   cls={cls}
-                  contendSingle={contendSingle}
+                  currentUserLocationData={currentUserLocationData}
                   setCenterModalType={setCenterModalType}
                   setStateMap={setStateMap}
                   handleOpenModal={handleOpenModal}
@@ -236,7 +236,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
           <div className={cls.leftModal}>
             <SelectCargo
               cls={cls}
-              contendSingle={contendSingle}
+              currentUserLocationData={currentUserLocationData}
               setCenterModalType={setCenterModalType}
               setOffset={setOffset}
               statusIconChange={statusIconChange}

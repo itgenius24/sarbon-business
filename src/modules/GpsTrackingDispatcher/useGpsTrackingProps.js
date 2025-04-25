@@ -58,7 +58,7 @@ export const useGpsTrackingProps = () => {
   const [offset, setOffset] = useState(1);
   const [remainingData, setRemainingData] = useState([]);
   const [offsetCar, setOffsetCAr] = useState(1);
-  const [contendSingle, setContendSingle] = useState();
+  const [currentUserLocationData, setCurrentUserLocationData] = useState();
   const [iconStatus, setIconStatus] = useState(``);
   const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
@@ -137,7 +137,7 @@ export const useGpsTrackingProps = () => {
             },
           ],
         };
-        setContendSingle(objContend);
+        setCurrentUserLocationData(objContend);
         if (provisions === "empty") {
           setModalType("driverFree");
         } else if (provisions === "our_cargo") {
@@ -379,7 +379,7 @@ export const useGpsTrackingProps = () => {
           },
         ],
       };
-      setContendSingle(objContend);
+      setCurrentUserLocationData(objContend);
       if (provisions === "empty") {
         setModalType("driverFree");
       } else if (provisions === "our_cargo") {
@@ -511,7 +511,7 @@ export const useGpsTrackingProps = () => {
       }
 
       const find = getCarListProps?.data?.map((item) => {
-        if (item?.user?.guid === contendSingle.user?.guid) {
+        if (item?.user?.guid === currentUserLocationData.user?.guid) {
           return { ...item, ...(item.user.provisions = [iconStatus]) };
         }
         return item;
@@ -524,7 +524,7 @@ export const useGpsTrackingProps = () => {
 
   const addAdress = () => {
     const body = {
-      guid: contendSingle.users_id_data?.guid,
+      guid: currentUserLocationData.users_id_data?.guid,
       address_name: addressAdd?.address,
     };
     userUpdate({ data: body });
@@ -585,7 +585,7 @@ export const useGpsTrackingProps = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid: contendSingle.user?.guid,
+      guid: currentUserLocationData.user?.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
@@ -594,7 +594,7 @@ export const useGpsTrackingProps = () => {
         user_name: authStore.userData.full_name,
         phone_number: authStore.userData?.phone,
         user_id: authStore.userData.guid,
-        increment_id: contendSingle?.user.your_id,
+        increment_id: currentUserLocationData?.user.your_id,
         action_time: new Date(),
         role_slug: `first_dispatcher`,
         action_comment: `changed_driver_status`,
@@ -655,8 +655,8 @@ export const useGpsTrackingProps = () => {
     setDistance,
     distance,
     handleClear,
-    setContendSingle,
-    contendSingle,
+    setCurrentUserLocationData,
+    currentUserLocationData,
     setIconStatus,
     iconStatus,
     statusIconChange,

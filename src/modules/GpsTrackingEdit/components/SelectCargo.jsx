@@ -32,7 +32,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 
 const SelectCargo = ({
   cls,
-  contendSingle,
+  currentUserLocationData,
   setCenterModalType,
   setOffset,
   statusIconChange,
@@ -47,7 +47,7 @@ const SelectCargo = ({
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
-      users_id: contendSingle.user.guid,
+      users_id: currentUserLocationData.user.guid,
       with_relations: true,
       order_status: ["active"],
       cargo_type: ["cargo"],
@@ -55,7 +55,7 @@ const SelectCargo = ({
   };
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!contendSingle.user.guid,
+    enabled: !!currentUserLocationData.user.guid,
   });
 
   const cargoData = useMemo(() => {
@@ -89,7 +89,7 @@ const SelectCargo = ({
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          user_id: contendSingle?.user?.users_id,
+          user_id: currentUserLocationData?.user?.users_id,
           guid: selectCargo,
         },
       },

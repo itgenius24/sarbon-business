@@ -40,11 +40,11 @@ const Cmap = memo(
     setModalType,
     locationData,
     setLoadState,
-    setContendSingle,
+    setCurrentUserLocationData,
     contendHoverState,
     isBalloonOpened,
     setIsBalloonOpened,
-    contendSingle,
+    currentUserLocationData,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -59,7 +59,7 @@ const Cmap = memo(
 
 
     useEffect(() => {
-      if (guid && contendSingle && mapRef.current && !isBalloonOpened) {
+      if (guid && currentUserLocationData && mapRef.current && !isBalloonOpened) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
         }, 400);
@@ -173,16 +173,16 @@ const Cmap = memo(
           }}
         />
 
-        {guid && contendSingle && (
+        {guid && currentUserLocationData && (
           <Placemark
-            key={contendSingle?.user?.guid}
+            key={currentUserLocationData?.user?.guid}
             geometry={[
-              contendSingle?.users_gps?.[0]?.lat,
-              contendSingle?.users_gps?.[0]?.long,
+              currentUserLocationData?.users_gps?.[0]?.lat,
+              currentUserLocationData?.users_gps?.[0]?.long,
             ]}
             properties={{
               balloonContent: ReactDOMServer.renderToString(
-                <BalloonContent cls={cls} carInfo={contendSingle} t={t} />
+                <BalloonContent cls={cls} carInfo={currentUserLocationData} t={t} />
               ),
             }}
             instanceRef={(ref) => {
@@ -196,9 +196,9 @@ const Cmap = memo(
                 "data:image/svg+xml;charset=UTF-8," +
                 encodeURIComponent(
                   mapIcon[
-                    contendSingle?.order_data
+                    currentUserLocationData?.order_data
                       ? `our_cargo`
-                      : contendSingle?.user?.provisions?.[0]
+                      : currentUserLocationData?.user?.provisions?.[0]
                   ] || GreenMapIcon
                 ),
               iconImageSize:
@@ -209,18 +209,18 @@ const Cmap = memo(
             }}
             modules={["geoObject.addon.balloon"]}
             onClick={() => {
-              setContendSingle(contendSingle);
+              setCurrentUserLocationData(currentUserLocationData);
               if (
-                contendSingle?.order_data ||
-                contendSingle?.user?.provisions?.[0] === "our_cargo"
+                currentUserLocationData?.order_data ||
+                currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
               ) {
                 setModalType("driverCheck");
               } else if (
-                contendSingle?.user?.provisions?.[0] === "someone_cargo"
+                currentUserLocationData?.user?.provisions?.[0] === "someone_cargo"
               ) {
                 setModalType("driverQuestion");
               } else if (
-                contendSingle?.user?.provisions?.[0] === "waiting_for_driver"
+                currentUserLocationData?.user?.provisions?.[0] === "waiting_for_driver"
               ) {
                 setModalType("driverExpectation");
               } else {
@@ -269,7 +269,7 @@ const Cmap = memo(
                   }}
                   modules={["geoObject.addon.balloon"]}
                   onClick={() => {
-                    setContendSingle(carInfo);
+                    setCurrentUserLocationData(carInfo);
                     if (
                       carInfo?.order_data ||
                       carInfo?.user?.provisions?.[0] === "our_cargo"
@@ -340,7 +340,7 @@ const Cmap = memo(
                       }}
                       modules={["geoObject.addon.balloon"]}
                       onClick={() => {
-                        setContendSingle(carInfo);
+                        setCurrentUserLocationData(carInfo);
                         if (
                           carInfo?.order_data ||
                           carInfo?.user?.provisions?.[0] === "our_cargo"

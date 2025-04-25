@@ -35,7 +35,7 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
+const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
   const { t } = useTranslation();
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
@@ -45,11 +45,11 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
-        users_id_2: contendSingle?.user?.guid,
+        users_id_2: currentUserLocationData?.user?.guid,
         with_relations: true,
       }),
     },
-    { enabled: Boolean(contendSingle?.user?.guid) }
+    { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
   const updateResponseMutation = useUpdateResponse({
@@ -62,12 +62,12 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
     },
   });
 
-  console.log(`getOfferCount`, contendSingle?.orders?.[0]);
+  console.log(`getOfferCount`, currentUserLocationData?.orders?.[0]);
 
   const handleMutation = () => {
     updateResponseMutation.mutate({
       data: {
-        guid: contendSingle?.orders?.[0]?.cargo_id_data?.guid,
+        guid: currentUserLocationData?.orders?.[0]?.cargo_id_data?.guid,
         provisions: ["cancellation"],
         who_cancellation: ["customer"],
       },
@@ -84,11 +84,11 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
         >
           <Flex gap={3}>
             <Avatar
-              name={contendSingle?.user?.full_name}
-              src={contendSingle?.user?.photo}
+              name={currentUserLocationData?.user?.full_name}
+              src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
+              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
               <p className={cls.version}>
                 {" "}
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
@@ -118,12 +118,12 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(new Date(currentUserLocationData?.users_gps?.[0]?.update_time).getHours() - 5),
                   "yyyy-MM-dd, HH:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
-                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
             </Box>
           </Flex>
@@ -142,7 +142,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.os === "android" ? (
+                {currentUserLocationData?.users_gps?.[0]?.os === "android" ? (
                   <AndroidIcon />
                 ) : (
                   <AppleIcon />
@@ -150,7 +150,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                 <Box>
                   <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.os}
+                    {currentUserLocationData?.users_gps?.[0]?.os}
                   </p>
                 </Box>
               </Flex>
@@ -162,7 +162,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
               rowGap={"15px"}
             >
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.battery > 20 ? (
+                {currentUserLocationData?.users_gps?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
                   <BatareyIcon />
@@ -170,7 +170,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.battery}%
+                    {currentUserLocationData?.users_gps?.[0]?.battery}%
                   </p>
                 </Box>
               </Flex>
@@ -179,7 +179,7 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                 <Box>
                   <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.version}
+                    {currentUserLocationData?.users_gps?.[0]?.version}
                   </p>
                 </Box>
               </Flex>
@@ -194,18 +194,18 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
             </div>
             <Box>
               <p className={cls.cardStartTitle}>
-                {contendSingle?.orders?.[0]?.cargo_id_data?.from}
+                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.from}
               </p>
               <p className={cls.cardStartSubTitle}>
                 {
-                  contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data
+                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_data
                     ?.address_id_data?.name
                 }{" "}
                 /{" "}
                 <span>
                   {format(
-                    contendSingle?.orders?.[0]?.cargo_id_data?.load_time
-                      ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
+                      ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
                       : new Date(),
                     "yyyy-MM-dd"
                   )}
@@ -217,18 +217,18 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
             <div className={cls.startBIcon}>B</div>
             <Box>
               <p className={cls.cardStartTitle}>
-                {contendSingle?.orders?.[0]?.cargo_id_data?.to}
+                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.to}
               </p>
               <p className={cls.cardStartSubTitle}>
                 {
-                  contendSingle?.orders?.[0]?.cargo_id_data?.city_id_2_data
+                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_2_data
                     ?.address_id_data?.name
                 }{" "}
                 /{" "}
                 <span>
                   {format(
-                    contendSingle?.orders?.[0]?.cargo_id_data?.date
-                      ? contendSingle?.orders?.[0]?.cargo_id_data?.date
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
+                      ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
                       : new Date(),
                     "yyyy-MM-dd"
                   )}
@@ -245,18 +245,18 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
                 <Flex width={"100%"} justifyContent={"space-between"}>
                   <span>
                     {
-                      contendSingle?.orders?.[0]?.cargo_id_data
+                      currentUserLocationData?.orders?.[0]?.cargo_id_data
                         ?.cargo_type_id_data?.name
                     }
                   </span>
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
                       <StoneIcon />{" "}
-                      {contendSingle?.orders?.[0]?.cargo_id_data?.weight} т.
+                      {currentUserLocationData?.orders?.[0]?.cargo_id_data?.weight} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
                       <LoadOulineIcon />{" "}
-                      {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3}m3
+                      {currentUserLocationData?.orders?.[0]?.cargo_id_data?.volume_m3}m3
                     </Flex>
                   </Flex>
                 </Flex>
@@ -271,16 +271,16 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
           </Flex>
           <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
             <p className={cls.sum}>
-              {contendSingle?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
+              {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
               {
-                contendSingle?.orders?.[0]?.cargo_id_data?.currency_id_data
+                currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data
                   ?.code
               }{" "}
             </p>
             <p className={cls.cardStartSubTitle}>
               {t(`Предоплата`)}:{" "}
               <span>
-                {contendSingle?.orders?.[0]?.cargo_id_data
+                {currentUserLocationData?.orders?.[0]?.cargo_id_data
                   ?.prepayment_percentage > 0
                   ? "Дa"
                   : "Нет"}
@@ -291,14 +291,14 @@ const DriverExpectation = ({ cls, setModalType, contendSingle }) => {
         <Box className={cls.cardWrapOutline}>
           <Flex width={"100%"} alignItems={"center"} gap={3}>
             <Avatar
-              name={contendSingle?.orders?.[0]?.users_id_3_data?.full_name}
-              src={contendSingle?.orders?.[0]?.users_id_3_data?.photo}
+              name={currentUserLocationData?.orders?.[0]?.users_id_3_data?.full_name}
+              src={currentUserLocationData?.orders?.[0]?.users_id_3_data?.photo}
             />
             <Box>
               <p className={cls.cardStartSubTitle}>Диспетчер: </p>
               <p className={cls.name}>
-                {contendSingle?.orders?.[0]?.users_id_3_data?.full_name}{" "}
-                {contendSingle?.orders?.[0]?.users_id_3_data?.your_id}
+                {currentUserLocationData?.orders?.[0]?.users_id_3_data?.full_name}{" "}
+                {currentUserLocationData?.orders?.[0]?.users_id_3_data?.your_id}
               </p>
               <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
             </Box>

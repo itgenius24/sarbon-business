@@ -54,7 +54,7 @@ const Cmap = memo(
     setModalType,
     locationData,
     setLoadState,
-    setContendSingle,
+    setCurrentUserLocationData,
   }) => {
     const user_type = authStore?.userData?.user_status;
     const mapRef = useRef(null);
@@ -659,7 +659,7 @@ const Cmap = memo(
                         const balloonInstance = placemark.balloon;
                       }}
                       onClick={() => {
-                        setContendSingle(carInfo);
+                        setCurrentUserLocationData(carInfo);
                         if (carInfo?.user?.provisions?.[0] === "our_cargo") {
                           setModalType("driverCheck");
                         } else if (
@@ -1289,7 +1289,7 @@ const Cmap = memo(
                         const balloonInstance = placemark.balloon;
                       }}
                       onClick={() => {
-                        setContendSingle(carInfo);
+                        setCurrentUserLocationData(carInfo);
                         if (carInfo?.user?.provisions?.[0] === "our_cargo") {
                           setModalType("driverCheck");
                         } else if (

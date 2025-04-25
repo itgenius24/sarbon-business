@@ -21,7 +21,7 @@ import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 
-const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
+const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState("");
   const [search, setSearch] = useState("");
@@ -29,7 +29,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
-      users_id: contendSingle.user.guid,
+      users_id: currentUserLocationData.user.guid,
       with_relations: true,
       order_status: ["active"],
       cargo_type: ["cargo"],
@@ -37,7 +37,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   };
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!contendSingle.user.guid,
+    enabled: !!currentUserLocationData.user.guid,
   });
 
   const cargoData = useMemo(() => {
@@ -71,7 +71,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          user_id: contendSingle?.user?.users_id,
+          user_id: currentUserLocationData?.user?.users_id,
           guid: selectCargo,
         },
       },
