@@ -215,7 +215,7 @@ export const useAllCargoDispatcher = () => {
       key: `time`,
       filterType: (type) => timeSort(type),
       render: (row, index) =>
-        row?.cargo?.load_time ? (
+        !row?.cargo?.as_soon_as_a ? (
           <p className={cls.countryName}>
             {format(row?.cargo?.load_time, "d MMMM yyyy", { locale: ru })}
           </p>
@@ -230,7 +230,7 @@ export const useAllCargoDispatcher = () => {
       key: `time`,
       filterType: (type) => timeSortDate(type),
       render: (row, index) =>
-        row?.cargo?.date ? (
+        !row?.cargo?.as_soon_as_b ? (
           <p className={cls.countryName}>
             {format(row?.cargo?.date, "d MMMM yyyy", { locale: ru })}
           </p>
