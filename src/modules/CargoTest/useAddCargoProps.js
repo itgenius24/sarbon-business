@@ -69,7 +69,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   );
 
   const isCargo =
-    status === "active" || status === "in_moderation" || status === "in_active";
+    status === "active" || status === "in_moderation" || status === "in_active" || status === "rejected";
 
   const { t } = useTranslation(locale, "translations");
 
@@ -390,7 +390,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const templateParams = { cargo_id: templateId };
 
   const isAllCargo =
-    status === "active" || status === "in_moderation" || status === "in_active";
+    status === "active" || status === "in_moderation" || status === "in_active" ||  status === "rejected";
 
   const getMaps = useGetMaps(
     {
@@ -878,6 +878,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         return getCargo.data?.response?.[0];
       case "active":
         return getCargo.data?.response?.[0];
+        case "rejected":
+          return getCargo.data?.response?.[0];
       default:
         return getOfferCargoById.data?.response[0];
     }
@@ -936,6 +938,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ];
 
     if (data && id) {
+      console.log(`data`, data);
       setStartDate(new Date(data?.load_time || new Date()));
       setEndDate(new Date(data?.date || new Date()));
       if (data?.money_code) {
@@ -1083,6 +1086,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         ? getData()?.cargo_id_data
         : getData();
       resetForm(data, id);
+      console.log(`data`, getData());
     }
   }, [getCargo.data, getOfferCargoById.data]);
 

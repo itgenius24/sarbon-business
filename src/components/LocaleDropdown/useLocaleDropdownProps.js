@@ -18,7 +18,7 @@ export const useLocaleDropdownProps = ({ locale }) => {
     {
       value: "uz",
       label: "O'zbekcha",
-      shortName: "Уз",
+      shortName: "Uz",
       icon: "https://flagcdn.com/w320/uz.png",
     },
     {

@@ -27,9 +27,10 @@ import {
 } from "@/assets/icons/icons";
 import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export const useGpsTrackingProps = () => {
+export const useGpsTrackingProps = (locale) => {
+  const router = useRouter()
   const searchParams = useSearchParams();
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
@@ -498,6 +499,7 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
+      router.push(`/${locale}/gps-tracking-dispatcher`);
       setCenterModalType(``);
       setAddressAdd("");
       if (iconStatus === "empty") {

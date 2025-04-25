@@ -50,6 +50,7 @@ import { TopContent } from "../Cargo/components/TopContent";
 import { useRouter } from "next/navigation";
 
 export const CargoViews = observer(({ id, status, locale }) => {
+  console.log("status:", status);
   const [cargoIndex, setCargoIndex] = useState(1);
   const [open, setOpen] = useState(false);
   const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
@@ -66,7 +67,8 @@ export const CargoViews = observer(({ id, status, locale }) => {
     if (
       status === "active" ||
       status === "in_active" ||
-      status === "in_moderation"
+      status === "in_moderation" ||
+      status === "rejected"
     ) {
       addCargoProps.handleEditActiveToggle();
     }
@@ -89,11 +91,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
           <Heading fontSize={!isLargerThan800 ? "24px" : "30px"} size="md">
             {!addCargoProps.canEdit ? (
               <>
-                {console.log(`addCargoProps.address2`, addCargoProps.address2)}
                 {addCargoProps.address1} - {addCargoProps.address2}
-                {/* <Text as="span" color="brand.500">
-                  {addCargoProps.distance} km
-                </Text> */}
               </>
             ) : (
               t(`Редактировать груз`)
@@ -402,6 +400,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
           {addCargoProps.canEditActive &&
             (status === "active" ||
               status === "in_active" ||
+              status === "rejected" ||
               status === "in_moderation") && (
               <Box
                 display="flex"
