@@ -334,7 +334,6 @@ const Cmap = memo(
       });
     };
 
-    console.log(`currentUserLocationData`, currentUserLocationData);
 
     if (!isClient) {
       return null; // Render nothing during SSR
