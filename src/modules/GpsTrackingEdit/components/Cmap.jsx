@@ -52,7 +52,7 @@ const Cmap = memo(
     locationData,
     setLoadState,
 
-    setContendSingle,
+    setCurrentUserLocationData,
     contendHoverState,
   }) => {
     const { t } = useTranslation();
@@ -549,7 +549,7 @@ const Cmap = memo(
                       const placemark = e.get("target");
                       const balloonInstance = placemark.balloon;
                       // balloonInstance.events.add("click", () => {
-                      //   setContendSingle(carInfo);
+                      //   setCurrentUserLocationData(carInfo);
                       //   if (carInfo?.user?.provisions?.[0] === "our_cargo") {
                       //     setModalType("driverCheck");
                       //   } else if (
@@ -567,7 +567,7 @@ const Cmap = memo(
                       // });
                     }}
                     onClick={() => {
-                      setContendSingle(carInfo);
+                      setCurrentUserLocationData(carInfo);
                       if (carInfo?.user?.provisions?.[0] === "our_cargo") {
                         setModalType("driverCheck");
                       } else if (

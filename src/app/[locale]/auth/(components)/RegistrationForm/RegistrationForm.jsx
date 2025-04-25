@@ -50,6 +50,7 @@ import { UploadImg } from "@/components/UploadImg";
 import { UploadImgRigister } from "@/components/UploadImgRigister";
 import MobileRegistrationForm from "./MobileRegistrationForm";
 import authStore from "@/store/auth.store";
+import FormInternationInput from "@/components/Input/FormInternationalInput";
 
 export const RegistrationForm = () => {
   const {
@@ -111,17 +112,34 @@ export const RegistrationForm = () => {
                 <p className={cls.title}>Учётные данные для входа</p>
                 {authStore?.authData?.mediaAuth ? (
                   <Box className={cls.box}>
-                    <Flex width={`fit-content`} justifyContent={`space-around`} alignItems={`center`} className={cls.authWrap}>
-                       <Avatar size='sm' src="" name={authStore?.authData?.mediaAuth?.full_name}/>
-                       <Box>
-                         <Text lineHeight={`18px`} fontSize={`14px`} fontWeight={`600`}>
-                            {authStore?.authData?.mediaAuth?.full_name}
-                         </Text>
-                         <Text lineHeight={`15px`} fontSize={`13px`} fontWeight={`400`}>
-                            {authStore?.authData?.mediaAuth?.email}
-                         </Text>
-                       </Box>
-                       <GoogleIcon />
+                    <Flex
+                      width={`fit-content`}
+                      justifyContent={`space-around`}
+                      alignItems={`center`}
+                      className={cls.authWrap}
+                    >
+                      <Avatar
+                        size="sm"
+                        src=""
+                        name={authStore?.authData?.mediaAuth?.full_name}
+                      />
+                      <Box>
+                        <Text
+                          lineHeight={`18px`}
+                          fontSize={`14px`}
+                          fontWeight={`600`}
+                        >
+                          {authStore?.authData?.mediaAuth?.full_name}
+                        </Text>
+                        <Text
+                          lineHeight={`15px`}
+                          fontSize={`13px`}
+                          fontWeight={`400`}
+                        >
+                          {authStore?.authData?.mediaAuth?.email}
+                        </Text>
+                      </Box>
+                      <GoogleIcon />
                     </Flex>
                   </Box>
                 ) : (
@@ -194,7 +212,7 @@ export const RegistrationForm = () => {
                   <TextField
                     label="Email"
                     name="email"
-                     disabled={authStore?.authData?.mediaAuth && true}
+                    disabled={authStore?.authData?.mediaAuth && true}
                     register={register}
                     placeholder={t("Введите свое имя")}
                     errors={errors}
@@ -207,22 +225,46 @@ export const RegistrationForm = () => {
                   />
                 </Box>
                 <Box mt={`30px`}>
-                  <TextField
+                  <p className={cls.label}>Номер телефона *</p>
+                  <FormInternationInput
+                    control={control}
+                    name={`tel`}
+                    placeholder={t("+998 99 123 4567")}
+                    disabled={authStore?.authData?.mediaAuth && false}
+                    errors={errors}
+                    rules={
+                      authStore?.authData?.mediaAuth
+                        ? {
+                            required: {
+                              value: true,
+                              message: t("Это поле обязательно"),
+                            },
+                          }
+                        : false
+                    }
+                  />
+
+                  {/* <TextField
                     label="Номер телефона *"
                     name="tel"
                     disabled={authStore?.authData?.mediaAuth && false}
                     register={register}
                     placeholder={t("+998 99 123 4567")}
                     errors={errors}
-                    rules={ authStore?.authData?.mediaAuth ? 
-                      {
-                        required: {
-                          value: true,
-                          message: t("Это поле обязательно"),
-                        },
-                      } : false
+                    onChange={(e) => {
+                      e.target.value = e.target.value.slice(0, 15); // Limit to 2 characters
+                    }}
+                    rules={
+                      authStore?.authData?.mediaAuth
+                        ? {
+                            required: {
+                              value: true,
+                              message: t("Это поле обязательно"),
+                            },
+                          }
+                        : false
                     }
-                  />
+                  /> */}
                 </Box>
               </Box>
             </Box>
@@ -297,6 +339,9 @@ export const RegistrationForm = () => {
                           errors={errors}
                           type="text"
                           width="100%"
+                          onChange={(e) => {
+                            e.target.value = e.target.value.slice(0, 35); // Limit to 2 characters
+                          }}
                           rules={{
                             required: {
                               value: true,
@@ -336,6 +381,7 @@ export const RegistrationForm = () => {
                         <TextField
                           name="full_name"
                           register={register}
+                  
                           placeholder={t("Имя фамилия...")}
                           errors={errors}
                           rules={{
@@ -343,6 +389,9 @@ export const RegistrationForm = () => {
                               value: true,
                               message: t("Это поле обязательно"),
                             },
+                          }}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.slice(0, 35); // Limit to 2 characters
                           }}
                         />
                       </Box>

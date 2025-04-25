@@ -10,21 +10,34 @@ const FormInternationInput = ({
   placeholder = "",
   control,
   classes,
+  disabled = false,
+  rules = {},
+  errors = {},
 }) => {
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
+      rules={rules}
       render={({ field: { onChange, value } }) => (
         <PhoneInput
-  
+          hideDropdown={true}
+          disabled={disabled}
           name={name}
-           defaultCountry="uz"
+          defaultCountry="uz"
           value={value}
           defaultValue={""}
           type="text"
-          className={`${classes ? classes : "inputStyles"}`}
+          className={`${
+            classes
+              ? errors[name]
+                ? `errorInputTel`
+                : classes
+              : errors[name]
+              ? `errorInputTel`
+              : "inputStyles"
+          }`}
           placeholder={placeholder}
           onChange={(e) => {
             onChange(e);

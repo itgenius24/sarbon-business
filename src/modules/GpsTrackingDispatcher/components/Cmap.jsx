@@ -32,6 +32,7 @@ import { getSVGIcon } from "@/utils/getSVGIcon";
 import { BalloonContent } from "./BalloonContent";
 import { useSearchParams } from "next/navigation";
 import { set } from "date-fns";
+import { createPortal } from "react-dom";
 
 const Cmap = memo(
   ({
@@ -46,8 +47,9 @@ const Cmap = memo(
     setLoadState,
     isBalloonOpened,
     setIsBalloonOpened,
-    setContendSingle,
+    setCurrentUserLocationData,
     contendHoverState,
+    currentUserLocationData,
   }) => {
     const [isClient, setIsClient] = useState(false);
     const searchParams = useSearchParams();
@@ -59,6 +61,8 @@ const Cmap = memo(
     const mapRef = useRef(null);
     const ymapsRef = useRef(null);
     const polylineRef = useRef(null);
+    const clustererRef = useRef({});
+
     const [ballonRef, setBallonRef] = useState(null);
     const multiRouteRef = useRef(null);
     const [clickCount, setClickCount] = useState(0);
@@ -73,31 +77,24 @@ const Cmap = memo(
     }, []);
 
     useEffect(() => {
-      if (guid && getCarListProps?.data && mapRef.current && !isBalloonOpened) {
+      if (guid && currentUserLocationData && mapRef.current && !isBalloonOpened) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
         }, 1000);
 
         return () => clearTimeout(timeout);
       }
-    }, [guid, getCarListProps?.data, mapRef.current]);
+    }, [mapRef.current]);
 
-    const openBalloonById = (id) => {
-      const placemark = placemarkRefs.current[id];
+    const openBalloonById = () => {
+      const placemark = placemarkRefs.current;
+      if (!placemark) return;
 
-      if (placemark) {
-        const coords = placemark.geometry.getCoordinates();
+      const coords = placemark.geometry.getCoordinates();
 
-        // Balloonni ochish
-        placemark.balloon.open();
-        setIsBalloonOpened(true);
-        // Mapni centerga o‘rnatish
-        if (mapRef.current) {
-          mapRef.current.setCenter(coords, 13, {
-            checkZoomRange: false,
-          });
-        }
-      }
+      setIsBalloonOpened(true);
+      mapRef.current.setCenter(coords, 10, { checkZoomRange: false });
+      placemark.balloon.open();
     };
 
     const handleCopy = (event) => {
@@ -337,6 +334,8 @@ const Cmap = memo(
       });
     };
 
+    console.log(`currentUserLocationData`, currentUserLocationData);
+
     if (!isClient) {
       return null; // Render nothing during SSR
     }
@@ -476,7 +475,64 @@ const Cmap = memo(
           ]}
         />
 
-        {zoom >= 20 || guid ? (
+        {guid && currentUserLocationData && (
+          <Placemark
+            key={currentUserLocationData?.user?.guid}
+            geometry={[
+              currentUserLocationData?.users_gps?.[0]?.lat,
+              currentUserLocationData?.users_gps?.[0]?.long,
+            ]}
+            properties={{
+              balloonContent: ReactDOMServer.renderToString(
+                <BalloonContent cls={cls} carInfo={currentUserLocationData} t={t} />
+              ),
+            }}
+            instanceRef={(ref) => {
+              if (ref) {
+                placemarkRefs.current = ref;
+              }
+            }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(
+                  mapIcon[
+                    currentUserLocationData?.order_data
+                      ? `our_cargo`
+                      : currentUserLocationData?.user?.provisions?.[0]
+                  ] || GreenMapIcon
+                ),
+              iconImageSize:
+                watch("users_id")?.value || watch("users_id2")?.value
+                  ? [45, 105]
+                  : [40, 52],
+              iconImageOffset: [-15, -42],
+            }}
+            modules={["geoObject.addon.balloon"]}
+            onClick={() => {
+              setCurrentUserLocationData(currentUserLocationData);
+              if (
+                currentUserLocationData?.order_data ||
+                currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
+              ) {
+                setModalType("driverCheck");
+              } else if (
+                currentUserLocationData?.user?.provisions?.[0] === "someone_cargo"
+              ) {
+                setModalType("driverQuestion");
+              } else if (
+                currentUserLocationData?.user?.provisions?.[0] === "waiting_for_driver"
+              ) {
+                setModalType("driverExpectation");
+              } else {
+                setModalType("driverFree");
+              }
+            }}
+          />
+        )}
+
+        {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const balloonContent2 = ReactDOMServer.renderToString(
@@ -491,11 +547,6 @@ const Cmap = memo(
                     carInfo?.users_gps?.[0]?.long,
                   ]}
                   properties={{ balloonContent: balloonContent2 }}
-                  instanceRef={(ref) => {
-                    if (ref) {
-                      placemarkRefs.current[carInfo?.user?.guid] = ref;
-                    }
-                  }}
                   options={{
                     iconLayout: "default#image",
                     iconImageHref:
@@ -515,7 +566,7 @@ const Cmap = memo(
                   }}
                   modules={["geoObject.addon.balloon"]}
                   onClick={() => {
-                    setContendSingle(carInfo);
+                    setCurrentUserLocationData(carInfo);
                     if (
                       carInfo?.order_data ||
                       carInfo?.user?.provisions?.[0] === "our_cargo"
@@ -539,6 +590,7 @@ const Cmap = memo(
           })
         ) : (
           <Clusterer
+            instanceRef={(ref) => (clustererRef.current = ref)}
             options={{
               clusterIconColor: "rgba(52, 199, 89, 1)",
               style: {
@@ -562,11 +614,6 @@ const Cmap = memo(
                         carInfo?.users_gps?.[0]?.long,
                       ]}
                       properties={{ balloonContent: balloonContent2 }}
-                      instanceRef={(ref) => {
-                        if (ref) {
-                          placemarkRefs.current[carInfo?.user?.guid] = ref;
-                        }
-                      }}
                       options={{
                         iconLayout: "default#image",
                         iconImageHref:
@@ -586,7 +633,7 @@ const Cmap = memo(
                       }}
                       modules={["geoObject.addon.balloon"]}
                       onClick={() => {
-                        setContendSingle(carInfo);
+                        setCurrentUserLocationData(carInfo);
                         if (
                           carInfo?.order_data ||
                           carInfo?.user?.provisions?.[0] === "our_cargo"

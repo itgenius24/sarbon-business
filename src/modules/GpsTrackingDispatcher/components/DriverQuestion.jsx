@@ -31,7 +31,7 @@ import { useTranslation } from "react-i18next";
 
 const DriverQuestion = ({
   cls,
-  contendSingle,
+  currentUserLocationData,
   stateMap,
   addressAdd,
   setCenterModalType,
@@ -42,7 +42,7 @@ const DriverQuestion = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
-  console.log(`contendSingle`,contendSingle)
+  console.log(`currentUserLocationData`,currentUserLocationData)
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -53,11 +53,11 @@ const DriverQuestion = ({
         >
           <Flex gap={3}>
             <Avatar
-              name={contendSingle?.user?.full_name}
-              src={contendSingle?.user?.photo}
+              name={currentUserLocationData?.user?.full_name}
+              src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
+              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -80,13 +80,13 @@ const DriverQuestion = ({
             <Box>
               <p className={cls.smallText}>
                 Вкл:{" "}
-                { contendSingle?.users_gps?.[0]?.update_time && format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(new Date(contendSingle?.users_gps?.[0]?.update_time).getHours() - 5),
+                { currentUserLocationData?.users_gps?.[0]?.update_time && format(
+                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(new Date(currentUserLocationData?.users_gps?.[0]?.update_time).getHours() - 5),
                   "yyyy-MM-dd, H:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
-                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
             </Box>
           </Flex>
@@ -105,7 +105,7 @@ const DriverQuestion = ({
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.os === "android" ? (
+                {currentUserLocationData?.users_gps?.[0]?.os === "android" ? (
                   <AndroidIcon />
                 ) : (
                   <AppleIcon />
@@ -113,7 +113,7 @@ const DriverQuestion = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.os}
+                    {currentUserLocationData?.users_gps?.[0]?.os}
                   </p>
                 </Box>
               </Flex>
@@ -125,14 +125,14 @@ const DriverQuestion = ({
               flexDirection={"column"}
             >
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.battery > 20 ? (
+                {currentUserLocationData?.users_gps?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
                   <BatareyIcon />
                 )}
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
-                  <p className={cls.bigTitle}>{contendSingle?.users_gps?.[0]?.battery}%</p>
+                  <p className={cls.bigTitle}>{currentUserLocationData?.users_gps?.[0]?.battery}%</p>
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -140,7 +140,7 @@ const DriverQuestion = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.version}
+                    {currentUserLocationData?.users_gps?.[0]?.version}
                   </p>
                 </Box>
               </Flex>
@@ -155,11 +155,11 @@ const DriverQuestion = ({
             </div>
             <Box>
               <p className={cls.cardStartTitle}>
-                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
               <p className={cls.cardStartSubTitle}>
-                {  contendSingle?.users_gps?.[0]?.update_time && format(
-                  contendSingle?.users_gps?.[0]?.update_time,
+                {  currentUserLocationData?.users_gps?.[0]?.update_time && format(
+                  currentUserLocationData?.users_gps?.[0]?.update_time,
                   "yyyy-MM-dd"
                 )}
               </p>
@@ -168,12 +168,12 @@ const DriverQuestion = ({
 
           <Flex mt={5} gap={2}>
             <div className={cls.startBIcon}>B</div>
-            {addressAdd || contendSingle?.user?.address_name ? (
+            {addressAdd || currentUserLocationData?.user?.address_name ? (
               <Box>
                 <p className={cls.cardStartTitle}>
                   {addressAdd
                     ? `${addressAdd?.address.slice(0, 17)}...`
-                    : `${contendSingle?.user?.address_name.slice(0, 17)}...`}
+                    : `${currentUserLocationData?.user?.address_name.slice(0, 17)}...`}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {/* RUS / <span>18 августа</span> */}
@@ -200,10 +200,10 @@ const DriverQuestion = ({
                   <span>Контейнеровоз</span>
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
-                      <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity} т.
+                      <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
-                      <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height3}m3
+                      <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height3}m3
                     </Flex>
                   </Flex>
                 </Flex>
@@ -214,7 +214,7 @@ const DriverQuestion = ({
         <Button
           onClick={() => {
             setCenterModalType("changeIcon");
-            setIconStatus(contendSingle?.user?.provisions?.[0]);
+            setIconStatus(currentUserLocationData?.user?.provisions?.[0]);
           }}
           leftIcon={<QuestionBlueIcon />}
           rightIcon={<NextBtnIcon />}

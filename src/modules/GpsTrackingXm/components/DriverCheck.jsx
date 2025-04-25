@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 
 const DriverCheck = ({
   cls,
-  contendSingle,
+  currentUserLocationData,
   setModalType,
   setCenterModalType,
   setIconStatus,
@@ -36,14 +36,14 @@ const DriverCheck = ({
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
-        users_id_2: contendSingle?.user?.guid,
+        users_id_2: currentUserLocationData?.user?.guid,
         with_relations: true,
       }),
     },
-    { enabled: Boolean(contendSingle?.user?.guid) }
+    { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
-  console.log(`contendSingle`, contendSingle);
+  console.log(`currentUserLocationData`, currentUserLocationData);
 
   const statuses = {
     no_status: "Нет статуса",
@@ -74,7 +74,7 @@ const DriverCheck = ({
             <Flex gap={3}>
               <Avatar name="Bobur Nimatllayey" src="#" />
               <Box>
-                <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
+                <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
                 <p className={cls.version}>
                   <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
                 </p>
@@ -91,7 +91,7 @@ const DriverCheck = ({
             />
           </Flex>
 
-          {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] && (
+          {statuses[currentUserLocationData?.orders?.[0]?.indicate_status?.[0]] && (
             <Box
               mt={`17px`}
               rightIcon={<NextBtnIcon />}
@@ -99,7 +99,7 @@ const DriverCheck = ({
               className={cls.chatCard}
             >
               <p>
-                {statuses[contendSingle?.orders?.[0]?.indicate_status?.[0]] ||
+                {statuses[currentUserLocationData?.orders?.[0]?.indicate_status?.[0]] ||
                   "Нет статуса"}
               </p>
             </Box>
@@ -113,17 +113,17 @@ const DriverCheck = ({
                   Вкл:{" "}
                   {format(
                     new Date(
-                      contendSingle?.users_gps?.[0]?.update_time
+                      currentUserLocationData?.users_gps?.[0]?.update_time
                     ).setHours(
                       new Date(
-                        contendSingle?.users_gps?.[0]?.update_time
+                        currentUserLocationData?.users_gps?.[0]?.update_time
                       ).getHours() - 5
                     ),
                     "yyyy-MM-dd, HH:mm"
                   )}{" "}
                 </p>
                 <p className={cls.bigTitle}>
-                  {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+                  {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
                 </p>
               </Box>
             </Flex>
@@ -136,7 +136,7 @@ const DriverCheck = ({
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.battery > 20 ? (
+                {currentUserLocationData?.users_gps?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
                   <BatareyIcon />
@@ -144,14 +144,14 @@ const DriverCheck = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.battery}%
+                    {currentUserLocationData?.users_gps?.[0]?.battery}%
                   </p>
                 </Box>
               </Flex>
             </Flex>
             <Flex mt={3} alignItems={"center"} justifyContent={"space-between"}>
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.os === "android" ? (
+                {currentUserLocationData?.users_gps?.[0]?.os === "android" ? (
                   <AndroidIcon />
                 ) : (
                   <AppleIcon />
@@ -159,7 +159,7 @@ const DriverCheck = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.os}
+                    {currentUserLocationData?.users_gps?.[0]?.os}
                   </p>
                 </Box>
               </Flex>
@@ -168,7 +168,7 @@ const DriverCheck = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.version}
+                    {currentUserLocationData?.users_gps?.[0]?.version}
                   </p>
                 </Box>
               </Flex>
@@ -182,18 +182,18 @@ const DriverCheck = ({
               </div>
               <Box>
                 <p className={cls.cardStartTitle}>
-                  {contendSingle?.orders?.[0]?.cargo_id_data?.from}
+                  {currentUserLocationData?.orders?.[0]?.cargo_id_data?.from}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    contendSingle?.orders?.[0]?.cargo_id_data?.city_id_data
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_data
                       ?.address_id_data?.name
                   }{" "}
                   /
                   <span>
                     {format(
-                      contendSingle?.orders?.[0]?.cargo_id_data?.load_time
-                        ? contendSingle?.orders?.[0]?.cargo_id_data?.load_time
+                      currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
+                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -207,18 +207,18 @@ const DriverCheck = ({
               </div>
               <Box>
                 <p className={cls.cardStartTitle}>
-                  {contendSingle?.orders?.[0]?.cargo_id_data?.to}
+                  {currentUserLocationData?.orders?.[0]?.cargo_id_data?.to}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    contendSingle?.orders?.[0]?.cargo_id_data?.city_id_2_data
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_2_data
                       ?.address_id_data?.name
                   }
                   /
                   <span>
                     {format(
-                      contendSingle?.orders?.[0]?.cargo_id_data?.date
-                        ? contendSingle?.orders?.[0]?.cargo_id_data?.date
+                      currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
+                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -235,18 +235,18 @@ const DriverCheck = ({
                   <Flex width={"100%"} justifyContent={"space-between"}>
                     <span>
                       {
-                        contendSingle?.orders?.[0]?.cargo_id_data
+                        currentUserLocationData?.orders?.[0]?.cargo_id_data
                           ?.cargo_type_id_data?.name
                       }
                     </span>
                     <Flex ml={2} gap={3}>
                       <Flex gap={1} alignItems={"center"}>
                         <StoneIcon />{" "}
-                        {contendSingle?.orders?.[0]?.cargo_id_data?.weight} т.
+                        {currentUserLocationData?.orders?.[0]?.cargo_id_data?.weight} т.
                       </Flex>
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
-                        {contendSingle?.orders?.[0]?.cargo_id_data?.volume_m3}{" "}
+                        {currentUserLocationData?.orders?.[0]?.cargo_id_data?.volume_m3}{" "}
                         m3
                       </Flex>
                     </Flex>
@@ -262,16 +262,16 @@ const DriverCheck = ({
             </Flex>
             <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
               <p className={cls.sum}>
-                {contendSingle?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
+                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
                 {
-                  contendSingle?.orders?.[0]?.cargo_id_data?.currency_id_data
+                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data
                     ?.code
                 }{" "}
               </p>
               <p className={cls.cardStartSubTitle}>
                 {t(`Предоплата`)}:{" "}
                 <span>
-                  {contendSingle?.orders?.[0]?.cargo_id_data
+                  {currentUserLocationData?.orders?.[0]?.cargo_id_data
                     ?.prepayment_percentage > 0
                     ? "Da"
                     : "Нет"}
@@ -283,7 +283,7 @@ const DriverCheck = ({
             <Button
               onClick={() => {
                 setCenterModalType("changeIcon");
-                setIconStatus(contendSingle?.user?.provisions?.[0]);
+                setIconStatus(currentUserLocationData?.user?.provisions?.[0]);
               }}
               leftIcon={<CheckBlueIcon />}
               rightIcon={<NextBtnIcon />}
@@ -312,7 +312,7 @@ const DriverCheck = ({
                          {dispatcher?.full_name} <br />
                          {dispatcher?.your_id}
                        </p>
-                       {contendSingle?.orders?.[0]?.approve_time_from_dispatcher && (
+                       {currentUserLocationData?.orders?.[0]?.approve_time_from_dispatcher && (
                          <p
                            style={{
                              fontWeight: 400,
@@ -323,10 +323,10 @@ const DriverCheck = ({
                          >
                            {format(
                              new Date(
-                               contendSingle?.orders?.[0]?.approve_time_from_dispatcher
+                               currentUserLocationData?.orders?.[0]?.approve_time_from_dispatcher
                              ).setHours(
                                new Date(
-                                 contendSingle?.orders?.[0]?.approve_time_from_dispatcher
+                                 currentUserLocationData?.orders?.[0]?.approve_time_from_dispatcher
                                ).getHours() - 5
                              ),
                              "yyyy-MM-dd, HH:mm"

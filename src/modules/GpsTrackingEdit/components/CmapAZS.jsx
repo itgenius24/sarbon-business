@@ -52,7 +52,7 @@ const CmapAZS = memo(
     refueling,
     locationData,
     setLoadState,
-    setContendSingle,
+    setCurrentUserLocationData,
     contendHoverState,
   }) => {
     const mapRef = useRef(null);
@@ -635,7 +635,7 @@ const CmapAZS = memo(
                       const balloonInstance = placemark.balloon;
                     }}
                     onClick={() => {
-                      setContendSingle(carInfo);
+                      setCurrentUserLocationData(carInfo);
                       if (carInfo?.user?.provisions?.[0] === "our_cargo") {
                         setModalType("driverCheck");
                       } else if (

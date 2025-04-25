@@ -46,7 +46,7 @@ export const useGpsTrackingProps = () => {
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(1);
   const [offsetCar, setOffsetCAr] = useState(1);
-  const [contendSingle, setContendSingle] = useState();
+  const [currentUserLocationData, setCurrentUserLocationData] = useState();
     const [iconStatus, setIconStatus] = useState(``);
     const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
@@ -451,7 +451,7 @@ export const useGpsTrackingProps = () => {
       }
 
       const find = getCarListProps?.data?.map((item) => {
-        if (item?.user?.guid === contendSingle.user?.guid) {
+        if (item?.user?.guid === currentUserLocationData.user?.guid) {
           return { ...item, ...(item.user.provisions = [iconStatus]) };
         }
         return item;
@@ -464,7 +464,7 @@ export const useGpsTrackingProps = () => {
 
   const addAdress = () => {
     const body = {
-      guid: contendSingle.users_id_data?.guid,
+      guid: currentUserLocationData.users_id_data?.guid,
       address_name: addressAdd?.address,
     };
     userUpdate({ data: body });
@@ -544,7 +544,7 @@ export const useGpsTrackingProps = () => {
 
   const statusIconChange = () => {
     const body = {
-      guid: contendSingle.user?.guid,
+      guid: currentUserLocationData.user?.guid,
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
@@ -612,8 +612,8 @@ export const useGpsTrackingProps = () => {
     setDistance,
     distance,
     handleClear,
-    setContendSingle,
-    contendSingle,
+    setCurrentUserLocationData,
+    currentUserLocationData,
     setIconStatus,
     iconStatus,
     statusIconChange,

@@ -1,6 +1,5 @@
 "use client";
 import {
-
   GoodsFuraIcon,
   GoodsPhoneIcon,
   GreenFuraIcon,
@@ -36,18 +35,16 @@ const Cmap = memo(
     coordinates,
     cls,
     type,
-
     mapIcon,
     watch,
     setModalType,
-
     locationData,
     setLoadState,
-
-    setContendSingle,
+    setCurrentUserLocationData,
     contendHoverState,
     isBalloonOpened,
     setIsBalloonOpened,
+    currentUserLocationData,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -60,30 +57,26 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
+
     useEffect(() => {
-      if (guid && getCarListProps?.data && mapRef.current && !isBalloonOpened) {
+      if (guid && currentUserLocationData && mapRef.current && !isBalloonOpened) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
-        }, 1000);
+        }, 400);
 
         return () => clearTimeout(timeout);
       }
-    }, [guid, getCarListProps?.data, mapRef.current]);
+    }, [ mapRef.current]);
 
-    const openBalloonById = (id) => {
-      const placemark = placemarkRefs.current[id];
+    const openBalloonById = () => {
+      const placemark = placemarkRefs.current;
+      if (!placemark) return;
 
-      if (placemark) {
-        const coords = placemark.geometry.getCoordinates();
-        placemark.balloon.open();
-        setIsBalloonOpened(true);
+      const coords = placemark.geometry.getCoordinates();
 
-        if (mapRef.current) {
-          mapRef.current.setCenter(coords, 13, {
-            checkZoomRange: false,
-          });
-        }
-      }
+      setIsBalloonOpened(true);
+      mapRef.current.setCenter(coords, 10, { checkZoomRange: false });
+      placemark.balloon.open();
     };
 
     const handleCopy = (event) => {
@@ -112,14 +105,13 @@ const Cmap = memo(
     }, []);
 
     if (!isClient) {
-      return null; // Render nothing during SSR
+      return null;
     }
 
     let click = document.getElementById(`click`);
 
     click?.addEventListener(`click`, (e) => {
       e.stopPropagation();
-      // console.log("contendHoverState",contendHoverState?.users_id_data?.phone)
       copy(contendHoverState?.users_id_data?.phone);
     });
 
@@ -181,7 +173,64 @@ const Cmap = memo(
           }}
         />
 
-        {zoom >= 20 || guid ? (
+        {guid && currentUserLocationData && (
+          <Placemark
+            key={currentUserLocationData?.user?.guid}
+            geometry={[
+              currentUserLocationData?.users_gps?.[0]?.lat,
+              currentUserLocationData?.users_gps?.[0]?.long,
+            ]}
+            properties={{
+              balloonContent: ReactDOMServer.renderToString(
+                <BalloonContent cls={cls} carInfo={currentUserLocationData} t={t} />
+              ),
+            }}
+            instanceRef={(ref) => {
+              if (ref) {
+                placemarkRefs.current = ref;
+              }
+            }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(
+                  mapIcon[
+                    currentUserLocationData?.order_data
+                      ? `our_cargo`
+                      : currentUserLocationData?.user?.provisions?.[0]
+                  ] || GreenMapIcon
+                ),
+              iconImageSize:
+                watch("users_id")?.value || watch("users_id2")?.value
+                  ? [45, 105]
+                  : [40, 52],
+              iconImageOffset: [-15, -42],
+            }}
+            modules={["geoObject.addon.balloon"]}
+            onClick={() => {
+              setCurrentUserLocationData(currentUserLocationData);
+              if (
+                currentUserLocationData?.order_data ||
+                currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
+              ) {
+                setModalType("driverCheck");
+              } else if (
+                currentUserLocationData?.user?.provisions?.[0] === "someone_cargo"
+              ) {
+                setModalType("driverQuestion");
+              } else if (
+                currentUserLocationData?.user?.provisions?.[0] === "waiting_for_driver"
+              ) {
+                setModalType("driverExpectation");
+              } else {
+                setModalType("driverFree");
+              }
+            }}
+          />
+        )}
+
+        {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
             const balloonContent2 = ReactDOMServer.renderToString(
@@ -220,7 +269,7 @@ const Cmap = memo(
                   }}
                   modules={["geoObject.addon.balloon"]}
                   onClick={() => {
-                    setContendSingle(carInfo);
+                    setCurrentUserLocationData(carInfo);
                     if (
                       carInfo?.order_data ||
                       carInfo?.user?.provisions?.[0] === "our_cargo"
@@ -291,7 +340,7 @@ const Cmap = memo(
                       }}
                       modules={["geoObject.addon.balloon"]}
                       onClick={() => {
-                        setContendSingle(carInfo);
+                        setCurrentUserLocationData(carInfo);
                         if (
                           carInfo?.order_data ||
                           carInfo?.user?.provisions?.[0] === "our_cargo"

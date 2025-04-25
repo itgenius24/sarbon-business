@@ -44,7 +44,7 @@ import authStore from "@/store/auth.store";
 const DriverFree = ({
   cls,
   setModalType,
-  contendSingle,
+  currentUserLocationData,
   setCenterModalType,
   setIconStatus,
 }) => {
@@ -55,7 +55,7 @@ const DriverFree = ({
   const handleOpen = () => {
     onOpen();
     copy(
-      `https://yandex.com/maps/?ll=${contendSingle?.users_gps?.[0]?.long},${contendSingle?.users_gps?.[0]?.lat}&z=15&pt=${contendSingle?.users_gps?.[0]?.long},${contendSingle?.users_gps?.[0]?.lat},pm2rdm`
+      `https://yandex.com/maps/?ll=${currentUserLocationData?.users_gps?.[0]?.long},${currentUserLocationData?.users_gps?.[0]?.lat}&z=15&pt=${currentUserLocationData?.users_gps?.[0]?.long},${currentUserLocationData?.users_gps?.[0]?.lat},pm2rdm`
     );
     setTimeout(() => {
       onClose();
@@ -72,11 +72,11 @@ const DriverFree = ({
         >
           <Flex gap={3}>
             <Avatar
-              name={contendSingle?.user?.full_name}
-              src={contendSingle?.user?.photo}
+              name={currentUserLocationData?.user?.full_name}
+              src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{contendSingle?.user?.full_name}</p>
+              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -99,16 +99,16 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:
                 {format(
-                  new Date(contendSingle?.users_gps?.[0]?.update_time).setHours(
+                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(
                     new Date(
-                      contendSingle?.users_gps?.[0]?.update_time
+                      currentUserLocationData?.users_gps?.[0]?.update_time
                     ).getHours() - 5
                   ),
                   "yyyy-MM-dd, HH:mm"
                 )}
               </p>
               <p className={cls.bigTitle}>
-                {contendSingle?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
               <Box>
                 <Popover
@@ -178,7 +178,7 @@ const DriverFree = ({
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.os === "android" ? (
+                {currentUserLocationData?.users_gps?.[0]?.os === "android" ? (
                   <AndroidIcon />
                 ) : (
                   <AppleIcon />
@@ -187,7 +187,7 @@ const DriverFree = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Смартфон`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.os}
+                    {currentUserLocationData?.users_gps?.[0]?.os}
                   </p>
                 </Box>
               </Flex>
@@ -199,7 +199,7 @@ const DriverFree = ({
               flexDirection={"column"}
             >
               <Flex alignItems={"center"} gap={2}>
-                {contendSingle?.users_gps?.[0]?.battery > 20 ? (
+                {currentUserLocationData?.users_gps?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
                   <BatareyIcon />
@@ -208,7 +208,7 @@ const DriverFree = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.battery}%
+                    {currentUserLocationData?.users_gps?.[0]?.battery}%
                   </p>
                 </Box>
               </Flex>
@@ -218,7 +218,7 @@ const DriverFree = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
-                    {contendSingle?.users_gps?.[0]?.version}
+                    {currentUserLocationData?.users_gps?.[0]?.version}
                   </p>
                 </Box>
               </Flex>
@@ -238,24 +238,24 @@ const DriverFree = ({
               color={`black`}
               placement="top-end"
               label={
-                contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                   : t(`Пока нет машины`)
               }
             >
               <p>
-                {contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? contendSingle?.vehicles?.[0]?.trailer_type_id_data?.name
+                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {contendSingle?.vehicles?.[0]?.capacity} т.
+                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {contendSingle?.vehicles?.[0]?.height} m3
+                <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
           </Flex>
@@ -267,7 +267,7 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
-            <span>{contendSingle?.vehicles?.[0]?.fuel_id_data?.name}</span>
+            <span>{currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}</span>
           </Flex>
           <Flex
             p={`10px 0px`}
@@ -276,7 +276,7 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Экологический класс`)}</span>
-            <span>{contendSingle?.vehicles?.[0]?.eco_standart}</span>
+            <span>{currentUserLocationData?.vehicles?.[0]?.eco_standart}</span>
           </Flex>
           <Flex pt={`10px`} width={"100%"} justifyContent={"space-between"}>
             <Flex gap={`5px`} alignItems={`center`}>
@@ -285,7 +285,7 @@ const DriverFree = ({
                 background={`white`}
                 color={`black`}
                 placement="top-end"
-                label={contendSingle?.vehicles?.[0]?.car_country || `uz`}
+                label={currentUserLocationData?.vehicles?.[0]?.car_country || `uz`}
               >
                 <Image
                   style={{
@@ -295,13 +295,13 @@ const DriverFree = ({
                   width={100}
                   height={100}
                   src={flegCountry(
-                    contendSingle?.vehicles?.[0]?.car_country || `uz`
+                    currentUserLocationData?.vehicles?.[0]?.car_country || `uz`
                   )}
                 />
               </Tooltip>
               <Box>
                 <span style={{ color: `black`, fontWeight: 400 }}>
-                  {contendSingle?.vehicles?.[0]?.car_number}
+                  {currentUserLocationData?.vehicles?.[0]?.car_number}
                 </span>
               </Box>
             </Flex>
@@ -309,11 +309,11 @@ const DriverFree = ({
         </Box>
 
         {/* {user_type?.[0] === `approved` &&
-          (contendSingle?.user?.provisions?.[0] === `broke_down` ? (
+          (currentUserLocationData?.user?.provisions?.[0] === `broke_down` ? (
             <Button
               onClick={() => {
                 setCenterModalType("changeIcon");
-                setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
+                setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
               }}
               leftIcon={<CencelMapIcon />}
               rightIcon={<NextBtnIcon />}
@@ -326,7 +326,7 @@ const DriverFree = ({
             <Button
               onClick={() => {
                 setCenterModalType("changeIcon");
-                setIconStatus(contendSingle?.user?.provisions?.[0] || "empty");
+                setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
               }}
               leftIcon={<LoadgreenIcon />}
               rightIcon={<NextBtnIcon />}
@@ -337,7 +337,7 @@ const DriverFree = ({
             </Button>
           ))} */}
 
-        {contendSingle?.firm_data?.firm_data?.[0] &&
+        {currentUserLocationData?.firm_data?.firm_data?.[0] &&
           user_type?.[0] === `approved` && (
             <Box
               style={{ background: `white` }}
@@ -345,26 +345,26 @@ const DriverFree = ({
             >
               <Flex width={"100%"} alignItems={"center"} gap={3}>
                 <Avatar
-                  name={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
-                  src={contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                  name={currentUserLocationData?.firm_data?.firm_data?.[0]?.full_name}
+                  src={currentUserLocationData?.firm_data?.firm_data?.[0]?.full_name}
                 />
                 <Box>
                   <p className={cls.cardStartSubTitlez}>Перевозчик </p>
                   <p style={{ fontSize: `16px` }} className={cls.name}>
-                    {contendSingle?.firm_data?.firm_data?.[0]?.full_name}
+                    {currentUserLocationData?.firm_data?.firm_data?.[0]?.full_name}
                   </p>
 
                   <Flex alignItems={"center"} gap={2}>
                     <p className={cls.cardStartSubTitleZTel}>
-                      {contendSingle?.firm_data?.firm_data?.[0]?.phone_number}
+                      {currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}
                     </p>
                     <a
-                      href={`https://t.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                      href={`https://t.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
                     >
                       <TelegramOpasitiyIcon />
                     </a>
                     <a
-                      href={`https://wa.me/${contendSingle?.firm_data?.firm_data?.[0]?.phone_number}`}
+                      href={`https://wa.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
                     >
                       <WatsapOpasitiyIcon />
                     </a>

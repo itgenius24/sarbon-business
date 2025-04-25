@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
-const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
+const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState("");
   const [search, setSearch] = useState("");
@@ -30,7 +30,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
-      // users_id: contendSingle.user.guid,
+      // users_id: currentUserLocationData.user.guid,
       with_relations: true,
       order_status: ["active"],
       cargo_type: ["cargo"],
@@ -38,7 +38,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
   };
 
   const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!contendSingle.user.guid,
+    enabled: !!currentUserLocationData.user.guid,
   });
 
   const cargoData = useMemo(() => {
@@ -67,7 +67,7 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
     },
   });
 
-  console.log(`contendSingle`,getAllUserCargo.data?.response)
+  console.log(`currentUserLocationData`,getAllUserCargo.data?.response)
 
   function handleOffer() {
     setDisabled(true);
@@ -75,10 +75,10 @@ const SelectCargo = ({ cls, contendSingle, setCenterModalType, setOffset,statusI
       data: {
         object_data: {
           cargo_id:selectCargo?.guid,
-          driver_id:contendSingle?.users_id,
+          driver_id:currentUserLocationData?.users_id,
           dispatcher_id:authStore?.userData.id,
           customer_id:selectCargo?.users_id_data?.guid,
-          firm_id:contendSingle?.firm_data?.firm_data?.[0]?.firm_id,
+          firm_id:currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
         },
       },
     });
