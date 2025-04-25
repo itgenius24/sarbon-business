@@ -116,6 +116,8 @@ export default function GpsTrackingDispatcher() {
             contendHoverState={contendHoverState}
             isBalloonOpened={isBalloonOpened}
             setIsBalloonOpened={setIsBalloonOpened}
+            contendSingle={contendSingle}
+
           />
         )}
 

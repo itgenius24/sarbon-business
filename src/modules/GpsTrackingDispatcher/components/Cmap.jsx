@@ -32,6 +32,7 @@ import { getSVGIcon } from "@/utils/getSVGIcon";
 import { BalloonContent } from "./BalloonContent";
 import { useSearchParams } from "next/navigation";
 import { set } from "date-fns";
+import { createPortal } from "react-dom";
 
 const Cmap = memo(
   ({
@@ -48,6 +49,7 @@ const Cmap = memo(
     setIsBalloonOpened,
     setContendSingle,
     contendHoverState,
+    contendSingle,
   }) => {
     const [isClient, setIsClient] = useState(false);
     const searchParams = useSearchParams();
@@ -75,46 +77,24 @@ const Cmap = memo(
     }, []);
 
     useEffect(() => {
-      if (guid && getCarListProps?.data && mapRef.current && !isBalloonOpened) {
+      if (guid && contendSingle && mapRef.current && !isBalloonOpened) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
         }, 1000);
 
         return () => clearTimeout(timeout);
       }
-    }, [guid, getCarListProps?.data, mapRef.current]);
+    }, [mapRef.current]);
 
-    const openBalloonById = (id) => {
-      const placemark = placemarkRefs.current[id];
+    const openBalloonById = () => {
+      const placemark = placemarkRefs.current;
       if (!placemark) return;
 
       const coords = placemark.geometry.getCoordinates();
-      const clusterer = clustererRef.current;
 
-      if (clusterer) {
-        const clusters =
-          clusterer.getClusters?.() ?? clusterer.geoObjects.getArray?.();
-
-        for (let cluster of clusters) {
-          const geoObjects = cluster.getGeoObjects();
-          const match = geoObjects.find((obj) => obj === placemark);
-
-          if (match) {
-            mapRef.current.setCenter(coords, 20, { checkZoomRange: false });
-
-            clusterer.balloon.open(coords, {
-              content: placemark.properties.get("balloonContent"),
-            });
-
-            setIsBalloonOpened(true);
-            return;
-          }
-        }
-      }
-
-      placemark.balloon.open();
       setIsBalloonOpened(true);
-      mapRef.current.setCenter(coords, 20, { checkZoomRange: false });
+      mapRef.current.setCenter(coords, 10, { checkZoomRange: false });
+      placemark.balloon.open();
     };
 
     const handleCopy = (event) => {
@@ -354,6 +334,8 @@ const Cmap = memo(
       });
     };
 
+    console.log(`contendSingle`, contendSingle);
+
     if (!isClient) {
       return null; // Render nothing during SSR
     }
@@ -493,6 +475,63 @@ const Cmap = memo(
           ]}
         />
 
+        {guid && contendSingle && (
+          <Placemark
+            key={contendSingle?.user?.guid}
+            geometry={[
+              contendSingle?.users_gps?.[0]?.lat,
+              contendSingle?.users_gps?.[0]?.long,
+            ]}
+            properties={{
+              balloonContent: ReactDOMServer.renderToString(
+                <BalloonContent cls={cls} carInfo={contendSingle} t={t} />
+              ),
+            }}
+            instanceRef={(ref) => {
+              if (ref) {
+                placemarkRefs.current = ref;
+              }
+            }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(
+                  mapIcon[
+                    contendSingle?.order_data
+                      ? `our_cargo`
+                      : contendSingle?.user?.provisions?.[0]
+                  ] || GreenMapIcon
+                ),
+              iconImageSize:
+                watch("users_id")?.value || watch("users_id2")?.value
+                  ? [45, 105]
+                  : [40, 52],
+              iconImageOffset: [-15, -42],
+            }}
+            modules={["geoObject.addon.balloon"]}
+            onClick={() => {
+              setContendSingle(contendSingle);
+              if (
+                contendSingle?.order_data ||
+                contendSingle?.user?.provisions?.[0] === "our_cargo"
+              ) {
+                setModalType("driverCheck");
+              } else if (
+                contendSingle?.user?.provisions?.[0] === "someone_cargo"
+              ) {
+                setModalType("driverQuestion");
+              } else if (
+                contendSingle?.user?.provisions?.[0] === "waiting_for_driver"
+              ) {
+                setModalType("driverExpectation");
+              } else {
+                setModalType("driverFree");
+              }
+            }}
+          />
+        )}
+
         {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
@@ -508,11 +547,6 @@ const Cmap = memo(
                     carInfo?.users_gps?.[0]?.long,
                   ]}
                   properties={{ balloonContent: balloonContent2 }}
-                  instanceRef={(ref) => {
-                    if (ref) {
-                      placemarkRefs.current[carInfo?.user?.guid] = ref;
-                    }
-                  }}
                   options={{
                     iconLayout: "default#image",
                     iconImageHref:
@@ -580,11 +614,6 @@ const Cmap = memo(
                         carInfo?.users_gps?.[0]?.long,
                       ]}
                       properties={{ balloonContent: balloonContent2 }}
-                      instanceRef={(ref) => {
-                        if (ref) {
-                          placemarkRefs.current[carInfo?.user?.guid] = ref;
-                        }
-                      }}
                       options={{
                         iconLayout: "default#image",
                         iconImageHref:

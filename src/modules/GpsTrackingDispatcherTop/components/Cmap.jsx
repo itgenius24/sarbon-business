@@ -44,6 +44,7 @@ const Cmap = memo(
     contendHoverState,
     isBalloonOpened,
     setIsBalloonOpened,
+    contendSingle,
   }) => {
     const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -51,46 +52,32 @@ const Cmap = memo(
     const [zoom, setZoom] = useState(5);
     const searchParams = useSearchParams();
     const placemarkRefs = useRef({});
-    const clustererRef = useRef({});
     const guid = searchParams.get(`guid`);
     useEffect(() => {
       setIsClient(true);
     }, []);
 
+
     useEffect(() => {
-      if (guid && getCarListProps?.data && mapRef.current && !isBalloonOpened) {
+      if (guid && contendSingle && mapRef.current && !isBalloonOpened) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
-        }, 1000);
+        }, 400);
 
         return () => clearTimeout(timeout);
       }
-    }, [guid, getCarListProps?.data, mapRef.current]);
+    }, [ mapRef.current]);
 
-    const openBalloonById = (id) => {
-      const placemark = placemarkRefs.current[id];
+    const openBalloonById = () => {
+      const placemark = placemarkRefs.current;
       if (!placemark) return;
-    
+
       const coords = placemark.geometry.getCoordinates();
-      const clusterer = clustererRef.current;
-    
-      if (clusterer) {
-        const state = clusterer.getObjectState(placemark);
-    
-        mapRef.current.setCenter(coords, 20, { checkZoomRange: false });
-    
-        if (state.isClustered) {
-          clusterer.balloon.open(coords, {
-            content: placemark.properties.get('balloonContent'),
-          });
-        } else {
-          placemark.balloon.open();
-        }
-    
-        setIsBalloonOpened(true);
-      }
+
+      setIsBalloonOpened(true);
+      mapRef.current.setCenter(coords, 10, { checkZoomRange: false });
+      placemark.balloon.open();
     };
-    
 
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();
@@ -186,6 +173,63 @@ const Cmap = memo(
           }}
         />
 
+        {guid && contendSingle && (
+          <Placemark
+            key={contendSingle?.user?.guid}
+            geometry={[
+              contendSingle?.users_gps?.[0]?.lat,
+              contendSingle?.users_gps?.[0]?.long,
+            ]}
+            properties={{
+              balloonContent: ReactDOMServer.renderToString(
+                <BalloonContent cls={cls} carInfo={contendSingle} t={t} />
+              ),
+            }}
+            instanceRef={(ref) => {
+              if (ref) {
+                placemarkRefs.current = ref;
+              }
+            }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(
+                  mapIcon[
+                    contendSingle?.order_data
+                      ? `our_cargo`
+                      : contendSingle?.user?.provisions?.[0]
+                  ] || GreenMapIcon
+                ),
+              iconImageSize:
+                watch("users_id")?.value || watch("users_id2")?.value
+                  ? [45, 105]
+                  : [40, 52],
+              iconImageOffset: [-15, -42],
+            }}
+            modules={["geoObject.addon.balloon"]}
+            onClick={() => {
+              setContendSingle(contendSingle);
+              if (
+                contendSingle?.order_data ||
+                contendSingle?.user?.provisions?.[0] === "our_cargo"
+              ) {
+                setModalType("driverCheck");
+              } else if (
+                contendSingle?.user?.provisions?.[0] === "someone_cargo"
+              ) {
+                setModalType("driverQuestion");
+              } else if (
+                contendSingle?.user?.provisions?.[0] === "waiting_for_driver"
+              ) {
+                setModalType("driverExpectation");
+              } else {
+                setModalType("driverFree");
+              }
+            }}
+          />
+        )}
+
         {zoom >= 20 ? (
           getCarListProps?.data &&
           getCarListProps?.data?.map((carInfo) => {
@@ -249,7 +293,6 @@ const Cmap = memo(
           })
         ) : (
           <Clusterer
-            instanceRef={(ref) => (clustererRef.current = ref)}
             options={{
               clusterIconColor: "rgba(52, 199, 89, 1)",
               style: {
