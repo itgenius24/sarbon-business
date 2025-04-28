@@ -1,8 +1,8 @@
 import authStore from "@/store/auth.store";
 import axios from "axios";
 
-const request = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASIC_URL,
+const requestInvoke = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASIC_INVOKE_URL,
   timeout: 2500000,
 });
 
@@ -20,7 +20,7 @@ export const errorHandlerHttp = (error) => {
   return Promise.reject(error);
 };
 
-request.interceptors.request.use((config) => {
+requestInvoke.interceptors.request.use((config) => {
   const token = authStore.token.access_token;
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
@@ -34,11 +34,11 @@ request.interceptors.request.use((config) => {
   return config;
 });
 
-request.interceptors.response.use((response) => {
+requestInvoke.interceptors.response.use((response) => {
   if (response?.data?.data?.data?.data) return response.data.data.data.data;
   if (response?.data?.data?.data) return response.data.data.data;
   else if (response?.data?.data) return response.data.data;
   else return response.data || response;
 }, errorHandlerHttp);
 
-export default request;
+export default requestInvoke;

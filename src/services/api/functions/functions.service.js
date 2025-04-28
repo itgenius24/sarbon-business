@@ -1,76 +1,44 @@
+import requestInvoke from "@/services/requestInvoke";
 import { useMutation, useQuery } from "@tanstack/react-query";
-
-const { default: request } = require("@/services/request");
 
 const functionsService = {
   getLoadings: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-send-list-of-address-name",
-      data
-    ),
-  createAddress: (data) =>
-    request.post("/v1/invoke_function/logistika-create-addres", data),
+    requestInvoke.post("logistika-send-list-of-address-name", data),
+  createAddress: (data) => requestInvoke.post("logistika-create-addres", data),
   pushNotification: (data) =>
-    request.post("/v1/invoke_function/logistika-notification", data),
+    requestInvoke.post("logistika-notification", data),
   offerFromCustomer: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-send-offer-from-customer",
-      data
-    ),
+    requestInvoke.post("logistika-send-offer-from-customer", data),
   getSortedGPSHistory: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-get-list-sorted-gps-history",
-      data
-    ),
+    requestInvoke.post("logistika-get-list-sorted-gps-history", data),
   getWidtLocation: (data) =>
-    request.post("/v1/invoke_function/logistika-get-users-with-location", data),
+    requestInvoke.post("logistika-get-users-with-location", data),
 
   getCargoPost: (data) =>
-    request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
+    requestInvoke.post("logistika-get-cargo-with-filter", data),
   getExcelFile: (data) =>
-    request.post(
-      "/v1/invoke_function/staging-logistika-get-list-sorted-gps-history",
-      data
-    ),
-  getNotification: (data) =>
-    request.post("/v1/invoke_function/logistika-notification", data),
-  getNewPred: (data) =>
-    request.post("/v1/invoke_function/logistika-favourite-cargo", data),
-  updateUser2: (data) => request.put(`/v2/items/users`, data),
+    requestInvoke.post("staging-logistika-get-list-sorted-gps-history", data),
+  getNotification: (data) => requestInvoke.post("logistika-notification", data),
+  getNewPred: (data) => requestInvoke.post("logistika-favourite-cargo", data),
+  updateUser2: (data) => requestInvoke.put(`/v2/items/users`, data),
   sendNotification: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-send-notification-new-cargo",
-      data
-    ),
+    requestInvoke.post("logistika-send-notification-new-cargo", data),
 
   getLogistikaGpsTrackingFilterDriver: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-gps-tracking-filter-driver",
-      data
-    ),
+    requestInvoke.post("logistika-gps-tracking-filter-driver", data),
   getLogistikaGpsTrackingFilterDriverPred: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-send-list-of-address-name",
-      data
-    ),
-  getCar: (data) =>
-    request.post("/v1/invoke_function/logistika-get-cargo-list", data),
+    requestInvoke.post("logistika-send-list-of-address-name", data),
+  getCar: (data) => requestInvoke.post("logistika-get-cargo-list", data),
   getCarDispatcher: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-send-notification-new-cargo",
-      data
-    ),
+    requestInvoke.post("logistika-send-notification-new-cargo", data),
   getCarRefueling: (data) =>
-    request.post("/v1/invoke_function/logistika-send-offer-notification", data),
+    requestInvoke.post("logistika-send-offer-notification", data),
   getCarTrackingFilter: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-gps-tracking-create-history",
-      data
-    ),
+    requestInvoke.post("logistika-gps-tracking-create-history", data),
   getLocation: (data) =>
-    request.post("/v1/invoke_function/logistika-get-cargo-for-map", data),
+    requestInvoke.post("logistika-get-cargo-for-map", data),
   googleRigister: (data) =>
-    request.post("/v1/invoke_function/logistika-get-current-location", data),
+    requestInvoke.post("logistika-get-current-location", data),
 };
 
 export const useGetCarDispatcherPost = ({ data, querySettings }) => {
