@@ -456,7 +456,7 @@ const StepThere = ({ status }) => {
                     width={`100%`}
                     justifyContent={`space-between`}
                   >
-                    <p className={cls.stepTitle2}>{t("ADR")}</p>
+                    <p className={cls.stepTitle2}>{t("Класс ADR")}</p>
                     <IconButton
                       border={"none"}
                       width={"fit-content"}
@@ -474,6 +474,15 @@ const StepThere = ({ status }) => {
                         type="number"
                         register={register}
                         name="straps_number"
+                        onInput={(e) => {
+                          const value = e.target.value;
+                          if (value > 9) {
+                            e.target.value = 0; // 9 dan katta kiritilsa avtomatik 9 qilib qo'yadi
+                          }
+                          if (value < 0) {
+                            e.target.value = 0; // 0 dan kichik bo'lsa 0 qilib qo'yadi
+                          }
+                        }}
                       />
                     </Box>
                     <p className={cls.link}>
