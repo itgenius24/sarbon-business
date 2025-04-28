@@ -242,6 +242,9 @@ const StepOne = ({ status }) => {
                 </Flex>
               </Box>
               <Box width={`100%`}>
+              <p className={cls.textFieldName}>
+                
+                </p>
                 <Checkbox
                   defaultChecked={watch(`combined_cargo`)}
                   name="combined_cargo"

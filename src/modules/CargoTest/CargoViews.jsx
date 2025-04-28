@@ -79,7 +79,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
   };
 
   function getTopContent() {
-    if (status === "in_moderation") {
+    if (status === "in_moderation" || status === "rejected") {
       return (
         <Box
           display="flex"

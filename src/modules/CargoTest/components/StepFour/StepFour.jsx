@@ -322,7 +322,7 @@ const StepFour = ({ status }) => {
                   )}
                 </Flex>
 
-                <Flex className={cls.inputWrap} gap={10} width={"100%"}>
+                <Flex alignItems={`end`} className={cls.inputWrap} gap={10} width={"100%"}>
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
                       <p className={cls.label}>{t(`Общая сумма`)}</p>
@@ -373,7 +373,6 @@ const StepFour = ({ status }) => {
                     </Flex>
                     <TextFieldWithAddition
                       onClick={() => !canEdit ? setEditModal(true) :null}
-
                       disabled={order_status?.[0] === "active" || disabledP}
                       name="price_prepayment"
                       register={register}
