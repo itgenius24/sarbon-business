@@ -17,7 +17,7 @@ const functionsService = {
   getCargoPost: (data) =>
     requestInvoke.post("logistika-get-cargo-with-filter", data),
   getExcelFile: (data) =>
-    requestInvoke.post("staging-logistika-get-list-sorted-gps-history", data),
+    requestInvoke.post("logistika-get-list-sorted-gps-history", data),
   getNotification: (data) => requestInvoke.post("logistika-notification", data),
   getNewPred: (data) => requestInvoke.post("logistika-favourite-cargo", data),
   updateUser2: (data) => requestInvoke.put(`/v2/items/users`, data),
