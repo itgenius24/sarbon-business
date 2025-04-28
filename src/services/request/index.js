@@ -32,18 +32,6 @@ request.interceptors.request.use((config) => {
     config.headers["X-API-KEY"] = "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT";
   }
 
-  // if(
-  //   config.url.includes("client_type") ||
-  //   config.url.includes("get-list/role") ||
-  //   config.url.includes("get-list/firm") ||
-  //   config.url.includes("/news") ||
-  //   config.url.includes("/directory") ||
-  //   config.url.includes("get-list/partners_company") ||
-  //   config.url.includes("/users") ||
-  //   config.url.includes("/items/firm")
-  // ) {
-
-  // }
 
   return config;
 });

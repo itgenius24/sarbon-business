@@ -34,7 +34,6 @@ const objectService = {
   getVehicle: (params) =>
     request.get("/v2/object-slim/get-list/vehicle", { params }),
 
-  getVehicleSin: (params) => request.get(`/v2/items/vehicle/${params.id}`),
   getCurrency: (params) =>
     request.get("/v2/object-slim/get-list/currency", { params }),
   getPackage: (params) =>
@@ -43,41 +42,10 @@ const objectService = {
     request.get("/v2/object-slim/get-list/map", { params }),
   getUserCargo: (params) =>
     request.get("/v2/object-slim/get-list/cargo", { params }),
-  getCargoAll: (data) =>
-    request.post("/v2/object/get-list/cargo", data),
+  getCargoAll: (data) => request.post("/v2/object/get-list/cargo", data),
   getCarList: (params) =>
     request.get("/v2/object-slim/get-list/route", { params }),
-  getLogistikaGpsTrackingFilterDriver: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-gps-tracking-filter-driver",
-      data
-    ),
-    getLogistikaGpsTrackingFilterDriverPred: (data) =>
-      request.post(
-        "/v1/invoke_function/logistika-send-list-of-address-name",
-        data
-      ),
-  getCar: (data) =>
-    request.post("/v1/invoke_function/logistika-get-cargo-list", data),
-  getCarDispatcher: (data) =>
-    request.post("/v1/invoke_function/logistika-send-notification-new-cargo", data),
-  getCarRefueling: (data) =>
-    request.post("/v1/invoke_function/logistika-send-offer-notification", data),
-  getCarTrackingFilter: (data) =>
-    request.post("/v1/invoke_function/logistika-gps-tracking-create-history", data),
-  getNewPred: (data) =>
-    request.post("/v1/invoke_function/logistika-favourite-cargo", data),
-  getLocation: (data) => 
-    request.post("v1/invoke_function/logistika-get-cargo-for-map", data),
-    googleRigister: (data) => 
-    request.post("v1/invoke_function/logistika-get-current-location", data),
-  dispatcherFirms: (data) =>
-    request.post("/v2/items/dispatcher_and_firms", data),
-  deleteDis: (id) => request.delete(`/v2/items/dispatcher_and_firms/${id.id}`,{data:JSON.stringify({data:{}})}),
-  deleteDisTop: (id) => request.delete(`/v2/items/dispatcher_teams/${id.id}`,{data:JSON.stringify({data:{}})}),
 
-  dispatcherFirmsEdit: (data) =>
-    request.put("/v2/items/dispatcher_and_firms", data),
   getOffer: (params) =>
     request.get("/v2/object-slim/get-list/order", { params }),
   getOfferDispatcher: (params) =>
@@ -106,6 +74,77 @@ const objectService = {
     request.get("/v2/object-slim/get-list/gps_history", { params }),
   getDriverLocation: (params) =>
     request.get("/v2/object-slim/get-list/users_gps", { params }),
+
+  deleteDis: (data) =>
+    request.delete(
+      `/v1/object/project-id=f539f64b-961e-4c6c-8534-140091f7f27b`,
+      { data }
+    ),
+  checkUser: (data) => request.post("/v2/object/get-list/users", data),
+  getCargo: (params) =>
+    request.get("/v2/object-slim/get-list/cargo", { params }),
+  getNote: (params) => request.get("/v2/object-slim/get-list/note", { params }),
+  updateNote: (data) => request.put(`/v2/items/note`, data),
+  getDriverPosition: (params) =>
+    request.get("/v2/object-slim/get-list/gps_history", { params }),
+  getPhoneUser: (params) =>
+    request.get("/v2/object-slim/get-list/users", { params }),
+  getActionUser: (params) =>
+    request.get("/v2/object-slim/get-list/action_histories", { params }),
+  getCountApk: (params) =>
+    request.get("/v2/object-slim/get-list/apk", { params }),
+  getRole: (params) => request.get("/v2/object-slim/get-list/role", { params }),
+};
+
+export const useGetUserPost = ({ data, querySettings }) => {
+  return useQuery({
+    queryKey: ["checkUserRegister", data],
+    queryFn: () => objectService.checkUser(data),
+    ...querySettings,
+  });
+};
+export const useGetRole = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getRole", params],
+    queryFn: () => objectService.getRole(params),
+    ...querySettings,
+  });
+};
+
+export const useGetActionUser = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getActionUser", params],
+    queryFn: () => objectService.getActionUser(params),
+    ...querySettings,
+  });
+};
+
+export const useGetDriverPosition = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getDriverPosition", params],
+    queryFn: () => objectService.getDriverPosition(params),
+    ...querySettings,
+  });
+};
+
+export const useGetCargoList = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getCargo", params],
+    queryFn: () => objectService.getCargo(params),
+    ...querySettings,
+  });
 };
 
 export const useGetCarById = (
@@ -116,6 +155,17 @@ export const useGetCarById = (
     queryKey: ["object/getCarsOnSale", params],
     queryFn: () => objectService.getCarsOnSale(params),
     ...settings,
+  });
+};
+
+export const useGetNoteList = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
+  return useQuery({
+    queryKey: ["object/getNote", params],
+    queryFn: () => objectService.getNote(params),
+    ...querySettings,
   });
 };
 
@@ -141,11 +191,28 @@ export const useGetManualList = (
   });
 };
 
-
-export const useGetCarData = ({data, querySettings}) => {
+export const useGetCountApk = ({
+  params = { data: JSON.stringify({}) },
+  querySettings,
+}) => {
   return useQuery({
-    queryKey: ["useGetCarData", data],
-    queryFn: () => objectService.getCar(data), ...querySettings,
+    queryKey: ["object/getCountApk", params],
+    queryFn: () => objectService.getCountApk(params),
+    ...querySettings,
+  });
+};
+
+export const useGetPhone = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.getPhoneUser(data),
+    ...mutationSettings,
+  });
+};
+
+export const useUpdateNoteData = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => objectService.updateNote(data),
+    ...mutationSettings,
   });
 };
 
@@ -156,100 +223,19 @@ export const useGetCarListOnSubmit = (mutationSettings) => {
   });
 };
 
-export const useGetCar = (mutationSettings) => {
+export const useDeleteDisAll = (mutationSettings) => {
   return useMutation({
-    mutationFn: (params) => objectService.getCar(params),
-    ...mutationSettings,
-  });
-  };
-
-  export const useDeleteDis = (mutationSettings) => {
-    return useMutation({ mutationFn: (data) => objectService.deleteDis(data), ...mutationSettings });
-  };
-
-  export const useDeleteDisTop = (mutationSettings) => {
-    return useMutation({ mutationFn: (data) => objectService.deleteDisTop(data), ...mutationSettings });
-  };
-
-
-  
-
-  
-  export const useGetCarDispatcherPost = ({ data, querySettings }) => {
-    return useQuery({
-      queryKey: ["getCarDispatcher", data],
-      queryFn: () => objectService.getCarDispatcher(data),
-      ...querySettings,
-    });
-  };
-
-  export const useGetCarDispatcher = (mutationSettings) => {
-    return useMutation({
-      mutationFn: (params) => objectService.getCarDispatcher(params),
-      ...mutationSettings,
-    });
-    };
-
-    export const useGetCarRefueling = (mutationSettings) => {
-      return useMutation({
-        mutationFn: (params) => objectService. getCarRefueling(params),
-        ...mutationSettings,
-      });
-      };
-    
-  
-
- 
-  export const useGetCarTrackingFilter = (mutationSettings) => {
-    return useMutation({
-      mutationFn: (params) => objectService.getCarTrackingFilter(params),
-      ...mutationSettings,
-    });
-    };
-
-  export const useGetNewPred = (mutationSettings) => {
-    return useMutation({
-      mutationFn: (params) => objectService.getNewPred(params),
-      ...mutationSettings,
-    });
-    };
-  
-  
-  
-
-export const useLogistikaGpsTrackingFilterDriver = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) =>
-      objectService.getLogistikaGpsTrackingFilterDriver(data),
+    mutationFn: (data) => objectService.deleteDis(data),
     ...mutationSettings,
   });
 };
 
-
-export const useLogistikaGpsTrackingFilterDriverPred = (mutationSettings) => {
+export const useGetNewPred = (mutationSettings) => {
   return useMutation({
-    mutationFn: (data) =>
-      objectService.getLogistikaGpsTrackingFilterDriverPred(data),
+    mutationFn: (params) => objectService.getNewPred(params),
     ...mutationSettings,
   });
 };
-
-
-
-export const useLocation = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => objectService.getLocation(data),
-    ...mutationSettings,
-  });
-};
-
-export const useGoogleRigister = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => objectService.googleRigister(data),
-    ...mutationSettings,
-  });
-};
-
 
 export const useGetUserGpsBYData = (mutationSettings) => {
   return useMutation({
@@ -257,21 +243,6 @@ export const useGetUserGpsBYData = (mutationSettings) => {
     ...mutationSettings,
   });
 };
-
-export const useDispatcherFirms = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => objectService.dispatcherFirms(data),
-    ...mutationSettings,
-  });
-};
-
-export const useDispatcherFirmsEdit = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => objectService.dispatcherFirmsEdit(data),
-    ...mutationSettings,
-  });
-};
-
 
 export const useGetNewsList = (
   params = { data: JSON.stringify({}) },
@@ -296,11 +267,11 @@ export const useGetLocation = (
   });
 };
 
-export const useGetCompanyList = (params,props) => {
+export const useGetCompanyList = (params, props) => {
   return useQuery({
     queryKey: ["object/getCompanyList", params],
     queryFn: () => objectService.getCompanyList(params),
-    ...props
+    ...props,
   });
 };
 
@@ -366,8 +337,6 @@ export const useGetTrailerType = (
 //   });
 // };
 
-
-
 export const useGetUserData = ({
   params = { data: JSON.stringify({}) },
   querySettings,
@@ -390,7 +359,6 @@ export const useGetUserCargo2 = ({
   });
 };
 
-
 export const useGetUserCargoAll = ({ data, querySettings }) => {
   return useQuery({
     queryKey: ["getCargoAll", data],
@@ -398,9 +366,6 @@ export const useGetUserCargoAll = ({ data, querySettings }) => {
     ...querySettings,
   });
 };
-
-
-
 
 export const useGetVehicle2 = ({
   params = { data: JSON.stringify({}) },
@@ -413,9 +378,7 @@ export const useGetVehicle2 = ({
   });
 };
 
-
-
-export const useGetUserCargo = (params , settings) => {
+export const useGetUserCargo = (params, settings) => {
   return useQuery({
     queryKey: ["object/getUserCargo", params],
     queryFn: () => objectService.getUserCargo(params),
@@ -423,7 +386,7 @@ export const useGetUserCargo = (params , settings) => {
   });
 };
 
-export const useGetUserCargoPa = (params , settings) => {
+export const useGetUserCargoPa = (params, settings) => {
   return useQuery({
     queryKey: ["object/getUserCargoPA", params],
     queryFn: () => objectService.getUserCargo(params),
@@ -463,21 +426,6 @@ export const useGetUserGpsByIDData = ({
     ...querySettings,
   });
 };
-
-
-
-export const useGetVehicleSingle = ({
-  params = { data: JSON.stringify({}) },
-  querySettings,
-}) => {
-  return useQuery({
-    queryKey: ["object/getCargo", params],
-    queryFn: () => objectService.getVehicleSin(params),
-    ...querySettings,
-  });
-};
-
-
 
 export const useGetVehicle = (
   params = { data: JSON.stringify({}) },
@@ -526,7 +474,6 @@ export const useGetPaymentType = (params = { data: JSON.stringify({}) }) => {
   });
 };
 
-
 export const useGetUserCargoPagination = (params, settings) => {
   return useInfiniteQuery({
     queryKey: ["object/getUserCargoPagination", params],
@@ -535,8 +482,6 @@ export const useGetUserCargoPagination = (params, settings) => {
     ...settings,
   });
 };
-
-
 
 export const useGetOffer = (params, settings) => {
   return useQuery({
@@ -554,7 +499,6 @@ export const useGetOfferTab = (params, settings) => {
   });
 };
 
-
 export const useGetOfferDispatcher = (params, settings) => {
   return useQuery({
     queryKey: ["object/getOfferDispatcher", params],
@@ -570,7 +514,6 @@ export const useGetOfferDispatcherFirms = (params, settings) => {
     ...settings,
   });
 };
-
 
 export const useGetOfferCount = (params, settings) => {
   return useQuery({
