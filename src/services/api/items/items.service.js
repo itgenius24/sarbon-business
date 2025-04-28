@@ -49,7 +49,7 @@ const itemsService = {
     request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
   getExcelFile: (data) =>
     request.post(
-      "/v1/invoke_function/logistika-get-list-sorted-gps-history",
+      "/v1/invoke_function/staging-logistika-get-list-sorted-gps-history",
       data
     ),
   getNotification: (data) =>
