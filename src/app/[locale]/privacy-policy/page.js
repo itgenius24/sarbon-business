@@ -18,11 +18,11 @@ export default function PrivacyPolicyPage() {
       }
       <Box padding={isLargerThan768 ? 0 : "12px"} borderRadius={isLargerThan768 ? 0 : "12px"} bgColor={isLargerThan768 ? "transparent" : "white"}>
         <Heading fontSize={isLargerThan768 ? 48 : 20} lineHeight={isLargerThan768 ? "60px" : "20px"} mb="24px">
-          {t("Политика конфиденциальности")}
+          {t("Privacy Policy for Sarbon")}
         </Heading>
         <Text fontWeight="400"
           mb="40px"
-          fontSize={isLargerThan768 ? "20px" : "16px"}
+          // fontSize={isLargerThan768 ? "20px" : "16px"}
           lineHeight={isLargerThan768 ? "30px" : "19px"}
           color="brand.600"
           dangerouslySetInnerHTML={{ __html: directory?.answear }}

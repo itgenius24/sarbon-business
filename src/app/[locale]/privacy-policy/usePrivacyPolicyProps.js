@@ -13,10 +13,10 @@ export const usePrivacyPolicyProps = () => {
       title: t("Главная"),
       href: "/",
     },
-    { title: t("Политика конфиденциальности"), },
+    { title: t("Privacy Policy for Sarbon"), },
   ];
 
-  const directory = useGetDirectory({ data: JSON.stringify({ status:["politeka_confidentiality"], with_relations: true }), });
+  const directory = useGetDirectory({ data: JSON.stringify({ status:["directory"], with_relations: true }), });
 
   return { directory: directory.data?.response?.[0], crumbs, t };
 };
