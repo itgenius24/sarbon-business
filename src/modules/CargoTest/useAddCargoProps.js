@@ -69,7 +69,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   );
 
   const isCargo =
-    status === "active" || status === "in_moderation" || status === "in_active" || status === "rejected";
+    status === "active" ||
+    status === "in_moderation" ||
+    status === "in_active" ||
+    status === "rejected";
 
   const { t } = useTranslation(locale, "translations");
 
@@ -390,7 +393,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const templateParams = { cargo_id: templateId };
 
   const isAllCargo =
-    status === "active" || status === "in_moderation" || status === "in_active" ||  status === "rejected";
+    status === "active" ||
+    status === "in_moderation" ||
+    status === "in_active" ||
+    status === "rejected";
 
   const getMaps = useGetMaps(
     {
@@ -398,7 +404,53 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         id ? (isAllCargo ? allCargoParams : allResponseParams) : templateParams
       ),
     },
-    { enabled: !!templateId }
+    {
+      enabled: !!templateId,
+      onSuccess: (res) => {
+        const data = res.response;
+        const reversedData = data;
+        setTemplateId("");
+
+        const shipper = reversedData.filter(
+          (item) => item.type?.[0] === `shipper`
+        );
+
+        const consignee = reversedData.filter(
+          (item) => item?.type?.[0] === `consignee`
+        );
+        setValue(`staticArrayAderss`, shipper.concat(consignee));
+
+        if (shipper?.length > 0) {
+          shipper
+            ?.sort((a, b) => a?.step - b?.step)
+            ?.forEach((item, index) => {
+              setValue(`loadings.${[index]}`, {
+                cor: `${item.lat} ${item.long}`,
+                address: item?.name,
+                from_date: item?.date,
+                guid: item.guid,
+                loading_num: {
+                  value: item?.expectations,
+                  label: item?.expectations,
+                },
+              });
+            });
+        }
+
+        if (consignee?.length > 0) {
+          consignee
+            .sort((a, b) => a?.step - b?.step)
+            ?.forEach((item, index) => {
+              setValue(`unloading.${[index]}`, {
+                cor: `${item.lat} ${item.long}`,
+                address: item?.name,
+                to_date: item?.date,
+                guid: item.guid,
+              });
+            });
+        }
+      },
+    }
   );
 
   const getLoadingMutation = useGetLoadingMutation({
@@ -850,17 +902,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       setDirectContractOpen(true);
     }
 
-    // if(item?.address_ids.length) {
-    //   getLoadingMutation.mutate({
-    //     data: {
-    //       object_ids: [
-    //         item?.address_ids
-    //       ]
-    //     }
-    //   });
-    // }
     setTemplateId(item?.guid);
-    // getMaps.refetch();
     handleCloseModal();
   }
 
@@ -878,8 +920,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         return getCargo.data?.response?.[0];
       case "active":
         return getCargo.data?.response?.[0];
-        case "rejected":
-          return getCargo.data?.response?.[0];
+      case "rejected":
+        return getCargo.data?.response?.[0];
       default:
         return getOfferCargoById.data?.response[0];
     }
@@ -1062,8 +1104,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         country_code_to: data?.country_code_to ? data?.country_code_to : ``,
         lat: data?.lat * 1,
         long: data?.long * 1,
-        gradusFrom: data?.gradusFrom,
-        gradusTo: data?.gradusTo,
+        temp_from: data?.temp_from,
+        temp_to: data?.temp_to,
         number_of_order: data?.number_of_order,
         belt: data?.belt,
         combined_cargo: data?.combined_cargo ? data?.combined_cargo : false,
@@ -1086,69 +1128,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         ? getData()?.cargo_id_data
         : getData();
       resetForm(data, id);
-      console.log(`data`, getData());
+
     }
   }, [getCargo.data, getOfferCargoById.data]);
 
   useEffect(() => {
     if (id && (getCargo.isSuccess || getOfferCargoById.isSuccess)) {
-      // let object_ids = [];
-
-      // if(isCargo) {
-      //   object_ids = getCargo.data?.response[0]?.address_ids;
-      // } else {
-      //   object_ids = getOfferCargoById.data?.response[0]?.address_ids;
-      // }
-
-      // if(object_ids.length) {
-      //   getLoadingMutation.mutate({ data: { object_ids } });
-      // } else {
-      // }
       getMaps.refetch();
     }
   }, [id, getCargo.data, getOfferCargoById.data]);
-
-  useEffect(() => {
-    if (getMaps.isSuccess) {
-      const data = getMaps.data.response;
-      const reversedData = data;
-      setTemplateId("");
-
-      const shipper = reversedData.filter(
-        (item) => item.type?.[0] === `shipper`
-      );
-
-      const consignee = reversedData.filter(
-        (item) => item?.type?.[0] === `consignee`
-      );
-      setValue(`staticArrayAderss`, shipper.concat(consignee));
-      shipper
-        ?.sort((a, b) => a?.step - b?.step)
-        ?.forEach((item, index) => {
-          setValue(`loadings.${[index]}`, {
-            cor: `${item.lat} ${item.long}`,
-            address: item?.name,
-            from_date: item?.date,
-            guid: item.guid,
-            loading_num: {
-              value: item?.expectations,
-              label: item?.expectations,
-            },
-          });
-        });
-
-      consignee
-        .sort((a, b) => a?.step - b?.step)
-        ?.forEach((item, index) => {
-          setValue(`unloading.${[index]}`, {
-            cor: `${item.lat} ${item.long}`,
-            address: item?.name,
-            to_date: item?.date,
-            guid: item.guid,
-          });
-        });
-    }
-  }, [getMaps.isSuccess]);
 
   const isFirstRender = useRef(true);
 

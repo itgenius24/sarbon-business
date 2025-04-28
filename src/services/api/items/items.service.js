@@ -19,6 +19,7 @@ const itemsService = {
     request.delete(`/v2/items/dispatcher_drivers/${id}`, {
       data: JSON.stringify({ data: {} }),
     }),
+  getVehicleSin: (params) => request.get(`/v2/items/vehicle/${params.id}`),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   createCargo: (data) => request.post("/v2/items/cargo", data),
   actionHistories: (data) => request.post("/v2/items/action_histories", data),
@@ -42,195 +43,68 @@ const itemsService = {
   createUser: (data) => request.post("/v2/items/users", data),
   createDispatcherTeams: (data) =>
     request.post("/v2/items/dispatcher_teams", data),
-  checkUser: (data) => request.post("/v2/object/get-list/users", data),
-  checkUserRegister: (data) =>
-    request.post("/v2/object-slim/get-list/users", data),
-  getCargoPost: (data) =>
-    request.post("/v1/invoke_function/logistika-get-cargo-with-filter", data),
-  getExcelFile: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-get-list-sorted-gps-history",
-      data
-    ),
-  getNotification: (data) =>
-    request.post("/v1/invoke_function/logistika-notification", data),
-  getNewPred: (data) =>
-    request.post("/v1/invoke_function/logistika-favourite-cargo", data),
-  updateUser2: (data) => request.put(`/v2/items/users`, data),
-  sendNotification: (data) =>
-    request.post(
-      "/v1/invoke_function/logistika-send-notification-new-cargo",
-      data
-    ),
-  getCargo: (params) =>
-    request.get("/v2/object-slim/get-list/cargo", { params }),
-  getNote: (params) => request.get("/v2/object-slim/get-list/note", { params }),
-  updateNote: (data) => request.put(`/v2/items/note`, data),
-  getDriverPosition: (params) =>
-    request.get("/v2/object-slim/get-list/gps_history", { params }),
-  getPhoneUser: (params) =>
-    request.get("/v2/object-slim/get-list/users", { params }),
-  getActionUser: (params) =>
-    request.get("/v2/object-slim/get-list/action_histories", { params }),
-  getCountApk: (params) =>
-    request.get("/v2/object-slim/get-list/apk", { params }),
-  getRole: (params) =>
-    request.get("/v2/object-slim/get-list/role", { params }),
+
+  dispatcherFirms: (data) =>
+    request.post("/v2/items/dispatcher_and_firms", data),
+
+  dispatcherFirmsEdit: (data) =>
+    request.put("/v2/items/dispatcher_and_firms", data),
+
+  deleteDis: (id) =>
+    request.delete(`/v2/items/dispatcher_and_firms/${id.id}`, {
+      data: JSON.stringify({ data: {} }),
+    }),
+
+  deleteDisTop: (id) =>
+    request.delete(`/v2/items/dispatcher_teams/${id.id}`, {
+      data: JSON.stringify({ data: {} }),
+    }),
+
   deleteOrder: (id) =>
     request.delete(`/v2/items/order/${id}`, {
       data: JSON.stringify({ data: {} }),
     }),
-    reliabilities: (id) =>
-      request.delete(`/v2/items/reliabilities/${id}`, {
-        data: JSON.stringify({ data: {} }),
-      }),
-    
-  deleteDis: (data) =>
-    request.delete(
-      `/v1/object/project-id=f539f64b-961e-4c6c-8534-140091f7f27b`,
-      { data }
-    ),
+  reliabilities: (id) =>
+    request.delete(`/v2/items/reliabilities/${id}`, {
+      data: JSON.stringify({ data: {} }),
+    }),
 };
 
-// items/vehicle
-
-export const useGetCargoList = ({
+export const useGetVehicleSingle = ({
   params = { data: JSON.stringify({}) },
   querySettings,
 }) => {
   return useQuery({
-    queryKey: ["object/getCargo", params],
-    queryFn: () => itemsService.getCargo(params),
+    queryKey: ["object/getCargoVehicle", params],
+    queryFn: () => itemsService.getVehicleSin(params),
     ...querySettings,
   });
 };
 
-export const useGetNoteList = ({
-  params = { data: JSON.stringify({}) },
-  querySettings,
-}) => {
-  return useQuery({
-    queryKey: ["object/getNote", params],
-    queryFn: () => itemsService.getNote(params),
-    ...querySettings,
+export const useDeleteDis = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.deleteDis(data),
+    ...mutationSettings,
   });
 };
 
-export const useGetNotification = ({ data, querySettings }) => {
-  return useQuery({
-    queryKey: ["notificationsData2", data],
-    queryFn: () => itemsService.getNotification(data),
-    ...querySettings,
+export const useDeleteDisTop = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.deleteDisTop(data),
+    ...mutationSettings,
   });
 };
 
-export const useGetNewPredData = ({ data, querySettings }) => {
-  return useQuery({
-    queryKey: ["getNewPred", data],
-    queryFn: () => itemsService.getNewPred(data),
-    ...querySettings,
+export const useDispatcherFirmsEdit = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.dispatcherFirmsEdit(data),
+    ...mutationSettings,
   });
 };
-
-export const useGetNewPredData2 = ({ data, querySettings }) => {
-  return useQuery({
-    queryKey: ["getNewPred2", data],
-    queryFn: () => itemsService.getNewPred(data),
-    ...querySettings,
-  });
-};
-
-export const useGetUserPost = ({ data, querySettings }) => {
-  return useQuery({
-    queryKey: ["checkUserRegister", data],
-    queryFn: () => itemsService.checkUser(data),
-    ...querySettings,
-  });
-};
-
-
-export const useGetNotificationFirst = ({ data, querySettings }) => {
-  return useQuery({
-    queryKey: ["notificationsFirst", data],
-    queryFn: () => itemsService.getNotification(data),
-    ...querySettings,
-  });
-};
-
-
-export const useGetDriverPosition = ({
-  params = { data: JSON.stringify({}) },
-  querySettings,
-}) => {
-  return useQuery({
-    queryKey: ["object/getDriverPosition", params],
-    queryFn: () => itemsService.getDriverPosition(params),
-    ...querySettings,
-  });
-};
-
-
-
-
-export const useGetActionUser = ({
-  params = { data: JSON.stringify({}) },
-  querySettings,
-}) => {
-  return useQuery({
-    queryKey: ["object/getActionUser", params],
-    queryFn: () => itemsService.getActionUser(params),
-    ...querySettings,
-  });
-};
-
-export const useGetCountApk = ({
-  params = { data: JSON.stringify({}) },
-  querySettings,
-}) => {
-  return useQuery({
-    queryKey: ["object/getCountApk", params],
-    queryFn: () => itemsService.getCountApk(params),
-    ...querySettings,
-  });
-};
-
-export const useGetRole = ({
-  params = { data: JSON.stringify({}) },
-  querySettings,
-}) => {
-  return useQuery({
-    queryKey: ["object/getRole", params],
-    queryFn: () => itemsService.getRole(params),
-    ...querySettings,
-  });
-};
-
-
-export const useGetCargoMap = ({ data, querySettings }) => {
-  return useQuery({
-    queryKey: ["useGetCargoMap", data],
-    queryFn: () => itemsService.getCargoPost(data),
-    ...querySettings,
-  });
-};
-
 
 export const useCreateAdMutation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.createAd(data),
-    ...mutationSettings,
-  });
-};
-export const useGetCargoPost = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.getCargoPost(data),
-    ...mutationSettings,
-  });
-};
-
-export const useGetExcelPost = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.getExcelFile(data),
     ...mutationSettings,
   });
 };
@@ -288,6 +162,13 @@ export const useGetClientType = (params = {}) => {
   });
 };
 
+export const useDispatcherFirms = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.dispatcherFirms(data),
+    ...mutationSettings,
+  });
+};
+
 export const useCreateCargoMutation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.createCargo(data),
@@ -302,15 +183,12 @@ export const useCreateActionHistoriesMutation = (mutationSettings) => {
   });
 };
 
-
 export const useCreateApkDownloadMutation = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.apkDownload(data),
     ...mutationSettings,
   });
 };
-
-
 
 export const useCreatePeriodMutation = (mutationSettings) => {
   return useMutation({
@@ -346,13 +224,6 @@ export const useDeleteReliabilities = (mutationSettings) => {
   });
 };
 
-export const useDeleteDisAll = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.deleteDis(data),
-    ...mutationSettings,
-  });
-};
-
 export const useUpdateCargo = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.updateCargo(data),
@@ -370,20 +241,6 @@ export const useUpdateResponse = (mutationSettings) => {
 export const useUpdateNoDriver = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.updateNoDriver(data),
-    ...mutationSettings,
-  });
-};
-
-export const useUpdateUserData = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.updateUser2(data),
-    ...mutationSettings,
-  });
-};
-
-export const useUpdateNoteData = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.updateNote(data),
     ...mutationSettings,
   });
 };
@@ -437,13 +294,6 @@ export const useCreateUser = (mutationSettings) => {
   });
 };
 
-export const useGetPhone = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.getPhoneUser(data),
-    ...mutationSettings,
-  });
-};
-
 export const useCreateDispatcherTeams = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.createDispatcherTeams(data),
@@ -461,12 +311,6 @@ export const useCheckUser = (mutationSettings) => {
 export const useUpdateUser = (mutationSettings) => {
   return useMutation({
     mutationFn: (data) => itemsService.updateUser(data),
-    ...mutationSettings,
-  });
-};
-export const useSendNotification = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (data) => itemsService.sendNotification(data),
     ...mutationSettings,
   });
 };

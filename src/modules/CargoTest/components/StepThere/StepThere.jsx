@@ -69,7 +69,7 @@ const StepThere = ({ status }) => {
     handleNumClick,
     onSubmit,
     handleResetForm,
-    setEditModal
+    setEditModal,
   } = useStepThereProps();
 
   const locale = useGetLang();
@@ -161,7 +161,7 @@ const StepThere = ({ status }) => {
                 >
                   <Box width={"80px"}>
                     <TextField
-                      onClick={() => !canEdit ? setEditModal(true) :null}
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       disabled={!canEdit}
                       register={register}
                       type="number"
@@ -456,7 +456,7 @@ const StepThere = ({ status }) => {
                     width={`100%`}
                     justifyContent={`space-between`}
                   >
-                    <p className={cls.stepTitle2}>{t("ADR")}</p>
+                    <p className={cls.stepTitle2}>{t("Класс ADR")}</p>
                     <IconButton
                       border={"none"}
                       width={"fit-content"}
@@ -474,11 +474,23 @@ const StepThere = ({ status }) => {
                         type="number"
                         register={register}
                         name="straps_number"
+                        onInput={(e) => {
+                          const value = e.target.value;
+                          if (value > 9) {
+                            e.target.value = 0; // 9 dan katta kiritilsa avtomatik 9 qilib qo'yadi
+                          }
+                          if (value < 0) {
+                            e.target.value = 0; // 0 dan kichik bo'lsa 0 qilib qo'yadi
+                          }
+                        }}
                       />
                     </Box>
                     <p className={cls.link}>
                       Класс{" "}
-                      <a target="_blank" href="https://ru.wikipedia.org/wiki/%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D0%BA%D0%BE%D0%B5_%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%BE%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%B5_%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D1%8B%D1%85_%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%B2">
+                      <a
+                        target="_blank"
+                        href="https://ru.wikipedia.org/wiki/%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D0%BA%D0%BE%D0%B5_%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%BE%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%B5_%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D1%8B%D1%85_%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%B2"
+                      >
                         {" "}
                         опасности груза
                       </a>{" "}
@@ -708,38 +720,76 @@ const StepThere = ({ status }) => {
                     />
                   </Flex>
                   <Flex gap={`20px`} width={`30%`}>
-                  <TextFieldWithAddition
+                    <TextFieldWithAddition
                       className={cls.textField2}
                       errors={errors}
                       control={control}
-                      name="gradusFrom"
+                      name="temp_from"
                       register={register}
                       additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("от")}
                       additionalItemPlaceholder="°C"
-                      // additionalItemOptions={[{label:`°C`,values:`°C`}]}
                       disabled={!canEdit}
-                      additionalItemTheme={"light"}
-                      type="number"
+                      additionalItemTheme="light"
+                      type="text"
                       zIndex={90}
-                     
+                      onChange={(e) => {
+                        let value = e.target.value;
+
+                        value = value.replace(/[^0-9+-]/g, "");
+
+                        let sign = "";
+                        if (value.startsWith("+")) {
+                          sign = "+";
+                        } else if (value.startsWith("-")) {
+                          sign = "-";
+                        }
+
+                        value = value.replace(/[+-]/g, "");
+
+                        value = sign + value;
+
+                        e.target.value = value;
+
+                        register("temp_from").onChange(e);
+                      }}
                     />
+
                     <TextFieldWithAddition
                       className={cls.textField2}
                       errors={errors}
                       control={control}
-                      name="gradusTo"
+                      name="temp_to"
                       additionalItemTheme={"light"}
                       register={register}
                       additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("до")}
                       additionalItemPlaceholder="°C"
-                      // additionalItemOptions={[{label:`°C`,values:`°C`}]}
                       disabled={!canEdit}
-                      type="number"
+                      type="text"
                       zIndex={90}
+                      onChange={(e) => {
+                        let value = e.target.value;
+
+                        value = value.replace(/[^0-9+-]/g, "");
+
+                        let sign = "";
+                        if (value.startsWith("+")) {
+                          sign = "+";
+                        } else if (value.startsWith("-")) {
+                          sign = "-";
+                        }
+
+                        value = value.replace(/[+-]/g, "");
+
+                        value = sign + value;
+
+                        e.target.value = value;
+
+                        register("temp_to").onChange(e);
+                      }}
                     />
                   </Flex>
                 </Box>

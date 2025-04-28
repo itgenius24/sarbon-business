@@ -1,12 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import {
-  useGetCargoType,
   useGetCarType,
-  useGetMeasurement,
   useUpdateCargo,
 } from "@/services/api";
-import { fileUpload } from "@/services/fileUpload";
 import { useGetLang } from "@/hooks/useGetLang";
 
 const useStepThereProps = () => {
@@ -33,7 +30,6 @@ const useStepThereProps = () => {
     setIsGradusOpen,
     isGradusOpen,
     setLoad,
-    load,
     setEditModal,
     handleResetForm,
   } = useAddCargoContext();
@@ -62,7 +58,6 @@ const useStepThereProps = () => {
   }, [watch("car_type")?.value, watch("transport_count")]);
   const getCarType = useGetCarType();
 
-  console.log(`getCarType`,getCarType?.data?.response)
 
   const carTypeOptions = getCarType.data?.response?.map((item) => ({
     label: item?.[`name_${locale}`] ? item?.[`name_${locale}`] : item?.name,
@@ -202,25 +197,7 @@ const useStepThereProps = () => {
 
   const onSubmit = () => {
     setValue(`cargoIndex`, 4);
-    // const requestData = {
-    //   data: {
-    //     guid: watch(`loadResId`),
-    //     vehicle_type_id: watch("car_type")?.value,
-    //     number_of_cars: watch("transport_count"),
-    //     tir: watch("tir"),
-    //     t1: watch("t1"),
-    //     cmr: watch("cmr"),
-    //     med: watch(`medic_certificate`),
-    //     straps_number: watch("straps_number"),
-    //     hitch: watch("hitch") || false,
-    //     pneumatic: watch("pneumatic") || false,
-    //     bunks: watch("bunks") || false,
-    //     load_type:getTrueKeys(load),
-    //     take_all_unloads:watch(`is_ftl`),
-    //     load_around_the_clock:watch(`is_ltl`)
-    //   },
-    // };
-    // updateCargo.mutate(requestData)
+
   };
 
   function handleCheckboxChange(e) {
