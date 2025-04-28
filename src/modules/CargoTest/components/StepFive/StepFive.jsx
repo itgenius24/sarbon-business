@@ -252,8 +252,8 @@ const StepFive = ({ status }) => {
         load_around_the_clock: watch(`is_ltl`),
         distance: distance?.distance || 0,
         firm_id,
-        gradusFrom: watch(`gradusFrom`),
-        gradusTo: watch(`gradusTo`),
+        temp_from: watch(`temp_from`),
+        temp_to: watch(`temp_to`),
 
         //step4
 
@@ -354,8 +354,8 @@ const StepFive = ({ status }) => {
         load_type: getTrueKeys(load),
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
-        gradusFrom: watch(`gradusFrom`),
-        gradusTo: watch(`gradusTo`),
+        temp_from: watch(`temp_from`),
+        temp_to: watch(`temp_to`),
 
         //step4
 

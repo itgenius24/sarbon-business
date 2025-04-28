@@ -712,7 +712,7 @@ const StepThere = ({ status }) => {
                       className={cls.textField2}
                       errors={errors}
                       control={control}
-                      name="gradusFrom"
+                      name="temp_from"
                       register={register}
                       additionalItemName="weight_unit"
                       width="160px"
@@ -729,7 +729,7 @@ const StepThere = ({ status }) => {
                       className={cls.textField2}
                       errors={errors}
                       control={control}
-                      name="gradusTo"
+                      name="temp_to"
                       additionalItemTheme={"light"}
                       register={register}
                       additionalItemName="weight_unit"
