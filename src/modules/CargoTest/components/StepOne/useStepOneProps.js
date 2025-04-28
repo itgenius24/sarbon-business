@@ -118,7 +118,6 @@ const useStepOneProps = () => {
 
   const handleImageUpload = async (e) => {
     const result = await fileUpload(e);
-    // setValue("image", result?.link);
     setValue("image", process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
   };
   function imageLoader() {

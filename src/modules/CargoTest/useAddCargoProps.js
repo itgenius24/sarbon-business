@@ -1128,7 +1128,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         ? getData()?.cargo_id_data
         : getData();
       resetForm(data, id);
-      console.log(`data`, getData());
+
     }
   }, [getCargo.data, getOfferCargoById.data]);
 

@@ -75,7 +75,7 @@ const StepOne = ({ status }) => {
             </Flex>
 
             <Flex
-              alignItems={`center`}
+              // alignItems={`center`}
               className={cls.inputWrap}
               gap={"24px"}
               mt={"10px"}
@@ -242,9 +242,7 @@ const StepOne = ({ status }) => {
                 </Flex>
               </Box>
               <Box width={`100%`}>
-              <p className={cls.textFieldName}>
-                
-                </p>
+                <p className={cls.textFieldName}></p>
                 <Checkbox
                   defaultChecked={watch(`combined_cargo`)}
                   name="combined_cargo"
