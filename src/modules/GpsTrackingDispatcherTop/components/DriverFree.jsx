@@ -457,7 +457,7 @@ const DriverFree = ({
           </Box>
         )}
 
-        {getUserGps?.data?.response && (
+        {getUserGps?.data?.response?.length > 0 && (
           <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
             <Flex width={"100%"} alignItems={"center"} gap={3}>
               <Avatar

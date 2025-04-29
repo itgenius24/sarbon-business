@@ -65,9 +65,10 @@ export const useGpsTrackingProps = () => {
   const car_country = searchParams.get(`car_country`) || `UZ`;
   const type = searchParams.get(`car_type`) || ``;
   const capacity = searchParams.get(`car_capacity`) || ``;
-  const height = searchParams.get(`car_height`)   || ``;
+  const height = searchParams.get(`car_height`) || ``;
   const car_type_name = searchParams.get(`car_type_name`) || ``;
   const cargo_guid = searchParams.get(`cargo_guid`);
+  const dispatcher_id = searchParams.get(`dispatcher_id`);
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
@@ -109,7 +110,6 @@ export const useGpsTrackingProps = () => {
       document.body.classList.remove("no-scroll");
     };
   }, [checked]);
-
 
   const getCargo = useGetCargoById(
     {
@@ -156,6 +156,7 @@ export const useGpsTrackingProps = () => {
               cargo_id_data: res?.response?.[0],
             },
           ],
+          disp_data: [{ users_id_2: dispatcher_id }],
         };
         setCurrentUserLocationData(objContend);
         if (provisions === "empty") {
@@ -430,7 +431,6 @@ export const useGpsTrackingProps = () => {
     },
   });
 
-
   useEffect(() => {
     if (guid && !cargo_guid) {
       const objContend = {
@@ -463,6 +463,7 @@ export const useGpsTrackingProps = () => {
             },
           },
         ],
+        disp_data: [{ users_id_2: dispatcher_id }],
       };
       setCurrentUserLocationData(objContend);
       if (provisions === "empty") {

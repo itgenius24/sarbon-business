@@ -129,8 +129,7 @@ export const useMyCarsDispatcher = () => {
         row?.trailer_type_id_data?.[`name_${locale}`]
           ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
           : row?.trailer_type_id_data?.name || ``
-      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}`
-    );
+      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${row?.first_dispatcher_data?.guid || ``}`);
 
     // window.open(
     //   `/${locale}/gps-tracking-dispatcher-top?guid=${row?.guid}&provisions=${row?.provisions}&time=${row?.gps_data?.update_time}`,
