@@ -96,6 +96,13 @@ export const useGetNewPredData2 = ({ data, querySettings }) => {
   });
 };
 
+export const useGetNewPred = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (params) => functionsService.getNewPred(params),
+    ...mutationSettings,
+  });
+};
+
 export const useGetCarData = ({ data, querySettings }) => {
   return useQuery({
     queryKey: ["useGetCarData", data],

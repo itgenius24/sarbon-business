@@ -52,7 +52,7 @@ export const useMyLoadsMainProps = (locale) => {
   const userId = authStore.userData.id;
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState("");
-  const [debouncedValue] = useDebounce(address, 500);
+  const [debouncedValue] = useDebounce(address, 800);
 
   const query = useQueryClient();
 
@@ -257,6 +257,7 @@ export const useMyLoadsMainProps = (locale) => {
             ? userId
             : undefined,
         with_relations: true,
+        // response_status: ["approve_from_driver"],
         provisions: ["approve_from_driver"],
       }),
     },
@@ -386,7 +387,7 @@ export const useMyLoadsMainProps = (locale) => {
   };
 
   useEffect(() => {
-    if (address) {
+    if (address && debouncedValue.length >= 3) {
       handleGeocode();
     }
   }, [debouncedValue]);

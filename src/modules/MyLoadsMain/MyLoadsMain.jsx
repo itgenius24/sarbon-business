@@ -99,7 +99,9 @@ export const MyLoadsMain = ({ locale }) => {
 
   return (
     <Box px={"20px"} py="24px">
+    
       <Container maxW={`1444px`}>
+
         {guid && (
           <Button
             leftIcon={<NavigationBtnLeftIcon />}
