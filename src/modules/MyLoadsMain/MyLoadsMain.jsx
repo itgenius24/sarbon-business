@@ -99,7 +99,9 @@ export const MyLoadsMain = ({ locale }) => {
 
   return (
     <Box px={"20px"} py="24px">
+    
       <Container maxW={`1444px`}>
+
         {guid && (
           <Button
             leftIcon={<NavigationBtnLeftIcon />}
@@ -241,7 +243,7 @@ export const MyLoadsMain = ({ locale }) => {
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
+                <ApproveFromDriver t={t} orderStatus={orderStatus} />
               </TabPanel>
               <TabPanel padding={0}>
                 <PerfomedPage t={t} orderStatus={`performed`} />

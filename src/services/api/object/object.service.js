@@ -230,12 +230,7 @@ export const useDeleteDisAll = (mutationSettings) => {
   });
 };
 
-export const useGetNewPred = (mutationSettings) => {
-  return useMutation({
-    mutationFn: (params) => objectService.getNewPred(params),
-    ...mutationSettings,
-  });
-};
+
 
 export const useGetUserGpsBYData = (mutationSettings) => {
   return useMutation({

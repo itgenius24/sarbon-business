@@ -339,7 +339,7 @@ const StepFour = ({ status }) => {
                     </Flex>
                     <TextFieldWithAddition
                       onClick={() => !canEdit ? setEditModal(true) :null}
-
+                      onlyFieldDisabled={order_status?.[0] === "active"}
                       disabled={order_status?.[0] === "active" || !canEdit}
                       name="price"
                       register={register}
@@ -374,6 +374,7 @@ const StepFour = ({ status }) => {
                     <TextFieldWithAddition
                       onClick={() => !canEdit ? setEditModal(true) :null}
                       disabled={order_status?.[0] === "active" || disabledP}
+                      onlyFieldDisabled={order_status?.[0] === "active" || disabledP}
                       name="price_prepayment"
                       register={register}
                       control={control}

@@ -52,7 +52,7 @@ export const useMyLoadsMainProps = (locale) => {
   const userId = authStore.userData.id;
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState("");
-  const [debouncedValue] = useDebounce(address, 500);
+  const [debouncedValue] = useDebounce(address, 800);
 
   const query = useQueryClient();
 
@@ -387,7 +387,7 @@ export const useMyLoadsMainProps = (locale) => {
   };
 
   useEffect(() => {
-    if (address) {
+    if (address && debouncedValue.length >= 3) {
       handleGeocode();
     }
   }, [debouncedValue]);
@@ -461,7 +461,7 @@ export const useMyLoadsMainProps = (locale) => {
     router,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount: getWaitingDriverCount?.refetch(),
+    refetchWaitingDriverCount: getWaitingDriverCount,
     orderStatus,
     setNotificationId,notificationID
   };
