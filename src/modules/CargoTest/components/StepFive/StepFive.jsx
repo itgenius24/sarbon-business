@@ -111,24 +111,24 @@ const StepFive = ({ status }) => {
     [];
   const origin = {
     lat:
-      loadings?.length > 0 && Array.isArray(loadings[0]?.cor)
-        ? loadings[0]?.cor[0]
-        : undefined,
+      loadings?.length > 0 && Array.isArray(loadings?.[0]?.cor)
+        ? loadings?.[0]?.cor[0]
+        :  loadings?.[0]?.cor?.split(" ")?.[0],
     long:
-      loadings?.length > 0 && Array.isArray(loadings[0]?.cor)
-        ? loadings[0]?.cor[1]
-        : undefined,
+      loadings?.length > 0 && Array.isArray(loadings?.[0]?.cor)
+        ? loadings?.[0]?.cor[1]
+        : loadings?.[0]?.cor.split(" ")?.[1],
   };
 
   const destination = {
     lat:
       unloading?.length && Array.isArray(unloading[unloading.length - 1]?.cor)
-        ? unloading[unloading.length - 1]?.cor[0]
-        : undefined,
+        ? unloading?.[unloading?.length - 1]?.cor[0]
+        : unloading?.[unloading?.length - 1]?.cor.split(" ")?.[0],
     long:
       unloading?.length && Array.isArray(unloading[unloading.length - 1]?.cor)
-        ? unloading[unloading.length - 1]?.cor[1]
-        : undefined,
+        ? unloading?.[unloading?.length - 1]?.cor[1]
+        : unloading?.[unloading?.length - 1]?.cor.split(" ")?.[1],
   };
 
   const distance = useGetDistance({
@@ -137,7 +137,9 @@ const StepFive = ({ status }) => {
     referencePoints: [...getLoadings, ...getUnloading],
   });
 
-  console.log(`country_code_from`, watch(`country_code_from`));
+ 
+
+
 
   const updateCargo = useUpdateCargo({
     onSuccess: (data) => {

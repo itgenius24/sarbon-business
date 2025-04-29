@@ -734,6 +734,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
+
+
+
+ 
   function onSubmit(datae) {
     setIsClicked(true);
     if (!authStore.isAuth) {
@@ -750,6 +754,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
     setLoading(true);
 
+
+
     const requestData = {
       data: {
         user_id: authStore.userData.guid,
@@ -765,7 +771,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         long: watch(`loadings`)[0]?.cor?.split(" ")[1] * 1,
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
-
+        distance: distance?.distance,
         height: +watch(`height`),
         photo: watch(`image`),
         // guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
@@ -860,7 +866,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   function handleSelectTemplate(item) {
     setValue("loadResId", item.guid);
-    console.log(`load`, item);
+
 
     resetForm(item, item.guid);
     setValue(`cargoIndex`, 1);
@@ -980,7 +986,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ];
 
     if (data && id) {
-      console.log(`data`, data);
+   
       setStartDate(new Date(data?.load_time || new Date()));
       setEndDate(new Date(data?.date || new Date()));
       if (data?.money_code) {
@@ -1128,7 +1134,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         ? getData()?.cargo_id_data
         : getData();
       resetForm(data, id);
-
     }
   }, [getCargo.data, getOfferCargoById.data]);
 

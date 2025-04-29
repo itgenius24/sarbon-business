@@ -82,7 +82,12 @@ const DriverFree = ({
         with_relations: true,
       }),
     },
-  });
+    querySettings:{
+      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
+    }
+  },
+
+);
 
   const getCompanyList = useGetCompanyList(
     {
