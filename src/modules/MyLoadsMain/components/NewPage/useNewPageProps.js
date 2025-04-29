@@ -114,7 +114,7 @@ const useNewPageProps = (
       refetch();
       refetchNewPred();
       refetchNoDisPred();
-      refetchWaitingDriverCount();
+      refetchWaitingDriverCount.refetch();
       onClose();
     },
   });
@@ -128,7 +128,7 @@ const useNewPageProps = (
       refetch();
       refetchNewPred();
       refetchNoDisPred();
-      refetchWaitingDriverCount();
+      refetchWaitingDriverCount.refetch();
       onClose();
       canCelIsOpen()
     },

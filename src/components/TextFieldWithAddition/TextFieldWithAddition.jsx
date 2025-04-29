@@ -74,7 +74,7 @@ export const TextFieldWithAddition = ({
             className={cls.fieldInput}
             onClick={onClick}
             {...register(name, rules)}
-            disabled={onClick ? false : disabled || onlyFieldDisabled}
+            disabled={onClick ? onlyFieldDisabled ? true: false : disabled || onlyFieldDisabled}
             type={type}
             placeholder={placeholder}
             onWheel={(e) => e.target.blur()}

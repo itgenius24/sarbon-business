@@ -81,7 +81,7 @@ const useFromDriverProps = (orderStatus, t) => {
       }),
     },
     {
-      enabled: Boolean(orderStatus),
+      enabled: Boolean(orderStatus === `approve_from_driver`),
       refetchOnWindowFocus: false,
     }
   );

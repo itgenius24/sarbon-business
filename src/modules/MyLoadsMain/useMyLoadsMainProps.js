@@ -257,7 +257,6 @@ export const useMyLoadsMainProps = (locale) => {
             ? userId
             : undefined,
         with_relations: true,
-        // response_status: ["approve_from_driver"],
         provisions: ["approve_from_driver"],
       }),
     },
@@ -461,7 +460,7 @@ export const useMyLoadsMainProps = (locale) => {
     router,
     refetchNewPred,
     refetchNoDisPred,
-    refetchWaitingDriverCount: getWaitingDriverCount?.refetch(),
+    refetchWaitingDriverCount: getWaitingDriverCount,
     orderStatus,
     setNotificationId,notificationID
   };
