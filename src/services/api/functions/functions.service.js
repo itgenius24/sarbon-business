@@ -1,44 +1,52 @@
 import requestInvoke from "@/services/requestInvoke";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
+const api = `staging-`;
+
 const functionsService = {
   getLoadings: (data) =>
-    requestInvoke.post("logistika-send-list-of-address-name", data),
-  createAddress: (data) => requestInvoke.post("logistika-create-addres", data),
+    requestInvoke.post(api + "logistika-send-list-of-address-name", data),
+  createAddress: (data) =>
+    requestInvoke.post(api + "logistika-create-addres", data),
   pushNotification: (data) =>
-    requestInvoke.post("logistika-notification", data),
+    requestInvoke.post(api + "logistika-notification", data),
   offerFromCustomer: (data) =>
-    requestInvoke.post("logistika-send-offer-from-customer", data),
+    requestInvoke.post(api + "logistika-send-offer-from-customer", data),
   getSortedGPSHistory: (data) =>
-    requestInvoke.post("logistika-get-list-sorted-gps-history", data),
+    requestInvoke.post(api + "logistika-get-list-sorted-gps-history", data),
   getWidtLocation: (data) =>
-    requestInvoke.post("logistika-get-users-with-location", data),
+    requestInvoke.post(api + "logistika-get-users-with-location", data),
 
   getCargoPost: (data) =>
-    requestInvoke.post("logistika-get-cargo-with-filter", data),
+    requestInvoke.post(api + "logistika-get-cargo-with-filter", data),
   getExcelFile: (data) =>
-    requestInvoke.post("staging-logistika-get-list-sorted-gps-history", data),
-  getNotification: (data) => requestInvoke.post("logistika-notification", data),
-  getNewPred: (data) => requestInvoke.post("logistika-favourite-cargo", data),
+    requestInvoke.post(
+      "staging api +  -logistika-get-list-sorted-gps-history",
+      data
+    ),
+  getNotification: (data) =>
+    requestInvoke.post(api + "logistika-notification", data),
+  getNewPred: (data) =>
+    requestInvoke.post(api + "logistika-favourite-cargo", data),
   updateUser2: (data) => requestInvoke.put(`/v2/items/users`, data),
   sendNotification: (data) =>
-    requestInvoke.post("logistika-send-notification-new-cargo", data),
+    requestInvoke.post(api + "logistika-send-notification-new-cargo", data),
 
   getLogistikaGpsTrackingFilterDriver: (data) =>
-    requestInvoke.post("logistika-gps-tracking-filter-driver", data),
+    requestInvoke.post(api + "logistika-gps-tracking-filter-driver", data),
   getLogistikaGpsTrackingFilterDriverPred: (data) =>
-    requestInvoke.post("logistika-send-list-of-address-name", data),
-  getCar: (data) => requestInvoke.post("logistika-get-cargo-list", data),
+    requestInvoke.post(api + "logistika-send-list-of-address-name", data),
+  getCar: (data) => requestInvoke.post(api + "logistika-get-cargo-list", data),
   getCarDispatcher: (data) =>
-    requestInvoke.post("logistika-send-notification-new-cargo", data),
+    requestInvoke.post(api + "logistika-send-notification-new-cargo", data),
   getCarRefueling: (data) =>
-    requestInvoke.post("logistika-send-offer-notification", data),
+    requestInvoke.post(api + "logistika-send-offer-notification", data),
   getCarTrackingFilter: (data) =>
-    requestInvoke.post("logistika-gps-tracking-create-history", data),
+    requestInvoke.post(api + "logistika-gps-tracking-create-history", data),
   getLocation: (data) =>
-    requestInvoke.post("logistika-get-cargo-for-map", data),
+    requestInvoke.post(api + "logistika-get-cargo-for-map", data),
   googleRigister: (data) =>
-    requestInvoke.post("logistika-get-current-location", data),
+    requestInvoke.post(api + "logistika-get-current-location", data),
 };
 
 export const useGetCarDispatcherPost = ({ data, querySettings }) => {

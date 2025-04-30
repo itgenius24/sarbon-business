@@ -78,6 +78,8 @@ export const Performed = forwardRef(
       cash: t(`Наличные`),
     };
 
+    // approve_from_driver
+
     return (
       <div ref={ref} className={styles.performed}>
         <div className={styles.performedCard}>
@@ -277,6 +279,7 @@ export const Performed = forwardRef(
               )}
               {orderStatus !== `new` &&
               orderStatus !== `cancellation` &&
+              orderStatus !== `cancellation` &&
               orderStatus === `archive` ? (
                 <div className={styles.cardItem}>
                   <span className={styles.cardBodyTitle}>
@@ -401,43 +404,6 @@ export const Performed = forwardRef(
               }}
               className={styles.card}
             >
-              {role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-                (orderStatus === `archive` ||
-                  orderStatus === `approve_from_driver`) && (
-                  <Flex
-                    width={`100%`}
-                    className={styles.cardItem}
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Avatar
-                      src={cargo?.users_id_2_data?.logo}
-                      name={cargo?.users_id_2_data?.full_name}
-                    />
-                    <Box>
-                      <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
-
-                      <p
-                        style={{ lineHeight: `28px` }}
-                        className={styles.cardName}
-                      >
-                        {" "}
-                        {cargo?.users_id_2_data?.full_name}{" "}
-                        <a
-                          style={{
-                            marginLeft: `5px`,
-                            borderBottom: `1px dashed black`,
-                          }}
-                          target="_blank"
-                          href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
-                        >
-                          {cargo?.users_id_2_data?.phone}{" "}
-                        </a>{" "}
-                      </p>
-                    </Box>
-                  </Flex>
-                )}
-
               {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" &&
                 orderStatus === `archive` &&
                 !cargo?.review && (
@@ -508,9 +474,29 @@ export const Performed = forwardRef(
                     orderStatus === `no_dispatcher`) && (
                     <>
                       <span className={styles.cardBodyTitle}>
-                        {t(`Статус`)}:
+                        {t(`Статус`)}
+                     
+                      </span>
+                      <p
+                        style={{
+                          fontWeight: 400,
+                          fontSize: `18px`,
+                          gap: `6px`,
+                        }}
+                      >
+                        {t(`Предложение`)}:    <span className={styles.cardBodyTitle}>
+              
                         {cargo?.offer_time &&
                           format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
+                      </span>
+                      </p>
+                    </>
+                  )}
+
+                  {orderStatus === `approve_from_driver` && (
+                    <>
+                      <span className={styles.cardBodyTitle}>
+                        {t(`Статус`)}
                       </span>
                       <p
                         style={{
@@ -520,6 +506,14 @@ export const Performed = forwardRef(
                         }}
                       >
                         {t(`Предложение`)}:
+                        <span className={styles.cardBodyTitle}>
+                         
+                          {cargo?.approve_time_from_dispatcher &&
+                            format(
+                              cargo?.approve_time_from_dispatcher,
+                              ` dd.MM.yyyy, HH:mm`
+                            )}
+                        </span>
                       </p>
                     </>
                   )}
@@ -635,31 +629,32 @@ export const Performed = forwardRef(
                     {t(`Показать на карте`)}
                   </Button>
                 )}
-                {((orderStatus === `new` || orderStatus === `no_dispatcher`) &&  dispatcher_type?.[0] === `first_dispatcher`) && (
-                  <Flex gap={`11px`}>
-                    <Button
-                      isLoading={disabledCancelBtn}
-                      onClick={(e) => {
-                        // e.stopPropagation();
-                        handleCancel(cargo);
-                      }}
-                      className={styles.bntOutline}
-                    >
-                      {t(`Отказать`)}
-                    </Button>
-                    <Button
-                      leftIcon={<IconCeckNewStatusIcon />}
-                      onClick={(e) => {
-                        // e.stopPropagation();
-                        setDataPred(cargo);
-                        onOpen();
-                      }}
-                      className={styles.bntNew}
-                    >
-                      {t(`Принять`)}
-                    </Button>
-                  </Flex>
-                )}
+                {(orderStatus === `new` || orderStatus === `no_dispatcher`) &&
+                  dispatcher_type?.[0] === `first_dispatcher` && (
+                    <Flex gap={`11px`}>
+                      <Button
+                        isLoading={disabledCancelBtn}
+                        onClick={(e) => {
+                          // e.stopPropagation();
+                          handleCancel(cargo);
+                        }}
+                        className={styles.bntOutline}
+                      >
+                        {t(`Отказать`)}
+                      </Button>
+                      <Button
+                        leftIcon={<IconCeckNewStatusIcon />}
+                        onClick={(e) => {
+                          // e.stopPropagation();
+                          setDataPred(cargo);
+                          onOpen();
+                        }}
+                        className={styles.bntNew}
+                      >
+                        {t(`Принять`)}
+                      </Button>
+                    </Flex>
+                  )}
                 {orderStatus == "cancellation" && (
                   <Button
                     leftIcon={<DeleteIcon />}
