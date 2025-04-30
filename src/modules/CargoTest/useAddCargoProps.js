@@ -303,27 +303,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     },
   });
 
-  // const {
-  //   fields: loadings,
-  //   append: appendLoading,
-  //   remove: removeLoading,
-  //   update: updateLoading,
-  // } = useFieldArray({
-  //   control,
-  //   name: "loadings",
-  //   // rules: { minLength: 1, }
-  // });
-
-  // const {
-  //   fields: unloading,
-  //   append: appendUnloading,
-  //   remove: removeUnloading,
-  //   update: updateUnloading,
-  // } = useFieldArray({
-  //   control,
-  //   name: "unloading",
-  // });
-
   const getLoadings =
     (Array.isArray(watch("loadings")?.[0]?.cor)
       ? watch("loadings")?.map((item) => item?.cor)
@@ -333,9 +312,43 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ? watch("unloading")?.map((item) => item?.cor)
       : watch("unloading")?.map((item) => item?.cor?.split(","))) || [];
 
+  const origin = {
+    lat:
+      watch("loadings")?.length > 0 &&
+      Array.isArray(watch("loadings")?.[0]?.cor)
+        ? watch("loadings")?.[0]?.cor[0]
+        : watch("loadings")?.[0]?.cor?.split(" ")?.[0],
+    long:
+      watch("loadings")?.length > 0 &&
+      Array.isArray(watch("loadings")?.[0]?.cor)
+        ? watch("loadings")?.[0]?.cor[1]
+        : watch("loadings")?.[0]?.cor.split(" ")?.[1],
+  };
+
+  const destination = {
+    lat:
+      watch("unloading")?.length &&
+      Array.isArray(watch("unloading")[watch("unloading").length - 1]?.cor)
+        ? watch("unloading")?.[watch("unloading")?.length - 1]?.cor[0]
+        : watch("unloading")?.[watch("unloading")?.length - 1]?.cor.split(
+            " "
+          )?.[0],
+    long:
+      watch("unloading")?.length &&
+      Array.isArray(watch("unloading")[watch("unloading").length - 1]?.cor)
+        ? watch("unloading")?.[watch("unloading")?.length - 1]?.cor[1]
+        : watch("unloading")?.[watch("unloading")?.length - 1]?.cor.split(
+            " "
+          )?.[1],
+  };
+
   const distance = useGetDistance({
+    origin,
+    destination,
     referencePoints: [...getLoadings, ...getUnloading],
   });
+
+  console.log("distance", distance, getLoadings, getUnloading);
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -735,9 +748,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
 
-
-
- 
   function onSubmit(datae) {
     setIsClicked(true);
     if (!authStore.isAuth) {
@@ -753,8 +763,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     }
 
     setLoading(true);
-
-
 
     const requestData = {
       data: {
@@ -866,7 +874,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   function handleSelectTemplate(item) {
     setValue("loadResId", item.guid);
-
 
     resetForm(item, item.guid);
     setValue(`cargoIndex`, 1);
@@ -986,7 +993,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ];
 
     if (data && id) {
-   
       setStartDate(new Date(data?.load_time || new Date()));
       setEndDate(new Date(data?.date || new Date()));
       if (data?.money_code) {
@@ -1298,7 +1304,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     isRequirementOpen,
     setRequirementOpen,
     isAccessOpen,
-
+    distanceMath: distance?.distance,
     setAccessOpen,
     isFtlOpen,
     isReymenOpen,

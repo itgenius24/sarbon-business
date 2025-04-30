@@ -313,7 +313,7 @@ const useStepTwoProps = () => {
   };
 
   useEffect(() => {
-    if (address) {
+    if (address && debouncedValue.length >= 3) {
       handleGeocode();
     }
   }, [debouncedValue]);
