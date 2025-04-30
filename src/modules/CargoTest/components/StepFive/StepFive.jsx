@@ -28,19 +28,15 @@ import {
   useCreateAddressMutation,
   useCreateCargoMutation,
   useGetPaymentType,
-  useUpdateCargo,
 } from "@/services/api";
 import {
   CheckModalIcon,
-  ModalGruzIcon,
   QuestionIcon,
 } from "@/assets/icons/icons";
-import { addDaysToDate } from "@/utils/addDaysToDate";
 import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetDistance } from "@/hooks/useGetDistance";
 const StepFive = ({ status }) => {
   const { t } = useTranslation();
   const {
@@ -58,6 +54,7 @@ const StepFive = ({ status }) => {
     load,
     mone,
     check,
+    distanceMath,
     setEditModal,
   } = useAddCargoContext();
 
@@ -97,55 +94,8 @@ const StepFive = ({ status }) => {
     }
   }, [paymentOptions]);
 
-  const getLoadings =
-    (loadings?.length > 0 &&
-      (Array.isArray(loadings?.[0]?.cor)
-        ? loadings?.map((item) => item?.cor)
-        : loadings?.map((item) => item?.cor?.split(",")))) ||
-    [];
-  const getUnloading =
-    (unloading?.length > 0 &&
-      (Array.isArray(unloading?.[0]?.cor)
-        ? unloading?.map((item) => item?.cor)
-        : unloading?.map((item) => item?.cor?.split(",")))) ||
-    [];
-  const origin = {
-    lat:
-      loadings?.length > 0 && Array.isArray(loadings?.[0]?.cor)
-        ? loadings?.[0]?.cor[0]
-        :  loadings?.[0]?.cor?.split(" ")?.[0],
-    long:
-      loadings?.length > 0 && Array.isArray(loadings?.[0]?.cor)
-        ? loadings?.[0]?.cor[1]
-        : loadings?.[0]?.cor.split(" ")?.[1],
-  };
+  
 
-  const destination = {
-    lat:
-      unloading?.length && Array.isArray(unloading[unloading.length - 1]?.cor)
-        ? unloading?.[unloading?.length - 1]?.cor[0]
-        : unloading?.[unloading?.length - 1]?.cor.split(" ")?.[0],
-    long:
-      unloading?.length && Array.isArray(unloading[unloading.length - 1]?.cor)
-        ? unloading?.[unloading?.length - 1]?.cor[1]
-        : unloading?.[unloading?.length - 1]?.cor.split(" ")?.[1],
-  };
-
-  const distance = useGetDistance({
-    origin,
-    destination,
-    referencePoints: [...getLoadings, ...getUnloading],
-  });
-
- 
-
-
-
-  const updateCargo = useUpdateCargo({
-    onSuccess: (data) => {
-      setGuid(data.guid);
-    },
-  });
   const createAddress = useCreateAddressMutation({
     onSuccess: (res) => {
       if (isUpdate) {
@@ -252,7 +202,7 @@ const StepFive = ({ status }) => {
         load_type: getTrueKeys(load),
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
-        distance: distance?.distance || 0,
+        distance: distanceMath || 0,
         firm_id,
         temp_from: watch(`temp_from`),
         temp_to: watch(`temp_to`),
@@ -337,7 +287,7 @@ const StepFive = ({ status }) => {
 
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
-        distance: distance?.distance,
+        distance: distanceMath || 0,
         payment_type: check ? undefined : watch("payment_type")?.label,
         firm_id,
         //  step3

@@ -5,12 +5,16 @@ import { useEffect, useState } from "react";
 export const useGetDistance = ({ origin, destination, referencePoints }) => {
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
+  
   useEffect(() => {
     const ymapsScript = document.getElementById("yandex-maps-script");
     if(ymapsScript) {
       calculateDistance();
+
     }
-  }, [origin, destination, referencePoints]);
+  }, [origin?.lat, destination?.lat, referencePoints?.[0]?.[0],referencePoints?.[1]?.[1]]);
+
+  
 
 
   const calculateDistance = () => {
@@ -38,13 +42,6 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
           route.model.events.add("requestfail", (event) => {
             console.error("Failed to calculate distance:", event);
           });
-
-          // const map = new ymaps.Map("map", {
-          //   center: referencePoints ? referencePoints[0] : [origin.lat, origin.lng],
-          //   zoom: 10,
-          // });
-
-          // map.geoObjects.add(route);
         }
       });
     }
