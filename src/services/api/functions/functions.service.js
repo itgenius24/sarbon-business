@@ -1,7 +1,6 @@
 import requestInvoke from "@/services/requestInvoke";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-
 const functionsService = {
   getLoadings: (data) =>
     requestInvoke.post("logistika-send-list-of-address-name", data),
