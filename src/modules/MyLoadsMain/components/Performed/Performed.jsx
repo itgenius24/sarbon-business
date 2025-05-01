@@ -632,8 +632,11 @@ export const Performed = forwardRef(
                     {t(`Показать на карте`)}
                   </Button>
                 )}
-                {(orderStatus === `new` || orderStatus === `no_dispatcher`) &&
-                  dispatcher_type?.[0] === `first_dispatcher` && (
+
+                {
+                  console.log(`orderStatus`,orderStatus)
+                }
+                {(orderStatus === `new` || orderStatus === `no_dispatcher`) && dispatcher_type?.[0] === `first_dispatcher` && (
                     <Flex gap={`11px`}>
                       <Button
                         isLoading={disabledCancelBtn}

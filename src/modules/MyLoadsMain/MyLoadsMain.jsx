@@ -243,7 +243,7 @@ export const MyLoadsMain = ({ locale }) => {
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <ApproveFromDriver t={t} orderStatus={orderStatus} />
+                <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
               </TabPanel>
               <TabPanel padding={0}>
                 <PerfomedPage t={t} orderStatus={`performed`} />
