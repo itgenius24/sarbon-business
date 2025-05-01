@@ -505,7 +505,7 @@ export const Performed = forwardRef(
                           gap: `6px`,
                         }}
                       >
-                        {t(`Предложение принято`)}:
+                        {t(`Предложение`)}:
                         <span className={styles.cardBodyTitle}>
                           {cargo?.approve_time_from_dispatcher &&
                             format(
