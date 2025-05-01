@@ -40,6 +40,8 @@ const ProfileDispatcher = ({ locale }) => {
     data,
   } = useProfileDis();
 
+  console.log(`userData`, userData);
+
   return (
     <Container my="40px">
       <Flex
@@ -54,7 +56,7 @@ const ProfileDispatcher = ({ locale }) => {
               style={{ width: `100px`, height: `100px`, borderRadius: `100%` }}
               src={
                 userData?.photo
-                  ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
+                  ? userData?.photo?.includes(`http`) ? userData?.photo :  `${process.env.NEXT_PUBLIC_MEDIA_URL}${
                       userData?.photo || ""
                     }`
                   : "/images/avatar.png"
