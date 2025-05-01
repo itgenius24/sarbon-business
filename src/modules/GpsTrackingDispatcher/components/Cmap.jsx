@@ -367,7 +367,7 @@ const Cmap = memo(
         instanceRef={mapRef}
         onLoad={handleMapLoad}
         onClick={handleMapClick}
-        onBoundsChange={(e) => setZoom(e.get("newZoom"))} // Zoom o'zgarishini olish
+        onBoundsChange={(e) => setZoom(e.get("newZoom"))} 
         defaultState={{
           center: coordinates,
           zoom: 6,
@@ -376,8 +376,8 @@ const Cmap = memo(
           maxZoom: 22,
           minZoom: 2,
           restrictMapArea: [
-            [-85, -179], // Chap-past (Antarktika va janubiy qutbga yaqin joy)
-            [85, 179], // O'ng-yuqori (Shimoliy qutbga yaqin joy)
+            [-85, -179], 
+            [85, 179], 
           ],
         }}
         width="100%"
