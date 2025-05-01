@@ -398,6 +398,7 @@ export const Performed = forwardRef(
                   orderStatus === "performed" ||
                   orderStatus === `cancellation` ||
                   orderStatus === `approve_from_driver` ||
+                  orderStatus === `no_dispatcher` ||
                   orderStatus === `new`
                     ? `space-between`
                     : `flex-start`,
@@ -475,7 +476,6 @@ export const Performed = forwardRef(
                     <>
                       <span className={styles.cardBodyTitle}>
                         {t(`Статус`)}
-                     
                       </span>
                       <p
                         style={{
@@ -484,11 +484,11 @@ export const Performed = forwardRef(
                           gap: `6px`,
                         }}
                       >
-                        {t(`Предложение`)}:    <span className={styles.cardBodyTitle}>
-              
-                        {cargo?.offer_time &&
-                          format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
-                      </span>
+                        {t(`Предложение`)}:{" "}
+                        <span className={styles.cardBodyTitle}>
+                          {cargo?.offer_time &&
+                            format(cargo?.offer_time, ` dd.MM.yyyy, HH:mm`)}
+                        </span>
                       </p>
                     </>
                   )}
@@ -507,7 +507,6 @@ export const Performed = forwardRef(
                       >
                         {t(`Предложение принято`)}:
                         <span className={styles.cardBodyTitle}>
-                         
                           {cargo?.approve_time_from_dispatcher &&
                             format(
                               cargo?.approve_time_from_dispatcher,
@@ -543,13 +542,17 @@ export const Performed = forwardRef(
 
               {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
                 role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") &&
-                (orderStatus === `new` || orderStatus === `performed`) && (
+                (orderStatus === `new` ||
+                  orderStatus === `approve_from_driver` ||
+                  orderStatus === `performed`) && (
                   <Flex
                     className={styles.cardItem}
                     gap={`7px`}
                     alignItems={`center`}
                   >
                     <Avatar
+                      width={`40px`}
+                      height={`40px`}
                       src={cargo?.users_id_2_data?.logo}
                       name={cargo?.users_id_2_data?.full_name}
                     />
