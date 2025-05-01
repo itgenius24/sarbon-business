@@ -10,6 +10,8 @@ import {
   StoneIcon,
   GreenMapIcon,
   RefeIcon,
+  RouteIcon,
+  RulesIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
@@ -17,6 +19,7 @@ import {
   Clusterer,
   Map,
   Placemark,
+  Polyline,
   SearchControl,
   TypeSelector,
   ZoomControl,
@@ -46,27 +49,45 @@ const Cmap = memo(
     setIsBalloonOpened,
     currentUserLocationData,
   }) => {
-    const mapRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
+    const searchParams = useSearchParams();
+    const guid = searchParams.get(`guid`);
     const { t } = useTranslation();
     const [zoom, setZoom] = useState(5);
-    const searchParams = useSearchParams();
+    const [points, setPoints] = useState([]);
+    const [distance, setDistance] = useState(null);
+    const mapRef = useRef(null);
+    const ymapsRef = useRef(null);
+    const polylineRef = useRef(null);
+    const clustererRef = useRef({});
+
+    const [ballonRef, setBallonRef] = useState(null);
+    const multiRouteRef = useRef(null);
+    const [clickCount, setClickCount] = useState(0);
+    const [pointA, setPointA] = useState(null);
+    const [pointB, setPointB] = useState(null);
+    const [selecting, setSelecting] = useState(false);
+    const [types, setType] = useState(``);
     const placemarkRefs = useRef({});
-    const guid = searchParams.get(`guid`);
+
     useEffect(() => {
       setIsClient(true);
     }, []);
 
-
     useEffect(() => {
-      if (guid && currentUserLocationData && mapRef.current && !isBalloonOpened) {
+      if (
+        guid &&
+        currentUserLocationData &&
+        mapRef.current &&
+        !isBalloonOpened
+      ) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
-        }, 400);
+        }, 1000);
 
         return () => clearTimeout(timeout);
       }
-    }, [ mapRef.current]);
+    }, [mapRef.current]);
 
     const openBalloonById = () => {
       const placemark = placemarkRefs.current;
@@ -104,8 +125,220 @@ const Cmap = memo(
       }, 1000);
     }, []);
 
+    const getDistanceInKm = (coordsA, coordsB) => {
+      const R = 6371;
+      const toRad = (val) => (val * Math.PI) / 180;
+
+      if (coordsA && coordsB) {
+        const [lat1, lon1] = coordsA;
+        const [lat2, lon2] = coordsB;
+
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const dist = R * c;
+
+        setDistance(dist.toFixed(2));
+      }
+    };
+
+    const handleMapClick = (e) => {
+      if (!selecting) return;
+
+      const coords = e.get("coords");
+
+      if (clickCount === 0) {
+        setPointA(coords);
+        setClickCount(1);
+      } else if (clickCount === 1) {
+        setPointB(coords);
+        setClickCount(2);
+        setSelecting(false); // End selection
+        console.log(`pointA`, [pointA, coords]);
+        getDistanceInKm(pointA, coords);
+        setPoints([pointA, coords]);
+        if (types === `route`) {
+          drawRoute(pointA, coords);
+        }
+      }
+    };
+
+    const closeRouteBalloon = () => {
+      const activeRoute = multiRouteRef.current?.getActiveRoute();
+
+      if (activeRoute && activeRoute.balloon) {
+        activeRoute.balloon.close();
+      }
+    };
+
+    const drawRoute = (a, b) => {
+      if (!ymapsRef.current || !a || !b) {
+        mapRef.current.geoObjects.remove(multiRouteRef.current);
+        multiRouteRef.current = null;
+      }
+
+      if (multiRouteRef.current) {
+        mapRef.current.geoObjects.remove(multiRouteRef.current);
+        multiRouteRef.current = null;
+      }
+      getDistanceInKm(a, b);
+
+      const multiRoute = new ymapsRef.current.multiRouter.MultiRoute(
+        {
+          referencePoints: [a, b],
+          params: {
+            routingMode: "auto",
+          },
+        },
+        {
+          boundsAutoApply: true,
+          wayPointStartVisible: false,
+          wayPointFinishVisible: false,
+        }
+      );
+
+      multiRouteRef.current = multiRoute;
+
+      mapRef.current.geoObjects.add(multiRoute);
+
+      multiRoute.model.events.add("requestsuccess", () => {
+        const activeRoute = multiRoute.getActiveRoute();
+
+        if (activeRoute && activeRoute.balloon) {
+          activeRoute.balloon.open();
+          setBallonRef(true);
+        }
+      });
+    };
+
+    useEffect(() => {
+      setTimeout(() => {
+        const closeBtn = document.querySelector(
+          `.ymaps-2-1-79-balloon__close-button`
+        );
+
+        if (closeBtn) {
+          closeBtn.addEventListener(`click`, () => {
+            setClickCount(0);
+            setSelecting(false);
+            setPointA(null);
+            setPointB(null);
+            setPoints([]);
+            setDistance(null);
+            setType(``);
+            mapRef.current.geoObjects.remove(multiRouteRef.current);
+            multiRouteRef.current = null;
+            setIsBalloonOpened(false);
+            closeRouteBalloon();
+            setBallonRef(false);
+            setSelecting(false);
+            polylineRef.current = null;
+          });
+        }
+      }, 1000);
+    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
+
+    const getMiddlePoint = ([point1, point2]) => {
+      const lat = (point1[0] + point2[0]) / 2;
+      const lon = (point1[1] + point2[1]) / 2;
+      return [lat, lon];
+    };
+
+    useEffect(() => {
+      if (types === `rules` && points.length > 0) {
+        openBallon();
+      } else {
+        closeBallon();
+      }
+    }, [polylineRef.current, distance, selecting, types]);
+
+    const openBallon = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      const balloonContent = `<p class="distance">Masofa: ${distance} km</p>`;
+      map.balloon.open(getMiddlePoint(points), balloonContent, {
+        closeButton: true,
+      });
+    };
+    const closeBallon = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      map.balloon.close();
+      setBallonRef(false);
+      polylineRef.current = null;
+    };
+
+    const startRouteSelection = (type) => {
+      setType(type);
+
+      if (type === "rules") {
+        setClickCount(0);
+        setSelecting(true);
+        // Route chizig‘ini tozalaymiz
+        if (multiRouteRef.current) {
+          mapRef.current?.geoObjects?.remove(multiRouteRef.current);
+          multiRouteRef.current = null;
+        }
+
+        // PointA/B nuqtalarini qayta o‘rnatamiz (faqat points mavjud bo‘lsa)
+        if (points.length === 2) {
+          setPointA(points[0]);
+          setPointB(points[1]);
+          getDistanceInKm(points[0], points[1]);
+        }
+      }
+
+      if (type === "route") {
+        setClickCount(0);
+        setSelecting(true);
+        setDistance("");
+
+        // Route qayta chiziladi, agar oldingi points bor bo‘lsa
+        drawRoute(points[0] || pointA, points[1] || pointB);
+      }
+    };
+
+    const handleMapLoad = (ymaps) => {
+      ymapsRef.current = ymaps;
+      drawRoute(pointA, pointB);
+    };
+
+    const handleDragEnd = (e, index) => {
+      const map = mapRef.current;
+
+      const newCoords = e.get("target").geometry.getCoordinates();
+      const newPoints = [...points];
+      newPoints[index] = newCoords;
+      setPoints(newPoints);
+      getDistanceInKm(newPoints[0], newPoints[1]);
+      if (types === `route`) {
+        drawRoute(newPoints[0], newPoints[1]);
+      } else {
+        setBallonRef(true);
+        // map.balloon.close();
+      }
+    };
+
+    const handlePolylineClick = (e) => {
+      const map = mapRef.current;
+      if (!map) return;
+
+      const coords = e.get("coords");
+      const balloonContent = `Masofa: ${distance} km`;
+
+      map.balloon.open(coords, balloonContent, {
+        closeButton: true,
+      });
+    };
+
     if (!isClient) {
-      return null;
+      return null; // Render nothing during SSR
     }
 
     let click = document.getElementById(`click`);
@@ -117,14 +350,26 @@ const Cmap = memo(
 
     const resetMap = () => {
       if (mapRef.current) {
+        if (types?.length === 0) {
+          mapRef.current.setCenter(coordinates, 4);
+        }
         mapRef.current.setCenter(coordinates, 4);
+        mapRef.current.balloon.close();
       }
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
     };
 
     return (
       <Map
         instanceRef={mapRef}
-        onBoundsChange={(e) => setZoom(e.get("newZoom"))} // Zoom o'zgarishini olish
+        onLoad={handleMapLoad}
+        onClick={handleMapClick}
+        onBoundsChange={(e) => setZoom(e.get("newZoom"))}
         defaultState={{
           center: coordinates,
           zoom: 6,
@@ -144,11 +389,68 @@ const Cmap = memo(
           "geocode",
           "control.SearchControl",
           "control.ZoomControl",
+          "coordSystem.geo",
+          "multiRouter.MultiRoute",
         ]}
       >
-        <div onClick={resetMap} className={cls.backMap}>
-          <RefeIcon />
+        <div className={cls.settWrap}>
+          <div onClick={resetMap} className={cls.backMap}>
+            <RefeIcon />
+          </div>
+          <div
+            onClick={() => startRouteSelection(`route`)}
+            className={`${cls.route} ${
+              types === `route` ? cls.activeRoute : ``
+            }`}
+          >
+            <RouteIcon />
+          </div>
+          <div
+            onClick={() => startRouteSelection(`rules`)}
+            className={`${cls.route} ${
+              types === `rules` ? cls.activeRoute : ``
+            } `}
+          >
+            <RulesIcon />
+          </div>
         </div>
+
+        {pointA && (
+          <Placemark
+            onDragEnd={(e) => handleDragEnd(e, 0)}
+            options={{
+              draggable: true,
+              iconImageSize: [60, 72],
+              iconImageOffset: [-15, -42],
+            }}
+            geometry={pointA}
+          />
+        )}
+        {pointB && (
+          <Placemark
+            onDragEnd={(e) => handleDragEnd(e, 1)}
+            options={{
+              draggable: true,
+              iconImageSize: [60, 72],
+              iconImageOffset: [-15, -42],
+            }}
+            geometry={pointB}
+          />
+        )}
+
+        {types === `rules` && (
+          <Polyline
+            instanceRef={(ref) => (polylineRef.current = ref)}
+            geometry={points}
+            onClick={handlePolylineClick}
+            options={{
+              strokeColor: "#FF0000",
+              strokeWidth: 4,
+              strokeOpacity: 0.6,
+            }}
+          />
+        )}
+
         <TypeSelector
           mapTypes={[
             "yandex#map",
@@ -182,7 +484,11 @@ const Cmap = memo(
             ]}
             properties={{
               balloonContent: ReactDOMServer.renderToString(
-                <BalloonContent cls={cls} carInfo={currentUserLocationData} t={t} />
+                <BalloonContent
+                  cls={cls}
+                  carInfo={currentUserLocationData}
+                  t={t}
+                />
               ),
             }}
             instanceRef={(ref) => {
@@ -216,11 +522,13 @@ const Cmap = memo(
               ) {
                 setModalType("driverCheck");
               } else if (
-                currentUserLocationData?.user?.provisions?.[0] === "someone_cargo"
+                currentUserLocationData?.user?.provisions?.[0] ===
+                "someone_cargo"
               ) {
                 setModalType("driverQuestion");
               } else if (
-                currentUserLocationData?.user?.provisions?.[0] === "waiting_for_driver"
+                currentUserLocationData?.user?.provisions?.[0] ===
+                "waiting_for_driver"
               ) {
                 setModalType("driverExpectation");
               } else {
