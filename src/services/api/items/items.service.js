@@ -68,6 +68,8 @@ const itemsService = {
     request.delete(`/v2/items/reliabilities/${id}`, {
       data: JSON.stringify({ data: {} }),
     }),
+  updateUser2: (data) => request.put(`/v2/items/users`, data),
+
 };
 
 export const useGetVehicleSingle = ({
@@ -159,6 +161,13 @@ export const useGetClientType = (params = {}) => {
   return useQuery({
     queryKey: ["items/client_type", params],
     queryFn: () => itemsService.getClientType(params),
+  });
+};
+
+export const useUpdateUserData = (mutationSettings) => {
+  return useMutation({
+    mutationFn: (data) => itemsService.updateUser2(data),
+    ...mutationSettings,
   });
 };
 

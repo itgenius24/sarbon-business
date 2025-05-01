@@ -31,6 +31,11 @@ requestInvoke.interceptors.request.use((config) => {
     config.headers["X-API-KEY"] = "P-LVV522r72r72mHNTNZ1w0FimKLFSCOqT";
   }
 
+
+  if (config.url && !config.url.startsWith('staging-')) {
+    config.url = `${process.env.NEXT_PUBLIC_BASIC_INVOKE_STAGING_PREFIX_URL || ``}${config.url.replace(/^\/+/, '')}`; 
+  }
+
   return config;
 });
 
