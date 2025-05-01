@@ -106,6 +106,7 @@ const SelectCargo = ({
           driver_id: currentUserLocationData?.users_id,
           dispatcher_id: authStore?.userData.id,
           firm_id: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
+          approve_time_from_dispatcher: new Date().toISOString()
         },
       },
     });
