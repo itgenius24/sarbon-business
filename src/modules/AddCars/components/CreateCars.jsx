@@ -1,25 +1,16 @@
 import {
   CloseIconOutline,
-  EyeIcon,
-  EyeIconOff,
   FuraAddIcon,
-  Img3UploadIcon,
-  ImgploadIcon1,
-  ImgploadIcon2,
   ImgUload2,
   PresepIcon1,
   PresepIcon2,
-  UserIcon2,
 } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 import { Dropdown } from "@/components/Dropdown";
-import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { TextField } from "@/components/TextField";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
-import { UploadImg } from "@/components/UploadImg";
 import { UploadImgMobile } from "@/components/UploadImgMobile";
-import { useGetFuelInfo } from "@/services/api";
 import { countries } from "@/utils/country";
 import {
   Accordion,
@@ -28,14 +19,12 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Button,
   Flex,
   Heading,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 const CreateCars = ({
-  isLargerThan845,
   cls,
   register,
   errors,
@@ -47,17 +36,11 @@ const CreateCars = ({
   euroTypeOptions,
   setinputValue,
   carTypeOptions,
-  uploadAi,
-  setLoadingFront,
-  setLoadingBack,
-  loadingBack,
-  loadingFront,
-  clearErrors,
 }) => {
-    const [isLoading,setFileUploadLoading] = useState(false)
-    const [isLoading2,setFileUploadLoading2] = useState(false)
-    const [isLoading3,setFileUploadLoading3] = useState(false)
-  
+  const [isLoading, setFileUploadLoading] = useState(false);
+  const [isLoading2, setFileUploadLoading2] = useState(false);
+  const [isLoading3, setFileUploadLoading3] = useState(false);
+
   return (
     <>
       <Flex
@@ -83,7 +66,6 @@ const CreateCars = ({
               {t("Машина")}
             </Heading>
           </Flex>
-      
         </Box>
 
         <Box
@@ -525,55 +507,55 @@ const CreateCars = ({
             placeholder={t("Необъязательно")}
             type="text"
           />
-            <Flex gap={`12px`} mt={1}>
-                    <span className={cls.subLabel}>{t(`Пример`)}: </span>
-                    <p
-                      onClick={() =>
-                        setValue("fuel_type", `Дизель`, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t(`Дизель`)},
-                    </p>
-                    <p
-                      onClick={() =>
-                        setValue(
-                          "fuel_type",
-                          `Бензин`,
+          <Flex gap={`12px`} mt={1}>
+            <span className={cls.subLabel}>{t(`Пример`)}: </span>
+            <p
+              onClick={() =>
+                setValue("fuel_type", `Дизель`, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
+              }
+              className={cls.quickWord}
+            >
+              {t(`Дизель`)},
+            </p>
+            <p
+              onClick={() =>
+                setValue(
+                  "fuel_type",
+                  `Бензин`,
 
-                          { shouldValidate: true, shouldDirty: true }
-                        )
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t(`Бензин`)}
-                    </p>
-                    <p
-                      onClick={() =>
-                        setValue("fuel_type", `Метан`, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t(`Метан`)}
-                    </p>
-                    <p
-                      onClick={() =>
-                        setValue("fuel_type", `Пропан`, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        })
-                      }
-                      className={cls.quickWord}
-                    >
-                      {t(`Пропан`)}
-                    </p>
-                  </Flex>
+                  { shouldValidate: true, shouldDirty: true }
+                )
+              }
+              className={cls.quickWord}
+            >
+              {t(`Бензин`)}
+            </p>
+            <p
+              onClick={() =>
+                setValue("fuel_type", `Метан`, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
+              }
+              className={cls.quickWord}
+            >
+              {t(`Метан`)}
+            </p>
+            <p
+              onClick={() =>
+                setValue("fuel_type", `Пропан`, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
+              }
+              className={cls.quickWord}
+            >
+              {t(`Пропан`)}
+            </p>
+          </Flex>
         </Box>
 
         <Box
