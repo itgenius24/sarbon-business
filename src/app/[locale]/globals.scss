@@ -319,3 +319,13 @@ table {
 
   font-weight: 700;
 }
+
+.react-datepicker__day--outside-month {
+  background-color: transparent !important;
+  color: #344054 !important;
+  span {
+    color: #34405446 !important;
+  }
+}
+
+
