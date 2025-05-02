@@ -1,7 +1,6 @@
 "use client";
 
 import cls from "./styles.module.scss";
-// import { elements } from "./elements";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";

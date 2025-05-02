@@ -45,7 +45,7 @@ import CmapAZS from "./components/CmapAZS";
 
 /* eslint no-undef: 0 */ // --> OFF
 
-export default function GpsTrackingXm() {
+export default function GpsTrackingCustomer() {
   const {
     register,
     errors,

@@ -29,7 +29,7 @@ import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 
 
-export default function GpsTrackingModuleTets() {
+export default function GpsTrackingCarrier() {
   const {
     register,
     errors,
