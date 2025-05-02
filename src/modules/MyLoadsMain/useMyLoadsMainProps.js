@@ -370,8 +370,8 @@ export const useMyLoadsMainProps = (locale) => {
 
   const handleGeocode = async () => {
     const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY; // Yandex API kalitini bu yerga qo'ying
-    // const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${debouncedValue}`;
-    const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${debouncedValue}&format=json`;
+    const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${debouncedValue}`;
+    // const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${debouncedValue}&format=json`;
 
     try {
       const response = await fetch(geocodeUrl);
