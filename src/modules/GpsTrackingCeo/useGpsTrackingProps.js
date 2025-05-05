@@ -10,6 +10,7 @@ import {
   useGetCreateAddress,
   useGetMeasurement,
   useGetTrailerType,
+  useGetUserData,
   useLoadingTypes,
   useLocation,
   useUpdateUserInfo,
@@ -35,8 +36,6 @@ export const useGpsTrackingProps = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
- 
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
@@ -314,23 +313,43 @@ export const useGpsTrackingProps = () => {
 
   const getMeasurement = useGetMeasurement();
 
-  const { data: dataDis } = useGetCreateAddress({
-    data: {
-      data: {
-        object_data: {
-          type: "ceo",
-          filter: `active`,
-        },
-      },
+  const { data: dataDis } = useGetUserData({
+    params: {
+      data: JSON.stringify({
+        offset: 0,
+        order: {},
+        dispatcher_type: ["first_dispatcher"],
+        limit: 1000,
+      }),
     },
     querySettings: {
       select: (res) =>
         res?.response?.map((item) => ({
-          value: item?.first_dispatcher_data?.guid,
-          label: item?.first_dispatcher_data?.full_name,
+          value: item?.guid,
+          label: item?.full_name,
         })),
     },
   });
+
+  console.log("dataDis", dataDis);
+
+  // const { data: dataDis } = useGetCreateAddress({
+  //   data: {
+  //     data: {
+  //       object_data: {
+  //         type: "ceo",
+  //         filter: `active`,
+  //       },
+  //     },
+  //   },
+  //   querySettings: {
+  //     select: (res) =>
+  //       res?.response?.map((item) => ({
+  //         value: item?.first_dispatcher_data?.guid,
+  //         label: item?.first_dispatcher_data?.full_name,
+  //       })),
+  //   },
+  // });
 
   const {
     data: getCarData,
@@ -343,7 +362,7 @@ export const useGpsTrackingProps = () => {
           page: debouncedValueDriver?.length > 0 ? 0 : 1,
           search: debouncedValueDriver,
           limit: debouncedValueDriver?.length > 0 ? 1000 : 10,
-          type: "ceo",
+          type: "dispatcher",
           dispatcher_id: watch(`dispatcher`)?.value,
           sort_time: `default`,
         },
@@ -353,12 +372,14 @@ export const useGpsTrackingProps = () => {
       refetchOnWindowFocus: false,
       select: (res) =>
         res?.response?.map((item) => ({
-          value: item?.dispatcher_full_data?.guid,
+          value: item?.guid,
           label: item?.full_name,
           gps_data: item?.gps_data,
         })),
     },
   });
+
+  console.log("getCarData", getCarData);
 
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
@@ -374,7 +395,7 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
 
-  const { data: dataDriverMap, isLoading } = useGetCarDispatcherPost({
+  const { data: dataDriverMap, isLoading } = useGetCarData({
     data: {
       data: {
         object_data: {
@@ -390,7 +411,7 @@ export const useGpsTrackingProps = () => {
           first_dispatcher_id: watch(`dispatcher`)?.value,
           driver_id: watch(`driver`)?.value,
           dispetchir_id: watch(`dispatcher`)?.value,
-          filter: `active`
+          filter: `active`,
         },
       },
     },
@@ -400,14 +421,17 @@ export const useGpsTrackingProps = () => {
           let data2 = data?.response?.map((item) => ({
             ...item,
             user: {
-              ...item?.users_id_data?.[0],
-              provisions: item?.order_data
-                ? [`our_cargo`]
-                : item?.users_id_data?.[0]?.provisions,
+              ...item,
+              provisions: item?.order_data ? [`our_cargo`] : item?.provisions,
             },
-            vehicles: [item?.vehicle_id_data],
+            vehicles: [
+              {
+                ...item?.vehicle_data,
+                trailer_type_id_data: item?.trailer_type_id_data,
+              },
+            ],
             firm_data: item?.firm_data,
-            users_gps: [item],
+            users_gps: [item?.gps_data],
             orders: item?.order_data ? [item?.order_data] : undefined,
           }));
           setCarsArr(data2);
