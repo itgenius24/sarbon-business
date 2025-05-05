@@ -26,6 +26,8 @@ import {
 import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
 
+/* eslint no-undef: 0 */ // --> OFF
+
 export const useGpsTrackingProps = () => {
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
