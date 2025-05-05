@@ -27,17 +27,12 @@ import authStore from "@/store/auth.store";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = () => {
-  // const {watch} = useForm()
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
   const disId = authStore.userData.id;
-  const firm_id =
-    role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
-      ? authStore.userData.firm_id
-      : ``;
 
   const { t } = useTranslation(locale, "translations");
-
+  const mapRef = useRef(null);
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
@@ -57,7 +52,6 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [refuelingState, setRefuelingState] = useState(false);
-  const [data, setData] = useState([]); // Hozirgi state
   const [isLoading, setIsLoading] = useState(false); // Loading holati
   const [remainingData, setRemainingData] = useState([]);
   const [checkboxStatuses, setCheckboxStatuses] = useState({
@@ -131,7 +125,6 @@ export const useGpsTrackingProps = () => {
   }
 
   const multiRouteRef = useRef(null);
-  const mapRef = useRef(null);
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
@@ -142,78 +135,10 @@ export const useGpsTrackingProps = () => {
         ...intervalLocations,
         watch("to"),
       ]);
-      // if(multiRoute.getRoutes().get(0)) {
-      //   const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-      //   const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-      //   setDistanceParameters({ duration, distance });
-      // }
-      // console.log(multiRoute.getWayPoints());
-      // const locations = [watch("from"), ...locationNames, watch("to")];
-      // locations.forEach((item, index) => {
-      //   console.log(multiRoute.getWayPoints().get(index).properties.getAll());
-      // });
-      // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
-      // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
+    
     }
   }
 
-  function initYmaps() {
-    /**
-     * Creating a multiroute.
-     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
-     */
-
-    if (window?.ymaps) {
-      ymaps.ready(() => {
-        var multiRoute = new ymaps.multiRouter.MultiRoute(
-          { referencePoints: [[], []] },
-          {
-            editorMidPointsType: "via",
-            routeActiveStrokeColor: "#175CD3",
-            editorDrawOver: false,
-          }
-        );
-
-        multiRoute.events.add("update", function () {
-          if (multiRoute.getRoutes().get(0)) {
-            const duration = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("duration").text;
-            const distance = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("distance").text;
-            setDistanceParameters({
-              duration,
-              distance,
-            });
-          }
-        });
-
-        const searchControl = new ymaps.control.SearchControl({
-          options: { float: "right" },
-        });
-
-        // Creating the map with the button added to it.
-        var myMap = new ymaps.Map(
-          "map",
-          {
-            center: [41.40587471972005, 69.46086540238926],
-            zoom: 7,
-            controls: [searchControl],
-          },
-          { buttonMaxWidth: 500 }
-        );
-
-        // Adding a multiroute to the map.
-        myMap.geoObjects.add(multiRoute);
-
-        mapRef.current = myMap;
-        multiRouteRef.current = multiRoute;
-      });
-    }
-  }
 
   let draggingIndex = null;
 
@@ -314,7 +239,6 @@ export const useGpsTrackingProps = () => {
   }, [getMeasurement.isSuccess]);
 
   const [carsArr, setCarsArr] = useState([]);
-  const toast = useToast();
 
   const { mutate: getCarRefueling } = useGetCarRefueling({
     onSuccess: (res) => {
@@ -550,31 +474,31 @@ export const useGpsTrackingProps = () => {
     userUpdate({ data: body });
   };
 
-  const handleCheckboxChange = (status) => {
-    setCheckboxStatuses((prevState) => ({
-      ...prevState,
-      [status]: !prevState[status],
-    }));
+  const handleCheckboxChange = (status,status_waiting) => {
+    if(status_waiting){
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+        [status_waiting]: !prevState[status_waiting],
+      }));
+    }else{
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+      }));
+    }
+  
   };
-
   const handleInputClear = () => {
     setOffset(0);
   };
 
-  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
-  useEffect(() => {
-    const ymapsScript = document.getElementById("yandex-maps-script");
-    if (ymapsScript) {
-      initYmaps();
-    }
-  }, depArr);
 
   return {
     register,
     locations,
     locationData,
-
     errors,
     handleAppend,
     handleRemove,
@@ -643,5 +567,6 @@ export const useGpsTrackingProps = () => {
     refuelingState,
     isLoadingRefueling: isLoading,
     setRefueling: setRemainingData,
+    mapRef
   };
 };

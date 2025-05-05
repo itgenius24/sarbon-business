@@ -50,7 +50,7 @@ export const useGpsTrackingProps = () => {
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
-
+  const mapRef = useRef(null);
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
   const full_name = searchParams.get(`full_name`);
@@ -96,7 +96,6 @@ export const useGpsTrackingProps = () => {
     waiting_for_driver: true,
   });
 
-  const [debouncedValue] = useDebounce(distance, 500);
   const [debouncedValueDriver] = useDebounce(watch(`driver_search`), 500);
 
   useEffect(() => {
@@ -225,7 +224,7 @@ export const useGpsTrackingProps = () => {
   }
 
   const multiRouteRef = useRef(null);
-  const mapRef = useRef(null);
+
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
@@ -683,11 +682,20 @@ export const useGpsTrackingProps = () => {
     userUpdate({ data: body });
   };
 
-  const handleCheckboxChange = (status) => {
-    setCheckboxStatuses((prevState) => ({
-      ...prevState,
-      [status]: !prevState[status],
-    }));
+  const handleCheckboxChange = (status,status_waiting) => {
+    if(status_waiting){
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+        [status_waiting]: !prevState[status_waiting],
+      }));
+    }else{
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+      }));
+    }
+  
   };
 
   const handleInputClear = () => {
@@ -768,5 +776,6 @@ export const useGpsTrackingProps = () => {
     setCarsArr,
     isBalloonOpened,
     setIsBalloonOpened,
+    mapRef
   };
 };

@@ -3,21 +3,17 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
-  useGetCar,
   useGetCarDispatcher,
   useGetCargoById,
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
-  useGetUserData,
   useLoadingTypes,
   useLocation,
-  useLogistikaGpsTrackingFilterDriver,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
+
 import {
   BrokeDownIcon,
   GreenMapIcon,
@@ -32,6 +28,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = (locale) => {
   const router = useRouter()
+  const mapRef = useRef()
   const searchParams = useSearchParams();
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
@@ -217,7 +214,6 @@ export const useGpsTrackingProps = (locale) => {
   }
 
   const multiRouteRef = useRef(null);
-  const mapRef = useRef(null);
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
@@ -610,13 +606,21 @@ export const useGpsTrackingProps = (locale) => {
     });
   };
 
-  const handleCheckboxChange = (status) => {
-    setCheckboxStatuses((prevState) => ({
-      ...prevState,
-      [status]: !prevState[status],
-    }));
+  const handleCheckboxChange = (status,status_waiting) => {
+    if(status_waiting){
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+        [status_waiting]: !prevState[status_waiting],
+      }));
+    }else{
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+      }));
+    }
+  
   };
-
   const handleInputClear = () => {
     setOffset(0);
   };
@@ -690,5 +694,6 @@ export const useGpsTrackingProps = (locale) => {
     isBalloonOpened,
     setIsBalloonOpened,
     refueling: remainingData,
+    mapRef
   };
 };

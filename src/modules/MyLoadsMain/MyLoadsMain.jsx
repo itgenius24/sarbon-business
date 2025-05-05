@@ -91,17 +91,17 @@ export const MyLoadsMain = ({ locale }) => {
     router,
     refetchNewPred,
     refetchNoDisPred,
-    setNotificationId,notificationID,
-    refetchWaitingDriverCount,orderStatus
+    setNotificationId,
+    notificationID,
+    refetchWaitingDriverCount,
+    orderStatus,
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
 
   return (
     <Box px={"20px"} py="24px">
-    
       <Container maxW={`1444px`}>
-
         {guid && (
           <Button
             leftIcon={<NavigationBtnLeftIcon />}
@@ -160,8 +160,8 @@ export const MyLoadsMain = ({ locale }) => {
               register={register}
               onChange={(e) => {
                 setAddress(e.target.value);
-                if(e.target.value.length === 0){
-                  setValue(`from`,``)
+                if (e.target.value.length === 0) {
+                  setValue(`from`, ``);
                 }
               }}
               name={`from`}
@@ -173,20 +173,33 @@ export const MyLoadsMain = ({ locale }) => {
             />
             {results.length > 0 && address?.length > 0 && (
               <Box className={styles.optionsWrap}>
-                {results?.map((location, idx) => (
-                  <Flex
-                    onClick={() => hanleAdress(location, `from`, "loading")}
-                    key={idx}
-                    gap={3}
-                    alignItems={"center"}
-                  >
-                    <LocationIconStep />
+                {results?.map((location, idx) => {
+                  const text = location?.GeoObject?.name || "";
 
-                    <p
-                      className={styles.item}
-                    >{`${location?.GeoObject?.name}`}</p>
-                  </Flex>
-                ))}
+                  const highlightText = (text, search) => {
+                    if (!search) return text;
+                    const regex = new RegExp(`(${search})`, "gi");
+                    return text.replace(
+                      regex,
+                      `<span class="${styles.bold}">$1</span>`
+                    );
+                  };
+                  return (
+                    <Flex
+                      onClick={() => hanleAdress(location, `from`, "loading")}
+                      key={idx}
+                      gap={3}
+                      alignItems={"center"}
+                    >
+                      <p
+                        className={styles.item}
+                        dangerouslySetInnerHTML={{
+                          __html: highlightText(text, address),
+                        }}
+                      />{" "}
+                    </Flex>
+                  );
+                })}
               </Box>
             )}
           </Box>
@@ -221,7 +234,7 @@ export const MyLoadsMain = ({ locale }) => {
           </TabList>
           {role_id === `785678f2-fae7-4a00-8766-99ea67d3784f` || guid ? (
             <TabPanels padding={`24px 0`}>
-            <TabPanel padding={0}>
+              <TabPanel padding={0}>
                 <NewPage
                   refetchNoDisPred={refetchNoDisPred}
                   refetchWaitingDriverCount={refetchWaitingDriverCount}
@@ -239,7 +252,6 @@ export const MyLoadsMain = ({ locale }) => {
                   refetchNewPred={refetchNewPred}
                   t={t}
                   orderStatus={`new`}
-                  
                 />
               </TabPanel>
               <TabPanel padding={0}>
@@ -252,14 +264,22 @@ export const MyLoadsMain = ({ locale }) => {
                 <CancellationPage t={t} orderStatus={`cancellation`} />
               </TabPanel>
               <TabPanel padding={0}>
-                <ArchivePage setOpen={setOpen} t={t} orderStatus={orderStatus} />
+                <ArchivePage
+                  setOpen={setOpen}
+                  t={t}
+                  orderStatus={orderStatus}
+                />
               </TabPanel>
-           
             </TabPanels>
           ) : (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
-                <AllPage address={address} search={watch(`from`)}  t={t} orderStatus={``} />
+                <AllPage
+                  address={address}
+                  search={watch(`from`)}
+                  t={t}
+                  orderStatus={``}
+                />
               </TabPanel>
               <TabPanel padding={0}>
                 <InModerationPage t={t} orderStatus={`in_moderation`} />

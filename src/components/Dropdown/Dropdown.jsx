@@ -99,7 +99,7 @@ export const Dropdown = ({
               <>
                 {searchable ? (
                   <div  onClick={() => {
-                      console.log(`clicked`);
+           
                       if(disabled){
                        return handleDisabled()
                       }

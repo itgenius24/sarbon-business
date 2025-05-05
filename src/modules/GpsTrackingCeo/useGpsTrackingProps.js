@@ -4,11 +4,10 @@ import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
   useGetCarData,
-  useGetCarDispatcherPost,
   useGetCargoById,
   useGetCarRefueling,
-  useGetCreateAddress,
   useGetMeasurement,
+  useGetNewPredData,
   useGetTrailerType,
   useGetUserData,
   useLoadingTypes,
@@ -22,7 +21,7 @@ import {
   SomeoneCargoIcon,
   WaitingForDriverIcon,
 } from "@/assets/icons/icons";
-import { useDebounce } from "use-debounce";
+  import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
 import { useSearchParams } from "next/navigation";
 
@@ -39,7 +38,7 @@ export const useGpsTrackingProps = () => {
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
-
+   const mapRef = useRef(null);
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
   const full_name = searchParams.get(`full_name`);
@@ -77,6 +76,8 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [isBalloonOpened, setIsBalloonOpened] = useState(false);
+
+  
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -86,6 +87,7 @@ export const useGpsTrackingProps = () => {
   });
 
   const [debouncedValueDriver] = useDebounce(watch(`driver_search`), 500);
+
 
   useEffect(() => {
     if (checked) {
@@ -213,7 +215,7 @@ export const useGpsTrackingProps = () => {
   }
 
   const multiRouteRef = useRef(null);
-  const mapRef = useRef(null);
+
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
@@ -355,16 +357,15 @@ export const useGpsTrackingProps = () => {
     data: getCarData,
     isFetching: driverLoading,
     refetch,
-  } = useGetCarData({
+  } = useGetNewPredData({
     data: {
       data: {
         object_data: {
-          page: debouncedValueDriver?.length > 0 ? 0 : 1,
+          // page: debouncedValueDriver?.length > 0 ? 0 : 1,
           search: debouncedValueDriver,
-          limit: debouncedValueDriver?.length > 0 ? 1000 : 10,
-          type: "dispatcher",
-          dispatcher_id: watch(`dispatcher`)?.value,
-          sort_time: `default`,
+          // limit: debouncedValueDriver?.length > 0 ? 1000 : 10,
+          type: "ceo",
+          dispetchir_id: watch(`dispatcher`)?.value,
         },
       },
     },
@@ -372,14 +373,14 @@ export const useGpsTrackingProps = () => {
       refetchOnWindowFocus: false,
       select: (res) =>
         res?.response?.map((item) => ({
-          value: item?.guid,
-          label: item?.full_name,
+          value: item?.users_data?.guid,
+          label: item?.users_data?.full_name || ``,
           gps_data: item?.gps_data,
         })),
     },
   });
 
-  console.log("getCarData", getCarData);
+  console.log("getCarData",getCarData );
 
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
@@ -408,9 +409,9 @@ export const useGpsTrackingProps = () => {
           limit: 1000,
           page: offset,
           type: "ceo",
-          first_dispatcher_id: watch(`dispatcher`)?.value,
+          // first_dispatcher_id: watch(`dispatcher`)?.value,
           driver_id: watch(`driver`)?.value,
-          dispetchir_id: watch(`dispatcher`)?.value,
+          dispatcher_id: watch(`driver`)?.value ? undefined: watch(`dispatcher`)?.value,
           filter: `active`,
         },
       },
@@ -640,9 +641,12 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    console.log("offsetCar");
+
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
+
+  
+
 
   const handleClear = () => {
     setOffset(0);
@@ -691,11 +695,20 @@ export const useGpsTrackingProps = () => {
     userUpdate({ data: body });
   };
 
-  const handleCheckboxChange = (status) => {
-    setCheckboxStatuses((prevState) => ({
-      ...prevState,
-      [status]: !prevState[status],
-    }));
+  const handleCheckboxChange = (status,status_waiting) => {
+    if(status_waiting){
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+        [status_waiting]: !prevState[status_waiting],
+      }));
+    }else{
+      setCheckboxStatuses((prevState) => ({
+        ...prevState,
+        [status]: !prevState[status],
+      }));
+    }
+  
   };
 
   const handleInputClear = () => {
@@ -771,10 +784,11 @@ export const useGpsTrackingProps = () => {
     setLocationData,
     refueling: remainingData,
     dataDis: dataDis,
-    getCarData: getCarData?.filter((item) => item?.gps_data),
+    getCarData: getCarData,
     driverLoading,
     setCarsArr,
     isBalloonOpened,
     setIsBalloonOpened,
+    mapRef
   };
 };

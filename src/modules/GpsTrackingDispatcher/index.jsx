@@ -75,6 +75,7 @@ export default function GpsTrackingDispatcher({ locale }) {
     locationPending,
     isBalloonOpened,
     setIsBalloonOpened,
+    mapRef
   } = useGpsTrackingProps(locale);
 
   const { t } = useTranslation(locale, "translations");
@@ -115,6 +116,7 @@ export default function GpsTrackingDispatcher({ locale }) {
             isBalloonOpened={isBalloonOpened}
             setIsBalloonOpened={setIsBalloonOpened}
             currentUserLocationData={currentUserLocationData}
+            mapRef={mapRef}
           />
         )}
 
@@ -164,6 +166,7 @@ export default function GpsTrackingDispatcher({ locale }) {
                     carTypeOptions={carTypeOptions}
                     checkboxStatuses={checkboxStatuses}
                     handleCheckboxChange={handleCheckboxChange}
+                    mapRef={mapRef}
                   />
                 )}
                 {modalType === "driverFree" && (

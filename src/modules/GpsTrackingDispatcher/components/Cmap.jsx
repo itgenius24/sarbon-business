@@ -50,6 +50,7 @@ const Cmap = memo(
     setCurrentUserLocationData,
     contendHoverState,
     currentUserLocationData,
+    mapRef
   }) => {
     const [isClient, setIsClient] = useState(false);
     const searchParams = useSearchParams();
@@ -58,7 +59,6 @@ const Cmap = memo(
     const [zoom, setZoom] = useState(5);
     const [points, setPoints] = useState([]);
     const [distance, setDistance] = useState(null);
-    const mapRef = useRef(null);
     const ymapsRef = useRef(null);
     const polylineRef = useRef(null);
     const clustererRef = useRef({});
@@ -449,7 +449,7 @@ const Cmap = memo(
           />
         )}
 
-        <SearchControl options={{ float: "right" }} />
+        {/* <SearchControl options={{ float: "right" }} /> */}
         <ZoomControl
           options={{
             position: {

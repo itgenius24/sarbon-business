@@ -65,7 +65,7 @@ const Filter = ({
           <TextFieldWithAddition
             placeholder={t("Адрес")}
             rules={{ required: true }}
-            label={t("Поиск в радиусе")}
+            label={t("Город или страна")}
             additionalItemTheme="white"
             register={register}
             name={"address"}

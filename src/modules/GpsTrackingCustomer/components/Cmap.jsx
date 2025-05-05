@@ -1,155 +1,329 @@
 "use client";
 import {
-  BlueFuraIcon,
-  BluePendingIcon,
-  BluePhoneIcon,
-  CencelMapIcon,
-  CheckBlueIcon,
-  FilterIcon,
   GoodsFuraIcon,
   GoodsPhoneIcon,
-  GreenCarIcon,
   GreenFuraIcon,
   GreenPhoneIcon,
   LoadOulineIcon,
   MapCargoGreenIcon,
   MapCargoLoadGoodsIcon,
-  QuestionBlueIcon,
   StoneIcon,
   GreenMapIcon,
-  RefuelingIcon,
-  RefuelingIconMap,
-  TelegramIcon,
-  WatsapIcon,
-  PrimumIcon,
   RefeIcon,
+  RouteIcon,
+  RulesIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
 import {
   Clusterer,
   Map,
-  ObjectManager,
   Placemark,
-  SearchControl,
+  Polyline,
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
-import copy from "copy-to-clipboard";
-import { FixedSizeList as List } from "react-window";
 import { useTranslation } from "react-i18next";
-import authStore from "@/store/auth.store";
+import { BalloonContent } from "./BalloonContent";
+import { getSVGIcon } from "@/utils/getSVGIcon";
 
 const Cmap = memo(
   ({
     getCarListProps,
     coordinates,
     cls,
-    type,
     mapIcon,
     watch,
     setModalType,
     locationData,
     setLoadState,
     setCurrentUserLocationData,
+    mapRef,
   }) => {
-    const user_type = authStore?.userData?.user_status;
-    const mapRef = useRef(null);
-    const [zoom, setZoom] = useState(5);
     const [isClient, setIsClient] = useState(false);
     const { t } = useTranslation();
+    const [zoom, setZoom] = useState(5);
+    const [points, setPoints] = useState([]);
+    const [distance, setDistance] = useState(null);
+    const ymapsRef = useRef(null);
+    const polylineRef = useRef(null);
+    const [ballonRef, setBallonRef] = useState(null);
+    const multiRouteRef = useRef(null);
+    const [clickCount, setClickCount] = useState(0);
+    const [pointA, setPointA] = useState(null);
+    const [pointB, setPointB] = useState(null);
+    const [selecting, setSelecting] = useState(false);
+    const [types, setType] = useState(``);
+
+
     useEffect(() => {
       setIsClient(true);
     }, []);
 
-    if (!isClient) {
-      return null; // Render nothing during SSR
-    }
 
-    const getSVGIcon = (tempValue = "$2000", type) => {
-      const svgStringBlue = `
-       <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2001_4093)">
-<mask id="path-1-outside-1_2001_4093" maskUnits="userSpaceOnUse" x="2" y="1" width="46" height="31" fill="black">
-<rect fill="white" x="2" y="1" width="46" height="31"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11 3C7.13401 3 4 6.13401 4 10V16C4 19.866 7.13401 23 11 23H21.8688L24.8003 27.8858L27.7318 23H39C42.866 23 46 19.866 46 16V10C46 6.13401 42.866 3 39 3H11Z"/>
-</mask>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11 3C7.13401 3 4 6.13401 4 10V16C4 19.866 7.13401 23 11 23H21.8688L24.8003 27.8858L27.7318 23H39C42.866 23 46 19.866 46 16V10C46 6.13401 42.866 3 39 3H11Z" fill="#C1BB20"/>
-<path d="M21.8688 23L23.5838 21.971L23.0012 21H21.8688V23ZM24.8003 27.8858L23.0854 28.9148L24.8003 31.7731L26.5153 28.9148L24.8003 27.8858ZM27.7318 23V21H26.5994L26.0168 21.971L27.7318 23ZM6 10C6 7.23858 8.23858 5 11 5V1C6.02944 1 2 5.02944 2 10H6ZM6 16V10H2V16H6ZM11 21C8.23858 21 6 18.7614 6 16H2C2 20.9706 6.02944 25 11 25V21ZM21.8688 21H11V25H21.8688V21ZM26.5153 26.8568L23.5838 21.971L20.1539 24.029L23.0854 28.9148L26.5153 26.8568ZM26.0168 21.971L23.0854 26.8568L26.5153 28.9148L29.4468 24.029L26.0168 21.971ZM39 21H27.7318V25H39V21ZM44 16C44 18.7614 41.7614 21 39 21V25C43.9706 25 48 20.9706 48 16H44ZM44 10V16H48V10H44ZM39 5C41.7614 5 44 7.23858 44 10H48C48 5.02944 43.9706 1 39 1V5ZM11 5H39V1H11V5Z" fill="white" mask="url(#path-1-outside-1_2001_4093)"/>
-</g>
-<defs>
-<filter id="filter0_d_2001_4093" x="0" y="0" width="50" height="34.7729" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="1"/>
-<feGaussianBlur stdDeviation="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2001_4093"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2001_4093" result="shape"/>
-</filter>
-</defs>
-   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-weight="600"  font-family="sans-serif" fill="#fff">$${tempValue}</text>
-</svg>
-`;
+    const handleCopy = (event) => {
+      const selection = window.getSelection().toString();
+      if (selection) {
+        event.preventDefault();
+        const phoneRegex = /(?:\+\d{1,3}\s?)?(?:\d[\s-]?){7,14}\d/g; // Telefon raqamlarini aniqlash
+        const match = selection.match(phoneRegex);
 
-      const svgStringGreen = `
-<svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_274_4505)">
-<mask id="path-1-outside-1_274_4505" maskUnits="userSpaceOnUse" x="2" y="1" width="46" height="31" fill="black">
-<rect fill="white" x="2" y="1" width="46" height="31"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11 3C7.13401 3 4 6.13401 4 10V16C4 19.866 7.13401 23 11 23H21.8688L24.8003 27.8858L27.7318 23H39C42.866 23 46 19.866 46 16V10C46 6.13401 42.866 3 39 3H11Z"/>
-</mask>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11 3C7.13401 3 4 6.13401 4 10V16C4 19.866 7.13401 23 11 23H21.8688L24.8003 27.8858L27.7318 23H39C42.866 23 46 19.866 46 16V10C46 6.13401 42.866 3 39 3H11Z" fill="#15BA4D"/>
-<path d="M21.8688 23L23.5838 21.971L23.0012 21H21.8688V23ZM24.8003 27.8858L23.0854 28.9148L24.8003 31.7731L26.5153 28.9148L24.8003 27.8858ZM27.7318 23V21H26.5994L26.0168 21.971L27.7318 23ZM6 10C6 7.23858 8.23858 5 11 5V1C6.02944 1 2 5.02944 2 10H6ZM6 16V10H2V16H6ZM11 21C8.23858 21 6 18.7614 6 16H2C2 20.9706 6.02944 25 11 25V21ZM21.8688 21H11V25H21.8688V21ZM26.5153 26.8568L23.5838 21.971L20.1539 24.029L23.0854 28.9148L26.5153 26.8568ZM26.0168 21.971L23.0854 26.8568L26.5153 28.9148L29.4468 24.029L26.0168 21.971ZM39 21H27.7318V25H39V21ZM44 16C44 18.7614 41.7614 21 39 21V25C43.9706 25 48 20.9706 48 16H44ZM44 10V16H48V10H44ZM39 5C41.7614 5 44 7.23858 44 10H48C48 5.02944 43.9706 1 39 1V5ZM11 5H39V1H11V5Z" fill="white" mask="url(#path-1-outside-1_274_4505)"/>
-</g>
-<defs>
-<filter id="filter0_d_274_4505" x="0" y="0" width="50" height="34.7729" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="1"/>
-<feGaussianBlur stdDeviation="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_274_4505"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_274_4505" result="shape"/>
-</filter>
-</defs>
-   <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="600" fill="#fff">$${
-     tempValue || `------`
-   }</text>
-
-</svg>
-
-`;
-
-      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-        type === "occupied_cargo" ? svgStringBlue : svgStringGreen
-      )}`;
-    };
-
-    const copyFn = (refuelData) => {
-      // alert("copy");
-      copy(
-        `https://yandex.com/maps/?ll=${refuelData?.cords?.split(",")?.[1]},${
-          refuelData?.cords?.split(",")?.[0]
-        }&z=15&pt=${refuelData?.cords?.split(",")?.[1]},${
-          refuelData?.cords?.split(",")?.[0]
-        },pm2rdm`
-      );
-    };
-
-    const resetMap = () => {
-      if (mapRef.current) {
-        mapRef.current.setCenter(coordinates, 4);
+        if (match) {
+          const cleanedText = match[0].replace(/\s+/g, ""); // Faqat topilgan raqamdan bo'sh joylarni olib tashlash
+          event.clipboardData.setData("text/plain", cleanedText);
+        } else {
+          event.clipboardData.setData("text/plain", selection);
+        }
       }
     };
 
+    useEffect(() => {
+      setTimeout(() => {
+        document.addEventListener("copy", handleCopy);
+        return () => {
+          document.removeEventListener("copy", handleCopy);
+        };
+      }, 1000);
+    }, []);
+
+    const getDistanceInKm = (coordsA, coordsB) => {
+      const R = 6371;
+      const toRad = (val) => (val * Math.PI) / 180;
+
+      if (coordsA && coordsB) {
+        const [lat1, lon1] = coordsA;
+        const [lat2, lon2] = coordsB;
+
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const dist = R * c;
+
+        setDistance(dist.toFixed(2));
+      }
+    };
+
+    const handleMapClick = (e) => {
+      if (!selecting) return;
+
+      const coords = e.get("coords");
+
+      if (clickCount === 0) {
+        setPointA(coords);
+        setClickCount(1);
+      } else if (clickCount === 1) {
+        setPointB(coords);
+        setClickCount(2);
+        setSelecting(false); // End selection
+        console.log(`pointA`, [pointA, coords]);
+        getDistanceInKm(pointA, coords);
+        setPoints([pointA, coords]);
+        if (types === `route`) {
+          drawRoute(pointA, coords);
+        }
+      }
+    };
+
+    const closeRouteBalloon = () => {
+      const activeRoute = multiRouteRef.current?.getActiveRoute();
+
+      if (activeRoute && activeRoute.balloon) {
+        activeRoute.balloon.close();
+      }
+    };
+
+    const drawRoute = (a, b) => {
+      if (!ymapsRef.current || !a || !b) {
+        mapRef.current.geoObjects.remove(multiRouteRef.current);
+        multiRouteRef.current = null;
+      }
+
+      if (multiRouteRef.current) {
+        mapRef.current.geoObjects.remove(multiRouteRef.current);
+        multiRouteRef.current = null;
+      }
+      getDistanceInKm(a, b);
+
+      const multiRoute = new ymapsRef.current.multiRouter.MultiRoute(
+        {
+          referencePoints: [a, b],
+          params: {
+            routingMode: "auto",
+          },
+        },
+        {
+          boundsAutoApply: true,
+          wayPointStartVisible: false,
+          wayPointFinishVisible: false,
+        }
+      );
+
+      multiRouteRef.current = multiRoute;
+
+      mapRef.current.geoObjects.add(multiRoute);
+
+      multiRoute.model.events.add("requestsuccess", () => {
+        const activeRoute = multiRoute.getActiveRoute();
+
+        if (activeRoute && activeRoute.balloon) {
+          activeRoute.balloon.open();
+          setBallonRef(true);
+        }
+      });
+    };
+
+    useEffect(() => {
+      setTimeout(() => {
+        const closeBtn = document.querySelector(
+          `.ymaps-2-1-79-balloon__close-button`
+        );
+
+        if (closeBtn) {
+          closeBtn.addEventListener(`click`, () => {
+            setClickCount(0);
+            setSelecting(false);
+            setPointA(null);
+            setPointB(null);
+            setPoints([]);
+            setDistance(null);
+            setType(``);
+            mapRef.current.geoObjects.remove(multiRouteRef.current);
+            multiRouteRef.current = null;
+            setIsBalloonOpened(false);
+            closeRouteBalloon();
+            setBallonRef(false);
+            setSelecting(false);
+            polylineRef.current = null;
+          });
+        }
+      }, 1000);
+    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
+
+    const getMiddlePoint = ([point1, point2]) => {
+      const lat = (point1[0] + point2[0]) / 2;
+      const lon = (point1[1] + point2[1]) / 2;
+      return [lat, lon];
+    };
+
+    useEffect(() => {
+      if (types === `rules` && points.length > 0) {
+        openBallon();
+      } else {
+        closeBallon();
+      }
+    }, [polylineRef.current, distance, selecting, types]);
+
+    const openBallon = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      const balloonContent = `<p class="distance">Masofa: ${distance} km</p>`;
+      map.balloon.open(getMiddlePoint(points), balloonContent, {
+        closeButton: true,
+      });
+    };
+    const closeBallon = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      map.balloon.close();
+      setBallonRef(false);
+      polylineRef.current = null;
+    };
+
+    const startRouteSelection = (type) => {
+      setType(type);
+
+      if (type === "rules") {
+        setClickCount(0);
+        setSelecting(true);
+        if (multiRouteRef.current) {
+          mapRef.current?.geoObjects?.remove(multiRouteRef.current);
+          multiRouteRef.current = null;
+        }
+        if (points.length === 2) {
+          setPointA(points[0]);
+          setPointB(points[1]);
+          getDistanceInKm(points[0], points[1]);
+        }
+      }
+
+      if (type === "route") {
+        setClickCount(0);
+        setSelecting(true);
+        setDistance("");
+
+        // Route qayta chiziladi, agar oldingi points bor bo‘lsa
+        drawRoute(points[0] || pointA, points[1] || pointB);
+      }
+    };
+
+    const handleMapLoad = (ymaps) => {
+      ymapsRef.current = ymaps;
+      setTimeout(() => {
+        drawRoute(pointA, pointB);
+      },500)
+    };
+
+    const handleDragEnd = (e, index) => {
+      const map = mapRef.current;
+
+      const newCoords = e.get("target").geometry.getCoordinates();
+      const newPoints = [...points];
+      newPoints[index] = newCoords;
+      setPoints(newPoints);
+      getDistanceInKm(newPoints[0], newPoints[1]);
+      if (types === `route`) {
+        drawRoute(newPoints[0], newPoints[1]);
+      } else {
+        setBallonRef(true);
+        // map.balloon.close();
+      }
+    };
+
+    const handlePolylineClick = (e) => {
+      const map = mapRef.current;
+      if (!map) return;
+
+      const coords = e.get("coords");
+      const balloonContent = `Masofa: ${distance} km`;
+
+      map.balloon.open(coords, balloonContent, {
+        closeButton: true,
+      });
+    };
+
+    if (!isClient) {
+      return null;
+    }
+
+    const resetMap = () => {
+      if (mapRef.current) {
+        if (types?.length === 0) {
+          mapRef.current.setCenter(coordinates, 4);
+        }
+        mapRef.current.setCenter(coordinates, 4);
+        mapRef.current.balloon.close();
+      }
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+    };
     return (
       <Map
         instanceRef={mapRef}
-        onBoundsChange={(e) => setZoom(e.get("newZoom"))} // Zoom o'zgarishini olish
+        onLoad={handleMapLoad}
+        onClick={handleMapClick}
+        onBoundsChange={(e) => setZoom(e.get("newZoom"))}
         defaultState={{
           center: coordinates,
           zoom: 6,
@@ -169,10 +343,29 @@ const Cmap = memo(
           "geocode",
           "control.SearchControl",
           "control.ZoomControl",
+          "multiRouter.MultiRoute",
         ]}
       >
-        <div onClick={resetMap} className={cls.backMap}>
-          <RefeIcon />
+        <div className={cls.settWrap}>
+          <div onClick={resetMap} className={cls.backMap}>
+            <RefeIcon />
+          </div>
+          <div
+            onClick={() => startRouteSelection(`route`)}
+            className={`${cls.route} ${
+              types === `route` ? cls.activeRoute : ``
+            }`}
+          >
+            <RouteIcon />
+          </div>
+          <div
+            onClick={() => startRouteSelection(`rules`)}
+            className={`${cls.route} ${
+              types === `rules` ? cls.activeRoute : ``
+            } `}
+          >
+            <RulesIcon />
+          </div>
         </div>
         <TypeSelector
           mapTypes={[
@@ -182,11 +375,10 @@ const Cmap = memo(
             "yandex#publicMap",
           ]}
         />
-        <SearchControl options={{ float: "right" }} />
+        {/* <SearchControl options={{ float: "right" }} /> */}
         <ZoomControl
           options={{
             position: {
-              // bottom: "0vh",
               top: 350,
               right: 4,
             },
@@ -198,435 +390,48 @@ const Cmap = memo(
           }}
         />
 
+        {pointA && (
+          <Placemark
+            onDragEnd={(e) => handleDragEnd(e, 0)}
+            options={{
+              draggable: true,
+              iconImageSize: [60, 72],
+              iconImageOffset: [-15, -42],
+            }}
+            geometry={pointA}
+          />
+        )}
+        {pointB && (
+          <Placemark
+            onDragEnd={(e) => handleDragEnd(e, 1)}
+            options={{
+              draggable: true,
+              iconImageSize: [60, 72],
+              iconImageOffset: [-15, -42],
+            }}
+            geometry={pointB}
+          />
+        )}
+
+        {types === `rules` && (
+          <Polyline
+            instanceRef={(ref) => (polylineRef.current = ref)}
+            geometry={points}
+            onClick={handlePolylineClick}
+            options={{
+              strokeColor: "#FF0000",
+              strokeWidth: 4,
+              strokeOpacity: 0.6,
+            }}
+          />
+        )}
+
         {zoom >= 20 ? (
           <>
             {getCarListProps?.data &&
               getCarListProps?.data?.map((carInfo, index) => {
-                const BalloonContent = () => (
-                  <div
-                    id="balloon-content"
-                    className={cls.balloon_content_empty}
-                  >
-                    <div className={cls.wrap} style={{ height: "45px" }}>
-                      {carInfo?.user?.provisions?.[0] === "empty" ? (
-                        <>
-                          <GreenCarIcon />
-                          <span className={cls.balloonName}>Свободен</span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] ===
-                        "waiting_for_driver" ? (
-                        <>
-                          <BluePendingIcon />
-                          <span
-                            style={{ color: "rgba(0, 122, 255, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            Ожидание
-                          </span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
-                        <>
-                          <CheckBlueIcon />
-                          <span
-                            style={{ color: "rgba(0, 122, 255, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            Занят
-                          </span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
-                        <>
-                          <QuestionBlueIcon />
-                          <span
-                            style={{ color: "rgba(0, 122, 255, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            Занят
-                          </span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
-                        <>
-                          <CencelMapIcon />
-                          <span
-                            style={{ color: "rgba(126, 123, 134, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            {t(`Сломалась`)}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <GreenCarIcon />
-                          <span className={cls.balloonName}>Свободен</span>
-                        </>
-                      )}
-
-                      <div className={cls.loadIconWrap}>
-                        <Box className={cls.conWrap}>
-                          <StoneIcon />{" "}
-                          <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
-                        </Box>
-
-                        <Box
-                          className={cls.conWrap}
-                          gap={1}
-                          alignItems={"center"}
-                        >
-                          <LoadOulineIcon />
-                          <span>{carInfo?.vehicles?.[0]?.height} m3</span>
-                        </Box>
-                      </div>
-                    </div>
-                    <p className={cls.balloon_fulName}>
-                      {carInfo?.user?.full_name}
-                    </p>
-                    {carInfo?.user?.provisions?.[0] === "empty" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <GreenPhoneIcon />
-
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <p className={cls.footerBox}>
-                          <GreenFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] ===
-                      "waiting_for_driver" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />{" "}
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />{" "}
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <div className={cls.flex}>
-                          <GreenPhoneIcon />
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <GreenFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                );
                 const balloonContent2 = ReactDOMServer.renderToString(
-                  <BalloonContent />
+                  <BalloonContent cls={cls} carInfo={carInfo} t={t} />
                 );
                 return (
                   <>
@@ -656,7 +461,6 @@ const Cmap = memo(
                       modules={["geoObject.addon.balloon"]}
                       onBalloonOpen={(e) => {
                         const placemark = e.get("target");
-                        const balloonInstance = placemark.balloon;
                       }}
                       onClick={() => {
                         setCurrentUserLocationData(carInfo);
@@ -679,16 +483,12 @@ const Cmap = memo(
                   </>
                 );
               })}
-          
           </>
         ) : (
           <Clusterer
             options={{
-              // preset: "islands#invertedBlueClusterIcons",
-              groupByCoordinates: false, // Bir xil joylashuvda turganlarni alohida chiqaradi
+              groupByCoordinates: false,
               gridSize: 50,
-              // clusterDisableClickZoom:true,
-              // hasBalloon:true,
               clusterIconColor: "rgba(52, 199, 89, 1)",
               style: {
                 backgroundColor: "rgba(52, 199, 89, 1)",
@@ -699,431 +499,8 @@ const Cmap = memo(
           >
             {getCarListProps?.data &&
               getCarListProps?.data?.map((carInfo, index) => {
-                const BalloonContent = () => (
-                  <div
-                    id="balloon-content"
-                    className={cls.balloon_content_empty}
-                  >
-                    <div className={cls.wrap} style={{ height: "45px" }}>
-                      {carInfo?.user?.provisions?.[0] === "empty" ? (
-                        <>
-                          <GreenCarIcon />
-                          <span className={cls.balloonName}>Свободен</span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] ===
-                        "waiting_for_driver" ? (
-                        <>
-                          <BluePendingIcon />
-                          <span
-                            style={{ color: "rgba(0, 122, 255, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            Ожидание
-                          </span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
-                        <>
-                          <CheckBlueIcon />
-                          <span
-                            style={{ color: "rgba(0, 122, 255, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            Занят
-                          </span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
-                        <>
-                          <QuestionBlueIcon />
-                          <span
-                            style={{ color: "rgba(0, 122, 255, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            Занят
-                          </span>
-                        </>
-                      ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
-                        <>
-                          <CencelMapIcon />
-                          <span
-                            style={{ color: "rgba(126, 123, 134, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            {t(`Сломалась`)}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <GreenCarIcon />
-                          <span className={cls.balloonName}>Свободен</span>
-                        </>
-                      )}
-
-                      <div className={cls.loadIconWrap}>
-                        <Box className={cls.conWrap}>
-                          <StoneIcon />{" "}
-                          <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
-                        </Box>
-
-                        <Box
-                          className={cls.conWrap}
-                          gap={1}
-                          alignItems={"center"}
-                        >
-                          <LoadOulineIcon />
-                          <span>{carInfo?.vehicles?.[0]?.height} m3</span>
-                        </Box>
-                      </div>
-                    </div>
-                    <p className={cls.balloon_fulName}>
-                      {carInfo?.user?.full_name}
-                    </p>
-                    {carInfo?.user?.provisions?.[0] === "empty" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <GreenPhoneIcon />
-
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <p className={cls.footerBox}>
-                          <GreenFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] ===
-                      "waiting_for_driver" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />{" "}
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] === "our_cargo" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] === "someone_cargo" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : carInfo?.user?.provisions?.[0] === "broke_down" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <BluePhoneIcon />{" "}
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <p className={cls.footerBox}>
-                          <BlueFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <div className={cls.flex}>
-                          <GreenPhoneIcon />
-                          {user_type?.[0] === `approved` ? (
-                            <>
-                              <a
-                                target="_blank"
-                                href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLink}
-                              >
-                                {formatPhoneNumber(carInfo?.user?.phone)}
-                              </a>
-                              <div className={cls.flex}>
-                                <a
-                                  target="_blank"
-                                  href={`https://t.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <TelegramIcon />
-                                </a>
-                                <a
-                                  target="_blank"
-                                  href={`https://wa.me/${carInfo?.user?.phone}`}
-                                  id="click"
-                                  // className={cls.footerBoxLink}
-                                >
-                                  <WatsapIcon />
-                                </a>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <a
-                                target="_blank"
-                                // href={`https://t.me/${carInfo?.user?.phone}`}
-                                id="click"
-                                className={cls.footerBoxLinkPremium}
-                              >
-                                +998 XX XXX XX XX
-                              </a>
-                              <div className={cls.premium}>
-                                <PrimumIcon /> только Premium
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <GreenFuraIcon />
-                          {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            ? carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
-                            : t(`Пока нет машины`)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                );
                 const balloonContent2 = ReactDOMServer.renderToString(
-                  <BalloonContent />
+                  <BalloonContent cls={cls} carInfo={carInfo} t={t} />
                 );
                 return (
                   <>
@@ -1293,18 +670,6 @@ const Cmap = memo(
                           iconImageSize: [60, 72],
                           iconImageOffset: [-15, -42],
                         }}
-                        onBalloonOpen={(e) => {
-                          const placemark = e.get("target");
-                          const balloonInstance = placemark.balloon;
-                          // balloonInstance.events.add("click", () => {
-                          //   setLoadState(item);
-                          //   if (item?.new_status?.[0] === "occupied_cargo") {
-                          //     setModalType("driverGruzGoods");
-                          //   } else {
-                          //     setModalType("driverGruz");
-                          //   }
-                          // });
-                        }}
                       />
                     )}
                   </>
@@ -1313,139 +678,121 @@ const Cmap = memo(
           </Clusterer>
         )}
         {locationData &&
-              locationData.map((item, index) => {
-                const BalloonContentCargo = () => (
-                  <div
-                    id="balloon-content_cargo"
-                    className={cls.balloon_content_empty}
-                  >
-                    <div className={cls.wrap} style={{ height: "45px" }}>
-                      {item?.new_status?.[0] === "occupied_cargo" ? (
-                        <>
-                          <MapCargoLoadGoodsIcon />
-                          <span
-                            style={{ color: "rgba(193, 187, 32, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            {item?.bid_cash || `$-----`}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <MapCargoGreenIcon />
-                          <span className={cls.balloonName}>
-                            {item?.bid_cash || `$-----`}
-                            {item?.currency_id_data?.code}
-                          </span>
-                        </>
-                      )}
+          locationData.map((item, index) => {
+            const BalloonContentCargo = () => (
+              <div
+                id="balloon-content_cargo"
+                className={cls.balloon_content_empty}
+              >
+                <div className={cls.wrap} style={{ height: "45px" }}>
+                  {item?.new_status?.[0] === "occupied_cargo" ? (
+                    <>
+                      <MapCargoLoadGoodsIcon />
+                      <span
+                        style={{ color: "rgba(193, 187, 32, 1)" }}
+                        className={cls.balloonName}
+                      >
+                        {item?.bid_cash || `$-----`}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <MapCargoGreenIcon />
+                      <span className={cls.balloonName}>
+                        {item?.bid_cash || `$-----`}
+                        {item?.currency_id_data?.code}
+                      </span>
+                    </>
+                  )}
 
-                      <Flex style={{ gap: "4px" }} alignItems={"center"}>
-                        <Box className={cls.conWrap}>
-                          <StoneIcon /> <span> {item?.weight} т.</span>
-                        </Box>
-                        <p className={cls.conWrap}> </p>
-                        <p
-                          className={cls.conWrap}
-                          gap={1}
-                          alignItems={"center"}
-                        >
-                          <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
-                        </p>
-                      </Flex>
-                    </div>
-                    <p className={cls.balloon_fulName}>
-                      Оборудование и запчасти
+                  <Flex style={{ gap: "4px" }} alignItems={"center"}>
+                    <Box className={cls.conWrap}>
+                      <StoneIcon /> <span> {item?.weight} т.</span>
+                    </Box>
+                    <p className={cls.conWrap}> </p>
+                    <p className={cls.conWrap} gap={1} alignItems={"center"}>
+                      <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
                     </p>
-                    {item?.new_status?.[0] === "occupied_cargo" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <GoodsPhoneIcon />
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${item?.users_id_data?.phone}`}
-                            className={cls.footerBoxLink}
-                          >
-                            {formatPhoneNumber(item?.users_id_data?.phone)}
-                          </a>
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <GoodsFuraIcon />
-                          {item?.vehicle_type_id_data?.name}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <div className={cls.flex}>
-                          <GreenPhoneIcon />
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${item?.users_id_data?.phone}`}
-                            className={cls.footerBoxLink}
-                          >
-                            {formatPhoneNumber(item?.users_id_data?.phone)}
-                          </a>
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <GreenFuraIcon />
-                          {item?.vehicle_type_id_data?.name}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                );
-                const balloonContentCargo = ReactDOMServer.renderToString(
-                  <BalloonContentCargo />
-                );
-                return (
+                  </Flex>
+                </div>
+                <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
+                {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
-                    {item.location_name && (
-                      <Placemark
-                        onClick={() => {
-                          setLoadState(item);
-                          if (item?.new_status?.[0] === "occupied_cargo") {
-                            setModalType("driverGruzGoods");
-                          } else {
-                            setModalType("driverGruz");
-                          }
-                        }}
-                        key={item?.guid}
-                        geometry={[
-                          item.location_name.split(" ")[0] * 1 + index * 0.0001,
-                          item.location_name.split(" ")[1] * 1 + index * 0.0001,
-                        ]}
-                        properties={{
-                          balloonContent: balloonContentCargo,
-                          iconContent: "2000",
-                        }}
-                        options={{
-                          iconLayout: "default#image",
-                          iconImageHref: getSVGIcon(
-                            item?.bid_cash,
-                            item?.new_status?.[0]
-                          ),
-                          iconImageSize: [60, 72],
-                          iconImageOffset: [-15, -42],
-                        }}
-                        onBalloonOpen={(e) => {
-                          const placemark = e.get("target");
-                          const balloonInstance = placemark.balloon;
-                          // balloonInstance.events.add("click", () => {
-                          //   setLoadState(item);
-                          //   if (item?.new_status?.[0] === "occupied_cargo") {
-                          //     setModalType("driverGruzGoods");
-                          //   } else {
-                          //     setModalType("driverGruz");
-                          //   }
-                          // });
-                        }}
-                      />
-                    )}
+                    <div className={cls.flex}>
+                      <GoodsPhoneIcon />
+                      <a
+                        target="_blank"
+                        href={`https://t.me/${item?.users_id_data?.phone}`}
+                        className={cls.footerBoxLink}
+                      >
+                        {formatPhoneNumber(item?.users_id_data?.phone)}
+                      </a>
+                    </div>
+
+                    <p className={cls.footerBox}>
+                      <GoodsFuraIcon />
+                      {item?.vehicle_type_id_data?.name}
+                    </p>
                   </>
-                );
-              })}
+                ) : (
+                  <>
+                    <div className={cls.flex}>
+                      <GreenPhoneIcon />
+                      <a
+                        target="_blank"
+                        href={`https://t.me/${item?.users_id_data?.phone}`}
+                        className={cls.footerBoxLink}
+                      >
+                        {formatPhoneNumber(item?.users_id_data?.phone)}
+                      </a>
+                    </div>
+
+                    <p className={cls.footerBox}>
+                      <GreenFuraIcon />
+                      {item?.vehicle_type_id_data?.name}
+                    </p>
+                  </>
+                )}
+              </div>
+            );
+            const balloonContentCargo = ReactDOMServer.renderToString(
+              <BalloonContentCargo />
+            );
+            return (
+              <>
+                {item.location_name && (
+                  <Placemark
+                    onClick={() => {
+                      setLoadState(item);
+                      if (item?.new_status?.[0] === "occupied_cargo") {
+                        setModalType("driverGruzGoods");
+                      } else {
+                        setModalType("driverGruz");
+                      }
+                    }}
+                    key={item?.guid}
+                    geometry={[
+                      item.location_name.split(" ")[0] * 1 + index * 0.0001,
+                      item.location_name.split(" ")[1] * 1 + index * 0.0001,
+                    ]}
+                    properties={{
+                      balloonContent: balloonContentCargo,
+                      iconContent: "2000",
+                    }}
+                    options={{
+                      iconLayout: "default#image",
+                      iconImageHref: getSVGIcon(
+                        item?.bid_cash,
+                        item?.new_status?.[0]
+                      ),
+                      iconImageSize: [60, 72],
+                      iconImageOffset: [-15, -42],
+                    }}
+                  />
+                )}
+              </>
+            );
+          })}
       </Map>
     );
   }
