@@ -183,7 +183,7 @@ export const useElements = (lang) => {
         // },
         {
           path: isAuth
-            ? `/${lang || "ru"}/gps-tracking-xm`
+            ? `/${lang || "ru"}/gps-tracking-customer`
             : `/${lang || "ru"}/auth`,
           label: "(GPS tracking)",
         },
@@ -204,6 +204,12 @@ export const useElements = (lang) => {
       {
         path: `/${lang || "ru"}/active-user`,
         label: "Журнал активности",
+      },
+      {
+        path: isAuth
+          ? `/${lang || "ru"}/gps-tracking-super-admin`
+          : `/${lang || "ru"}/auth`,
+        label: "GPS tracking",
       },
     ];
   } else if (role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b") {

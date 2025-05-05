@@ -3,21 +3,17 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
-  useGetCar,
-  useGetCarDispatcher,
+  useGetCarData,
+  useGetCarDispatcherPost,
   useGetCargoById,
   useGetCarRefueling,
+  useGetCreateAddress,
   useGetMeasurement,
   useGetTrailerType,
-  useGetUserData,
   useLoadingTypes,
   useLocation,
-  useLogistikaGpsTrackingFilterDriver,
   useUpdateUserInfo,
 } from "@/services/api";
-import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
 import {
   BrokeDownIcon,
   GreenMapIcon,
@@ -27,12 +23,24 @@ import {
 } from "@/assets/icons/icons";
 import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 /* eslint no-undef: 0 */ // --> OFF
-export const useGpsTrackingProps = (locale) => {
-  const router = useRouter()
+export const useGpsTrackingProps = () => {
+  const {
+    register,
+    control,
+    watch,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+ 
+
+  const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
+
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
   const full_name = searchParams.get(`full_name`);
@@ -43,16 +51,14 @@ export const useGpsTrackingProps = (locale) => {
   const long = searchParams.get(`long`);
   const version = searchParams.get(`version`);
   const phone = searchParams.get(`phone`);
-  const car_number = searchParams.get(`car_number`);
-  const car_country = searchParams.get(`car_country`);
-  const type = searchParams.get(`car_type`);
-  const capacity = searchParams.get(`car_capacity`);
-  const height = searchParams.get(`car_height`);
-  const car_type_name = searchParams.get(`car_type_name`);
+  const car_number = searchParams.get(`car_number`) || ``;
+  const car_country = searchParams.get(`car_country`) || `UZ`;
+  const type = searchParams.get(`car_type`) || ``;
+  const capacity = searchParams.get(`car_capacity`) || ``;
+  const height = searchParams.get(`car_height`) || ``;
+  const car_type_name = searchParams.get(`car_type_name`) || ``;
   const cargo_guid = searchParams.get(`cargo_guid`);
   const dispatcher_id = searchParams.get(`dispatcher_id`);
-  const disId = authStore.userData.id;
-  const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
@@ -80,7 +86,7 @@ export const useGpsTrackingProps = (locale) => {
     waiting_for_driver: true,
   });
 
-  const [debouncedValue] = useDebounce(distance, 500);
+  const [debouncedValueDriver] = useDebounce(watch(`driver_search`), 500);
 
   useEffect(() => {
     if (checked) {
@@ -139,7 +145,7 @@ export const useGpsTrackingProps = (locale) => {
               cargo_id_data: res?.response?.[0],
             },
           ],
-          disp_data: [{ users_id_2: dispatcher_id }]
+          disp_data: [{ users_id_2: dispatcher_id }],
         };
         setCurrentUserLocationData(objContend);
         if (provisions === "empty") {
@@ -155,15 +161,6 @@ export const useGpsTrackingProps = (locale) => {
       enabled: Boolean(cargo_guid),
     }
   );
-
-  const {
-    register,
-    control,
-    watch,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   const {
     fields: locations,
@@ -222,7 +219,7 @@ export const useGpsTrackingProps = (locale) => {
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
     if (multiRoute) {
-      const intervalLocations = locationNames.filter((item) => item !== "");
+      const intervalLocations = locationNames?.filter((item) => item !== "");
       multiRoute.model.setReferencePoints([
         watch("from"),
         ...intervalLocations,
@@ -317,6 +314,52 @@ export const useGpsTrackingProps = (locale) => {
 
   const getMeasurement = useGetMeasurement();
 
+  const { data: dataDis } = useGetCreateAddress({
+    data: {
+      data: {
+        object_data: {
+          type: "ceo",
+          filter: `active`,
+        },
+      },
+    },
+    querySettings: {
+      select: (res) =>
+        res?.response?.map((item) => ({
+          value: item?.first_dispatcher_data?.guid,
+          label: item?.first_dispatcher_data?.full_name,
+        })),
+    },
+  });
+
+  const {
+    data: getCarData,
+    isFetching: driverLoading,
+    refetch,
+  } = useGetCarData({
+    data: {
+      data: {
+        object_data: {
+          page: debouncedValueDriver?.length > 0 ? 0 : 1,
+          search: debouncedValueDriver,
+          limit: debouncedValueDriver?.length > 0 ? 1000 : 10,
+          type: "ceo",
+          dispatcher_id: watch(`dispatcher`)?.value,
+          sort_time: `default`,
+        },
+      },
+    },
+    querySettings: {
+      refetchOnWindowFocus: false,
+      select: (res) =>
+        res?.response?.map((item) => ({
+          value: item?.dispatcher_full_data?.guid,
+          label: item?.full_name,
+          gps_data: item?.gps_data,
+        })),
+    },
+  });
+
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
     ?.map((item) => ({
@@ -330,28 +373,52 @@ export const useGpsTrackingProps = (locale) => {
   }, [getMeasurement.isSuccess]);
 
   const [carsArr, setCarsArr] = useState([]);
-  const toast = useToast();
 
-  const { mutate: dataMutate, isLoading } = useGetCarDispatcher({
-    onSuccess: (data) => {
-      if (data?.response?.length) {
-        let data2 = data?.response?.map((item) => ({
-          ...item,
-          user: item?.users_id_data?.[0],
-          vehicles: [item?.vehicle_id_data],
-          firm_data: item?.firm_data,
-          users_gps: [item],
-          orders: item?.order_data ? [item?.order_data] : undefined,
-        }));
-   
-        setCarsArr((res) => [...res, ...data2]);
-      }
+  const { data: dataDriverMap, isLoading } = useGetCarDispatcherPost({
+    data: {
+      data: {
+        object_data: {
+          lat: watch("cor")?.split(",")[0],
+          long: watch("cor")?.split(",")[1],
+          number: distance * 4 || 100,
+          load_type_id: watch("load_type_id")?.value,
+          weight: watch("weight"),
+          volume: watch("volume"),
+          limit: 1000,
+          page: offset,
+          type: "ceo",
+          first_dispatcher_id: watch(`dispatcher`)?.value,
+          driver_id: watch(`driver`)?.value,
+          dispetchir_id: watch(`dispatcher`)?.value,
+          filter: `active`
+        },
+      },
+    },
+    querySettings: {
+      onSuccess: (data) => {
+        if (data?.response?.length) {
+          let data2 = data?.response?.map((item) => ({
+            ...item,
+            user: {
+              ...item?.users_id_data?.[0],
+              provisions: item?.order_data
+                ? [`our_cargo`]
+                : item?.users_id_data?.[0]?.provisions,
+            },
+            vehicles: [item?.vehicle_id_data],
+            firm_data: item?.firm_data,
+            users_gps: [item],
+            orders: item?.order_data ? [item?.order_data] : undefined,
+          }));
+          setCarsArr(data2);
+        }
+      },
+      refetchOnWindowFocus: false,
     },
   });
 
-
   useEffect(() => {
-    if (guid || !cargo_guid) {
+    if (guid && !cargo_guid) {
       const objContend = {
         user: {
           full_name,
@@ -362,7 +429,7 @@ export const useGpsTrackingProps = (locale) => {
         users_gps: [
           {
             battery,
-            update_time:createdAt,
+            update_time: createdAt,
             os,
             lat,
             long,
@@ -382,7 +449,7 @@ export const useGpsTrackingProps = (locale) => {
             },
           },
         ],
-        disp_data: [{ users_id_2: dispatcher_id }]
+        disp_data: [{ users_id_2: dispatcher_id }],
       };
       setCurrentUserLocationData(objContend);
       if (provisions === "empty") {
@@ -396,7 +463,6 @@ export const useGpsTrackingProps = (locale) => {
       }
     }
   }, []);
-
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -446,7 +512,7 @@ export const useGpsTrackingProps = (locale) => {
 
   const filteredData = filterData(carsArr, checkboxStatuses);
 
-  const uniqueData = filteredData.reduce((acc, current) => {
+  const uniqueData = filteredData?.reduce((acc, current) => {
     const xistingItem = acc.find(
       (item) => item?.user?.guid === current?.user?.guid
     );
@@ -456,7 +522,7 @@ export const useGpsTrackingProps = (locale) => {
     return acc;
   }, []);
 
-  const dataUserDataID = dataUserID.reduce((acc, current) => {
+  const dataUserDataID = dataUserID?.reduce((acc, current) => {
     const xistingItem = acc.find(
       (item) => item?.user?.guid === current?.user?.guid
     );
@@ -466,7 +532,7 @@ export const useGpsTrackingProps = (locale) => {
     return acc;
   }, []);
 
-  const carTypeDataFIlter = uniqueData.filter(
+  const carTypeDataFIlter = uniqueData?.filter(
     (item) =>
       item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
       watch(`car_type`)?.value
@@ -485,7 +551,7 @@ export const useGpsTrackingProps = (locale) => {
     watch(`car_type`)?.value,
     dataUserID,
     filteredData,
-    carsArr?.length,
+    carsArr,
     uniqueData,
   ]);
 
@@ -498,12 +564,23 @@ export const useGpsTrackingProps = (locale) => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
-
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
-      router.push(`/${locale}/gps-tracking-dispatcher`);
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `top_dispatcher`,
+          action_comment: `unpin_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setCenterModalType(``);
       setAddressAdd("");
       if (iconStatus === "empty") {
@@ -536,39 +613,12 @@ export const useGpsTrackingProps = (locale) => {
     userUpdate({ data: body });
   };
 
-  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
+  const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
+    console.log("offsetCar");
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
-
-  useEffect(() => {
-    if (!watch("aaddress")) {
-      dataMutate({
-        data: {
-          object_data: {
-            lat: watch("cor")?.split(",")[0],
-            long: watch("cor")?.split(",")[1],
-            number: distance * 4 || 100,
-            load_type_id: watch("load_type_id")?.value,
-            weight: +watch("weight"),
-            volume: +watch("volume"),
-            limit: 1000,
-            page: offset,
-            type: "dispatcher",
-            first_dispatcher_id: disId,
-          },
-        },
-      });
-    }
-  }, [
-    watch("cor")?.split(",")[0],
-    debouncedValue,
-    watch("load_type_id")?.value,
-    watch("weight"),
-    watch("volume"),
-    offset,
-  ]);
 
   const handleClear = () => {
     setOffset(0);
@@ -578,6 +628,8 @@ export const useGpsTrackingProps = (locale) => {
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
+    setValue("dispatcher", null);
+    setValue("driver", null);
     setDistance(50);
     setCheckboxStatuses({
       empty: true,
@@ -588,6 +640,24 @@ export const useGpsTrackingProps = (locale) => {
     });
     setLoadCheck(true);
   };
+  const onSubmit = (data) => {
+    const [lat, long] = data.cor.split(",");
+    mutate({
+      data: {
+        object_data: {
+          lat,
+          long,
+          number: distance || "100",
+          // car_type_id: watch("car_type")?.value,
+          load_type_id: watch("load_type_id")?.value,
+          weight: watch("weight"),
+          volume: watch("volume"),
+          limit: 40,
+          page: offset,
+        },
+      },
+    });
+  };
 
   const statusIconChange = () => {
     const body = {
@@ -595,19 +665,6 @@ export const useGpsTrackingProps = (locale) => {
       provisions: [iconStatus],
     };
     userUpdate({ data: body });
-    actionCreate({
-      data: {
-        user_name: authStore.userData.full_name,
-        phone_number: authStore.userData?.phone,
-        user_id: authStore.userData.guid,
-        increment_id: currentUserLocationData?.user.your_id,
-        action_time: new Date(),
-        role_slug: `first_dispatcher`,
-        action_comment: `changed_driver_status`,
-        role_id: authStore.userData?.role_id,
-        action_type: [`update`],
-      },
-    });
   };
 
   const handleCheckboxChange = (status) => {
@@ -649,6 +706,7 @@ export const useGpsTrackingProps = (locale) => {
     weightMeasurementOptions,
     control,
     getCarListProps,
+    onSubmit,
     handleSubmit,
     driverName: true,
     isLoading: isLoading,
@@ -687,8 +745,12 @@ export const useGpsTrackingProps = (locale) => {
     stateMap,
     addAdress,
     setLocationData,
+    refueling: remainingData,
+    dataDis: dataDis,
+    getCarData: getCarData?.filter((item) => item?.gps_data),
+    driverLoading,
+    setCarsArr,
     isBalloonOpened,
     setIsBalloonOpened,
-    refueling: remainingData,
   };
 };

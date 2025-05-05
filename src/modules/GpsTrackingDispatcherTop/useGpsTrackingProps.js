@@ -635,37 +635,6 @@ export const useGpsTrackingProps = () => {
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
-  // useEffect(() => {
-  //   if (!watch("aaddress")) {
-  //     dataMutate({
-  //       data: {
-  //         object_data: {
-  //           lat: watch("cor")?.split(",")[0],
-  //           long: watch("cor")?.split(",")[1],
-  //           number: distance * 4 || 100,
-  //           load_type_id: watch("load_type_id")?.value,
-  //           weight: watch("weight"),
-  //           volume: watch("volume"),
-  //           limit: 1000,
-  //           page: offset,
-  //           type: "top_dispatcher",
-  //           first_dispatcher_id:watch(`dispatcher`)?.value,
-  //           driver_id:watch(`driver`)?.value,
-  //           dispetchir_id: disId,
-  //         },
-  //       },
-  //     });
-  //   }
-  // }, [
-  //   watch("cor")?.split(",")[0],
-  //   debouncedValue,
-  //   watch(`dispatcher`)?.value,
-  //   watch("load_type_id")?.value,
-  //   watch(`driver`)?.value,
-  //   watch("weight"),
-  //   watch("volume"),
-  //   offset,
-  // ]);
 
   const handleClear = () => {
     setOffset(0);
