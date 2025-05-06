@@ -13,6 +13,8 @@ import Image from "next/image";
 import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
+import Getapps from "@/assets/images/getapps.svg";
+
 import card1Img from "@/assets/images/card1.jpg";
 import card2Img from "@/assets/images/card2.jpg";
 import card3Img from "@/assets/images/card3.jpg";
@@ -272,6 +274,21 @@ const MainPage = ({ locale }) => {
                       </a>
 
                       <a
+                        className={cls.mobileAppLink}
+                        href={
+                          "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                        }
+                        target="_blank"
+                      >
+                        <Image
+                          src={Getapps}
+                          alt="Getapps store"
+                          width={135}
+                          height={40}
+                        />
+                      </a>
+
+                      {/* <a
                         onClick={() => downloadFn()}
                         style={{ cursor: `pointer` }}
                         download
@@ -285,7 +302,7 @@ const MainPage = ({ locale }) => {
                           width={135}
                           height={40}
                         />
-                      </a>
+                      </a> */}
                     </Flex>
                   </Box>
                   <Box

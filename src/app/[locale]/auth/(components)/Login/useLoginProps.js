@@ -3,7 +3,6 @@ import { useGetLang } from "@/hooks/useGetLang";
 import {
   useGetUseMutation,
   useGetUserGpsBYData,
-  useGetUserGpsByIDData,
   useGoogleRigister,
   useLoginMutation,
   useOneLoginMutation,
