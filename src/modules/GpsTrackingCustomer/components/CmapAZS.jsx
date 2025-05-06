@@ -66,7 +66,7 @@ const CmapAZS = memo(
     }, []);
 
     if (!isClient) {
-      return null; 
+      return null;
     }
 
     const copyFn = (refuelData) => {
@@ -237,7 +237,6 @@ const CmapAZS = memo(
         >
           {getCarListProps?.data &&
             getCarListProps?.data?.map((carInfo) => {
-             
               const balloonContent2 = ReactDOMServer.renderToString(
                 <BalloonContent cls={cls} carInfo={carInfo} t={t} />
               );
@@ -292,9 +291,84 @@ const CmapAZS = memo(
 
           {locationData &&
             locationData.map((item, index) => {
-         
+              const BalloonContentCargo = () => (
+                <div
+                  id="balloon-content_cargo"
+                  className={cls.balloon_content_empty}
+                >
+                  <div className={cls.wrap} style={{ height: "45px" }}>
+                    {item?.new_status?.[0] === "occupied_cargo" ? (
+                      <>
+                        <MapCargoLoadGoodsIcon />
+                        <span
+                          style={{ color: "rgba(193, 187, 32, 1)" }}
+                          className={cls.balloonName}
+                        >
+                          {item?.bid_cash || `$-----`}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <MapCargoGreenIcon />
+                        <span className={cls.balloonName}>
+                          {item?.bid_cash || `$-----`}
+                          {item?.currency_id_data?.code}
+                        </span>
+                      </>
+                    )}
+
+                    <Flex style={{ gap: "4px" }} alignItems={"center"}>
+                      <Box className={cls.conWrap}>
+                        <StoneIcon /> <span> {item?.weight} т.</span>
+                      </Box>
+                      <p className={cls.conWrap}> </p>
+                      <p className={cls.conWrap} gap={1} alignItems={"center"}>
+                        <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
+                      </p>
+                    </Flex>
+                  </div>
+                  <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
+                  {item?.new_status?.[0] === "occupied_cargo" ? (
+                    <>
+                      <div className={cls.flex}>
+                        <GoodsPhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${item?.users_id_data?.phone}`}
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(item?.users_id_data?.phone)}
+                        </a>
+                      </div>
+
+                      <p className={cls.footerBox}>
+                        <GoodsFuraIcon />
+                        {item?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <div className={cls.flex}>
+                        <GreenPhoneIcon />
+                        <a
+                          target="_blank"
+                          href={`https://t.me/${item?.users_id_data?.phone}`}
+                          className={cls.footerBoxLink}
+                        >
+                          {formatPhoneNumber(item?.users_id_data?.phone)}
+                        </a>
+                      </div>
+
+                      <p className={cls.footerBox}>
+                        <GreenFuraIcon />
+                        {item?.vehicle_type_id_data?.name}
+                      </p>
+                    </>
+                  )}
+                </div>
+              );
               const balloonContentCargo = ReactDOMServer.renderToString(
-                <BalloonContent cls={cls} carInfo={carInfo} t={t} />
+                <BalloonContentCargo />
               );
               return (
                 <>
@@ -326,7 +400,6 @@ const CmapAZS = memo(
                         iconImageSize: [60, 72],
                         iconImageOffset: [-15, -42],
                       }}
-                
                     />
                   )}
                 </>

@@ -197,7 +197,7 @@ const Cmap = memo(
             setType(``);
             mapRef.current.geoObjects.remove(multiRouteRef.current);
             multiRouteRef.current = null;
-            setIsBalloonOpened(false);
+            // setIsBalloonOpened(false);
             closeRouteBalloon();
             setBallonRef(false);
             setSelecting(false);
