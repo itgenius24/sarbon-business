@@ -34,19 +34,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: "vault-auth"
 
-podAnnotations:
-  vault.hashicorp.com/agent-inject: "true"
-  vault.hashicorp.com/auth-path: "auth/kubernetes-furgo"
-  vault.hashicorp.com/agent-inject-secret-.env: "secret/data/k8s/furgo-test/frontend"
-  vault.hashicorp.com/secret-volume-path-.env: "/furgo"
-  vault.hashicorp.com/role: "furgo-test"
-  vault.hashicorp.com/agent-inject-template-.env: |
-    {{- with secret "secret/data/k8s/furgo-test/frontend" -}}
-    {{- range $key, $value := .Data.data }}
-    {{ $key }}: {{ $value }}
-    {{- end }}
-    {{ end -}}
-
 podLabels:
   app: xlogistic_frontend
 
