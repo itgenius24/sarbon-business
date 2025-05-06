@@ -10,6 +10,8 @@ build-test:
   stage: build
   extends: .build_template
   variables:
+    GITLAB_ENV_FILE: $STAGING_ENV
+    ENV_FILE: .env
     ENV_TAG: test
     DOCKERFILE: Dockerfile
   only:
@@ -19,6 +21,8 @@ build-prod:
   stage: build
   extends: .build_template
   variables:
+    GITLAB_ENV_FILE: $PROD_ENV
+    ENV_FILE: .env
     ENV_TAG: latest
     DOCKERFILE: Dockerfile
   only:
