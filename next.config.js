@@ -1,8 +1,26 @@
 /** @type {import('next').NextConfig} */
 
 const path = require("path");
+const dotenv = require('dotenv');
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
+    NEXT_PUBLIC_BASIC_URL: process.env.NEXT_PUBLIC_BASIC_URL,
+    NEXT_PUBLIC_BASIC_INVOKE_URL: process.env.NEXT_PUBLIC_BASIC_INVOKE_URL,
+    NEXT_PUBLIC_BASIC_INVOKE_STAGING_PREFIX_URL: process.env.NEXT_PUBLIC_BASIC_INVOKE_STAGING_PREFIX_URL,
+    NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
+    NEXT_PUBLIC_MEDIA_URL: process.env.NEXT_PUBLIC_MEDIA_URL,
+    NEXT_PUBLIC_YANDEX_MAP_KEY: process.env.NEXT_PUBLIC_YANDEX_MAP_KEY,
+    NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY: process.env.NEXT_PUBLIC_YANDEX_MAP_SUGGEST_KEY,
+    NEXT_PUBLIC_CUSTOMER_TYPE_ID: process.env.NEXT_PUBLIC_CUSTOMER_TYPE_ID,
+    NEXT_PUBLIC_EXPEDITOR_TYPE_ID: process.env.NEXT_PUBLIC_EXPEDITOR_TYPE_ID,
+    NEXT_PUBLIC_DISPACR_TYPE_ID: process.env.NEXT_PUBLIC_DISPACR_TYPE_ID,
+    NEXT_PUBLIC_ANALITIK_TYPE_ID: process.env.NEXT_PUBLIC_ANALITIK_TYPE_ID,
+    NEXT_PUBLIC_DILLER_TYPE_ID: process.env.NEXT_PUBLIC_DILLER_TYPE_ID,
+  },
   // eslint: {
   //   ignoreDuringBuilds: true,
   // },

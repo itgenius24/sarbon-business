@@ -220,7 +220,7 @@ export const Registration = () => {
                           <Image
                             src={Getapps}
                             alt="Getapps store"
-                            width={135}
+                            width={135} 
                             height={40}
                           />
                         </a>
