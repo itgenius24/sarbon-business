@@ -1,9 +1,8 @@
 import {
-  BluePendingIcon,
+
   CencelMapIcon,
   CheckBlueIcon,
-  CheckModalIcon,
-  CloseIconModal,
+    CloseIconModal,
   GreenCarIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
