@@ -108,12 +108,12 @@ export const TextFieldWithAddition = ({
                     }}
                   >
                     <div className={cls.additionalItemLabelWrapper}>
-                      <span className={cls.additionalItemLabelText}>
+                      <p className={cls.additionalItemLabelText}>
                         {field.value?.label ||
                           additionalItemOptions?.[additionalItemDefaultIndex]
                             ?.label ||
                           additionalItemPlaceholder}
-                      </span>
+                      </p>
                       {additionalItemOptions.length > 0 && (
                         <span>
                           <SelectionArrow />

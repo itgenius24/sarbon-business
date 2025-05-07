@@ -162,7 +162,7 @@ const StepOne = ({ status }) => {
                       // additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("Вес")}
-                      additionalItemPlaceholder="T"
+                      additionalItemPlaceholder="т"
                       // additionalItemOptions={weightMeasurementOptions}
                       disabled={!canEdit}
                       type="text"
@@ -235,7 +235,7 @@ const StepOne = ({ status }) => {
                       register={register}
                       width="160px"
                       placeholder={t("Объем")}
-                      additionalItemPlaceholder="m³"
+                      additionalItemPlaceholder="м³"
                       disabled={!canEdit}
                       onKeyDown={(e) => {
                         const allowedKeys = [
