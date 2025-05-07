@@ -4,16 +4,13 @@ import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useTranslation } from "@/app/i18n/client";
 import { Box, Flex } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
+import { useGetNewPredData } from "@/services/api";
+import { useForm } from "react-hook-form";
 const Filter = ({
   cls,
   locale,
-  control,
-  watch,
-  register,
-  setValue,
-  errors,
   carTypeOptions,
   handleClear,
   checkboxStatuses,
@@ -23,13 +20,24 @@ const Filter = ({
   setLoadCheck,
   loadCheck,
   dataDis,
-  getCarData,
+  setDriverVal,
+  setDisVal,
   setCarsArr,
   mapRef,
+  disVal,driverVal,
 }) => {
+  const {
+    register,
+    control,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const { t } = useTranslation(locale);
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState();
+  const [disName, setDisName] = useState();
+  const [debouncedValueDriver] = useDebounce(watch(`driver_search`), 500);
   const [debouncedValue] = useDebounce(address, 800);
 
   const hanleAdress = (location, name) => {
@@ -65,6 +73,39 @@ const Filter = ({
       handleGeocode();
     }
   }, [debouncedValue]);
+
+  const searchUser = useMemo(() => {
+    if (disName) {
+      return dataDis?.filter((user) =>
+        user?.label?.toLowerCase()?.includes(disName?.toLowerCase())
+      );
+    } else {
+      return dataDis;
+    }
+  }, [disName, dataDis]);
+
+  const {
+    data: getCarData,
+  } = useGetNewPredData({
+    data: {
+      data: {
+        object_data: {
+          search: debouncedValueDriver,
+          type: "ceo",
+          dispetchir_id: watch(`dispatcher`)?.value,
+        },
+      },
+    },
+    querySettings: {
+      refetchOnWindowFocus: false,
+      select: (res) =>
+        res?.response?.map((item) => ({
+          value: item?.users_data?.guid,
+          label: item?.users_data?.full_name || ``,
+          gps_data: item?.gps_data,
+        })),
+    },
+  });
 
   return (
     <div className={cls.filter}>
@@ -115,8 +156,7 @@ const Filter = ({
             {results.length > 0 && address?.length > 0 && (
               <Box className={cls.optionsWrap}>
                 {results?.map((location, idx) => {
-                  const text =
-                  location?.GeoObject?.name || "";
+                  const text = location?.GeoObject?.name || "";
 
                   const highlightText = (text, search) => {
                     if (!search) return text;
@@ -156,42 +196,71 @@ const Filter = ({
             placeholder={t("Диспетчер")}
             label={t("Диспетчер")}
             name="dispatcher"
-            options={dataDis}
+            options={searchUser}
+            defaultValue={disVal}
             errors={errors}
             control={control}
             watch={watch}
             setValue={setValue}
-            handleInputClear={handleInputClear}
+            clearFn={() => {
+              setDisName(``);
+              setDisVal(null);
+            }}
             clearable
+            searchable
+            register={register}
+            searchName="dis_search"
+            onSearchChange={(e) => setDisName(e.target.value)}
             onChangeSelect={(e) => {
+              setDisVal(e);
               setCarsArr([]);
-              handleInputClear;
+              handleInputClear();
             }}
           />
           <Dropdown
             placeholder={t("Водитель")}
             label={t("Водитель")}
             name="driver"
+            defaultValue={driverVal}
+
             options={getCarData}
             errors={errors}
             register={register}
             control={control}
             watch={watch}
             setValue={setValue}
-            handleInputClear={handleInputClear}
             clearable
             searchable
+            clearFn={() => {
+              setDriverVal(null);
+            }}
             searchName="driver_search"
             isLoading={false}
-            onChangeSelect={() => {
+            onChangeSelect={(e) => {
+              setDriverVal(e);
               setCarsArr([]);
-              handleInputClear;
+              handleInputClear();
             }}
           />
         </Box>
-     
+
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
+          <Flex flexDirection={"column"} rowGap={2}>
+              <Dropdown
+                placeholder={t("Все типы кузова")}
+                // label={t("Тип кузова")}
+                name="car_type"
+                options={carTypeOptions}
+                errors={errors}
+                width="100%"
+                control={control}
+                watch={watch}
+                handleInputClear={handleInputClear}
+                setValue={setValue}
+                clearable
+              />
+            </Flex>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
             <Checkbox
               width={"16px"}
@@ -206,7 +275,9 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.our_cargo}
-              onChange={() => handleCheckboxChange("our_cargo","waiting_for_driver")}
+              onChange={() =>
+                handleCheckboxChange("our_cargo", "waiting_for_driver")
+              }
             >
               {t("Занятые с нашим грузом")}
             </Checkbox>
@@ -249,24 +320,9 @@ const Filter = ({
             >
               {t("Заправки")}
             </Checkbox>
-            <Flex flexDirection={"column"} rowGap={2}>
-            <Dropdown
-              placeholder={t("Все типы кузова")}
-              // label={t("Тип кузова")}
-              name="car_type"
-              options={carTypeOptions}
-              errors={errors}
-              width="100%"
-              control={control}
-              watch={watch}
-              handleInputClear={handleInputClear}
-              setValue={setValue}
-              clearable
-            />
-          </Flex>
+        
           </Flex>
         </Box>
-     
       </Flex>
     </div>
   );

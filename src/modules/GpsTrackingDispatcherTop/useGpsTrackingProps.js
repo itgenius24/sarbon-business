@@ -38,16 +38,7 @@ export const useGpsTrackingProps = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const locale = useGetLang();
-  const role_id = authStore.userData.role_id;
   const disId = authStore.userData.id;
-  const firm_id =
-    role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
-      ? authStore.userData.firm_id
-      : ``;
-
-  const { t } = useTranslation(locale, "translations");
-
   const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
   const mapRef = useRef(null);
@@ -88,6 +79,8 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [isBalloonOpened, setIsBalloonOpened] = useState(false);
+  const [disVal, setDisVal] = useState({});
+  const [driverVal, setDriverVal] = useState({});
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -95,8 +88,6 @@ export const useGpsTrackingProps = () => {
     broke_down: true,
     waiting_for_driver: true,
   });
-
-  const [debouncedValueDriver] = useDebounce(watch(`driver_search`), 500);
 
   useEffect(() => {
     if (checked) {
@@ -225,7 +216,6 @@ export const useGpsTrackingProps = () => {
 
   const multiRouteRef = useRef(null);
 
-
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
     if (multiRoute) {
@@ -329,7 +319,6 @@ export const useGpsTrackingProps = () => {
       data: {
         object_data: {
           type: "top_dispatcher",
-          // search: debouncedValueDIs,
           filter: `active`,
           dispatcher_id: authStore.userData.guid,
         },
@@ -340,35 +329,6 @@ export const useGpsTrackingProps = () => {
         res?.response?.map((item) => ({
           value: item?.first_dispatcher_data?.guid,
           label: item?.first_dispatcher_data?.full_name,
-        })),
-    },
-  });
-
-  const {
-    data: getCarData,
-    isFetching: driverLoading,
-    refetch,
-  } = useGetCarData({
-    data: {
-      data: {
-        object_data: {
-          page: debouncedValueDriver?.length > 0 ? 0 : 1,
-          search: debouncedValueDriver,
-          limit: debouncedValueDriver?.length > 0 ? 1000 : 500,
-          type: "dispatcher",
-          dispatcher_id: authStore.userData.guid,
-          first_dispatcher_id: watch(`dispatcher`)?.value,
-          sort_time: `default`,
-        },
-      },
-    },
-    querySettings: {
-      refetchOnWindowFocus: false,
-      select: (res) =>
-        res?.response?.map((item) => ({
-          value: item?.guid,
-          label: item?.full_name,
-          gps_data: item?.gps_data,
         })),
     },
   });
@@ -401,8 +361,8 @@ export const useGpsTrackingProps = () => {
           limit: 1000,
           page: offset,
           type: "top_dispatcher",
-          first_dispatcher_id: watch(`dispatcher`)?.value,
-          driver_id: watch(`driver`)?.value,
+          first_dispatcher_id: disVal?.value,
+          driver_id: driverVal?.value,
           dispetchir_id: disId,
         },
       },
@@ -634,7 +594,6 @@ export const useGpsTrackingProps = () => {
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
-
   const handleClear = () => {
     setOffset(0);
     setValue("cor", ``);
@@ -682,20 +641,19 @@ export const useGpsTrackingProps = () => {
     userUpdate({ data: body });
   };
 
-  const handleCheckboxChange = (status,status_waiting) => {
-    if(status_waiting){
+  const handleCheckboxChange = (status, status_waiting) => {
+    if (status_waiting) {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
         [status_waiting]: !prevState[status_waiting],
       }));
-    }else{
+    } else {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
       }));
     }
-  
   };
 
   const handleInputClear = () => {
@@ -771,11 +729,12 @@ export const useGpsTrackingProps = () => {
     setLocationData,
     refueling: remainingData,
     dataDis: dataDis,
-    getCarData: getCarData?.filter((item) => item?.gps_data),
-    driverLoading,
     setCarsArr,
     isBalloonOpened,
     setIsBalloonOpened,
-    mapRef
+    mapRef,
+    setDisVal,
+    disVal,driverVal,
+    setDriverVal,
   };
 };

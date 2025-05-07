@@ -22,7 +22,7 @@ import LoadingMap from "../Cargo/components/LoadingMap";
 import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 
-export default function GpsTrackingDispatcherTop({locale}) {
+export default function GpsTrackingDispatcherTop({ locale }) {
   const {
     register,
     errors,
@@ -74,14 +74,14 @@ export default function GpsTrackingDispatcherTop({locale}) {
     refueling,
     locationPending,
     dataDis,
-    getCarData,
-    driverLoading,
     setCarsArr,
-    isBalloonOpened, setIsBalloonOpened,
-    mapRef
+    isBalloonOpened,
+    setIsBalloonOpened,
+    mapRef,
+    setDisVal,
+    setDriverVal,
+    disVal,driverVal,
   } = useGpsTrackingProps();
-
-
 
   const { t } = useTranslation(locale, "translations");
 
@@ -94,7 +94,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
             cls={cls}
             getCarListProps={!isLoading ? getCarListProps : []}
             coordinates={coordinates}
-            locationData={ !locationPending && loadCheck ? locationData : []}
+            locationData={!locationPending && loadCheck ? locationData : []}
             setLoadState={setLoadState}
             setModalType={setModalType}
             mapIcon={mapIcon}
@@ -108,7 +108,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
             cls={cls}
             getCarListProps={!isLoading ? getCarListProps : []}
             coordinates={coordinates}
-            locationData={ !locationPending && loadCheck ? locationData : []}
+            locationData={!locationPending && loadCheck ? locationData : []}
             setLoadState={setLoadState}
             setModalType={setModalType}
             mapIcon={mapIcon}
@@ -123,7 +123,6 @@ export default function GpsTrackingDispatcherTop({locale}) {
           />
         )}
 
-       
         <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>
@@ -139,11 +138,8 @@ export default function GpsTrackingDispatcherTop({locale}) {
               {modalType === "filter" && (
                 <Filter
                   cls={cls}
-                  watch={watch}
-                  setValue={setValue}
                   getUserOption={getUserOption}
                   loadingOptions={loadingOptions}
-                  register={register}
                   setDistance={setDistance}
                   distance={distance}
                   handleClear={handleClear}
@@ -152,17 +148,18 @@ export default function GpsTrackingDispatcherTop({locale}) {
                   t={t}
                   setModalType={setModalType}
                   handleInputClear={handleInputClear}
-                  control={control}
                   handleOpenModal={handleOpenModal}
-                  errors={errors}
                   carTypeOptions={carTypeOptions}
                   checkboxStatuses={checkboxStatuses}
                   handleCheckboxChange={handleCheckboxChange}
                   dataDis={dataDis}
-                  getCarData={getCarData}
-                  driverLoading={driverLoading}
                   setCarsArr={setCarsArr}
                   mapRef={mapRef}
+                  setDisVal={setDisVal}
+                  setDriverVal={setDriverVal}
+                  disVal={disVal}
+                  driverVal={driverVal}
+
                 />
               )}
               {modalType === "driverFree" && (

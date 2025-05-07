@@ -74,12 +74,13 @@ export default function GpsTrackingCeo({ locale }) {
     refueling,
     locationPending,
     dataDis,
-    getCarData,
     driverLoading,
     setCarsArr,
     isBalloonOpened,
     setIsBalloonOpened,
     mapRef,
+    setDriverVal,setDisVal,
+    disVal,driverVal,
   } = useGpsTrackingProps();
 
   const { t } = useTranslation(locale, "translations");
@@ -139,11 +140,8 @@ export default function GpsTrackingCeo({ locale }) {
                 {modalType === "filter" && (
                   <Filter
                     cls={cls}
-                    watch={watch}
-                    setValue={setValue}
                     getUserOption={getUserOption}
                     loadingOptions={loadingOptions}
-                    register={register}
                     setDistance={setDistance}
                     distance={distance}
                     handleClear={handleClear}
@@ -152,17 +150,17 @@ export default function GpsTrackingCeo({ locale }) {
                     t={t}
                     setModalType={setModalType}
                     handleInputClear={handleInputClear}
-                    control={control}
                     handleOpenModal={handleOpenModal}
-                    errors={errors}
                     carTypeOptions={carTypeOptions}
                     checkboxStatuses={checkboxStatuses}
                     handleCheckboxChange={handleCheckboxChange}
                     dataDis={dataDis}
-                    getCarData={getCarData}
-                    driverLoading={driverLoading}
                     setCarsArr={setCarsArr}
                     mapRef={mapRef}
+                    setDriverVal={setDriverVal}
+                    setDisVal={setDisVal}
+                    disVal={disVal}
+                    driverVal={driverVal}
                   />
                 )}
                 {modalType === "driverFree" && (

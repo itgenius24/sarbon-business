@@ -4,17 +4,15 @@ import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useTranslation } from "@/app/i18n/client";
 import { Box, Flex } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
+import { useForm } from "react-hook-form";
+import { useGetCarData } from "@/services/api";
+import authStore from "@/store/auth.store";
 
 const Filter = ({
   cls,
   locale,
-  control,
-  watch,
-  register,
-  setValue,
-  errors,
   carTypeOptions,
   handleClear,
   checkboxStatuses,
@@ -24,15 +22,26 @@ const Filter = ({
   setLoadCheck,
   loadCheck,
   dataDis,
-  getCarData,
   setCarsArr,
-  mapRef
+  mapRef,
+  setDisVal,
+  setDriverVal,
+  disVal,driverVal,
 }) => {
   const { t } = useTranslation(locale);
 
+  const {
+    register,
+    control,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState();
   const [debouncedValue] = useDebounce(address, 800);
+  const [debouncedValueDriver] = useDebounce(watch(`driver_search`), 500);
+  const [disName, setDisName] = useState();
 
   const hanleAdress = (location, name) => {
     mapRef.current.setCenter(
@@ -67,6 +76,43 @@ const Filter = ({
       handleGeocode();
     }
   }, [debouncedValue]);
+
+  const searchUser = useMemo(() => {
+    if (disName) {
+      return dataDis?.filter((user) =>
+        user?.label?.toLowerCase()?.includes(disName?.toLowerCase())
+      );
+    } else {
+      return dataDis;
+    }
+  }, [disName, dataDis]);
+
+  const { data: getCarData } = useGetCarData({
+    data: {
+      data: {
+        object_data: {
+          page: debouncedValueDriver?.length > 0 ? 0 : 1,
+          search: debouncedValueDriver,
+          limit: debouncedValueDriver?.length > 0 ? 1000 : 500,
+          type: "dispatcher",
+          dispatcher_id: authStore.userData.guid,
+          first_dispatcher_id: watch(`dispatcher`)?.value,
+          sort_time: `default`,
+        },
+      },
+    },
+    querySettings: {
+      refetchOnWindowFocus: false,
+      select: (res) =>
+        res?.response
+          ?.filter((item) => item?.gps_data)
+          ?.map((item) => ({
+            value: item?.guid,
+            label: item?.full_name,
+            gps_data: item?.gps_data,
+          })),
+    },
+  });
 
   return (
     <div className={cls.filter}>
@@ -157,19 +203,29 @@ const Filter = ({
             placeholder={t("Диспетчер")}
             label={t("Диспетчер")}
             name="dispatcher"
-            options={dataDis}
+            options={searchUser}
             errors={errors}
             control={control}
+            defaultValue={disVal}
             watch={watch}
             setValue={setValue}
-            handleInputClear={handleInputClear}
+            clearFn={() => {
+              setDisName(``);
+              setDisVal(null);
+            }}
             clearable
+            searchable
+            register={register}
+            searchName="dis_search"
+            onSearchChange={(e) => setDisName(e.target.value)}
             onChangeSelect={(e) => {
+              setDisVal(e);
               setCarsArr([]);
-              handleInputClear;
+              handleInputClear();
             }}
           />
           <Dropdown
+            defaultValue={driverVal}
             placeholder={t("Водитель")}
             label={t("Водитель")}
             name="driver"
@@ -184,7 +240,11 @@ const Filter = ({
             searchable
             searchName="driver_search"
             isLoading={false}
-            onChangeSelect={() => {
+            clearFn={() => {
+              setDriverVal(null);
+            }}
+            onChangeSelect={(e) => {
+              setDriverVal(e);
               setCarsArr([]);
               handleInputClear;
             }}
@@ -193,6 +253,20 @@ const Filter = ({
 
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
+          <Flex flexDirection={"column"} rowGap={2}>
+            <Dropdown
+              placeholder={t("Все типы кузова")}
+              name="car_type"
+              options={carTypeOptions}
+              errors={errors}
+              width="100%"
+              control={control}
+              watch={watch}
+              handleInputClear={handleInputClear}
+              setValue={setValue}
+              clearable
+            />
+          </Flex>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
             <Checkbox
               width={"16px"}
@@ -207,7 +281,9 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.our_cargo}
-              onChange={() => handleCheckboxChange("our_cargo",`waiting_for_driver`)}
+              onChange={() =>
+                handleCheckboxChange("our_cargo", `waiting_for_driver`)
+              }
             >
               {t("Занятые с нашим грузом")}
             </Checkbox>
@@ -248,21 +324,6 @@ const Filter = ({
             >
               {t("Заправки")}
             </Checkbox>
-            <Flex flexDirection={"column"} rowGap={2}>
-              <Dropdown
-                placeholder={t("Все типы кузова")}
-                // label={t("Тип кузова")}
-                name="car_type"
-                options={carTypeOptions}
-                errors={errors}
-                width="100%"
-                control={control}
-                watch={watch}
-                handleInputClear={handleInputClear}
-                setValue={setValue}
-                clearable
-              />
-            </Flex>
           </Flex>
         </Box>
       </Flex>

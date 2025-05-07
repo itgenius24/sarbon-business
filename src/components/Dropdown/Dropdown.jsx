@@ -44,7 +44,7 @@ export const Dropdown = ({
   clearable,
   isLoading = false,
   isTop = false,
-  isCheck = true
+  isCheck = true,
 }) => {
   const height = Math.floor(options && (options.length * 100) / 2);
 
@@ -89,8 +89,8 @@ export const Dropdown = ({
                 if (!disabled) {
                   // e.stopPropagation();
                   handleToggle(e);
-                }else{
-                  handleDisabled()
+                } else {
+                  handleDisabled();
                 }
               }}
               data-id={name}
@@ -98,28 +98,29 @@ export const Dropdown = ({
             >
               <>
                 {searchable ? (
-                  <div  onClick={() => {
-           
-                      if(disabled){
-                       return handleDisabled()
+                  <div
+                    onClick={() => {
+                      if (disabled) {
+                        return handleDisabled();
                       }
-                    }} className={cls.inputWrap}>
+                    }}
+                    className={cls.inputWrap}
+                  >
                     <input
-                   
                       className={cls.input}
                       {...register(searchName)}
-                      defaultValue={watch(searchName)}
+                      defaultValue={watch(searchName) || defaultValue?.label}
                       onInput={(e) => onSearchChange(e, searchName, index)}
                       placeholder={
                         inputPlaceholder
                           ? inputPlaceholder
                           : t(inputPlaceholder)
                       }
-                      // disabled={disabled}
+                     
                       autoComplete="off"
                     />
-                  
-                    {(isLoading) &&  (
+
+                    {isLoading && (
                       <span className={cls.rightIcon}>
                         <Spinner size={`sm`} />
                       </span>
@@ -128,13 +129,13 @@ export const Dropdown = ({
                       <SearchIcon />
                     </span>
 
-                    {watch(searchName) && (
+                    {(watch(searchName) || defaultValue?.value) && (
                       <span
                         className={cls.rightIcon}
                         onClick={() => {
                           setValue(searchName, "");
                           setValue(name, {});
-                          clearFn()
+                          clearFn();
                         }}
                       >
                         <CircleCloseIcon />
@@ -287,25 +288,26 @@ export const Dropdown = ({
                     {option.label}
                     {(option.guid
                       ? option.guid === value?.guid
-                      : option.value === value?.value) && isCheck && (
-                      <span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="12"
-                          height="12"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                        >
-                          <path
-                            d="M10 3L4.5 8.5L2 6"
-                            stroke="#007AFF"
-                            strokeWidth="1.6666"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </span>
-                    )}
+                      : option.value === value?.value) &&
+                      isCheck && (
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                          >
+                            <path
+                              d="M10 3L4.5 8.5L2 6"
+                              stroke="#007AFF"
+                              strokeWidth="1.6666"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      )}
                   </div>
                 ))}
               </div>
