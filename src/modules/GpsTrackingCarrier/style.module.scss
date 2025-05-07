@@ -69,21 +69,48 @@
 .box {
   position: relative;
   height: 100%;
-  .backMap{
-    position:absolute;
+  .settWrap {
+    position: absolute;
+    top: 6%;
+    right: 0.5%;
     z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .backMap {
     background-color: white;
     width: 29px;
     height: 29px;
     border-radius: 3px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
-     top: 6%;
-     right: 0.5%;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     //  padding: 5px;
+  }
+  .route {
+    background-color: white;
+    width: 29px;
+    height: 29px;
+    border-radius: 3px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .activeRoute {
+    background-color: rgba(52, 199, 89, 1);
+    svg {
+      path {
+        stroke: rgb(255, 255, 255) !important;
+      }
+    }
   }
  .modalWrapBtn{
   position: absolute;
@@ -149,9 +176,12 @@
           margin: 10px 0;
         }
         .checkCardTitle {
+          display: inline-block;
+          margin-bottom: 6px;
+          color: black;
+          font-size: 16px;
           font-weight: 500;
-          font-size: 14px;
-          color: rgba(52, 64, 84, 1);
+          line-height: 20px;
         }
      
       }
@@ -652,6 +682,42 @@
         font-weight: 600;
         font-size: 24px;
       }
+    }
+  }
+}
+
+.locationWrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .optionsWrap {
+    position: absolute;
+    // padding: ;
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+    border-radius: 12px;
+    background-color: white;
+    border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
+    padding: 10px;
+    z-index: 43434;
+    top: 80px;
+    .item {
+      width: 100%;
+      font-size: 14px;
+      font-weight: 400;
+      border-bottom: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: flex;
+      padding: 10px 0 10px 0;
+      cursor: pointer;
+    }
+    .bold {
+      font-weight: 600 !important;
     }
   }
 }

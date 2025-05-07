@@ -59,19 +59,16 @@ export const useProps = ({ setValue }) => {
   }
 
   const hanleAdress = (location, name) => {
-    setValue(
-      name,
-      `${location?.GeoObject?.name}`
-    );
- 
+    setValue(name, `${location?.GeoObject?.name}`);
+
     setResults([]);
   };
 
   useEffect(() => {
-   window.addEventListener(`click`,() =>{
-    setResults([])
-   })
-  },[])
+    window.addEventListener(`click`, () => {
+      setResults([]);
+    });
+  }, []);
 
   function handleOpenModal(name, type) {
     setNameState(name);
@@ -85,13 +82,11 @@ export const useProps = ({ setValue }) => {
   }
 
   useEffect(() => {
-    if (address) {
+    if (address && debouncedValue.length >= 3 ) {
       handleGeocode();
-    
-
     }
-    if(activeIndex){
-      setValue(activeIndex,debouncedValue)
+    if (activeIndex) {
+      setValue(activeIndex, debouncedValue);
     }
   }, [debouncedValue]);
 

@@ -74,6 +74,7 @@ export default function GpsTrackingCarrier() {
     refueling,
     addAdress,
     setLocationData,
+    mapRef
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -113,6 +114,7 @@ export default function GpsTrackingCarrier() {
             isLoading={isLoading}
             setCurrentUserLocationData={setCurrentUserLocationData}
             contendHoverState={contendHoverState}
+            mapRef={mapRef}
           />
         )}
 
@@ -153,6 +155,7 @@ export default function GpsTrackingCarrier() {
                     carTypeOptions={carTypeOptions}
                     checkboxStatuses={checkboxStatuses}
                     handleCheckboxChange={handleCheckboxChange}
+                    mapRef={mapRef}
                   />
                 )}
                 {modalType === "driverFree" && (

@@ -96,9 +96,9 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <Box mb={`10px`} className={cls.locationWrap}>
             <TextFieldWithAddition
-              placeholder={t("Адрес")}
+              placeholder={t("Город или страна")}
               rules={{ required: true }}
-              label={t("Город или страна")}
+              label={t("Поиск на карте")}
               additionalItemTheme="white"
               register={register}
               name={"address"}

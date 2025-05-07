@@ -140,9 +140,9 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <Box mb={`10px`} className={cls.locationWrap}>
             <TextFieldWithAddition
-              placeholder={t("Адрес")}
+                 placeholder={t("Город или страна")}
               rules={{ required: true }}
-              label={t("Город или страна")}
+              label={t("Поиск на карте")}
               additionalItemTheme="white"
               register={register}
               name={"address"}
@@ -200,7 +200,8 @@ const Filter = ({
           className={cls.cardWrap}
         >
           <Dropdown
-            placeholder={t("Диспетчер")}
+            placeholder={t("Все диспетчеры")}
+            inputPlaceholder={t(`Все диспетчеры`)}
             label={t("Диспетчер")}
             name="dispatcher"
             options={searchUser}
@@ -225,6 +226,7 @@ const Filter = ({
             }}
           />
           <Dropdown
+            inputPlaceholder={t(`Все водители`)}
             defaultValue={driverVal}
             placeholder={t("Водитель")}
             label={t("Водитель")}
@@ -252,10 +254,10 @@ const Filter = ({
         </Box>
 
         <Box className={cls.cardWrap}>
-          <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
-          <Flex flexDirection={"column"} rowGap={2}>
+          <Flex mb={`10px`} flexDirection={"column"} rowGap={2}>
             <Dropdown
               placeholder={t("Все типы кузова")}
+              label={t("Отображать на карте")}
               name="car_type"
               options={carTypeOptions}
               errors={errors}

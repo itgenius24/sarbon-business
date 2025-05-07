@@ -84,7 +84,7 @@ export const useProps = ({ setValue }) => {
 
 
   useEffect(() => {
-    if (address) {
+    if (address && debouncedValue.length >= 3 ) {
       handleGeocode();
     }
   }, [debouncedValue]);

@@ -7,15 +7,12 @@ import {
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
-  useGetUserData,
   useLoadingTypes,
   useLocation,
-  useLogistikaGpsTrackingFilterDriver,
   useUpdateUserInfo,
 } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
+
 import {
   BrokeDownIcon,
   GreenMapIcon,
@@ -29,15 +26,11 @@ import authStore from "@/store/auth.store";
 /* eslint no-undef: 0 */ // --> OFF
 
 export const useGpsTrackingProps = () => {
-  const locale = useGetLang();
   const role_id = authStore.userData.role_id;
-  const disId = authStore.userData.id;
   const firm_id =
     role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
       ? authStore.userData.firm_id
       : ``;
-
-  const { t } = useTranslation(locale, "translations");
 
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
@@ -284,10 +277,8 @@ export const useGpsTrackingProps = () => {
           watch("weight") ||
           watch("volume")
         ) {
-          // console.log(`carsArr21`, data2);
           setCarsArr(data2);
         } else {
-          // console.log(`carsArr21`, data);
           setCarsArr((res) => [...res, ...data2]);
         }
       } else {
@@ -412,7 +403,7 @@ export const useGpsTrackingProps = () => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
@@ -450,26 +441,8 @@ export const useGpsTrackingProps = () => {
       });
 
       setCarsArr(find);
-
-      // toast({
-      //   title: "Успешно изменено!",
-      //   description: "Вы успешно обновили этого пользователя",
-      //   status: "success",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "top-right",
-      // });
     },
-    onError() {
-      // toast({
-      //   title: "Ошибка",
-      //   description: "Не удалось обновить пользователя!",
-      //   status: "error",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "top-right",
-      // });
-    },
+    onError() {},
   });
 
   const addAdress = () => {
@@ -492,27 +465,13 @@ export const useGpsTrackingProps = () => {
       dataMutate({
         data: {
           object_data: {
-            lat: watch("cor")?.split(",")[0],
-            long: watch("cor")?.split(",")[1],
             number: distance * 4 || 100,
-            // car_type_id: watch("car_type")?.value,
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
             limit: 50,
             page: offset,
-            firm_id:
-              role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f"
-                ? firm_id
-                : undefined,
-            type:
-              role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
-                ? "dispatcher"
-                : undefined,
-            dispatcher_id:
-              role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
-                ? disId
-                : undefined,
+            firm_id: firm_id,
           },
         },
       });
@@ -584,15 +543,6 @@ export const useGpsTrackingProps = () => {
     setOffset(0);
   };
 
-  const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
-
-  // useEffect(() => {
-  //   const ymapsScript = document.getElementById("yandex-maps-script");
-  //   if (ymapsScript) {
-  //     initYmaps();
-  //   }
-  // }, depArr);
-
   return {
     register,
     locations,
@@ -661,5 +611,6 @@ export const useGpsTrackingProps = () => {
     addAdress,
     refueling: remainingData,
     setLocationData,
+    mapRef,
   };
 };

@@ -186,9 +186,12 @@ vertical-align: middle;
           margin: 10px 0;
         }
         .checkCardTitle {
+          display: inline-block;
+          margin-bottom: 6px;
+          color: black;
+          font-size: 16px;
           font-weight: 500;
-          font-size: 14px;
-          color: rgba(52, 64, 84, 1);
+          line-height: 20px;
         }
       }
       .cardWrapOutline {

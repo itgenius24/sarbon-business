@@ -24,7 +24,8 @@ const Filter = ({
   setDisVal,
   setCarsArr,
   mapRef,
-  disVal,driverVal,
+  disVal,
+  driverVal,
 }) => {
   const {
     register,
@@ -84,9 +85,7 @@ const Filter = ({
     }
   }, [disName, dataDis]);
 
-  const {
-    data: getCarData,
-  } = useGetNewPredData({
+  const { data: getCarData } = useGetNewPredData({
     data: {
       data: {
         object_data: {
@@ -133,9 +132,9 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <Box mb={`10px`} className={cls.locationWrap}>
             <TextFieldWithAddition
-              placeholder={t("Адрес")}
+                 placeholder={t("Город или страна")}
               rules={{ required: true }}
-              label={t("Город или страна")}
+              label={t("Поиск на карте")}
               additionalItemTheme="white"
               register={register}
               name={"address"}
@@ -222,7 +221,6 @@ const Filter = ({
             label={t("Водитель")}
             name="driver"
             defaultValue={driverVal}
-
             options={getCarData}
             errors={errors}
             register={register}
@@ -245,22 +243,21 @@ const Filter = ({
         </Box>
 
         <Box className={cls.cardWrap}>
-          <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
-          <Flex flexDirection={"column"} rowGap={2}>
-              <Dropdown
-                placeholder={t("Все типы кузова")}
-                // label={t("Тип кузова")}
-                name="car_type"
-                options={carTypeOptions}
-                errors={errors}
-                width="100%"
-                control={control}
-                watch={watch}
-                handleInputClear={handleInputClear}
-                setValue={setValue}
-                clearable
-              />
-            </Flex>
+          <Flex mb={`10px`} flexDirection={"column"} rowGap={2}>
+            <Dropdown
+              placeholder={t("Все типы кузова")}
+              label={t("Отображать на карте")}
+              name="car_type"
+              options={carTypeOptions}
+              errors={errors}
+              width="100%"
+              control={control}
+              watch={watch}
+              handleInputClear={handleInputClear}
+              setValue={setValue}
+              clearable
+            />
+          </Flex>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
             <Checkbox
               width={"16px"}
@@ -320,7 +317,6 @@ const Filter = ({
             >
               {t("Заправки")}
             </Checkbox>
-        
           </Flex>
         </Box>
       </Flex>
