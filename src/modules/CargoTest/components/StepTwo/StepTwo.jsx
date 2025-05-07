@@ -66,7 +66,7 @@ const StepTwo = ({ status }) => {
     handLeCheck2,
     handleResetForm,
     setDisabled,
-    setEditModal
+    setEditModal,
   } = useStepTwoProps();
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
@@ -126,21 +126,20 @@ const StepTwo = ({ status }) => {
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAdditionMap
-                      onClick={() => !canEdit ? setEditModal(true) :null}
-                     
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
                       onKeyDown={(e) => {
                         if (e.key === "Backspace" || e.key === "Delete") {
-                          setDisabled(true)
+                          setDisabled(true);
                         }
                       }}
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
                           setAddress(e.target.value);
-                          setValue(`addressFrom`, e.target.value);
+                        setValue(`addressFrom`, e.target.value);
                       }}
                       name={`loadings[${index}].address`}
                       additionalOnclick={() =>
@@ -160,28 +159,45 @@ const StepTwo = ({ status }) => {
                       results.length > 0 &&
                       address?.length > 0 && (
                         <Box className={cls.optionsWrap}>
-                          {results?.map((location, idx) => (
-                            <Flex
-                              onClick={() =>
-                                hanleAdress(
-                                  location,
-                                  `loadings[${index}].address`,
-                                  index,
-                                  "loading",
-                                  item?.guid
-                                )
-                              }
-                              key={idx}
-                              gap={3}
-                              alignItems={"center"}
-                            >
-                              <LocationIconStep />
+                          {results?.map((location, idx) => {
+                            const text =
+                              location?.GeoObject?.metaDataProperty
+                                ?.GeocoderMetaData?.text || "";
 
-                              <p className={cls.item}>
-                                {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
-                              </p>
-                            </Flex>
-                          ))}
+                            const highlightText = (text, search) => {
+                              if (!search) return text;
+                              const regex = new RegExp(`(${search})`, "gi");
+                              return text.replace(
+                                regex,
+                                `<span class="${cls.bold}">$1</span>`
+                              );
+                            };
+
+                            return (
+                              <Flex
+                                onClick={() =>
+                                  hanleAdress(
+                                    location,
+                                    `loadings[${index}].address`,
+                                    index,
+                                    "loading",
+                                    item?.guid
+                                  )
+                                }
+                                key={idx}
+                                gap={3}
+                                alignItems={"center"}
+                              >
+                                <LocationIconStep />
+                                <p
+                                  className={cls.item}
+                                  dangerouslySetInnerHTML={{
+                                    __html: highlightText(text, address),
+                                  }}
+                                />
+                              </Flex>
+                            );
+                          })}
                         </Box>
                       )}
                   </Box>
@@ -199,7 +215,7 @@ const StepTwo = ({ status }) => {
                         showTimeSelect
                         timeFormat="HH:mm" // 24 soatlik format
                         timeIntervals={15}
-                        isDisabled={(!canEdit || watch(`as_soon_as_a`))}
+                        isDisabled={!canEdit || watch(`as_soon_as_a`)}
                         canEdit={canEdit}
                         onChange={(date) => {
                           lodingChangeDate("loading", date, index, item?.guid);
@@ -236,7 +252,11 @@ const StepTwo = ({ status }) => {
                         isClearable={false}
                       />
                     </Box>
-                    <Box onClick={() => !canEdit ? setEditModal(true):null} className={cls.disabledCeck} mt={5}>
+                    <Box
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
+                      className={cls.disabledCeck}
+                      mt={5}
+                    >
                       <Checkbox
                         isDisabled={!canEdit}
                         width={"16px"}
@@ -332,25 +352,25 @@ const StepTwo = ({ status }) => {
                     )}
                   </Box>
                 </Flex>
-  
+
                 <Box gap={"24px"} mt={"20px"} mb={`20px`}>
                   <Box className={cls.locationWrap}>
                     <TextFieldWithAdditionMap
                       // onlyFieldDisabled={true}
-                      onClick={() => !canEdit ? setEditModal(true) :null}
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       disabled={!canEdit}
                       placeholder={t("Укажите пункт назначения")}
                       additionalItemTheme="white"
                       register={register}
                       onKeyDown={(e) => {
                         if (e.key === "Backspace" || e.key === "Delete") {
-                          setDisabled(true)
+                          setDisabled(true);
                         }
                       }}
                       onChange={(e) => {
-                          setActiveIndex(`unloading[${index}].address`),
+                        setActiveIndex(`unloading[${index}].address`),
                           setAddress(e.target.value);
-                          setValue(`addressTo`, e.target.value);
+                        setValue(`addressTo`, e.target.value);
                       }}
                       name={`unloading[${index}].address`}
                       // additionalOnclick={() => handleOpenModal("unloading", index)}
@@ -371,10 +391,24 @@ const StepTwo = ({ status }) => {
                       }
                     />
                     {activeIndex === `unloading[${index}].address` &&
-                      results.length > 0 &&
-                      address?.length > 0 ? (
-                        <Box className={cls.optionsWrap}>
-                          {results?.map((location, idx) => (
+                    results.length > 0 &&
+                    address?.length > 0 ? (
+                      <Box className={cls.optionsWrap}>
+                        {results?.map((location, idx) => {
+                          const text =
+                            location?.GeoObject?.metaDataProperty
+                              ?.GeocoderMetaData?.text || "";
+
+                          const highlightText = (text, search) => {
+                            if (!search) return text;
+                            const regex = new RegExp(`(${search})`, "gi");
+                            return text.replace(
+                              regex,
+                              `<span class="${cls.bold}">$1</span>`
+                            );
+                          };
+
+                          return (
                             <Flex
                               onClick={() =>
                                 hanleAdress(
@@ -390,13 +424,19 @@ const StepTwo = ({ status }) => {
                               alignItems={"center"}
                             >
                               <LocationIconStep />
-                              <p className={cls.item}>
-                                {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
-                              </p>
+                              <p
+                                className={cls.item}
+                                dangerouslySetInnerHTML={{
+                                  __html: highlightText(text, address),
+                                }}
+                              />
                             </Flex>
-                          ))}
-                        </Box>
-                      ) : ``}
+                          );
+                        })}
+                      </Box>
+                    ) : (
+                      ``
+                    )}
                   </Box>
                   <Flex
                     alignItems={"center"}
@@ -407,7 +447,7 @@ const StepTwo = ({ status }) => {
                     <Box width={"198px"}>
                       <span className={cls.label}>{t(`Когда доставить`)}</span>
                       <DatePickerComponent
-                        isDisabled={( !canEdit || watch(`as_soon_as_b`))}
+                        isDisabled={!canEdit || watch(`as_soon_as_b`)}
                         handleDisabled={() => setEditModal(true)}
                         canEdit={canEdit}
                         width={198}
@@ -431,7 +471,10 @@ const StepTwo = ({ status }) => {
                       />
                     </Box>
 
-                    <Box onClick={() => !canEdit ? setEditModal(true):null}  mt={5}>
+                    <Box
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
+                      mt={5}
+                    >
                       <Checkbox
                         isDisabled={!canEdit}
                         width={"16px"}

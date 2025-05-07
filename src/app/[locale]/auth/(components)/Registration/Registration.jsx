@@ -33,6 +33,7 @@ import qrImg from "@/assets/images/qrcode.svg";
 import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
+import Getapps from "@/assets/images/getapps.svg";
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -209,8 +210,22 @@ export const Registration = () => {
                             height={40}
                           />
                         </a>
-
                         <a
+                          className={cls.mobileAppLink}
+                          href={
+                            "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={Getapps}
+                            alt="Getapps store"
+                            width={135} 
+                            height={40}
+                          />
+                        </a>
+
+                        {/* <a
                           onClick={() => downloadFn()}
                           style={{ cursor: `pointer` }}
                           className={cls.mobileAppLink}
@@ -224,7 +239,7 @@ export const Registration = () => {
                             width={135}
                             height={40}
                           />
-                        </a>
+                        </a> */}
                       </Flex>
                     </Box>
                   </Flex>

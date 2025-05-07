@@ -38,9 +38,9 @@ import { CarsCard } from "./component/CarsCard/CarsCard";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import cls from "./style.module.scss";
-import CheckBoxComponent from "../GpsTrackingEdit/components/CheckBoxComponent";
 import { Checkbox } from "@/components/Checkbox";
 import { CarsCardMObile } from "./component/CarsCardMobile/CarsCardMObile";
+import CheckBoxComponent from "../GpsTrackingCarrier/components/CheckBoxComponent";
 
 export const MyCarsModule = () => {
   const {

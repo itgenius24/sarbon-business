@@ -721,6 +721,7 @@ const StepThere = ({ status }) => {
                   </Flex>
                   <Flex gap={`20px`} width={`30%`}>
                     <TextFieldWithAddition
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -757,6 +758,7 @@ const StepThere = ({ status }) => {
                     />
 
                     <TextFieldWithAddition
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -795,6 +797,7 @@ const StepThere = ({ status }) => {
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}

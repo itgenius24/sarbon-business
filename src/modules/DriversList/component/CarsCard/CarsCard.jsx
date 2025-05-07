@@ -23,26 +23,15 @@ import {
   BatareyIcon,
   BluetoothIcon,
   CricleArrovIcon,
-  LoadOulineIcon,
   LocationActiveIcon,
   NoImFur,
-  NoImg,
   NoImgDrivers,
   PopupIcon,
-  SearchIcon,
-  StoneIcon,
-  UserIconRadius,
 } from "@/assets/icons/icons";
-import CheckBoxComponent from "@/modules/GpsTrackingEdit/components/CheckBoxComponent";
-import { useState } from "react";
-import TooltipComponets from "@/modules/SearchLod/component/TooltipComponets";
-import { Checkbox } from "@/components/Checkbox";
 import Image from "next/image";
 import { format } from "date-fns";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetUserGpsData } from "@/services/api";
 
 export const CarsCard = ({ t, item, handleDelete }) => {
   const router = useRouter();

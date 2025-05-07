@@ -45,7 +45,7 @@ import CmapAZS from "./components/CmapAZS";
 
 /* eslint no-undef: 0 */ // --> OFF
 
-export default function GpsTrackingXm() {
+export default function GpsTrackingCustomer() {
   const {
     register,
     errors,
@@ -61,18 +61,11 @@ export default function GpsTrackingXm() {
     setIsModalOpen,
     carTypeOptions,
     loadingOptions,
-    weightMeasurementOptions,
     control,
     getCarListProps,
-    onSubmit,
-    handleSubmit,
-    driverName,
     isLoading,
-    locationPending,
     watch,
     setValue,
-    setChecked,
-    checked,
     locationData,
     getUserOption,
     setDistance,
@@ -99,8 +92,6 @@ export default function GpsTrackingXm() {
     setLoadCheck,
     loadCheck,
     setOffset,
-    setHoverLoadState,
-    loadHoverState,
     addressAdd,
     stateMap,
     addAdress,
@@ -109,6 +100,7 @@ export default function GpsTrackingXm() {
     setRefuelingState,
     refuelingState,
     isLoadingRefueling,
+    mapRef
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -118,8 +110,6 @@ export default function GpsTrackingXm() {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-        {/* { isLoading &&  <LoadingSpinnerMap />} */}
-
         {watch(`refuelingState`) ? (
           <CmapAZS
             refueling={refueling}
@@ -137,7 +127,6 @@ export default function GpsTrackingXm() {
           />
         ) : (
           <Cmap
-          
             cls={cls}
             getCarListProps={!isLoading ? getCarListProps : []}
             coordinates={coordinates}
@@ -149,20 +138,26 @@ export default function GpsTrackingXm() {
             isLoading={isLoading}
             setCurrentUserLocationData={setCurrentUserLocationData}
             contendHoverState={contendHoverState}
+            mapRef={mapRef}
+            currentUserLocationData={currentUserLocationData}
           />
         )}
 
-        <div className={cls.modalWrap}>
+        <div className={cls.modalWrapBtn}>
+          {modalType === "" && (
+            <div
+              onClick={() => setModalType("filter")}
+              className={cls.filterBtn}
+            >
+              <FilterIcon /> {t(`Фильтр`)}
+            </div>
+          )}
+        </div>
+        {
+          modalType.length > 0 &&    <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>
-              {modalType === "" && (
-                <div
-                  onClick={() => setModalType("filter")}
-                  className={cls.filterBtn}
-                >
-                  <FilterIcon /> {t(`Фильтр`)}
-                </div>
-              )}
+      
               {modalType === "filter" && (
                 <Filter
                   setRefuelingState={setRefuelingState}
@@ -188,6 +183,7 @@ export default function GpsTrackingXm() {
                   carTypeOptions={carTypeOptions}
                   checkboxStatuses={checkboxStatuses}
                   handleCheckboxChange={handleCheckboxChange}
+                  mapRef={mapRef}
                 />
               )}
               {modalType === "driverFree" && (
@@ -252,6 +248,9 @@ export default function GpsTrackingXm() {
             </Box>
           </Flex>
         </div>
+        }
+
+      
         {centerModalType === "selectCargo" && (
           <div className={cls.leftModal}>
             <SelectCargo

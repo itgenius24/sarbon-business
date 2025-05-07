@@ -1,8 +1,6 @@
-import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
 export const useElements = (lang) => {
-  // const lang = useGetLang();
   const isAuth = authStore.getIsAuth;
   const role_id = authStore.userData.role_id;
   const dispatcher_type = authStore?.userData?.dispatcher_type;
@@ -35,7 +33,7 @@ export const useElements = (lang) => {
         label: "Расчет расстояний",
       },
       {
-        path: `/${lang || "ru"}/gps-tracking`,
+        path: `/${lang || "ru"}/gps-tracking-carrier`,
         label: "GPS tracking",
       },
     ];
@@ -54,7 +52,9 @@ export const useElements = (lang) => {
         label: "Мои грузы",
       },
       {
-        path: isAuth ? `/${lang || "ru"}/dispatcher-expeditor` : `/${lang || "ru"}/auth`,
+        path: isAuth
+          ? `/${lang || "ru"}/dispatcher-expeditor`
+          : `/${lang || "ru"}/auth`,
         label: "Перевозчики",
       },
       {
@@ -157,7 +157,7 @@ export const useElements = (lang) => {
         // },
         {
           path: isAuth
-            ? `/${lang || "ru"}/gps-tracking-xm`
+            ? `/${lang || "ru"}/gps-tracking-customer`
             : `/${lang || "ru"}/auth`,
           label: "(GPS tracking)",
         },
@@ -183,7 +183,7 @@ export const useElements = (lang) => {
         // },
         {
           path: isAuth
-            ? `/${lang || "ru"}/gps-tracking-xm`
+            ? `/${lang || "ru"}/gps-tracking-customer`
             : `/${lang || "ru"}/auth`,
           label: "(GPS tracking)",
         },
@@ -204,6 +204,12 @@ export const useElements = (lang) => {
       {
         path: `/${lang || "ru"}/active-user`,
         label: "Журнал активности",
+      },
+      {
+        path: isAuth
+          ? `/${lang || "ru"}/gps-tracking-super-admin`
+          : `/${lang || "ru"}/auth`,
+        label: "GPS tracking",
       },
     ];
   } else if (role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b") {

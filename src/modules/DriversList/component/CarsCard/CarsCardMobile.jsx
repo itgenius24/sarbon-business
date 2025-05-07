@@ -1,21 +1,13 @@
 import {
-  Avatar,
   Box,
-  Button,
   Flex,
   IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   Popover,
   PopoverArrow,
   PopoverBody,
-  PopoverCloseButton,
   PopoverContent,
-  PopoverHeader,
   PopoverTrigger,
   Portal,
-  Text,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 import {
@@ -23,26 +15,17 @@ import {
   BatareyIcon,
   BluetoothIcon,
   CricleArrovIcon,
-  LoadOulineIcon,
   LocationActiveIcon,
   NoImFur,
-  NoImg,
+
   NoImgDrivers,
   PopupIcon,
-  SearchIcon,
-  StoneIcon,
-  UserIconRadius,
 } from "@/assets/icons/icons";
-import CheckBoxComponent from "@/modules/GpsTrackingEdit/components/CheckBoxComponent";
-import { useState } from "react";
-import TooltipComponets from "@/modules/SearchLod/component/TooltipComponets";
-import { Checkbox } from "@/components/Checkbox";
 import Image from "next/image";
 import { format } from "date-fns";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetUserGpsData } from "@/services/api";
+
 
 export const CarsCardMobile = ({ t, item, handleDelete }) => {
   const router = useRouter();

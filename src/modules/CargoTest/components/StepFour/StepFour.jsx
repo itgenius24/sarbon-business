@@ -36,7 +36,7 @@ const StepFour = ({ status }) => {
     canEditActive,
     onSubmit,
     mone,
-    setEditModal
+    setEditModal,
   } = useFourProps({});
   const { t } = useTranslation();
 
@@ -86,8 +86,6 @@ const StepFour = ({ status }) => {
     )[0];
     setValue(`price_prepayment_unit`, selectedOption);
   };
-
-
 
   const onChangeNa = (e) => {
     console.log(`negotiable`, e);
@@ -182,36 +180,38 @@ const StepFour = ({ status }) => {
                     </RadioGroup>
                   ) : (
                     status && (
-                    <Box onClick={() => !canEdit ? setEditModal(true) : null}>
-                    <RadioGroup
-                        isDisabled={!canEdit}
-                        onChange={(e) => onChangeNa(e)}
-                        value={value}
+                      <Box
+                        onClick={() => (!canEdit ? setEditModal(true) : null)}
                       >
-                        <Flex gap={"10px"}>
-                          {negotiableOption &&
-                            negotiableOption.map((item) => (
-                              <Radio
-                                key={item.value}
-                                border={"1px solid rgba(208, 213, 221, 1)"}
-                                value={item.value}
-                                size={"md"}
-                              >
-                                <span
-                                  className={
-                                    value === item.value
-                                      ? cls.ActiveRadio
-                                      : cls.radio
-                                  }
+                        <RadioGroup
+                          isDisabled={!canEdit}
+                          onChange={(e) => onChangeNa(e)}
+                          value={value}
+                        >
+                          <Flex gap={"10px"}>
+                            {negotiableOption &&
+                              negotiableOption.map((item) => (
+                                <Radio
+                                  key={item.value}
+                                  border={"1px solid rgba(208, 213, 221, 1)"}
+                                  value={item.value}
+                                  size={"md"}
                                 >
-                                  {item?.label?.charAt(0).toUpperCase() +
-                                    item?.label?.slice(1).toLowerCase()}
-                                </span>
-                              </Radio>
-                            ))}
-                        </Flex>
-                      </RadioGroup>
-                    </Box>
+                                  <span
+                                    className={
+                                      value === item.value
+                                        ? cls.ActiveRadio
+                                        : cls.radio
+                                    }
+                                  >
+                                    {item?.label?.charAt(0).toUpperCase() +
+                                      item?.label?.slice(1).toLowerCase()}
+                                  </span>
+                                </Radio>
+                              ))}
+                          </Flex>
+                        </RadioGroup>
+                      </Box>
                     )
                   )}
                 </Flex>
@@ -322,7 +322,12 @@ const StepFour = ({ status }) => {
                   )}
                 </Flex>
 
-                <Flex alignItems={`end`} className={cls.inputWrap} gap={10} width={"100%"}>
+                <Flex
+                  alignItems={`end`}
+                  className={cls.inputWrap}
+                  gap={10}
+                  width={"100%"}
+                >
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
                       <p className={cls.label}>{t(`Общая сумма`)}</p>
@@ -338,7 +343,7 @@ const StepFour = ({ status }) => {
                       )}
                     </Flex>
                     <TextFieldWithAddition
-                      onClick={() => !canEdit ? setEditModal(true) :null}
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       onlyFieldDisabled={order_status?.[0] === "active"}
                       disabled={order_status?.[0] === "active" || !canEdit}
                       name="price"
@@ -372,9 +377,11 @@ const StepFour = ({ status }) => {
                       </Checkbox>
                     </Flex>
                     <TextFieldWithAddition
-                      onClick={() => !canEdit ? setEditModal(true) :null}
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       disabled={order_status?.[0] === "active" || disabledP}
-                      onlyFieldDisabled={order_status?.[0] === "active" || disabledP}
+                      onlyFieldDisabled={
+                        order_status?.[0] === "active" || disabledP
+                      }
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -484,55 +491,79 @@ const StepFour = ({ status }) => {
                 </h2>
                 <p className={cls.subTitle2}>{t(`Можно предлагать`)}</p>
                 <Flex className={cls.checkWrap} mt={2} gap={"22px"}>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="usd"
-                  >
-                    Доллар
-                  </Checkbox>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="uzs"
-                  >
-                    Сум
-                  </Checkbox>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="rub"
-                  >
-                    Рубль
-                  </Checkbox>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="eur"
-                  >
-                    Евро
-                  </Checkbox>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="spot"
-                  >
-                    Наличными
-                  </Checkbox>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="with_nds"
-                  >
-                    С НДС, безнал
-                  </Checkbox>
-                  <Checkbox
-                    defaultChecked={true}
-                    register={register}
-                    name="free_nds"
-                  >
-                    Без НДС, безнал
-                  </Checkbox>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      defaultChecked={true}
+                      register={register}
+                      name="usd"
+                      isDisabled={!canEdit}
+                    >
+                      Доллар
+                    </Checkbox>
+                  </Box>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="uzs"
+                    >
+                      Сум
+                    </Checkbox>
+                  </Box>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="rub"
+                    >
+                      Рубль
+                    </Checkbox>
+                  </Box>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="eur"
+                    >
+                      Евро
+                    </Checkbox>
+                  </Box>
+
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="spot"
+                    >
+                      Наличными
+                    </Checkbox>
+                  </Box>
+
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="with_nds"
+                    >
+                      С НДС, безнал
+                    </Checkbox>
+                  </Box>
+
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="free_nds"
+                    >
+                      Без НДС, безнал
+                    </Checkbox>
+                  </Box>
                 </Flex>
               </Box>
             )}

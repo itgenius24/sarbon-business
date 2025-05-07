@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Container } from "../Container";
 import cls from "./styles.module.scss";
 import GooglePlay from "@/assets/images/google-play.svg";
+import Getapps from "@/assets/images/getapps.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
 
@@ -183,6 +184,20 @@ export const Footer = () => {
                 </li>
                 <li className={cls.mobileAppItem}>
                   <a
+                    className={cls.mobileAppLink}
+                    href={"https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"}
+                    target="_blank"
+                  >
+                    <Image
+                      src={Getapps}
+                      alt="Getapps store store"
+                      width={135}
+                      height={40}
+                    />
+                  </a>
+                </li>
+                {/* <li className={cls.mobileAppItem}>
+                  <a
                     onClick={() => downloadFn()}
                     style={{ cursor: `pointer` }}
                     className={cls.mobileAppLink}
@@ -197,12 +212,13 @@ export const Footer = () => {
                       height={40}
                     />
                   </a>
-                </li>
-                {role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
+                </li> */}
+                {/* {role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
                   <li className={cls.mobileAppItem}>
                     Загрузок: {apkCount?.response?.length || 0}
                   </li>
-                )}
+                )} */}
+
                 {/* <li className={cls.mobileAppItem}>
                 <a className={cls.mobileAppLink} href={"/"} target="_blank">
                   <Image

@@ -52,7 +52,6 @@ import {
   StoneIcon,
   UserIconCerate,
 } from "@/assets/icons/icons";
-import CheckBoxComponent from "@/modules/GpsTrackingEdit/components/CheckBoxComponent";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
 import TooltipComponets from "../TooltipComponets";
@@ -62,6 +61,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import copy from "copy-to-clipboard";
 import { useRouter } from "next/navigation";
+import CheckBoxComponent from "@/modules/GpsTrackingCarrier/components/CheckBoxComponent";
 
 export const TableComponent = ({
   isLargerThan845,

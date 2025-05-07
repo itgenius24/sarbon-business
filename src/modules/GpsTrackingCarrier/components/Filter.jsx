@@ -35,9 +35,6 @@ const Filter = ({
   handleInputClear,
   setLoadCheck,
   loadCheck,
-  setRefuelingState,
-  isLoadingRefueling,
-  refuelingState,
 }) => {
   const { t } = useTranslation(locale);
 
@@ -68,7 +65,7 @@ const Filter = ({
           <TextFieldWithAddition
             placeholder={t("Адрес")}
             rules={{ required: true }}
-            label={t("Поиск в радиусе")}
+            label={t("Город или страна")}
             additionalItemTheme="white"
             register={register}
             name={"address"}
@@ -146,30 +143,18 @@ const Filter = ({
             >
               {t("Грузы")}
             </Checkbox>
-            <Flex gap={1}>
-              <Checkbox
-                isLoading={isLoadingRefueling}
-                isDisabled={isLoadingRefueling}
-                width={"16px"}
-                height={"16px"}
-                defaultChecked={Boolean(watch(`refuelingState`))}
-                onChange={() => setValue(`refuelingState`,!watch(`refuelingState`))}
-              >
-                {t("Заправки")}
-              </Checkbox>
-              {/* <span
-                style={{
-                  fontSize: `9px`,
-                  fontWeight: 700,
-                  padding: `0px 8px`,
-                  borderRadius: `11px`,
-                  background: `red`,
-                  color: `white`,
-                }}
-              >
-                СКОРО
-              </span> */}
-            </Flex>
+            <Checkbox
+              // isLoading={isLoadingRefueling}
+              // isDisabled={isLoadingRefueling}
+              width={"16px"}
+              height={"16px"}
+              defaultChecked={Boolean(watch(`refuelingState`))}
+              onChange={() =>
+                setValue(`refuelingState`, !watch(`refuelingState`))
+              }
+            >
+              {t("Заправки")}
+            </Checkbox>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
@@ -191,6 +176,7 @@ const Filter = ({
               placeholder={t("Введите тип загрузки")}
               label={t("Тип загрузки")}
               name="load_type_id"
+              width="100%"
               options={loadingOptions}
               errors={errors}
               control={control}
