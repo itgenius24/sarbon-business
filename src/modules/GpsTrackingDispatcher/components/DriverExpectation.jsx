@@ -7,10 +7,8 @@ import {
   CloseIconM,
   FurIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  ModalGruzIcon,
   ModalWatingIcon,
   NextBtnIcon,
   StarsIcon,
@@ -82,7 +80,7 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType("filter")}
+            onClick={() => setModalType("")}
           />
         </Flex>
         <Button

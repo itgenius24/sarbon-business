@@ -156,7 +156,7 @@ const DriverFree = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
             icon={<CloseIconM />}

@@ -111,7 +111,7 @@ const { t } = useTranslation();
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType(`filter`)}
+            onClick={() => setModalType(``)}
           />
         </Flex>
 

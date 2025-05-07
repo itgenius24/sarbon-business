@@ -1,5 +1,5 @@
 import { CircleCheckIcon, GreenCheckIcon } from "@/assets/icons/icons";
-import { background, Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 const CheckBoxComponent = ({ children, active,status, ...props }) => {
   return (

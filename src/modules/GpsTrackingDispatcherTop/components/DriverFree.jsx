@@ -4,14 +4,11 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CencelMapIcon,
   CloseIconM,
   ExelIcon,
   FurIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  NextBtnIcon,
   StarsIcon,
   StoneIcon,
   TelegramIcon,
@@ -27,7 +24,6 @@ import {
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import {
   Avatar,
   Box,
@@ -53,14 +49,12 @@ const DriverFree = ({
   cls,
   setModalType,
   currentUserLocationData,
-  setCenterModalType,
   setIconStatus,
   errors,
   control,
   register,
   watch,
 }) => {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(`currentUserLocationData`, currentUserLocationData);
   const { t } = useTranslation();
@@ -82,12 +76,10 @@ const DriverFree = ({
         with_relations: true,
       }),
     },
-    querySettings:{
+    querySettings: {
       enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
-    }
-  },
-
-);
+    },
+  });
 
   const getCompanyList = useGetCompanyList(
     {
@@ -96,7 +88,9 @@ const DriverFree = ({
       }),
     },
     {
-      enabled: Boolean(currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id),
+      enabled: Boolean(
+        currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id
+      ),
     }
   );
 
@@ -115,9 +109,7 @@ const DriverFree = ({
     }
   };
 
-
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
 
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
@@ -168,7 +160,9 @@ const DriverFree = ({
               src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
+              <p className={cls.userName}>
+                {currentUserLocationData?.user?.full_name}
+              </p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -178,7 +172,7 @@ const DriverFree = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
             icon={<CloseIconM />}
@@ -191,7 +185,9 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(
+                  new Date(
+                    currentUserLocationData?.users_gps?.[0]?.update_time
+                  ).setHours(
                     new Date(
                       currentUserLocationData?.users_gps?.[0]?.update_time
                     ).getHours() - 5
@@ -200,7 +196,8 @@ const DriverFree = ({
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
-                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                  "Нет адреса"}
               </p>
               <Box>
                 <Popover
@@ -329,24 +326,30 @@ const DriverFree = ({
               color={`black`}
               placement="top-end"
               label={
-                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                  ?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                      ?.name
                   : t(`Пока нет машины`)
               }
             >
               <p className={cls.cargoType}>
-                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                  ?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                      ?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
+                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity}{" "}
+                т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
+                <LoadOulineIcon />{" "}
+                {currentUserLocationData?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
           </Flex>
@@ -357,7 +360,9 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
-            <span>{currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}</span>
+            <span>
+              {currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}
+            </span>
           </Flex>
           <Flex
             p={`10px 0px`}
@@ -375,7 +380,9 @@ const DriverFree = ({
                 background={`white`}
                 color={`black`}
                 placement="top-end"
-                label={currentUserLocationData?.vehicles?.[0]?.car_country || `uz`}
+                label={
+                  currentUserLocationData?.vehicles?.[0]?.car_country || `uz`
+                }
               >
                 <Image
                   style={{

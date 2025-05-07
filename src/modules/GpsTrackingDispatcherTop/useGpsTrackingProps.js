@@ -3,7 +3,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
-  useGetCarData,
   useGetCarDispatcherPost,
   useGetCargoById,
   useGetCarRefueling,
@@ -15,8 +14,6 @@ import {
   useUpdateUserInfo,
 } from "@/services/api";
 import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
 import {
   BrokeDownIcon,
   GreenMapIcon,
@@ -24,7 +21,6 @@ import {
   SomeoneCargoIcon,
   WaitingForDriverIcon,
 } from "@/assets/icons/icons";
-import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
 import { useSearchParams } from "next/navigation";
 

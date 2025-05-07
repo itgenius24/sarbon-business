@@ -20,7 +20,6 @@ import {
   Map,
   Placemark,
   Polyline,
-  SearchControl,
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";

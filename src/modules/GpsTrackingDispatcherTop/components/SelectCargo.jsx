@@ -16,10 +16,8 @@ import {
 } from "@chakra-ui/react";
 import React, { useMemo, useState } from "react";
 import CheckBoxComponent from "./CheckBoxComponent";
-import { Checkbox } from "@/components/Checkbox";
 import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
 import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
 const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffset,statusIconChange,setIconStatus }) => {
@@ -27,7 +25,6 @@ const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffs
   const [selectCargo, setSelectCargo] = useState("");
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const locale = useGetLang();
   const getAllUserCargoParams = {
     data: JSON.stringify({
       // users_id: currentUserLocationData.user.guid,

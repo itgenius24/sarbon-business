@@ -4,14 +4,10 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CencelMapIcon,
   CloseIconM,
   FurIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  NextBtnIcon,
-  PrimumIcon,
   StarsIcon,
   StoneIcon,
   TelegramOpasitiyIcon,
@@ -35,17 +31,15 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
-import { useGetCompanyList } from "@/services/api";
 import authStore from "@/store/auth.store";
 
 const DriverFree = ({
   cls,
   setModalType,
   currentUserLocationData,
-  setCenterModalType,
   setIconStatus,
 }) => {
   const { t } = useTranslation();
@@ -76,7 +70,9 @@ const DriverFree = ({
               src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
+              <p className={cls.userName}>
+                {currentUserLocationData?.user?.full_name}
+              </p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -86,7 +82,7 @@ const DriverFree = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
             icon={<CloseIconM />}
@@ -99,7 +95,9 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:
                 {format(
-                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(
+                  new Date(
+                    currentUserLocationData?.users_gps?.[0]?.update_time
+                  ).setHours(
                     new Date(
                       currentUserLocationData?.users_gps?.[0]?.update_time
                     ).getHours() - 5
@@ -108,7 +106,8 @@ const DriverFree = ({
                 )}
               </p>
               <p className={cls.bigTitle}>
-                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                  "Нет адреса"}
               </p>
               <Box>
                 <Popover
@@ -238,24 +237,30 @@ const DriverFree = ({
               color={`black`}
               placement="top-end"
               label={
-                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                  ?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                      ?.name
                   : t(`Пока нет машины`)
               }
             >
               <p>
-                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                  ?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                      ?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
+                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity}{" "}
+                т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
+                <LoadOulineIcon />{" "}
+                {currentUserLocationData?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
           </Flex>
@@ -267,7 +272,9 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
-            <span>{currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}</span>
+            <span>
+              {currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}
+            </span>
           </Flex>
           <Flex
             p={`10px 0px`}
@@ -285,7 +292,9 @@ const DriverFree = ({
                 background={`white`}
                 color={`black`}
                 placement="top-end"
-                label={currentUserLocationData?.vehicles?.[0]?.car_country || `uz`}
+                label={
+                  currentUserLocationData?.vehicles?.[0]?.car_country || `uz`
+                }
               >
                 <Image
                   style={{
@@ -308,35 +317,6 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-        {/* {user_type?.[0] === `approved` &&
-          (currentUserLocationData?.user?.provisions?.[0] === `broke_down` ? (
-            <Button
-              onClick={() => {
-                setCenterModalType("changeIcon");
-                setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
-              }}
-              leftIcon={<CencelMapIcon />}
-              rightIcon={<NextBtnIcon />}
-              size={`lg`}
-              className={cls.btngreenCanseleOutline}
-            >
-              {t(`Сломалась`)}
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                setCenterModalType("changeIcon");
-                setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
-              }}
-              leftIcon={<LoadgreenIcon />}
-              rightIcon={<NextBtnIcon />}
-              size={`lg`}
-              className={cls.btngreenOutline}
-            >
-              {t(`Машина cвободна`)}
-            </Button>
-          ))} */}
-
         {currentUserLocationData?.firm_data?.firm_data?.[0] &&
           user_type?.[0] === `approved` && (
             <Box
@@ -345,18 +325,30 @@ const DriverFree = ({
             >
               <Flex width={"100%"} alignItems={"center"} gap={3}>
                 <Avatar
-                  name={currentUserLocationData?.firm_data?.firm_data?.[0]?.full_name}
-                  src={currentUserLocationData?.firm_data?.firm_data?.[0]?.full_name}
+                  name={
+                    currentUserLocationData?.firm_data?.firm_data?.[0]
+                      ?.full_name
+                  }
+                  src={
+                    currentUserLocationData?.firm_data?.firm_data?.[0]
+                      ?.full_name
+                  }
                 />
                 <Box>
                   <p className={cls.cardStartSubTitlez}>Перевозчик </p>
                   <p style={{ fontSize: `16px` }} className={cls.name}>
-                    {currentUserLocationData?.firm_data?.firm_data?.[0]?.full_name}
+                    {
+                      currentUserLocationData?.firm_data?.firm_data?.[0]
+                        ?.full_name
+                    }
                   </p>
 
                   <Flex alignItems={"center"} gap={2}>
                     <p className={cls.cardStartSubTitleZTel}>
-                      {currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}
+                      {
+                        currentUserLocationData?.firm_data?.firm_data?.[0]
+                          ?.phone_number
+                      }
                     </p>
                     <a
                       href={`https://t.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
@@ -373,16 +365,6 @@ const DriverFree = ({
               </Flex>
             </Box>
           )}
-
-        {/* {user_type?.[0] === `approved` && (
-          <Button
-            onClick={() => setCenterModalType(`selectCargo`)}
-            size={`lg`}
-            className={cls.btngreen}
-          >
-            {t(`Предложить груз`)}
-          </Button>
-        )} */}
       </Flex>
     </div>
   );

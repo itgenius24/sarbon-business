@@ -84,10 +84,10 @@ const DriverCheck = ({
               width={"fit-content"}
               style={{ background: "transparent" }}
               icon={<CloseIconM />}
-              onClick={() => {
-                setModalType("filter");
-                setIconStatus("");
-              }}
+               onClick={() => {
+              setModalType("");
+              setIconStatus("");
+            }}
             />
           </Flex>
           {statuses[currentUserLocationData?.orders?.[0]?.indicate_status?.[0]] && (

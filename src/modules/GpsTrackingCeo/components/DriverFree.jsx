@@ -4,14 +4,11 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CencelMapIcon,
   CloseIconM,
   ExelIcon,
   FurIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  NextBtnIcon,
   StarsIcon,
   StoneIcon,
   TelegramIcon,
@@ -27,7 +24,6 @@ import {
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import {
   Avatar,
   Box,
@@ -53,7 +49,6 @@ const DriverFree = ({
   cls,
   setModalType,
   currentUserLocationData,
-  setCenterModalType,
   setIconStatus,
   errors,
   control,
@@ -178,7 +173,7 @@ const DriverFree = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
             icon={<CloseIconM />}

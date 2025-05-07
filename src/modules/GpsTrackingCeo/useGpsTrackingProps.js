@@ -7,7 +7,6 @@ import {
   useGetCargoById,
   useGetCarRefueling,
   useGetMeasurement,
-  useGetNewPredData,
   useGetTrailerType,
   useGetUserData,
   useLoadingTypes,
@@ -21,7 +20,6 @@ import {
   SomeoneCargoIcon,
   WaitingForDriverIcon,
 } from "@/assets/icons/icons";
-import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
 import { useSearchParams } from "next/navigation";
 

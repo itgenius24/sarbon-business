@@ -1,5 +1,4 @@
 "use client";
-import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 
 import { Box, Flex } from "@chakra-ui/react";
@@ -80,7 +79,8 @@ export default function GpsTrackingDispatcherTop({ locale }) {
     mapRef,
     setDisVal,
     setDriverVal,
-    disVal,driverVal,
+    disVal,
+    driverVal,
   } = useGpsTrackingProps();
 
   const { t } = useTranslation(locale, "translations");
@@ -159,7 +159,6 @@ export default function GpsTrackingDispatcherTop({ locale }) {
                   setDriverVal={setDriverVal}
                   disVal={disVal}
                   driverVal={driverVal}
-
                 />
               )}
               {modalType === "driverFree" && (

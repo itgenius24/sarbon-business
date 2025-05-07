@@ -4,12 +4,9 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   FurIcon,
-  GreenCheckIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
   NextBtnIcon,
@@ -27,7 +24,6 @@ const DriverCheck = ({
   cls,
   currentUserLocationData,
   setModalType,
-  setCenterModalType,
   setIconStatus,
 }) => {
   const { t } = useTranslation();
@@ -43,7 +39,6 @@ const DriverCheck = ({
     { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
-  console.log(`currentUserLocationData`, currentUserLocationData);
 
   const statuses = {
     no_status: "Нет статуса",
@@ -84,10 +79,10 @@ const DriverCheck = ({
               width={"fit-content"}
               style={{ background: "transparent" }}
               icon={<CloseIconM />}
-              onClick={() => {
-                setModalType("filter");
-                setIconStatus("");
-              }}
+               onClick={() => {
+              setModalType("");
+              setIconStatus("");
+            }}
             />
           </Flex>
 

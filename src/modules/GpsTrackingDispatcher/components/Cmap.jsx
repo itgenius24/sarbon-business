@@ -20,7 +20,6 @@ import {
   Map,
   Placemark,
   Polyline,
-  SearchControl,
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
@@ -31,8 +30,6 @@ import { useTranslation } from "react-i18next";
 import { getSVGIcon } from "@/utils/getSVGIcon";
 import { BalloonContent } from "./BalloonContent";
 import { useSearchParams } from "next/navigation";
-import { set } from "date-fns";
-import { createPortal } from "react-dom";
 
 const Cmap = memo(
   ({
@@ -772,18 +769,6 @@ const Cmap = memo(
                       ),
                       iconImageSize: [60, 40],
                       iconImageOffset: [-30, -40], // pastki o‘rtaga to‘g‘ri keladi
-                    }}
-                    onBalloonOpen={(e) => {
-                      const placemark = e.get("target");
-                      const balloonInstance = placemark.balloon;
-                      // balloonInstance.events.add("click", () => {
-                      //   setLoadState(item);
-                      //   if (item?.new_status?.[0] === "occupied_cargo") {
-                      //     setModalType("driverGruzGoods");
-                      //   } else {
-                      //     setModalType("driverGruz");
-                      //   }
-                      // });
                     }}
                   />
                 )}

@@ -4,27 +4,15 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   FurIcon,
-  GreenCheckIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  NextBtnIcon,
-  QuestionBlueIcon,
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  setModalType,
-} from "@chakra-ui/react";
+import { Avatar, Box, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -32,17 +20,14 @@ import { useTranslation } from "react-i18next";
 const DriverQuestion = ({
   cls,
   currentUserLocationData,
-  stateMap,
   addressAdd,
-  setCenterModalType,
   setModalType,
   setStateMap,
   handleOpenModal,
-  handleCloseModal,
   setIconStatus,
 }) => {
   const { t } = useTranslation();
-  console.log(`currentUserLocationData`,currentUserLocationData)
+  console.log(`currentUserLocationData`, currentUserLocationData);
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -57,7 +42,9 @@ const DriverQuestion = ({
               src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
+              <p className={cls.userName}>
+                {currentUserLocationData?.user?.full_name}
+              </p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -68,7 +55,7 @@ const DriverQuestion = ({
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
           />
@@ -81,12 +68,19 @@ const DriverQuestion = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(new Date(currentUserLocationData?.users_gps?.[0]?.update_time).getHours() - 5),
+                  new Date(
+                    currentUserLocationData?.users_gps?.[0]?.update_time
+                  ).setHours(
+                    new Date(
+                      currentUserLocationData?.users_gps?.[0]?.update_time
+                    ).getHours() - 5
+                  ),
                   "yyyy-MM-dd, H:mm"
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
-                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                  "Нет адреса"}
               </p>
             </Box>
           </Flex>
@@ -132,7 +126,9 @@ const DriverQuestion = ({
                 )}
                 <Box>
                   <p className={cls.smallText}>{t(`Батарея`)} </p>
-                  <p className={cls.bigTitle}>{currentUserLocationData?.users_gps?.[0]?.battery}%</p>
+                  <p className={cls.bigTitle}>
+                    {currentUserLocationData?.users_gps?.[0]?.battery}%
+                  </p>
                 </Box>
               </Flex>
               <Flex alignItems={"center"} gap={2}>
@@ -155,7 +151,8 @@ const DriverQuestion = ({
             </div>
             <Box>
               <p className={cls.cardStartTitle}>
-                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                  "Нет адреса"}
               </p>
               <p className={cls.cardStartSubTitle}>
                 {format(
@@ -173,7 +170,10 @@ const DriverQuestion = ({
                 <p className={cls.cardStartTitle}>
                   {addressAdd
                     ? `${addressAdd?.address.slice(0, 17)}...`
-                    : `${currentUserLocationData?.user?.address_name.slice(0, 17)}...`}
+                    : `${currentUserLocationData?.user?.address_name.slice(
+                        0,
+                        17
+                      )}...`}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {/* RUS / <span>18 августа</span> */}
@@ -200,10 +200,12 @@ const DriverQuestion = ({
                   <span>Контейнеровоз</span>
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
-                      <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
+                      <StoneIcon />{" "}
+                      {currentUserLocationData?.vehicles?.[0]?.capacity} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
-                      <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height3}m3
+                      <LoadOulineIcon />{" "}
+                      {currentUserLocationData?.vehicles?.[0]?.height3}m3
                     </Flex>
                   </Flex>
                 </Flex>

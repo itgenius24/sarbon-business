@@ -1,28 +1,10 @@
 import {
-  Avatar,
   Box,
   Flex,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
   Tooltip,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
-import {
-  BatareyFullIcon,
-  BatareyIcon,
-  BluetoothIcon,
-  BluetoothIcon2,
-  CricleArrovIcon,
-  LocationActiveIcon,
-  PopupIcon,
-} from "@/assets/icons/icons";
 
-import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
 import { format } from "date-fns";
@@ -32,7 +14,6 @@ import { forwardRef } from "react";
 
 export const CarsCard = forwardRef(
   ({ item, handleCheckboxChange, ids, index, containerRef, t }) => {
-    const router = useRouter();
     const locale = useGetLang();
 
     return (

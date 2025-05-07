@@ -17,14 +17,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useMemo, useState } from "react";
 import CheckBoxComponent from "./CheckBoxComponent";
-import { Checkbox } from "@/components/Checkbox";
 import {
   useGetCargoMap,
-  useGetUserCargo,
   useOfferFromCustomerMutation,
 } from "@/services/api";
 import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 
 const SelectCargo = ({
@@ -32,14 +29,12 @@ const SelectCargo = ({
   currentUserLocationData,
   setCenterModalType,
   setOffset,
-  statusIconChange,
   setIconStatus,
 }) => {
   const { t } = useTranslation();
   const [selectCargo, setSelectCargo] = useState([]);
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const locale = useGetLang();
 
   const { data: dataMap, isLoading } = useGetCargoMap({
     data: {

@@ -1,26 +1,17 @@
 import {
-  AppleIcon,
-  BatareyFullIcon,
-  BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   ExelIcon,
-  FurIcon,
-  GreenCheckIcon,
   GruzGeenIcon,
-  GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
-  LocationActiveIcon,
   ModalGruzIcon,
-  NextBtnIcon,
-  StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { Popup } from "@/components/Popup";
 import { TextField } from "@/components/TextField";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { useCreateActionHistoriesMutation, useGetExcelPost, useUpdateCargo } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useGetExcelPost,
+  useUpdateCargo,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
   Avatar,
@@ -45,7 +36,6 @@ const DriverGruz = ({
   cls,
   loadState,
   setModalType,
-  setOffset,
   setLocationData,
   locationData,
   errors,
@@ -54,8 +44,6 @@ const DriverGruz = ({
   control,
 }) => {
   const { t } = useTranslation();
-
-  const role_id = authStore.userData.role_id;
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
@@ -103,8 +91,7 @@ const DriverGruz = ({
     });
   };
 
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const downloadByLanguage = async (url) => {
     try {
@@ -180,7 +167,7 @@ const DriverGruz = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType(`filter`)}
+            onClick={() => setModalType(``)}
           />
         </Flex>
 
@@ -196,7 +183,7 @@ const DriverGruz = ({
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
                 <span>
                   {loadState?.as_soon_as_a
-                    ? t( `Готов к загрузке`)
+                    ? t(`Готов к загрузке`)
                     : format(loadState?.load_time, "yyyy-MM-dd")}
                 </span>
               </p>
@@ -212,7 +199,7 @@ const DriverGruz = ({
                 {loadState?.country_code_to?.toUpperCase()} /
                 <span>
                   {loadState?.as_soon_as_b
-                    ? t( `Как можно скорее`)
+                    ? t(`Как можно скорее`)
                     : format(loadState?.date || new Date(), "yyyy-MM-dd")}
                 </span>
               </p>
@@ -320,15 +307,16 @@ const DriverGruz = ({
         >
           <Flex alignItems={`center`} gap={1}>
             <ExelIcon />
-             <p style={{
+            <p
+              style={{
                 fontWeight: 600,
                 overflow: `hidden`,
                 textOverflow: `ellipsis`,
                 width: `100%`,
-             }}>
-             
-                Список ближайших машин в Excel
-             </p>
+              }}
+            >
+              Список ближайших машин в Excel
+            </p>
           </Flex>
         </Box>
       </Flex>
@@ -344,7 +332,8 @@ const DriverGruz = ({
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}
+              .
             </p>
           </ModalBody>
 
@@ -359,7 +348,7 @@ const DriverGruz = ({
               className={cls.btnOutline}
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(21, 186, 77, 1)" }}

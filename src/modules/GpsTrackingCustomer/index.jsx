@@ -4,28 +4,12 @@ import { useTranslation } from "@/app/i18n/client";
 
 import { Box, Flex } from "@chakra-ui/react";
 import {
-  BlueFuraIcon,
-  BluePendingIcon,
-  BluePhoneIcon,
-  CencelMapIcon,
-  CheckBlueIcon,
   FilterIcon,
-  GoodsFuraIcon,
-  GoodsPhoneIcon,
-  GreenCarIcon,
-  GreenFuraIcon,
-  GreenPhoneIcon,
-  LoadOulineIcon,
-  MapCargoGreenIcon,
-  MapCargoLoadGoodsIcon,
-  QuestionBlueIcon,
-  StoneIcon,
 } from "@/assets/icons/icons";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import cls from "./style.module.scss";
 
-import ReactDOMServer from "react-dom/server";
 
 import Filter from "./components/Filter";
 import DriverFree from "./components/DriverFree";

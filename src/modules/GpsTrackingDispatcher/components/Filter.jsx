@@ -7,10 +7,6 @@ import { useTranslation } from "@/app/i18n/client";
 import {
   Box,
   Flex,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -19,16 +15,12 @@ const Filter = ({
   cls,
   locale,
   control,
-  loadingOptions,
   watch,
   register,
   setValue,
-  handleOpenModal,
   errors,
-  setDistance,
   carTypeOptions,
   getUserOption,
-  distance,
   handleClear,
   checkboxStatuses,
   handleCheckboxChange,

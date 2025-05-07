@@ -1,22 +1,9 @@
 import {
-  AppleIcon,
-  BatareyFullIcon,
-  BluetoothIcon,
   CeckGoodsIcon,
-  CheckBlueIcon,
   CloseIconM,
-  FurIcon,
-  GreenCheckIcon,
-  GruzGeenIcon,
   GruzGoodsIcon,
-  GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
-  LocationActiveIcon,
-  ModalGruzIcon,
   ModalOodsIcon,
-  NextBtnIcon,
-  StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
 import { useUpdateCargo } from "@/services/api";
@@ -40,10 +27,14 @@ import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocationData }) => {
+const DriverGruzGoods = ({
+  cls,
+  setModalType,
+  loadState,
+  locationData,
+  setLocationData,
+}) => {
   const { t } = useTranslation();
-  console.log("loadState", loadState);
-
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
     setPopupOpen(false);
@@ -67,7 +58,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
   const updateCar = () => {
     mutate({
       data: {
-        guid: loadState?.guid, //yukni guidisi
+        guid: loadState?.guid,
         new_status: ["free_cargo"],
         users_id_3: "",
       },
@@ -96,13 +87,12 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType(`filter`)}
+            onClick={() => setModalType(``)}
           />
         </Flex>
 
         <Box mt={3} className={cls.cardWrapOutline}>
           <Flex gap={2}>
-            {/* <div className={cls.startAGoodsIcon}>A</div> */}
             <div className={cls.startAIconWrapGoods}>
               <div className={cls.startAGoodsIcon}>A</div>{" "}
               <div className={cls.line}></div>{" "}
@@ -112,7 +102,11 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               <p className={cls.cardStartTitle}>{loadState?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
-                <span>{  loadState?.as_soon_as_a ? t( `Готов к загрузке`) :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                <span>
+                  {loadState?.as_soon_as_a
+                    ? t(`Готов к загрузке`)
+                    : format(loadState?.load_time, "yyyy-MM-dd")}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -124,7 +118,12 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               <p className={cls.cardStartTitle}> {loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_to?.toUpperCase()} /
-                <span> { loadState?.as_soon_as_b ? t( `Как можно скорее`) :  format(loadState?.date, "yyyy-MM-dd")}</span>
+                <span>
+                  {" "}
+                  {loadState?.as_soon_as_b
+                    ? t(`Как можно скорее`)
+                    : format(loadState?.date, "yyyy-MM-dd")}
+                </span>
               </p>
             </Box>
           </Flex>
@@ -234,7 +233,8 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}
+              .
             </p>
           </ModalBody>
 
@@ -249,7 +249,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               colorScheme="blue"
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(193, 187, 32, 1)" }}

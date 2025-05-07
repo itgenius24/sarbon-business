@@ -7,16 +7,13 @@ import {
   CloseIconM,
   FurIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  ModalGruzIcon,
   ModalWatingIcon,
-  NextBtnIcon,
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { useGetOffer, useUpdateResponse } from "@/services/api";
+import {useUpdateResponse } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useState } from "react";
@@ -29,15 +26,7 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
     setPopupOpen(false);
   }
 
-  const getOfferCount = useGetOffer(
-    {
-      data: JSON.stringify({
-        users_id_2: currentUserLocationData?.user?.guid,
-        with_relations: true,
-      })
-    },
-    { enabled: Boolean(currentUserLocationData?.user?.guid), }
-  );
+
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess:() => {
@@ -82,7 +71,7 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType("filter")}
+            onClick={() => setModalType("")}
           />
         </Flex>
         {/* <Button

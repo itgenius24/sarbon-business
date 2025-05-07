@@ -1,22 +1,10 @@
 import {
-  AppleIcon,
-  BatareyFullIcon,
-  BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
-  FurIcon,
-  GreenCheckIcon,
   GruzGeenIcon,
-  GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
-  LocationActiveIcon,
   ModalGruzIcon,
-  NextBtnIcon,
-  StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { Popup } from "@/components/Popup";
 import { useUpdateCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
@@ -42,13 +30,11 @@ const DriverGruz = ({
   cls,
   loadState,
   setModalType,
-  setOffset,
   setLocationData,
   locationData,
 }) => {
   const { t } = useTranslation();
 
-  const role_id = authStore.userData.role_id;
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {
@@ -106,7 +92,7 @@ const DriverGruz = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType(`filter`)}
+            onClick={() => setModalType(``)}
           />
         </Flex>
 
@@ -204,15 +190,7 @@ const DriverGruz = ({
             </p>
           </Flex>
         </Box>
-        {/* {role_id !== `f81d3c3d-228d-479e-a2b1-9948c98640f2` && (
-          <Button
-            onClick={() => setPopupOpen(true)}
-            size={"lg"}
-            className={cls.btngreen}
-          >
-            {t(`Забронировать груз`)}
-          </Button>
-        )} */}
+  
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />

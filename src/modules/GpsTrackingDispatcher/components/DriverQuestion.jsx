@@ -4,12 +4,9 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   FurIcon,
-  GreenCheckIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
   NextBtnIcon,
@@ -23,7 +20,6 @@ import {
   Button,
   Flex,
   IconButton,
-  setModalType,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
@@ -32,13 +28,11 @@ import { useTranslation } from "react-i18next";
 const DriverQuestion = ({
   cls,
   currentUserLocationData,
-  stateMap,
   addressAdd,
   setCenterModalType,
   setModalType,
   setStateMap,
   handleOpenModal,
-  handleCloseModal,
   setIconStatus,
 }) => {
   const { t } = useTranslation();
@@ -68,7 +62,7 @@ const DriverQuestion = ({
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
             onClick={() => {
-              setModalType("filter");
+              setModalType("");
               setIconStatus("");
             }}
           />

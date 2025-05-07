@@ -4,12 +4,9 @@ import {
   BatareyFullIcon,
   BatareyIcon,
   BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   FurIcon,
-  GreenCheckIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
   NextBtnIcon,
@@ -18,8 +15,7 @@ import {
   TelegramIcon,
 } from "@/assets/icons/icons";
 import { useGetOffer, useGetUserGpsByIDData } from "@/services/api";
-import authStore from "@/store/auth.store";
-import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
+import { Avatar, Box, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -28,13 +24,12 @@ const DriverCheck = ({
   cls,
   currentUserLocationData,
   setModalType,
-  setCenterModalType,
   setIconStatus,
 }) => {
   const { t } = useTranslation();
 
   console.log(`currentUserLocationData`, currentUserLocationData);
-  
+
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
@@ -45,15 +40,14 @@ const DriverCheck = ({
     { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
-   const getUserGps = useGetUserGpsByIDData({
-      params: {
-        data: JSON.stringify({
-          guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
-          with_relations: true,
-        }),
-      },
-    });
-
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+  });
 
   const statuses = {
     no_status: "Нет статуса",
@@ -84,7 +78,9 @@ const DriverCheck = ({
             <Flex gap={3}>
               <Avatar name="Bobur Nimatllayey" src="#" />
               <Box>
-                <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
+                <p className={cls.userName}>
+                  {currentUserLocationData?.user?.full_name}
+                </p>
                 <p className={cls.version}>
                   <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
                 </p>
@@ -95,12 +91,14 @@ const DriverCheck = ({
               style={{ background: "transparent" }}
               icon={<CloseIconM />}
               onClick={() => {
-                setModalType("filter");
+                setModalType("");
                 setIconStatus("");
               }}
             />
           </Flex>
-          {statuses[currentUserLocationData?.orders?.[0]?.indicate_status?.[0]] && (
+          {statuses[
+            currentUserLocationData?.orders?.[0]?.indicate_status?.[0]
+          ] && (
             <Box
               mt={`17px`}
               rightIcon={<NextBtnIcon />}
@@ -108,8 +106,9 @@ const DriverCheck = ({
               className={cls.chatCard}
             >
               <p>
-                {statuses[currentUserLocationData?.orders?.[0]?.indicate_status?.[0]] ||
-                  "Нет статуса"}
+                {statuses[
+                  currentUserLocationData?.orders?.[0]?.indicate_status?.[0]
+                ] || "Нет статуса"}
               </p>
             </Box>
           )}
@@ -132,7 +131,8 @@ const DriverCheck = ({
                   )}{" "}
                 </p>
                 <p className={cls.bigTitle}>
-                  {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                  {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                    "Нет адреса"}
                 </p>
               </Box>
             </Flex>
@@ -195,14 +195,16 @@ const DriverCheck = ({
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_data
-                      ?.address_id_data?.name
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.city_id_data?.address_id_data?.name
                   }{" "}
                   /
                   <span>
                     {format(
-                      currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
-                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
+                      currentUserLocationData?.orders?.[0]?.cargo_id_data
+                        ?.load_time
+                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.load_time
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -220,14 +222,15 @@ const DriverCheck = ({
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_2_data
-                      ?.address_id_data?.name
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.city_id_2_data?.address_id_data?.name
                   }
                   /
                   <span>
                     {format(
                       currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
-                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
+                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.date
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -255,8 +258,7 @@ const DriverCheck = ({
                       </Flex>
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
-                        {currentUserLocationData?.vehicles?.[0]?.height3 }{" "}
-                        m3
+                        {currentUserLocationData?.vehicles?.[0]?.height3} m3
                       </Flex>
                     </Flex>
                   </Flex>
@@ -273,8 +275,8 @@ const DriverCheck = ({
               <p className={cls.sum}>
                 {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
                 {
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data
-                    ?.code
+                  currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    ?.currency_id_data?.code
                 }
               </p>
               <p className={cls.cardStartSubTitle}>
@@ -288,44 +290,36 @@ const DriverCheck = ({
               </p>
             </Flex>
           </Box>
-          {/* <Button
-            onClick={() => {
-              setCenterModalType("changeIcon");
-              setIconStatus(currentUserLocationData?.user?.provisions?.[0]);
-            }}
-            leftIcon={<CheckBlueIcon />}
-            rightIcon={<NextBtnIcon />}
-            size={`lg`}
-            className={cls.btnBlueOutline}
-          >
-          {t(`Занята нашим грузом`)}
-          </Button> */}
-         {getUserGps?.data?.response && (
-                 <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
-                   <Flex width={"100%"} alignItems={"center"} gap={3}>
-                     <Avatar
-                       name={getUserGps?.data?.response?.[0]?.full_name}
-                       src={getUserGps?.data?.response?.[0]?.full_name}
-                     />
-                     <Box>
-                       <p className={cls.cardStartSubTitlez}>Диспетчер </p>
-                       <p style={{ fontSize: `16px` }} className={cls.name}>
-                         {getUserGps?.data?.response?.[0]?.full_name}
-                       </p>
-                       <Flex alignItems={"center"} gap={2}>
-                         <a
-                           href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
-                         >
-                           <TelegramIcon />
-                         </a>
-                         <p className={cls.cardStartSubTitleZTel}>
-                           {getUserGps?.data?.response?.[0]?.phone}
-                         </p>
-                       </Flex>
-                     </Box>
-                   </Flex>
-                 </Box>
-               )}
+
+          {getUserGps?.data?.response && (
+            <Box
+              style={{ background: `white` }}
+              className={cls.cardWrapOutline}
+            >
+              <Flex width={"100%"} alignItems={"center"} gap={3}>
+                <Avatar
+                  name={getUserGps?.data?.response?.[0]?.full_name}
+                  src={getUserGps?.data?.response?.[0]?.full_name}
+                />
+                <Box>
+                  <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                  <p style={{ fontSize: `16px` }} className={cls.name}>
+                    {getUserGps?.data?.response?.[0]?.full_name}
+                  </p>
+                  <Flex alignItems={"center"} gap={2}>
+                    <a
+                      href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                    >
+                      <TelegramIcon />
+                    </a>
+                    <p className={cls.cardStartSubTitleZTel}>
+                      {getUserGps?.data?.response?.[0]?.phone}
+                    </p>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Box>
+          )}
         </Flex>
       )}
     </div>

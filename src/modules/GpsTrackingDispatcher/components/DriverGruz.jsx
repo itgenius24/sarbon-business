@@ -1,25 +1,12 @@
 import {
-  AppleIcon,
-  BatareyFullIcon,
-  BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   ExelIcon,
-  FurIcon,
-  GreenCheckIcon,
   GruzGeenIcon,
-  GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
-  LocationActiveIcon,
   ModalGruzIcon,
-  NextBtnIcon,
-  StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { Popup } from "@/components/Popup";
 import { TextField } from "@/components/TextField";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import {
   useCreateActionHistoriesMutation,
   useGetExcelPost,
@@ -56,7 +43,6 @@ const DriverGruz = ({
   cls,
   loadState,
   setModalType,
-  setOffset,
   setLocationData,
   locationData,
   errors,
@@ -188,7 +174,7 @@ const DriverGruz = ({
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType(`filter`)}
+            onClick={() => setModalType(``)}
           />
         </Flex>
 

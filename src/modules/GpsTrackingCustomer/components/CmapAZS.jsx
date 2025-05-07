@@ -1,47 +1,32 @@
 "use client";
 import {
-  BlueFuraIcon,
-  BluePendingIcon,
-  BluePhoneIcon,
-  CencelMapIcon,
-  CheckBlueIcon,
-  FilterIcon,
   GoodsFuraIcon,
   GoodsPhoneIcon,
-  GreenCarIcon,
   GreenFuraIcon,
   GreenPhoneIcon,
   LoadOulineIcon,
   MapCargoGreenIcon,
   MapCargoLoadGoodsIcon,
-  QuestionBlueIcon,
   StoneIcon,
   GreenMapIcon,
   RefuelingIcon,
   RefuelingIconMap,
-  TelegramIcon,
-  WatsapIcon,
-  PrimumIcon,
   RefeIcon,
 } from "@/assets/icons/icons";
 import ReactDOMServer from "react-dom/server";
 import { Box, Flex } from "@chakra-ui/react";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
 import {
   Clusterer,
   Map,
-  ObjectManager,
   Placemark,
   SearchControl,
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
-import { FixedSizeList as List } from "react-window";
 import { useTranslation } from "react-i18next";
-import authStore from "@/store/auth.store";
 import { getSVGIcon } from "@/utils/getSVGIcon";
 import { BalloonContent } from "./BalloonContent";
 

@@ -1,5 +1,4 @@
 import {
-  BluePendingIcon,
   CencelMapIcon,
   CheckBlueIcon,
   CloseIconModal,

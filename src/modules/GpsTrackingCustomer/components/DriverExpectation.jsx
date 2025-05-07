@@ -7,16 +7,14 @@ import {
   CloseIconM,
   FurIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  ModalGruzIcon,
   ModalWatingIcon,
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import { useGetOffer, useUpdateResponse } from "@/services/api";
+import {  useUpdateResponse } from "@/services/api";
 import {
   Avatar,
   Box,
@@ -42,15 +40,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     setPopupOpen(false);
   }
 
-  const getOfferCount = useGetOffer(
-    {
-      data: JSON.stringify({
-        users_id_2: currentUserLocationData?.user?.guid,
-        with_relations: true,
-      }),
-    },
-    { enabled: Boolean(currentUserLocationData?.user?.guid) }
-  );
+
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
@@ -62,7 +52,6 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     },
   });
 
-  console.log(`getOfferCount`, currentUserLocationData?.orders?.[0]);
 
   const handleMutation = () => {
     updateResponseMutation.mutate({
@@ -99,7 +88,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
             width={"fit-content"}
             style={{ background: "transparent" }}
             icon={<CloseIconM />}
-            onClick={() => setModalType("filter")}
+            onClick={() => setModalType("")}
           />
         </Flex>
         <Button

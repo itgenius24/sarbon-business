@@ -1,18 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
-  useGetCar,
   useGetCarDispatcher,
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
-  useGetUserData,
   useLoadingTypes,
   useLocation,
-  useLogistikaGpsTrackingFilterDriver,
   useUpdateUserInfo,
 } from "@/services/api";
-import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
