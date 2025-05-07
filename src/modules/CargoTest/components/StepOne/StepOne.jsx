@@ -54,7 +54,7 @@ const StepOne = ({ status }) => {
     editModal,
     setEditModal,
   } = useStepOneProps();
-
+  
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -159,17 +159,45 @@ const StepOne = ({ status }) => {
                       control={control}
                       name="weight_measurement"
                       register={register}
-                      additionalItemName="weight_unit"
+                      // additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("Вес")}
-                      additionalItemPlaceholder="т"
-                      additionalItemOptions={weightMeasurementOptions}
+                      additionalItemPlaceholder="T"
+                      // additionalItemOptions={weightMeasurementOptions}
                       disabled={!canEdit}
-                      type="number"
+                      type="text"
                       onKeyDown={(e) => {
-                        if (e.key === "." || e.key === "," || e.key === "e") {
+                        const allowedKeys = [
+                          "Backspace",
+                          "Tab",
+                          "ArrowLeft",
+                          "ArrowRight",
+                          "Delete",
+                          "0",
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                          "9",
+                          ".",
+                          ",",
+                        ];
+                        if (!allowedKeys.includes(e.key)) {
                           e.preventDefault();
                         }
+                      }}
+                      onInput={(e) => {
+                        let value = e.target.value;
+
+                        value = value.replace(/[^0-9.,]/g, "");
+
+                        value = value.replace(/,/g, ".");
+
+                        e.target.value = value;
                       }}
                       zIndex={90}
                     />
@@ -210,11 +238,39 @@ const StepOne = ({ status }) => {
                       additionalItemPlaceholder="m³"
                       disabled={!canEdit}
                       onKeyDown={(e) => {
-                        if (e.key === "." || e.key === "," || e.key === "e") {
+                        const allowedKeys = [
+                          "Backspace",
+                          "Tab",
+                          "ArrowLeft",
+                          "ArrowRight",
+                          "Delete",
+                          "0",
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                          "9",
+                          ".",
+                          ",",
+                        ];
+                        if (!allowedKeys.includes(e.key)) {
                           e.preventDefault();
                         }
                       }}
-                      type="number"
+                      onInput={(e) => {
+                        let value = e.target.value;
+
+                        value = value.replace(/[^0-9.,]/g, "");
+
+                        value = value.replace(/,/g, ".");
+
+                        e.target.value = value;
+                      }}
+                      type="text"
                     />
                     {canEdit && (
                       <Flex ml={4} gap={2} mt={2}>

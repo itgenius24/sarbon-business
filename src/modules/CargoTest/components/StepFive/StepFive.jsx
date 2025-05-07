@@ -170,7 +170,7 @@ const StepFive = ({ status }) => {
         notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
-        measurement_id: watch(`weight_unit`)?.value,
+        measurement_id: "3935ade8-3cfc-48bb-ad8a-e5b6806031dd",  // default tonna
         volume_m3: +watch(`volume_measurement`),
         packages_id: watch(`packaging`)?.value || "",
         package_quantity: +watch(`packaging_quantity`) || 0,
@@ -273,7 +273,7 @@ const StepFive = ({ status }) => {
         notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
-        measurement_id: watch(`weight_unit`)?.value,
+        measurement_id: "3935ade8-3cfc-48bb-ad8a-e5b6806031dd", // default tonna
         volume_m3: +watch(`volume_measurement`),
         packages_id: watch(`packaging`)?.value || "",
         package_quantity: +watch(`packaging_quantity`) || 0,
