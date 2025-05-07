@@ -44,7 +44,7 @@ const Filter = ({
   const hanleAdress = (location, name) => {
     mapRef.current.setCenter(
       location?.GeoObject?.Point?.pos.split(` `).reverse(),
-      10
+    11
     );
 
     setValue(name, `${location?.GeoObject?.name}`);
@@ -132,7 +132,7 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <Box mb={`10px`} className={cls.locationWrap}>
             <TextFieldWithAddition
-                 placeholder={t("Город или страна")}
+              placeholder={t("Город или страна")}
               rules={{ required: true }}
               label={t("Поиск на карте")}
               additionalItemTheme="white"

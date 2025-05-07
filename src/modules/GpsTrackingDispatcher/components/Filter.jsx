@@ -39,7 +39,7 @@ const Filter = ({
   const hanleAdress = (location, name) => {
     mapRef.current.setCenter(
       location?.GeoObject?.Point?.pos.split(` `).reverse(),
-      10
+      11
     );
 
     setValue(name, `${location?.GeoObject?.name}`);
