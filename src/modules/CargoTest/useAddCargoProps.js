@@ -348,7 +348,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     referencePoints: [...getLoadings, ...getUnloading],
   });
 
-  console.log("distance", distance, getLoadings, getUnloading);
 
   const deleteCargo = useDeleteCargo({
     onSuccess() {
@@ -829,6 +828,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         country_code_to: watch(`country_code_to`),
         from: watch(`loadings`)?.[0].address,
         to: watch(`unloading`)[watch(`unloading`).length - 1].address,
+        temp_from: watch(`temp_from`),
+        temp_to: watch(`temp_to`),
       },
     };
 
@@ -1122,6 +1123,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         belt: data?.belt,
         combined_cargo: data?.combined_cargo ? data?.combined_cargo : false,
       });
+
+      if(data?.temp_from || data?.temp_to  ){
+        setIsGradusOpen(true)
+      }
 
       setValue(`cargo_type`, {
         value: data?.cargo_type_id

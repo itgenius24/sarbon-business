@@ -1,7 +1,6 @@
 "use client";
 
 import cls from "./styles.module.scss";
-// import { elements } from "./elements";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
@@ -25,6 +24,7 @@ export const MainLayout = ({ locale, children }) => {
 
   const { mutate } = useUpdateNoteData();
 
+  console.log(`env`,process.env.NEXT_PUBLIC_AUTH_URL);
 
 
   const { data: data2, } = useGetNotificationFirst({

@@ -7,27 +7,20 @@ import { useTranslation } from "@/app/i18n/client";
 import {
   Box,
   Flex,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 const Filter = ({
   cls,
   locale,
   control,
-  loadingOptions,
   watch,
   register,
   setValue,
-  handleOpenModal,
   errors,
-  setDistance,
   carTypeOptions,
   getUserOption,
-  distance,
   handleClear,
   checkboxStatuses,
   handleCheckboxChange,
@@ -35,8 +28,48 @@ const Filter = ({
   handleInputClear,
   setLoadCheck,
   loadCheck,
+  isLoadingRefueling,
+  mapRef,
 }) => {
   const { t } = useTranslation(locale);
+
+  const [results, setResults] = useState([]);
+  const [address, setAddress] = useState();
+  const [debouncedValue] = useDebounce(address, 800);
+
+  const hanleAdress = (location, name) => {
+    mapRef.current.setCenter(
+      location?.GeoObject?.Point?.pos.split(` `).reverse(),
+      10
+    );
+
+    setValue(name, `${location?.GeoObject?.name}`);
+    setResults([]);
+  };
+
+  const handleGeocode = async () => {
+    const apiKey = process.env.NEXT_PUBLIC_YANDEX_MAP_KEY;
+    const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${debouncedValue}`;
+
+    try {
+      const response = await fetch(geocodeUrl);
+      const data = await response.json();
+      if (data.response) {
+        const geoObjects = data.response.GeoObjectCollection.featureMember;
+        setResults(geoObjects);
+      } else {
+        console.log("Manzil topilmadi");
+      }
+    } catch (error) {
+      console.error("Geokodlashda xatolik:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (debouncedValue?.length >= 3) {
+      handleGeocode();
+    }
+  }, [debouncedValue]);
 
   return (
     <div className={cls.filter}>
@@ -62,39 +95,60 @@ const Filter = ({
           </p>
         </Flex>
         <Box className={cls.cardWrap}>
-          <TextFieldWithAddition
-            placeholder={t("Адрес")}
-            rules={{ required: true }}
-            label={t("Поиск в радиусе")}
-            additionalItemTheme="white"
-            register={register}
-            name={"address"}
-            additionalOnclick={() => handleOpenModal()}
-            onClick={() => handleOpenModal()}
-            error={errors["address"]}
-            onlyFieldDisabled={true}
-            additionalItemPlaceholder={
-              <span className={cls.additionalIcons}>
-                <LocationMarkIcon />
-              </span>
-            }
-          />
-          <Flex mt={5} justifyContent={"space-between"} width={"100%"}>
-            <p>{t("Дистанция")}</p>
-            <span className={cls.disNum}>{distance * 4} km</span>
-          </Flex>
-          <Slider
-            onChange={(e) => setDistance(e)}
-            mt={1}
-            aria-label="slider-ex-1"
-            value={distance}
-            defaultValue={30}
-          >
-            <SliderTrack bg="rgba(0, 122, 255, 0.3)">
-              <SliderFilledTrack bg={"rgba(0, 122, 255, 1)"} />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
+          <Box mb={`10px`} className={cls.locationWrap}>
+            <TextFieldWithAddition
+              placeholder={t("Адрес")}
+              rules={{ required: true }}
+              label={t("Город или страна")}
+              additionalItemTheme="white"
+              register={register}
+              name={"address"}
+              error={errors["address"]}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                if (e.target.value.length === 0) {
+                  setValue(`address`, ``);
+                }
+              }}
+              onlyFieldDisabled={false}
+              additionalItemPlaceholder={
+                <span className={cls.additionalIcons}>
+                  <LocationMarkIcon />
+                </span>
+              }
+            />
+            {results.length > 0 && address?.length > 0 && (
+              <Box className={cls.optionsWrap}>
+                {results?.map((location, idx) => {
+                  const text = location?.GeoObject?.name || "";
+
+                  const highlightText = (text, search) => {
+                    if (!search) return text;
+                    const regex = new RegExp(`(${search})`, "gi");
+                    return text.replace(
+                      regex,
+                      `<span class="${cls.bold}">$1</span>`
+                    );
+                  };
+                  return (
+                    <Flex
+                      onClick={() => hanleAdress(location, "address")}
+                      key={idx}
+                      gap={3}
+                      alignItems={"center"}
+                    >
+                      <p
+                        className={cls.item}
+                        dangerouslySetInnerHTML={{
+                          __html: highlightText(text, address),
+                        }}
+                      />{" "}
+                    </Flex>
+                  );
+                })}
+              </Box>
+            )}
+          </Box>
         </Box>
         <Box className={cls.cardWrap}>
           <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
@@ -112,7 +166,7 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.our_cargo}
-              onChange={() => handleCheckboxChange("our_cargo")}
+              onChange={() => handleCheckboxChange("our_cargo",`waiting_for_driver`)}
             >
               {t("Занятые с нашим грузом")}
             </Checkbox>
@@ -143,25 +197,30 @@ const Filter = ({
             >
               {t("Грузы")}
             </Checkbox>
-            <Checkbox
-              // isLoading={isLoadingRefueling}
-              // isDisabled={isLoadingRefueling}
-              width={"16px"}
-              height={"16px"}
-              defaultChecked={Boolean(watch(`refuelingState`))}
-              onChange={() =>
-                setValue(`refuelingState`, !watch(`refuelingState`))
-              }
-            >
-              {t("Заправки")}
-            </Checkbox>
+            <Flex gap={1}>
+              <Checkbox
+                isLoading={isLoadingRefueling}
+                isDisabled={isLoadingRefueling}
+                width={"16px"}
+                height={"16px"}
+                defaultChecked={Boolean(watch(`refuelingState`))}
+                onChange={() =>
+                  setValue(`refuelingState`, !watch(`refuelingState`))
+                }
+              >
+                {t("Заправки")}
+              </Checkbox>
+          
+            </Flex>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
+        <p className={cls.checkCardTitle}>{t("Тип кузова")}</p>
+
           <Flex flexDirection={"column"} rowGap={2}>
             <Dropdown
               placeholder={t("Введите тип кузова")}
-              label={t("Тип кузова")}
+              // label={t("Тип кузова")}
               name="car_type"
               options={carTypeOptions}
               errors={errors}
@@ -170,19 +229,6 @@ const Filter = ({
               watch={watch}
               handleInputClear={handleInputClear}
               setValue={setValue}
-              clearable
-            />
-            <Dropdown
-              placeholder={t("Введите тип загрузки")}
-              label={t("Тип загрузки")}
-              name="load_type_id"
-              width="100%"
-              options={loadingOptions}
-              errors={errors}
-              control={control}
-              watch={watch}
-              setValue={setValue}
-              handleInputClear={handleInputClear}
               clearable
             />
             <Box>
@@ -196,32 +242,7 @@ const Filter = ({
             </Box>
           </Flex>
         </Box>
-        <Box className={cls.cardWrap}>
-          <p className={cls.label}>{t("Параметры груза")}</p>
-          <Flex gap={4}>
-            <TextFieldWithAddition
-              className={cls.textField}
-              errors={errors}
-              control={control}
-              name="weight"
-              register={register}
-              additionalItemName="weight_unit"
-              placeholder={t("Вес")}
-              type="number"
-              zIndex={90}
-            />
-            <TextFieldWithAddition
-              className={cls.textField}
-              errors={errors}
-              control={control}
-              name="volume"
-              register={register}
-              placeholder={t("Объем")}
-              additionalItemPlaceholder="m³"
-              type="number"
-            />
-          </Flex>
-        </Box>
+     
       </Flex>
     </div>
   );

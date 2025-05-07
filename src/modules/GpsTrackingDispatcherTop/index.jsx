@@ -78,6 +78,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
     driverLoading,
     setCarsArr,
     isBalloonOpened, setIsBalloonOpened,
+    mapRef
   } = useGpsTrackingProps();
 
 
@@ -118,6 +119,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
             isBalloonOpened={isBalloonOpened}
             setIsBalloonOpened={setIsBalloonOpened}
             currentUserLocationData={currentUserLocationData}
+            mapRef={mapRef}
           />
         )}
 
@@ -160,6 +162,7 @@ export default function GpsTrackingDispatcherTop({locale}) {
                   getCarData={getCarData}
                   driverLoading={driverLoading}
                   setCarsArr={setCarsArr}
+                  mapRef={mapRef}
                 />
               )}
               {modalType === "driverFree" && (

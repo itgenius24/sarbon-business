@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  useCreateActionHistoriesMutation,
+  useCreateLogHistory,
   useGetCar,
-  useGetCarDispatcher,
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
@@ -26,8 +27,8 @@ import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
 
 /* eslint no-undef: 0 */ // --> OFF
+
 export const useGpsTrackingProps = () => {
-  // const {watch} = useForm()
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
   const disId = authStore.userData.id;
@@ -44,11 +45,11 @@ export const useGpsTrackingProps = () => {
   const [locationData, setLocationData] = useState([]);
   const [distance, setDistance] = useState(50);
   const [closeRes, setCLoseRes] = useState(false);
-  const [offset, setOffset] = useState(1);
+  const [offset, setOffset] = useState(0);
   const [offsetCar, setOffsetCAr] = useState(1);
   const [currentUserLocationData, setCurrentUserLocationData] = useState();
-    const [iconStatus, setIconStatus] = useState(``);
-    const [modalType, setModalType] = useState("");
+  const [iconStatus, setIconStatus] = useState(``);
+  const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
   const [loadState, setLoadState] = useState({});
   const [loadHoverState, setHoverLoadState] = useState({});
@@ -56,10 +57,8 @@ export const useGpsTrackingProps = () => {
   const [stateMap, setStateMap] = useState(false);
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
-  const [refuelingState, setRefuelingState] = useState(false);
-  const [data, setData] = useState([]); // Hozirgi state
-  const [isLoading, setIsLoading] = useState(false); // Loading holati
   const [remainingData, setRemainingData] = useState([]);
+
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -142,78 +141,20 @@ export const useGpsTrackingProps = () => {
         ...intervalLocations,
         watch("to"),
       ]);
-      // if(multiRoute.getRoutes().get(0)) {
-      //   const duration = multiRoute.getRoutes().get(0).properties.get("duration").text;
-      //   const distance = multiRoute.getRoutes().get(0).properties.get("distance").text;
-      //   setDistanceParameters({ duration, distance });
-      // }
-      // console.log(multiRoute.getWayPoints());
-      // const locations = [watch("from"), ...locationNames, watch("to")];
-      // locations.forEach((item, index) => {
-      //   console.log(multiRoute.getWayPoints().get(index).properties.getAll());
-      // });
-      // console.log(multiRoute.getWayPoints().get(0).properties.getAll());
-      // console.log(multiRoute.getWayPoints().get(1).properties.getAll());
     }
   }
 
-  function initYmaps() {
-    /**
-     * Creating a multiroute.
-     * @see https://api.yandex.com/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
-     */
+  const { mutate: logHistory } = useCreateLogHistory({});
 
-    if (window?.ymaps) {
-      ymaps.ready(() => {
-        var multiRoute = new ymaps.multiRouter.MultiRoute(
-          { referencePoints: [[], []] },
-          {
-            editorMidPointsType: "via",
-            routeActiveStrokeColor: "#175CD3",
-            editorDrawOver: false,
-          }
-        );
-
-        multiRoute.events.add("update", function () {
-          if (multiRoute.getRoutes().get(0)) {
-            const duration = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("duration").text;
-            const distance = multiRoute
-              .getRoutes()
-              .get(0)
-              .properties.get("distance").text;
-            setDistanceParameters({
-              duration,
-              distance,
-            });
-          }
-        });
-
-        const searchControl = new ymaps.control.SearchControl({
-          options: { float: "right" },
-        });
-
-        // Creating the map with the button added to it.
-        var myMap = new ymaps.Map(
-          "map",
-          {
-            center: [41.40587471972005, 69.46086540238926],
-            zoom: 7,
-            controls: [searchControl],
-          },
-          { buttonMaxWidth: 500 }
-        );
-
-        // Adding a multiroute to the map.
-        myMap.geoObjects.add(multiRoute);
-
-        mapRef.current = myMap;
-        multiRouteRef.current = multiRoute;
-      });
-    }
-  }
+  useEffect(() => {
+    logHistory({
+      data: {
+        users_id: authStore.userData.guid,
+        last_move_time: new Date(),
+        menu: `gps_track`,
+      },
+    });
+  }, []);
 
   let draggingIndex = null;
 
@@ -315,38 +256,61 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
   const toast = useToast();
+  console.log(`carsArr`, carsArr);
 
-  const { mutate: getCarRefueling } = useGetCarRefueling({
-    onSuccess: (res) => {
-      setRemainingData(res?.data?.data);
-    },
-  });
-
-  useEffect(() => {
-    if (remainingData.length === 0) {
-      getCarRefueling({
-        data: {
-          object_data: {},
-        },
-      });
-    }
-  }, []);
-
-  const { mutate: dataMutate, isLoading:dataMutateLoadin } = useGetCarDispatcher({
+  const { mutate: dataMutate, isLoading } = useGetCar({
     onSuccess: (data) => {
+      if (data?.response?.length === 50) {
+        if (carsArr >= 100) {
+          return;
+        } else {
+          setOffset(offset + 1);
+        }
+      }
       if (data?.response?.length) {
-        let data2 = data?.response?.map((item) => ({
-          user: item?.users_id_data?.[0],
-          vehicles: [item?.vehicle_id_data],
-          users_gps: [item],
-          firm_data: item?.firm_data,
-          orders: item?.order_data ? [item?.order_data] : undefined,
-        }));
-        // console.log(`data2`,data2)
-        setCarsArr((res) => [...res, ...data2]);
+        let data2 = data?.response?.filter(
+          (item) => item?.vehicles && item?.users_gps
+        );
+        // console.log(`carsArr21`, data2?.map((item) => ({ ...item, user: item?.user?.users_id_data})));
+
+        if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
+          data2 = data2?.map((item) => ({
+            ...item,
+            user: item?.user?.users_id_data,
+          }));
+        }
+        if (
+          watch(`load_type_id`)?.value ||
+          watch("weight") ||
+          watch("volume")
+        ) {
+          // console.log(`carsArr21`, data2);
+          setCarsArr(data2);
+        } else {
+          // console.log(`carsArr21`, data);
+          setCarsArr((res) => [...res, ...data2]);
+        }
+      } else {
+        // setCarsArr([]);
+        // toast({
+        //   title: t("Не найдено"),
+        //   description: t("К сожалений ничего не найдено"),
+        //   status: "info",
+        //   duration: 5000,
+        //   isClosable: true,
+        //   position: "top-right",
+        // });
+      }
+      if (data?.response?.length === null && !closeRes) {
+        setCLoseRes(true);
+        dataMutate({
+          data: { object_data: { limit: 50, page: offset, firm_id } },
+        });
       }
     },
   });
+
+  // console.log(`carsArr`, carsArr);
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -357,18 +321,18 @@ export const useGpsTrackingProps = () => {
     return carsArr?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
 
-  const { mutate: getLocation, isPending: locationPending } = useLocation({
+  const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
       // console.log(`dats`, data2);
-      if (data?.data?.response?.length === 100) {
-        setOffsetCAr(offsetCar + 100);
+      if (data?.data?.response?.length === 40) {
+        setOffsetCAr(offsetCar + 1);
       }
       if (data?.data?.response?.length) {
         setLocationData((res) => [...res, ...data2]);
       }
       if (data?.data?.response?.length === null && !closeRes) {
-        getLocation({ data: { object_data: { limit: 100, page: offsetCar } } });
+        getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
       }
     },
   });
@@ -390,8 +354,6 @@ export const useGpsTrackingProps = () => {
     }
     return acc;
   }, []);
-
-  
 
   const dataUserDataID = dataUserID.reduce((acc, current) => {
     const xistingItem = acc.find(
@@ -426,6 +388,21 @@ export const useGpsTrackingProps = () => {
     uniqueData,
   ]);
 
+  const { mutate: getCarRefueling } = useGetCarRefueling({
+    onSuccess: (res) => {
+      setRemainingData(res?.data?.data);
+    },
+  });
+
+  useEffect(() => {
+    if (remainingData.length === 0) {
+      getCarRefueling({
+        data: {
+          object_data: {},
+        },
+      });
+    }
+  }, []);
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
     value: item?.user?.guid,
@@ -435,9 +412,23 @@ export const useGpsTrackingProps = () => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
+      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: authStore.userData.your_id,
+          action_time: new Date(),
+          role_slug: `carrier`,
+          action_comment: `unpin_driver`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       setCenterModalType(``);
       setAddressAdd("");
       if (iconStatus === "empty") {
@@ -450,6 +441,7 @@ export const useGpsTrackingProps = () => {
         setModalType("driverFree");
       }
 
+      // offset(0)
       const find = getCarListProps?.data?.map((item) => {
         if (item?.user?.guid === currentUserLocationData.user?.guid) {
           return { ...item, ...(item.user.provisions = [iconStatus]) };
@@ -458,8 +450,26 @@ export const useGpsTrackingProps = () => {
       });
 
       setCarsArr(find);
+
+      // toast({
+      //   title: "Успешно изменено!",
+      //   description: "Вы успешно обновили этого пользователя",
+      //   status: "success",
+      //   duration: 5000,
+      //   isClosable: true,
+      //   position: "top-right",
+      // });
     },
-    onError() {},
+    onError() {
+      // toast({
+      //   title: "Ошибка",
+      //   description: "Не удалось обновить пользователя!",
+      //   status: "error",
+      //   duration: 5000,
+      //   isClosable: true,
+      //   position: "top-right",
+      // });
+    },
   });
 
   const addAdress = () => {
@@ -474,7 +484,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     console.log("offsetCar");
-    getLocation({ data: { object_data: { limit: 100, page: offsetCar  } } });
+    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
   useEffect(() => {
@@ -485,13 +495,24 @@ export const useGpsTrackingProps = () => {
             lat: watch("cor")?.split(",")[0],
             long: watch("cor")?.split(",")[1],
             number: distance * 4 || 100,
+            // car_type_id: watch("car_type")?.value,
             load_type_id: watch("load_type_id")?.value,
             weight: watch("weight"),
             volume: watch("volume"),
-            limit: 1000,
+            limit: 50,
             page: offset,
-            type: "customer",
-            customer_id: disId,
+            firm_id:
+              role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f"
+                ? firm_id
+                : undefined,
+            type:
+              role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+                ? "dispatcher"
+                : undefined,
+            dispatcher_id:
+              role_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
+                ? disId
+                : undefined,
           },
         },
       });
@@ -499,6 +520,7 @@ export const useGpsTrackingProps = () => {
   }, [
     watch("cor")?.split(",")[0],
     debouncedValue,
+    // watch("car_type")?.value,
     watch("load_type_id")?.value,
     watch("weight"),
     watch("volume"),
@@ -506,6 +528,7 @@ export const useGpsTrackingProps = () => {
   ]);
 
   const handleClear = () => {
+    // console.log("clear")
     setOffset(0);
     setValue("cor", ``);
     setValue("address", ``);
@@ -525,21 +548,21 @@ export const useGpsTrackingProps = () => {
   };
   const onSubmit = (data) => {
     const [lat, long] = data.cor.split(",");
-    mutate({
-      data: {
-        object_data: {
-          lat,
-          long,
-          number: distance || "100",
-          // car_type_id: watch("car_type")?.value,
-          load_type_id: watch("load_type_id")?.value,
-          weight: watch("weight"),
-          volume: watch("volume"),
-          limit: 40,
-          page: offset,
-        },
-      },
-    });
+    // mutate({
+    //   data: {
+    //     object_data: {
+    //       lat,
+    //       long,
+    //       number: distance || "100",
+    //       // car_type_id: watch("car_type")?.value,
+    //       load_type_id: watch("load_type_id")?.value,
+    //       weight: watch("weight"),
+    //       volume: watch("volume"),
+    //       limit: 40,
+    //       page: offset,
+    //     },
+    //   },
+    // });
   };
 
   const statusIconChange = () => {
@@ -563,18 +586,17 @@ export const useGpsTrackingProps = () => {
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];
 
-  useEffect(() => {
-    const ymapsScript = document.getElementById("yandex-maps-script");
-    if (ymapsScript) {
-      initYmaps();
-    }
-  }, depArr);
+  // useEffect(() => {
+  //   const ymapsScript = document.getElementById("yandex-maps-script");
+  //   if (ymapsScript) {
+  //     initYmaps();
+  //   }
+  // }, depArr);
 
   return {
     register,
     locations,
     locationData,
-
     errors,
     handleAppend,
     handleRemove,
@@ -602,7 +624,7 @@ export const useGpsTrackingProps = () => {
     onSubmit,
     handleSubmit,
     driverName: true,
-    isLoading: dataMutateLoadin,
+    isLoading: isLoading,
     locationPending,
     setValue,
     setChecked,
@@ -637,11 +659,7 @@ export const useGpsTrackingProps = () => {
     addressAdd,
     stateMap,
     addAdress,
-    setLocationData,
     refueling: remainingData,
-    setRefuelingState,
-    refuelingState,
-    isLoadingRefueling: isLoading,
-    setRefueling: setRemainingData,
+    setLocationData,
   };
 };

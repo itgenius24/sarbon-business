@@ -14,7 +14,7 @@ export function Providers({ children }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            // refetchOnWindowFocus: false,
+            refetchOnWindowFocus: false,
             retry: false,
           },
         },

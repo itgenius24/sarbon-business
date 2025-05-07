@@ -662,3 +662,40 @@
     }
   }
 }
+
+
+.locationWrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .optionsWrap {
+    position: absolute;
+    // padding: ;
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+    border-radius: 12px;
+    background-color: white;
+    border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
+    padding: 10px;
+    z-index: 43434;
+    top: 80px;
+    .item {
+      width: 100%;
+      font-size: 14px;
+      font-weight: 400;
+      border-bottom: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: flex;
+      padding: 10px 0 10px 0;
+      cursor: pointer;
+    }
+    .bold {
+      font-weight: 600 !important;
+    }
+  }
+}
