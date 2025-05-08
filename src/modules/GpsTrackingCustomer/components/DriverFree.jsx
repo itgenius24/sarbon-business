@@ -225,45 +225,39 @@ const DriverFree = ({
           </Flex>
         </Box>
         <Box className={cls.btnOutline}>
-          <Flex
-            pb={`10px`}
-            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
-            width={"100%"}
-            justifyContent={"space-between"}
-          >
-            <Tooltip
-              border={`1px solid rgba(219, 216, 227, 1)`}
-              background={`white`}
-              color={`black`}
-              placement="top-end"
-              label={
-                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                  ?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                      ?.name
-                  : t(`Пока нет машины`)
-              }
-            >
-              <p>
-                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                  ?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                      ?.name
-                  : t(`Пока нет машины`)}
-              </p>
-            </Tooltip>
-
-            <Flex gap={3}>
-              <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity}{" "}
-                т.
-              </Flex>
-              <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon />{" "}
-                {currentUserLocationData?.vehicles?.[0]?.height} m3
-              </Flex>
-            </Flex>
-          </Flex>
+            <Flex
+                    pb={`10px`}
+                    borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+                    width={"100%"}
+                    justifyContent={"space-between"}
+                  >
+                    <Tooltip
+                      border={`1px solid rgba(219, 216, 227, 1)`}
+                      background={`white`}
+                      color={`black`}
+                      placement="top-end"
+                      label={
+                        currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : t(`Пока нет машины`)
+                      }
+                    >
+                      <p className={cls.cargoType}>
+                        {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                          ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                          : t(`Пока нет машины`)}
+                      </p>
+                    </Tooltip>
+        
+                    <Flex gap={3}>
+                      <Flex gap={1} alignItems={"center"}>
+                        <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
+                      </Flex>
+                      <Flex gap={1} alignItems={"center"}>
+                        <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
+                      </Flex>
+                    </Flex>
+                  </Flex>
 
           <Flex
             p={`10px 0px`}

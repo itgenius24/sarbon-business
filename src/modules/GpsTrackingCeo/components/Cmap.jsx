@@ -547,25 +547,34 @@ const Cmap = memo(
               iconImageOffset: [-15, -42],
             }}
             modules={["geoObject.addon.balloon"]}
-            onClick={() => {
-              setCurrentUserLocationData(currentUserLocationData);
-              if (
-                currentUserLocationData?.order_data ||
-                currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
-              ) {
-                setModalType("driverCheck");
-              } else if (
-                currentUserLocationData?.user?.provisions?.[0] ===
-                "someone_cargo"
-              ) {
-                setModalType("driverQuestion");
-              } else if (
-                currentUserLocationData?.user?.provisions?.[0] ===
-                "waiting_for_driver"
-              ) {
-                setModalType("driverExpectation");
+            onClick={(e) => {
+              if (isSelectingPoints) {
+                const coords = e.get("target").geometry.getCoordinates();
+                handlePointSelect(coords);
+                e.preventDefault();
+                e.stopPropagation();
+
+                return;
               } else {
-                setModalType("driverFree");
+                setCurrentUserLocationData(currentUserLocationData);
+                if (
+                  currentUserLocationData?.order_data ||
+                  currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
+                ) {
+                  setModalType("driverCheck");
+                } else if (
+                  currentUserLocationData?.user?.provisions?.[0] ===
+                  "someone_cargo"
+                ) {
+                  setModalType("driverQuestion");
+                } else if (
+                  currentUserLocationData?.user?.provisions?.[0] ===
+                  "waiting_for_driver"
+                ) {
+                  setModalType("driverExpectation");
+                } else {
+                  setModalType("driverFree");
+                }
               }
             }}
           />
@@ -607,6 +616,8 @@ const Cmap = memo(
                         ? [45, 105]
                         : [40, 52],
                     iconImageOffset: [-15, -42],
+                    zIndexHover: 1,
+                    zIndex: 1,
                   }}
                   modules={["geoObject.addon.balloon"]}
                   onClick={(e) => {

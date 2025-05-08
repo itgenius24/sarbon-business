@@ -56,12 +56,11 @@ const Cmap = memo(
     const [pointB, setPointB] = useState(null);
     const [selecting, setSelecting] = useState(false);
     const [types, setType] = useState(``);
-
+    const [isSelectingPoints, setIsSelectingPoints] = useState(false);
 
     useEffect(() => {
       setIsClient(true);
     }, []);
-
 
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();
@@ -213,6 +212,25 @@ const Cmap = memo(
       return [lat, lon];
     };
 
+    const handlePointSelect = (coords) => {
+      if (!selecting) return;
+
+      if (clickCount === 0) {
+        setPointA(coords);
+        setClickCount(1);
+      } else if (clickCount === 1) {
+        setIsSelectingPoints(false);
+        setPointB(coords);
+        setClickCount(2);
+        setSelecting(false); // End selection
+        getDistanceInKm(pointA, coords);
+        setPoints([pointA, coords]);
+        if (types === `route`) {
+          drawRoute(pointA, coords);
+        }
+      }
+    };
+
     useEffect(() => {
       if (types === `rules` && points.length > 0) {
         openBallon();
@@ -268,7 +286,7 @@ const Cmap = memo(
       ymapsRef.current = ymaps;
       setTimeout(() => {
         drawRoute(pointA, pointB);
-      },500)
+      }, 500);
     };
 
     const handleDragEnd = (e, index) => {
@@ -351,7 +369,10 @@ const Cmap = memo(
             <RefeIcon />
           </div>
           <div
-            onClick={() => startRouteSelection(`route`)}
+            onClick={() => {
+              startRouteSelection(`route`);
+              setIsSelectingPoints(true);
+            }}
             className={`${cls.route} ${
               types === `route` ? cls.activeRoute : ``
             }`}
@@ -359,7 +380,10 @@ const Cmap = memo(
             <RouteIcon />
           </div>
           <div
-            onClick={() => startRouteSelection(`rules`)}
+            onClick={() => {
+              startRouteSelection(`rules`);
+              setIsSelectingPoints(true);
+            }}
             className={`${cls.route} ${
               types === `rules` ? cls.activeRoute : ``
             } `}
@@ -457,26 +481,39 @@ const Cmap = memo(
                             ? [45, 105]
                             : [40, 52],
                         iconImageOffset: [-15, -42],
+                        zIndexHover: 1,
+                        zIndex: 1,
                       }}
                       modules={["geoObject.addon.balloon"]}
-                      onBalloonOpen={(e) => {
-                        const placemark = e.get("target");
-                      }}
-                      onClick={() => {
-                        setCurrentUserLocationData(carInfo);
-                        if (carInfo?.user?.provisions?.[0] === "our_cargo") {
-                          setModalType("driverCheck");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] === "someone_cargo"
-                        ) {
-                          setModalType("driverQuestion");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "waiting_for_driver"
-                        ) {
-                          setModalType("driverExpectation");
+                      onClick={(e) => {
+                        if (isSelectingPoints) {
+                          const coords = e
+                            .get("target")
+                            .geometry.getCoordinates();
+                          handlePointSelect(coords);
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          return;
                         } else {
-                          setModalType("driverFree");
+                          setCurrentUserLocationData(carInfo);
+                          if (
+                            carInfo?.order_data ||
+                            carInfo?.user?.provisions?.[0] === "our_cargo"
+                          ) {
+                            setModalType("driverCheck");
+                          } else if (
+                            carInfo?.user?.provisions?.[0] === "someone_cargo"
+                          ) {
+                            setModalType("driverQuestion");
+                          } else if (
+                            carInfo?.user?.provisions?.[0] ===
+                            "waiting_for_driver"
+                          ) {
+                            setModalType("driverExpectation");
+                          } else {
+                            setModalType("driverFree");
+                          }
                         }
                       }}
                     />
@@ -526,27 +563,43 @@ const Cmap = memo(
                             ? [45, 105]
                             : [40, 52],
                         iconImageOffset: [-15, -42],
+                        zIndexHover: 1,
+                        zIndex: 1,
                       }}
                       modules={["geoObject.addon.balloon"]}
                       onBalloonOpen={(e) => {
                         const placemark = e.get("target");
                         const balloonInstance = placemark.balloon;
                       }}
-                      onClick={() => {
-                        setCurrentUserLocationData(carInfo);
-                        if (carInfo?.user?.provisions?.[0] === "our_cargo") {
-                          setModalType("driverCheck");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] === "someone_cargo"
-                        ) {
-                          setModalType("driverQuestion");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "waiting_for_driver"
-                        ) {
-                          setModalType("driverExpectation");
+                      onClick={(e) => {
+                        if (isSelectingPoints) {
+                          const coords = e
+                            .get("target")
+                            .geometry.getCoordinates();
+                          handlePointSelect(coords);
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          return;
                         } else {
-                          setModalType("driverFree");
+                          setCurrentUserLocationData(carInfo);
+                          if (
+                            carInfo?.order_data ||
+                            carInfo?.user?.provisions?.[0] === "our_cargo"
+                          ) {
+                            setModalType("driverCheck");
+                          } else if (
+                            carInfo?.user?.provisions?.[0] === "someone_cargo"
+                          ) {
+                            setModalType("driverQuestion");
+                          } else if (
+                            carInfo?.user?.provisions?.[0] ===
+                            "waiting_for_driver"
+                          ) {
+                            setModalType("driverExpectation");
+                          } else {
+                            setModalType("driverFree");
+                          }
                         }
                       }}
                     />

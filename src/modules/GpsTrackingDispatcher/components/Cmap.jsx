@@ -23,7 +23,7 @@ import {
   TypeSelector,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import React, { memo, use, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
@@ -36,18 +36,17 @@ const Cmap = memo(
     getCarListProps,
     coordinates,
     cls,
-    type,
     mapIcon,
     watch,
     setModalType,
     locationData,
     setLoadState,
-    isBalloonOpened,
-    setIsBalloonOpened,
     setCurrentUserLocationData,
     contendHoverState,
+    isBalloonOpened,
+    setIsBalloonOpened,
     currentUserLocationData,
-    mapRef
+    mapRef,
   }) => {
     const [isClient, setIsClient] = useState(false);
     const searchParams = useSearchParams();
@@ -56,6 +55,7 @@ const Cmap = memo(
     const [zoom, setZoom] = useState(5);
     const [points, setPoints] = useState([]);
     const [distance, setDistance] = useState(null);
+
     const ymapsRef = useRef(null);
     const polylineRef = useRef(null);
     const clustererRef = useRef({});
@@ -69,12 +69,19 @@ const Cmap = memo(
     const [types, setType] = useState(``);
     const placemarkRefs = useRef({});
 
+    const [isSelectingPoints, setIsSelectingPoints] = useState(false);
+
     useEffect(() => {
       setIsClient(true);
     }, []);
 
     useEffect(() => {
-      if (guid && currentUserLocationData && mapRef.current && !isBalloonOpened) {
+      if (
+        guid &&
+        currentUserLocationData &&
+        mapRef.current &&
+        !isBalloonOpened
+      ) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
         }, 1000);
@@ -154,7 +161,6 @@ const Cmap = memo(
         setPointB(coords);
         setClickCount(2);
         setSelecting(false); // End selection
-        console.log(`pointA`, [pointA, coords]);
         getDistanceInKm(pointA, coords);
         setPoints([pointA, coords]);
         if (types === `route`) {
@@ -216,7 +222,6 @@ const Cmap = memo(
         const closeBtn = document.querySelector(
           `.ymaps-2-1-79-balloon__close-button`
         );
-
         if (closeBtn) {
           closeBtn.addEventListener(`click`, () => {
             setClickCount(0);
@@ -233,6 +238,7 @@ const Cmap = memo(
             setBallonRef(false);
             setSelecting(false);
             polylineRef.current = null;
+            setIsSelectingPoints(false);
           });
         }
       }, 1000);
@@ -304,8 +310,6 @@ const Cmap = memo(
     };
 
     const handleDragEnd = (e, index) => {
-      const map = mapRef.current;
-
       const newCoords = e.get("target").geometry.getCoordinates();
       const newPoints = [...points];
       newPoints[index] = newCoords;
@@ -331,6 +335,24 @@ const Cmap = memo(
       });
     };
 
+    const handlePointSelect = (coords) => {
+      if (!selecting) return;
+
+      if (clickCount === 0) {
+        setPointA(coords);
+        setClickCount(1);
+      } else if (clickCount === 1) {
+        setIsSelectingPoints(false);
+        setPointB(coords);
+        setClickCount(2);
+        setSelecting(false); // End selection
+        getDistanceInKm(pointA, coords);
+        setPoints([pointA, coords]);
+        if (types === `route`) {
+          drawRoute(pointA, coords);
+        }
+      }
+    };
 
     if (!isClient) {
       return null; // Render nothing during SSR
@@ -364,17 +386,17 @@ const Cmap = memo(
         instanceRef={mapRef}
         onLoad={handleMapLoad}
         onClick={handleMapClick}
-        onBoundsChange={(e) => setZoom(e.get("newZoom"))} 
+        onBoundsChange={(e) => setZoom(e.get("newZoom"))}
         defaultState={{
           center: coordinates,
-          zoom: 6,
+          zoom: 5,
         }}
         options={{
           maxZoom: 22,
           minZoom: 2,
           restrictMapArea: [
-            [-85, -179], 
-            [85, 179], 
+            [-85, -179], // Chap-past (Antarktika va janubiy qutbga yaqin joy)
+            [85, 179], // O'ng-yuqori (Shimoliy qutbga yaqin joy)
           ],
         }}
         width="100%"
@@ -393,7 +415,10 @@ const Cmap = memo(
             <RefeIcon />
           </div>
           <div
-            onClick={() => startRouteSelection(`route`)}
+            onClick={() => {
+              startRouteSelection(`route`);
+              setIsSelectingPoints(true);
+            }}
             className={`${cls.route} ${
               types === `route` ? cls.activeRoute : ``
             }`}
@@ -401,7 +426,10 @@ const Cmap = memo(
             <RouteIcon />
           </div>
           <div
-            onClick={() => startRouteSelection(`rules`)}
+            onClick={() => {
+              startRouteSelection(`rules`);
+              setIsSelectingPoints(true);
+            }}
             className={`${cls.route} ${
               types === `rules` ? cls.activeRoute : ``
             } `}
@@ -412,11 +440,19 @@ const Cmap = memo(
 
         {pointA && (
           <Placemark
-            onDragEnd={(e) => handleDragEnd(e, 0)}
+            onDragEnd={(e) => {
+              handleDragEnd(e, 0);
+              e.get("target").options.set({
+                zIndex: 3000,
+                zIndexHover: 3000,
+              });
+            }}
             options={{
               draggable: true,
               iconImageSize: [60, 72],
               iconImageOffset: [-15, -42],
+              zIndexHover: 3000,
+              zIndex: 3000,
             }}
             geometry={pointA}
           />
@@ -428,6 +464,8 @@ const Cmap = memo(
               draggable: true,
               iconImageSize: [60, 72],
               iconImageOffset: [-15, -42],
+              zIndexHover: 3000,
+              zIndex: 3000,
             }}
             geometry={pointB}
           />
@@ -446,6 +484,14 @@ const Cmap = memo(
           />
         )}
 
+        <TypeSelector
+          mapTypes={[
+            "yandex#map",
+            "yandex#satellite",
+            "yandex#hybrid",
+            "yandex#publicMap",
+          ]}
+        />
         {/* <SearchControl options={{ float: "right" }} /> */}
         <ZoomControl
           options={{
@@ -462,15 +508,6 @@ const Cmap = memo(
           }}
         />
 
-        <TypeSelector
-          mapTypes={[
-            "yandex#map",
-            "yandex#satellite",
-            "yandex#hybrid",
-            "yandex#publicMap",
-          ]}
-        />
-
         {guid && currentUserLocationData && (
           <Placemark
             key={currentUserLocationData?.user?.guid}
@@ -480,7 +517,11 @@ const Cmap = memo(
             ]}
             properties={{
               balloonContent: ReactDOMServer.renderToString(
-                <BalloonContent cls={cls} carInfo={currentUserLocationData} t={t} />
+                <BalloonContent
+                  cls={cls}
+                  carInfo={currentUserLocationData}
+                  t={t}
+                />
               ),
             }}
             instanceRef={(ref) => {
@@ -506,23 +547,34 @@ const Cmap = memo(
               iconImageOffset: [-15, -42],
             }}
             modules={["geoObject.addon.balloon"]}
-            onClick={() => {
-              setCurrentUserLocationData(currentUserLocationData);
-              if (
-                currentUserLocationData?.order_data ||
-                currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
-              ) {
-                setModalType("driverCheck");
-              } else if (
-                currentUserLocationData?.user?.provisions?.[0] === "someone_cargo"
-              ) {
-                setModalType("driverQuestion");
-              } else if (
-                currentUserLocationData?.user?.provisions?.[0] === "waiting_for_driver"
-              ) {
-                setModalType("driverExpectation");
+            onClick={(e) => {
+              if (isSelectingPoints) {
+                const coords = e.get("target").geometry.getCoordinates();
+                handlePointSelect(coords);
+                e.preventDefault();
+                e.stopPropagation();
+
+                return;
               } else {
-                setModalType("driverFree");
+                setCurrentUserLocationData(currentUserLocationData);
+                if (
+                  currentUserLocationData?.order_data ||
+                  currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
+                ) {
+                  setModalType("driverCheck");
+                } else if (
+                  currentUserLocationData?.user?.provisions?.[0] ===
+                  "someone_cargo"
+                ) {
+                  setModalType("driverQuestion");
+                } else if (
+                  currentUserLocationData?.user?.provisions?.[0] ===
+                  "waiting_for_driver"
+                ) {
+                  setModalType("driverExpectation");
+                } else {
+                  setModalType("driverFree");
+                }
               }
             }}
           />
@@ -537,6 +589,11 @@ const Cmap = memo(
             return (
               <>
                 <Placemark
+                  instanceRef={(ref) => {
+                    if (ref) {
+                      placemarkRefs.current[carInfo?.user?.guid] = ref;
+                    }
+                  }}
                   key={carInfo?.user?.guid}
                   geometry={[
                     carInfo?.users_gps?.[0]?.lat,
@@ -559,25 +616,36 @@ const Cmap = memo(
                         ? [45, 105]
                         : [40, 52],
                     iconImageOffset: [-15, -42],
+                    zIndexHover: 1,
+                    zIndex: 1,
                   }}
                   modules={["geoObject.addon.balloon"]}
-                  onClick={() => {
-                    setCurrentUserLocationData(carInfo);
-                    if (
-                      carInfo?.order_data ||
-                      carInfo?.user?.provisions?.[0] === "our_cargo"
-                    ) {
-                      setModalType("driverCheck");
-                    } else if (
-                      carInfo?.user?.provisions?.[0] === "someone_cargo"
-                    ) {
-                      setModalType("driverQuestion");
-                    } else if (
-                      carInfo?.user?.provisions?.[0] === "waiting_for_driver"
-                    ) {
-                      setModalType("driverExpectation");
+                  onClick={(e) => {
+                    if (isSelectingPoints) {
+                      const coords = e.get("target").geometry.getCoordinates();
+                      handlePointSelect(coords);
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      return;
                     } else {
-                      setModalType("driverFree");
+                      setCurrentUserLocationData(carInfo);
+                      if (
+                        carInfo?.order_data ||
+                        carInfo?.user?.provisions?.[0] === "our_cargo"
+                      ) {
+                        setModalType("driverCheck");
+                      } else if (
+                        carInfo?.user?.provisions?.[0] === "someone_cargo"
+                      ) {
+                        setModalType("driverQuestion");
+                      } else if (
+                        carInfo?.user?.provisions?.[0] === "waiting_for_driver"
+                      ) {
+                        setModalType("driverExpectation");
+                      } else {
+                        setModalType("driverFree");
+                      }
                     }
                   }}
                 />
@@ -586,7 +654,6 @@ const Cmap = memo(
           })
         ) : (
           <Clusterer
-            instanceRef={(ref) => (clustererRef.current = ref)}
             options={{
               clusterIconColor: "rgba(52, 199, 89, 1)",
               style: {
@@ -604,6 +671,11 @@ const Cmap = memo(
                 return (
                   <>
                     <Placemark
+                      instanceRef={(ref) => {
+                        if (ref) {
+                          placemarkRefs.current[carInfo?.user?.guid] = ref;
+                        }
+                      }}
                       key={carInfo?.user?.guid}
                       geometry={[
                         carInfo?.users_gps?.[0]?.lat,
@@ -626,26 +698,39 @@ const Cmap = memo(
                             ? [45, 105]
                             : [40, 52],
                         iconImageOffset: [-15, -42],
+                        zIndexHover: 1,
+                        zIndex: 1,
                       }}
                       modules={["geoObject.addon.balloon"]}
-                      onClick={() => {
-                        setCurrentUserLocationData(carInfo);
-                        if (
-                          carInfo?.order_data ||
-                          carInfo?.user?.provisions?.[0] === "our_cargo"
-                        ) {
-                          setModalType("driverCheck");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] === "someone_cargo"
-                        ) {
-                          setModalType("driverQuestion");
-                        } else if (
-                          carInfo?.user?.provisions?.[0] ===
-                          "waiting_for_driver"
-                        ) {
-                          setModalType("driverExpectation");
+                      onClick={(e) => {
+                        if (isSelectingPoints) {
+                          const coords = e
+                            .get("target")
+                            .geometry.getCoordinates();
+                          handlePointSelect(coords);
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          return;
                         } else {
-                          setModalType("driverFree");
+                          setCurrentUserLocationData(carInfo);
+                          if (
+                            carInfo?.order_data ||
+                            carInfo?.user?.provisions?.[0] === "our_cargo"
+                          ) {
+                            setModalType("driverCheck");
+                          } else if (
+                            carInfo?.user?.provisions?.[0] === "someone_cargo"
+                          ) {
+                            setModalType("driverQuestion");
+                          } else if (
+                            carInfo?.user?.provisions?.[0] ===
+                            "waiting_for_driver"
+                          ) {
+                            setModalType("driverExpectation");
+                          } else {
+                            setModalType("driverFree");
+                          }
                         }
                       }}
                     />
@@ -743,7 +828,6 @@ const Cmap = memo(
               <>
                 {item.location_name && (
                   <Placemark
-                    draggable={true}
                     onClick={() => {
                       setLoadState(item);
                       if (item?.new_status?.[0] === "occupied_cargo") {
@@ -754,8 +838,8 @@ const Cmap = memo(
                     }}
                     key={item?.guid}
                     geometry={[
-                      item.location_name.split(" ")[0] * 1 + index * 0.00001,
-                      item.location_name.split(" ")[1] * 1 + index * 0.00001,
+                      item.location_name.split(" ")[0] * 1 + index * 0.0001,
+                      item.location_name.split(" ")[1] * 1 + index * 0.0001,
                     ]}
                     properties={{
                       balloonContent: balloonContentCargo,
@@ -767,8 +851,8 @@ const Cmap = memo(
                         item?.bid_cash,
                         item?.new_status?.[0]
                       ),
-                      iconImageSize: [60, 40],
-                      iconImageOffset: [-30, -40], // pastki o‘rtaga to‘g‘ri keladi
+                      iconImageSize: [60, 72],
+                      iconImageOffset: [-15, -42],
                     }}
                   />
                 )}
