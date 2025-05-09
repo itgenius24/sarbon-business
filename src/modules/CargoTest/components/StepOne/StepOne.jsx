@@ -54,7 +54,7 @@ const StepOne = ({ status }) => {
     editModal,
     setEditModal,
   } = useStepOneProps();
-  
+
   const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -152,18 +152,15 @@ const StepOne = ({ status }) => {
                 <Flex gap={"14px"} className={cls.rightContend} width={`100%`}>
                   <Box>
                     <TextFieldWithAddition
-                      //  handleDisabled={() => setEditModal(true)}
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
                       name="weight_measurement"
                       register={register}
-                      // additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("Вес")}
                       additionalItemPlaceholder="т"
-                      // additionalItemOptions={weightMeasurementOptions}
                       disabled={!canEdit}
                       type="text"
                       onKeyDown={(e) => {
@@ -379,6 +376,7 @@ const StepOne = ({ status }) => {
                   >
                     <p className={cls.stepTitle2}>{t("Упаковка")}</p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -397,6 +395,7 @@ const StepOne = ({ status }) => {
                     rowGap={`10px`}
                   >
                     <Dropdown
+                      handleDisabled={() => setEditModal(true)}
                       errors={errors}
                       searchable
                       control={control}
@@ -404,11 +403,13 @@ const StepOne = ({ status }) => {
                       watch={watch}
                       setValue={setValue}
                       name="packaging"
+                      searchName="packaging_search"
                       options={packageOptions}
                       placeholder={t("Выберите")}
                       disabled={!canEdit}
                     />
                     <TextFieldWithAddition
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       control={control}
                       errors={errors}
                       name="packaging_quantity"
@@ -422,6 +423,7 @@ const StepOne = ({ status }) => {
                   </Box>
                 </Box>
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -450,6 +452,7 @@ const StepOne = ({ status }) => {
                   >
                     <p className={cls.stepTitle2}>{t("Габариты и диаметр")}</p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -468,6 +471,7 @@ const StepOne = ({ status }) => {
                     rowGap={`10px`}
                   >
                     <TextFieldWithAddition
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       control={control}
                       name="length"
                       register={register}
@@ -478,6 +482,7 @@ const StepOne = ({ status }) => {
                       disabled={!canEdit}
                     />
                     <TextFieldWithAddition
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       control={control}
                       name="width"
                       register={register}
@@ -488,6 +493,7 @@ const StepOne = ({ status }) => {
                       disabled={!canEdit}
                     />
                     <TextFieldWithAddition
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       control={control}
                       name="height"
                       register={register}
@@ -500,6 +506,7 @@ const StepOne = ({ status }) => {
                   </Box>
                 </Box>
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -530,6 +537,7 @@ const StepOne = ({ status }) => {
                     <span>{t(`Фото груза или документа до 10 МБ.`)}</span>
                   </p>
                   <IconButton
+                    isDisabled={!canEdit}
                     border={"none"}
                     width={"fit-content"}
                     icon={<CloseStepIcon />}
@@ -548,6 +556,7 @@ const StepOne = ({ status }) => {
                 >
                   {watch("image") ? (
                     <Box
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       display="flex"
                       position="relative"
                       alignItems="center"
@@ -583,6 +592,7 @@ const StepOne = ({ status }) => {
                     </Box>
                   ) : (
                     <Box
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                       padding="16px 24px"
                       display="flex"
                       alignItems="center"
@@ -596,14 +606,17 @@ const StepOne = ({ status }) => {
                       width="100%"
                       cursor={"pointer"}
                     >
-                      <input
-                        className="visually-hidden"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          handleImageUpload(e);
-                        }}
-                      />
+                      {canEdit && (
+                        <input
+                          className="visually-hidden"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            handleImageUpload(e);
+                          }}
+                        />
+                      )}
+
                       <Box>
                         <Box
                           mx="auto"
@@ -629,6 +642,7 @@ const StepOne = ({ status }) => {
                   {/* </Box> */}
                 </Box>
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}

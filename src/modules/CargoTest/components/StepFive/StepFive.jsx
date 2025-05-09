@@ -206,6 +206,10 @@ const StepFive = ({ status }) => {
         firm_id,
         temp_from: watch(`temp_from`),
         temp_to: watch(`temp_to`),
+        top:watch(`top`),
+        side:watch(`side`),
+        back:watch(`back`),
+        with_removal:watch(`with_removal`),
 
         //step4
 
@@ -307,7 +311,12 @@ const StepFive = ({ status }) => {
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
         temp_from: watch(`temp_from`),
-        temp_to: watch(`temp_to`),
+        temp_to: watch(`temp_to`),  
+        top:watch(`top`),
+        side:watch(`side`),
+        back:watch(`back`),
+        with_removal:watch(`with_removal`),
+
 
         //step4
 

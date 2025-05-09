@@ -437,10 +437,7 @@ const StepFour = ({ status }) => {
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
-                        {watch(`price_after_order`) -
-                          (watch(`price_prepayment`)
-                            ? watch(`price_prepayment`)
-                            : 0)}
+                        {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`): 0)}
 
                         {` ${
                           watch(`price_prepayment_unit`)

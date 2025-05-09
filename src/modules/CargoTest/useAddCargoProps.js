@@ -348,7 +348,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     referencePoints: [...getLoadings, ...getUnloading],
   });
 
-
   const deleteCargo = useDeleteCargo({
     onSuccess() {
       toast({
@@ -747,7 +746,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
 
-  function onSubmit(datae) {
+  function onSubmit() {
     setIsClicked(true);
     if (!authStore.isAuth) {
       toast({
@@ -830,6 +829,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         to: watch(`unloading`)[watch(`unloading`).length - 1].address,
         temp_from: watch(`temp_from`),
         temp_to: watch(`temp_to`),
+        top:watch(`top`),
+        side:watch(`side`),
+        back:watch(`back`),
+        with_removal:watch(`with_removal`),
       },
     };
 
@@ -1024,7 +1027,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           value: data.packages_id_data?.guid,
           label: data.packages_id_data?.name,
         },
-        packagingSearch: data.packages_id_data?.name,
+        packaging_search: data.packages_id_data?.name,
         packaging_quantity: data.package_quantity,
         gps_monitoring: data.gps_monitoring,
         car_type: {
@@ -1122,10 +1125,42 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         number_of_order: data?.number_of_order,
         belt: data?.belt,
         combined_cargo: data?.combined_cargo ? data?.combined_cargo : false,
+        top:data?.top,
+        side:data?.side,
+        back:data?.back,
+        with_removal:data?.with_removal,
+
       });
 
-      if(data?.temp_from || data?.temp_to  ){
-        setIsGradusOpen(true)
+      if (data?.temp_from || data?.temp_to) {
+        setIsGradusOpen(true);
+      }
+      if (data?.top || data?.side || data?.back || data?.with_removal) {
+        setLiftingCapacityOpen(true);
+      }
+      if (data?.hitch || data?.pneumatic || data?.back || data?.bunks) {
+        setRequirementOpen(true);
+      }
+      if (data?.straps_number) {
+        setBeltsOpen(true);
+      }
+      if (data?.tir || data?.cmr || data?.med) {
+        setAccessOpen(true);
+      }
+      if (data?.take_all_unloads || data?.load_around_the_clock) {
+        setAccessOpen(true);
+      }
+      if (data?.belt) {
+        setIsReymenOpen(true);
+      }
+      if(data?.packages_id_data?.guid || data?.packaging_quantity){
+        setPackagingAndQuantity(true)
+      }
+      if(data?.length || data?.width || data?.height ){
+        setDimensionsAndDiameter(true)
+      }
+      if(data?.photo){
+        setIsFileUploader(true)
       }
 
       setValue(`cargo_type`, {
@@ -1354,5 +1389,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     unloading: watch(`unloading`),
     editModal,
     setEditModal,
+    updateLoading:updateCargo.isLoading
   };
 };

@@ -29,7 +29,7 @@ const useNewPageProps = (
   const userId = authStore.userData.id;
   const [disabled, setDisabled] = useState(false);
   const [comments, setComments] = useState([]);
-  const {watch,register} = useForm()
+  const { watch, register } = useForm();
   const [dataPred, setDataPred] = useState(``);
   const [cancelData, setCancelData] = useState({});
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -96,9 +96,28 @@ const useNewPageProps = (
       enabled: Boolean(
         orderStatus === `new` || orderStatus === `no_dispatcher`
       ),
+      onSuccess: () => {
+        if (notificationID) {
+          mutate({
+            data: {
+              views: true,
+              guid: notificationID,
+            },
+          });
+        }
+      },
     },
     refetchOnWindowFocus: false,
   });
+
+  // useEffect(() => {
+  //   mutate({
+  //     data: {
+  //       views: true,
+  //       guid: notificationID,
+  //     },
+  //   });
+  // },[notificationID])
 
   const handleCheckboxChange = (key) => {
     setComments(
@@ -130,7 +149,7 @@ const useNewPageProps = (
       refetchNoDisPred();
       refetchWaitingDriverCount.refetch();
       onClose();
-      canCelIsOpen()
+      canCelIsOpen();
     },
     onError(res) {
       console.error(res);
@@ -140,14 +159,6 @@ const useNewPageProps = (
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   function handleAccept(id, driverId) {
-    if (orderStatus === `no_dispatcher` && notificationID) {
-      mutate({
-        data: {
-          views: true,
-          guid: notificationID,
-        },
-      });
-    }
     pushNotification.mutate({
       data: {
         object_data: {
@@ -262,26 +273,17 @@ const useNewPageProps = (
   }
 
   const handleCancelButton = () => {
-    if (orderStatus === `no_dispatcher` && notificationID) {
-      mutate({
-        data: {
-          views: true,
-          guid: notificationID,
-        },
-      });
-    }
-    updateResponseMutation.mutate(
-      {
-        data: {
-          guid: cancelData?.guid,
-          provisions: ["cancellation"],
-          who_cancellation: ["customer"],
-          cancel_time: new Date(),
-          cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
-          reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
-        },
+    updateResponseMutation.mutate({
+      data: {
+        guid: cancelData?.guid,
+        provisions: ["cancellation"],
+        who_cancellation: ["customer"],
+        cancel_time: new Date(),
+        cancel_reason:
+          comments?.[0] === `own_version` ? undefined : comments?.[0],
+        reason: comments?.[0] === `own_version` ? watch(`comment`) : undefined,
       },
-    );
+    });
 
     onClose();
     if (orderStatus === `new`) {
@@ -295,8 +297,10 @@ const useNewPageProps = (
             action_time: new Date(),
             role_slug: `top_dispatcher`,
             action_comment: `cancel_order`,
-            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
-            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+            cancel_reason:
+              comments?.[0] === `own_version` ? undefined : comments?.[0],
+            reason:
+              comments?.[0] === `own_version` ? watch(`comment`) : undefined,
             role_id: authStore.userData?.role_id,
             action_type: [`update`],
           },
@@ -313,8 +317,10 @@ const useNewPageProps = (
             action_time: new Date(),
             role_slug: `first_dispatcher`,
             action_comment: `cancel_order`,
-            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
-            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+            cancel_reason:
+              comments?.[0] === `own_version` ? undefined : comments?.[0],
+            reason:
+              comments?.[0] === `own_version` ? watch(`comment`) : undefined,
             role_id: authStore.userData?.role_id,
             action_type: [`update`],
           },
@@ -334,8 +340,10 @@ const useNewPageProps = (
             action_comment: `cancel_order_free_driver`,
             role_id: authStore.userData?.role_id,
             action_type: [`update`],
-            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
-            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+            cancel_reason:
+              comments?.[0] === `own_version` ? undefined : comments?.[0],
+            reason:
+              comments?.[0] === `own_version` ? watch(`comment`) : undefined,
           },
         });
       } else if (
@@ -351,9 +359,11 @@ const useNewPageProps = (
             role_slug: `first_dispatcher`,
             action_comment: `cancel_order_free_driver`,
             role_id: authStore.userData?.role_id,
-            action_type: [`update`],  
-            cancel_reason: comments?.[0] === `own_version` ? undefined :  comments?.[0],
-            reason:  comments?.[0] === `own_version` ?  watch(`comment`): undefined,
+            action_type: [`update`],
+            cancel_reason:
+              comments?.[0] === `own_version` ? undefined : comments?.[0],
+            reason:
+              comments?.[0] === `own_version` ? watch(`comment`) : undefined,
           },
         });
       }
@@ -366,8 +376,8 @@ const useNewPageProps = (
       isClosable: true,
     });
 
-    setComments([])
-    canCelOnClose()
+    setComments([]);
+    canCelOnClose();
 
     if (orderStatus === `no_dispatcher`) {
       updateNoDriver.mutate({
@@ -383,7 +393,8 @@ const useNewPageProps = (
   return {
     newData: newData || [],
     isLoading: isFetching,
-    comments, setComments,
+    comments,
+    setComments,
     setDataPred,
     handleAccept,
     handleCancel,
@@ -399,7 +410,10 @@ const useNewPageProps = (
     canCelIsOpen,
     canCelOnClose,
     canCelOnOpen,
-    comment,handleCheckboxChange,watch,register
+    comment,
+    handleCheckboxChange,
+    watch,
+    register,
   };
 };
 

@@ -90,7 +90,7 @@ export const statusColor = {
 };
 
 export const statusText = {
-  in_moderation: `В модерации:`,
+  in_moderation: `В модерации`,
   new: `Предложение`,
   in_active: `Неактивный`,
   active: `Активный`,

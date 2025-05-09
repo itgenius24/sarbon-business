@@ -74,7 +74,13 @@ export const TextFieldWithAddition = ({
             className={cls.fieldInput}
             onClick={onClick}
             {...register(name, rules)}
-            disabled={onClick ? onlyFieldDisabled ? true: false : disabled || onlyFieldDisabled}
+            disabled={
+              onClick
+                ? onlyFieldDisabled
+                  ? true
+                  : false
+                : disabled || onlyFieldDisabled
+            }
             type={type}
             placeholder={placeholder}
             onWheel={(e) => e.target.blur()}
@@ -107,6 +113,7 @@ export const TextFieldWithAddition = ({
                       additionalOnclick();
                     }}
                   >
+                    {console.log(`additionalItemOptions`, field)}
                     <div className={cls.additionalItemLabelWrapper}>
                       <p className={cls.additionalItemLabelText}>
                         {field.value?.label ||

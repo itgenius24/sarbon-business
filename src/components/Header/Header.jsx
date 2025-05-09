@@ -23,8 +23,8 @@ import { LocaleDropdown } from "../LocaleDropdown";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import UserImg from "@/assets/images/user.png";
-import { ContainerNav } from "../container/Container";
 import { AddDillerMunu } from "@/assets/icons/icons";
+import { ContainerNav } from "../ContainerNav/Container";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();

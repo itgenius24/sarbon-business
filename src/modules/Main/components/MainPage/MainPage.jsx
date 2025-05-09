@@ -14,7 +14,7 @@ import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import Getapps from "@/assets/images/getapps.svg";
-
+import RuStore from "@/assets/images/RuStore.svg";
 import card1Img from "@/assets/images/card1.jpg";
 import card2Img from "@/assets/images/card2.jpg";
 import card3Img from "@/assets/images/card3.jpg";
@@ -160,7 +160,9 @@ const MainPage = ({ locale }) => {
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
-                      {t(`Sarbon — биржа грузоперевозок и экосистема логистических сервисов в Евразии`)}
+                      {t(
+                        `Sarbon — биржа грузоперевозок и экосистема логистических сервисов в Евразии`
+                      )}
                     </h1>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
                       <Button
@@ -214,7 +216,9 @@ const MainPage = ({ locale }) => {
                       <TruckIconBlue />
                       <div>
                         <p className={cls.title}>700+</p>
-                        <p className={cls.subTitle}>{t(`активных водителей`)}</p>
+                        <p className={cls.subTitle}>
+                          {t(`активных водителей`)}
+                        </p>
                       </div>
                     </Flex>
 
@@ -240,7 +244,9 @@ const MainPage = ({ locale }) => {
                       <LikeIconY />
                       <div>
                         <p className={cls.title}>99.9%</p>
-                        <p className={cls.subTitle}>{t(`успешных грузоперевозок`)}</p>
+                        <p className={cls.subTitle}>
+                          {t(`успешных грузоперевозок`)}
+                        </p>
                       </div>
                     </Flex>
                   </Box>
@@ -254,9 +260,7 @@ const MainPage = ({ locale }) => {
                     <h1 className={cls.cardTitle}>
                       {t(`Заказ найдется всегда`)}
                     </h1>
-                    <p className={cls.cardDeck}>
-                     {t(`slider1Text`)}
-                    </p>
+                    <p className={cls.cardDeck}>{t(`slider1Text`)}</p>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
                       <a
                         className={cls.mobileAppLink}
@@ -283,6 +287,21 @@ const MainPage = ({ locale }) => {
                         <Image
                           src={Getapps}
                           alt="Getapps store"
+                          width={135}
+                          height={40}
+                        />
+                      </a>
+
+                      <a
+                        className={cls.mobileAppLink}
+                        href={
+                          "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                        }
+                        target="_blank"
+                      >
+                        <Image
+                          src={RuStore}
+                          alt="Ru store"
                           width={135}
                           height={40}
                         />
@@ -348,14 +367,14 @@ const MainPage = ({ locale }) => {
                 <Flex className={cls.cardWrap}>
                   <Box className={cls.cardLeft}>
                     <h1 className={cls.cardTitle}>
-                     {t(`Загрузите автопарк  выгодными рейсами`)}!
+                      {t(`Загрузите автопарк  выгодными рейсами`)}!
                     </h1>
-                    <p className={cls.cardDeck}>
-                      {t(`slider2Text`)}
-                    </p>
+                    <p className={cls.cardDeck}>{t(`slider2Text`)}</p>
                     <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
                       <a href="#scrollTitle">
-                        <Button width={`fit-content`}>{t(`Узнать больше`)}</Button>
+                        <Button width={`fit-content`}>
+                          {t(`Узнать больше`)}
+                        </Button>
                       </a>
                     </Flex>
                   </Box>
@@ -404,7 +423,7 @@ const MainPage = ({ locale }) => {
           <Animation variants={fadeinLeft}>
             <Box className={cls.questionPage}>
               <h1 id="scrollTitle" className={cls.questionTitle}>
-               {t(`Почему выбирают Sarbon?`)}
+                {t(`Почему выбирают Sarbon?`)}
               </h1>
 
               <Container maxWidth={`1320px`}>
@@ -432,9 +451,7 @@ const MainPage = ({ locale }) => {
         <Box className={cls.biznesPage}>
           <Box className={cls.bgPage}>
             <Box className={cls.contendTetx}>
-              <h2>
-              {t(`connect`)}.
-              </h2>
+              <h2>{t(`connect`)}.</h2>
             </Box>
           </Box>
           <Box className={cls.rightConten}>
@@ -458,9 +475,7 @@ const MainPage = ({ locale }) => {
                 </Box>
                 <Box className={cls.textCard}>
                   <h5>{t(`Безопасность сделок`)} </h5>
-                  <p>
-                   {t(`ritin`)}
-                  </p>
+                  <p>{t(`ritin`)}</p>
                 </Box>
               </Flex>
 
@@ -470,7 +485,9 @@ const MainPage = ({ locale }) => {
                 </Box>
                 <Box className={cls.textCard}>
                   <h5>{t(`Максимальная выгода`)}</h5>
-                  <p>{t(`Выбирайте лучшие заказы и снижайте пустые пробеги.`)}</p>
+                  <p>
+                    {t(`Выбирайте лучшие заказы и снижайте пустые пробеги.`)}
+                  </p>
                 </Box>
               </Flex>
 
@@ -480,9 +497,7 @@ const MainPage = ({ locale }) => {
                 </Box>
                 <Box className={cls.textCard}>
                   <h5>{t(`Поддержка`)} 24/7 </h5>
-                  <p>
-                   {t(`sevice`)}
-                  </p>
+                  <p>{t(`sevice`)}</p>
                 </Box>
               </Flex>
             </Flex>
@@ -501,10 +516,12 @@ const MainPage = ({ locale }) => {
             >
               <Box>
                 <p className={cls.titleBottom}>
-                 {t(`Найдите груз для вашего транспорта`)}
+                  {t(`Найдите груз для вашего транспорта`)}
                 </p>
                 <p className={cls.deckBottom}>
-                {t(`Регистрируйтесь и получите доступ к базе актуальных грузов с удобными фильтрами.`)}
+                  {t(
+                    `Регистрируйтесь и получите доступ к базе актуальных грузов с удобными фильтрами.`
+                  )}
                 </p>
               </Box>
               <Button

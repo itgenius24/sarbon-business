@@ -34,6 +34,7 @@ import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import Getapps from "@/assets/images/getapps.svg";
+import RuStore from "@/assets/images/RuStore.svg";
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -195,7 +196,7 @@ export const Registration = () => {
                         )}
                         .
                       </p>
-                      <Flex mt={`30px`} gap={`16px`} alignItems={`center`}>
+                      <Flex mt={`30px`} gap={`6px`} alignItems={`center`}>
                         <a
                           className={cls.mobileAppLink}
                           href={
@@ -224,6 +225,20 @@ export const Registration = () => {
                             height={40}
                           />
                         </a>
+                        <a
+                        className={cls.mobileAppLink}
+                        href={
+                          "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                        }
+                        target="_blank"
+                      >
+                        <Image
+                          src={RuStore}
+                          alt="Ru store"
+                          width={135}
+                          height={40}
+                        />
+                      </a>
 
                         {/* <a
                           onClick={() => downloadFn()}

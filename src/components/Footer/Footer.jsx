@@ -6,6 +6,7 @@ import { Container } from "../Container";
 import cls from "./styles.module.scss";
 import GooglePlay from "@/assets/images/google-play.svg";
 import Getapps from "@/assets/images/getapps.svg";
+import RuStore from "@/assets/images/RuStore.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
 
@@ -190,7 +191,21 @@ export const Footer = () => {
                   >
                     <Image
                       src={Getapps}
-                      alt="Getapps store store"
+                      alt="Getapps store"
+                      width={135}
+                      height={40}
+                    />
+                  </a>
+                </li>
+                <li className={cls.mobileAppItem}>
+                  <a
+                    className={cls.mobileAppLink}
+                    href={"https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"}
+                    target="_blank"
+                  >
+                    <Image
+                      src={RuStore}
+                      alt="Ru store "
                       width={135}
                       height={40}
                     />

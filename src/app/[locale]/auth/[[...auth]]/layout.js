@@ -6,8 +6,8 @@ import { InfoBox } from "../(components)/InfoBox";
 import React from "react";
 import { Logo } from "../../../../components/Logo/Logo";
 import { LocaleDropdown } from "@/components/LocaleDropdown";
-import { ContainerNav } from "@/components/container/Container";
 import { Container } from "@/components/Container";
+import { ContainerNav } from "@/components/ContainerNav/Container";
 
 export default function AuthLayout({ children, params: { locale, auth } }) {
   const isRegisterForm = auth?.[0];

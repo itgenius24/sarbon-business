@@ -24,7 +24,6 @@ export const MainLayout = ({ locale, children }) => {
 
   const { mutate } = useUpdateNoteData();
 
-  console.log(`env`,process.env.NEXT_PUBLIC_AUTH_URL);
 
 
   const { data: data2, } = useGetNotificationFirst({
@@ -32,7 +31,7 @@ export const MainLayout = ({ locale, children }) => {
       data: {
         object_data: {
           type: `notification`,
-          users_id_2: authStore.userData?.guid,
+          user_id:authStore.userData?.guid,
           views: false,
         },
       },

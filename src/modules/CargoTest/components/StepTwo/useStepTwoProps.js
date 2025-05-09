@@ -7,8 +7,6 @@ const useStepTwoProps = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [index, setIndex] = useState();
-  const [requestLoadingIndex, setRequestLoadingIndex] = useState(0);
-  const [requestUnLoadingIndex, setRequestUnLoadingIndex] = useState(0);
   const [type, setType] = useState("");
   const [results, setResults] = useState([]);
   const [debouncedValue] = useDebounce(address, 500);
@@ -36,7 +34,7 @@ const useStepTwoProps = () => {
     canEdit,
     getValues,
     handleResetForm,
-    setEditModal
+    setEditModal,
   } = useAddCargoContext();
 
   console.log(`disabled`, disabled);
@@ -59,11 +57,9 @@ const useStepTwoProps = () => {
   };
 
   useEffect(() => {
-    if (
-      (watch(`addressFrom`)?.length <= 0 && activeIndex)
-    ) {
+    if (watch(`addressFrom`)?.length <= 0 && activeIndex) {
       setValue(activeIndex, ``);
-    } else if(watch(`addressTo`)?.length <= 0 && activeIndex){
+    } else if (watch(`addressTo`)?.length <= 0 && activeIndex) {
       setValue(activeIndex, ``);
     }
   }, [watch(`addressFrom`), watch(`addressTo`)]);
@@ -96,15 +92,16 @@ const useStepTwoProps = () => {
     ] = watchFields;
 
     if (
-     ( loadingAddress &&  unloadingAddress) && (loadingDate || asSoonAsA) && (asSoonAsB || unloadingDate)
+      loadingAddress &&
+      unloadingAddress &&
+      (loadingDate || asSoonAsA) &&
+      (asSoonAsB || unloadingDate)
     ) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
   }, [watchFields]);
-
-  
 
   function onCreateCargoSuccess() {
     setValue(`cargoIndex`, 3);
@@ -141,13 +138,18 @@ const useStepTwoProps = () => {
     });
   }
 
-  function handleUnloadingRemove(indx) {
+  function handleUnloadingRemove(indx, id) {
+    if (id) {
+      const period_ids = watch(`period_ids`) || [];
+      const data = period_ids?.filter((item) => item === id);
+      if (data?.length === 0 || data === undefined) {
+        setValue(`period_ids`, [...period_ids, id]);
+      }
+    }
     setValue(
       `unloading`,
       watch(`unloading`)?.filter((item, index) => index !== indx)
     );
-
-    // removeUnloading(index);
   }
 
   function handleOpenModal(name, index, type) {
@@ -204,7 +206,6 @@ const useStepTwoProps = () => {
   }
 
   const hanleAdress = (location, name, index, type, id) => {
-    
     if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
@@ -213,7 +214,8 @@ const useStepTwoProps = () => {
       }
     }
     setValue(
-      name,  location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
+      name,
+      location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text
     );
     const country_code =
       location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code?.toUpperCase();
@@ -355,7 +357,7 @@ const useStepTwoProps = () => {
     handLeCheck2,
     handleResetForm,
     setDisabled,
-    setEditModal
+    setEditModal,
   };
 };
 

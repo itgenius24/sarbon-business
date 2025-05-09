@@ -137,11 +137,12 @@ export const CargoViews = observer(({ id, status, locale }) => {
 
               <Button
                 leftIcon={<PencilIconW />}
+                isLoading={addCargoProps.updateLoading}
                 size="sm"
                 maxWidth="323px"
                 paddingLeft={`30px`}
                 paddingRight={`30px`}
-                onClick={addCargoProps.handleSubmit(addCargoProps.onSubmit)}
+                onClick={addCargoProps.onSubmit}
               >
                 {t("Сохранить изменения")}
               </Button>
@@ -427,6 +428,7 @@ export const CargoViews = observer(({ id, status, locale }) => {
                     <Button
                       leftIcon={<PencilIconW />}
                       size="sm"
+                      isLoading={addCargoProps.updateLoading}
                       maxWidth="323px"
                       paddingLeft={`30px`}
                       paddingRight={`30px`}

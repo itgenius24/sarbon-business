@@ -310,11 +310,12 @@ const StepTwo = ({ status }) => {
         <Box className={cls.step}>
           {watch(`unloading`)?.map((item, index) => (
             <Flex key={index} width={"100%"} gap={"13px"}>
-              <Box className={cls.buttonWrap}>
+              <Box onClick={() => (!canEdit ? setEditModal(true) : null)} className={cls.buttonWrap}>
                 {index === 0 ? (
                   <IconBStep />
                 ) : (
                   <IconButton
+                    isDisabled={!canEdit}
                     border={"none"}
                     width={"fit-content"}
                     icon={<CloseStepIcon />}
@@ -340,9 +341,10 @@ const StepTwo = ({ status }) => {
                         : `${index + 1}-${t(`й адрес доставки груза`)}`}
                     </p>
                   </Flex>
-                  <Box className={cls.mobailIconButton}>
+                  <Box  onClick={() => (!canEdit ? setEditModal(true) : null)} className={cls.mobailIconButton}>
                     {index !== 0 && (
                       <IconButton
+                        isDisabled={!canEdit}
                         border={"none"}
                         width={"fit-content"}
                         icon={<CloseStepIcon />}

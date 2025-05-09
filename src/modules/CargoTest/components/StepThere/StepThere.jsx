@@ -319,6 +319,7 @@ const StepThere = ({ status }) => {
                   >
                     <p className={cls.stepTitle2}>{t("Тип загрузки")}</p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -333,38 +334,47 @@ const StepThere = ({ status }) => {
                     columnGap="10px"
                     flexGrow={1}
                   >
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="top"
-                    >
-                      {t("Верхняя")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="side"
-                    >
-                      {t("Боковая")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="back"
-                    >
-                      {t("Задняя")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="with_removal"
-                    >
-                      {t("Со снятием стоек")}
-                    </Checkbox>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="top"
+                      >
+                        {t("Верхняя")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="side"
+                      >
+                        {t("Боковая")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="back"
+                      >
+                        {t("Задняя")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="with_removal"
+                      >
+                        {t("Со снятием стоек")}
+                      </Checkbox>
+                    </Box>
                   </Box>
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -392,6 +402,7 @@ const StepThere = ({ status }) => {
                   >
                     <p className={cls.stepTitle2}>{t("Требования")}</p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -406,31 +417,38 @@ const StepThere = ({ status }) => {
                     columnGap="10px"
                     flexGrow={1}
                   >
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="hitch"
-                    >
-                      {t("Сцепка")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="pneumatic"
-                    >
-                      {t("Пневмоход")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="bunks"
-                    >
-                      {t("Коники")}
-                    </Checkbox>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="hitch"
+                      >
+                        {t("Сцепка")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="pneumatic"
+                      >
+                        {t("Пневмоход")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="bunks"
+                      >
+                        {t("Коники")}
+                      </Checkbox>
+                    </Box>
                   </Box>
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -458,6 +476,7 @@ const StepThere = ({ status }) => {
                   >
                     <p className={cls.stepTitle2}>{t("Класс ADR")}</p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -469,6 +488,7 @@ const StepThere = ({ status }) => {
                   <Box display="flex" columnGap="10px" alignItems={"center"}>
                     <Box width={"100px"}>
                       <TextField
+                        onClick={() => (!canEdit ? setEditModal(true) : null)}
                         disabled={!canEdit}
                         placeholder={t("0-9")}
                         type="number"
@@ -500,6 +520,7 @@ const StepThere = ({ status }) => {
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -529,6 +550,7 @@ const StepThere = ({ status }) => {
                       {t("TIR, CMR, T1, Медкнижка")}
                     </p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -543,36 +565,47 @@ const StepThere = ({ status }) => {
                     display="flex"
                     columnGap="10px"
                   >
-                    {/* <Box display="flex" columnGap="10px" flexGrow={1}> */}
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="tir"
-                    >
-                      {t("TIR")}
-                    </Checkbox>
-                    <Checkbox disabled={!canEdit} register={register} name="t1">
-                      {t("T1")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="cmr"
-                    >
-                      {t("CMR")}
-                    </Checkbox>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      name="medic_certificate"
-                    >
-                      {t("Медкнижка")}
-                    </Checkbox>
-                    {/* </Box> */}
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="tir"
+                      >
+                        {t("TIR")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="t1"
+                      >
+                        {t("T1")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="cmr"
+                      >
+                        {t("CMR")}
+                      </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="medic_certificate"
+                      >
+                        {t("Медкнижка")}
+                      </Checkbox>
+                    </Box>
                   </Box>
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -600,6 +633,7 @@ const StepThere = ({ status }) => {
                   >
                     <p className={cls.stepTitle2}>{t("FTL/LTL")}</p>
                     <IconButton
+                      isDisabled={!canEdit}
                       border={"none"}
                       width={"fit-content"}
                       icon={<CloseStepIcon />}
@@ -615,6 +649,7 @@ const StepThere = ({ status }) => {
                     rowGap={`10px`}
                     columnGap="10px"
                   >
+                   <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
@@ -627,6 +662,8 @@ const StepThere = ({ status }) => {
                         <HelpCircleIcon />
                       </Box>
                     </Checkbox>
+                    </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                     <Checkbox
                       disabled={!canEdit}
                       register={register}
@@ -635,10 +672,12 @@ const StepThere = ({ status }) => {
                     >
                       {t("отдельной машиной или догрузом (FTL или LTL)")}
                     </Checkbox>
+                    </Box>
                   </Box>
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -675,6 +714,7 @@ const StepThere = ({ status }) => {
                     />
                   </Flex>
                   <TextField
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
                     disabled={!canEdit}
                     placeholder={t("Штук")}
                     type="number"
@@ -684,6 +724,7 @@ const StepThere = ({ status }) => {
                 </Box>
 
                 <IconButton
+                  isDisabled={!canEdit}
                   border={"none"}
                   width={"fit-content"}
                   icon={<CloseStepIcon />}
@@ -727,7 +768,6 @@ const StepThere = ({ status }) => {
                       control={control}
                       name="temp_from"
                       register={register}
-                      additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("от")}
                       additionalItemPlaceholder="°C"
@@ -765,7 +805,6 @@ const StepThere = ({ status }) => {
                       name="temp_to"
                       additionalItemTheme={"light"}
                       register={register}
-                      additionalItemName="weight_unit"
                       width="160px"
                       placeholder={t("до")}
                       additionalItemPlaceholder="°C"
