@@ -520,8 +520,6 @@
   "Ваш груз": "Sizning yukingiz",
   "В расчёте на одну машину": "Har bir mashina uchun",
   "Упаковка": "Qadoqlash",
-  "Выберите": "Tanlash",
-
   "Фото груза": "Yuk surati",
   "Прикрепить фото": "Rasm biriktirish",
   "Фото груза или документа до 10 МБ.": "Yuk yoki hujjatning fotosurati 10 MB gacha.",
@@ -581,7 +579,6 @@
   "Техпаспорт прицепа": "Treyler Tex pasporti",
   "Pасстояние": "Masofa",
   "Еще не добавлен": "Hali qo'shilmagan",
-
   "Sarbon — биржа грузоперевозок и экосистема логистических сервисов в Евразии": "Sarbon — yuk tashish birjasi va logistika ekotizimi",
   "Узнать больше": "Batafsil maʼlumot",
   "активных водителей": "faol haydovchilar",
@@ -604,7 +601,6 @@
   "Найдите груз для вашего транспорта": "Transportingiz uchun yuk toping",
   "Регистрируйтесь и получите доступ к базе актуальных грузов с удобными фильтрами.": "Ro‘yxatdan o‘ting va qulay filtrlarga ega dolzarb yuklar bazasiga ega bo‘ling.",
   "Регистрация": "Ro‘yxatdan o‘tish",
-
   "Больше заказов — Выше доход": "Ko‘proq buyurtmalar — Ko‘proq daromad",
   "Находите и выбирайте рейсы, которые выгодны именно вам.": "Aynan siz uchun foydali reyslarni toping va tanlang.",
   "Удобный поиск и фильтры": "Qulay qidiruv va filtrlar",
@@ -618,12 +614,10 @@
   "Оповещения о новых грузах": "Yangi yuklar haqida xabarnomalar",
   "Не тратьте время на поиск — подходящие заказы сами вас найдут.": "Qidirishga vaqt sarflamang — sizga mos buyurtmalar o‘zi sizni topadi.",
   "Вход": "Kirish",
-
   "Вход через соцсеть": "Sotsial tarmoq orqali kirish",
   "Продолжить с Google": "Google bilan davom etish",
   "Продолжить с Apple": "Davom etish Apple bilan",
   "Еще нет аккаунта?": "Hisobingiz yo'qmi?",
-
   "Создать аккаунт на Sarbon": "Sarbon’da akkaunt yarating",
   "Укажите ваш профиль деятельности": "Faoliyat profilingizni kiriting",
   "Регистрация через соцсеть": "Ijtimoiy tarmoq orqali ro‘yxatdan o‘tish",
@@ -637,8 +631,6 @@
   "Войдите или восстановите доступ.": "Tizimga kiring yoki kirishni tiklang.",
   "Перевозчик": "Tashuvchi",
   "Перевозчики": "Tashuvchilar",
-
   "У меня уже есть аккаунт": "Menda allaqachon akkaunt bor",
-  "О системе Sarbon": "Sarbon tizimi haqida",
   "Введите свой пароль": "Parolingizni kiriting"
 }
