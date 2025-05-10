@@ -827,19 +827,9 @@ export const CreateCarDis = () => {
                   className={cls.btnOutline}
                   mr={3}
                 >
-                  {t("Посмотреть детали")}
+                  {t(("Назад"))}
                 </Button>
-                <Button
-                  style={{
-                    background: "white",
-                    border: "1px solid rgba(208, 213, 221, 1)",
-                    color: "black",
-                  }}
-                  className={cls.btngreen}
-                  onClick={() => setIsPopupOpen(false)}
-                >
-                  {t("Добавить еще")}
-                </Button>
+          
               </ModalFooter>
             </ModalContent>
           </Modal>

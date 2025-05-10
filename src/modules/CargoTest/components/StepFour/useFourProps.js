@@ -21,6 +21,7 @@ const useFourProps = () => {
     setCheck,
     order_status,
     setEditModal,
+    getValues
   } = useAddCargoContext();
   const [disabled, setDisabled] = useState(true);
   const getCurrency = useGetCurrency();
@@ -76,7 +77,6 @@ const useFourProps = () => {
       setValue("price_after_order", ``);
     } else if (watch("price") && watch("price_prepayment") && canEdit) {
       setValue("price_after_order", Number(watch("price")) - Number(watch("price_prepayment")));
-      console.log(`price`,watch("price") - watch("price_prepayment"))
     }
   }, [watch("price")?.length, watch("price_prepayment"), watch("prepayment")]);
 
@@ -85,6 +85,9 @@ const useFourProps = () => {
   const onSubmit = () => {
     setValue(`cargoIndex`, 5);
   };
+
+
+  console.log(`getValues`,getValues(`prepayment`))
 
   return {
     register,

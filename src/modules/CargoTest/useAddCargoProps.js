@@ -1132,6 +1132,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
       });
 
+
       if (data?.temp_from || data?.temp_to) {
         setIsGradusOpen(true);
       }

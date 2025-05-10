@@ -56,6 +56,8 @@ const DriverFree = ({
     }, 1000);
   };
 
+  console.log(`currentUserLocationData`,currentUserLocationData)
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
