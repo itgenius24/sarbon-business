@@ -105,12 +105,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const toast = useToast();
 
-  // useEffect(() => {
-  //   if (searchParams.get("isFirst") !== "true") {
-  //     router.push(pathname + "?isFirst=true");
-  //     router.refresh();
-  //   }
-  // }, []);
+
 
   function handleEditToggle() {
     setCanEdit(!canEdit);
