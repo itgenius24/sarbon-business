@@ -253,7 +253,7 @@ export const useMyCarsDispatcher = () => {
 
   const navigateFn = (row) => {
    window.open(
-      `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${row?.gps_data?.battery}&createdAt=${row?.gps_data?.createdAt}&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${row?.gps_data?.version}&guid=${row?.guid}&provisions=${row?.provisions}&phone=${row?.phone}&car_number=${row?.vehicle_data?.car_number || ``}&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
+      `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${row?.gps_data?.battery}&createdAt=${row?.gps_data?.createdAt}&location_name=${row?.gps_data?.location_name}&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${row?.gps_data?.version}&guid=${row?.guid}&provisions=${row?.provisions}&phone=${row?.phone}&car_number=${row?.vehicle_data?.car_number || ``}&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
         row?.vehicle_data?.car_type || ``}&car_capacity=${
         row?.vehicle_data?.capacity ||``
       }&car_height=${row?.vehicle_data?.height || ``}&car_type_name=${
