@@ -9,6 +9,7 @@ import Getapps from "@/assets/images/getapps.svg";
 import RuStore from "@/assets/images/RuStore.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import AppStore from "@/assets/images/app-store.svg";
+import GalaxyStore from "@/assets/images/galaxy-store.svg";
 
 import { Box, Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
@@ -186,7 +187,9 @@ export const Footer = () => {
                 <li className={cls.mobileAppItem}>
                   <a
                     className={cls.mobileAppLink}
-                    href={"https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"}
+                    href={
+                      "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                    }
                     target="_blank"
                   >
                     <Image
@@ -200,13 +203,31 @@ export const Footer = () => {
                 <li className={cls.mobileAppItem}>
                   <a
                     className={cls.mobileAppLink}
-                    href={"https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"}
+                    href={
+                      "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                    }
                     target="_blank"
                   >
                     <Image
                       src={RuStore}
                       alt="Ru store "
-                      width={135}
+                      width={111}
+                      height={40}
+                    />
+                  </a>
+                </li>
+                <li className={cls.mobileAppItem}>
+                  <a
+                    className={cls.mobileAppLink}
+                    href={
+                      "https://galaxystore.samsung.com/detail/uz.udevs.xlogistic_driver_mobile"
+                    }
+                    target="_blank"
+                  >
+                    <Image
+                      src={GalaxyStore}
+                      alt="GalaxyStore"
+                      width={147}
                       height={40}
                     />
                   </a>
