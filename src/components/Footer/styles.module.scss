@@ -59,6 +59,7 @@
   display: flex;
   align-items: center;
   // column-gap: 16px;
+    
 }
 
 .mobileAppsHeading {
@@ -71,13 +72,16 @@
 .mobileAppList {
   @include reset-list;
   display: flex;
-  align-items: center;
+  // align-items: center;
+   flex-direction: column;
   column-gap: 16px;
+  row-gap: 10px
 }
 
 .socialList {
   @include reset-list;
   display: flex;
+ 
   column-gap: 24px;
 }
 
