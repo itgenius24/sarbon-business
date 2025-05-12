@@ -624,7 +624,7 @@ export const Performed = forwardRef(
                     boxSizing={`border-box`}
                     onClick={() =>
                       router.push(
-                        `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}&driver_id=${cargo?.users_id_data?.guid}`
+                        `/${locale}/detail-cargo?status=performed&guid=${cargo?.guid}&car_id=${cargo?.cargo_id}&driver_id=${cargo?.users_id_data?.guid}`
                       )
                     }
                     className={styles.bntMap}

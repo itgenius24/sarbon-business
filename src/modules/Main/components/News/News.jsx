@@ -176,7 +176,7 @@ const NewsCard = ({ data = {} }) => {
 
   const locale = useGetLang();
 
-  return <Link href={`/${locale}/news/${data.guid}?page=${fromPage}`}>
+  return <Link href={`/${locale}/news?guid=${data.guid}&page=${fromPage}`}>
     <Box className={cls.newsCard}>
       <Box className={cls.newsCardImageBox} overflow="hidden" maxW="max-content">
         <Image

@@ -1,3 +1,4 @@
+"use client";
 import { useRegistrationProps } from "./useRegistrationProps";
 
 import {

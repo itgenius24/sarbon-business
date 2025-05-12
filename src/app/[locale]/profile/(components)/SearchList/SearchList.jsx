@@ -32,7 +32,7 @@ export const SearchList = ({
           {carsList?.map((item, idx) => (
             <CarItem
               key={item?.guid || idx} data={item}
-              path={`/${locale}/profile/want-buy/${item?.guid}`}
+              path={`/${locale}/profile/want-buy?guid=${item?.guid}`}
               isLargerThan845={isLargerThan845}
             />
           ))}

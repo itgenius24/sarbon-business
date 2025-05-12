@@ -38,7 +38,7 @@ export const useGpsTrackingProps = () => {
   const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
   const mapRef = useRef(null);
-  const guid = searchParams.get(`guid`);
+    const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
   const full_name = searchParams.get(`full_name`);
   const battery = searchParams.get(`battery`);

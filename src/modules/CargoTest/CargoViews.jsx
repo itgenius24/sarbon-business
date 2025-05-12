@@ -1,3 +1,4 @@
+"use client";
 import cls from "./styles.module.scss";
 import {
   CheckIconStep,
@@ -47,10 +48,13 @@ import { Checkbox } from "@/components/Checkbox";
 import { CargoDetail } from "./components/CargoDetail";
 import { TopContent } from "../Cargo/components/TopContent";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export const CargoViews = observer(({ id, status, locale }) => {
-  console.log("status:", status);
+export const CargoViews = observer(({ locale }) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get(`guid`);
+  const status = searchParams.get(`status`);
+
   const [cargoIndex, setCargoIndex] = useState(1);
   const [open, setOpen] = useState(false);
   const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
@@ -212,15 +216,13 @@ export const CargoViews = observer(({ id, status, locale }) => {
               color={`var(--primary-text)`}
               mb={`26px`}
               width={`fit-content`}
-              onClick={() =>
-             {
-              addCargoProps.handleResetForm();
-              router.back()
+              onClick={() => {
+                addCargoProps.handleResetForm();
+                router.back();
                 // (window.location.href = `${
                 //   window.location.origin
                 // }/${`${locale}/my-loads`}`)
-             }
-              }
+              }}
             >
               {t(`Вернутся в список`)}
             </Button>

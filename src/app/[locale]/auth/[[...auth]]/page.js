@@ -1,4 +1,21 @@
-"use client";
+
+
+export async function generateStaticParams() {
+  const locales = ["en", "uz", "ru"];
+  const authPages = ["login", "registration", "registration-form", "otp", "forgot", "new-password"];
+
+  const params = [];
+
+  for (const locale of locales) {
+    params.push({ locale, auth: [] });
+
+    for (const auth of authPages) {
+      params.push({ locale, auth: [auth] });
+    }
+  }
+
+  return params;
+}
 
 import { Login } from "../(components)/Login";
 import { Registration } from "../(components)/Registration";
@@ -6,14 +23,9 @@ import { RegistrationForm } from "../(components)/RegistrationForm";
 import { Otp } from "../(components)/Otp";
 import { Forgot } from "../(components)/Forgot";
 import { NewPassword } from "../(components)/NewPassword/NewPassword";
-import { useParams, useSearchParams } from "next/navigation";
 
 export default function Auth({ params }) {
   const path = params.auth?.[0];
-
-  const params2 = useParams()
-
-  console.log(`dispatcher345`,params2)
 
   const authTypes = {
     login: Login,

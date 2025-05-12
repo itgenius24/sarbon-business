@@ -387,7 +387,7 @@ const StepFive = ({ status }) => {
 
   const routerClick = () => {
     handleResetForm();
-    router.push(`/${locale}/my-loads/in_moderation/${guid}?isFirst=true`);
+    router.push(`/${locale}/detail-cargo?status=in_moderation&guid=${guid}`);
   };
 
   const contact = authStore.userData.phone;

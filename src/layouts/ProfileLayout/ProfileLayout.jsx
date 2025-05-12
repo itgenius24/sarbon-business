@@ -1,3 +1,6 @@
+
+"use client";
+
 import cls from "./styles.module.scss";
 import { Container } from "@/components/Container";
 import { Box, Flex, Heading, Text, useMediaQuery } from "@chakra-ui/react";

@@ -1,3 +1,4 @@
+"use client";
 import cls from "./styles.module.scss";
 import { DeleteIcon, PencilIcon, PlusIcon, SearchIcon } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";

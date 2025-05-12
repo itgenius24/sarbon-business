@@ -240,7 +240,7 @@ export const LoadsCard = forwardRef(
                       <Button
                         onClick={() =>
                           router.push(
-                            `/${locale}/my-loads/${status}/${cargo?.guid}`
+                            `/${locale}/detail-cargo?status=${status}&guid=${cargo?.guid}`
                           )
                         }
                         className={cls.btnActive}
@@ -253,7 +253,7 @@ export const LoadsCard = forwardRef(
                         <Button
                           onClick={() =>
                             router.push(
-                              `/${locale}/my-loads/${status}/${cargo?.guid}`
+                              `/${locale}/detail-cargo?status=${status}&guid=${cargo?.guid}`
                             )
                           }
                           className={cls.bntOutline}
@@ -290,7 +290,7 @@ export const LoadsCard = forwardRef(
                       className={cls.btn}
                       onClick={() =>
                         router.push(
-                          `/${locale}/my-loads/performed/${cargo?.guid}?isFirst=true&&car_id=${cargo?.cargo_id}`
+                          `/${locale}/detail-cargo?status=performed&guid=${cargo?.guid}&car_id=${cargo?.cargo_id}`
                         )
                       }
                     >

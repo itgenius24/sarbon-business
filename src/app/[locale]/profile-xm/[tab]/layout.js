@@ -1,22 +1,24 @@
-"use client";
-
+// app/[locale]/profile-xm/[tab]/layout.tsx
 import { ProfileLayout } from "@/layouts/ProfileLayout";
-import { useMediaQuery } from "@chakra-ui/react";
 
-export default function Layout({ handbook, personalInfo, wantBuy, myAd, params }) {
-  const { tab, locale } = params;
+export async function generateStaticParams() {
+  const locales = ['en', 'ru', 'uz']; // Kerakli locale lar
+  const tabs = ['handbook', 'want-buy', 'my-ad', 'personal-data'];
 
-  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  return locales.flatMap(locale => 
+    tabs.map(tab => ({
+      locale,
+      tab,
+    }))
+  );
+}
 
-  const components = {
-    handbook,
-    "want-buy": wantBuy,
-    "my-ad": myAd,
-    "personal-data": personalInfo,
-  };
+export default function Layout({ children, params }) {
+  const { locale } = params;
 
-  return <ProfileLayout locale={locale} >
-    {components[tab] ?? personalInfo}
-  </ProfileLayout>;
-
+  return (
+    <ProfileLayout locale={locale}>
+      {children}
+    </ProfileLayout>
+  );
 }

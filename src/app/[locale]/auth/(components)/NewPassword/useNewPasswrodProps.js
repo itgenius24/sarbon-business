@@ -1,3 +1,4 @@
+"use client";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetUsers, useUpdateUserInfo } from "@/services/api";

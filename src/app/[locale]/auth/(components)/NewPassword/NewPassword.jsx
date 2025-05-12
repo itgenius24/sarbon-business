@@ -1,3 +1,4 @@
+"use client";
 import cls from "./styles.module.scss";
 import { Box, Button } from "@chakra-ui/react";
 import { useNewPasswordProps } from "./useNewPasswrodProps";

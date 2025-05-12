@@ -6,6 +6,7 @@ const nextConfig = {
   // eslint: {
   //   ignoreDuringBuilds: true,
   // },
+  output: 'export',
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
     prependData: `
@@ -15,6 +16,7 @@ const nextConfig = {
         `,
   },
   images: {
+     unoptimized: true ,
     domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com", "cdn-api.furgo.uz"],
     remotePatterns: [
       {

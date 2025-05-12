@@ -1,3 +1,4 @@
+"use client";
 import authStore from "@/store/auth.store";
 import {
   useGetClientType,
