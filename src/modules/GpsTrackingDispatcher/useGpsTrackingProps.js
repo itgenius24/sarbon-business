@@ -48,6 +48,7 @@ export const useGpsTrackingProps = (locale) => {
   const car_type_name = searchParams.get(`car_type_name`);
   const cargo_guid = searchParams.get(`cargo_guid`);
   const dispatcher_id = searchParams.get(`dispatcher_id`);
+  const location_name = searchParams.get(`location_name`);
   const disId = authStore.userData.id;
   const [distanceParameters, setDistanceParameters] = useState({});
   const [locationNames, setLocationNames] = useState([]);
@@ -115,6 +116,7 @@ export const useGpsTrackingProps = (locale) => {
               os,
               lat,
               long,
+              location_name,
               version,
             },
           ],
@@ -362,6 +364,7 @@ export const useGpsTrackingProps = (locale) => {
             os,
             lat,
             long,
+            location_name,
             version,
           },
         ],
