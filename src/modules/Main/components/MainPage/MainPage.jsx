@@ -302,7 +302,7 @@ const MainPage = ({ locale }) => {
                         <Image
                           src={RuStore}
                           alt="Ru store"
-                          width={135}
+                          width={111}
                           height={40}
                         />
                       </a>

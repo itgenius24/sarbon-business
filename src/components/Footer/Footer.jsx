@@ -206,7 +206,7 @@ export const Footer = () => {
                     <Image
                       src={RuStore}
                       alt="Ru store "
-                      width={135}
+                      width={111}
                       height={40}
                     />
                   </a>

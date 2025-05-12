@@ -4,10 +4,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useTranslation } from "@/app/i18n/client";
-import {
-  Box,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -28,7 +25,9 @@ const Filter = ({
   handleInputClear,
   setLoadCheck,
   loadCheck,
-  mapRef
+  mapRef,
+  isFuelMap,
+  setIsFuelMap,
 }) => {
   const { t } = useTranslation(locale);
 
@@ -165,7 +164,9 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.our_cargo}
-              onChange={() => handleCheckboxChange("our_cargo",`waiting_for_driver`)}
+              onChange={() =>
+                handleCheckboxChange("our_cargo", `waiting_for_driver`)
+              }
             >
               {t("Занятые с нашим грузом")}
             </Checkbox>
@@ -197,14 +198,10 @@ const Filter = ({
               {t("Грузы")}
             </Checkbox>
             <Checkbox
-              // isLoading={isLoadingRefueling}
-              // isDisabled={isLoadingRefueling}
               width={"16px"}
               height={"16px"}
-              defaultChecked={Boolean(watch(`refuelingState`))}
-              onChange={() =>
-                setValue(`refuelingState`, !watch(`refuelingState`))
-              }
+              defaultChecked={isFuelMap}
+              onChange={(e) => setIsFuelMap(e.target.checked)}
             >
               {t("Заправки")}
             </Checkbox>

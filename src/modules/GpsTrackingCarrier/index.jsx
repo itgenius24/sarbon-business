@@ -74,7 +74,9 @@ export default function GpsTrackingCarrier() {
     refueling,
     addAdress,
     setLocationData,
-    mapRef
+    mapRef,
+    isFuelMap,
+    setIsFuelMap,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -156,6 +158,8 @@ export default function GpsTrackingCarrier() {
                     checkboxStatuses={checkboxStatuses}
                     handleCheckboxChange={handleCheckboxChange}
                     mapRef={mapRef}
+                    isFuelMap={isFuelMap}
+                    setIsFuelMap={setIsFuelMap}
                   />
                 )}
                 {modalType === "driverFree" && (

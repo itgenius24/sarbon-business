@@ -51,6 +51,8 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [remainingData, setRemainingData] = useState([]);
+   const [isFuelMap, setIsFuelMap] = useState(false);
+
 
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
@@ -612,5 +614,6 @@ export const useGpsTrackingProps = () => {
     refueling: remainingData,
     setLocationData,
     mapRef,
+    isFuelMap, setIsFuelMap
   };
 };

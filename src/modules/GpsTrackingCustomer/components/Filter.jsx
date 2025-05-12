@@ -4,10 +4,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useTranslation } from "@/app/i18n/client";
-import {
-  Box,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -30,6 +27,8 @@ const Filter = ({
   loadCheck,
   isLoadingRefueling,
   mapRef,
+  isFuelMap,
+  setIsFuelMap,
 }) => {
   const { t } = useTranslation(locale);
 
@@ -97,7 +96,7 @@ const Filter = ({
         <Box className={cls.cardWrap}>
           <Box mb={`10px`} className={cls.locationWrap}>
             <TextFieldWithAddition
-                 placeholder={t("Город или страна")}
+              placeholder={t("Город или страна")}
               rules={{ required: true }}
               label={t("Поиск на карте")}
               additionalItemTheme="white"
@@ -166,7 +165,9 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.our_cargo}
-              onChange={() => handleCheckboxChange("our_cargo",`waiting_for_driver`)}
+              onChange={() =>
+                handleCheckboxChange("our_cargo", `waiting_for_driver`)
+              }
             >
               {t("Занятые с нашим грузом")}
             </Checkbox>
@@ -199,23 +200,18 @@ const Filter = ({
             </Checkbox>
             <Flex gap={1}>
               <Checkbox
-                isLoading={isLoadingRefueling}
-                isDisabled={isLoadingRefueling}
                 width={"16px"}
                 height={"16px"}
-                defaultChecked={Boolean(watch(`refuelingState`))}
-                onChange={() =>
-                  setValue(`refuelingState`, !watch(`refuelingState`))
-                }
+                defaultChecked={isFuelMap}
+                onChange={(e) => setIsFuelMap(e.target.checked)}
               >
                 {t("Заправки")}
               </Checkbox>
-          
             </Flex>
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
-        <p className={cls.checkCardTitle}>{t("Тип кузова")}</p>
+          <p className={cls.checkCardTitle}>{t("Тип кузова")}</p>
 
           <Flex flexDirection={"column"} rowGap={2}>
             <Dropdown
@@ -242,7 +238,6 @@ const Filter = ({
             </Box>
           </Flex>
         </Box>
-     
       </Flex>
     </div>
   );

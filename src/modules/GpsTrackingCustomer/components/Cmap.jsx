@@ -41,6 +41,7 @@ const Cmap = memo(
     setLoadState,
     setCurrentUserLocationData,
     mapRef,
+    
   }) => {
     const [isClient, setIsClient] = useState(false);
     const { t } = useTranslation();

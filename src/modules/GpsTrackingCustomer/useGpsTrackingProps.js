@@ -38,8 +38,8 @@ export const useGpsTrackingProps = () => {
   const [offset, setOffset] = useState(1);
   const [offsetCar, setOffsetCAr] = useState(1);
   const [currentUserLocationData, setCurrentUserLocationData] = useState();
-    const [iconStatus, setIconStatus] = useState(``);
-    const [modalType, setModalType] = useState("");
+  const [iconStatus, setIconStatus] = useState(``);
+  const [modalType, setModalType] = useState("");
   const [centerModalType, setCenterModalType] = useState("");
   const [loadState, setLoadState] = useState({});
   const [loadHoverState, setHoverLoadState] = useState({});
@@ -50,6 +50,7 @@ export const useGpsTrackingProps = () => {
   const [refuelingState, setRefuelingState] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Loading holati
   const [remainingData, setRemainingData] = useState([]);
+  const [isFuelMap, setIsFuelMap] = useState(false);
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -131,10 +132,8 @@ export const useGpsTrackingProps = () => {
         ...intervalLocations,
         watch("to"),
       ]);
-    
     }
   }
-
 
   let draggingIndex = null;
 
@@ -252,21 +251,22 @@ export const useGpsTrackingProps = () => {
     }
   }, []);
 
-  const { mutate: dataMutate, isLoading:dataMutateLoadin } = useGetCarDispatcher({
-    onSuccess: (data) => {
-      if (data?.response?.length) {
-        let data2 = data?.response?.map((item) => ({
-          user: item?.users_id_data?.[0],
-          vehicles: [item?.vehicle_id_data],
-          users_gps: [item],
-          firm_data: item?.firm_data,
-          orders: item?.order_data ? [item?.order_data] : undefined,
-        }));
-        // console.log(`data2`,data2)
-        setCarsArr((res) => [...res, ...data2]);
-      }
-    },
-  });
+  const { mutate: dataMutate, isLoading: dataMutateLoadin } =
+    useGetCarDispatcher({
+      onSuccess: (data) => {
+        if (data?.response?.length) {
+          let data2 = data?.response?.map((item) => ({
+            user: item?.users_id_data?.[0],
+            vehicles: [item?.vehicle_id_data],
+            users_gps: [item],
+            firm_data: item?.firm_data,
+            orders: item?.order_data ? [item?.order_data] : undefined,
+          }));
+          // console.log(`data2`,data2)
+          setCarsArr((res) => [...res, ...data2]);
+        }
+      },
+    });
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -310,8 +310,6 @@ export const useGpsTrackingProps = () => {
     }
     return acc;
   }, []);
-
-  
 
   const dataUserDataID = dataUserID.reduce((acc, current) => {
     const xistingItem = acc.find(
@@ -394,7 +392,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     console.log("offsetCar");
-    getLocation({ data: { object_data: { limit: 100, page: offsetCar  } } });
+    getLocation({ data: { object_data: { limit: 100, page: offsetCar } } });
   }, [offsetCar]);
 
   useEffect(() => {
@@ -470,26 +468,23 @@ export const useGpsTrackingProps = () => {
     userUpdate({ data: body });
   };
 
-  const handleCheckboxChange = (status,status_waiting) => {
-    if(status_waiting){
+  const handleCheckboxChange = (status, status_waiting) => {
+    if (status_waiting) {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
         [status_waiting]: !prevState[status_waiting],
       }));
-    }else{
+    } else {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
       }));
     }
-  
   };
   const handleInputClear = () => {
     setOffset(0);
   };
-
-
 
   return {
     register,
@@ -563,6 +558,8 @@ export const useGpsTrackingProps = () => {
     refuelingState,
     isLoadingRefueling: isLoading,
     setRefueling: setRemainingData,
-    mapRef
+    mapRef,
+    isFuelMap,
+    setIsFuelMap,
   };
 };

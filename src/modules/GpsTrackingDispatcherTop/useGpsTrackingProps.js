@@ -63,6 +63,7 @@ export const useGpsTrackingProps = () => {
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(1);
   const [remainingData, setRemainingData] = useState([]);
+  const [isFuelMap, setIsFuelMap] = useState(false);
   const [offsetCar, setOffsetCAr] = useState(1);
   const [currentUserLocationData, setCurrentUserLocationData] = useState();
   const [iconStatus, setIconStatus] = useState(``);
@@ -732,5 +733,6 @@ export const useGpsTrackingProps = () => {
     setDisVal,
     disVal,driverVal,
     setDriverVal,
+    isFuelMap, setIsFuelMap
   };
 };

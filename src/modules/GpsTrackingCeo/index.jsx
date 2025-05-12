@@ -80,6 +80,7 @@ export default function GpsTrackingCeo({ locale }) {
     mapRef,
     setDriverVal,setDisVal,
     disVal,driverVal,
+      isFuelMap, setIsFuelMap
   } = useGpsTrackingProps();
 
   const { t } = useTranslation(locale, "translations");
@@ -87,7 +88,7 @@ export default function GpsTrackingCeo({ locale }) {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-        {watch(`refuelingState`) ? (
+        {isFuelMap ? (
           <CmapAZS
             refueling={refueling}
             cls={cls}
@@ -160,6 +161,8 @@ export default function GpsTrackingCeo({ locale }) {
                     setDisVal={setDisVal}
                     disVal={disVal}
                     driverVal={driverVal}
+                      isFuelMap={isFuelMap}
+                       setIsFuelMap={setIsFuelMap}
                   />
                 )}
                 {modalType === "driverFree" && (

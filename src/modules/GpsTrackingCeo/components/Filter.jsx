@@ -26,6 +26,8 @@ const Filter = ({
   mapRef,
   disVal,
   driverVal,
+  isFuelMap,
+  setIsFuelMap,
 }) => {
   const {
     register,
@@ -44,7 +46,7 @@ const Filter = ({
   const hanleAdress = (location, name) => {
     mapRef.current.setCenter(
       location?.GeoObject?.Point?.pos.split(` `).reverse(),
-    11
+      11
     );
 
     setValue(name, `${location?.GeoObject?.name}`);
@@ -306,14 +308,10 @@ const Filter = ({
               {t("Грузы")}
             </Checkbox>
             <Checkbox
-              // isLoading={isLoadingRefueling}
-              // isDisabled={isLoadingRefueling}
               width={"16px"}
               height={"16px"}
-              defaultChecked={Boolean(watch(`refuelingState`))}
-              onChange={() =>
-                setValue(`refuelingState`, !watch(`refuelingState`))
-              }
+              defaultChecked={isFuelMap}
+              onChange={(e) => setIsFuelMap(e.target.checked)}
             >
               {t("Заправки")}
             </Checkbox>

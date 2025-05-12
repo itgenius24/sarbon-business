@@ -81,6 +81,8 @@ export default function GpsTrackingDispatcherTop({ locale }) {
     setDriverVal,
     disVal,
     driverVal,
+    isFuelMap,
+    setIsFuelMap,
   } = useGpsTrackingProps();
 
   const { t } = useTranslation(locale, "translations");
@@ -88,7 +90,7 @@ export default function GpsTrackingDispatcherTop({ locale }) {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-        {watch(`refuelingState`) ? (
+        {isFuelMap ? (
           <CmapAZS
             refueling={refueling}
             cls={cls}
@@ -159,6 +161,8 @@ export default function GpsTrackingDispatcherTop({ locale }) {
                   setDriverVal={setDriverVal}
                   disVal={disVal}
                   driverVal={driverVal}
+                  isFuelMap={isFuelMap}
+                  setIsFuelMap={setIsFuelMap}
                 />
               )}
               {modalType === "driverFree" && (
