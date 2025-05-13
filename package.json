@@ -59,6 +59,8 @@
     "react-window": "^1.8.10",
     "sharp": "^0.33.2",
     "slick-carousel": "^1.8.1",
+    "stream-chat": "^9.1.1",
+    "stream-chat-react": "^13.0.0",
     "tesseract.js": "^6.0.0",
     "use-debounce": "^10.0.3",
     "ymap3-components": "^1.1.8",
