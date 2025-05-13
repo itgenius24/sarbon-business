@@ -50,13 +50,15 @@ const StepFour = ({ status }) => {
     } else {
       setDisabledP(true);
     }
-  }, [canEdit, watch(`prepayment`)]);
+  }, [canEdit, watch(`prepayment`),!canEdit]);
+
+  console.log(`disabledP`,order_status?.[0] === "active" , !canEdit , )
 
   useEffect(() => {
     if (!watch(`prepayment_percentage`) && params.includes("my-loads")) {
       setValue(`prepayment`, true);
     }
-  }, []);
+  }, [!watch(`prepayment_percentage`) && params.includes("my-loads")]);
 
   const negotiableOption = [
     {
@@ -366,7 +368,7 @@ const StepFour = ({ status }) => {
                     />
                   </Box>
                   <Box width={"100%"}>
-                    <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                    <Flex  onClick={() => (!canEdit ? setEditModal(true) : null)} mb={2} alignItems={"center"} gap={"10px"}>
                       <Checkbox
                         register={register}
                         name={`prepayment`}
@@ -378,10 +380,7 @@ const StepFour = ({ status }) => {
                     </Flex>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                      disabled={order_status?.[0] === "active" || disabledP}
-                      onlyFieldDisabled={
-                        order_status?.[0] === "active" || disabledP
-                      }
+                      disabled={order_status?.[0] === "active" || !canEdit || !watch(`prepayment`)}
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -437,7 +436,8 @@ const StepFour = ({ status }) => {
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
-                        {watch(`price_after_order`) - (watch(`price_prepayment`) ? watch(`price_prepayment`): 0)}
+                  
+                        {(watch(`price`)) - (watch(`price_prepayment`) )}
 
                         {` ${
                           watch(`price_prepayment_unit`)

@@ -27,6 +27,7 @@ const Filter = ({
   setDisVal,
   setDriverVal,
   disVal,driverVal,
+    isFuelMap, setIsFuelMap
 }) => {
   const { t } = useTranslation(locale);
 
@@ -319,9 +320,9 @@ const Filter = ({
             <Checkbox
               width={"16px"}
               height={"16px"}
-              defaultChecked={Boolean(watch(`refuelingState`))}
-              onChange={() =>
-                setValue(`refuelingState`, !watch(`refuelingState`))
+              defaultChecked={isFuelMap}
+              onChange={(e) =>
+                setIsFuelMap(e.target.checked)
               }
             >
               {t("Заправки")}

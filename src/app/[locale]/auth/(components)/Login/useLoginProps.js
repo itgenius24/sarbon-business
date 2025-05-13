@@ -32,9 +32,6 @@ export const useLoginProps = () => {
   const [open, setOpen] = useState(false);
   const [dataUser, setDataUser] = useState({});
 
-  const defaultUserData = localStorage.getItem("loginData")
-    ? JSON.parse(localStorage.getItem("loginData")).username
-    : "";
 
   const toast = useToast();
 
@@ -46,8 +43,8 @@ export const useLoginProps = () => {
     setError,
   } = useForm({
     defaultValues: {
-      username: defaultUserData?.username,
-      password: defaultUserData?.password,
+      username:``,
+      password: ``,
     },
   });
 
@@ -91,15 +88,15 @@ export const useLoginProps = () => {
       });
       setDataUser(data);
 
-      if (remember) {
-        localStorage.setItem(
-          "loginData",
-          JSON.stringify({
-            username: watch("username"),
-            password: watch("password"),
-          })
-        );
-      }
+      // if (remember) {
+      //   localStorage.setItem(
+      //     "loginData",
+      //     JSON.stringify({
+      //       username: watch("username"),
+      //       password: watch("password"),
+      //     })
+      //   );
+      // }
     },
     onError: (error) => {
       console.log(error);

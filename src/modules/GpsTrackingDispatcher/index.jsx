@@ -74,7 +74,8 @@ export default function GpsTrackingDispatcher({ locale }) {
     locationPending,
     isBalloonOpened,
     setIsBalloonOpened,
-    mapRef
+    mapRef,
+     isFuelMap, setIsFuelMap
   } = useGpsTrackingProps(locale);
 
   const { t } = useTranslation(locale, "translations");
@@ -82,7 +83,7 @@ export default function GpsTrackingDispatcher({ locale }) {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-        {watch(`refuelingState`) ? (
+        {isFuelMap ? (
           <CmapAZS
             refueling={refueling}
             cls={cls}
@@ -166,6 +167,8 @@ export default function GpsTrackingDispatcher({ locale }) {
                     checkboxStatuses={checkboxStatuses}
                     handleCheckboxChange={handleCheckboxChange}
                     mapRef={mapRef}
+                    isFuelMap={isFuelMap}
+                    setIsFuelMap={setIsFuelMap}
                   />
                 )}
                 {modalType === "driverFree" && (

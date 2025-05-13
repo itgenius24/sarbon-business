@@ -3,13 +3,10 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 
 import { Box, Flex } from "@chakra-ui/react";
-import {
-  FilterIcon,
-} from "@/assets/icons/icons";
+import { FilterIcon } from "@/assets/icons/icons";
 import React from "react";
 
 import cls from "./style.module.scss";
-
 
 import Filter from "./components/Filter";
 import DriverFree from "./components/DriverFree";
@@ -84,7 +81,9 @@ export default function GpsTrackingCustomer() {
     setRefuelingState,
     refuelingState,
     isLoadingRefueling,
-    mapRef
+    mapRef,
+    isFuelMap,
+    setIsFuelMap,
   } = useGpsTrackingProps();
 
   const locale = useGetLang();
@@ -94,7 +93,7 @@ export default function GpsTrackingCustomer() {
   return (
     <>
       <Box className={cls.box} width={"100%"} height={"400vh"}>
-        {watch(`refuelingState`) ? (
+        {isFuelMap ? (
           <CmapAZS
             refueling={refueling}
             cls={cls}
@@ -137,104 +136,104 @@ export default function GpsTrackingCustomer() {
             </div>
           )}
         </div>
-        {
-          modalType.length > 0 &&    <div className={cls.modalWrap}>
-          <Flex>
-            <Box width={"100%"}>
-      
-              {modalType === "filter" && (
-                <Filter
-                  setRefuelingState={setRefuelingState}
-                  refuelingState={refuelingState}
-                  cls={cls}
-                  watch={watch}
-                  setValue={setValue}
-                  getUserOption={getUserOption}
-                  loadingOptions={loadingOptions}
-                  register={register}
-                  setDistance={setDistance}
-                  distance={distance}
-                  handleClear={handleClear}
-                  setLoadCheck={setLoadCheck}
-                  loadCheck={loadCheck}
-                  isLoadingRefueling={isLoadingRefueling}
-                  t={t}
-                  setModalType={setModalType}
-                  handleInputClear={handleInputClear}
-                  control={control}
-                  handleOpenModal={handleOpenModal}
-                  errors={errors}
-                  carTypeOptions={carTypeOptions}
-                  checkboxStatuses={checkboxStatuses}
-                  handleCheckboxChange={handleCheckboxChange}
-                  mapRef={mapRef}
-                />
-              )}
-              {modalType === "driverFree" && (
-                <DriverFree
-                  cls={cls}
-                  setModalType={setModalType}
-                  currentUserLocationData={currentUserLocationData}
-                  setCenterModalType={setCenterModalType}
-                  setIconStatus={setIconStatus}
-                />
-              )}
-              {modalType === "driverExpectation" && (
-                <DriverExpectation
-                  setModalType={setModalType}
-                  cls={cls}
-                  currentUserLocationData={currentUserLocationData}
-                  setCenterModalType={setCenterModalType}
-                />
-              )}
-              {modalType === "driverCheck" && (
-                <DriverCheck
-                  cls={cls}
-                  currentUserLocationData={currentUserLocationData}
-                  setCenterModalType={setCenterModalType}
-                  setModalType={setModalType}
-                  setIconStatus={setIconStatus}
-                />
-              )}
-              {modalType === "driverQuestion" && (
-                <DriverQuestion
-                  setModalType={setModalType}
-                  addressAdd={addressAdd}
-                  cls={cls}
-                  currentUserLocationData={currentUserLocationData}
-                  setCenterModalType={setCenterModalType}
-                  setStateMap={setStateMap}
-                  handleOpenModal={handleOpenModal}
-                  handleCloseModal={handleCloseModal}
-                  setIconStatus={setIconStatus}
-                  stateMap={stateMap}
-                />
-              )}
-              {modalType === "driverGruz" && (
-                <DriverGruz
-                  cls={cls}
-                  setModalType={setModalType}
-                  loadState={loadState}
-                  setOffset={setOffset}
-                  setLocationData={setLocationData}
-                  locationData={locationData}
-                />
-              )}
-              {modalType === "driverGruzGoods" && (
-                <DriverGruzGoods
-                  setModalType={setModalType}
-                  loadState={loadState}
-                  cls={cls}
-                  setLocationData={setLocationData}
-                  locationData={locationData}
-                />
-              )}
-            </Box>
-          </Flex>
-        </div>
-        }
+        {modalType.length > 0 && (
+          <div className={cls.modalWrap}>
+            <Flex>
+              <Box width={"100%"}>
+                {modalType === "filter" && (
+                  <Filter
+                    setRefuelingState={setRefuelingState}
+                    refuelingState={refuelingState}
+                    cls={cls}
+                    watch={watch}
+                    setValue={setValue}
+                    getUserOption={getUserOption}
+                    loadingOptions={loadingOptions}
+                    register={register}
+                    setDistance={setDistance}
+                    distance={distance}
+                    handleClear={handleClear}
+                    setLoadCheck={setLoadCheck}
+                    loadCheck={loadCheck}
+                    isLoadingRefueling={isLoadingRefueling}
+                    t={t}
+                    setModalType={setModalType}
+                    handleInputClear={handleInputClear}
+                    control={control}
+                    handleOpenModal={handleOpenModal}
+                    errors={errors}
+                    carTypeOptions={carTypeOptions}
+                    checkboxStatuses={checkboxStatuses}
+                    handleCheckboxChange={handleCheckboxChange}
+                    mapRef={mapRef}
+                    isFuelMap={isFuelMap}
+                    setIsFuelMap={setIsFuelMap}
+                  />
+                )}
+                {modalType === "driverFree" && (
+                  <DriverFree
+                    cls={cls}
+                    setModalType={setModalType}
+                    currentUserLocationData={currentUserLocationData}
+                    setCenterModalType={setCenterModalType}
+                    setIconStatus={setIconStatus}
+                  />
+                )}
+                {modalType === "driverExpectation" && (
+                  <DriverExpectation
+                    setModalType={setModalType}
+                    cls={cls}
+                    currentUserLocationData={currentUserLocationData}
+                    setCenterModalType={setCenterModalType}
+                  />
+                )}
+                {modalType === "driverCheck" && (
+                  <DriverCheck
+                    cls={cls}
+                    currentUserLocationData={currentUserLocationData}
+                    setCenterModalType={setCenterModalType}
+                    setModalType={setModalType}
+                    setIconStatus={setIconStatus}
+                  />
+                )}
+                {modalType === "driverQuestion" && (
+                  <DriverQuestion
+                    setModalType={setModalType}
+                    addressAdd={addressAdd}
+                    cls={cls}
+                    currentUserLocationData={currentUserLocationData}
+                    setCenterModalType={setCenterModalType}
+                    setStateMap={setStateMap}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
+                    setIconStatus={setIconStatus}
+                    stateMap={stateMap}
+                  />
+                )}
+                {modalType === "driverGruz" && (
+                  <DriverGruz
+                    cls={cls}
+                    setModalType={setModalType}
+                    loadState={loadState}
+                    setOffset={setOffset}
+                    setLocationData={setLocationData}
+                    locationData={locationData}
+                  />
+                )}
+                {modalType === "driverGruzGoods" && (
+                  <DriverGruzGoods
+                    setModalType={setModalType}
+                    loadState={loadState}
+                    cls={cls}
+                    setLocationData={setLocationData}
+                    locationData={locationData}
+                  />
+                )}
+              </Box>
+            </Flex>
+          </div>
+        )}
 
-      
         {centerModalType === "selectCargo" && (
           <div className={cls.leftModal}>
             <SelectCargo

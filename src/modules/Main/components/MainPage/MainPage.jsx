@@ -270,7 +270,7 @@ const MainPage = ({ locale }) => {
                       // alignItems={`center`}
                       flexDirection={`column`}
                     >
-                      <Flex  alignItems={`center`} gap={`16px`}>
+                      <Flex alignItems={`center`} gap={`16px`}>
                         <a
                           className={cls.mobileAppLink}
                           href={
@@ -285,7 +285,7 @@ const MainPage = ({ locale }) => {
                             height={40}
                           />
                         </a>
-                             <a
+                        <a
                           className={cls.mobileAppLink}
                           href={
                             "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
@@ -299,22 +299,20 @@ const MainPage = ({ locale }) => {
                             height={40}
                           />
                         </a>
-
-                     
                       </Flex>
 
                       <Flex alignItems={`center`} gap={`16px`}>
-                      <a
+                        <a
                           className={cls.mobileAppLink}
                           href={
-                            "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                            "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
                           }
                           target="_blank"
                         >
                           <Image
-                            src={Getapps}
-                            alt="Getapps store"
-                            width={135}
+                            src={RuStore}
+                            alt="Ru store"
+                            width={111}
                             height={40}
                           />
                         </a>
@@ -332,9 +330,8 @@ const MainPage = ({ locale }) => {
                             height={40}
                           />
                         </a>
-                      </Flex>
 
-                      {/* <a
+                        {/* <a
                         onClick={() => downloadFn()}
                         style={{ cursor: `pointer` }}
                         download
@@ -349,6 +346,7 @@ const MainPage = ({ locale }) => {
                           height={40}
                         />
                       </a> */}
+                      </Flex>
                     </Flex>
                   </Box>
                   <Box

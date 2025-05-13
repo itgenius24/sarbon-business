@@ -828,12 +828,23 @@ const Cmap = memo(
               <>
                 {item.location_name && (
                   <Placemark
-                    onClick={() => {
-                      setLoadState(item);
-                      if (item?.new_status?.[0] === "occupied_cargo") {
-                        setModalType("driverGruzGoods");
+                    onClick={(e) => {
+                      if (isSelectingPoints) {
+                        const coords = e
+                          .get("target")
+                          .geometry.getCoordinates();
+                        handlePointSelect(coords);
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        return;
                       } else {
-                        setModalType("driverGruz");
+                        setLoadState(item);
+                        if (item?.new_status?.[0] === "occupied_cargo") {
+                          setModalType("driverGruzGoods");
+                        } else {
+                          setModalType("driverGruz");
+                        }
                       }
                     }}
                     key={item?.guid}
@@ -853,6 +864,8 @@ const Cmap = memo(
                       ),
                       iconImageSize: [60, 72],
                       iconImageOffset: [-15, -42],
+                      zIndexHover: 1,
+                      zIndex: 1,
                     }}
                   />
                 )}
