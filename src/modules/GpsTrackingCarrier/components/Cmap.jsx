@@ -648,8 +648,8 @@ const Cmap = memo(
                         </p>
                       </Flex>
                     </div>
-                    <p className={cls.balloon_fulName}>
-                      Оборудование и запчасти
+                   <p className={cls.balloon_fulName}>
+                      {item?.product_type}
                     </p>
                     {item?.new_status?.[0] === "occupied_cargo" ? (
                       <>
@@ -768,7 +768,7 @@ const Cmap = memo(
                     </p>
                   </Flex>
                 </div>
-                <p className={cls.balloon_fulName}>Оборудование и запчасти</p>
+                <p className={cls.balloon_fulName}>{item?.product_type}</p>
                 {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
                     <div className={cls.flex}>

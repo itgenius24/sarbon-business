@@ -69,6 +69,14 @@
       width: 50%;
       display: flex;
       //   padding: 100px;
+      .linkMobile{
+        @media (max-width:600px) {
+           flex-direction: column;
+           align-items: flex-start;
+           row-gap: 16px;
+           margin-top: 20px;
+        }
+      }
       flex-direction: column;
       .cardTitle {
         font-weight: 700;

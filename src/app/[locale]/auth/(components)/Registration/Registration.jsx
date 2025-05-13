@@ -35,6 +35,7 @@ import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
 import Getapps from "@/assets/images/getapps.svg";
 import RuStore from "@/assets/images/RuStore.svg";
+import GalaxyStore from "@/assets/images/galaxy-store.svg";
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -196,49 +197,67 @@ export const Registration = () => {
                         )}
                         .
                       </p>
-                      <Flex mt={`30px`} gap={`6px`} alignItems={`center`}>
-                        <a
-                          className={cls.mobileAppLink}
-                          href={
-                            "https://apps.apple.com/uz/app/furgo/id6475668788"
-                          }
-                          target="_blank"
-                        >
-                          <Image
-                            src={AppStore}
-                            alt="App store"
-                            width={135}
-                            height={40}
-                          />
-                        </a>
-                        <a
-                          className={cls.mobileAppLink}
-                          href={
-                            "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
-                          }
-                          target="_blank"
-                        >
-                          <Image
-                            src={Getapps}
-                            alt="Getapps store"
-                            width={135} 
-                            height={40}
-                          />
-                        </a>
-                        <a
-                        className={cls.mobileAppLink}
-                        href={
-                          "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
-                        }
-                        target="_blank"
-                      >
-                        <Image
-                          src={RuStore}
-                          alt="Ru store"
-                          width={111}
-                          height={40}
-                        />
-                      </a>
+                      <Flex flexDirection={`column`} mt={`30px`} rowGap={`10px`}>
+                        <Flex gap={`10px`} >
+                          <a
+                            className={cls.mobileAppLink}
+                            href={
+                              "https://apps.apple.com/uz/app/furgo/id6475668788"
+                            }
+                            target="_blank"
+                          >
+                            <Image
+                              src={AppStore}
+                              alt="App store"
+                              width={135}
+                              height={40}
+                            />
+                          </a>
+                          <a
+                            className={cls.mobileAppLink}
+                            href={
+                              "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                            }
+                            target="_blank"
+                          >
+                            <Image
+                              src={RuStore}
+                              alt="Ru store"
+                              width={111}
+                              height={40}
+                            />
+                          </a>
+                        </Flex>
+                        <Flex gap={`10px`}>
+                          <a
+                            className={cls.mobileAppLink}
+                            href={
+                              "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                            }
+                            target="_blank"
+                          >
+                            <Image
+                              src={Getapps}
+                              alt="Getapps store"
+                              width={135}
+                              height={40}
+                            />
+                          </a>
+                          <a
+                            className={cls.mobileAppLink}
+                            href={
+                              "https://galaxystore.samsung.com/detail/uz.udevs.xlogistic_driver_mobile"
+                            }
+                            target="_blank"
+                          >
+                            <Image
+                              src={GalaxyStore}
+                              alt="GalaxyStore"
+                              width={147}
+                              height={40}
+                            />
+                          </a>
+                        </Flex>
 
                         {/* <a
                           onClick={() => downloadFn()}

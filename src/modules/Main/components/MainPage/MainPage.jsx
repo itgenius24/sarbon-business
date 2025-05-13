@@ -13,6 +13,8 @@ import Image from "next/image";
 import AppStore from "@/assets/images/app-store.svg";
 import GooglePlay from "@/assets/images/google-play.svg";
 import AndroidPlay from "@/assets/images/android_apk.svg";
+import GalaxyStore from "@/assets/images/galaxy-store.svg";
+
 import Getapps from "@/assets/images/getapps.svg";
 import RuStore from "@/assets/images/RuStore.svg";
 import card1Img from "@/assets/images/card1.jpg";
@@ -261,53 +263,75 @@ const MainPage = ({ locale }) => {
                       {t(`Заказ найдется всегда`)}
                     </h1>
                     <p className={cls.cardDeck}>{t(`slider1Text`)}</p>
-                    <Flex mt={`45px`} gap={`16px`} alignItems={`center`}>
-                      <a
-                        className={cls.mobileAppLink}
-                        href={
-                          "https://apps.apple.com/uz/app/furgo/id6475668788"
-                        }
-                        target="_blank"
-                      >
-                        <Image
-                          src={AppStore}
-                          alt="App store"
-                          width={135}
-                          height={40}
-                        />
-                      </a>
+                    <Flex
+                      className={cls.linkMobile}
+                      mt={`45px`}
+                      gap={`16px`}
+                      // alignItems={`center`}
+                      flexDirection={`column`}
+                    >
+                      <Flex alignItems={`center`} gap={`16px`}>
+                        <a
+                          className={cls.mobileAppLink}
+                          href={
+                            "https://apps.apple.com/uz/app/furgo/id6475668788"
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={AppStore}
+                            alt="App store"
+                            width={135}
+                            height={40}
+                          />
+                        </a>
+                        <a
+                          className={cls.mobileAppLink}
+                          href={
+                            "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={RuStore}
+                            alt="Ru store"
+                            width={111}
+                            height={40}
+                          />
+                        </a>
+                      </Flex>
 
-                      <a
-                        className={cls.mobileAppLink}
-                        href={
-                          "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
-                        }
-                        target="_blank"
-                      >
-                        <Image
-                          src={Getapps}
-                          alt="Getapps store"
-                          width={135}
-                          height={40}
-                        />
-                      </a>
+                      <Flex alignItems={`center`} gap={`16px`}>
+                        <a
+                          className={cls.mobileAppLink}
+                          href={
+                            "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={RuStore}
+                            alt="Ru store"
+                            width={111}
+                            height={40}
+                          />
+                        </a>
+                        <a
+                          className={cls.mobileAppLink}
+                          href={
+                            "https://galaxystore.samsung.com/detail/uz.udevs.xlogistic_driver_mobile"
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={GalaxyStore}
+                            alt="GalaxyStore"
+                            width={147}
+                            height={40}
+                          />
+                        </a>
 
-                      <a
-                        className={cls.mobileAppLink}
-                        href={
-                          "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
-                        }
-                        target="_blank"
-                      >
-                        <Image
-                          src={RuStore}
-                          alt="Ru store"
-                          width={111}
-                          height={40}
-                        />
-                      </a>
-
-                      {/* <a
+                        {/* <a
                         onClick={() => downloadFn()}
                         style={{ cursor: `pointer` }}
                         download
@@ -322,6 +346,7 @@ const MainPage = ({ locale }) => {
                           height={40}
                         />
                       </a> */}
+                      </Flex>
                     </Flex>
                   </Box>
                   <Box
