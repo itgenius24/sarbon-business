@@ -1,15 +1,12 @@
 // middleware.js
 import { NextResponse } from "next/server";
-import { parseCookies } from "nookies";
-
 export function middleware(request) {
   const cookies = request?.cookies;
   const company_id = cookies.get("userData")
     ? JSON.parse(cookies.get("userData")?.value || {})?.role_id
-    : null; 
+    : null;
 
-
-  const roleExspePages = [
+  const roleCarrierPages = [
     "/ru/add-cargo",
     "/ru/my-load",
     "/ru/search-car",
@@ -26,8 +23,16 @@ export function middleware(request) {
     "/search-car",
     "/add-cargo-test",
     "/auth",
+    "/dashboard-dispatcher",
+    "/dispatcher-expeditor",
+    "/distance-calculation",
+    "/dashboard-dispatcher-top",
+    "/active-user-dis-top",
+    "/all-cargo-dispatcher",
+    "/my-cars-dispatcher-top",
+    "/my-cars-dispatcher-top",
   ];
-  const roleagesZ = [
+  const roleCustomerPages = [
     "/dashboard",
     "/my-load",
     "/search-car",
@@ -43,9 +48,17 @@ export function middleware(request) {
     "/search-car",
     "/add-cargo-test",
     "/auth",
+    "/dashboard-dispatcher",
+    "/dispatcher-expeditor",
+    "/distance-calculation",
+    "/dashboard-dispatcher-top",
+    "/active-user-dis-top",
+    "/all-cargo-dispatcher",
+    "/my-cars-dispatcher-top",
+    "/my-cars-dispatcher-top",
   ];
 
-  const roleagesD = [
+  const roleDispatcherPages = [
     "/dashboard",
     "/add-cargo",
     "/my-load",
@@ -60,7 +73,38 @@ export function middleware(request) {
     "/auth",
   ];
 
-  const roleagesAuth = [
+  const roleCeoPages = [
+    "/dashboard",
+    "/add-cargo",
+    "/my-load",
+    "/search-car",
+    "/my-loads",
+    "/my-cars",
+    "/gps-tracking-customer",
+    "/gps-tracking-dispatcher",
+    "/gps-tracking-dispatcher-top",
+    "/gps-tracking-carrier",
+    "/drivers",
+    "/dispatcher",
+    "/my-cars-dispatcher",
+    "/performed",
+    "/search-load-dispatcher",
+    "/search-load",
+    "/search-car",
+    "/add-cargo-test",
+    "/profile-xm",
+
+    "/dashboard-dispatcher",
+    "/dispatcher-expeditor",
+    "/distance-calculation",
+    "/dashboard-dispatcher-top",
+    "/active-user-dis-top",
+    "/all-cargo-dispatcher",
+    "/my-cars-dispatcher-top",
+    "/my-cars-dispatcher-top",
+  ];
+
+  const rolePagesAuth = [
     "/dashboard",
     "/add-cargo",
     "/my-load",
@@ -81,27 +125,39 @@ export function middleware(request) {
     "/add-cargo-test",
     "/profile",
     "/profile-xm",
+    "/dashboard-dispatcher",
+    "/dispatcher-expeditor",
+    "/distance-calculation",
+    "/dashboard-dispatcher-top",
+    "/active-user-dis-top",
+    "/all-cargo-dispatcher",
+    "/my-cars-dispatcher-top",
+    "/my-cars-dispatcher-top",
   ];
-
 
   const currentPath = request.nextUrl.pathname.substring(3);
 
   if (
-    roleExspePages.includes(currentPath) &&
+    roleCarrierPages.includes(currentPath) &&
     company_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
   ) {
     return NextResponse.redirect(new URL("/ru", request.url));
   } else if (
-    roleagesZ.includes(currentPath) &&
+    roleCustomerPages.includes(currentPath) &&
     company_id === "48871d27-7361-4f69-8fe4-b54daf270739"
   ) {
     return NextResponse.redirect(new URL("/ru", request.url));
   } else if (
-    roleagesD.includes(currentPath) &&
+    roleDispatcherPages.includes(currentPath) &&
     company_id === "785678f2-fae7-4a00-8766-99ea67d3784f"
   ) {
     return NextResponse.redirect(new URL("/ru/", request.url));
-  } else if (roleagesAuth.includes(currentPath) && company_id === undefined) {
+  } else if (
+    roleCeoPages.includes(currentPath) &&
+    company_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"
+  ) {
+    return NextResponse.redirect(new URL("/ru/", request.url));
+  } else if (rolePagesAuth.includes(currentPath) && company_id === undefined) {
     return NextResponse.redirect(new URL("/ru/auth", request.url));
   }
   return NextResponse.next();

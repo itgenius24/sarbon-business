@@ -159,7 +159,7 @@ export const useElements = (lang) => {
           path: isAuth
             ? `/${lang || "ru"}/gps-tracking-customer`
             : `/${lang || "ru"}/auth`,
-          label: "(GPS tracking)",
+          label: "GPS tracking",
         },
       ];
     } else {
@@ -185,7 +185,7 @@ export const useElements = (lang) => {
           path: isAuth
             ? `/${lang || "ru"}/gps-tracking-customer`
             : `/${lang || "ru"}/auth`,
-          label: "(GPS tracking)",
+          label: "GPS tracking",
         },
       ];
     }

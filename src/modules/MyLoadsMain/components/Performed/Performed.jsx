@@ -633,10 +633,9 @@ export const Performed = forwardRef(
                   </Button>
                 )}
 
-                {
-                  console.log(`orderStatus`,orderStatus)
-                }
-                {(orderStatus === `new` || orderStatus === `no_dispatcher`) && dispatcher_type?.[0] === `first_dispatcher` && (
+                {console.log(`orderStatus`, orderStatus)}
+                {(orderStatus === `new` || orderStatus === `no_dispatcher`) &&
+                  dispatcher_type?.[0] === `first_dispatcher` && (
                     <Flex gap={`11px`}>
                       <Button
                         isLoading={disabledCancelBtn}
@@ -648,17 +647,20 @@ export const Performed = forwardRef(
                       >
                         {t(`Отказать`)}
                       </Button>
-                      <Button
-                        leftIcon={<IconCeckNewStatusIcon />}
-                        onClick={(e) => {
-                          // e.stopPropagation();
-                          setDataPred(cargo);
-                          onOpen();
-                        }}
-                        className={styles.bntNew}
-                      >
-                        {t(`Принять`)}
-                      </Button>
+                      {cargo?.cargo_id_data?.order_status?.[0] !==
+                        `in_active` && (
+                        <Button
+                          leftIcon={<IconCeckNewStatusIcon />}
+                          onClick={(e) => {
+                            // e.stopPropagation();
+                            setDataPred(cargo);
+                            onOpen();
+                          }}
+                          className={styles.bntNew}
+                        >
+                          {t(`Принять`)}
+                        </Button>
+                      )}
                     </Flex>
                   )}
                 {orderStatus == "cancellation" && (

@@ -80,16 +80,16 @@ export const MainLayout = ({ locale, children }) => {
 
   const isAuthPage =
     pathname.includes("auth") || pathname.includes(`share-location`);
-  const isAuthPageFooter =
-    pathname.includes("auth") ||
-    pathname.includes(`add-cargo`) ||
-    pathname.includes(`app-download`);
+  const isAuthPageFooter = pathname?.length === 3;
+
+
+    console.log(`pathname`,pathname.length)
 
   return (
     <div className={clsx(cls.layout, "fade-in")}>
       {!isAuthPage && <Header elements={elements} />}
       <article className={cls.main}>{children}</article>
-      {!isAuthPageFooter && <Footer />}
+      {isAuthPageFooter && <Footer />}
     </div>
   );
 };

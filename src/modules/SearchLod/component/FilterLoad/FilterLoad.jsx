@@ -124,7 +124,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           <p style={{ color: `var(--primary-text)` }}>{t("Тип оплаты")}</p>
           <Flex mt={1} gap={3}>
             <Checkbox
-              defaultChecked={watch(`prepayment`)}
+              defaultChecked={watch(`prepayment2`)}
               register={register}
               name={`prepayment`}
             >
