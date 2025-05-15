@@ -143,11 +143,14 @@ export const useAllCargoDispatcher = () => {
       filterType:(type) => fromSort(type) ,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`7px`}>
+        {
+          console.log(`row`,row)
+        }
           <Image
             className={cls.flag}
             width={30}
             height={30}
-            src={row?.cargo?.flag_ot}
+            src={row?.cargo?.flag_ot || `https://flagcdn.com/w320/${row?.cargo?.country_code_from?.toLowerCase()}.png`}
             alt="wef"
           />
           {row?.cargo?.from ? (
@@ -183,7 +186,7 @@ export const useAllCargoDispatcher = () => {
             className={cls.flag}
             width={30}
             height={30}
-            src={row?.cargo?.flag_do}
+            src={row?.cargo?.flag_do ||  `https://flagcdn.com/w320/${row?.cargo?.country_code_to?.toLowerCase()}.png`}
             alt="wef"
           />
           {row?.cargo?.to ? (

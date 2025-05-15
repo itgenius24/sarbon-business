@@ -37,28 +37,23 @@ const StepFour = ({ status }) => {
     onSubmit,
     mone,
     setEditModal,
-  } = useFourProps({});
+  } = useFourProps();
   const { t } = useTranslation();
 
   const params = usePathname();
 
-  const [disabledP, setDisabledP] = useState(true);
-
   useEffect(() => {
-    if (canEdit && watch(`prepayment`)) {
-      setDisabledP(false);
-    } else {
-      setDisabledP(true);
+    if (watch(`price_prepayment`) && params.includes("my-loads")) {
+      setTimeout(() => {
+        setValue(`prepayment`, true, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      }, 1000);
+      
     }
-  }, [canEdit, watch(`prepayment`),!canEdit]);
+  }, [!watch(`price_prepayment`) && params.includes("my-loads")]);
 
-  console.log(`disabledP`,order_status?.[0] === "active" , !canEdit , )
-
-  useEffect(() => {
-    if (!watch(`prepayment_percentage`) && params.includes("my-loads")) {
-      setValue(`prepayment`, true);
-    }
-  }, [!watch(`prepayment_percentage`) && params.includes("my-loads")]);
 
   const negotiableOption = [
     {
@@ -105,7 +100,6 @@ const StepFour = ({ status }) => {
 
   useEffect(() => {
     if (watch(`money_code`)?.length > 0) {
-      console.log(`salomqale`, watch(`money_code`));
       setValue(`negotiable`, false);
       setValueR(`request`);
       setCheck(true);
@@ -123,6 +117,8 @@ const StepFour = ({ status }) => {
       }, 500);
     }
   }, [watch(`money_code`)?.length > 0]);
+
+
 
   return (
     <Box className={cls.containerCards}>
@@ -368,7 +364,12 @@ const StepFour = ({ status }) => {
                     />
                   </Box>
                   <Box width={"100%"}>
-                    <Flex  onClick={() => (!canEdit ? setEditModal(true) : null)} mb={2} alignItems={"center"} gap={"10px"}>
+                    <Flex
+                      onClick={() => (!canEdit ? setEditModal(true) : null)}
+                      mb={2}
+                      alignItems={"center"}
+                      gap={"10px"}
+                    >
                       <Checkbox
                         register={register}
                         name={`prepayment`}
@@ -380,7 +381,11 @@ const StepFour = ({ status }) => {
                     </Flex>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                      disabled={order_status?.[0] === "active" || !canEdit || !watch(`prepayment`)}
+                      disabled={
+                        order_status?.[0] === "active" ||
+                        !canEdit ||
+                        !watch(`prepayment`)
+                      }
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -436,8 +441,7 @@ const StepFour = ({ status }) => {
                         Сумма после завершения заказа
                       </p>
                       <p className={cls.totalSum}>
-                  
-                        {(watch(`price`)) - (watch(`price_prepayment`) )}
+                        {watch(`price`) - (watch(`prepayment`) ?   watch(`price_prepayment`) : 0)}
 
                         {` ${
                           watch(`price_prepayment_unit`)

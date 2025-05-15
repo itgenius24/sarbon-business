@@ -87,7 +87,6 @@ const useFourProps = () => {
   };
 
 
-  console.log(`getValues`,getValues(`prepayment`))
 
   return {
     register,

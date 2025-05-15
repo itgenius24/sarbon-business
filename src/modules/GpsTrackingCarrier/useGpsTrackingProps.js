@@ -255,6 +255,7 @@ export const useGpsTrackingProps = () => {
 
   const { mutate: dataMutate, isLoading } = useGetCar({
     onSuccess: (data) => {
+        console.log(`SALOM`,data)
       if (data?.response?.length === 50) {
         if (carsArr >= 100) {
           return;
@@ -262,11 +263,12 @@ export const useGpsTrackingProps = () => {
           setOffset(offset + 1);
         }
       }
-      if (data?.response?.length) {
+      if (data?.response?.length)   {
         let data2 = data?.response?.filter(
           (item) => item?.vehicles && item?.users_gps
         );
-        // console.log(`carsArr21`, data2?.map((item) => ({ ...item, user: item?.user?.users_id_data})));
+
+      
 
         if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
           data2 = data2?.map((item) => ({

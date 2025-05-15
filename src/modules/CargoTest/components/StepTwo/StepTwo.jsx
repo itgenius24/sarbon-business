@@ -188,7 +188,7 @@ const StepTwo = ({ status }) => {
                                 gap={3}
                                 alignItems={"center"}
                               >
-                                <LocationIconStep />
+                                
                                 <p
                                   className={cls.item}
                                   dangerouslySetInnerHTML={{
@@ -425,7 +425,7 @@ const StepTwo = ({ status }) => {
                               gap={3}
                               alignItems={"center"}
                             >
-                              <LocationIconStep />
+                              
                               <p
                                 className={cls.item}
                                 dangerouslySetInnerHTML={{

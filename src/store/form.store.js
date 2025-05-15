@@ -69,6 +69,7 @@ function getEmptyFormData() {
     capacity: "",
     price: "",
     price_prepayment: "",
+    prepayment:false,
     price_after_order: 0,
     price_prepayment_unit: {
       label: "",
@@ -251,6 +252,7 @@ class Store {
       capacity: "",
       price: "",
       price_prepayment: "",
+      prepayment:false,
       price_after_order: 0,
       price_prepayment_unit: {
         label: "",

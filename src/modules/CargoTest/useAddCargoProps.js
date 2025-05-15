@@ -18,18 +18,14 @@ import {
 } from "@/services/api";
 import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
 
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
-  const searchParams = useSearchParams();
   const [editModal, setEditModal] = useState(false);
-
-  const pathname = usePathname();
-
   const isAuth = authStore.isAuth;
 
   const [isPackagingAndQuantity, setPackagingAndQuantity] = useState(
@@ -104,8 +100,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const router = useRouter();
 
   const toast = useToast();
-
-
 
   function handleEditToggle() {
     setCanEdit(!canEdit);
@@ -191,6 +185,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     capacity: "",
     price: "",
     price_prepayment: "",
+    prepayment: false,
     price_after_order: 0,
     price_prepayment_unit: {
       label: "",
@@ -794,7 +789,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         // guid: watch(`loadResId`),
         money_code: check ? getTrueKeys(mone) : undefined,
         bid_cash: check ? undefined : +watch("price"),
-        prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
+        prepayment_percentage: check ? undefined : watch(`prepayment`) ?  +watch(`price_prepayment`) : 0,
         dim_length_special: check ? undefined : watch("price_after_order"),
         payment_description: check ? undefined : watch("payment_description"),
         currency_id: check ? undefined : watch("price_prepayment_unit").value,
@@ -824,10 +819,10 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         to: watch(`unloading`)[watch(`unloading`).length - 1].address,
         temp_from: watch(`temp_from`),
         temp_to: watch(`temp_to`),
-        top:watch(`top`),
-        side:watch(`side`),
-        back:watch(`back`),
-        with_removal:watch(`with_removal`),
+        top: watch(`top`),
+        side: watch(`side`),
+        back: watch(`back`),
+        with_removal: watch(`with_removal`),
       },
     };
 
@@ -997,6 +992,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       if (data?.money_code) {
         setCheck(true);
       }
+      console.log(`getValues`, data);
+
       reset({
         file_1: data.file_1,
         file_2: data.file_2,
@@ -1047,6 +1044,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         price_prepayment: data.prepayment_percentage,
         payment_description: data?.payment_description,
         prepayment: data.prepayment_percentage > 0 ? true : false,
+
         price_after_order: isCargo
           ? data?.dim_length_special
           : data?.payment_unloading ?? 0,
@@ -1120,13 +1118,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         number_of_order: data?.number_of_order,
         belt: data?.belt,
         combined_cargo: data?.combined_cargo ? data?.combined_cargo : false,
-        top:data?.top,
-        side:data?.side,
-        back:data?.back,
-        with_removal:data?.with_removal,
-
+        top: data?.top,
+        side: data?.side,
+        back: data?.back,
+        with_removal: data?.with_removal,
       });
-
 
       if (data?.temp_from || data?.temp_to) {
         setIsGradusOpen(true);
@@ -1149,14 +1145,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       if (data?.belt) {
         setIsReymenOpen(true);
       }
-      if(data?.packages_id_data?.guid || data?.packaging_quantity){
-        setPackagingAndQuantity(true)
+      if (data?.packages_id_data?.guid || data?.packaging_quantity) {
+        setPackagingAndQuantity(true);
       }
-      if(data?.length || data?.width || data?.height ){
-        setDimensionsAndDiameter(true)
+      if (data?.length || data?.width || data?.height) {
+        setDimensionsAndDiameter(true);
       }
-      if(data?.photo){
-        setIsFileUploader(true)
+      if (data?.photo) {
+        setIsFileUploader(true);
       }
 
       setValue(`cargo_type`, {
@@ -1244,7 +1240,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   useEffect(() => {
     if (formStore.isNotEmpty && (!status || status === "in_moderation")) {
-      reset(formStore.formData);
+      reset({
+        ...formStore.formData,
+      });
     }
 
     if (status && status !== "in_moderation") {
@@ -1385,6 +1383,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     unloading: watch(`unloading`),
     editModal,
     setEditModal,
-    updateLoading:updateCargo.isLoading
+    updateLoading: updateCargo.isLoading,
   };
 };
