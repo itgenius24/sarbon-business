@@ -353,7 +353,7 @@ export const TopContent = ({
                           </span>
                         </p>
                       ) : (
-                        format(
+                        cargoData?.cargo_id_data?.load_time && format(
                           new Date(
                             cargoData?.cargo_id_data?.load_time
                           ).setHours(
