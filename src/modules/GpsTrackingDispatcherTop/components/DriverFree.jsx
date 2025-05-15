@@ -99,7 +99,7 @@ const DriverFree = ({
       const link = document.createElement("a");
       const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
       link.href = res;
-      link.target = "_blank";
+      // link.target = "_blank";
       link.download = `Груз`;
       document.body.appendChild(link);
       link.click();

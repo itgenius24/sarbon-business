@@ -1,7 +1,7 @@
 export const commentObj = {
     [`log_out`]:`Вышел из своего аккаунта`,
     [`logout`]:`Вышел из своего аккаунта`,
-    [`delete_account`]:`Водитель удалил приложение`,
+    [`delete_account`]:`Водитель удалил аккаунт`,
     [`changed_own_info`]:`Изменил личные данные`,
     [`changed_own_password`]:`Изменил пароль`,
     [`export_axcell_driver`]:`Скачал список машин`,
@@ -10,7 +10,7 @@ export const commentObj = {
     [`create_first_diaptcher`]:`Создал диспетчера`,
     [`delete_first_dispatcher`]:` Удалил диспетчера`,
     [`blocked_first_dispatcher`]:` Отключил диспетчера`,
-    [`accept_order`]:` Принял предложение`,
+    [`accept_order`]:`Принял предложение`,
     [`accept_order_free_driver`]:`Принял предложение без диспетчера`,
     [`cancel_order`]:`Отклонил предложени`,
     [`cancel_order_free_driver`]:`Отклонил предложение без диспетчер`,

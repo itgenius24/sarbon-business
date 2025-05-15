@@ -94,7 +94,7 @@ export const Footer = () => {
       const link = document.createElement("a");
       const res = `../../assets/app/Furgo.apk`;
       link.href = res.file;
-      link.target = "_blank";
+      // link.target = "_blank";
       link.download = `Furgo.apk`;
       document.body.appendChild(link);
       link.click();
