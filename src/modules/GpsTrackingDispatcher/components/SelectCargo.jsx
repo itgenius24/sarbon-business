@@ -184,7 +184,7 @@ const SelectCargo = ({
                         <LoadOulineIcon /> {item?.volume_m3} m3
                       </Flex>
                       <span>ID: {item?.number_of_order}</span>
-                      <span>S: {item?.distances?.toFixed(1)} km</span>
+                      <span>S: {item?.distance?.toFixed(1)} km</span>
 
                     </Flex>
                   </Box>
