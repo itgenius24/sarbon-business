@@ -604,6 +604,20 @@
   "Перевозчик": "Carrier",
   "Перевозчики": "Carriers",
   "У меня уже есть аккаунт": "I already have an account",
-  "О системе Sarbon": "About the Sarbon system"
+  "О системе Sarbon": "About the Sarbon system",
+   "Сборный груз (LTL)":"Less than Truck Load (LTL)",
+  "Например":"For example",
+   "Класс ADR":"ADR Class",
+   "Температурный режим":"Temperature mode",
+   "Овощи и фрукты":"Vegetables and fruits",
+   "Класс":"Class",
+   "опасности груза":"cargo hazards",
+
+     "Груз успешно добавлен": "Cargo successfully added",
+  "После модерации он станет доступен для поиска в системе": "After moderation it will become available for search in the system",
+  "Добавить новый груз": "Add new cargo",
+  "Шаблон успешно добавлен": "Template successfully added",
+  "ДСП": "DSP"
+
 
 }

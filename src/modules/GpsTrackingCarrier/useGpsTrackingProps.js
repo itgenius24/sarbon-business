@@ -4,6 +4,7 @@ import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
   useGetCar,
+  useGetCarData,
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
@@ -51,8 +52,7 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [remainingData, setRemainingData] = useState([]);
-   const [isFuelMap, setIsFuelMap] = useState(false);
-
+  const [isFuelMap, setIsFuelMap] = useState(false);
 
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
@@ -250,62 +250,53 @@ export const useGpsTrackingProps = () => {
   }, [getMeasurement.isSuccess]);
 
   const [carsArr, setCarsArr] = useState([]);
-  const toast = useToast();
-  console.log(`carsArr`, carsArr);
 
-  const { mutate: dataMutate, isLoading } = useGetCar({
-    onSuccess: (data) => {
-        console.log(`SALOM`,data)
-      if (data?.response?.length === 50) {
-        if (carsArr >= 100) {
-          return;
-        } else {
-          setOffset(offset + 1);
-        }
-      }
-      if (data?.response?.length)   {
-        let data2 = data?.response?.filter(
-          (item) => item?.vehicles && item?.users_gps
-        );
+  // const { mutate: dataMutate, isLoading } = useGetCar({
+  //   onSuccess: (data) => {
+  //       console.log(`carsArr`,data)
+  //     setCarsArr(data?.response);
+  //   },
+  // });
 
-      
-
-        if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
-          data2 = data2?.map((item) => ({
+  const { data: dataDriverMap, isLoading } = useGetCarData({
+    data: {
+      data: {
+        object_data: {
+          number: distance * 4 || 100,
+          // load_type_id: watch("load_type_id")?.value,
+          // weight: watch("weight"),
+          // volume: watch("volume"),
+          limit: 50,
+          page: offset,
+          firm_id: firm_id,
+        },
+      },
+    },
+    querySettings: {
+      onSuccess: (data) => {
+        if (data?.response?.length) {
+          let data2 = data?.response?.map((item) => ({
             ...item,
-            user: item?.user?.users_id_data,
+            user: {
+              ...item,
+              provisions: item?.order_data ? [`our_cargo`] : item?.provisions ||[`empty`],
+            },
+            vehicles: [
+              {
+                ...item?.vehicle_data,
+                trailer_type_id_data: item?.trailer_type_id_data,
+              },
+            ],
+            firm_data: item?.firm_data,
+            users_gps: [item?.driver_gps_data],
+            orders: item?.order_data ? [item?.order_data] : undefined,
           }));
-        }
-        if (
-          watch(`load_type_id`)?.value ||
-          watch("weight") ||
-          watch("volume")
-        ) {
           setCarsArr(data2);
-        } else {
-          setCarsArr((res) => [...res, ...data2]);
         }
-      } else {
-        // setCarsArr([]);
-        // toast({
-        //   title: t("Не найдено"),
-        //   description: t("К сожалений ничего не найдено"),
-        //   status: "info",
-        //   duration: 5000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
-      }
-      if (data?.response?.length === null && !closeRes) {
-        setCLoseRes(true);
-        dataMutate({
-          data: { object_data: { limit: 50, page: offset, firm_id } },
-        });
-      }
+      },
+      refetchOnWindowFocus: false,
     },
   });
-
-  // console.log(`carsArr`, carsArr);
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -319,7 +310,6 @@ export const useGpsTrackingProps = () => {
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
-      // console.log(`dats`, data2);
       if (data?.data?.response?.length === 40) {
         setOffsetCAr(offsetCar + 1);
       }
@@ -464,32 +454,6 @@ export const useGpsTrackingProps = () => {
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
-  useEffect(() => {
-    if (!watch("aaddress")) {
-      dataMutate({
-        data: {
-          object_data: {
-            number: distance * 4 || 100,
-            load_type_id: watch("load_type_id")?.value,
-            weight: watch("weight"),
-            volume: watch("volume"),
-            limit: 50,
-            page: offset,
-            firm_id: firm_id,
-          },
-        },
-      });
-    }
-  }, [
-    watch("cor")?.split(",")[0],
-    debouncedValue,
-    // watch("car_type")?.value,
-    watch("load_type_id")?.value,
-    watch("weight"),
-    watch("volume"),
-    offset,
-  ]);
-
   const handleClear = () => {
     // console.log("clear")
     setOffset(0);
@@ -616,6 +580,7 @@ export const useGpsTrackingProps = () => {
     refueling: remainingData,
     setLocationData,
     mapRef,
-    isFuelMap, setIsFuelMap
+    isFuelMap,
+    setIsFuelMap,
   };
 };

@@ -611,5 +611,19 @@
   "Перевозчики": "Taşıyıcı",
 
   "У меня уже есть аккаунт": "Zaten bir hesabım var",
-  "О системе Sarbon": "Sarbon Sistemi Hakkında"
+  "О системе Sarbon": "Sarbon Sistemi Hakkında",
+     "Сборный груз (LTL)":"Kamyon Yükünden Az (LTL)",
+  "Например":"Örneğin",
+   "Класс ADR":"ADR Sınıfı",
+   "Температурный режим":"Sıcaklık modu",
+    "Овощи и фрукты":"Sebzeler ve meyveler",
+  "Класс": "Sınıf",
+  "опасности груза": "yük tehlikeleri",
+     "Груз успешно добавлен": "Kargo başarıyla eklendi",
+  "После модерации он станет доступен для поиска в системе": "Moderasyondan geçtikten sonra sistemde aranabilir hale gelecektir",
+  "Добавить новый груз": "Yeni kargo ekle",
+  "Шаблон успешно добавлен": "Şablon başarıyla eklendi"
+
+   
+
 }

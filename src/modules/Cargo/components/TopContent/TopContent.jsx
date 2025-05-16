@@ -52,11 +52,6 @@ import {
   ResToreIcon,
 } from "@/assets/icons/icons";
 import {
-  Map,
-  Placemark,
-  Polyline,
-  Routed,
-  TypeSelector,
   YMaps,
 } from "@pbe/react-yandex-maps";
 import { AccordionMap } from "./AccordionMap";
@@ -74,17 +69,12 @@ export const TopContent = ({
   userName,
   rating,
   transportModel,
-  phoneNumber,
   prepayment,
   paymentAfterFinish,
   driverComment,
   status,
   permission,
   currency,
-  distance,
-  city1,
-  city2,
-  userId2,
   getMaps,
   id,
   cargoData,
@@ -353,7 +343,7 @@ export const TopContent = ({
                           </span>
                         </p>
                       ) : (
-                        format(
+                        cargoData?.cargo_id_data?.load_time && format(
                           new Date(
                             cargoData?.cargo_id_data?.load_time
                           ).setHours(

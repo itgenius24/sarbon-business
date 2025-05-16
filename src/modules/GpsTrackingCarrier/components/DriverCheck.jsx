@@ -15,8 +15,9 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
-import { useGetOffer } from "@/services/api";
+import { useGetOffer, useGetUserGpsByIDData } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React from "react";
@@ -40,7 +41,28 @@ const DriverCheck = ({
     { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
-  console.log(`currentUserLocationData`,currentUserLocationData)
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+  });
+
+  console.log(`currentUserLocationData`, currentUserLocationData);
+  const statuses = {
+    no_status: "Нет статуса",
+    go_to_load: "Иду на загрузку",
+    wait_for_the_download: "Жду загрузку",
+    loading: "Загружаюсь",
+    go_to_unload: "Иду на разгрузку",
+    unloading: "Разгружаюсь",
+    unloaded: "Разгрузился",
+    complete_the_order: "Завершить заказ",
+    breaking: "Поломка",
+    road_accident: "ДТП",
+  };
 
   return (
     <div className={cls.filter}>
@@ -58,7 +80,9 @@ const DriverCheck = ({
             <Flex gap={3}>
               <Avatar name="Bobur Nimatllayey" src="#" />
               <Box>
-                <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
+                <p className={cls.userName}>
+                  {currentUserLocationData?.user?.full_name}
+                </p>
                 <p className={cls.version}>
                   <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
                 </p>
@@ -74,15 +98,22 @@ const DriverCheck = ({
               }}
             />
           </Flex>
-          <Box
-            mt={`17px`}
-            rightIcon={<NextBtnIcon />}
-            size={`lg`}
-            className={cls.chatCard}
-          >
-            <p className={cls.smallText}>Сегодня, 12:36</p>Я в пути, все идет по
-            плану
-          </Box>
+          {statuses[
+            currentUserLocationData?.orders?.[0]?.indicate_status?.[0]
+          ] && (
+            <Box
+              mt={`17px`}
+              rightIcon={<NextBtnIcon />}
+              size={`lg`}
+              className={cls.chatCard}
+            >
+              <p>
+                {statuses[
+                  currentUserLocationData?.orders?.[0]?.indicate_status?.[0]
+                ] || "Нет статуса"}
+              </p>
+            </Box>
+          )}
           <Box className={cls.cardWrapOutline}>
             <Flex alignItems={"center"} gap={2}>
               <LocationActiveIcon />
@@ -90,12 +121,19 @@ const DriverCheck = ({
                 <p className={cls.smallText}>
                   Вкл:
                   {format(
-                    new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(new Date(currentUserLocationData?.users_gps?.[0]?.update_time).getHours() - 5),
+                    new Date(
+                      currentUserLocationData?.users_gps?.[0]?.update_time
+                    ).setHours(
+                      new Date(
+                        currentUserLocationData?.users_gps?.[0]?.update_time
+                      ).getHours() - 5
+                    ),
                     "yyyy-MM-dd, HH:mm"
                   )}{" "}
                 </p>
                 <p className={cls.bigTitle}>
-                  {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                  {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                    "Нет адреса"}
                 </p>
               </Box>
             </Flex>
@@ -157,11 +195,17 @@ const DriverCheck = ({
                   {currentUserLocationData?.orders?.[0]?.cargo_id_data?.from}
                 </p>
                 <p className={cls.cardStartSubTitle}>
-                  {currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_data?.address_id_data?.name} /
+                  {
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.city_id_data?.address_id_data?.name
+                  }{" "}
+                  /
                   <span>
                     {format(
-                      currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
-                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
+                      currentUserLocationData?.orders?.[0]?.cargo_id_data
+                        ?.load_time
+                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.load_time
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -170,24 +214,24 @@ const DriverCheck = ({
               </Box>
             </Flex>
             <Flex mt={5} gap={2}>
-            <div className={cls.startAIconWrap}>
-            <div className={cls.startBIcon}>B</div>
-
-            </div>
+              <div className={cls.startAIconWrap}>
+                <div className={cls.startBIcon}>B</div>
+              </div>
               <Box>
                 <p className={cls.cardStartTitle}>
                   {currentUserLocationData?.orders?.[0]?.cargo_id_data?.to}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_2_data
-                      ?.address_id_data?.name
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.city_id_2_data?.address_id_data?.name
                   }
                   /
                   <span>
                     {format(
                       currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
-                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
+                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.date
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -211,11 +255,19 @@ const DriverCheck = ({
                     <Flex ml={2} gap={3}>
                       <Flex gap={1} alignItems={"center"}>
                         <StoneIcon />{" "}
-                        {currentUserLocationData?.orders?.[0]?.cargo_id_data?.weight} т.
+                        {
+                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.weight
+                        }{" "}
+                        т.
                       </Flex>
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
-                        {currentUserLocationData?.orders?.[0]?.cargo_id_data?.volume_m3} m3
+                        {
+                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.volume_m3
+                        }{" "}
+                        m3
                       </Flex>
                     </Flex>
                   </Flex>
@@ -232,8 +284,8 @@ const DriverCheck = ({
               <p className={cls.sum}>
                 {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
                 {
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data
-                    ?.code
+                  currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    ?.currency_id_data?.code
                 }{" "}
               </p>
               <p className={cls.cardStartSubTitle}>
@@ -257,36 +309,37 @@ const DriverCheck = ({
             size={`lg`}
             className={cls.btnBlueOutline}
           >
-          {t(`Занята нашим грузом`)}
+            {t(`Занята нашим грузом`)}
           </Button>
-          <Box className={cls.cardWrapOutline}>
-            <Flex width={"100%"} alignItems={"center"} gap={3}>
-              <Avatar
-                name={
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                    ?.full_name
-                }
-                src={
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                    ?.photo
-                }
-              />
-              <Box>
-                <p className={cls.cardStartSubTitle}>Диспетчер: </p>
-                <p className={cls.name}>
-                  {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                      ?.full_name
-                  }{" "}
-                  {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.users_id_3_data
-                      ?.your_id
-                  }
-                </p>
-                <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
-              </Box>
-            </Flex>
-          </Box>
+          {getUserGps?.data?.response && (
+            <Box
+              style={{ background: `white` }}
+              className={cls.cardWrapOutline}
+            >
+              <Flex width={"100%"} alignItems={"center"} gap={3}>
+                <Avatar
+                  name={getUserGps?.data?.response?.[0]?.full_name}
+                  src={getUserGps?.data?.response?.[0]?.full_name}
+                />
+                <Box>
+                  <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                  <p style={{ fontSize: `16px` }} className={cls.name}>
+                    {getUserGps?.data?.response?.[0]?.full_name}
+                  </p>
+                  <Flex alignItems={"center"} gap={2}>
+                    <a
+                      href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                    >
+                      <TelegramIcon />
+                    </a>
+                    <p className={cls.cardStartSubTitleZTel}>
+                      {getUserGps?.data?.response?.[0]?.phone}
+                    </p>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Box>
+          )}
         </Flex>
       )}
     </div>

@@ -28,7 +28,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
 import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
 
-const StepTwo = ({ status }) => {
+const StepTwo = ({ status,locale }) => {
   const {
     // loadings,
     register,
@@ -67,8 +67,8 @@ const StepTwo = ({ status }) => {
     handleResetForm,
     setDisabled,
     setEditModal,
-  } = useStepTwoProps();
-  const locale = useGetLang();
+  } = useStepTwoProps({locale});
+
   const { t } = useTranslation(locale, "translations");
   return (
     <Box className={cls.containerCards}>
@@ -221,6 +221,10 @@ const StepTwo = ({ status }) => {
                           lodingChangeDate("loading", date, index, item?.guid);
                         }}
                         control={control}
+                           minDate={
+                          
+                          new Date()
+                        }
                         name={`loadings[${index}].from_date`}
                       />
                     </Box>

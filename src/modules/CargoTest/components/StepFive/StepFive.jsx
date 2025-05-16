@@ -37,7 +37,7 @@ import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-const StepFive = ({ status }) => {
+const StepFive = ({ status,locale }) => {
   const { t } = useTranslation();
   const {
     register,
@@ -65,7 +65,7 @@ const StepFive = ({ status }) => {
   const [guid, setGuid] = useState();
   const toast = useToast();
   const router = useRouter();
-  const locale = useGetLang();
+ 
   const user_type = authStore?.userData?.user_status;
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
@@ -571,7 +571,7 @@ const StepFive = ({ status }) => {
           }} /> */}
           <ModalBody>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              Груз успешно добавлен!
+              {t(`Груз успешно добавлен`)}!
             </p>
             <p
               style={{
@@ -580,7 +580,7 @@ const StepFive = ({ status }) => {
                 color: `rgba(126, 123, 134, 1)`,
               }}
             >
-              После модерации он станет доступен для поиска в системе
+             {t(`После модерации он станет доступен для поиска в системе`)}
             </p>
           </ModalBody>
 
@@ -595,7 +595,7 @@ const StepFive = ({ status }) => {
               className={cls.btnOutline}
               mr={3}
             >
-              Посмотреть детали
+             {t(`Посмотреть детали`)}
             </Button>
             <Button
               onClick={() => clearF()}
@@ -606,7 +606,7 @@ const StepFive = ({ status }) => {
               }}
               className={cls.btngreen}
             >
-              Добавить новый груз
+              {t(`Добавить новый груз`)}
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -620,7 +620,7 @@ const StepFive = ({ status }) => {
           <ModalCloseButton onClick={() => setIsPopupOpen2(false)} />
           <ModalBody paddingBottom={`40px`}>
             <p style={{ fontWeight: 600, fontSize: "18px" }}>
-              Шаблон успешно добавлен
+              {t(`Шаблон успешно добавлен`)}
             </p>
           </ModalBody>
         </ModalContent>

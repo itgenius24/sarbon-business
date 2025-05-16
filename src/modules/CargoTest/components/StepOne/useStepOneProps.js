@@ -10,7 +10,7 @@ import {
 import { fileUpload } from "@/services/fileUpload";
 import { useGetLang } from "@/hooks/useGetLang";
 
-const useStepOneProps = () => {
+const useStepOneProps = ({locale}) => {
   const {
     control,
     errors,
@@ -35,7 +35,7 @@ const useStepOneProps = () => {
   const [offset, setOffset] = useState(0);
   const [refesh, setRefesh] = useState(0);
   const [getCargoData, setGetCargoData] = useState([]);
-  const locale = useGetLang();
+
 
   useEffect(() => {
     if (

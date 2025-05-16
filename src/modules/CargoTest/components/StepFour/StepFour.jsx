@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { CustomTextarea } from "@/components/CustomTextarea";
 import { useParams, usePathname } from "next/navigation";
 
-const StepFour = ({ status }) => {
+const StepFour = ({ status,locale }) => {
   const [value, setValueR] = React.useState("negotiable");
   const {
     register,
@@ -37,7 +37,8 @@ const StepFour = ({ status }) => {
     onSubmit,
     mone,
     setEditModal,
-  } = useFourProps();
+    selectedOption
+  } = useFourProps({locale});
   const { t } = useTranslation();
 
   const params = usePathname();
@@ -202,8 +203,8 @@ const StepFour = ({ status }) => {
                                         : cls.radio
                                     }
                                   >
-                                    {item?.label?.charAt(0).toUpperCase() +
-                                      item?.label?.slice(1).toLowerCase()}
+                                    {
+                                      t(item?.label)}
                                   </span>
                                 </Radio>
                               ))}
@@ -360,7 +361,7 @@ const StepFour = ({ status }) => {
                       width="100%"
                       additionalItemOptions={paymentOptions}
                       zIndex={20}
-                      after={watch(`price_prepayment_unit`)?.label}
+                      after={currencyOptions?.find(opt => opt.value  === watch(`price_prepayment_unit`)?.value)?.label}
                     />
                   </Box>
                   <Box width={"100%"}>
@@ -402,7 +403,7 @@ const StepFour = ({ status }) => {
                       width="100%"
                       additionalItemOptions={paymentOptions}
                       zIndex={20}
-                      after={watch(`price_prepayment_unit`)?.label}
+                      after={currencyOptions?.find(opt => opt.value  === watch(`price_prepayment_unit`)?.value)?.label}
                     />
                   </Box>
                 </Flex>
@@ -432,13 +433,13 @@ const StepFour = ({ status }) => {
                         width="100%"
                         additionalItemOptions={paymentOptions}
                         zIndex={10}
-                        after={watch(`price_prepayment_unit`)?.label}
+                      after={currencyOptions?.find(opt => opt.value  === watch(`price_prepayment_unit`)?.value)?.label}
                       />
                     </Box>
                   ) : (
                     <Box width={`100%`}>
                       <p className={cls.totalTEet}>
-                        Сумма после завершения заказа
+                        {t(`Сумма после завершения заказа`)}
                       </p>
                       <p className={cls.totalSum}>
                         {watch(`price`) - (watch(`prepayment`) ?   watch(`price_prepayment`) : 0)}

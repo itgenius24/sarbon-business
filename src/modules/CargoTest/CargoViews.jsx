@@ -326,13 +326,13 @@ export const CargoViews = observer(({ id, status, locale }) => {
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel>
-                      <CargoDetail status={status} />
+                      <CargoDetail status={status} locale={locale} />
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>
               ) : (
                 <>
-                  <CargoDetail status={status} />
+                  <CargoDetail status={status} locale={locale} />
                 </>
               )}
             </Box>
