@@ -416,6 +416,7 @@ const StepFive = ({ status,locale }) => {
           <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
               onClick={() => (!canEdit ? setEditModal(true) : null)}
+                isEdit={!canEdit}
               disabled={!canEdit}
               additionalItemPosition="left"
               additionalItemTheme="light"

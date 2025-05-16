@@ -714,6 +714,7 @@ const StepThere = ({ status,locale }) => {
                   </Flex>
                   <TextField
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                     disabled={!canEdit}
                     placeholder={t("Штук")}
                     type="number"
@@ -762,6 +763,7 @@ const StepThere = ({ status,locale }) => {
                   <Flex gap={`20px`} width={`30%`}>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -798,6 +800,7 @@ const StepThere = ({ status,locale }) => {
 
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
