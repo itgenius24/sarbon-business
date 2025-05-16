@@ -113,12 +113,10 @@ export const TextFieldWithAddition = ({
                       additionalOnclick();
                     }}
                   >
-                    {console.log(`additionalItemOptions`, field)}
                     <div className={cls.additionalItemLabelWrapper}>
                       <p className={cls.additionalItemLabelText}>
-                        {field.value?.label ||
-                          additionalItemOptions?.[additionalItemDefaultIndex]
-                            ?.label ||
+                        {
+                          additionalItemOptions.find(opt => opt.value === field?.value?.value)?.label ||
                           additionalItemPlaceholder}
                       </p>
                       {additionalItemOptions.length > 0 && (

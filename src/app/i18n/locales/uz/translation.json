@@ -633,6 +633,16 @@
   "Перевозчики": "Tashuvchilar",
   "У меня уже есть аккаунт": "Menda allaqachon akkaunt bor",
   "Введите свой пароль": "Parolingizni kiriting",
-   "Сборный груз (LTL)":"To‘liqsiz (LTL)",
-  "Например":"Masalan"
+  "Сборный груз (LTL)": "To‘liqsiz (LTL)",
+  "Например": "Masalan",
+  "Класс ADR": "ADR sinfi",
+  "Температурный режим": "Harorat rejimi",
+  "Овощи и фрукты": "Sabzavotlar va mevalar",
+  "Класс": "Sinf",
+  "опасности груза": "yuk xavfi",
+   "Груз успешно добавлен": "Yuk muvaffaqiyatli qo'shildi",
+  "После модерации он станет доступен для поиска в системе": "Moderatsiyadan so'ng u tizimda qidirish uchun mavjud bo'ladi",
+  "Добавить новый груз": "Yangi yuk qo'shing",
+  "Шаблон успешно добавлен": "Shablon muvaffaqiyatli qo'shildi",
+  "ДСП": "DSP"
 }

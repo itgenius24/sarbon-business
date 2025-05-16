@@ -28,7 +28,7 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import Image from "next/image";
 import { Checkbox } from "@/components/Checkbox";
 
-const StepOne = ({ status }) => {
+const StepOne = ({ status,locale }) => {
   const {
     control,
     errors,
@@ -53,9 +53,8 @@ const StepOne = ({ status }) => {
     handleResetForm,
     editModal,
     setEditModal,
-  } = useStepOneProps();
+  } = useStepOneProps({locale});
 
-  const locale = useGetLang();
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -105,7 +104,7 @@ const StepOne = ({ status }) => {
                     <span className={cls.subTitle}>{t(`Например`)}: </span>
                     <p
                       onClick={() => {
-                        setValue(`cargo_type_search`, "Пиломатериалы");
+                        setValue(`cargo_type_search`, t("Пиломатериалы"));
                         setValue(`cargo_type`, {
                           label: "Пиломатериалы",
                           value: "1a9ffa9a-6472-4d76-a07a-d7db8e7acb15",
@@ -113,11 +112,11 @@ const StepOne = ({ status }) => {
                       }}
                       className={cls.quickWord}
                     >
-                      Пиломатериалы,
+                     {t(`Пиломатериалы`)},
                     </p>
                     <p
                       onClick={() => {
-                        setValue(`cargo_type_search`, "ДСП");
+                        setValue(`cargo_type_search`, t("ДСП"));
 
                         setValue(`cargo_type`, {
                           label: "ДСП",
@@ -126,11 +125,11 @@ const StepOne = ({ status }) => {
                       }}
                       className={cls.quickWord}
                     >
-                      ДСП,
+                      {t(`ДСП`)},
                     </p>
                     <p
                       onClick={() => {
-                        setValue(`cargo_type_search`, "Овощи и фрукты");
+                        setValue(`cargo_type_search`, t("Овощи и фрукты"));
 
                         setValue(`cargo_type`, {
                           label: "Овощи и фрукты",
@@ -139,7 +138,7 @@ const StepOne = ({ status }) => {
                       }}
                       className={cls.quickWord}
                     >
-                      Овощи и фрукты
+                      {t(`Овощи и фрукты`)}
                     </p>
                   </Flex>
                 )}

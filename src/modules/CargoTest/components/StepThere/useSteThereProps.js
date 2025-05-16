@@ -4,9 +4,9 @@ import {
   useGetCarType,
   useUpdateCargo,
 } from "@/services/api";
-import { useGetLang } from "@/hooks/useGetLang";
 
-const useStepThereProps = () => {
+
+const useStepThereProps = ({locale}) => {
   const {
     register,
     control,
@@ -34,8 +34,8 @@ const useStepThereProps = () => {
     handleResetForm,
   } = useAddCargoContext();
   const [disabled, setDisabled] = useState(true);
-  const locale = useGetLang();
 
+  
   useEffect(() => {
     setLoad({
       top: watch(`top`),

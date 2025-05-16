@@ -3,7 +3,7 @@ import { useEffect, useInsertionEffect, useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 
-const useStepTwoProps = () => {
+const useStepTwoProps = ({locale}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [index, setIndex] = useState();

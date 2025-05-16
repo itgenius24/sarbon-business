@@ -1,4 +1,4 @@
-import{ useEffect, useState } from "react";
+import{ useEffect, useMemo, useState } from "react";
 import { useAddCargoContext } from "../../providers";
 import {
   useGetCurrency,
@@ -6,7 +6,7 @@ import {
 } from "@/services/api";
 import { useGetLang } from "@/hooks/useGetLang";
 
-const useFourProps = () => {
+const useFourProps = ({locale}) => {
   const {
     register,
     control,
@@ -26,7 +26,6 @@ const useFourProps = () => {
   const [disabled, setDisabled] = useState(true);
   const getCurrency = useGetCurrency();
   const getPaymentType = useGetPaymentType();
-  const locale = useGetLang();
 
   useEffect(() => {
     setMoney({
@@ -55,12 +54,17 @@ const useFourProps = () => {
     value: item?.guid,
   }));
 
-  const paymentOptions = getPaymentType.data?.response
-    ?.slice(0, 2)
+  const paymentOptions = getPaymentType.data?.response?.slice(0, 2)
     ?.map((item) => ({
-      label: item?.payment_type,
+      label: item?.[`payment_type_${locale}`],
       value: item?.guid,
     }));
+
+    const selectedOption = useMemo(() => {
+  return paymentOptions?.find(opt => opt.value === watch(`payment_type`)?.value);
+}, [watch(`payment_type`)?.value, paymentOptions]);
+
+    console.log(`paymentOptions`,selectedOption)
 
   useEffect(() => {
     if ((watch("price_after_order") || check || watch("price_after_order") === 0) &&  watch("price_after_order") >= 0) {
@@ -104,7 +108,8 @@ const useFourProps = () => {
     canEditActive,
     onSubmit,
     mone,
-    setEditModal
+    setEditModal,
+    selectedOption
   };
 };
 

@@ -355,7 +355,6 @@ export const useGpsTrackingProps = () => {
           limit: 1000,
           page: offset,
           type: "ceo",
-          // first_dispatcher_id: disVal?.value,
           driver_id: driverVal?.value,
           dispatcher_id: driverVal?.value ? undefined : disVal?.value,
           filter: `active`,
