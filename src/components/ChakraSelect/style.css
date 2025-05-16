@@ -8,6 +8,7 @@
 .chakra-select__placeholder {
   color: var(--brand-500) !important;
   font-weight: 400 !important;
+  white-space: nowrap !important;
 }
 
 .chakra-select__menu {
