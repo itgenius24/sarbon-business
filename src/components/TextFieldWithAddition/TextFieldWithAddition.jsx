@@ -33,6 +33,7 @@ export const TextFieldWithAddition = ({
   rules = {},
   className,
   zIndex = 9,
+  isEdit=false,
   ...props
 }) => {
   const {
@@ -75,11 +76,7 @@ export const TextFieldWithAddition = ({
             onClick={onClick}
             {...register(name, rules)}
             disabled={
-              onClick
-                ? onlyFieldDisabled
-                  ? true
-                  : false
-                : disabled || onlyFieldDisabled
+              isEdit ? false : disabled
             }
             type={type}
             placeholder={placeholder}

@@ -8,17 +8,16 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import cls from "./style.module.scss";
-import { LoadStepIcon, NextArrowIcon, NoteIcon } from "@/assets/icons/icons";
+import { NextArrowIcon, NoteIcon } from "@/assets/icons/icons";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import useFourProps from "./useFourProps";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "@/components/Checkbox";
-import { CustomTextarea } from "@/components/CustomTextarea";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
-const StepFour = ({ status,locale }) => {
+const StepFour = ({ status, locale }) => {
   const [value, setValueR] = React.useState("negotiable");
   const {
     register,
@@ -33,28 +32,25 @@ const StepFour = ({ status,locale }) => {
     disabled,
     canEdit,
     order_status,
-    canEditActive,
     onSubmit,
-    mone,
     setEditModal,
-    selectedOption
-  } = useFourProps({locale});
+  } = useFourProps({ locale });
   const { t } = useTranslation();
 
   const params = usePathname();
 
+  console.log(`salom`, watch(`price_prepayment`));
+
   useEffect(() => {
-    if (watch(`price_prepayment`) && params.includes("my-loads")) {
+    if (watch(`price_prepayment`) > 0 && params.includes("my-loads")) {
       setTimeout(() => {
         setValue(`prepayment`, true, {
           shouldValidate: true,
           shouldDirty: true,
         });
       }, 1000);
-      
     }
   }, [!watch(`price_prepayment`) && params.includes("my-loads")]);
-
 
   const negotiableOption = [
     {
@@ -118,8 +114,6 @@ const StepFour = ({ status,locale }) => {
       }, 500);
     }
   }, [watch(`money_code`)?.length > 0]);
-
-
 
   return (
     <Box className={cls.containerCards}>
@@ -203,8 +197,7 @@ const StepFour = ({ status,locale }) => {
                                         : cls.radio
                                     }
                                   >
-                                    {
-                                      t(item?.label)}
+                                    {t(item?.label)}
                                   </span>
                                 </Radio>
                               ))}
@@ -343,7 +336,7 @@ const StepFour = ({ status,locale }) => {
                     </Flex>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                      onlyFieldDisabled={order_status?.[0] === "active"}
+                      isEdit={!canEdit}
                       disabled={order_status?.[0] === "active" || !canEdit}
                       name="price"
                       register={register}
@@ -361,7 +354,12 @@ const StepFour = ({ status,locale }) => {
                       width="100%"
                       additionalItemOptions={paymentOptions}
                       zIndex={20}
-                      after={currencyOptions?.find(opt => opt.value  === watch(`price_prepayment_unit`)?.value)?.label}
+                      after={
+                        currencyOptions?.find(
+                          (opt) =>
+                            opt.value === watch(`price_prepayment_unit`)?.value
+                        )?.label
+                      }
                     />
                   </Box>
                   <Box width={"100%"}>
@@ -380,13 +378,21 @@ const StepFour = ({ status,locale }) => {
                         {t(`Предоплата`)}
                       </Checkbox>
                     </Flex>
+
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                      isEdit={!canEdit}
                       disabled={
                         order_status?.[0] === "active" ||
                         !canEdit ||
                         !watch(`prepayment`)
                       }
+                      // onlyFieldDisabled={
+                      //   !canEdit
+                      //     ? order_status?.[0] === "active" ||
+                      //       !watch(`prepayment`)
+                      //     : false
+                      // }
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -403,7 +409,12 @@ const StepFour = ({ status,locale }) => {
                       width="100%"
                       additionalItemOptions={paymentOptions}
                       zIndex={20}
-                      after={currencyOptions?.find(opt => opt.value  === watch(`price_prepayment_unit`)?.value)?.label}
+                      after={
+                        currencyOptions?.find(
+                          (opt) =>
+                            opt.value === watch(`price_prepayment_unit`)?.value
+                        )?.label
+                      }
                     />
                   </Box>
                 </Flex>
@@ -433,7 +444,13 @@ const StepFour = ({ status,locale }) => {
                         width="100%"
                         additionalItemOptions={paymentOptions}
                         zIndex={10}
-                      after={currencyOptions?.find(opt => opt.value  === watch(`price_prepayment_unit`)?.value)?.label}
+                        after={
+                          currencyOptions?.find(
+                            (opt) =>
+                              opt.value ===
+                              watch(`price_prepayment_unit`)?.value
+                          )?.label
+                        }
                       />
                     </Box>
                   ) : (
@@ -442,7 +459,8 @@ const StepFour = ({ status,locale }) => {
                         {t(`Сумма после завершения заказа`)}
                       </p>
                       <p className={cls.totalSum}>
-                        {watch(`price`) - (watch(`prepayment`) ?   watch(`price_prepayment`) : 0)}
+                        {watch(`price`) -
+                          (watch(`prepayment`) ? watch(`price_prepayment`) : 0)}
 
                         {` ${
                           watch(`price_prepayment_unit`)

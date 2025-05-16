@@ -305,14 +305,14 @@ const MainPage = ({ locale }) => {
                         <a
                           className={cls.mobileAppLink}
                           href={
-                            "https://www.rustore.ru/catalog/app/uz.udevs.xlogistic_driver_mobile"
+                            "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
                           }
                           target="_blank"
                         >
                           <Image
-                            src={RuStore}
-                            alt="Ru store"
-                            width={111}
+                            src={Getapps}
+                            alt="Getapps store"
+                            width={135}
                             height={40}
                           />
                         </a>

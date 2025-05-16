@@ -152,6 +152,7 @@ const StepOne = ({ status,locale }) => {
                   <Box>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -225,6 +226,7 @@ const StepOne = ({ status,locale }) => {
                     <TextFieldWithAddition
                       className={cls.textField2}
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       errors={errors}
                       control={control}
                       name="volume_measurement"
@@ -409,6 +411,7 @@ const StepOne = ({ status,locale }) => {
                     />
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       control={control}
                       errors={errors}
                       name="packaging_quantity"
@@ -471,6 +474,7 @@ const StepOne = ({ status,locale }) => {
                   >
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       control={control}
                       name="length"
                       register={register}
@@ -482,6 +486,7 @@ const StepOne = ({ status,locale }) => {
                     />
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       control={control}
                       name="width"
                       register={register}
@@ -493,6 +498,7 @@ const StepOne = ({ status,locale }) => {
                     />
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
+                        isEdit={!canEdit}
                       control={control}
                       name="height"
                       register={register}

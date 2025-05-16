@@ -7,6 +7,7 @@ import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import cls from "./style.module.scss";
 import { DatePicker } from "@/components/DatePicker";
 import { format } from "date-fns";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const ActiveUserPage = ({ locale }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -34,8 +35,11 @@ const ActiveUserPage = ({ locale }) => {
     startSelectDate,
     setStartSelectDate,
     setDataOld,
+    
   } = useProps();
 
+
+  console.log(`isFetching`,isFetching)
   return (
     <Box>
       <Container my="40px">
@@ -160,7 +164,10 @@ const ActiveUserPage = ({ locale }) => {
           </Flex>
         </Flex>
         <Box mt={`25px`}>
-          <SarbonTable isSticky variant="table" columns={columns} data={data} />
+        {
+          isFetching ?  <LoadingSpinner /> : data?.length > 0 ?  <SarbonTable isSticky variant="table" columns={columns} data={data} /> : <Box className={cls.noData}>Пока нет активности </Box>
+        }
+          
         </Box>
         {data?.length >= 100 && (
           <Box mt={`15px`} width={`fit-content`}>
