@@ -1,22 +1,16 @@
 "use client";
 
 import {
-  useCheckUser,
   useCreateActionHistoriesMutation,
   useCreateUser,
-  useGetAddress,
-  useGetCarListOnSubmit,
   useGetUserGpsByIDData,
-  useGetUserGpsData,
   useOfferFromCustomerMutation,
   useUpdateUser,
 } from "@/services/api";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
 import { useToast } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { isValidJSON } from "@/utils/isValidJSON";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
@@ -33,8 +27,6 @@ export const useMyCars = () => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-
-  const toast = useToast();
 
   const {
     handleSubmit,
@@ -100,7 +92,7 @@ export const useMyCars = () => {
 
   const { mutate: updateDsate, isLoading } = useUpdateUser({
     onSuccess: (res) => {
-      setIsPopupOpen(true);
+      // setIsPopupOpen(true);
       actionCreate({
         data: {
           user_name: authStore.userData.full_name,
@@ -114,7 +106,7 @@ export const useMyCars = () => {
           action_type: [`update`],
         },
       });
-      // router.push(`/${locale}/drivers`);
+      router.push(`/${locale}/drivers`);
     },
   });
 
@@ -145,7 +137,6 @@ export const useMyCars = () => {
           full_name: normalizeName(val.full_name),
           phone: val?.phone,
           firm_id,
-          // password:val?.password,
           passport_scan: val?.passport_scan,
           passport_code: val?.passport_code,
           drivers_license: val?.drivers_license,

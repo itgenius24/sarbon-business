@@ -5,7 +5,7 @@ import { useGetCargoList } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-export const useProps = ({ setValue }) => {
+export const useProps = ({ setValue, watch }) => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -64,9 +64,7 @@ export const useProps = ({ setValue }) => {
   }
 
   const hanleAdress = (location, name) => {
-    setValue(name,  `${location?.GeoObject?.name}, ${
-        location?.GeoObject?.description ? location?.GeoObject?.description : ``
-      }`);
+    setValue(name, `${location?.GeoObject?.name}`);
     setResults([]);
   };
 
@@ -81,10 +79,17 @@ export const useProps = ({ setValue }) => {
     // setFormAddressName({});
   }
 
-
+  useEffect(() => {
+    if (address?.length <= 0 && activeIndex === `from`) {
+      setValue(`addressFrom`, ``);
+    }
+    if (address?.length <= 0 && activeIndex === `to`) {
+      setValue(`addressTo`, ``);
+    }
+  }, [activeIndex, address]);
 
   useEffect(() => {
-    if (address && debouncedValue.length >= 3 ) {
+    if (address && debouncedValue.length >= 3) {
       handleGeocode();
     }
   }, [debouncedValue]);
@@ -106,6 +111,5 @@ export const useProps = ({ setValue }) => {
     yandexMapRef,
     placeMarkGeometry,
     coordinates,
-    
   };
 };

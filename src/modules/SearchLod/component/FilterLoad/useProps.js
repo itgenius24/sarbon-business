@@ -5,7 +5,7 @@ import { useGetCargoList } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-export const useProps = ({ setValue }) => {
+export const useProps = ({ setValue, watch }) => {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
@@ -59,8 +59,15 @@ export const useProps = ({ setValue }) => {
   }
 
   const hanleAdress = (location, name) => {
-    setValue(name, `${location?.GeoObject?.name}`);
 
+    if (name === `from`) {
+      setValue(`addressFrom`, `${location?.GeoObject?.name}`);
+    }   
+    
+    if(name === `to`) {
+      setValue(`addressTo`, `${location?.GeoObject?.name}`);
+    }
+    setValue(name, `${location?.GeoObject?.name}`);
     setResults([]);
   };
 
@@ -81,8 +88,20 @@ export const useProps = ({ setValue }) => {
     // setFormAddressName({});
   }
 
+
+
   useEffect(() => {
-    if (address && debouncedValue.length >= 3 ) {
+    if (watch(`from`)?.length <= 0 && activeIndex) {
+      setValue(`addressFrom`, ``);
+    } 
+     if (watch(`to`)?.length <= 0 && activeIndex) {
+      setValue(`addressTo`, ``);
+      console.log(`salom`,watch(`to`))
+    }
+  }, [watch(`from`), watch(`to`)]);
+
+  useEffect(() => {
+    if (address && debouncedValue.length >= 3) {
       handleGeocode();
     }
     if (activeIndex) {

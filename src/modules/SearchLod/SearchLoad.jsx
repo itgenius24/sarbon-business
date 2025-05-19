@@ -9,8 +9,9 @@ import { useState } from "react";
 import cls from "./style.module.scss";
 import { FilterIcon } from "@/assets/icons/icons";
 import { FilterLoadMobile } from "./component/FilterLoadMobile/FilterLoadMobile";
+import { CardLoad } from "./component/CardLoad/CardLoad";
 
-export const SearchLoadModule = () => {
+export const SearchLoadModule = ({locale}) => {
   const {
     t,
     setValue,
@@ -34,6 +35,7 @@ export const SearchLoadModule = () => {
   } = useSearchLoad();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+
   return (
     <>
       <Container my="40px">
@@ -84,24 +86,35 @@ export const SearchLoadModule = () => {
             openFilter={openFilter}
             setOpenFilter={setOpenFilter}
             onSubmit={onSubmit}
-          />
-        )}
-        <Box overflowX={isLargerThan845 ? `none` : `scroll`}>
-          <TableComponent
-            isLargerThan845={isLargerThan845}
-            watch={watch}
-            formState={formState}
-            dataRes={dataRes}
-            dataResOld={dataResOld}
-            page={page}
-            setDataRes={setDataRes}
-            setDataResOld={setDataResOld}
-            status2={status2}
-            setStatus2={setStatus2}
-            setPage={setPage}
             isLoadingLo={isLoadingLo}
           />
-        </Box>
+        )}
+        {!isLargerThan845 && (
+          <Flex mt={`20px`} flexDirection={`column`} rowGap={`20px`} alignItems={`center`}>
+            {dataRes.map((item) => {
+              return <CardLoad key={item?.guid} item={item} t={t} locale={locale} />;
+            })}
+          </Flex>
+        )}
+        {isLargerThan845 && (
+          <Box overflowX={isLargerThan845 ? `none` : `scroll`}>
+            <TableComponent
+              isLargerThan845={isLargerThan845}
+              watch={watch}
+              formState={formState}
+              dataRes={dataRes}
+              dataResOld={dataResOld}
+              page={page}
+              setDataRes={setDataRes}
+              setDataResOld={setDataResOld}
+              status2={status2}
+              setStatus2={setStatus2}
+              setPage={setPage}
+              isLoadingLo={isLoadingLo}
+            />
+          </Box>
+        )}
+
         {!isLoadingLo && dataRes?.length !== total && dataRes?.length > 0 && (
           <Button
             mt={`24px`}

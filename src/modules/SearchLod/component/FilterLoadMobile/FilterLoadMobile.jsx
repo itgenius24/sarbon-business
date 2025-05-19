@@ -37,6 +37,7 @@ export const FilterLoadMobile = ({
   openFilter,
   setOpenFilter,
   onSubmit,
+  isLoadingLo
 }) => {
   const {
     t,
@@ -56,7 +57,7 @@ export const FilterLoadMobile = ({
     results,
     hanleAdress,
     data,
-  } = useProps({ setValue });
+  } = useProps({ setValue,watch });
   return (
     <>
       <Drawer placement="bottom" isOpen={openFilter}>
@@ -83,36 +84,49 @@ export const FilterLoadMobile = ({
                   additionalItemTheme={`light`}
                   register={register}
                   onChange={(e) => {
-                    setActiveIndex(`from2`), setAddress(e.target.value);
+                    setActiveIndex(`from`), setAddress(e.target.value);
                   }}
-                  name={`from2`}
-                  additionalOnclick={() => handleOpenModal(`from2`, "loading")}
+                  name={`addressFrom`}
+                  additionalOnclick={() => handleOpenModal(`addressFrom`, "loading")}
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
                       <LocationMarkIcon />
                     </span>
                   }
                 />
-                {activeIndex === `from2` &&
+                {activeIndex === `from` &&
                   results.length > 0 &&
                   address?.length > 0 && (
                     <Box className={cls.optionsWrap}>
-                      {results?.map((location, idx) => (
-                        <Flex
-                          onClick={() =>
-                            hanleAdress(location, `from2`, "loading")
-                          }
-                          key={idx}
-                          gap={3}
-                          alignItems={"center"}
-                        >
-                          <LocationIconStep />
+                      {results?.map((location, idx) => {
+                        const text = location?.GeoObject?.name || "";
+                        const highlightText = (text, search) => {
+                          if (!search) return text;
+                          const regex = new RegExp(`(${search})`, "gi");
+                          return text.replace(
+                            regex,
+                            `<span class="${cls.bold}">$1</span>`
+                          );
+                        };
 
-                          <p className={cls.item}>
-                            {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
-                          </p>
-                        </Flex>
-                      ))}
+                        return (
+                          <Flex
+                            onClick={() =>
+                              hanleAdress(location, `addressFrom`, "loading")
+                            }
+                            key={idx}
+                            gap={3}
+                            alignItems={"center"}
+                          >
+                            <p
+                              className={cls.item}
+                              dangerouslySetInnerHTML={{
+                                __html: highlightText(text, address),
+                              }}
+                            />
+                          </Flex>
+                        );
+                      })}
                     </Box>
                   )}
               </Box>
@@ -124,36 +138,49 @@ export const FilterLoadMobile = ({
                   additionalItemTheme={`light`}
                   register={register}
                   onChange={(e) => {
-                    setActiveIndex(`to2`), setAddress(e.target.value);
+                    setActiveIndex(`to`), setAddress(e.target.value);
                   }}
-                  name={`to2`}
-                  additionalOnclick={() => handleOpenModal(`to2`, "loading")}
+                  name={`addressTo`}
+                  additionalOnclick={() => handleOpenModal(`addressTo`, "loading")}
                   additionalItemPlaceholder={
                     <span className={cls.additionalIcons}>
                       <LocationMarkIcon />
                     </span>
                   }
                 />
-                {activeIndex === `to2` &&
+                {activeIndex === `to` &&
                   results.length > 0 &&
                   address?.length > 0 && (
                     <Box className={cls.optionsWrap}>
-                      {results?.map((location, idx) => (
-                        <Flex
-                          onClick={() =>
-                            hanleAdress(location, `to2`, "loading")
-                          }
-                          key={idx}
-                          gap={3}
-                          alignItems={"center"}
-                        >
-                          <LocationIconStep />
+                      {results?.map((location, idx) => {
+                        const text = location?.GeoObject?.name || "";
+                        const highlightText = (text, search) => {
+                          if (!search) return text;
+                          const regex = new RegExp(`(${search})`, "gi");
+                          return text.replace(
+                            regex,
+                            `<span class="${cls.bold}">$1</span>`
+                          );
+                        };
 
-                          <p className={cls.item}>
-                            {`${location?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}`}
-                          </p>
-                        </Flex>
-                      ))}
+                        return (
+                          <Flex
+                            onClick={() =>
+                              hanleAdress(location, `addressTo`, "loading")
+                            }
+                            key={idx}
+                            gap={3}
+                            alignItems={"center"}
+                          >
+                            <p
+                              className={cls.item}
+                              dangerouslySetInnerHTML={{
+                                __html: highlightText(text, address),
+                              }}
+                            />
+                          </Flex>
+                        );
+                      })}
                     </Box>
                   )}
               </Box>
@@ -164,7 +191,7 @@ export const FilterLoadMobile = ({
                   register={register}
                   watch={watch}
                   label={t("Транспорт")}
-                  name="vehicle_type_id2"
+                  name="vehicle_type_id"
                   className={cls.dropdown}
                   placeholder={t("Выберите тип груза")}
                   inputPlaceholder={t("Выберите тип груза")}
@@ -177,23 +204,23 @@ export const FilterLoadMobile = ({
                 <p className={cls.label}>{t("Тип оплаты")}</p>
                 <Flex flexDirection={`column`} rowGap={`25px`}>
                   <Checkbox
-                    defaultChecked={watch(`prepayment2`)}
+                    defaultChecked={watch(`prepayment`)}
                     register={register}
-                    name={`prepayment2`}
+                    name={`prepayment`}
                   >
                     {t("Только с предоплатой")}
                   </Checkbox>
                   <Checkbox
-                    defaultChecked={watch(`spot2`)}
+                    defaultChecked={watch(`spot`)}
                     register={register}
-                    name={`spot2`}
+                    name={`spot`}
                   >
                     {t("Наличными")}
                   </Checkbox>
                   <Checkbox
-                    defaultChecked={watch(`in_spot2`)}
+                    defaultChecked={watch(`in_spot`)}
                     register={register}
-                    name={`in_spot2`}
+                    name={`in_spot`}
                   >
                     {t("Безналичными")}
                   </Checkbox>
@@ -204,7 +231,7 @@ export const FilterLoadMobile = ({
                   className={cls.textField}
                   label={t("Объём от:")}
                   control={control}
-                  name="min_volume2"
+                  name="min_volume"
                   register={register}
                   additionalItemName="weight_unit"
                   additionalItemTheme={`light`}
@@ -218,7 +245,7 @@ export const FilterLoadMobile = ({
                   className={cls.textField}
                   control={control}
                   label={t("Объём до:")}
-                  name="max_volume2"
+                  name="max_volume"
                   register={register}
                   width="100%"
                   placeholder={t("максимум")}
@@ -232,7 +259,7 @@ export const FilterLoadMobile = ({
                   className={cls.textField}
                   label={t("Вес от:")}
                   control={control}
-                  name="min_weight2"
+                  name="min_weight"
                   register={register}
                   additionalItemName="weight_unit"
                   additionalItemPlaceholder={t("т")}
@@ -245,7 +272,7 @@ export const FilterLoadMobile = ({
                   className={cls.textField}
                   control={control}
                   label={t("Вес до:")}
-                  name="max_weight2"
+                  name="max_weight"
                   register={register}
                   placeholder={t("максимум")}
                   additionalItemTheme={`light`}
@@ -255,9 +282,9 @@ export const FilterLoadMobile = ({
               </Flex>
               <Box>
                 <Checkbox
-                  defaultChecked={watch(`only_for_me2`)}
+                  defaultChecked={watch(`only_for_me`)}
                   register={register}
-                  name={`only_for_me2`}
+                  name={`only_for_me`}
                 >
                   <Flex gap={1}>
                     <FurgoIconLoad />{" "}
@@ -268,7 +295,7 @@ export const FilterLoadMobile = ({
             </Flex>
           </DrawerBody>
           <DrawerFooter>
-            <Button onClick={() => onSubmit()} width={`100%`}>
+            <Button isLoading={isLoadingLo} onClick={() => onSubmit()} width={`100%`}>
               {t("Применить фильтр")}
             </Button>
           </DrawerFooter>
