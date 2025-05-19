@@ -1,11 +1,8 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import {
-  useCreateAddressMutation,
   useCreateUser,
   useCreateVehicle,
-  useDeleteVehicle,
   useGetCarNumber,
-  useGetCreateAddress,
   useGetFuelInfo,
   useGetNewPred,
   useGetPhone,
@@ -55,7 +52,7 @@ const useProsp = () => {
   } = useForm({});
   const [isCopied, setCopied] = useClipboard(
     JSON.stringify(
-      `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`
+      `Его логин: ${watch(`phone`)}`
     )
   );
 
@@ -91,7 +88,7 @@ const useProsp = () => {
       front_side_trailer_1: watch(`front_side_trailer_1`),
       car_photo: watch(`car_photo`),
       download_type: getTrueKeys(load),
-      car_position: ["moderation"],
+      car_position: ["alive"],
       status: [`active`],
       users_id_3: authStore.userData.guid,
       car_country: watch(`car_country`)?.value,
@@ -99,7 +96,6 @@ const useProsp = () => {
       eco_standart: watch(`eco_standart`)?.value,
       guid: id ? id : undefined,
       create_time: id ? undefined : new Date(),
-
       address: watch(`address`) || undefined,
       color: watch(`color`) || undefined,
       engine_power: watch(`engine_power`) || undefined,
