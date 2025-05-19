@@ -62,6 +62,7 @@ import { format } from "date-fns";
 import copy from "copy-to-clipboard";
 import { useRouter } from "next/navigation";
 import CheckBoxComponent from "@/modules/GpsTrackingCarrier/components/CheckBoxComponent";
+import { CardLoad } from "../CardLoad/CardLoad";
 
 export const TableComponent = ({
   isLargerThan845,
@@ -77,7 +78,7 @@ export const TableComponent = ({
   const [search, setSearch] = useState("");
   const [carId, setCarId] = useState();
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
-  const {isOpen,onClose,onOpen} = useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [centerModalType, setCenterModalType] = useState(null);
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
@@ -104,7 +105,7 @@ export const TableComponent = ({
       setStatus(true);
       setStatus2(true);
       setCenterModalType(false);
-      onClose()
+      onClose();
     },
   });
 
@@ -117,7 +118,7 @@ export const TableComponent = ({
         setSelectCargo([]);
         setStatus(true);
         setCenterModalType(false);
-        onClose()
+        onClose();
         setStatus2(true);
       },
     });
@@ -154,12 +155,12 @@ export const TableComponent = ({
     if (isCheckboxChecked) {
       return (
         (!provisionsData || provisionsData?.length === 0) &&
-        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
+        item?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     } else {
       return (
         provisionsData?.length > 0 &&
-        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
+        item?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
   });
@@ -527,31 +528,48 @@ export const TableComponent = ({
   const onRow = (item) => {
     setCarId(item);
     setCenterModalType(true);
-    onOpen()
+    onOpen();
   };
 
   return (
     <>
       <Box mb={`10px`} mt={"32px"}>
-        <SarbonTable
-          isTooltip
-          statusTooltip={statusTooltip}
-          variant="card"
-          columns={columns}
-          data={dataRes}
-          onRow={onRow}
-        />
+        {!isLargerThan845 ? (
+          <Flex flexDirection={`column`} rowGap={`20px`} alignItems={`center`}>
+            {dataRes.map((item) => {
+              return (
+                <CardLoad
+                  onRow={() => onRow(item)}
+                  key={item?.guid}
+                  item={item}
+                  t={t}
+                  locale={locale}
+                  isTollTip={true}
+                  statusTooltip={statusTooltip}
+                />
+              );
+            })}
+          </Flex>
+        ) : (
+          <SarbonTable
+            isTooltip
+            statusTooltip={statusTooltip}
+            variant="card"
+            columns={columns}
+            data={dataRes}
+            onRow={onRow}
+          />
+        )}
       </Box>
 
-      { isLargerThan845 ? (
+      {isLargerThan845 ? (
         <Modal size={`2xl`} isCentered isOpen={isOpen}>
-          <ModalOverlay onClick={onClose}/>
+          <ModalOverlay onClick={onClose} />
           <ModalContent>
-            <ModalHeader  borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+            <ModalHeader borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
               <Flex
                 justifyContent={"space-between"}
                 alignItems={"center"}
-               
                 height={`40px`}
               >
                 <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
@@ -566,7 +584,9 @@ export const TableComponent = ({
                       <SearchIcon />
                     </InputRightElement>
                   </InputGroup>
-                ):<ModalCloseButton onClick={onClose} />}
+                ) : (
+                  <ModalCloseButton onClick={onClose} />
+                )}
               </Flex>
             </ModalHeader>
             <ModalBody minHeight={`400px`}>
@@ -584,7 +604,7 @@ export const TableComponent = ({
                     );
                     return (
                       <CheckBoxComponent
-                        key={item?.user?.guid}
+                        key={item?.guid}
                         onClick={() => {
                           if (
                             provisionsData?.[0]?.provisions?.includes(
@@ -602,10 +622,10 @@ export const TableComponent = ({
                           ) {
                             // deleteOrder(item) emas, faqat onOpen() chaqirildi
                           } else {
-                            handleSelect(item?.user?.guid);
+                            handleSelect(item?.guid);
                           }
                         }}
-                        active={selectCargo.includes(item?.user?.guid)}
+                        active={selectCargo.includes(item?.guid)}
                         status={
                           provisionsData?.[0]?.provisions?.includes(
                             `performed`
@@ -673,15 +693,15 @@ export const TableComponent = ({
                                 <Box as="button" className={cls.countryWrap}>
                                   <Flex gap={3}>
                                     <Avatar
-                                      name={item?.user?.full_name}
-                                      src={item?.user?.photo}
+                                      name={item?.full_name}
+                                      src={item?.photo}
                                     />
                                     <Box>
                                       <p className={cls.name}>
-                                        {item?.user?.full_name}
+                                        {item?.full_name}
                                       </p>
                                       <p className={cls.subTitle}>
-                                        {item?.user?.phone}
+                                        {item?.phone}
                                       </p>
                                     </Box>
                                   </Flex>
@@ -709,16 +729,12 @@ export const TableComponent = ({
                           <Box className={cls.countryWrap}>
                             <Flex gap={3}>
                               <Avatar
-                                name={item?.user?.full_name}
-                                src={item?.user?.photo}
+                                name={item?.full_name}
+                                src={item?.photo}
                               />
                               <Box>
-                                <p className={cls.name}>
-                                  {item?.user?.full_name}
-                                </p>
-                                <p className={cls.subTitle}>
-                                  {item?.user?.phone}
-                                </p>
+                                <p className={cls.name}>{item?.full_name}</p>
+                                <p className={cls.subTitle}>{item?.phone}</p>
                               </Box>
                             </Flex>
                           </Box>
@@ -745,7 +761,7 @@ export const TableComponent = ({
                 )}
               </Box>
             </ModalBody>
-            <ModalFooter  borderTop={`1px solid rgba(219, 216, 227, 1)`}>
+            <ModalFooter borderTop={`1px solid rgba(219, 216, 227, 1)`}>
               <Flex
                 width={`100%`}
                 justifyContent={"space-between"}
@@ -771,7 +787,7 @@ export const TableComponent = ({
                     >
                       {t("Отменить")}
                     </Button>
-                    
+
                     <Button
                       isDisabled={selectCargo.length === 0}
                       isLoading={isLoading}
@@ -788,7 +804,7 @@ export const TableComponent = ({
           </ModalContent>
         </Modal>
       ) : (
-        <Drawer placement="bottom" isOpen={isOpen}>
+        <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
           <DrawerOverlay onClick={onClose} />
           <DrawerContent borderRadius="12px 12px 0 0">
             <DrawerHeader>
@@ -814,7 +830,10 @@ export const TableComponent = ({
             </DrawerHeader>
             <DrawerCloseButton
               top={`15px`}
-              onClick={() => setCenterModalType(``)}
+              onClick={() => {
+                onClose();
+                setCenterModalType(``);
+              }}
             />
             <DrawerBody>
               <Box className={cls.modalContend}>
@@ -832,7 +851,7 @@ export const TableComponent = ({
                     console.log(`provisions`, provisionsData);
                     return (
                       <CheckBoxComponent
-                        key={item?.user?.guid}
+                        key={item?.guid}
                         onClick={() => {
                           if (
                             provisionsData?.[0]?.provisions?.includes(
@@ -850,10 +869,10 @@ export const TableComponent = ({
                           ) {
                             // deleteOrder(item) emas, faqat onOpen() chaqirildi
                           } else {
-                            handleSelect(item?.user?.guid);
+                            handleSelect(item?.guid);
                           }
                         }}
-                        active={selectCargo.includes(item?.user?.guid)}
+                        active={selectCargo.includes(item?.guid)}
                         status={
                           provisionsData?.[0]?.provisions?.includes(
                             `performed`
@@ -921,15 +940,15 @@ export const TableComponent = ({
                                 <Box as="button" className={cls.countryWrap}>
                                   <Flex gap={3}>
                                     <Avatar
-                                      name={item?.user?.full_name}
-                                      src={item?.user?.photo}
+                                      name={item?.full_name}
+                                      src={item?.photo}
                                     />
                                     <Box>
                                       <p className={cls.name}>
-                                        {item?.user?.full_name}
+                                        {item?.full_name}
                                       </p>
                                       <p className={cls.subTitle}>
-                                        {item?.user?.phone}
+                                        {item?.phone}
                                       </p>
                                     </Box>
                                   </Flex>
@@ -957,16 +976,12 @@ export const TableComponent = ({
                           <Box className={cls.countryWrap}>
                             <Flex gap={3}>
                               <Avatar
-                                name={item?.user?.full_name}
-                                src={item?.user?.photo}
+                                name={item?.full_name}
+                                src={item?.photo}
                               />
                               <Box>
-                                <p className={cls.name}>
-                                  {item?.user?.full_name}
-                                </p>
-                                <p className={cls.subTitle}>
-                                  {item?.user?.phone}
-                                </p>
+                                <p className={cls.name}>{item?.full_name}</p>
+                                <p className={cls.subTitle}>{item?.phone}</p>
                               </Box>
                             </Flex>
                           </Box>

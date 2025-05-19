@@ -11,9 +11,23 @@ import {
 } from "@/assets/icons/icons";
 import { format } from "date-fns";
 
-export const CardLoad = ({ item, t, locale, ...props }) => {
+export const CardLoad = ({
+  item,
+  t,
+  locale,
+  isTollTip,
+  statusTooltip,
+  onRow,
+  ...props
+}) => {
   return (
-    <Box className={cls.cardWrapper} {...props} key={item.guid}>
+    <Box
+      onClick={() => onRow(item)}
+      className={cls.cardWrapper}
+      {...props}
+      key={item.guid}
+    >
+      {isTollTip && statusTooltip(item)}
       <Flex alignItems={`center`} gap={`10px`} className={cls.headerCard}>
         <Avatar
           width={`35px`}

@@ -13,6 +13,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import { useDebounce } from "use-debounce";
 import { useMediaQuery } from "@chakra-ui/react";
+import { is } from "date-fns/locale";
 
 export const useSearchLoad = () => {
   const locale = useGetLang();
@@ -38,7 +39,7 @@ export const useSearchLoad = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
 
-  console.log(`toAdess`,watch(`addressTo`))
+
 
   const {
     data: dataMap,
@@ -69,7 +70,7 @@ export const useSearchLoad = () => {
       },
     },
     querySettings: {
-      enabled: Boolean(isLargerThan845 ? true : false),
+      enabled: Boolean(isLargerThan845  ? true : false),
       select: (res) => ({
         ...res,
         response: res?.response.sort((a, b) => a.distances - b.distances),
@@ -108,13 +109,23 @@ export const useSearchLoad = () => {
   }, []);
 
 
+  const loadMore = () => {
+    if(!isLargerThan845){
+      setPage((prev) => prev + 1);
+    }else{
+      setPage((prev) => prev + 1);
+    }
+  }
+
+
 
 
   useEffect(() => {
     if (!isLargerThan845) {
       refetch();
     }
-  }, []);
+  }, [page
+  ]);
 
   const onSubmit = () => {
     refetch();
@@ -140,5 +151,6 @@ export const useSearchLoad = () => {
     isLoadingLo:isFetching,
     onSubmit,
     total,
+    loadMore,
   };
 };
