@@ -271,6 +271,12 @@ export const UploadImg = ({
               preview=".img-preview"
               minCropBoxHeight={10}
               minCropBoxWidth={10}
+                movable={true}   
+                  dragMode="move" 
+               
+                 scalable={true}           // rasmni o‘lchamini o‘zgartirish mumkin bo‘ladi
+  cropBoxMovable={true}     // crop box'ni o‘zi harakatlansin
+  cropBoxResizable={true}
             />
           </ModalBody>
 
