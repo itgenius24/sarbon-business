@@ -38,7 +38,6 @@ const CreateDrivers = ({
     setPasswordVisible(!isPasswordVisible);
   }
 
-  console.log(`salom`, isLoading);
 
   const formatPhoneNumber = (value) => {
     let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish

@@ -1,0 +1,114 @@
+.cardWrapper {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  border-radius: 16px;
+  .headerCard {
+    padding: 13px 16px;
+    border-bottom: 0.5px solid rgba(126, 123, 134, 0.25);
+    .customerName {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgb(0, 0, 0);
+    }
+    .tel {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(126, 123, 134, 1);
+    }
+  }
+  .addressWrap {
+    position: relative;
+
+    padding: 15px 14px;
+    .startFromIconWrap {
+      position: relative;
+    }
+    .line {
+      position: absolute;
+      height: 30px;
+      border-left: 2px dotted rgba(21, 186, 77, 1);
+      top: 50px;
+      left: 17px;
+    }
+    .address {
+      color: rgba(33, 31, 38, 1);
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 20px;
+      letter-spacing: 0px;
+    }
+    .countyCode {
+      color: rgba(126, 123, 134, 1);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+    }
+    .date {
+      color: rgba(33, 31, 38, 1);
+
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+    }
+  }
+  .driverVehicleWrap {
+    border-radius: 12px;
+    margin: 0px 10px;
+    margin-bottom: 10px;
+    background-color: rgba(237, 240, 245, 1);
+    padding: 10px 16px;
+    .productType {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(33, 31, 38, 1);
+    }
+    .vehicleType {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(126, 123, 134, 1);
+    }
+    .vehicleTypeParams {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(126, 123, 134, 1);
+    }
+  }
+  .priceVehicleWrap {
+    padding: 15px 20px 20px 20px;
+    // background-color: red;
+    .priceTitle {
+      color: rgba(126, 123, 134, 1);
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 20px;
+      letter-spacing: 0px;
+    }
+    .priceType {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(38, 189, 73, 1);
+    }
+    .price{
+          font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(33, 31, 38, 1);
+    }
+  }
+}

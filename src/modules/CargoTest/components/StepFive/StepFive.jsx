@@ -134,7 +134,7 @@ const StepFive = ({ status,locale }) => {
         step: index + 1,
         type: ["shipper"],
         expectations: +item.loading_num?.value || 0,
-      })).filter(item => item.lat);
+      })).filter(item => item.lat ||  item?.address);
 
       let unloadinData = unloading.map((item, index) => ({
         address: item?.address,
@@ -143,7 +143,7 @@ const StepFive = ({ status,locale }) => {
         long: item?.cor.split(" ")[1],
         step: index + 1,
         type: ["consignee"],
-      })).filter(item => item.lat);
+      })).filter(item => item?.lat || item?.address);
 
 
       createAddress.mutate({

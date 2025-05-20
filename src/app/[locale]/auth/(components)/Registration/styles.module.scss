@@ -1,16 +1,15 @@
 .link {
   color: var(--primary-text);
 }
-.tabTitle{
-color: rgba(33, 31, 38, 1);
-font-weight: 500;
-font-size: 16px;
-line-height: 28px;
-letter-spacing: 0%;
-margin-bottom: 4px;
-
+.tabTitle {
+  color: rgba(33, 31, 38, 1);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  margin-bottom: 4px;
 }
-.tabWrap{
+.tabWrap {
   width: 100%;
   background-color: rgba(246, 247, 248, 1);
   padding: 6px;
@@ -20,7 +19,7 @@ margin-bottom: 4px;
   justify-content: center;
   border-bottom: 0px !important;
   margin-bottom: 30px;
-  .btn{
+  .btn {
     width: 100%;
     padding: 10px;
     text-align: center;
@@ -30,28 +29,24 @@ margin-bottom: 4px;
     font-weight: 500;
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
-  
   }
-
-
 }
 
-.qrDeck{
- 
+.qrDeck {
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
   letter-spacing: 0%;
   color: rgba(33, 31, 38, 1);
-}  
+}
 
-.imageQr{
-  @media (max-width:900px) {
-     display: none;
+.imageQr {
+  @media (max-width: 900px) {
+    display: none;
   }
 }
 
-.phone{
+.phone {
   border: 1px solid rgba(218, 218, 218, 1);
   background-color: rgba(246, 247, 248, 1);
   padding: 4px 12px 4px 5px;
@@ -66,13 +61,11 @@ margin-bottom: 4px;
   margin-bottom: 32px;
 }
 
-
-  .textFieldName{
-    font-weight: 600;
-    font-size: 14px;
-    // margin-bottom: 5px;
-    height: 30px;
-
+.textFieldName {
+  font-weight: 600;
+  font-size: 14px;
+  // margin-bottom: 5px;
+  height: 30px;
 }
 
 .divider {
@@ -92,24 +85,52 @@ margin-bottom: 4px;
   border-bottom: 1px solid #ccc; /* Chiziq rangi */
   margin: 0 10px;
 }
-.btnAuthGroup{
-  
-  @media (max-width:800px) {
-     gap: 10px;
-     justify-content: center;
-     flex-direction: column;
+.btnAuthGroup {
+  @media (max-width: 800px) {
+    gap: 10px;
+    justify-content: center;
+    flex-direction: column;
   }
 }
 
-.btnAuth{
-  border: 1px solid  rgba(199, 199, 204, 1) !important;
+.linkWrap {
+    .img {
+      width: 100px;
+      height: auto;
+      object-fit: cover;
+    }
+    .ruStore {
+      width: 80px;
+    }
+    .galaxyStore {
+      width: 110px;
+    }
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 16px;
+    margin-top: 20px;
+    .img {
+      width: 120px;
+      height: auto;
+      object-fit: cover;
+    }
+    .ruStore {
+      width: 100px;
+    }
+    .galaxyStore {
+      width: 130px;
+    }
+  }
+}
+
+.btnAuth {
+  border: 1px solid rgba(199, 199, 204, 1) !important;
   border-radius: 6.5px !important;
   font-size: 13px !important;
   color: rgba(126, 123, 134, 1) !important;
   background-color: white !important;
-
 }
-
 
 @include lg {
   .buttonWrapper {

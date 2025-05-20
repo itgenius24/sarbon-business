@@ -184,11 +184,27 @@ export const Footer = () => {
                     />
                   </a>
                 </li>
+                  <li className={cls.mobileAppItem}>
+                  <a
+                    className={cls.mobileAppLink}
+                    href={
+                      "https://play.google.com/store/apps/details?id=uz.udevs.xlogistic_driver_mobile"
+                    }
+                    target="_blank"
+                  >
+                    <Image
+                      src={GooglePlay}
+                      alt="GooglePlay"
+                      width={135}
+                      height={40}
+                    />
+                  </a>
+                </li>
                 <li className={cls.mobileAppItem}>
                   <a
                     className={cls.mobileAppLink}
                     href={
-                      "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                      "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.udevs.xlogistic_driver_mobile"
                     }
                     target="_blank"
                   >

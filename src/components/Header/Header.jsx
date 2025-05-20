@@ -5,7 +5,6 @@ import cls from "./styles.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
-import { Container } from "../Container";
 import {
   Box,
   Button,

@@ -246,7 +246,8 @@ export const CarsCard = ({
               <Box>
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                  {t("Свободна")}:{" "}
+                  {  response?.response?.[0]?.users_id_data?.provisions[0] ===
+                  `waiting_for_driver` ? t(`Занят`) :  t("Свободна")}:{" "}
                   {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>

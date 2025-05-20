@@ -48,7 +48,6 @@ const MainPage = ({ locale }) => {
   const token = authStore?.token?.access_token;
   var settings = {
     dots: true,
-    // infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -283,6 +282,22 @@ const MainPage = ({ locale }) => {
                             alt="App store"
                             width={135}
                             height={40}
+                            className={cls.img}
+                          />
+                        </a>
+                        <a
+                          className={cls.mobileAppLink}
+                          href={
+                            "https://play.google.com/store/apps/details?id=uz.udevs.xlogistic_driver_mobile"
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={GooglePlay}
+                            alt="Google play"
+                            width={135}
+                            height={40}
+                            className={cls.img}
                           />
                         </a>
                         <a
@@ -297,6 +312,7 @@ const MainPage = ({ locale }) => {
                             alt="Ru store"
                             width={111}
                             height={40}
+                            className={`${cls.img} ${cls.ruStore}`}
                           />
                         </a>
                       </Flex>
@@ -305,7 +321,7 @@ const MainPage = ({ locale }) => {
                         <a
                           className={cls.mobileAppLink}
                           href={
-                            "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                            "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.udevs.xlogistic_driver_mobile"
                           }
                           target="_blank"
                         >
@@ -314,6 +330,7 @@ const MainPage = ({ locale }) => {
                             alt="Getapps store"
                             width={135}
                             height={40}
+                            className={cls.img}
                           />
                         </a>
                         <a
@@ -328,6 +345,7 @@ const MainPage = ({ locale }) => {
                             alt="GalaxyStore"
                             width={147}
                             height={40}
+                            className={`${cls.img} ${cls.galaxyStore}`}
                           />
                         </a>
 

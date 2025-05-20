@@ -197,8 +197,13 @@ export const Registration = () => {
                         )}
                         .
                       </p>
-                      <Flex flexDirection={`column`} mt={`30px`} rowGap={`10px`}>
-                        <Flex gap={`10px`} >
+                      <Flex
+                        flexDirection={`column`}
+                        mt={`30px`}
+                        rowGap={`10px`}
+                        className={cls.linkWrap}
+                      >
+                        <Flex gap={`10px`}>
                           <a
                             className={cls.mobileAppLink}
                             href={
@@ -211,6 +216,23 @@ export const Registration = () => {
                               alt="App store"
                               width={135}
                               height={40}
+                              className={cls.img}
+
+                            />
+                          </a>
+                          <a
+                            className={cls.mobileAppLink}
+                            href={
+                              "https://play.google.com/store/apps/details?id=uz.udevs.xlogistic_driver_mobile"
+                            }
+                            target="_blank"
+                          >
+                            <Image
+                              src={GooglePlay}
+                              alt="Google play"
+                              width={135}
+                              height={40}
+                              className={cls.img}
                             />
                           </a>
                           <a
@@ -225,6 +247,7 @@ export const Registration = () => {
                               alt="Ru store"
                               width={111}
                               height={40}
+                               className={`${cls.img} ${cls.ruStore}`}
                             />
                           </a>
                         </Flex>
@@ -232,7 +255,7 @@ export const Registration = () => {
                           <a
                             className={cls.mobileAppLink}
                             href={
-                              "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.sarbon.mobile"
+                              "https://global.app.mi.com/details?lo=ID&la=ru_RU&id=uz.udevs.xlogistic_driver_mobile"
                             }
                             target="_blank"
                           >
@@ -241,6 +264,8 @@ export const Registration = () => {
                               alt="Getapps store"
                               width={135}
                               height={40}
+                              className={cls.img}
+
                             />
                           </a>
                           <a
@@ -255,6 +280,7 @@ export const Registration = () => {
                               alt="GalaxyStore"
                               width={147}
                               height={40}
+                              className={`${cls.img} ${cls.galaxyStore}`}
                             />
                           </a>
                         </Flex>

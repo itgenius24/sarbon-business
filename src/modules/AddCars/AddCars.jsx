@@ -75,7 +75,6 @@ const AddCars = () => {
           loadingBack={loadingBack}
           loadingFront={loadingFront}
         />
-
         <CreateCars
           carTypeOptions={carTypeOptions}
           setinputValue={setinputValue}
@@ -117,47 +116,11 @@ const AddCars = () => {
           <DrawerCloseButton top={`15px`} onClick={() => onClose()} />
           <DrawerBody>
             <Flex flexDirection={`column`} rowGap={`20px`}>
-              <p style={{ fontWeight: 600, fontSize: "20px" }}>
-                {t("Водитель успешно добавлен в систему")}
-              </p>
+           
               <p style={{ fontWeight: 400, fontSize: "16px" }}>
-                {t("Передайте ему данные для входа в приложение Sarbon")}:
+                {t("Аккаунт водителя был создан. Необходимо войти в приложение Sarbon с номером")}: {watch("phone") || ""}
               </p>
-              <Box
-                borderRadius={`8px`}
-                padding={`10px`}
-                backgroundColor={`rgba(237, 239, 245, 1)`}
-                gap={`20px`}
-              >
-                <Flex>
-                  <p
-                    style={{
-                      width: `100px`,
-                      fontWeight: 400,
-                      fontSize: "14px",
-                    }}
-                  >
-                    {t("Его логин")}:
-                  </p>
-                  <p style={{ fontWeight: 500, fontSize: "16px" }}>
-                    {watch(`phone`)}
-                  </p>
-                </Flex>
-                <Flex>
-                  <p
-                    style={{
-                      width: `100px`,
-                      fontWeight: 400,
-                      fontSize: "14px",
-                    }}
-                  >
-                    {t("Его пароль")}:
-                  </p>
-                  <p style={{ fontWeight: 500, fontSize: "16px" }}>
-                    {watch(`password`)}
-                  </p>
-                </Flex>
-              </Box>
+        
             </Flex>
           </DrawerBody>
           <DrawerFooter mb={`20px`}>
@@ -169,7 +132,7 @@ const AddCars = () => {
               >
                 {t("Скопировать детали")}
               </Button>
-              <Button
+              {/* <Button
                 style={{
                   background: "white",
                   border: "1px solid rgba(208, 213, 221, 1)",
@@ -179,7 +142,7 @@ const AddCars = () => {
                 onClick={() => router.push(`/${locale}/drivers`)}
               >
                 {t("Отправить как смс")}
-              </Button>
+              </Button> */}
             </Flex>
           </DrawerFooter>
         </DrawerContent>

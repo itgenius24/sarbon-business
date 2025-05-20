@@ -162,26 +162,26 @@ export const MyCarsModule = () => {
                     return (
                       <CheckBoxComponent
                         opacity={item?.vehicles?.[0] ? 0.5 : 1}
-                        key={item?.user?.guid}
+                        key={item?.guid}
                         onClick={() =>
                           item?.vehicles?.[0]
                             ? null
-                            : setUserId(item?.user?.guid)
+                            : setUserId(item?.guid)
                         }
-                        active={item?.user?.guid === userId}
+                        active={item?.guid === userId}
                       >
                         <Box className={cls.countryWrap}>
                           <Flex gap={3}>
                             <Avatar
-                              name={item?.user?.full_name}
-                              src={item?.user?.photo}
+                              name={item?.full_name}
+                              src={item?.photo}
                             />
                             <Box>
                               <p className={cls.name}>
-                                {item?.user?.full_name}
+                                {item?.full_name}
                               </p>
                               <p className={cls.subTitle}>
-                                {item?.user?.phone}
+                                {item?.phone}
                               </p>
                             </Box>
                           </Flex>
@@ -298,13 +298,13 @@ export const MyCarsModule = () => {
                     return (
                       <CheckBoxComponent
                         opacity={item?.vehicles?.[0] ? 0.5 : 1}
-                        key={item?.user?.guid}
+                        key={item?.guid}
                         onClick={() =>
                           item?.vehicles?.[0]
                             ? null
-                            : setUserId(item?.user?.guid)
+                            : setUserId(item?.guid)
                         }
-                        active={item?.user?.guid === userId}
+                        active={item?.guid === userId}
                       >
                         <Box
                           width={`100%`}
@@ -314,15 +314,15 @@ export const MyCarsModule = () => {
                         >
                           <Flex gap={3}>
                             <Avatar
-                              name={item?.user?.full_name}
-                              src={item?.user?.photo}
+                              name={item?.full_name}
+                              src={item?.photo}
                             />
                             <Box>
                               <Box>
                                 <p className={cls.name}>
-                                  {item?.user?.full_name}
+                                  {item?.full_name}
                                 </p>
-                                <p className={cls.phone}>{item?.user?.phone}</p>
+                                <p className={cls.phone}>{item?.phone}</p>
                               </Box>
 
                               {item?.vehicles?.[0] && (

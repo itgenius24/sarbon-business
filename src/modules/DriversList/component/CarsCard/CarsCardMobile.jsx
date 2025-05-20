@@ -17,7 +17,6 @@ import {
   CricleArrovIcon,
   LocationActiveIcon,
   NoImFur,
-
   NoImgDrivers,
   PopupIcon,
 } from "@/assets/icons/icons";
@@ -31,23 +30,23 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const order = item?.orders?.filter((item) => item.provisions.includes(`performed`));
+  const order = item?.orders?.provisions.includes(`performed`);
 
 
   return (
     <Box
       className={cls.cardWrap}
       borderTop={`4px solid  ${
-         order?.length > 1 ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+         order ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Flex justifyContent={`space-between`} width={`100%`}>
         <Flex gap={`20px`} alignItems={`center`}>
           <Box>
-            {item && item?.user?.photo !== "photo" && item?.user?.photo ? (
+            {item && item?.photo !== "photo" && item?.photo ? (
               <Image
                 style={{ borderRadius: `50%`, width: `100px`, height: `100px` }}
-                src={item?.user?.photo}
+                src={item?.photo}
                 objectFit="cover"
                 width={`200`}
                 height={`100`}
@@ -61,8 +60,8 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
           </Box>
           <Flex gap={"50px"}>
             <Box>
-              <p className={cls.title}>{item?.user?.full_name}</p>
-              <p className={cls.phone}>{item?.user?.phone}</p>
+              <p className={cls.title}>{item?.full_name}</p>
+              <p className={cls.phone}>{item?.phone}</p>
             </Box>
           </Flex>
         </Flex>
@@ -97,7 +96,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                     className={cls.menuItem}
                     onClick={() =>
                       router.push(
-                        `/${locale}/drivers/create?id=${item?.user?.guid}`
+                        `/${locale}/drivers/create?id=${item?.guid}`
                       )
                     }
                   >
@@ -112,7 +111,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                     color: `rgba(255, 255, 255, 1)`,
                   }}
                   className={cls.menuItem}
-                  onClick={() => caroCencel(item?.user?.guid)}
+                  onClick={() => caroCencel(item?.guid)}
                 >
                   Открепить машину
                 </Box> */}
@@ -125,7 +124,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                       color: `rgba(255, 255, 255, 1)`,
                     }}
                     className={cls.menuItem}
-                    onClick={() => handleDelete(item?.user?.guid)}
+                    onClick={() => handleDelete(item?.guid)}
                   >
                     {t("Удалить водителя")}
                   </Box>
@@ -140,10 +139,10 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
 
       <Flex mt={`20px`} alignItems={`flex-end`} gap={"30px"} width={"100%"}>
         <Box width={"100%"}>
-          { order?.length > 1 ? (
+          { order ? (
             <Box
               background={
-                 order?.length > 1 ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
+                 order ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
               }
               gap={"30px"}
               alignItems={"center"}

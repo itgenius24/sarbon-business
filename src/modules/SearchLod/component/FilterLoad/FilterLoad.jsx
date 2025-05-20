@@ -37,7 +37,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
     results,
     hanleAdress,
     data,
-  } = useProps({ setValue });
+  } = useProps({ setValue, watch });
   return (
     <>
       <Flex
@@ -53,7 +53,8 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`from`), setAddress(e.target.value);
+              setActiveIndex(`from`),
+                setAddress(e.target.value)
             }}
             name={`from`}
             additionalOnclick={() => handleOpenModal(`from`, "loading")}
@@ -105,7 +106,8 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`to`), setAddress(e.target.value);
+                setActiveIndex(`to`),
+                setAddress(e.target.value)
             }}
             name={`to`}
             additionalOnclick={() => handleOpenModal(`to`, "loading")}
@@ -132,7 +134,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
 
                   return (
                     <Flex
-                      onClick={() => hanleAdress(location, `from`, "loading")}
+                      onClick={() => hanleAdress(location, `to`, "loading")}
                       key={idx}
                       gap={3}
                       alignItems={"center"}

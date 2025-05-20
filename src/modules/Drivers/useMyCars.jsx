@@ -1,22 +1,17 @@
 "use client";
 
 import {
-  useCheckUser,
   useCreateActionHistoriesMutation,
   useCreateUser,
-  useGetAddress,
-  useGetCarListOnSubmit,
+  useGetNewPred,
   useGetUserGpsByIDData,
-  useGetUserGpsData,
   useOfferFromCustomerMutation,
   useUpdateUser,
 } from "@/services/api";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
 import { useToast } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { isValidJSON } from "@/utils/isValidJSON";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
@@ -27,14 +22,13 @@ export const useMyCars = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [loadingFront, setLoadingFront] = useState(false);
 
   const router = useRouter();
 
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-
-  const toast = useToast();
 
   const {
     handleSubmit,
@@ -45,11 +39,12 @@ export const useMyCars = () => {
     reset,
     setValue,
     getValues,
+    clearErrors,
   } = useForm({});
-  
+
   const [isCopied, setCopied] = useClipboard(
     JSON.stringify(
-      `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`
+      `Его логин: ${watch(`phone`)};`
     )
   );
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
@@ -100,7 +95,7 @@ export const useMyCars = () => {
 
   const { mutate: updateDsate, isLoading } = useUpdateUser({
     onSuccess: (res) => {
-      setIsPopupOpen(true);
+      // setIsPopupOpen(true);
       actionCreate({
         data: {
           user_name: authStore.userData.full_name,
@@ -114,7 +109,7 @@ export const useMyCars = () => {
           action_type: [`update`],
         },
       });
-      // router.push(`/${locale}/drivers`);
+      router.push(`/${locale}/drivers`);
     },
   });
 
@@ -145,7 +140,6 @@ export const useMyCars = () => {
           full_name: normalizeName(val.full_name),
           phone: val?.phone,
           firm_id,
-          // password:val?.password,
           passport_scan: val?.passport_scan,
           passport_code: val?.passport_code,
           drivers_license: val?.drivers_license,
@@ -165,11 +159,49 @@ export const useMyCars = () => {
               : val?.phone,
             type: `register`,
             register_type: "phone",
-            email:``
+            email: ``,
           },
         },
       });
     }
+  };
+
+  const { mutate: uploadAiData } = useGetNewPred({
+    onSuccess: (res) => {
+      const jsonData = JSON.parse(
+        res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
+      );
+
+      if (jsonData?.passport_number) {
+        setValue(`passport_scan`, jsonData?.passport_number?.slice(0, 2));
+      }
+      if (jsonData?.passport_number) {
+        setValue(`passport_code`, jsonData?.passport_number?.slice(2));
+      }
+      if (jsonData?.name) {
+        setValue(
+          `full_name`,
+          `${jsonData?.name?.first_name || ``} ${jsonData?.name?.surname || ``}`
+        );
+      }
+
+      setLoadingFront(false);
+      clearErrors();
+    },
+  });
+
+  const uploadAi = (link, type) => {
+    console.log(`link`, link, type);
+
+    uploadAiData({
+      data: {
+        object_data: {
+          type: "licence",
+          document_type: type,
+          links: [link],
+        },
+      },
+    });
   };
   const copyFunction = () => {
     setCopied();
@@ -194,5 +226,8 @@ export const useMyCars = () => {
     copyFunction,
     open,
     setOpen,
+    loadingFront,
+    setLoadingFront,
+    uploadAi,
   };
 };

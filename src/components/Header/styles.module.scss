@@ -63,6 +63,10 @@ letter-spacing: 0px;
   font-style: normal;
   font-weight: 700;
   color: rgba(0, 51, 153, 1);
+  
+  @media (max-width: 1600px) {
+    font-size: 14px;
+  }
  
   &:hover {
     padding: 8px 12px;
@@ -160,7 +164,8 @@ letter-spacing: 0px;
   display: none;
 }
 
-@include xl {
+
+  @media (max-width: 1500px)  {
 
   .header {
     position: relative;
