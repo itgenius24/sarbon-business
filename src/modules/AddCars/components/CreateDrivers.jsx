@@ -77,6 +77,7 @@ const CreateDrivers = ({
               </Heading>
             </Flex>
             <UploadImgMobile
+            isCrop
               watch={watch}
               setValue={setValue}
               name={"drivers_license"}
@@ -96,6 +97,7 @@ const CreateDrivers = ({
 
         <Flex mt={`10px`} gap={4} flexDirection={`column`}>
           <UploadImgMobile
+          isCrop
             watch={watch}
             setValue={setValue}
             name={"front_side_trailer"}
@@ -111,6 +113,7 @@ const CreateDrivers = ({
             clearErrors={clearErrors}
           />
           <UploadImgMobile
+          isCrop
             watch={watch}
             setValue={setValue}
             name={"back_side_trailer"}

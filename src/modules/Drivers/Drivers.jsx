@@ -201,6 +201,7 @@ export const DriversModule = ({ locale }) => {
               </p>
 
               <UploadImg
+                isCrop
                 watch={watch}
                 setValue={setValue}
                 name={"drivers_license"}
@@ -253,6 +254,7 @@ export const DriversModule = ({ locale }) => {
           isLoading={isLoading}
           onClick={handleSubmit(onSubmit)}
           className={cls.nextBtn}
+          width={`fit-content`}
         >
           {t("Сохранить водителя")}
         </Button>
@@ -267,8 +269,11 @@ export const DriversModule = ({ locale }) => {
               <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
               <ModalBody>
                 <p style={{ fontWeight: 400, fontSize: "16px" }}>
-                {t("Аккаунт водителя был создан. Необходимо войти в приложение Sarbon с номером")}: {watch("phone") || ""}
-              </p>
+                  {t(
+                    "Аккаунт водителя был создан. Необходимо войти в приложение Sarbon с номером"
+                  )}
+                  : {watch("phone") || ""}
+                </p>
               </ModalBody>
 
               <ModalFooter>

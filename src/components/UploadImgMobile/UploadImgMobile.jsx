@@ -12,10 +12,20 @@ import {
   Spinner,
   useDisclosure,
   useMediaQuery,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { fileUpload } from "@/services/fileUpload";
 import { CameraIcon, PicturesIcon } from "@/assets/icons/icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Cropper } from "react-cropper";
+import "../../../node_modules/react-cropper/node_modules/cropperjs/dist/cropper.css";
+
 
 export const UploadImgMobile = ({
   watch,
@@ -33,22 +43,31 @@ export const UploadImgMobile = ({
   uploadAi = () => {},
   inputProps = {},
   type = ``,
-  clearErrors=()=>{},
+  isCrop = false,
+  clearErrors = () => {},
 }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
+  const {
+    onClose: onCloseCrop,
+    onOpen: onOpenCrop,
+    isOpen: isOpenCrop,
+  } = useDisclosure();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  const cropperRef = useRef(null);
+  const [cropImg, setCropImg] = useState();
+
   const handleImageUpload = async (e) => {
-    setLoading(true);
-    onClose();
-    const result = await fileUpload(e, setFileUploadLoading);
-    clearErrors(name);
+    const file = e.target.files[0];
 
-    setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-
-    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
+    if (file && isCrop) {
+      const reader = new FileReader();
+      reader.onloadend = () => setCropImg(reader.result);
+      reader.readAsDataURL(file);
+      onOpenCrop();
+    }
+    if (file && !isCrop) {
+      uploadIsCrop(e);
+    }
   };
 
   const openCamera = () => {
@@ -64,6 +83,53 @@ export const UploadImgMobile = ({
     input.click();
   };
 
+  const uploadIsCrop = async (e) => {
+    setLoading(true);
+    onClose();
+    onCloseCrop();
+    const result = await fileUpload(e, setFileUploadLoading);
+    clearErrors(name);
+
+    setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
+  };
+
+  const onCropDone = async (file) => {
+    onCloseCrop();
+    onClose();
+    setLoading(true);
+    const result = await fileUpload(file, setFileUploadLoading, `base64`);
+    setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
+    uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
+  };
+
+  const handleCrop = () => {
+    const cropper = cropperRef.current?.cropper;
+    if (cropper) {
+      cropper.getCroppedCanvas().toBlob(
+        (blob) => {
+          if (blob) {
+            const file = new File([blob], "cropped-image.jpg", {
+              type: "image/jpeg",
+            });
+            onCropDone(file);
+          }
+        },
+        "image/jpeg",
+        0.95
+      );
+    }
+  };
+
+  const closeModal = () => {
+    onCloseCrop();
+    setCropImg(null);
+    setValue(name, null);
+  };
 
   return (
     <>
@@ -220,6 +286,38 @@ export const UploadImgMobile = ({
           }}
         />
       )}
+
+      <Modal size={`4xl`} isOpen={isOpenCrop} onClose={() => closeModal()}>
+        <ModalOverlay onClose={() => closeModal()} />
+        <ModalContent>
+          <ModalHeader>Обрезать изображение</ModalHeader>
+          <ModalCloseButton onClose={() => closeModal()} />
+          <ModalBody padding={`8px 5px`}>
+            <Cropper
+              src={cropImg}
+              style={{ height: 600, width: "100%" }}
+              initialAspectRatio={1}
+              guides={true}
+              viewMode={1}
+              background={false}
+              responsive={true}
+              autoCropArea={0.5}
+              checkOrientation={false}
+              ref={cropperRef}
+              zoomTo={0.5}
+              preview=".img-preview"
+              minCropBoxHeight={10}
+              minCropBoxWidth={10}
+            />
+          </ModalBody>
+
+          <ModalFooter paddingTop={`0px`} paddingBottom={`5px`}>
+            <Button width={`fit-content`} onClick={handleCrop}>
+              Обрезать
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />

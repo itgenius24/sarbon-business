@@ -627,6 +627,7 @@ export const SearchCargoModule = () => {
                   <p className={cls.textFieldName}>{t("Фото Техпаспорта")} *</p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
+                      isCrop
                       watch={watch}
                       setValue={setValue}
                       name={"front_side_trailer"}
@@ -641,6 +642,7 @@ export const SearchCargoModule = () => {
                       uploadAi={uploadAi}
                     />
                     <UploadImg
+                      isCrop
                       watch={watch}
                       setValue={setValue}
                       name={"back_side_trailer"}
@@ -660,6 +662,7 @@ export const SearchCargoModule = () => {
                   <p className={cls.textFieldName}>{t("Фото машины")} *</p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
+                      isCrop={false}
                       watch={watch}
                       setValue={setValue}
                       name={"car_photo"}
@@ -721,7 +724,7 @@ export const SearchCargoModule = () => {
               )}
             </Box>
             <Button
-            mb={`20px`}
+              mb={`20px`}
               isLoading={loading}
               isDisabled={isBtn}
               onClick={handleSubmit(onSubmit)}
@@ -842,6 +845,11 @@ export const SearchCargoModule = () => {
           locale={locale}
           countries={countries}
           rules={rules}
+          uploadAi={uploadAi}
+          setLoadingFront={setLoadingFront}
+          setLoadingBack={setLoadingBack}
+          loadingBack={loadingBack}
+          loadingFront={loadingFront}
         />
       )}
     </>

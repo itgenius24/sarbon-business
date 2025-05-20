@@ -6,6 +6,7 @@ import { dir } from "i18next";
 import { languages } from "../i18n/settings";
 import Script from "next/script";
 
+
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   display: "swap",

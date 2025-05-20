@@ -76,6 +76,7 @@ const MobileComponent = ({
               uploadAi={uploadAi}
               type={`tech_pass`}
               clearErrors={clearErrors}
+              isCrop
             />
             <UploadImgMobile
               watch={watch}
@@ -91,6 +92,7 @@ const MobileComponent = ({
               isLoading={loadingBack}
               type={`tech_pass`}
               clearErrors={clearErrors}
+              isCrop
             />
           </Flex>
         </Box>

@@ -724,6 +724,8 @@ const CreateCars = ({
                         // rules={{ required: t("Это поле объязательно") }}
                         setFileUploadLoading={setFileUploadLoading2}
                         isLoading={isLoading2}
+                        isCrop
+
                       />
                       <UploadImgMobile
                         watch={watch}
@@ -736,6 +738,7 @@ const CreateCars = ({
                         // rules={{ required: t("Это поле объязательно") }}
                         setFileUploadLoading={setFileUploadLoading3}
                         isLoading={isLoading3}
+                        isCrop
                       />
                     </Flex>
                   </Box>
