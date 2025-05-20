@@ -701,6 +701,7 @@ export const SearchCargoModule = () => {
                     </Flex>
                     <Flex mt={`20px`} gap={4}>
                       <UploadImg
+                      isCrop
                         watch={watch}
                         setValue={setValue}
                         name={"front_side_trailer_1"}
@@ -710,6 +711,7 @@ export const SearchCargoModule = () => {
                         register={register}
                       />
                       <UploadImg
+                             isCrop
                         watch={watch}
                         setValue={setValue}
                         name={"back_side_trailer_1"}
