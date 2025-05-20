@@ -9,7 +9,6 @@ export function middleware(request) {
     ? JSON.parse(cookies.get("userData")?.value || {})?.dispatcher_type?.[0]
     : null;
 
-  console.log(`dispatcherRole`, dispatcherRole);
 
   const roleCarrierPages = [
     "/ru/add-cargo",

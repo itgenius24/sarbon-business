@@ -238,6 +238,7 @@ export const DriversModule = ({ locale }) => {
               name={"photo"}
               text={t("Загрузить фото")}
               icon={<UserIcon2 />}
+              isCrop
             />
             <p style={{ display: isLargerThan845 ? `block` : `none` }}>
               {t("Фото водителя")}
