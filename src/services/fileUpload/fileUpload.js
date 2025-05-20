@@ -1,11 +1,11 @@
 import authStore from "@/store/auth.store";
 import axios from "axios";
 
-export const fileUpload = async (e, setLoading = () => {}) => {
+export const fileUpload = async (e, setLoading = () => {},type) => {
   if (setLoading) setLoading(true); // 🔹 Yuklashni boshlash
 
   const formData = new FormData();
-  formData.append("file", e.target.files[0]);
+  formData.append("file",type === `base64`? e: e.target.files[0]);
 
   const fileUploadRequest = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASIC_URL,

@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import 'stream-chat-react/dist/css/v2/index.css';
 
+
 export function Providers({ children }) {
   const [queryClient] = React.useState(
     () =>

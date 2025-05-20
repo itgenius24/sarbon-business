@@ -699,6 +699,7 @@ export const CreateCarDis = () => {
                 <p className={cls.textFieldName}>{t("Фото Техпаспорта")} *</p>
                 <Flex gap={4} className={cls.ImgWrap}>
                   <UploadImg
+                  isCrop
                     watch={watch}
                     setValue={setValue}
                     name={"front_side_trailer"}
@@ -713,6 +714,7 @@ export const CreateCarDis = () => {
                     uploadAi={uploadAi}
                   />
                   <UploadImg
+                  isCrop
                     watch={watch}
                     setValue={setValue}
                     name={"back_side_trailer"}
