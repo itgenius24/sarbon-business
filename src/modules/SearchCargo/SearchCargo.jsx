@@ -30,7 +30,13 @@ import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Checkbox } from "@/components/Checkbox";
 import { TextField } from "@/components/TextField";
-import { CheckModalIcon, CloseIconOutline, ImgploadIcon1, ImgUload2 } from "@/assets/icons/icons";
+import {
+  CheckModalIcon,
+  CloseIconOutline,
+  ImgploadIcon1,
+  ImgploadIcon2,
+  ImgUload2,
+} from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
 import { countries } from "@/utils/country";
 import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
@@ -476,7 +482,9 @@ export const SearchCargoModule = () => {
 
                 <Flex gap={"24px"} width={`100%`} mt={`20px`}>
                   <Box width={`50%`}>
-                    <p className={cls.textFieldName}>{t("Экологический класс")}</p>
+                    <p className={cls.textFieldName}>
+                      {t("Экологический класс")}
+                    </p>
 
                     <Dropdown
                       control={control}
@@ -672,7 +680,7 @@ export const SearchCargoModule = () => {
                   gap={"24px"}
                   mt={"32px"}
                 >
-                  <Box className={cls.ImgWrap_2} width={"50%"} mt={"17px"}>
+                  <Box className={cls.ImgWrap_2} mt={"17px"}>
                     <Flex
                       width={`100%`}
                       alignItems={`center`}
@@ -702,7 +710,7 @@ export const SearchCargoModule = () => {
                         watch={watch}
                         setValue={setValue}
                         name={"back_side_trailer_1"}
-                        icon={<ImgploadIcon1 />}
+                        icon={<ImgploadIcon2 />}
                         text={t("Загрузить фото сзади")}
                         errors={errors}
                         register={register}
@@ -713,6 +721,7 @@ export const SearchCargoModule = () => {
               )}
             </Box>
             <Button
+            mb={`20px`}
               isLoading={loading}
               isDisabled={isBtn}
               onClick={handleSubmit(onSubmit)}

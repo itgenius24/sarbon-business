@@ -11,6 +11,7 @@ import { FilterIcon } from "@/assets/icons/icons";
 import { FilterLoadMobile } from "./component/FilterLoadMobile/FilterLoadMobile";
 import { CardLoad } from "./component/CardLoad/CardLoad";
 import TooltipComponets from "./component/TooltipComponets";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export const SearchLoadModule = ({ locale }) => {
   const {
@@ -41,7 +42,7 @@ export const SearchLoadModule = ({ locale }) => {
   return (
     <>
       <Container my="40px">
-        <Box  paddingBottom={`100px`}>
+        <Box paddingBottom={`100px`}>
           <Flex
             width={"100%"}
             alignItems={`center`}
@@ -92,29 +93,13 @@ export const SearchLoadModule = ({ locale }) => {
               isLoadingLo={isLoadingLo}
             />
           )}
-          {/* {!isLargerThan845 && (
-            <Flex
-              mt={`20px`}
-              flexDirection={`column`}
-              rowGap={`20px`}
-              alignItems={`center`}
-            >
-              {dataRes.map((item) => {
-                return (
-                  <CardLoad
-                    key={item?.guid}
-                    item={item}
-                    t={t}
-                    locale={locale}
-                    isTollTip={true}
-                    statusTooltip={statusTooltip}
-                  />
-                );
-              })}
-            </Flex>
-          )} */}
-        
-            <Box >
+
+          {isLoadingLo ? (
+            <Box mt={"32px"}>
+              <LoadingSpinner />
+            </Box>
+          ) : dataRes.length > 0 ? (
+            <Box>
               <TableComponent
                 isLargerThan845={isLargerThan845}
                 watch={watch}
@@ -130,11 +115,22 @@ export const SearchLoadModule = ({ locale }) => {
                 isLoadingLo={isLoadingLo}
               />
             </Box>
-      
+          ) : (
+            <Flex
+              mt={"32px"}
+              className={cls.noData}
+              width={`100%`}
+              height={`170px`}
+              alignItems={`center`}
+              justifyContent={`center`}
+            >
+              {t("Грузы не найдены.")}
+            </Flex>
+          )}
 
           {!isLoadingLo && dataRes?.length !== total && dataRes?.length > 0 && (
             <Button
-             isLoading={isLoadingLo}
+              isLoading={isLoadingLo}
               mt={`24px`}
               width={`fit-content`}
               onClick={() => loadMore()}

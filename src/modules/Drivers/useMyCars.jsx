@@ -3,6 +3,7 @@
 import {
   useCreateActionHistoriesMutation,
   useCreateUser,
+  useGetNewPred,
   useGetUserGpsByIDData,
   useOfferFromCustomerMutation,
   useUpdateUser,
@@ -21,6 +22,7 @@ export const useMyCars = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [loadingFront, setLoadingFront] = useState(false);
 
   const router = useRouter();
 
@@ -37,11 +39,12 @@ export const useMyCars = () => {
     reset,
     setValue,
     getValues,
+    clearErrors,
   } = useForm({});
-  
+
   const [isCopied, setCopied] = useClipboard(
     JSON.stringify(
-      `Его логин: ${watch(`phone`)};  Его пароль: ${watch(`password`)}`
+      `Его логин: ${watch(`phone`)};`
     )
   );
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
@@ -156,11 +159,49 @@ export const useMyCars = () => {
               : val?.phone,
             type: `register`,
             register_type: "phone",
-            email:``
+            email: ``,
           },
         },
       });
     }
+  };
+
+  const { mutate: uploadAiData } = useGetNewPred({
+    onSuccess: (res) => {
+      const jsonData = JSON.parse(
+        res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
+      );
+
+      if (jsonData?.passport_number) {
+        setValue(`passport_scan`, jsonData?.passport_number?.slice(0, 2));
+      }
+      if (jsonData?.passport_number) {
+        setValue(`passport_code`, jsonData?.passport_number?.slice(2));
+      }
+      if (jsonData?.name) {
+        setValue(
+          `full_name`,
+          `${jsonData?.name?.first_name || ``} ${jsonData?.name?.surname || ``}`
+        );
+      }
+
+      setLoadingFront(false);
+      clearErrors();
+    },
+  });
+
+  const uploadAi = (link, type) => {
+    console.log(`link`, link, type);
+
+    uploadAiData({
+      data: {
+        object_data: {
+          type: "licence",
+          document_type: type,
+          links: [link],
+        },
+      },
+    });
   };
   const copyFunction = () => {
     setCopied();
@@ -185,5 +226,8 @@ export const useMyCars = () => {
     copyFunction,
     open,
     setOpen,
+    loadingFront,
+    setLoadingFront,
+    uploadAi,
   };
 };
