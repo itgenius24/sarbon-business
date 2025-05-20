@@ -26,7 +26,6 @@ import { useRef, useState } from "react";
 import { Cropper } from "react-cropper";
 import "../../../node_modules/react-cropper/node_modules/cropperjs/dist/cropper.css";
 
-
 export const UploadImgMobile = ({
   watch,
   setValue,
@@ -308,6 +307,11 @@ export const UploadImgMobile = ({
               preview=".img-preview"
               minCropBoxHeight={10}
               minCropBoxWidth={10}
+              movable={true}
+              dragMode="move"
+              scalable={true} // rasmni o‘lchamini o‘zgartirish mumkin bo‘ladi
+              cropBoxMovable={true} // crop box'ni o‘zi harakatlansin
+              cropBoxResizable={true}
             />
           </ModalBody>
 

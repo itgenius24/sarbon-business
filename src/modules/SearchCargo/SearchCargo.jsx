@@ -662,7 +662,7 @@ export const SearchCargoModule = () => {
                   <p className={cls.textFieldName}>{t("Фото машины")} *</p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
-                      isCrop={false}
+                      isCrop
                       watch={watch}
                       setValue={setValue}
                       name={"car_photo"}
@@ -672,6 +672,7 @@ export const SearchCargoModule = () => {
                       setinputValue={setinputValue}
                       countries={countries}
                       locale={locale}
+                      
                     />
                   </Flex>
                 </Box>
