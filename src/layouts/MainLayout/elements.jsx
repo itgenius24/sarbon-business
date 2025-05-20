@@ -8,10 +8,10 @@ export const useElements = (lang) => {
 
   if (role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`) {
     return [
-      {
-        path: `/${lang || "ru"}/`,
-        label: "Главный",
-      },
+      // {
+      //   path: `/${lang || "ru"}/`,
+      //   label: "Главный",
+      // },
       {
         path: isAuth ? `/${lang || "ru"}/search-load` : `/${lang || "ru"}/auth`,
         label: "Поиск грузов",
@@ -39,10 +39,10 @@ export const useElements = (lang) => {
     ];
   } else if (dispatcher_type?.[0] === `first_dispatcher`) {
     return [
-      {
-        path: `/${lang || "ru"}/`,
-        label: "Главный",
-      },
+      // {
+      //   path: `/${lang || "ru"}/`,
+      //   label: "Главный",
+      // },
       {
         path: `/${lang || "ru"}/dashboard-dispatcher`,
         label: "Dashboard",
@@ -84,10 +84,10 @@ export const useElements = (lang) => {
     ];
   } else if (dispatcher_type?.[0] === `top_dispatcher`) {
     return [
-      {
-        path: `/${lang || "ru"}/`,
-        label: "Главный",
-      },
+      // {
+      //   path: `/${lang || "ru"}/`,
+      //   label: "Главный",
+      // },
       {
         path: `/${lang || "ru"}/dashboard-dispatcher-top`,
         label: "Dashboard",
@@ -133,10 +133,10 @@ export const useElements = (lang) => {
 
     if (user_type?.[0] === `approved`) {
       menu = [
-        {
-          path: `/${lang || "ru"}/`,
-          label: "Главный",
-        },
+        // {
+        //   path: `/${lang || "ru"}/`,
+        //   label: "Главный",
+        // },
         {
           path: isAuth
             ? `/${lang || "r u"}/add-cargo`
@@ -164,10 +164,10 @@ export const useElements = (lang) => {
       ];
     } else {
       menu = [
-        {
-          path: `/${lang || "ru"}/`,
-          label: "Главный",
-        },
+          // {
+          //   path: `/${lang || "ru"}/`,
+          //   label: "Главный",
+          // },
 
         {
           path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,
@@ -193,10 +193,10 @@ export const useElements = (lang) => {
     return menu;
   } else if (role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") {
     return [
-      {
-        path: `/${lang || "ru"}/`,
-        label: "Главный",
-      },
+      // {
+      //   path: `/${lang || "ru"}/`,
+      //   label: "Главный",
+      // },
       {
         path: `/${lang || "ru"}/dashboard`,
         label: "Аналитика",

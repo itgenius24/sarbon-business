@@ -75,6 +75,17 @@
            align-items: flex-start;
            row-gap: 16px;
            margin-top: 20px;
+           .img{
+            width: 110px;
+            height: auto;
+            object-fit: cover;
+           }
+           .ruStore{
+            width: 90px;
+           }
+           .galaxyStore{
+            width: 120px;
+           }
         }
       }
       flex-direction: column;
