@@ -37,6 +37,7 @@ const useProsp = () => {
   const [loadingFront, setLoadingFront] = useState(false);
   const [loadingBack, setLoadingBack] = useState(false);
   const [loadingDriver, setLoadingDriver] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -51,9 +52,7 @@ const useProsp = () => {
     getValues,
   } = useForm({});
   const [isCopied, setCopied] = useClipboard(
-    JSON.stringify(
-      `Его логин: ${watch(`phone`)}`
-    )
+    JSON.stringify(`Его логин: ${watch(`phone`)}`)
   );
 
   useEffect(() => {
@@ -198,12 +197,14 @@ const useProsp = () => {
   const { mutate: vehicleData, isLoading: lodingVehicle } = useCreateVehicle({
     onSuccess: (res) => {
       onOpen();
+      setCreateLoading(false);
     },
   });
 
   const { mutate: updateW, isLoading: upisLoading } = useUpdateVehicle({
     onSuccess: () => {
       router.push(`/${locale}/my-cars-dillers`);
+      setCreateLoading(false);
     },
   });
 
@@ -289,8 +290,6 @@ const useProsp = () => {
     }
   }, [getCarNumnber?.count > 0, inputValue?.length]);
 
-  console.log(`inputValue`, inputValue);
-
   const { mutate: checkUserData, isLoading: isLoadingCrate } =
     useOfferFromCustomerMutation({
       onSuccess: (res) => {
@@ -318,6 +317,7 @@ const useProsp = () => {
 
   const onSubmit = (val) => {
     if (id) {
+      setCreateLoading(true);
       updateDsate({
         data: {
           full_name: normalizeName(val?.full_name),
@@ -335,6 +335,7 @@ const useProsp = () => {
         },
       });
     } else {
+      setCreateLoading(true);
       checkUserData({
         data: {
           object_data: {
@@ -350,6 +351,10 @@ const useProsp = () => {
     }
   };
 
+  function removeSpaces(str) {
+    return str?.replace(/\s+/g, "");
+  }
+
   const { mutate: uploadAiData } = useGetNewPred({
     onSuccess: (res) => {
       const jsonData = JSON.parse(
@@ -360,9 +365,9 @@ const useProsp = () => {
       if (jsonData?.model) {
         setValue(`marka`, jsonData?.model);
       }
-      if (jsonData?.license_plate) {
-        setValue(`car_number`, jsonData?.license_plate);
-        setinputValue(jsonData?.license_plate);
+      if (jsonData?.license_plate && !watch(`car_number`)) {
+        setValue(`car_number`, removeSpaces(jsonData?.license_plate));
+        setinputValue(removeSpaces(jsonData?.license_plate));
       }
       if (jsonData?.chassis_number) {
         setValue(`car_vin_number`, jsonData?.chassis_number);
@@ -449,7 +454,6 @@ const useProsp = () => {
 
   const copyFunction = () => {
     setCopied();
-
     onClose();
     router.push(`/${locale}/my-cars-dillers`);
   };
@@ -484,6 +488,7 @@ const useProsp = () => {
     setLoadingDriver,
     loadingDriver,
     clearErrors,
+    createLoading,
   };
 };
 

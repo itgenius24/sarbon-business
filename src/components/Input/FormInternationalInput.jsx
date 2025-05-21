@@ -14,6 +14,7 @@ const FormInternationInput = ({
   rules = {},
   errors = {},
 }) => {
+  console.log("errors", errors);
   return (
     <Controller
       name={name}
@@ -27,7 +28,13 @@ const FormInternationInput = ({
           name={name}
           defaultCountry="uz"
           value={value}
-          defaultValue={""}
+          onChange={(e) => {
+            if (e.length > 4) {
+              onChange(e || "");
+            }else{
+               onChange("")
+            }
+          }}
           type="text"
           className={`${
             classes
@@ -39,9 +46,6 @@ const FormInternationInput = ({
               : "inputStyles"
           }`}
           placeholder={placeholder}
-          onChange={(e) => {
-            onChange(e);
-          }}
         />
       )}
     />

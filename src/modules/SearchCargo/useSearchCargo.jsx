@@ -164,8 +164,6 @@ export const useSearchCargo = () => {
         id) &&
       inputValue?.length > 0
     ) {
-     
-
       setValue(`car_number`, inputValue, {
         shouldValidate: true,
         shouldDirty: true,
@@ -211,6 +209,10 @@ export const useSearchCargo = () => {
     },
   });
 
+  function removeSpaces(str) {
+    return str?.replace(/\s+/g, "");
+  }
+
   const { mutate: uploadAiData } = useGetNewPred({
     onSuccess: (res) => {
       const jsonData = JSON.parse(
@@ -220,8 +222,9 @@ export const useSearchCargo = () => {
       if (jsonData?.model) {
         setValue(`marka`, jsonData?.model);
       }
-      if (jsonData?.license_plate) {
-        setValue(`car_number`, jsonData?.license_plate);
+      if (jsonData?.license_plate && !watch(`car_number`)) {
+        setValue(`car_number`, removeSpaces(jsonData?.license_plate));
+        setinputValue(removeSpaces(jsonData?.license_plate));
       }
       if (jsonData?.chassis_number) {
         setValue(`car_vin_number`, jsonData?.chassis_number);
