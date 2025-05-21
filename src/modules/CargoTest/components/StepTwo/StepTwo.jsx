@@ -218,6 +218,11 @@ const StepTwo = ({ status,locale }) => {
                         isDisabled={!canEdit || watch(`as_soon_as_a`)}
                         canEdit={canEdit}
                         onChange={(date) => {
+                           if(watch(`unloading`)[index]?.to_date){
+                            if(new Date(watch(`unloading`)[index]?.to_date) < date){
+                              setValue(`unloading[${index}].to_date`, date);
+                            }
+                          }
                           lodingChangeDate("loading", date, index, item?.guid);
                         }}
                         control={control}
