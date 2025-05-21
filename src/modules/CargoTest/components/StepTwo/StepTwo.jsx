@@ -471,7 +471,7 @@ const StepTwo = ({ status,locale }) => {
                         control={control}
                         name={`unloading[${index}].to_date`}
                         minDate={
-                          new Date(watch(`loadings[${index}].from_date`)) ||
+                          watch(`loadings[${index}].from_date`) ?  new Date(watch(`loadings[${index}].from_date`)) :
                           new Date()
                         }
                       />
