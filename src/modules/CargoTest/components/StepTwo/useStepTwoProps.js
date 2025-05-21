@@ -117,10 +117,7 @@ const useStepTwoProps = ({locale}) => {
   }
 
   function handleRemoveLoading(indx, id) {
-    setValue(
-      `loadings`,
-      watch(`loadings`)?.filter((item, index) => index !== indx)
-    );
+    setValue(`loadings`, watch(`loadings`)?.filter((item, index) => index !== indx));
     if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
@@ -139,6 +136,7 @@ const useStepTwoProps = ({locale}) => {
   }
 
   function handleUnloadingRemove(indx, id) {
+    setValue(`unloading`,watch(`unloading`)?.filter((item, index) => index !== indx));
     if (id) {
       const period_ids = watch(`period_ids`) || [];
       const data = period_ids?.filter((item) => item === id);
@@ -146,10 +144,6 @@ const useStepTwoProps = ({locale}) => {
         setValue(`period_ids`, [...period_ids, id]);
       }
     }
-    setValue(
-      `unloading`,
-      watch(`unloading`)?.filter((item, index) => index !== indx)
-    );
   }
 
   function handleOpenModal(name, index, type) {
@@ -187,6 +181,7 @@ const useStepTwoProps = ({locale}) => {
         }
       } else {
         setValue(`unloading.${[index]}`, {
+           ...watch(`unloading`)[index],
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           to_date: watch(`unloading[${index}].to_date`) || "",
@@ -239,6 +234,7 @@ const useStepTwoProps = ({locale}) => {
       }
     } else {
       setValue(`unloading.${[index]}`, {
+         ...watch(`unloading`)[index],
         address: watch(`unloading[${index}].address`),
         cor: location?.GeoObject?.Point?.pos?.split(` `)?.reverse()?.join(` `),
         to_date: watch(`unloading[${index}].to_date`) || "",

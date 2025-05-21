@@ -108,6 +108,8 @@ const StepFive = ({ status,locale }) => {
     onError() {},
   });
 
+  console.log(`loadings`, loadings);
+
 
   const createCargo = useCreateCargoMutation({
     onSuccess: (data) => {
@@ -128,7 +130,7 @@ const StepFive = ({ status,locale }) => {
 
       let loadingsData = loadings.map((item, index) => ({
         address: item?.address,
-        date: new Date(item.from_date),
+        date: item.from_date ?  new Date(item.from_date) :null,
         lat: item?.cor.split(" ")[0],
         long: item?.cor.split(" ")[1],
         step: index + 1,
@@ -138,7 +140,7 @@ const StepFive = ({ status,locale }) => {
 
       let unloadinData = unloading.map((item, index) => ({
         address: item?.address,
-        date: new Date(item.to_date),
+        date: item.to_date ?  new Date(item.to_date) : null,
         lat: item?.cor.split(" ")[0],
         long: item?.cor.split(" ")[1],
         step: index + 1,
