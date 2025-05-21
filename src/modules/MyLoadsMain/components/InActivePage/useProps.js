@@ -1,12 +1,9 @@
-import { useGetOffer, useGetUserCargo } from "@/services/api";
+import { useGetUserCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { useToast } from "@chakra-ui/react";
-import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, } from "@tanstack/react-query";
 import { useState } from "react";
 
 const useProps = (orderStatus, t) => {
-  const toast = useToast();
-  const role_id = authStore.userData.role_id;
   const userId = authStore.userData.id;
   const [limit, setLimit] = useState(40);
 
@@ -23,12 +20,15 @@ const useProps = (orderStatus, t) => {
     },
     {
       placeholderData: keepPreviousData,
+      enabled: Boolean(orderStatus === `in_active`),
     }
   );
 
+
   return {
-    cargoData: getAllUserCargo.data?.response,
+    cargoData: getAllUserCargo.data?.response || [],
     isLoading: getAllUserCargo?.isLoading,
+    isFetching: getAllUserCargo?.isFetching,
   };
 };
 
