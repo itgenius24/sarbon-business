@@ -38,7 +38,6 @@ const CreateDrivers = ({
     setPasswordVisible(!isPasswordVisible);
   }
 
-
   const formatPhoneNumber = (value) => {
     let input = value.replace(/\D/g, ""); // Faqat raqamlarni olish
     if (input.length > 3) input = input.slice(0, 3) + " " + input.slice(3);
@@ -77,7 +76,7 @@ const CreateDrivers = ({
               </Heading>
             </Flex>
             <UploadImgMobile
-            isCrop
+              isCrop
               watch={watch}
               setValue={setValue}
               name={"drivers_license"}
@@ -97,7 +96,7 @@ const CreateDrivers = ({
 
         <Flex mt={`10px`} gap={4} flexDirection={`column`}>
           <UploadImgMobile
-          isCrop
+            isCrop
             watch={watch}
             setValue={setValue}
             name={"front_side_trailer"}
@@ -113,7 +112,7 @@ const CreateDrivers = ({
             clearErrors={clearErrors}
           />
           <UploadImgMobile
-          isCrop
+            isCrop
             watch={watch}
             setValue={setValue}
             name={"back_side_trailer"}
@@ -214,7 +213,15 @@ const CreateDrivers = ({
           borderBottom={`1px solid rgba(219, 216, 227, 1)`}
         >
           <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
-          <TextField
+          <FormInternationInput
+            errors={errors}
+            control={control}
+            name={`phone`}
+            rules={{
+              required: t("Это поле объязательно "),
+            }}
+          />
+          {/* <TextField
             register={register}
             errors={errors}
             name="phone"
@@ -223,10 +230,10 @@ const CreateDrivers = ({
             rules={{
               required: t("Это поле объязательно "),
             }}
-          />
+          /> */}
         </Box>
 
-        {!id && (
+        {/* {!id && (
           <Box
             mt={`25px`}
             paddingBottom={`25px`}
@@ -234,6 +241,7 @@ const CreateDrivers = ({
           >
             <p className={cls.textFieldName}>{t("Придумайте пароль")} *</p>
             <TextField
+              autocomplete="off" 
               register={register}
               rules={{
                 required: {
@@ -252,12 +260,13 @@ const CreateDrivers = ({
               }
             />
           </Box>
-        )}
+        )} */}
 
         <Box mt={`25px`}>
           <p className={cls.textFieldName}>{t("Фото водителя")}</p>
 
           <UploadImgMobile
+          isCrop
             isColor={true}
             watch={watch}
             setValue={setValue}

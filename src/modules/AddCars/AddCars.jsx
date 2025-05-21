@@ -51,6 +51,7 @@ const AddCars = () => {
     loadingFront,
     uploadAi,
     clearErrors,
+    createLoading
   } = useProsp();
 
   return (
@@ -96,9 +97,9 @@ const AddCars = () => {
           clearErrors={clearErrors}
         />
 
-        <Flex className={cls.wrapBtn}>
+        <Flex pb={`20px`} className={cls.wrapBtn}>
           <Button
-            isLoading={isLoading}
+            isLoading={createLoading}
             isDisabled={isBtn}
             onClick={handleSubmit(onSubmit)}
             className={cls.nextBtn}
@@ -132,17 +133,6 @@ const AddCars = () => {
               >
                 {t("Скопировать детали")}
               </Button>
-              {/* <Button
-                style={{
-                  background: "white",
-                  border: "1px solid rgba(208, 213, 221, 1)",
-                  color: "black",
-                }}
-                className={cls.btngreen}
-                onClick={() => router.push(`/${locale}/drivers`)}
-              >
-                {t("Отправить как смс")}
-              </Button> */}
             </Flex>
           </DrawerFooter>
         </DrawerContent>

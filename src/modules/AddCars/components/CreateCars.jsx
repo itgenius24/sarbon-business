@@ -205,7 +205,7 @@ const CreateCars = ({
               e.target.value = e.target.value
                 .replace(/[^A-Za-z0-9]/g, "")
                 .toUpperCase();
-              setinputValue(e.target.value);
+                setinputValue(e.target.value);
             }}
           />
           <Flex ml={4} gap={2} mt={1}>
@@ -751,6 +751,7 @@ const CreateCars = ({
           <p className={cls.textFieldName}>{t("Фото машины")}</p>
           <Flex gap={4} className={cls.ImgWrap}>
             <UploadImgMobile
+              isCrop
               watch={watch}
               setValue={setValue}
               name={"car_photo"}
