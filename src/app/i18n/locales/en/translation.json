@@ -617,7 +617,9 @@
   "После модерации он станет доступен для поиска в системе": "After moderation it will become available for search in the system",
   "Добавить новый груз": "Add new cargo",
   "Шаблон успешно добавлен": "Template successfully added",
-  "ДСП": "DSP"
+  "ДСП": "DSP",
+  "Введен неверный код": "Invalid code entered"
+
 
 
 }

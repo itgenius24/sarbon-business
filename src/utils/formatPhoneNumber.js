@@ -4,7 +4,7 @@ export function formatPhoneNumber(phoneNumber) {
 
   if (phoneNumber?.length === 12) {
     // Raqamni `+998 97 913 69 19` formatiga keltiramiz
-    return `+${phoneNumber?.slice(0, 3)} ${phoneNumber?.slice(3, 5)} ${phoneNumber?.slice(5, 8)} ${phoneNumber?.slice(8, 10)} ${phoneNumber?.slice(10, 12)}`;
+    return `+${phoneNumber?.slice(0, 3)} (${phoneNumber?.slice(3, 5)}) ${phoneNumber?.slice(5, 8)}-${phoneNumber?.slice(8, 10)}-${phoneNumber?.slice(10, 12)}`;
   } else {
     return phoneNumber;
   }
