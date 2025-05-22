@@ -31,7 +31,7 @@ export const TextField = ({
       >
         {addonBefore && <span className={cls.before}>{addonBefore}</span>}
         <input
-         onClick={onClick}
+          onClick={onClick}
           onWheel={(e) => e.target.blur()}
           className={clsx(
             cls.fieldInput,
@@ -44,21 +44,17 @@ export const TextField = ({
           placeholder={placeholder}
           {...register(name, rules)}
           {...props}
-
-
         />
-        {addonAfter && (
-          <span className={cls.after}>{addonAfter}</span>
-        )}
-        
-      
+        {addonAfter && <span className={cls.after}>{addonAfter}</span>}
       </div>
       {errors?.[name] && (
-          <span className={clsx(cls.errorMessage, errorClassName)}>
-            {errors?.[name]?.message}
-          </span>
-        )}
-      {bottomText && !errors?.[name] && <span className={cls.bottomText}>{bottomText}</span>}
+        <span className={clsx(cls.errorMessage, errorClassName)}>
+          {errors?.[name]?.message}
+        </span>
+      )}
+      {bottomText && !errors?.[name] && (
+        <span className={cls.bottomText}>{bottomText}</span>
+      )}
     </div>
   );
 };

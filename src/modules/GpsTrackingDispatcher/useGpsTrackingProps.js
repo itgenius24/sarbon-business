@@ -27,8 +27,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = (locale) => {
-  const router = useRouter()
-  const mapRef = useRef()
+  const router = useRouter();
+  const mapRef = useRef();
   const searchParams = useSearchParams();
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
@@ -139,7 +139,7 @@ export const useGpsTrackingProps = (locale) => {
               cargo_id_data: res?.response?.[0],
             },
           ],
-          disp_data: [{ users_id_2: dispatcher_id }]
+          disp_data: [{ users_id_2: dispatcher_id }],
         };
         setCurrentUserLocationData(objContend);
         if (provisions === "empty") {
@@ -342,12 +342,11 @@ export const useGpsTrackingProps = (locale) => {
           users_gps: [item],
           orders: item?.order_data ? [item?.order_data] : undefined,
         }));
-   
+
         setCarsArr((res) => [...res, ...data2]);
       }
     },
   });
-
 
   useEffect(() => {
     if (guid || !cargo_guid) {
@@ -361,7 +360,7 @@ export const useGpsTrackingProps = (locale) => {
         users_gps: [
           {
             battery,
-            update_time:createdAt,
+            update_time: createdAt,
             os,
             lat,
             long,
@@ -382,7 +381,7 @@ export const useGpsTrackingProps = (locale) => {
             },
           },
         ],
-        disp_data: [{ users_id_2: dispatcher_id }]
+        disp_data: [{ users_id_2: dispatcher_id }],
       };
       setCurrentUserLocationData(objContend);
       if (provisions === "empty") {
@@ -393,10 +392,13 @@ export const useGpsTrackingProps = (locale) => {
         setModalType("driverQuestion");
       } else if (provisions === "broke_down") {
         setModalType("driverFree");
+      } else if (provisions === "waiting_for_driver") {
+        setModalType("driverExpectation");
       }
     }
   }, []);
 
+  console.log(`currentUserLocationData`, provisions);
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -610,20 +612,19 @@ export const useGpsTrackingProps = (locale) => {
     });
   };
 
-  const handleCheckboxChange = (status,status_waiting) => {
-    if(status_waiting){
+  const handleCheckboxChange = (status, status_waiting) => {
+    if (status_waiting) {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
         [status_waiting]: !prevState[status_waiting],
       }));
-    }else{
+    } else {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
       }));
     }
-  
   };
   const handleInputClear = () => {
     setOffset(0);
@@ -699,6 +700,7 @@ export const useGpsTrackingProps = (locale) => {
     setIsBalloonOpened,
     refueling: remainingData,
     mapRef,
-     isFuelMap, setIsFuelMap
+    isFuelMap,
+    setIsFuelMap,
   };
 };

@@ -186,7 +186,7 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
              <p className={cls.cardStartSubTitle}>Предоплата: <span>{currentUserLocationData?.orders?.[0]?.cargo_id_data?.prepayment_percentage > 0 ? "Дa" : "Нет" }</span></p>
           </Flex>
         </Box>
-        <Box className={cls.cardWrapOutline}>
+        {/* <Box className={cls.cardWrapOutline}>
            <Flex width={'100%'} alignItems={'center'} gap={3}>
             <Avatar  name={currentUserLocationData?.orders?.[0]?.users_id_3_data?.full_name} src={currentUserLocationData?.orders?.[0]?.users_id_3_data?.photo}  />
              <Box>
@@ -198,7 +198,7 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
 
              </Box>
            </Flex>
-        </Box>
+        </Box> */}
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />

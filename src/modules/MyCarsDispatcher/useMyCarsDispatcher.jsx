@@ -252,15 +252,29 @@ export const useMyCarsDispatcher = () => {
   };
 
   const navigateFn = (row) => {
-   window.open(
-      `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${row?.gps_data?.battery}&createdAt=${row?.gps_data?.update_time}&location_name=${row?.gps_data?.location_name}&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${row?.gps_data?.version}&guid=${row?.guid}&provisions=${row?.provisions}&phone=${row?.phone}&car_number=${row?.vehicle_data?.car_number || ``}&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
-        row?.vehicle_data?.car_type || ``}&car_capacity=${
-        row?.vehicle_data?.capacity ||``
-      }&car_height=${row?.vehicle_data?.height || ``}&car_type_name=${
+    console.log(`row`, row?.provisions || `empty`);
+    window.open(
+      `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${
+        row?.gps_data?.battery
+      }&createdAt=${row?.gps_data?.update_time}&location_name=${
+        row?.gps_data?.location_name
+      }&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${
+        row?.gps_data?.long
+      }&version=${row?.gps_data?.version}&guid=${row?.guid}&provisions=${
+        row?.provisions?.[0] ? row?.provisions : [`empty`]
+      }&phone=${row?.phone}&car_number=${
+        row?.vehicle_data?.car_number || ``
+      }&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
+        row?.vehicle_data?.car_type || ``
+      }&car_capacity=${row?.vehicle_data?.capacity || ``}&car_height=${
+        row?.vehicle_data?.height || ``
+      }&car_type_name=${
         row?.trailer_type_id_data?.[`name_${locale}`]
           ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
           : row?.trailer_type_id_data?.name || ``
-      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${row?.first_dispatcher_data?.guid || ``}`
+      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${
+        row?.first_dispatcher_data?.guid || ``
+      }`
     );
     // window.open(
     //   `/${locale}/gps-tracking-dispatcher?guid=${row?.guid}&provisions=${row?.provisions}`
@@ -472,7 +486,7 @@ export const useMyCarsDispatcher = () => {
                 <Flex width={`100%`} justifyContent={`space-between`}>
                   <Flex ml={`10px`} alignItems={`center`} gap={2}>
                     <Flex
-                    cursor={`pointer`}
+                      cursor={`pointer`}
                       onClick={() => navigateFn(row)}
                       gap={`3px`}
                       alignItems={`center`}
@@ -660,61 +674,80 @@ export const useMyCarsDispatcher = () => {
   const { mutate: userUpdate } = useUpdateUserInfo({
     onSuccess() {
       setOpen(false);
-      setIconStatus(``);
-
+      actionCreate({
+        data: {
+          user_name: authStore.userData.full_name,
+          phone_number: authStore.userData?.phone,
+          user_id: authStore.userData.guid,
+          increment_id: open?.your_id,
+          action_time: new Date(),
+          role_slug: `first_dispatcher`,
+          action_comment: `changed_driver_status`,
+          role_id: authStore.userData?.role_id,
+          action_type: [`update`],
+        },
+      });
       if (iconStatus === `our_cargo`) {
-        return setVisibleData((prevData) =>
+        setVisibleData((prevData) =>
           prevData.map((item) =>
-            item.guid === open.guid ? { ...item, status: `Занята` } : item
+            item.guid === open.guid
+              ? { ...item, status: `Занята`, provisions: [iconStatus] }
+              : item
           )
         );
       } else if (iconStatus === `someone_cargo`) {
-        return setVisibleData((prevData) =>
+        setVisibleData((prevData) =>
           prevData.map((item) =>
             item.guid === open.guid
-              ? { ...item, status: `Занята чужим грузом` }
+              ? {
+                  ...item,
+                  status: `Занята чужим грузом`,
+                  provisions: [iconStatus],
+                }
               : item
           )
         );
       } else if (iconStatus === `broke_down`) {
-        return setVisibleData((prevData) =>
+        setVisibleData((prevData) =>
           prevData.map((item) =>
             item.guid === open.guid
               ? {
                   ...item,
                   status: `Неисправна`,
+                  provisions: [iconStatus],
                 }
               : item
           )
         );
       } else if (iconStatus === `empty`) {
-        return setVisibleData((prevData) =>
+        setVisibleData((prevData) =>
           prevData.map((item) =>
             item.guid === open.guid
               ? {
                   ...item,
                   status: `Свободная`,
+                  provisions: [iconStatus],
                 }
               : item
           )
         );
       } else {
-        return setVisibleData((prevData) =>
+        setVisibleData((prevData) =>
           prevData.map((item) =>
             item.guid === open.guid
               ? {
                   ...item,
                   status: `Нет Статус`,
+                  provisions: [iconStatus],
                 }
               : item
           )
         );
       }
+      setIconStatus(``);
     },
     onError() {},
   });
-
-  console.log(`open`, open);
 
   const statusIconChange = () => {
     const body = {
