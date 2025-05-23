@@ -70,6 +70,7 @@ const StepThere = ({ status,locale }) => {
     onSubmit,
     handleResetForm,
     setEditModal,
+    hanleChange
   } = useStepThereProps({locale});
 
 
@@ -167,6 +168,10 @@ const StepThere = ({ status,locale }) => {
                       errors={errors}
                       name="transport_count"
                       placeholder={t("0")}
+                      onChange={(e) =>
+                        hanleChange(e)
+                      }
+
                     />
                   </Box>
                   <Flex alignItems={"center"}>

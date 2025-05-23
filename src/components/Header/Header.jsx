@@ -24,6 +24,7 @@ import { useGetLang } from "@/hooks/useGetLang";
 import UserImg from "@/assets/images/user.png";
 import { AddDillerMunu } from "@/assets/icons/icons";
 import { ContainerNav } from "../ContainerNav/Container";
+import ChatPopover from "../ChatPopover/ChatPopover";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -91,9 +92,9 @@ const Header = observer(({ elements }) => {
                         className={clsx(cls.itemLink, {
                           [cls.activeLink]: index
                             ? pathname.includes(element.path)
-                            : pathname === element.path
-                            //  ||
-                            //   (pathname.slice(3) === `` && index === 0),
+                            : pathname === element.path,
+                          //  ||
+                          //   (pathname.slice(3) === `` && index === 0),
                         })}
                       >
                         {t(element.label)}
@@ -164,10 +165,11 @@ const Header = observer(({ elements }) => {
                   )}
                   <Box className={cls.localeBox} display="flex" columnGap="4px">
                     <LocaleDropdown locale={locale} />
-                    {/* <IconButton variant="reset"> */}
-                    {/* <LanguageIcon /> */}
-                    {/* </IconButton> */}
                   </Box>
+                    <Box>
+                    <ChatPopover locale={locale}  />
+                  </Box>
+                
                   {isAuth && (
                     <Flex
                       cursor={`pointer`}
