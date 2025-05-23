@@ -166,10 +166,10 @@ const Header = observer(({ elements }) => {
                   <Box className={cls.localeBox} display="flex" columnGap="4px">
                     <LocaleDropdown locale={locale} />
                   </Box>
-                    <Box>
-                    <ChatPopover locale={locale}  />
-                  </Box>
-                
+                  {/* <Box>
+                    <ChatPopover locale={locale} />
+                  </Box> */}
+
                   {isAuth && (
                     <Flex
                       cursor={`pointer`}
