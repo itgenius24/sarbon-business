@@ -645,6 +645,8 @@
   "Добавить новый груз": "Yangi yuk qo'shing",
   "Шаблон успешно добавлен": "Shablon muvaffaqiyatli qo'shildi",
   "ДСП": "DSP",
-  "Введен неверный код": "Kod noto'g'ri kiritildi"
+  "Введен неверный код": "Kod noto'g'ri kiritildi",
+   "Ошибка": "Xatolik",
+  "Произошла ошибка при загрузке файла": "Fayl yuklashda xatolik yuz berdi"
 
 }

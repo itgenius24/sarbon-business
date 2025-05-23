@@ -618,7 +618,9 @@
   "Добавить новый груз": "Add new cargo",
   "Шаблон успешно добавлен": "Template successfully added",
   "ДСП": "DSP",
-  "Введен неверный код": "Invalid code entered"
+  "Введен неверный код": "Invalid code entered",
+    "Ошибка": "Error",
+  "Произошла ошибка при загрузке файла": "An error occurred while uploading the file"
 
 
 

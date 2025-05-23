@@ -1,11 +1,13 @@
 import authStore from "@/store/auth.store";
 import axios from "axios";
 
-export const fileUpload = async (e, setLoading = () => {},type) => {
+export const fileUpload = async (e, setLoading = () => {}, type,toast) => {
+
+
   if (setLoading) setLoading(true); // 🔹 Yuklashni boshlash
 
   const formData = new FormData();
-  formData.append("file",type === `base64`? e: e.target.files[0]);
+  formData.append("file", type === `base64` ? e : e.target.files[0]);
 
   const fileUploadRequest = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASIC_URL,
@@ -34,10 +36,25 @@ export const fileUpload = async (e, setLoading = () => {},type) => {
 
   try {
     const fileUpload = await fileUploadRequest
-      .post("https://api.admin.furgo.uz/v1/files/folder_upload?folder_name=media", formData)
+      .post(
+        "https://api.admin.furgo.uz/v1/files/folder_upload?folder_name=media",
+        formData
+      )
       .then((res) => res.data);
 
     return fileUpload;
+  } catch (error) {
+    toast({
+      title: `Ошибка`,
+      description: `Произошла ошибка при загрузке файла`,
+      status: "error",
+      duration: 3000,
+      position: `top-right`,
+      isClosable: true,
+    });
+
+    if (setLoading) setLoading(false); // 🔹 Xatolik bo‘lsa, loadingni o‘chir
+    return null;
   } finally {
     if (setLoading) setLoading(false); // 🔹 Yuklash tugadi
   }

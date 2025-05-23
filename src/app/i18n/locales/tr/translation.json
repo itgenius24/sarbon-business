@@ -623,7 +623,9 @@
   "После модерации он станет доступен для поиска в системе": "Moderasyondan geçtikten sonra sistemde aranabilir hale gelecektir",
   "Добавить новый груз": "Yeni kargo ekle",
   "Шаблон успешно добавлен": "Şablon başarıyla eklendi",
-  "Введен неверный код": "Geçersiz kod girildi"
+  "Введен неверный код": "Geçersiz kod girildi",
+    "Ошибка": "Hata",
+  "Произошла ошибка при загрузке файла": "Dosya yüklenirken bir hata oluştu"
 
 
    
