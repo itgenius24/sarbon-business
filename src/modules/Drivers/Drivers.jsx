@@ -267,7 +267,7 @@ export const DriversModule = ({ locale }) => {
               <ModalHeader>
                 <CheckModalIcon />
               </ModalHeader>
-              <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
+              {/* <ModalCloseButton onClick={() => setIsPopupOpen(false)} /> */}
               <ModalBody>
                 <p style={{ fontWeight: 400, fontSize: "16px" }}>
                   {t(
@@ -397,7 +397,7 @@ export const DriversModule = ({ locale }) => {
               <ModalBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Водитель с номером")} {watch(`phone`)}{" "}
-                  {t("уже регистрирован в Furgo")}
+                  {t("уже регистрирован в Sarbon")}
                 </p>
                 <Box mt={`24px`}>
                   <p
