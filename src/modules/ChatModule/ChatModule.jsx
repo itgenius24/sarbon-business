@@ -7,21 +7,19 @@ import {
   Window,
   ChannelHeader,
   MessageList,
-  MessageInput,
   ChannelList,
   Thread,
-  useChatContext,
   ChannelPreviewMessenger,
 } from "stream-chat-react";
-import { encodeToMp3 } from "stream-chat-react/mp3-encoder";
-
 import { getToken } from "@/utils/getToken";
 import { Box } from "@chakra-ui/react";
+import { MessageInputWithLocationButton } from "./components/MessageInputWithLocationButton/MessageInputWithLocationButton";
+import { AttachmentWithMap } from "./components/AttachmentWithMap/AttachmentWithMap";
 
 const ChatModule = () => {
   const [channel, setChannel] = useState(null);
   const [client, setClient] = useState(null);
-  console.log(`channel`,channel?.state?.members)
+  console.log(`channel`, channel?.state?.members);
 
   const apiKey = "8qurbezqtr38"; // Stream API key
 
@@ -52,20 +50,18 @@ const ChatModule = () => {
     if (client) return () => client.disconnectUser();
   }, []);
 
-
-
-  if ( !client) return <div>Yuklanmoqda...</div>; // Agar channel yoki kanal tayyor bo'lmasa
+  if (!client) return <div>Yuklanmoqda...</div>; // Agar channel yoki kanal tayyor bo'lmasa
 
   return (
     <Chat client={client} theme="messaging light">
       <div style={{ display: "flex", height: "90vh" }}>
         <Box width={`400px`}>
           <ChannelList
-          showChannelSearch
-              additionalChannelSearchProps={{
-        filters,
-        sort,
-      }}
+            showChannelSearch
+            additionalChannelSearchProps={{
+              filters,
+              sort,
+            }}
             filters={filters}
             sort={sort}
             Preview={(props) => (
@@ -80,19 +76,14 @@ const ChatModule = () => {
           />
         </Box>
         <Box width={`100%`}>
-          <Channel channel={channel}>
+          <Channel Attachment={AttachmentWithMap} channel={channel}>
             <Window>
               <Box width={`100%`} borderBottom={"1px solid #e2e8f0"}>
                 <ChannelHeader />
               </Box>
-              <MessageList /> 
-              <MessageInput
-                audioRecordingEnabled
-                focus
-                audioRecordingConfig={{
-                  transcoderConfig: { encoder: encodeToMp3 },
-                }}
-              />{" "}
+              <MessageList />
+              <MessageInputWithLocationButton />
+          
             </Window>
             <Thread />
           </Channel>
