@@ -123,7 +123,6 @@ export const MyCarsDispatcherModule = () => {
                   <Box width={`160px`}>
                     <Dropdown
                       disabled={watch(`driver`)?.label === `Без диспетчера`}
-                     
                       control={control}
                       register={register}
                       watch={watch}
@@ -161,7 +160,7 @@ export const MyCarsDispatcherModule = () => {
                       placeholder={`Дата с`}
                       leftText={`с`}
                       onChange={() => {
-                        setValue(`date`,``)
+                        setValue(`date`, ``);
                         clearFn();
                       }}
                     />
@@ -177,7 +176,7 @@ export const MyCarsDispatcherModule = () => {
                       placeholder={`Дата по`}
                       leftText={`по`}
                       onChange={() => {
-                        setValue(`date`,``)
+                        setValue(`date`, ``);
                         clearFn();
                       }}
                     />
@@ -221,15 +220,23 @@ export const MyCarsDispatcherModule = () => {
             </Flex>
           </Flex>
 
-          <Box mt={"37px"}>
-            <SarbonTable
-              rowClassName={rowClassName}
-              onRow={(row) => handleCheckboxChange(row)}
-              variant="card"
-              columns={columns}
-              data={data}
-            />
-          </Box>
+          {data?.length > 0 && (
+            <Box mt={"37px"}>
+              <SarbonTable
+                rowClassName={rowClassName}
+                onRow={(row) => handleCheckboxChange(row)}
+                variant="card"
+                columns={columns}
+                data={data}
+              />
+            </Box>
+          )}
+
+          {data?.length === 0 && !isLoading && (
+            <Box mt={"37px"} className={cls.noData}>
+              {t("Водители не найдены")}
+            </Box>
+          )}
 
           {isLoading && data?.length <= 50 && (
             <Box pt={`20px`}>

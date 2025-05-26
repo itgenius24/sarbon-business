@@ -20,9 +20,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import {
-  SearchIcon,
-} from "@/assets/icons/icons";
+import { SearchIcon } from "@/assets/icons/icons";
 
 import cls from "./style.module.scss";
 import { useMyCarsDispatcher } from "./useMyCarsDispatcher";
@@ -35,7 +33,6 @@ export const MyCarsDispatcherModule = () => {
   const {
     t,
     data,
-
     isLoading,
     setSearchFn,
     search,
@@ -50,7 +47,6 @@ export const MyCarsDispatcherModule = () => {
     columns,
     rowClassName,
   } = useMyCarsDispatcher();
-
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
@@ -106,15 +102,20 @@ export const MyCarsDispatcherModule = () => {
             </p>
           </Box>
         </Flex>
+        {data?.length > 0 && (
+          <Box mt={"37px"}>
+            <SarbonTable
+              rowClassName={rowClassName}
+              variant="card"
+              columns={columns}
+              data={data}
+            />
+          </Box>
+        )}
 
-        <Box mt={"37px"}>
-          <SarbonTable
-            rowClassName={rowClassName}
-            variant="card"
-            columns={columns}
-            data={data}
-          />
-        </Box>
+        {data?.length === 0 && !isLoading && (
+          <Box mt={"37px"} className={cls.noData}>{t("Водители не найдены")}</Box>
+        )}
 
         <div>
           {isLoading && data?.length <= 50 && (
@@ -122,6 +123,7 @@ export const MyCarsDispatcherModule = () => {
               <LoadingSpinner />
             </Box>
           )}
+
           {data?.length >= 50 && (
             <Box mt={6} width={`fit-contend`}>
               <Button

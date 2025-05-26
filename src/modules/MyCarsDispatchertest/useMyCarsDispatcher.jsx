@@ -524,7 +524,7 @@ export const useMyCarsDispatcher = () => {
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
                             {row?.gps_data?.update_time &&
-                              format(row?.gps_data?.update_time, `yyyy-MM-dd`)}
+                              format(row?.gps_data?.update_time, `dd.MM.yyyy hh:mm`)}
                           </span>{" "}
                         </p>
                       </Box>

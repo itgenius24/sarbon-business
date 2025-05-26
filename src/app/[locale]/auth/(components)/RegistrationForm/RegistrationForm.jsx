@@ -361,8 +361,7 @@ export const RegistrationForm = () => {
                       <Box>
                         <p className={cls.label}>ИНН организации *</p>
                         <TextField
-                          // label="Имя"
-                          type="number"
+                          type="text"
                           name="inn"
                           register={register}
                           placeholder={t("Введите номер ИНН...")}
@@ -372,6 +371,28 @@ export const RegistrationForm = () => {
                               value: true,
                               message: t("Это поле обязательно"),
                             },
+                            minLength: {
+                              value: 9,
+                              message: t("ИНН должен состоять из 9 цифр"),
+                            },
+                            maxLength: {
+                              value: 9,
+                              message: t("ИНН должен состоять из 9 цифр"),
+                            },
+                            pattern: {
+                              value: /^[0-9]{9}$/,
+                              message: t(
+                                "ИНН должен состоять только из 9 цифр"
+                              ),
+                            },
+                          }}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
+                            if (value.length <= 9) {
+                              setValue(`inn`, value);
+                            } else {
+                              return (e.target.value = value.slice(0, 9)); // Limit to 9 characters
+                            }
                           }}
                         />
                       </Box>
@@ -381,7 +402,6 @@ export const RegistrationForm = () => {
                         <TextField
                           name="full_name"
                           register={register}
-                  
                           placeholder={t("Имя фамилия...")}
                           errors={errors}
                           rules={{
@@ -391,7 +411,11 @@ export const RegistrationForm = () => {
                             },
                           }}
                           onChange={(e) => {
-                            e.target.value = e.target.value.slice(0, 35); // Limit to 2 characters
+                            const valueWithoutDigits = e.target.value.replace(
+                              /\d/g,
+                              ""
+                            ); // raqamlarni olib tashlaydi
+                            e.target.value = valueWithoutDigits?.slice(0, 35);
                           }}
                         />
                       </Box>
