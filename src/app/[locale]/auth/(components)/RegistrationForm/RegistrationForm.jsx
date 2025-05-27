@@ -229,7 +229,7 @@ export const RegistrationForm = () => {
                   <FormInternationInput
                     control={control}
                     name={`tel`}
-                    placeholder={t("+998 99 123 4567")}
+                    placeholder={t("Номер телефона")}
                     disabled={authStore?.authData?.mediaAuth && false}
                     errors={errors}
                     rules={
@@ -371,27 +371,13 @@ export const RegistrationForm = () => {
                               value: true,
                               message: t("Это поле обязательно"),
                             },
-                            minLength: {
-                              value: 9,
-                              message: t("ИНН должен состоять из 9 цифр"),
-                            },
-                            maxLength: {
-                              value: 9,
-                              message: t("ИНН должен состоять из 9 цифр"),
-                            },
-                            pattern: {
-                              value: /^[0-9]{9}$/,
-                              message: t(
-                                "ИНН должен состоять только из 9 цифр"
-                              ),
-                            },
                           }}
                           onChange={(e) => {
                             const value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
-                            if (value.length <= 9) {
+                            if (value.length <= 16) {
                               setValue(`inn`, value);
                             } else {
-                              return (e.target.value = value.slice(0, 9)); // Limit to 9 characters
+                              return (e.target.value = value.slice(0, 16)); // Limit to 9 characters
                             }
                           }}
                         />

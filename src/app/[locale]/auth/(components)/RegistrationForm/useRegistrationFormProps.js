@@ -38,6 +38,8 @@ export const useRegistrationFormProps = () => {
     setError,
   } = useForm();
 
+
+
   const getAuthData = authStore.getAuthData;
   const phone = getAuthData?.phone ? getAuthData?.phone : watch(`tel`);
   const firm_id = getAuthData?.firm_id;
