@@ -294,7 +294,7 @@ export const UploadImgMobile = ({
           <ModalBody padding={`8px 5px`}>
             <Cropper
               src={cropImg}
-              style={{ height: 600, width: "100%" }}
+              style={{ height: isLargerThan845  ? 600 : 500, width: "100%" }}
               initialAspectRatio={1}
               guides={true}
               viewMode={1}
