@@ -40,6 +40,7 @@ const Cmap = memo(
     locationData,
     setLoadState,
     setCurrentUserLocationData,
+    currentUserLocationData,
     mapRef,
   }) => {
     const [isClient, setIsClient] = useState(false);
@@ -57,10 +58,33 @@ const Cmap = memo(
     const [selecting, setSelecting] = useState(false);
     const [types, setType] = useState(``);
     const [isSelectingPoints, setIsSelectingPoints] = useState(false);
+    const placemarkRefs = useRef({});
 
     useEffect(() => {
       setIsClient(true);
     }, []);
+
+
+    useEffect(() => {
+
+      if (watch("users_id") && currentUserLocationData && mapRef.current) {
+       const timeout = setTimeout(() => {
+          openBalloonById();
+        }, 500);
+
+        return () => clearTimeout(timeout);
+      }
+    }, [mapRef.current, watch("users_id"),currentUserLocationData]);
+
+    const openBalloonById = () => {
+      const placemark = placemarkRefs.current;
+      if (!placemark) return;
+
+      const coords = placemark.geometry.getCoordinates();
+
+      mapRef.current.setCenter(coords, 10, { checkZoomRange: false });
+      placemark.balloon.open();
+    };
 
     const handleCopy = (event) => {
       const selection = window.getSelection().toString();
@@ -446,6 +470,77 @@ const Cmap = memo(
               strokeColor: "#FF0000",
               strokeWidth: 4,
               strokeOpacity: 0.6,
+            }}
+          />
+        )}
+        {currentUserLocationData && watch("users_id") && (
+          <Placemark
+            key={currentUserLocationData?.user?.guid}
+            geometry={[
+              currentUserLocationData?.users_gps?.[0]?.lat,
+              currentUserLocationData?.users_gps?.[0]?.long,
+            ]}
+            properties={{
+              balloonContent: ReactDOMServer.renderToString(
+                <BalloonContent
+                  cls={cls}
+                  carInfo={currentUserLocationData}
+                  t={t}
+                />
+              ),
+            }}
+            instanceRef={(ref) => {
+              if (ref) {
+                placemarkRefs.current = ref;
+              }
+            }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref:
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(
+                  mapIcon[
+                    currentUserLocationData?.order_data
+                      ? `our_cargo`
+                      : currentUserLocationData?.user?.provisions?.[0]
+                  ] || GreenMapIcon
+                ),
+              iconImageSize:
+                watch("users_id")?.value || watch("users_id2")?.value
+                  ? [45, 105]
+                  : [40, 52],
+              iconImageOffset: [-15, -42],
+            }}
+            modules={["geoObject.addon.balloon"]}
+            onClick={(e) => {
+              if (isSelectingPoints) {
+                const coords = e.get("target").geometry.getCoordinates();
+                handlePointSelect(coords);
+                e.preventDefault();
+                e.stopPropagation();
+
+                return;
+              } else {
+                setCurrentUserLocationData(currentUserLocationData);
+                if (
+                  currentUserLocationData?.order_data ||
+                  currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
+                ) {
+                  setModalType("driverCheck");
+                } else if (
+                  currentUserLocationData?.user?.provisions?.[0] ===
+                  "someone_cargo"
+                ) {
+                  setModalType("driverQuestion");
+                } else if (
+                  currentUserLocationData?.user?.provisions?.[0] ===
+                  "waiting_for_driver"
+                ) {
+                  setModalType("driverExpectation");
+                } else {
+                  setModalType("driverFree");
+                }
+              }
             }}
           />
         )}

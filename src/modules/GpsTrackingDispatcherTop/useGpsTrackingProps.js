@@ -590,8 +590,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    console.log("offsetCar");
-    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
   const handleClear = () => {

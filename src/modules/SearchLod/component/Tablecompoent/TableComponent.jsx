@@ -285,7 +285,7 @@ export const TableComponent = ({
               className={cls.flag}
               width={30}
               height={30}
-              src={row?.flag_ot}
+              src={row?.flag_ot ||  `https://flagcdn.com/w320/${row?.country_code_from?.toLowerCase()}.png`}
               alt="wef"
             />
             <p className={cls.country_code}>{row?.country_code_from}</p>
@@ -345,7 +345,7 @@ export const TableComponent = ({
               className={cls.flag}
               width={30}
               height={30}
-              src={row?.flag_do}
+              src={row?.flag_do ||  `https://flagcdn.com/w320/${row?.country_code_to?.toLowerCase()}.png`}
               alt={row?.flag_do}
             />
             <p className={cls.country_code}>{row?.country_code_to}</p>

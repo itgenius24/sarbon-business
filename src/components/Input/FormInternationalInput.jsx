@@ -14,11 +14,12 @@ const FormInternationInput = ({
   rules = {},
   errors = {},
 }) => {
+  console.log(`errors`,errors)
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue || "+998"}
+      defaultValue={defaultValue}
       rules={rules}
       render={({ field }) => {
         return (

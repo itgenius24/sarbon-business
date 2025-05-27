@@ -405,9 +405,30 @@ export const useGpsTrackingProps = (locale) => {
     if (watch("users_id")) {
       id = watch("users_id");
     }
-
     return carsArr?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
+
+  useEffect(() => {
+    if (dataUserID.length > 0 && mapRef) {
+      setCurrentUserLocationData(dataUserID?.[0]);
+      if (dataUserID?.[0]?.user?.provisions?.[0] === "empty") {
+        setModalType("driverFree");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "our_cargo") {
+        setModalType("driverCheck");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "someone_cargo") {
+        setModalType("driverQuestion");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "broke_down") {
+        setModalType("driverFree");
+      } else if (
+        dataUserID?.[0]?.user?.provisions?.[0] === "waiting_for_driver"
+      ) {
+        setModalType("driverExpectation");
+      }
+      setIsBalloonOpened(false);
+    router.replace(`/${locale}/gps-tracking-dispatcher`);
+    }
+   
+  }, [dataUserID, watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
