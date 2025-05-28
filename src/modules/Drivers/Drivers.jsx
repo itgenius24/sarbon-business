@@ -446,7 +446,7 @@ export const DriversModule = ({ locale }) => {
               <DrawerBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Водитель с номером")} {watch(`phone`)}{" "}
-                  {t("уже регистрирован в Furgo")}
+                  {t("уже регистрирован в Sarbon")}
                 </p>
                 <Box mt={`24px`}>
                   <p

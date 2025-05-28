@@ -75,10 +75,7 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
-    console.log(`SALOM`,  guid &&
-        currentUserLocationData &&
-        mapRef.current &&
-        !isBalloonOpened)
+
 
     useEffect(() => {
       if (
@@ -87,8 +84,6 @@ const Cmap = memo(
         mapRef.current &&
         !isBalloonOpened
       ) {
-      console.log(`placemarkRefs`, placemarkRefs.current);
-
         const timeout = setTimeout(() => {
           openBalloonById(guid);
         }, 500);

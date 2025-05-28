@@ -61,7 +61,7 @@ export const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Box width={`100%`}>
-          <AuthTitle mb="32px" title={t("Вход в Furgo")} subtitle="" />
+          <AuthTitle mb="32px" title={t("Вход в Sarbon")} subtitle="" />
 
           <Box mb="24px" display="flex" flexDirection="column" rowGap="20px">
             <TextField

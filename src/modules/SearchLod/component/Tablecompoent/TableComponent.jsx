@@ -198,9 +198,9 @@ export const TableComponent = ({
   const handleSorFrom = (type) => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (type === `top`) {
-        return a?.country_code_from.localeCompare(b?.country_code_from);
+        return a?.from.localeCompare(b?.from);
       } else if (type === `back`) {
-        return b?.country_code_from.localeCompare(a?.country_code_from);
+        return b?.from.localeCompare(a?.from);
       }
     });
 
@@ -214,9 +214,9 @@ export const TableComponent = ({
   const handleSorTo = (type) => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (type === `top`) {
-        return a?.country_code_to?.localeCompare(b?.country_code_to);
+        return a?.to?.localeCompare(b?.to);
       } else if (type === `back`) {
-        return b?.country_code_to?.localeCompare(a?.country_code_to);
+        return b?.to?.localeCompare(a?.to);
       }
     });
 
@@ -316,7 +316,7 @@ export const TableComponent = ({
                 {row?.as_soon_as_a
                   ? t("Готов к загрузке")
                   : row?.load_time && format(row?.load_time, `yyyy-MM-dd`)}
-                {/* ~ 3450 km */}
+               
               </span>
             </p>
             <div
@@ -470,7 +470,7 @@ export const TableComponent = ({
       width: 200,
       render: (row, index) => (
         <Box>
-          <Flex alignItems={`flex-start`} gap={1}>
+          <Flex alignItems={`center`} gap={1}>
             <Avatar
               width={`50px`}
               height={`50px`}

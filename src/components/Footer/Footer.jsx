@@ -167,7 +167,7 @@ export const Footer = () => {
           <div className={cls.mobileApps}>
             <Box>
               <p className={cls.mobileAppsHeading}>
-                {t("Мобильные приложения Furgo")}
+                {t("Мобильные приложения Sarbon")}
               </p>
               <ul className={cls.mobileAppList}>
                 <li className={cls.mobileAppItem}>
