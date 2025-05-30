@@ -139,13 +139,32 @@ export const TableComponent = ({
 
   const { mutate } = useGetCar({
     onSuccess: (res) => {
-      setDataUser(
-        res?.response?.map((item) => ({
-          ...item,
-          orders: item.order_data ? [item?.order_data] : undefined,
-        }))
-      );
-      setStatus(false);
+      const response = res?.response;
+
+      if (!Array.isArray(response)) return;
+
+      // Guruhlash
+      const grouped = {};
+
+      response.forEach((item) => {
+        const guid = item.driver_gps_data?.guid;
+
+        if (!guid) return;
+
+        if (!grouped[guid]) {
+          grouped[guid] = {
+            ...item,
+            orders: item?.order_data ? [item.order_data] : undefined,
+          };
+          delete grouped[guid].order_data;
+        } else {
+          grouped[guid].orders.push(item.order_data);
+        }
+      });
+
+      const finalResult = Object.values(grouped);
+
+      setDataUser(finalResult);
     },
   });
 
@@ -787,10 +806,13 @@ export const TableComponent = ({
                               </Popover>
                             </>
                           ) : (
-                            <Box     width={`100%`}
-                                    display={`flex`}
-                                    alignItems={`center`}
-                                    justifyContent={`space-between`} className={cls.countryWrap}>
+                            <Box
+                              width={`100%`}
+                              display={`flex`}
+                              alignItems={`center`}
+                              justifyContent={`space-between`}
+                              className={cls.countryWrap}
+                            >
                               <Flex gap={3}>
                                 <Avatar
                                   name={item?.full_name}
@@ -801,32 +823,32 @@ export const TableComponent = ({
                                   <p className={cls.subTitle}>{item?.phone}</p>
                                 </Box>
                               </Flex>
-                                  {item?.vehicle_data && (
-                                      <Flex
-                                        flexDirection={`column`}
-                                        mr={5}
-                                        alignItems={`flex-end`}
-                                        className={cls.subTitle2}
-                                      >
-                                        <p className={cls.loadType}>
-                                          {`${item?.trailer_type?.name} ${
-                                            item?.vehicle_data?.car_number
-                                              ? item?.vehicle_data?.car_number
-                                              : ``
-                                          }`}
-                                        </p>
-                                        <Flex gap={2}>
-                                          <Flex gap={1} alignItems={"center"}>
-                                            <StoneIcon />
-                                            {item?.vehicle_data?.capacity} т.
-                                          </Flex>
-                                          <Flex gap={1} alignItems={"center"}>
-                                            <LoadOulineIcon />
-                                            {item?.vehicle_data?.height} m3
-                                          </Flex>
-                                        </Flex>
-                                      </Flex>
-                                    )}
+                              {item?.vehicle_data && (
+                                <Flex
+                                  flexDirection={`column`}
+                                  mr={5}
+                                  alignItems={`flex-end`}
+                                  className={cls.subTitle2}
+                                >
+                                  <p className={cls.loadType}>
+                                    {`${item?.trailer_type?.name} ${
+                                      item?.vehicle_data?.car_number
+                                        ? item?.vehicle_data?.car_number
+                                        : ``
+                                    }`}
+                                  </p>
+                                  <Flex gap={2}>
+                                    <Flex gap={1} alignItems={"center"}>
+                                      <StoneIcon />
+                                      {item?.vehicle_data?.capacity} т.
+                                    </Flex>
+                                    <Flex gap={1} alignItems={"center"}>
+                                      <LoadOulineIcon />
+                                      {item?.vehicle_data?.height} m3
+                                    </Flex>
+                                  </Flex>
+                                </Flex>
+                              )}
                             </Box>
                           )}
                         </Flex>

@@ -303,7 +303,7 @@ export const DistanceCalculation = () => {
         id="map"
         style={{ width: "100%", height: "500px" }}
       >
-        {(distanceParameters.distance || distanceParameters.duration) && watch("from") && watch("to")  (
+        {(distanceParameters.distance || distanceParameters.duration) && watch("from") && watch("to")  && (
           <div className={cls.distanceInfo}>
             <div className={cls.locationNames}>
               <p>{watch("from")}</p>

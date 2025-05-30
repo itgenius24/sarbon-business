@@ -101,7 +101,6 @@ export const SearchLoadModule = ({ locale }) => {
           ) : dataRes.length > 0 ? (
             <Box>
               <TableComponent
-            
                 isLargerThan845={isLargerThan845}
                 watch={watch}
                 formState={formState}

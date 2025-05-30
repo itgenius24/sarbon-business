@@ -267,7 +267,7 @@ export const MyLoadsMain = ({ locale }) => {
                 <ArchivePage
                   setOpen={setOpen}
                   t={t}
-                  orderStatus={orderStatus}
+                  orderStatus={`archive`}
                 />
               </TabPanel>
             </TabPanels>

@@ -314,7 +314,7 @@ const DriverCheck = ({
                 {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash
                   ? `${currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash} ${currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data?.code}`
                   : t(`По запросу`)}
-                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
+               
               </p>
               <p className={cls.cardStartSubTitle}>
                 {t(`Предоплата`)}:{" "}
