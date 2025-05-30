@@ -594,7 +594,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         guid: item?.guid,
       })) || [];
 
-      console.log("loadingsData",loadingsData,unloadinData,  loadingsData.concat(unloadinData).filter((item) => watch(`period_ids`).includes(item.guid)));
 
       if (watch(`period_ids`)?.length > 0) {
         createAddress.mutate(
@@ -602,7 +601,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
             data: {
               object_data: {
                 period_ids: watch(`period_ids`),
-                name: loadingsData.concat(unloadinData).filter((item) => watch(`period_ids`).includes(item.guid)),
+                name: loadingsData.concat(unloadinData)?.filter((item) => watch(`period_ids`).includes(item.guid)),
                 cargo_id: data?.guid,
               },
             },
@@ -807,10 +806,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         // guid: watch(`loadResId`),
 
         load_time: getValues("loadings")[0].from_date || new Date(),
-        date:
-          new Date(
-            getValues("unloading")[getValues("unloading").length - 1].to_date
-          ) || new Date(),
+        date: getValues("unloading")[getValues("unloading").length - 1].to_date  || new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         cargo_type: ["cargo"],
