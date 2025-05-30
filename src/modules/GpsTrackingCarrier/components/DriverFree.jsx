@@ -13,8 +13,10 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useGetUserGpsByIDData } from "@/services/api";
 import { flegCountry } from "@/utils/flegCountry";
 import {
   Avatar,
@@ -58,6 +60,17 @@ const DriverFree = ({
       onClose();
     }, 1000);
   };
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
+    },
+  });
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -355,6 +368,37 @@ const DriverFree = ({
             {t(`Машина cвободна`)}
           </Button>
         )}
+
+        {getUserGps?.data?.response?.length > 0 &&
+          currentUserLocationData?.disp_data?.[0]?.users_id_2 && (
+            <Box
+              style={{ background: `white` }}
+              className={cls.cardWrapOutline}
+            >
+              <Flex width={"100%"} alignItems={"center"} gap={3}>
+                <Avatar
+                  name={getUserGps?.data?.response?.[0]?.full_name}
+                  src={getUserGps?.data?.response?.[0]?.full_name}
+                />
+                <Box>
+                  <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                  <p style={{ fontSize: `16px` }} className={cls.name}>
+                    {getUserGps?.data?.response?.[0]?.full_name}
+                  </p>
+                  <Flex alignItems={"center"} gap={2}>
+                    <a
+                      href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                    >
+                      <TelegramIcon />
+                    </a>
+                    <p className={cls.cardStartSubTitleZTel}>
+                      {getUserGps?.data?.response?.[0]?.phone}
+                    </p>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Box>
+          )}
 
         {/* <Button
           onClick={() => setCenterModalType(`selectCargo`)}

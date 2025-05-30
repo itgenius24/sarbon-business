@@ -63,6 +63,7 @@ import copy from "copy-to-clipboard";
 import { useRouter } from "next/navigation";
 import CheckBoxComponent from "@/modules/GpsTrackingCarrier/components/CheckBoxComponent";
 import { CardLoad } from "../CardLoad/CardLoad";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const TableComponent = ({
   isLargerThan845,
@@ -87,6 +88,8 @@ export const TableComponent = ({
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
 
+  const query = useQueryClient();
+
   const { data } = useGetCargoList({
     params: {
       data: JSON.stringify({
@@ -109,7 +112,17 @@ export const TableComponent = ({
     },
   });
 
-  const { mutate: updateUer } = useUpdateUserData({});
+  const { mutate: updateUer } = useUpdateUserData({
+    onSuccess: (res) => {
+      setCarId();
+      setSelectCargo([]);
+      setStatus(true);
+      setCenterModalType(false);
+      onClose();
+      setStatus2(true);
+      query.invalidateQueries(["useGetCargoMap"]);
+    },
+  });
 
   const { mutate: pridlojetData, isLoading } =
     useLogistikaGpsTrackingFilterDriverPred({
@@ -120,12 +133,18 @@ export const TableComponent = ({
         setCenterModalType(false);
         onClose();
         setStatus2(true);
+        query.invalidateQueries(["useGetCargoMap"]);
       },
     });
 
   const { mutate } = useGetCar({
     onSuccess: (res) => {
-      setDataUser(res?.response);
+      setDataUser(
+        res?.response?.map((item) => ({
+          ...item,
+          orders: item.order_data ? [item?.order_data] : undefined,
+        }))
+      );
       setStatus(false);
     },
   });
@@ -146,10 +165,10 @@ export const TableComponent = ({
   const filteredData = dataUser?.filter((item) => {
     const provisionsData = item?.orders?.filter(
       (item) =>
-        item.provisions?.includes(`performed`) ||
-        item.provisions?.includes(`approve_from_driver`) ||
-        item.provisions?.includes(`new_proposal_from_director`) ||
-        item.provisions?.includes(`approve_by_customer`)
+        item?.provisions?.includes(`performed`) ||
+        item?.provisions?.includes(`approve_from_driver`) ||
+        item?.provisions?.includes(`new_proposal_from_director`) ||
+        item?.provisions?.includes(`approve_by_customer`)
     );
 
     if (isCheckboxChecked) {
@@ -253,7 +272,7 @@ export const TableComponent = ({
 
       updateUer({
         data: {
-          guid: data?.user?.guid,
+          guid: data?.guid,
           provisions: ["empty"],
         },
       });
@@ -285,7 +304,10 @@ export const TableComponent = ({
               className={cls.flag}
               width={30}
               height={30}
-              src={row?.flag_ot ||  `https://flagcdn.com/w320/${row?.country_code_from?.toLowerCase()}.png`}
+              src={
+                row?.flag_ot ||
+                `https://flagcdn.com/w320/${row?.country_code_from?.toLowerCase()}.png`
+              }
               alt="wef"
             />
             <p className={cls.country_code}>{row?.country_code_from}</p>
@@ -316,7 +338,6 @@ export const TableComponent = ({
                 {row?.as_soon_as_a
                   ? t("Готов к загрузке")
                   : row?.load_time && format(row?.load_time, `yyyy-MM-dd`)}
-               
               </span>
             </p>
             <div
@@ -345,7 +366,10 @@ export const TableComponent = ({
               className={cls.flag}
               width={30}
               height={30}
-              src={row?.flag_do ||  `https://flagcdn.com/w320/${row?.country_code_to?.toLowerCase()}.png`}
+              src={
+                row?.flag_do ||
+                `https://flagcdn.com/w320/${row?.country_code_to?.toLowerCase()}.png`
+              }
               alt={row?.flag_do}
             />
             <p className={cls.country_code}>{row?.country_code_to}</p>
@@ -531,6 +555,8 @@ export const TableComponent = ({
     onOpen();
   };
 
+  console.log(`filteredData`, filteredData);
+
   return (
     <>
       <Box mb={`10px`} mt={"32px"}>
@@ -641,104 +667,169 @@ export const TableComponent = ({
                           )
                         }
                       >
-                        {provisionsData?.[0]?.provisions?.includes(
-                          `performed`
-                        ) ||
-                        provisionsData?.[0]?.provisions?.includes(
-                          `approve_from_driver`
-                        ) ||
-                        provisionsData?.[0]?.provisions?.includes(
-                          `new_proposal_from_director`
-                        ) ||
-                        provisionsData?.[0]?.provisions?.includes(
-                          `approve_by_customer`
-                        ) ? (
-                          <>
-                            {provisionsData?.[0]?.provisions?.includes(
-                              `approve_by_customer`
-                            ) && (
-                              <TooltipComponets
-                                cls={cls}
-                                status={`check`}
-                                label={`Водитель подтвердил`}
-                                color={`rgba(21, 186, 77, 1)`}
-                              />
-                            )}
-                            {provisionsData?.[0]?.provisions?.includes(
-                              `performed`
-                            ) && (
-                              <TooltipComponets
-                                cls={cls}
-                                status={`check`}
-                                label={`Водитель занят`}
-                                color={`rgba(21, 186, 77, 1)`}
-                              />
-                            )}
-                            {(provisionsData?.[0]?.provisions?.includes(
-                              `approve_from_driver`
-                            ) ||
-                              provisionsData?.[0]?.provisions?.includes(
-                                `new_proposal_from_director`
-                              )) && (
-                              <TooltipComponets
-                                cls={cls}
-                                status={`approve_from_driver`}
-                                label={`Ждем подтверждение водителя`}
-                                color={`rgba(193, 187, 32, 1)`}
-                              />
-                            )}
+                        <Flex width={`100%`} justifyContent={`space-between`}>
+                          {provisionsData?.[0]?.provisions?.includes(
+                            `performed`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_from_driver`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `new_proposal_from_director`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_by_customer`
+                          ) ? (
+                            <>
+                              {provisionsData?.[0]?.provisions?.includes(
+                                `approve_by_customer`
+                              ) && (
+                                <TooltipComponets
+                                  cls={cls}
+                                  status={`check`}
+                                  label={`Водитель подтвердил`}
+                                  color={`rgba(21, 186, 77, 1)`}
+                                />
+                              )}
+                              {provisionsData?.[0]?.provisions?.includes(
+                                `performed`
+                              ) && (
+                                <TooltipComponets
+                                  cls={cls}
+                                  status={`check`}
+                                  label={`Водитель занят`}
+                                  color={`rgba(21, 186, 77, 1)`}
+                                />
+                              )}
+                              {(provisionsData?.[0]?.provisions?.includes(
+                                `approve_from_driver`
+                              ) ||
+                                provisionsData?.[0]?.provisions?.includes(
+                                  `new_proposal_from_director`
+                                )) && (
+                                <TooltipComponets
+                                  cls={cls}
+                                  status={`approve_from_driver`}
+                                  label={`Ждем подтверждение водителя`}
+                                  color={`rgba(193, 187, 32, 1)`}
+                                />
+                              )}
 
-                            <Popover>
-                              <PopoverTrigger>
-                                <Box as="button" className={cls.countryWrap}>
-                                  <Flex gap={3}>
-                                    <Avatar
-                                      name={item?.full_name}
-                                      src={item?.photo}
-                                    />
-                                    <Box>
-                                      <p className={cls.name}>
-                                        {item?.full_name}
-                                      </p>
-                                      <p className={cls.subTitle}>
-                                        {item?.phone}
-                                      </p>
-                                    </Box>
-                                  </Flex>
-                                </Box>
-                              </PopoverTrigger>
-
-                              <PopoverContent
-                                background={`white`}
-                                position={`relative`}
-                                border={`none`}
-                                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                                width={`300px`}
-                              >
-                                <PopoverArrow size={`lg`} />
-                                <PopoverBody fontWeight={400}>
-                                  <PopoverCloseButton />
-                                  <Box onClick={() => deleteOrder(item)}>
-                                    {t("Отменить предложение")}
+                              <Popover>
+                                <PopoverTrigger>
+                                  <Box
+                                    opacity={0.5}
+                                    as="button"
+                                    width={`100%`}
+                                    display={`flex`}
+                                    alignItems={`center`}
+                                    justifyContent={`space-between`}
+                                    className={cls.countryWrap}
+                                  >
+                                    <Flex gap={3}>
+                                      <Avatar
+                                        name={item?.full_name}
+                                        src={item?.photo}
+                                      />
+                                      <Box>
+                                        <p className={cls.name}>
+                                          {item?.full_name}
+                                        </p>
+                                        <p className={cls.subTitle}>
+                                          {item?.phone}
+                                        </p>
+                                      </Box>
+                                    </Flex>
+                                    {item?.vehicle_data && (
+                                      <Flex
+                                        flexDirection={`column`}
+                                        mr={5}
+                                        alignItems={`flex-end`}
+                                        className={cls.subTitle2}
+                                      >
+                                        <p className={cls.loadType}>
+                                          {`${item?.trailer_type?.name} ${
+                                            item?.vehicle_data?.car_number
+                                              ? item?.vehicle_data?.car_number
+                                              : ``
+                                          }`}
+                                        </p>
+                                        <Flex gap={2}>
+                                          <Flex gap={1} alignItems={"center"}>
+                                            <StoneIcon />
+                                            {item?.vehicle_data?.capacity} т.
+                                          </Flex>
+                                          <Flex gap={1} alignItems={"center"}>
+                                            <LoadOulineIcon />
+                                            {item?.vehicle_data?.height} m3
+                                          </Flex>
+                                        </Flex>
+                                      </Flex>
+                                    )}
                                   </Box>
-                                </PopoverBody>
-                              </PopoverContent>
-                            </Popover>
-                          </>
-                        ) : (
-                          <Box className={cls.countryWrap}>
-                            <Flex gap={3}>
-                              <Avatar
-                                name={item?.full_name}
-                                src={item?.photo}
-                              />
-                              <Box>
-                                <p className={cls.name}>{item?.full_name}</p>
-                                <p className={cls.subTitle}>{item?.phone}</p>
-                              </Box>
-                            </Flex>
-                          </Box>
-                        )}
+                                </PopoverTrigger>
+
+                                <PopoverContent
+                                  background={`white`}
+                                  position={`relative`}
+                                  border={`none`}
+                                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                  width={`300px`}
+                                >
+                                  <PopoverArrow size={`lg`} />
+                                  <PopoverBody fontWeight={400}>
+                                    <PopoverCloseButton />
+                                    <Box onClick={() => deleteOrder(item)}>
+                                      {t("Отменить предложение")}
+                                    </Box>
+                                  </PopoverBody>
+                                </PopoverContent>
+                              </Popover>
+                            </>
+                          ) : (
+                            <Box     width={`100%`}
+                                    display={`flex`}
+                                    alignItems={`center`}
+                                    justifyContent={`space-between`} className={cls.countryWrap}>
+                              <Flex gap={3}>
+                                <Avatar
+                                  name={item?.full_name}
+                                  src={item?.photo}
+                                />
+                                <Box>
+                                  <p className={cls.name}>{item?.full_name}</p>
+                                  <p className={cls.subTitle}>{item?.phone}</p>
+                                </Box>
+                              </Flex>
+                                  {item?.vehicle_data && (
+                                      <Flex
+                                        flexDirection={`column`}
+                                        mr={5}
+                                        alignItems={`flex-end`}
+                                        className={cls.subTitle2}
+                                      >
+                                        <p className={cls.loadType}>
+                                          {`${item?.trailer_type?.name} ${
+                                            item?.vehicle_data?.car_number
+                                              ? item?.vehicle_data?.car_number
+                                              : ``
+                                          }`}
+                                        </p>
+                                        <Flex gap={2}>
+                                          <Flex gap={1} alignItems={"center"}>
+                                            <StoneIcon />
+                                            {item?.vehicle_data?.capacity} т.
+                                          </Flex>
+                                          <Flex gap={1} alignItems={"center"}>
+                                            <LoadOulineIcon />
+                                            {item?.vehicle_data?.height} m3
+                                          </Flex>
+                                        </Flex>
+                                      </Flex>
+                                    )}
+                            </Box>
+                          )}
+                        </Flex>
                       </CheckBoxComponent>
                     );
                   })

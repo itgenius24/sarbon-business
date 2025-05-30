@@ -55,9 +55,9 @@ export const useSearchLoad = () => {
             ? [watch(`vehicle_type_id`)?.value]
             : [],
           min_volume: +watch(`min_volume`) || 0,
-          max_volume: +watch(`max_volume`) || 0,
+          max_volume: +watch(`max_volume`) || 1000,
           min_weight: +watch(`min_weight`) || 0,
-          max_weight: +watch(`max_weight`) || 0,
+          max_weight: +watch(`max_weight`) || 1000,
           only_for_me: watch(`only_for_me`) || 0,
           firm_id,
           page,

@@ -150,7 +150,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
             >
               <Box>
                 <p className={cls.subTitle}>{t("Машина")}:</p>
-                {item?.vehicles?.[0] && (
+                {item?.vehicle_data && (
                   <Box
                     padding={`15px 0`}
                     marginBottom={`15px`}
@@ -159,23 +159,23 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                     <Flex justifyContent={`space-between`} gap={3}>
                       <Box>
                         <p className={cls.title}>
-                          {item?.vehicles?.[0]?.marka}
+                          {item?.vehicle_data?.marka}
                         </p>
                         <p className={cls.subTitle}>
-                          {item?.vehicles?.[0]?.car_number
-                            ? item?.vehicles?.[0]?.car_number
+                          {item?.vehicle_data?.car_number
+                            ? item?.vehicle_data?.car_number
                             : ``}
                         </p>
                       </Box>
-                      {item?.vehicles?.[0]?.car_photo !== "photo" &&
-                      item?.vehicles?.[0]?.car_photo ? (
+                      {item?.vehicle_data?.car_photo !== "photo" &&
+                      item?.vehicle_data?.car_photo ? (
                         <Image
                           style={{
                             borderRadius: `6px`,
                             width: `60px`,
                             height: `45px`,
                           }}
-                          src={item?.vehicles?.[0]?.car_photo}
+                          src={item?.vehicle_data?.car_photo}
                           width={`100`}
                           height={`100`}
                           alt="w"
@@ -272,11 +272,11 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                     {t("Статус")}:{" "}
                     <span>
                       {" "}
-                      {item?.vehicles?.[0] ? t("Свободна") : t("Свободна")}{" "}
+                      {item?.vehicle_data ? t("Свободна") : t("Свободна")}{" "}
                     </span>
                   </p>
                   <p className={cls.subResTitle}>
-                    {item?.vehicles?.[0] ? t(`без груза`) : t(`без машины`)}
+                    {item?.vehicle_data ? t(`без груза`) : t(`без машины`)}
                   </p>
                 </Box>
                 {item?.users_gps?.[0] && (

@@ -108,7 +108,7 @@ const StepFive = ({ status,locale }) => {
     onError() {},
   });
 
-  console.log(`loadings`, loadings);
+
 
 
   const createCargo = useCreateCargoMutation({

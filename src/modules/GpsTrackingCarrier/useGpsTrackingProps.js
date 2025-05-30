@@ -276,12 +276,12 @@ export const useGpsTrackingProps = () => {
             vehicles: [
               {
                 ...item?.vehicle_data,
-                trailer_type_id_data: item?.trailer_type_id_data,
+                trailer_type_id_data: item?.trailer_type,
               },
             ],
             firm_data: item?.firm_data,
             users_gps: [item?.driver_gps_data],
-            orders: item?.order_data ? [item?.order_data] : undefined,
+            orders: item?.order_data ? [{...item?.order_data,cargo_id_data:item?.cargo_data}] : undefined,
           }))?.filter(item => item.users_gps?.[0]);
 
           setCarsArr(data2);

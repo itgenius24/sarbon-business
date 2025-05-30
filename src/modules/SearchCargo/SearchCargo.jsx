@@ -158,7 +158,7 @@ export const SearchCargoModule = () => {
                     <Box width={`100%`}>
                       <Box width={`100%`}>
                         <p className={cls.textFieldName}>
-                          {t("Страна регистрации автомобиля")}
+                          {t("Страна регистрации автомобиля")} *
                         </p>
 
                         <Dropdown
@@ -214,7 +214,7 @@ export const SearchCargoModule = () => {
                       </Box>
                     </Box>
                     <Box width={`100%`}>
-                      <p className={cls.textFieldName}>{t("Марка машины")}</p>
+                      <p className={cls.textFieldName}>{t("Марка машины")} *</p>
                       <TextField
                         rules={rules}
                         errors={errors}
@@ -429,7 +429,7 @@ export const SearchCargoModule = () => {
 
                   <Box width={`100%`}>
                     <p className={cls.textFieldName}>
-                      {t("Номер кузова (VIN)")}
+                      {t("Номер кузова (VIN)")} *
                     </p>
                     <TextField
                       rules={rules}
@@ -613,7 +613,7 @@ export const SearchCargoModule = () => {
                       register={register}
                       name="cemt"
                     >
-                      {t("CEMT (ЕКМТ) ")}
+                      {t("CEMT (ЕКМТ)")}
                     </Checkbox>
                   </Box>
                 </Box>

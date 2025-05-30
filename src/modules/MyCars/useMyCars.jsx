@@ -175,11 +175,14 @@ export const useMyCars = () => {
   const filteredData = data?.filter((item) => {
     // Agar checkbox tanlangan bo'lsa, faqat statusi true bo'lgan elementlarni ko'rsatish
     if (isCheckboxChecked) {
-      return item?.item?.vehicles?.[0] === null;
+      return !item?.vehicle_data;
     }
     // Agar checkbox tanlanmagan bo'lsa, faqat search natijasini ko'rsatish
     return item;
   });
+
+
+  console.log(`filteredData`,filteredData)
 
   return {
     data: getVehicle?.data?.response,
