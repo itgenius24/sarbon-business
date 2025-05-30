@@ -4,6 +4,7 @@ import cls from "./styles.module.scss";
 import {
   ClockIcon,
   LocationMarkIcon,
+  MapNextIcon,
   PlusIcon,
   RouteDirectionIcon,
 } from "@/assets/icons/icons";
@@ -38,6 +39,7 @@ export const DistanceCalculation = () => {
     activeIndex,
     setActiveIndex,
     hanleAdress,
+    locationNames,
   } = useDistanceCalculationProps();
 
   const locale = useGetLang();
@@ -166,7 +168,7 @@ export const DistanceCalculation = () => {
                     register={register}
                     name={`locations.${index}.name`}
                     onChange={(e) => {
-                      onAdditionalAddressChange(e, index);
+                      onAdditionalAddressChange(e.target.value, index);
                       setActiveIndex(`locations.${index}.name`),
                         setAddress(e.target.value);
                       if (e.target.value.length === 0) {
@@ -197,9 +199,16 @@ export const DistanceCalculation = () => {
                           };
                           return (
                             <Flex
-                              onClick={() =>
-                                hanleAdress(location, `locations.${index}.name`)
-                              }
+                              onClick={() => {
+                                onAdditionalAddressChange(
+                                  location?.GeoObject?.name,
+                                  index
+                                );
+                                hanleAdress(
+                                  location,
+                                  `locations.${index}.name`
+                                );
+                              }}
                               key={idx}
                               gap={3}
                               alignItems={"center"}
@@ -294,27 +303,25 @@ export const DistanceCalculation = () => {
         id="map"
         style={{ width: "100%", height: "500px" }}
       >
-        {(distanceParameters.distance || distanceParameters.duration) && (
+        {(distanceParameters.distance || distanceParameters.duration) && watch("from") && watch("to")  (
           <div className={cls.distanceInfo}>
             <div className={cls.locationNames}>
               <p>{watch("from")}</p>
               <span className={cls.arrow}>
-                <svg
-                  width="22"
-                  height="22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M19.25 11H2.75M13.75 5.5l5.5 5.5-5.5 5.5"
-                    stroke="#000"
-                    strokeOpacity=".85"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <MapNextIcon />
               </span>
+              {locationNames.length > 0 ? (
+                locationNames?.map((item) => (
+                  <>
+                    <p>{item}</p>
+                    <span className={cls.arrow}>
+                      <MapNextIcon />
+                    </span>
+                  </>
+                ))
+              ) : (
+                <></>
+              )}
               <p>{watch("to")}</p>
             </div>
             <p className={cls.distanceParams}>

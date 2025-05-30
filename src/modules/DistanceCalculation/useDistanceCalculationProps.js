@@ -42,7 +42,7 @@ export const useDistanceCalculationProps = () => {
   function onAdditionalAddressChange(e, index) {
     setLocationNames([
       ...locationNames.slice(0, index),
-      e.target.value,
+      e,
       ...locationNames.slice(index + 1),
     ]);
   }
@@ -65,6 +65,8 @@ export const useDistanceCalculationProps = () => {
       ]);
     }
   }
+
+  console.log(`intervalLocations`,locationNames)
 
   function initYmaps() {
     if (window?.ymaps) {
@@ -205,5 +207,6 @@ export const useDistanceCalculationProps = () => {
     activeIndex,
     setActiveIndex,
     hanleAdress,
+    locationNames:locationNames?.filter(item => item)
   };
 };

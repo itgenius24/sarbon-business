@@ -66,7 +66,7 @@ export const MyCarsModule = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <>
-      <Container my={isLargerThan845 ? "40px" : `20px`}>
+      <Container my={isLargerThan845 ? "40px" : `20px`} pb={`20px`}>
         <Flex  width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}

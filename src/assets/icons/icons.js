@@ -1312,6 +1312,24 @@ export const FurgoIconLoad = () => (
   </svg>
 );
 
+export const MapNextIcon = () => (
+   <svg
+                  width="22"
+                  height="22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19.25 11H2.75M13.75 5.5l5.5 5.5-5.5 5.5"
+                    stroke="#000"
+                    strokeOpacity=".85"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+);
+
 export const ClockIconStatus = () => (
   <svg
     width="14"
