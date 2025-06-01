@@ -538,6 +538,7 @@ export const TableComponent = ({
       ),
     },
   ];
+  
 
   const statusTooltip = (item) => {
     const data = item?.status || [];
