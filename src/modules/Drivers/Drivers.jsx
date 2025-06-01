@@ -300,7 +300,7 @@ export const DriversModule = ({ locale }) => {
                 >
                   {t("Скопировать детали")}
                 </Button>
-                <Button
+                {/* <Button
                   style={{
                     background: "white",
                     border: "1px solid rgba(208, 213, 221, 1)",
@@ -310,7 +310,7 @@ export const DriversModule = ({ locale }) => {
                   onClick={() => router.push(`/${locale}/drivers`)}
                 >
                   {t("Отправить как смс")}
-                </Button>
+                </Button> */}
               </ModalFooter>
             </ModalContent>
           </Modal>

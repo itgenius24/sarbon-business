@@ -28,7 +28,7 @@ const FormInternationInput = ({
             inputProps={{
               id: name,
             }}
-            hideDropdown={true}
+            // hideDropdown={true}
             disabled={disabled}
             defaultCountry="uz"
             value={field?.value}
