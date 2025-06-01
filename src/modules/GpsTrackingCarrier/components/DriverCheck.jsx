@@ -48,6 +48,9 @@ const DriverCheck = ({
         with_relations: true,
       }),
     },
+    querySettings: {
+      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
+    },
   });
 
   console.log(`currentUserLocationData`, currentUserLocationData);
@@ -63,6 +66,13 @@ const DriverCheck = ({
     breaking: "Поломка",
     road_accident: "ДТП",
   };
+  function formatVersion(version) {
+    const parts = version.trim().split(/\s+/); // bo‘sh joylar orqali ajratadi
+    if (parts.length === 2) {
+      return `${parts[0]} (${parts[1]})`;
+    }
+    return version;
+  }
 
   return (
     <div className={cls.filter}>
@@ -178,7 +188,10 @@ const DriverCheck = ({
                 <Box>
                   <p className={cls.smallText}>{t(`Версия`)} </p>
                   <p className={cls.bigTitle}>
-                    {currentUserLocationData?.users_gps?.[0]?.version}
+                    {currentUserLocationData?.users_gps?.[0]?.version &&
+                      formatVersion(
+                        currentUserLocationData?.users_gps?.[0]?.version
+                      )}
                   </p>
                 </Box>
               </Flex>
@@ -197,18 +210,18 @@ const DriverCheck = ({
                 <p className={cls.cardStartSubTitle}>
                   {
                     currentUserLocationData?.orders?.[0]?.cargo_id_data
-                      ?.city_id_data?.address_id_data?.name
-                  }{" "}
-                  /
+                      ?.country_code_from
+                  }
+                  {` `} / {` `}
                   <span>
-                    {format(
-                      currentUserLocationData?.orders?.[0]?.cargo_id_data
-                        ?.load_time
-                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                            ?.load_time
-                        : new Date(),
-                      "yyyy-MM-dd"
-                    )}
+                    {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.as_soon_as_a
+                      ? t(`Готов к загрузке`)
+                      : format(
+                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.load_time,
+                          "yyyy-MM-dd"
+                        )}
                   </span>
                 </p>
               </Box>
@@ -224,17 +237,18 @@ const DriverCheck = ({
                 <p className={cls.cardStartSubTitle}>
                   {
                     currentUserLocationData?.orders?.[0]?.cargo_id_data
-                      ?.city_id_2_data?.address_id_data?.name
+                      ?.country_code_to
                   }
-                  /
+                  {` `} / {` `}
                   <span>
-                    {format(
-                      currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
-                        ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                            ?.date
-                        : new Date(),
-                      "yyyy-MM-dd"
-                    )}
+                    {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.as_soon_as_b
+                      ? t(`Как можно скорее`)
+                      : format(
+                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                            ?.date,
+                          "yyyy-MM-dd"
+                        )}
                   </span>
                 </p>
               </Box>
@@ -243,7 +257,12 @@ const DriverCheck = ({
             <Flex className={cls.gruz} mt={5} gap={2}>
               <GruzIcon />
               <Box>
-                <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
+                <p className={cls.cardStartTitle}>
+                  {
+                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      ?.product_type
+                  }
+                </p>
                 <p className={cls.cardStartSubTitle}>
                   <Flex width={"100%"} justifyContent={"space-between"}>
                     <span>
@@ -277,24 +296,33 @@ const DriverCheck = ({
             <Flex mt={3} justifyContent={"space-between"}>
               <p className={cls.cardStartSubTitle}>{t(`Cумма`)}</p>
               <p className={cls.cardStartSubTitle}>
-                {t(`Тип оплаты`)}: <span>Перечисление</span>
+                {t(`Тип оплаты`)}:{" "}
+                <span>
+                  {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    ?.payment_type?.length > 15
+                    ? `${currentUserLocationData?.orders?.[0]?.cargo_id_data?.payment_type?.slice(
+                        0,
+                        15
+                      )}...`
+                    : currentUserLocationData?.orders?.[0]?.cargo_id_data
+                        ?.payment_type}
+                </span>
               </p>
             </Flex>
             <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
               <p className={cls.sum}>
-                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
-                {
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data
-                    ?.currency_id_data?.code
-                }{" "}
+                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash
+                  ? `${currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash} ${currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data?.code}`
+                  : t(`По запросу`)}
+               
               </p>
               <p className={cls.cardStartSubTitle}>
                 {t(`Предоплата`)}:{" "}
                 <span>
                   {currentUserLocationData?.orders?.[0]?.cargo_id_data
                     ?.prepayment_percentage > 0
-                    ? "Da"
-                    : "Нет"}
+                    ? "Дa"
+                    : "Нет"}{" "}
                 </span>
               </p>
             </Flex>
@@ -311,35 +339,36 @@ const DriverCheck = ({
           >
             {t(`Занята нашим грузом`)}
           </Button>
-          {getUserGps?.data?.response && (
-            <Box
-              style={{ background: `white` }}
-              className={cls.cardWrapOutline}
-            >
-              <Flex width={"100%"} alignItems={"center"} gap={3}>
-                <Avatar
-                  name={getUserGps?.data?.response?.[0]?.full_name}
-                  src={getUserGps?.data?.response?.[0]?.full_name}
-                />
-                <Box>
-                  <p className={cls.cardStartSubTitlez}>Диспетчер </p>
-                  <p style={{ fontSize: `16px` }} className={cls.name}>
-                    {getUserGps?.data?.response?.[0]?.full_name}
-                  </p>
-                  <Flex alignItems={"center"} gap={2}>
-                    <a
-                      href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
-                    >
-                      <TelegramIcon />
-                    </a>
-                    <p className={cls.cardStartSubTitleZTel}>
-                      {getUserGps?.data?.response?.[0]?.phone}
+          {getUserGps?.data?.response &&
+            currentUserLocationData?.disp_data?.[0]?.users_id_2 && (
+              <Box
+                style={{ background: `white` }}
+                className={cls.cardWrapOutline}
+              >
+                <Flex width={"100%"} alignItems={"center"} gap={3}>
+                  <Avatar
+                    name={getUserGps?.data?.response?.[0]?.full_name}
+                    src={getUserGps?.data?.response?.[0]?.full_name}
+                  />
+                  <Box>
+                    <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                    <p style={{ fontSize: `16px` }} className={cls.name}>
+                      {getUserGps?.data?.response?.[0]?.full_name}
                     </p>
-                  </Flex>
-                </Box>
-              </Flex>
-            </Box>
-          )}
+                    <Flex alignItems={"center"} gap={2}>
+                      <a
+                        href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                      >
+                        <TelegramIcon />
+                      </a>
+                      <p className={cls.cardStartSubTitleZTel}>
+                        {getUserGps?.data?.response?.[0]?.phone}
+                      </p>
+                    </Flex>
+                  </Box>
+                </Flex>
+              </Box>
+            )}
         </Flex>
       )}
     </div>

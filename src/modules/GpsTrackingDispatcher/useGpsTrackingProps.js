@@ -27,8 +27,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 /* eslint no-undef: 0 */ // --> OFF
 export const useGpsTrackingProps = (locale) => {
-  const router = useRouter()
-  const mapRef = useRef()
+  const router = useRouter();
+  const mapRef = useRef();
   const searchParams = useSearchParams();
   const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
@@ -139,7 +139,7 @@ export const useGpsTrackingProps = (locale) => {
               cargo_id_data: res?.response?.[0],
             },
           ],
-          disp_data: [{ users_id_2: dispatcher_id }]
+          disp_data: [{ users_id_2: dispatcher_id }],
         };
         setCurrentUserLocationData(objContend);
         if (provisions === "empty") {
@@ -342,12 +342,11 @@ export const useGpsTrackingProps = (locale) => {
           users_gps: [item],
           orders: item?.order_data ? [item?.order_data] : undefined,
         }));
-   
+
         setCarsArr((res) => [...res, ...data2]);
       }
     },
   });
-
 
   useEffect(() => {
     if (guid || !cargo_guid) {
@@ -361,7 +360,7 @@ export const useGpsTrackingProps = (locale) => {
         users_gps: [
           {
             battery,
-            update_time:createdAt,
+            update_time: createdAt,
             os,
             lat,
             long,
@@ -382,7 +381,7 @@ export const useGpsTrackingProps = (locale) => {
             },
           },
         ],
-        disp_data: [{ users_id_2: dispatcher_id }]
+        disp_data: [{ users_id_2: dispatcher_id }],
       };
       setCurrentUserLocationData(objContend);
       if (provisions === "empty") {
@@ -393,19 +392,43 @@ export const useGpsTrackingProps = (locale) => {
         setModalType("driverQuestion");
       } else if (provisions === "broke_down") {
         setModalType("driverFree");
+      } else if (provisions === "waiting_for_driver") {
+        setModalType("driverExpectation");
       }
     }
   }, []);
 
+  console.log(`currentUserLocationData`, provisions);
 
   const dataUserID = useMemo(() => {
     let id = "";
     if (watch("users_id")) {
       id = watch("users_id");
     }
-
     return carsArr?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
+
+  useEffect(() => {
+    if (dataUserID.length > 0 && mapRef) {
+      setCurrentUserLocationData(dataUserID?.[0]);
+      if (dataUserID?.[0]?.user?.provisions?.[0] === "empty") {
+        setModalType("driverFree");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "our_cargo") {
+        setModalType("driverCheck");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "someone_cargo") {
+        setModalType("driverQuestion");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "broke_down") {
+        setModalType("driverFree");
+      } else if (
+        dataUserID?.[0]?.user?.provisions?.[0] === "waiting_for_driver"
+      ) {
+        setModalType("driverExpectation");
+      }
+      setIsBalloonOpened(false);
+    router.replace(`/${locale}/gps-tracking-dispatcher`);
+    }
+   
+  }, [dataUserID, watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
@@ -610,20 +633,19 @@ export const useGpsTrackingProps = (locale) => {
     });
   };
 
-  const handleCheckboxChange = (status,status_waiting) => {
-    if(status_waiting){
+  const handleCheckboxChange = (status, status_waiting) => {
+    if (status_waiting) {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
         [status_waiting]: !prevState[status_waiting],
       }));
-    }else{
+    } else {
       setCheckboxStatuses((prevState) => ({
         ...prevState,
         [status]: !prevState[status],
       }));
     }
-  
   };
   const handleInputClear = () => {
     setOffset(0);
@@ -699,6 +721,7 @@ export const useGpsTrackingProps = (locale) => {
     setIsBalloonOpened,
     refueling: remainingData,
     mapRef,
-     isFuelMap, setIsFuelMap
+    isFuelMap,
+    setIsFuelMap,
   };
 };

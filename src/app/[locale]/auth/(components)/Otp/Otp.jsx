@@ -9,6 +9,7 @@ import { ArrowLeft } from "@/assets/icons/icons";
 import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 import { MobileLogo } from "../MobileLogo";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
 export const Otp = observer(() => {
   const {
@@ -22,10 +23,13 @@ export const Otp = observer(() => {
     timer,
     handleResendOtp,
     isLoading,
+    success,
   } = useOtpProps();
 
+  console.log("timer", timer);
+
   return (
-    <Box className={cls.otpWrap}  height={"650px"}>
+    <Box className={cls.otpWrap} height={"650px"}>
       <div className={cls.buttonWrapper}>
         <Button
           onClick={navigateBack}
@@ -42,9 +46,9 @@ export const Otp = observer(() => {
         mb="32px"
         title={t("Проверьте свой телефон")}
         subtitle={
-          <p style={{marginTop:`40px`}}>
+          <p style={{ marginTop: `40px` }}>
             {t("Мы отправили вам код подтверждения на ваш указанный номер")}
-            <span className={cls.phone}>{phone}</span>
+            <span className={cls.phone}> {formatPhoneNumber(phone)}</span>
           </p>
         }
       />
@@ -63,24 +67,30 @@ export const Otp = observer(() => {
         containerProps={{ className: cls.otpContainer }}
         classNames={{
           container: cls.container,
-          character: clsx(cls.character, { [cls.error]: !!error }),
+          character: clsx(
+            cls.character,
+            { [cls.success]: success },
+            { [cls.error]: !!error }
+          ),
           characterSelected: cls.characterSelected,
         }}
       />
+      <Box fontSize={`14px`} color={`red`} fontWeight={500} mt="32px">{error && t(`Введен неверный код`)}</Box>
       <Box
         display="flex"
         flexDirection="column"
-        justifyContent="center"
-        textAlign="center"
-        alignItems="center"
-        mt="32px"
+        // justifyContent="center"
+        // textAlign="center"
+        // alignItems="center"
+        mt="10px"
       >
         {timer > 0 && (
           <Text fontSize="14px" color="brand.600" lineHeight="20px">
             00:{timer < 10 ? `0${timer}` : timer}
           </Text>
         )}
-        <Box mt="16px" display="flex" columnGap="4px">
+        {
+          timer === 0 &&   <Box mt="16px" display="flex" columnGap="4px">
           <Text fontSize="14px" color="brand.600" lineHeight="20px">
             {t("Не пришло сообщение?")}
           </Text>
@@ -94,6 +104,8 @@ export const Otp = observer(() => {
             </Button>
           </Box>
         </Box>
+        }
+      
       </Box>
     </Box>
   );

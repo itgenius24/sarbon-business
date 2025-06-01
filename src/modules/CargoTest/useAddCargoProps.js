@@ -568,6 +568,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   });
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  
+  console.log("loadingsData", watch(`unloading`));
+  
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
@@ -580,7 +583,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         step: index + 1,
         type: ["shipper"],
         expectations: +item.loading_num || 0,
-      }));
+      })) || [];
       let unloadinData = watch(`unloading`).map((item, index) => ({
         address: item?.address,
         date: new Date(item.to_date),
@@ -589,7 +592,8 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         step: index + 1,
         type: ["consignee"],
         guid: item?.guid,
-      }));
+      })) || [];
+
 
       if (watch(`period_ids`)?.length > 0) {
         createAddress.mutate(
@@ -597,9 +601,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
             data: {
               object_data: {
                 period_ids: watch(`period_ids`),
-                name: loadingsData
-                  .concat(unloadinData)
-                  .filter((item) => watch(`period_ids`).includes(item.guid)),
+                name: loadingsData.concat(unloadinData)?.filter((item) => watch(`period_ids`).includes(item.guid)),
                 cargo_id: data?.guid,
               },
             },
@@ -804,10 +806,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         // guid: watch(`loadResId`),
 
         load_time: getValues("loadings")[0].from_date || new Date(),
-        date:
-          new Date(
-            getValues("unloading")[getValues("unloading").length - 1].to_date
-          ) || new Date(),
+        date: getValues("unloading")[getValues("unloading").length - 1].to_date  || new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         cargo_type: ["cargo"],
@@ -956,35 +955,35 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   }
 
   function resetForm(data, id) {
-    loadingsRef.current = [
-      {
-        location: {
-          value: data?.address_id_data?.guid,
-          label: data?.city_id_data?.name + " " + data?.address_id_data?.name,
-          guid: data?.city_id_data?.guid,
-        },
-        search:
-          data?.city_id_data?.name ?? "" + " " + data?.address_id_data?.name,
-        address: "",
-        cor: [],
-      },
-    ];
+    // loadingsRef.current = [
+    //   {
+    //     location: {
+    //       value: data?.address_id_data?.guid,
+    //       label: data?.city_id_data?.name + " " + data?.address_id_data?.name,
+    //       guid: data?.city_id_data?.guid,
+    //     },
+    //     search:
+    //       data?.city_id_data?.name ?? "" + " " + data?.address_id_data?.name,
+    //     address: "",
+    //     cor: [],
+    //   },
+    // ];
 
-    unloadingRef.current = [
-      {
-        location: {
-          value: data?.address_id_2_data?.guid,
-          label:
-            data?.city_id_2_data?.name + " " + data?.address_id_2_data?.name,
-          guid: data?.city_id_2_data?.guid,
-        },
-        search:
-          data?.city_id_2_data?.name ??
-          "" + " " + data?.address_id_2_data?.name,
-        address: "",
-        cor: [],
-      },
-    ];
+    // unloadingRef.current = [
+    //   {
+    //     location: {
+    //       value: data?.address_id_2_data?.guid,
+    //       label:
+    //         data?.city_id_2_data?.name + " " + data?.address_id_2_data?.name,
+    //       guid: data?.city_id_2_data?.guid,
+    //     },
+    //     search:
+    //       data?.city_id_2_data?.name ??
+    //       "" + " " + data?.address_id_2_data?.name,
+    //     address: "",
+    //     cor: [],
+    //   },
+    // ];
 
     if (data && id) {
       setStartDate(new Date(data?.load_time || new Date()));

@@ -23,6 +23,7 @@ export const ChakraSelect = ({
       control={control || control2}
       defaultValue={defaultValue}
       render={({ field: { onChange, value } }) => {
+        console.log(`value`, options?.filter((option) => option.value === value)?.[0]);
         return (
           <Select
             // onPaste={(e) => console.log(`elda`,e)}
@@ -31,7 +32,7 @@ export const ChakraSelect = ({
               customOnChange(val ? val : {});
             }}
             options={options}
-            value={options?.find((option) => option.value === value?.value)}
+            value={options?.filter((option) => option.value === value)?.[0]}
             // menuIsOpen
             
             menuPortalTarget={ typeof document !== "undefined" && document.body}

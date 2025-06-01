@@ -113,7 +113,17 @@ export const DriversModule = ({ locale }) => {
             </Box>
             <Box>
               <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
-              <FormInternationInput control={control} name={`phone`} />
+              <FormInternationInput
+                control={control}
+                name={`phone`}
+                errors={errors}
+                rules={{
+                  required: {
+                    value: true,
+                    message: t("Это поле обязательно"),
+                  },
+                }}
+              />
             </Box>
             {/* {!id && (
               <Box>
@@ -197,7 +207,7 @@ export const DriversModule = ({ locale }) => {
             </Box>
             <Box>
               <p className={cls.textFieldName}>
-                {t("Фото водительского удостоверения")} *
+                {t("Фото водительского удостоверения")}
               </p>
 
               <UploadImg
@@ -208,8 +218,8 @@ export const DriversModule = ({ locale }) => {
                 icon={<Img3UploadIcon />}
                 text={t("Загрузить фото")}
                 errors={errors}
-                register={register}
-                rules={{ required: t("Загрузить фото") }}
+                // register={register}
+                // rules={{ required: t("Загрузить фото") }}
                 type={`driver_pass`}
                 isLoading={loadingFront}
                 setLoading={setLoadingFront}
@@ -267,7 +277,7 @@ export const DriversModule = ({ locale }) => {
               <ModalHeader>
                 <CheckModalIcon />
               </ModalHeader>
-              <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
+              {/* <ModalCloseButton onClick={() => setIsPopupOpen(false)} /> */}
               <ModalBody>
                 <p style={{ fontWeight: 400, fontSize: "16px" }}>
                   {t(
@@ -397,7 +407,7 @@ export const DriversModule = ({ locale }) => {
               <ModalBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Водитель с номером")} {watch(`phone`)}{" "}
-                  {t("уже регистрирован в Furgo")}
+                  {t("уже регистрирован в Sarbon")}
                 </p>
                 <Box mt={`24px`}>
                   <p
@@ -436,7 +446,7 @@ export const DriversModule = ({ locale }) => {
               <DrawerBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Водитель с номером")} {watch(`phone`)}{" "}
-                  {t("уже регистрирован в Furgo")}
+                  {t("уже регистрирован в Sarbon")}
                 </p>
                 <Box mt={`24px`}>
                   <p

@@ -4,7 +4,12 @@ export function translateArray(arr) {
     side: "Боковая",
     back: "Задняя",
     with_removal: "Со снятием стоек",
+    coupling:"Сцепка",
+    pneumatic:"Пневмоход",
+    konika:"Коники",
+    tir:"TIR",
+    cemt:"CEMT (ЕКМТ)"
   };
 
-  return arr?.map((item) => translationMap[item] || item);
+  return arr?.map((item) => translationMap[item])?.filter(item => item);
 }

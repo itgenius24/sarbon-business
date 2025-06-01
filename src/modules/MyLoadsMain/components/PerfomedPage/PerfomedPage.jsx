@@ -39,14 +39,10 @@ export const PerfomedPage = ({ orderStatus, t }) => {
     error,
   } = usePerfomedPageProps(orderStatus, t);
 
-  if (isLoading && cargoData?.length < 0) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <>
       <Box>
-        {cargoData?.length > 0 ? (
+        {cargoData?.length > 0 &&
           cargoData?.map((item, index) => (
             <Performed
               orderStatus={orderStatus}
@@ -55,11 +51,10 @@ export const PerfomedPage = ({ orderStatus, t }) => {
               onOpen={onOpen}
               setDataPred={setDataPred}
             />
-          ))
-        ) : (
-          <Empty t={t} />
-        )}
+          ))}
       </Box>
+      {cargoData?.length === 0 && isFetching && <LoadingSpinner />}
+      {cargoData?.length === 0 && !isFetching && <Empty t={t} />}
       {cargoData?.length >= 40 && (
         <Box mt={`15px`} width={`fit-content`}>
           <Button isLoading={isFetching} onClick={addPage}>

@@ -19,22 +19,13 @@ export const useOtpProps = () => {
   const { t } = useTranslation(locale, "translations");
 
   const [error, setError] = useState(false);
-
+  
   const { smsId, phone } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
     onSuccess: (data) => {
-      // if(!data?.user_found && authStore.getAuthData.isForgot) {
-      //   toast({
-      //     status: "error",
-      //     title: t("Пользователь не найден"),
-      //     duration: 3000,
-      //     position: "top right",
-      //   });
-      //   router.back();
-      // } else {
+   
         if(authStore.authData.isForgot) {
-          // authStore.setAuthData("userId", data?.user_id);
           router.push(`/${locale}/auth/new-password`);
         } else {
           router.replace(`/${locale}/auth/registration-form`);
@@ -42,8 +33,6 @@ export const useOtpProps = () => {
       // }
     },
     onError: () => {
-      // router.push(`/${locale}/auth/registration-form`);
-
       setError(true);
       toast({
         title: t("Неправильный код"),
@@ -117,5 +106,6 @@ export const useOtpProps = () => {
     handleResendOtp,
     timer,
     isLoading: registrationMutation.isLoading,
+    success:registrationMutation.isSuccess,
   };
 };

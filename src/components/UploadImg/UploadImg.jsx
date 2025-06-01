@@ -61,9 +61,10 @@ export const UploadImg = ({
     const result = await fileUpload(e, setFileUploadLoading);
 
     setValue(name, process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
-    console.log(`result`, result);
     uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
   };
+
+  console.log(`result`, watch(name));
 
   const onCropDone = async (file) => {
     onClose();
@@ -258,7 +259,7 @@ export const UploadImg = ({
           <ModalBody padding={`8px 5px`}>
             <Cropper
               src={cropImg}
-              style={{ height: 600, width: "100%" }}
+              style={{ height: isLargerThan845 ? 600 : 500, width: "100%" }}
               initialAspectRatio={1}
               guides={true}
               viewMode={1}
@@ -271,12 +272,11 @@ export const UploadImg = ({
               preview=".img-preview"
               minCropBoxHeight={10}
               minCropBoxWidth={10}
-                movable={true}   
-                  dragMode="move" 
-               
-                 scalable={true}           // rasmni o‘lchamini o‘zgartirish mumkin bo‘ladi
-  cropBoxMovable={true}     // crop box'ni o‘zi harakatlansin
-  cropBoxResizable={true}
+              movable={true}
+              dragMode="move"
+              scalable={true} // rasmni o‘lchamini o‘zgartirish mumkin bo‘ladi
+              cropBoxMovable={true} // crop box'ni o‘zi harakatlansin
+              cropBoxResizable={true}
             />
           </ModalBody>
 

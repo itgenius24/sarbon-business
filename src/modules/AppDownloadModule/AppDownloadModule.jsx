@@ -18,7 +18,7 @@ const AppDownloadModule = () => {
       <Flex justifyContent={`center`} alignItems={`center`} width={`100%`}>
         <Box>
           <p className={cls.mobileAppsHeading}>
-            {t("Мобильные приложения Furgo")}
+            {t("Мобильные приложения Sarbon")}
           </p>
           <ul className={cls.mobileAppList}>
             <li className={cls.mobileAppItem}>

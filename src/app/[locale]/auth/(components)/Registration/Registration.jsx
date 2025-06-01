@@ -53,6 +53,7 @@ export const Registration = () => {
     setOpen,
     open,
     watch,
+    register,
     locale,
     setType,
     handleGoogleLogin,
@@ -137,7 +138,7 @@ export const Registration = () => {
                     <p className={cls.textFieldName}>
                       {t("Мобильный телефон")} *
                     </p>
-                    <FormInternationInput control={control} name={`phone`} />
+                    <FormInternationInput register={register} control={control} name={`phone`} rules={{require:false}} />
                   </Box>
                 </Box>
 

@@ -109,6 +109,8 @@ const StepFive = ({ status,locale }) => {
   });
 
 
+
+
   const createCargo = useCreateCargoMutation({
     onSuccess: (data) => {
       actionCreate({
@@ -128,7 +130,7 @@ const StepFive = ({ status,locale }) => {
 
       let loadingsData = loadings.map((item, index) => ({
         address: item?.address,
-        date: new Date(item.from_date),
+        date: item.from_date ?  new Date(item.from_date) :null,
         lat: item?.cor.split(" ")[0],
         long: item?.cor.split(" ")[1],
         step: index + 1,
@@ -138,7 +140,7 @@ const StepFive = ({ status,locale }) => {
 
       let unloadinData = unloading.map((item, index) => ({
         address: item?.address,
-        date: new Date(item.to_date),
+        date: item.to_date ?  new Date(item.to_date) : null,
         lat: item?.cor.split(" ")[0],
         long: item?.cor.split(" ")[1],
         step: index + 1,
@@ -220,7 +222,7 @@ const StepFive = ({ status,locale }) => {
         prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
         dim_length_special: check ? undefined : watch("price_after_order"),
         payment_description: check ? undefined : watch("payment_description"),
-        currency_id: check ? undefined : watch("price_prepayment_unit").value,
+        currency_id: check ? undefined : watch("price_prepayment_unit")?.value,
         map_id: check ? undefined : watch("payment_type")?.value,
         map_id_2: check ? undefined : watch("payment_type_1")?.value,
         map_id_3: check ? undefined : watch("payment_type_2")?.value,
@@ -328,7 +330,7 @@ const StepFive = ({ status,locale }) => {
         prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
         dim_length_special: check ? undefined : watch("price_after_order"),
         payment_description: check ? undefined : watch("payment_description"),
-        currency_id: check ? undefined : watch("price_prepayment_unit").value,
+        currency_id: check ? undefined : watch("price_prepayment_unit")?.value,
         map_id: check ? undefined : watch("payment_type")?.value,
         map_id_2: check ? undefined : watch("payment_type_1")?.value,
         map_id_3: check ? undefined : watch("payment_type_2")?.value,

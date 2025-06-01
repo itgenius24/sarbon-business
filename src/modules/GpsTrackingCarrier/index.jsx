@@ -82,7 +82,6 @@ export default function GpsTrackingCarrier() {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`getCarListProps?.data`, getCarListProps);
 
   return (
     <>
@@ -117,6 +116,7 @@ export default function GpsTrackingCarrier() {
             setCurrentUserLocationData={setCurrentUserLocationData}
             contendHoverState={contendHoverState}
             mapRef={mapRef}
+            currentUserLocationData={currentUserLocationData}
           />
         )}
 

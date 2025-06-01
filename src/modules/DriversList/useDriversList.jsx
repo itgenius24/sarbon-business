@@ -23,7 +23,32 @@ export const useDriversList = () => {
 
   const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
-      setData(res?.response);
+       const response = res?.response;
+
+      if (!Array.isArray(response)) return;
+
+      // Guruhlash
+      const grouped = {};
+
+      response.forEach((item) => {
+        const guid = item.driver_gps_data?.guid;
+
+        if (!guid) return;
+
+        if (!grouped[guid]) {
+          grouped[guid] = {
+            ...item,
+            orders: item?.order_data ? [item.order_data] : undefined,
+          };
+          delete grouped[guid].order_data;
+        } else {
+          grouped[guid].orders.push(item.order_data);
+        }
+      });
+
+      const finalResult = Object.values(grouped);
+      setData(finalResult);
+
       setStatus(false);
     },
   });

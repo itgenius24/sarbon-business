@@ -77,6 +77,9 @@ export const SearchCargoModule = () => {
     },
   };
 
+
+  console.log(`errors`, errors);
+
   return (
     <>
       <Container my={isLargerThan845 ? "24px" : "24px"}>
@@ -155,7 +158,7 @@ export const SearchCargoModule = () => {
                     <Box width={`100%`}>
                       <Box width={`100%`}>
                         <p className={cls.textFieldName}>
-                          {t("Страна регистрации автомобиля")}
+                          {t("Страна регистрации автомобиля")} *
                         </p>
 
                         <Dropdown
@@ -211,7 +214,7 @@ export const SearchCargoModule = () => {
                       </Box>
                     </Box>
                     <Box width={`100%`}>
-                      <p className={cls.textFieldName}>{t("Марка машины")}</p>
+                      <p className={cls.textFieldName}>{t("Марка машины")} *</p>
                       <TextField
                         rules={rules}
                         errors={errors}
@@ -426,7 +429,7 @@ export const SearchCargoModule = () => {
 
                   <Box width={`100%`}>
                     <p className={cls.textFieldName}>
-                      {t("Номер кузова (VIN)")}
+                      {t("Номер кузова (VIN)")} *
                     </p>
                     <TextField
                       rules={rules}
@@ -610,7 +613,7 @@ export const SearchCargoModule = () => {
                       register={register}
                       name="cemt"
                     >
-                      {t("CEMT (ЕКМТ) ")}
+                      {t("CEMT (ЕКМТ)")}
                     </Checkbox>
                   </Box>
                 </Box>
@@ -624,7 +627,7 @@ export const SearchCargoModule = () => {
                 mt={"32px"}
               >
                 <Box width={"100%"} mt={"17px"}>
-                  <p className={cls.textFieldName}>{t("Фото Техпаспорта")} *</p>
+                  <p className={cls.textFieldName}>{t("Фото Техпаспорта")} </p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
                       isCrop
@@ -633,9 +636,9 @@ export const SearchCargoModule = () => {
                       name={"front_side_trailer"}
                       icon={<ImgploadIcon1 />}
                       text={t("Загрузить фото спереди")}
-                      errors={errors}
-                      register={register}
-                      rules={{ required: t("Это поле объязательно") }}
+                      // errors={errors}
+                      // register={register}
+                      // rules={{ required: t("Это поле объязательно") }}
                       type={`tech_pass`}
                       isLoading={loadingFront}
                       setLoading={setLoadingFront}
@@ -648,18 +651,18 @@ export const SearchCargoModule = () => {
                       name={"back_side_trailer"}
                       icon={<ImgploadIcon1 />}
                       text={t("Загрузить фото сзади")}
-                      errors={errors}
-                      register={register}
+                      // errors={errors}
+                      // register={register}
                       isLoading={loadingBack}
                       setLoading={setLoadingBack}
                       uploadAi={uploadAi}
                       type={`tech_pass`}
-                      rules={{ required: t("Это поле объязательно") }}
+                      // rules={{ required: t("Это поле объязательно") }}
                     />
                   </Flex>
                 </Box>
                 <Box width={"100%"} mt={"17px"}>
-                  <p className={cls.textFieldName}>{t("Фото машины")} *</p>
+                  <p className={cls.textFieldName}>{t("Фото машины")}</p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
                       isCrop

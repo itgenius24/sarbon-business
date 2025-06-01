@@ -205,7 +205,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 <Flex gap={3} alignItems={`center`}>
                   <p className={cls.title2}>
                     {" "}
-                    {item?.vehicles?.[0]
+                    {item?.vehicle_data
                       ? t("Свободна, без груза")
                       : t("Свободна, без машины")}{" "}
                   </p>
@@ -254,11 +254,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
         </Box>
         <Box width={"25%"}>
           <p className={cls.subTitle}>{t("Машина")}:</p>
-          {item?.vehicles?.[0] ? (
+          {item?.vehicle_data ? (
             <Box className={cls.profileWrap}>
               <Flex gap={3}>
-                {item?.vehicles?.[0]?.car_photo !== "photo" &&
-                item?.vehicles?.[0]?.car_photo ? (
+                {item?.vehicle_data?.car_photo !== "photo" &&
+                item?.vehicle_data?.car_photo ? (
                   <Image
                     style={{
                       borderRadius: `6px`,
@@ -266,7 +266,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                       height: `45px`,
                       objectFit: `cover`,
                     }}
-                    src={item?.vehicles?.[0]?.car_photo}
+                    src={item?.vehicle_data?.car_photo}
                     // objectFit="cover"
                     width={100}x
                     height={100}
@@ -277,10 +277,10 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 )}
 
                 <Box>
-                  <p className={cls.title}>{item?.vehicles?.[0]?.marka}</p>
+                  <p className={cls.title}>{item?.vehicle_data?.marka}</p>
                   <p className={cls.subTitle}>
-                    {item?.vehicles?.[0]?.car_number
-                      ? item?.vehicles?.[0]?.car_number
+                    {item?.vehicle_data?.car_number
+                      ? item?.vehicle_data?.car_number
                       : ``}
                   </p>
                 </Box>

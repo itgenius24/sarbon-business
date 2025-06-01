@@ -50,7 +50,7 @@ const Cmap = memo(
   }) => {
     const [isClient, setIsClient] = useState(false);
     const searchParams = useSearchParams();
-    const guid = searchParams.get(`guid`);
+    const guid = searchParams.get(`guid`) || watch("users_id");
     const { t } = useTranslation();
     const [zoom, setZoom] = useState(5);
     const [points, setPoints] = useState([]);
@@ -75,20 +75,24 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
+
+
     useEffect(() => {
       if (
-        guid &&
+       guid &&
         currentUserLocationData &&
         mapRef.current &&
         !isBalloonOpened
       ) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
-        }, 1000);
+        }, 500);
 
         return () => clearTimeout(timeout);
       }
-    }, [mapRef.current]);
+    }, [mapRef.current, watch("users_id")]);
+
+
 
     const openBalloonById = () => {
       const placemark = placemarkRefs.current;
@@ -508,7 +512,7 @@ const Cmap = memo(
           }}
         />
 
-        {guid && currentUserLocationData && (
+        {guid  && currentUserLocationData && (
           <Placemark
             key={currentUserLocationData?.user?.guid}
             geometry={[

@@ -122,6 +122,11 @@ export const useSearchCargo = () => {
         });
       }
 
+      setValue(`coupling`, useList?.response?.coupling);
+      setValue(`pneumatic`, useList?.response?.pneumatic);
+      setValue(`konika`, useList?.response?.konika);
+      setValue(`cemt`, useList?.response?.cemt);
+      setValue(`tir`, useList?.response?.tir);
       reset({
         ...useList?.response,
         trailer_type_id: trilerVal?.[0],
@@ -314,13 +319,17 @@ export const useSearchCargo = () => {
         coupling: val.coupling, // or true
         konika: val.konika, // or false
         adr: val?.adr?.value || ``,
-        back_side_trailer: val.back_side_trailer, //url cdn
-        back_side_trailer_1: val?.back_side_trailer_1,
-        front_side_trailer: val.front_side_trailer, //url cdn
-        front_side_trailer_1: val.front_side_trailer_1,
+        back_side_trailer:
+          val.back_side_trailer?.length > 0 ? val.back_side_trailer : ``, //url cdn
+        back_side_trailer_1:
+          val?.back_side_trailer_1?.length > 0 ? val?.back_side_trailer_1 : ``,
+        front_side_trailer:
+          val.front_side_trailer?.length > 0 ? val.front_side_trailer : ``, //url cdn
+        front_side_trailer_1:
+          val.front_side_trailer_1?.length > 0 ? val.front_side_trailer_1 : ``,
         car_photo: val.car_photo, //url cdn
         download_type: getTrueKeys(load),
-        car_position: ["moderation"],
+        car_position: ["alive"],
         status: [`active`],
         firm_id,
         car_country: val?.car_country?.value,
@@ -343,6 +352,7 @@ export const useSearchCargo = () => {
         unladen_weight: watch(`unladen_weight`) || undefined,
         year_of_manufacture: watch(`year_of_manufacture`) || undefined,
         engine_number: watch(`engine_number`) || undefined,
+        car_vin_number: watch(`car_vin_number`) || undefined,
         type: watch(`type`) || undefined,
       },
     };

@@ -696,18 +696,18 @@ export const CreateCarDis = () => {
               mt={"32px"}
             >
               <Box width={"100%"} mt={"17px"}>
-                <p className={cls.textFieldName}>{t("Фото Техпаспорта")} *</p>
+                <p className={cls.textFieldName}>{t("Фото Техпаспорта")}</p>
                 <Flex gap={4} className={cls.ImgWrap}>
                   <UploadImg
-                  isCrop
-                    watch={watch}
+                   isCrop
+                     watch={watch}
                     setValue={setValue}
                     name={"front_side_trailer"}
                     icon={<ImgploadIcon1 />}
                     text={t("Загрузить фото спереди")}
-                    errors={errors}
-                    register={register}
-                    rules={{ required: t("Это поле объязательно") }}
+                    // errors={errors}
+                    // register={register}
+                    // rules={{ required: t("Это поле объязательно") }}
                     type={`tech_pass`}
                     isLoading={loadingFront}
                     setLoading={setLoadingFront}
@@ -720,13 +720,13 @@ export const CreateCarDis = () => {
                     name={"back_side_trailer"}
                     icon={<ImgploadIcon2 />}
                     text={t("Загрузить фото сзади")}
-                    errors={errors}
-                    register={register}
+                    // errors={errors}
+                    // register={register}
                     isLoading={loadingBack}
                     setLoading={setLoadingBack}
                     uploadAi={uploadAi}
                     type={`tech_pass`}
-                    rules={{ required: t("Это поле объязательно") }}
+                    // rules={{ required: t("Это поле объязательно") }}
                   />
                 </Flex>
               </Box>

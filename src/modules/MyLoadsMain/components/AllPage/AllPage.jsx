@@ -6,22 +6,21 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadsCard } from "../LoadsCard";
 import useProps from "./useProps";
 
-export const AllPage = ({ orderStatus, t,search = ``,address = `` }) => {
-  const { cargoData, isLoading, addPage, isFetching, handleDelete, } = useProps(
+export const AllPage = ({ orderStatus, t, search = ``, address = `` }) => {
+  const { cargoData, isLoading, addPage, isFetching, handleDelete } = useProps(
     orderStatus,
     t,
     search,
     address
   );
 
-  if (isFetching ) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <>
+      { cargoData?.length === 0 && isFetching && <LoadingSpinner />}
+
       <Box>
-        {cargoData?.length > 0 ? (
+        {cargoData?.length > 0 &&
           cargoData?.map((item, index) => (
             <LoadsCard
               handleDelete={handleDelete}
@@ -29,11 +28,11 @@ export const AllPage = ({ orderStatus, t,search = ``,address = `` }) => {
               key={index}
               cargo={item}
             />
-          ))
-        ) : (
-          <Empty t={t} />
-        )}
+          ))}
       </Box>
+
+      {cargoData?.length === 0 && !isFetching && <Empty t={t} />}
+
 
       {cargoData?.length >= 100 && (
         <Box mt={`15px`} width={`fit-content`}>

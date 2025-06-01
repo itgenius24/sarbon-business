@@ -24,7 +24,6 @@ export const useRegistrationProps = () => {
   const [user, setUser] = useState(null);
   const locale = useGetLang();
 
-  console.log(`user`, user);
 
   const { t } = useTranslation(locale, "translations");
 
@@ -83,6 +82,7 @@ export const useRegistrationProps = () => {
   });
 
   function onSubmit(data) {
+    console.log(`data`, data);
     authStore.setAuthData("phone", data.phone);
     setNomer(data.phone);
   }

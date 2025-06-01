@@ -527,7 +527,7 @@ export const TopContent = ({
                               <FurIcon />
                               <div className={cls.itemText}>
                                 <p className={cls.phoneItemTitle}>
-                                  {t(`Версия Furgo`)}
+                                  {t(`Версия Sarbon`)}
                                 </p>
                                 <p className={cls.phoneItemName}>
                                   {user?.users_gps?.version}{" "}

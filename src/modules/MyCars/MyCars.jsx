@@ -66,8 +66,8 @@ export const MyCarsModule = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   return (
     <>
-      <Container my={isLargerThan845 ? "40px" : `20px`}>
-        <Flex width={"100%"} justifyContent={"space-between"}>
+      <Container my={isLargerThan845 ? "40px" : `20px`} pb={`20px`}>
+        <Flex  width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}
             mb={isLargerThan845 ? "24px" : "12px"}
@@ -133,6 +133,7 @@ export const MyCarsModule = () => {
         <Button
           display={isLargerThan845 ? `none` : `block`}
           mt={`20px`}
+          
           onClick={() => router.push(`/${locale}/my-cars/create`)}
           backgroundColor={`var(--primary-text)`}
           leftIcon={<PlusIcon />}
@@ -161,10 +162,10 @@ export const MyCarsModule = () => {
                   dataModal?.map((item) => {
                     return (
                       <CheckBoxComponent
-                        opacity={item?.vehicles?.[0] ? 0.5 : 1}
+                        opacity={item?.vehicle_data ? 0.5 : 1}
                         key={item?.guid}
                         onClick={() =>
-                          item?.vehicles?.[0]
+                          item?.vehicle_data
                             ? null
                             : setUserId(item?.guid)
                         }
@@ -185,7 +186,7 @@ export const MyCarsModule = () => {
                               </p>
                             </Box>
                           </Flex>
-                          {item?.vehicles?.[0] && (
+                          {item?.vehicle_data && (
                             <Flex
                               flexDirection={`column`}
                               mr={5}
@@ -193,20 +194,20 @@ export const MyCarsModule = () => {
                               className={cls.subTitle2}
                             >
                               <p className={cls.loadType}>
-                                {`${item?.vehicles?.[0]?.marka} ${
-                                  item?.vehicles?.[0]?.car_number
-                                    ? item?.vehicles?.[0]?.car_number
+                                {`${item?.trailer_type?.name} ${
+                                  item?.vehicle_data?.car_number
+                                    ? item?.vehicle_data?.car_number
                                     : ``
                                 }`}
                               </p>
                               <Flex gap={2}>
                                 <Flex gap={1} alignItems={"center"}>
                                   <StoneIcon />
-                                  {item?.vehicles?.[0]?.capacity} т.
+                                  {item?.vehicle_data?.capacity} т.
                                 </Flex>
                                 <Flex gap={1} alignItems={"center"}>
                                   <LoadOulineIcon />
-                                  {item?.vehicles?.[0]?.height} m3
+                                  {item?.vehicle_data?.height} m3
                                 </Flex>
                               </Flex>
                             </Flex>
@@ -297,10 +298,10 @@ export const MyCarsModule = () => {
                   dataModal?.map((item) => {
                     return (
                       <CheckBoxComponent
-                        opacity={item?.vehicles?.[0] ? 0.5 : 1}
+                        opacity={item?.vehicle_data ? 0.5 : 1}
                         key={item?.guid}
                         onClick={() =>
-                          item?.vehicles?.[0]
+                          item?.vehicle_data
                             ? null
                             : setUserId(item?.guid)
                         }
@@ -325,7 +326,7 @@ export const MyCarsModule = () => {
                                 <p className={cls.phone}>{item?.phone}</p>
                               </Box>
 
-                              {item?.vehicles?.[0] && (
+                              {item?.vehicle_data && (
                                 <Flex
                                   flexDirection={`column`}
                                   // mt={3}
@@ -333,20 +334,20 @@ export const MyCarsModule = () => {
                                   className={cls.subTitle2}
                                 >
                                   <p className={cls.loadType}>
-                                    {`${item?.vehicles?.[0]?.marka} ${
-                                      item?.vehicles?.[0]?.car_number
-                                        ? item?.vehicles?.[0]?.car_number
+                                    {`${item?.vehicle_data?.marka} ${
+                                      item?.vehicle_data?.car_number
+                                        ? item?.vehicle_data?.car_number
                                         : ``
                                     }`}
                                   </p>
                                   <Flex gap={2}>
                                     <Flex gap={1} alignItems={"center"}>
                                       <StoneIcon />
-                                      {item?.vehicles?.[0]?.capacity} т.
+                                      {item?.vehicle_data?.capacity} т.
                                     </Flex>
                                     <Flex gap={1} alignItems={"center"}>
                                       <LoadOulineIcon />
-                                      {item?.vehicles?.[0]?.height} m3
+                                      {item?.vehicle_data?.height} m3
                                     </Flex>
                                   </Flex>
                                 </Flex>

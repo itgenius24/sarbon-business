@@ -14,40 +14,45 @@ const FormInternationInput = ({
   rules = {},
   errors = {},
 }) => {
-  console.log("errors", errors);
+  console.log(`errors`,errors)
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
       rules={rules}
-      render={({ field: { onChange, value } }) => (
-        <PhoneInput
-          hideDropdown={true}
-          disabled={disabled}
-          name={name}
-          defaultCountry="uz"
-          value={value}
-          onChange={(e) => {
-            if (e.length > 4) {
-              onChange(e || "");
-            }else{
-               onChange("")
-            }
-          }}
-          type="text"
-          className={`${
-            classes
-              ? errors[name]
+      render={({ field }) => {
+        return (
+          <PhoneInput
+            {...field}
+            inputProps={{
+              id: name,
+            }}
+            hideDropdown={true}
+            disabled={disabled}
+            defaultCountry="uz"
+            value={field?.value}
+            onChange={(e) => {
+              if (e.length > 4) {
+                field?.onChange(e, {});
+              } else {
+                field?.onChange("");
+              }
+            }}
+            type="text"
+            className={`${
+              classes
+                ? errors[name]
+                  ? `errorInputTel`
+                  : classes
+                : errors[name]
                 ? `errorInputTel`
-                : classes
-              : errors[name]
-              ? `errorInputTel`
-              : "inputStyles"
-          }`}
-          placeholder={placeholder}
-        />
-      )}
+                : "inputStyles"
+            }`}
+            placeholder={placeholder}
+          />
+        );
+      }}
     />
   );
 };

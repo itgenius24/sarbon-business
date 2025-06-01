@@ -1,0 +1,115 @@
+.popoverContent {
+  border: none !important;
+  top: 10px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 12px 16px 0px rgba(16, 24, 40, 0.184);
+  width: 408px;
+  padding: 20px 24px;
+  border-radius: 8px;
+}
+.popoverTrigger {
+  position: relative;
+}
+.messageCount {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgba(0, 122, 255, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: white;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.12);
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  z-index: 1;
+}
+.popoverHeader {
+  border: none !important;
+  padding: 0px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(223, 223, 223, 1) !important;
+
+  .headerTitle {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 14px;
+    letter-spacing: 0px;
+    color: rgba(33, 31, 38, 1);
+  }
+}
+
+.popoverBody {
+  padding: 0px;
+  width: 100%;
+  .messageWrap {
+    width: 100%;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(223, 223, 223, 1);
+    align-items: center;
+    gap: 11px;
+    cursor: pointer;
+    // &:hover{
+    //     background-color: rgb(249, 249, 249);
+    // }
+    .name {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 100%;
+      letter-spacing: 0%;
+      color: rgba(0, 51, 153, 1);
+    }
+    .newMessageIcon {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: rgba(0, 122, 255, 1);
+    }
+    .time {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 14px;
+      letter-spacing: 0px;
+      color: rgba(126, 123, 134, 1);
+      gap: 7px;
+      align-items: center;
+    }
+    .lastMessage {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(33, 31, 38, 1);
+      margin-top: 4px;
+    }
+    .lastMessageAudio {
+      align-items: center;
+      gap: 3px;
+      margin-top: 4px;
+    }
+    .timeAudio {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 14px;
+      letter-spacing: 0px;
+      text-align: right;
+      vertical-align: middle;
+      color: rgba(33, 31, 38, 1);
+    }
+  }
+  .btn {
+    background-color: rgba(237, 239, 245, 1) !important;
+    color: rgba(0, 51, 153, 1) !important;
+    font-size: 14px !important;
+    font-weight: 500;
+    height: 40px !important;
+    width: fit-content !important;
+    margin-top: 14px;
+  }
+}

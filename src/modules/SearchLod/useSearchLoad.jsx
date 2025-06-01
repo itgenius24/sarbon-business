@@ -35,11 +35,7 @@ export const useSearchLoad = () => {
     formState,
   } = useForm({});
 
-
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-
-
-
 
   const {
     data: dataMap,
@@ -59,9 +55,9 @@ export const useSearchLoad = () => {
             ? [watch(`vehicle_type_id`)?.value]
             : [],
           min_volume: +watch(`min_volume`) || 0,
-          max_volume: +watch(`max_volume`) || 0,
+          max_volume: +watch(`max_volume`) || 1000,
           min_weight: +watch(`min_weight`) || 0,
-          max_weight: +watch(`max_weight`) || 0,
+          max_weight: +watch(`max_weight`) || 1000,
           only_for_me: watch(`only_for_me`) || 0,
           firm_id,
           page,
@@ -70,7 +66,7 @@ export const useSearchLoad = () => {
       },
     },
     querySettings: {
-      enabled: Boolean(isLargerThan845  ? true : false),
+      enabled: Boolean(isLargerThan845 ? true : false),
       select: (res) => ({
         ...res,
         response: res?.response.sort((a, b) => a.distances - b.distances),
@@ -94,8 +90,6 @@ export const useSearchLoad = () => {
     },
   });
 
-  console.log(`dataRes`,dataRes)
-
   const { mutate: logHistory } = useCreateLogHistory({});
 
   useEffect(() => {
@@ -108,24 +102,19 @@ export const useSearchLoad = () => {
     });
   }, []);
 
-
   const loadMore = () => {
-    if(!isLargerThan845){
+    if (!isLargerThan845) {
       setPage((prev) => prev + 1);
-    }else{
+    } else {
       setPage((prev) => prev + 1);
     }
-  }
-
-
-
+  };
 
   useEffect(() => {
     if (!isLargerThan845) {
       refetch();
     }
-  }, [page
-  ]);
+  }, [page]);
 
   const onSubmit = () => {
     refetch();
@@ -148,7 +137,7 @@ export const useSearchLoad = () => {
     setStatus2,
     setPage,
     page,
-    isLoadingLo:isFetching,
+    isLoadingLo: isFetching,
     onSubmit,
     total,
     loadMore,

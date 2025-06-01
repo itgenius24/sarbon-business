@@ -9,8 +9,9 @@ import {
 } from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useToast } from "@chakra-ui/react";
 
-const useStepOneProps = ({locale}) => {
+const useStepOneProps = ({ locale }) => {
   const {
     control,
     errors,
@@ -27,7 +28,7 @@ const useStepOneProps = ({locale}) => {
     setIsFileUploader,
     handleResetForm,
     editModal,
-    setEditModal
+    setEditModal,
   } = useAddCargoContext();
   const [searchCargo, setSearchCargo] = useState("");
   const [img, setImg] = useState("");
@@ -35,7 +36,7 @@ const useStepOneProps = ({locale}) => {
   const [offset, setOffset] = useState(0);
   const [refesh, setRefesh] = useState(0);
   const [getCargoData, setGetCargoData] = useState([]);
-
+  const toast = useToast();
 
   useEffect(() => {
     if (
@@ -69,7 +70,7 @@ const useStepOneProps = ({locale}) => {
     },
   });
 
-  console.log(`getCargoTypes`,getCargoTypes)
+  console.log(`getCargoTypes`, getCargoTypes);
 
   useEffect(() => {
     if (getCargoTypes?.data?.length === 40) {
@@ -115,8 +116,10 @@ const useStepOneProps = ({locale}) => {
   };
 
   const handleImageUpload = async (e) => {
-    const result = await fileUpload(e);
-    setValue("image", process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
+    const result = await fileUpload(e, () => {}, "", toast);
+    if (result?.link) {
+      setValue("image", process.env.NEXT_PUBLIC_MEDIA_URL + result?.link);
+    }
   };
   function imageLoader() {
     return watch("image")?.includes("http")
@@ -128,8 +131,10 @@ const useStepOneProps = ({locale}) => {
   const getPackages = useGetPackage();
   const weightMeasurementOptions = getMeasurement.data?.response
     ?.filter((item) => !item?.base_unit.includes("meter"))
-    ?.map((item) => ({ label: item.Symbol === `T` ? `т` : item.Symbol , value: item.guid }));
-
+    ?.map((item) => ({
+      label: item.Symbol === `T` ? `т` : item.Symbol,
+      value: item.guid,
+    }));
 
   const packageOptions = getPackages.data?.response?.map((item) => ({
     label: item?.name,
@@ -158,8 +163,6 @@ const useStepOneProps = ({locale}) => {
       watch("volume_measurement")
     ) {
       setValue(`cargoIndex`, 2);
-
-      
     } else {
       if (watch(`cargo_type`)?.value) {
         setError(`cargo_type`);
@@ -198,7 +201,7 @@ const useStepOneProps = ({locale}) => {
     canEdit,
     handleResetForm,
     editModal,
-    setEditModal
+    setEditModal,
   };
 };
 
