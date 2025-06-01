@@ -30,7 +30,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const order = item?.orders?.provisions.includes(`performed`);
+  const order = item?.order_data?.provisions?.includes(`performed`);
 
 
   return (

@@ -216,7 +216,7 @@ const MainPage = ({ locale }) => {
                     >
                       <TruckIconBlue />
                       <div>
-                        <p className={cls.title}>700+</p>
+                        <p className={cls.title}>2000+</p>
                         <p className={cls.subTitle}>
                           {t(`активных водителей`)}
                         </p>

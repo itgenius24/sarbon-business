@@ -31,7 +31,7 @@ export const useDriversList = () => {
       const grouped = {};
 
       response.forEach((item) => {
-        const guid = item.driver_gps_data?.guid;
+        const guid = item?.guid;
 
         if (!guid) return;
 

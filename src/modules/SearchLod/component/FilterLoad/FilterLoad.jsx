@@ -199,7 +199,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label={t("Объём от:")}
+            label={t("Объем с:")}
             control={control}
             name="min_volume"
             register={register}
@@ -214,7 +214,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           <TextFieldWithAddition
             className={cls.textField}
             control={control}
-            label={t("Объём до:")}
+            label={t("Объем по:")}
             name="max_volume"
             register={register}
             width="100%"
@@ -227,7 +227,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label={t("Вес от:")}
+            label={t("Вес с:")}
             control={control}
             name="min_weight"
             register={register}
@@ -241,7 +241,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           <TextFieldWithAddition
             className={cls.textField}
             control={control}
-            label={t("Вес до:")}
+            label={t("Вес по:")}
             name="max_weight"
             register={register}
             placeholder={t("максимум")}

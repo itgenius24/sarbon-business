@@ -147,7 +147,7 @@ export const TableComponent = ({
       const grouped = {};
 
       response.forEach((item) => {
-        const guid = item.driver_gps_data?.guid;
+        const guid = item?.guid;
 
         if (!guid) return;
 
@@ -538,6 +538,7 @@ export const TableComponent = ({
       ),
     },
   ];
+
 
   const statusTooltip = (item) => {
     const data = item?.status || [];
