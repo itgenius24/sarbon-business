@@ -491,7 +491,7 @@ export const TableComponent = ({
                 </span>
               </p>
               <span className={cls.subTitle}>
-                {t("Предопл.")}{" "}
+                {t("Аванс")}{" "}
                 {row?.prepayment_percentage > 0
                   ? `${row?.prepayment_percentage} ${row?.currency_id_data?.[0]?.code}`
                   : t("Нет")}
@@ -501,7 +501,7 @@ export const TableComponent = ({
             <>
               <p className={cls.title}>{t("По запросу")}</p>
               <span className={cls.subTitle}>
-                {t("Предопл.")} {t("По запросу")}
+                {t("Аванс")} {t("По запросу")}
               </span>
             </>
           )}

@@ -160,7 +160,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
               register={register}
               name={`prepayment`}
             >
-              {t("Только с предоплатой")}
+              {t("Аванс")}
             </Checkbox>
             <Checkbox
               defaultChecked={watch(`spot`)}

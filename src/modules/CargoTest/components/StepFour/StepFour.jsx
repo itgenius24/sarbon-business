@@ -39,7 +39,9 @@ const StepFour = ({ status, locale }) => {
 
   const params = usePathname();
 
-  console.log(`salom`, watch(`price_prepayment`));
+  console.log(`salom`, watch(`payment_type_1`));
+
+  
 
   useEffect(() => {
     if (watch(`price_prepayment`) > 0 && params.includes("my-loads")) {
@@ -342,6 +344,7 @@ const StepFour = ({ status, locale }) => {
                       register={register}
                       control={control}
                       additionalItemName="payment_type"
+                      additionalItemPlaceholder={paymentOptions?.[0]?.label}
                       additionalItemDefaultIndex={0}
                       placeholder={t("Введите сумму")}
                       errors={errors}
@@ -397,6 +400,7 @@ const StepFour = ({ status, locale }) => {
                       register={register}
                       control={control}
                       additionalItemName="payment_type_1"
+                      additionalItemPlaceholder={paymentOptions?.[0]?.label}
                       additionalItemDefaultIndex={0}
                       placeholder={t("Введите сумму")}
                       errors={errors}
@@ -432,6 +436,7 @@ const StepFour = ({ status, locale }) => {
                         register={register}
                         control={control}
                         additionalItemName="payment_type"
+                        additionalItemPlaceholder={paymentOptions?.[0]?.label}
                         additionalItemDefaultIndex={0}
                         placeholder={t("Введите сумму")}
                         errors={errors}
