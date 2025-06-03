@@ -47,10 +47,10 @@ export const ProfileInfoForm = ({
     isPasswordVisible2,
     setPasswordVisible2,
     changePass,
-    formatPhoneNumber
+    formatPhoneNumber,
   } = useProfileInfoFormProps(setValue, reset, watch);
 
-  console.log(`watch`,errors);
+  console.log(`watch`, watch(`fill_name`));
 
   const { t } = useTranslation();
 
@@ -64,10 +64,9 @@ export const ProfileInfoForm = ({
         fontSize={`22px`}
         color={`rgba(33, 31, 38, 1)`}
       >
-      {
-        watch(`tip_account`)?.[0] === `legal_owner` ? `Мои данные` : `Персональные данные`
-      }
-       
+        {watch(`tip_account`)?.[0] === `legal_owner`
+          ? `Мои данные`
+          : `Персональные данные`}
       </Text>
 
       {watch(`tip_account`)?.[0] === `legal_owner` ? (
@@ -229,7 +228,7 @@ export const ProfileInfoForm = ({
               label={t("Почта")}
               rules={rules}
               defaultValue={email}
-              placeholder="artlaliwer@gmail.com"
+              placeholder="Emil"
             />
             <Box width={`100%`}></Box>
           </div>

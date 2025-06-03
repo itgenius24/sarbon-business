@@ -124,19 +124,20 @@ export default function GpsTrackingDispatcherTop({ locale }) {
             mapRef={mapRef}
           />
         )}
-
-        <div className={cls.modalWrap}>
+        <div className={cls.modalWrapBtn}>
+          {modalType === "" && (
+            <div
+              onClick={() => setModalType("filter")}
+              className={cls.filterBtn}
+            >
+              <FilterIcon /> {t(`Фильтр`)}
+            </div>
+          )}
+        </div>
+        {
+          modalType.length > 0 &&  <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>
-              {modalType === "" && (
-                <div
-                  onClick={() => setModalType("filter")}
-                  className={cls.filterBtn}
-                >
-                  <FilterIcon /> {t(`Фильтр`)}
-                </div>
-              )}
-
               {modalType === "filter" && (
                 <Filter
                   cls={cls}
@@ -235,6 +236,9 @@ export default function GpsTrackingDispatcherTop({ locale }) {
             </Box>
           </Flex>
         </div>
+        }
+
+       
         {centerModalType === "selectCargo" && (
           <div className={cls.leftModal}>
             <SelectCargo

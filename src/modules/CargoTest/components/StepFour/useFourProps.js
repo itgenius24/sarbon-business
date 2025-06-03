@@ -99,7 +99,6 @@ const useFourProps = ({ locale }) => {
     }
   }, [paymentOptions]);
 
-  console.log(`watch`,watch(`payment_type`))
 
   const onSubmit = () => {
     setValue(`cargoIndex`, 5);

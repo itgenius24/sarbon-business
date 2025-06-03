@@ -58,7 +58,6 @@ const Cmap = memo(
 
     const ymapsRef = useRef(null);
     const polylineRef = useRef(null);
-    const clustererRef = useRef({});
 
     const [ballonRef, setBallonRef] = useState(null);
     const multiRouteRef = useRef(null);
@@ -214,35 +213,11 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
+        multiRoute.events.add("balloonclose", () => {
+          clearMap();
+        });
       });
     };
-
-    useEffect(() => {
-      setTimeout(() => {
-        const closeBtn = document.querySelector(
-          `.ymaps-2-1-79-balloon__close-button`
-        );
-        if (closeBtn) {
-          closeBtn.addEventListener(`click`, () => {
-            setClickCount(0);
-            setSelecting(false);
-            setPointA(null);
-            setPointB(null);
-            setPoints([]);
-            setDistance(null);
-            setType(``);
-            mapRef.current.geoObjects.remove(multiRouteRef.current);
-            multiRouteRef.current = null;
-            setIsBalloonOpened(false);
-            closeRouteBalloon();
-            setBallonRef(false);
-            setSelecting(false);
-            polylineRef.current = null;
-            setIsSelectingPoints(false);
-          });
-        }
-      }, 1000);
-    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
 
     const getMiddlePoint = ([point1, point2]) => {
       const lat = (point1[0] + point2[0]) / 2;
@@ -280,13 +255,11 @@ const Cmap = memo(
       if (type === "rules") {
         setClickCount(0);
         setSelecting(true);
-        // Route chizig‘ini tozalaymiz
         if (multiRouteRef.current) {
           mapRef.current?.geoObjects?.remove(multiRouteRef.current);
           multiRouteRef.current = null;
         }
 
-        // PointA/B nuqtalarini qayta o‘rnatamiz (faqat points mavjud bo‘lsa)
         if (points.length === 2) {
           setPointA(points[0]);
           setPointB(points[1]);
@@ -298,8 +271,6 @@ const Cmap = memo(
         setClickCount(0);
         setSelecting(true);
         setDistance("");
-
-        // Route qayta chiziladi, agar oldingi points bor bo‘lsa
         drawRoute(points[0] || pointA, points[1] || pointB);
       }
     };
@@ -307,6 +278,32 @@ const Cmap = memo(
     const handleMapLoad = (ymaps) => {
       ymapsRef.current = ymaps;
       drawRoute(pointA, pointB);
+      const map = mapRef.current;
+
+      map.balloon.events.add("close", () => {
+        // if (points.length > 0) {
+        // alert(`salom`)
+          clearMap();
+        // }
+      });
+    };
+
+    const clearMap = () => {
+      setClickCount(0);
+      setSelecting(false);
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+      setDistance(null);
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      setIsBalloonOpened(false);
+      closeRouteBalloon();
+      setBallonRef(false);
+      setSelecting(false);
+      polylineRef.current = null;
+      setIsSelectingPoints(false);
     };
 
     const handleDragEnd = (e, index) => {
@@ -778,9 +775,7 @@ const Cmap = memo(
                     </p>
                   </Flex>
                 </div>
-                <p className={cls.balloon_fulName}>
-                  {item?.product_type}
-                </p>
+                <p className={cls.balloon_fulName}>{item?.product_type}</p>
                 {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
                     <div className={cls.flex}>

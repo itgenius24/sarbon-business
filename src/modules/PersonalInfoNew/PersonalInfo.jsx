@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, useMediaQuery } from "@chakra-ui/react";
 import React from "react";
 import { usePersonalInfoProps } from "./usePersonalInfoProps";
 import { MainContentHeader } from "./components/MainContentHeader";
@@ -15,26 +10,18 @@ import { BackArrow } from "@/assets/icons/icons";
 import { useTranslation } from "react-i18next";
 
 export const PersonalInfo = () => {
-
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const {
-    getProfileFormProps,
-    handleSubmit,
-    submitForm,
-    isLoading,
-    router,
-  } = usePersonalInfoProps();
-  const {t} = useTranslation();
-
- 
-
+  const { getProfileFormProps, handleSubmit, submitForm, isLoading, router } =
+    usePersonalInfoProps();
+  const { t } = useTranslation();
 
   return (
     <Box>
-      <Box display={isLargerThan845 ? "block" : "flex"} alignItems="center">
-    
-      </Box>
+      <Box
+        display={isLargerThan845 ? "block" : "flex"}
+        alignItems="center"
+      ></Box>
       <MainContentCard
         as="form"
         onSubmit={handleSubmit(submitForm)}

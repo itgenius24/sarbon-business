@@ -41,6 +41,7 @@ import { UploadImg } from "@/components/UploadImg";
 import { useGetFirmInfo, useUpdateUserInfo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useQueryClient } from "@tanstack/react-query";
+import { roleName } from "@/utils/roleName";
 
 export const ProfileLayout = ({ children }) => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -59,7 +60,7 @@ export const ProfileLayout = ({ children }) => {
 
   const { t } = useTranslation(locale, "translations");
 
-  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id);
+  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id,{enabled:Boolean(authStore?.userData?.firm_id)});
 
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
@@ -233,7 +234,9 @@ export const ProfileLayout = ({ children }) => {
                         <Box>
                           <Text>{data?.full_name}</Text>
                           <Text className={cls.profileType}>
-                            Перевозчик / Физ. лицо
+                             {
+                              authStore.userData.firm_id ? `Перевозчик / Физ. лицо` : roleName[authStore.userData.role_id]
+                             }
                           </Text>
                           <Text className={cls.profileId}>
                             ID: {data?.your_id}
