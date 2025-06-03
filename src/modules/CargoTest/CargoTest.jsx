@@ -274,11 +274,11 @@ export const CargoTest = observer(({ id, status, locale }) => {
         </Container>
         <Box pb={`30px`}>
           {/* <Box className={cls.containerCards}> */}
-          {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne />}
-          {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo />}
-          {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere />}
-          {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour />}
-          {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive />}
+          {addCargoProps.watch(`cargoIndex`) === 1 && <StepOne locale={locale} />}
+          {addCargoProps.watch(`cargoIndex`) === 2 && <StepTwo locale={locale} />}
+          {addCargoProps.watch(`cargoIndex`) === 3 && <StepThere locale={locale}/>}
+          {addCargoProps.watch(`cargoIndex`) === 4 && <StepFour locale={locale} />}
+          {addCargoProps.watch(`cargoIndex`) === 5 && <StepFive locale={locale} />}
         </Box>
         {/* </Box> */}
       </Box>

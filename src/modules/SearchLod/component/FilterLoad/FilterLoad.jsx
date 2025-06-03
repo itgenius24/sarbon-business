@@ -37,7 +37,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
     results,
     hanleAdress,
     data,
-  } = useProps({ setValue });
+  } = useProps({ setValue, watch });
   return (
     <>
       <Flex
@@ -53,7 +53,8 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`from`), setAddress(e.target.value);
+              setActiveIndex(`from`),
+                setAddress(e.target.value)
             }}
             name={`from`}
             additionalOnclick={() => handleOpenModal(`from`, "loading")}
@@ -67,18 +68,33 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             results.length > 0 &&
             address?.length > 0 && (
               <Box className={cls.optionsWrap}>
-                {results?.map((location, idx) => (
-                  <Flex
-                    onClick={() => hanleAdress(location, `from`, "loading")}
-                    key={idx}
-                    gap={3}
-                    alignItems={"center"}
-                  >
-                    <LocationIconStep />
+                {results?.map((location, idx) => {
+                  const text = location?.GeoObject?.name || "";
+                  const highlightText = (text, search) => {
+                    if (!search) return text;
+                    const regex = new RegExp(`(${search})`, "gi");
+                    return text.replace(
+                      regex,
+                      `<span class="${cls.bold}">$1</span>`
+                    );
+                  };
 
-                    <p className={cls.item}>{`${location?.GeoObject?.name}`}</p>
-                  </Flex>
-                ))}
+                  return (
+                    <Flex
+                      onClick={() => hanleAdress(location, `from`, "loading")}
+                      key={idx}
+                      gap={3}
+                      alignItems={"center"}
+                    >
+                      <p
+                        className={cls.item}
+                        dangerouslySetInnerHTML={{
+                          __html: highlightText(text, address),
+                        }}
+                      />
+                    </Flex>
+                  );
+                })}
               </Box>
             )}
         </Box>
@@ -90,7 +106,8 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`to`), setAddress(e.target.value);
+                setActiveIndex(`to`),
+                setAddress(e.target.value)
             }}
             name={`to`}
             additionalOnclick={() => handleOpenModal(`to`, "loading")}
@@ -104,18 +121,33 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             results.length > 0 &&
             address?.length > 0 && (
               <Box className={cls.optionsWrap}>
-                {results?.map((location, idx) => (
-                  <Flex
-                    onClick={() => hanleAdress(location, `to`, "loading")}
-                    key={idx}
-                    gap={3}
-                    alignItems={"center"}
-                  >
-                    <LocationIconStep />
+                {results?.map((location, idx) => {
+                  const text = location?.GeoObject?.name || "";
+                  const highlightText = (text, search) => {
+                    if (!search) return text;
+                    const regex = new RegExp(`(${search})`, "gi");
+                    return text.replace(
+                      regex,
+                      `<span class="${cls.bold}">$1</span>`
+                    );
+                  };
 
-                    <p className={cls.item}>{`${location?.GeoObject?.name}`}</p>
-                  </Flex>
-                ))}
+                  return (
+                    <Flex
+                      onClick={() => hanleAdress(location, `to`, "loading")}
+                      key={idx}
+                      gap={3}
+                      alignItems={"center"}
+                    >
+                      <p
+                        className={cls.item}
+                        dangerouslySetInnerHTML={{
+                          __html: highlightText(text, address),
+                        }}
+                      />
+                    </Flex>
+                  );
+                })}
               </Box>
             )}
         </Box>
@@ -124,11 +156,11 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           <p style={{ color: `var(--primary-text)` }}>{t("Тип оплаты")}</p>
           <Flex mt={1} gap={3}>
             <Checkbox
-              defaultChecked={watch(`prepayment`)}
+              defaultChecked={watch(`prepayment2`)}
               register={register}
               name={`prepayment`}
             >
-              {t("Только с предоплатой")}
+              {t("Аванс")}
             </Checkbox>
             <Checkbox
               defaultChecked={watch(`spot`)}
@@ -167,7 +199,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label={t("Объём от:")}
+            label={t("Объем с:")}
             control={control}
             name="min_volume"
             register={register}
@@ -182,7 +214,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           <TextFieldWithAddition
             className={cls.textField}
             control={control}
-            label={t("Объём до:")}
+            label={t("Объем по:")}
             name="max_volume"
             register={register}
             width="100%"
@@ -195,7 +227,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
         <Flex width={"100%"} gap={"14px"}>
           <TextFieldWithAddition
             className={cls.textField}
-            label={t("Вес от:")}
+            label={t("Вес с:")}
             control={control}
             name="min_weight"
             register={register}
@@ -209,7 +241,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           <TextFieldWithAddition
             className={cls.textField}
             control={control}
-            label={t("Вес до:")}
+            label={t("Вес по:")}
             name="max_weight"
             register={register}
             placeholder={t("максимум")}

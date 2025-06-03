@@ -20,6 +20,8 @@ import DriverGruz from "./components/DriverGruz";
 import DriverGruzGoods from "./components/DriverGruzGoods";
 import Cmap from "./components/Cmap";
 import { useGpsTrackingProps } from "./useGpsTrackingProps";
+import LoadingMap from "../Cargo/components/LoadingMap";
+import { ModalS } from "@/components/Modal";
 import CmapAZS from "./components/CmapAZS";
 
 export default function GpsTrackingCarrier() {
@@ -80,7 +82,6 @@ export default function GpsTrackingCarrier() {
   const locale = useGetLang();
 
   const { t } = useTranslation(locale, "translations");
-  console.log(`getCarListProps?.data`, getCarListProps);
 
   return (
     <>
@@ -115,6 +116,7 @@ export default function GpsTrackingCarrier() {
             setCurrentUserLocationData={setCurrentUserLocationData}
             contendHoverState={contendHoverState}
             mapRef={mapRef}
+            currentUserLocationData={currentUserLocationData}
           />
         )}
 
@@ -249,7 +251,30 @@ export default function GpsTrackingCarrier() {
         )}
       </Box>
 
-    
+      <ModalS
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        firstBtnCallback={handleCloseModal}
+        secondBtnCallback={() => {
+          setIsModalOpen(false);
+          if (stateMap) {
+            addAdress();
+          }
+        }}
+        title={t("Точка маршрута")}
+        size="xxl"
+      >
+        <LoadingMap
+          onMapClick={onMapClick}
+          setYMaps={setYMaps}
+          yandexMapRef={yandexMapRef}
+          placeMarkGeometry={placeMarkGeometry}
+          defaultState={{
+            center: coordinates,
+            zoom: 15,
+          }}
+        />
+      </ModalS>
     </>
   );
 }

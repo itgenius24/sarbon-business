@@ -1,22 +1,9 @@
 import {
-  AppleIcon,
-  BatareyFullIcon,
-  BluetoothIcon,
   CeckGoodsIcon,
-  CheckBlueIcon,
   CloseIconM,
-  FurIcon,
-  GreenCheckIcon,
-  GruzGeenIcon,
   GruzGoodsIcon,
-  GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
-  LocationActiveIcon,
-  ModalGruzIcon,
   ModalOodsIcon,
-  NextBtnIcon,
-  StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
 import { useUpdateCargo } from "@/services/api";

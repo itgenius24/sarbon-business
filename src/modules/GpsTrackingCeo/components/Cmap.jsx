@@ -214,35 +214,13 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
+        multiRoute.events.add("balloonclose", () => {
+          clearMap();
+        });
       });
     };
 
-    useEffect(() => {
-      setTimeout(() => {
-        const closeBtn = document.querySelector(
-          `.ymaps-2-1-79-balloon__close-button`
-        );
-        if (closeBtn) {
-          closeBtn.addEventListener(`click`, () => {
-            setClickCount(0);
-            setSelecting(false);
-            setPointA(null);
-            setPointB(null);
-            setPoints([]);
-            setDistance(null);
-            setType(``);
-            mapRef.current.geoObjects.remove(multiRouteRef.current);
-            multiRouteRef.current = null;
-            setIsBalloonOpened(false);
-            closeRouteBalloon();
-            setBallonRef(false);
-            setSelecting(false);
-            polylineRef.current = null;
-            setIsSelectingPoints(false);
-          });
-        }
-      }, 1000);
-    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
+
 
     const getMiddlePoint = ([point1, point2]) => {
       const lat = (point1[0] + point2[0]) / 2;
@@ -280,13 +258,11 @@ const Cmap = memo(
       if (type === "rules") {
         setClickCount(0);
         setSelecting(true);
-        // Route chizig‘ini tozalaymiz
         if (multiRouteRef.current) {
           mapRef.current?.geoObjects?.remove(multiRouteRef.current);
           multiRouteRef.current = null;
         }
 
-        // PointA/B nuqtalarini qayta o‘rnatamiz (faqat points mavjud bo‘lsa)
         if (points.length === 2) {
           setPointA(points[0]);
           setPointB(points[1]);
@@ -299,7 +275,6 @@ const Cmap = memo(
         setSelecting(true);
         setDistance("");
 
-        // Route qayta chiziladi, agar oldingi points bor bo‘lsa
         drawRoute(points[0] || pointA, points[1] || pointB);
       }
     };
@@ -307,8 +282,29 @@ const Cmap = memo(
     const handleMapLoad = (ymaps) => {
       ymapsRef.current = ymaps;
       drawRoute(pointA, pointB);
+      const map = mapRef.current;
+
+      map.balloon.events.add("close", () => {
+        clearMap();
+      });
     };
 
+    const clearMap = () => {
+      setClickCount(0);
+      setSelecting(false);
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+      setDistance(null);
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      closeRouteBalloon();
+      setBallonRef(false);
+      setSelecting(false);
+      polylineRef.current = null;
+      setIsSelectingPoints(false);
+    };
     const handleDragEnd = (e, index) => {
       const newCoords = e.get("target").geometry.getCoordinates();
       const newPoints = [...points];
@@ -778,9 +774,7 @@ const Cmap = memo(
                     </p>
                   </Flex>
                 </div>
-                <p className={cls.balloon_fulName}>
-                  {t(`Оборудование и запчасти`)}
-                </p>
+                <p className={cls.balloon_fulName}>{item?.product_type}</p>
                 {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
                     <div className={cls.flex}>
@@ -828,12 +822,21 @@ const Cmap = memo(
               <>
                 {item.location_name && (
                   <Placemark
-                    onClick={() => {
-                      setLoadState(item);
-                      if (item?.new_status?.[0] === "occupied_cargo") {
-                        setModalType("driverGruzGoods");
+                    onClick={(e) => {
+                      if (isSelectingPoints) {
+                        const coords = e
+                          .get("target")
+                          .geometry.getCoordinates();
+                        handlePointSelect(coords);
+                        e.preventDefault();
+                        e.stopPropagation();
                       } else {
-                        setModalType("driverGruz");
+                        setLoadState(item);
+                        if (item?.new_status?.[0] === "occupied_cargo") {
+                          setModalType("driverGruzGoods");
+                        } else {
+                          setModalType("driverGruz");
+                        }
                       }
                     }}
                     key={item?.guid}
@@ -853,6 +856,8 @@ const Cmap = memo(
                       ),
                       iconImageSize: [60, 72],
                       iconImageOffset: [-15, -42],
+                      zIndexHover: 1,
+                      zIndex: 1,
                     }}
                   />
                 )}

@@ -46,6 +46,7 @@ export const useRegistrationProps = () => {
     watch,
     formState: { errors },
     control,
+    
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
@@ -194,5 +195,6 @@ export const useRegistrationProps = () => {
     setType,
     handleGoogleLogin,
     handleAppleLogin,
+
   };
 };

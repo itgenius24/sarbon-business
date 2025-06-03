@@ -1,12 +1,8 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAddCargoContext } from "../../providers";
-import {
-  useGetCarType,
-  useUpdateCargo,
-} from "@/services/api";
-import { useGetLang } from "@/hooks/useGetLang";
+import { useGetCarType, useUpdateCargo } from "@/services/api";
 
-const useStepThereProps = () => {
+const useStepThereProps = ({ locale }) => {
   const {
     register,
     control,
@@ -34,7 +30,6 @@ const useStepThereProps = () => {
     handleResetForm,
   } = useAddCargoContext();
   const [disabled, setDisabled] = useState(true);
-  const locale = useGetLang();
 
   useEffect(() => {
     setLoad({
@@ -53,11 +48,10 @@ const useStepThereProps = () => {
     if (watch("car_type")?.value && watch("transport_count")) {
       setDisabled(false);
     } else {
-      true;
+      setDisabled(true);
     }
   }, [watch("car_type")?.value, watch("transport_count")]);
   const getCarType = useGetCarType();
-
 
   const carTypeOptions = getCarType.data?.response?.map((item) => ({
     label: item?.[`name_${locale}`] ? item?.[`name_${locale}`] : item?.name,
@@ -153,37 +147,44 @@ const useStepThereProps = () => {
   ]);
 
   const [hoverIndex, setHoverIndex] = useState("");
-  const [clickIndex, setClickIndex] = useState("");
-  const [clickNum, setClickNum] = useState("");
+  const [clickIndex, setClickIndex] = useState(1);
+  const [clickNum, setClickNum] = useState(1);
 
   const boxes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  useEffect(() => {
-    if (!watch(`transport_count`)) {
-      setValue(`transport_count`, 1);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!watch(`transport_count`)) {
+  //     setValue(`transport_count`, 1);
+  //   }
+  // }, []);
 
   useEffect(() => {
     setClickIndex(Number(watch("transport_count") || 0));
-  }, [watch("transport_count")]);
+    setClickIndex(Number(watch("transport_count") || 0));
+    setClickNum(Number(watch("transport_count") || 0));
+  }, [watch(`car_type`)?.value]);
+
+  const onMouseEnter = (num) => {
+    if (clickIndex < num) {
+      setHoverIndex(num);
+    } else {
+      setHoverIndex(num);
+      setClickIndex(num);
+    }
+    setValue("transport_count", num);
+  };
 
   const onMouseLeave = () => {
-    setHoverIndex(-1);
+    setHoverIndex(null);
     if (clickIndex) {
       setValue("transport_count", clickNum);
+      setClickIndex(clickNum);
     } else {
       setValue("transport_count", 0);
     }
   };
-  const onMouseEnter = (num) => {
-    if (clickIndex < num) {
-      setHoverIndex(num);
-    }
-    setClickIndex(null);
-    setValue("transport_count", num);
-  };
 
+  // Raqam ustiga bosilganda
   const handleNumClick = (num) => {
     setClickIndex(num);
     setClickNum(num);
@@ -195,9 +196,16 @@ const useStepThereProps = () => {
     },
   });
 
+  const hanleChange = (e) => {
+    setClickIndex(e.target.value);
+    setClickNum(e.target.value);
+    setHoverIndex(e.target.value);
+      setValue("transport_count", e.target.value);
+
+  };
+
   const onSubmit = () => {
     setValue(`cargoIndex`, 4);
-
   };
 
   function handleCheckboxChange(e) {
@@ -258,7 +266,8 @@ const useStepThereProps = () => {
     onSubmit,
     disabled,
     handleResetForm,
-    setEditModal
+    setEditModal,
+    hanleChange,
   };
 };
 

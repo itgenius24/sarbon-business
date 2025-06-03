@@ -49,6 +49,7 @@ export const Registration = () => {
     isLoading,
     t,
     control,
+    register,
     closeModal,
     setOpen,
     open,
@@ -90,12 +91,13 @@ export const Registration = () => {
             {t(`Укажите ваш профиль деятельности`)}
           </p>
           <Tabs
+          mt={`40px`}
             defaultIndex={
               searchParams.get(`type`) ? searchParams.get(`type`) * 1 : 0
             }
             onChange={(e) => setType(e)}
           >
-            <TabList borderBottom={`0px`} className={cls.tabWrap}>
+            {/* <TabList borderBottom={`0px`} className={cls.tabWrap}>
               <Tab
                 className={cls.btn}
                 color={`rgba(126, 123, 134, 1)`}
@@ -129,7 +131,7 @@ export const Registration = () => {
               >
                 {t(`Заказчик`)}
               </Tab>
-            </TabList>
+            </TabList> */}
             <TabPanels>
               <TabPanel padding={0} margin={0}>
                 <Box mb="24px">
@@ -137,7 +139,7 @@ export const Registration = () => {
                     <p className={cls.textFieldName}>
                       {t("Мобильный телефон")} *
                     </p>
-                    <FormInternationInput control={control} name={`phone`} />
+                    <FormInternationInput register={register} control={control} name={`phone`} rules={{require:false}} />
                   </Box>
                 </Box>
 
@@ -149,7 +151,7 @@ export const Registration = () => {
                 >
                   {t(`Регистрация`)}
                 </Button>
-                <div className={cls.divider}>
+                {/* <div className={cls.divider}>
                   <span>{t(`Регистрация через соцсеть`)}</span>
                 </div>
                 <Flex
@@ -174,7 +176,7 @@ export const Registration = () => {
                   >
                     {t(`Продолжить с Apple`)}
                   </Button>
-                </Flex>
+                </Flex> */}
               </TabPanel>
               <TabPanel padding={0} margin={0}>
                 <Box width={`100%`}>

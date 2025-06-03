@@ -114,27 +114,33 @@
       }
     }
   }
-  .modalWrap {
+
+   .modalWrapBtn{
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 380px;
+  .filterBtn {
+    margin: 10px;
+    padding: 8px 17px;
+    background-color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    cursor: pointer;
+  }
+ }
+    .modalWrap {
     position: absolute;
     top: 0;
-    z-index: 232323;
-    // background: transparent;
+    z-index: 1;
     width: 380px;
     height: 100%;
-    // background-color: r;
-    .filterBtn {
-      margin: 20px;
-      padding: 8px 17px;
-      background-color: white;
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: fit-content;
-      cursor: pointer;
-    }
 
+  
     .filter {
       width: 100%;
       padding: 21px 12px;
@@ -142,6 +148,11 @@
       height: 92.1vh;
       margin-bottom: 20px;
       overflow-y: scroll;
+
+      @media (max-width:845px) {
+          height: 92.1vh;
+          padding-bottom: 120px;
+      }
 
       .filterText {
         font-weight: 600;
@@ -175,6 +186,7 @@
           font-weight: 500;
           line-height: 20px;
         }
+     
       }
       .cardWrapOutline {
         width: 100%;
@@ -189,17 +201,14 @@
           margin: 10px 0;
         }
         .checkCardTitle {
-          display: inline-block;
-          margin-bottom: 6px;
+          font-weight: 500;
           font-size: 14px;
-          font-weight: 600;
-          line-height: 15px;
-          color: var(--brand-700);
+          color: rgba(52, 64, 84, 1);
         }
       }
       .disNum {
         font-weight: 600;
-        color: var(--primary);
+        color: rgba(0, 122, 255, 1);
         font-size: 16px;
       }
       .userName {
@@ -234,13 +243,13 @@
         border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1)) !important;
         padding: 16px 14px;
         border-radius: 12px;
-        .cargoType {
-          width: 50%;
+        p {
+          width: 7vw;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           @media (max-width: 1556px) {
-            width: 50%;
+            width: 4vw;
           }
         }
       }
@@ -445,12 +454,6 @@
         font-weight: 500;
         color: rgba(33, 31, 38, 1);
       }
-      .name2 {
-        line-height: 20px;
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(33, 31, 38, 1);
-      }
       .armorTitle {
         font-weight: 500;
         font-size: 14px;
@@ -469,19 +472,19 @@
         font-weight: 700;
         font-size: 12px;
         color: rgba(126, 123, 134, 1);
-        line-height: 13px;
+        line-height: 20px;
         span {
           font-weight: 600;
           font-size: 12px;
         }
       }
-      .cardStartSubTitlez {
+      .cardStartSubTitlez{
         font-weight: 500;
         font-size: 16px;
         color: rgba(126, 123, 134, 1);
         line-height: 13px;
       }
-      .cardStartSubTitleZTel {
+      .cardStartSubTitleZTel{
         font-weight: 400;
         font-size: 14px;
         color: rgba(126, 123, 134, 1);
@@ -671,32 +674,30 @@
   position: relative;
   .optionsWrap {
     position: absolute;
-    // padding: ;
     width: 100%;
     height: auto;
     max-height: 300px;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: hidden; 
+    overflow-y: auto;
     border-radius: 12px;
     background-color: white;
-    border: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
-    padding: 10px;
+    border: 1px solid  rgba(208, 213, 221, 1);
     z-index: 43434;
-    top: 80px;
+    top: 75px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.12);
     .item {
       width: 100%;
       font-size: 14px;
       font-weight: 400;
-      border-bottom: 1px solid var(--quat_grey, rgba(219, 216, 227, 1));
       overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      display: flex;
-      padding: 10px 0 10px 0;
+      padding: 10px 13px ;
       cursor: pointer;
+      &:hover{
+        background-color: rgba(201, 224, 255, 1);
+      }
     }
-    .bold {
-      font-weight: 600 !important;
+    .bold{
+      font-weight: 600!important;
     }
   }
 }

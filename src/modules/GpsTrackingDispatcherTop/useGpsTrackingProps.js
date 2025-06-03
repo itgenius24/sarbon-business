@@ -38,7 +38,7 @@ export const useGpsTrackingProps = () => {
   const [distanceParameters, setDistanceParameters] = useState({});
   const searchParams = useSearchParams();
   const mapRef = useRef(null);
-    const guid = searchParams.get(`guid`);
+  const guid = searchParams.get(`guid`);
   const provisions = searchParams.get(`provisions`);
   const full_name = searchParams.get(`full_name`);
   const battery = searchParams.get(`battery`);
@@ -54,6 +54,7 @@ export const useGpsTrackingProps = () => {
   const capacity = searchParams.get(`car_capacity`) || ``;
   const height = searchParams.get(`car_height`) || ``;
   const car_type_name = searchParams.get(`car_type_name`) || ``;
+  const location_name = searchParams.get(`location_name`) || ``;
   const cargo_guid = searchParams.get(`cargo_guid`);
   const dispatcher_id = searchParams.get(`dispatcher_id`);
   const [locationNames, setLocationNames] = useState([]);
@@ -123,6 +124,7 @@ export const useGpsTrackingProps = () => {
               lat,
               long,
               version,
+              location_name
             },
           ],
           vehicles: [
@@ -403,6 +405,7 @@ export const useGpsTrackingProps = () => {
             os,
             lat,
             long,
+            location_name,
             version,
           },
         ],
@@ -587,8 +590,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    console.log("offsetCar");
-    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
   const handleClear = () => {

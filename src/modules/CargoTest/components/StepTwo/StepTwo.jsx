@@ -28,7 +28,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { ModalS } from "@/components/Modal";
 import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
 
-const StepTwo = ({ status }) => {
+const StepTwo = ({ status,locale }) => {
   const {
     // loadings,
     register,
@@ -67,8 +67,8 @@ const StepTwo = ({ status }) => {
     handleResetForm,
     setDisabled,
     setEditModal,
-  } = useStepTwoProps();
-  const locale = useGetLang();
+  } = useStepTwoProps({locale});
+
   const { t } = useTranslation(locale, "translations");
   return (
     <Box className={cls.containerCards}>
@@ -188,7 +188,7 @@ const StepTwo = ({ status }) => {
                                 gap={3}
                                 alignItems={"center"}
                               >
-                                <LocationIconStep />
+                                
                                 <p
                                   className={cls.item}
                                   dangerouslySetInnerHTML={{
@@ -218,9 +218,18 @@ const StepTwo = ({ status }) => {
                         isDisabled={!canEdit || watch(`as_soon_as_a`)}
                         canEdit={canEdit}
                         onChange={(date) => {
+                           if(watch(`unloading`)[index]?.to_date){
+                            if(new Date(watch(`unloading`)[index]?.to_date) < date){
+                              setValue(`unloading[${index}].to_date`, date);
+                            }
+                          }
                           lodingChangeDate("loading", date, index, item?.guid);
                         }}
                         control={control}
+                           minDate={
+                          
+                          new Date()
+                        }
                         name={`loadings[${index}].from_date`}
                       />
                     </Box>
@@ -425,7 +434,7 @@ const StepTwo = ({ status }) => {
                               gap={3}
                               alignItems={"center"}
                             >
-                              <LocationIconStep />
+                              
                               <p
                                 className={cls.item}
                                 dangerouslySetInnerHTML={{
@@ -467,7 +476,7 @@ const StepTwo = ({ status }) => {
                         control={control}
                         name={`unloading[${index}].to_date`}
                         minDate={
-                          new Date(watch(`loadings[${index}].from_date`)) ||
+                          watch(`loadings[${index}].from_date`) ?  new Date(watch(`loadings[${index}].from_date`)) :
                           new Date()
                         }
                       />

@@ -1,15 +1,9 @@
-"use client";
 import cls from "./styles.module.scss";
 import {
-  CheckIconStep,
-  CricleBlueIcon,
-  CricleIcon,
   DeleteIcon,
   NavigationBtnLeftIcon,
-  PencilIcon,
   PencilIconW,
   PlusIcon,
-  SearchIcon,
 } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
 import {
@@ -19,15 +13,10 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Flex,
   Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
+
   Radio,
   RadioGroup,
   Text,
@@ -50,11 +39,9 @@ import { TopContent } from "../Cargo/components/TopContent";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-export const CargoViews = observer(({ locale }) => {
+export const CargoViews = observer(({ id, status, locale }) => {
   const searchParams = useSearchParams();
-  const id = searchParams.get(`guid`);
-  const status = searchParams.get(`status`);
-
+  const isCreate = searchParams.get(`create`);
   const [cargoIndex, setCargoIndex] = useState(1);
   const [open, setOpen] = useState(false);
   const addCargoProps = useAddCargoProps({ id, status, locale, setCargoIndex });
@@ -218,10 +205,11 @@ export const CargoViews = observer(({ locale }) => {
               width={`fit-content`}
               onClick={() => {
                 addCargoProps.handleResetForm();
-                router.back();
-                // (window.location.href = `${
-                //   window.location.origin
-                // }/${`${locale}/my-loads`}`)
+                if (isCreate) {
+                  router.push(`/${locale}/my-loads`);
+                } else {
+                  router.back();
+                }
               }}
             >
               {t(`Вернутся в список`)}
@@ -328,13 +316,13 @@ export const CargoViews = observer(({ locale }) => {
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel>
-                      <CargoDetail status={status} />
+                      <CargoDetail status={status} locale={locale} />
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>
               ) : (
                 <>
-                  <CargoDetail status={status} />
+                  <CargoDetail status={status} locale={locale} />
                 </>
               )}
             </Box>

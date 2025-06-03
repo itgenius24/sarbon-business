@@ -158,7 +158,7 @@ export const CarsCard = ({
                     width={`100%`}
                     zIndex={11}
                     bottom={`10px`}
-                    // left={`10px`}
+
                     color={`white`}
                     borderRadius={`4px`}
                     padding={`8px 10px`}
@@ -177,57 +177,79 @@ export const CarsCard = ({
         <Box width={"60%"}>
           <Flex gap={"50px"}>
             <Box>
-            <p className={cls.title}>{item?.marka}</p>
-            <Flex m={`4px 0px`} alignItems={`center`} gap={"10px"}>
-              <Tooltip
-                border={`1px solid rgba(219, 216, 227, 1)`}
-                background={`white`}
-                color={`black`}
-                placement="top-end"
-                label={item?.car_country || `uz`}
-              >
-                <Image
-                  style={{
-                    width: `35px`,
-                        height: `25px`,
-                  }}
-                  width={100}
-                  height={100}
-                  src={flegCountry(item?.car_country || `uz`)}
-                />
-              </Tooltip>
-              <p className={cls.title}>{item?.car_number}</p>
-            </Flex>
+              <p className={cls.title}>{item?.marka}</p>
+              <Flex m={`4px 0px`} alignItems={`center`} gap={"10px"}>
+                <Tooltip
+                  border={`1px solid rgba(219, 216, 227, 1)`}
+                  background={`white`}
+                  color={`black`}
+                  placement="top-end"
+                  label={item?.car_country || `uz`}
+                >
+                  <Image
+                    style={{
+                      width: `26px`,
+                      height: `20px`,
+                    }}
+                    width={100}
+                    height={100}
+                    src={flegCountry(item?.car_country || `uz`)}
+                  />
+                </Tooltip>
+                <p className={cls.title}>{item?.car_number}</p>
+              </Flex>
             </Box>
             <Flex
               flexDirection={`column`}
               mr={5}
               alignItems={`flex-start`}
               className={cls.subTitle2}
+              // maxWidth={`150px`}
             >
-              <p className={cls.loadType}>{item?.trailer_type_id_data?.[`name_${locale}`] ? item?.trailer_type_id_data?.[`name_${locale}`] : item?.trailer_type_id_data?.name}</p>
+              <p className={cls.loadType}>
+                {item?.trailer_type_id_data?.[`name_${locale}`]
+                  ? item?.trailer_type_id_data?.[`name_${locale}`]
+                  : item?.trailer_type_id_data?.name}
+              </p>
               <Flex gap={2}>
                 <Flex whiteSpace={`nowrap`} gap={1} alignItems={"center"}>
-                  <StoneIcon /> { item?.capacity} т.
+                  <StoneIcon /> {item?.capacity} т.
                 </Flex>
                 <Flex whiteSpace={`nowrap`} gap={1} alignItems={"center"}>
                   <LoadOulineIcon /> {item?.height} m3
                 </Flex>
               </Flex>
             </Flex>
-            <Box>
+            <Box maxWidth={`150px`}>
               <p className={cls.subTitle}>{t("Тип загрузки")}:</p>
               <p className={cls.title}>
-                {item?.download_type &&
-                  translateArray(item?.download_type)?.join(",")}
+                {item?.download_type?.length > 0
+                  ? translateArray(item?.download_type)?.join(",")
+                  : t(`Не указан`)}
               </p>
             </Box>
-            <Box>
-              <p className={cls.subTitle}>{t("Дополнительно")}:</p>
-              <p className={cls.title}>
-                {item?.adr} {item.tir ? `TIR` : ""}
-              </p>
-            </Box>
+            {translateArray([
+              item?.adr && `adr`,
+              item?.cemt && `cemt`,
+              item.tir && `tir`,
+              item?.konika && `konika`,
+              item?.pneumatic && `pneumatic`,
+              item.coupling && `coupling`,
+            ])?.length > 0 && (
+              <Box maxWidth={`150px`}>
+                <p className={cls.subTitle}>{t("Дополнительно")}:</p>
+                <p className={cls.title}>
+                  {translateArray([
+                    item?.adr && `adr`,
+                    item?.cemt && `cemt`,
+                    item.tir && `tir`,
+                    item?.konika && `konika`,
+                    item?.pneumatic && `pneumatic`,
+                    item.coupling && `coupling`,
+                  ])?.join(", ")}
+                </p>
+              </Box>
+            )}
           </Flex>
           {response?.response ? (
             <Flex
@@ -246,8 +268,11 @@ export const CarsCard = ({
               <Box>
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                  {t("Свободна")}:{" "}
-                  {response?.response?.[0]?.users_id_data?.your_id}
+                  {response?.response?.[0]?.users_id_data?.provisions[0] ===
+                  `waiting_for_driver`
+                    ? t(`Занят`)
+                    : t("Свободна")}
+                  : {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>
               <Flex alignItems={`center`} gap={2}>

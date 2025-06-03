@@ -40,8 +40,8 @@ const SelectCargo = ({
     data: {
       data: {
         object_data: {
-          from_lat: currentUserLocationData?.lat,
-          from_long: currentUserLocationData?.long,
+          from_lat: currentUserLocationData?.users_gps?.[0]?.lat,
+          from_long: currentUserLocationData?.users_gps?.[0]?.long,
           from_radius: 10000000000,
           page: 1,
           limit: 1000,
@@ -55,7 +55,7 @@ const SelectCargo = ({
     },
   });
 
-  console.log(`currentUserLocationData`, dataMap);
+  console.log(`currentUserLocationData`, currentUserLocationData);
 
 
   const cargoData = useMemo(() => {

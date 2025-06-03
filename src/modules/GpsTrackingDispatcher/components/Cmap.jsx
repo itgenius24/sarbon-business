@@ -50,7 +50,7 @@ const Cmap = memo(
   }) => {
     const [isClient, setIsClient] = useState(false);
     const searchParams = useSearchParams();
-    const guid = searchParams.get(`guid`);
+    const guid = searchParams.get(`guid`) || watch("users_id");
     const { t } = useTranslation();
     const [zoom, setZoom] = useState(5);
     const [points, setPoints] = useState([]);
@@ -75,20 +75,24 @@ const Cmap = memo(
       setIsClient(true);
     }, []);
 
+
+
     useEffect(() => {
       if (
-        guid &&
+       guid &&
         currentUserLocationData &&
         mapRef.current &&
         !isBalloonOpened
       ) {
         const timeout = setTimeout(() => {
           openBalloonById(guid);
-        }, 1000);
+        }, 500);
 
         return () => clearTimeout(timeout);
       }
-    }, [mapRef.current]);
+    }, [mapRef.current, watch("users_id")]);
+
+
 
     const openBalloonById = () => {
       const placemark = placemarkRefs.current;
@@ -214,35 +218,13 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
+         multiRoute.events.add("balloonclose", () => {
+          clearMap();
+        });
       });
+      
     };
 
-    useEffect(() => {
-      setTimeout(() => {
-        const closeBtn = document.querySelector(
-          `.ymaps-2-1-79-balloon__close-button`
-        );
-        if (closeBtn) {
-          closeBtn.addEventListener(`click`, () => {
-            setClickCount(0);
-            setSelecting(false);
-            setPointA(null);
-            setPointB(null);
-            setPoints([]);
-            setDistance(null);
-            setType(``);
-            mapRef.current.geoObjects.remove(multiRouteRef.current);
-            multiRouteRef.current = null;
-            setIsBalloonOpened(false);
-            closeRouteBalloon();
-            setBallonRef(false);
-            setSelecting(false);
-            polylineRef.current = null;
-            setIsSelectingPoints(false);
-          });
-        }
-      }, 1000);
-    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
 
     const getMiddlePoint = ([point1, point2]) => {
       const lat = (point1[0] + point2[0]) / 2;
@@ -307,6 +289,13 @@ const Cmap = memo(
     const handleMapLoad = (ymaps) => {
       ymapsRef.current = ymaps;
       drawRoute(pointA, pointB);
+        const map = mapRef.current;
+
+      map.balloon.events.add("close", () => {
+        // if (points.length > 0) {
+          clearMap();
+        // }
+      });
     };
 
     const handleDragEnd = (e, index) => {
@@ -335,9 +324,28 @@ const Cmap = memo(
       });
     };
 
+
+    const clearMap = () => {
+      setClickCount(0);
+      setSelecting(false);
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+      setDistance(null);
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      setIsBalloonOpened(false);
+      closeRouteBalloon();
+      setBallonRef(false);
+      setSelecting(false);
+      polylineRef.current = null;
+      setIsSelectingPoints(false);
+    };
+
+
     const handlePointSelect = (coords) => {
       if (!selecting) return;
-
       if (clickCount === 0) {
         setPointA(coords);
         setClickCount(1);
@@ -508,7 +516,7 @@ const Cmap = memo(
           }}
         />
 
-        {guid && currentUserLocationData && (
+        {guid  && currentUserLocationData && (
           <Placemark
             key={currentUserLocationData?.user?.guid}
             geometry={[
@@ -778,9 +786,7 @@ const Cmap = memo(
                     </p>
                   </Flex>
                 </div>
-                <p className={cls.balloon_fulName}>
-                  {t(`Оборудование и запчасти`)}
-                </p>
+                <p className={cls.balloon_fulName}>{item?.product_type}</p>
                 {item?.new_status?.[0] === "occupied_cargo" ? (
                   <>
                     <div className={cls.flex}>
@@ -828,12 +834,21 @@ const Cmap = memo(
               <>
                 {item.location_name && (
                   <Placemark
-                    onClick={() => {
-                      setLoadState(item);
-                      if (item?.new_status?.[0] === "occupied_cargo") {
-                        setModalType("driverGruzGoods");
+                    onClick={(e) => {
+                      if (isSelectingPoints) {
+                        const coords = e
+                          .get("target")
+                          .geometry.getCoordinates();
+                        handlePointSelect(coords);
+                        e.preventDefault();
+                        e.stopPropagation();
                       } else {
-                        setModalType("driverGruz");
+                        setLoadState(item);
+                        if (item?.new_status?.[0] === "occupied_cargo") {
+                          setModalType("driverGruzGoods");
+                        } else {
+                          setModalType("driverGruz");
+                        }
                       }
                     }}
                     key={item?.guid}
@@ -853,6 +868,8 @@ const Cmap = memo(
                       ),
                       iconImageSize: [60, 72],
                       iconImageOffset: [-15, -42],
+                      zIndexHover: 1,
+                      zIndex: 1,
                     }}
                   />
                 )}

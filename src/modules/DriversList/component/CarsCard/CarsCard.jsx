@@ -1,21 +1,13 @@
 import {
-  Avatar,
   Box,
-  Button,
   Flex,
   IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   Popover,
   PopoverArrow,
   PopoverBody,
-  PopoverCloseButton,
   PopoverContent,
-  PopoverHeader,
   PopoverTrigger,
   Portal,
-  Text,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 import {
@@ -37,13 +29,13 @@ export const CarsCard = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const order = item?.orders?.filter((item) => item?.provisions?.includes(`performed`));
+  const order = item?.order_data?.provisions?.includes(`performed`)
 
   return (
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-       order?.length > 1 ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+        order ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Box className={cls.popup}>
@@ -77,7 +69,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   className={cls.menuItem}
                   onClick={() =>
                     router.push(
-                      `/${locale}/drivers/create?id=${item?.user?.guid}`
+                      `/${locale}/drivers/create?id=${item?.guid}`
                     )
                   }
                 >
@@ -92,7 +84,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     color: `rgba(255, 255, 255, 1)`,
                   }}
                   className={cls.menuItem}
-                  onClick={() => caroCencel(item?.user?.guid)}
+                  onClick={() => caroCencel(item?.guid)}
                 >
                   Открепить машину
                 </Box> */}
@@ -105,7 +97,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     color: `rgba(255, 255, 255, 1)`,
                   }}
                   className={cls.menuItem}
-                  onClick={() => handleDelete(item?.user?.guid)}
+                  onClick={() => handleDelete(item?.guid)}
                 >
                   {t("Удалить водителя")}
                 </Box>
@@ -115,15 +107,16 @@ export const CarsCard = ({ t, item, handleDelete }) => {
         </Popover>
       </Box>
       <Flex alignItems={`flex-end`} gap={"30px"} width={"100%"}>
-        <Box
-        // width={"12%"}
-        // background={"rgba(219, 216, 227, 1)"}
-        // borderRadius={"6px"}
-        >
-          {item && item?.user?.photo !== "photo" && item?.user?.photo ? (
+        <Box>
+          {item && item?.photo !== "photo" && item?.photo ? (
             <Image
-              style={{ borderRadius: `50%`, width: `130px`, height: `130px`,objectFit:`cover` }}
-              src={item?.user?.photo}
+              style={{
+                borderRadius: `50%`,
+                width: `130px`,
+                height: `130px`,
+                objectFit: `cover`,
+              }}
+              src={item?.photo}
               objectFit="cover"
               width={200}
               height={200}
@@ -136,11 +129,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
         <Box width={"60%"}>
           <Flex gap={"50px"}>
             <Box>
-              <p className={cls.title}>{item?.user?.full_name}</p>
-              <p className={cls.subTitle}>{item?.user?.phone}</p>
+              <p className={cls.title}>{item?.full_name}</p>
+              <p className={cls.subTitle}>{item?.phone}</p>
             </Box>
           </Flex>
-          {order?.length > 1 ? (
+          {order ? (
             <Flex
               background={
                 order?.length > 1
@@ -154,7 +147,8 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <Box>
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                  {t("Занята")}: {item?.orders?.[0]?.cargo_id_data?.number_of_order}
+                  {t("Занята")}:{" "}
+                  {item?.order_data?.[0]?.cargo_id_data?.number_of_order}
                 </p>
               </Box>
               {item?.users_gps?.[0] && (
@@ -175,7 +169,8 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   <Flex alignItems={"center"} gap={2}>
                     <BluetoothIcon />
                     <p className={cls.subTitle}>
-                      {t("Bluetooth")}: <span className={cls.title}>{t("Вкл")} </span>
+                      {t("Bluetooth")}:{" "}
+                      <span className={cls.title}>{t("Вкл")} </span>
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
@@ -208,7 +203,12 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <Box>
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <Flex gap={3} alignItems={`center`}>
-                  <p className={cls.title2}> {item?.vehicles?.[0] ? t("Свободна, без груза") : t("Свободна, без машины")}   </p>
+                  <p className={cls.title2}>
+                    {" "}
+                    {item?.vehicle_data
+                      ? t("Свободна, без груза")
+                      : t("Свободна, без машины")}{" "}
+                  </p>
                 </Flex>
               </Box>
 
@@ -230,7 +230,8 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                   <Flex alignItems={"center"} gap={2}>
                     <BluetoothIcon />
                     <p className={cls.subTitle}>
-                      {t("Bluetooth")}: <span className={cls.title}>{t("Вкл")} </span>
+                      {t("Bluetooth")}:{" "}
+                      <span className={cls.title}>{t("Вкл")} </span>
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
@@ -253,34 +254,35 @@ export const CarsCard = ({ t, item, handleDelete }) => {
         </Box>
         <Box width={"25%"}>
           <p className={cls.subTitle}>{t("Машина")}:</p>
-          {item?.vehicles?.[0] ? (
+          {item?.vehicle_data ? (
             <Box className={cls.profileWrap}>
               <Flex gap={3}>
-                {item?.vehicles?.[0]?.car_photo !== "photo" &&
-                  item?.vehicles?.[0]?.car_photo ? (
-                    <Image
-                      style={{
-                        borderRadius: `6px`,
-                        width: `60px`,
-                        height: `45px`,
-                        objectFit:`cover`
-                      }}
-                      src={item?.vehicles?.[0]?.car_photo}
-                      // objectFit="cover"
-                      width={100}
-                      height={100}
-                      alt="w"
-                    />
-                  ) :<NoImFur /> }
+                {item?.vehicle_data?.car_photo !== "photo" &&
+                item?.vehicle_data?.car_photo ? (
+                  <Image
+                    style={{
+                      borderRadius: `6px`,
+                      width: `60px`,
+                      height: `45px`,
+                      objectFit: `cover`,
+                    }}
+                    src={item?.vehicle_data?.car_photo}
+                    // objectFit="cover"
+                    width={100}x
+                    height={100}
+                    alt="w"
+                  />
+                ) : (
+                  <NoImFur />
+                )}
 
-                {/*
-                <Avatar
-                  src={item?.users_id_data?.photo}
-                  name={item?.users_id_data?.full_name}
-                /> */}
                 <Box>
-                  <p className={cls.title}>{item?.vehicles?.[0]?.marka}</p>
-                  <p className={cls.subTitle}>{item?.vehicles?.[0]?.car_number ? item?.vehicles?.[0]?.car_number  : `` }</p>
+                  <p className={cls.title}>{item?.vehicle_data?.marka}</p>
+                  <p className={cls.subTitle}>
+                    {item?.vehicle_data?.car_number
+                      ? item?.vehicle_data?.car_number
+                      : ``}
+                  </p>
                 </Box>
               </Flex>
             </Box>
@@ -290,12 +292,6 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 <NoImFur />
                 <Box>
                   <p className={cls.title}>{t("Без машины")}</p>
-                  {/* <p
-                    // onClick={() => setCenterModalType(true)}
-                    className={cls.subTitle2Blue}
-                  >
-                   Прикрепить машину
-                  </p> */}
                 </Box>
               </Flex>
             </Box>

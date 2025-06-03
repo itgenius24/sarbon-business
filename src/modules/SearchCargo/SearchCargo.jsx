@@ -30,7 +30,13 @@ import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { Checkbox } from "@/components/Checkbox";
 import { TextField } from "@/components/TextField";
-import { CheckModalIcon, CloseIconOutline, ImgploadIcon1, ImgUload2 } from "@/assets/icons/icons";
+import {
+  CheckModalIcon,
+  CloseIconOutline,
+  ImgploadIcon1,
+  ImgploadIcon2,
+  ImgUload2,
+} from "@/assets/icons/icons";
 import { UploadImg } from "@/components/UploadImg";
 import { countries } from "@/utils/country";
 import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
@@ -70,6 +76,9 @@ export const SearchCargoModule = () => {
       message: t("Это поле обязательно"),
     },
   };
+
+
+  console.log(`errors`, errors);
 
   return (
     <>
@@ -149,7 +158,7 @@ export const SearchCargoModule = () => {
                     <Box width={`100%`}>
                       <Box width={`100%`}>
                         <p className={cls.textFieldName}>
-                          {t("Страна регистрации автомобиля")}
+                          {t("Страна регистрации автомобиля")} *
                         </p>
 
                         <Dropdown
@@ -205,7 +214,7 @@ export const SearchCargoModule = () => {
                       </Box>
                     </Box>
                     <Box width={`100%`}>
-                      <p className={cls.textFieldName}>{t("Марка машины")}</p>
+                      <p className={cls.textFieldName}>{t("Марка машины")} *</p>
                       <TextField
                         rules={rules}
                         errors={errors}
@@ -420,7 +429,7 @@ export const SearchCargoModule = () => {
 
                   <Box width={`100%`}>
                     <p className={cls.textFieldName}>
-                      {t("Номер кузова (VIN)")}
+                      {t("Номер кузова (VIN)")} *
                     </p>
                     <TextField
                       rules={rules}
@@ -476,7 +485,9 @@ export const SearchCargoModule = () => {
 
                 <Flex gap={"24px"} width={`100%`} mt={`20px`}>
                   <Box width={`50%`}>
-                    <p className={cls.textFieldName}>{t("Экологический класс")}</p>
+                    <p className={cls.textFieldName}>
+                      {t("Экологический класс")}
+                    </p>
 
                     <Dropdown
                       control={control}
@@ -602,7 +613,7 @@ export const SearchCargoModule = () => {
                       register={register}
                       name="cemt"
                     >
-                      {t("CEMT (ЕКМТ) ")}
+                      {t("CEMT (ЕКМТ)")}
                     </Checkbox>
                   </Box>
                 </Box>
@@ -616,42 +627,45 @@ export const SearchCargoModule = () => {
                 mt={"32px"}
               >
                 <Box width={"100%"} mt={"17px"}>
-                  <p className={cls.textFieldName}>{t("Фото Техпаспорта")} *</p>
+                  <p className={cls.textFieldName}>{t("Фото Техпаспорта")} </p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
+                      isCrop
                       watch={watch}
                       setValue={setValue}
                       name={"front_side_trailer"}
                       icon={<ImgploadIcon1 />}
                       text={t("Загрузить фото спереди")}
-                      errors={errors}
-                      register={register}
-                      rules={{ required: t("Это поле объязательно") }}
+                      // errors={errors}
+                      // register={register}
+                      // rules={{ required: t("Это поле объязательно") }}
                       type={`tech_pass`}
                       isLoading={loadingFront}
                       setLoading={setLoadingFront}
                       uploadAi={uploadAi}
                     />
                     <UploadImg
+                      isCrop
                       watch={watch}
                       setValue={setValue}
                       name={"back_side_trailer"}
                       icon={<ImgploadIcon1 />}
                       text={t("Загрузить фото сзади")}
-                      errors={errors}
-                      register={register}
+                      // errors={errors}
+                      // register={register}
                       isLoading={loadingBack}
                       setLoading={setLoadingBack}
                       uploadAi={uploadAi}
                       type={`tech_pass`}
-                      rules={{ required: t("Это поле объязательно") }}
+                      // rules={{ required: t("Это поле объязательно") }}
                     />
                   </Flex>
                 </Box>
                 <Box width={"100%"} mt={"17px"}>
-                  <p className={cls.textFieldName}>{t("Фото машины")} *</p>
+                  <p className={cls.textFieldName}>{t("Фото машины")}</p>
                   <Flex gap={4} className={cls.ImgWrap}>
                     <UploadImg
+                      isCrop
                       watch={watch}
                       setValue={setValue}
                       name={"car_photo"}
@@ -661,6 +675,7 @@ export const SearchCargoModule = () => {
                       setinputValue={setinputValue}
                       countries={countries}
                       locale={locale}
+                      
                     />
                   </Flex>
                 </Box>
@@ -672,7 +687,7 @@ export const SearchCargoModule = () => {
                   gap={"24px"}
                   mt={"32px"}
                 >
-                  <Box className={cls.ImgWrap_2} width={"50%"} mt={"17px"}>
+                  <Box className={cls.ImgWrap_2} mt={"17px"}>
                     <Flex
                       width={`100%`}
                       alignItems={`center`}
@@ -690,6 +705,7 @@ export const SearchCargoModule = () => {
                     </Flex>
                     <Flex mt={`20px`} gap={4}>
                       <UploadImg
+                      isCrop
                         watch={watch}
                         setValue={setValue}
                         name={"front_side_trailer_1"}
@@ -699,10 +715,11 @@ export const SearchCargoModule = () => {
                         register={register}
                       />
                       <UploadImg
+                             isCrop
                         watch={watch}
                         setValue={setValue}
                         name={"back_side_trailer_1"}
-                        icon={<ImgploadIcon1 />}
+                        icon={<ImgploadIcon2 />}
                         text={t("Загрузить фото сзади")}
                         errors={errors}
                         register={register}
@@ -713,6 +730,7 @@ export const SearchCargoModule = () => {
               )}
             </Box>
             <Button
+              mb={`20px`}
               isLoading={loading}
               isDisabled={isBtn}
               onClick={handleSubmit(onSubmit)}
@@ -833,6 +851,11 @@ export const SearchCargoModule = () => {
           locale={locale}
           countries={countries}
           rules={rules}
+          uploadAi={uploadAi}
+          setLoadingFront={setLoadingFront}
+          setLoadingBack={setLoadingBack}
+          loadingBack={loadingBack}
+          loadingFront={loadingFront}
         />
       )}
     </>

@@ -107,7 +107,7 @@ export const Login = () => {
           <Button mt="24px" size="md" type="submit" isLoading={isLoading}>
             {t("Войти")}
           </Button>
-          <div className={cls.divider}>
+          {/* <div className={cls.divider}>
             <span>{t(`Вход через соцсеть`)}</span>
           </div>
           <Flex
@@ -132,7 +132,7 @@ export const Login = () => {
             >
               {t("Продолжить с Apple")}
             </Button>
-          </Flex>
+          </Flex> */}
         </Box>
         <Box mt="30%" display="flex" justifyContent="center" columnGap="4px">
           <Text fontSize="14px" color="brand.600" lineHeight="20px">

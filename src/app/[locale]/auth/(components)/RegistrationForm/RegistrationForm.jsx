@@ -229,7 +229,7 @@ export const RegistrationForm = () => {
                   <FormInternationInput
                     control={control}
                     name={`tel`}
-                    placeholder={t("+998 99 123 4567")}
+                    placeholder={t("Номер телефона")}
                     disabled={authStore?.authData?.mediaAuth && false}
                     errors={errors}
                     rules={
@@ -361,8 +361,7 @@ export const RegistrationForm = () => {
                       <Box>
                         <p className={cls.label}>ИНН организации *</p>
                         <TextField
-                          // label="Имя"
-                          type="number"
+                          type="text"
                           name="inn"
                           register={register}
                           placeholder={t("Введите номер ИНН...")}
@@ -373,6 +372,14 @@ export const RegistrationForm = () => {
                               message: t("Это поле обязательно"),
                             },
                           }}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
+                            if (value.length <= 16) {
+                              setValue(`inn`, value);
+                            } else {
+                              return (e.target.value = value.slice(0, 16)); // Limit to 9 characters
+                            }
+                          }}
                         />
                       </Box>
 
@@ -381,7 +388,6 @@ export const RegistrationForm = () => {
                         <TextField
                           name="full_name"
                           register={register}
-                  
                           placeholder={t("Имя фамилия...")}
                           errors={errors}
                           rules={{
@@ -391,7 +397,11 @@ export const RegistrationForm = () => {
                             },
                           }}
                           onChange={(e) => {
-                            e.target.value = e.target.value.slice(0, 35); // Limit to 2 characters
+                            const valueWithoutDigits = e.target.value.replace(
+                              /\d/g,
+                              ""
+                            ); // raqamlarni olib tashlaydi
+                            e.target.value = valueWithoutDigits?.slice(0, 35);
                           }}
                         />
                       </Box>

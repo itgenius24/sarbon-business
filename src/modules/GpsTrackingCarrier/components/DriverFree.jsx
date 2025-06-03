@@ -13,8 +13,10 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
 import { useGetLang } from "@/hooks/useGetLang";
+import { useGetUserGpsByIDData } from "@/services/api";
 import { flegCountry } from "@/utils/flegCountry";
 import {
   Avatar,
@@ -58,6 +60,17 @@ const DriverFree = ({
       onClose();
     }, 1000);
   };
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
+    },
+  });
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={`10px`} alignItems={"flex-start"}>
@@ -72,7 +85,9 @@ const DriverFree = ({
               src={currentUserLocationData?.user?.photo}
             />
             <Box>
-              <p className={cls.userName}>{currentUserLocationData?.user?.full_name}</p>
+              <p className={cls.userName}>
+                {currentUserLocationData?.user?.full_name}
+              </p>
               <p className={cls.version}>
                 <StarsIcon /> 4.1<span>{" (16 отзывов)"}</span>
               </p>
@@ -95,7 +110,9 @@ const DriverFree = ({
               <p className={cls.smallText}>
                 Вкл:{" "}
                 {format(
-                  new Date(currentUserLocationData?.users_gps?.[0]?.update_time).setHours(
+                  new Date(
+                    currentUserLocationData?.users_gps?.[0]?.update_time
+                  ).setHours(
                     new Date(
                       currentUserLocationData?.users_gps?.[0]?.update_time
                     ).getHours() - 5
@@ -104,7 +121,8 @@ const DriverFree = ({
                 )}{" "}
               </p>
               <p className={cls.bigTitle}>
-                {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
+                {currentUserLocationData?.users_gps?.[0]?.location_name ||
+                  "Нет адреса"}
               </p>
               <Box>
                 <Popover
@@ -233,33 +251,37 @@ const DriverFree = ({
               color={`black`}
               placement="top-end"
               label={
-                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name ||
+                currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                  ?.name ||
                 currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.[
                   `name_${locale}`
                 ]
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.[
-                      `name_${locale}`
-                    ]
-                    ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.[
-                        `name_${locale}`
-                      ]
-                    : currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                  ? currentUserLocationData?.vehicles?.[0]
+                      ?.trailer_type_id_data?.[`name_${locale}`]
+                    ? currentUserLocationData?.vehicles?.[0]
+                        ?.trailer_type_id_data?.[`name_${locale}`]
+                    : currentUserLocationData?.vehicles?.[0]
+                        ?.trailer_type_id_data?.name
                   : t(`Пока нет машины`)
               }
             >
               <p>
-                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
-                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                  ?.name
+                  ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
+                      ?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>
 
             <Flex gap={3}>
               <Flex gap={1} alignItems={"center"}>
-                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
+                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity}{" "}
+                т.
               </Flex>
               <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
+                <LoadOulineIcon />{" "}
+                {currentUserLocationData?.vehicles?.[0]?.height} m3
               </Flex>
             </Flex>
           </Flex>
@@ -270,7 +292,9 @@ const DriverFree = ({
             justifyContent={"space-between"}
           >
             <span style={{ fontWeight: 400 }}>{t(`Тип топлива`)}</span>
-            <span>{currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}</span>
+            <span>
+              {currentUserLocationData?.vehicles?.[0]?.fuel_id_data?.name}
+            </span>
           </Flex>
           <Flex
             p={`10px 0px`}
@@ -288,7 +312,9 @@ const DriverFree = ({
                 background={`white`}
                 color={`black`}
                 placement="top-end"
-                label={currentUserLocationData?.vehicles?.[0]?.car_country || `uz`}
+                label={
+                  currentUserLocationData?.vehicles?.[0]?.car_country || `uz`
+                }
               >
                 <Image
                   style={{
@@ -315,7 +341,9 @@ const DriverFree = ({
           <Button
             onClick={() => {
               setCenterModalType("changeIcon");
-              setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
+              setIconStatus(
+                currentUserLocationData?.user?.provisions?.[0] || "empty"
+              );
             }}
             leftIcon={<CencelMapIcon />}
             rightIcon={<NextBtnIcon />}
@@ -328,7 +356,9 @@ const DriverFree = ({
           <Button
             onClick={() => {
               setCenterModalType("changeIcon");
-              setIconStatus(currentUserLocationData?.user?.provisions?.[0] || "empty");
+              setIconStatus(
+                currentUserLocationData?.user?.provisions?.[0] || "empty"
+              );
             }}
             leftIcon={<LoadgreenIcon />}
             rightIcon={<NextBtnIcon />}
@@ -338,6 +368,37 @@ const DriverFree = ({
             {t(`Машина cвободна`)}
           </Button>
         )}
+
+        {getUserGps?.data?.response?.length > 0 &&
+          currentUserLocationData?.disp_data?.[0]?.users_id_2 && (
+            <Box
+              style={{ background: `white` }}
+              className={cls.cardWrapOutline}
+            >
+              <Flex width={"100%"} alignItems={"center"} gap={3}>
+                <Avatar
+                  name={getUserGps?.data?.response?.[0]?.full_name}
+                  src={getUserGps?.data?.response?.[0]?.full_name}
+                />
+                <Box>
+                  <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                  <p style={{ fontSize: `16px` }} className={cls.name}>
+                    {getUserGps?.data?.response?.[0]?.full_name}
+                  </p>
+                  <Flex alignItems={"center"} gap={2}>
+                    <a
+                      href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                    >
+                      <TelegramIcon />
+                    </a>
+                    <p className={cls.cardStartSubTitleZTel}>
+                      {getUserGps?.data?.response?.[0]?.phone}
+                    </p>
+                  </Flex>
+                </Box>
+              </Flex>
+            </Box>
+          )}
 
         {/* <Button
           onClick={() => setCenterModalType(`selectCargo`)}

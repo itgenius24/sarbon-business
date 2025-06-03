@@ -1,4 +1,3 @@
-"use client";
 import authStore from "@/store/auth.store";
 import {
   useGetClientType,
@@ -38,6 +37,8 @@ export const useRegistrationFormProps = () => {
     formState: { errors },
     setError,
   } = useForm();
+
+
 
   const getAuthData = authStore.getAuthData;
   const phone = getAuthData?.phone ? getAuthData?.phone : watch(`tel`);
@@ -197,8 +198,8 @@ export const useRegistrationFormProps = () => {
             photo: watch(`img`),
             email: watch(`email`),
             user_status: ["rejected"],
-            passport_code: status === 1 ? watch(`passport_code`) : undefined,
-            passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
+            passport_code: watch(`passport_code`) ,
+            passport_scan:  watch(`passport_scan`) ,
             create_time: new Date(),
             guid: authStore?.authData?.mediaAuth?.guid,
           },
@@ -222,8 +223,8 @@ export const useRegistrationFormProps = () => {
             photo: watch(`img`),
             email: watch(`email`),
             user_status: ["rejected"],
-            passport_code: status === 1 ? watch(`passport_code`) : undefined,
-            passport_scan: status === 1 ? watch(`passport_scan`) : undefined,
+            passport_code:  watch(`passport_code`) ,
+            passport_scan: watch(`passport_scan`) ,
             create_time: new Date(),
           },
         });

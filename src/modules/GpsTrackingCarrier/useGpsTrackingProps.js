@@ -4,6 +4,7 @@ import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
   useGetCar,
+  useGetCarData,
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
@@ -51,8 +52,7 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [remainingData, setRemainingData] = useState([]);
-   const [isFuelMap, setIsFuelMap] = useState(false);
-
+  const [isFuelMap, setIsFuelMap] = useState(false);
 
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
@@ -250,74 +250,76 @@ export const useGpsTrackingProps = () => {
   }, [getMeasurement.isSuccess]);
 
   const [carsArr, setCarsArr] = useState([]);
-  const toast = useToast();
-  console.log(`carsArr`, carsArr);
 
-  const { mutate: dataMutate, isLoading } = useGetCar({
-    onSuccess: (data) => {
-      if (data?.response?.length === 50) {
-        if (carsArr >= 100) {
-          return;
-        } else {
-          setOffset(offset + 1);
-        }
-      }
-      if (data?.response?.length) {
-        let data2 = data?.response?.filter(
-          (item) => item?.vehicles && item?.users_gps
-        );
-        // console.log(`carsArr21`, data2?.map((item) => ({ ...item, user: item?.user?.users_id_data})));
-
-        if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
-          data2 = data2?.map((item) => ({
+  const { data: dataDriverMap, isLoading } = useGetCarData({
+    data: {
+      data: {
+        object_data: {
+          number: distance * 4 || 100,
+          limit: 50,
+          page: offset,
+          firm_id: firm_id,
+        },
+      },
+    },
+    querySettings: {
+      onSuccess: (data) => {
+        if (data?.response?.length) {
+          let data2 = data?.response?.map((item) => ({
             ...item,
-            user: item?.user?.users_id_data,
-          }));
-        }
-        if (
-          watch(`load_type_id`)?.value ||
-          watch("weight") ||
-          watch("volume")
-        ) {
+            user: {
+              ...item,
+              provisions: item?.order_data
+                ? [`our_cargo`]
+                : item?.provisions || [`empty`],
+            },
+            vehicles: [
+              {
+                ...item?.vehicle_data,
+                trailer_type_id_data: item?.trailer_type,
+              },
+            ],
+            firm_data: item?.firm_data,
+            users_gps: [item?.driver_gps_data],
+            orders: item?.order_data ? [{...item?.order_data,cargo_id_data:item?.cargo_data}] : undefined,
+          }))?.filter(item => item.users_gps?.[0]);
+
           setCarsArr(data2);
-        } else {
-          setCarsArr((res) => [...res, ...data2]);
         }
-      } else {
-        // setCarsArr([]);
-        // toast({
-        //   title: t("Не найдено"),
-        //   description: t("К сожалений ничего не найдено"),
-        //   status: "info",
-        //   duration: 5000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
-      }
-      if (data?.response?.length === null && !closeRes) {
-        setCLoseRes(true);
-        dataMutate({
-          data: { object_data: { limit: 50, page: offset, firm_id } },
-        });
-      }
+      },
+      refetchOnWindowFocus: false,
     },
   });
-
-  // console.log(`carsArr`, carsArr);
 
   const dataUserID = useMemo(() => {
     let id = "";
     if (watch("users_id")) {
       id = watch("users_id");
     }
-
     return carsArr?.filter((item) => item?.user?.guid === id);
   }, [watch("users_id")]);
+
+  useEffect(() => {
+    if (dataUserID.length > 0 && mapRef) {
+      setCurrentUserLocationData(dataUserID?.[0]);
+        if (dataUserID?.[0]?.user?.provisions?.[0] === "empty") {
+        setModalType("driverFree");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "our_cargo") {
+        setModalType("driverCheck");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "someone_cargo") {
+        setModalType("driverQuestion");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "broke_down") {
+        setModalType("driverFree");
+      } else if (dataUserID?.[0]?.user?.provisions?.[0] === "waiting_for_driver") {
+        setModalType("driverExpectation");
+      }
+    }
+   
+  }, [dataUserID, watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
-      // console.log(`dats`, data2);
       if (data?.data?.response?.length === 40) {
         setOffsetCAr(offsetCar + 1);
       }
@@ -405,6 +407,7 @@ export const useGpsTrackingProps = () => {
     label: item?.user?.phone,
     value: item?.user?.guid,
   }));
+
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -458,35 +461,8 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
-    console.log("offsetCar");
-    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
-
-  useEffect(() => {
-    if (!watch("aaddress")) {
-      dataMutate({
-        data: {
-          object_data: {
-            number: distance * 4 || 100,
-            load_type_id: watch("load_type_id")?.value,
-            weight: watch("weight"),
-            volume: watch("volume"),
-            limit: 50,
-            page: offset,
-            firm_id: firm_id,
-          },
-        },
-      });
-    }
-  }, [
-    watch("cor")?.split(",")[0],
-    debouncedValue,
-    // watch("car_type")?.value,
-    watch("load_type_id")?.value,
-    watch("weight"),
-    watch("volume"),
-    offset,
-  ]);
 
   const handleClear = () => {
     // console.log("clear")
@@ -614,6 +590,7 @@ export const useGpsTrackingProps = () => {
     refueling: remainingData,
     setLocationData,
     mapRef,
-    isFuelMap, setIsFuelMap
+    isFuelMap,
+    setIsFuelMap,
   };
 };

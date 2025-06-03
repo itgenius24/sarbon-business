@@ -167,16 +167,33 @@ export const CarsCardMObile = ({
           <Box>
             <p className={cls.subTitle}>{t("Тип загрузки")}:</p>
             <p className={cls.title}>
-              {item?.download_type &&
-                translateArray(item?.download_type)?.join(",")}
+              {item?.download_type?.length > 0
+                ? translateArray(item?.download_type)?.join(",")
+                : t(`Не указан`)}
             </p>
           </Box>
-          <Box mt={`16px`}>
-            <p className={cls.subTitle}>{t("Дополнительно")}:</p>
-            <p className={cls.title}>
-              {item?.adr} {item.tir ? `TIR ` : ""}
-            </p>
-          </Box>
+          {translateArray([
+            item?.adr && `adr`,
+            item?.cemt && `cemt`,
+            item.tir && `tir`,
+            item?.konika && `konika`,
+            item?.pneumatic && `pneumatic`,
+            item.coupling && `coupling`,
+          ])?.length > 0 && (
+            <Box maxWidth={`150px`}>
+              <p className={cls.subTitle}>{t("Дополнительно")}:</p>
+              <p className={cls.title}>
+                {translateArray([
+                  item?.adr && `adr`,
+                  item?.cemt && `cemt`,
+                  item.tir && `tir`,
+                  item?.konika && `konika`,
+                  item?.pneumatic && `pneumatic`,
+                  item.coupling && `coupling`,
+                ])?.join(", ")}
+              </p>
+            </Box>
+          )}
         </Flex>
         <Box width={`50%`}>
           <Box

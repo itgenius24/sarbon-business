@@ -62,6 +62,8 @@ import { format } from "date-fns";
 import copy from "copy-to-clipboard";
 import { useRouter } from "next/navigation";
 import CheckBoxComponent from "@/modules/GpsTrackingCarrier/components/CheckBoxComponent";
+import { useQueryClient } from "@tanstack/react-query";
+import CardLoad from "../CardLoad/CardLoad";
 
 export const TableComponent = ({
   isLargerThan845,
@@ -77,7 +79,7 @@ export const TableComponent = ({
   const [search, setSearch] = useState("");
   const [carId, setCarId] = useState();
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
-  const {isOpen,onClose,onOpen} = useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [centerModalType, setCenterModalType] = useState(null);
   const [dataUser, setDataUser] = useState();
   const [status, setStatus] = useState(false);
@@ -85,6 +87,8 @@ export const TableComponent = ({
   const router = useRouter();
   const locale = useGetLang();
   const firm_id = authStore.userData.firm_id;
+
+  const query = useQueryClient();
 
   const { data } = useGetCargoList({
     params: {
@@ -104,11 +108,21 @@ export const TableComponent = ({
       setStatus(true);
       setStatus2(true);
       setCenterModalType(false);
-      onClose()
+      onClose();
     },
   });
 
-  const { mutate: updateUer } = useUpdateUserData({});
+  const { mutate: updateUer } = useUpdateUserData({
+    onSuccess: (res) => {
+      setCarId();
+      setSelectCargo([]);
+      setStatus(true);
+      setCenterModalType(false);
+      onClose();
+      setStatus2(true);
+      query.invalidateQueries(["useGetCargoMap"]);
+    },
+  });
 
   const { mutate: pridlojetData, isLoading } =
     useLogistikaGpsTrackingFilterDriverPred({
@@ -117,15 +131,40 @@ export const TableComponent = ({
         setSelectCargo([]);
         setStatus(true);
         setCenterModalType(false);
-        onClose()
+        onClose();
         setStatus2(true);
+        query.invalidateQueries(["useGetCargoMap"]);
       },
     });
 
   const { mutate } = useGetCar({
     onSuccess: (res) => {
-      setDataUser(res?.response);
-      setStatus(false);
+      const response = res?.response;
+
+      if (!Array.isArray(response)) return;
+
+      // Guruhlash
+      const grouped = {};
+
+      response.forEach((item) => {
+        const guid = item?.guid;
+
+        if (!guid) return;
+
+        if (!grouped[guid]) {
+          grouped[guid] = {
+            ...item,
+            orders: item?.order_data ? [item.order_data] : undefined,
+          };
+          delete grouped[guid].order_data;
+        } else {
+          grouped[guid].orders.push(item.order_data);
+        }
+      });
+
+      const finalResult = Object.values(grouped);
+
+      setDataUser(finalResult);
     },
   });
 
@@ -145,21 +184,21 @@ export const TableComponent = ({
   const filteredData = dataUser?.filter((item) => {
     const provisionsData = item?.orders?.filter(
       (item) =>
-        item.provisions?.includes(`performed`) ||
-        item.provisions?.includes(`approve_from_driver`) ||
-        item.provisions?.includes(`new_proposal_from_director`) ||
-        item.provisions?.includes(`approve_by_customer`)
+        item?.provisions?.includes(`performed`) ||
+        item?.provisions?.includes(`approve_from_driver`) ||
+        item?.provisions?.includes(`new_proposal_from_director`) ||
+        item?.provisions?.includes(`approve_by_customer`)
     );
 
     if (isCheckboxChecked) {
       return (
         (!provisionsData || provisionsData?.length === 0) &&
-        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
+        item?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     } else {
       return (
         provisionsData?.length > 0 &&
-        item?.user?.full_name.toLowerCase().includes(search.toLowerCase())
+        item?.full_name.toLowerCase().includes(search.toLowerCase())
       );
     }
   });
@@ -197,9 +236,9 @@ export const TableComponent = ({
   const handleSorFrom = (type) => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (type === `top`) {
-        return a?.country_code_from.localeCompare(b?.country_code_from);
+        return a?.from.localeCompare(b?.from);
       } else if (type === `back`) {
-        return b?.country_code_from.localeCompare(a?.country_code_from);
+        return b?.from.localeCompare(a?.from);
       }
     });
 
@@ -213,9 +252,9 @@ export const TableComponent = ({
   const handleSorTo = (type) => {
     const sortedData = [...dataRes].sort((a, b) => {
       if (type === `top`) {
-        return a?.country_code_to?.localeCompare(b?.country_code_to);
+        return a?.to?.localeCompare(b?.to);
       } else if (type === `back`) {
-        return b?.country_code_to?.localeCompare(a?.country_code_to);
+        return b?.to?.localeCompare(a?.to);
       }
     });
 
@@ -252,7 +291,7 @@ export const TableComponent = ({
 
       updateUer({
         data: {
-          guid: data?.user?.guid,
+          guid: data?.guid,
           provisions: ["empty"],
         },
       });
@@ -284,7 +323,10 @@ export const TableComponent = ({
               className={cls.flag}
               width={30}
               height={30}
-              src={row?.flag_ot}
+              src={
+                row?.flag_ot ||
+                `https://flagcdn.com/w320/${row?.country_code_from?.toLowerCase()}.png`
+              }
               alt="wef"
             />
             <p className={cls.country_code}>{row?.country_code_from}</p>
@@ -315,7 +357,6 @@ export const TableComponent = ({
                 {row?.as_soon_as_a
                   ? t("Готов к загрузке")
                   : row?.load_time && format(row?.load_time, `yyyy-MM-dd`)}
-                {/* ~ 3450 km */}
               </span>
             </p>
             <div
@@ -344,7 +385,10 @@ export const TableComponent = ({
               className={cls.flag}
               width={30}
               height={30}
-              src={row?.flag_do}
+              src={
+                row?.flag_do ||
+                `https://flagcdn.com/w320/${row?.country_code_to?.toLowerCase()}.png`
+              }
               alt={row?.flag_do}
             />
             <p className={cls.country_code}>{row?.country_code_to}</p>
@@ -447,7 +491,7 @@ export const TableComponent = ({
                 </span>
               </p>
               <span className={cls.subTitle}>
-                {t("Предопл.")}{" "}
+                {t("Аванс")}{" "}
                 {row?.prepayment_percentage > 0
                   ? `${row?.prepayment_percentage} ${row?.currency_id_data?.[0]?.code}`
                   : t("Нет")}
@@ -457,7 +501,7 @@ export const TableComponent = ({
             <>
               <p className={cls.title}>{t("По запросу")}</p>
               <span className={cls.subTitle}>
-                {t("Предопл.")} {t("По запросу")}
+                {t("Аванс")} {t("По запросу")}
               </span>
             </>
           )}
@@ -469,7 +513,7 @@ export const TableComponent = ({
       width: 200,
       render: (row, index) => (
         <Box>
-          <Flex alignItems={`flex-start`} gap={1}>
+          <Flex alignItems={`center`} gap={1}>
             <Avatar
               width={`50px`}
               height={`50px`}
@@ -494,6 +538,7 @@ export const TableComponent = ({
       ),
     },
   ];
+
 
   const statusTooltip = (item) => {
     const data = item?.status || [];
@@ -527,31 +572,50 @@ export const TableComponent = ({
   const onRow = (item) => {
     setCarId(item);
     setCenterModalType(true);
-    onOpen()
+    onOpen();
   };
+
+  console.log(`filteredData`, filteredData);
 
   return (
     <>
       <Box mb={`10px`} mt={"32px"}>
-        <SarbonTable
-          isTooltip
-          statusTooltip={statusTooltip}
-          variant="card"
-          columns={columns}
-          data={dataRes}
-          onRow={onRow}
-        />
+        {!isLargerThan845 ? (
+          <Flex flexDirection={`column`} rowGap={`20px`} alignItems={`center`}>
+            {dataRes?.map((item) => {
+              return (
+                <CardLoad
+                  onRow={() => onRow(item)}
+                  key={item?.guid}
+                  item={item}
+                  t={t}
+                  locale={locale}
+                  isTollTip={true}
+                  statusTooltip={statusTooltip}
+                />
+              );
+            })}
+          </Flex>
+        ) : (
+          <SarbonTable
+            isTooltip
+            statusTooltip={statusTooltip}
+            variant="card"
+            columns={columns}
+            data={dataRes}
+            onRow={onRow}
+          />
+        )}
       </Box>
 
-      { isLargerThan845 ? (
+      {isLargerThan845 ? (
         <Modal size={`2xl`} isCentered isOpen={isOpen}>
-          <ModalOverlay onClick={onClose}/>
+          <ModalOverlay onClick={onClose} />
           <ModalContent>
-            <ModalHeader  borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
+            <ModalHeader borderBottom={`1px solid rgba(219, 216, 227, 1)`}>
               <Flex
                 justifyContent={"space-between"}
                 alignItems={"center"}
-               
                 height={`40px`}
               >
                 <p className={cls.topTitle}>{t("Предложить груз водителю")}</p>
@@ -566,7 +630,9 @@ export const TableComponent = ({
                       <SearchIcon />
                     </InputRightElement>
                   </InputGroup>
-                ):<ModalCloseButton onClick={onClose} />}
+                ) : (
+                  <ModalCloseButton onClick={onClose} />
+                )}
               </Flex>
             </ModalHeader>
             <ModalBody minHeight={`400px`}>
@@ -584,7 +650,7 @@ export const TableComponent = ({
                     );
                     return (
                       <CheckBoxComponent
-                        key={item?.user?.guid}
+                        key={item?.guid}
                         onClick={() => {
                           if (
                             provisionsData?.[0]?.provisions?.includes(
@@ -602,10 +668,10 @@ export const TableComponent = ({
                           ) {
                             // deleteOrder(item) emas, faqat onOpen() chaqirildi
                           } else {
-                            handleSelect(item?.user?.guid);
+                            handleSelect(item?.guid);
                           }
                         }}
-                        active={selectCargo.includes(item?.user?.guid)}
+                        active={selectCargo.includes(item?.guid)}
                         status={
                           provisionsData?.[0]?.provisions?.includes(
                             `performed`
@@ -621,108 +687,172 @@ export const TableComponent = ({
                           )
                         }
                       >
-                        {provisionsData?.[0]?.provisions?.includes(
-                          `performed`
-                        ) ||
-                        provisionsData?.[0]?.provisions?.includes(
-                          `approve_from_driver`
-                        ) ||
-                        provisionsData?.[0]?.provisions?.includes(
-                          `new_proposal_from_director`
-                        ) ||
-                        provisionsData?.[0]?.provisions?.includes(
-                          `approve_by_customer`
-                        ) ? (
-                          <>
-                            {provisionsData?.[0]?.provisions?.includes(
-                              `approve_by_customer`
-                            ) && (
-                              <TooltipComponets
-                                cls={cls}
-                                status={`check`}
-                                label={`Водитель подтвердил`}
-                                color={`rgba(21, 186, 77, 1)`}
-                              />
-                            )}
-                            {provisionsData?.[0]?.provisions?.includes(
-                              `performed`
-                            ) && (
-                              <TooltipComponets
-                                cls={cls}
-                                status={`check`}
-                                label={`Водитель занят`}
-                                color={`rgba(21, 186, 77, 1)`}
-                              />
-                            )}
-                            {(provisionsData?.[0]?.provisions?.includes(
-                              `approve_from_driver`
-                            ) ||
-                              provisionsData?.[0]?.provisions?.includes(
-                                `new_proposal_from_director`
-                              )) && (
-                              <TooltipComponets
-                                cls={cls}
-                                status={`approve_from_driver`}
-                                label={`Ждем подтверждение водителя`}
-                                color={`rgba(193, 187, 32, 1)`}
-                              />
-                            )}
+                        <Flex width={`100%`} justifyContent={`space-between`}>
+                          {provisionsData?.[0]?.provisions?.includes(
+                            `performed`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_from_driver`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `new_proposal_from_director`
+                          ) ||
+                          provisionsData?.[0]?.provisions?.includes(
+                            `approve_by_customer`
+                          ) ? (
+                            <>
+                              {provisionsData?.[0]?.provisions?.includes(
+                                `approve_by_customer`
+                              ) && (
+                                <TooltipComponets
+                                  cls={cls}
+                                  status={`check`}
+                                  label={`Водитель подтвердил`}
+                                  color={`rgba(21, 186, 77, 1)`}
+                                />
+                              )}
+                              {provisionsData?.[0]?.provisions?.includes(
+                                `performed`
+                              ) && (
+                                <TooltipComponets
+                                  cls={cls}
+                                  status={`check`}
+                                  label={`Водитель занят`}
+                                  color={`rgba(21, 186, 77, 1)`}
+                                />
+                              )}
+                              {(provisionsData?.[0]?.provisions?.includes(
+                                `approve_from_driver`
+                              ) ||
+                                provisionsData?.[0]?.provisions?.includes(
+                                  `new_proposal_from_director`
+                                )) && (
+                                <TooltipComponets
+                                  cls={cls}
+                                  status={`approve_from_driver`}
+                                  label={`Ждем подтверждение водителя`}
+                                  color={`rgba(193, 187, 32, 1)`}
+                                />
+                              )}
 
-                            <Popover>
-                              <PopoverTrigger>
-                                <Box as="button" className={cls.countryWrap}>
-                                  <Flex gap={3}>
-                                    <Avatar
-                                      name={item?.user?.full_name}
-                                      src={item?.user?.photo}
-                                    />
-                                    <Box>
-                                      <p className={cls.name}>
-                                        {item?.user?.full_name}
-                                      </p>
-                                      <p className={cls.subTitle}>
-                                        {item?.user?.phone}
-                                      </p>
-                                    </Box>
-                                  </Flex>
-                                </Box>
-                              </PopoverTrigger>
-
-                              <PopoverContent
-                                background={`white`}
-                                position={`relative`}
-                                border={`none`}
-                                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
-                                width={`300px`}
-                              >
-                                <PopoverArrow size={`lg`} />
-                                <PopoverBody fontWeight={400}>
-                                  <PopoverCloseButton />
-                                  <Box onClick={() => deleteOrder(item)}>
-                                    {t("Отменить предложение")}
+                              <Popover>
+                                <PopoverTrigger>
+                                  <Box
+                                    opacity={0.5}
+                                    as="button"
+                                    width={`100%`}
+                                    display={`flex`}
+                                    alignItems={`center`}
+                                    justifyContent={`space-between`}
+                                    className={cls.countryWrap}
+                                  >
+                                    <Flex gap={3}>
+                                      <Avatar
+                                        name={item?.full_name}
+                                        src={item?.photo}
+                                      />
+                                      <Box>
+                                        <p className={cls.name}>
+                                          {item?.full_name}
+                                        </p>
+                                        <p className={cls.subTitle}>
+                                          {item?.phone}
+                                        </p>
+                                      </Box>
+                                    </Flex>
+                                    {item?.vehicle_data && (
+                                      <Flex
+                                        flexDirection={`column`}
+                                        mr={5}
+                                        alignItems={`flex-end`}
+                                        className={cls.subTitle2}
+                                      >
+                                        <p className={cls.loadType}>
+                                          {`${item?.trailer_type?.name} ${
+                                            item?.vehicle_data?.car_number
+                                              ? item?.vehicle_data?.car_number
+                                              : ``
+                                          }`}
+                                        </p>
+                                        <Flex gap={2}>
+                                          <Flex gap={1} alignItems={"center"}>
+                                            <StoneIcon />
+                                            {item?.vehicle_data?.capacity} т.
+                                          </Flex>
+                                          <Flex gap={1} alignItems={"center"}>
+                                            <LoadOulineIcon />
+                                            {item?.vehicle_data?.height} m3
+                                          </Flex>
+                                        </Flex>
+                                      </Flex>
+                                    )}
                                   </Box>
-                                </PopoverBody>
-                              </PopoverContent>
-                            </Popover>
-                          </>
-                        ) : (
-                          <Box className={cls.countryWrap}>
-                            <Flex gap={3}>
-                              <Avatar
-                                name={item?.user?.full_name}
-                                src={item?.user?.photo}
-                              />
-                              <Box>
-                                <p className={cls.name}>
-                                  {item?.user?.full_name}
-                                </p>
-                                <p className={cls.subTitle}>
-                                  {item?.user?.phone}
-                                </p>
-                              </Box>
-                            </Flex>
-                          </Box>
-                        )}
+                                </PopoverTrigger>
+
+                                <PopoverContent
+                                  background={`white`}
+                                  position={`relative`}
+                                  border={`none`}
+                                  boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                  width={`300px`}
+                                >
+                                  <PopoverArrow size={`lg`} />
+                                  <PopoverBody fontWeight={400}>
+                                    <PopoverCloseButton />
+                                    <Box onClick={() => deleteOrder(item)}>
+                                      {t("Отменить предложение")}
+                                    </Box>
+                                  </PopoverBody>
+                                </PopoverContent>
+                              </Popover>
+                            </>
+                          ) : (
+                            <Box
+                              width={`100%`}
+                              display={`flex`}
+                              alignItems={`center`}
+                              justifyContent={`space-between`}
+                              className={cls.countryWrap}
+                            >
+                              <Flex gap={3}>
+                                <Avatar
+                                  name={item?.full_name}
+                                  src={item?.photo}
+                                />
+                                <Box>
+                                  <p className={cls.name}>{item?.full_name}</p>
+                                  <p className={cls.subTitle}>{item?.phone}</p>
+                                </Box>
+                              </Flex>
+                              {item?.vehicle_data && (
+                                <Flex
+                                  flexDirection={`column`}
+                                  mr={5}
+                                  alignItems={`flex-end`}
+                                  className={cls.subTitle2}
+                                >
+                                  <p className={cls.loadType}>
+                                    {`${item?.trailer_type?.name} ${
+                                      item?.vehicle_data?.car_number
+                                        ? item?.vehicle_data?.car_number
+                                        : ``
+                                    }`}
+                                  </p>
+                                  <Flex gap={2}>
+                                    <Flex gap={1} alignItems={"center"}>
+                                      <StoneIcon />
+                                      {item?.vehicle_data?.capacity} т.
+                                    </Flex>
+                                    <Flex gap={1} alignItems={"center"}>
+                                      <LoadOulineIcon />
+                                      {item?.vehicle_data?.height} m3
+                                    </Flex>
+                                  </Flex>
+                                </Flex>
+                              )}
+                            </Box>
+                          )}
+                        </Flex>
                       </CheckBoxComponent>
                     );
                   })
@@ -745,7 +875,7 @@ export const TableComponent = ({
                 )}
               </Box>
             </ModalBody>
-            <ModalFooter  borderTop={`1px solid rgba(219, 216, 227, 1)`}>
+            <ModalFooter borderTop={`1px solid rgba(219, 216, 227, 1)`}>
               <Flex
                 width={`100%`}
                 justifyContent={"space-between"}
@@ -771,7 +901,7 @@ export const TableComponent = ({
                     >
                       {t("Отменить")}
                     </Button>
-                    
+
                     <Button
                       isDisabled={selectCargo.length === 0}
                       isLoading={isLoading}
@@ -788,7 +918,7 @@ export const TableComponent = ({
           </ModalContent>
         </Modal>
       ) : (
-        <Drawer placement="bottom" isOpen={isOpen}>
+        <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
           <DrawerOverlay onClick={onClose} />
           <DrawerContent borderRadius="12px 12px 0 0">
             <DrawerHeader>
@@ -814,7 +944,10 @@ export const TableComponent = ({
             </DrawerHeader>
             <DrawerCloseButton
               top={`15px`}
-              onClick={() => setCenterModalType(``)}
+              onClick={() => {
+                onClose();
+                setCenterModalType(``);
+              }}
             />
             <DrawerBody>
               <Box className={cls.modalContend}>
@@ -832,7 +965,7 @@ export const TableComponent = ({
                     console.log(`provisions`, provisionsData);
                     return (
                       <CheckBoxComponent
-                        key={item?.user?.guid}
+                        key={item?.guid}
                         onClick={() => {
                           if (
                             provisionsData?.[0]?.provisions?.includes(
@@ -850,10 +983,10 @@ export const TableComponent = ({
                           ) {
                             // deleteOrder(item) emas, faqat onOpen() chaqirildi
                           } else {
-                            handleSelect(item?.user?.guid);
+                            handleSelect(item?.guid);
                           }
                         }}
-                        active={selectCargo.includes(item?.user?.guid)}
+                        active={selectCargo.includes(item?.guid)}
                         status={
                           provisionsData?.[0]?.provisions?.includes(
                             `performed`
@@ -921,15 +1054,15 @@ export const TableComponent = ({
                                 <Box as="button" className={cls.countryWrap}>
                                   <Flex gap={3}>
                                     <Avatar
-                                      name={item?.user?.full_name}
-                                      src={item?.user?.photo}
+                                      name={item?.full_name}
+                                      src={item?.photo}
                                     />
                                     <Box>
                                       <p className={cls.name}>
-                                        {item?.user?.full_name}
+                                        {item?.full_name}
                                       </p>
                                       <p className={cls.subTitle}>
-                                        {item?.user?.phone}
+                                        {item?.phone}
                                       </p>
                                     </Box>
                                   </Flex>
@@ -957,16 +1090,12 @@ export const TableComponent = ({
                           <Box className={cls.countryWrap}>
                             <Flex gap={3}>
                               <Avatar
-                                name={item?.user?.full_name}
-                                src={item?.user?.photo}
+                                name={item?.full_name}
+                                src={item?.photo}
                               />
                               <Box>
-                                <p className={cls.name}>
-                                  {item?.user?.full_name}
-                                </p>
-                                <p className={cls.subTitle}>
-                                  {item?.user?.phone}
-                                </p>
+                                <p className={cls.name}>{item?.full_name}</p>
+                                <p className={cls.subTitle}>{item?.phone}</p>
                               </Box>
                             </Flex>
                           </Box>

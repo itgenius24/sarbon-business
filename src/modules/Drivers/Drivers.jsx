@@ -28,7 +28,6 @@ import {
 import { useMyCars } from "./useMyCars";
 import cls from "./style.module.scss";
 import { TextField } from "@/components/TextField";
-import { UploadImg } from "@/components/UploadImg";
 import {
   CheckModalIcon,
   ErroModalIcon,
@@ -39,6 +38,7 @@ import {
 } from "@/assets/icons/icons";
 import { useState } from "react";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
+import { UploadImg } from "@/components/UploadImg";
 
 export const DriversModule = ({ locale }) => {
   const { t } = useTranslation(locale);
@@ -58,6 +58,9 @@ export const DriversModule = ({ locale }) => {
     copyFunction,
     open,
     setOpen,
+    loadingFront,
+    setLoadingFront,
+    uploadAi,
   } = useMyCars();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -110,9 +113,19 @@ export const DriversModule = ({ locale }) => {
             </Box>
             <Box>
               <p className={cls.textFieldName}>{t("Телефон водителя")} *</p>
-              <FormInternationInput control={control} name={`phone`} />
+              <FormInternationInput
+                control={control}
+                name={`phone`}
+                errors={errors}
+                rules={{
+                  required: {
+                    value: true,
+                    message: t("Это поле обязательно"),
+                  },
+                }}
+              />
             </Box>
-            {!id && (
+            {/* {!id && (
               <Box>
                 <p className={cls.textFieldName}>{t("Придумайте пароль")} *</p>
                 <TextField
@@ -137,7 +150,7 @@ export const DriversModule = ({ locale }) => {
                   }
                 />
               </Box>
-            )}
+            )} */}
           </Flex>
           <Flex
             flexDirection={"column"}
@@ -194,15 +207,23 @@ export const DriversModule = ({ locale }) => {
             </Box>
             <Box>
               <p className={cls.textFieldName}>
-                {t("Фото водительского удостоверения")} *
+                {t("Фото водительского удостоверения")}
               </p>
+
               <UploadImg
-                isColor={true}
+                isCrop
                 watch={watch}
                 setValue={setValue}
                 name={"drivers_license"}
-                text={t("Загрузить фото")}
                 icon={<Img3UploadIcon />}
+                text={t("Загрузить фото")}
+                errors={errors}
+                // register={register}
+                // rules={{ required: t("Загрузить фото") }}
+                type={`driver_pass`}
+                isLoading={loadingFront}
+                setLoading={setLoadingFront}
+                uploadAi={uploadAi}
               />
             </Box>
           </Flex>
@@ -227,6 +248,7 @@ export const DriversModule = ({ locale }) => {
               name={"photo"}
               text={t("Загрузить фото")}
               icon={<UserIcon2 />}
+              isCrop
             />
             <p style={{ display: isLargerThan845 ? `block` : `none` }}>
               {t("Фото водителя")}
@@ -243,6 +265,7 @@ export const DriversModule = ({ locale }) => {
           isLoading={isLoading}
           onClick={handleSubmit(onSubmit)}
           className={cls.nextBtn}
+          width={`fit-content`}
         >
           {t("Сохранить водителя")}
         </Button>
@@ -254,32 +277,14 @@ export const DriversModule = ({ locale }) => {
               <ModalHeader>
                 <CheckModalIcon />
               </ModalHeader>
-              <ModalCloseButton onClick={() => setIsPopupOpen(false)} />
+              {/* <ModalCloseButton onClick={() => setIsPopupOpen(false)} /> */}
               <ModalBody>
-                <p style={{ fontWeight: 600, fontSize: "18px" }}>
-                  {t("Водитель успешно добавлен в систему")}
+                <p style={{ fontWeight: 400, fontSize: "16px" }}>
+                  {t(
+                    "Аккаунт водителя был создан. Необходимо войти в приложение Sarbon с номером"
+                  )}
+                  : {watch("phone") || ""}
                 </p>
-                <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                  {t("Передайте ему данные для входа в приложение Furgo")}:
-                </p>
-                <Flex gap={`20px`}>
-                  <Box>
-                    <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                      {t("Его логин")}:
-                    </p>
-                    <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                      {watch(`phone`)}
-                    </p>
-                  </Box>
-                  <Box>
-                    <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                      {t("Его пароль")}:
-                    </p>
-                    <p style={{ fontWeight: 400, fontSize: "14px" }}>
-                      {watch(`password`)}
-                    </p>
-                  </Box>
-                </Flex>
               </ModalBody>
 
               <ModalFooter>
@@ -295,7 +300,7 @@ export const DriversModule = ({ locale }) => {
                 >
                   {t("Скопировать детали")}
                 </Button>
-                <Button
+                {/* <Button
                   style={{
                     background: "white",
                     border: "1px solid rgba(208, 213, 221, 1)",
@@ -305,7 +310,7 @@ export const DriversModule = ({ locale }) => {
                   onClick={() => router.push(`/${locale}/drivers`)}
                 >
                   {t("Отправить как смс")}
-                </Button>
+                </Button> */}
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -402,7 +407,7 @@ export const DriversModule = ({ locale }) => {
               <ModalBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Водитель с номером")} {watch(`phone`)}{" "}
-                  {t("уже регистрирован в Furgo")}
+                  {t("уже регистрирован в Sarbon")}
                 </p>
                 <Box mt={`24px`}>
                   <p
@@ -441,7 +446,7 @@ export const DriversModule = ({ locale }) => {
               <DrawerBody>
                 <p style={{ fontWeight: 600, fontSize: "18px" }}>
                   {t("Водитель с номером")} {watch(`phone`)}{" "}
-                  {t("уже регистрирован в Furgo")}
+                  {t("уже регистрирован в Sarbon")}
                 </p>
                 <Box mt={`24px`}>
                   <p

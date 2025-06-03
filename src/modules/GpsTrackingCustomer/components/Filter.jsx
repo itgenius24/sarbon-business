@@ -150,7 +150,21 @@ const Filter = ({
           </Box>
         </Box>
         <Box className={cls.cardWrap}>
-          <p className={cls.checkCardTitle}>{t("Отображать на карте")}</p>
+          <Flex mb={`10px`} flexDirection={"column"} rowGap={2}>
+            <Dropdown
+              placeholder={t("Все типы кузова")}
+              label={t("Отображать на карте")}
+              name="car_type"
+              options={carTypeOptions}
+              errors={errors}
+              width="100%"
+              control={control}
+              watch={watch}
+              handleInputClear={handleInputClear}
+              setValue={setValue}
+              clearable
+            />
+          </Flex>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>
             <Checkbox
               width={"16px"}
@@ -211,32 +225,15 @@ const Filter = ({
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
-          <p className={cls.checkCardTitle}>{t("Тип кузова")}</p>
-
-          <Flex flexDirection={"column"} rowGap={2}>
-            <Dropdown
-              placeholder={t("Введите тип кузова")}
-              // label={t("Тип кузова")}
-              name="car_type"
-              options={carTypeOptions}
-              errors={errors}
-              width="100%"
+          <Box>
+            <p className={cls.checkCardTitle}>{t("Поиск по водителю")}</p>
+            <ChakraSelect
+              options={getUserOption}
+              name="users_id"
+              placeholder={t("Имя или номер телефона...")}
               control={control}
-              watch={watch}
-              handleInputClear={handleInputClear}
-              setValue={setValue}
-              clearable
             />
-            <Box>
-              <p className={cls.checkCardTitle}>{t("Поиск по водителю")}</p>
-              <ChakraSelect
-                options={getUserOption}
-                name="users_id"
-                placeholder={t("Имя или номер телефона...")}
-                control={control}
-              />
-            </Box>
-          </Flex>
+          </Box>
         </Box>
       </Flex>
     </div>
