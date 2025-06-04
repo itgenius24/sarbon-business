@@ -88,9 +88,9 @@ ingress:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       type: web
       hosts:
-        - host: "test.furgo.uz"
-          path: /
-          servicePort: 8080
+        # - host: "test.furgo.uz"
+        #   path: /
+        #   servicePort: 8080
         - host: "test.sarbon.me"
           path: /
           servicePort: 8080
