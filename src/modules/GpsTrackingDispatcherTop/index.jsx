@@ -83,7 +83,11 @@ export default function GpsTrackingDispatcherTop({ locale }) {
     driverVal,
     isFuelMap,
     setIsFuelMap,
+    setCarType,
+    car_type
   } = useGpsTrackingProps();
+
+  console.log(`refueling`,refueling)
 
   const { t } = useTranslation(locale, "translations");
 
@@ -164,7 +168,10 @@ export default function GpsTrackingDispatcherTop({ locale }) {
                   driverVal={driverVal}
                   isFuelMap={isFuelMap}
                   setIsFuelMap={setIsFuelMap}
+                  setCarType={setCarType}
+                  car_type={car_type}
                 />
+
               )}
               {modalType === "driverFree" && (
                 <DriverFree

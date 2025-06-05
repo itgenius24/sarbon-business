@@ -1,21 +1,23 @@
 "use client";
 
+import { useGetLang } from "@/hooks/useGetLang";
 import {
   useCreateActionHistoriesMutation,
   useDeleteUsers,
   useGetCar,
 } from "@/services/api";
-import { useEffect, useState } from "react";
-
-import { useTranslation } from "@/app/i18n/client";
-import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 
 export const useDriversList = () => {
   const locale = useGetLang();
   const [data, setData] = useState();
   const [status, setStatus] = useState(false);
-
+  const params = useSearchParams();
+  const guid = params.get(`guid`);
   const { t } = useTranslation(locale, "translations");
 
   const firm_id = authStore.userData.firm_id;
@@ -57,7 +59,7 @@ export const useDriversList = () => {
     const data = {
       data: {
         object_data: {
-          firm_id,
+          firm_id:guid,
         },
       },
     };

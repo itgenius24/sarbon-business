@@ -28,6 +28,8 @@ const Filter = ({
   driverVal,
   isFuelMap,
   setIsFuelMap,
+  setCarType,
+  car_type,
 }) => {
   const {
     register,
@@ -213,6 +215,7 @@ const Filter = ({
             searchName="dis_search"
             onSearchChange={(e) => setDisName(e.target.value)}
             onChangeSelect={(e) => {
+              console.log(`driverVal`, e);
               setDisVal(e);
               setCarsArr([]);
               handleInputClear();
@@ -250,14 +253,24 @@ const Filter = ({
               placeholder={t("Все типы кузова")}
               label={t("Отображать на карте")}
               name="car_type"
+              defaultValue={car_type}
+              clearFn={() => {
+                setCarType(null);
+              }}
               options={carTypeOptions}
               errors={errors}
               width="100%"
               control={control}
               watch={watch}
-              handleInputClear={handleInputClear}
+              handleInputClear={() => {
+                setCarType(null);
+              }}
               setValue={setValue}
               clearable
+              onChangeSelect={(e) => {
+                console.log(`driverVal`, e);
+                setCarType(e);
+              }}
             />
           </Flex>
           <Flex mt={2} flexDirection={"column"} rowGap={2}>

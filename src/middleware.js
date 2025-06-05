@@ -124,7 +124,7 @@ export function middleware(request) {
     "/search-load",
     "/search-car",
     "/add-cargo-test",
-    "/profile-new",
+    // "/profile-new",
     "/dashboard-dispatcher",
     "/dispatcher-expeditor",
     "/distance-calculation",
