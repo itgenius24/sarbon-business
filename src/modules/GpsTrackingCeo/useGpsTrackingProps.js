@@ -76,7 +76,8 @@ export const useGpsTrackingProps = () => {
   const [loadCheck, setLoadCheck] = useState(true);
   const [isBalloonOpened, setIsBalloonOpened] = useState(false);
   const [disVal, setDisVal] = useState({});
-  const [driverVal, setDriverVal] = useState();
+  const [driverVal, setDriverVal] = useState();  
+  const [car_type, setCarType] = useState();
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
     our_cargo: true,
@@ -342,6 +343,8 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
 
+  // console.log(`driverVal`,driverVal)
+
   const { data: dataDriverMap, isLoading } = useGetCarData({
     data: {
       data: {
@@ -505,20 +508,22 @@ export const useGpsTrackingProps = () => {
   const carTypeDataFIlter = uniqueData?.filter(
     (item) =>
       item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
-      watch(`car_type`)?.value
+      car_type?.value
   );
+
+  console.log(`car_type`,car_type)
 
   const getCarListProps = useMemo(() => {
     return {
       data: watch("users_id")
         ? dataUserDataID
-        : watch(`car_type`)?.value
+        : car_type?.value
         ? carTypeDataFIlter
         : uniqueData,
     };
   }, [
     watch("users_id"),
-    watch(`car_type`)?.value,
+   car_type?.value,
     dataUserID,
     filteredData,
     carsArr,
@@ -594,6 +599,7 @@ export const useGpsTrackingProps = () => {
     setValue("cor", ``);
     setValue("address", ``);
     setValue("car_type", null);
+    setCarType(null)
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
@@ -732,6 +738,8 @@ export const useGpsTrackingProps = () => {
     setDisVal,
     disVal,
     driverVal,
-      isFuelMap, setIsFuelMap
+      isFuelMap, setIsFuelMap,
+      setCarType,
+      car_type
   };
 };

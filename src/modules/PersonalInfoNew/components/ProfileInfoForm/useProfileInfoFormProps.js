@@ -1,5 +1,10 @@
 import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
-import { useCreateActionHistoriesMutation, useGetFirmInfo, useUpdateUserInfo } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useGetFirmInfo,
+  useGetUserInfo,
+  useUpdateUserInfo,
+} from "@/services/api";
 import { fileUpload } from "@/services/fileUpload";
 import authStore from "@/store/auth.store";
 import { useDisclosure, useToast } from "@chakra-ui/react";
@@ -21,20 +26,29 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
     required: { value: true, message: "Это поле обязательно для заполнения" },
   };
 
-  const {
-    data: {
-      full_name,
-      email,
-      photo,
-      login,
-      passport_code,
-      passport_scan,
-      pnfl,
-    } = {},
-    isLoading,
-  } = useGetUserInfoHook();
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+
+  const id = authStore.userData.id;
+
+  const { data: userData2 ,isLoading} = useGetUserInfo(id, {
+    enabled: Boolean(id),
+    select: (res) => {
+      if (!res.response) return {};
+      return res?.response || {};
+    },
+    onSuccess: (res) => {
+      if (!authStore?.userData?.firm_id)
+        reset({
+          email: res?.email,
+          passport_code: res?.passport_code,
+          passport_scan: res?.passport_scan,
+          pnfl: res?.pnfl,
+          full_name: res?.full_name,
+          phone_number: res?.phone,
+        });
+    },
+  });
+
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { data } = useGetFirmInfo(authStore?.userData?.firm_id, {
     onSuccess: (res) => {
@@ -48,18 +62,17 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
           value: res?.response?.company_name?.split(" ")?.[0],
           label: res?.response?.company_name?.split(" ")?.[0],
         },
-        email: email,
-        passport_code: passport_code,
-        passport_scan: passport_scan,
-        pnfl: pnfl,
+        email: userData2?.email,
+        passport_code: userData2?.passport_code,
+        passport_scan: userData2?.passport_scan,
+        pnfl: userData2?.pnfl,
       });
     },
-    enabled: Boolean(full_name),
+    enabled: Boolean(userData2?.full_name && authStore?.userData?.firm_id),
   });
 
   const { mutate: userData } = useUpdateUserInfo({
     onSuccess() {
-    
       toast({
         title: "Успешно изменено!",
         description: "Вы успешно обновили этого пользователя",
@@ -129,10 +142,10 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
 
   return {
     rules,
-    full_name,
-    login,
-    email,
-    photo,
+    full_name:userData2?.full_name,
+    login:userData2?.login,
+    email:userData2?.email,
+    photo:userData2?.photo,
     isLoading,
     handleImageUpload,
     isOpen,

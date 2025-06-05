@@ -91,6 +91,12 @@ ingress:
         - host: "furgo.uz"
           path: /
           servicePort: 8080
+        - host: "sarbon.me"
+          path: /
+          servicePort: 8080
+        - host: "www.sarbon.me"
+          path: /
+          servicePort: 8080
 
 resources:
   {}

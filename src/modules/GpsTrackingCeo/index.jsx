@@ -78,9 +78,14 @@ export default function GpsTrackingCeo({ locale }) {
     isBalloonOpened,
     setIsBalloonOpened,
     mapRef,
-    setDriverVal,setDisVal,
-    disVal,driverVal,
-      isFuelMap, setIsFuelMap
+    setDriverVal,
+    setDisVal,
+    disVal,
+    driverVal,
+    isFuelMap,
+    setIsFuelMap,
+    setCarType,
+    car_type,
   } = useGpsTrackingProps();
 
   const { t } = useTranslation(locale, "translations");
@@ -161,8 +166,10 @@ export default function GpsTrackingCeo({ locale }) {
                     setDisVal={setDisVal}
                     disVal={disVal}
                     driverVal={driverVal}
-                      isFuelMap={isFuelMap}
-                       setIsFuelMap={setIsFuelMap}
+                    isFuelMap={isFuelMap}
+                    setIsFuelMap={setIsFuelMap}
+                    setCarType={setCarType}
+                    car_type={car_type}
                   />
                 )}
                 {modalType === "driverFree" && (

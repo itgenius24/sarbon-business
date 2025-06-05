@@ -1,4 +1,8 @@
-import { useCreateActionHistoriesMutation, useRegisterFirEditmMutation, useUpdateUserInfo } from "@/services/api";
+import {
+  useCreateActionHistoriesMutation,
+  useRegisterFirEditmMutation,
+  useUpdateUserInfo,
+} from "@/services/api";
 import authStore from "@/store/auth.store";
 import { normalizeName } from "@/utils/normalizeName";
 import { useToast } from "@chakra-ui/react";
@@ -22,8 +26,7 @@ export const usePersonalInfoProps = () => {
   const toast = useToast();
 
   const query = useQueryClient();
-    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
@@ -72,9 +75,13 @@ export const usePersonalInfoProps = () => {
           email: watch(`email`),
           user_status: ["rejected"],
           phone: watch(`phone_number`),
-          passport_code: watch(`passport_code`) ? watch(`passport_code`) :undefined ,
-          passport_scan:watch(`passport_scan`) ? watch(`passport_scan`) : undefined,
-          pnfl:watch(`pnfl`),
+          passport_code: watch(`passport_code`)
+            ? watch(`passport_code`)
+            : undefined,
+          passport_scan: watch(`passport_scan`)
+            ? watch(`passport_scan`)
+            : undefined,
+          pnfl: watch(`pnfl`),
           full_name: normalizeName(watch(`full_name`)),
         },
       });
@@ -82,24 +89,43 @@ export const usePersonalInfoProps = () => {
   });
 
   const submitForm = (data) => {
-    const body = {
-      guid: data.guid,
-      company_name:
-        data?.tip_account?.[0] === `legal_owner`
-          ? `${
-              watch(`company_type`)?.value
-                ? watch(`company_type`)?.value
-                : `OOO`
-            } ${data?.company_name}`
-          : undefined,
-      tin: data?.tin,
-      phone_number: data?.phone_number,
-      full_name: data?.full_name,
-      email: data?.email,
-      building_address: data?.building_address,
-    };
+    if (authStore?.userData?.firm_id) {
+      const body = {
+        guid: data.guid,
+        company_name:
+          data?.tip_account?.[0] === `legal_owner`
+            ? `${
+                watch(`company_type`)?.value
+                  ? watch(`company_type`)?.value
+                  : `OOO`
+              } ${data?.company_name}`
+            : undefined,
+        tin: data?.tin,
+        phone_number: data?.phone_number,
+        full_name: data?.full_name,
+        email: data?.email,
+        building_address: data?.building_address,
+      };
 
-    mutate({ data: body });
+      mutate({ data: body });
+    } else {
+      userData({
+        data: {
+          guid: authStore.userData.guid,
+          email: watch(`email`),
+          user_status: ["rejected"],
+          phone: watch(`phone_number`),
+          passport_code: watch(`passport_code`)
+            ? watch(`passport_code`)
+            : undefined,
+          passport_scan: watch(`passport_scan`)
+            ? watch(`passport_scan`)
+            : undefined,
+          pnfl: watch(`pnfl`),
+          full_name: normalizeName(watch(`full_name`)),
+        },
+      });
+    }
   };
 
   const getProfileFormProps = (otherProps) => {

@@ -218,35 +218,13 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
+         multiRoute.events.add("balloonclose", () => {
+          clearMap();
+        });
       });
+      
     };
 
-    useEffect(() => {
-      setTimeout(() => {
-        const closeBtn = document.querySelector(
-          `.ymaps-2-1-79-balloon__close-button`
-        );
-        if (closeBtn) {
-          closeBtn.addEventListener(`click`, () => {
-            setClickCount(0);
-            setSelecting(false);
-            setPointA(null);
-            setPointB(null);
-            setPoints([]);
-            setDistance(null);
-            setType(``);
-            mapRef.current.geoObjects.remove(multiRouteRef.current);
-            multiRouteRef.current = null;
-            setIsBalloonOpened(false);
-            closeRouteBalloon();
-            setBallonRef(false);
-            setSelecting(false);
-            polylineRef.current = null;
-            setIsSelectingPoints(false);
-          });
-        }
-      }, 1000);
-    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
 
     const getMiddlePoint = ([point1, point2]) => {
       const lat = (point1[0] + point2[0]) / 2;
@@ -311,6 +289,13 @@ const Cmap = memo(
     const handleMapLoad = (ymaps) => {
       ymapsRef.current = ymaps;
       drawRoute(pointA, pointB);
+        const map = mapRef.current;
+
+      map.balloon.events.add("close", () => {
+        // if (points.length > 0) {
+          clearMap();
+        // }
+      });
     };
 
     const handleDragEnd = (e, index) => {
@@ -339,9 +324,28 @@ const Cmap = memo(
       });
     };
 
+
+    const clearMap = () => {
+      setClickCount(0);
+      setSelecting(false);
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+      setDistance(null);
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      setIsBalloonOpened(false);
+      closeRouteBalloon();
+      setBallonRef(false);
+      setSelecting(false);
+      polylineRef.current = null;
+      setIsSelectingPoints(false);
+    };
+
+
     const handlePointSelect = (coords) => {
       if (!selecting) return;
-
       if (clickCount === 0) {
         setPointA(coords);
         setClickCount(1);

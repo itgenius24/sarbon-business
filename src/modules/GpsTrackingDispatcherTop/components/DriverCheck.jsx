@@ -242,7 +242,7 @@ const DriverCheck = ({
             <Flex className={cls.gruz} mt={5} gap={2}>
               <GruzIcon />
               <Box>
-                <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
+                <p className={cls.cardStartTitle}>{currentUserLocationData?.orders?.[0]?.cargo_id_data?.product_type}</p>
                 <p className={cls.cardStartSubTitle}>
                   <Flex width={"100%"} justifyContent={"space-between"}>
                     <span>

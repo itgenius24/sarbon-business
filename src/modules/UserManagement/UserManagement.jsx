@@ -18,6 +18,7 @@ import { useProps } from "./useProps";
 import { NavigationBtnLeftIcon } from "@/assets/icons/icons";
 import Notes from "./components/Notes/Notes";
 import Profile from "./components/Profile/Profile";
+import DriverList from "./components/DriverList/DriverList";
 
 const UserManagement = ({ locale }) => {
   const {
@@ -34,10 +35,8 @@ const UserManagement = ({ locale }) => {
     time,
     rating,
     rev_count,
-    user_type
+    user_type,
   } = useProps();
-
-
 
   return (
     <Container my="15px">
@@ -65,7 +64,11 @@ const UserManagement = ({ locale }) => {
             {t(`Вернутся в список`)}
           </Button>
 
-          <Heading fontSize="30px">{ user_type === `driver` ? userData?.response?.[0]?.full_name :  firmData?.response?.company_name}</Heading>
+          <Heading fontSize="30px">
+            {user_type === `driver`
+              ? userData?.response?.[0]?.full_name
+              : firmData?.response?.company_name}
+          </Heading>
         </Box>
 
         {user_type === `expeditor` && (
@@ -86,7 +89,7 @@ const UserManagement = ({ locale }) => {
         )}
       </Flex>
 
-      <Tabs isLazy  defaultIndex={0} variant={`unstyled`}>
+      <Tabs isLazy defaultIndex={0} variant={`unstyled`}>
         <Flex width={`100%`} gap={`40px`} mt={`20px`}>
           <TabList className={cls.tab}>
             {filterTabs.map((item) => (
@@ -99,26 +102,56 @@ const UserManagement = ({ locale }) => {
               </Tab>
             ))}
           </TabList>
+          {user_type !== `driver` && (
+            <TabPanels width={`70%`}>
+              <TabPanel padding={0}>
+                <Profile
+                  type={user_type}
+                  vehicles_data_size={vehicles_data_size}
+                  driver_size={driver_size}
+                  data={firmData?.response}
+                  reliabilitiy={reliabilitiy}
+                  rev_count={rev_count}
+                  time={time}
+                  rating={rating}
+                  userData={userData?.response?.[0]}
+                  locale={locale}
+                />
+              </TabPanel>
 
-          <TabPanels width={`70%`}>
-            <TabPanel padding={0}>
-              <Profile
-                type={user_type}
-                vehicles_data_size={vehicles_data_size}
-                driver_size={driver_size}
-                data={firmData?.response}
-                reliabilitiy={reliabilitiy}
-                rev_count={rev_count}
-                time={time}
-                rating={rating}
-                userData={userData?.response?.[0]}
-                locale={locale}
-              />
-            </TabPanel>
-            <TabPanel padding={0}>
-              <Notes />
-            </TabPanel>
-          </TabPanels>
+              {/* <TabPanel padding={0}>
+                <DriverList />
+              </TabPanel>
+              <TabPanel padding={0}></TabPanel> */}
+
+              <TabPanel padding={0}>
+                <Notes />
+              </TabPanel>
+            </TabPanels>
+          )}
+
+          {user_type === `driver` && (
+            <TabPanels width={`70%`}>
+              <TabPanel padding={0}>
+                <Profile
+                  type={user_type}
+                  vehicles_data_size={vehicles_data_size}
+                  driver_size={driver_size}
+                  data={firmData?.response}
+                  reliabilitiy={reliabilitiy}
+                  rev_count={rev_count}
+                  time={time}
+                  rating={rating}
+                  userData={userData?.response?.[0]}
+                  locale={locale}
+                />
+              </TabPanel>
+
+              <TabPanel padding={0}>
+                <Notes />
+              </TabPanel>
+            </TabPanels>
+          )}
         </Flex>
       </Tabs>
     </Container>

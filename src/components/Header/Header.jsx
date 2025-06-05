@@ -25,6 +25,7 @@ import UserImg from "@/assets/images/user.png";
 import { AddDillerMunu } from "@/assets/icons/icons";
 import { ContainerNav } from "../ContainerNav/Container";
 import ChatPopover from "../ChatPopover/ChatPopover";
+import { roleName } from "@/utils/roleName";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -40,11 +41,13 @@ const Header = observer(({ elements }) => {
   const { t } = useTranslation(locale, "translations");
 
   const goToProfile = () => {
-    if (authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") {
-      router.push(`/${locale ? locale : `ru`}/profile-xm`);
-    } else {
-      router.push(`/${locale ? locale : `ru`}/profile`);
-    }
+      router.push(`/${locale ? locale : `ru`}/profile-new`);
+
+    // if (authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") {
+    //   router.push(`/${locale ? locale : `ru`}/profile-new`);
+    // } else {
+    //   router.push(`/${locale ? locale : `ru`}/profile`);
+    // }
   };
 
   const dispacherType = authStore?.userData?.dispatcher_type;
@@ -55,13 +58,7 @@ const Header = observer(({ elements }) => {
 
   const [isNavOpen, setNavOpen] = useState(false);
 
-  const roleName = {
-    ["527d2017-2dc2-4449-9eeb-08fc1aafa469"]: `Директор`,
-    ["785678f2-fae7-4a00-8766-99ea67d3784f"]:
-      dispacherType?.[0] === `top_dispatcher` ? `Топ-диспетчер` : `Диспетчер`,
-    ["48871d27-7361-4f69-8fe4-b54daf270739"]: `Заказчик`,
-    ["f81d3c3d-228d-479e-a2b1-9948c98640f2"]: `Перевозчик`,
-  };
+
 
   function handleToggleNav() {
     setNavOpen(!isNavOpen);
@@ -132,9 +129,9 @@ const Header = observer(({ elements }) => {
                   >
                     <Link
                       onClick={() => setNavOpen(false)}
-                      href={`/${locale}/profile`}
+                      href={`/${locale}/profile-new`}
                       className={clsx(cls.itemLink, {
-                        [cls.activeLink]: pathname === `/${locale}/profile`,
+                        [cls.activeLink]: pathname === `/${locale}/profile-new`,
                       })}
                     >
                       {t("Профиль")}

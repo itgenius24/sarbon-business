@@ -77,6 +77,7 @@ export const useGpsTrackingProps = () => {
   const [addressAdd, setAddressAdd] = useState();
   const [loadCheck, setLoadCheck] = useState(true);
   const [isBalloonOpened, setIsBalloonOpened] = useState(false);
+  const [car_type, setCarType] = useState();
   const [disVal, setDisVal] = useState({});
   const [driverVal, setDriverVal] = useState({});
   const [checkboxStatuses, setCheckboxStatuses] = useState({
@@ -86,6 +87,8 @@ export const useGpsTrackingProps = () => {
     broke_down: true,
     waiting_for_driver: true,
   });
+
+  console.log(`car_type`, car_type);
 
   useEffect(() => {
     if (checked) {
@@ -124,7 +127,7 @@ export const useGpsTrackingProps = () => {
               lat,
               long,
               version,
-              location_name
+              location_name,
             },
           ],
           vehicles: [
@@ -508,26 +511,27 @@ export const useGpsTrackingProps = () => {
 
   const carTypeDataFIlter = uniqueData?.filter(
     (item) =>
-      item?.vehicles?.[0]?.trailer_type_id_data?.guid ===
-      watch(`car_type`)?.value
+      item?.vehicles?.[0]?.trailer_type_id_data?.guid === car_type?.value
   );
 
   const getCarListProps = useMemo(() => {
     return {
       data: watch("users_id")
         ? dataUserDataID
-        : watch(`car_type`)?.value
+        : car_type?.value
         ? carTypeDataFIlter
         : uniqueData,
     };
   }, [
     watch("users_id"),
-    watch(`car_type`)?.value,
+    car_type?.value,
     dataUserID,
     filteredData,
     carsArr,
     uniqueData,
   ]);
+
+  console.log(`getCarListProps`,getCarListProps,car_type)
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,
@@ -590,7 +594,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions?.concat(getUserPhoneOptions);
 
   useEffect(() => {
-     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
   const handleClear = () => {
@@ -603,6 +607,7 @@ export const useGpsTrackingProps = () => {
     setValue("volume", null);
     setValue("dispatcher", null);
     setValue("driver", null);
+    setCarType(null);
     setDistance(50);
     setCheckboxStatuses({
       empty: true,
@@ -733,8 +738,12 @@ export const useGpsTrackingProps = () => {
     setIsBalloonOpened,
     mapRef,
     setDisVal,
-    disVal,driverVal,
+    disVal,
+    driverVal,
     setDriverVal,
-    isFuelMap, setIsFuelMap
+    isFuelMap,
+    setIsFuelMap,
+    setCarType,
+    car_type,
   };
 };

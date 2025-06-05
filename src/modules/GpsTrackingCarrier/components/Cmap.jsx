@@ -200,35 +200,12 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
+         multiRoute.events.add("balloonclose", () => {
+          clearMap();
+        });
       });
     };
 
-    useEffect(() => {
-      setTimeout(() => {
-        const closeBtn = document.querySelector(
-          `.ymaps-2-1-79-balloon__close-button`
-        );
-
-        if (closeBtn) {
-          closeBtn.addEventListener(`click`, () => {
-            setClickCount(0);
-            setSelecting(false);
-            setPointA(null);
-            setPointB(null);
-            setPoints([]);
-            setDistance(null);
-            setType(``);
-            mapRef.current.geoObjects.remove(multiRouteRef.current);
-            multiRouteRef.current = null;
-            // setIsBalloonOpened(false);
-            closeRouteBalloon();
-            setBallonRef(false);
-            setSelecting(false);
-            polylineRef.current = null;
-          });
-        }
-      }, 1000);
-    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
 
     const getMiddlePoint = ([point1, point2]) => {
       const lat = (point1[0] + point2[0]) / 2;
@@ -300,8 +277,6 @@ const Cmap = memo(
         setClickCount(0);
         setSelecting(true);
         setDistance("");
-
-        // Route qayta chiziladi, agar oldingi points bor bo‘lsa
         drawRoute(points[0] || pointA, points[1] || pointB);
       }
     };
@@ -311,6 +286,31 @@ const Cmap = memo(
       setTimeout(() => {
         drawRoute(pointA, pointB);
       }, 500);
+         const map = mapRef.current;
+
+       map.balloon.events.add("close", () => {
+  
+          clearMap();
+   
+      });
+    };
+
+
+     const clearMap = () => {
+      setClickCount(0);
+      setSelecting(false);
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+      setDistance(null);
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      closeRouteBalloon();
+      setBallonRef(false);
+      setSelecting(false);
+      polylineRef.current = null;
+      setIsSelectingPoints(false);
     };
 
     const handleDragEnd = (e, index) => {
@@ -701,126 +701,7 @@ const Cmap = memo(
                   </>
                 );
               })}
-            {locationData &&
-              locationData.map((item, index) => {
-                const BalloonContentCargo = () => (
-                  <div
-                    id="balloon-content_cargo"
-                    className={cls.balloon_content_empty}
-                  >
-                    <div className={cls.wrap} style={{ height: "45px" }}>
-                      {item?.new_status?.[0] === "occupied_cargo" ? (
-                        <>
-                          <MapCargoLoadGoodsIcon />
-                          <span
-                            style={{ color: "rgba(193, 187, 32, 1)" }}
-                            className={cls.balloonName}
-                          >
-                            {item?.bid_cash || `$-----`}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <MapCargoGreenIcon />
-                          <span className={cls.balloonName}>
-                            {item?.bid_cash || `$-----`}
-                            {item?.currency_id_data?.code}
-                          </span>
-                        </>
-                      )}
-
-                      <Flex style={{ gap: "4px" }} alignItems={"center"}>
-                        <Box className={cls.conWrap}>
-                          <StoneIcon /> <span> {item?.weight} т.</span>
-                        </Box>
-                        <p className={cls.conWrap}> </p>
-                        <p
-                          className={cls.conWrap}
-                          gap={1}
-                          alignItems={"center"}
-                        >
-                          <LoadOulineIcon /> <span>{item?.volume_m3} m3</span>
-                        </p>
-                      </Flex>
-                    </div>
-                    <p className={cls.balloon_fulName}>{item?.product_type}</p>
-                    {item?.new_status?.[0] === "occupied_cargo" ? (
-                      <>
-                        <div className={cls.flex}>
-                          <GoodsPhoneIcon />
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${item?.users_id_data?.phone}`}
-                            className={cls.footerBoxLink}
-                          >
-                            {formatPhoneNumber(item?.users_id_data?.phone)}
-                          </a>
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <GoodsFuraIcon />
-                          {item?.vehicle_type_id_data?.name}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <div className={cls.flex}>
-                          <GreenPhoneIcon />
-                          <a
-                            target="_blank"
-                            href={`https://t.me/${item?.users_id_data?.phone}`}
-                            className={cls.footerBoxLink}
-                          >
-                            {formatPhoneNumber(item?.users_id_data?.phone)}
-                          </a>
-                        </div>
-
-                        <p className={cls.footerBox}>
-                          <GreenFuraIcon />
-                          {item?.vehicle_type_id_data?.name}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                );
-                const balloonContentCargo = ReactDOMServer.renderToString(
-                  <BalloonContentCargo />
-                );
-                return (
-                  <>
-                    {item.location_name && (
-                      <Placemark
-                        onClick={() => {
-                          setLoadState(item);
-                          if (item?.new_status?.[0] === "occupied_cargo") {
-                            setModalType("driverGruzGoods");
-                          } else {
-                            setModalType("driverGruz");
-                          }
-                        }}
-                        key={item?.guid}
-                        geometry={[
-                          item.location_name.split(" ")[0] * 1 + index * 0.0001,
-                          item.location_name.split(" ")[1] * 1 + index * 0.0001,
-                        ]}
-                        properties={{
-                          balloonContent: balloonContentCargo,
-                          iconContent: "2000",
-                        }}
-                        options={{
-                          iconLayout: "default#image",
-                          iconImageHref: getSVGIcon(
-                            item?.bid_cash,
-                            item?.new_status?.[0]
-                          ),
-                          iconImageSize: [60, 72],
-                          iconImageOffset: [-15, -42],
-                        }}
-                      />
-                    )}
-                  </>
-                );
-              })}
+          
           </Clusterer>
         )}
         {locationData &&
@@ -940,7 +821,7 @@ const Cmap = memo(
                         item?.bid_cash,
                         item?.new_status?.[0]
                       ),
-                      iconImageSize: [60, 72],
+                   iconImageSize: [60, 72],
                       iconImageOffset: [-15, -42],
                       zIndexHover: 1,
                       zIndex: 1,

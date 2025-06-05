@@ -176,35 +176,12 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
+          multiRoute.events.add("balloonclose", () => {
+          clearMap();
+        });
       });
     };
 
-    useEffect(() => {
-      setTimeout(() => {
-        const closeBtn = document.querySelector(
-          `.ymaps-2-1-79-balloon__close-button`
-        );
-
-        if (closeBtn) {
-          closeBtn.addEventListener(`click`, () => {
-            setClickCount(0);
-            setSelecting(false);
-            setPointA(null);
-            setPointB(null);
-            setPoints([]);
-            setDistance(null);
-            setType(``);
-            mapRef.current.geoObjects.remove(multiRouteRef.current);
-            multiRouteRef.current = null;
-            // setIsBalloonOpened(false);
-            closeRouteBalloon();
-            setBallonRef(false);
-            setSelecting(false);
-            polylineRef.current = null;
-          });
-        }
-      }, 1000);
-    }, [selecting, types, points?.[0], points?.[1], ballonRef]);
 
     const getMiddlePoint = ([point1, point2]) => {
       const lat = (point1[0] + point2[0]) / 2;
@@ -287,7 +264,32 @@ const Cmap = memo(
       setTimeout(() => {
         drawRoute(pointA, pointB);
       }, 500);
+        const map = mapRef.current;
+
+       map.balloon.events.add("close", () => {
+  
+          clearMap();
+   
+      });
     };
+
+     const clearMap = () => {
+      setClickCount(0);
+      setSelecting(false);
+      setPointA(null);
+      setPointB(null);
+      setPoints([]);
+      setDistance(null);
+      setType(``);
+      mapRef.current.geoObjects.remove(multiRouteRef.current);
+      multiRouteRef.current = null;
+      closeRouteBalloon();
+      setBallonRef(false);
+      setSelecting(false);
+      polylineRef.current = null;
+      setIsSelectingPoints(false);
+    };
+
 
     const handleDragEnd = (e, index) => {
       const map = mapRef.current;

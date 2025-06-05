@@ -647,8 +647,7 @@ export const Performed = forwardRef(
                       >
                         {t(`Отказать`)}
                       </Button>
-                      {cargo?.cargo_id_data?.order_status?.[0] !==
-                        `in_active` && (
+                      {cargo?.cargo_id_data?.order_status?.[0] !== `in_active` && (
                         <Button
                           leftIcon={<IconCeckNewStatusIcon />}
                           onClick={(e) => {

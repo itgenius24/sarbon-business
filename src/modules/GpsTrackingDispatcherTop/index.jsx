@@ -83,7 +83,11 @@ export default function GpsTrackingDispatcherTop({ locale }) {
     driverVal,
     isFuelMap,
     setIsFuelMap,
+    setCarType,
+    car_type
   } = useGpsTrackingProps();
+
+  console.log(`refueling`,refueling)
 
   const { t } = useTranslation(locale, "translations");
 
@@ -124,19 +128,20 @@ export default function GpsTrackingDispatcherTop({ locale }) {
             mapRef={mapRef}
           />
         )}
-
-        <div className={cls.modalWrap}>
+        <div className={cls.modalWrapBtn}>
+          {modalType === "" && (
+            <div
+              onClick={() => setModalType("filter")}
+              className={cls.filterBtn}
+            >
+              <FilterIcon /> {t(`Фильтр`)}
+            </div>
+          )}
+        </div>
+        {
+          modalType.length > 0 &&  <div className={cls.modalWrap}>
           <Flex>
             <Box width={"100%"}>
-              {modalType === "" && (
-                <div
-                  onClick={() => setModalType("filter")}
-                  className={cls.filterBtn}
-                >
-                  <FilterIcon /> {t(`Фильтр`)}
-                </div>
-              )}
-
               {modalType === "filter" && (
                 <Filter
                   cls={cls}
@@ -163,7 +168,10 @@ export default function GpsTrackingDispatcherTop({ locale }) {
                   driverVal={driverVal}
                   isFuelMap={isFuelMap}
                   setIsFuelMap={setIsFuelMap}
+                  setCarType={setCarType}
+                  car_type={car_type}
                 />
+
               )}
               {modalType === "driverFree" && (
                 <DriverFree
@@ -235,6 +243,9 @@ export default function GpsTrackingDispatcherTop({ locale }) {
             </Box>
           </Flex>
         </div>
+        }
+
+       
         {centerModalType === "selectCargo" && (
           <div className={cls.leftModal}>
             <SelectCargo

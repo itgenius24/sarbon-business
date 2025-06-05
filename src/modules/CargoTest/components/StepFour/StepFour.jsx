@@ -39,8 +39,6 @@ const StepFour = ({ status, locale }) => {
 
   const params = usePathname();
 
-  console.log(`salom`, watch(`payment_type_1`));
-
   
 
   useEffect(() => {

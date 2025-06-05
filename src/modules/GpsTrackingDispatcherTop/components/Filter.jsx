@@ -27,7 +27,9 @@ const Filter = ({
   setDisVal,
   setDriverVal,
   disVal,driverVal,
-    isFuelMap, setIsFuelMap
+    isFuelMap, setIsFuelMap,
+      setCarType,
+      car_type
 }) => {
   const { t } = useTranslation(locale);
 
@@ -264,9 +266,19 @@ const Filter = ({
               errors={errors}
               width="100%"
               control={control}
+              defaultValue={car_type}
+              clearFn={() => {
+                setCarType(null);
+              }}
               watch={watch}
-              handleInputClear={handleInputClear}
+              handleInputClear={() => {
+                  setCarType(null);
+              }}
               setValue={setValue}
+                 onChangeSelect={(e) => {
+                console.log(`driverVal`, e);
+                setCarType(e);
+              }}
               clearable
             />
           </Flex>

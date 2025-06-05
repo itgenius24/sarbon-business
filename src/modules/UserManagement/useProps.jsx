@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 export const useProps = () => {
   const [tab, setTabs] = useState(`0`);
-  const router = useRouter()
+  const router = useRouter();
   const params = useSearchParams();
   const guid = params.get(`guid`);
   const vehicles_data_size = params.get(`vehicles_data_size`);
@@ -18,34 +18,38 @@ export const useProps = () => {
   const user_type = params.get(`type`);
   const user_id = params.get(`user_id`);
 
-
   const { t } = useTranslation();
 
-  const filterTabs = [
-    { value: `0`, label: `Данные ${user_type === `driver` ? `водителя` : `перевозчика`}` },
-    { value: `1`, label: `Надёжность` },
-  ];
+  const filterTabs =
+    user_type === `driver`
+      ? [
+          { value: `0`, label: `Данные  водителя` },
+          { value: `1`, label: `Надёжность` },
+        ]
+      : [
+          { value: `0`, label: `Данные перевозчика` },
+          // { value: `1`, label: `Водители` },
+          // { value: `2`, label: `Машины` },
+          { value: `1`, label: `Надёжность` },
+        ];
 
   const { data: firmData } = useGetFirmInfo(guid, {
-    enabled: Boolean(guid && tab === `0` ),
+    enabled: Boolean(guid && tab === `0`),
   });
 
-    const { data: userData,refetch } = useGetNewPredData({
+  const { data: userData, refetch } = useGetNewPredData({
+    data: {
       data: {
-        data: {
-          object_data: {
-          
-            driver_id: user_id,
-            type: `reliabilitiy_driver`,
-          },
+        object_data: {
+          driver_id: user_id,
+          type: `reliabilitiy_driver`,
         },
       },
-      querySettings:{
-        enabled: Boolean(user_id && tab === `0` ),
-      }
-    });
-
- 
+    },
+    querySettings: {
+      enabled: Boolean(user_id && tab === `0`),
+    },
+  });
 
   return {
     t,
@@ -62,6 +66,6 @@ export const useProps = () => {
     guid,
     time,
     rating,
-    user_type
+    user_type,
   };
 };

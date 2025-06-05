@@ -3,13 +3,14 @@
 import cls from "./styles.module.scss";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useElements } from "./elements";
 import clsx from "clsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
+import { useEffect } from "react";
 const predlojeniya = "/predlojeniya.mp3";
 const predlojeniyauz = "/predlojeniyauz.mp3";
 const vispolneniya = "/vispolneniya.mp3";
@@ -19,19 +20,18 @@ const zavishonuz = "/zavishonuz.mp3";
 
 export const MainLayout = ({ locale, children }) => {
   const elements = useElements(locale);
+    const router = useRouter();
+    const pathname = usePathname();
 
-  const pathname = usePathname();
-
-  const { mutate } = useUpdateNoteData();
+    const { mutate } = useUpdateNoteData();
 
 
-
-  const { data: data2, } = useGetNotificationFirst({
+  const { data: data2 } = useGetNotificationFirst({
     data: {
       data: {
         object_data: {
           type: `notification`,
-          user_id:authStore.userData?.guid,
+          user_id: authStore.userData?.guid,
           views: false,
         },
       },
@@ -43,7 +43,6 @@ export const MainLayout = ({ locale, children }) => {
           !pathname.includes(`my-loads`)
       ),
       onSuccess: (res) => {
-      
         if (res.response?.length > 0) {
           notificationFn(res);
         }
@@ -82,8 +81,7 @@ export const MainLayout = ({ locale, children }) => {
     pathname.includes("auth") || pathname.includes(`share-location`);
   const isAuthPageFooter = pathname?.length === 3;
 
-
-    console.log(`pathname`,pathname.length)
+  console.log(`pathname`, pathname.length);
 
   return (
     <div className={clsx(cls.layout, "fade-in")}>
