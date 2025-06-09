@@ -15,6 +15,7 @@ const SarbonTable = ({
   width = `1407px`,
   isSticky = false,
   onRow = () => {},
+  headerBackgroundColo = `rgba(237, 239, 245, 1)`
 }) => {
   const [filters, setFilters] = useState(
     columns.reduce((acc, col) => ({ ...acc, [col.key]: "all" }), {})
@@ -43,10 +44,11 @@ const SarbonTable = ({
         top={0}
         width={`100%`}
       >
-        <Flex justifyContent={`space-between`} className={cls.headerWrap}>
+        <Flex justifyContent={`space-between`} padding={`10px 24px`}  backgroundColor={headerBackgroundColo}>
           {columns.map((item, index) => (
             <Flex
               className={cls.headerThWrap}
+              
               width={`${item.width}%`}
               key={index}
             >
