@@ -228,7 +228,7 @@ export const ProfileInfoForm = ({
               label={t("Почта")}
               rules={rules}
               defaultValue={email}
-              placeholder="Emil"
+              placeholder="Email"
             />
             <Box width={`100%`}></Box>
           </div>
