@@ -23,6 +23,7 @@ import { SkeletonComp } from "@/components/Skeleton";
 import { useProfileInfoFormProps } from "./useProfileInfoFormProps";
 import { useTranslation } from "react-i18next";
 import { TextFieldWithAdditionAut } from "@/components/TextFieldWithAddition/TextFieldWithAdditionAut";
+import authStore from "@/store/auth.store";
 
 export const ProfileInfoForm = ({
   errors,
@@ -54,6 +55,8 @@ export const ProfileInfoForm = ({
 
   const { t } = useTranslation();
 
+  
+
   if (isLoading) return <SkeletonComp />;
 
   return (
@@ -69,7 +72,7 @@ export const ProfileInfoForm = ({
           : `Персональные данные`}
       </Text>
 
-      {watch(`tip_account`)?.[0] === `legal_owner` ? (
+      {watch(`tip_account`)?.[0] === `legal_owner` && authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2" ? (
         <Box>
           <div className={cls.fields}>
             <TextFieldWithAdditionAut

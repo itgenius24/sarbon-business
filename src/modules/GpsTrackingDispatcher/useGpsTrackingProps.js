@@ -104,10 +104,12 @@ export const useGpsTrackingProps = (locale) => {
     {
       onSuccess: (res) => {
         const objContend = {
+        users_id: guid,
           user: {
             full_name,
             guid,
             phone,
+            users_id: guid,
             provisions: [provisions],
           },
           users_gps: [
@@ -351,6 +353,7 @@ export const useGpsTrackingProps = (locale) => {
   useEffect(() => {
     if (guid || !cargo_guid) {
       const objContend = {
+        users_id: guid,
         user: {
           full_name,
           guid,
@@ -425,9 +428,8 @@ export const useGpsTrackingProps = (locale) => {
         setModalType("driverExpectation");
       }
       setIsBalloonOpened(false);
-    router.replace(`/${locale}/gps-tracking-dispatcher`);
+      router.replace(`/${locale}/gps-tracking-dispatcher`);
     }
-   
   }, [dataUserID, watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
