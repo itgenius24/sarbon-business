@@ -25,7 +25,7 @@ import useStepThereProps from "./useSteThereProps";
 import { TextField } from "@/components/TextField";
 import { Checkbox } from "@/components/Checkbox";
 
-const StepThere = ({ status,locale }) => {
+const StepThere = ({ status, locale }) => {
   const {
     control,
     setValue,
@@ -70,12 +70,10 @@ const StepThere = ({ status,locale }) => {
     onSubmit,
     handleResetForm,
     setEditModal,
-    hanleChange
-  } = useStepThereProps({locale});
-
+    hanleChange,
+  } = useStepThereProps({ locale });
 
   const { t } = useTranslation(locale, "translations");
-
 
   return (
     <Box className={cls.containerCards}>
@@ -168,10 +166,7 @@ const StepThere = ({ status,locale }) => {
                       errors={errors}
                       name="transport_count"
                       placeholder={t("0")}
-                      onChange={(e) =>
-                        hanleChange(e)
-                      }
-
+                      onChange={(e) => hanleChange(e)}
                     />
                   </Box>
                   <Flex alignItems={"center"}>
@@ -605,6 +600,34 @@ const StepThere = ({ status,locale }) => {
                         {t("Медкнижка")}
                       </Checkbox>
                     </Box>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="glonass"
+                      >
+                        {t("ГЛОНАСС")}
+                      </Checkbox>
+                    </Box>
+
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="seal_number"
+                      >
+                        {t("Пломба")}
+                      </Checkbox>
+                    </Box>
+                       <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        name="permit_number"
+                      >
+                        {t("Дозвол")}
+                      </Checkbox>
+                    </Box>
                   </Box>
                 </Box>
 
@@ -653,29 +676,29 @@ const StepThere = ({ status,locale }) => {
                     rowGap={`10px`}
                     columnGap="10px"
                   >
-                   <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      onChange={handleCheckboxChange}
-                      defaultChecked={!canEdit}
-                      name="is_ftl"
-                    >
-                      <Box display="flex" alignItems="center">
-                        <span>{t("отдельной машиной (FTL)")}</span>
-                        <HelpCircleIcon />
-                      </Box>
-                    </Checkbox>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        onChange={handleCheckboxChange}
+                        defaultChecked={!canEdit}
+                        name="is_ftl"
+                      >
+                        <Box display="flex" alignItems="center">
+                          <span>{t("отдельной машиной (FTL)")}</span>
+                          <HelpCircleIcon />
+                        </Box>
+                      </Checkbox>
                     </Box>
                     <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
-                    <Checkbox
-                      disabled={!canEdit}
-                      register={register}
-                      onChange={handleCheckboxChange}
-                      name="is_ltl"
-                    >
-                      {t("отдельной машиной или догрузом (FTL или LTL)")}
-                    </Checkbox>
+                      <Checkbox
+                        disabled={!canEdit}
+                        register={register}
+                        onChange={handleCheckboxChange}
+                        name="is_ltl"
+                      >
+                        {t("отдельной машиной или догрузом (FTL или LTL)")}
+                      </Checkbox>
                     </Box>
                   </Box>
                 </Box>
@@ -718,8 +741,8 @@ const StepThere = ({ status,locale }) => {
                     />
                   </Flex>
                   <TextField
-                      onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                    onClick={() => (!canEdit ? setEditModal(true) : null)}
+                    isEdit={!canEdit}
                     disabled={!canEdit}
                     placeholder={t("Штук")}
                     type="number"
@@ -768,7 +791,7 @@ const StepThere = ({ status,locale }) => {
                   <Flex gap={`20px`} width={`30%`}>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -805,7 +828,7 @@ const StepThere = ({ status,locale }) => {
 
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       className={cls.textField2}
                       errors={errors}
                       control={control}

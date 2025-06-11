@@ -568,32 +568,32 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   });
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+
   console.log("loadingsData", watch(`unloading`));
-  
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
-      let loadingsData = watch(`loadings`).map((item, index) => ({
-        address: item?.address,
-        date: new Date(item.from_date),
-        lat: item?.cor.split(" ")[0],
-        long: item?.cor.split(" ")[1],
-        guid: item?.guid,
-        step: index + 1,
-        type: ["shipper"],
-        expectations: +item.loading_num || 0,
-      })) || [];
-      let unloadinData = watch(`unloading`).map((item, index) => ({
-        address: item?.address,
-        date: new Date(item.to_date),
-        lat: item?.cor.split(" ")[0],
-        long: item?.cor.split(" ")[1],
-        step: index + 1,
-        type: ["consignee"],
-        guid: item?.guid,
-      })) || [];
-
+      let loadingsData =
+        watch(`loadings`).map((item, index) => ({
+          address: item?.address,
+          date: new Date(item.from_date),
+          lat: item?.cor.split(" ")[0],
+          long: item?.cor.split(" ")[1],
+          guid: item?.guid,
+          step: index + 1,
+          type: ["shipper"],
+          expectations: +item.loading_num || 0,
+        })) || [];
+      let unloadinData =
+        watch(`unloading`).map((item, index) => ({
+          address: item?.address,
+          date: new Date(item.to_date),
+          lat: item?.cor.split(" ")[0],
+          long: item?.cor.split(" ")[1],
+          step: index + 1,
+          type: ["consignee"],
+          guid: item?.guid,
+        })) || [];
 
       if (watch(`period_ids`)?.length > 0) {
         createAddress.mutate(
@@ -601,7 +601,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
             data: {
               object_data: {
                 period_ids: watch(`period_ids`),
-                name: loadingsData.concat(unloadinData)?.filter((item) => watch(`period_ids`).includes(item.guid)),
+                name: loadingsData
+                  .concat(unloadinData)
+                  ?.filter((item) => watch(`period_ids`).includes(item.guid)),
                 cargo_id: data?.guid,
               },
             },
@@ -784,6 +786,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         t1: watch("t1"),
         cmr: watch("cmr"),
         med: watch(`medic_certificate`),
+        glonass: watch(`glonass`),
+        seal_number: watch(`seal_number`),
+        permit_number: watch(`permit_number`),
         straps_number: watch("straps_number"),
         hitch: watch("hitch") || false,
         pneumatic: watch("pneumatic") || false,
@@ -791,7 +796,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         // guid: watch(`loadResId`),
         money_code: check ? getTrueKeys(mone) : undefined,
         bid_cash: check ? undefined : +watch("price"),
-        prepayment_percentage: check ? undefined : watch(`prepayment`) ?  +watch(`price_prepayment`) : 0,
+        prepayment_percentage: check
+          ? undefined
+          : watch(`prepayment`)
+          ? +watch(`price_prepayment`)
+          : 0,
         dim_length_special: check ? undefined : watch("price_after_order"),
         payment_description: check ? undefined : watch("payment_description"),
         currency_id: check ? undefined : watch("price_prepayment_unit").value,
@@ -806,7 +815,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         // guid: watch(`loadResId`),
 
         load_time: getValues("loadings")[0].from_date || new Date(),
-        date: getValues("unloading")[getValues("unloading").length - 1].to_date  || new Date(),
+        date:
+          getValues("unloading")[getValues("unloading").length - 1].to_date ||
+          new Date(),
         phone: watch(`contact`),
         comment: watch(`note`),
         cargo_type: ["cargo"],
@@ -1082,6 +1093,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           ? data?.permission?.map((item) => ({ label: item, value: item }))
           : [],
         medic_certificate: data?.med,
+        glonass: data?.glonass,
+        seal_number: data?.seal_number,
+        permit_number: data?.permit_number,
         tir: data?.tir,
         t1: data?.t1,
         cmr: data?.cmr,

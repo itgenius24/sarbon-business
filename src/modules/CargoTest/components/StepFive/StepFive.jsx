@@ -29,15 +29,12 @@ import {
   useCreateCargoMutation,
   useGetPaymentType,
 } from "@/services/api";
-import {
-  CheckModalIcon,
-  QuestionIcon,
-} from "@/assets/icons/icons";
+import { CheckModalIcon, QuestionIcon } from "@/assets/icons/icons";
 import { ModalS } from "@/components/Modal";
 import { TextField } from "@/components/TextField";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
-const StepFive = ({ status,locale }) => {
+const StepFive = ({ status, locale }) => {
   const { t } = useTranslation();
   const {
     register,
@@ -65,7 +62,7 @@ const StepFive = ({ status,locale }) => {
   const [guid, setGuid] = useState();
   const toast = useToast();
   const router = useRouter();
- 
+
   const user_type = authStore?.userData?.user_status;
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
@@ -94,8 +91,6 @@ const StepFive = ({ status,locale }) => {
     }
   }, [paymentOptions]);
 
-  
-
   const createAddress = useCreateAddressMutation({
     onSuccess: (res) => {
       if (isUpdate) {
@@ -107,9 +102,6 @@ const StepFive = ({ status,locale }) => {
     },
     onError() {},
   });
-
-
-
 
   const createCargo = useCreateCargoMutation({
     onSuccess: (data) => {
@@ -128,25 +120,28 @@ const StepFive = ({ status,locale }) => {
       });
       setGuid(data.guid);
 
-      let loadingsData = loadings.map((item, index) => ({
-        address: item?.address,
-        date: item.from_date ?  new Date(item.from_date) :null,
-        lat: item?.cor.split(" ")[0],
-        long: item?.cor.split(" ")[1],
-        step: index + 1,
-        type: ["shipper"],
-        expectations: +item.loading_num?.value || 0,
-      })).filter(item => item.lat ||  item?.address);
+      let loadingsData = loadings
+        .map((item, index) => ({
+          address: item?.address,
+          date: item.from_date ? new Date(item.from_date) : null,
+          lat: item?.cor.split(" ")[0],
+          long: item?.cor.split(" ")[1],
+          step: index + 1,
+          type: ["shipper"],
+          expectations: +item.loading_num?.value || 0,
+        }))
+        .filter((item) => item.lat || item?.address);
 
-      let unloadinData = unloading.map((item, index) => ({
-        address: item?.address,
-        date: item.to_date ?  new Date(item.to_date) : null,
-        lat: item?.cor.split(" ")[0],
-        long: item?.cor.split(" ")[1],
-        step: index + 1,
-        type: ["consignee"],
-      })).filter(item => item?.lat || item?.address);
-
+      let unloadinData = unloading
+        .map((item, index) => ({
+          address: item?.address,
+          date: item.to_date ? new Date(item.to_date) : null,
+          lat: item?.cor.split(" ")[0],
+          long: item?.cor.split(" ")[1],
+          step: index + 1,
+          type: ["consignee"],
+        }))
+        .filter((item) => item?.lat || item?.address);
 
       createAddress.mutate({
         data: {
@@ -174,7 +169,7 @@ const StepFive = ({ status,locale }) => {
         notification: watch(`notification`) ? watch(`notification`) : false,
         cargo_type_id: watch(`cargo_type`)?.value,
         weight: +watch(`weight_measurement`),
-        measurement_id: "3935ade8-3cfc-48bb-ad8a-e5b6806031dd",  // default tonna
+        measurement_id: "3935ade8-3cfc-48bb-ad8a-e5b6806031dd", // default tonna
         volume_m3: +watch(`volume_measurement`),
         packages_id: watch(`packaging`)?.value || "",
         package_quantity: +watch(`packaging_quantity`) || 0,
@@ -199,6 +194,9 @@ const StepFive = ({ status,locale }) => {
         t1: watch("t1"),
         cmr: watch("cmr"),
         med: watch(`medic_certificate`),
+        glonass: watch(`glonass`),
+        seal_number: watch(`seal_number`),
+        permit_number: watch(`permit_number`),
         straps_number: watch("straps_number"),
         hitch: watch("hitch") || false,
         pneumatic: watch("pneumatic") || false,
@@ -210,10 +208,10 @@ const StepFive = ({ status,locale }) => {
         firm_id,
         temp_from: watch(`temp_from`),
         temp_to: watch(`temp_to`),
-        top:watch(`top`),
-        side:watch(`side`),
-        back:watch(`back`),
-        with_removal:watch(`with_removal`),
+        top: watch(`top`),
+        side: watch(`side`),
+        back: watch(`back`),
+        with_removal: watch(`with_removal`),
 
         //step4
 
@@ -307,6 +305,9 @@ const StepFive = ({ status,locale }) => {
         t1: watch("t1"),
         cmr: watch("cmr"),
         med: watch(`medic_certificate`),
+        glonass: watch(`glonass`),
+        seal_number: watch(`seal_number`),
+        permit_number: watch(`permit_number`),
         straps_number: watch("straps_number"),
         hitch: watch("hitch") || false,
         pneumatic: watch("pneumatic") || false,
@@ -315,12 +316,11 @@ const StepFive = ({ status,locale }) => {
         take_all_unloads: watch(`is_ftl`),
         load_around_the_clock: watch(`is_ltl`),
         temp_from: watch(`temp_from`),
-        temp_to: watch(`temp_to`),  
-        top:watch(`top`),
-        side:watch(`side`),
-        back:watch(`back`),
-        with_removal:watch(`with_removal`),
-
+        temp_to: watch(`temp_to`),
+        top: watch(`top`),
+        side: watch(`side`),
+        back: watch(`back`),
+        with_removal: watch(`with_removal`),
 
         //step4
 
@@ -418,7 +418,7 @@ const StepFive = ({ status,locale }) => {
           <Box className={cls.itemSubWrap} width={"50%"}>
             <TextFieldWithAddition
               onClick={() => (!canEdit ? setEditModal(true) : null)}
-                isEdit={!canEdit}
+              isEdit={!canEdit}
               disabled={!canEdit}
               additionalItemPosition="left"
               additionalItemTheme="light"
@@ -585,7 +585,7 @@ const StepFive = ({ status,locale }) => {
                 color: `rgba(126, 123, 134, 1)`,
               }}
             >
-             {t(`После модерации он станет доступен для поиска в системе`)}
+              {t(`После модерации он станет доступен для поиска в системе`)}
             </p>
           </ModalBody>
 
@@ -600,7 +600,7 @@ const StepFive = ({ status,locale }) => {
               className={cls.btnOutline}
               mr={3}
             >
-             {t(`Посмотреть детали`)}
+              {t(`Посмотреть детали`)}
             </Button>
             <Button
               onClick={() => clearF()}

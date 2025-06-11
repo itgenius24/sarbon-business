@@ -8,11 +8,13 @@ import {
   GreenFuraIcon,
   GreenPhoneIcon,
   LoadOulineIcon,
+  PrimumIcon,
   QuestionBlueIcon,
   StoneIcon,
   TelegramIcon,
   WatsapIcon,
 } from "@/assets/icons/icons";
+import authStore from "@/store/auth.store";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { Box } from "@chakra-ui/react";
 
@@ -40,7 +42,7 @@ const statusConfig = {
   },
 };
 
-const ContactLinks = ({ phone,cls }) => (
+const ContactLinks = ({ phone, cls }) => (
   <div className={cls.flex}>
     <a target="_blank" href={`https://t.me/${phone}`}>
       <TelegramIcon />
@@ -51,14 +53,17 @@ const ContactLinks = ({ phone,cls }) => (
   </div>
 );
 
-const VehicleInfo = ({ trailerType, icon,cls }) => (
+const VehicleInfo = ({ trailerType, icon, cls }) => (
   <p className={cls.footerBox}>
     {icon} {trailerType ? trailerType : "Пока нет машины"}
   </p>
 );
 
 export const BalloonContent = ({ cls, carInfo, t }) => {
-  const provision = carInfo?.order_data ? `our_cargo`: carInfo?.user?.provisions?.[0];
+  const user_type = authStore?.userData?.user_status;
+  const provision = carInfo?.order_data
+    ? `our_cargo`
+    : carInfo?.user?.provisions?.[0];
   const orderExists = Boolean(carInfo?.order_data);
   const status = statusConfig[provision] || statusConfig.empty;
   const phone = carInfo?.user?.phone;
@@ -87,14 +92,32 @@ export const BalloonContent = ({ cls, carInfo, t }) => {
       <p className={cls.balloon_fulName}>{carInfo?.user?.full_name}</p>
       <div className={cls.flex}>
         <PhoneIcon />
-        <a
-          target="_blank"
-          href={`https://t.me/${phone}`}
-          className={cls.footerBoxLink}
-        >
-          {formatPhoneNumber(phone)}
-        </a>
-        <ContactLinks phone={phone} cls={cls} />
+        {user_type?.[0] === `approved` ? (
+          <>
+            <a
+              target="_blank"
+              href={`https://t.me/${phone}`}
+              className={cls.footerBoxLink}
+            >
+              {formatPhoneNumber(phone)}
+            </a>
+            <ContactLinks phone={phone} cls={cls} />
+          </>
+        ) : (
+          <>
+            <a
+              target="_blank"
+              // href={`https://t.me/${carInfo?.user?.phone}`}
+              id="click"
+              className={cls.footerBoxLinkPremium}
+            >
+              +998 XX XXX XX XX
+            </a>
+            <div className={cls.premium}>
+              <PrimumIcon /> только Premium
+            </div>
+          </>
+        )}
       </div>
       <VehicleInfo cls={cls} trailerType={trailerType} icon={<VehicleIcon />} />
     </div>
