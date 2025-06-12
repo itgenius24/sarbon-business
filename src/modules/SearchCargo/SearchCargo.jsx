@@ -68,6 +68,7 @@ export const SearchCargoModule = () => {
     loadingBack,
     setLoadingBack,
     uploadAi,
+    uploadAiFront,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
@@ -642,7 +643,7 @@ export const SearchCargoModule = () => {
                       type={`tech_pass`}
                       isLoading={loadingFront}
                       setLoading={setLoadingFront}
-                      uploadAi={uploadAi}
+                      uploadAi={uploadAiFront}
                     />
                     <UploadImg
                       isCrop
