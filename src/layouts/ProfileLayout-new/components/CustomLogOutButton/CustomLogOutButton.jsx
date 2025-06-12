@@ -15,16 +15,17 @@ export const CustomLogOutButton = () => {
   const [isAuth, setAuth] = useState(false);
 
   const locale = useGetLang();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
     setAuth(authStore.getIsAuth);
   }, [authStore.getIsAuth]);
 
   const [isOpen, setIsOut] = useState(false);
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+  const roleName = authStore.userData.dispatcher_type?.[0];
+  const role_id = authStore.userData.role_id;
 
   const handleLogOut = async () => {
-  
     actionCreate({
       data: {
         user_name: authStore.userData.full_name,
@@ -32,7 +33,15 @@ export const CustomLogOutButton = () => {
         user_id: authStore.userData.guid,
         increment_id: authStore.userData.your_id,
         action_time: new Date(),
-        role_slug:`carrier`,
+        role_slug: roleName
+          ? roleName
+          : authStore.userData?.role_id ===
+            "527d2017-2dc2-4449-9eeb-08fc1aafa469"
+          ? `ceo`
+          : role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"
+          ? `carrier`
+          : `customer`,
+
         action_comment: `log_out`,
         role_id: authStore.userData?.role_id,
         action_type: [`update`],
@@ -42,8 +51,7 @@ export const CustomLogOutButton = () => {
     await authStore.setAuthData("phone", ``);
     await authStore.setAuthData("mediaAuth", {});
     window.history.replaceState(null, "", `/${locale}/auth/login`);
-    router.push(`/${locale ? locale :`ru`}/auth/login`);
-
+    router.push(`/${locale ? locale : `ru`}/auth/login`);
   };
 
   // const handleLogOut = () => {
@@ -52,7 +60,7 @@ export const CustomLogOutButton = () => {
   //   window.location.href = `${window.location.origin}/${`${locale}/auth`}`;
   //   // window.location.replace('https://new-url.com');
   //   // setTimeout(() => {
-  //   //     window.location.reload()    
+  //   //     window.location.reload()
   //   // },200)
   // };
 

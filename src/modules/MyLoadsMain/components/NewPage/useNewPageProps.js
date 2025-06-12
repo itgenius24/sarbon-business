@@ -325,6 +325,26 @@ const useNewPageProps = (
             action_type: [`update`],
           },
         });
+      } else if (
+        authStore.userData?.role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: cancelData?.cargo_id_data?.number_of_order,
+            action_time: new Date(),
+            role_slug: `ceo`,
+            action_comment: `cancel_order`,
+            cancel_reason:
+              comments?.[0] === `own_version` ? undefined : comments?.[0],
+            reason:
+              comments?.[0] === `own_version` ? watch(`comment`) : undefined,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+          },
+        });
       }
     }
     if (orderStatus === `no_dispatcher`) {
@@ -357,6 +377,26 @@ const useNewPageProps = (
             increment_id: cancelData?.cargo_id_data?.number_of_order,
             action_time: new Date(),
             role_slug: `first_dispatcher`,
+            action_comment: `cancel_order_free_driver`,
+            role_id: authStore.userData?.role_id,
+            action_type: [`update`],
+            cancel_reason:
+              comments?.[0] === `own_version` ? undefined : comments?.[0],
+            reason:
+              comments?.[0] === `own_version` ? watch(`comment`) : undefined,
+          },
+        });
+      } else if (
+        authStore.userData?.role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"
+      ) {
+        actionCreate({
+          data: {
+            user_name: authStore.userData.full_name,
+            phone_number: authStore.userData?.phone,
+            user_id: authStore.userData.guid,
+            increment_id: cancelData?.cargo_id_data?.number_of_order,
+            action_time: new Date(),
+            role_slug: `ceo`,
             action_comment: `cancel_order_free_driver`,
             role_id: authStore.userData?.role_id,
             action_type: [`update`],
