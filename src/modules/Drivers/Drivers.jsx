@@ -108,6 +108,12 @@ export const DriversModule = ({ locale }) => {
                 register={register}
                 errors={errors}
                 name="full_name"
+                  rules={{
+                  required: {
+                    value: true,
+                    message: t("Это поле обязательно"),
+                  },
+                }}
                 placeholder={t("Имя и фамилия водителя")}
               />
             </Box>

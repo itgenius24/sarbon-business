@@ -43,9 +43,7 @@ export const useMyCars = () => {
   } = useForm({});
 
   const [isCopied, setCopied] = useClipboard(
-    JSON.stringify(
-      `Его логин: ${watch(`phone`)};`
-    )
+    JSON.stringify(`Его логин: ${watch(`phone`)};`)
   );
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
@@ -82,7 +80,10 @@ export const useMyCars = () => {
               ...getValues(),
               create_time: new Date(),
               login: getValues().full_name,
-               drivers_license:  getValues()?.drivers_license?.length > 0 ?  getValues()?.drivers_license :``,
+              drivers_license:
+                getValues()?.drivers_license?.length > 0
+                  ? getValues()?.drivers_license
+                  : ``,
               firm_id,
               role_id: "921464fa-8308-46b7-9b66-363acf654e40",
               client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
@@ -143,7 +144,8 @@ export const useMyCars = () => {
           firm_id,
           passport_scan: val?.passport_scan,
           passport_code: val?.passport_code,
-          drivers_license: val?.drivers_license?.length > 0 ? val?.drivers_license :``,
+          drivers_license:
+            val?.drivers_license?.length > 0 ? val?.drivers_license : ``,
           photo: val?.photo,
           login: val?.phone,
           guid: getUserGps?.data?.response[0]?.guid,
@@ -188,6 +190,9 @@ export const useMyCars = () => {
 
       setLoadingFront(false);
       clearErrors();
+    },
+    onError: (error) => {
+      setLoadingFront(false);
     },
   });
 
