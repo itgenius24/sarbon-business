@@ -53,6 +53,7 @@ import { InActivePage } from "./components/InActivePage/InActivePage";
 import { AllPage } from "./components/AllPage/AllPage";
 import { ArchivePage } from "./components/ArchivePage/ArchivePage";
 import { CancellationPage } from "./components/CancellationPage/CancellationPage";
+import { ActivePage } from "./components/ActivePage/ActivePage";
 
 export const MyLoadsMain = ({ locale }) => {
   const {
@@ -264,11 +265,7 @@ export const MyLoadsMain = ({ locale }) => {
                 <CancellationPage t={t} orderStatus={`cancellation`} />
               </TabPanel>
               <TabPanel padding={0}>
-                <ArchivePage
-                  setOpen={setOpen}
-                  t={t}
-                  orderStatus={`archive`}
-                />
+                <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
             </TabPanels>
           ) : (
@@ -279,6 +276,14 @@ export const MyLoadsMain = ({ locale }) => {
                   search={watch(`from`)}
                   t={t}
                   orderStatus={``}
+                />
+              </TabPanel>
+              <TabPanel padding={0}>
+                <ActivePage
+                  t={t}
+                       address={address}
+                  search={watch(`from`)}
+                  orderStatus={`active`}
                 />
               </TabPanel>
               <TabPanel padding={0}>
