@@ -36,7 +36,7 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
       return res?.response || {};
     },
     onSuccess: (res) => {
-      if (!authStore?.userData?.firm_id)
+      if ( authStore?.userData?.role_id !== "f81d3c3d-228d-479e-a2b1-9948c98640f2")
         reset({
           email: res?.email,
           passport_code: res?.passport_code,
@@ -68,7 +68,7 @@ export const useProfileInfoFormProps = (setValue, reset, watch) => {
         pnfl: userData2?.pnfl,
       });
     },
-    enabled: Boolean(userData2?.full_name && authStore?.userData?.firm_id),
+    enabled: Boolean(userData2?.full_name && authStore?.userData?.firm_id && authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") ,
   });
 
   const { mutate: userData } = useUpdateUserInfo({
