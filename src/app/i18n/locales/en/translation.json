@@ -213,6 +213,9 @@
   "Такой логин уже зарегистрирован": "This login is already registered",
   "Забыли логин или пароль?": "Forgot login or password?",
   "СМС-код": "SMS code",
+  "404_title": "Page Not Found",
+  "404_message": "Sorry, the page you are looking for doesn't exist or has been moved.",
+  "404_back_home": "Back to Home",
   "gpsTracking": {
     "title": "GPS tracking",
     "machineDetails": "Machine details",
