@@ -370,7 +370,7 @@ const useProsp = () => {
         setinputValue(removeSpaces(jsonData?.license_plate));
       }
       if (jsonData?.chassis_number) {
-        setValue(`car_vin_number`, jsonData?.chassis_number);
+        setValue(`car_vin_code`, jsonData?.chassis_number);
       }
       if (jsonData?.fuel_type) {
         setValue(`fuel_type`, jsonData?.fuel_type);

@@ -25,19 +25,17 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
 
-
 export const CarsCardMobile = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
   const order = item?.order_data?.provisions?.includes(`performed`);
 
-
   return (
     <Box
       className={cls.cardWrap}
       borderTop={`4px solid  ${
-         order ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+        order ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Flex justifyContent={`space-between`} width={`100%`}>
@@ -95,9 +93,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                     }}
                     className={cls.menuItem}
                     onClick={() =>
-                      router.push(
-                        `/${locale}/drivers/create?id=${item?.guid}`
-                      )
+                      router.push(`/${locale}/drivers/create?id=${item?.guid}`)
                     }
                   >
                     {t("Изменить данные водителя")}
@@ -139,10 +135,10 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
 
       <Flex mt={`20px`} alignItems={`flex-end`} gap={"30px"} width={"100%"}>
         <Box width={"100%"}>
-          { order ? (
+          {order ? (
             <Box
               background={
-                 order ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
+                order ? "rgba(0, 122, 255, 0.08)" : "rgba(21, 186, 77, 1)"
               }
               gap={"30px"}
               alignItems={"center"}
@@ -158,9 +154,7 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                   >
                     <Flex justifyContent={`space-between`} gap={3}>
                       <Box>
-                        <p className={cls.title}>
-                          {item?.vehicle_data?.marka}
-                        </p>
+                        <p className={cls.title}>{item?.vehicle_data?.marka}</p>
                         <p className={cls.subTitle}>
                           {item?.vehicle_data?.car_number
                             ? item?.vehicle_data?.car_number
@@ -258,10 +252,42 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
                     alignItems={`center`}
                     gap={3}
                   >
-                    <Box>
-                      <p className={cls.title}>{t("Без машины")}</p>
-                    </Box>
-                    <NoImFur />
+                    {item?.vehicle_data && (
+                      <Box width={`100%`}>
+                        <Flex
+                          width={`100%`}
+                          justifyContent={`space-between`}
+                          gap={3}
+                        >
+                          <Box>
+                            <p className={cls.title}>
+                              {item?.vehicle_data?.marka}
+                            </p>
+                            <p className={cls.subTitle}>
+                              {item?.vehicle_data?.car_number
+                                ? item?.vehicle_data?.car_number
+                                : ``}
+                            </p>
+                          </Box>
+                          {item?.vehicle_data?.car_photo !== "photo" &&
+                          item?.vehicle_data?.car_photo ? (
+                            <Image
+                              style={{
+                                borderRadius: `6px`,
+                                width: `60px`,
+                                height: `45px`,
+                              }}
+                              src={item?.vehicle_data?.car_photo}
+                              width={`100`}
+                              height={`100`}
+                              alt="w"
+                            />
+                          ) : (
+                            <NoImFur />
+                          )}
+                        </Flex>
+                      </Box>
+                    )}
                   </Flex>
                 </Box>
               </Box>

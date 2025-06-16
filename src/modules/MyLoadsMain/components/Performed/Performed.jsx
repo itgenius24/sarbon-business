@@ -649,8 +649,7 @@ export const Performed = forwardRef(
                         </Button>
                       )}
 
-                      {cargo?.cargo_id_data?.order_status?.[0] !==
-                        `in_active` &&
+                      {cargo?.cargo_id_data?.order_status?.[0] !== `in_active` &&
                         dispatcher_type?.[0] === `first_dispatcher` && (
                           <Button
                             leftIcon={<IconCeckNewStatusIcon />}

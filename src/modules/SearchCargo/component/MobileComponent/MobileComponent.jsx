@@ -45,6 +45,7 @@ const MobileComponent = ({
   setLoadingBack,
   loadingBack,
   loadingFront,
+  uploadAiFront,
 }) => {
   return (
     <>
@@ -73,7 +74,7 @@ const MobileComponent = ({
               rules={{ required: t("Это поле объязательно") }}
               setLoading={setLoadingFront}
               isLoading={loadingFront}
-              uploadAi={uploadAi}
+              uploadAi={uploadAiFront}
               type={`tech_pass`}
               clearErrors={clearErrors}
               isCrop
@@ -314,7 +315,7 @@ const MobileComponent = ({
           <TextField
             // rules={rules}
             errors={errors}
-            name="car_vin_number"
+            name="car_vin_code"
             register={register}
             placeholder={t("Необъязательно")}
             type="text"

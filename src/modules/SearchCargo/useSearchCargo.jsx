@@ -224,7 +224,7 @@ export const useSearchCargo = () => {
         res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
       );
       if (jsonData?.chassis_number) {
-        setValue(`car_vin_number`, jsonData?.chassis_number);
+        setValue(`car_vin_code`, jsonData?.chassis_number);
       }
       if (jsonData?.fuel_type) {
         setValue(`fuel_type`, jsonData?.fuel_type);
@@ -378,7 +378,7 @@ export const useSearchCargo = () => {
         unladen_weight: watch(`unladen_weight`) || undefined,
         year_of_manufacture: watch(`year_of_manufacture`) || undefined,
         engine_number: watch(`engine_number`) || undefined,
-        car_vin_number: watch(`car_vin_number`) || undefined,
+        car_vin_code: watch(`car_vin_code`) || undefined,
         type: watch(`type`) || undefined,
       },
     };

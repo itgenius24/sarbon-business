@@ -267,7 +267,6 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                       objectFit: `cover`,
                     }}
                     src={item?.vehicle_data?.car_photo}
-                    // objectFit="cover"
                     width={100}x
                     height={100}
                     alt="w"

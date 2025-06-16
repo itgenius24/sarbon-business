@@ -461,7 +461,7 @@ export const CreateCarDis = () => {
                   <TextField
                     // rules={rules}
                     errors={errors}
-                    name="car_vin_number"
+                    name="car_vin_code"
                     register={register}
                     placeholder={t("Необъязательно")}
                     type="text"

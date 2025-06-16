@@ -435,7 +435,7 @@ export const SearchCargoModule = () => {
                     <TextField
                       rules={rules}
                       errors={errors}
-                      name="car_vin_number"
+                      name="car_vin_code"
                       register={register}
                       placeholder={t("Необъязательно")}
                       type="text"
@@ -853,6 +853,8 @@ export const SearchCargoModule = () => {
           countries={countries}
           rules={rules}
           uploadAi={uploadAi}
+    uploadAiFront={uploadAiFront}
+          
           setLoadingFront={setLoadingFront}
           setLoadingBack={setLoadingBack}
           loadingBack={loadingBack}
