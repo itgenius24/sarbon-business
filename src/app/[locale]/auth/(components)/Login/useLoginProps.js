@@ -58,7 +58,7 @@ export const useLoginProps = () => {
             duration: 3000,
             isClosable: true,
           });
-        } else if (!res?.response?.[0]?.firm_id) {
+        } else if (!res?.response?.[0]?.firm_id && res?.response?.[0]?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") {
           toast({
             title: t("Вы не прикреплены ни к одной компании."),
             status: "error",
