@@ -89,6 +89,10 @@
   color: var(--icon-base);
 }
 
+.disabled{
+  opacity: 0.5;
+}
+
 .errorMessage {
   position: relative;
   top: calc(0px);
