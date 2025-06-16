@@ -32,7 +32,6 @@ export const useLoginProps = () => {
   const [open, setOpen] = useState(false);
   const [dataUser, setDataUser] = useState({});
 
-
   const toast = useToast();
 
   const {
@@ -43,7 +42,7 @@ export const useLoginProps = () => {
     setError,
   } = useForm({
     defaultValues: {
-      username:``,
+      username: ``,
       password: ``,
     },
   });
@@ -51,9 +50,17 @@ export const useLoginProps = () => {
   const { mutate: getUserByIdData, isLoading: getUseLoading } =
     useGetUseMutation({
       onSuccess: (res) => {
+        console.log(`salom`, res);
         if (res?.response?.[0]?.user_status?.[0] === `blocked`) {
           toast({
             title: t("Это заблокированный пользователь."),
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else if (!res?.response?.[0]?.firm_id) {
+          toast({
+            title: t("Вы не прикреплены ни к одной компании."),
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -190,8 +197,6 @@ export const useLoginProps = () => {
 
   const handleGoogleLogin = async () => {
     const user = await signInWithGoogle();
-
-
 
     const body = {
       display_name: user?.displayName,

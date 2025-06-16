@@ -542,9 +542,7 @@ export const Performed = forwardRef(
 
               {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
                 role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") &&
-                (orderStatus === `new` ||
-                  orderStatus === `approve_from_driver` ||
-                  orderStatus === `performed`) && (
+                (orderStatus === `new` || orderStatus === `approve_from_driver` ||  orderStatus === `performed` || orderStatus === `no_dispatcher`) && (
                   <Flex
                     className={styles.cardItem}
                     gap={`7px`}
