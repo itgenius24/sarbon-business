@@ -20,7 +20,7 @@
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2001_4093" result="shape"/>
 </filter>
 </defs>
- <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-weight="600"  font-family="sans-serif" fill="#fff">$${tempValue}</text>
+ <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-weight="600"  font-family="sans-serif" fill="#fff">$${  tempValue || `------`}</text>
 </svg>
 `;
 
