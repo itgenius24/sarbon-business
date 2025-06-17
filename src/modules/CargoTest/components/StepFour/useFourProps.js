@@ -99,6 +99,67 @@ const useFourProps = ({ locale }) => {
     }
   }, [paymentOptions]);
 
+  function handleAppendAllPrice() {
+    setValue(`allPrice.${watch(`allPrice`)?.length}`, {
+      payment_type: {
+        label: "Наличные",
+        value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+      },
+      payment: {
+        label: "доллар",
+        value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+      },
+      price: ``,
+    });
+  }
+
+  function handleAppendAllPrepayment() {
+    setValue(`allPrepayment.${watch(`allPrepayment`)?.length}`, {
+      payment_type: {
+        label: "Наличные",
+        value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+      },
+      payment: {
+        label: "доллар",
+        value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+      },
+      price: ``,
+    });
+  }
+  function handleAppendPriceAfterOrder() {
+    setValue(`priceAfterOrder.${watch(`priceAfterOrder`)?.length}`, {
+      payment_type: {
+        label: "Наличные",
+        value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+      },
+      payment: {
+        label: "доллар",
+        value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+      },
+      price: ``,
+    });
+  }
+
+  const removeInput = (indx) => {
+    setValue(
+      `allPrice`,
+      watch(`allPrice`)?.filter((item, index) => index !== indx)
+    );
+  };
+
+  const removeInputAllPrepayment = (indx) => {
+    setValue(
+      `allPrepayment`,
+      watch(`allPrepayment`)?.filter((item, index) => index !== indx)
+    );
+  };
+
+  const removeInputPriceAfterOrder = (indx) => {
+    setValue(
+      `priceAfterOrder`,
+      watch(`priceAfterOrder`)?.filter((item, index) => index !== indx)
+    );
+  };
 
   const onSubmit = () => {
     setValue(`cargoIndex`, 5);
@@ -122,6 +183,12 @@ const useFourProps = ({ locale }) => {
     mone,
     setEditModal,
     selectedOption,
+    handleAppendAllPrice,
+    handleAppendAllPrepayment,
+    removeInput,
+    removeInputAllPrepayment,
+    handleAppendPriceAfterOrder,
+    removeInputPriceAfterOrder,
   };
 };
 

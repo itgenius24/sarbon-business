@@ -66,7 +66,12 @@ const StepFive = ({ status, locale }) => {
   const user_type = authStore?.userData?.user_status;
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
+
+  console.log(`load`,load)
+
+
   const firm_id = authStore.userData.firm_id;
+
   const getTrueKeys = (obj) => {
     return Object.keys(obj).filter((key) => obj[key] === true);
   };
@@ -341,6 +346,7 @@ const StepFive = ({ status, locale }) => {
         //   loadings[0].from_date || new Date(),
         //   loadings[0].loading_num?.value
         // ),
+
         load_time: loadings[0].from_date || new Date(),
         date: unloading[unloading.length - 1].to_date || new Date(),
         phone: watch(`contact`),
@@ -368,6 +374,7 @@ const StepFive = ({ status, locale }) => {
           : false,
       },
     };
+
     if (user_type?.[0] === `approved`) {
       if (loadings.length > 0 && unloading.length > 0) {
         createCargo.mutate(requestData);
