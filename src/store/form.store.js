@@ -71,19 +71,19 @@ function getEmptyFormData() {
         price: ``,
       },
     ],
-      priceAfterOrder:[
-         {
-          payment_type: {
-            label: "Наличные",
-            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
-          },
-          payment: {
-            label: "доллар",
-            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
-          },
-          price: ``,
+    priceAfterOrder: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-      ],
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
     receipts: [
       {
         location: {
@@ -262,8 +262,14 @@ class Store {
       ],
       allPrice: [
         {
-          payment_type: {},
-          payment: {},
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
           price: ``,
         },
       ],
@@ -280,8 +286,8 @@ class Store {
           price: ``,
         },
       ],
-      priceAfterOrder:[
-         {
+      priceAfterOrder: [
+        {
           payment_type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
