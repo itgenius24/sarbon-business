@@ -14,12 +14,9 @@ export const AllPage = ({ orderStatus, t, search = ``, address = `` }) => {
     address
   );
 
-  console.log(`salom`, cargoData?.length === 0 && isFetching )
-
 
   return (
     <>
-
       <Box>
         {cargoData?.length > 0 &&
           cargoData?.map((item, index) => (
@@ -32,9 +29,8 @@ export const AllPage = ({ orderStatus, t, search = ``, address = `` }) => {
           ))}
       </Box>
 
-       { cargoData?.length === 0 && isFetching && <LoadingSpinner />}
+      {cargoData?.length === 0 && isFetching && <LoadingSpinner />}
       {cargoData?.length === 0 && !isFetching && <Empty t={t} />}
-
 
       {cargoData?.length >= 100 && (
         <Box mt={`15px`} width={`fit-content`}>

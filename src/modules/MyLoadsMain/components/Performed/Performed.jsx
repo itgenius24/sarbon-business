@@ -40,6 +40,7 @@ export const Performed = forwardRef(
       onOpen,
       setOpen,
       disabledCancelBtn,
+      setIsDeletePopupOpen,
     },
     ref
   ) => {
@@ -542,7 +543,10 @@ export const Performed = forwardRef(
 
               {(role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
                 role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") &&
-                (orderStatus === `new` || orderStatus === `approve_from_driver` ||  orderStatus === `performed` || orderStatus === `no_dispatcher`) && (
+                (orderStatus === `new` ||
+                  orderStatus === `approve_from_driver` ||
+                  orderStatus === `performed` ||
+                  orderStatus === `no_dispatcher`) && (
                   <Flex
                     className={styles.cardItem}
                     gap={`7px`}
@@ -631,7 +635,6 @@ export const Performed = forwardRef(
                   </Button>
                 )}
 
-      
                 {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
                   <>
                     <Flex gap={`11px`}>
@@ -647,7 +650,8 @@ export const Performed = forwardRef(
                         </Button>
                       )}
 
-                      {cargo?.cargo_id_data?.order_status?.[0] !== `in_active` &&
+                      {cargo?.cargo_id_data?.order_status?.[0] !==
+                        `in_active` &&
                         dispatcher_type?.[0] === `first_dispatcher` && (
                           <Button
                             leftIcon={<IconCeckNewStatusIcon />}
@@ -663,18 +667,19 @@ export const Performed = forwardRef(
                     </Flex>
                   </>
                 )}
-                {orderStatus == "cancellation" && (
-                  <Button
-                    leftIcon={<DeleteIcon />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // setIsDeletePopupOpen(true);
-                    }}
-                    className={styles.bntOutline}
-                  >
-                    {t(`Удалить`)}
-                  </Button>
-                )}
+                {orderStatus == "cancellation" &&
+                  role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
+                    <Button
+                      leftIcon={<DeleteIcon />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsDeletePopupOpen(cargo);
+                      }}
+                      className={styles.bntOutline}
+                    >
+                      {t(`Удалить`)}
+                    </Button>
+                  )}
               </Box>
 
               {orderStatus === `approve_from_driver` &&

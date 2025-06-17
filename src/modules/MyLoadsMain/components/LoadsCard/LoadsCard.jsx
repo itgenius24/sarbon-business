@@ -264,7 +264,9 @@ export const LoadsCard = forwardRef(
                           leftIcon={<DeleteIcon />}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setIsDeletePopupOpen(true);
+
+                            console.log(`cargo`,cargo)
+                            // setIsDeletePopupOpen(true);
                           }}
                           className={cls.bntOutline}
                         >
