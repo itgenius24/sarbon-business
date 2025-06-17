@@ -66,14 +66,11 @@ const usePerfomedPageProps = (orderStatus, t) => {
   });
   const updateCargoData = useUpdateCargo({});
 
-
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-
 
   function handleCancel() {
     onClose();
     if (reason.length > 0) {
-     
       updateResponseMutation.mutate(
         {
           data: {
@@ -88,20 +85,38 @@ const usePerfomedPageProps = (orderStatus, t) => {
           onSuccess() {
             setReason(``);
             setDisabled(false);
-            actionCreate({
-              data: {
-                user_name: authStore.userData.full_name,
-                phone_number: authStore.userData?.phone,
-                user_id: authStore.userData.guid,
-                increment_id: dataPred?.cargo_id_data?.number_of_order,
-                action_time: new Date(),
-                role_slug: `first_dispatcher`,
-                action_comment: `cancel_order`,
-                role_id: authStore.userData?.role_id,
-                reason: reason,
-                action_type: [`update`],
-              },
-            });
+            if (role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") {
+              actionCreate({
+                data: {
+                  user_name: authStore.userData.full_name,
+                  phone_number: authStore.userData?.phone,
+                  user_id: authStore.userData.guid,
+                  increment_id: dataPred?.cargo_id_data?.number_of_order,
+                  action_time: new Date(),
+                  role_slug: `ceo`,
+                  action_comment: `cancel_order`,
+                  role_id: authStore.userData?.role_id,
+                  reason: reason,
+                  action_type: [`update`],
+                },
+              });
+            } else if (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f") {
+                actionCreate({
+                data: {
+                  user_name: authStore.userData.full_name,
+                  phone_number: authStore.userData?.phone,
+                  user_id: authStore.userData.guid,
+                  increment_id: dataPred?.cargo_id_data?.number_of_order,
+                  action_time: new Date(),
+                  role_slug: `first_dispatcher`,
+                  action_comment: `cancel_order`,
+                  role_id: authStore.userData?.role_id,
+                  reason: reason,
+                  action_type: [`update`],
+                },
+              });
+            }
+
             toast({
               position: "top-right",
               title: "Груз отказан",
@@ -119,7 +134,7 @@ const usePerfomedPageProps = (orderStatus, t) => {
         data: {
           order_status: ["active"],
           guid: dataPred?.cargo_id_data?.guid,
-          accepted_offers:dataPred?.cargo_id_data?.accepted_offers + 1
+          accepted_offers: dataPred?.cargo_id_data?.accepted_offers + 1,
         },
       });
     } else {

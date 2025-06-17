@@ -68,6 +68,7 @@ export const SearchCargoModule = () => {
     loadingBack,
     setLoadingBack,
     uploadAi,
+    uploadAiFront,
   } = useSearchCargo();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const rules = {
@@ -434,7 +435,7 @@ export const SearchCargoModule = () => {
                     <TextField
                       rules={rules}
                       errors={errors}
-                      name="car_vin_number"
+                      name="car_vin_code"
                       register={register}
                       placeholder={t("Необъязательно")}
                       type="text"
@@ -642,7 +643,7 @@ export const SearchCargoModule = () => {
                       type={`tech_pass`}
                       isLoading={loadingFront}
                       setLoading={setLoadingFront}
-                      uploadAi={uploadAi}
+                      uploadAi={uploadAiFront}
                     />
                     <UploadImg
                       isCrop
@@ -852,6 +853,8 @@ export const SearchCargoModule = () => {
           countries={countries}
           rules={rules}
           uploadAi={uploadAi}
+    uploadAiFront={uploadAiFront}
+          
           setLoadingFront={setLoadingFront}
           setLoadingBack={setLoadingBack}
           loadingBack={loadingBack}

@@ -223,26 +223,13 @@ export const useSearchCargo = () => {
       const jsonData = JSON.parse(
         res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
       );
-
-      if (jsonData?.model) {
-        setValue(`marka`, jsonData?.model);
-      }
-      if (jsonData?.license_plate && !watch(`car_number`)) {
-        setValue(`car_number`, removeSpaces(jsonData?.license_plate));
-        setinputValue(removeSpaces(jsonData?.license_plate));
-      }
       if (jsonData?.chassis_number) {
-        setValue(`car_vin_number`, jsonData?.chassis_number);
+        setValue(`car_vin_code`, jsonData?.chassis_number);
       }
       if (jsonData?.fuel_type) {
         setValue(`fuel_type`, jsonData?.fuel_type);
       }
-      if (jsonData?.address) {
-        setValue(`address`, jsonData?.address);
-      }
-      if (jsonData?.color) {
-        setValue(`color`, jsonData?.color);
-      }
+
       if (jsonData?.engine_number) {
         setValue(`engine_number`, jsonData?.engine_number);
       }
@@ -252,12 +239,7 @@ export const useSearchCargo = () => {
       if (jsonData?.gross_weight) {
         setValue(`gross_weight`, jsonData?.gross_weight);
       }
-      if (jsonData?.issue_date) {
-        setValue(`issue_date`, jsonData?.issue_date);
-      }
-      if (jsonData?.owner) {
-        setValue(`owner`, jsonData?.owner);
-      }
+
       if (jsonData?.seating_capacity) {
         setValue(`seating_capacity`, jsonData?.seating_capacity);
       }
@@ -266,12 +248,6 @@ export const useSearchCargo = () => {
       }
       if (jsonData?.standing_capacity) {
         setValue(`standing_capacity`, jsonData?.standing_capacity);
-      }
-      if (jsonData?.tax_id) {
-        setValue(`tax_id`, jsonData?.tax_id);
-      }
-      if (jsonData?.traffic_department) {
-        setValue(`traffic_department`, jsonData?.traffic_department);
       }
       if (jsonData?.type) {
         setValue(`type`, jsonData?.type);
@@ -283,18 +259,68 @@ export const useSearchCargo = () => {
         setValue(`year_of_manufacture`, jsonData?.year_of_manufacture);
       }
 
-      setLoadingFront(false);
       setLoadingBack(false);
       clearErrors();
     },
     onError: (error) => {
-      setLoadingFront(false);
       setLoadingBack(false);
+    },
+  });
+
+  const { mutate: uploadAiFrontData } = useGetNewPred({
+    onSuccess: (res) => {
+      const jsonData = JSON.parse(
+        res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
+      );
+      if (jsonData?.model) {
+        setValue(`marka`, jsonData?.model); //
+      }
+      if (jsonData?.license_plate) {
+        setValue(`car_number`, removeSpaces(jsonData?.license_plate)); //
+        setinputValue(removeSpaces(jsonData?.license_plate));
+      }
+      if (jsonData?.address) {
+        setValue(`address`, jsonData?.address); //
+      }
+      if (jsonData?.color) {
+        setValue(`color`, jsonData?.color); //
+      }
+
+      if (jsonData?.issue_date) {
+        setValue(`issue_date`, jsonData?.issue_date); //
+      }
+      if (jsonData?.owner) {
+        setValue(`owner`, jsonData?.owner); //
+      }
+
+      if (jsonData?.tax_id) {
+        setValue(`tax_id`, jsonData?.tax_id); //
+      }
+      if (jsonData?.traffic_department) {
+        setValue(`traffic_department`, jsonData?.traffic_department); //
+      }
+      setLoadingFront(false);
+      clearErrors();
+    },
+    onError: (error) => {
+      setLoadingFront(false);
     },
   });
 
   const uploadAi = (link, type) => {
     uploadAiData({
+      data: {
+        object_data: {
+          type: "licence",
+          document_type: type,
+          links: [link],
+        },
+      },
+    });
+  };
+
+  const uploadAiFront = (link, type) => {
+    uploadAiFrontData({
       data: {
         object_data: {
           type: "licence",
@@ -352,7 +378,7 @@ export const useSearchCargo = () => {
         unladen_weight: watch(`unladen_weight`) || undefined,
         year_of_manufacture: watch(`year_of_manufacture`) || undefined,
         engine_number: watch(`engine_number`) || undefined,
-        car_vin_number: watch(`car_vin_number`) || undefined,
+        car_vin_code: watch(`car_vin_code`) || undefined,
         type: watch(`type`) || undefined,
       },
     };
@@ -393,5 +419,6 @@ export const useSearchCargo = () => {
     getValues,
     isBtn: Object.values(errors)?.length > 0,
     setError: setError,
+    uploadAiFront,
   };
 };

@@ -8,13 +8,15 @@ import { ProfileInfoForm } from "./components/ProfileInfoForm";
 import { MainContentCard } from "@/components/MainContentCard";
 import { BackArrow } from "@/assets/icons/icons";
 import { useTranslation } from "react-i18next";
+import authStore from "@/store/auth.store";
 
 export const PersonalInfo = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const { getProfileFormProps, handleSubmit, submitForm, isLoading, router } =
     usePersonalInfoProps();
-  const { t } = useTranslation();
+    const disabledBtn = authStore.userData.dispatcher_type?.[0]
+    const { t } = useTranslation();
 
   return (
     <Box>
@@ -34,6 +36,7 @@ export const PersonalInfo = () => {
             rowGap={isLargerThan845 ? "0" : "8px"}
           >
             <Button
+              isDisabled={disabledBtn === `first_dispatcher`}
               isLoading={isLoading}
               type="submit"
               fontSize={isLargerThan845 ? "16px" : "15px"}

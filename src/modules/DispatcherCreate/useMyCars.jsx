@@ -58,7 +58,6 @@ export const useMyCars = () => {
 
   const [open, setOpen] = useState(false);
 
-  const firm_id = authStore.userData.firm_id;
 
   const { mutate: createDispatcherTeams } = useCreateDispatcherTeams();
 
@@ -106,7 +105,6 @@ export const useMyCars = () => {
               ...getValues(),
               create_time: new Date(),
               login: getValues().phone,
-              firm_id,
               dispatcher_type:[`first_dispatcher`],
               role_id: "785678f2-fae7-4a00-8766-99ea67d3784f",
               client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
@@ -167,7 +165,6 @@ export const useMyCars = () => {
         data: {
           full_name: normalizeName(val.full_name),
           phone: val?.phone,
-          firm_id,
           passport_scan: val?.passport_scan,
           passport_code: val?.passport_code,
           drivers_license: val?.drivers_license,

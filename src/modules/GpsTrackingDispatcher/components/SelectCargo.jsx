@@ -55,7 +55,7 @@ const SelectCargo = ({
     },
   });
 
-  console.log(`currentUserLocationData`, currentUserLocationData);
+  console.log(`currentUserLocationData`, currentUserLocationData,selectCargo);
 
 
   const cargoData = useMemo(() => {
@@ -138,8 +138,8 @@ const SelectCargo = ({
       </Flex>
       <Box className={cls.modalContend}>
         {!isLoading ? (
-          cargoData.length > 0 ? (
-            cargoData.map((item) => {
+          cargoData?.length > 0 ? (
+            cargoData?.map((item) => {
               return (
                 <CheckBoxComponent
                   key={item.guid}

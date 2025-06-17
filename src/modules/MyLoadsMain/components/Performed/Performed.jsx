@@ -40,6 +40,7 @@ export const Performed = forwardRef(
       onOpen,
       setOpen,
       disabledCancelBtn,
+      setIsDeletePopupOpen,
     },
     ref
   ) => {
@@ -198,7 +199,7 @@ export const Performed = forwardRef(
                 </p>
               </div>
               {orderStatus === `performed` &&
-                dispatcher_type?.[0] === `first_dispatcher` && (
+                role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
                   <Box>
                     <Popover placement="bottom-end">
                       <PopoverTrigger>
@@ -544,7 +545,8 @@ export const Performed = forwardRef(
                 role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") &&
                 (orderStatus === `new` ||
                   orderStatus === `approve_from_driver` ||
-                  orderStatus === `performed`) && (
+                  orderStatus === `performed` ||
+                  orderStatus === `no_dispatcher`) && (
                   <Flex
                     className={styles.cardItem}
                     gap={`7px`}
@@ -633,51 +635,55 @@ export const Performed = forwardRef(
                   </Button>
                 )}
 
-                {console.log(`orderStatus`, orderStatus)}
-                {(orderStatus === `new` || orderStatus === `no_dispatcher`) &&
-                  dispatcher_type?.[0] === `first_dispatcher` && (
+                {(orderStatus === `new` || orderStatus === `no_dispatcher`) && (
+                  <>
                     <Flex gap={`11px`}>
-                      <Button
-                        isLoading={disabledCancelBtn}
-                        onClick={(e) => {
-                          // e.stopPropagation();
-                          handleCancel(cargo);
-                        }}
-                        className={styles.bntOutline}
-                      >
-                        {t(`Отказать`)}
-                      </Button>
-                      {cargo?.cargo_id_data?.order_status?.[0] !== `in_active` && (
+                      {role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
                         <Button
-                          leftIcon={<IconCeckNewStatusIcon />}
+                          isLoading={disabledCancelBtn}
                           onClick={(e) => {
-                            // e.stopPropagation();
-                            setDataPred(cargo);
-                            onOpen();
+                            handleCancel(cargo);
                           }}
-                          className={styles.bntNew}
+                          className={styles.bntOutline}
                         >
-                          {t(`Принять`)}
+                          {t(`Отказать`)}
                         </Button>
                       )}
+
+                      {cargo?.cargo_id_data?.order_status?.[0] !==
+                        `in_active` &&
+                        dispatcher_type?.[0] === `first_dispatcher` && (
+                          <Button
+                            leftIcon={<IconCeckNewStatusIcon />}
+                            onClick={(e) => {
+                              setDataPred(cargo);
+                              onOpen();
+                            }}
+                            className={styles.bntNew}
+                          >
+                            {t(`Принять`)}
+                          </Button>
+                        )}
                     </Flex>
-                  )}
-                {orderStatus == "cancellation" && (
-                  <Button
-                    leftIcon={<DeleteIcon />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // setIsDeletePopupOpen(true);
-                    }}
-                    className={styles.bntOutline}
-                  >
-                    {t(`Удалить`)}
-                  </Button>
+                  </>
                 )}
+                {orderStatus == "cancellation" &&
+                  role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
+                    <Button
+                      leftIcon={<DeleteIcon />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsDeletePopupOpen(cargo);
+                      }}
+                      className={styles.bntOutline}
+                    >
+                      {t(`Удалить`)}
+                    </Button>
+                  )}
               </Box>
 
               {orderStatus === `approve_from_driver` &&
-                dispatcher_type?.[0] === `first_dispatcher` && (
+                role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
                   <Button
                     isLoading={disabledCancelBtn}
                     width={`200px`}

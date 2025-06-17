@@ -36,7 +36,8 @@ export const TextField = ({
           className={clsx(
             cls.fieldInput,
             inputClassName,
-            addonBefore ? cls.hasAddonBefore : ""
+            addonBefore ? cls.hasAddonBefore : "",
+            disabled ? cls.disabled :``
           )}
           id={name}
           type={type}

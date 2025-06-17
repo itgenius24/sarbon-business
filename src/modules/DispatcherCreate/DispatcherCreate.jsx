@@ -118,7 +118,7 @@ export const DispatcherCreate = ({ locale }) => {
                 register={register}
                 errors={errors}
                 name="full_name"
-                placeholder={t("Имя и фамилия водителя")}
+                placeholder={t("Имя и фамилия")}
                 rules={{
                     required: {
                       value: true,

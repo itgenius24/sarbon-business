@@ -60,7 +60,9 @@ export const ProfileLayout = ({ children }) => {
 
   const { t } = useTranslation(locale, "translations");
 
-  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id,{enabled:Boolean(authStore?.userData?.firm_id)});
+
+
+  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id,{enabled:Boolean(authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2")});
 
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
@@ -164,7 +166,7 @@ export const ProfileLayout = ({ children }) => {
           <div className={cls.contentWrapper}>
             {(pathname === defaultPath || isLargerThan845) && (
               <Box flexGrow={isLargerThan845 ? 0 : 1}>
-                {firmData?.response?.tip_account?.[0] === `legal_owner` ? (
+                {firmData?.response?.tip_account?.[0] === `legal_owner` && authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2" ? (
                   <Box className={cls.leftContend}>
                     <Box className={cls.profileNameWrap}>
                       <Text className={cls.profileName}>
@@ -235,7 +237,7 @@ export const ProfileLayout = ({ children }) => {
                           <Text>{data?.full_name}</Text>
                           <Text className={cls.profileType}>
                              {
-                              authStore.userData.firm_id ? `Перевозчик / Физ. лицо` : roleName[authStore.userData.role_id]
+                              authStore.userData.firm_id && authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2" ? `Перевозчик / Физ. лицо` : roleName[authStore.userData.role_id]
                              }
                           </Text>
                           <Text className={cls.profileId}>
@@ -267,7 +269,7 @@ export const ProfileLayout = ({ children }) => {
               fontSize={`18px`}
               fontWeight={600}
             >
-              {firmData?.response?.tip_account?.[0] === `legal_owner`
+              {firmData?.response?.tip_account?.[0] === `legal_owner` && authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2"
                 ? `Лого компании`
                 : `Фото профиля`}
             </Text>

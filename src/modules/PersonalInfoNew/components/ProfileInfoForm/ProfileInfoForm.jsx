@@ -50,12 +50,9 @@ export const ProfileInfoForm = ({
     changePass,
     formatPhoneNumber,
   } = useProfileInfoFormProps(setValue, reset, watch);
-
-  console.log(`watch`, watch(`fill_name`));
+  const disabledBtn = authStore.userData.dispatcher_type?.[0];
 
   const { t } = useTranslation();
-
-  
 
   if (isLoading) return <SkeletonComp />;
 
@@ -72,10 +69,13 @@ export const ProfileInfoForm = ({
           : `Персональные данные`}
       </Text>
 
-      {watch(`tip_account`)?.[0] === `legal_owner` && authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2" ? (
+      {watch(`tip_account`)?.[0] === `legal_owner` &&
+      authStore?.userData?.role_id ===
+        "f81d3c3d-228d-479e-a2b1-9948c98640f2" ? (
         <Box>
           <div className={cls.fields}>
             <TextFieldWithAdditionAut
+              disabled={disabledBtn === `first_dispatcher`}
               label={t("Название орзанизации *")}
               name="company_name"
               register={register}
@@ -100,6 +100,7 @@ export const ProfileInfoForm = ({
               // after={watch(`price_prepayment_unit`)?.label}
             />
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="tin"
@@ -110,6 +111,7 @@ export const ProfileInfoForm = ({
           </div>
           <div className={cls.fields}>
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="phone_number"
@@ -118,6 +120,7 @@ export const ProfileInfoForm = ({
               placeholder="Введите номер для связи..."
             />
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="full_name"
@@ -128,6 +131,7 @@ export const ProfileInfoForm = ({
           </div>
           <div className={cls.fields}>
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               addonBefore={<Email />}
               register={register}
               errors={errors}
@@ -139,6 +143,7 @@ export const ProfileInfoForm = ({
               placeholder="artlaliwer@gmail.com"
             />
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="building_address"
@@ -152,6 +157,7 @@ export const ProfileInfoForm = ({
         <Box>
           <div className={cls.fields}>
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="full_name"
@@ -163,6 +169,7 @@ export const ProfileInfoForm = ({
               <Flex gap={`20px`}>
                 <Box width={`30%`}>
                   <TextField
+                    disabled={disabledBtn === `first_dispatcher`}
                     register={register}
                     errors={errors}
                     name="passport_scan"
@@ -188,6 +195,7 @@ export const ProfileInfoForm = ({
                   />
                 </Box>
                 <TextField
+                  disabled={disabledBtn === `first_dispatcher`}
                   register={register}
                   errors={errors}
                   name="passport_code"
@@ -207,6 +215,7 @@ export const ProfileInfoForm = ({
           </div>
           <div className={cls.fields}>
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="phone_number"
@@ -214,6 +223,7 @@ export const ProfileInfoForm = ({
               placeholder="Введите номер для связи..."
             />
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               register={register}
               errors={errors}
               name="pnfl"
@@ -223,6 +233,7 @@ export const ProfileInfoForm = ({
           </div>
           <div className={cls.fields}>
             <TextField
+              disabled={disabledBtn === `first_dispatcher`}
               addonBefore={<Email />}
               register={register}
               errors={errors}
@@ -266,7 +277,7 @@ export const ProfileInfoForm = ({
             placeholder="•••••••"
           />
           <Flex
-            onClick={onOpen}
+            onClick={() => disabledBtn === `first_dispatcher` && onOpen}
             borderRadius={`6px`}
             border={`1px solid rgba(0, 122, 255, 1)`}
             color={`rgba(0, 122, 255, 1)`}
@@ -279,6 +290,7 @@ export const ProfileInfoForm = ({
             gap={`6px`}
             justifyContent={`center`}
             alignItems={`center`}
+            opacity={disabledBtn === `first_dispatcher` ? 0.5 : 1}
           >
             <PasswordIconNav />
             Сменить пароль

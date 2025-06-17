@@ -59,6 +59,10 @@ export const filterTabsZ = [
     label: "Все",
     value: "",
   },
+    {
+    label: "Активный",
+    value: "active",
+  },
   {
     label: "В модерации",
     value: "in_moderation",

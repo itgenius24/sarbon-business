@@ -772,6 +772,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         car_type: watch("car_type")?.label,
         product_type: watch(`cargo_type`)?.label,
         distance: distance?.distance,
+        load_type: getTrueKeys(load),
         height: +watch(`height`),
         photo: watch(`image`),
         // guid: watch(`loadResId`) ? watch(`loadResId`) : undefined,
@@ -1131,16 +1132,16 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         number_of_order: data?.number_of_order,
         belt: data?.belt,
         combined_cargo: data?.combined_cargo ? data?.combined_cargo : false,
-        top: data?.top,
-        side: data?.side,
-        back: data?.back,
-        with_removal: data?.with_removal,
+        top: data?.load_type.includes(`top`),
+        side: data?.load_type.includes(`side`),
+        back: data?.load_type.includes(`back`),
+        with_removal: data?.load_type.includes(`with_removal`),
       });
 
       if (data?.temp_from || data?.temp_to) {
         setIsGradusOpen(true);
       }
-      if (data?.top || data?.side || data?.back || data?.with_removal) {
+      if (data.load_type?.length > 0) {
         setLiftingCapacityOpen(true);
       }
       if (data?.hitch || data?.pneumatic || data?.back || data?.bunks) {

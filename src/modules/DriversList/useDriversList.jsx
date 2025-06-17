@@ -23,7 +23,7 @@ export const useDriversList = () => {
 
   const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
-       const response = res?.response;
+      const response = res?.response;
 
       if (!Array.isArray(response)) return;
       const grouped = {};
@@ -51,7 +51,7 @@ export const useDriversList = () => {
     },
   });
 
-  console.log(`data`,data)
+
 
   useEffect(() => {
     const data = {
@@ -61,7 +61,10 @@ export const useDriversList = () => {
         },
       },
     };
-    mutate(data);
+
+    if (firm_id) {
+      mutate(data);
+    }
   }, [status]);
 
   const { mutate: dalete } = useDeleteUsers({
