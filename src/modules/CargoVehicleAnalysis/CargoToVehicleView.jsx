@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 import StarRating from "@/modules/UserManagement/components/StarRating/StarRating";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { EmbeddedChatModule } from "./components/EmbeddedChatModule";
+// import { EmbeddedChatModule } from "./components/EmbeddedChatModule";
 import cls from "./style.module.scss";
 
 export const CargoToVehicleView = ({ data, isLoading, distance }) => {
@@ -209,13 +209,13 @@ export const CargoToVehicleView = ({ data, isLoading, distance }) => {
         isSticky={true}
       />
 
-      {chatOpen && (
+      {/* {chatOpen && (
         <EmbeddedChatModule
           isOpen={chatOpen}
           onClose={closeChat}
           target={chatTarget}
         />
-      )}
+      )} */}
     </Box>
   );
 };
