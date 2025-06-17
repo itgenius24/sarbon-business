@@ -1,0 +1,66 @@
+.container {
+  padding: 20px 0;
+}
+
+.tabContent {
+  padding-top: 20px;
+}
+
+.bulkActions {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #f7fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.statusBadge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chatButton {
+  min-width: 60px;
+}
+
+.actionButton {
+  min-width: 120px;
+}
+
+.vehicleItem {
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.cargoItem {
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.distanceSelector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.noData {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+  font-size: 14px;
+}
