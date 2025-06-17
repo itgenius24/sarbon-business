@@ -167,6 +167,45 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         cor: [],
       },
     ],
+    allPrice: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+    allPrepayment: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+      priceAfterOrder:[
+         {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
+        },
+      ],
     volume_measurement: "",
     packaging: {
       value: "",

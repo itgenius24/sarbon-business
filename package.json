@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 8080",
-    "build": "next build",
+    "setup:size": "NODE_OPTIONS=\"--max-old-space-size=4096\"",
+    "build": "yarn setup:size && next build",
     "start": "next start --port 8080",
     "lint": "next lint",
     "prepare": "husky install",
