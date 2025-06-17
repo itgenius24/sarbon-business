@@ -54,7 +54,7 @@ export const useGpsTrackingProps = (locale) => {
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
-  const [distance, setDistance] = useState(50);
+  const [distance, setDistance] = useState(500);
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(1);
   const [remainingData, setRemainingData] = useState([]);
@@ -603,7 +603,7 @@ export const useGpsTrackingProps = (locale) => {
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
-    setDistance(50);
+    setDistance(500);
     setCheckboxStatuses({
       empty: true,
       our_cargo: true,
