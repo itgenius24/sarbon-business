@@ -37,7 +37,6 @@ const useStepTwoProps = ({locale}) => {
     setEditModal,
   } = useAddCargoContext();
 
-  console.log(`disabled`, disabled);
 
   useEffect(() => {
     if (canEdit && watch(`as_soon_as_b`)) {
@@ -50,10 +49,7 @@ const useStepTwoProps = ({locale}) => {
   const handLeCheck = (e) => {
     setas_soon_as_a(e.target.checked);
     setValue(`as_soon_as_a`, e.target.checked);
-    // setValue(`loadings.${[index]}`, {
-    //   ...loadings[index],
-    //   from_date:"",
-    // });
+
   };
 
   useEffect(() => {

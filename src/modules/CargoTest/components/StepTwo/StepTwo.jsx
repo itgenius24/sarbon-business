@@ -70,6 +70,9 @@ const StepTwo = ({ status,locale }) => {
   } = useStepTwoProps({locale});
 
   const { t } = useTranslation(locale, "translations");
+
+  console.log(`price`,watch(`loadings`))
+
   return (
     <Box className={cls.containerCards}>
       <Flex

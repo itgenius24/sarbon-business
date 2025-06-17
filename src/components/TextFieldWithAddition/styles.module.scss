@@ -87,6 +87,20 @@
   overflow: hidden;
 }
 
+.inputWrapperAfter{
+    width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid var(--brand-300);
+  border-right:none ;
+  background-color: var(--base-white);
+  border-radius: 8px 0 0 8px;
+  overflow: hidden;
+}
+
 .inputWrapper2 {
   width: 100%;
   height: 100%;
@@ -129,6 +143,20 @@
   right: 14px;
   transform: translateY(-50%);
   color: var(--icon-base);
+}
+
+.after2 {
+  color: var(--brand-500);
+  background-color: rgba(246, 247, 248, 1);
+
+
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--brand-300);
+  border-bottom: 1px solid var(--brand-300);
+  border-right: 1px solid var(--brand-300);
+
 }
 
 .additionalItemLabelText {
