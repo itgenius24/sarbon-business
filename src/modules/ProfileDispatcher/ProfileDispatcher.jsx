@@ -56,9 +56,11 @@ const ProfileDispatcher = ({ locale }) => {
               style={{ width: `100px`, height: `100px`, borderRadius: `100%` }}
               src={
                 userData?.photo
-                  ? userData?.photo?.includes(`http`) ? userData?.photo :  `${process.env.NEXT_PUBLIC_MEDIA_URL}${
-                      userData?.photo || ""
-                    }`
+                  ? userData?.photo?.includes(`http`)
+                    ? userData?.photo
+                    : `${process.env.NEXT_PUBLIC_MEDIA_URL}${
+                        userData?.photo || ""
+                      }`
                   : "/images/avatar.png"
               }
               width={150}
@@ -151,6 +153,9 @@ const ProfileDispatcher = ({ locale }) => {
           </TabList>
 
           <TabPanels minHeight={`600px`} width={`70%`}>
+            <TabPanel padding={0}>
+              <NewPage t={t} orderStatus={`no_dispatcher`} />
+            </TabPanel>
             <TabPanel padding={0}>
               <NewPage t={t} orderStatus={`new`} />
             </TabPanel>
