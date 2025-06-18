@@ -122,7 +122,6 @@ const Cmap = memo(
         setPointB(coords);
         setClickCount(2);
         setSelecting(false); // End selection
-        console.log(`pointA`, [pointA, coords]);
         getDistanceInKm(pointA, coords);
         setPoints([pointA, coords]);
         if (types === `route`) {

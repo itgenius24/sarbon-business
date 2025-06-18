@@ -22,7 +22,6 @@ export const DeadlineForm = () => {
 
   const params = usePathname();
 
-  console.log(`params`,params);
 
   const locale = useGetLang();
 

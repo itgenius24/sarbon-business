@@ -48,7 +48,6 @@ const StepFour = ({ status, locale }) => {
   } = useFourProps({ locale });
   const { t } = useTranslation();
 
-  console.log(`price22`, watch(`priceAfterOrder`));
 
   const params = usePathname();
 
@@ -93,7 +92,6 @@ const StepFour = ({ status, locale }) => {
   };
 
   const onChangeNa = (e) => {
-    console.log(`negotiable`, e);
     if (e === `negotiable`) {
       setValue(`negotiable`, true);
       setCheck(false);

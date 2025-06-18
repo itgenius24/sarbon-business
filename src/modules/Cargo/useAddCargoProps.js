@@ -104,7 +104,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   function handleEditActiveToggle() {
     setCanEditActive(true);
   }
-  console.log("canEditActive", canEdit);
 
   function handleOpenDeletePopup() {
     setPopupOpen(true);
@@ -333,7 +332,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     { enabled: !!templateId, }
   );
 
-  // console.log("getMaps222", getMaps?.data);
   const getLoadingMutation = useGetLoadingMutation({
     onSuccess(data) {
       if(data.response?.length > 2){
@@ -367,7 +365,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     label: item?.name,
     value: item?.guid,
   }));
-  console.log(`!canEdit`,canEdit)
 
 
   function onCreateCargoSuccess(data) {
@@ -404,11 +401,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       }
     });
 
-    console.log(`!canEdit`,!canEdit)
 
-    // if(canEdit){
-    //   router.push(`/${locale}/my-loads`);
-    // }else{
     createAddress.mutate(
       {
         data: {
@@ -609,7 +602,6 @@ export const useAddCargoProps = ({ id, status, locale }) => {
   }
 
   function handleUploadDocument(link, fileKey) {
-    console.log(`fileKey`,fileKey)
     if (fileKey) {
       setValue(fileKey, link);
       updateResponseMutation

@@ -55,7 +55,6 @@ const DriverFree = ({
   watch,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(`currentUserLocationData`, currentUserLocationData);
   const { t } = useTranslation();
 
   const handleOpen = () => {

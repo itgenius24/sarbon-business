@@ -64,11 +64,7 @@ export const useMyCars = () => {
         with_relations: true,
       }),
     },
-    querySettings: {
-      onSuccess: (res) => {
-        console.log(`res`, res);
-      },
-    },
+
   });
 
   const { mutate } = useUpdateVehicle({
@@ -203,7 +199,6 @@ export const useMyCars = () => {
     return item;
   });
 
-  console.log(`filteredData`, filteredData);
 
   return {
     data: getVehicle?.data?.response,

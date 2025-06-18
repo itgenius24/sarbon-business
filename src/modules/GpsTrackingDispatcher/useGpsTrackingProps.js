@@ -401,7 +401,6 @@ export const useGpsTrackingProps = (locale) => {
     }
   }, []);
 
-  console.log(`currentUserLocationData`, provisions);
 
   const dataUserID = useMemo(() => {
     let id = "";

@@ -41,7 +41,6 @@ const DriverGruz = ({
     setPopupOpen(false);
   }
 
-  console.log(`load`, loadState);
 
   const { mutate } = useUpdateCargo({
     onSuccess: (res) => {

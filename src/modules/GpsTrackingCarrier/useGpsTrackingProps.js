@@ -465,7 +465,6 @@ export const useGpsTrackingProps = () => {
   }, [offsetCar]);
 
   const handleClear = () => {
-    // console.log("clear")
     setOffset(0);
     setValue("cor", ``);
     setValue("address", ``);

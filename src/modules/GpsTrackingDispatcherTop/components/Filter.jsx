@@ -291,7 +291,6 @@ const Filter = ({
               }}
               setValue={setValue}
               onChangeSelect={(e) => {
-                console.log(`driverVal`, e);
                 setCarType(e);
               }}
               clearable

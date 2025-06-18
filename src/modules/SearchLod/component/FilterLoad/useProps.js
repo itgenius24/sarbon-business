@@ -35,7 +35,6 @@ export const useProps = ({ setValue, watch }) => {
       const data = await response.json();
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
-        console.log("data", data.response.GeoObjectCollection.featureMember);
         setResults(geoObjects);
       } else {
         console.log("Manzil topilmadi");

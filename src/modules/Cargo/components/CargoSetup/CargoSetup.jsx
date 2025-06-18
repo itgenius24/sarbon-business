@@ -30,7 +30,6 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
 
   const status = canEdit ? canEdit : canEditActive ? canEditActive : canEdit ;
 
-  console.log("status",status,canEditActive);
 
   return <Box className={cls.cargoSetup} as="article" borderRadius="12px" mt="24px" padding="24px" bgColor="baseWhite">
     <Box display="flex" columnGap="12px" alignItems="center" mb="32px">

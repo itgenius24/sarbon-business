@@ -91,7 +91,6 @@ export const ShareLocationModule = ({locale}) => {
     { enabled: !!userId }
   );
 
-  console.log(`getDriverLocation`, getDriverLocation?.data?.response?.[0]);
 
   const getMaps = useGetMaps(
     {
@@ -110,7 +109,6 @@ export const ShareLocationModule = ({locale}) => {
     { enabled: Boolean(orderId) }
   );
 
-  // console.log(`getOfferCount`, getOfferCount?.data?.response);
 
   const getGPSHistory = useGetSortedGPSHistory({
     onSuccess(data) {

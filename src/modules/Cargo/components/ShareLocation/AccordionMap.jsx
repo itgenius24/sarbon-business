@@ -22,7 +22,6 @@ export const AccordionMap = ({
   getDriverPosition,
 }) => {
 
-  console.log(`getDriverPosition`,getDriverPosition)
   const map = useRef(null);
   const mapState = {
     center:

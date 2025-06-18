@@ -41,7 +41,6 @@ const DriverQuestion = ({
   handleCloseModal,
   setIconStatus,
 }) => {
-  console.log("addressAdd", currentUserLocationData);
   const { t } = useTranslation();
   return (
     <div className={cls.filter}>

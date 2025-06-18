@@ -14,7 +14,6 @@ const FormInternationInput = ({
   rules = {},
   errors = {},
 }) => {
-  console.log(`errors`,errors)
   return (
     <Controller
       name={name}

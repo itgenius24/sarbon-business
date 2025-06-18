@@ -70,7 +70,6 @@ const useStepOneProps = ({ locale }) => {
     },
   });
 
-  console.log(`getCargoTypes`, getCargoTypes);
 
   useEffect(() => {
     if (getCargoTypes?.data?.length === 40) {
@@ -156,7 +155,6 @@ const useStepOneProps = ({ locale }) => {
   });
 
   const onSubmit = () => {
-    console.log(!watch(`loadResId`));
     if (
       watch(`cargo_type`)?.value &&
       watch(`weight_measurement`) &&

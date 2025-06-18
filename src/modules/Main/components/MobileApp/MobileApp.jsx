@@ -11,7 +11,6 @@ import React from "react";
 
 export const MobileApp = ({ photo, description, description1, data }) => {
   const { t } = useTranslation();
-  console.log(`data`, data);
   return (
     <Container className={cls.mobileContainer} mt={"96px"} mb={"96px"}>
       <Box className={cls.mobileApp} bg="white" borderRadius={24}>

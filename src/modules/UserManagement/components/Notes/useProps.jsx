@@ -108,7 +108,6 @@ const useProps = () => {
   }
 
   const submitComment = () => {
-    console.log(`ss`,comment)
     if (!statusActive.value) {
       setError({ status: true, comment: false });
     }

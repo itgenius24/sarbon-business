@@ -63,7 +63,6 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     },
   });
 
-  console.log(`getOfferCount`, currentUserLocationData?.orders?.[0]);
 
   const handleMutation = () => {
     updateResponseMutation.mutate({

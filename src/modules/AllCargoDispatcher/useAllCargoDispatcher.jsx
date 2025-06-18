@@ -143,9 +143,7 @@ export const useAllCargoDispatcher = () => {
       filterType:(type) => fromSort(type) ,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`7px`}>
-        {
-          console.log(`row`,row)
-        }
+       
           <Image
             className={cls.flag}
             width={30}

@@ -39,7 +39,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     formStore.isFileUploader
   );
 
-  console.log(`formStore`, formStore);
 
   const [isCreated, setIsCreated] = useState(false);
 
@@ -649,7 +648,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
-  console.log("loadingsData", watch(`unloading`));
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
@@ -1083,7 +1081,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       if (data?.money_code) {
         setCheck(true);
       }
-      console.log(`getValues`, data);
 
       reset({
         file_1: data.file_1,

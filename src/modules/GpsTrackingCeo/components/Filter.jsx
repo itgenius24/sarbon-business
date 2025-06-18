@@ -229,7 +229,6 @@ const Filter = ({
             searchName="dis_search"
             onSearchChange={(e) => setDisName(e.target.value)}
             onChangeSelect={(e) => {
-              console.log(`driverVal`, e);
               setDisVal(e);
               setCarsArr([]);
               handleInputClear();
@@ -282,7 +281,6 @@ const Filter = ({
               setValue={setValue}
               clearable
               onChangeSelect={(e) => {
-                console.log(`driverVal`, e);
                 setCarType(e);
               }}
             />

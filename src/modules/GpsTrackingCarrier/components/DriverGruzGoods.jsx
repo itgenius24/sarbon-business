@@ -29,7 +29,6 @@ import { useTranslation } from "react-i18next";
 
 const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocationData }) => {
   const { t } = useTranslation();
-  console.log("loadState", loadState);
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   function handleClosePopup() {

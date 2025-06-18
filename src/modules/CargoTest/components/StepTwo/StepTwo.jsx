@@ -71,7 +71,6 @@ const StepTwo = ({ status,locale }) => {
 
   const { t } = useTranslation(locale, "translations");
 
-  console.log(`price`,watch(`loadings`))
 
   return (
     <Box className={cls.containerCards}>

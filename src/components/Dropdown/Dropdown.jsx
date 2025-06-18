@@ -211,7 +211,6 @@ export const Dropdown = ({
                       <span
                         className={cls.rightIcon}
                         onClick={(e) => {
-                          console.log("first");
                           e.stopPropagation();
                           setValue(name, {});
                           handleInputClear();

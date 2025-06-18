@@ -67,7 +67,6 @@ const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffs
     },
   });
 
-  console.log(`currentUserLocationData`,getAllUserCargo.data?.response)
 
   function handleOffer() {
     setDisabled(true);

@@ -67,7 +67,6 @@ const StepFive = ({ status, locale }) => {
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
 
-  console.log(`load`,load)
 
 
   const firm_id = authStore.userData.firm_id;

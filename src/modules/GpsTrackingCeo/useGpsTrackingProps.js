@@ -343,7 +343,6 @@ export const useGpsTrackingProps = () => {
 
   const [carsArr, setCarsArr] = useState([]);
 
-  // console.log(`driverVal`,driverVal)
 
   const { data: dataDriverMap, isLoading } = useGetCarData({
     data: {
@@ -511,7 +510,6 @@ export const useGpsTrackingProps = () => {
       car_type?.value
   );
 
-  console.log(`car_type`,car_type)
 
   const getCarListProps = useMemo(() => {
     return {

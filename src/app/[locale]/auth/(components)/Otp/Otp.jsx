@@ -26,7 +26,6 @@ export const Otp = observer(() => {
     success,
   } = useOtpProps();
 
-  console.log("timer", timer);
 
   return (
     <Box className={cls.otpWrap} height={"650px"}>

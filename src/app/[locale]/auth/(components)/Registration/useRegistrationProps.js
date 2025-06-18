@@ -82,7 +82,6 @@ export const useRegistrationProps = () => {
   });
 
   function onSubmit(data) {
-    console.log(`data`, data);
     authStore.setAuthData("phone", data.phone);
     setNomer(data.phone);
   }

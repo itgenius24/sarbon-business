@@ -62,7 +62,6 @@ const useFourProps = ({ locale }) => {
     );
   }, [watch(`payment_type`)?.value, paymentOptions]);
 
-  console.log(`paymentOptions`, selectedOption);
 
   useEffect(() => {
     if (
@@ -141,7 +140,6 @@ const useFourProps = ({ locale }) => {
   }
 
 
-  console.log(`watch`,watch(`allPrice`))
 
   const removeInput = (indx) => {
     setValue(

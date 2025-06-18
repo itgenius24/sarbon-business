@@ -192,9 +192,7 @@ export const VehicleToCargoView = ({ data, isLoading, distance }) => {
           <Button
             size="sm"
             colorScheme="blue"
-            onClick={() => {
-              console.log("Bulk assignment for:", selectedItems);
-            }}
+        
           >
             {t("Массовое назначение")}
           </Button>

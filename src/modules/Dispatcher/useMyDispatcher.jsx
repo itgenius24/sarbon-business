@@ -116,7 +116,6 @@ export const useMyDispatcher = () => {
   });
 
   const deleteFuntion = (id,your_id) => {
-    console.log(`your_id`,your_id)
     deleteData({
       id: id,
     });

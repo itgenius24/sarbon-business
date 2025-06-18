@@ -252,7 +252,6 @@ export const useMyCarsDispatcher = () => {
   };
 
   const navigateFn = (row) => {
-    console.log(`row`, row || `empty`);
     window.open(
       `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${
         row?.gps_data?.battery

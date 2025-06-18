@@ -80,7 +80,6 @@ export const useProps = () => {
             // item?.name === `Экспедитор` ||
             item.name === "Водитель"
         );
-        console.log(`data`, data);
         const result = data?.map((item) => ({
           label: item?.name === `Экспедитор` ? `Перевозчик` : item.name,
           value: item.guid,
@@ -329,15 +328,7 @@ export const useProps = () => {
     }
   }
 
-  console.log(`data`, data
-      ?.filter(
-        (person, index, self) =>
-          index === self.findIndex((p) => p.name === person.name)
-      )
-      ?.map((item) => ({
-        label: item?.user_name,
-        value: item?.user_id,
-      })));
+
 
   return {
     control,

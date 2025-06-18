@@ -2,7 +2,6 @@ export function formatDateTime(date) {
   const now = new Date();
   const inputDate = new Date(new Date(date).setHours(new Date(date).getHours() - 5));
 
-    console.log('inputDate', inputDate)
   // Sana bugungi kunga to'g'ri keladimi
   const isToday =
     now.getDate() === inputDate.getDate() &&

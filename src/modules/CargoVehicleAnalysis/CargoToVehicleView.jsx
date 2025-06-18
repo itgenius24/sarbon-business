@@ -186,9 +186,7 @@ export const CargoToVehicleView = ({ data, isLoading, distance }) => {
           <Button
             size="sm"
             colorScheme="blue"
-            onClick={() => {
-              console.log("Bulk proposal for:", selectedItems);
-            }}
+         
           >
             {t("Отправить предложения")}
           </Button>

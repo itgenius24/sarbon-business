@@ -53,7 +53,6 @@ const DriverCheck = ({
     },
   });
 
-  console.log(`currentUserLocationData`, currentUserLocationData);
   const statuses = {
     no_status: "Нет статуса",
     go_to_load: "Иду на загрузку",

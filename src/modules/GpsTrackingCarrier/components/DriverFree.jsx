@@ -49,7 +49,6 @@ const DriverFree = ({
   const { t } = useTranslation();
   const locale = useGetLang();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(`currentUserLocationData`, currentUserLocationData);
 
   const handleOpen = () => {
     onOpen();

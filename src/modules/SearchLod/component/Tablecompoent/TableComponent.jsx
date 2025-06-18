@@ -575,7 +575,6 @@ export const TableComponent = ({
     onOpen();
   };
 
-  console.log(`filteredData`, filteredData);
 
   return (
     <>
@@ -962,7 +961,6 @@ export const TableComponent = ({
                         ) ||
                         item.provisions?.includes(`approve_by_customer`)
                     );
-                    console.log(`provisions`, provisionsData);
                     return (
                       <CheckBoxComponent
                         key={item?.guid}

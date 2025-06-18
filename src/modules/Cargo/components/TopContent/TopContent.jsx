@@ -296,7 +296,6 @@ export const TopContent = ({
     );
   };
 
-  console.log(`userData`,userData)
 
   return (
     <Box>

@@ -100,7 +100,7 @@ export const Footer = () => {
       link.click();
       document.body.removeChild(link);
     } catch (e) {
-      console.log(2);
+      console.log(e);
     }
   };
 

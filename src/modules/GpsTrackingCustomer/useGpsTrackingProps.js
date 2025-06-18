@@ -262,7 +262,6 @@ export const useGpsTrackingProps = () => {
             firm_data: item?.firm_data,
             orders: item?.order_data ? [item?.order_data] : undefined,
           }));
-          // console.log(`data2`,data2)
           setCarsArr((res) => [...res, ...data2]);
         }
       },
@@ -280,7 +279,6 @@ export const useGpsTrackingProps = () => {
   const { mutate: getLocation, isPending: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
-      // console.log(`dats`, data2);
       if (data?.data?.response?.length === 100) {
         setOffsetCAr(offsetCar + 100);
       }

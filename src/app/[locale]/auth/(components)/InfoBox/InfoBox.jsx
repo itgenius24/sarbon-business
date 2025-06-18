@@ -21,7 +21,6 @@ export const InfoBox = () => {
       ? Auth3
       : Auth1;
 
-      console.log(`im`,im)
 
   return (
     <div className={cls.infoBox}>
