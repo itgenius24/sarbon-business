@@ -69,6 +69,8 @@ const Filter = ({
     }
   }, [debouncedValue]);
 
+  
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={4} alignItems={"flex-start"}>
@@ -110,9 +112,12 @@ const Filter = ({
               }}
               onlyFieldDisabled={false}
               additionalItemPlaceholder={
-                <span className={cls.additionalIcons}>
+                <p
+                  style={{ marginLeft: `4px`, cursor: `default` }}
+                  className={cls.additionalIcons}
+                >
                   <LocationMarkIcon />
-                </span>
+                </p>
               }
             />
             {results.length > 0 && address?.length > 0 && (

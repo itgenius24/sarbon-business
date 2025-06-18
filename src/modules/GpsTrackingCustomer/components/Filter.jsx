@@ -111,9 +111,9 @@ const Filter = ({
               }}
               onlyFieldDisabled={false}
               additionalItemPlaceholder={
-                <span className={cls.additionalIcons}>
-                  <LocationMarkIcon />
-                </span>
+               <p style={{marginLeft:`4px`,cursor:`default`}} className={cls.additionalIcons}>
+                                <LocationMarkIcon />
+                              </p>
               }
             />
             {results.length > 0 && address?.length > 0 && (

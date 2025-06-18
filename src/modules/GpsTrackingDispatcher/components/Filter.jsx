@@ -110,9 +110,12 @@ const Filter = ({
               }}
               onlyFieldDisabled={false}
               additionalItemPlaceholder={
-                <span className={cls.additionalIcons}>
+                <p
+                  style={{ marginLeft: `4px`,cursor:`default` }}
+                  className={cls.additionalIcons}
+                >
                   <LocationMarkIcon />
-                </span>
+                </p>
               }
             />
             {results.length > 0 && address?.length > 0 && (
@@ -222,16 +225,15 @@ const Filter = ({
           </Flex>
         </Box>
         <Box className={cls.cardWrap}>
-            <Box>
-              <p className={cls.checkCardTitle}>{t("Поиск по водителю")}</p>
-              <ChakraSelect
-                options={getUserOption}
-                name="users_id"
-                placeholder={t("Имя, номер телефона или номер машины...")}
-                control={control}
-              />
-            </Box>
-  
+          <Box>
+            <p className={cls.checkCardTitle}>{t("Поиск по водителю")}</p>
+            <ChakraSelect
+              options={getUserOption}
+              name="users_id"
+              placeholder={t("Имя, номер телефона или номер машины...")}
+              control={control}
+            />
+          </Box>
         </Box>
       </Flex>
     </div>
