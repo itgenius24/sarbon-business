@@ -81,7 +81,7 @@ export const MainLayout = ({ locale, children }) => {
     pathname.includes("auth") || pathname.includes(`share-location`);
   const isAuthPageFooter = pathname?.length === 3;
 
-  console.log(`pathname`, pathname.length);
+
 
   return (
     <div className={clsx(cls.layout, "fade-in")}>

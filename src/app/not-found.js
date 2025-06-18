@@ -1,4 +1,10 @@
+import { NotFountIcon } from "@/assets/icons/icons";
+import { Container } from "@/components/Container";
+import { Box, Flex } from "@chakra-ui/react";
 import Link from "next/link";
+import { Providers } from "./[locale]/providers";
+import { Footer } from "@/components/Footer";
+import HeaderNotFount from "@/components/HeaderNotFount/Header";
 
 export const metadata = {
   title: "404 - Page Not Found | Sarbon",
@@ -9,67 +15,75 @@ export default function GlobalNotFound() {
   return (
     <html lang="ru">
       <body>
-        <div style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#f7fafc",
-          fontFamily: "system-ui, sans-serif"
-        }}>
-          <div style={{
-            textAlign: "center",
-            backgroundColor: "white",
-            borderRadius: "12px",
-            padding: "48px",
-            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-            maxWidth: "500px",
-            margin: "0 16px"
-          }}>
-            <h1 style={{
-              fontSize: "72px",
-              fontWeight: "bold",
-              color: "#3182ce",
-              marginBottom: "16px",
-              lineHeight: "1.2"
-            }}>
-              404
-            </h1>
-            
-            <h2 style={{
-              fontSize: "32px",
-              fontWeight: "600",
-              color: "#2d3748",
-              marginBottom: "16px",
-              lineHeight: "1.3"
-            }}>
-              Страница не найдена
-            </h2>
-            
-            <p style={{
-              fontSize: "18px",
-              color: "#718096",
-              marginBottom: "32px",
-              lineHeight: "1.6"
-            }}>
-              Извините, страница, которую вы ищете, не существует или была перемещена.
-            </p>
-            
-            <Link href="/ru" style={{
-              display: "inline-block",
-              backgroundColor: "#3182ce",
-              color: "white",
-              padding: "12px 32px",
-              fontSize: "16px",
-              fontWeight: "600",
-              borderRadius: "8px",
-              textDecoration: "none",
-              transition: "all 0.2s"
-            }}>
-              Вернуться на главную
-            </Link>
-          </div>
-        </div>
+        <Providers>
+          <HeaderNotFount />
+          <Container margin={`0 auto`}>
+            <div
+              style={{
+                minHeight: "70vh",
+                width: `100%`,
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                fontFamily: "system-ui, sans-serif",
+              }}
+            >
+              <Flex gap={`30px`}>
+                <NotFountIcon />
+                <Box>
+                  <Flex flexDirection={`column`} rowGap={`12px`}>
+                    <p
+                      style={{
+                        fontSize: `16px`,
+                        fontWeight: 500,
+                        margin: 0,
+                      }}
+                    >
+                      Ошибка 404
+                    </p>
+                    <p
+                      style={{
+                        fontSize: `44px`,
+                        fontWeight: 700,
+                        margin: 0,
+                        lineHeight: `44px`,
+                      }}
+                    >
+                      Страница не найдена
+                    </p>
+                    <p
+                      style={{
+                        fontSize: `16px`,
+                        fontWeight: 500,
+                        margin: 0,
+                      }}
+                    >
+                      Вы пытались перейти по несуществующему адресу
+                    </p>
+                  </Flex>
+                  <Link
+                    href="/ru"
+                    style={{
+                      display: "inline-block",
+                      backgroundColor: "rgba(38, 189, 73, 1)",
+                      color: "white",
+                      padding: "14px 20px",
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      borderRadius: "8px",
+                      textDecoration: "none",
+                      transition: "all 0.2s",
+                      marginTop: `40px`,
+                    }}
+                  >
+                    Перейти на главную
+                  </Link>
+                </Box>
+              </Flex>
+            </div>
+          </Container>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

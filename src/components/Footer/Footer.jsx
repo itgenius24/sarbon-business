@@ -58,51 +58,51 @@ export const Footer = () => {
     ],
   };
 
-  const { mutate: apkData } = useCreateApkDownloadMutation({});
+  // const { mutate: apkData } = useCreateApkDownloadMutation({});
 
-  const downloadFn = () => {
-    apkData({
-      data: {
-        app_name: navigator.userAgent,
-        count: 1,
-        create_time: new Date(),
-      },
-    });
-  };
+  // const downloadFn = () => {
+  //   apkData({
+  //     data: {
+  //       app_name: navigator.userAgent,
+  //       count: 1,
+  //       create_time: new Date(),
+  //     },
+  //   });
+  // };
 
-  const { data: apkCount, refetch } = useGetCountApk({
-    params: {
-      data: JSON.stringify({
-        // create_time: {
-        //   $gte: ``,
-        //   $lt: ``,
-        // },
-      }),
-    },
-    querySettings: {
-      enabled: Boolean(role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"),
-    },
-  });
+  // const { data: apkCount, refetch } = useGetCountApk({
+  //   params: {
+  //     data: JSON.stringify({
+  //       // create_time: {
+  //       //   $gte: ``,
+  //       //   $lt: ``,
+  //       // },
+  //     }),
+  //   },
+  //   querySettings: {
+  //     enabled: Boolean(role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"),
+  //   },
+  // });
 
-  const downloadByLanguage = async (langId) => {
-    try {
-      // const res = await getData({
-      //   ...file,
-      //   lang: langId,
-      // });
+  // const downloadByLanguage = async (langId) => {
+  //   try {
+  //     // const res = await getData({
+  //     //   ...file,
+  //     //   lang: langId,
+  //     // });
 
-      const link = document.createElement("a");
-      const res = `../../assets/app/Furgo.apk`;
-      link.href = res.file;
-      // link.target = "_blank";
-      link.download = `Furgo.apk`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (e) {
-      console.log(2);
-    }
-  };
+  //     const link = document.createElement("a");
+  //     const res = `../../assets/app/Furgo.apk`;
+  //     link.href = res.file;
+  //     // link.target = "_blank";
+  //     link.download = `Furgo.apk`;
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (e) {
+  //     console.log(2);
+  //   }
+  // };
 
   return (
     <Box

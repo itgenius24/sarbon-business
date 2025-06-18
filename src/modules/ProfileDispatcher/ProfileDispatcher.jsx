@@ -40,7 +40,6 @@ const ProfileDispatcher = ({ locale }) => {
     data,
   } = useProfileDis();
 
-  console.log(`userData`, userData);
 
   return (
     <Container my="40px">
