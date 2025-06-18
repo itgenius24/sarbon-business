@@ -227,7 +227,7 @@ const Filter = ({
               <ChakraSelect
                 options={getUserOption}
                 name="users_id"
-                placeholder={t("Имя или номер телефона...")}
+                placeholder={t("Имя, номер телефона или номер машины...")}
                 control={control}
               />
             </Box>
