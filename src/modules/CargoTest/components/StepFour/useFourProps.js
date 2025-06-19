@@ -100,11 +100,11 @@ const useFourProps = ({ locale }) => {
 
   function handleAppendAllPrice() {
     setValue(`allPrice.${watch(`allPrice`)?.length}`, {
-      payment_type: {
+      type: {
         label: "Наличные",
         value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
       },
-      payment: {
+      currency: {
         label: "доллар",
         value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
       },
@@ -114,11 +114,11 @@ const useFourProps = ({ locale }) => {
 
   function handleAppendAllPrepayment() {
     setValue(`allPrepayment.${watch(`allPrepayment`)?.length}`, {
-      payment_type: {
+      type: {
         label: "Наличные",
         value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
       },
-      payment: {
+      currency: {
         label: "доллар",
         value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
       },
@@ -127,11 +127,11 @@ const useFourProps = ({ locale }) => {
   }
   function handleAppendPriceAfterOrder() {
     setValue(`priceAfterOrder.${watch(`priceAfterOrder`)?.length}`, {
-      payment_type: {
+      type: {
         label: "Наличные",
         value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
       },
-      payment: {
+      currency: {
         label: "доллар",
         value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
       },

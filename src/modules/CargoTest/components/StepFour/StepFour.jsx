@@ -363,8 +363,8 @@ const StepFour = ({ status, locale }) => {
                             disabled={
                               order_status?.[0] === "active" || !canEdit
                             }
-                            additionalItemName={`allPrice[${index}].payment_type`}
-                            paymentName={`allPrice[${index}].payment`}
+                            additionalItemName={`allPrice[${index}].type`}
+                            paymentName={`allPrice[${index}].currency`}
                             name={`allPrice[${index}].price`}
                             index={index}
                             removeInput={removeInput}
@@ -427,8 +427,8 @@ const StepFour = ({ status, locale }) => {
                               !canEdit ||
                               !watch(`prepayment`)
                             }
-                            additionalItemName={`allPrepayment[${index}].payment_type`}
-                            paymentName={`allPrepayment[${index}].payment`}
+                            additionalItemName={`allPrepayment[${index}].type`}
+                            paymentName={`allPrepayment[${index}].currency`}
                             name={`allPrepayment[${index}].price`}
                             index={index}
                             removeInput={removeInputAllPrepayment}
@@ -514,8 +514,8 @@ const StepFour = ({ status, locale }) => {
                               t={t}
                               currencyOptions={currencyOptions}
                               disabled={!canEdit}
-                              additionalItemName={`priceAfterOrder[${index}].payment_type`}
-                              paymentName={`priceAfterOrder[${index}].payment`}
+                              additionalItemName={`priceAfterOrder[${index}].type`}
+                              paymentName={`priceAfterOrder[${index}].currency`}
                               name={`priceAfterOrder[${index}].price`}
                               index={index}
                               removeInput={removeInputPriceAfterOrder}
