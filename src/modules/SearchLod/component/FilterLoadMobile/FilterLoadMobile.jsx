@@ -280,18 +280,6 @@ export const FilterLoadMobile = ({
                   type="number"
                 />
               </Flex>
-              <Box>
-                <Checkbox
-                  defaultChecked={watch(`only_for_me`)}
-                  register={register}
-                  name={`only_for_me`}
-                >
-                  <Flex gap={1}>
-                    <FurgoIconLoad />{" "}
-                    {t("Только грузы, подходящие под параметры моих машин")}
-                  </Flex>
-                </Checkbox>
-              </Box>
             </Flex>
           </DrawerBody>
           <DrawerFooter>

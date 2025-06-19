@@ -251,19 +251,6 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           />
         </Flex>
       </Flex>
-      <Box mt={`24px`}>
-        <Checkbox
-          defaultChecked={watch(`only_for_me`)}
-          register={register}
-          name={`only_for_me`}
-        >
-          <Flex gap={1}>
-            <FurgoIconLoad />{" "}
-            {t("Только грузы, подходящие под параметры моих машин")}
-          </Flex>
-        </Checkbox>
-      </Box>
-
       <ModalS
         isOpen={isModalOpen}
         onClose={handleCloseModal}
