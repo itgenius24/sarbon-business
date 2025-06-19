@@ -1,5 +1,5 @@
 FROM registry.furgo.uz/xlogistic/frontend-base-image:base01
-WORKDIR app
+# WORKDIR app
 RUN pwd
 RUN ls -lah
 COPY package*.json ./
