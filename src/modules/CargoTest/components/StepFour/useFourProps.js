@@ -50,7 +50,7 @@ const useFourProps = ({ locale }) => {
   }));
 
   const paymentOptions = getPaymentType.data?.response
-    ?.slice(0, 2)
+    ?.slice(0, 3)
     ?.map((item) => ({
       label: item?.[`payment_type_${locale}`],
       value: item?.guid,

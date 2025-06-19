@@ -183,7 +183,6 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-  console.log(`data`, data);
 
   const nameFilter = (val) => {
     if (val !== `all`) {
