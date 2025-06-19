@@ -1,5 +1,11 @@
 .build_template:
   stage: build
+  cache:
+    - key:
+        files:
+          - package.json
+      paths:
+        - node_modules
   image: registry.furgo.uz/devops/docker:dind
   before_script:
     - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
