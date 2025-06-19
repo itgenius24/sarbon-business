@@ -53,20 +53,16 @@ export const useMyDispatcher = () => {
     },
     querySettings: {
       onSuccess: (res) => {
-        if (!countActive) {
-          setCountActive(
-            res?.response?.filter(
-              (item) => item?.user_status_counts?.[0]?._id === "approved"
-            )?.length
-          );
-        }
-        if (!countNeActive) {
-          setCountNeActive(
-            res?.response?.filter(
-              (item) => item?.user_status_counts?.[0]?._id === "blocked"
-            )?.length
-          );
-        }
+        setCountActive(
+          res?.response?.filter(
+            (item) => item?.user_status_counts?.[0]?._id === "approved"
+          )?.length
+        );
+        setCountNeActive(
+          res?.response?.filter(
+            (item) => item?.user_status_counts?.[0]?._id === "blocked"
+          )?.length
+        );
         setData(res?.response);
       },
     },
@@ -109,9 +105,6 @@ export const useMyDispatcher = () => {
   const { mutate: deleteData } = useDeleteDisTop({
     onSuccess: () => {
       refetch();
-      setCountActive(0);
-      setCountNeActive(0);
-     
     },
   });
 
@@ -139,9 +132,6 @@ export const useMyDispatcher = () => {
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
       refetch();
-      setCountActive(0);
-      setCountNeActive(0);
-    
     },
     onError(er) {
       console.log(er);
