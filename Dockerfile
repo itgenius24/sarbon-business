@@ -1,11 +1,10 @@
-FROM node:18-alpine
-RUN mkdir app
-WORKDIR app
-
+FROM registry.furgo.uz/xlogistic/frontend-base-image:base01
 RUN ls -lah
+RUN pwd
+WORKDIR app
 COPY package*.json ./
 RUN npm install
-RUN ls -lah
+
 
 COPY . ./
 ENV NODE_OPTIONS=--max_old_space_size=4096
