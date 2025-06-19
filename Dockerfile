@@ -1,7 +1,7 @@
 FROM registry.furgo.uz/xlogistic/frontend-base-image:base01
-RUN ls -lah
-RUN pwd
 WORKDIR app
+RUN pwd
+RUN ls -lah
 COPY package*.json ./
 RUN npm install
 
