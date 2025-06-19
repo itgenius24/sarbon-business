@@ -2,10 +2,10 @@ FROM node:18-alpine
 RUN mkdir app
 WORKDIR app
 
-RUN ls -la
+RUN ls -lah
 COPY package*.json ./
 RUN npm install
-RUN ls -la
+RUN ls -lah
 
 COPY . ./
 ENV NODE_OPTIONS=--max_old_space_size=4096
