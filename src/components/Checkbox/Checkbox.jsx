@@ -8,6 +8,7 @@ export const Checkbox = ({
   children,
   type="checkbox",
   defaultChecked=false,
+  checked,
   filled,
   width,
   height,
@@ -19,7 +20,7 @@ export const Checkbox = ({
  
 }) => {
   return <label style={{cursor:isDisabled && `not-allowed`}} className={clsx(cls.checkboxLabel, className, { [cls.filled]: filled })}>
-    <input id={id} disabled={isDisabled} checked={defaultChecked}  className={clsx("visually-hidden", cls.checkboxInput)}  {...register(name)} defaultChecked={defaultChecked} type={type} {...props}/>
+    <input id={id} disabled={isDisabled} checked={checked}  className={clsx("visually-hidden", cls.checkboxInput)}  {...register(name)} defaultChecked={defaultChecked} type={type} {...props}/>
     {
       !isLoading && <span className={cls.checkbox} style={{ width, height, backgroundSize: iconSize }}></span> 
     }

@@ -170,6 +170,7 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.empty}
+              checked={checkboxStatuses.empty}
               onChange={() => handleCheckboxChange("empty")}
             >
               {t("Свободные машины")}
@@ -179,6 +180,7 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.our_cargo}
+              checked={checkboxStatuses.our_cargo}
               onChange={() =>
                 handleCheckboxChange("our_cargo", `waiting_for_driver`)
               }
@@ -190,6 +192,7 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.someone_cargo}
+              checked={checkboxStatuses.someone_cargo}
               onChange={() => handleCheckboxChange("someone_cargo")}
             >
               {t("Занятые с чужим грузом")}
@@ -199,6 +202,7 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={checkboxStatuses.broke_down}
+              checked={checkboxStatuses.broke_down}
               onChange={() => handleCheckboxChange("broke_down")}
             >
               {t("Сломанные машины")}
@@ -208,6 +212,7 @@ const Filter = ({
               width={"16px"}
               height={"16px"}
               defaultChecked={loadCheck}
+              checked={loadCheck}
               onChange={() => setLoadCheck(!loadCheck)}
             >
               {t("Грузы")}

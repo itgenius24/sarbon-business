@@ -729,7 +729,7 @@ const StepFour = ({ status, locale }) => {
       </Box>
       {!status && (
         <Button
-          isDisabled={disabled}
+          isDisabled={false}
           onClick={() => onSubmit()}
           rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}
