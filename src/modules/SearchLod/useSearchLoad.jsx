@@ -58,7 +58,7 @@ export const useSearchLoad = () => {
           max_volume: +watch(`max_volume`) || 1000,
           min_weight: +watch(`min_weight`) || 0,
           max_weight: +watch(`max_weight`) || 1000,
-          only_for_me: watch(`only_for_me`) || 0,
+          only_for_me: watch(`only_for_me`) || false,
           firm_id,
           page,
           limit: 50,
