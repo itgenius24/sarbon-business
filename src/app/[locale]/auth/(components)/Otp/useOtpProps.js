@@ -19,17 +19,16 @@ export const useOtpProps = () => {
   const { t } = useTranslation(locale, "translations");
 
   const [error, setError] = useState(false);
-  
-  const { smsId, phone } = authStore.getAuthData;
+
+  const { smsId, phone, typeSms } = authStore.getAuthData;
 
   const registrationMutation = useOtpMutation({
     onSuccess: (data) => {
-   
-        if(authStore.authData.isForgot) {
-          router.push(`/${locale}/auth/new-password`);
-        } else {
-          router.replace(`/${locale}/auth/registration-form`);
-        }
+      if (authStore.authData.isForgot) {
+        router.push(`/${locale}/auth/new-password`);
+      } else {
+        router.replace(`/${locale}/auth/registration-form`);
+      }
       // }
     },
     onError: () => {
@@ -41,35 +40,33 @@ export const useOtpProps = () => {
         isClosable: true,
         position: "top right",
       });
-    }
+    },
   });
 
-  function onChange (value) {
-    if(value?.length === 6){
+  function onChange(value) {
+    if (value?.length === 6) {
       registrationMutation.mutate({
-        data:{
+        data: {
           sms_id: smsId,
           otp: value,
           phone: phone,
           client_type_id: "9bb1227a-0c90-4c70-bcee-b2563d32f7a0",
-          role_id: "48871d27-7361-4f69-8fe4-b54daf270739"
+          role_id: "48871d27-7361-4f69-8fe4-b54daf270739",
         },
-        login_strategy: "PHONE_OTP"
+        login_strategy: typeSms === `PHONE` ? "PHONE_OTP" : `TELEGRAM_OTP`,
       });
     }
     setValue(value);
     setError(false);
   }
 
-  function handleSendOtp () {
-  
-  }
+  function handleSendOtp() {}
 
   const phoneMutation = usePhoneMutation({
     onSuccess: (data) => {
       authStore.setAuthData("smsId", data.sms_id);
       authStore.setAuthData("isForgot", false);
-    }
+    },
   });
 
   function handleResendOtp() {
@@ -77,16 +74,16 @@ export const useOtpProps = () => {
     phoneMutation.mutate({
       recipient: authStore.authData.phone,
       text: "code",
-      type: "PHONE"
+      type: typeSms,
     });
   }
 
-  function navigateBack () {
+  function navigateBack() {
     router.back();
   }
 
   useEffect(() => {
-    if(timer > 0) {
+    if (timer > 0) {
       setTimeout(() => {
         setTimer(timer - 1);
       }, 1000);
@@ -106,6 +103,6 @@ export const useOtpProps = () => {
     handleResendOtp,
     timer,
     isLoading: registrationMutation.isLoading,
-    success:registrationMutation.isSuccess,
+    success: registrationMutation.isSuccess,
   };
 };

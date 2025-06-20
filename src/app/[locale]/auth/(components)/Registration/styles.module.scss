@@ -94,17 +94,17 @@
 }
 
 .linkWrap {
-    .img {
-      width: 100px;
-      height: auto;
-      object-fit: cover;
-    }
-    .ruStore {
-      width: 80px;
-    }
-    .galaxyStore {
-      width: 110px;
-    }
+  .img {
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+  }
+  .ruStore {
+    width: 80px;
+  }
+  .galaxyStore {
+    width: 110px;
+  }
   @media (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
@@ -128,6 +128,13 @@
   border: 1px solid rgba(199, 199, 204, 1) !important;
   border-radius: 6.5px !important;
   font-size: 13px !important;
+  color: rgba(126, 123, 134, 1) !important;
+  background-color: white !important;
+}
+
+.btnTelegram {
+  border: 1px solid rgba(199, 199, 204, 1) !important;
+  border-radius: 6.5px !important;
   color: rgba(126, 123, 134, 1) !important;
   background-color: white !important;
 }
