@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 8080",
-    "setup:size": "NODE_OPTIONS=\"--max-old-space-size=4096\"",
+    "setup:size": "NODE_OPTIONS=\"--max-old-space-size=8192\"",
     "build": "yarn setup:size && next build",
     "start": "next start --port 8080",
     "lint": "next lint",
