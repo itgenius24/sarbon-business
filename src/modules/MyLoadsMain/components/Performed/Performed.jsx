@@ -661,7 +661,7 @@ export const Performed = forwardRef(
                             }}
                             className={styles.bntNew}
                           >
-                            {t(`  `)}
+                            {t(`Принять`)}
                           </Button>
                         )}
                     </Flex>

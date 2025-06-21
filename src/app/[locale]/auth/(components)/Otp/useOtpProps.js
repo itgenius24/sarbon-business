@@ -104,5 +104,6 @@ export const useOtpProps = () => {
     timer,
     isLoading: registrationMutation.isLoading,
     success: registrationMutation.isSuccess,
+    typeSms
   };
 };
