@@ -1,4 +1,5 @@
-FROM registry.furgo.uz/xlogistic/frontend-base-image:base01
+# FROM registry.furgo.uz/xlogistic/frontend-base-image:base01
+FROM node:18
 # WORKDIR app
 RUN pwd
 RUN ls -lah
