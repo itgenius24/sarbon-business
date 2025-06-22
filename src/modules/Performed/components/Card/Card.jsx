@@ -28,7 +28,8 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
               className={cls.flag}
               width={30}
               height={30}
-              src={item?.cargo_id_data?.flag_ot}
+              src={       item?.cargo_id_data?.flag_ot ||
+                `https://flagcdn.com/w320/${item?.cargo_id_data?.country_code_from?.toLowerCase()}.png`}
               alt={t("Флаг")}
             />
             <p className={cls.country_code}>
@@ -75,11 +76,17 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
             flexDirection={`column`}
             width={`50px`}
           >
+          {
+            console.log(`salom`,item?.cargo_id_data)
+          }
             <Image
               className={cls.flag}
               width={30}
               height={30}
-              src={item?.cargo_id_data?.flag_do}
+              src={
+                 item?.cargo_id_data?.flag_do ||
+                `https://flagcdn.com/w320/${item?.cargo_id_data?.country_code_to?.toLowerCase()}.png`
+                }
               alt={t("Флаг")}
             />
             <p className={cls.country_code}>
