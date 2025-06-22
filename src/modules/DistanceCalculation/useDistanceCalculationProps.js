@@ -66,7 +66,6 @@ export const useDistanceCalculationProps = () => {
     }
   }
 
-  console.log(`intervalLocations`,locationNames)
 
   function initYmaps() {
     if (window?.ymaps) {
@@ -138,7 +137,6 @@ export const useDistanceCalculationProps = () => {
   };
 
   const hanleAdress = (location, name) => {
-    console.log("location", location);
     if(name === "from") {
       setCenterMap([
         location?.GeoObject?.Point?.pos.split(" ")[1],

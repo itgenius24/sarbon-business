@@ -16,7 +16,6 @@ const DriversDispachers = () => {
     rowClassName,
   } = useDriverProps();
 
-  console.log(`data`, data);
   return (
     <>
       <Box>

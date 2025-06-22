@@ -39,6 +39,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     formStore.isFileUploader
   );
 
+
   const [isCreated, setIsCreated] = useState(false);
 
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
@@ -167,6 +168,45 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         cor: [],
       },
     ],
+    allPrice: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+    allPrepayment: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+    priceAfterOrder: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
     volume_measurement: "",
     packaging: {
       value: "",
@@ -288,6 +328,45 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
           },
           address: "",
           cor: "",
+        },
+      ],
+      allPrice: [
+        {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
+        },
+      ],
+      allPrepayment: [
+        {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
+        },
+      ],
+      priceAfterOrder: [
+        {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
         },
       ],
     },
@@ -569,7 +648,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
-  console.log("loadingsData", watch(`unloading`));
 
   const updateCargo = useUpdateCargo({
     onSuccess(data) {
@@ -1003,7 +1081,6 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       if (data?.money_code) {
         setCheck(true);
       }
-      console.log(`getValues`, data);
 
       reset({
         file_1: data.file_1,

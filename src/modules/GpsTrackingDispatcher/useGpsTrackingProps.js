@@ -54,7 +54,7 @@ export const useGpsTrackingProps = (locale) => {
   const [locationNames, setLocationNames] = useState([]);
   const [checked, setChecked] = useState(true);
   const [locationData, setLocationData] = useState([]);
-  const [distance, setDistance] = useState(50);
+  const [distance, setDistance] = useState(500);
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(1);
   const [remainingData, setRemainingData] = useState([]);
@@ -401,7 +401,6 @@ export const useGpsTrackingProps = (locale) => {
     }
   }, []);
 
-  console.log(`currentUserLocationData`, provisions);
 
   const dataUserID = useMemo(() => {
     let id = "";
@@ -427,6 +426,13 @@ export const useGpsTrackingProps = (locale) => {
       ) {
         setModalType("driverExpectation");
       }
+      
+      if (mapRef.current && dataUserID?.[0]?.users_gps?.[0]?.lat && dataUserID?.[0]?.users_gps?.[0]?.long) {
+        const lat = parseFloat(dataUserID[0].users_gps[0].lat);
+        const long = parseFloat(dataUserID[0].users_gps[0].long);
+        mapRef.current.setCenter([lat, long], 10);
+      }
+      
       setIsBalloonOpened(false);
       router.replace(`/${locale}/gps-tracking-dispatcher`);
     }
@@ -524,6 +530,13 @@ export const useGpsTrackingProps = (locale) => {
     value: item?.user?.guid,
   }));
 
+  const getVehicleNumberOptions = getCarListProps.data
+    ?.filter((item) => item?.vehicles?.[0]?.car_number)
+    ?.map((item) => ({
+      label: item?.vehicles?.[0]?.car_number,
+      value: item?.user?.guid,
+    }));
+
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -561,7 +574,7 @@ export const useGpsTrackingProps = (locale) => {
     userUpdate({ data: body });
   };
 
-  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
+  const getUserOption = getUserNameOptions.concat(getUserPhoneOptions).concat(getVehicleNumberOptions || []);
 
   useEffect(() => {
     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
@@ -603,7 +616,7 @@ export const useGpsTrackingProps = (locale) => {
     setValue("weight", null);
     setValue("load_type_id", null);
     setValue("volume", null);
-    setDistance(50);
+    setDistance(500);
     setCheckboxStatuses({
       empty: true,
       our_cargo: true,

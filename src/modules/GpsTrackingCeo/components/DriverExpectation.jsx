@@ -12,8 +12,13 @@ import {
   ModalWatingIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
-import { useGetOffer, useUpdateResponse } from "@/services/api";
+import {
+  useGetOffer,
+  useGetUserGpsByIDData,
+  useUpdateResponse,
+} from "@/services/api";
 import {
   Avatar,
   Box,
@@ -49,7 +54,17 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     },
   });
 
-  console.log(`currentUserLocationData`, currentUserLocationData);
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+    querySettings: {
+      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
+    },
+  });
 
   const handleMutation = () => {
     updateResponseMutation.mutate({
@@ -295,27 +310,32 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
             </p>
           </Flex>
         </Box>
-        <Box className={cls.cardWrapOutline}>
-          <Flex width={"100%"} alignItems={"center"} gap={3}>
-            <Avatar
-              name={
-                currentUserLocationData?.orders?.[0]?.users_id_3_data?.full_name
-              }
-              src={currentUserLocationData?.orders?.[0]?.users_id_3_data?.photo}
-            />
-            <Box>
-              <p className={cls.cardStartSubTitle}>Диспетчер: </p>
-              <p className={cls.name}>
-                {
-                  currentUserLocationData?.orders?.[0]?.users_id_3_data
-                    ?.full_name
-                }{" "}
-                {currentUserLocationData?.orders?.[0]?.users_id_3_data?.your_id}
-              </p>
-              <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
-            </Box>
-          </Flex>
-        </Box>
+        {getUserGps?.data?.response && (
+          <Box style={{ background: `white` }} className={cls.cardWrapOutline}>
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={getUserGps?.data?.response?.[0]?.full_name}
+                src={getUserGps?.data?.response?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {getUserGps?.data?.response?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <a
+                    href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                  >
+                    <TelegramIcon />
+                  </a>
+                  <p className={cls.cardStartSubTitleZTel}>
+                    {getUserGps?.data?.response?.[0]?.phone}
+                  </p>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        )}
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />

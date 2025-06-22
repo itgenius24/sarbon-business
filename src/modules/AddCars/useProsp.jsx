@@ -361,7 +361,6 @@ const useProsp = () => {
         res?.response?.[0]?.message?.content?.replace(/```json|```/g, "").trim()
       );
 
-      console.log(`jsonData`, jsonData);
       if (jsonData?.model) {
         setValue(`marka`, jsonData?.model);
       }

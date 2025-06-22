@@ -176,7 +176,6 @@ export const TopContent = ({
       setUserData(res?.response);
     },
   });
-  console.log("LoadingSpinner", isLoading);
   useEffect(() => {
     if (paramsId) {
       dataLocation({ data: { object_data: { cargo_id: paramsId, }, }, });

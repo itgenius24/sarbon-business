@@ -24,6 +24,7 @@ import {
   ErroModalIcon,
   GoogleIcon,
   PhoneIconRigister,
+  TelegramIcon,
 } from "@/assets/icons/icons";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { AuthTitle } from "../AuthTitle";
@@ -44,7 +45,7 @@ import { useCreateApkDownloadMutation } from "@/services/api";
 
 export const Registration = () => {
   const {
-    onSubmit,
+    submitPhone,
     handleSubmit,
     isLoading,
     t,
@@ -138,17 +139,31 @@ export const Registration = () => {
                     <p className={cls.textFieldName}>
                       {t("Мобильный телефон")} *
                     </p>
-                    <FormInternationInput register={register} control={control} name={`phone`} rules={{require:false}} />
+                    <FormInternationInput
+                      register={register}
+                      control={control}
+                      name={`phone`}
+                      rules={{ require: false }}
+                    />
                   </Box>
                 </Box>
 
                 <Button
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={() => submitPhone(`PHONE`)}
                   size="md"
-                  type="submit"
                   isLoading={isLoading}
                 >
-                  {t(`Регистрация`)}
+                  {t("Получить код по SMS")}
+                </Button>
+                <Button
+                  leftIcon={<TelegramIcon />}
+                  onClick={() => submitPhone(`TELEGRAM`)}
+                  size="md"
+                  mt={`10px`}
+                  isLoading={isLoading}
+                  className={cls.btnTelegram}
+                >
+                  {t("Получить код через Telegram")}
                 </Button>
                 <div className={cls.divider}>
                   <span>{t(`Регистрация через соцсеть`)}</span>
@@ -218,7 +233,6 @@ export const Registration = () => {
                               width={135}
                               height={40}
                               className={cls.img}
-
                             />
                           </a>
                           <a
@@ -248,7 +262,7 @@ export const Registration = () => {
                               alt="Ru store"
                               width={111}
                               height={40}
-                               className={`${cls.img} ${cls.ruStore}`}
+                              className={`${cls.img} ${cls.ruStore}`}
                             />
                           </a>
                         </Flex>
@@ -266,7 +280,6 @@ export const Registration = () => {
                               width={135}
                               height={40}
                               className={cls.img}
-
                             />
                           </a>
                           <a

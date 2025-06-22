@@ -47,7 +47,6 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
     }
   });
 
-  console.log(`currentUserLocationData`,currentUserLocationData)
 
 
   const handleMutation = () => {

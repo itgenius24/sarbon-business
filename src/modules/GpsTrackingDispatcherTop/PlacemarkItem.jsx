@@ -64,7 +64,6 @@ const PlacemarkItem = ({ carType, loadType, capacity, height, carInfo }) => {
     );
   };
 
-  // console.log("getVehicle", getVehicle,newListDraggable());
 
   return (
     <>

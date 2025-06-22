@@ -64,7 +64,7 @@ letter-spacing: 0px;
   font-weight: 700;
   color: rgba(0, 51, 153, 1);
   
-  @media (max-width: 1600px) {
+  @include xl {
     font-size: 14px;
   }
  
@@ -165,7 +165,27 @@ letter-spacing: 0px;
 }
 
 
-  @media (max-width: 1500px)  {
+@include lg {
+  .list {
+    gap: 2px;
+  }
+  
+  .itemLink {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  
+  .rightBox {
+    gap: 12px;
+  }
+  
+  .userIcon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+  @include xl {
 
   .header {
     position: relative;
@@ -249,11 +269,13 @@ letter-spacing: 0px;
   }
 
   .localeBox {
-    display: none;
+    display: flex;
+    order: 1;
+    margin-top: 16px;
   }
 
   .userIcon {
-    display: none;
+    display: flex;
   }
 
 }

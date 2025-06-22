@@ -84,7 +84,6 @@ export const useCargoFormProps = () => {
     value: item?.guid,
   }));
 
-  console.log("salom",getCargoData);
 
   const optionCargoType = useMemo(() => {
     if (searchCargo) {

@@ -10,7 +10,6 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 const StatusComponent = ({ status = `bad`, date }) => {
-console.log(`status`,status)
   const statusObj = {
     great: () => {
       return { text: `Отлично`, icon: <SuccessIconProfile />,color:`rgba(38, 189, 73, 1)` };

@@ -55,7 +55,6 @@ const SelectCargo = ({
     },
   });
 
-  console.log(`currentUserLocationData`, currentUserLocationData,selectCargo);
 
 
   const cargoData = useMemo(() => {

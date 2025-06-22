@@ -58,7 +58,6 @@ export const useDriversList = () => {
     },
   });
 
-  console.log(`data`,data)
 
   useEffect(() => {
     const data = {

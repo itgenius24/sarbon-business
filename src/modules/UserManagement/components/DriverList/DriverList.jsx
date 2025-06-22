@@ -7,7 +7,6 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const DriverList = () => {
   const { t, data, handleDelete, columns, isLoading } = useDriversList();
-  console.log(`data`,data?.length,isLoading)
   return (
     <Box className={cls.box}>
       <Flex gap={`8px`} alignItems={`center`}>

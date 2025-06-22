@@ -342,7 +342,7 @@ export const useMyLoadsMainProps = (locale) => {
       link.click();
       document.body.removeChild(link);
     } catch (e) {
-      console.log(2);
+      console.log(3);
     }
   };
 

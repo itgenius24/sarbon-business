@@ -109,7 +109,6 @@ const useProps = (orderStatus, t,search,address) => {
   });
 
   const handleDelete = (id) => {
-    console.log(`ids`, id);
     deleteCargo.mutate({ id: id?.guid });
     actionCreate({
       data: {

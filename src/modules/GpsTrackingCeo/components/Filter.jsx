@@ -38,6 +38,7 @@ const Filter = ({
     setValue,
     formState: { errors },
   } = useForm();
+
   const { t } = useTranslation(locale);
   const [results, setResults] = useState([]);
   const [address, setAddress] = useState();
@@ -110,6 +111,16 @@ const Filter = ({
     },
   });
 
+  const clearFn = () => {
+    handleClear();
+    setValue(`dispatcher`, {});
+    setValue(`dis_search`, ``);
+    setValue(`driver_search`, ``);
+    setValue(`driver`, {});
+    setDriverVal({});
+    setDisVal({});
+  };
+
   return (
     <div className={cls.filter}>
       <Flex flexDirection={"column"} rowGap={4} alignItems={"flex-start"}>
@@ -129,7 +140,7 @@ const Filter = ({
             <FilterIconBlack />{" "}
             <span className={cls.filterText}>{t("Фильтр")}</span>
           </Flex>
-          <p onClick={() => handleClear()} className={cls.clearBtn}>
+          <p onClick={() => clearFn()} className={cls.clearBtn}>
             {t("Сбросить")}
           </p>
         </Flex>
@@ -151,9 +162,12 @@ const Filter = ({
               }}
               onlyFieldDisabled={false}
               additionalItemPlaceholder={
-                <span className={cls.additionalIcons}>
+                <p
+                  style={{ marginLeft: `4px`, cursor: `default` }}
+                  className={cls.additionalIcons}
+                >
                   <LocationMarkIcon />
-                </span>
+                </p>
               }
             />
             {results.length > 0 && address?.length > 0 && (
@@ -215,7 +229,6 @@ const Filter = ({
             searchName="dis_search"
             onSearchChange={(e) => setDisName(e.target.value)}
             onChangeSelect={(e) => {
-              console.log(`driverVal`, e);
               setDisVal(e);
               setCarsArr([]);
               handleInputClear();
@@ -268,7 +281,6 @@ const Filter = ({
               setValue={setValue}
               clearable
               onChangeSelect={(e) => {
-                console.log(`driverVal`, e);
                 setCarType(e);
               }}
             />

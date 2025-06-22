@@ -28,6 +28,10 @@ export const filterTabsDis = [
  
 ];
 export const filterTabstopDis = [
+   {
+    label: "Предложение без диспетчера",
+    value: "no_dispatcher",
+  },
   {
     label: "Предложение",
     value: "new",

@@ -146,7 +146,6 @@ const Cmap = memo(
         setPointB(coords);
         setClickCount(2);
         setSelecting(false); // End selection
-        console.log(`pointA`, [pointA, coords]);
         getDistanceInKm(pointA, coords);
         setPoints([pointA, coords]);
         if (types === `route`) {
@@ -523,7 +522,6 @@ const Cmap = memo(
               } else {
                 setCurrentUserLocationData(currentUserLocationData);
                 if (
-                  currentUserLocationData?.order_data ||
                   currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
                 ) {
                   setModalType("driverCheck");
@@ -593,7 +591,7 @@ const Cmap = memo(
                         } else {
                           setCurrentUserLocationData(carInfo);
                           if (
-                            carInfo?.order_data ||
+                            // carInfo?.order_data ||
                             carInfo?.user?.provisions?.[0] === "our_cargo"
                           ) {
                             setModalType("driverCheck");
@@ -679,7 +677,7 @@ const Cmap = memo(
                         } else {
                           setCurrentUserLocationData(carInfo);
                           if (
-                            carInfo?.order_data ||
+                            // carInfo?.order_data ||
                             carInfo?.user?.provisions?.[0] === "our_cargo"
                           ) {
                             setModalType("driverCheck");

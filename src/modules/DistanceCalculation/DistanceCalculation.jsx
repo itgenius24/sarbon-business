@@ -46,7 +46,6 @@ export const DistanceCalculation = () => {
 
   const { t } = useTranslation(locale, "translations");
 
-  console.log(`distanceParameters.distance `, distanceParameters?.distance);
 
   return (
     <Container py={isLargerThan845 ? "40px" : "24px"}>

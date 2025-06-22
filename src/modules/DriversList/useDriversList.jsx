@@ -24,40 +24,18 @@ export const useDriversList = () => {
   const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
       const response = res?.response;
-
-      if (!Array.isArray(response)) return;
-      const grouped = {};
-
-      response.forEach((item) => {
-        const guid = item?.guid;
-
-        if (!guid) return;
-
-        if (!grouped[guid]) {
-          grouped[guid] = {
-            ...item,
-            orders: item?.order_data ? [item.order_data] : undefined,
-          };
-          delete grouped[guid].order_data;
-        } else {
-          grouped[guid].orders.push(item.order_data);
-        }
-      });
-
-      const finalResult = Object.values(grouped);
-      setData(finalResult);
+      setData(response);
 
       setStatus(false);
     },
   });
-
-
 
   useEffect(() => {
     const data = {
       data: {
         object_data: {
           firm_id,
+          type: `drivers_list`,
         },
       },
     };

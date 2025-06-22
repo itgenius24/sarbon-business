@@ -325,7 +325,6 @@ export const useMyCarsDispatcher = () => {
   };
 
   const handleCheckboxChange = (user) => {
-    console.log(`salom`, user);
     if (ids?.map((item) => item?.guid).includes(user?.guid)) {
       setId((prevIds) => prevIds.filter((item) => item?.guid !== user?.guid));
     } else {

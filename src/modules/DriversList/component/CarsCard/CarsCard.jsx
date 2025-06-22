@@ -29,13 +29,16 @@ export const CarsCard = ({ t, item, handleDelete }) => {
   const router = useRouter();
   const locale = useGetLang();
 
-  const order = item?.order_data?.provisions?.includes(`performed`)
+  const isEmpty = item?.provisions?.[0] !== `empty`
+
+  console.log(`item`,item)
+
 
   return (
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-        order ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
+        isEmpty ? "rgba(0, 122, 255, 1)" : "rgba(21, 186, 77, 1)"
       } `}
     >
       <Box className={cls.popup}>
@@ -133,10 +136,10 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <p className={cls.subTitle}>{item?.phone}</p>
             </Box>
           </Flex>
-          {order ? (
+          {isEmpty ? (
             <Flex
               background={
-                order?.length > 1
+                isEmpty
                   ? "rgba(0, 122, 255, 0.08)"
                   : "rgba(21, 186, 77, 1)"
               }
@@ -148,20 +151,20 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
                   {t("Занята")}:{" "}
-                  {item?.order_data?.[0]?.cargo_id_data?.number_of_order}
+                  {item?.order_data?.order_number}
                 </p>
               </Box>
-              {item?.users_gps?.[0] && (
+              {item?.gps_data && (
                 <>
                   <Flex gap={2}>
                     <LocationActiveIcon /> <CricleArrovIcon />{" "}
                     <p className={cls.title}>
                       {" "}
-                      {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
+                      {item?.gps_data?.gps ? t("Вкл") : t("Откл")}
                     </p>
                     <p className={cls.subBlueTitle}>
                       {format(
-                        item?.users_gps?.[0]?.create_time || new Date(),
+                        item?.gps_data?.create_time || new Date(),
                         "yyyy-MM-dd"
                       )}
                     </p>
@@ -174,7 +177,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
-                    {item?.users_gps?.[0]?.battery > 20 ? (
+                    {item?.gps_data?.battery > 20 ? (
                       <BatareyFullIcon />
                     ) : (
                       <BatareyIcon />
@@ -182,7 +185,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     <p className={cls.subTitle}>
                       {t("Батарея")}:{" "}
                       <span className={cls.title}>
-                        {item?.users_gps?.[0]?.battery}%
+                        {item?.gps_data?.battery}%
                       </span>
                     </p>
                   </Flex>
@@ -212,17 +215,17 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 </Flex>
               </Box>
 
-              {item?.users_gps?.[0] && (
+              {item?.gps_data && (
                 <>
-                  <Flex gap={2}>
+                  <Flex alignItems={`center`} gap={2}>
                     <LocationActiveIcon /> <CricleArrovIcon />{" "}
                     <p className={cls.title}>
                       {" "}
-                      {item?.users_gps?.[0]?.gps ? t("Вкл") : t("Откл")}
+                      {item?.gps_data?.gps ? t("Вкл") : t("Откл")}
                     </p>
                     <p className={cls.subBlueTitle}>
                       {format(
-                        item?.users_gps?.[0]?.update_time || new Date(),
+                        item?.gps_data?.update_time || new Date(),
                         "yyyy-MM-dd"
                       )}
                     </p>
@@ -235,7 +238,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     </p>
                   </Flex>
                   <Flex alignItems={"center"} gap={2}>
-                    {item?.users_gps?.[0]?.battery > 20 ? (
+                    {item?.gps_data?.battery > 20 ? (
                       <BatareyFullIcon />
                     ) : (
                       <BatareyIcon />
@@ -243,7 +246,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                     <p className={cls.subTitle}>
                       {t("Батарея")}:
                       <span className={cls.title}>
-                        {item?.users_gps?.[0]?.battery}%
+                        {item?.gps_data?.battery}%
                       </span>
                     </p>
                   </Flex>

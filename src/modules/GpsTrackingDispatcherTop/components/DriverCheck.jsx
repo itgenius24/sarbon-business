@@ -28,7 +28,6 @@ const DriverCheck = ({
 }) => {
   const { t } = useTranslation();
 
-  console.log(`currentUserLocationData`, currentUserLocationData);
 
   const getOfferCount = useGetOffer(
     {

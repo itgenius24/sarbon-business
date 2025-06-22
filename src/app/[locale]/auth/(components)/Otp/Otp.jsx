@@ -24,9 +24,9 @@ export const Otp = observer(() => {
     handleResendOtp,
     isLoading,
     success,
+    typeSms
   } = useOtpProps();
 
-  console.log("timer", timer);
 
   return (
     <Box className={cls.otpWrap} height={"650px"}>
@@ -52,7 +52,7 @@ export const Otp = observer(() => {
           </p>
         }
       />
-      <span className={cls.subtitle}>{t("СМС-код")}</span>
+      <span className={cls.subtitle}>{typeSms === `PHONE` ? t("СМС-код") : t(`Telegram-код`)}</span>
       <VerificationInput
         removeDefaultStyles
         autoFocus={() => true}

@@ -1,10 +1,12 @@
 .build_template:
   stage: build
   image: registry.furgo.uz/devops/docker:dind
-  before_script:
-    - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+
   script:
     - cp $GITLAB_ENV_FILE $ENV_FILE
+
     - make build-image DOCKERFILE=$DOCKERFILE TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG
+    - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+
     - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG
     - make clear-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=$ENV_TAG

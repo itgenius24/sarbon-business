@@ -4,9 +4,9 @@ import { enableStaticRendering } from "mobx-react-lite";
 
 enableStaticRendering(typeof window === "undefined");
 
-function storage (store = "sessionStorage") {
+function storage(store = "sessionStorage") {
   try {
-    if(window) {
+    if (window) {
       return window[store];
     }
   } catch (e) {
@@ -25,14 +25,16 @@ function getEmptyFormData() {
       value: "",
       label: "",
     },
-    loadings: [{
-      location: {
-        value: "",
-        label: "",
+    loadings: [
+      {
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
       },
-      address: "",
-      cor: [],
-    }],
+    ],
     unloading: [
       {
         location: {
@@ -41,16 +43,57 @@ function getEmptyFormData() {
         },
         address: "",
         cor: [],
-      }
-    ],
-    receipts: [{
-      location: {
-        value: "",
-        label: "",
       },
-      address: "",
-      cor: [],
-    }],
+    ],
+    allPrice: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+    allPrepayment: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+    priceAfterOrder: [
+      {
+        payment_type: {
+          label: "Наличные",
+          value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+        },
+        payment: {
+          label: "доллар",
+          value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+        },
+        price: ``,
+      },
+    ],
+    receipts: [
+      {
+        location: {
+          value: "",
+          label: "",
+        },
+        address: "",
+        cor: [],
+      },
+    ],
     volume_measurement: "",
     packaging: {
       value: "",
@@ -69,7 +112,7 @@ function getEmptyFormData() {
     capacity: "",
     price: "",
     price_prepayment: "",
-    prepayment:false,
+    prepayment: false,
     price_after_order: 0,
     price_prepayment_unit: {
       label: "",
@@ -110,7 +153,7 @@ class Store {
       setFormData: action,
       updateFormData: action,
       resetBooleanFields: action,
-      clearStoredData: action
+      clearStoredData: action,
     });
 
     makePersistable(this, {
@@ -133,27 +176,26 @@ class Store {
         "prepaymentFuelOpen",
         "directContractOpen",
       ],
-      storage: storage("sessionStorage")
+      storage: storage("sessionStorage"),
     });
-
   }
 
   isNotEmpty = false;
-  formData = getEmptyFormData()
-  startDate = ""
-  endDate = ""
-  isPackagingAndQuantity = false
-  isDimensionsAndDiameter = false
-  isFileUploader = false
-  isRequirementOpen = false
-  isAccessOpen = false
-  isBeltsOpen = false
-  isFtlOpen= false
-  isReymenOpen = false
-  isGradusOpen = false
-  isLiftingCapacityOpen = false
-  prepaymentFuelOpen = false
-  directContractOpen = false
+  formData = getEmptyFormData();
+  startDate = "";
+  endDate = "";
+  isPackagingAndQuantity = false;
+  isDimensionsAndDiameter = false;
+  isFileUploader = false;
+  isRequirementOpen = false;
+  isAccessOpen = false;
+  isBeltsOpen = false;
+  isFtlOpen = false;
+  isReymenOpen = false;
+  isGradusOpen = false;
+  isLiftingCapacityOpen = false;
+  prepaymentFuelOpen = false;
+  directContractOpen = false;
 
   resetBooleanFields() {
     this.isPackagingAndQuantity = false;
@@ -162,9 +204,9 @@ class Store {
     this.isRequirementOpen = false;
     this.isAccessOpen = false;
     this.isBeltsOpen = false;
-    this.isFtlOpen= false
-    this.isReymenOpen = false
-    this.isGradusOpen = false
+    this.isFtlOpen = false;
+    this.isReymenOpen = false;
+    this.isGradusOpen = false;
     this.isLiftingCapacityOpen = false;
     this.prepaymentFuelOpen = false;
     this.directContractOpen = false;
@@ -188,7 +230,7 @@ class Store {
     this.isNotEmpty = true;
     this.formData.unloading[index] = value;
   }
-  receiptPlace(index,value) {
+  receiptPlace(index, value) {
     this.formData.receipts[index] = value;
   }
 
@@ -208,14 +250,55 @@ class Store {
         value: "",
         label: "",
       },
-      loadings: [{
-        location: {
-          value: "",
-          label: "",
+      loadings: [
+        {
+          location: {
+            value: "",
+            label: "",
+          },
+          address: "",
+          cor: [],
         },
-        address: "",
-        cor: [],
-      }],
+      ],
+      allPrice: [
+        {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
+        },
+      ],
+      allPrepayment: [
+        {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
+        },
+      ],
+      priceAfterOrder: [
+        {
+          payment_type: {
+            label: "Наличные",
+            value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
+          },
+          payment: {
+            label: "доллар",
+            value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
+          },
+          price: ``,
+        },
+      ],
       unloading: [
         {
           location: {
@@ -224,16 +307,18 @@ class Store {
           },
           address: "",
           cor: [],
-        }
-      ],
-      receipts: [{
-        location: {
-          value: "",
-          label: "",
         },
-        address: "",
-        cor: [],
-      }],
+      ],
+      receipts: [
+        {
+          location: {
+            value: "",
+            label: "",
+          },
+          address: "",
+          cor: [],
+        },
+      ],
       volume_measurement: "",
       packaging: {
         value: "",
@@ -252,7 +337,7 @@ class Store {
       capacity: "",
       price: "",
       price_prepayment: "",
-      prepayment:false,
+      prepayment: false,
       price_after_order: 0,
       price_prepayment_unit: {
         label: "",
@@ -280,7 +365,7 @@ class Store {
       medic_certificate: false,
       permission: [],
       straps_number: "",
-      money_code:``
+      money_code: ``,
     };
     this.startDate = "";
     this.endDate = "";

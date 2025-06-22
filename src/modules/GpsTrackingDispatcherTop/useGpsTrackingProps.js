@@ -88,7 +88,6 @@ export const useGpsTrackingProps = () => {
     waiting_for_driver: true,
   });
 
-  console.log(`car_type`, car_type);
 
   useEffect(() => {
     if (checked) {
@@ -452,7 +451,6 @@ export const useGpsTrackingProps = () => {
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
     onSuccess: (data) => {
       const data2 = data?.data?.response;
-      // console.log(`dats`, data2);
       if (data?.data?.response?.length === 40) {
         setOffsetCAr(offsetCar + 1);
       }
@@ -531,7 +529,6 @@ export const useGpsTrackingProps = () => {
     uniqueData,
   ]);
 
-  console.log(`getCarListProps`,getCarListProps,car_type)
 
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
     label: item?.user?.full_name,

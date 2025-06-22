@@ -58,8 +58,8 @@ const VehicleInfo = ({ trailerType, icon,cls }) => (
 );
 
 export const BalloonContent = ({ cls, carInfo, t }) => {
-  const provision = carInfo?.order_data ? `our_cargo`: carInfo?.user?.provisions?.[0];
-  const orderExists = Boolean(carInfo?.order_data);
+  const provision =  carInfo?.user?.provisions?.[0] || "empty";
+  const orderExists = Boolean(carInfo?.user?.provisions?.[0] === `our_cargo`);
   const status = statusConfig[provision] || statusConfig.empty;
   const phone = carInfo?.user?.phone;
   const trailerType = carInfo?.vehicles?.[0]?.trailer_type_id_data?.name;

@@ -43,7 +43,6 @@ const DriverCheck = ({
   );
 
   const dispatcher = authStore.userData;
- console.log(`currentUserLocationData`,currentUserLocationData)
 
   const statuses = {
     no_status: "Нет статуса",

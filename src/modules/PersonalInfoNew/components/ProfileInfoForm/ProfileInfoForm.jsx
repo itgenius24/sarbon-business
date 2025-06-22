@@ -277,7 +277,7 @@ export const ProfileInfoForm = ({
             placeholder="•••••••"
           />
           <Flex
-            onClick={() => disabledBtn === `first_dispatcher` && onOpen}
+            onClick={() => disabledBtn !== `first_dispatcher` && onOpen()}
             borderRadius={`6px`}
             border={`1px solid rgba(0, 122, 255, 1)`}
             color={`rgba(0, 122, 255, 1)`}

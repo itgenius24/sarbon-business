@@ -87,7 +87,6 @@ export default function GpsTrackingDispatcherTop({ locale }) {
     car_type
   } = useGpsTrackingProps();
 
-  console.log(`refueling`,refueling)
 
   const { t } = useTranslation(locale, "translations");
 

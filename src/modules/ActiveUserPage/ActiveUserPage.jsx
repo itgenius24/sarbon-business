@@ -37,7 +37,6 @@ const ActiveUserPage = ({ locale }) => {
     setDataOld,
   } = useProps();
 
-  console.log(`isFetching`, isFetching);
   return (
     <Box>
       <Container my="40px">

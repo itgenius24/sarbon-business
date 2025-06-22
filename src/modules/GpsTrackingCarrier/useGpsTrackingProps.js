@@ -259,19 +259,19 @@ export const useGpsTrackingProps = () => {
           limit: 50,
           page: offset,
           firm_id: firm_id,
+          type:`drivers_list`,
         },
       },
     },
     querySettings: {
       onSuccess: (data) => {
         if (data?.response?.length) {
+          console.log(`data`, data);
           let data2 = data?.response?.map((item) => ({
             ...item,
             user: {
               ...item,
-              provisions: item?.order_data
-                ? [`our_cargo`]
-                : item?.provisions || [`empty`],
+              provisions:item?.provisions || [`empty`],
             },
             vehicles: [
               {
@@ -280,9 +280,9 @@ export const useGpsTrackingProps = () => {
               },
             ],
             firm_data: item?.firm_data,
-            users_gps: [item?.driver_gps_data],
+            users_gps: [item?.gps_data],
             orders: item?.order_data ? [{...item?.order_data,cargo_id_data:item?.cargo_data}] : undefined,
-          }))?.filter(item => item.users_gps?.[0]);
+          }))?.filter(item => item.gps_data);
 
           setCarsArr(data2);
         }
@@ -465,7 +465,6 @@ export const useGpsTrackingProps = () => {
   }, [offsetCar]);
 
   const handleClear = () => {
-    // console.log("clear")
     setOffset(0);
     setValue("cor", ``);
     setValue("address", ``);

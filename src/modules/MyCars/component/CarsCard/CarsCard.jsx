@@ -62,7 +62,7 @@ export const CarsCard = ({
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-        item?.users_id_data?.provisions[0] === `waiting_for_driver`
+        item?.users_id_data?.provisions[0] !== `empty` ||  item?.users_id_data?.provisions?.length === 0 
           ? "rgba(0, 122, 255, 1)"
           : "rgba(21, 186, 77, 1)"
       } `}
@@ -255,8 +255,7 @@ export const CarsCard = ({
             <Flex
               style={{
                 background: `${
-                  response?.response?.[0]?.users_id_data?.provisions[0] ===
-                  `waiting_for_driver`
+                  response?.response?.[0]?.users_id_data?.provisions[0] !== `empty` ||  response?.response?.[0].users_id_data?.provisions?.length === 0 
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,
@@ -265,34 +264,34 @@ export const CarsCard = ({
               alignItems={"center"}
               className={cls.statusWrap}
             >
-              <Box>
+              <Box whiteSpace={`nowrap`}>
                 <p className={cls.subTitle}>{t("Статус")}:</p>
                 <p className={cls.subBlueTitle}>
-                  {response?.response?.[0]?.users_id_data?.provisions[0] ===
-                  `waiting_for_driver`
+                  {response?.response?.[0]?.users_id_data?.provisions[0] !==
+                  `empty`
                     ? t(`Занят`)
                     : t("Свободна")}
                   : {response?.response?.[0]?.users_id_data?.your_id}
                 </p>
               </Box>
-              <Flex alignItems={`center`} gap={2}>
+              <Flex whiteSpace={`nowrap`} alignItems={`center`} gap={2}>
                 <LocationActiveIcon /> <CricleArrovIcon />{" "}
                 <p className={cls.title}>{t("Вкл")}. </p>
                 <p className={cls.subBlueTitle}>
                   {format(
                     response?.response?.[0]?.create_time || new Date(),
-                    "yyyy-MM-dd"
+                    "yyyy-MM-dd hh:mm:ss"
                   )}
                 </p>
               </Flex>
-              <Flex alignItems={"center"} gap={2}>
+              <Flex whiteSpace={`nowrap`} alignItems={"center"} gap={2}>
                 <BluetoothIcon />
                 <p className={cls.subTitle}>
                   {t("Bluetooth")}:{" "}
                   <span className={cls.title}>{t("Вкл")}. </span>
                 </p>
               </Flex>
-              <Flex alignItems={"center"} gap={2}>
+              <Flex whiteSpace={`nowrap`} alignItems={"center"} gap={2}>
                 {response?.response?.[0]?.battery > 20 ? (
                   <BatareyFullIcon />
                 ) : (
@@ -325,7 +324,7 @@ export const CarsCard = ({
             <Box
               style={{
                 background: `${
-                  item?.users_id_data?.provisions[0] === `waiting_for_driver`
+                  item?.users_id_data?.provisions[0] !== `empty` ||  item?.users_id_data?.provisions?.length === 0 
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,

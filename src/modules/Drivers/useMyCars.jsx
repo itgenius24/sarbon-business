@@ -197,7 +197,6 @@ export const useMyCars = () => {
   });
 
   const uploadAi = (link, type) => {
-    console.log(`link`, link, type);
 
     uploadAiData({
       data: {

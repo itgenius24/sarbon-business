@@ -70,6 +70,8 @@ const StepTwo = ({ status,locale }) => {
   } = useStepTwoProps({locale});
 
   const { t } = useTranslation(locale, "translations");
+
+
   return (
     <Box className={cls.containerCards}>
       <Flex

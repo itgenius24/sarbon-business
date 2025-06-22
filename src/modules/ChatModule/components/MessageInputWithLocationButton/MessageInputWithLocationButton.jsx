@@ -30,7 +30,6 @@ export const MessageInputWithLocationButton = () => {
         });
       },
       (err) => {
-        console.error(err);
         alert("Joylashuv olinmadi: " + err.message);
       },
       { maximumAge: 0, timeout: 10000 }

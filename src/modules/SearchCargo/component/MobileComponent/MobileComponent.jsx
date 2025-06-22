@@ -231,7 +231,6 @@ const MobileComponent = ({
               required: t("Это поле обязательно"),
             }}
             onChange={(e) => {
-              console.log(`we`, e.target.value);
               e.target.value = e.target.value
                 .replace(/[^A-Za-z0-9]/g, "")
                 .toUpperCase();

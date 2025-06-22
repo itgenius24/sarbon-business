@@ -102,7 +102,6 @@ export const useForgotProps = () => {
     setNomer(data.phone);
   }
 
-  console.log(`useList`, isFetching );
 
   return {
     register,

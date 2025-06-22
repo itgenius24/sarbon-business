@@ -148,7 +148,6 @@ export const SingleCar = ({
   }, [window.scroll]);
 
   const handleMouseEnter = (e) => {
-    console.log("eee", e);
     const placemark = e.get("target");
     placemark.balloon.open();
   };

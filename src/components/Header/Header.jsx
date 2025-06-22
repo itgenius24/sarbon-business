@@ -36,7 +36,7 @@ const Header = observer(({ elements }) => {
   const pathname = usePathname();
   const role_id = authStore.userData.role_id;
   const locale = useGetLang();
-  const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
+  const [isLargerThan1024] = useMediaQuery("(min-width: 1025px)");
 
   const { t } = useTranslation(locale, "translations");
 
@@ -147,7 +147,7 @@ const Header = observer(({ elements }) => {
                         // className={clsx(cls.loginLink)}
                         className={clsx(cls.registerLink)}
                         title={t("Вход")}
-                        href={`/${locale ? locale : `ru`}/auth`}
+                        href={`/${locale ? locale : `ru`}/auth/login`}
                       >
                         {t("Вход")}
                       </Link>
@@ -233,7 +233,7 @@ const Header = observer(({ elements }) => {
               )}
 
               {role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b" &&
-                !isLargerThan845 && (
+                !isLargerThan1024 && (
                   <Box
                     mr={`20px`}
                     onClick={() => {

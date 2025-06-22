@@ -13,7 +13,6 @@ export default function Auth({ params }) {
 
   const params2 = useParams()
 
-  console.log(`dispatcher345`,params2)
 
   const authTypes = {
     login: Login,

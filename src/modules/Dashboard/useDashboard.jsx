@@ -263,7 +263,6 @@ export const useDashboard = (locale) => {
   };
 
   const downloadByLanguage = async (url) => {
-    console.log(`link`,`https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`)
     try {
       const link = document.createElement("a");
       const res = `https://pub-be0226dfadb94399a1ec5722d30b655b.r2.dev/${url}`;
@@ -356,7 +355,6 @@ export const useDashboard = (locale) => {
     }),
   });
 
-  console.log(`bzData`,bzData)
 
   const newData1 = bzData?.response?.filter(
     (item) =>

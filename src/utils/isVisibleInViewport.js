@@ -39,7 +39,6 @@ export function isVisibleInViewport(element) {
     }
   }
 
-  console.log(`salom`, rect.top, rect.left, rect.bottom, rect.right);
 
   return (
     rect.top >= 0 &&

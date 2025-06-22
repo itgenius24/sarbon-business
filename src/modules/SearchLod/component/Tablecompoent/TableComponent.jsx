@@ -282,9 +282,8 @@ export const TableComponent = ({
   };
 
   const deleteOrder = (data) => {
-    const order = data?.orders?.filter(
-      (item) =>
-        item.provisions?.filter((el) => el !== `performed`)?.[0] !== `performed`
+    const order = data?.orders?.filter((item) =>
+      item.provisions?.some((el) => el !== "performed" && el !== "archive")
     );
     if (order?.length > 0) {
       deleteOrderData({ id: order?.[0]?.guid });
@@ -539,7 +538,6 @@ export const TableComponent = ({
     },
   ];
 
-
   const statusTooltip = (item) => {
     const data = item?.status || [];
 
@@ -574,8 +572,6 @@ export const TableComponent = ({
     setCenterModalType(true);
     onOpen();
   };
-
-  console.log(`filteredData`, filteredData);
 
   return (
     <>
@@ -962,7 +958,6 @@ export const TableComponent = ({
                         ) ||
                         item.provisions?.includes(`approve_by_customer`)
                     );
-                    console.log(`provisions`, provisionsData);
                     return (
                       <CheckBoxComponent
                         key={item?.guid}

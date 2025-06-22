@@ -109,7 +109,6 @@ const useProps = (orderStatus, t, search, address) => {
   });
 
   const handleDelete = (id) => {
-    console.log(`ids`, id);
     deleteCargo.mutate({ id: id?.guid });
     actionCreate({
       data: {
@@ -126,7 +125,6 @@ const useProps = (orderStatus, t, search, address) => {
     });
   };
 
-  // console.log(`filter`,data?.filter(item => item?.order_status?.[0] === `active`))
 
   return {
     cargoData: data,

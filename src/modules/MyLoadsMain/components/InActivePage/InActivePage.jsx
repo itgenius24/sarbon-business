@@ -7,7 +7,6 @@ import { LoadsCard } from "../LoadsCard";
 export const InActivePage = ({ orderStatus, t }) => {
   const { cargoData, isLoading, isFetching } = useProps(orderStatus, t);
 
-  console.log("isFetching", cargoData, isFetching);
 
   return (
     <>

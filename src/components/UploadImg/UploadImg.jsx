@@ -64,7 +64,6 @@ export const UploadImg = ({
     uploadAi(process.env.NEXT_PUBLIC_MEDIA_URL + result?.link, type);
   };
 
-  console.log(`result`, watch(name));
 
   const onCropDone = async (file) => {
     onClose();

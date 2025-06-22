@@ -47,12 +47,14 @@ export const AccordionMap = ({
     .map((item) => [item?.lat, item?.long]);
 
 
+    console.log(`shipper`,shipper,consignee)
+
   useEffect(() => {
     const ymaps = window.ymaps;
 
     setTimeout(() => {
       if (map.current && ymaps) {
-        // First route: from startLocation to endLocation
+        console.log(`getMaps`, getMaps);
         ymaps
           .route([
             [startLocation?.lat, startLocation?.long], // Start point
@@ -98,61 +100,9 @@ export const AccordionMap = ({
               strokeStyle: "dash",
             });
           });
-
-        // Second route: from startLocation to specified location with blue line, independent of the first route
-        // ymaps
-        //   .route([
-        //     [startLocation?.lat, startLocation?.long], // Start from startLocation
-        //     driverPosition, // End at specified location
-        //   ])
-        //   .then((secondRoute) => {
-        //     map.current.geoObjects.add(secondRoute);
-        //     const startPoint = secondRoute.getWayPoints().get(0);
-        //     const endPoint = secondRoute.getWayPoints().get(1);
-        //     startPoint.options.set({
-        //       iconLayout: "default#image",
-        //       iconImageHref:
-        //         "data:image/svg+xml;charset=UTF-8," +
-        //         encodeURIComponent(StartIcon),
-        //       iconImageSize: [30, 42],
-        //       iconImageOffset: [-10, -22],
-        //       balloonContentLayout: ymaps.templateLayoutFactory.createClass(
-        //         `<div style='padding: 10px; font-size: 14px;'>
-        //               <p>Финиш:</p>
-        //               <p style='font-weight: 600;'>${startLocation?.name}</p>
-        //         </div>`
-        //       ),
-        //     });
-        //     // endPoint.options.set({
-        //     //   iconLayout: "default#image",
-        //     //   iconImageHref:
-        //     //     "data:image/svg+xml;charset=UTF-8," +
-        //     //     encodeURIComponent(LoadSvgIcon),
-        //     //   iconImageSize: [60, 72],
-        //     //   iconImageOffset: [-15, -42],
-        //     //   balloonContentLayout: ymaps.templateLayoutFactory.createClass(
-        //     //     `<div style='padding: 10px; font-size: 14px;'>
-        //     //           <p style='font-weight: 600;color:rgba(0, 122, 255, 1)'>${
-        //     //             driver?.location_name
-        //     //           }</p>
-        //     //           <p>Время в пути:</p>
-        //     //           <p style='font-weight: 600;'>${format(
-        //     //             driver?.update_time,
-        //     //             "yyyy-MM-dd"
-        //     //           )}</p>
-
-        //     //     </div>`
-        //     //   ),
-        //     // });
-        //     // secondRoute.getPaths().options.set({
-        //     //   strokeColor: "#0000FF", // Blue color
-        //     //   strokeWidth: 4,
-        //     //   strokeOpacity: 1,
-        //     // });
-        //   });
       }
     }, 3000);
-  }, [getMaps]);
+  }, [getMaps,shipper,consignee]);
 
   const polylineOptions = {
     strokeColor: "rgba(0, 122, 255, 1)", // Color of the polyline

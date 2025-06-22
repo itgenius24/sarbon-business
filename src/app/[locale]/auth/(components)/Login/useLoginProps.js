@@ -50,7 +50,6 @@ export const useLoginProps = () => {
   const { mutate: getUserByIdData, isLoading: getUseLoading } =
     useGetUseMutation({
       onSuccess: (res) => {
-        console.log(`salom`, res);
         if (res?.response?.[0]?.user_status?.[0] === `blocked`) {
           toast({
             title: t("Это заблокированный пользователь."),

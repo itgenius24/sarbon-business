@@ -15,18 +15,18 @@ import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "@/app/i18n/client";
 import { useEffect, useState } from "react";
 import { signInWithApple, signInWithGoogle } from "@/utils/fribaseAuth";
+import { useToast } from "@chakra-ui/react";
 
 export const useRegistrationProps = () => {
   const router = useRouter();
-
+  const [typeSms, setTypeSms] = useState(``);
   const [open, setOpen] = useState(false);
   const [nomer, setNomer] = useState();
   const [user, setUser] = useState(null);
   const locale = useGetLang();
 
-
   const { t } = useTranslation(locale, "translations");
-
+  const toast = useToast();
   const schema = yup
     .object({
       phone: yup
@@ -52,10 +52,20 @@ export const useRegistrationProps = () => {
 
   const phoneMutation = usePhoneMutation({
     onSuccess: (data) => {
-      authStore.setAuthData("smsId", data.sms_id);
-      authStore.setAuthData("isForgot", false);
-      authStore.setAuthData("mediaAuth", false);
-      router.push(`/${locale}/auth/otp`);
+      if (data?.sms_id) {
+        authStore.setAuthData("smsId", data.sms_id);
+        authStore.setAuthData("isForgot", false);
+        authStore.setAuthData("mediaAuth", false);
+        authStore.setAuthData("typeSms", typeSms);
+        router.push(`/${locale}/auth/otp`);
+      } else {
+        toast({
+          title: t(" На этом номере нет Telegram"),
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
     },
     onError: () => {
       // router.push(`/${locale}/auth/otp`);
@@ -81,11 +91,18 @@ export const useRegistrationProps = () => {
     },
   });
 
-  function onSubmit(data) {
-    console.log(`data`, data);
-    authStore.setAuthData("phone", data.phone);
-    setNomer(data.phone);
-  }
+  // function onSubmit(data) {
+  //   authStore.setAuthData("phone", data.phone);
+  //   setNomer(data.phone);
+  // }
+
+  const submitPhone = (type) => {
+    if (watch(`phone`)) {
+      setTypeSms(type);
+      authStore.setAuthData("phone", watch(`phone`));
+      setNomer(watch(`phone`));
+    }
+  };
 
   const setType = (type) => {
     router.push(`?type=${type}`);
@@ -109,13 +126,13 @@ export const useRegistrationProps = () => {
       phoneMutation.mutate({
         recipient: nomer,
         text: "code",
-        type: "PHONE",
+        type: typeSms,
       });
     }
   }, [useList?.count]);
 
   const { mutate: getUserData } = useGetUserGpsBYData({
-    onSuccess:(res) => {
+    onSuccess: (res) => {
       authStore.login({
         user: {
           firm_id: res?.response?.[0].firm_id,
@@ -131,8 +148,7 @@ export const useRegistrationProps = () => {
       authStore.setAuthData("phone", ``);
       authStore.setAuthData("mediaAuth", {});
       router.push(`/${locale ? locale : `ru`}`);
-
-    }
+    },
   });
 
   const { mutate: googleRigister } = useGoogleRigister({
@@ -182,7 +198,7 @@ export const useRegistrationProps = () => {
     register,
     errors,
     navigateLogin,
-    onSubmit,
+    submitPhone,
     isLoading: phoneMutation.isLoading,
     t,
     control,
