@@ -204,20 +204,20 @@ const DriverCheck = ({
               </div>
               <Box>
                 <p className={cls.cardStartTitle}>
-                  {currentUserLocationData?.orders?.[0]?.cargo_id_data?.from}
+                  {currentUserLocationData?.orders?.[0]?.cargo_data?.from}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    currentUserLocationData?.orders?.[0]?.cargo_data
                       ?.country_code_from
                   }
                   {` `} / {` `}
                   <span>
-                    {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    {currentUserLocationData?.orders?.[0]?.cargo_data
                       ?.as_soon_as_a
                       ? t(`Готов к загрузке`)
                       : format(
-                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                          currentUserLocationData?.orders?.[0]?.cargo_data
                             ?.load_time,
                           "yyyy-MM-dd"
                         )}
@@ -231,20 +231,20 @@ const DriverCheck = ({
               </div>
               <Box>
                 <p className={cls.cardStartTitle}>
-                  {currentUserLocationData?.orders?.[0]?.cargo_id_data?.to}
+                  {currentUserLocationData?.orders?.[0]?.cargo_data?.to}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    currentUserLocationData?.orders?.[0]?.cargo_data
                       ?.country_code_to
                   }
                   {` `} / {` `}
                   <span>
-                    {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    {currentUserLocationData?.orders?.[0]?.cargo_data
                       ?.as_soon_as_b
                       ? t(`Как можно скорее`)
                       : format(
-                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                          currentUserLocationData?.orders?.[0]?.cargo_data
                             ?.date,
                           "yyyy-MM-dd"
                         )}
@@ -258,7 +258,7 @@ const DriverCheck = ({
               <Box>
                 <p className={cls.cardStartTitle}>
                   {
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    currentUserLocationData?.orders?.[0]?.cargo_data
                       ?.product_type
                   }
                 </p>
@@ -266,7 +266,7 @@ const DriverCheck = ({
                   <Flex width={"100%"} justifyContent={"space-between"}>
                     <span>
                       {
-                        currentUserLocationData?.orders?.[0]?.cargo_id_data
+                        currentUserLocationData?.orders?.[0]?.cargo_data
                           ?.cargo_type_id_data?.name
                       }
                     </span>
@@ -274,7 +274,7 @@ const DriverCheck = ({
                       <Flex gap={1} alignItems={"center"}>
                         <StoneIcon />{" "}
                         {
-                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                          currentUserLocationData?.orders?.[0]?.cargo_data
                             ?.weight
                         }{" "}
                         т.
@@ -282,7 +282,7 @@ const DriverCheck = ({
                       <Flex gap={1} alignItems={"center"}>
                         <LoadOulineIcon />{" "}
                         {
-                          currentUserLocationData?.orders?.[0]?.cargo_id_data
+                          currentUserLocationData?.orders?.[0]?.cargo_data
                             ?.volume_m3
                         }{" "}
                         m3
@@ -297,28 +297,28 @@ const DriverCheck = ({
               <p className={cls.cardStartSubTitle}>
                 {t(`Тип оплаты`)}:{" "}
                 <span>
-                  {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                  {currentUserLocationData?.orders?.[0]?.cargo_data
                     ?.payment_type?.length > 15
-                    ? `${currentUserLocationData?.orders?.[0]?.cargo_id_data?.payment_type?.slice(
+                    ? `${currentUserLocationData?.orders?.[0]?.cargo_data?.payment_type?.slice(
                         0,
                         15
                       )}...`
-                    : currentUserLocationData?.orders?.[0]?.cargo_id_data
+                    : currentUserLocationData?.orders?.[0]?.cargo_data
                         ?.payment_type}
                 </span>
               </p>
             </Flex>
             <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
               <p className={cls.sum}>
-                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash
-                  ? `${currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash} ${currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data?.code}`
+                {currentUserLocationData?.orders?.[0]?.cargo_data?.bid_cash
+                  ? `${currentUserLocationData?.orders?.[0]?.cargo_data?.bid_cash} ${currentUserLocationData?.orders?.[0]?.cargo_data?.currency_data?.code}`
                   : t(`По запросу`)}
                
               </p>
               <p className={cls.cardStartSubTitle}>
                 {t(`Предоплата`)}:{" "}
                 <span>
-                  {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                  {currentUserLocationData?.orders?.[0]?.cargo_data
                     ?.prepayment_percentage > 0
                     ? "Дa"
                     : "Нет"}{" "}

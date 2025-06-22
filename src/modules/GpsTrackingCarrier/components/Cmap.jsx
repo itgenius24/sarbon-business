@@ -522,7 +522,6 @@ const Cmap = memo(
               } else {
                 setCurrentUserLocationData(currentUserLocationData);
                 if (
-                  currentUserLocationData?.order_data ||
                   currentUserLocationData?.user?.provisions?.[0] === "our_cargo"
                 ) {
                   setModalType("driverCheck");
@@ -592,7 +591,7 @@ const Cmap = memo(
                         } else {
                           setCurrentUserLocationData(carInfo);
                           if (
-                            carInfo?.order_data ||
+                            // carInfo?.order_data ||
                             carInfo?.user?.provisions?.[0] === "our_cargo"
                           ) {
                             setModalType("driverCheck");
@@ -678,7 +677,7 @@ const Cmap = memo(
                         } else {
                           setCurrentUserLocationData(carInfo);
                           if (
-                            carInfo?.order_data ||
+                            // carInfo?.order_data ||
                             carInfo?.user?.provisions?.[0] === "our_cargo"
                           ) {
                             setModalType("driverCheck");

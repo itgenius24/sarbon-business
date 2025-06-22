@@ -15,8 +15,9 @@ import {
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
-import { useGetOffer, useUpdateResponse } from "@/services/api";
+import { useGetOffer, useGetUserGpsByIDData, useUpdateResponse } from "@/services/api";
 import {
   Avatar,
   Box,
@@ -53,6 +54,19 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
+    const getUserGps = useGetUserGpsByIDData({
+      params: {
+        data: JSON.stringify({
+          guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+          with_relations: true,
+        }),
+      },
+      querySettings:{
+         enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2) 
+      }
+    });
+
+
   const updateResponseMutation = useUpdateResponse({
     onSuccess: () => {
       handleClosePopup();
@@ -67,7 +81,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
   const handleMutation = () => {
     updateResponseMutation.mutate({
       data: {
-        guid: currentUserLocationData?.orders?.[0]?.cargo_id_data?.guid,
+        guid: currentUserLocationData?.orders?.[0]?.cargo_data?.guid,
         provisions: ["cancellation"],
         who_cancellation: ["customer"],
       },
@@ -194,18 +208,18 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
             </div>
             <Box>
               <p className={cls.cardStartTitle}>
-                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.from}
+                {currentUserLocationData?.orders?.[0]?.cargo_data?.from}
               </p>
               <p className={cls.cardStartSubTitle}>
                 {
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_data
-                    ?.address_id_data?.name
+                  currentUserLocationData?.orders?.[0]?.cargo_data
+                      ?.country_code_from
                 }{" "}
                 /{" "}
                 <span>
                   {format(
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
-                      ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.load_time
+                    currentUserLocationData?.orders?.[0]?.cargo_data?.load_time
+                      ? currentUserLocationData?.orders?.[0]?.cargo_data?.load_time
                       : new Date(),
                     "yyyy-MM-dd"
                   )}
@@ -217,18 +231,18 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
             <div className={cls.startBIcon}>B</div>
             <Box>
               <p className={cls.cardStartTitle}>
-                {currentUserLocationData?.orders?.[0]?.cargo_id_data?.to}
+                {currentUserLocationData?.orders?.[0]?.cargo_data?.to}
               </p>
               <p className={cls.cardStartSubTitle}>
                 {
-                  currentUserLocationData?.orders?.[0]?.cargo_id_data?.city_id_2_data
-                    ?.address_id_data?.name
+                    currentUserLocationData?.orders?.[0]?.cargo_data
+                      ?.country_code_to
                 }{" "}
                 /{" "}
                 <span>
                   {format(
-                    currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
-                      ? currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
+                    currentUserLocationData?.orders?.[0]?.cargo_data?.date
+                      ? currentUserLocationData?.orders?.[0]?.cargo_data?.date
                       : new Date(),
                     "yyyy-MM-dd"
                   )}
@@ -240,23 +254,23 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
           <Flex className={cls.gruz} mt={5} gap={2}>
             <GruzIcon />
             <Box>
-              <p className={cls.cardStartTitle}>Оборудование и запчасти</p>
+              <p className={cls.cardStartTitle}>{currentUserLocationData?.orders?.[0]?.cargo_data?.product_type}</p>
               <p className={cls.cardStartSubTitle}>
                 <Flex width={"100%"} justifyContent={"space-between"}>
                   <span>
                     {
-                      currentUserLocationData?.orders?.[0]?.cargo_id_data
+                      currentUserLocationData?.orders?.[0]?.cargo_data
                         ?.cargo_type_id_data?.name
                     }
                   </span>
                   <Flex ml={2} gap={3}>
                     <Flex gap={1} alignItems={"center"}>
                       <StoneIcon />{" "}
-                      {currentUserLocationData?.orders?.[0]?.cargo_id_data?.weight} т.
+                      {currentUserLocationData?.orders?.[0]?.cargo_data?.weight} т.
                     </Flex>
                     <Flex gap={1} alignItems={"center"}>
                       <LoadOulineIcon />{" "}
-                      {currentUserLocationData?.orders?.[0]?.cargo_id_data?.volume_m3}m3
+                      {currentUserLocationData?.orders?.[0]?.cargo_data?.volume_m3}m3
                     </Flex>
                   </Flex>
                 </Flex>
@@ -271,16 +285,16 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
           </Flex>
           <Flex mt={3} justifyContent={"space-between"} alignItems={"center"}>
             <p className={cls.sum}>
-              {currentUserLocationData?.orders?.[0]?.cargo_id_data?.bid_cash}{" "}
+              {currentUserLocationData?.orders?.[0]?.cargo_data?.bid_cash}{" "}
               {
-                currentUserLocationData?.orders?.[0]?.cargo_id_data?.currency_id_data
+                currentUserLocationData?.orders?.[0]?.cargo_data?.currency_data
                   ?.code
               }{" "}
             </p>
             <p className={cls.cardStartSubTitle}>
               Предоплата:{" "}
               <span>
-                {currentUserLocationData?.orders?.[0]?.cargo_id_data
+                {currentUserLocationData?.orders?.[0]?.cargo_data
                   ?.prepayment_percentage > 0
                   ? "Дa"
                   : "Нет"}
@@ -288,22 +302,35 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
             </p>
           </Flex>
         </Box>
-        <Box className={cls.cardWrapOutline}>
-          <Flex width={"100%"} alignItems={"center"} gap={3}>
-            <Avatar
-              name={currentUserLocationData?.orders?.[0]?.users_id_3_data?.full_name}
-              src={currentUserLocationData?.orders?.[0]?.users_id_3_data?.photo}
-            />
-            <Box>
-              <p className={cls.cardStartSubTitle}>Диспетчер: </p>
-              <p className={cls.name}>
-                {currentUserLocationData?.orders?.[0]?.users_id_3_data?.full_name}{" "}
-                {currentUserLocationData?.orders?.[0]?.users_id_3_data?.your_id}
-              </p>
-              <p className={cls.cardStartSubTitle}>07.08.2024 / 12:36 </p>
-            </Box>
-          </Flex>
-        </Box>
+   {getUserGps?.data?.response && (
+               <Box
+                 style={{ background: `white` }}
+                 className={cls.cardWrapOutline}
+               >
+                 <Flex width={"100%"} alignItems={"center"} gap={3}>
+                   <Avatar
+                     name={getUserGps?.data?.response?.[0]?.full_name}
+                     src={getUserGps?.data?.response?.[0]?.full_name}
+                   />
+                   <Box>
+                     <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                     <p style={{ fontSize: `16px` }} className={cls.name}>
+                       {getUserGps?.data?.response?.[0]?.full_name}
+                     </p>
+                     <Flex alignItems={"center"} gap={2}>
+                       <a
+                         href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                       >
+                         <TelegramIcon />
+                       </a>
+                       <p className={cls.cardStartSubTitleZTel}>
+                         {getUserGps?.data?.response?.[0]?.phone}
+                       </p>
+                     </Flex>
+                   </Box>
+                 </Flex>
+               </Box>
+             )}
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
