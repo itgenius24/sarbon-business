@@ -72,6 +72,8 @@ const useNewPageProps = (
     },
   ];
 
+  console.log(`notificationID`,notificationID)
+
   const {
     data: newData,
     isFetching,

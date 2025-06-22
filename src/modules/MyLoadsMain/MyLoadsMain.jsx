@@ -253,6 +253,8 @@ export const MyLoadsMain = ({ locale }) => {
                   refetchNewPred={refetchNewPred}
                   t={t}
                   orderStatus={`new`}
+                  notificationID={notificationID}
+
                 />
               </TabPanel>
               <TabPanel padding={0}>
