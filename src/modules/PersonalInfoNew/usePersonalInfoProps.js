@@ -105,6 +105,7 @@ export const usePersonalInfoProps = () => {
         full_name: data?.full_name,
         email: data?.email,
         building_address: data?.building_address,
+        company_type: ""
       };
 
       mutate({ data: body });
