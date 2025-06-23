@@ -2,12 +2,12 @@
 
 import { BreadCrumb } from "@/components/BreadCrumb";
 import { Container } from "@/components/Container";
-import { 
-  Box, 
-  Heading, 
-  Text, 
-  useMediaQuery, 
-  VStack, 
+import {
+  Box,
+  Heading,
+  Text,
+  useMediaQuery,
+  VStack,
   HStack,
   Badge,
   Spinner,
@@ -22,7 +22,7 @@ import { useChangelogProps } from "./useChangelogProps";
 export default function ChangelogPage({ params }) {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
   const { locale } = params;
-  
+
   const { changelogData, loading, error, crumbs, t } = useChangelogProps(locale);
 
   if (loading) {
@@ -59,21 +59,21 @@ export default function ChangelogPage({ params }) {
   return (
     <Container mt="50px">
       {isLargerThan768 && <BreadCrumb crumbs={crumbs} />}
-      
-      <Box 
-        padding={isLargerThan768 ? 0 : "12px"} 
-        borderRadius={isLargerThan768 ? 0 : "12px"} 
+
+      <Box
+        padding={isLargerThan768 ? 0 : "12px"}
+        borderRadius={isLargerThan768 ? 0 : "12px"}
         bgColor={isLargerThan768 ? "transparent" : "white"}
       >
-        <Heading 
-          fontSize={isLargerThan768 ? "36px" : "25px"} 
-          lineHeight="44px" 
+        <Heading
+          fontSize={isLargerThan768 ? "36px" : "25px"}
+          lineHeight="44px"
           mb={isLargerThan768 ? "24px" : "16px"}
           color="brand.900"
         >
           {t("Журнал изменений")}
         </Heading>
-        
+
         <Text
           fontWeight="400"
           fontSize="20px"
@@ -85,8 +85,8 @@ export default function ChangelogPage({ params }) {
         </Text>
 
         {changelogData.length === 0 ? (
-          <Box 
-            textAlign="center" 
+          <Box
+            textAlign="center"
             py="64px"
             borderRadius="12px"
             bg="brand.50"
@@ -117,31 +117,31 @@ export default function ChangelogPage({ params }) {
                 }}
                 transition="all 0.2s ease"
               >
-                <HStack 
-                  justify="space-between" 
-                  align="flex-start" 
+                <HStack
+                  justify="space-between"
+                  align="flex-start"
                   mb="16px"
                   flexDirection={isLargerThan768 ? "row" : "column"}
                   spacing={isLargerThan768 ? 4 : 2}
                 >
                   <VStack align="flex-start" spacing={2}>
-                    <Heading 
-                      fontSize={isLargerThan768 ? "24px" : "20px"} 
+                    <Heading
+                      fontSize={isLargerThan768 ? "24px" : "20px"}
                       fontWeight="600"
                       color="brand.900"
                     >
-                      {typeof version.title === 'string' 
-                        ? version.title 
+                      {typeof version.title === 'string'
+                        ? version.title
                         : version.title?.[locale] || version.title?.ru || `${t("Версия")} ${version.version}`
                       }
                     </Heading>
-                    {version.date && (
+                    {version.created_at && (
                       <Text fontSize="14px" color="brand.500">
-                        {new Date(version.date).toLocaleDateString(locale === 'ru' ? 'ru-RU' : 'uz-UZ')}
+                        {new Date(version.created_at).toLocaleDateString(locale === 'ru' ? 'ru-RU' : 'uz-UZ')}
                       </Text>
                     )}
                   </VStack>
-                  
+
                   <Badge
                     colorScheme="green"
                     variant="subtle"
@@ -156,11 +156,30 @@ export default function ChangelogPage({ params }) {
                 </HStack>
 
                 <Box>
+                  {version.banner && (
+                    <Box mb="20px">
+                      <img 
+                        src={version.banner} 
+                        alt={typeof version.title === 'string' 
+                          ? version.title 
+                          : version.title?.[locale] || version.title?.ru || `${t("Версия")} ${version.version}`
+                        }
+                        style={{
+                          width: '100%',
+                          height: '200px',
+                          objectFit: 'cover',
+                          borderRadius: '12px'
+                        }}
+                      />
+                    </Box>
+                  )}
+                  
                   <Text
                     fontSize="16px"
                     lineHeight="24px"
                     color="brand.700"
                     whiteSpace="pre-line"
+                    mb="20px"
                   >
                     {typeof version.description === 'string' 
                       ? version.description 
@@ -168,55 +187,101 @@ export default function ChangelogPage({ params }) {
                     }
                   </Text>
                   
+                  {version.new && version.new.length > 0 && (
+                    <Box mt="20px">
+                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="12px">
+                        🆕 {t("Новое")}
+                      </Text>
+                      <VStack align="stretch" spacing={3}>
+                        {version.new.map((newItem, idx) => (
+                          <Box key={idx} pl="16px">
+                            <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
+                              • {typeof newItem === 'string' 
+                                  ? newItem 
+                                  : newItem?.title?.[locale] || newItem?.title?.ru || newItem?.title?.en || 'New Item'
+                                }
+                            </Text>
+                            {newItem?.description && (
+                              <Text fontSize="13px" color="brand.600" pl="8px">
+                                {newItem.description?.[locale] || newItem.description?.ru || newItem.description?.en || ''}
+                              </Text>
+                            )}
+                          </Box>
+                        ))}
+                      </VStack>
+                    </Box>
+                  )}
+
                   {version.features && version.features.length > 0 && (
                     <Box mt="20px">
-                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="8px">
+                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="12px">
                         ✨ {t("Новые функции")}
                       </Text>
-                      <VStack align="stretch" spacing={1}>
+                      <VStack align="stretch" spacing={3}>
                         {version.features.map((feature, idx) => (
-                          <Text key={idx} fontSize="14px" color="brand.600" pl="16px">
-                            • {typeof feature === 'string' 
-                                ? feature 
-                                : feature?.[locale] || feature?.ru || feature?.en || 'Feature'
-                              }
-                          </Text>
+                          <Box key={idx} pl="16px">
+                            <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
+                              • {typeof feature === 'string' 
+                                  ? feature 
+                                  : feature?.title?.[locale] || feature?.title?.ru || feature?.title?.en || 'Feature'
+                                }
+                            </Text>
+                            {feature?.description && (
+                              <Text fontSize="13px" color="brand.600" pl="8px">
+                                {feature.description?.[locale] || feature.description?.ru || feature.description?.en || ''}
+                              </Text>
+                            )}
+                          </Box>
                         ))}
                       </VStack>
                     </Box>
                   )}
-                  
+
                   {version.improvements && version.improvements.length > 0 && (
-                    <Box mt="16px">
-                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="8px">
+                    <Box mt="20px">
+                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="12px">
                         🚀 {t("Улучшения")}
                       </Text>
-                      <VStack align="stretch" spacing={1}>
+                      <VStack align="stretch" spacing={3}>
                         {version.improvements.map((improvement, idx) => (
-                          <Text key={idx} fontSize="14px" color="brand.600" pl="16px">
-                            • {typeof improvement === 'string' 
-                                ? improvement 
-                                : improvement?.[locale] || improvement?.ru || improvement?.en || 'Improvement'
-                              }
-                          </Text>
+                          <Box key={idx} pl="16px">
+                            <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
+                              • {typeof improvement === 'string' 
+                                  ? improvement 
+                                  : improvement?.title?.[locale] || improvement?.title?.ru || improvement?.title?.en || 'Improvement'
+                                }
+                            </Text>
+                            {improvement?.description && (
+                              <Text fontSize="13px" color="brand.600" pl="8px">
+                                {improvement.description?.[locale] || improvement.description?.ru || improvement.description?.en || ''}
+                              </Text>
+                            )}
+                          </Box>
                         ))}
                       </VStack>
                     </Box>
                   )}
-                  
+
                   {version.fixes && version.fixes.length > 0 && (
-                    <Box mt="16px">
-                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="8px">
+                    <Box mt="20px">
+                      <Text fontSize="14px" fontWeight="600" color="brand.800" mb="12px">
                         🐛 {t("Исправления")}
                       </Text>
-                      <VStack align="stretch" spacing={1}>
+                      <VStack align="stretch" spacing={3}>
                         {version.fixes.map((fix, idx) => (
-                          <Text key={idx} fontSize="14px" color="brand.600" pl="16px">
-                            • {typeof fix === 'string' 
-                                ? fix 
-                                : fix?.[locale] || fix?.ru || fix?.en || 'Fix'
-                              }
-                          </Text>
+                          <Box key={idx} pl="16px">
+                            <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
+                              • {typeof fix === 'string' 
+                                  ? fix 
+                                  : fix?.title?.[locale] || fix?.title?.ru || fix?.title?.en || 'Fix'
+                                }
+                            </Text>
+                            {fix?.description && (
+                              <Text fontSize="13px" color="brand.600" pl="8px">
+                                {fix.description?.[locale] || fix.description?.ru || fix.description?.en || ''}
+                              </Text>
+                            )}
+                          </Box>
                         ))}
                       </VStack>
                     </Box>

@@ -21,11 +21,11 @@ export const useChangelogProps = (locale) => {
       try {
         setLoading(true);
         await fetchAndActivate(remoteConfig);
-        
+
         const data = JSON.parse(
           getValue(remoteConfig, "changelog_web").asString()
         );
-        
+
         if (data?.changelog_web && Array.isArray(data.changelog_web)) {
           setChangelogData(data.changelog_web);
         } else {
