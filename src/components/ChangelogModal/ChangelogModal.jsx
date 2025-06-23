@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import authStore from "@/store/auth.store";
 import { useTranslation } from "react-i18next";
 
-const CURRENT_VERSION = "1.2.0";
+const CURRENT_VERSION =  process.env.NEXT_PUBLIC_VERSION;
 
 const ChangelogModal = ({ locale }) => {
   const toast = useToast();
@@ -58,7 +58,7 @@ const ChangelogModal = ({ locale }) => {
                       color={"white"}
                       onClick={() => router.push(`/${locale}/changelog`)}
                     >
-                      Batafsil
+                      {t(`Подробнее`)}
                     </Button>
                   </Flex>
                 </Box>
