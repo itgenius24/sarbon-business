@@ -9,7 +9,7 @@ import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { ContainerAnalitik } from "@/components/ContainerAnalitik/Container";
 
 const TinCreateModule = () => {
-  const { setValue, control, watch, register, errors, t,handleSubmit,onSubmit,your_id,router } = useTinCreate();
+  const { setValue, control, watch, register, errors, t,handleSubmit,onSubmit,your_id,router,handleTinLookup,tinLookupLoading } = useTinCreate();
 
   return (
     <ContainerAnalitik my={`40px`}>
@@ -50,14 +50,27 @@ const TinCreateModule = () => {
             padding={`28px 30px`}
             width={`100%`}
           >
-            <TextField
-              type="number"
-              label={`ИНН`}
-              register={register}
-              errors={errors}
-              name="tin"
-              placeholder={t("ИНН")}
-            />
+            <Flex gap="10px" alignItems="end">
+              <TextField
+                type="number"
+                label={`ИНН`}
+                register={register}
+                errors={errors}
+                name="tin"
+                placeholder={t("ИНН")}
+              />
+              <Button
+                type="button"
+                onClick={() => handleTinLookup(watch('tin'))}
+                isLoading={tinLookupLoading}
+                isDisabled={!watch('tin') || watch('tin').length < 9}
+                size="md"
+                colorScheme="blue"
+                variant="outline"
+              >
+                {t("Найти")}
+              </Button>
+            </Flex>
             <TextField
               type="number"
               label={`Регистрирующий орган`}
