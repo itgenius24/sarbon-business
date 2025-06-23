@@ -78,6 +78,8 @@ export const RegistrationForm = () => {
     open,
     phone,
     router,
+    handleTinLookup,
+    tinLookupLoading,
   } = useRegistrationFormProps();
 
   const formatPhoneNumber = (value) => {
@@ -360,27 +362,40 @@ export const RegistrationForm = () => {
 
                       <Box>
                         <p className={cls.label}>ИНН организации *</p>
-                        <TextField
-                          type="text"
-                          name="inn"
-                          register={register}
-                          placeholder={t("Введите номер ИНН...")}
-                          errors={errors}
-                          rules={{
-                            required: {
-                              value: true,
-                              message: t("Это поле обязательно"),
-                            },
-                          }}
-                          onChange={(e) => {
-                            const value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
-                            if (value.length <= 16) {
-                              setValue(`inn`, value);
-                            } else {
-                              return (e.target.value = value.slice(0, 16)); // Limit to 9 characters
-                            }
-                          }}
-                        />
+                        <Flex gap="10px" alignItems="end">
+                          <TextField
+                            type="text"
+                            name="inn"
+                            register={register}
+                            placeholder={t("Введите номер ИНН...")}
+                            errors={errors}
+                            rules={{
+                              required: {
+                                value: true,
+                                message: t("Это поле обязательно"),
+                              },
+                            }}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
+                              if (value.length <= 16) {
+                                setValue(`inn`, value);
+                              } else {
+                                return (e.target.value = value.slice(0, 16)); // Limit to 9 characters
+                              }
+                            }}
+                          />
+                          <Button
+                            type="button"
+                            onClick={() => handleTinLookup(watch('inn'))}
+                            isLoading={tinLookupLoading}
+                            isDisabled={!watch('inn') || watch('inn').length < 9}
+                            size="md"
+                            colorScheme="blue"
+                            variant="outline"
+                          >
+                            {t("Найти")}
+                          </Button>
+                        </Flex>
                       </Box>
 
                       <Box>
