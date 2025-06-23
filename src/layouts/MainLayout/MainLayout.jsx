@@ -3,14 +3,14 @@
 import cls from "./styles.module.scss";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useElements } from "./elements";
 import clsx from "clsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { useEffect } from "react";
+import ChangelogModal from "@/components/ChangelogModal/ChangelogModal";
 const predlojeniya = "/predlojeniya.mp3";
 const predlojeniyauz = "/predlojeniyauz.mp3";
 const vispolneniya = "/vispolneniya.mp3";
@@ -20,7 +20,6 @@ const zavishonuz = "/zavishonuz.mp3";
 
 export const MainLayout = ({ locale, children }) => {
   const elements = useElements(locale);
-    const router = useRouter();
     const pathname = usePathname();
 
     const { mutate } = useUpdateNoteData();
@@ -77,6 +76,8 @@ export const MainLayout = ({ locale, children }) => {
     });
   };
 
+
+
   const isAuthPage =
     pathname.includes("auth") || pathname.includes(`share-location`);
   const isAuthPageFooter = pathname?.length === 3;
@@ -84,6 +85,7 @@ export const MainLayout = ({ locale, children }) => {
 
   return (
     <div className={clsx(cls.layout, "fade-in")}>
+    <ChangelogModal locale={locale} />
       {!isAuthPage && <Header elements={elements} />}
       <article className={cls.main}>{children}</article>
       {isAuthPageFooter && <Footer />}

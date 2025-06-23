@@ -647,6 +647,9 @@
   "ДСП": "DSP",
   "Введен неверный код": "Kod noto'g'ri kiritildi",
    "Ошибка": "Xatolik",
-  "Произошла ошибка при загрузке файла": "Fayl yuklashda xatolik yuz berdi"
+  "Произошла ошибка при загрузке файла": "Fayl yuklashda xatolik yuz berdi",
+   "Закрыть": "Yopish",
+   "Подробнее": "Batafsil"
+
 
 }

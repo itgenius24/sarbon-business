@@ -77,6 +77,7 @@ export const useLoginProps = () => {
             token: dataUser?.token,
             role: dataUser?.role,
           });
+          authStore.setAuthData("isChangelog",true);
           router.push(`/${locale ? locale : `ru`}`);
         }
 
