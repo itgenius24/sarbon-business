@@ -287,6 +287,7 @@ export const useRegistrationFormProps = () => {
             building_address: nomer?.adress,
             phone_number: phone,
             logo: nomer?.img,
+            company_type: ""
           },
         });
       } else {
@@ -318,6 +319,7 @@ export const useRegistrationFormProps = () => {
           building_address: data?.adress,
           phone_number: phone,
           logo: data?.img,
+          company_type: "",
         },
       });
     } else {

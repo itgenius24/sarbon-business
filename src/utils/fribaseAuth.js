@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   OAuthProvider,
 } from "firebase/auth";
+import { getRemoteConfig } from "firebase/remote-config";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtS4te4OQKyl1Nr5u04EOfQ-vGtThcJwo",
@@ -16,8 +17,19 @@ const firebaseConfig = {
   measurementId: "G-5ZEJBXCTJR",
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+const remoteConfig = getRemoteConfig(app);
+
+
+remoteConfig.settings = {
+  minimumFetchIntervalMillis: 3600000,
+};
+
+
+export default remoteConfig;
 
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();

@@ -627,7 +627,11 @@
   "Шаблон успешно добавлен": "Şablon başarıyla eklendi",
   "Введен неверный код": "Geçersiz kod girildi",
     "Ошибка": "Hata",
-  "Произошла ошибка при загрузке файла": "Dosya yüklenirken bir hata oluştu"
+  "Произошла ошибка при загрузке файла": "Dosya yüklenirken bir hata oluştu",
+   "Закрыть": "Kapat",
+   "Подробнее": "Detaylar"
+
+
 
 
    
