@@ -624,5 +624,11 @@
   "Ошибка": "Error",
   "Произошла ошибка при загрузке файла": "An error occurred while uploading the file",
   "Закрыть": "Close",
-  "Подробнее": "More info"
+  "Подробнее": "More info",
+   "Журнал изменений": "Changelog",
+   "Независимый водитель": "Independent driver",
+   "Зависимый водитель": "Dependent driver",
+   "driver_dependency_description_on": "Driver will be able to send and receive offers independently, order chats will be opened with you and this driver. You can disable it anytime. NOTE: Changes will take effect from future orders, active orders will not be effected.",
+   "driver_dependency_description_off": "Driver will NOT be able to send and receive offers independently, order chats will be opened only with you. You can enable it anytime. NOTE: Changes will take effect from future orders, active orders will not be effected."
+
 }

@@ -31,6 +31,10 @@ export const Footer = () => {
         title: t("Расчет расстояний"),
         link: `/${locale}/distance-calculation`,
       },
+         {
+        title: t("Журнал изменений"),
+        link: `/${locale}/changelog`,
+      },
     ],
     center: [
       {

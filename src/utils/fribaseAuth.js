@@ -25,7 +25,7 @@ const remoteConfig = getRemoteConfig(app);
 
 
 remoteConfig.settings = {
-  minimumFetchIntervalMillis: 3600000,
+  minimumFetchIntervalMillis: 3600000 * 12 , // 12 hours
 };
 
 

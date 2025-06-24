@@ -629,7 +629,14 @@
     "Ошибка": "Hata",
   "Произошла ошибка при загрузке файла": "Dosya yüklenirken bir hata oluştu",
    "Закрыть": "Kapat",
-   "Подробнее": "Detaylar"
+   "Подробнее": "Detaylar",
+   "Журнал изменений": "Sürüm haberleri",
+    "Независимый водитель": "Bağımsız sürücü",
+   "Зависимый водитель": "Bağımlı sürücü",
+   "driver_dependency_description_on": "Sürücü teklifleri bağımsız olarak gönderebilecek ve alabilecek, sipariş sohbetleri Sizinle ve bu sürücüyle açılacak. Bunu istediğiniz zaman devre dışı bırakabilirsiniz. UNUTMAYIN: Değişiklikler gelecekteki siparişlerden itibaren geçerli olacak, aktif siparişler etkilenmeyecektir.",
+   "driver_dependency_description_off": "Sürücü teklifleri bağımsız olarak gönderip alamayacak, sipariş sohbetleri yalnızca sizinle açılacak. Bunu istediğiniz zaman etkinleştirebilirsiniz. NOT: Değişiklikler gelecekteki siparişlerden geçerli olacak, aktif siparişler etkilenmeyecek."
+
+
 
 
 

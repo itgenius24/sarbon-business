@@ -10,6 +10,7 @@ import {
   useRegisterUserMutation,
   useUpdateUser,
 } from "@/services/api";
+import { useTinLookupMutation, mapTinDataToCompanyData } from "@/services/api/tin/tin.service";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -343,6 +344,39 @@ export const useRegistrationFormProps = () => {
     router.push(`/${locale}/auth/registration`);
   }
 
+  const tinLookupMutation = useTinLookupMutation({
+    onSuccess: (data) => {
+      const mappedData = mapTinDataToCompanyData(data);
+      if (mappedData) {
+        Object.keys(mappedData).forEach(key => {
+          if (mappedData[key]) {
+            setValue(key, mappedData[key]);
+          }
+        });
+        toast({
+          title: t("Данные компании успешно загружены"),
+          status: "success",
+          position: "top right",
+          duration: 3000,
+        });
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: t("Не удалось найти данные по ИНН"),
+        status: "error",
+        position: "top right",
+        duration: 3000,
+      });
+    }
+  });
+
+  const handleTinLookup = (tin) => {
+    if (tin && tin.length >= 9) {
+      tinLookupMutation.mutate(tin);
+    }
+  };
+
   useEffect(() => {
     if (authStore?.authData?.mediaAuth) {
       setValue("email", authStore?.authData?.mediaAuth?.email);
@@ -378,8 +412,9 @@ export const useRegistrationFormProps = () => {
     router,
     login,
     loadin,
-
     open,
     setOpen,
+    handleTinLookup,
+    tinLookupLoading: tinLookupMutation.isPending,
   };
 };
