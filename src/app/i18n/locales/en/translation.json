@@ -622,5 +622,7 @@
   "Ошибка": "Error",
   "Произошла ошибка при загрузке файла": "An error occurred while uploading the file",
   "Закрыть": "Close",
-  "Подробнее": "More info"
+  "Подробнее": "More info",
+   "Журнал изменений": "Changelog"
+
 }

@@ -57,7 +57,7 @@ export default function ChangelogPage({ params }) {
   }
 
   return (
-    <Container mt="50px">
+    <Container mt="30px">
       {isLargerThan768 && <BreadCrumb crumbs={crumbs} />}
 
       <Box

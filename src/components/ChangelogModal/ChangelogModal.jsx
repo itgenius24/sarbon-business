@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import { fetchAndActivate, getValue } from "firebase/remote-config";
 import remoteConfig from "@/utils/fribaseAuth";
-import { Box, Button, Flex, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import authStore from "@/store/auth.store";
 import { useTranslation } from "react-i18next";
-
-const CURRENT_VERSION =  process.env.NEXT_PUBLIC_VERSION;
 
 const ChangelogModal = ({ locale }) => {
   const toast = useToast();
 
   const token = authStore?.token?.access_token;
-  const { isChangelog } = authStore.getAuthData;
+  const { changelog_dismissed_version } = authStore.getAuthData;
   const router = useRouter();
   const { t } = useTranslation(locale, "translations");
 
@@ -22,57 +20,79 @@ const ChangelogModal = ({ locale }) => {
         const data = JSON.parse(
           getValue(remoteConfig, "changelog_web").asString()
         );
-        const shouldShow =
-          data.required || data?.changelog_web[0]?.version === CURRENT_VERSION;
 
-        if (shouldShow && token && isChangelog) {
+        console.log("Changelog data:", data);
+        const changelog = data?.changelog_web?.[0];
+        const shouldShow = changelog?.is_active && changelog?.version;
+
+        if (
+          shouldShow &&
+          changelog_dismissed_version !== changelog?.version &&
+          token
+        ) {
           setTimeout(() => {
             toast({
-              title: data?.changelog_web[0]?.title?.[locale],
-              status: "info",
-              description: (
-                <Box>
-                  {data?.changelog_web[0]?.description?.[locale]}
-                  <Flex
-                    gap={`3px`}
-                    alignItems={`center`}
-                    justifyContent={`center`}
-                  >
-                    <Button
-                      _hover={{
-                        backgroundColor: `transparent`,
-                        textDecoration: `underline`,
-                      }}
-                      onClick={() => toast.closeAll()}
-                      color={"white"}
-                      backgroundColor={`transparent`}
-                    >
-                      {t(`Закрыть`)}
-                    </Button>
-                    <Button
-                      _hover={{
-                        backgroundColor: `transparent`,
-                        textDecoration: `underline`,
-                      }}
-                      backgroundColor={`transparent`}
-                      color={"white"}
-                      onClick={() => router.push(`/${locale}/changelog`)}
-                    >
-                      {t(`Подробнее`)}
-                    </Button>
-                  </Flex>
-                </Box>
-              ),
-              duration: 3000,
+              title: changelog?.title?.[locale],
+
+              duration: 10000,
               position: "top-right",
               isClosable: true,
+              render: () => (
+                <Box
+                  bg="white"
+                  borderRadius="md"
+                  boxShadow="md"
+                  p={4}
+                  color="black"
+                >
+                  <Text fontWeight="bold" mb={2}>
+                    {changelog?.short_title?.[locale]}
+                  </Text>
+                  <Box>
+                    <Text mb={2}>{changelog?.short_description?.[locale]}</Text>
+                    <Flex
+                      gap={`3px`}
+                      alignItems={`center`}
+                      justifyContent={`center`}
+                    >
+                      <Button
+                        border={`1px solid rgba(199, 199, 204, 1)`}
+                        color={"rgb(90, 89, 94)"}
+                        _hover={{
+                          backgroundColor: `transparent`,
+                        }}
+                        onClick={() => toast.closeAll()}
+                        backgroundColor={``}
+                      >
+                        {t(`Закрыть`)}
+                      </Button>
+                      <Button
+                        _hover={{
+                          backgroundColor: `var(--primary)`,
+                        }}
+                        backgroundColor={`var(--primary)`}
+                        color={"rgb(255, 255, 255)"}
+                        onClick={() => {
+                          toast.closeAll();
+                          router.push(`/${locale}/changelog`);
+                        }}
+                      >
+                        {t(`Подробнее`)}
+                      </Button>
+                    </Flex>
+                  </Box>
+                </Box>
+              ),
             });
-            authStore.setAuthData("isChangelog", false);
+            authStore.setAuthData(
+              `changelog_dismissed_version`,
+              changelog?.version
+            );
           }, 4000);
         }
       })
       .catch(console.error);
-  }, [isChangelog]);
+  }, [changelog_dismissed_version]);
 };
 
 export default ChangelogModal;
