@@ -17,12 +17,14 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import useClipboard from "react-use-clipboard";
 import { normalizeName } from "@/utils/normalizeName";
+import { da } from "date-fns/locale";
 
 export const useMyCars = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loadingFront, setLoadingFront] = useState(false);
+  const [check,setCheck]  = useState(false)
 
   const router = useRouter();
 
@@ -79,6 +81,7 @@ export const useMyCars = () => {
             data: {
               ...getValues(),
               create_time: new Date(),
+              is_independent: check || false,
               login: getValues().full_name,
               drivers_license:
                 getValues()?.drivers_license?.length > 0
@@ -132,6 +135,8 @@ export const useMyCars = () => {
         ...getUserGps?.data?.response[0],
         password: "",
       });
+        setCheck(getUserGps?.data?.response[0]?.is_independent || false)
+
     }
   }, [getUserGps?.data?.response]);
 
@@ -149,6 +154,7 @@ export const useMyCars = () => {
           photo: val?.photo,
           login: val?.phone,
           guid: getUserGps?.data?.response[0]?.guid,
+          is_independent:  check || false,
           role_id: "921464fa-8308-46b7-9b66-363acf654e40",
           client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
         },
@@ -197,7 +203,6 @@ export const useMyCars = () => {
   });
 
   const uploadAi = (link, type) => {
-
     uploadAiData({
       data: {
         object_data: {
@@ -234,5 +239,6 @@ export const useMyCars = () => {
     loadingFront,
     setLoadingFront,
     uploadAi,
+    check,setCheck
   };
 };

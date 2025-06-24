@@ -356,7 +356,7 @@ export const useMyCarsDispatcher = () => {
       ),
     },
     {
-      title: t(`Владелец машины`),
+      title: t(`Перевозчик`),
       width: 200,
       render: (row, index) => {
         return row?.firm_data ? (

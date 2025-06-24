@@ -22,6 +22,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Switch,
   useMediaQuery,
 } from "@chakra-ui/react";
 
@@ -39,6 +40,7 @@ import {
 import { useState } from "react";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { UploadImg } from "@/components/UploadImg";
+import { Checkbox } from "@/components/Checkbox";
 
 export const DriversModule = ({ locale }) => {
   const { t } = useTranslation(locale);
@@ -61,6 +63,8 @@ export const DriversModule = ({ locale }) => {
     loadingFront,
     setLoadingFront,
     uploadAi,
+    check,
+    setCheck,
   } = useMyCars();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -108,7 +112,7 @@ export const DriversModule = ({ locale }) => {
                 register={register}
                 errors={errors}
                 name="full_name"
-                  rules={{
+                rules={{
                   required: {
                     value: true,
                     message: t("Это поле обязательно"),
@@ -130,6 +134,33 @@ export const DriversModule = ({ locale }) => {
                   },
                 }}
               />
+            </Box>
+            <Box mt={isLargerThan845 ? `10px` : 0} ml={`2px`}>
+              <Flex alignItems={"center"} gap={3}>
+                <Switch
+                  isChecked={check}
+                  onChange={(e) => setCheck(e.target.checked)}
+                  size={"md"}
+                  sx={{
+                    "& .chakra-switch__track": {
+                      backgroundColor: "rgba(230, 224, 233, 1) !important",
+                    },
+                    "&[data-checked] .chakra-switch__track": {
+                      backgroundColor: "#007aff !important",
+                    },
+                    "& .chakra-switch__thumb": {
+                      background: "rgba(121, 116, 126, 1) !important",
+                    },
+                    "&[data-checked] .chakra-switch__thumb": {
+                      background: "rgb(255, 255, 255) !important",
+                    },
+                  }}
+                />
+                <p>
+                  {check ? t(`Независимый водитель`) : t(`Зависимый водитель`)}
+                </p>
+              </Flex>
+              <p className={cls.driver_dependency_description}>{ check ? t(`driver_dependency_description_on`) : t(`driver_dependency_description_off`)}</p>
             </Box>
             {/* {!id && (
               <Box>

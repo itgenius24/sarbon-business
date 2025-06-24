@@ -60,6 +60,9 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
             <Box>
               <p className={cls.title}>{item?.full_name}</p>
               <p className={cls.phone}>{item?.phone}</p>
+                 <p className={cls.subTitle}>
+                {item?.is_independent ?  t(`Независимый водитель`) : t(`Зависимый водитель`)}
+              </p>
             </Box>
           </Flex>
         </Flex>

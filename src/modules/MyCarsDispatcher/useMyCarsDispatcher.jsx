@@ -183,7 +183,6 @@ export const useMyCarsDispatcher = () => {
     },
   });
 
-
   const nameFilter = (val) => {
     if (val !== `all`) {
       const sortedData = data?.sort((a, b) =>
@@ -331,7 +330,8 @@ export const useMyCarsDispatcher = () => {
       ),
     },
     {
-      title: t(`Владелец машины`),
+      title: t(`Перевозчик`),
+
       width: 200,
       render: (row, index) => {
         return row?.firm_data ? (
@@ -496,7 +496,10 @@ export const useMyCarsDispatcher = () => {
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
                             {row?.gps_data?.update_time &&
-                              format(row?.gps_data?.update_time, `dd.MM.yyyy hh:mm`)}
+                              format(
+                                row?.gps_data?.update_time,
+                                `dd.MM.yyyy hh:mm`
+                              )}
                           </span>{" "}
                         </p>
                       </Box>

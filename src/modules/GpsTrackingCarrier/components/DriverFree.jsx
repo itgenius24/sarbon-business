@@ -336,6 +336,14 @@ const DriverFree = ({
           </Flex>
         </Box>
 
+        <Button
+
+            size={`lg`}
+            className={cls.outline}
+          >
+            {currentUserLocationData?.is_independent? t(`Независимый водитель`) : t(`Зависимый водитель`)}
+          </Button>
+
         {currentUserLocationData?.user?.provisions?.[0] === `broke_down` ? (
           <Button
             onClick={() => {
