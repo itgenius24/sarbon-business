@@ -24,7 +24,7 @@ export const InModerationPage = ({ orderStatus, t, locale }) => {
       <Box>
         {cargoData?.length > 0 && (
           <SarbonTable
-            width="1544px"
+            width="100%"
             variant="card"
             columns={columns}
             data={cargoData}

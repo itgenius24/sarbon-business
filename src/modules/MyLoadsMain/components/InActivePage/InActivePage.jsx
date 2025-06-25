@@ -15,7 +15,7 @@ export const InActivePage = ({ orderStatus, t,locale }) => {
 
       <Box>
        <SarbonTable
-          width="1544px"
+          width="100%"
           variant="card"
           columns={columns}
           data={cargoData}

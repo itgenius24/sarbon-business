@@ -300,9 +300,9 @@ const usePerfomedPageProps = (orderStatus, t, locale) => {
       title: t("Водитель"),
       width: 150,
       render: (row, index) => (
-        <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
+        <Flex onClick={(e) => e.stopPropagation()} className={cls.cardItem} gap={`7px`} alignItems={`center`}>
           <Box>
-            <p style={{textAlign:`center`}} className={cls.title}>{row?.users_id_data?.full_name} </p>
+            <p  style={{textAlign:`center`}} className={cls.title}>{row?.users_id_data?.full_name} </p>
             <a
               style={{
                 borderBottom: `1px dashed black`,

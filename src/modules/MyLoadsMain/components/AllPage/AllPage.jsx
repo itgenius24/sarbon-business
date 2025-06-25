@@ -21,7 +21,7 @@ export const AllPage = ({
     <>
       <Box>
         <SarbonTable
-          width="1544px"
+          width="100%"
           variant="card"
           columns={columns}
           data={cargoData}

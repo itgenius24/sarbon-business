@@ -370,9 +370,11 @@ const useProps = (orderStatus, t, locale, setOpen) => {
         ),
     },
     {
-        title: role_id === `48871d27-7361-4f69-8fe4-b54daf270739` ? t("Оставить") : `` ,
-        width:   role_id === `48871d27-7361-4f69-8fe4-b54daf270739` ? 130 : 0,
-        render: (row, index) => role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
+      title:
+        role_id === `48871d27-7361-4f69-8fe4-b54daf270739` ? t("Оставить") : ``,
+      width: role_id === `48871d27-7361-4f69-8fe4-b54daf270739` ? 130 : 0,
+      render: (row, index) =>
+        role_id === `48871d27-7361-4f69-8fe4-b54daf270739` && (
           <Flex
             className={cls.cardItem}
             width={`100%`}
@@ -389,9 +391,8 @@ const useProps = (orderStatus, t, locale, setOpen) => {
             </Button>
           </Flex>
         ),
-      }
+    },
   ];
-
 
   return {
     cargoData: data,

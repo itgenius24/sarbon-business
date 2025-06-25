@@ -6,7 +6,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import useProps from "./useProps";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
-export const ArchivePage = ({ orderStatus, t, setOpen, locale,  isProfile}) => {
+export const ArchivePage = ({ orderStatus, t, setOpen, locale, isProfile }) => {
   const { cargoData, isLoading, isFetching, addPage, columns } = useProps(
     orderStatus,
     t,
@@ -16,19 +16,17 @@ export const ArchivePage = ({ orderStatus, t, setOpen, locale,  isProfile}) => {
 
   return (
     <>
-  
-
-      <Box>  
-      
+      <Box>
         {cargoData?.length > 0 && !isProfile && (
-        <SarbonTable
-          width="1544px"
-          variant="card"
-          columns={columns}
-          data={cargoData}
-        />
-      )}
-        {cargoData?.length > 0 && isProfile &&
+          <SarbonTable
+            width="100%"
+            variant="card"
+            columns={columns}
+            data={cargoData}
+          />
+        )}
+        {cargoData?.length > 0 &&
+          isProfile &&
           cargoData?.map((item, index) => (
             <Performed
               setOpen={setOpen}
