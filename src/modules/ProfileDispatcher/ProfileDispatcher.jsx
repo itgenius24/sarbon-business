@@ -151,27 +151,27 @@ const ProfileDispatcher = ({ locale }) => {
             ))}
           </TabList>
 
-          <TabPanels minHeight={`600px`} width={`70%`}>
+          <TabPanels minHeight={`600px`} width={`70%`} >
             <TabPanel padding={0}>
-              <NewPage t={t} orderStatus={`no_dispatcher`} />
+              <NewPage isProfile={true} t={t} orderStatus={`no_dispatcher`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <NewPage t={t} orderStatus={`new`} />
+              <NewPage isProfile={true} t={t} orderStatus={`new`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
+              <ApproveFromDriver isProfile={true}  t={t} orderStatus={`approve_from_driver`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <PerfomedPage t={t} orderStatus={`performed`} />
+              <PerfomedPage isProfile={true} t={t} orderStatus={`performed`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <CancellationPage t={t} orderStatus={`cancellation`} />
+              <CancellationPage t={t} isProfile={true}  orderStatus={`cancellation`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <ArchivePage t={t} orderStatus={`archive`} />
+              <ArchivePage isProfile={true} t={t} orderStatus={`archive`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <DriversDispachers />
+              <DriversDispachers isProfile={true} />
             </TabPanel>
           </TabPanels>
         </Flex>

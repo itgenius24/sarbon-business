@@ -20,8 +20,9 @@ import { Empty } from "../Empty";
 import usePerfomedPageProps from "./usePerfomedPageProps";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
-export const PerfomedPage = ({ orderStatus, t }) => {
+export const PerfomedPage = ({ orderStatus, t, locale, isProfile = false }) => {
   const {
     cargoData,
     isLoading,
@@ -37,12 +38,27 @@ export const PerfomedPage = ({ orderStatus, t }) => {
     reason,
     setDataPred,
     error,
-  } = usePerfomedPageProps(orderStatus, t);
+    columns,
+    onRow,
+  } = usePerfomedPageProps(orderStatus, t, locale);
 
   return (
     <>
-      <Box>
-        {cargoData?.length > 0 &&
+      <Box
+        width={isProfile ? `1130px` : `100%`}
+        overflow={isProfile ? `hidden` : `none`}
+        overflowX={isProfile ? `scroll` : `none`}
+      >
+        {!isProfile && cargoData?.length > 0 && (
+          <SarbonTable
+            width="100%"
+            variant="card"
+            columns={columns}
+            data={cargoData}
+            onRow={onRow}
+          />
+        )}
+        {cargoData?.length > 0 && isProfile  &&
           cargoData?.map((item, index) => (
             <Performed
               orderStatus={orderStatus}

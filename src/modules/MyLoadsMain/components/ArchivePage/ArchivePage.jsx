@@ -4,19 +4,31 @@ import { Performed } from "../Performed";
 import { Empty } from "../Empty";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import useProps from "./useProps";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
-export const ArchivePage = ({ orderStatus, t, setOpen }) => {
-  const { cargoData, isLoading, isFetching, addPage } = useProps(
+export const ArchivePage = ({ orderStatus, t, setOpen, locale,  isProfile}) => {
+  const { cargoData, isLoading, isFetching, addPage, columns } = useProps(
     orderStatus,
-    t
+    t,
+    locale,
+    setOpen
   );
 
   return (
     <>
-      {cargoData?.length === 0 && isFetching && <LoadingSpinner />}
+  
 
-      <Box>
-        {cargoData?.length > 0 &&
+      <Box>  
+      
+        {cargoData?.length > 0 && !isProfile && (
+        <SarbonTable
+          width="1544px"
+          variant="card"
+          columns={columns}
+          data={cargoData}
+        />
+      )}
+        {cargoData?.length > 0 && isProfile &&
           cargoData?.map((item, index) => (
             <Performed
               setOpen={setOpen}
@@ -26,8 +38,9 @@ export const ArchivePage = ({ orderStatus, t, setOpen }) => {
             />
           ))}
       </Box>
-      {cargoData?.length === 0 && !isFetching && <Empty t={t} />}
+      {cargoData?.length === 0 && isFetching && <LoadingSpinner />}
 
+      {cargoData?.length === 0 && !isFetching && <Empty t={t} />}
 
       {cargoData?.length >= 40 && (
         <Box mt={`15px`} width={`fit-content`}>

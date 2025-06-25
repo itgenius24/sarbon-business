@@ -126,6 +126,8 @@ export const useMyLoadsMainProps = (locale) => {
   }, []);
 
   const handleCheckboxChange = (key) => {
+  console.log("comments", key);
+
     setComments(
       (prev) =>
         prev.includes(key)

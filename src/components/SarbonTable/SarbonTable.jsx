@@ -35,6 +35,7 @@ const SarbonTable = ({
       height={`100%`}
       {...props}
       width={width}
+      maxWidth={`1920px`}
       pb={`10px`}
       overflowX={isSticky ? `none` : `auto`}
     >

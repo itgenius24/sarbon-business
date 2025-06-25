@@ -7,8 +7,9 @@ import { Empty } from "../Empty";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import useProps from "./useProps";
 import { Popup } from "@/components/Popup";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
-export const CancellationPage = ({ orderStatus, t }) => {
+export const CancellationPage = ({ orderStatus, t, locale,isProfile }) => {
   const {
     cargoData,
     isLoading,
@@ -17,16 +18,23 @@ export const CancellationPage = ({ orderStatus, t }) => {
     isDeletePopupOpen,
     setIsDeletePopupOpen,
     onDeleteAccept,
-  } = useProps(orderStatus, t);
-
-  if (isLoading && cargoData?.length < 0) {
-    return <LoadingSpinner />;
-  }
+    columns
+  } = useProps(orderStatus, t, locale);
 
   return (
     <>
       <Box>
-        {cargoData?.length > 0 ? (
+        {cargoData?.length > 0 && !isProfile && (
+          <SarbonTable
+            width="100%"
+            variant="card"
+            columns={columns}
+            data={cargoData}
+          />
+        )}
+
+        {cargoData?.length > 0 &&
+          isProfile &&
           cargoData?.map((item, index) => (
             <Performed
               orderStatus={orderStatus}
@@ -35,10 +43,11 @@ export const CancellationPage = ({ orderStatus, t }) => {
               setIsDeletePopupOpen={setIsDeletePopupOpen}
               isDeletePopupOpen={isDeletePopupOpen}
             />
-          ))
-        ) : (
-          <Empty t={t} />
-        )}
+          ))}
+
+        {cargoData?.length === 0 && !isLoading && <Empty t={t} />}
+
+        {cargoData?.length === 0 && isLoading && <LoadingSpinner />}
       </Box>
       {cargoData?.length >= 40 && (
         <Box mt={`15px`} width={`fit-content`}>

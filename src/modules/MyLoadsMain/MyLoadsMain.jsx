@@ -100,9 +100,11 @@ export const MyLoadsMain = ({ locale }) => {
 
   const role_id = authStore.userData.role_id;
 
+  console.log("comments", comments);
+
   return (
     <Box px={"20px"} py="24px">
-      <Container maxW={`1444px`}>
+      <Container maxW={`1544px`}>
         {guid && (
           <Button
             leftIcon={<NavigationBtnLeftIcon />}
@@ -244,6 +246,7 @@ export const MyLoadsMain = ({ locale }) => {
                   orderStatus={`no_dispatcher`}
                   setNotificationId={setNotificationId}
                   notificationID={notificationID}
+                  locale={locale}
                 />
               </TabPanel>
               <TabPanel padding={0}>
@@ -254,17 +257,21 @@ export const MyLoadsMain = ({ locale }) => {
                   t={t}
                   orderStatus={`new`}
                   notificationID={notificationID}
-
+                  locale={locale}
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <ApproveFromDriver t={t} orderStatus={`approve_from_driver`} />
+                <ApproveFromDriver
+                  locale={locale}
+                  t={t}
+                  orderStatus={`approve_from_driver`}
+                />
               </TabPanel>
               <TabPanel padding={0}>
-                <PerfomedPage t={t} orderStatus={`performed`} />
+                <PerfomedPage t={t} orderStatus={`performed`} locale={locale} />
               </TabPanel>
               <TabPanel padding={0}>
-                <CancellationPage t={t} orderStatus={`cancellation`} />
+                <CancellationPage locale={locale} t={t} orderStatus={`cancellation`} />
               </TabPanel>
               <TabPanel padding={0}>
                 <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
@@ -274,6 +281,7 @@ export const MyLoadsMain = ({ locale }) => {
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <AllPage
+                  locale={locale}
                   address={address}
                   search={watch(`from`)}
                   t={t}
@@ -283,22 +291,32 @@ export const MyLoadsMain = ({ locale }) => {
               <TabPanel padding={0}>
                 <ActivePage
                   t={t}
-                       address={address}
+                  address={address}
                   search={watch(`from`)}
                   orderStatus={`active`}
+                  locale={locale}
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <InModerationPage t={t} orderStatus={`in_moderation`} />
+                <InModerationPage
+                  locale={locale}
+                  t={t}
+                  orderStatus={`in_moderation`}
+                />
               </TabPanel>
               <TabPanel padding={0}>
-                <PerfomedPage t={t} orderStatus={`performed`} />
+                <PerfomedPage t={t} orderStatus={`performed`} locale={locale} />
               </TabPanel>
               <TabPanel padding={0}>
-                <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
+                <ArchivePage
+                  setOpen={setOpen}
+                  t={t}
+                  orderStatus={`archive`}
+                  locale={locale}
+                />
               </TabPanel>
               <TabPanel padding={0}>
-                <InActivePage t={t} orderStatus={`in_active`} />
+                <InActivePage t={t} orderStatus={`in_active`} locale={locale} />
               </TabPanel>
             </TabPanels>
           )}
@@ -342,6 +360,7 @@ export const MyLoadsMain = ({ locale }) => {
                         defaultChecked={comments.includes(item.key)}
                         onChange={() => handleCheckboxChange(item.key)}
                         key={item.key}
+                        isForm={false}
                       >
                         {item.label}
                       </CheckboxComment>
@@ -356,6 +375,7 @@ export const MyLoadsMain = ({ locale }) => {
                         defaultChecked={comments.includes(item.key)}
                         onChange={() => handleCheckboxChange(item.key)}
                         key={item.key}
+                        isForm={false}
                       >
                         {item.label}
                       </CheckboxComment>
