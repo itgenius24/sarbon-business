@@ -22,6 +22,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 
 import cls from "./style.module.scss";
+import PopoverUserName from "@/components/PopoverUserName/PopoverUserName";
 
 const usePerfomedPageProps = (orderStatus, t, locale) => {
   const toast = useToast();
@@ -84,13 +85,12 @@ const usePerfomedPageProps = (orderStatus, t, locale) => {
     in_active: t("неактивен"),
   };
 
-   const obj = {
-      after_payment: t(`Оплата после завершения`),
-      prepayment: t(`Предоплата`),
-      bank: t(`Банковский перевод`),
-      cash: t(`Наличные`),
-    };
-
+  const obj = {
+    after_payment: t(`Оплата после завершения`),
+    prepayment: t(`Предоплата`),
+    bank: t(`Банковский перевод`),
+    cash: t(`Наличные`),
+  };
 
   const addPage = () => {
     setLimit((prev) => prev + 40);
@@ -201,7 +201,9 @@ const usePerfomedPageProps = (orderStatus, t, locale) => {
             </p>
           </Box>
 
-          <Flex>
+          <Flex
+     
+          >
             <p className={cls.title}>
               {row?.cargo_id_data?.from ? (
                 row?.cargo_id_data?.from?.length > 20 ? (
@@ -300,9 +302,26 @@ const usePerfomedPageProps = (orderStatus, t, locale) => {
       title: t("Водитель"),
       width: 150,
       render: (row, index) => (
-        <Flex onClick={(e) => e.stopPropagation()} className={cls.cardItem} gap={`7px`} alignItems={`center`}>
+        <Flex
+          onClick={(e) => e.stopPropagation()}
+          className={cls.cardItem}
+          gap={`7px`}
+          alignItems={`center`}
+        >
           <Box>
-            <p  style={{textAlign:`center`}} className={cls.title}>{row?.users_id_data?.full_name} </p>
+            <PopoverUserName
+            locale={locale}
+              style={{
+                fontSize: `13px`,
+                padding: 0,
+                color: `rgba(33, 31, 38, 1)`,
+                lineHeight: `16px`,
+                background: `red`,
+              }}
+              user_name={row?.users_id_data?.full_name}
+              user_id={row?.users_id_data?.guid}
+            />
+            {/* <p  style={{textAlign:`center`}} className={cls.title}>{row?.users_id_data?.full_name} </p> */}
             <a
               style={{
                 borderBottom: `1px dashed black`,
@@ -431,15 +450,14 @@ const usePerfomedPageProps = (orderStatus, t, locale) => {
       width: 160,
       render: (row, index) => (
         <Box>
-        
           {row?.performed_time && (
             <Box>
-              <p  style={{textAlign:`center`}} className={cls.subTitle}>
+              <p style={{ textAlign: `center` }} className={cls.subTitle}>
                 {format(row?.performed_time, ` dd.MM.yyyy HH:mm`)}
               </p>
             </Box>
           )}
-            <p style={{textAlign:`center`}} className={cls.title}>
+          <p style={{ textAlign: `center` }} className={cls.title}>
             {
               performedStatuses[
                 row?.indicate_status?.[0]
