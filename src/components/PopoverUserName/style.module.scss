@@ -1,0 +1,12 @@
+.title {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0%;
+  text-decoration-thickness: 0%;
+  color: rgba(0, 122, 255, 1);
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+}
