@@ -95,7 +95,7 @@ export const MainLayout = ({ locale, children }) => {
         token && (
           <Box className={cls.chatIcon}>
             <IconButton
-              onClick={() => router.push(`/${locale}/chat`)}
+              onClick={() => window.location.replace(`/${locale}/chat`)}
               className={cls.iconButton}
               icon={<ChatHeaderIcon color={`white`} />}
             />
