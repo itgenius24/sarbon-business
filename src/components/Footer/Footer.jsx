@@ -305,6 +305,7 @@ export const Footer = () => {
                 </svg>
               </a>
             </li> */}
+            
             {/* <li className={cls.socialItem}>
               <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
