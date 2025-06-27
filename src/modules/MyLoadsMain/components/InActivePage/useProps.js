@@ -96,7 +96,7 @@ const useProps = (orderStatus, t,locale) => {
                 <span className={cls.subTitle}>
                   {row?.as_soon_as_a
                     ? t("Готов к загрузке")
-                    : row?.load_time && format(row?.load_time, `yyyy-MM-dd`)}
+                    : row?.load_time && format(row?.load_time, `dd.MM.yyyy`)}
                 </span>
               </p>
               {/* <div
@@ -155,7 +155,7 @@ const useProps = (orderStatus, t,locale) => {
                 <span className={cls.subTitle}>
                   {row?.as_soon_as_b
                     ? t("Как можно скорее")
-                    : row?.date && format(row?.date, `yyyy-MM-dd`)}
+                    : row?.date && format(row?.date, `dd.MM.yyyy`)}
                 </span>
               </p>
               {/* <div

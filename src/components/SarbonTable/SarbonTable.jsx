@@ -37,8 +37,8 @@ const SarbonTable = ({
       width={width}
       maxWidth={`1920px`}
       pb={`10px`}
-      overflow={`hidden`}
-      overflowX={isSticky ? `none` : `auto`}
+      // overflow={`hidden`}
+      // overflowX={isSticky ? `none` : `auto`}
     >
       <Box
         position={isSticky ? `sticky` : `relative`}

@@ -96,6 +96,7 @@ export const MyLoadsMain = ({ locale }) => {
     notificationID,
     refetchWaitingDriverCount,
     orderStatus,
+    handleClear
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
@@ -323,11 +324,11 @@ export const MyLoadsMain = ({ locale }) => {
         </Tabs>
       </Container>
 
-      <Modal size={`xl`} isOpen={open} onClose={() => setOpen(null)}>
-        <ModalOverlay />
+      <Modal size={`xl`} isOpen={open} onClose={() => handleClear()}>
+        <ModalOverlay onClose={() => handleClear()} />
         <ModalContent>
           <ModalHeader>Оцените водителя</ModalHeader>
-          <ModalCloseButton onClose={() => setOpen(null)} />
+          <ModalCloseButton onClose={() => handleClear()} />
           <ModalBody>
             <Box width={`100%`} display={`flex`} justifyContent={`center`}>
               <Flex gap={`24px`} alignItems={`center`}>

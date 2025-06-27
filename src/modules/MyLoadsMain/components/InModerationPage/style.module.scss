@@ -94,3 +94,11 @@
   }
   // }
 }
+
+.moderation{
+  color: rgba(193, 187, 32, 1);
+  &:hover{
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

@@ -154,7 +154,7 @@ const useProps = (orderStatus, t, locale) => {
                 {row?.cargo_id_data?.as_soon_as_a
                   ? t("Готов к загрузке")
                   : row?.cargo_id_data?.load_time &&
-                    format(row?.cargo_id_data?.load_time, `yyyy-MM-dd`)}
+                    format(row?.cargo_id_data?.load_time, `dd.MM.yyyy`)}
               </span>
             </p>
             {/* <div
@@ -216,7 +216,7 @@ const useProps = (orderStatus, t, locale) => {
                 {row?.cargo_id_data?.as_soon_as_b
                   ? t("Как можно скорее")
                   : row?.cargo_id_data?.date &&
-                    format(row?.cargo_id_data?.date, `yyyy-MM-dd`)}
+                    format(row?.cargo_id_data?.date, `dd.MM.yyyy`)}
               </span>
             </p>
           </Flex>

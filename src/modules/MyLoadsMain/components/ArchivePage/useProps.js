@@ -105,7 +105,7 @@ const useProps = (orderStatus, t, locale, setOpen) => {
                 {row?.cargo_id_data?.as_soon_as_a
                   ? t("Готов к загрузке")
                   : row?.cargo_id_data?.load_time &&
-                    format(row?.cargo_id_data?.load_time, `yyyy-MM-dd`)}
+                    format(row?.cargo_id_data?.load_time, `dd.MM.yyyy`)}
               </span>
             </p>
             {/* <div
@@ -167,7 +167,7 @@ const useProps = (orderStatus, t, locale, setOpen) => {
                 {row?.cargo_id_data?.as_soon_as_b
                   ? t("Как можно скорее")
                   : row?.cargo_id_data?.date &&
-                    format(row?.cargo_id_data?.date, `yyyy-MM-dd`)}
+                    format(row?.cargo_id_data?.date, `dd.MM.yyyy`)}
               </span>
             </p>
             {/* <div
@@ -184,39 +184,39 @@ const useProps = (orderStatus, t, locale, setOpen) => {
       ),
     },
 
-        {
-          title: t("Водитель"),
-          width: 130,
-          render: (row, index) => (
-            <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
-              <Box>
-               <PopoverUserName
-                  style={{
-                    fontSize: `13px`,
-                    padding: 0,
-                    color: `rgba(33, 31, 38, 1)`,
-                    lineHeight: `16px`,
-                    background: `red`,
-                  }}
-                  user_name={row?.users_id_data?.full_name}
-                  user_id={row?.users_id_data?.guid}
-                  locale={locale}
-                />
-               
-                <a
-                  style={{
-                    borderBottom: `1px dashed black`,
-                  }}
-                  className={cls.subTitle}
-                  target="_blank"
-                  href={`https://t.me/${row?.users_id_data?.phone}`}
-                >
-                  {row?.users_id_data?.phone}{" "}
-                </a>
-              </Box>
-            </Flex>
-          ),
-        },
+    {
+      title: t("Водитель"),
+      width: 130,
+      render: (row, index) => (
+        <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
+          <Box>
+            <PopoverUserName
+              style={{
+                fontSize: `13px`,
+                padding: 0,
+                color: `rgba(33, 31, 38, 1)`,
+                lineHeight: `16px`,
+                background: `red`,
+              }}
+              user_name={row?.users_id_data?.full_name}
+              user_id={row?.users_id_data?.guid}
+              locale={locale}
+            />
+
+            <a
+              style={{
+                borderBottom: `1px dashed black`,
+              }}
+              className={cls.subTitle}
+              target="_blank"
+              href={`https://t.me/${row?.users_id_data?.phone}`}
+            >
+              {row?.users_id_data?.phone}{" "}
+            </a>
+          </Box>
+        </Flex>
+      ),
+    },
 
     {
       title: t("Груз"),

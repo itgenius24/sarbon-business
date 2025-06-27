@@ -42,6 +42,10 @@ export const PerfomedPage = ({ orderStatus, t, locale, isProfile = false }) => {
     onRow,
   } = usePerfomedPageProps(orderStatus, t, locale);
 
+   const rowClassName = () => {
+      return cls.cursor
+    }
+
   return (
     <>
       <Box
@@ -56,6 +60,7 @@ export const PerfomedPage = ({ orderStatus, t, locale, isProfile = false }) => {
             columns={columns}
             data={cargoData}
             onRow={onRow}
+            rowClassName={rowClassName}
           />
         )}
         {cargoData?.length > 0 && isProfile  &&

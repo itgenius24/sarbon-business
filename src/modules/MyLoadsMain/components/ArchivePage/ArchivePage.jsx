@@ -5,7 +5,6 @@ import { Empty } from "../Empty";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import useProps from "./useProps";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
-
 export const ArchivePage = ({ orderStatus, t, setOpen, locale, isProfile }) => {
   const { cargoData, isLoading, isFetching, addPage, columns } = useProps(
     orderStatus,
@@ -13,6 +12,7 @@ export const ArchivePage = ({ orderStatus, t, setOpen, locale, isProfile }) => {
     locale,
     setOpen
   );
+
 
   return (
     <>
@@ -23,6 +23,7 @@ export const ArchivePage = ({ orderStatus, t, setOpen, locale, isProfile }) => {
             variant="card"
             columns={columns}
             data={cargoData}
+           
           />
         )}
         {cargoData?.length > 0 &&

@@ -16,7 +16,6 @@ export const InModerationPage = ({ orderStatus, t, locale }) => {
     isFetching,
     handleDelete,
     columns,
-    onRow,
   } = useProps(orderStatus, t, locale);
 
   return (
@@ -28,7 +27,7 @@ export const InModerationPage = ({ orderStatus, t, locale }) => {
             variant="card"
             columns={columns}
             data={cargoData}
-            onRow={onRow}
+        
           />
         )}
 

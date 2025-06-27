@@ -179,18 +179,9 @@ const useProps = (orderStatus, t, search, address, locale) => {
               <span className={cls.subTitle}>
                 {row?.as_soon_as_a
                   ? t("Готов к загрузке")
-                  : row?.load_time && format(row?.load_time, `yyyy-MM-dd`)}
+                  : row?.load_time && format(row?.load_time, `dd.MM.yyyy`)}
               </span>
             </p>
-            {/* <div
-              onClick={(e) => {
-                e.stopPropagation();
-                // copyFn(row?.from);
-              }}
-              className={cls.copy}
-            >
-              <CopyIconAdress />
-            </div> */}
           </Flex>
         </Flex>
       ),
@@ -238,18 +229,10 @@ const useProps = (orderStatus, t, search, address, locale) => {
               <span className={cls.subTitle}>
                 {row?.as_soon_as_b
                   ? t("Как можно скорее")
-                  : row?.date && format(row?.date, `yyyy-MM-dd`)}
+                  : row?.date && format(row?.date, `dd.MM.yyyy`)}
               </span>
             </p>
-            {/* <div
-              onClick={(e) => {
-                e.stopPropagation();
-                // copyFn(row?.to);
-              }}
-              className={cls.copy}
-            >
-              <CopyIconAdress />
-            </div> */}
+
           </Flex>
         </Flex>
       ),
@@ -329,12 +312,21 @@ const useProps = (orderStatus, t, search, address, locale) => {
       width: 170,
       render: (row, index) => {
         return (
-          <Box  onClick={(e) => e.stopPropagation()}>
+          <Box onClick={(e) => e.stopPropagation()}>
             {row?.order_status?.[0] === `active` ||
             row?.order_status?.[0] === `in_active` ? (
-              <SelectStatus  refetch={getAllUserCargo.refetch} row={row} t={t} />
+              <SelectStatus refetch={getAllUserCargo.refetch} row={row} t={t} />
             ) : (
-              <p>{statusText[row?.order_status?.[0]]}</p>
+              <p
+                onClick={(e) => onRouteClick(e, row)}
+                className={
+                  row?.order_status?.[0] === `in_moderation`
+                    ? cls.moderation
+                    : ``
+                }
+              >
+                {statusText[row?.order_status?.[0]]}
+              </p>
             )}
           </Box>
         );
@@ -346,13 +338,12 @@ const useProps = (orderStatus, t, search, address, locale) => {
       render: (row, index) =>
         row?.updated_time ? (
           <p className={cls.time}>
-            {format(row?.updated_time, ` dd.MM.yyyy, HH:mm`)}
+            {format(row?.updated_time, `dd.MM.yyyy, HH:mm`)}
           </p>
         ) : (
-             <p className={cls.time}>
-            { format(row?.create_time, ` dd.MM.yyyy, HH:mm`)}
+          <p className={cls.time}>
+            {format(row?.create_time, `dd.MM.yyyy, HH:mm`)}
           </p>
-          
         ),
     },
 
@@ -365,14 +356,19 @@ const useProps = (orderStatus, t, search, address, locale) => {
     },
   ];
 
-   const onRow = (item) => {
+  const onRouteClick = (e, row) => {
+    e.stopPropagation();
+    router.push(`/${locale}/my-loads/in_moderation/${row?.guid}`);
+  };
+
+  const onRow = (item) => {
     if (
       item?.order_status?.[0] === `active` ||
       item?.order_status?.[0] === `in_active`
     ) {
       router.push(`/${locale}/my-loads/${orderStatus}/${item?.guid}`);
     } else {
-      return
+      return;
     }
   };
 
@@ -383,7 +379,7 @@ const useProps = (orderStatus, t, search, address, locale) => {
     addPage,
     handleDelete,
     columns,
-    onRow
+    onRow,
   };
 };
 
