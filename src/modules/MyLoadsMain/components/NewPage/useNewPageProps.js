@@ -23,6 +23,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import cls from "./style.module.scss";
 import { LoadOulineIcon, StoneIcon } from "@/assets/icons/icons";
+import PopoverUserName from "@/components/PopoverUserName/PopoverUserName";
 
 const useNewPageProps = ({
   orderStatus,
@@ -570,9 +571,19 @@ const useNewPageProps = ({
       render: (row, index) => (
         <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
           <Box>
-            <p style={{ textAlign: `center` }} className={cls.title}>
-              {row?.users_id_data?.full_name}{" "}
-            </p>
+            <PopoverUserName
+              style={{
+                fontSize: `13px`,
+                padding: 0,
+                color: `rgba(33, 31, 38, 1)`,
+                lineHeight: `16px`,
+                background: `red`,
+              }}
+              user_name={row?.users_id_data?.full_name}
+              user_id={row?.users_id_data?.guid}
+              locale={locale}
+            />
+           
             <a
               style={{
                 borderBottom: `1px dashed black`,

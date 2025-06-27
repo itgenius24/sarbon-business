@@ -360,7 +360,7 @@ export const useMyCarsDispatcher = () => {
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar size="sm" src={row?.photo} name={row?.full_name} />
           <Box>
-            <p className={cls.title}>{row?.full_name}</p>
+              <p className={cls.title}>{row?.full_name}</p>
             <a
               target="_blank"
               href={`https://t.me/${row?.phone}`}

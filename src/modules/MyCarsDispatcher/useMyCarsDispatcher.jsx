@@ -52,6 +52,7 @@ import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import PopoverUserName from "@/components/PopoverUserName/PopoverUserName";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
@@ -303,7 +304,7 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex
-          onClick={() => pushRouter(row)}
+          // onClick={() => pushRouter(row)}
           cursor={`pointer`}
           width={`fit-content`}
           alignItems={`center`}
@@ -326,7 +327,19 @@ export const useMyCarsDispatcher = () => {
           </Box>
 
           <Box>
-            <p className={cls.title}>{row?.full_name}</p>
+             <PopoverUserName
+                  style={{
+                    fontSize: `14px`,
+                    padding: 0,
+                    color: `rgba(33, 31, 38, 1)`,
+                    background: `red`,
+                     fontWeight:600
+                  }}
+                  user_name={row?.full_name}
+                  user_id={row?.guid}
+                  locale={locale}
+                />
+            {/* <p className={cls.title}>{row?.full_name}</p> */}
             <a
               onClick={(e) => e.stopPropagation()}
               target="_blank"

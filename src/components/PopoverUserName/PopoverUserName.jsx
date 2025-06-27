@@ -61,12 +61,12 @@ const PopoverUserName = ({ user_id, user_name, style = {}, locale }) => {
                   flexDirection={`column`}
                   rowGap={`5px`}
                 >
-                  <p onClick={handleChat} className={cls.title}>
+                  <Button disabled onClick={handleChat} className={cls.title}>
                     Написать сообщение
-                  </p>
-                  <p onClick={handleProfile} className={cls.title}>
+                  </Button>
+                  <Button onClick={handleProfile} className={cls.title}>
                     Профиль
-                  </p>
+                  </Button>
                 </PopoverBody>
               </PopoverContent>
             </Portal>

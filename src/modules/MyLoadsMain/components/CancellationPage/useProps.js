@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import cls from "./style.module.scss";
+import PopoverUserName from "@/components/PopoverUserName/PopoverUserName";
 
 const useProps = (orderStatus, t, locale) => {
   const toast = useToast();
@@ -229,9 +230,22 @@ const useProps = (orderStatus, t, locale) => {
       render: (row, index) => (
         <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
           <Box>
-            <p style={{ textAlign: `center` }} className={cls.title}>
+           <PopoverUserName
+              style={{
+                fontSize: `13px`,
+                padding: 0,
+                color: `rgba(33, 31, 38, 1)`,
+                lineHeight: `16px`,
+                background: `red`,
+              }}
+              user_name={row?.users_id_data?.full_name}
+              user_id={row?.users_id_data?.guid}
+              locale={locale}
+            />
+           
+            {/* <p style={{ textAlign: `center` }} className={cls.title}>
               {row?.users_id_data?.full_name}{" "}
-            </p>
+            </p> */}
             <a
               style={{
                 borderBottom: `1px dashed black`,
