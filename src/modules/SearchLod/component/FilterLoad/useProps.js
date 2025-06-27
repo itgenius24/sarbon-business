@@ -58,12 +58,11 @@ export const useProps = ({ setValue, watch }) => {
   }
 
   const hanleAdress = (location, name) => {
-
     if (name === `from`) {
       setValue(`addressFrom`, `${location?.GeoObject?.name}`);
-    }   
-    
-    if(name === `to`) {
+    }
+
+    if (name === `to`) {
       setValue(`addressTo`, `${location?.GeoObject?.name}`);
     }
     setValue(name, `${location?.GeoObject?.name}`);
@@ -83,21 +82,16 @@ export const useProps = ({ setValue, watch }) => {
   }
   function handleCloseModal() {
     setIsModalOpen(false);
-    // setStateMap(false);
-    // setFormAddressName({});
   }
 
-
-
   useEffect(() => {
-    if (watch(`from`)?.length <= 0 && activeIndex) {
+    if (address?.length <= 0 && activeIndex === `from`) {
       setValue(`addressFrom`, ``);
-    } 
-     if (watch(`to`)?.length <= 0 && activeIndex) {
-      setValue(`addressTo`, ``);
-      console.log(`salom`,watch(`to`))
     }
-  }, [watch(`from`), watch(`to`)]);
+    if (address?.length <= 0 && activeIndex === `to`) {
+      setValue(`addressTo`, ``);
+    }
+  }, [watch(`from`)?.length, watch(`to`), address]);
 
   useEffect(() => {
     if (address && debouncedValue.length >= 3) {

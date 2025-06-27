@@ -53,8 +53,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-              setActiveIndex(`from`),
-                setAddress(e.target.value)
+              setActiveIndex(`from`), setAddress(e.target.value);
             }}
             name={`from`}
             additionalOnclick={() => handleOpenModal(`from`, "loading")}
@@ -106,8 +105,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             additionalItemTheme={`light`}
             register={register}
             onChange={(e) => {
-                setActiveIndex(`to`),
-                setAddress(e.target.value)
+              setActiveIndex(`to`), setAddress(e.target.value);
             }}
             name={`to`}
             additionalOnclick={() => handleOpenModal(`to`, "loading")}
@@ -251,7 +249,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           />
         </Flex>
       </Flex>
-      <Box mt={`24px`}>
+      {/* <Box mt={`24px`}>
         <Checkbox
           defaultChecked={watch(`only_for_me`)}
           register={register}
@@ -262,7 +260,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
             {t("Только грузы, подходящие под параметры моих машин")}
           </Flex>
         </Checkbox>
-      </Box>
+      </Box> */}
 
       <ModalS
         isOpen={isModalOpen}

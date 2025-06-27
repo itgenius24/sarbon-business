@@ -1,110 +1,4 @@
-// "use client";
-// import { useEffect, useState } from "react";
-// import { StreamChat } from "stream-chat";
-// import {
-//   Chat,
-//   Channel,
-//   Window,
-//   ChannelHeader,
-//   MessageList,
-//   ChannelList,
-//   Thread,
-//   ChannelPreviewMessenger,
-// } from "stream-chat-react";
-// import { Box } from "@chakra-ui/react";
-// import { MessageInputWithLocationButton } from "./components/MessageInputWithLocationButton/MessageInputWithLocationButton";
-// import { AttachmentWithMap } from "./components/AttachmentWithMap/AttachmentWithMap";
-// import authStore from "@/store/auth.store";
-// import { PinnedMessageBar } from "./components/PinnedMessageBar/PinnedMessageBar";
 
-// const ChatModule = () => {
-//   const [channel, setChannel] = useState(null);
-//   const [client, setClient] = useState(null);
-//   const [pinnedMessages, setPinnedMessages] = useState([]);
-
-//   const apiKey = "8qurbezqtr38";
-
-//   const user = {
-//     id: authStore.userData.guid,
-//     name: authStore.userData.full_name,
-//     image: authStore.userData.photo || "",
-//   };
-
-//   const filters = { type: "messaging", members: { $in: [user.id] } };
-//   const sort = { last_message_at: -1 };
-
-//   useEffect(() => {
-//     const initChat = async () => {
-//       const client = StreamChat.getInstance(apiKey);
-//       await client.connectUser(user, client.devToken(user.id));
-//       setClient(client);
-//     };
-
-//     initChat();
-//     return () => {
-//       if (client) client.disconnectUser();
-//     };
-//   }, []);
-
-//   const handleSelectChannel = async (selectedChannel) => {
-//     await selectedChannel.watch();
-//     setChannel(selectedChannel);
-
-//     // pinned messages olish
-//     const result = await selectedChannel.query({
-//       messages: { pinned: true, limit: 10 },
-//     });
-//     setPinnedMessages(result.messages);
-//   };
-
-//   if (!client) return <div>Yuklanmoqda...</div>;
-
-//   return (
-//     <Chat client={client} theme="messaging light">
-//       <div style={{ display: "flex", height: "90vh" }}>
-//         <Box width="400px">
-//           <ChannelList
-//             showChannelSearch
-//             filters={filters}
-//             sort={sort}
-//             Preview={(props) => (
-//               <div
-//                 key={props.channel.id}
-//                 onClick={() => handleSelectChannel(props.channel)}
-//               >
-//                 <ChannelPreviewMessenger {...props} />
-//               </div>
-//             )}
-//           />
-//         </Box>
-
-//         <Box width="100%">
-//           {channel ? (
-//             <Channel Attachment={AttachmentWithMap} channel={channel}>
-//               <Window>
-
-//                 <Box width="100%" borderBottom="1px solid #e2e8f0">
-//                   <ChannelHeader />
-//                 </Box>
-//                <Box  width={`100%`}  display={`flex`} justifyContent={`center`} position={`absolute`} top={`75px`}>
-//                  <PinnedMessageBar messages={pinnedMessages} />
-//                </Box>
-
-//                 <MessageList />
-//                 <MessageInputWithLocationButton />
-//               </Window>
-//               <Thread />
-//             </Channel>
-//           ) : (
-//             <div style={{ padding: "2rem" }}>Kanal tanlang...</div>
-//           )}
-//         </Box>
-//       </div>
-//     </Chat>
-//   );
-// };
-
-// export default ChatModule;
 
 "use client";
 
@@ -158,7 +52,7 @@ const ChatModule = () => {
   }, []);
 
   const handleSelectChannel = async (selectedChannel) => {
-    await selectedChannel.watch();
+    // await selectedChannel.watch();
     setChannel(selectedChannel);
   };
 
@@ -174,9 +68,9 @@ const ChatModule = () => {
               filters={filters}
               sort={sort}
               Preview={(props) => (
-                <div onClick={() => handleSelectChannel(props.channel)}>
+                <div key={props.channel.id} onClick={() => handleSelectChannel(props.channel)}>
                   <ChannelPreviewMessenger {...props} />
-                </div>
+                </div> 
               )}
             />
           </Box>
@@ -189,14 +83,14 @@ const ChatModule = () => {
               filters={filters}
               sort={sort}
               Preview={(props) => (
-                <div onClick={() => handleSelectChannel(props.channel)}>
+                <div key={props.channel.id} onClick={() => handleSelectChannel(props.channel)}>
                   <ChannelPreviewMessenger {...props} />
                 </div>
               )}
             />
           )}
           {channel && (
-            <Channel Attachment={AttachmentWithMap} channel={channel}>
+            <Channel  Attachment={AttachmentWithMap} channel={channel}>
               <Window>
                 <Flex
                   alignItems={`center`}
@@ -233,7 +127,6 @@ const ChatModule = () => {
             </Channel>
           )}
 
-          {/* Desktopda kanal tanlanmagan bo‘lsa */}
           {!isMobile && !channel && (
             <div style={{ padding: "2rem" }}>Kanal tanlang...</div>
           )}
