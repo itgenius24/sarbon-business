@@ -289,7 +289,7 @@ export const Footer = () => {
             </Box>
           </div>
           <ul className={cls.socialList}>
-            <li className={cls.socialItem}>
+            {/* <li className={cls.socialItem}>
               <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -304,7 +304,7 @@ export const Footer = () => {
                   />
                 </svg>
               </a>
-            </li>
+            </li> */}
             {/* <li className={cls.socialItem}>
               <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
@@ -321,7 +321,7 @@ export const Footer = () => {
                 </svg>
               </a>
             </li> */}
-            <li className={cls.socialItem}>
+            {/* <li className={cls.socialItem}>
               <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -343,7 +343,7 @@ export const Footer = () => {
                   </defs>
                 </svg>
               </a>
-            </li>
+            </li> */}
             {/* <li className={cls.socialItem}>
               <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
