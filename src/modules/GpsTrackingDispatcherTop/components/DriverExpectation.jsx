@@ -26,6 +26,8 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
     setPopupOpen(false);
   }
 
+  console.log(`currentUserLocationData`,currentUserLocationData)
+
 
 
   const updateResponseMutation = useUpdateResponse({

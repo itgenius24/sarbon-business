@@ -28,7 +28,7 @@ import {
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
 import cls from "./style.module.scss";
-import { Avatar, Box, Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Tooltip, useDisclosure, useToast } from "@chakra-ui/react";
 
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
@@ -72,6 +72,7 @@ export const useMyCarsDispatcher = () => {
     lastWeek.setDate(today.getDate() - 7);
     return lastWeek;
   });
+  const  toast = useToast()
 
   const [endDate, setEndDate] = useState(() => {
     const today = new Date();
@@ -119,35 +120,44 @@ export const useMyCarsDispatcher = () => {
   ];
 
   const navigateFn = (row) => {
-    window.open(
-      `/${locale}/gps-tracking-dispatcher-top?full_name=${
-        row?.full_name
-      }&battery=${row?.gps_data?.battery}&createdAt=${
-        row?.gps_data?.update_time
-      }&location_name=${row?.gps_data?.location_name}&os=${
-        row?.gps_data?.os
-      }&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${
-        row?.gps_data?.version
-      }&guid=${row?.guid}&provisions=${
-        row?.provisions?.[0] ? row?.provisions : [`empty`]
-      }&phone=${row?.phone}&car_number=${
-        row?.vehicle_data?.car_number || ``
-      }&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
-        row?.vehicle_data?.car_type || ``
-      }&car_capacity=${row?.vehicle_data?.capacity || ``}&car_height=${
-        row?.vehicle_data?.height || ``
-      }&car_type_name=${
-        row?.trailer_type_id_data?.[`name_${locale}`]
-          ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
-          : row?.trailer_type_id_data?.name || ``
-      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${
-        row?.first_dispatcher_data?.guid || ``
-      }`
-    );
 
-    // window.open(
-    //   `/${locale}/gps-tracking-dispatcher-top?guid=${row?.guid}&provisions=${row?.provisions}&time=${row?.gps_data?.update_time}`,
-    // );
+    if (row.status !== `Нет Статус`) {
+      window.open(
+        `/${locale}/gps-tracking-dispatcher-top?full_name=${
+          row?.full_name
+        }&battery=${row?.gps_data?.battery}&createdAt=${
+          row?.gps_data?.update_time
+        }&location_name=${row?.gps_data?.location_name}&os=${
+          row?.gps_data?.os
+        }&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${
+          row?.gps_data?.version
+        }&guid=${row?.guid}&provisions=${
+          row?.provisions?.[0] ? row?.provisions : [`empty`]
+        }&phone=${row?.phone}&car_number=${
+          row?.vehicle_data?.car_number || ``
+        }&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
+          row?.vehicle_data?.car_type || ``
+        }&car_capacity=${row?.vehicle_data?.capacity || ``}&car_height=${
+          row?.vehicle_data?.height || ``
+        }&car_type_name=${
+          row?.trailer_type_id_data?.[`name_${locale}`]
+            ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
+            : row?.trailer_type_id_data?.name || ``
+        }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${
+          row?.first_dispatcher_data?.guid || ``
+        }`
+      );
+    } 
+    else{
+      toast({
+        status:`info`,
+        duration:3000,
+        description:`Пожалуйста, сначала измените статус водителя.`,
+        isClosable:true,
+        position:`top-right`
+      })
+    }
+
   };
 
   const { mutate: logHistory } = useCreateLogHistory({});
@@ -229,7 +239,14 @@ export const useMyCarsDispatcher = () => {
                   ...item,
                   status: `Занята чужим грузом`,
                 };
-              } else if (item?.provisions?.[0] === `broke_down`) {
+              }
+              // else if (item?.provisions?.[0] === "waiting_for_driver") {
+              //   return {
+              //     ...item,
+              //     status: `Ожидание`,
+              //   };
+              // }
+              else if (item?.provisions?.[0] === `broke_down`) {
                 return {
                   ...item,
                   status: `Неисправна`,
@@ -523,7 +540,10 @@ export const useMyCarsDispatcher = () => {
                           {t(`Вкл`)}.{" "}
                           <span className={cls.subBlueTitle2}>
                             {row?.gps_data?.update_time &&
-                              format(row?.gps_data?.update_time, `dd.MM.yyyy hh:mm`)}
+                              format(
+                                row?.gps_data?.update_time,
+                                `dd.MM.yyyy hh:mm`
+                              )}
                           </span>{" "}
                         </p>
                       </Box>
