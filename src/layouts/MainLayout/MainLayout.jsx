@@ -25,10 +25,10 @@ export const MainLayout = ({ locale, children }) => {
   const pathname = usePathname();
   const router = useRouter();
   const { mutate } = useUpdateNoteData();
-
-  const isPathChat = pathname.includes(`chat`);
   const role_id = authStore?.userData.role_id;
   const token = authStore?.token?.access_token;
+  const isPathChat = pathname.includes(`chat`) && ( role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" || role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469") && token;
+
 
   const { data: data2 } = useGetNotificationFirst({
     data: {
@@ -91,10 +91,7 @@ export const MainLayout = ({ locale, children }) => {
     <div className={clsx(cls.layout, "fade-in")}>
       <ChangelogModal locale={locale} />
 
-      {!isPathChat &&
-        (role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" ||
-          role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469") &&
-        token && (
+      {isPathChat && 
           <Box className={cls.chatIcon}>
             <IconButton
               onClick={() => window.location.replace(`/${locale}/chat`)}
@@ -102,7 +99,7 @@ export const MainLayout = ({ locale, children }) => {
               icon={<ChatHeaderIcon color={`white`} />}
             />
           </Box>
-        )}
+        }
 
       {!isAuthPage && <Header elements={elements} />}
       <article className={cls.main}>{children}</article>
