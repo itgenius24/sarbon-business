@@ -213,6 +213,9 @@
   "Такой логин уже зарегистрирован": "Bu kullanıcı adı zaten kaydedilmiş",
   "Забыли логин или пароль?": "Kullanıcı adı ya da şifreyi unuttunuz mu?",
   "СМС-код": "SMS kodu",
+  "404_title": "Sayfa Bulunamadı",
+  "404_message": "Üzgünüz, aradığınız sayfa mevcut değil veya taşınmış.",
+  "404_back_home": "Ana Sayfaya Dön",
   "gpsTracking": {
     "title": "GPS Takibi",
     "machineDetails": "Makine Detayları",

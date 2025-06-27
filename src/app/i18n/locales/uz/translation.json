@@ -199,6 +199,9 @@
   "Такой логин уже зарегистрирован": "Bunday login allaqachon ro'yxatdan o'tgan",
   "Забыли логин или пароль?": "Login yoki parolni unutdingizmi?",
   "СМС-код": "SMS-kod",
+  "404_title": "Sahifa topilmadi",
+  "404_message": "Kechirasiz, siz qidirayotgan sahifa mavjud emas yoki ko'chirilgan.",
+  "404_back_home": "Bosh sahifaga qaytish",
   "gpsTracking": {
     "title": "GPS kuzatuv",
     "machineDetails": "Mashina tafsilotlari",
