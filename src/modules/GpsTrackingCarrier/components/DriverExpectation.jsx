@@ -44,6 +44,9 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     setPopupOpen(false);
   }
 
+  console.log(`currentUserLocationData`,currentUserLocationData)
+
+
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
