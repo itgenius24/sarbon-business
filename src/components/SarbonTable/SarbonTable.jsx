@@ -12,7 +12,7 @@ const SarbonTable = ({
   cardProps,
   props,
   variant = `table`,
-  width = `1407px`,
+  width = `100%`,
   isSticky = false,
   onRow = () => {},
   headerBackgroundColo = `rgba(237, 239, 245, 1)`
