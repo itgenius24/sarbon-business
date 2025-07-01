@@ -21,6 +21,7 @@ export const InActivePage = ({ orderStatus, t,locale }) => {
           data={cargoData}
           onRow={onRow}
         />
+        
         {/* {cargoData?.length > 0 &&
           cargoData?.map((item, index) => (
             <LoadsCard orderStatus={orderStatus} key={index} cargo={item} />

@@ -49,9 +49,7 @@ export const PerfomedPage = ({ orderStatus, t, locale, isProfile = false }) => {
   return (
     <>
       <Box
-        width={isProfile ? `1130px` : `100%`}
-        overflow={isProfile ? `hidden` : `none`}
-        overflowX={isProfile ? `scroll` : `none`}
+   
       >
         {!isProfile && cargoData?.length > 0 && (
           <SarbonTable

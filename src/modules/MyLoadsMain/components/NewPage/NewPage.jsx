@@ -73,9 +73,7 @@ export const NewPage = ({
   return (
     <>
       <Box
-        width={isProfile ? `1130px` : `100%`}
-        overflow={isProfile ? `hidden` : `none`}
-        overflowX={isProfile ? `scroll` : `none`}
+     
       >
         {newData?.length > 0 && !isProfile && (
           <SarbonTable
