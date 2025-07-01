@@ -249,6 +249,7 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           />
         </Flex>
       </Flex>
+
       {/* <Box mt={`24px`}>
         <Checkbox
           defaultChecked={watch(`only_for_me`)}
