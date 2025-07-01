@@ -26,9 +26,15 @@ import {
 import React, { useMemo, useState } from "react";
 import CheckBoxComponent from "./CheckBoxComponent";
 import { Checkbox } from "@/components/Checkbox";
-import { useGetUserCargo, useOfferFromCustomerMutation } from "@/services/api";
+import {
+  useGetCargoMap,
+  useGetUserCargo,
+  useOfferFromCustomerMutation,
+} from "@/services/api";
 import { useTranslation } from "react-i18next";
 import { useGetLang } from "@/hooks/useGetLang";
+import { Tooltip } from "stream-chat-react";
+import authStore from "@/store/auth.store";
 
 const SelectCargo = ({
   cls,
@@ -41,38 +47,45 @@ const SelectCargo = ({
   const { t } = useTranslation();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
-  const [selectCargo, setSelectCargo] = useState("");
+  const [selectCargo, setSelectCargo] = useState([]);
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
   const locale = useGetLang();
-  const getAllUserCargoParams = {
-    data: JSON.stringify({
-      users_id: currentUserLocationData.user.guid,
-      with_relations: true,
-      order_status: ["active"],
-      cargo_type: ["cargo"],
-    }),
-  };
 
-  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!currentUserLocationData.user.guid,
+  console.log(`currentUserLocationData`,currentUserLocationData)
+
+  const { data: dataMap, isLoading } = useGetCargoMap({
+    data: {
+      data: {
+        object_data: {
+          from_lat: currentUserLocationData?.users_gps?.[0]?.lat,
+          from_long: currentUserLocationData?.users_gps?.[0]?.long,
+          from_radius: 10000000000,
+          page: 1,
+          limit: 1000,
+        },
+      },
+    },
+    querySettings: {
+      select: (res) => ({
+        ...res,
+        response: res?.response.sort((a, b) => a.distances - b.distances),
+      }),
+    },
   });
 
   const cargoData = useMemo(() => {
     if (search) {
-      return getAllUserCargo.data?.response?.filter(
+      return dataMap?.response?.filter(
         (item) =>
-          item.city_id_data?.name
-            .toLowerCase()
-            .includes(search?.toLowerCase()) ||
-          item.city_id_2_data?.name
-            .toLowerCase()
-            .includes(search?.toLowerCase())
+          item?.from.toLowerCase().includes(search?.toLowerCase()) ||
+          item?.to.toLowerCase().includes(search?.toLowerCase()) ||
+          item?.number_of_order.toLowerCase().includes(search?.toLowerCase())
       );
     } else {
-      return getAllUserCargo.data?.response;
+      return dataMap?.response;
     }
-  }, [search, getAllUserCargo, getAllUserCargo.data?.response]);
+  }, [search, dataMap, dataMap?.response]);
 
   const offerFromCustomer = useOfferFromCustomerMutation({
     onSuccess() {
@@ -84,13 +97,28 @@ const SelectCargo = ({
     },
   });
 
+  const toggleSelect = (id) => {
+    const exists = selectCargo.find((i) => i.guid === id.guid);
+    if (exists) {
+      setSelectCargo(selectCargo.filter((i) => i.guid !== id.guid));
+    } else {
+      setSelectCargo([...selectCargo, id]);
+    }
+  };
+
   function handleOffer() {
     setDisabled(true);
     offerFromCustomer.mutate({
       data: {
         object_data: {
-          user_id: currentUserLocationData?.user?.users_id,
-          guid: selectCargo,
+          cargo: selectCargo?.map((item) => ({
+            cargo_id: item.guid,
+            customer_id: item?.users_id,
+          })),
+          driver_id: currentUserLocationData?.user?.guid,
+          // dispatcher_id: authStore?.userData.id,
+          firm_id: authStore?.userData.firm_id,
+          // approve_time_from_dispatcher: new Date().toISOString()
         },
       },
     });
@@ -118,23 +146,45 @@ const SelectCargo = ({
             </InputGroup>
           </Flex>
           <Box className={cls.modalContend}>
-            {!getAllUserCargo?.isLoading ? (
-              cargoData.length > 0 ? (
-                cargoData.map((item) => {
+            {!isLoading ? (
+              cargoData?.length > 0 ? (
+                cargoData?.map((item) => {
                   return (
                     <CheckBoxComponent
                       key={item.guid}
-                      onClick={() => setSelectCargo(item?.guid)}
-                      active={item?.guid === selectCargo}
+                      onClick={() => toggleSelect(item)}
+                      active={selectCargo?.some((i) => i.guid === item.guid)}
                     >
                       <Box className={cls.countryWrap}>
                         <Flex gap={3}>
-                          <p>{item.from || item.city_id_data?.name}</p>{" "}
-                          <NextCheckIcon />{" "}
-                          <p>{item.to || item.city_id_2_data?.name}</p>{" "}
+                          <Tooltip
+                            color={`black`}
+                            boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                            background={`#fff`}
+                            label={`${item.from}`}
+                          >
+                            <p>
+                              {item.from?.length >= 20
+                                ? `${item.from?.slice(0, 20)}...`
+                                : item.from}
+                            </p>
+                          </Tooltip>
+                          <NextCheckIcon />
+                          <Tooltip
+                            color={`black`}
+                            boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                            background={`#fff`}
+                            label={`${item.to}`}
+                          >
+                            <p>
+                              {item.to?.length >= 20
+                                ? `${item.to?.slice(0, 20)}...`
+                                : item.to}
+                            </p>
+                          </Tooltip>
                         </Flex>
-                        <Flex className={cls.subTitle} gap={3}>
-                          {item?.cargo_type_id_data?.name}
+                        <Flex mt={`5px`} className={cls.subTitle} gap={3}>
+                          {item?.product_type}
 
                           <Flex gap={1} alignItems={"center"}>
                             <StoneIcon /> {item?.weight} т.
@@ -142,6 +192,8 @@ const SelectCargo = ({
                           <Flex gap={1} alignItems={"center"}>
                             <LoadOulineIcon /> {item?.volume_m3} m3
                           </Flex>
+                          <span>ID: {item?.number_of_order}</span>
+                          <span>S: {item?.distances?.toFixed(1)} km</span>
                         </Flex>
                       </Box>
                     </CheckBoxComponent>
@@ -214,28 +266,54 @@ const SelectCargo = ({
                 </InputGroup>
               </Flex>
             </DrawerHeader>
-            <DrawerCloseButton  top={`15px`}  onClick={() => setCenterModalType("")}  />
-
+            <DrawerCloseButton
+              top={`15px`}
+              onClick={() => setCenterModalType("")}
+            />
 
             <DrawerBody minHeight={`200px`} maxHeight={`590px`}>
               <Box className={cls.modalContend}>
-                {!getAllUserCargo?.isLoading ? (
-                  cargoData.length > 0 ? (
-                    cargoData.map((item) => {
+                {!isLoading ? (
+                  cargoData?.length > 0 ? (
+                    cargoData?.map((item) => {
                       return (
                         <CheckBoxComponent
                           key={item.guid}
-                          onClick={() => setSelectCargo(item?.guid)}
-                          active={item?.guid === selectCargo}
+                          onClick={() => toggleSelect(item)}
+                          active={selectCargo?.some(
+                            (i) => i.guid === item.guid
+                          )}
                         >
                           <Box className={cls.countryWrap}>
                             <Flex gap={3}>
-                              <p>{item.from || item.city_id_data?.name}</p>{" "}
-                              <NextCheckIcon />{" "}
-                              <p>{item.to || item.city_id_2_data?.name}</p>{" "}
+                              <Tooltip
+                                color={`black`}
+                                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                background={`#fff`}
+                                label={`${item.from}`}
+                              >
+                                <p>
+                                  {item.from?.length >= 20
+                                    ? `${item.from?.slice(0, 20)}...`
+                                    : item.from}
+                                </p>
+                              </Tooltip>
+                              <NextCheckIcon />
+                              <Tooltip
+                                color={`black`}
+                                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                                background={`#fff`}
+                                label={`${item.to}`}
+                              >
+                                <p>
+                                  {item.to?.length >= 20
+                                    ? `${item.to?.slice(0, 20)}...`
+                                    : item.to}
+                                </p>
+                              </Tooltip>
                             </Flex>
-                            <Flex className={cls.subTitle} gap={3}>
-                              {item?.cargo_type_id_data?.name}
+                            <Flex mt={`5px`} className={cls.subTitle} gap={3}>
+                              {item?.product_type}
 
                               <Flex gap={1} alignItems={"center"}>
                                 <StoneIcon /> {item?.weight} т.
@@ -243,6 +321,8 @@ const SelectCargo = ({
                               <Flex gap={1} alignItems={"center"}>
                                 <LoadOulineIcon /> {item?.volume_m3} m3
                               </Flex>
+                              <span>ID: {item?.number_of_order}</span>
+                              <span>S: {item?.distances?.toFixed(1)} km</span>
                             </Flex>
                           </Box>
                         </CheckBoxComponent>

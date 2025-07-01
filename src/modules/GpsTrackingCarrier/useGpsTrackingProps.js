@@ -276,7 +276,7 @@ export const useGpsTrackingProps = () => {
             vehicles: [
               {
                 ...item?.vehicle_data,
-                trailer_type_id_data: item?.trailer_type,
+                trailer_type_id_data: item?.trailer_type_id_data?.[0],
               },
             ],
             firm_data: item?.firm_data,
