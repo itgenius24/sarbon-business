@@ -45,12 +45,14 @@ import {
   PopoverTrigger,
   Portal,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 
 import Image from "next/image";
 import { flegCountry } from "@/utils/flegCountry";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import PopoverUserName from "@/components/PopoverUserName/PopoverUserName";
 
 export const useMyCarsDispatcher = () => {
   const { register, watch } = useForm();
@@ -72,7 +74,7 @@ export const useMyCarsDispatcher = () => {
   const [open, setOpen] = useState(false);
 
   const [deleteId, setDeleteId] = useState(``);
-
+  const toast = useToast();
   const [visibleData, setVisibleData] = useState(data.slice(0, 50));
   const [pageUi, setPageUi] = useState(1); // Hozirgi sahifa (50 tadan ko‘paytirib boramiz)
 
@@ -250,32 +252,41 @@ export const useMyCarsDispatcher = () => {
   };
 
   const navigateFn = (row) => {
-    window.open(
-      `/${locale}/gps-tracking-dispatcher?full_name=${row?.full_name}&battery=${
-        row?.gps_data?.battery
-      }&createdAt=${row?.gps_data?.update_time}&location_name=${
-        row?.gps_data?.location_name
-      }&os=${row?.gps_data?.os}&lat=${row?.gps_data?.lat}&long=${
-        row?.gps_data?.long
-      }&version=${row?.gps_data?.version}&guid=${row?.guid}&provisions=${
-        row?.provisions?.[0] ? row?.provisions : [`empty`]
-      }&phone=${row?.phone}&car_number=${
-        row?.vehicle_data?.car_number || ``
-      }&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
-        row?.vehicle_data?.car_type || ``
-      }&car_capacity=${row?.vehicle_data?.capacity || ``}&car_height=${
-        row?.vehicle_data?.height || ``
-      }&car_type_name=${
-        row?.trailer_type_id_data?.[`name_${locale}`]
-          ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
-          : row?.trailer_type_id_data?.name || ``
-      }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${
-        row?.first_dispatcher_data?.guid || ``
-      }`
-    );
-    // window.open(
-    //   `/${locale}/gps-tracking-dispatcher?guid=${row?.guid}&provisions=${row?.provisions}`
-    // );
+    if (row.status !== `Нет Статус`) {
+      window.open(
+        `/${locale}/gps-tracking-dispatcher?full_name=${
+          row?.full_name
+        }&battery=${row?.gps_data?.battery}&createdAt=${
+          row?.gps_data?.update_time
+        }&location_name=${row?.gps_data?.location_name}&os=${
+          row?.gps_data?.os
+        }&lat=${row?.gps_data?.lat}&long=${row?.gps_data?.long}&version=${
+          row?.gps_data?.version
+        }&guid=${row?.guid}&provisions=${
+          row?.provisions?.[0] ? row?.provisions : [`empty`]
+        }&phone=${row?.phone}&car_number=${
+          row?.vehicle_data?.car_number || ``
+        }&car_country=${row?.vehicle_data?.car_country || ``}&car_type=${
+          row?.vehicle_data?.car_type || ``
+        }&car_capacity=${row?.vehicle_data?.capacity || ``}&car_height=${
+          row?.vehicle_data?.height || ``
+        }&car_type_name=${
+          row?.trailer_type_id_data?.[`name_${locale}`]
+            ? row?.trailer_type_id_data?.[`name_${locale}` || ``]
+            : row?.trailer_type_id_data?.name || ``
+        }&cargo_guid=${row?.order_data?.cargo_data?.guid || ``}&dispatcher_id=${
+          row?.first_dispatcher_data?.guid || ``
+        }`
+      );
+    } else {
+      toast({
+        status: `info`,
+        duration: 3000,
+        description: `Пожалуйста, сначала измените статус водителя.`,
+        isClosable: true,
+        position: `top-right`,
+      });
+    }
   };
 
   const statusObjIcon = {
@@ -293,7 +304,7 @@ export const useMyCarsDispatcher = () => {
       width: 200,
       render: (row, index) => (
         <Flex
-          onClick={() => pushRouter(row)}
+          // onClick={() => pushRouter(row)}
           cursor={`pointer`}
           width={`fit-content`}
           alignItems={`center`}
@@ -316,7 +327,19 @@ export const useMyCarsDispatcher = () => {
           </Box>
 
           <Box>
-            <p className={cls.title}>{row?.full_name}</p>
+             <PopoverUserName
+                  style={{
+                    fontSize: `14px`,
+                    padding: 0,
+                    color: `rgba(33, 31, 38, 1)`,
+                    background: `red`,
+                     fontWeight:600
+                  }}
+                  user_name={row?.full_name}
+                  user_id={row?.guid}
+                  locale={locale}
+                />
+            {/* <p className={cls.title}>{row?.full_name}</p> */}
             <a
               onClick={(e) => e.stopPropagation()}
               target="_blank"

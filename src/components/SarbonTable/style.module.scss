@@ -5,7 +5,7 @@
 .headerTh {
   font-weight: 600;
   font-size: 12px;
-  line-height: 28px;
+  line-height: 18px;
   text-transform: uppercase;
   color: rgba(126, 123, 134, 1);
 }
@@ -35,7 +35,7 @@
 }
 
 .card {
-  padding: 18px 24px 18px 24px;
+  padding: 12px 24px 12px 24px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.08);
@@ -45,7 +45,7 @@
 
 .tableWrap{
   background-color: white;
-  overflow: hidden;
+  // overflow: hidden;
   border-radius: 12px;
   padding: 0px 24px 10px 24px;
   padding-bottom: 20px;

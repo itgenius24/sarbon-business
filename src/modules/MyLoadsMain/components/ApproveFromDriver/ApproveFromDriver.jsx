@@ -20,8 +20,9 @@ import useFromDriverProps from "./useFromDriverProps";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CheckboxComment } from "../CheckboxComment";
 import { CustomTextarea } from "@/components/CustomTextarea";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
-export const ApproveFromDriver = ({ orderStatus, t }) => {
+export const ApproveFromDriver = ({ orderStatus, t, locale, isProfile }) => {
   const {
     cargoData,
     isLoading,
@@ -36,16 +37,27 @@ export const ApproveFromDriver = ({ orderStatus, t }) => {
     comments,
     handleCancelButton,
     register,
-  } = useFromDriverProps(orderStatus, t);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+    columns,
+  } = useFromDriverProps(orderStatus, t, locale);
 
   return (
     <>
-      <Box>
-        {cargoData?.length > 0 ? (
+      <Box
+        width={isProfile ? `1130px` : `100%`}
+        overflow={isProfile ? `hidden` : `none`}
+        overflowX={isProfile ? `scroll` : `none`}
+      >
+        {cargoData?.length > 0 && !isProfile && (
+          <SarbonTable
+            width="100%"
+            variant="card"
+            columns={columns}
+            data={cargoData}
+          />
+        )}
+
+        {cargoData?.length > 0 &&
+          isProfile &&
           cargoData?.map((item, index) => (
             <Performed
               orderStatus={orderStatus}
@@ -54,10 +66,11 @@ export const ApproveFromDriver = ({ orderStatus, t }) => {
               handleCancel={handleCancel}
               disabledCancelBtn={isLoadingCancel}
             />
-          ))
-        ) : (
-          <Empty t={t} />
-        )}
+          ))}
+
+        {cargoData?.length === 0 && !isLoading && <Empty t={t} />}
+
+        {cargoData?.length === 0 && isLoading && <LoadingSpinner />}
       </Box>
       <Modal
         size={`2xl`}

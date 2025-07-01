@@ -126,6 +126,8 @@ export const useMyLoadsMainProps = (locale) => {
   }, []);
 
   const handleCheckboxChange = (key) => {
+  console.log("comments", key);
+
     setComments(
       (prev) =>
         prev.includes(key)
@@ -422,6 +424,12 @@ export const useMyLoadsMainProps = (locale) => {
     setComments([]);
   };
 
+  const handleClear = () => {
+    setSelectedRating(0);
+    setComments([]);
+    setOpen(null)
+  }
+
   return {
     hasMore,
     onFilterChange,
@@ -463,6 +471,7 @@ export const useMyLoadsMainProps = (locale) => {
     refetchNoDisPred,
     refetchWaitingDriverCount: getWaitingDriverCount,
     orderStatus,
-    setNotificationId,notificationID
+    setNotificationId,notificationID,
+    handleClear
   };
 };

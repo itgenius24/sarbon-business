@@ -1,0 +1,114 @@
+.flag {
+  width: 29px;
+  height: 18px;
+}
+.country_code {
+  color: rgba(126, 123, 134, 1);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 4px;
+}
+.title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(33, 31, 38, 1);
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.subTitle1 {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgb(118, 115, 124) !important;
+}
+.subTitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(126, 123, 134, 1);
+  line-height: 16px;
+}
+.tel {
+  color: rgba(33, 31, 38, 1);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+// }
+
+.address {
+  .copy {
+    opacity: 0;
+  }
+  &:hover {
+    svg {
+      path {
+        stroke: rgb(0, 0, 0) !important;
+      }
+    }
+    .copy {
+      height: 100%;
+      opacity: 1;
+      &:hover {
+        cursor: pointer;
+        svg {
+          path {
+            stroke: #007aff !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.number_of_orders {
+  font-weight: 500;
+  font-size: 16px;
+  //   margin-left: 10px;
+}
+
+.time {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.statusWrap {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-style: solid;
+  border-width: 38px 38px 0 0;
+  border-color: rgba(0, 122, 255, 1) transparent transparent transparent;
+  border-top-left-radius: 15px;
+
+  .icon {
+    position: absolute;
+    top: -32px;
+    left: 3px;
+    z-index: 1111;
+  }
+  // }
+}
+
+.addCar {
+  width: fit-content;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  padding-bottom: 2px;
+  text-decoration-thickness: 0%;
+  color: rgba(0, 122, 255, 1);
+  border-bottom: 1px solid rgba(0, 122, 255, 1);
+  cursor: pointer;
+}
+
+
+.cursor{
+  cursor: pointer;
+}

@@ -17,6 +17,7 @@ export const CheckboxComment = ({
   isDisabled = false,
   id = `1`,
   isLoading,
+  isForm,
   ...props
 }) => {
   return (
@@ -41,12 +42,26 @@ export const CheckboxComment = ({
         </Flex>
       )}
 
-      {type === `checkbox` && (
+      {type === `checkbox` && isForm && (
         <input
           id={id}
           disabled={isDisabled}
           className={clsx("visually-hidden", cls.checkboxInput)}
           {...register(name)}
+          defaultChecked={defaultChecked}
+          type={`checkbox`}
+          {...props}
+        />
+      )}
+
+      {type === `checkbox` && !isForm && (
+        <input
+          id={id}
+          name={id}
+          disabled={isDisabled}
+          className={clsx("visually-hidden", cls.checkboxInput)}
+          onChange={onChange}
+          checked={defaultChecked}
           defaultChecked={defaultChecked}
           type={`checkbox`}
           {...props}
@@ -64,7 +79,7 @@ export const CheckboxComment = ({
 
       {!isLoading && type === `checkbox` && (
         <span
-          className={cls.checkbox}
+          className={defaultChecked ? cls.checkboxActive : cls.checkbox}
           style={{ width, height, backgroundSize: iconSize }}
         ></span>
       )}

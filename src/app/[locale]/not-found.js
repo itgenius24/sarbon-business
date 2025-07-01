@@ -1,21 +1,24 @@
 "use client";
 
-import { Box, Button, Container, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useTranslation } from "@/app/i18n/client";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useElements } from "@/layouts/MainLayout/elements";
+import { NotFountIcon } from "@/assets/icons/icons";
+import { Container } from "@/components/Container";
 
 export default function LocalizedNotFound() {
   const pathname = usePathname();
   const [locale, setLocale] = useState("ru");
   const [isLoaded, setIsLoaded] = useState(false);
-  
+  const elements = useElements(locale);
   useEffect(() => {
-    const pathSegments = pathname.split('/');
+    const pathSegments = pathname.split("/");
     const extractedLocale = pathSegments[1];
     const supportedLocales = ["ru", "en", "uz", "tr", "zh"];
-    
+
     if (supportedLocales.includes(extractedLocale)) {
       setLocale(extractedLocale);
     } else {
@@ -28,8 +31,8 @@ export default function LocalizedNotFound() {
 
   if (!isLoaded) {
     return (
-      <Container 
-        maxW="container.lg" 
+      <Container
+        maxW="container.lg"
         py={{ base: "40px", md: "80px" }}
         px={{ base: "16px", md: "24px" }}
       >
@@ -56,71 +59,71 @@ export default function LocalizedNotFound() {
   }
 
   return (
-    <Container 
-      maxW="container.lg" 
-      py={{ base: "40px", md: "80px" }}
-      px={{ base: "16px", md: "24px" }}
-    >
-      <Box
-        textAlign="center"
-        bg="white"
-        borderRadius="12px"
-        p={{ base: "32px", md: "48px" }}
-        boxShadow="sm"
+    <Container margin={`0 auto`}>
+    
+      <div
+        style={{
+          minHeight: "90vh",
+          width: `100%`,
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "rgba(255, 255, 255, 1)",
+          fontFamily: "system-ui, sans-serif",
+        }}
       >
-        <Heading
-          as="h1"
-          fontSize={{ base: "48px", md: "72px" }}
-          fontWeight="bold"
-          color="brand.500"
-          mb="16px"
-          lineHeight="1.2"
-        >
-          404
-        </Heading>
-        
-        <Heading
-          as="h2"
-          fontSize={{ base: "24px", md: "32px" }}
-          fontWeight="600"
-          color="gray.800"
-          mb="16px"
-          lineHeight="1.3"
-        >
-          {t("404_title")}
-        </Heading>
-        
-        <Text
-          fontSize={{ base: "16px", md: "18px" }}
-          color="gray.600"
-          mb="32px"
-          maxW="500px"
-          mx="auto"
-          lineHeight="1.6"
-        >
-          {t("404_message")}
-        </Text>
-        
-        <Link href={`/${locale}`} passHref>
-          <Button
-            as="a"
-            colorScheme="blue"
-            size="lg"
-            px="32px"
-            py="12px"
-            fontSize="16px"
-            fontWeight="600"
-            borderRadius="8px"
-            _hover={{
-              transform: "translateY(-2px)",
-              boxShadow: "lg",
-            }}
-            transition="all 0.2s"
-          >
-            {t("404_back_home")}
-          </Button>
-        </Link>
-      </Box>
+        <Flex gap={`30px`}>
+          <NotFountIcon />
+          <Box>
+            <Flex flexDirection={`column`} rowGap={`12px`}>
+              <p
+                style={{
+                  fontSize: `16px`,
+                  fontWeight: 500,
+                  margin: 0,
+                }}
+              >
+                Ошибка 404
+              </p>
+              <p
+                style={{
+                  fontSize: `44px`,
+                  fontWeight: 700,
+                  margin: 0,
+                  lineHeight: `44px`,
+                }}
+              >
+                Страница не найдена
+              </p>
+              <p
+                style={{
+                  fontSize: `16px`,
+                  fontWeight: 500,
+                  margin: 0,
+                }}
+              >
+                Вы пытались перейти по несуществующему адресу
+              </p>
+            </Flex>
+            <Link
+              href="/ru"
+              style={{
+                display: "inline-block",
+                backgroundColor: "rgba(38, 189, 73, 1)",
+                color: "white",
+                padding: "14px 20px",
+                fontSize: "16px",
+                fontWeight: "600",
+                borderRadius: "8px",
+                textDecoration: "none",
+                transition: "all 0.2s",
+                marginTop: `40px`,
+              }}
+            >
+              Перейти на главную
+            </Link>
+          </Box>
+        </Flex>
+      </div>
     </Container>
   );
 }

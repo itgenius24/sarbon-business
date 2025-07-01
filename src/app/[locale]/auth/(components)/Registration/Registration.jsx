@@ -358,7 +358,7 @@ export const Registration = () => {
         </Link>
       </Box>
 
-      <Modal isOpen={open} isCentered>
+      <Modal isOpen={open} isCentered onClose={() => setOpen(false)}>
         <ModalOverlay onClick={closeModal} />
         <ModalContent>
           <ModalHeader>

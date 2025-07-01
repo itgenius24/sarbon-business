@@ -78,8 +78,6 @@ export const SearchCargoModule = () => {
     },
   };
 
-
-
   return (
     <>
       <Container my={isLargerThan845 ? "24px" : "24px"}>
@@ -674,7 +672,6 @@ export const SearchCargoModule = () => {
                       setinputValue={setinputValue}
                       countries={countries}
                       locale={locale}
-                      
                     />
                   </Flex>
                 </Box>
@@ -704,7 +701,7 @@ export const SearchCargoModule = () => {
                     </Flex>
                     <Flex mt={`20px`} gap={4}>
                       <UploadImg
-                      isCrop
+                        isCrop
                         watch={watch}
                         setValue={setValue}
                         name={"front_side_trailer_1"}
@@ -714,7 +711,7 @@ export const SearchCargoModule = () => {
                         register={register}
                       />
                       <UploadImg
-                             isCrop
+                        isCrop
                         watch={watch}
                         setValue={setValue}
                         name={"back_side_trailer_1"}
@@ -851,8 +848,7 @@ export const SearchCargoModule = () => {
           countries={countries}
           rules={rules}
           uploadAi={uploadAi}
-    uploadAiFront={uploadAiFront}
-          
+          uploadAiFront={uploadAiFront}
           setLoadingFront={setLoadingFront}
           setLoadingBack={setLoadingBack}
           loadingBack={loadingBack}

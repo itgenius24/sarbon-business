@@ -1,0 +1,29 @@
+.pinWrap {
+  position: absolute;
+  top: 0;
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid rgba(219, 216, 227, 1);
+  z-index: 100;
+  width: 98%;
+  border-radius: 14px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  .title {
+   
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0px;
+    color: rgba(33, 31, 38, 1);
+  }
+  .subTitle {
+   
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0px;
+    color: rgba(33, 31, 38, 1);
+  }
+}

@@ -12,7 +12,7 @@ const SarbonTable = ({
   cardProps,
   props,
   variant = `table`,
-  width = `1407px`,
+  width = `100%`,
   isSticky = false,
   onRow = () => {},
   headerBackgroundColo = `rgba(237, 239, 245, 1)`
@@ -35,8 +35,10 @@ const SarbonTable = ({
       height={`100%`}
       {...props}
       width={width}
+      maxWidth={`1920px`}
       pb={`10px`}
-      overflowX={isSticky ? `none` : `auto`}
+      // overflow={`hidden`}
+      // overflowX={isSticky ? `none` : `auto`}
     >
       <Box
         position={isSticky ? `sticky` : `relative`}

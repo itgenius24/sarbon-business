@@ -21,6 +21,7 @@ import { Empty } from "../Empty";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CheckboxComment } from "../CheckboxComment";
 import { CustomTextarea } from "@/components/CustomTextarea";
+import SarbonTable from "@/components/SarbonTable/SarbonTable";
 
 export const NewPage = ({
   orderStatus,
@@ -30,6 +31,8 @@ export const NewPage = ({
   refetchNewPred,
   refetchNoDisPred,
   refetchWaitingDriverCount,
+  locale,
+  isProfile = false,
 }) => {
   const {
     newData,
@@ -55,30 +58,44 @@ export const NewPage = ({
     handleCheckboxChange,
     watch,
     register,
-  } = useNewPageProps(
+    columns,
+  } = useNewPageProps({
     orderStatus,
     t,
     refetchNewPred,
     refetchNoDisPred,
     refetchWaitingDriverCount,
     setNotificationId,
-    notificationID
-  );
+    notificationID,
+    locale,
+  });
 
   return (
     <>
-      <Box>
-        {newData?.map((item, index) => (
-          <Performed
-            orderStatus={orderStatus}
-            setDataPred={setDataPred}
-            key={index}
-            cargo={item}
-            handleCancel={handleCancel}
-            disabledCancelBtn={disabledBtn}
-            onOpen={onOpen}
+      <Box
+     
+      >
+        {newData?.length > 0 && !isProfile && (
+          <SarbonTable
+            width="100%"
+            variant="card"
+            columns={columns}
+            data={newData}
           />
-        ))}
+        )}
+
+        {isProfile &&
+          newData?.map((item, index) => (
+            <Performed
+              orderStatus={orderStatus}
+              setDataPred={setDataPred}
+              key={index}
+              cargo={item}
+              handleCancel={handleCancel}
+              disabledCancelBtn={disabledBtn}
+              onOpen={onOpen}
+            />
+          ))}
       </Box>
 
       {newData?.length === 0 && !isLoading && <Empty t={t} />}

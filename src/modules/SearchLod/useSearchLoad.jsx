@@ -37,6 +37,8 @@ export const useSearchLoad = () => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
+
+
   const {
     data: dataMap,
     isFetching,

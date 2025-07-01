@@ -9,3 +9,15 @@
   flex-grow: 1;
   min-height: 50vh;
 }
+
+.chatIcon{
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 323232;
+  .iconButton{
+    background-color: rgb(0 95 255);
+    box-shadow: 5px 5px 16px 0px rgba(0, 0, 0, 0.16);
+
+  }
+}

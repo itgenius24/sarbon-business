@@ -159,6 +159,9 @@ export const useGpsTrackingProps = () => {
         } else if (provisions === "broke_down") {
           setModalType("driverFree");
         }
+         else if (provisions === "waiting_for_driver") {
+          setModalType("driverExpectation");
+        }
       },
       enabled: Boolean(cargo_guid),
     }
@@ -436,6 +439,9 @@ export const useGpsTrackingProps = () => {
       } else if (provisions === "broke_down") {
         setModalType("driverFree");
       }
+        else if (provisions === "waiting_for_driver") {
+          setModalType("driverExpectation");
+        }
     }
   }, []);
 

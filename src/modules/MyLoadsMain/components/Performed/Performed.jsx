@@ -318,7 +318,6 @@ export const Performed = forwardRef(
                           : `Не cтатус`
                       ]
                     }
-                    {/* <span className={styles.cardNameDate}> (Сегодня, 12:36)</span> */}
                   </p>
                 </div>
               )}

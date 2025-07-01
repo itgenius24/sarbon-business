@@ -63,7 +63,7 @@ export const useProps = () => {
       render: (row, index) => <p className={cls.title}>{row?.full_name}</p>,
     },
     {
-      title: `Тип аккаунтая`,
+      title: `Тип аккаунта`,
       width: 180,
       render: (row, index) => type[row?.tip_account?.[0]] ,
     },
