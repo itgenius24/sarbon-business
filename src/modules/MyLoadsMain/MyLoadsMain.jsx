@@ -240,7 +240,7 @@ export const MyLoadsMain = ({ locale }) => {
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <NewPage
-                isProfile
+                
                   refetchNoDisPred={refetchNoDisPred}
                   refetchWaitingDriverCount={refetchWaitingDriverCount}
                   refetchNewPred={refetchNewPred}
@@ -253,7 +253,7 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <NewPage
-                isProfile
+                
                   refetchNoDisPred={refetchNoDisPred}
                   refetchWaitingDriverCount={refetchWaitingDriverCount}
                   refetchNewPred={refetchNewPred}
@@ -265,27 +265,27 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <ApproveFromDriver
-                isProfile
+                
                   locale={locale}
                   t={t}
                   orderStatus={`approve_from_driver`}
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <PerfomedPage isProfile t={t} orderStatus={`performed`} locale={locale} />
+                <PerfomedPage  t={t} orderStatus={`performed`} locale={locale} />
               </TabPanel>
               <TabPanel padding={0}>
-                <CancellationPage isProfile locale={locale} t={t} orderStatus={`cancellation`} />
+                <CancellationPage  locale={locale} t={t} orderStatus={`cancellation`} />
               </TabPanel>
               <TabPanel padding={0}>
-                <ArchivePage isProfile setOpen={setOpen} t={t} orderStatus={`archive`} />
+                <ArchivePage  setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
             </TabPanels>
           ) : (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <AllPage
-                isProfile
+                
                   locale={locale}
                   address={address}
                   search={watch(`from`)}
@@ -295,7 +295,7 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <ActivePage
-                isProfile
+                
                   t={t}
                   address={address}
                   search={watch(`from`)}
@@ -305,18 +305,18 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <InModerationPage
-                isProfile
+                
                   locale={locale}
                   t={t}
                   orderStatus={`in_moderation`}
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <PerfomedPage isProfile t={t} orderStatus={`performed`} locale={locale} />
+                <PerfomedPage  t={t} orderStatus={`performed`} locale={locale} />
               </TabPanel>
               <TabPanel padding={0}>
                 <ArchivePage
-                isProfile
+                
                   setOpen={setOpen}
                   t={t}
                   orderStatus={`archive`}
@@ -324,7 +324,7 @@ export const MyLoadsMain = ({ locale }) => {
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <InActivePage isProfile t={t} orderStatus={`in_active`} locale={locale} />
+                <InActivePage  t={t} orderStatus={`in_active`} locale={locale} />
               </TabPanel>
             </TabPanels>
           )}
