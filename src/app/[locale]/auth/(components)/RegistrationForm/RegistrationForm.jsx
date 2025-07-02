@@ -384,17 +384,7 @@ export const RegistrationForm = () => {
                               }
                             }}
                           />
-                          <Button
-                            type="button"
-                            onClick={() => handleTinLookup(watch('inn'))}
-                            isLoading={tinLookupLoading}
-                            isDisabled={!watch('inn') || watch('inn').length < 9}
-                            size="md"
-                            colorScheme="blue"
-                            variant="outline"
-                          >
-                            {t("Найти")}
-                          </Button>
+  
                         </Flex>
                       </Box>
 

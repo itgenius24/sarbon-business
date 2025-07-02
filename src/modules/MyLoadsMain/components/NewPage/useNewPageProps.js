@@ -583,7 +583,7 @@ const useNewPageProps = ({
               user_id={row?.users_id_data?.guid}
               locale={locale}
             />
-           
+
             <a
               style={{
                 borderBottom: `1px dashed black`,
@@ -775,7 +775,8 @@ const useNewPageProps = ({
       width: 130,
       render: (row, index) =>
         role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" &&
-        dispatcher_type === `first_dispatcher` && (
+        dispatcher_type === `first_dispatcher` &&
+        row?.cargo_id_data?.order_status?.[0] !== `in_active` && (
           <Button
             width={`130px`}
             height={`40px`}
