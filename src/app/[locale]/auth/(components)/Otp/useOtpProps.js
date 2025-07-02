@@ -53,7 +53,7 @@ export const useOtpProps = () => {
           client_type_id: "9bb1227a-0c90-4c70-bcee-b2563d32f7a0",
           role_id: "48871d27-7361-4f69-8fe4-b54daf270739",
         },
-        login_strategy: typeSms === `TELEGRAM_OTP` ? "TELEGRAM_OTP" : `PHONE_OTP`,
+        login_strategy: typeSms === `TELEGRAM` ? "TELEGRAM_OTP" : `PHONE_OTP`,
       });
     }
     setValue(value);
