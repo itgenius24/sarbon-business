@@ -1,4 +1,3 @@
-import { EditIconTable } from "@/assets/icons/icons";
 import {
   useDeleteDis,
   useDispatcherFirms,
@@ -14,11 +13,11 @@ import {
 import { Box, Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
 import cls from "./style.module.scss";
 
-import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { Dropdown } from "@/components/Dropdown";
+import { format } from "date-fns";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export const useDashboard = (locale) => {
   const router = useRouter();
@@ -272,9 +271,7 @@ export const useDashboard = (locale) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (e) {
-      console.log(2);
-    }
+    } catch (_) { return }
   };
 
   const getExcelFile = useGetExcelPost({

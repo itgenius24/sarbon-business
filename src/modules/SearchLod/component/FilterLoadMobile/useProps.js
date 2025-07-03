@@ -1,7 +1,6 @@
 "use client";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useGetCargoList } from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -35,8 +34,6 @@ export const useProps = ({ setValue, watch }) => {
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         setResults(geoObjects);
-      } else {
-        console.log("Manzil topilmadi");
       }
     } catch (error) {
       console.error("Geokodlashda xatolik:", error);

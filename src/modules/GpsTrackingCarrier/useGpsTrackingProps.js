@@ -1,18 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import {
   useCreateActionHistoriesMutation,
   useCreateLogHistory,
-  useGetCar,
   useGetCarData,
   useGetCarRefueling,
   useGetMeasurement,
   useGetTrailerType,
   useLoadingTypes,
   useLocation,
-  useUpdateUserInfo,
+  useUpdateUserInfo
 } from "@/services/api";
-import { useToast } from "@chakra-ui/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 
 import {
   BrokeDownIcon,
@@ -21,8 +19,8 @@ import {
   SomeoneCargoIcon,
   WaitingForDriverIcon,
 } from "@/assets/icons/icons";
-import { useDebounce } from "use-debounce";
 import authStore from "@/store/auth.store";
+import { useDebounce } from "use-debounce";
 
 /* eslint no-undef: 0 */ // --> OFF
 
@@ -266,7 +264,6 @@ export const useGpsTrackingProps = () => {
     querySettings: {
       onSuccess: (data) => {
         if (data?.response?.length) {
-          console.log(`data`, data);
           let data2 = data?.response?.map((item) => ({
             ...item,
             user: {

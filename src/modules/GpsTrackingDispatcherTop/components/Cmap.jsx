@@ -282,7 +282,6 @@ const Cmap = memo(
 
       map.balloon.events.add("close", () => {
         // if (points.length > 0) {
-        // alert(`salom`)
           clearMap();
         // }
       });

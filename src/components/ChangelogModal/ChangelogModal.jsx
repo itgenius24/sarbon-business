@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { fetchAndActivate, getValue } from "firebase/remote-config";
+import authStore from "@/store/auth.store";
 import remoteConfig from "@/utils/fribaseAuth";
 import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
+import { fetchAndActivate, getValue } from "firebase/remote-config";
 import { useRouter } from "next/navigation";
-import authStore from "@/store/auth.store";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const ChangelogModal = ({ locale }) => {
@@ -21,7 +21,6 @@ const ChangelogModal = ({ locale }) => {
           getValue(remoteConfig, "changelog_web").asString()
         );
 
-        console.log("Changelog data:", data);
         const changelog = data?.changelog_web?.[0];
         const shouldShow = changelog?.is_active && changelog?.version;
 

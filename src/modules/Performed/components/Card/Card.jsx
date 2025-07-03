@@ -76,9 +76,6 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
             flexDirection={`column`}
             width={`50px`}
           >
-          {
-            console.log(`salom`,item?.cargo_id_data)
-          }
             <Image
               className={cls.flag}
               width={30}

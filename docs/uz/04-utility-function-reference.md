@@ -33,7 +33,6 @@ const formatted = formatDate(new Date(), 'dd/MM/yyyy'); // "18/06/2025"
 - Vaqt zonasi sozlash (-5 soat)
 - "Bugun", "Kecha" nisbiy formatlash
 - Yaqin sanalar uchun vaqt ko'rsatish
-**Texnik Qarz**: 🚨 `console.log('inputDate', inputDate)` debug bayonoti mavjud
 **Foydalanish**: Yuk vaqt belgilari, GPS kuzatuv tarixi
 
 #### `addDaysToDate(date, days)`
@@ -355,13 +354,6 @@ export const rem = (px) => {
 1. **findChangedLogs** - Audit logging spetsifik
 2. **extractUrlInfo** - URL qayta ishlash spetsifik
 3. **translateArray** - Lokalizatsiya spetsifik
-
-## Utilitarlarda Texnik Qarz
-
-### 🚨 Debug Kod Muammolari
-1. **formatDateTime.js**: 5-qatorda `console.log('inputDate', inputDate)` mavjud
-2. **isVisibleInViewport.js**: 42-qatorda `console.log('salom', rect.top, ...)` mavjud
-3. **useGetDistance.js**: 43-qatorda `console.error("Failed to calculate distance:", event)` mavjud
 
 ### 🔧 Yaxshilash Imkoniyatlari
 

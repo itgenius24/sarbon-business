@@ -36,7 +36,7 @@ import {
 } from "@chakra-ui/react";
 import copy from "copy-to-clipboard";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverGruz = ({
@@ -109,8 +109,8 @@ const DriverGruz = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (e) {
-      console.log(2);
+    } catch (_) {
+      return
     }
   };
 

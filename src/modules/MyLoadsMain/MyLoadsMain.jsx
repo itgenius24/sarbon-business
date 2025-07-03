@@ -1,4 +1,15 @@
+import {
+  ExelIcon,
+  LocationMarkIcon,
+  NavigationBtnLeftIcon,
+  SearchIcon,
+  StarGoodsIcon,
+  StarOutlineIcon
+} from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
+import { CustomTextarea } from "@/components/CustomTextarea";
+import { TextField } from "@/components/TextField";
+import authStore from "@/store/auth.store";
 import {
   Box,
   Button,
@@ -15,45 +26,20 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Tabs,
-  Text,
-  useMediaQuery,
+  Tabs
 } from "@chakra-ui/react";
-import { LoadsCard } from "./components/LoadsCard";
-import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
-import { TopFilter } from "@/components/TopFilter";
-import { filterTabsDis, filterTabsZ } from "./data";
-import { useTranslation } from "@/app/i18n/client";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { Empty } from "./components/Empty";
-import { Performed } from "./components/Performed";
-import authStore from "@/store/auth.store";
-import { useState } from "react";
-import {
-  ExelIcon,
-  IconCeckNewStatusIcon,
-  LocationIconStep,
-  LocationMarkIcon,
-  NavigationBtnLeftIcon,
-  SearchIcon,
-  StarGoodsIcon,
-  StarOutlineIcon,
-} from "@/assets/icons/icons";
-import { CheckboxComment } from "./components/CheckboxComment";
-import styles from "./style.module.scss";
-import { CustomTextarea } from "@/components/CustomTextarea";
-import { CheckboxModalPred } from "@/components/CheckboxModalPred/CheckboxModalPred";
-import { TextFieldWithAdditionMap } from "@/components/TextFieldWithAddition/TextFieldWithAdditionMap";
-import { TextField } from "@/components/TextField";
-import { NewPage } from "./components/NewPage/NewPage";
-import { ApproveFromDriver } from "./components/ApproveFromDriver/ApproveFromDriver";
-import { PerfomedPage } from "./components/PerfomedPage/PerfomedPage";
-import { InModerationPage } from "./components/InModerationPage/InModerationPage";
-import { InActivePage } from "./components/InActivePage/InActivePage";
+import { ActivePage } from "./components/ActivePage/ActivePage";
 import { AllPage } from "./components/AllPage/AllPage";
+import { ApproveFromDriver } from "./components/ApproveFromDriver/ApproveFromDriver";
 import { ArchivePage } from "./components/ArchivePage/ArchivePage";
 import { CancellationPage } from "./components/CancellationPage/CancellationPage";
-import { ActivePage } from "./components/ActivePage/ActivePage";
+import { CheckboxComment } from "./components/CheckboxComment";
+import { InActivePage } from "./components/InActivePage/InActivePage";
+import { InModerationPage } from "./components/InModerationPage/InModerationPage";
+import { NewPage } from "./components/NewPage/NewPage";
+import { PerfomedPage } from "./components/PerfomedPage/PerfomedPage";
+import styles from "./style.module.scss";
+import { useMyLoadsMainProps } from "./useMyLoadsMainProps";
 
 export const MyLoadsMain = ({ locale }) => {
   const {
@@ -100,8 +86,6 @@ export const MyLoadsMain = ({ locale }) => {
   } = useMyLoadsMainProps(locale);
 
   const role_id = authStore.userData.role_id;
-
-  console.log("comments", comments);
 
   return (
     <Box px={"20px"} py="24px">

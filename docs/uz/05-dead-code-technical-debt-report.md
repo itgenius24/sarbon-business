@@ -15,25 +15,7 @@ Ushbu hisobot Sarbon Logistika Platformasi frontend kodbasasidagi texnik qarz, o
 #### Yuqori Ustuvorlik O'chirish (Ishlab Chiqarish Ta'siri)
 
 **Autentifikatsiya va Kirish**
-- `src/app/[locale]/auth/(components)/Login/useLoginProps.js:53`
-  ```javascript
-  console.log(`login`, data);
-  ```
   **Xavf**: Ishlab chiqarishda potentsial hisob ma'lumotlari logging
-
-**GPS Kuzatuv Modullari** (Ko'plab misollar)
-- `src/modules/GpsTrackingCustomer/useGpsTrackingProps.js:265`
-  ```javascript
-  // console.log(`data2`,data2)
-  ```
-- `src/modules/GpsTrackingCustomer/useGpsTrackingProps.js:283`
-  ```javascript
-  // console.log(`dats`, data2);
-  ```
-- `src/modules/GpsTrackingCeo/useGpsTrackingProps.js:346`
-  ```javascript
-  // console.log(`driverVal`,driverVal)
-  ```
 
 **Yuk Boshqaruvi**
 - `src/modules/MyLoadsMain/useMyLoadsMainProps.js` (ko'plab misollar)
@@ -42,48 +24,10 @@ Ushbu hisobot Sarbon Logistika Platformasi frontend kodbasasidagi texnik qarz, o
 
 #### Utility Funksiyalar Debug Kodi
 
-**Sana/Vaqt Utilitalar**
-- `src/utils/formatDateTime.js:5`
-  ```javascript
-  console.log('inputDate', inputDate)
-  ```
-
-**Viewport Aniqlash**
-- `src/utils/isVisibleInViewport.js:42`
-  ```javascript
-  console.log(`salom`, rect.top, rect.left, rect.bottom, rect.right);
-  ```
-
 **Masofa Hisoblash**
 - `src/hooks/useGetDistance.js:43`
   ```javascript
   console.error("Failed to calculate distance:", event);
-  ```
-
-#### Modulga Xos Debug Namunalar
-
-**Haydovchi Boshqaruvi**
-- `src/modules/Drivers/useMyCars.jsx:200`
-  ```javascript
-  console.log(`link`, link, type);
-  ```
-
-**AI Hujjat Qayta Ishlash**
-- `src/modules/AddCars/useProsp.jsx:364`
-  ```javascript
-  console.log(`jsonData`, jsonData);
-  ```
-
-**Dashboard Analitika**
-- `src/modules/DashboardDispatcher/useDashboardDispatcher.jsx:256`
-  ```javascript
-  console.log(2);
-  ```
-
-**Yuk Filtrlash**
-- `src/modules/AllCargoDispatcher/useAllCargoDispatcher.jsx:147`
-  ```javascript
-  console.log(`row`,row)
   ```
 
 ### Modul Turiga Ko'ra Debug Kod Taqsimoti

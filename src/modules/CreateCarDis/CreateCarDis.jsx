@@ -1,8 +1,24 @@
 "use client";
 
-import { Container } from "@/components/Container";
 import { useTranslation } from "@/app/i18n/client";
+import { Container } from "@/components/Container";
 
+import {
+  CheckModalIcon,
+  CloseIconOutline,
+  ImgploadIcon1,
+  ImgploadIcon2,
+  ImgUload2,
+  NavigationBtnLeftIcon,
+} from "@/assets/icons/icons";
+import { Checkbox } from "@/components/Checkbox";
+import { Dropdown } from "@/components/Dropdown";
+import { TextField } from "@/components/TextField";
+import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
+import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
+import { UploadImg } from "@/components/UploadImg";
+import { useGetLang } from "@/hooks/useGetLang";
+import { countries } from "@/utils/country";
 import {
   Box,
   Button,
@@ -25,22 +41,6 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import cls from "./style.module.scss";
-import { Dropdown } from "@/components/Dropdown";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { Checkbox } from "@/components/Checkbox";
-import { TextField } from "@/components/TextField";
-import {
-  CheckModalIcon,
-  CloseIconOutline,
-  ImgploadIcon1,
-  ImgploadIcon2,
-  ImgUload2,
-  NavigationBtnLeftIcon,
-} from "@/assets/icons/icons";
-import { UploadImg } from "@/components/UploadImg";
-import { countries } from "@/utils/country";
-import { TextFieldWithAdditionCar } from "@/components/TextFieldWithAddition/TextFieldWithAdditionCar";
-import { useGetLang } from "@/hooks/useGetLang";
 import { useProps } from "./useProps";
 
 export const CreateCarDis = () => {
@@ -444,7 +444,6 @@ export const CreateCarDis = () => {
                       required: t("Это поле обязательно"),
                     }}
                     onChange={(e) => {
-                      console.log(`we`, e.target.value);
                       e.target.value = e.target.value
                         .replace(/[^A-Za-z0-9]/g, "")
                         .toUpperCase();
