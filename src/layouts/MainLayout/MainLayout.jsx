@@ -27,7 +27,12 @@ export const MainLayout = ({ locale, children }) => {
   const { mutate } = useUpdateNoteData();
   const role_id = authStore?.userData.role_id;
   const token = authStore?.token?.access_token;
-  const isPathChat = !pathname.includes(`chat`) && ( role_id === "785678f2-fae7-4a00-8766-99ea67d3784f" || role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469") && token;
+const isPathChat = (
+  (role_id === 'f81d3c3d-228d-479e-a2b1-9948c98640f2' || role_id === '785678f2-fae7-4a00-8766-99ea67d3784f') &&
+  !pathname.includes('chat') &&
+  !!token
+);
+  console.log(`isPathChat`,isPathChat)
 
   const { data: data2 } = useGetNotificationFirst({
     data: {
