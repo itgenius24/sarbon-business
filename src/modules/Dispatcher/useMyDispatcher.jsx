@@ -6,9 +6,9 @@ import {
   useCreateActionHistoriesMutation,
   useDeleteDisTop,
   useGetCreateAddress,
-  useGetUserData,
-  useUpdateUserInfo,
+  useUpdateUserInfo
 } from "@/services/api";
+import authStore from "@/store/auth.store";
 import {
   Box,
   Flex,
@@ -21,12 +21,9 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useDebounce as useDebounce2 } from "use-debounce";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useDebounce as useDebounce2 } from "use-debounce";
 import cls from "./style.module.scss";
-import authStore from "@/store/auth.store";
-import { fi } from "date-fns/locale";
 
 export const useMyDispatcher = () => {
   const router = useRouter();
@@ -132,10 +129,7 @@ export const useMyDispatcher = () => {
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
       refetch();
-    },
-    onError(er) {
-      console.log(er);
-    },
+    }
   });
 
   const removeDisFn = (data) => {

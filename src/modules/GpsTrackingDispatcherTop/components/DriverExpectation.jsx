@@ -13,10 +13,10 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import {useUpdateResponse } from "@/services/api";
+import { useUpdateResponse } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
@@ -25,10 +25,6 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
   function handleClosePopup() {
     setPopupOpen(false);
   }
-
-  console.log(`currentUserLocationData`,currentUserLocationData)
-
-
 
   const updateResponseMutation = useUpdateResponse({
     onSuccess:() => {

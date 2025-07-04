@@ -14,77 +14,10 @@ This report identifies technical debt, dead code, and improvement opportunities 
 
 #### High-Priority Removals (Production Impact)
 
-**Authentication & Login**
-- `src/app/[locale]/auth/(components)/Login/useLoginProps.js:53`
-  ```javascript
-  console.log(`login`, data);
-  ```
-  **Risk**: Potential credential logging in production
-
-**GPS Tracking Modules** (Multiple instances)
-- `src/modules/GpsTrackingCustomer/useGpsTrackingProps.js:265`
-  ```javascript
-  // console.log(`data2`,data2)
-  ```
-- `src/modules/GpsTrackingCustomer/useGpsTrackingProps.js:283`
-  ```javascript
-  // console.log(`dats`, data2);
-  ```
-- `src/modules/GpsTrackingCeo/useGpsTrackingProps.js:346`
-  ```javascript
-  // console.log(`driverVal`,driverVal)
-  ```
-
 **Cargo Management**
 - `src/modules/MyLoadsMain/useMyLoadsMainProps.js` (multiple instances)
 - `src/modules/CargoTest/useAddCargoProps.js` (multiple instances)
 - `src/modules/Cargo/useAddCargoProps.js` (multiple instances)
-
-#### Utility Functions Debug Code
-
-**Date/Time Utilities**
-- `src/utils/formatDateTime.js:5`
-  ```javascript
-  console.log('inputDate', inputDate)
-  ```
-
-**Viewport Detection**
-- `src/utils/isVisibleInViewport.js:42`
-  ```javascript
-  console.log(`salom`, rect.top, rect.left, rect.bottom, rect.right);
-  ```
-
-**Distance Calculation**
-- `src/hooks/useGetDistance.js:43`
-  ```javascript
-  console.error("Failed to calculate distance:", event);
-  ```
-
-#### Module-Specific Debug Patterns
-
-**Driver Management**
-- `src/modules/Drivers/useMyCars.jsx:200`
-  ```javascript
-  console.log(`link`, link, type);
-  ```
-
-**AI Document Processing**
-- `src/modules/AddCars/useProsp.jsx:364`
-  ```javascript
-  console.log(`jsonData`, jsonData);
-  ```
-
-**Dashboard Analytics**
-- `src/modules/DashboardDispatcher/useDashboardDispatcher.jsx:256`
-  ```javascript
-  console.log(2);
-  ```
-
-**Cargo Filtering**
-- `src/modules/AllCargoDispatcher/useAllCargoDispatcher.jsx:147`
-  ```javascript
-  console.log(`row`,row)
-  ```
 
 ### Debug Code Distribution by Module Type
 

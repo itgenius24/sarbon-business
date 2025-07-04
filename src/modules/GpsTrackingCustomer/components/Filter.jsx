@@ -1,11 +1,11 @@
+import { useTranslation } from "@/app/i18n/client";
 import { FilterIconBlack, LocationMarkIcon } from "@/assets/icons/icons";
 import { ChakraSelect } from "@/components/ChakraSelect";
 import { Checkbox } from "@/components/Checkbox";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { useTranslation } from "@/app/i18n/client";
 import { Box, Flex } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 const Filter = ({
@@ -56,8 +56,6 @@ const Filter = ({
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         setResults(geoObjects);
-      } else {
-        console.log("Manzil topilmadi");
       }
     } catch (error) {
       console.error("Geokodlashda xatolik:", error);

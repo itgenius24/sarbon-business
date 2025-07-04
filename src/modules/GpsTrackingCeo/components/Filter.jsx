@@ -1,13 +1,13 @@
+import { useTranslation } from "@/app/i18n/client";
 import { FilterIconBlack, LocationMarkIcon } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 import { Dropdown } from "@/components/Dropdown";
 import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import { useTranslation } from "@/app/i18n/client";
+import { useGetNewPredData } from "@/services/api";
 import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { useDebounce } from "use-debounce";
-import { useGetNewPredData } from "@/services/api";
 import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
 const Filter = ({
   cls,
   locale,
@@ -66,8 +66,6 @@ const Filter = ({
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         setResults(geoObjects);
-      } else {
-        console.log("Manzil topilmadi");
       }
     } catch (error) {
       console.error("Geokodlashda xatolik:", error);

@@ -1,18 +1,15 @@
 import {
-  LoadSvgIcon,
   EndIcon,
-  StartIcon,
-  StopIcon,
+  LoadSvgIcon,
+  StartIcon
 } from "@/assets/icons/icons";
 import {
   Map,
   Placemark,
   Polyline,
   TypeSelector,
-  YMaps,
-  ZoomControl,
+  ZoomControl
 } from "@pbe/react-yandex-maps";
-import { format } from "date-fns";
 
 import { useEffect, useRef } from "react";
 
@@ -99,7 +96,7 @@ export const AccordionMap = ({
               strokeStyle: "dash",
             });
           })
-          .catch((err) => console.log(`error`, err));
+          .catch((_) => { return });
       }
     }, 3000);
   }, [gpsHistory]);

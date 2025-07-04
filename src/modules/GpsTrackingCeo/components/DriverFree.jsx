@@ -42,7 +42,6 @@ import {
 import copy from "copy-to-clipboard";
 import { format } from "date-fns";
 import Image from "next/image";
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverFree = ({
@@ -104,8 +103,8 @@ const DriverFree = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (e) {
-      console.log(2);
+    } catch (_) {
+      return
     }
   };
 

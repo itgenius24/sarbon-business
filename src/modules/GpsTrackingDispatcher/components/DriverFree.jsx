@@ -21,7 +21,6 @@ import { TextField } from "@/components/TextField";
 import { useCreateActionHistoriesMutation, useGetCompanyList, useGetExcelPost } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { flegCountry } from "@/utils/flegCountry";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import {
   Avatar,
   Box,
@@ -40,7 +39,6 @@ import {
 import copy from "copy-to-clipboard";
 import { format } from "date-fns";
 import Image from "next/image";
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverFree = ({
@@ -88,8 +86,8 @@ const DriverFree = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (e) {
-      console.log(2);
+    } catch (_) {
+      return
     }
   };
 
