@@ -912,6 +912,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         side: watch(`side`),
         back: watch(`back`),
         with_removal: watch(`with_removal`),
+
+           payment_data: check
+          ? null
+          : JSON.stringify({
+              description: check ? undefined : watch("payment_description"),
+              total: watch(`allPrice`),
+              prepayment: watch(`allPrepayment`),
+              postpayment: watch(`priceAfterOrder`),
+            }),
       },
     };
 
@@ -1213,7 +1222,12 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         side: data?.load_type.includes(`side`),
         back: data?.load_type.includes(`back`),
         with_removal: data?.load_type.includes(`with_removal`),
+        allPrice: JSON.parse(data?.payment_data)?.total,
+        allPrepayment: JSON.parse(data?.payment_data)?.prepayment,
+        priceAfterOrder: JSON.parse(data?.payment_data)?.postpayment
       });
+
+      console.log(`salom`,JSON.parse(data?.payment_data))
 
       if (data?.temp_from || data?.temp_to) {
         setIsGradusOpen(true);

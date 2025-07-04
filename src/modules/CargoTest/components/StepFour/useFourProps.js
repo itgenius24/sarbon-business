@@ -33,6 +33,9 @@ const useFourProps = ({ locale }) => {
       spot: watch(`spot`),
       with_nds: watch(`with_nds`),
       free_nds: watch(`free_nds`),
+      prepayment: watch(`prepayment`),
+      combo: watch(`combo`),
+      transfer: watch(`transfer`),
     });
   }, [
     watch(`uzs`),
@@ -40,8 +43,9 @@ const useFourProps = ({ locale }) => {
     watch(`rub`),
     watch(`eur`),
     watch(`spot`),
-    watch(`with_nds`),
-    watch(`free_nds`),
+    watch(`prepayment`),
+    watch(`combo`),
+    watch(`transfer`),
   ]);
 
   const currencyOptions = getCurrency.data?.response?.map((item) => ({
@@ -61,7 +65,6 @@ const useFourProps = ({ locale }) => {
       (opt) => opt.value === watch(`payment_type`)?.value
     );
   }, [watch(`payment_type`)?.value, paymentOptions]);
-
 
   useEffect(() => {
     if (
@@ -138,8 +141,6 @@ const useFourProps = ({ locale }) => {
       price: ``,
     });
   }
-
-
 
   const removeInput = (indx) => {
     setValue(

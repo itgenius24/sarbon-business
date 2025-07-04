@@ -228,12 +228,12 @@ const StepFive = ({ status, locale }) => {
 
         payment_data: check
           ? null
-          : {
+          : JSON.stringify({
               description: check ? undefined : watch("payment_description"),
               total: watch(`allPrice`),
               prepayment: watch(`allPrepayment`),
               postpayment: watch(`priceAfterOrder`),
-            },
+            }),
 
         // step5
 

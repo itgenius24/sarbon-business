@@ -48,7 +48,6 @@ const StepFour = ({ status, locale }) => {
   } = useFourProps({ locale });
   const { t } = useTranslation();
 
-
   const params = usePathname();
 
   useEffect(() => {
@@ -491,7 +490,7 @@ const StepFour = ({ status, locale }) => {
                 </Flex>
 
                 <Flex className={cls.inputWrap} mt={5} gap={10} width={"100%"}>
-                  {!status ? (
+                  {/* {!status ? ( */}
                     <Box width={"100%"}>
                       <Flex mb={2} alignItems={"center"} gap={"10px"}>
                         <p className={cls.label}>
@@ -570,7 +569,7 @@ const StepFour = ({ status, locale }) => {
                         }
                       /> */}
                     </Box>
-                  ) : (
+                  {/* ) : (
                     <Box width={`100%`}>
                       <p className={cls.totalTEet}>
                         {t(`Сумма после завершения заказа`)}
@@ -589,7 +588,7 @@ const StepFour = ({ status, locale }) => {
                         }`}
                       </p>
                     </Box>
-                  )}
+                  )} */}
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
                       <p className={cls.label}>
@@ -669,7 +668,7 @@ const StepFour = ({ status, locale }) => {
                     </Checkbox>
                   </Box>
 
-                   <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                     <Checkbox
                       isDisabled={!canEdit}
                       defaultChecked={true}
@@ -678,60 +677,37 @@ const StepFour = ({ status, locale }) => {
                     >
                       Наличными
                     </Checkbox>
-                  </Box> 
+                  </Box>
 
-
-                      <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                     <Checkbox
                       isDisabled={!canEdit}
                       defaultChecked={true}
                       register={register}
-                      name="Предоплата"
+                      name="prepayment"
                     >
                       Предоплата
                     </Checkbox>
-                  </Box> 
+                  </Box>
 
-                   <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                     <Checkbox
                       isDisabled={!canEdit}
                       defaultChecked={true}
                       register={register}
-                      name="Комбо"
+                      name="combo"
                     >
                       Комбо
                     </Checkbox>
-                  </Box> 
+                  </Box>
                   <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                     <Checkbox
                       isDisabled={!canEdit}
                       defaultChecked={true}
                       register={register}
-                      name="Перечисление"
+                      name="transfer"
                     >
                       Перечисление
-                    </Checkbox>
-                  </Box>
-
-                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
-                    <Checkbox
-                      isDisabled={!canEdit}
-                      defaultChecked={true}
-                      register={register}
-                      name="with_nds"
-                    >
-                      С НДС, безнал
-                    </Checkbox>
-                  </Box>
-
-                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
-                    <Checkbox
-                      isDisabled={!canEdit}
-                      defaultChecked={true}
-                      register={register}
-                      name="free_nds"
-                    >
-                      Без НДС, безнал
                     </Checkbox>
                   </Box>
                 </Flex>
