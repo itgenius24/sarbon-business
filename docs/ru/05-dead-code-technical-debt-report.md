@@ -15,76 +15,12 @@
 #### Высокоприоритетные Удаления (Воздействие на Продакшен)
 
 **Аутентификация и Вход**
-- `src/app/[locale]/auth/(components)/Login/useLoginProps.js:53`
-  ```javascript
-  console.log(`login`, data);
-  ```
   **Риск**: Потенциальное логирование учетных данных в продакшене
-
-**GPS Отслеживание Модули** (Множественные экземпляры)
-- `src/modules/GpsTrackingCustomer/useGpsTrackingProps.js:265`
-  ```javascript
-  // console.log(`data2`,data2)
-  ```
-- `src/modules/GpsTrackingCustomer/useGpsTrackingProps.js:283`
-  ```javascript
-  // console.log(`dats`, data2);
-  ```
-- `src/modules/GpsTrackingCeo/useGpsTrackingProps.js:346`
-  ```javascript
-  // console.log(`driverVal`,driverVal)
-  ```
 
 **Управление Грузами**
 - `src/modules/MyLoadsMain/useMyLoadsMainProps.js` (множественные экземпляры)
 - `src/modules/CargoTest/useAddCargoProps.js` (множественные экземпляры)
 - `src/modules/Cargo/useAddCargoProps.js` (множественные экземпляры)
-
-#### Отладочный Код Utility Функций
-
-**Утилиты Даты/Времени**
-- `src/utils/formatDateTime.js:5`
-  ```javascript
-  console.log('inputDate', inputDate)
-  ```
-
-**Определение Viewport**
-- `src/utils/isVisibleInViewport.js:42`
-  ```javascript
-  console.log(`salom`, rect.top, rect.left, rect.bottom, rect.right);
-  ```
-
-**Расчет Расстояний**
-- `src/hooks/useGetDistance.js:43`
-  ```javascript
-  console.error("Failed to calculate distance:", event);
-  ```
-
-#### Модуль-специфичные Отладочные Паттерны
-
-**Управление Водителями**
-- `src/modules/Drivers/useMyCars.jsx:200`
-  ```javascript
-  console.log(`link`, link, type);
-  ```
-
-**AI Обработка Документов**
-- `src/modules/AddCars/useProsp.jsx:364`
-  ```javascript
-  console.log(`jsonData`, jsonData);
-  ```
-
-**Аналитика Дашборда**
-- `src/modules/DashboardDispatcher/useDashboardDispatcher.jsx:256`
-  ```javascript
-  console.log(2);
-  ```
-
-**Фильтрация Грузов**
-- `src/modules/AllCargoDispatcher/useAllCargoDispatcher.jsx:147`
-  ```javascript
-  console.log(`row`,row)
-  ```
 
 ### Распределение Отладочного Кода по Типу Модуля
 

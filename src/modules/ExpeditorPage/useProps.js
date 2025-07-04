@@ -1,13 +1,13 @@
 import { useTranslation } from "@/app/i18n/client";
-import { Flex, useMediaQuery } from "@chakra-ui/react";
-import React, { useState } from "react";
-import Imgprofile from "./conponents/Imgprofile";
 import { useGetCarData } from "@/services/api";
+import authStore from "@/store/auth.store";
+import { useMediaQuery } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import authStore from "@/store/auth.store";
-import cls from './style.module.scss';
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Imgprofile from "./conponents/Imgprofile";
+import cls from './style.module.scss';
 
 export const useProps = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -46,7 +46,7 @@ export const useProps = () => {
       title: t(`Перевозчик`),
       width: 450,
       filter:true,
-      filterType: (type) => console.log(`type`,type),
+      filterType: (type) => {},
       render: (row, index) => (
         <Imgprofile
           company_name={row?.company_name}

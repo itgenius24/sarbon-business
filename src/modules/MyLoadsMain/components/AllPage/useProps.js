@@ -232,7 +232,6 @@ const useProps = (orderStatus, t, search, address, locale) => {
                   : row?.date && format(row?.date, `dd.MM.yyyy`)}
               </span>
             </p>
-
           </Flex>
         </Flex>
       ),
@@ -362,11 +361,26 @@ const useProps = (orderStatus, t, search, address, locale) => {
   };
 
   const onRow = (item) => {
+    const responseStatuses = {
+      "": item?.order_status,
+      in_moderation: item?.order_status,
+      new: item?.provisions,
+      performed: item?.provisions,
+      cancellation: item?.provisions,
+      archive: item?.provisions,
+      approve_from_driver: item?.response_status,
+      approve_by_customer: item?.response_status,
+    };
+
+    const status =
+      responseStatuses[orderStatus]?.[0] ||
+      responseStatuses["in_moderation"]?.[0];
+
     if (
       item?.order_status?.[0] === `active` ||
       item?.order_status?.[0] === `in_active`
     ) {
-      router.push(`/${locale}/my-loads/${orderStatus}/${item?.guid}`);
+      router.push(`/${locale}/my-loads/${status}/${item?.guid}`);
     } else {
       return;
     }

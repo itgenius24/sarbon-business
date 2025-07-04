@@ -108,7 +108,7 @@ export const useProfileDis = () => {
       title: `Водитель`,
       filter: filter,
       key: `driver`,
-      filterType: (type) => console.log(`type`, type),
+      filterType: (type) => {},
       width: 200,
       render: (row, index) => (
         <Flex gap={`10px`} alignItems={`center`}>
@@ -135,7 +135,7 @@ export const useProfileDis = () => {
       title: `Статус`,
       filter: filter,
       key: `status`,
-      filterType: (type) => console.log(`type1`, type),
+      filterType: (type) => {},
       width: 300,
       render: (row, index) => `Транпортная компания`,
     },

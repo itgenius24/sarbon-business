@@ -33,7 +33,6 @@ const formatted = formatDate(new Date(), 'dd/MM/yyyy'); // "18/06/2025"
 - Корректировка часового пояса (-5 часов)
 - Относительное форматирование "Сегодня", "Вчера"
 - Отображение времени для недавних дат
-**Технический Долг**: 🚨 Содержит debug выражение `console.log('inputDate', inputDate)`
 **Использование**: Временные метки грузов, история GPS отслеживания
 
 #### `addDaysToDate(date, days)`
@@ -275,13 +274,6 @@ export const rem = (px) => {
 1. **findChangedLogs** - Специфично для аудит логирования
 2. **extractUrlInfo** - Специфично для обработки URL
 3. **translateArray** - Специфично для локализации
-
-## Технический Долг в Утилитах
-
-### 🚨 Проблемы Debug Кода
-1. **formatDateTime.js**: Содержит `console.log('inputDate', inputDate)` на строке 5
-2. **isVisibleInViewport.js**: Содержит `console.log('salom', rect.top, ...)` на строке 42
-3. **useGetDistance.js**: Содержит `console.error("Failed to calculate distance:", event)` на строке 43
 
 ### 🔧 Возможности Улучшения
 

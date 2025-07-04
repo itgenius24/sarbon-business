@@ -7,15 +7,13 @@ import {
   CloseIconM,
   FurIcon,
   GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
   LocationActiveIcon,
-  ModalGruzIcon,
   ModalWatingIcon,
   NextBtnIcon,
   StarsIcon,
   StoneIcon,
-  TelegramIcon,
+  TelegramIcon
 } from "@/assets/icons/icons";
 import { useGetOffer, useGetUserGpsByIDData, useUpdateResponse } from "@/services/api";
 import {
@@ -33,7 +31,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
@@ -43,10 +41,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
   function handleClosePopup() {
     setPopupOpen(false);
   }
-
-  console.log(`currentUserLocationData`,currentUserLocationData)
-
-
+  
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({

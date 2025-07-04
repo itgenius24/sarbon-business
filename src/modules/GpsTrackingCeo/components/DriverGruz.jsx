@@ -1,25 +1,12 @@
 import {
-  AppleIcon,
-  BatareyFullIcon,
-  BluetoothIcon,
-  CheckBlueIcon,
   CloseIconM,
   ExelIcon,
-  FurIcon,
-  GreenCheckIcon,
   GruzGeenIcon,
-  GruzIcon,
-  LoadgreenIcon,
   LoadOulineIcon,
-  LocationActiveIcon,
   ModalGruzIcon,
-  NextBtnIcon,
-  StarsIcon,
-  StoneIcon,
+  StoneIcon
 } from "@/assets/icons/icons";
-import { Popup } from "@/components/Popup";
 import { TextField } from "@/components/TextField";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import { useCreateActionHistoriesMutation, useGetExcelPost, useUpdateCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
@@ -38,7 +25,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverGruz = ({
@@ -115,8 +102,8 @@ const DriverGruz = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (e) {
-      console.log(2);
+    } catch (_) {
+      return
     }
   };
   const getExcelFile = useGetExcelPost({

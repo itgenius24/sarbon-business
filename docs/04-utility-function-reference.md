@@ -33,7 +33,6 @@ const formatted = formatDate(new Date(), 'dd/MM/yyyy'); // "18/06/2025"
 - Timezone adjustment (-5 hours)
 - "Today", "Yesterday" relative formatting
 - Time display for recent dates
-**Technical Debt**: 🚨 Contains `console.log('inputDate', inputDate)` debug statement
 **Usage**: Cargo timestamps, GPS tracking history
 
 #### `addDaysToDate(date, days)`
@@ -357,11 +356,6 @@ export const rem = (px) => {
 3. **translateArray** - Localization specific
 
 ## Technical Debt in Utilities
-
-### 🚨 Debug Code Issues
-1. **formatDateTime.js**: Contains `console.log('inputDate', inputDate)` on line 5
-2. **isVisibleInViewport.js**: Contains `console.log('salom', rect.top, ...)` on line 42
-3. **useGetDistance.js**: Contains `console.error("Failed to calculate distance:", event)` on line 43
 
 ### 🔧 Improvement Opportunities
 

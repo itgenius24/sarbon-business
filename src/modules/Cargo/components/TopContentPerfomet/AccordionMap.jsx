@@ -1,6 +1,6 @@
 import {
-  LoadSvgIcon,
   EndIcon,
+  LoadSvgIcon,
   StartIcon,
   StopIcon,
 } from "@/assets/icons/icons";
@@ -9,10 +9,8 @@ import {
   Placemark,
   Polyline,
   TypeSelector,
-  YMaps,
-  ZoomControl,
+  ZoomControl
 } from "@pbe/react-yandex-maps";
-import { format } from "date-fns";
 
 import { useEffect, useRef } from "react";
 
@@ -45,16 +43,12 @@ export const AccordionMap = ({
   const line = getMaps?.data?.response
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
-
-
-    console.log(`shipper`,shipper,consignee)
-
+    
   useEffect(() => {
     const ymaps = window.ymaps;
 
     setTimeout(() => {
       if (map.current && ymaps) {
-        console.log(`getMaps`, getMaps);
         ymaps
           .route([
             [startLocation?.lat, startLocation?.long], // Start point

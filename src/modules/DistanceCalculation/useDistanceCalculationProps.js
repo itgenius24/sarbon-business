@@ -163,8 +163,6 @@ export const useDistanceCalculationProps = () => {
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         setResults(geoObjects);
-      } else {
-        console.log("Manzil topilmadi");
       }
     } catch (error) {
       console.error("Geokodlashda xatolik:", error);

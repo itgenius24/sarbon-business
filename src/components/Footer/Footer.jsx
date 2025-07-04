@@ -1,28 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { Container } from "../Container";
-import cls from "./styles.module.scss";
-import GooglePlay from "@/assets/images/google-play.svg";
-import Getapps from "@/assets/images/getapps.svg";
-import RuStore from "@/assets/images/RuStore.svg";
-import AndroidPlay from "@/assets/images/android_apk.svg";
+import { useTranslation } from "@/app/i18n/client";
 import AppStore from "@/assets/images/app-store.svg";
 import GalaxyStore from "@/assets/images/galaxy-store.svg";
-
-import { Box, Flex } from "@chakra-ui/react";
-import { usePathname } from "next/navigation";
-import { useTranslation } from "@/app/i18n/client";
+import Getapps from "@/assets/images/getapps.svg";
+import GooglePlay from "@/assets/images/google-play.svg";
+import RuStore from "@/assets/images/RuStore.svg";
 import { useGetLang } from "@/hooks/useGetLang";
-import { useCreateApkDownloadMutation, useGetCountApk } from "@/services/api";
 import authStore from "@/store/auth.store";
+import { Box, Flex } from "@chakra-ui/react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Container } from "../Container";
+import cls from "./styles.module.scss";
 
 export const Footer = () => {
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
   const pathname = usePathname();
-
   const { t } = useTranslation(locale, "translations");
 
   const data = {
@@ -47,10 +43,6 @@ export const Footer = () => {
       },
     ],
     right: [
-      // {
-      //   title: "Блог",
-      //   link: "/",
-      // },
       {
         title: t("Политика конфиденциальности"),
         link: `/${locale}/privacy-policy`,
@@ -61,52 +53,6 @@ export const Footer = () => {
       },
     ],
   };
-
-  // const { mutate: apkData } = useCreateApkDownloadMutation({});
-
-  // const downloadFn = () => {
-  //   apkData({
-  //     data: {
-  //       app_name: navigator.userAgent,
-  //       count: 1,
-  //       create_time: new Date(),
-  //     },
-  //   });
-  // };
-
-  // const { data: apkCount, refetch } = useGetCountApk({
-  //   params: {
-  //     data: JSON.stringify({
-  //       // create_time: {
-  //       //   $gte: ``,
-  //       //   $lt: ``,
-  //       // },
-  //     }),
-  //   },
-  //   querySettings: {
-  //     enabled: Boolean(role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"),
-  //   },
-  // });
-
-  // const downloadByLanguage = async (langId) => {
-  //   try {
-  //     // const res = await getData({
-  //     //   ...file,
-  //     //   lang: langId,
-  //     // });
-
-  //     const link = document.createElement("a");
-  //     const res = `../../assets/app/Furgo.apk`;
-  //     link.href = res.file;
-  //     // link.target = "_blank";
-  //     link.download = `Furgo.apk`;
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   } catch (e) {
-  //     console.log(2);
-  //   }
-  // };
 
   return (
     <Box
@@ -126,13 +72,6 @@ export const Footer = () => {
                     <Link className={cls.infoLink} href={item.link}>
                       {item.title}
                     </Link>
-                    {/* {
-                      item?.link?.includes("distance-calculation") ? (
-                        <a className={cls.infoLink} href={item.link}>{item.title}</a>
-                      ) : <Link className={cls.infoLink} href={item.link}>
-                        {item.title}
-                      </Link>
-                    } */}
                   </li>
                 );
               })}

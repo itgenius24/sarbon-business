@@ -105,9 +105,7 @@ export const useLoginProps = () => {
       //   );
       // }
     },
-    onError: (error) => {
-      console.log(error);
-    },
+    onError: (_) => { return },
   });
 
   const loginOne = useOneLoginMutation({

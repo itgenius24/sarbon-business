@@ -1,21 +1,20 @@
+import { NextArrowIcon, NoteIcon } from "@/assets/icons/icons";
+import { Checkbox } from "@/components/Checkbox";
+import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import {
   Box,
   Button,
   Flex,
-  Heading,
   Radio,
   RadioGroup,
   Switch,
-  Text,
+  Text
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import cls from "./style.module.scss";
-import { NextArrowIcon, NoteIcon } from "@/assets/icons/icons";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
-import useFourProps from "./useFourProps";
-import { useTranslation } from "react-i18next";
-import { Checkbox } from "@/components/Checkbox";
 import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import cls from "./style.module.scss";
+import useFourProps from "./useFourProps";
 
 const StepFour = ({ status, locale }) => {
   const [value, setValueR] = React.useState("negotiable");
@@ -82,7 +81,6 @@ const StepFour = ({ status, locale }) => {
   };
 
   const onChangeNa = (e) => {
-    console.log(`negotiable`, e);
     if (e === `negotiable`) {
       setValue(`negotiable`, true);
       setCheck(false);

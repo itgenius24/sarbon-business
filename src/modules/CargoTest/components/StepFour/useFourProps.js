@@ -1,7 +1,6 @@
+import { useGetCurrency, useGetPaymentType } from "@/services/api";
 import { useEffect, useMemo, useState } from "react";
 import { useAddCargoContext } from "../../providers";
-import { useGetCurrency, useGetPaymentType } from "@/services/api";
-import { useGetLang } from "@/hooks/useGetLang";
 
 const useFourProps = ({ locale }) => {
   const {
@@ -61,8 +60,6 @@ const useFourProps = ({ locale }) => {
       (opt) => opt.value === watch(`payment_type`)?.value
     );
   }, [watch(`payment_type`)?.value, paymentOptions]);
-
-  console.log(`paymentOptions`, selectedOption);
 
   useEffect(() => {
     if (

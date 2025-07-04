@@ -1,7 +1,7 @@
-import { useAddCargoContext } from "../../providers";
-import { useEffect, useInsertionEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import { useDebounce } from "use-debounce";
+import { useAddCargoContext } from "../../providers";
 
 const useStepTwoProps = ({locale}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -298,12 +298,8 @@ const useStepTwoProps = ({locale}) => {
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         setResults(geoObjects);
-      } else {
-        console.log("Manzil topilmadi");
       }
-    } catch (error) {
-      console.error("Geokodlashda xatolik:", error);
-    }
+    } catch (_) { return }
   };
 
   useEffect(() => {

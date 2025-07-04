@@ -1,40 +1,37 @@
 import {
-  CheckModalIcon,
   LoadOulineIcon,
   NextCheckIcon,
   SearchIcon,
-  StoneIcon,
+  StoneIcon
 } from "@/assets/icons/icons";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Text,
-  InputGroup,
-  InputRightElement,
-  Spinner,
-  useMediaQuery,
-  DrawerFooter,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerContent,
-  DrawerOverlay,
-  Drawer,
-} from "@chakra-ui/react";
-import React, { useMemo, useState } from "react";
-import CheckBoxComponent from "./CheckBoxComponent";
 import { Checkbox } from "@/components/Checkbox";
 import {
   useGetCargoMap,
-  useGetUserCargo,
-  useOfferFromCustomerMutation,
+  useOfferFromCustomerMutation
 } from "@/services/api";
-import { useTranslation } from "react-i18next";
-import { useGetLang } from "@/hooks/useGetLang";
-import { Tooltip } from "stream-chat-react";
 import authStore from "@/store/auth.store";
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Spinner,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Tooltip } from "stream-chat-react";
+import CheckBoxComponent from "./CheckBoxComponent";
 
 const SelectCargo = ({
   cls,
@@ -50,9 +47,6 @@ const SelectCargo = ({
   const [selectCargo, setSelectCargo] = useState([]);
   const [search, setSearch] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const locale = useGetLang();
-
-  console.log(`currentUserLocationData`,currentUserLocationData)
 
   const { data: dataMap, isLoading } = useGetCargoMap({
     data: {

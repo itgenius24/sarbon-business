@@ -1,4 +1,4 @@
-import authStore from "@/store/auth.store";
+import useDebounce2 from "@/hooks/useDebounce";
 import {
   useCreateFeedback,
   useCreateLogHistory,
@@ -10,11 +10,11 @@ import {
   useUpdateNoteData,
   useUpdateResponse,
 } from "@/services/api";
-import { useEffect, useRef, useState } from "react";
+import authStore from "@/store/auth.store";
 import { useMediaQuery, useToast } from "@chakra-ui/react";
-import useDebounce2 from "@/hooks/useDebounce";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 import { useForm } from "react-hook-form";
@@ -126,8 +126,6 @@ export const useMyLoadsMainProps = (locale) => {
   }, []);
 
   const handleCheckboxChange = (key) => {
-  console.log("comments", key);
-
     setComments(
       (prev) =>
         prev.includes(key)
@@ -343,8 +341,8 @@ export const useMyLoadsMainProps = (locale) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (e) {
-      console.log(3);
+    } catch (_) {
+      return
     }
   };
 
@@ -380,8 +378,6 @@ export const useMyLoadsMainProps = (locale) => {
       if (data.response) {
         const geoObjects = data.response.GeoObjectCollection.featureMember;
         setResults(geoObjects);
-      } else {
-        console.log("Manzil topilmadi");
       }
     } catch (error) {
       console.error("Geokodlashda xatolik:", error);
