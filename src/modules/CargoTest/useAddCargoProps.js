@@ -1227,9 +1227,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         priceAfterOrder: JSON.parse(data?.payment_data)?.postpayment
       });
 
-      console.log(`salom`,JSON.parse(data?.payment_data))
+ 
 
-      if (data?.temp_from || data?.temp_to) {
+      if ((data?.temp_from?.length > 0  && data?.temp_from !== `null` )) {
         setIsGradusOpen(true);
       }
       if (data.load_type?.length > 0) {
