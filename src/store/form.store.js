@@ -47,11 +47,11 @@ function getEmptyFormData() {
     ],
     allPrice: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -60,11 +60,11 @@ function getEmptyFormData() {
     ],
     allPrepayment: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -73,11 +73,11 @@ function getEmptyFormData() {
     ],
     priceAfterOrder: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -262,11 +262,11 @@ class Store {
       ],
       allPrice: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -275,11 +275,11 @@ class Store {
       ],
       allPrepayment: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -288,11 +288,11 @@ class Store {
       ],
       priceAfterOrder: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },

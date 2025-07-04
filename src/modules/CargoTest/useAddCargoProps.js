@@ -170,11 +170,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ],
     allPrice: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -183,11 +183,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ],
     allPrepayment: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -196,11 +196,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ],
     priceAfterOrder: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -332,11 +332,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ],
       allPrice: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -345,11 +345,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ],
       allPrepayment: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -358,11 +358,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ],
       priceAfterOrder: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
