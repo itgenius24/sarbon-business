@@ -2,32 +2,29 @@
 
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { BackArrow } from "@/assets/icons/icons";
+import authStore from "@/store/auth.store";
+import { Box, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import {
-  Chat,
   Channel,
-  Window,
   ChannelHeader,
-  MessageList,
   ChannelList,
-  Thread,
   ChannelPreviewMessenger,
+  Chat,
+  MessageList,
+  Thread,
+  Window,
 } from "stream-chat-react";
-import { getToken } from "@/utils/getToken";
-import { Box, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
-import { MessageInputWithLocationButton } from "./components/MessageInputWithLocationButton/MessageInputWithLocationButton";
 import { AttachmentWithMap } from "./components/AttachmentWithMap/AttachmentWithMap";
-import authStore from "@/store/auth.store";
-import { PinnedMessageBar } from "./components/PinnedMessageBar/PinnedMessageBar";
-import { BackArrow } from "@/assets/icons/icons";
+import { MessageInputWithLocationButton } from "./components/MessageInputWithLocationButton/MessageInputWithLocationButton";
 
 const ChatModule = () => {
   const [channel, setChannel] = useState(null);
   const [client, setClient] = useState(null);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const [pinnedMessages, setPinnedMessages] = useState([]);
-  const apiKey = "8qurbezqtr38"; // Stream API key
 
   const user = {
     id: authStore.userData.guid,
@@ -40,7 +37,7 @@ const ChatModule = () => {
 
   useEffect(() => {
     const initChat = async () => {
-      const client = StreamChat.getInstance(apiKey);
+      const client = StreamChat.getInstance(process.env.NEXT_PUBLIC_STREAM_CHAT_API_KEY);
       await client.connectUser(user, client.devToken(user.id));
       setClient(client);
     };
