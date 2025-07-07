@@ -205,7 +205,7 @@ const useProps = (orderStatus, t,locale) => {
         ),
       },
       {
-        title: t("Стомость"),
+        title: t("Стоимость"),
         width: 170,
         render: (row, index) => (
           <Box>

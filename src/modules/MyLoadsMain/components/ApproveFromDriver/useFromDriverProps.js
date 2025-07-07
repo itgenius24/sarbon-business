@@ -398,7 +398,7 @@ const router = useRouter()
         ),
       },
       {
-        title: t("Стомость"),
+        title: t("Стоимость"),
         width: 140,
         render: (row, index) => (
           <Box width={`140px`}>

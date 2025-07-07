@@ -240,7 +240,7 @@ export const useAllCargoDispatcher = () => {
         ),
     },
     {
-      title: t(`Общая Стомость`),
+      title: t(`Общая стоимость`),
       width: 250,
       render: (row, index) => (
         <Box>

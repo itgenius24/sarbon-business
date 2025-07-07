@@ -468,7 +468,7 @@ export const TableComponent = ({
       ),
     },
     {
-      title: t("Стомость"),
+      title: t("Стоимость"),
       width: 200,
       filter: true,
       key: `price`,
