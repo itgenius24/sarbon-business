@@ -5,6 +5,7 @@ import cls from "./styles.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import authStore from "@/store/auth.store";
+import { useStoreHydration } from "@/hooks/useStoreHydration";
 import {
   Box,
   Button,
@@ -29,10 +30,11 @@ import { roleName } from "@/utils/roleName";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
+  const isHydrated = useStoreHydration();
 
   // const [isAuth, setAuth] = useState(false);
 
-  const isAuth = authStore.getIsAuth;
+  const isAuth = isHydrated ? authStore.getIsAuth : false;
   const pathname = usePathname();
   const role_id = authStore.userData.role_id;
   const locale = useGetLang();

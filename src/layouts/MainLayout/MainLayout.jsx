@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
+import { useStoreHydration } from "@/hooks/useStoreHydration";
 import { Box, IconButton } from "@chakra-ui/react";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
@@ -25,8 +26,10 @@ export const MainLayout = ({ locale, children }) => {
   const pathname = usePathname();
   const router = useRouter();
   const { mutate } = useUpdateNoteData();
-  const role_id = authStore?.userData.role_id;
-  const token = authStore?.token?.access_token;
+  const isHydrated = useStoreHydration();
+  
+  const role_id = isHydrated ? authStore?.userData.role_id : null;
+  const token = isHydrated ? authStore?.token?.access_token : null;
 const isPathChat = (
   (role_id === 'f81d3c3d-228d-479e-a2b1-9948c98640f2' || role_id === '785678f2-fae7-4a00-8766-99ea67d3784f') &&
   !pathname.includes('chat') &&
