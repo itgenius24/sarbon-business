@@ -265,16 +265,16 @@ export const useMyLoadsMainProps = (locale) => {
   );
 
   const notificationFn = (res) => {
-    if (res?.response?.[0]?.users_id_2) {
+    // if (res?.response?.[0]?.users_id_2) {
       mutate({
         data: {
           views: true,
           guid: res?.response?.[0]?.guid,
         },
       });
-    } else{
-      setNotificationId(res?.response?.[0]?.guid)
-    }
+    // } else{
+    //   setNotificationId(res?.response?.[0]?.guid)
+    // }
 
     Notification.requestPermission();
     if (res?.response?.[0]?.type === "предложение") {

@@ -16,6 +16,7 @@ import cls from "./style.module.scss";
 import { statusText } from "../../data";
 import SelectStatus from "@/components/SelectStatus/SelectStatus";
 import { useRouter } from "next/navigation";
+import { paymentType } from "@/utils/paymentTypes";
 
 
 const useProps = (orderStatus, t,locale) => {
@@ -204,43 +205,66 @@ const useProps = (orderStatus, t,locale) => {
           </Box>
         ),
       },
-      {
-        title: t("Стоимость"),
-        width: 170,
-        render: (row, index) => (
+         {
+      title: t("Стоимость"),
+      width: 170,
+      render: (row, index) => {
+        const total = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.total;
+        const prepayment = row?.cargo_id_data?.payment_data &&  JSON.parse(row?.cargo_id_data?.payment_data)?.prepayment;
+        const postpayment = row?.cargo_id_data?.payment_data &&  JSON.parse(row?.cargo_id_data?.payment_data)?.postpayment;
+        return (
           <Box>
-            {row?.bid_cash ? (
-              <>
-                <p className={cls.title}>
-                  {row?.bid_cash} {row?.currency_id_data?.code}
-                  <span className={cls.subTitle1}>
-                    {row?.[`payment_type_${locale}`] || row?.payment_type
-                      ? ` ${t(
-                          row?.[`payment_type_${locale}`]
-                            ? row?.[`payment_type_${locale}`]
-                            : row?.payment_type
-                        )}`
-                      : t(" Безнал")}
-                  </span>
-                </p>
-                <span className={cls.subTitle}>
-                  {t("Аванс")}{" "}
-                  {row?.prepayment_percentage > 0
-                    ? `${row?.prepayment_percentage} ${row?.currency_id_data?.code}`
-                    : t("Нет")}
-                </span>
-              </>
+            {total?.length > 0 ? (
+              <Tooltip
+                color={`black`}
+                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                background={`#fff`}
+                label={
+                  <>
+                    <p className={cls.title}>{t(`Общая сумма`)}</p>
+                    {total?.map((item, index) => (
+                      <p key={index} className={cls.subTitle}>
+                        {item?.price} {item?.currency?.label}{" "}
+                        {item?.type?.label}
+                      </p>
+                    ))}
+
+                    <p className={cls.title}>
+                      {t(`Аванс`)} {prepayment?.length === 0 && `Нет`}
+                    </p>
+                    {prepayment?.length > 0 &&
+                      prepayment?.map((item, index) => (
+                        <p key={index} className={cls.subTitle}>
+                          {item?.price} {item?.currency?.label}{" "}
+                          {item?.type?.label}
+                        </p>
+                      ))}
+
+                    <p className={cls.title}>{t(`Сумма по заказу`)}</p>
+                    {postpayment?.length > 0 &&
+                      postpayment?.map((item, index) => (
+                        <p key={index} className={cls.subTitle}>
+                          {item?.price} {item?.currency?.label}{" "}
+                          {item?.type?.label}
+                        </p>
+                      ))}
+                  </>
+                }
+              >
+                <p className={cls.title}>{t(`Общая сумма`)}</p>
+              </Tooltip>
             ) : (
               <>
                 <p className={cls.title}>{t("По запросу")}</p>
-                <span className={cls.subTitle}>
-                  {t("Аванс")} {t("По запросу")}
-                </span>
+                <p className={cls.money_code}>
+                  {row?.cargo_id_data?.money_code?.map((item) => paymentType[item]).join(`, `)}
+                </p>
               </>
             )}
           </Box>
-        ),
+        );
       },
+    },
       {
         title: t("Статус груза"),
         width: 170,

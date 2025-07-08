@@ -31,8 +31,6 @@ const useFourProps = ({ locale }) => {
       rub: watch(`rub`),
       eur: watch(`eur`),
       spot: watch(`spot`),
-      with_nds: watch(`with_nds`),
-      free_nds: watch(`free_nds`),
       prepayment: watch(`prepayment`),
       combo: watch(`combo`),
       transfer: watch(`transfer`),
