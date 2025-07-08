@@ -37,9 +37,13 @@ const ChatModule = () => {
 
   useEffect(() => {
     const initChat = async () => {
-      const client = StreamChat.getInstance(process.env.NEXT_PUBLIC_STREAM_CHAT_API_KEY);
-      await client.connectUser(user, client.devToken(user.id));
-      setClient(client);
+      try {
+        const client = StreamChat.getInstance(process.env.NEXT_PUBLIC_STREAM_CHAT_API_KEY);
+        await client.connectUser(user, client.devToken(user.id));
+        setClient(client);
+      } catch (error) {
+        console.log('error', error);
+      }
     };
 
     initChat();
