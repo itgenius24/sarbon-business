@@ -332,18 +332,25 @@ const StepFive = ({ status, locale }) => {
         back: watch(`back`),
         with_removal: watch(`with_removal`),
 
-        //step4
+    
+        money_code: check ? getTrueKeys(mone) : null,
+        // bid_cash: check ? undefined : +watch("price"),
+        // prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
+        // dim_length_special: check ? undefined : watch("price_after_order"),
+        // payment_description: check ? undefined : watch("payment_description"),
+        // currency_id: check ? undefined : watch("price_prepayment_unit")?.value,
+        // map_id: check ? undefined : watch("payment_type")?.value,
+        // map_id_2: check ? undefined : watch("payment_type_1")?.value,
+        // map_id_3: check ? undefined : watch("payment_type_2")?.value,
 
-        guid: check ? watch(`loadResId`) : undefined,
-        money_code: check ? getTrueKeys(mone) : undefined,
-        bid_cash: check ? undefined : +watch("price"),
-        prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
-        dim_length_special: check ? undefined : watch("price_after_order"),
-        payment_description: check ? undefined : watch("payment_description"),
-        currency_id: check ? undefined : watch("price_prepayment_unit")?.value,
-        map_id: check ? undefined : watch("payment_type")?.value,
-        map_id_2: check ? undefined : watch("payment_type_1")?.value,
-        map_id_3: check ? undefined : watch("payment_type_2")?.value,
+        payment_data: check
+          ? null
+          : JSON.stringify({
+              description: check ? undefined : watch("payment_description"),
+              total: watch(`allPrice`),
+              prepayment: watch(`allPrepayment`),
+              postpayment: watch(`priceAfterOrder`),
+            }),
 
         //step5
 
