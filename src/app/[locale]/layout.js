@@ -28,16 +28,24 @@ export const metadata = {
     siteName: "Sarbon",
     images: [
       {
-        url: "https://furgo.uz/_next/static/media/logo.56cc9102.svg", // Must be an absolute URL
+        url: "/favicon.ico",
         width: 800,
         height: 800,
+        alt: "Sarbon Logo"
       },
       {
-        url: "https://furgo.uz/_next/static/media/logo.56cc9102.svg", // Must be an absolute URL
+        url: "/favicon.ico",
         width: 1600,
         height: 1600,
+        alt: "Sarbon Logo"
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sarbon",
+    description: "Добро пожаловать в Sarbon, вашего надежного партнера в сфере безупречных логистических решений.",
+    images: ["/favicon.ico"],
   },
   type: "website",
 };
