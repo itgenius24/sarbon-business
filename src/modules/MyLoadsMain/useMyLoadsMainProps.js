@@ -20,12 +20,12 @@ import { useDebounce } from "use-debounce";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { filterTabsDis, filterTabsZ } from "./data";
-const predlojeniya = "/predlojeniya.mp3";
-const predlojeniyauz = "/predlojeniyauz.mp3";
-const vispolneniya = "/vispolneniya.mp3";
-const vispolneniyauz = "/vispolneniyauz.mp3";
-const zavishon = "/zavishon.mp3";
-const zavishonuz = "/zavishonuz.mp3";
+const predlojeniya = "/sounds/predlojeniya.mp3";
+const predlojeniyauz = "/sounds/predlojeniyauz.mp3";
+const vispolneniya = "/sounds/vispolneniya.mp3";
+const vispolneniyauz = "/sounds/vispolneniyauz.mp3";
+const zavishon = "/sounds/zavishon.mp3";
+const zavishonuz = "/sounds/zavishonuz.mp3";
 
 export const useMyLoadsMainProps = (locale) => {
   const [open, setOpen] = useState(false);

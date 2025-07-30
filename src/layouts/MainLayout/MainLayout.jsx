@@ -20,12 +20,12 @@ import { BottomTabNavigation } from "@/components/BottomTabNavigation";
 import { MoreTabContent } from "@/components/MoreTabContent/MoreTabContent";
 import { useState } from "react";
 
-const predlojeniya = "/predlojeniya.mp3";
-const predlojeniyauz = "/predlojeniyauz.mp3";
-const vispolneniya = "/vispolneniya.mp3";
-const vispolneniyauz = "/vispolneniyauz.mp3";
-const zavishon = "/zavishon.mp3";
-const zavishonuz = "/zavishonuz.mp3";
+const predlojeniya = "/sounds/predlojeniya.mp3";
+const predlojeniyauz = "/sounds/predlojeniyauz.mp3";
+const vispolneniya = "/sounds/vispolneniya.mp3";
+const vispolneniyauz = "/sounds/vispolneniyauz.mp3";
+const zavishon = "/sounds/zavishon.mp3";
+const zavishonuz = "/sounds/zavishonuz.mp3";
 
 export const MainLayout = ({ locale, children }) => {
   const [isMoreTabOpen, setIsMoreTabOpen] = useState(false);
