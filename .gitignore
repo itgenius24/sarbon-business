@@ -15,6 +15,10 @@
 # production
 /build
 
+# source maps (prevent folder structure exposure)
+*.map
+**/*.map
+
 # misc
 .DS_Store
 *.pem
