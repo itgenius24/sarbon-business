@@ -1,13 +1,12 @@
 "use client";
 
-import { ChatHeaderIcon } from "@/assets/icons/icons";
 import ChangelogModal from "@/components/ChangelogModal/ChangelogModal";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { useStoreHydration } from "@/hooks/useStoreHydration";
 import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { Box, IconButton, useMediaQuery } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import "slick-carousel/slick/slick-theme.css";
@@ -104,7 +103,7 @@ export const MainLayout = ({ locale, children }) => {
   return (
     <div className={clsx(cls.layout, "fade-in")}>
       <ChangelogModal locale={locale} />
-      {isPathChat &&
+      {isPathChat && isLargerThan768 &&
           <Box className={cls.chatIcon}>
             <IconButton
               onClick={() => window.location.replace(`/${locale}/chat`)}
