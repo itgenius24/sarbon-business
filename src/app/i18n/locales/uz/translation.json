@@ -653,7 +653,6 @@
    "Независимый водитель": "Mustaqil haydovchi",
    "Зависимый водитель": "Nomustaqil haydovchi",
    "driver_dependency_description_on": "Haydovchi takliflarni mustaqil ravishda yuborishi va qabul qilishi mumkin bo'ladi, buyurtma chatlari Siz va ushbu haydovchi bilan ochiladi. Bu funksiyani istalgan vaqtda o'chirib qo'yishingiz mumkin. ESLATMA: Yangi o'zgartirishlar kelgusi buyurtmalardan kuchga kiradi, faol buyurtmalar uchun amal qilmaydi.",
-   "driver_dependency_description_off": "Haydovchi takliflarni mustaqil ravishda yubora olmaydi va qabul qila olmaydi, buyurtma chatlari faqat Siz bilan ochiladi. Bu funksiyani istalgan vaqtda yoqishingiz mumkin. ESLATMA: Yangi o'zgartirishlar kelgusi buyurtmalardan kuchga kiradi, faol buyurtmalar uchun amal qilmaydi."
-
-
+   "driver_dependency_description_off": "Haydovchi takliflarni mustaqil ravishda yubora olmaydi va qabul qila olmaydi, buyurtma chatlari faqat Siz bilan ochiladi. Bu funksiyani istalgan vaqtda yoqishingiz mumkin. ESLATMA: Yangi o'zgartirishlar kelgusi buyurtmalardan kuchga kiradi, faol buyurtmalar uchun amal qilmaydi.",
+   "Ещё": "Boshqa"
 }
