@@ -181,9 +181,7 @@ export const MyLoadsMain = ({ locale }) => {
                     >
                       <p
                         className={styles.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                       />{" "}
                     </Flex>
                   );
@@ -212,8 +210,8 @@ export const MyLoadsMain = ({ locale }) => {
                 )}
                 {item.value === "approve_from_driver" &&
                   waitingDriverCount > 0 && (
-                    <div className={styles.count}>{waitingDriverCount}</div>
-                  )}
+                  <div className={styles.count}>{waitingDriverCount}</div>
+                )}
                 {item.value === "no_dispatcher" && noDataDisCount > 0 && (
                   <div className={styles.count}>{noDataDisCount}</div>
                 )}
@@ -224,7 +222,7 @@ export const MyLoadsMain = ({ locale }) => {
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <NewPage
-                
+
                   refetchNoDisPred={refetchNoDisPred}
                   refetchWaitingDriverCount={refetchWaitingDriverCount}
                   refetchNewPred={refetchNewPred}
@@ -237,7 +235,7 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <NewPage
-                
+
                   refetchNoDisPred={refetchNoDisPred}
                   refetchWaitingDriverCount={refetchWaitingDriverCount}
                   refetchNewPred={refetchNewPred}
@@ -249,27 +247,27 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <ApproveFromDriver
-                
+
                   locale={locale}
                   t={t}
                   orderStatus={`approve_from_driver`}
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <PerfomedPage  t={t} orderStatus={`performed`} locale={locale} />
+                <PerfomedPage t={t} orderStatus={`performed`} locale={locale} />
               </TabPanel>
               <TabPanel padding={0}>
-                <CancellationPage  locale={locale} t={t} orderStatus={`cancellation`} />
+                <CancellationPage locale={locale} t={t} orderStatus={`cancellation`} />
               </TabPanel>
               <TabPanel padding={0}>
-                <ArchivePage  setOpen={setOpen} t={t} orderStatus={`archive`} />
+                <ArchivePage setOpen={setOpen} t={t} orderStatus={`archive`} />
               </TabPanel>
             </TabPanels>
           ) : (
             <TabPanels padding={`24px 0`}>
               <TabPanel padding={0}>
                 <AllPage
-                
+
                   locale={locale}
                   address={address}
                   search={watch(`from`)}
@@ -279,7 +277,7 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <ActivePage
-                
+
                   t={t}
                   address={address}
                   search={watch(`from`)}
@@ -289,18 +287,18 @@ export const MyLoadsMain = ({ locale }) => {
               </TabPanel>
               <TabPanel padding={0}>
                 <InModerationPage
-                
+
                   locale={locale}
                   t={t}
                   orderStatus={`in_moderation`}
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <PerfomedPage  t={t} orderStatus={`performed`} locale={locale} />
+                <PerfomedPage t={t} orderStatus={`performed`} locale={locale} />
               </TabPanel>
               <TabPanel padding={0}>
                 <ArchivePage
-                
+
                   setOpen={setOpen}
                   t={t}
                   orderStatus={`archive`}
@@ -308,7 +306,7 @@ export const MyLoadsMain = ({ locale }) => {
                 />
               </TabPanel>
               <TabPanel padding={0}>
-                <InActivePage  t={t} orderStatus={`in_active`} locale={locale} />
+                <InActivePage t={t} orderStatus={`in_active`} locale={locale} />
               </TabPanel>
             </TabPanels>
           )}

@@ -17,7 +17,7 @@ export const userCargoSetupProps = () => {
     const result = await fileUpload(e);
     setValue("image", result?.link);
   };
-  
+
 
   function imageLoader() {
     return watch("image")?.includes("http") ? watch("image") : process.env.NEXT_PUBLIC_MEDIA_URL + watch("image");

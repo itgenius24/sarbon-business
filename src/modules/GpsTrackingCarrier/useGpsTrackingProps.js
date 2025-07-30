@@ -278,7 +278,7 @@ export const useGpsTrackingProps = () => {
             ],
             firm_data: item?.firm_data,
             users_gps: [item?.gps_data],
-            orders: item?.order_data ? [{...item?.order_data,cargo_id_data:item?.cargo_data}] : undefined,
+            orders: item?.order_data ? [{ ...item?.order_data,cargo_id_data:item?.cargo_data }] : undefined,
           }))?.filter(item => item.gps_data);
 
           setCarsArr(data2);
@@ -299,7 +299,7 @@ export const useGpsTrackingProps = () => {
   useEffect(() => {
     if (dataUserID.length > 0 && mapRef) {
       setCurrentUserLocationData(dataUserID?.[0]);
-        if (dataUserID?.[0]?.user?.provisions?.[0] === "empty") {
+      if (dataUserID?.[0]?.user?.provisions?.[0] === "empty") {
         setModalType("driverFree");
       } else if (dataUserID?.[0]?.user?.provisions?.[0] === "our_cargo") {
         setModalType("driverCheck");
@@ -311,7 +311,7 @@ export const useGpsTrackingProps = () => {
         setModalType("driverExpectation");
       }
     }
-   
+
   }, [dataUserID, watch("users_id")]);
 
   const { mutate: getLocation, isLoading: locationPending } = useLocation({
@@ -388,11 +388,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     if (remainingData.length === 0) {
-      getCarRefueling({
-        data: {
-          object_data: {},
-        },
-      });
+      getCarRefueling({ data: { object_data: {}, }, });
     }
   }, []);
   const getUserNameOptions = getCarListProps.data?.map((item) => ({
@@ -458,7 +454,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
-     getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
+    getLocation({ data: { object_data: { limit: 40, page: offsetCar } } });
   }, [offsetCar]);
 
   const handleClear = () => {

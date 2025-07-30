@@ -1,18 +1,18 @@
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import {
-    useCreateAddressMutation,
-    useCreateCargoMutation,
-    useDeleteCargo,
-    useGetCargoById,
-    useGetLoadingMutation,
-    useGetMaps,
-    useGetOfferById,
-    useGetUserCargo,
-    useLoadingTypes,
-    useSendNotification,
-    useUpdateCargo,
-    useUpdateResponse,
+  useCreateAddressMutation,
+  useCreateCargoMutation,
+  useDeleteCargo,
+  useGetCargoById,
+  useGetLoadingMutation,
+  useGetMaps,
+  useGetOfferById,
+  useGetUserCargo,
+  useLoadingTypes,
+  useSendNotification,
+  useUpdateCargo,
+  useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import formStore from "@/store/form.store";
@@ -1022,7 +1022,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
             address: item?.name,
           });
         }
-    
+
       });
 
       // unloadingRef.current?.forEach((item, index) => {
@@ -1142,7 +1142,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
     handleDelete,
     handleCancel,
     handleAccept,
-   
+
     address1:
       data?.address_id_data?.["name_" + (locale === "uz" ? "en" : locale)],
     address2:

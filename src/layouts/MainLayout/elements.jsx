@@ -164,10 +164,10 @@ export const useElements = (lang) => {
       ];
     } else {
       menu = [
-          // {
-          //   path: `/${lang || "ru"}/`,
-          //   label: "Главный",
-          // },
+        // {
+        //   path: `/${lang || "ru"}/`,
+        //   label: "Главный",
+        // },
 
         {
           path: isAuth ? `/${lang || "ru"}/my-loads` : `/${lang || "ru"}/auth`,

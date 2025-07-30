@@ -1,24 +1,24 @@
 import {
-    BatareyFullIcon,
-    BatareyIcon,
-    BluetoothIcon,
-    CricleArrovIcon,
-    LocationActiveIcon,
-    NoImFur,
-    NoImgDrivers,
-    PopupIcon,
+  BatareyFullIcon,
+  BatareyIcon,
+  BluetoothIcon,
+  CricleArrovIcon,
+  LocationActiveIcon,
+  NoImFur,
+  NoImgDrivers,
+  PopupIcon,
 } from "@/assets/icons/icons";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
-    Box,
-    Flex,
-    IconButton,
-    Popover,
-    PopoverArrow,
-    PopoverBody,
-    PopoverContent,
-    PopoverTrigger,
-    Portal,
+  Box,
+  Flex,
+  IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -64,8 +64,8 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
             <Box>
               <p className={cls.title}>{item?.full_name}</p>
               <p className={cls.phone}>{item?.phone}</p>
-                 <p className={cls.subTitle}>
-                {item?.is_independent ?  t(`Независимый водитель`) : t(`Зависимый водитель`)}
+              <p className={cls.subTitle}>
+                {item?.is_independent ? t(`Независимый водитель`) : t(`Зависимый водитель`)}
               </p>
             </Box>
           </Flex>

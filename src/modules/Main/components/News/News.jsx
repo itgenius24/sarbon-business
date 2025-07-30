@@ -5,14 +5,14 @@ import { Container } from "@/components/Container";
 import { useGetLang } from "@/hooks/useGetLang";
 import { useGetNewsList } from "@/services/api";
 import {
-    Box,
-    Flex,
-    Heading,
-    IconButton,
-    SimpleGrid,
-    Spacer,
-    Stack,
-    useMediaQuery,
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  SimpleGrid,
+  Spacer,
+  Stack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";

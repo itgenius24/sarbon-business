@@ -120,10 +120,10 @@ export const LoadsCard = forwardRef(
               <div className={cls.rightContend}>
                 <div className={cls.text}>
                   <p className={cls.rightTitle}>
-                  {t(`Тип оплаты`)}: {cargo?.payment_type}
+                    {t(`Тип оплаты`)}: {cargo?.payment_type}
                   </p>
                   <p className={cls.rightTitle}>
-                  {t(`Предоплата`)}:
+                    {t(`Предоплата`)}:
                     {/* {cargo?.payment_type?.[0] === "prepayment" ? `Да` : `Нет`} */}
                     {cargo?.prepayment_percentage
                       ? ` ${cargo?.prepayment_percentage} ${cargo?.currency_id_data?.code}`
@@ -208,7 +208,7 @@ export const LoadsCard = forwardRef(
                 >
                   <Box>
                     <span className={cls.cardBodyTitle}>
-                    {t(`Статус`)}:
+                      {t(`Статус`)}:
                       {cargo?.updated_time &&
                         format(cargo?.updated_time, ` dd.MM.yyyy, HH:mm`)}
                     </span>
@@ -307,9 +307,7 @@ export const LoadsCard = forwardRef(
         <Popup
           isOpen={isDeletePopupOpen}
           onClose={() => setIsDeletePopupOpen(false)}
-          mainText={t("Вы уверены что хотите удалить груз ?", {
-            name: cargo?.short_name,
-          })}
+          mainText={t("Вы уверены что хотите удалить груз ?", { name: cargo?.short_name, })}
           status="delete"
           btn2Callback={() => onDeleteAccept(cargo)}
         />

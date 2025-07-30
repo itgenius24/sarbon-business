@@ -13,7 +13,7 @@ export const useStoreHydration = () => {
 
     const checkHydration = () => {
       const storedAuth = localStorage.getItem('authStore');
-      
+
       if (storedAuth) {
         try {
           const parsedAuth = JSON.parse(storedAuth);
@@ -25,12 +25,12 @@ export const useStoreHydration = () => {
           console.error('Error parsing stored auth data:', e);
         }
       }
-      
+
       setIsHydrated(true);
     };
 
     const timeoutId = setTimeout(checkHydration, 50);
-    
+
     return () => clearTimeout(timeoutId);
   }, []);
 

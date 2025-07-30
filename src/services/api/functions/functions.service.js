@@ -20,7 +20,7 @@ const functionsService = {
   getExcelFile: (data) =>
     requestInvoke.post("logistika-get-list-sorted-gps-history",
       data
-    ),  
+    ),
   getNotification: (data) =>
     requestInvoke.post("logistika-notification", data),
   getNewPred: (data) =>

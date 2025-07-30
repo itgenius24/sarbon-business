@@ -41,8 +41,8 @@ export const AccordionMap = ({
     .slice(1, -1)
     .map((item) => [item?.lat, item?.long]);
 
-    
-    
+
+
 
   useEffect(() => {
     const ymaps = window.ymaps;
@@ -156,7 +156,7 @@ export const AccordionMap = ({
           iconImageOffset: [-15, -42],
         }}
       />
-      
+
 
       {line?.length > 0 &&
         line?.map((item) => (

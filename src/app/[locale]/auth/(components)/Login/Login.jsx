@@ -122,7 +122,7 @@ export const Login = () => {
               leftIcon={<GoogleIcon />}
               className={cls.btnAuth}
             >
-             {t("Продолжить с Google")}
+              {t("Продолжить с Google")}
             </Button>
             <Button
               // onClick={handleAppleLogin}

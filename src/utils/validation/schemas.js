@@ -29,7 +29,7 @@ export const fieldSchemas = {
       .string()
       .matches(pattern, "Неправильный номер телефона")
       .transform((value) => value?.replace(/\s/g, "")); // Remove spaces
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -39,7 +39,7 @@ export const fieldSchemas = {
       .string()
       .matches(EMAIL_PATTERN, "Неправильный формат email")
       .email("Неправильный формат email");
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -52,7 +52,7 @@ export const fieldSchemas = {
         PASSWORD_PATTERN,
         "Пароль должен содержать минимум 8 символов, включая заглавную букву, строчную букву и цифру"
       );
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -61,7 +61,7 @@ export const fieldSchemas = {
     let schema = yup
       .string()
       .oneOf([yup.ref("password"), null], "Пароли не совпадают");
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -72,7 +72,7 @@ export const fieldSchemas = {
       .min(minLength, `Имя должно содержать минимум ${minLength} символа`)
       .max(maxLength, `Имя должно содержать максимум ${maxLength} символов`)
       .matches(/^[a-zA-Zа-яА-Я\s]+$/, "Имя может содержать только буквы и пробелы");
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -82,7 +82,7 @@ export const fieldSchemas = {
       .string()
       .matches(/^[A-Z0-9]{6,10}$/, "Неправильный формат номера автомобиля")
       .transform((value) => value?.toUpperCase());
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -91,7 +91,7 @@ export const fieldSchemas = {
     let schema = yup
       .date()
       .typeError("Неправильный формат даты");
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -101,11 +101,11 @@ export const fieldSchemas = {
       .number()
       .typeError("Должно быть числом")
       .min(min, `Значение должно быть больше ${min}`);
-    
+
     if (max !== null) {
       schema = schema.max(max, `Значение должно быть меньше ${max}`);
     }
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -115,7 +115,7 @@ export const fieldSchemas = {
       .string()
       .min(minLength, `Текст должен содержать минимум ${minLength} символов`)
       .max(maxLength, `Текст должен содержать максимум ${maxLength} символов`);
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 
@@ -124,7 +124,7 @@ export const fieldSchemas = {
     let schema = yup
       .string()
       .url("Неправильный формат URL");
-    
+
     return required ? schema.required("Обязательное поле") : schema;
   },
 };
@@ -134,9 +134,7 @@ export const fieldSchemas = {
  */
 export const formSchemas = {
   // Authentication forms
-  login: yup.object({
-    phone: fieldSchemas.phone(),
-  }),
+  login: yup.object({ phone: fieldSchemas.phone(), }),
 
   registration: yup.object({
     phone: fieldSchemas.phone(),
@@ -144,9 +142,7 @@ export const formSchemas = {
     email: fieldSchemas.email(false), // Optional email
   }),
 
-  forgotPassword: yup.object({
-    phone: fieldSchemas.phone(),
-  }),
+  forgotPassword: yup.object({ phone: fieldSchemas.phone(), }),
 
   resetPassword: yup.object({
     password: fieldSchemas.password(),

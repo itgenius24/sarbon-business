@@ -15,7 +15,7 @@ export default function Handbook() {
   const { data, isLoading } = useHandbookProps();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   if (isLoading) return <SkeletonComp />;
 
   return (

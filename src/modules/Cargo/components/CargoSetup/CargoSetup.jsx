@@ -25,7 +25,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
     canEdit,
     canEditActive
   } = userCargoSetupProps();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [islargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const status = canEdit ? canEdit : canEditActive ? canEditActive : canEdit ;
@@ -164,7 +164,7 @@ export const CargoSetup = ({ setIsPhotoChanged }) => {
               <UploadCloudIcon />
             </Box>
             <Box color="primaryText" textAlign="center">
-            {t(`Загрузить`)}
+              {t(`Загрузить`)}
             </Box>
             <Box textAlign="center" fontWeight="400" fontSize="14px" lineHeight="18px" color="brand.600">{t(`Фото до 10 МБ.`)}</Box>
           </Box>

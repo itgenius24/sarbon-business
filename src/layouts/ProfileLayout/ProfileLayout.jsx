@@ -1,7 +1,7 @@
 import { useTranslation } from "@/app/i18n/client";
 import {
-    EditIcon,
-    UserProfileIcon
+  EditIcon,
+  UserProfileIcon
 } from "@/assets/icons/icons";
 import UserImg from "@/assets/images/user.png";
 import { Container } from "@/components/Container";
@@ -11,21 +11,21 @@ import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { useGetFirmInfo, useUpdateUserInfo } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
-    Box,
-    Button,
-    Flex,
-    Heading,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Text,
-    useDisclosure,
-    useMediaQuery,
-    useToast,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  useMediaQuery,
+  useToast,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
@@ -59,9 +59,7 @@ export const ProfileLayout = ({ children, variant = "simple" }) => {
   const { t } = useTranslation(locale, "translations");
 
   // Get firm data for advanced variant
-  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id, {
-    enabled: Boolean(authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") && variant === "advanced"
-  });
+  const { data: firmData } = useGetFirmInfo(authStore?.userData?.firm_id, { enabled: Boolean(authStore?.userData?.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") && variant === "advanced" });
 
   // Photo upload mutation for advanced variant
   const { mutate: userData, isLoading } = useUpdateUserInfo({
@@ -283,7 +281,7 @@ export const ProfileLayout = ({ children, variant = "simple" }) => {
                                           data?.photo?.includes(`https`)
                                             ? ``
                                             : process.env.NEXT_PUBLIC_MEDIA_URL
-                                        }${data?.photo || ""}`
+                                      }${data?.photo || ""}`
                                       : UserImg
                                   }
                                   alt="profileImg"

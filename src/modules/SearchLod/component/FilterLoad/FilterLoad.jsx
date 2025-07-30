@@ -66,36 +66,34 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           {activeIndex === `from` &&
             results.length > 0 &&
             address?.length > 0 && (
-              <Box className={cls.optionsWrap}>
-                {results?.map((location, idx) => {
-                  const text = location?.GeoObject?.name || "";
-                  const highlightText = (text, search) => {
-                    if (!search) return text;
-                    const regex = new RegExp(`(${search})`, "gi");
-                    return text.replace(
-                      regex,
-                      `<span class="${cls.bold}">$1</span>`
-                    );
-                  };
-
-                  return (
-                    <Flex
-                      onClick={() => hanleAdress(location, `from`, "loading")}
-                      key={idx}
-                      gap={3}
-                      alignItems={"center"}
-                    >
-                      <p
-                        className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
-                      />
-                    </Flex>
+            <Box className={cls.optionsWrap}>
+              {results?.map((location, idx) => {
+                const text = location?.GeoObject?.name || "";
+                const highlightText = (text, search) => {
+                  if (!search) return text;
+                  const regex = new RegExp(`(${search})`, "gi");
+                  return text.replace(
+                    regex,
+                    `<span class="${cls.bold}">$1</span>`
                   );
-                })}
-              </Box>
-            )}
+                };
+
+                return (
+                  <Flex
+                    onClick={() => hanleAdress(location, `from`, "loading")}
+                    key={idx}
+                    gap={3}
+                    alignItems={"center"}
+                  >
+                    <p
+                      className={cls.item}
+                      dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                    />
+                  </Flex>
+                );
+              })}
+            </Box>
+          )}
         </Box>
 
         <Box width={"100%"} className={cls.locationWrap}>
@@ -118,36 +116,34 @@ export const FilterLoad = ({ register, control, setValue, watch }) => {
           {activeIndex === `to` &&
             results.length > 0 &&
             address?.length > 0 && (
-              <Box className={cls.optionsWrap}>
-                {results?.map((location, idx) => {
-                  const text = location?.GeoObject?.name || "";
-                  const highlightText = (text, search) => {
-                    if (!search) return text;
-                    const regex = new RegExp(`(${search})`, "gi");
-                    return text.replace(
-                      regex,
-                      `<span class="${cls.bold}">$1</span>`
-                    );
-                  };
-
-                  return (
-                    <Flex
-                      onClick={() => hanleAdress(location, `to`, "loading")}
-                      key={idx}
-                      gap={3}
-                      alignItems={"center"}
-                    >
-                      <p
-                        className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
-                      />
-                    </Flex>
+            <Box className={cls.optionsWrap}>
+              {results?.map((location, idx) => {
+                const text = location?.GeoObject?.name || "";
+                const highlightText = (text, search) => {
+                  if (!search) return text;
+                  const regex = new RegExp(`(${search})`, "gi");
+                  return text.replace(
+                    regex,
+                    `<span class="${cls.bold}">$1</span>`
                   );
-                })}
-              </Box>
-            )}
+                };
+
+                return (
+                  <Flex
+                    onClick={() => hanleAdress(location, `to`, "loading")}
+                    key={idx}
+                    gap={3}
+                    alignItems={"center"}
+                  >
+                    <p
+                      className={cls.item}
+                      dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                    />
+                  </Flex>
+                );
+              })}
+            </Box>
+          )}
         </Box>
 
         <Box width={"100%"}>

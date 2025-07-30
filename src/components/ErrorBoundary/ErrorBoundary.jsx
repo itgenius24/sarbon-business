@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     // Log error details for debugging
     console.error("ErrorBoundary caught an error:", error, errorInfo);
-    
+
     this.setState({
       error: error,
       errorInfo: errorInfo
@@ -59,7 +59,7 @@ class ErrorBoundary extends React.Component {
             <Heading size="lg" color="red.500">
               Что-то пошло не так
             </Heading>
-            
+
             <Text color="gray.600">
               Произошла неожиданная ошибка. Пожалуйста, попробуйте обновить страницу или обратитесь в службу поддержки.
             </Text>
@@ -92,7 +92,7 @@ class ErrorBoundary extends React.Component {
               <Button colorScheme="blue" onClick={this.handleRetry}>
                 Попробовать снова
               </Button>
-              
+
               <Button
                 variant="outline"
                 onClick={() => window.location.reload()}

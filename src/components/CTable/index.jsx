@@ -38,15 +38,13 @@ const CTable = ({
       borderRight="1px solid"
       borderColor="border"
     >
-   
+
       <Table
         columns={columns}
-        
+
         data={paginatedData}
 
-        onRow={(row) => ({
-          onClick: () => onRowClick(row),
-        })}
+        onRow={(row) => ({ onClick: () => onRowClick(row), })}
         emptyText={
           <Stack alignItems="center" p={10} spacing={1}>
             <Text fontSize="md" color="silver" fontWeight={600}>

@@ -28,7 +28,7 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
               className={cls.flag}
               width={30}
               height={30}
-              src={       item?.cargo_id_data?.flag_ot ||
+              src={ item?.cargo_id_data?.flag_ot ||
                 `https://flagcdn.com/w320/${item?.cargo_id_data?.country_code_from?.toLowerCase()}.png`}
               alt={t("Флаг")}
             />
@@ -60,8 +60,8 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
               )}
               <br />
               <span className={cls.subTitle}>
-                {!item?.cargo_id_data?.as_soon_as_a ?
-                  format(item?.cargo_id_data?.load_time, `yyyy-MM-dd`) : t(`Готов к загрузке`)}{" "}
+                {!item?.cargo_id_data?.as_soon_as_a
+                  ? format(item?.cargo_id_data?.load_time, `yyyy-MM-dd`) : t(`Готов к загрузке`)}{" "}
                 ~ {item?.distance || 0} {t("км")}
               </span>
             </p>
@@ -81,9 +81,9 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
               width={30}
               height={30}
               src={
-                 item?.cargo_id_data?.flag_do ||
+                item?.cargo_id_data?.flag_do ||
                 `https://flagcdn.com/w320/${item?.cargo_id_data?.country_code_to?.toLowerCase()}.png`
-                }
+              }
               alt={t("Флаг")}
             />
             <p className={cls.country_code}>
@@ -110,8 +110,8 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
               )}
               <br />
               <span className={cls.subTitle}>
-                {!item?.cargo_id_data?.as_soon_as_b ?
-                  format(item?.cargo_id_data?.date, `yyyy-MM-dd`): t(`Как можно скорее`)}
+                {!item?.cargo_id_data?.as_soon_as_b
+                  ? format(item?.cargo_id_data?.date, `yyyy-MM-dd`): t(`Как можно скорее`)}
               </span>
             </p>
           </Box>
@@ -146,8 +146,8 @@ const Card = ({ item, t,isLargerThan845, ...props }) => {
           {t("Предоплата")}
           {item?.cargo_id_data?.prepayment_percentage > 0
             ? `${item?.cargo_id_data?.prepayment_percentage} ${
-                item?.currency_id_data?.code || ``
-              }`
+              item?.currency_id_data?.code || ``
+            }`
             : t("Нет")}
         </span>
       </Box>

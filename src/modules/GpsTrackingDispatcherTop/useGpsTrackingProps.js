@@ -143,9 +143,7 @@ export const useGpsTrackingProps = () => {
             },
           ],
           orders: [
-            {
-              cargo_id_data: res?.response?.[0],
-            },
+            { cargo_id_data: res?.response?.[0], },
           ],
           disp_data: [{ users_id_2: dispatcher_id }],
         };
@@ -158,8 +156,7 @@ export const useGpsTrackingProps = () => {
           setModalType("driverQuestion");
         } else if (provisions === "broke_down") {
           setModalType("driverFree");
-        }
-         else if (provisions === "waiting_for_driver") {
+        } else if (provisions === "waiting_for_driver") {
           setModalType("driverExpectation");
         }
       },
@@ -438,10 +435,9 @@ export const useGpsTrackingProps = () => {
         setModalType("driverQuestion");
       } else if (provisions === "broke_down") {
         setModalType("driverFree");
+      } else if (provisions === "waiting_for_driver") {
+        setModalType("driverExpectation");
       }
-        else if (provisions === "waiting_for_driver") {
-          setModalType("driverExpectation");
-        }
     }
   }, []);
 
@@ -483,11 +479,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     if (remainingData.length === 0) {
-      getCarRefueling({
-        data: {
-          object_data: {},
-        },
-      });
+      getCarRefueling({ data: { object_data: {}, }, });
     }
   }, []);
 

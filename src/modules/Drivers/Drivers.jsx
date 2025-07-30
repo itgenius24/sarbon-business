@@ -141,18 +141,10 @@ export const DriversModule = ({ locale }) => {
                   onChange={(e) => setCheck(e.target.checked)}
                   size={"md"}
                   sx={{
-                    "& .chakra-switch__track": {
-                      backgroundColor: "rgba(230, 224, 233, 1) !important",
-                    },
-                    "&[data-checked] .chakra-switch__track": {
-                      backgroundColor: "#007aff !important",
-                    },
-                    "& .chakra-switch__thumb": {
-                      background: "rgba(121, 116, 126, 1) !important",
-                    },
-                    "&[data-checked] .chakra-switch__thumb": {
-                      background: "rgb(255, 255, 255) !important",
-                    },
+                    "& .chakra-switch__track": { backgroundColor: "rgba(230, 224, 233, 1) !important", },
+                    "&[data-checked] .chakra-switch__track": { backgroundColor: "#007aff !important", },
+                    "& .chakra-switch__thumb": { background: "rgba(121, 116, 126, 1) !important", },
+                    "&[data-checked] .chakra-switch__thumb": { background: "rgb(255, 255, 255) !important", },
                   }}
                 />
                 <p>

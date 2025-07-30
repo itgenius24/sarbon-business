@@ -80,9 +80,7 @@ export const TopContentPerfomet = () => {
   const [breakRequest, setBreakRequest] = useState(false);
 
   const getMaps = useGetMaps(
-    {
-      data: JSON.stringify({ cargo_id: carId }),
-    },
+    { data: JSON.stringify({ cargo_id: carId }), },
     { enabled: !!carId }
   );
 
@@ -330,9 +328,9 @@ export const TopContentPerfomet = () => {
                                     {user?.cargo_id_data?.as_soon_as_a
                                       ? t(`Готов к загрузке`)
                                       : format(
-                                          user?.cargo_id_data?.load_time,
-                                          "yyyy-MM-dd"
-                                        )}
+                                        user?.cargo_id_data?.load_time,
+                                        "yyyy-MM-dd"
+                                      )}
                                   </span>
                                 </p>
                               </Box>
@@ -364,10 +362,10 @@ export const TopContentPerfomet = () => {
                                     {user?.cargo_id_data?.as_soon_as_b
                                       ? t(`Как можно скорее`)
                                       : format(
-                                          user?.cargo_id_data?.date ||
+                                        user?.cargo_id_data?.date ||
                                             new Date(),
-                                          "yyyy-MM-dd"
-                                        )}
+                                        "yyyy-MM-dd"
+                                      )}
                                   </span>
                                 </p>
                               </Box>
@@ -418,16 +416,16 @@ export const TopContentPerfomet = () => {
                                 {user.cargo_id_data?.as_soon_as_a
                                   ? t(`Готов к загрузке`)
                                   : format(
+                                    new Date(
+                                      user?.cargo_id_data?.load_time
+                                    ).setHours(
                                       new Date(
                                         user?.cargo_id_data?.load_time
-                                      ).setHours(
-                                        new Date(
-                                          user?.cargo_id_data?.load_time
-                                        ).getHours() - 5
-                                      ),
-                                      "dd-MMMM",
-                                      { locale: ru }
-                                    )}
+                                      ).getHours() - 5
+                                    ),
+                                    "dd-MMMM",
+                                    { locale: ru }
+                                  )}
                               </p>
                             </Box>
                             <IocnPrev />
@@ -453,16 +451,16 @@ export const TopContentPerfomet = () => {
                                 {user.cargo_id_data?.as_soon_as_a
                                   ? t(`Как можно скорее`)
                                   : format(
+                                    new Date(
+                                      user?.cargo_id_data?.date
+                                    ).setHours(
                                       new Date(
                                         user?.cargo_id_data?.date
-                                      ).setHours(
-                                        new Date(
-                                          user?.cargo_id_data?.date
-                                        ).getHours() - 5
-                                      ),
-                                      "dd-MMMM",
-                                      { locale: ru }
-                                    )}
+                                      ).getHours() - 5
+                                    ),
+                                    "dd-MMMM",
+                                    { locale: ru }
+                                  )}
                               </p>
                             </Box>
                           </Flex>
@@ -540,7 +538,7 @@ export const TopContentPerfomet = () => {
                                 : user?.cargo_id_data?.prepayment_percentage
                                 ? user?.cargo_id_data?.prepayment_percentage
                                 : t("По запросу")}
-                              {user?.cargo_id_data?.bid_cash ?  user?.currency_id_data?.code
+                              {user?.cargo_id_data?.bid_cash ? user?.currency_id_data?.code
                                 ? user?.currency_id_data?.code
                                 : user?.cargo_id_data?.currency_id_data?.code:``}
                             </p>

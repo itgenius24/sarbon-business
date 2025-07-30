@@ -129,14 +129,14 @@ export const useFormValidation = ({
     reset,
     clearErrors,
     setError,
-    
+
     // Form state
     errors,
     isValid,
     isSubmitting,
     isDirty,
     touchedFields,
-    
+
     // Enhanced methods
     createSubmitHandler,
     getFieldError,
@@ -144,7 +144,7 @@ export const useFormValidation = ({
     setMultipleValues,
     resetWithValues,
     validateField,
-    
+
     // Original form methods (for compatibility)
     ...formMethods,
   };

@@ -4,9 +4,7 @@ import { fallbackLng, languages, cookieName } from "./app/i18n/settings";
 
 acceptLanguage.languages(languages);
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
-};
+export const config = { matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"], };
 
 export function middleware(req) {
   let locale;
@@ -33,7 +31,7 @@ export function middleware(req) {
     !req.nextUrl.pathname.startsWith("/_next")
   ) {
     const response = NextResponse.redirect(new URL(`/${locale}${req.nextUrl.pathname}`, req.url));
-    response.cookies.set(cookieName, locale, { path: "/", maxAge: 60 * 60 * 24 * 30 });  // Set cookie for 30 days
+    response.cookies.set(cookieName, locale, { path: "/", maxAge: 60 * 60 * 24 * 30 }); // Set cookie for 30 days
     return response;
   }
 

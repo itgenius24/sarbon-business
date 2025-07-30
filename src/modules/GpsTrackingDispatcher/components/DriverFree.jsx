@@ -66,14 +66,8 @@ const DriverFree = ({
   };
 
   const getCompanyList = useGetCompanyList(
-    {
-      data: JSON.stringify({
-        guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
-      }),
-    },
-    {
-      enabled: Boolean(currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id),
-    }
+    { data: JSON.stringify({ guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id, }), },
+    { enabled: Boolean(currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id), }
   );
 
   const downloadByLanguage = async (url) => {
@@ -91,8 +85,8 @@ const DriverFree = ({
     }
   };
 
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
 
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {
@@ -373,7 +367,7 @@ const DriverFree = ({
           </Flex>
         </Box>
 
-    
+
 
         {currentUserLocationData?.user?.provisions?.[0] === `broke_down` ? (
           <Button

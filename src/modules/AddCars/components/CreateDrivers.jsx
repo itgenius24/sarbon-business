@@ -201,9 +201,7 @@ const CreateDrivers = ({
             errors={errors}
             name="full_name"
             placeholder={t("Имя и фамилия водителя")}
-            rules={{
-              required: t("Это поле объязательно "),
-            }}
+            rules={{ required: t("Это поле объязательно "), }}
           />
         </Box>
 
@@ -217,9 +215,7 @@ const CreateDrivers = ({
             errors={errors}
             control={control}
             name={`phone`}
-            rules={{
-              required: t("Это поле объязательно "),
-            }}
+            rules={{ required: t("Это поле объязательно "), }}
           />
           {/* <TextField
             register={register}
@@ -241,7 +237,7 @@ const CreateDrivers = ({
           >
             <p className={cls.textFieldName}>{t("Придумайте пароль")} *</p>
             <TextField
-              autocomplete="off" 
+              autocomplete="off"
               register={register}
               rules={{
                 required: {
@@ -266,7 +262,7 @@ const CreateDrivers = ({
           <p className={cls.textFieldName}>{t("Фото водителя")}</p>
 
           <UploadImgMobile
-          isCrop
+            isCrop
             isColor={true}
             watch={watch}
             setValue={setValue}

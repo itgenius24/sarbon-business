@@ -111,7 +111,7 @@ export const useSearchLoadDispatcher = () => {
         }
       }
     },
-  
+
   });
 
   useEffect(() => {
@@ -178,11 +178,11 @@ export const useSearchLoadDispatcher = () => {
       (a, b) =>
         isAscending
           ? a?.firm_data?.[0]?.full_name.localeCompare(
-              b?.firm_data?.[0]?.full_name
-            ) // Alfavit bo'yicha
+            b?.firm_data?.[0]?.full_name
+          ) // Alfavit bo'yicha
           : b?.firm_data?.[0]?.full_name.localeCompare(
-              a?.firm_data?.[0]?.full_name
-            ) // Teskari alfavit bo'yicha
+            a?.firm_data?.[0]?.full_name
+          ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -195,11 +195,11 @@ export const useSearchLoadDispatcher = () => {
       (a, b) =>
         isAscending
           ? a?.vehicle_data?.[0]?.car_number?.localeCompare(
-              b?.vehicle_data?.[0]?.car_number
-            ) // Alfavit bo'yicha
+            b?.vehicle_data?.[0]?.car_number
+          ) // Alfavit bo'yicha
           : b?.vehicle_data?.[0]?.car_number?.localeCompare(
-              a?.vehicle_data?.[0]?.car_number
-            ) // Teskari alfavit bo'yicha
+            a?.vehicle_data?.[0]?.car_number
+          ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -212,11 +212,11 @@ export const useSearchLoadDispatcher = () => {
       (a, b) =>
         isAscendingTip
           ? a?.trailer_type_data?.[0]?.name.localeCompare(
-              b?.trailer_type_data?.[0]?.name
-            ) // Alfavit bo'yicha
+            b?.trailer_type_data?.[0]?.name
+          ) // Alfavit bo'yicha
           : b?.trailer_type_data?.[0]?.name.localeCompare(
-              a?.trailer_type_data?.[0]?.name
-            ) // Teskari alfavit bo'yicha
+            a?.trailer_type_data?.[0]?.name
+          ) // Teskari alfavit bo'yicha
     );
 
     setData(() => [...sortedData]);
@@ -289,7 +289,7 @@ export const useSearchLoadDispatcher = () => {
         setData([]);
         setOldData([]);
         setPage(0);
-       
+
       }
     });
 

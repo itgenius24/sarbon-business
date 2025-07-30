@@ -67,7 +67,7 @@ export const MyCarsModule = () => {
   return (
     <>
       <Container my={isLargerThan845 ? "40px" : `20px`} pb={`20px`}>
-        <Flex  width={"100%"} justifyContent={"space-between"}>
+        <Flex width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}
             mb={isLargerThan845 ? "24px" : "12px"}
@@ -87,35 +87,35 @@ export const MyCarsModule = () => {
         <Box mt={isLargerThan845 ? "37px" : `10px`}>
           {isLargerThan845
             ? data?.map((item) => (
-                <CarsCard
-                  centerModalType={centerModalType}
-                  userId={userId}
-                  setCenterModalType={setCenterModalType}
-                  handleUpdate={handleUpdate}
-                  handleUpdateId={handleUpdateId}
-                  setCarId={setCarId}
-                  setUserId={setUserId}
-                  useList={useList}
-                  key={item.guid}
-                  item={item}
-                  handleDelete={handleDelete}
-                />
-              ))
+              <CarsCard
+                centerModalType={centerModalType}
+                userId={userId}
+                setCenterModalType={setCenterModalType}
+                handleUpdate={handleUpdate}
+                handleUpdateId={handleUpdateId}
+                setCarId={setCarId}
+                setUserId={setUserId}
+                useList={useList}
+                key={item.guid}
+                item={item}
+                handleDelete={handleDelete}
+              />
+            ))
             : data?.map((item) => (
-                <CarsCardMObile
-                  centerModalType={centerModalType}
-                  userId={userId}
-                  setCenterModalType={setCenterModalType}
-                  handleUpdate={handleUpdate}
-                  handleUpdateId={handleUpdateId}
-                  setCarId={setCarId}
-                  setUserId={setUserId}
-                  useList={useList}
-                  key={item.guid}
-                  item={item}
-                  handleDelete={handleDelete}
-                />
-              ))}
+              <CarsCardMObile
+                centerModalType={centerModalType}
+                userId={userId}
+                setCenterModalType={setCenterModalType}
+                handleUpdate={handleUpdate}
+                handleUpdateId={handleUpdateId}
+                setCarId={setCarId}
+                setUserId={setUserId}
+                useList={useList}
+                key={item.guid}
+                item={item}
+                handleDelete={handleDelete}
+              />
+            ))}
 
           {(data?.length === 0 || !data) && (
             <Flex
@@ -133,7 +133,7 @@ export const MyCarsModule = () => {
         <Button
           display={isLargerThan845 ? `none` : `block`}
           mt={`20px`}
-          
+
           onClick={() => router.push(`/${locale}/my-cars/create`)}
           backgroundColor={`var(--primary-text)`}
           leftIcon={<PlusIcon />}
@@ -154,7 +154,7 @@ export const MyCarsModule = () => {
                   </span>
                 </p>
               </Flex>
-              <ModalCloseButton  onClick={() => setCenterModalType(``)} />
+              <ModalCloseButton onClick={() => setCenterModalType(``)} />
             </ModalHeader>
             <ModalBody minHeight={`400px`}>
               <Box className={cls.modalContend} >

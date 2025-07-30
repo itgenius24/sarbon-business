@@ -16,7 +16,7 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
-  
+
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -33,7 +33,7 @@ const useFromDriverProps = (orderStatus, t,locale) => {
   const params = useSearchParams();
   const [comments, setComments] = useState([]);
   const [cancelData, setCancelData] = useState({});
-const router = useRouter()
+  const router = useRouter()
   const { watch, register } = useForm();
   const {
     isOpen: canCelIsOpen,
@@ -74,7 +74,7 @@ const router = useRouter()
     );
   };
 
-    const obj = {
+  const obj = {
     after_payment: t(`Оплата после завершения`),
     prepayment: t(`Предоплата`),
     bank: t(`Банковский перевод`),
@@ -184,30 +184,30 @@ const router = useRouter()
   }
 
   const columns = [
-      {
-        title: t("Откуда забрать"),
-        width: 220,
-        render: (row, index) => (
-          <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
-            <Box display={`flex`} flexDirection={`column`}>
-              <Image
-                className={cls.flag}
-                width={30}
-                height={30}
-                src={
-                  row?.cargo_id_data?.flag_ot ||
+    {
+      title: t("Откуда забрать"),
+      width: 220,
+      render: (row, index) => (
+        <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
+          <Box display={`flex`} flexDirection={`column`}>
+            <Image
+              className={cls.flag}
+              width={30}
+              height={30}
+              src={
+                row?.cargo_id_data?.flag_ot ||
                   `https://flagcdn.com/w320/${row?.cargo_id_data?.country_code_from?.toLowerCase()}.png`
-                }
-                alt="wef"
-              />
-              <p className={cls.country_code}>
-                {row?.cargo_id_data?.country_code_from}
-              </p>
-            </Box>
-  
-            <Flex>
-              <p className={cls.title}>
-                {row?.cargo_id_data?.from ? (
+              }
+              alt="wef"
+            />
+            <p className={cls.country_code}>
+              {row?.cargo_id_data?.country_code_from}
+            </p>
+          </Box>
+
+          <Flex>
+            <p className={cls.title}>
+              {row?.cargo_id_data?.from ? (
                   row?.cargo_id_data?.from?.length > 20 ? (
                     <Tooltip
                       color={`black`}
@@ -225,15 +225,15 @@ const router = useRouter()
                     "name_" + (locale === "uz" ? "en" : locale)
                   ] || row?.cargo_id_data?.city_id_data?.name
                 )}
-                <br />
-                <span className={cls.subTitle}>
-                  {row?.cargo_id_data?.as_soon_as_a
+              <br />
+              <span className={cls.subTitle}>
+                {row?.cargo_id_data?.as_soon_as_a
                     ? t("Готов к загрузке")
                     : row?.cargo_id_data?.load_time &&
                       format(row?.cargo_id_data?.load_time, `dd.MM.yyyy`)}
-                </span>
-              </p>
-              {/* <div
+              </span>
+            </p>
+            {/* <div
                       onClick={(e) => {
                         e.stopPropagation();
                         // copyFn(row?.cargo_id_data?.from);
@@ -242,34 +242,34 @@ const router = useRouter()
                     >
                       <CopyIconAdress />
                     </div> */}
-            </Flex>
           </Flex>
-        ),
-      },
-  
-      {
-        title: t("Куда"),
-        width: 220,
-        render: (row, index) => (
-          <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
-            <Box display={`flex`} flexDirection={`column`}>
-              <Image
-                className={cls.flag}
-                width={30}
-                height={30}
-                src={
-                  row?.cargo_id_data?.flag_do ||
+        </Flex>
+      ),
+    },
+
+    {
+      title: t("Куда"),
+      width: 220,
+      render: (row, index) => (
+        <Flex className={cls.address} gap={`14px`} alignItems={`center`}>
+          <Box display={`flex`} flexDirection={`column`}>
+            <Image
+              className={cls.flag}
+              width={30}
+              height={30}
+              src={
+                row?.cargo_id_data?.flag_do ||
                   `https://flagcdn.com/w320/${row?.cargo_id_data?.country_code_to?.toLowerCase()}.png`
-                }
-                alt={row?.cargo_id_data?.flag_do}
-              />
-              <p className={cls.country_code}>
-                {row?.cargo_id_data?.country_code_to}
-              </p>
-            </Box>
-            <Flex>
-              <p className={cls.title}>
-                {row?.cargo_id_data?.to ? (
+              }
+              alt={row?.cargo_id_data?.flag_do}
+            />
+            <p className={cls.country_code}>
+              {row?.cargo_id_data?.country_code_to}
+            </p>
+          </Box>
+          <Flex>
+            <p className={cls.title}>
+              {row?.cargo_id_data?.to ? (
                   row?.cargo_id_data?.to.length > 20 ? (
                     <Tooltip
                       color={`black`}
@@ -287,26 +287,26 @@ const router = useRouter()
                     "name_" + (locale === "uz" ? "en" : locale)
                   ] || row?.cargo_id_data?.city_id_2_data?.name
                 )}{" "}
-                <br />
-                <span className={cls.subTitle}>
-                  {row?.cargo_id_data?.as_soon_as_b
+              <br />
+              <span className={cls.subTitle}>
+                {row?.cargo_id_data?.as_soon_as_b
                     ? t("Как можно скорее")
                     : row?.cargo_id_data?.date &&
                       format(row?.cargo_id_data?.date, `dd.MM.yyyy`)}
-                </span>
-              </p>
-            </Flex>
+              </span>
+            </p>
           </Flex>
-        ),
-      },
-  
-      {
-        title: t("Водитель"),
-        width: 130,
-        render: (row, index) => (
-          <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
-            <Box>
-             <PopoverUserName
+        </Flex>
+      ),
+    },
+
+    {
+      title: t("Водитель"),
+      width: 130,
+      render: (row, index) => (
+        <Flex className={cls.cardItem} gap={`7px`} alignItems={`center`}>
+          <Box>
+            <PopoverUserName
               style={{
                 fontSize: `13px`,
                 padding: 0,
@@ -318,52 +318,50 @@ const router = useRouter()
               user_id={row?.users_id_data?.guid}
               locale={locale}
             />
-           
-        
-              <a
-                style={{
-                  borderBottom: `1px dashed black`,
-                }}
-                className={cls.subTitle}
-                target="_blank"
-                href={`https://t.me/${row?.users_id_data?.phone}`}
-              >
-                {row?.users_id_data?.phone}{" "}
-              </a>
-            </Box>
-          </Flex>
-        ),
-      },
-  
-      {
-        title: t("Груз"),
-        width: 170,
-        render: (row, index) => (
-          <>
-            <Flex gap={`11px`}>
-              <Flex gap={1} alignItems={"center"}>
-                <StoneIcon />{" "}
-                <p className={cls.title}> {row?.cargo_id_data?.weight}т</p>
-              </Flex>
-              <Flex gap={1} alignItems={"center"}>
-                <LoadOulineIcon />{" "}
-                <p className={cls.title}> {row?.cargo_id_data?.volume_m3}м³</p>
-              </Flex>
+
+
+            <a
+              style={{ borderBottom: `1px dashed black`, }}
+              className={cls.subTitle}
+              target="_blank"
+              href={`https://t.me/${row?.users_id_data?.phone}`}
+            >
+              {row?.users_id_data?.phone}{" "}
+            </a>
+          </Box>
+        </Flex>
+      ),
+    },
+
+    {
+      title: t("Груз"),
+      width: 170,
+      render: (row, index) => (
+        <>
+          <Flex gap={`11px`}>
+            <Flex gap={1} alignItems={"center"}>
+              <StoneIcon />{" "}
+              <p className={cls.title}> {row?.cargo_id_data?.weight}т</p>
             </Flex>
-            <span className={cls.subTitle}>
-              {row?.cargo_id_data?.[`product_type_${locale}`]
+            <Flex gap={1} alignItems={"center"}>
+              <LoadOulineIcon />{" "}
+              <p className={cls.title}> {row?.cargo_id_data?.volume_m3}м³</p>
+            </Flex>
+          </Flex>
+          <span className={cls.subTitle}>
+            {row?.cargo_id_data?.[`product_type_${locale}`]
                 ? row?.cargo_id_data?.[`product_type_${locale}`]
                 : row?.cargo_id_data?.product_type}
-            </span>
-          </>
-        ),
-      },
-      {
-        title: t("Транспорт"),
-        width: 200,
-        render: (row, index) => (
-          <Box>
-            {row?.vehicle_id_data?.car_number ? (
+          </span>
+        </>
+      ),
+    },
+    {
+      title: t("Транспорт"),
+      width: 200,
+      render: (row, index) => (
+        <Box>
+          {row?.vehicle_id_data?.car_number ? (
               <div>
                 <p className={cls.title}>
                   {row?.[`car_type_${locale}`] || row?.car_type}
@@ -395,16 +393,16 @@ const router = useRouter()
             ) : (
               <p className={cls.cardName}>{t(`Еще не добавлен`)}</p>
             )}
-          </Box>
-        ),
-      },
-        {
+        </Box>
+      ),
+    },
+    {
       title: t("Стоимость"),
       width: 170,
       render: (row, index) => {
         const total = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.total;
-        const prepayment = row?.cargo_id_data?.payment_data &&  JSON.parse(row?.cargo_id_data?.payment_data)?.prepayment;
-        const postpayment = row?.cargo_id_data?.payment_data &&  JSON.parse(row?.cargo_id_data?.payment_data)?.postpayment;
+        const prepayment = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.prepayment;
+        const postpayment = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.postpayment;
         return (
           <Box>
             {total?.length > 0 ? (
@@ -458,24 +456,24 @@ const router = useRouter()
         );
       },
     },
-      {
-        title: t("Номер груза"),
-        width: 120,
-        render: (row, index) => (
-          <p className={cls.number_of_orders}>
-            {row?.cargo_id_data?.number_of_order}
-          </p>
-        ),
-      },
-  
-      {
-        title:
+    {
+      title: t("Номер груза"),
+      width: 120,
+      render: (row, index) => (
+        <p className={cls.number_of_orders}>
+          {row?.cargo_id_data?.number_of_order}
+        </p>
+      ),
+    },
+
+    {
+      title:
           role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
           role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469"
             ? t("Диспетчер")
             : t("Заказчик"),
-        width: 150,
-        render: (row, index) =>
+      width: 150,
+      render: (row, index) =>
           role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
           role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469" ? (
             <Flex
@@ -495,9 +493,7 @@ const router = useRouter()
               <Box>
                 <p className={cls.title}>{row?.users_id_3_data?.full_name} </p>
                 <a
-                  style={{
-                    borderBottom: `1px dashed black`,
-                  }}
+                  style={{ borderBottom: `1px dashed black`, }}
                   className={cls.subTitle}
                   target="_blank"
                   href={`https://t.me/${row?.users_id_3_data?.phone}`}
@@ -518,9 +514,7 @@ const router = useRouter()
               <Box>
                 <p className={cls.title}>{row?.users_id_2_data?.full_name} </p>
                 <a
-                  style={{
-                    borderBottom: `1px dashed black`,
-                  }}
+                  style={{ borderBottom: `1px dashed black`, }}
                   className={cls.subTitle}
                   target="_blank"
                   href={`https://t.me/${row?.users_id_2_data?.phone}`}
@@ -530,9 +524,9 @@ const router = useRouter()
               </Box>
             </Flex>
           ),
-      },
-    ];
-  
+    },
+  ];
+
 
   return {
     cargoData: getOfferCargo.data?.response,

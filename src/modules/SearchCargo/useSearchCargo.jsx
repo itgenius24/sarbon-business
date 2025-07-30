@@ -64,9 +64,7 @@ export const useSearchCargo = () => {
         view_fields: ["car_number"],
       }),
     },
-    querySettings: {
-      enabled: Boolean(inputValue),
-    },
+    querySettings: { enabled: Boolean(inputValue), },
   });
 
   useEffect(() => {
@@ -100,12 +98,8 @@ export const useSearchCargo = () => {
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { data: useList } = useGetVehicleSingle({
-    params: {
-      id,
-    },
-    querySettings: {
-      enabled: Boolean(id),
-    },
+    params: { id, },
+    querySettings: { enabled: Boolean(id), },
   });
 
   const { data: fuel } = useGetFuelInfo();
@@ -158,9 +152,7 @@ export const useSearchCargo = () => {
           shouldDirty: true,
         });
       } else {
-        setError(`car_number`, {
-          message: `Этот номер автомобиля был зарегистрирован ранее!`,
-        });
+        setError(`car_number`, { message: `Этот номер автомобиля был зарегистрирован ранее!`, });
       }
     } else if (
       (getCarNumnber?.count > 1 ||

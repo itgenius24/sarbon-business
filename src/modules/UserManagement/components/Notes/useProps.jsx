@@ -52,7 +52,7 @@ const useProps = () => {
         },
       },
     },
-    
+
   });
 
   const { mutate: createAddress,isLoading:createLoading } = useCreateAddressMutation({
@@ -64,10 +64,10 @@ const useProps = () => {
     },
   });
 
-  const {mutate:reliabilities} = useDeleteReliabilities({
+  const { mutate:reliabilities } = useDeleteReliabilities({
     onSuccess: (res) => {
-        refetch()
-      },
+      refetch()
+    },
   })
 
 
@@ -104,7 +104,7 @@ const useProps = () => {
   };
 
   const deleteReliabilities = (id) => {
-    reliabilities({id:id})
+    reliabilities({ id:id })
   }
 
   const submitComment = () => {

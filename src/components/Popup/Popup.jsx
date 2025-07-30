@@ -25,7 +25,7 @@ export const Popup = ({
   icon,
   hideButtons,
 }) => {
- const {t} = useTranslation();
+  const { t } = useTranslation();
   return <Modal isOpen={isOpen} onClose={onClose} isCentered>
     <ModalOverlay />
     <ModalContent className={status !== `second` ? cls.modalContent : cls.modalContent2}>
@@ -33,7 +33,7 @@ export const Popup = ({
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody className={cls.modalBody}>
-       { status !== `second` && <span className={clsx(cls.modalIcon, cls[status])}>
+        { status !== `second` && <span className={clsx(cls.modalIcon, cls[status])}>
           {icon || icons[status]}
         </span>}
         <Text fontSize="18px" lineHeight="28px" fontWeight="600" color="brand.900">{t(mainText)}</Text>

@@ -72,7 +72,7 @@ export const useMyCarsDispatcher = () => {
     lastWeek.setDate(today.getDate() - 7);
     return lastWeek;
   });
-  const  toast = useToast()
+  const toast = useToast()
 
   const [endDate, setEndDate] = useState(() => {
     const today = new Date();
@@ -147,8 +147,7 @@ export const useMyCarsDispatcher = () => {
           row?.first_dispatcher_data?.guid || ``
         }`
       );
-    } 
-    else{
+    } else{
       toast({
         status:`info`,
         duration:3000,
@@ -360,7 +359,7 @@ export const useMyCarsDispatcher = () => {
         <Flex width={`fit-content`} alignItems={`center`} gap={`6px`}>
           <Avatar size="sm" src={row?.photo} name={row?.full_name} />
           <Box>
-              <p className={cls.title}>{row?.full_name}</p>
+            <p className={cls.title}>{row?.full_name}</p>
             <a
               target="_blank"
               href={`https://t.me/${row?.phone}`}
@@ -670,9 +669,7 @@ export const useMyCarsDispatcher = () => {
   const deleteFuntion = (id) => {
     setDeleteId(id);
 
-    deleteData({
-      ids: ids.map((item) => item.guid),
-    });
+    deleteData({ ids: ids.map((item) => item.guid), });
   };
 
   const { mutate: userUpdate } = useUpdateUserInfo({
@@ -705,10 +702,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Занята чужим грузом`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Занята чужим грузом`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );
@@ -717,10 +714,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Неисправна`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Неисправна`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );
@@ -729,10 +726,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Свободная`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Свободная`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );
@@ -741,10 +738,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Нет Статус`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Нет Статус`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );

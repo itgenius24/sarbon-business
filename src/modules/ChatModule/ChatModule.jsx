@@ -8,14 +8,14 @@ import { Box, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import {
-    Channel,
-    ChannelHeader,
-    ChannelList,
-    ChannelPreviewMessenger,
-    Chat,
-    MessageList,
-    Thread,
-    Window,
+  Channel,
+  ChannelHeader,
+  ChannelList,
+  ChannelPreviewMessenger,
+  Chat,
+  MessageList,
+  Thread,
+  Window,
 } from "stream-chat-react";
 import { AttachmentWithMap } from "./components/AttachmentWithMap/AttachmentWithMap";
 import { MessageInputWithLocationButton } from "./components/MessageInputWithLocationButton/MessageInputWithLocationButton";
@@ -71,7 +71,7 @@ const ChatModule = () => {
               Preview={(props) => (
                 <div key={props.channel.id} onClick={() => handleSelectChannel(props.channel)}>
                   <ChannelPreviewMessenger {...props} />
-                </div> 
+                </div>
               )}
             />
           </Box>
@@ -91,7 +91,7 @@ const ChatModule = () => {
             />
           )}
           {channel && (
-            <Channel  Attachment={AttachmentWithMap} channel={channel}>
+            <Channel Attachment={AttachmentWithMap} channel={channel}>
               <Window>
                 <Flex
                   alignItems={`center`}

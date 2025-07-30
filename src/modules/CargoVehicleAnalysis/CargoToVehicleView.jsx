@@ -94,8 +94,8 @@ export const CargoToVehicleView = ({ data, isLoading, distance }) => {
                   <Box fontSize="11px" color="gray.600">
                     {vehicle.vehicles?.[0]?.car_number}
                   </Box>
-                  <StarRating 
-                    rating={vehicle.user?.rating || 0} 
+                  <StarRating
+                    rating={vehicle.user?.rating || 0}
                     comment={vehicle.user?.reviews_count || 0}
                   />
                 </Flex>
@@ -119,11 +119,11 @@ export const CargoToVehicleView = ({ data, isLoading, distance }) => {
       key: "status",
       width: 15,
       render: (item) => {
-        const hasResponded = item.nearbyVehicles?.some(v => 
-          v.provisions?.includes('approve_from_driver') || 
+        const hasResponded = item.nearbyVehicles?.some(v =>
+          v.provisions?.includes('approve_from_driver') ||
           v.provisions?.includes('new_proposal_from_director')
         );
-        
+
         return (
           <Box
             px="8px"
@@ -186,7 +186,7 @@ export const CargoToVehicleView = ({ data, isLoading, distance }) => {
           <Button
             size="sm"
             colorScheme="blue"
-         
+
           >
             {t("Отправить предложения")}
           </Button>

@@ -6,19 +6,19 @@ import { BadIcon, ExitDoorNoIcon, NotesIcon, SuccessMiniIcon, UserIconLg } from 
 import Image from "next/image";
 
 const Imgprofile = ({ company_name, yu_id, type, img = ``,status }) => {
-   const statusObjIcon = {
+  const statusObjIcon = {
     bad:<BadIcon />,
     note:<NotesIcon />,
     great:<SuccessMiniIcon />
-   }
+  }
   return (
     <Flex alignItems={`center`} className={cls.wrap} gap={`18px`}>
       <Box className={cls.imgBox}>
-         <Box className={cls.icon}>
-           {
-            status &&  statusObjIcon[status]
-           }
-          </Box>
+        <Box className={cls.icon}>
+          {
+            status && statusObjIcon[status]
+          }
+        </Box>
         {type === `legal_owner` ? (
           img?.includes(`https`) && img ? (
             <Image className={cls.imgLe} width={200} height={200} src={img} alt="logo" />
@@ -31,7 +31,7 @@ const Imgprofile = ({ company_name, yu_id, type, img = ``,status }) => {
           ) : (
             <UserIconLg />
           )
-         
+
         )}
       </Box>
       <Box>

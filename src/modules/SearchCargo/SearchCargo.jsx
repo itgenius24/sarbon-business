@@ -283,9 +283,7 @@ export const SearchCargoModule = () => {
                       <TextFieldWithAdditionCar
                         className={cls.textField}
                         errors={errors}
-                        rules={{
-                          required: t("Это поле обязательно"),
-                        }}
+                        rules={{ required: t("Это поле обязательно"), }}
                         control={control}
                         name="capacity"
                         register={register}
@@ -354,9 +352,7 @@ export const SearchCargoModule = () => {
                         control={control}
                         name="height"
                         register={register}
-                        rules={{
-                          required: t("Это поле обязательно"),
-                        }}
+                        rules={{ required: t("Это поле обязательно"), }}
                         placeholder={t("Объем")}
                         additionalItemTheme={`light`}
                         additionalItemPlaceholder="м³"
@@ -409,9 +405,7 @@ export const SearchCargoModule = () => {
                       errors={errors}
                       name="car_number"
                       placeholder={t("Введите госномер...")}
-                      rules={{
-                        required: t("Это поле обязательно"),
-                      }}
+                      rules={{ required: t("Это поле обязательно"), }}
                       onChange={(e) => {
                         e.target.value = e.target.value
                           .replace(/[^A-Za-z0-9]/g, "")

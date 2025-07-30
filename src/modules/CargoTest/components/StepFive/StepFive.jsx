@@ -229,11 +229,11 @@ const StepFive = ({ status, locale }) => {
         payment_data: check
           ? null
           : JSON.stringify({
-              description: check ? undefined : watch("payment_description"),
-              total: watch(`allPrice`),
-              prepayment: watch(`allPrepayment`),
-              postpayment: watch(`priceAfterOrder`),
-            }),
+            description: check ? undefined : watch("payment_description"),
+            total: watch(`allPrice`),
+            prepayment: watch(`allPrepayment`),
+            postpayment: watch(`priceAfterOrder`),
+          }),
 
         // step5
 
@@ -332,7 +332,7 @@ const StepFive = ({ status, locale }) => {
         back: watch(`back`),
         with_removal: watch(`with_removal`),
 
-    
+
         money_code: check ? getTrueKeys(mone) : null,
         // bid_cash: check ? undefined : +watch("price"),
         // prepayment_percentage: check ? undefined : +watch(`price_prepayment`),
@@ -346,11 +346,11 @@ const StepFive = ({ status, locale }) => {
         payment_data: check
           ? null
           : JSON.stringify({
-              description: check ? undefined : watch("payment_description"),
-              total: watch(`allPrice`),
-              prepayment: watch(`allPrepayment`),
-              postpayment: watch(`priceAfterOrder`),
-            }),
+            description: check ? undefined : watch("payment_description"),
+            total: watch(`allPrice`),
+            prepayment: watch(`allPrepayment`),
+            postpayment: watch(`priceAfterOrder`),
+          }),
 
         //step5
 
@@ -571,9 +571,7 @@ const StepFive = ({ status, locale }) => {
         onClose={handleCloseTemplateModal}
         secondBtnCallback={() => shablonF()}
         isDisabled={!watch("template_name")}
-        secondBtnProps={{
-          isLoading: createCargo.isLoading || createAddress.isLoading,
-        }}
+        secondBtnProps={{ isLoading: createCargo.isLoading || createAddress.isLoading, }}
         secondBtnText={t("Сохранить")}
       >
         <TextField

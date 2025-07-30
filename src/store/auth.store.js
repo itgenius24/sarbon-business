@@ -31,7 +31,7 @@ class Store {
   isAuth = false;
   userData = {};
   token = {};
-  role = ""; 
+  role = "";
   remember = false;
   authData = {
     phone: "",
@@ -48,6 +48,11 @@ class Store {
     nookies.destroy(ctx, "token");
     nookies.destroy(ctx, "userData");
     nookies.destroy(ctx, "role");
+
+    // Clear saved login credentials
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("loginData");
+    }
   }
 
   setIsAuth(value) {
@@ -65,7 +70,7 @@ class Store {
     nookies.set(ctx, "token", JSON.stringify(data.token), { path: "/", maxAge: 30 * 24 * 60 * 60 });
     nookies.set(ctx, "userData", JSON.stringify(data.user), { path: "/", maxAge: 30 * 24 * 60 * 60 });
     nookies.set(ctx, "role", JSON.stringify(data.role), { path: "/", maxAge: 30 * 24 * 60 * 60 });
-  
+
   }
 
   // Logout qilish va cookie'larni tozalash
@@ -75,6 +80,12 @@ class Store {
     // this.authData = {};
     this.role = "";
     this.token = {};
+
+    // Clear remember me state and saved credentials
+    this.remember = false;
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("loginData");
+    }
 
     // Cookie'larni o'chirish
     nookies.destroy(ctx, "token");

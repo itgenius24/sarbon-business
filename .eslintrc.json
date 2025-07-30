@@ -31,7 +31,8 @@
     // "svg-jsx/camel-case-dash": "error",
     // "svg-jsx/camel-case-colon": "error",
     // "svg-jsx/no-style-string": "error",
-    "no-undef": "error"
+    "no-undef": "error",
+    "no-console": "warn"
   },
   "env": {
     "es6": true

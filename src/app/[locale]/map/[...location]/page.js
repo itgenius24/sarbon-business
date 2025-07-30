@@ -66,7 +66,7 @@ export default function MapPage({ params }) {
     });
   }
 
-  
+
   function savePlaceMark() {
     router.push(`/${locale}/add-cargo`);
   }

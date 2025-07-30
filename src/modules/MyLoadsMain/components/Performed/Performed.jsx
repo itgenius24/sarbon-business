@@ -112,9 +112,9 @@ export const Performed = forwardRef(
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_a
                       ? `${
-                          cargo?.cargo_id_data?.country_code_from?.toUpperCase() ||
+                        cargo?.cargo_id_data?.country_code_from?.toUpperCase() ||
                           `UZ`
-                        } / ${t(`Готов к загрузке`)}`
+                      } / ${t(`Готов к загрузке`)}`
                       : cargo?.cargo_id_data?.load_time &&
                         format(
                           new Date(cargo?.cargo_id_data?.load_time).setHours(
@@ -153,9 +153,9 @@ export const Performed = forwardRef(
                   <span>
                     {cargo?.cargo_id_data?.as_soon_as_b
                       ? `${
-                          cargo?.cargo_id_data?.country_code_to?.toUpperCase() ||
+                        cargo?.cargo_id_data?.country_code_to?.toUpperCase() ||
                           `UZ`
-                        } / ${t(`Как можно скорее`)}`
+                      } / ${t(`Как можно скорее`)}`
                       : cargo?.cargo_id_data?.date &&
                         format(
                           new Date(cargo?.cargo_id_data?.date).setHours(
@@ -180,8 +180,8 @@ export const Performed = forwardRef(
                   {t(`Предоплата`)}:
                   {cargo?.prepayment !== 0
                     ? ` ${cargo?.prepayment || ``} ${
-                        cargo?.currency_id_data?.code || ``
-                      }`
+                      cargo?.currency_id_data?.code || ``
+                    }`
                     : ` Нет`}
                 </p>
               </div>
@@ -193,59 +193,59 @@ export const Performed = forwardRef(
                 <p className={styles.totalSum}>
                   {cargo?.offers || cargo?.cargo_id_data?.bid_cash
                     ? `${cargo?.offers || cargo?.cargo_id_data?.bid_cash}  ${
-                        cargo?.currency_id_data?.code || ``
-                      }`
+                      cargo?.currency_id_data?.code || ``
+                    }`
                     : t(`По запросу`)}
                 </p>
               </div>
               {orderStatus === `performed` &&
                 role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
-                  <Box>
-                    <Popover placement="bottom-end">
-                      <PopoverTrigger>
-                        <Box cursor={`pointer`}>
-                          <OpenPopoverIcon />
-                        </Box>
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent
+                <Box>
+                  <Popover placement="bottom-end">
+                    <PopoverTrigger>
+                      <Box cursor={`pointer`}>
+                        <OpenPopoverIcon />
+                      </Box>
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent
+                        borderRadius={`4px`}
+                        border={`none`}
+                        boxShadow={`0px 12px 16px 10px rgba(16, 24, 40, 0.1)`}
+                        bg={`rgb(255, 255, 255)`}
+                        width={`fit-content`}
+                      >
+                        <PopoverArrow size={`lg`} bg={`rgb(255, 255, 255)`} />
+                        <PopoverBody
+                          color={`white`}
                           borderRadius={`4px`}
                           border={`none`}
-                          boxShadow={`0px 12px 16px 10px rgba(16, 24, 40, 0.1)`}
-                          bg={`rgb(255, 255, 255)`}
                           width={`fit-content`}
                         >
-                          <PopoverArrow size={`lg`} bg={`rgb(255, 255, 255)`} />
-                          <PopoverBody
-                            color={`white`}
-                            borderRadius={`4px`}
-                            border={`none`}
-                            width={`fit-content`}
+                          <Box
+                            className={styles.cancelStatus}
+                            style={{
+                              padding: `7px 8px`,
+                              color: `rgba(33, 31, 38, 1)`,
+                            }}
+                            _hover={{
+                              backgroundColor: `rgb(247, 247, 247)`,
+                              borderRadius: `6px`,
+                              cursor: `pointer`,
+                            }}
+                            onClick={() => {
+                              setDataPred(cargo);
+                              onOpen();
+                            }}
                           >
-                            <Box
-                              className={styles.cancelStatus}
-                              style={{
-                                padding: `7px 8px`,
-                                color: `rgba(33, 31, 38, 1)`,
-                              }}
-                              _hover={{
-                                backgroundColor: `rgb(247, 247, 247)`,
-                                borderRadius: `6px`,
-                                cursor: `pointer`,
-                              }}
-                              onClick={() => {
-                                setDataPred(cargo);
-                                onOpen();
-                              }}
-                            >
-                              {t(`Oтменить заказ`)}
-                            </Box>
-                          </PopoverBody>
-                        </PopoverContent>
-                      </Portal>
-                    </Popover>
-                  </Box>
-                )}
+                            {t(`Oтменить заказ`)}
+                          </Box>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Portal>
+                  </Popover>
+                </Box>
+              )}
             </div>
           </div>
           <div className={styles.cardBody}>
@@ -272,9 +272,7 @@ export const Performed = forwardRef(
                   </span>
                   <p
                     className={styles.cardName}
-                    dangerouslySetInnerHTML={{
-                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение`,
-                    }}
+                    dangerouslySetInnerHTML={{ __html: cargo?.comment ? cargo?.comment : `Hет Сообщение`, }}
                   ></p>
                 </div>
               )}
@@ -293,9 +291,7 @@ export const Performed = forwardRef(
                   </span>
                   <p
                     className={styles.cardName}
-                    dangerouslySetInnerHTML={{
-                      __html: cargo?.comment ? cargo?.comment : `Hет Сообщение`,
-                    }}
+                    dangerouslySetInnerHTML={{ __html: cargo?.comment ? cargo?.comment : `Hет Сообщение`, }}
                   >
                     {/* {cargo?.comment} */}
                   </p>
@@ -408,51 +404,51 @@ export const Performed = forwardRef(
               {role_id === "48871d27-7361-4f69-8fe4-b54daf270739" &&
                 orderStatus === `archive` &&
                 !cargo?.review && (
-                  <Flex
-                    className={styles.cardItem}
-                    width={`100%`}
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Button onClick={() => setOpen(cargo)}>
+                <Flex
+                  className={styles.cardItem}
+                  width={`100%`}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Button onClick={() => setOpen(cargo)}>
                       Оставить отзыв
-                    </Button>
-                  </Flex>
-                )}
+                  </Button>
+                </Flex>
+              )}
               {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 orderStatus === `archive` && (
-                  <Flex
-                    className={styles.cardItem}
-                    width={`100%`}
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Avatar
-                      src={cargo?.users_id_3_data?.logo}
-                      name={cargo?.users_id_3_data?.full_name}
-                    />
-                    <Box>
-                      <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
+                <Flex
+                  className={styles.cardItem}
+                  width={`100%`}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_3_data?.logo}
+                    name={cargo?.users_id_3_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
 
-                      <p
-                        style={{ lineHeight: `28px` }}
-                        className={styles.cardName}
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {cargo?.users_id_3_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
                       >
-                        {cargo?.users_id_3_data?.full_name}{" "}
-                        <a
-                          style={{
-                            marginLeft: `5px`,
-                            borderBottom: `1px dashed black`,
-                          }}
-                          target="_blank"
-                          href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
-                        >
-                          {cargo?.users_id_3_data?.phone}{" "}
-                        </a>{" "}
-                      </p>
-                    </Box>
-                  </Flex>
-                )}
+                        {cargo?.users_id_3_data?.phone}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
               <Flex
                 className={styles.cardItem}
                 justifyContent={`space-between`}
@@ -546,77 +542,77 @@ export const Performed = forwardRef(
                   orderStatus === `approve_from_driver` ||
                   orderStatus === `performed` ||
                   orderStatus === `no_dispatcher`) && (
-                  <Flex
-                    className={styles.cardItem}
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Avatar
-                      width={`40px`}
-                      height={`40px`}
-                      src={cargo?.users_id_2_data?.logo}
-                      name={cargo?.users_id_2_data?.full_name}
-                    />
-                    <Box>
-                      <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
+                <Flex
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    width={`40px`}
+                    height={`40px`}
+                    src={cargo?.users_id_2_data?.logo}
+                    name={cargo?.users_id_2_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}> {t(`Заказчик`)}</p>
 
-                      <p
-                        style={{ lineHeight: `28px` }}
-                        className={styles.cardName}
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {" "}
+                      {cargo?.users_id_2_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
                       >
-                        {" "}
-                        {cargo?.users_id_2_data?.full_name}{" "}
-                        <a
-                          style={{
-                            marginLeft: `5px`,
-                            borderBottom: `1px dashed black`,
-                          }}
-                          target="_blank"
-                          href={`https://t.me/${cargo?.users_id_2_data?.phone}`}
-                        >
-                          {cargo?.users_id_2_data?.phone}{" "}
-                        </a>{" "}
-                      </p>
-                    </Box>
-                  </Flex>
-                )}
+                        {cargo?.users_id_2_data?.phone}{" "}
+                      </a>{" "}
+                    </p>
+                  </Box>
+                </Flex>
+              )}
 
               {role_id !== "785678f2-fae7-4a00-8766-99ea67d3784f" &&
                 role_id !== "527d2017-2dc2-4449-9eeb-08fc1aafa469" &&
                 orderStatus === `performed` && (
-                  <Flex
-                    width={`fit-content`}
-                    className={styles.cardItem}
-                    gap={`7px`}
-                    alignItems={`center`}
-                  >
-                    <Avatar
-                      src={cargo?.users_id_3_data?.logo}
-                      name={cargo?.users_id_3_data?.full_name}
-                    />
-                    <Box>
-                      <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
+                <Flex
+                  width={`fit-content`}
+                  className={styles.cardItem}
+                  gap={`7px`}
+                  alignItems={`center`}
+                >
+                  <Avatar
+                    src={cargo?.users_id_3_data?.logo}
+                    name={cargo?.users_id_3_data?.full_name}
+                  />
+                  <Box>
+                    <p className={styles.cardBodyTitle}>{t(`Диспетчер`)}</p>
 
-                      <p
-                        style={{ lineHeight: `28px` }}
-                        className={styles.cardName}
+                    <p
+                      style={{ lineHeight: `28px` }}
+                      className={styles.cardName}
+                    >
+                      {" "}
+                      {cargo?.users_id_3_data?.full_name}{" "}
+                      <a
+                        style={{
+                          marginLeft: `5px`,
+                          borderBottom: `1px dashed black`,
+                        }}
+                        target="_blank"
+                        href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
                       >
-                        {" "}
-                        {cargo?.users_id_3_data?.full_name}{" "}
-                        <a
-                          style={{
-                            marginLeft: `5px`,
-                            borderBottom: `1px dashed black`,
-                          }}
-                          target="_blank"
-                          href={`https://t.me/${cargo?.users_id_3_data?.phone}`}
-                        >
-                          {cargo?.users_id_3_data?.phone}{" "}
-                        </a>
-                      </p>
-                    </Box>
-                  </Flex>
-                )}
+                        {cargo?.users_id_3_data?.phone}{" "}
+                      </a>
+                    </p>
+                  </Box>
+                </Flex>
+              )}
               <Box className={styles.cardItem}>
                 {orderStatus == "performed" && (
                   <Button
@@ -652,49 +648,49 @@ export const Performed = forwardRef(
                       {cargo?.cargo_id_data?.order_status?.[0] !==
                         `in_active` &&
                         dispatcher_type?.[0] === `first_dispatcher` && (
-                          <Button
-                            leftIcon={<IconCeckNewStatusIcon />}
-                            onClick={(e) => {
-                              setDataPred(cargo);
-                              onOpen();
-                            }}
-                            className={styles.bntNew}
-                          >
-                            {t(`Принять`)}
-                          </Button>
-                        )}
+                        <Button
+                          leftIcon={<IconCeckNewStatusIcon />}
+                          onClick={(e) => {
+                            setDataPred(cargo);
+                            onOpen();
+                          }}
+                          className={styles.bntNew}
+                        >
+                          {t(`Принять`)}
+                        </Button>
+                      )}
                     </Flex>
                   </>
                 )}
                 {orderStatus == "cancellation" &&
                   role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsDeletePopupOpen(cargo);
-                      }}
-                      className={styles.bntOutline}
-                    >
-                      {t(`Удалить`)}
-                    </Button>
-                  )}
+                  <Button
+                    leftIcon={<DeleteIcon />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsDeletePopupOpen(cargo);
+                    }}
+                    className={styles.bntOutline}
+                  >
+                    {t(`Удалить`)}
+                  </Button>
+                )}
               </Box>
 
               {orderStatus === `approve_from_driver` &&
                 role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" && (
-                  <Button
-                    isLoading={disabledCancelBtn}
-                    width={`200px`}
-                    onClick={(e) => {
-                      // e.stopPropagation();
-                      handleCancel(cargo);
-                    }}
-                    className={styles.bntOutline}
-                  >
-                    {t(`Отказать`)}
-                  </Button>
-                )}
+                <Button
+                  isLoading={disabledCancelBtn}
+                  width={`200px`}
+                  onClick={(e) => {
+                    // e.stopPropagation();
+                    handleCancel(cargo);
+                  }}
+                  className={styles.bntOutline}
+                >
+                  {t(`Отказать`)}
+                </Button>
+              )}
             </div>
           </div>
         </div>

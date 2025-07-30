@@ -144,7 +144,7 @@ export const MyCarsDispatcherModule = () => {
                           clearFn();
                           setStartDate(new Date());
                           setEndDate(new Date()),
-                            setStartSelectDate(new Date());
+                          setStartSelectDate(new Date());
                         }
                       }}
                     />

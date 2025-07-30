@@ -4,9 +4,7 @@ import { fileUpload } from "@/services/fileUpload";
 import { FileUploadIconOutline } from "@/assets/icons/icons";
 import { useState } from "react";
 
-export const FileUploaderComponent = ({
-  setFileFn,
-}) => {
+export const FileUploaderComponent = ({ setFileFn, }) => {
   const [loading,setLoading] = useState(false)
   const handleImageUpload = async (e) => {
     const result = await fileUpload(e,setLoading);
@@ -14,7 +12,7 @@ export const FileUploaderComponent = ({
   };
 
   return (
-    <Box  cursor={`pointer`} display={`flex`} alignItems={`center`}   width={`100%`} as={loading ? `div` : "label"}>
+    <Box cursor={`pointer`} display={`flex`} alignItems={`center`} width={`100%`} as={loading ? `div` : "label"}>
       <input
         className="visually-hidden"
         type="file"
@@ -29,9 +27,9 @@ export const FileUploaderComponent = ({
         alignItems={"center"}
         width={"100%"}
       >
-      {
-        loading ? <Spinner size='sm' color="rgba(126, 123, 134, 1)" /> : <FileUploadIconOutline />
-      }
+        {
+        loading ? <Spinner size="sm" color="rgba(126, 123, 134, 1)" /> : <FileUploadIconOutline />
+        }
         <span className={cls.uploadName}>Прикрепить файл</span>
       </Flex>
     </Box>

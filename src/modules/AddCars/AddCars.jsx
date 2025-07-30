@@ -117,11 +117,11 @@ const AddCars = () => {
           <DrawerCloseButton top={`15px`} onClick={() => onClose()} />
           <DrawerBody>
             <Flex flexDirection={`column`} rowGap={`20px`}>
-           
+
               <p style={{ fontWeight: 400, fontSize: "16px" }}>
                 {t("Аккаунт водителя был создан. Необходимо войти в приложение Sarbon с номером")}: {watch("phone") || ""}
               </p>
-        
+
             </Flex>
           </DrawerBody>
           <DrawerFooter mb={`20px`}>

@@ -485,7 +485,7 @@ export const TableComponent = ({
                         row?.[`payment_type_${locale}`]
                           ? row?.[`payment_type_${locale}`]
                           : row?.payment_type
-                      )}`
+                    )}`
                     : t(" Безнал")}
                 </span>
               </p>

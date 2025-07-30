@@ -1,7 +1,7 @@
 import {
-    useCreateActionHistoriesMutation,
-    useDeleteCargo,
-    useGetUserCargo
+  useCreateActionHistoriesMutation,
+  useDeleteCargo,
+  useGetUserCargo
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useState } from "react";
@@ -36,9 +36,7 @@ const useProps = (orderStatus, t, locale) => {
         order_status: [orderStatus],
       }),
     },
-    {
-      placeholderData: undefined,
-    }
+    { placeholderData: undefined, }
   );
 
   const addPage = () => {
@@ -230,7 +228,7 @@ const useProps = (orderStatus, t, locale) => {
         </Box>
       ),
     },
-  {
+    {
       title: t("Стоимость"),
       width: 170,
       render: (row, index) => {
@@ -332,11 +330,11 @@ const useProps = (orderStatus, t, locale) => {
     {
       title:``,
       width: 50,
-      render: (row, index) => <Flex  alignItems={`center`} justifyContent={`center`}>
+      render: (row, index) => <Flex alignItems={`center`} justifyContent={`center`}>
         <IconButton onClick={(e) => {
           e.stopPropagation();
           handleDelete(row);
-        } }  _hover={{backgroundColor:`rgba(254, 228, 226, 1)`}} backgroundColor={`rgba(254, 228, 226, 1)`} icon={<DeleteIcon />} />
+        } } _hover={{ backgroundColor:`rgba(254, 228, 226, 1)` }} backgroundColor={`rgba(254, 228, 226, 1)`} icon={<DeleteIcon />} />
       </Flex>,
     },
   ];

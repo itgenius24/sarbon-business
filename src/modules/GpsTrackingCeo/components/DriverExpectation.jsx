@@ -1,36 +1,36 @@
 import {
-    AndroidIcon,
-    AppleIcon,
-    BatareyFullIcon,
-    BatareyIcon,
-    BluetoothIcon,
-    CloseIconM,
-    FurIcon,
-    GruzIcon,
-    LoadOulineIcon,
-    LocationActiveIcon,
-    ModalWatingIcon,
-    StarsIcon,
-    StoneIcon,
-    TelegramIcon,
+  AndroidIcon,
+  AppleIcon,
+  BatareyFullIcon,
+  BatareyIcon,
+  BluetoothIcon,
+  CloseIconM,
+  FurIcon,
+  GruzIcon,
+  LoadOulineIcon,
+  LocationActiveIcon,
+  ModalWatingIcon,
+  StarsIcon,
+  StoneIcon,
+  TelegramIcon,
 } from "@/assets/icons/icons";
 import {
-    useGetUserGpsByIDData,
-    useUpdateResponse
+  useGetUserGpsByIDData,
+  useUpdateResponse
 } from "@/services/api";
 import {
-    Avatar,
-    Box,
-    Button,
-    Flex,
-    IconButton,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -60,9 +60,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
         with_relations: true,
       }),
     },
-    querySettings: {
-      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
-    },
+    querySettings: { enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2), },
   });
 
   const handleMutation = () => {
@@ -217,7 +215,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
                     currentUserLocationData?.orders?.[0]?.cargo_id_data
                       ?.load_time
                       ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                          ?.load_time
+                        ?.load_time
                       : new Date(),
                     "yyyy-MM-dd"
                   )}
@@ -241,7 +239,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
                   {format(
                     currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
                       ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                          ?.date
+                        ?.date
                       : new Date(),
                     "yyyy-MM-dd"
                   )}

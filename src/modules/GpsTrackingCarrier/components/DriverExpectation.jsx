@@ -1,34 +1,34 @@
 import {
-    AndroidIcon,
-    AppleIcon,
-    BatareyFullIcon,
-    BatareyIcon,
-    BluetoothIcon,
-    CloseIconM,
-    FurIcon,
-    GruzIcon,
-    LoadOulineIcon,
-    LocationActiveIcon,
-    ModalWatingIcon,
-    NextBtnIcon,
-    StarsIcon,
-    StoneIcon,
-    TelegramIcon
+  AndroidIcon,
+  AppleIcon,
+  BatareyFullIcon,
+  BatareyIcon,
+  BluetoothIcon,
+  CloseIconM,
+  FurIcon,
+  GruzIcon,
+  LoadOulineIcon,
+  LocationActiveIcon,
+  ModalWatingIcon,
+  NextBtnIcon,
+  StarsIcon,
+  StoneIcon,
+  TelegramIcon
 } from "@/assets/icons/icons";
 import { useGetOffer, useGetUserGpsByIDData, useUpdateResponse } from "@/services/api";
 import {
-    Avatar,
-    Box,
-    Button,
-    Flex,
-    IconButton,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -41,7 +41,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
   function handleClosePopup() {
     setPopupOpen(false);
   }
-  
+
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
@@ -52,17 +52,15 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
     { enabled: Boolean(currentUserLocationData?.user?.guid) }
   );
 
-    const getUserGps = useGetUserGpsByIDData({
-      params: {
-        data: JSON.stringify({
-          guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
-          with_relations: true,
-        }),
-      },
-      querySettings:{
-         enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2) 
-      }
-    });
+  const getUserGps = useGetUserGpsByIDData({
+    params: {
+      data: JSON.stringify({
+        guid: currentUserLocationData?.disp_data?.[0]?.users_id_2,
+        with_relations: true,
+      }),
+    },
+    querySettings:{ enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2) }
+  });
 
 
   const updateResponseMutation = useUpdateResponse({
@@ -121,7 +119,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
           className={cls.btnBlueOutline}
           onClick={() => setPopupOpen(true)}
         >
-         {t(`Ждём подтверждение водителя`)}
+          {t(`Ждём подтверждение водителя`)}
         </Button>
         <Box className={cls.cardWrapOutline}>
           <Flex alignItems={"center"} gap={2}>
@@ -211,7 +209,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
               <p className={cls.cardStartSubTitle}>
                 {
                   currentUserLocationData?.orders?.[0]?.cargo_data
-                      ?.country_code_from
+                    ?.country_code_from
                 }{" "}
                 /{" "}
                 <span>
@@ -233,8 +231,8 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
               </p>
               <p className={cls.cardStartSubTitle}>
                 {
-                    currentUserLocationData?.orders?.[0]?.cargo_data
-                      ?.country_code_to
+                  currentUserLocationData?.orders?.[0]?.cargo_data
+                    ?.country_code_to
                 }{" "}
                 /{" "}
                 <span>
@@ -300,35 +298,35 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
             </p>
           </Flex>
         </Box>
-   {getUserGps?.data?.response && (
-               <Box
-                 style={{ background: `white` }}
-                 className={cls.cardWrapOutline}
-               >
-                 <Flex width={"100%"} alignItems={"center"} gap={3}>
-                   <Avatar
-                     name={getUserGps?.data?.response?.[0]?.full_name}
-                     src={getUserGps?.data?.response?.[0]?.full_name}
-                   />
-                   <Box>
-                     <p className={cls.cardStartSubTitlez}>Диспетчер </p>
-                     <p style={{ fontSize: `16px` }} className={cls.name}>
-                       {getUserGps?.data?.response?.[0]?.full_name}
-                     </p>
-                     <Flex alignItems={"center"} gap={2}>
-                       <a
-                         href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
-                       >
-                         <TelegramIcon />
-                       </a>
-                       <p className={cls.cardStartSubTitleZTel}>
-                         {getUserGps?.data?.response?.[0]?.phone}
-                       </p>
-                     </Flex>
-                   </Box>
-                 </Flex>
-               </Box>
-             )}
+        {getUserGps?.data?.response && (
+          <Box
+            style={{ background: `white` }}
+            className={cls.cardWrapOutline}
+          >
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={getUserGps?.data?.response?.[0]?.full_name}
+                src={getUserGps?.data?.response?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {getUserGps?.data?.response?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <a
+                    href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                  >
+                    <TelegramIcon />
+                  </a>
+                  <p className={cls.cardStartSubTitleZTel}>
+                    {getUserGps?.data?.response?.[0]?.phone}
+                  </p>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        )}
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />

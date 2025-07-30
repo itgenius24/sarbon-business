@@ -1,13 +1,13 @@
 import { useGetLang } from "@/hooks/useGetLang";
 import {
-    Accordion,
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
-    Box,
-    Flex,
-    Text,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
 import clsx from "clsx";
 import Link from "next/link";
@@ -65,9 +65,7 @@ export const Navbar = () => {
                   {nav.children.map((child, i) => {
                     return (
                       <Link
-                        className={clsx(cls.link, {
-                          [cls.active]: pathname.includes(child.path),
-                        })}
+                        className={clsx(cls.link, { [cls.active]: pathname.includes(child.path), })}
                         href={`/${locale}` + child.path}
                         key={i}
                       >
@@ -97,9 +95,7 @@ export const Navbar = () => {
 
         return (
           <Link
-            className={clsx(cls.link, {
-              [cls.active]: (!path && i === 0) || nav.path.includes(path),
-            })}
+            className={clsx(cls.link, { [cls.active]: (!path && i === 0) || nav.path.includes(path), })}
             href={`/${locale}` + nav.path}
             key={i}
           >

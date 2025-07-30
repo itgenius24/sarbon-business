@@ -12,13 +12,9 @@ const itemsService = {
   getClientType: (params) => request.get("/v2/items/client_type", { params }),
   getSingleNewData: (id) => request.get(`/v2/items/news/${id}`),
   deleteCargo: (id) =>
-    request.delete(`/v2/items/cargo/${id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/cargo/${id}`, { data: JSON.stringify({ data: {} }), }),
   deleteDispacersDriver: (id) =>
-    request.delete(`/v2/items/dispatcher_drivers/${id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/dispatcher_drivers/${id}`, { data: JSON.stringify({ data: {} }), }),
   getVehicleSin: (params) => request.get(`/v2/items/vehicle/${params.id}`),
   updateCargo: (data) => request.put("/v2/items/cargo", data),
   createCargo: (data) => request.post("/v2/items/cargo", data),
@@ -33,13 +29,9 @@ const itemsService = {
   createVehicle: (data) => request.post("/v2/items/vehicle", data),
   updateVehicle: (data) => request.put("/v2/items/vehicle", data),
   deleteVehicle: (data) =>
-    request.delete(`/v2/items/vehicle/${data.id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/vehicle/${data.id}`, { data: JSON.stringify({ data: {} }), }),
   deleteUsers: (data) =>
-    request.delete(`/v2/items/users/${data.id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/users/${data.id}`, { data: JSON.stringify({ data: {} }), }),
   createUser: (data) => request.post("/v2/items/users", data),
   createDispatcherTeams: (data) =>
     request.post("/v2/items/dispatcher_teams", data),
@@ -51,23 +43,15 @@ const itemsService = {
     request.put("/v2/items/dispatcher_and_firms", data),
 
   deleteDis: (id) =>
-    request.delete(`/v2/items/dispatcher_and_firms/${id.id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/dispatcher_and_firms/${id.id}`, { data: JSON.stringify({ data: {} }), }),
 
   deleteDisTop: (id) =>
-    request.delete(`/v2/items/dispatcher_teams/${id.id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/dispatcher_teams/${id.id}`, { data: JSON.stringify({ data: {} }), }),
 
   deleteOrder: (id) =>
-    request.delete(`/v2/items/order/${id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/order/${id}`, { data: JSON.stringify({ data: {} }), }),
   reliabilities: (id) =>
-    request.delete(`/v2/items/reliabilities/${id}`, {
-      data: JSON.stringify({ data: {} }),
-    }),
+    request.delete(`/v2/items/reliabilities/${id}`, { data: JSON.stringify({ data: {} }), }),
   updateUser2: (data) => request.put(`/v2/items/users`, data),
 
 };

@@ -79,7 +79,7 @@ const Cmap = memo(
 
     useEffect(() => {
       if (
-       guid &&
+        guid &&
         currentUserLocationData &&
         mapRef.current &&
         !isBalloonOpened
@@ -196,9 +196,7 @@ const Cmap = memo(
       const multiRoute = new ymapsRef.current.multiRouter.MultiRoute(
         {
           referencePoints: [a, b],
-          params: {
-            routingMode: "auto",
-          },
+          params: { routingMode: "auto", },
         },
         {
           boundsAutoApply: true,
@@ -218,11 +216,11 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
-         multiRoute.events.add("balloonclose", () => {
+        multiRoute.events.add("balloonclose", () => {
           clearMap();
         });
       });
-      
+
     };
 
 
@@ -244,9 +242,7 @@ const Cmap = memo(
       const map = mapRef.current;
       if (!map) return;
       const balloonContent = `<p class="distance">Masofa: ${distance} km</p>`;
-      map.balloon.open(getMiddlePoint(points), balloonContent, {
-        closeButton: true,
-      });
+      map.balloon.open(getMiddlePoint(points), balloonContent, { closeButton: true, });
     };
     const closeBallon = () => {
       const map = mapRef.current;
@@ -289,11 +285,11 @@ const Cmap = memo(
     const handleMapLoad = (ymaps) => {
       ymapsRef.current = ymaps;
       drawRoute(pointA, pointB);
-        const map = mapRef.current;
+      const map = mapRef.current;
 
       map.balloon.events.add("close", () => {
         // if (points.length > 0) {
-          clearMap();
+        clearMap();
         // }
       });
     };
@@ -319,9 +315,7 @@ const Cmap = memo(
       const coords = e.get("coords");
       const balloonContent = `Masofa: ${distance} km`;
 
-      map.balloon.open(coords, balloonContent, {
-        closeButton: true,
-      });
+      map.balloon.open(coords, balloonContent, { closeButton: true, });
     };
 
 
@@ -516,7 +510,7 @@ const Cmap = memo(
           }}
         />
 
-        {guid  && currentUserLocationData && (
+        {guid && currentUserLocationData && (
           <Placemark
             key={currentUserLocationData?.user?.guid}
             geometry={[

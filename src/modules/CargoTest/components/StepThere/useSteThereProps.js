@@ -200,7 +200,7 @@ const useStepThereProps = ({ locale }) => {
     setClickIndex(e.target.value);
     setClickNum(e.target.value);
     setHoverIndex(e.target.value);
-      setValue("transport_count", e.target.value);
+    setValue("transport_count", e.target.value);
 
   };
 

@@ -15,7 +15,7 @@ export const useTinCreate = () => {
   const guid = searchParams.get(`guid`);
   const your_id = searchParams.get(`id`);
   const router = useRouter();
-  
+
   const { mutate } = useRegisterFirEditmMutation({
     onSuccess: () => {
       router.back();
@@ -58,9 +58,7 @@ export const useTinCreate = () => {
   };
 
   useEffect(() => {
-    reset({
-      ...data?.response,
-    });
+    reset({ ...data?.response, });
   }, [data]);
 
   const onSubmit = (data) => {

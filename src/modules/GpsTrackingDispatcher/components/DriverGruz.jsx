@@ -276,11 +276,11 @@ const DriverGruz = ({
             <Popover placement="top-start">
               <PopoverTrigger>
                 <Button
-                onClick={() => {
-                  copy(
-                    loadState?.number_of_order
-                      );
-                }}
+                  onClick={() => {
+                    copy(
+                      loadState?.number_of_order
+                    );
+                  }}
                   style={{
                     padding: `1px 0px`,
                     background: `transparent`,
@@ -315,7 +315,7 @@ const DriverGruz = ({
                     border={`none`}
                     width={`fit-content`}
                   >
-                    
+
                     {t(`Номер груза скопирован`)}
                   </PopoverBody>
                 </PopoverContent>

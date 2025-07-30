@@ -75,7 +75,7 @@ export default function GpsTrackingDispatcher({ locale }) {
     isBalloonOpened,
     setIsBalloonOpened,
     mapRef,
-     isFuelMap, setIsFuelMap
+    isFuelMap, setIsFuelMap
   } = useGpsTrackingProps(locale);
 
   const { t } = useTranslation(locale, "translations");

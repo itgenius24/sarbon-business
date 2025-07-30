@@ -69,7 +69,7 @@ export const useAdDetailProps = ({ id }) => {
       displayFormSuccessInfo(data?.data?.name);
       setDisabled(false);
       router.back();
-      
+
     },
   });
 

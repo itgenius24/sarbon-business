@@ -327,18 +327,18 @@ export const useMyCarsDispatcher = () => {
           </Box>
 
           <Box>
-             <PopoverUserName
-                  style={{
-                    fontSize: `14px`,
-                    padding: 0,
-                    color: `rgba(33, 31, 38, 1)`,
-                    background: `red`,
-                     fontWeight:600
-                  }}
-                  user_name={row?.full_name}
-                  user_id={row?.guid}
-                  locale={locale}
-                />
+            <PopoverUserName
+              style={{
+                fontSize: `14px`,
+                padding: 0,
+                color: `rgba(33, 31, 38, 1)`,
+                background: `red`,
+                fontWeight:600
+              }}
+              user_name={row?.full_name}
+              user_id={row?.guid}
+              locale={locale}
+            />
             {/* <p className={cls.title}>{row?.full_name}</p> */}
             <a
               onClick={(e) => e.stopPropagation()}
@@ -677,9 +677,7 @@ export const useMyCarsDispatcher = () => {
 
   const deleteFuntion = (id, your_id) => {
     setDeleteId(id);
-    deleteUser({
-      id,
-    });
+    deleteUser({ id, });
     actionCreate({
       data: {
         user_name: authStore.userData.full_name,
@@ -724,10 +722,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Занята чужим грузом`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Занята чужим грузом`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );
@@ -736,10 +734,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Неисправна`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Неисправна`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );
@@ -748,10 +746,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Свободная`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Свободная`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );
@@ -760,10 +758,10 @@ export const useMyCarsDispatcher = () => {
           prevData.map((item) =>
             item.guid === open.guid
               ? {
-                  ...item,
-                  status: `Нет Статус`,
-                  provisions: [iconStatus],
-                }
+                ...item,
+                status: `Нет Статус`,
+                provisions: [iconStatus],
+              }
               : item
           )
         );

@@ -60,7 +60,7 @@ export default function LocalizedNotFound() {
 
   return (
     <Container margin={`0 auto`}>
-    
+
       <div
         style={{
           minHeight: "90vh",

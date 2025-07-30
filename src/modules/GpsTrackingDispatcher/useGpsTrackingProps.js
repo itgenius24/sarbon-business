@@ -104,7 +104,7 @@ export const useGpsTrackingProps = (locale) => {
     {
       onSuccess: (res) => {
         const objContend = {
-        users_id: guid,
+          users_id: guid,
           user: {
             full_name,
             guid,
@@ -137,9 +137,7 @@ export const useGpsTrackingProps = (locale) => {
             },
           ],
           orders: [
-            {
-              cargo_id_data: res?.response?.[0],
-            },
+            { cargo_id_data: res?.response?.[0], },
           ],
           disp_data: [{ users_id_2: dispatcher_id }],
         };
@@ -426,13 +424,13 @@ export const useGpsTrackingProps = (locale) => {
       ) {
         setModalType("driverExpectation");
       }
-      
+
       if (mapRef.current && dataUserID?.[0]?.users_gps?.[0]?.lat && dataUserID?.[0]?.users_gps?.[0]?.long) {
         const lat = parseFloat(dataUserID[0].users_gps[0].lat);
         const long = parseFloat(dataUserID[0].users_gps[0].long);
         mapRef.current.setCenter([lat, long], 10);
       }
-      
+
       setIsBalloonOpened(false);
       router.replace(`/${locale}/gps-tracking-dispatcher`);
     }
@@ -467,11 +465,7 @@ export const useGpsTrackingProps = (locale) => {
 
   useEffect(() => {
     if (remainingData.length === 0) {
-      getCarRefueling({
-        data: {
-          object_data: {},
-        },
-      });
+      getCarRefueling({ data: { object_data: {}, }, });
     }
   }, []);
 

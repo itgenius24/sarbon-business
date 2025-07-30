@@ -53,7 +53,7 @@ const StepOne = ({ status,locale }) => {
     handleResetForm,
     editModal,
     setEditModal,
-  } = useStepOneProps({locale});
+  } = useStepOneProps({ locale });
 
   const { t } = useTranslation(locale, "translations");
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
@@ -112,7 +112,7 @@ const StepOne = ({ status,locale }) => {
                       }}
                       className={cls.quickWord}
                     >
-                     {t(`Пиломатериалы`)},
+                      {t(`Пиломатериалы`)},
                     </p>
                     <p
                       onClick={() => {
@@ -152,7 +152,7 @@ const StepOne = ({ status,locale }) => {
                   <Box>
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       className={cls.textField2}
                       errors={errors}
                       control={control}
@@ -226,7 +226,7 @@ const StepOne = ({ status,locale }) => {
                     <TextFieldWithAddition
                       className={cls.textField2}
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       errors={errors}
                       control={control}
                       name="volume_measurement"
@@ -411,7 +411,7 @@ const StepOne = ({ status,locale }) => {
                     />
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       control={control}
                       errors={errors}
                       name="packaging_quantity"
@@ -474,7 +474,7 @@ const StepOne = ({ status,locale }) => {
                   >
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       control={control}
                       name="length"
                       register={register}
@@ -486,7 +486,7 @@ const StepOne = ({ status,locale }) => {
                     />
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       control={control}
                       name="width"
                       register={register}
@@ -498,7 +498,7 @@ const StepOne = ({ status,locale }) => {
                     />
                     <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
-                        isEdit={!canEdit}
+                      isEdit={!canEdit}
                       control={control}
                       name="height"
                       register={register}

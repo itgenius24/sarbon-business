@@ -190,9 +190,7 @@ const Filter = ({
                     >
                       <p
                         className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                       />{" "}
                     </Flex>
                   );

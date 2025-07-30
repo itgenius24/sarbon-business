@@ -158,10 +158,10 @@ export default function ChangelogPage({ params }) {
                 <Box>
                   {version.banner && (
                     <Box mb="20px">
-                      <img 
-                        src={version.banner} 
-                        alt={typeof version.title === 'string' 
-                          ? version.title 
+                      <img
+                        src={version.banner}
+                        alt={typeof version.title === 'string'
+                          ? version.title
                           : version.title?.[locale] || version.title?.ru || `${t("Версия")} ${version.version}`
                         }
                         style={{
@@ -173,7 +173,7 @@ export default function ChangelogPage({ params }) {
                       />
                     </Box>
                   )}
-                  
+
                   <Text
                     fontSize="16px"
                     lineHeight="24px"
@@ -181,12 +181,12 @@ export default function ChangelogPage({ params }) {
                     whiteSpace="pre-line"
                     mb="20px"
                   >
-                    {typeof version.description === 'string' 
-                      ? version.description 
+                    {typeof version.description === 'string'
+                      ? version.description
                       : version.description?.[locale] || version.description?.ru || t("Описание недоступно")
                     }
                   </Text>
-                  
+
                   {version.new && version.new.length > 0 && (
                     <Box mt="20px">
                       <Text fontSize="14px" fontWeight="600" color="brand.800" mb="12px">
@@ -196,10 +196,10 @@ export default function ChangelogPage({ params }) {
                         {version.new.map((newItem, idx) => (
                           <Box key={idx} pl="16px">
                             <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
-                              • {typeof newItem === 'string' 
-                                  ? newItem 
+                              • {typeof newItem === 'string'
+                                  ? newItem
                                   : newItem?.title?.[locale] || newItem?.title?.ru || newItem?.title?.en || 'New Item'
-                                }
+                              }
                             </Text>
                             {newItem?.description && (
                               <Text fontSize="13px" color="brand.600" pl="8px">
@@ -221,10 +221,10 @@ export default function ChangelogPage({ params }) {
                         {version.features.map((feature, idx) => (
                           <Box key={idx} pl="16px">
                             <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
-                              • {typeof feature === 'string' 
-                                  ? feature 
+                              • {typeof feature === 'string'
+                                  ? feature
                                   : feature?.title?.[locale] || feature?.title?.ru || feature?.title?.en || 'Feature'
-                                }
+                              }
                             </Text>
                             {feature?.description && (
                               <Text fontSize="13px" color="brand.600" pl="8px">
@@ -246,10 +246,10 @@ export default function ChangelogPage({ params }) {
                         {version.improvements.map((improvement, idx) => (
                           <Box key={idx} pl="16px">
                             <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
-                              • {typeof improvement === 'string' 
-                                  ? improvement 
+                              • {typeof improvement === 'string'
+                                  ? improvement
                                   : improvement?.title?.[locale] || improvement?.title?.ru || improvement?.title?.en || 'Improvement'
-                                }
+                              }
                             </Text>
                             {improvement?.description && (
                               <Text fontSize="13px" color="brand.600" pl="8px">
@@ -271,10 +271,10 @@ export default function ChangelogPage({ params }) {
                         {version.fixes.map((fix, idx) => (
                           <Box key={idx} pl="16px">
                             <Text fontSize="14px" fontWeight="500" color="brand.700" mb="4px">
-                              • {typeof fix === 'string' 
-                                  ? fix 
+                              • {typeof fix === 'string'
+                                  ? fix
                                   : fix?.title?.[locale] || fix?.title?.ru || fix?.title?.en || 'Fix'
-                                }
+                              }
                             </Text>
                             {fix?.description && (
                               <Text fontSize="13px" color="brand.600" pl="8px">

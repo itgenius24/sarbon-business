@@ -22,7 +22,7 @@ export const errorHandlerHttp = (error) => {
 
 requestInvoke.interceptors.request.use((config) => {
   const token = authStore.token.access_token;
-  
+
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
@@ -34,7 +34,7 @@ requestInvoke.interceptors.request.use((config) => {
 
 
   if (config.url && !config.url.startsWith('staging-')) {
-    config.url = `${process.env.NEXT_PUBLIC_BASIC_INVOKE_STAGING_PREFIX_URL || ``}${config.url.replace(/^\/+/, '')}`; 
+    config.url = `${process.env.NEXT_PUBLIC_BASIC_INVOKE_STAGING_PREFIX_URL || ``}${config.url.replace(/^\/+/, '')}`;
   }
 
   return config;

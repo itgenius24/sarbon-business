@@ -50,9 +50,7 @@ export const useDashboard = (locale) => {
 
 
 
-  const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
-    enabled: Boolean(firmId?.firm_data?.guid),
-  });
+  const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, { enabled: Boolean(firmId?.firm_data?.guid), });
 
   const { mutate: filterData, isLoading: filterDataLoadin } =
     useLogistikaGpsTrackingFilterDriverPred({
@@ -164,20 +162,10 @@ export const useDashboard = (locale) => {
     });
   }, [startDate, endDate, status, date2, load]);
 
-  const { data: useList } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5",
-      }),
-    },
-  });
+  const { data: useList } = useGetUserData({ params: { data: JSON.stringify({ client_type_id: "a1d98b5f-93f1-413a-8515-c99d4f4d6dc5", }), }, });
 
   const { data: useListDis } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
-      }),
-    },
+    params: { data: JSON.stringify({ client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba", }), },
     querySettings: {
       select: (res) =>
         res?.response?.map((item) => ({
@@ -187,13 +175,7 @@ export const useDashboard = (locale) => {
     },
   });
 
-  const { data: useExsList } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        client_type_id: "a25d605c-d153-4ddf-8590-e4cda176ef93",
-      }),
-    },
-  });
+  const { data: useExsList } = useGetUserData({ params: { data: JSON.stringify({ client_type_id: "a25d605c-d153-4ddf-8590-e4cda176ef93", }), }, });
 
   const {
     data: useCargo,
@@ -208,13 +190,7 @@ export const useDashboard = (locale) => {
     },
   });
 
-  const { data: vehicle } = useGetVehicle2({
-    params: {
-      data: JSON.stringify({
-        car_position: ["alive"],
-      }),
-    },
-  });
+  const { data: vehicle } = useGetVehicle2({ params: { data: JSON.stringify({ car_position: ["alive"], }), }, });
 
   const { mutate } = useDispatcherFirms({
     onSuccess: () => {
@@ -254,9 +230,7 @@ export const useDashboard = (locale) => {
   });
 
   const clearFn = (row, e) => {
-    const data = {
-      id: row?.dispatcher_and_firms_data?.guid,
-    };
+    const data = { id: row?.dispatcher_and_firms_data?.guid, };
     dalete(data);
     setValue(e, {});
   };
@@ -315,23 +289,11 @@ export const useDashboard = (locale) => {
     );
   };
 
-  const { data: perfomed } = useGetOffer({
-    data: JSON.stringify({
-      provisions: [`performed`],
-    }),
-  });
+  const { data: perfomed } = useGetOffer({ data: JSON.stringify({ provisions: [`performed`], }), });
 
-  const { data: archive } = useGetOffer({
-    data: JSON.stringify({
-      provisions: [`archive`],
-    }),
-  });
+  const { data: archive } = useGetOffer({ data: JSON.stringify({ provisions: [`archive`], }), });
 
-  const { data: newData } = useGetOffer({
-    data: JSON.stringify({
-      provisions: [`new`],
-    }),
-  });
+  const { data: newData } = useGetOffer({ data: JSON.stringify({ provisions: [`new`], }), });
 
   const newCount =
     newData?.response?.filter(
@@ -402,7 +364,7 @@ export const useDashboard = (locale) => {
   const topStatis2 = [
     {
       id: 1,
-      total: (newCount || 0) -  (newData1 + newData2 || 0),
+      total: (newCount || 0) - (newData1 + newData2 || 0),
       deck: `Общее кол-во предложений `,
       bg: `rgba(142, 170, 219, 1)`,
       color: `rgba(142, 170, 219, 0.3)`,
@@ -497,33 +459,25 @@ export const useDashboard = (locale) => {
     },
     responsive: true,
     plugins: {
-      legend: {
-        display: false,
-      },
+      legend: { display: false, },
       title: {
         display: false,
         text: "Chart.js Horizontal Bar Chart",
       },
-      datasets: {
-        display: false,
-      },
+      datasets: { display: false, },
       colorArea,
     },
     scales: {
       x: {
         ticks: {
           color: "#222", // Label color
-          font: {
-            size: 14,
-          },
+          font: { size: 14, },
         },
       },
       y: {
         ticks: {
           color: "#222",
-          font: {
-            size: 16,
-          },
+          font: { size: 16, },
         },
       },
     },
@@ -705,9 +659,9 @@ export const useDashboard = (locale) => {
               defaultValue={
                 row?.dispatcher_and_firms_data_details?.guid
                   ? {
-                      label: row?.dispatcher_and_firms_data_details?.full_name,
-                      value: row?.dispatcher_and_firms_data_details?.guid,
-                    }
+                    label: row?.dispatcher_and_firms_data_details?.full_name,
+                    value: row?.dispatcher_and_firms_data_details?.guid,
+                  }
                   : {}
               }
             />
@@ -1375,7 +1329,7 @@ export const useDashboard = (locale) => {
             </p>
           </>
         );
-      },  
+      },
     },
     {
       title:`Заказчик`,

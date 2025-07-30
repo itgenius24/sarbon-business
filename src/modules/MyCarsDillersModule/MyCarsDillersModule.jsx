@@ -72,17 +72,17 @@ export const MyCarsDillersModule = () => {
           </TabList>
           <TabPanels padding={0}>
             <TabPanel padding={0}>
-            <Flex mt={`20px`} mb={`20px`}  alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
-               <p className={cls.nameTab}>{t(`В модерации`)}</p>
-               <Box>
+              <Flex mt={`20px`} mb={`20px`} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
+                <p className={cls.nameTab}>{t(`В модерации`)}</p>
+                <Box>
                   <p className={cls.tabCountName}>Добавлено</p>
                   <p className={cls.tabCount}>{vehicle?.length || 0}</p>
-               </Box>
-               <Box>
+                </Box>
+                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
                   <p className={cls.tabCount}> {splitNumber((vehicle?.[0]?.salary || 0) * vehicle?.length || 0)} sum</p>
-               </Box>
-            </Flex>
+                </Box>
+              </Flex>
               {
                 vehicle?.map((item) => (
                   <CarsCardMObile type={0} color={`rgba(255, 59, 48, 1)`} handleDelete={handleDelete} item={item} key={item} />
@@ -90,17 +90,17 @@ export const MyCarsDillersModule = () => {
               }
             </TabPanel>
             <TabPanel padding={0}>
-            <Flex mt={`20px`} mb={`20px`}  alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
-               <p className={cls.nameTab}>{t(`Одобренные`)}</p>
-               <Box>
+              <Flex mt={`20px`} mb={`20px`} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
+                <p className={cls.nameTab}>{t(`Одобренные`)}</p>
+                <Box>
                   <p className={cls.tabCountName}>Добавлено</p>
                   <p className={cls.tabCount}>{vehicle?.length || 0}</p>
-               </Box>
-               <Box>
+                </Box>
+                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
                   <p className={cls.tabCount}> {splitNumber((vehicle?.[0]?.salary || 0) * vehicle?.length || 0)} sum</p>
-               </Box>
-            </Flex>
+                </Box>
+              </Flex>
               {
                 vehicle?.map((item) => (
                   <CarsCardMObile type={1} item={item} color={`rgba(21, 186, 77, 1)`} key={item} />
@@ -108,17 +108,17 @@ export const MyCarsDillersModule = () => {
               }
             </TabPanel>
             <TabPanel padding={0}>
-            <Flex mt={`20px`} mb={`20px`}  alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
-               <p className={cls.nameTab}>{t(`Оплаченные`)}</p>
-               <Box>
+              <Flex mt={`20px`} mb={`20px`} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
+                <p className={cls.nameTab}>{t(`Оплаченные`)}</p>
+                <Box>
                   <p className={cls.tabCountName}>Добавлено</p>
                   <p className={cls.tabCount}>{vehicle?.length || 0}</p>
-               </Box>
-               <Box>
+                </Box>
+                <Box>
                   <p className={cls.tabCountName}>Сумма:</p>
                   <p className={cls.tabCount}> {splitNumber((vehicle?.[0]?.salary || 0) * vehicle?.length || 0)} sum</p>
-               </Box>
-            </Flex>
+                </Box>
+              </Flex>
               {
                 vehicle?.map((item) => (
                   <CarsCardMObile type={2} item={item} color={`rgba(21, 186, 77, 1)`} key={item} />

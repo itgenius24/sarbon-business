@@ -117,7 +117,7 @@ const Filter = ({
     },
   });
 
-   const clearFn = () => {
+  const clearFn = () => {
     handleClear();
     setValue(`dispatcher`, {});
     setValue(`dis_search`, ``);
@@ -198,9 +198,7 @@ const Filter = ({
                     >
                       <p
                         className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                       />{" "}
                     </Flex>
                   );

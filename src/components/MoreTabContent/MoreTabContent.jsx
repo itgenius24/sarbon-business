@@ -8,10 +8,10 @@ import { useGetLang } from "@/hooks/useGetLang";
 import authStore from "@/store/auth.store";
 import { useStoreHydration } from "@/hooks/useStoreHydration";
 import { useElements } from "@/layouts/MainLayout/elements";
-import { 
-  CloseIcon, 
-  TruckIcon, 
-  User2, 
+import {
+  CloseIcon,
+  TruckIcon,
+  User2,
   LocationIcon,
   SettingIcon,
   DriversIcon,
@@ -36,7 +36,7 @@ export const MoreTabContent = ({ isOpen, onClose }) => {
   const locale = useGetLang();
   const isHydrated = useStoreHydration();
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  
+
   // Get navigation elements from the existing layout
   const elements = useElements(locale);
 
@@ -54,7 +54,7 @@ export const MoreTabContent = ({ isOpen, onClose }) => {
 
   // Filter out the main tabs that are already in bottom navigation
   const excludedPaths = ["/cargos", "/performed", "/profile"];
-  const moreItems = elements?.filter(element => 
+  const moreItems = elements?.filter(element =>
     !excludedPaths.some(path => element.path.includes(path))
   ) || [];
 

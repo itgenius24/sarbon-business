@@ -26,8 +26,8 @@ const CPagination = ({
     setCurrentPage(1);
   };
 
- 
- 
+
+
 
   return (
     <Box className={cls.pagination}>
@@ -40,7 +40,7 @@ const CPagination = ({
         showSizeChanger
         pageSizeOptions={PAGE_SIZE_OPTIONS}
         className={cls.paginationControl}
-       
+
         style={{
           "--primary-color": `var(--chakra-colors-${primaryColor
             .replace(".", "-")

@@ -226,10 +226,10 @@ const CmapAZS = memo(
         >
           {getCarListProps?.data &&
             getCarListProps?.data?.map((carInfo) => {
-            const BalloonContent = () => (
-                         <div id="balloon-content" className={cls.balloon_content_empty}>
-                           <div className={cls.wrap} style={{ height: "45px" }}>
-                             {carInfo?.user?.provisions?.[0] === "empty" ? (
+              const BalloonContent = () => (
+                <div id="balloon-content" className={cls.balloon_content_empty}>
+                  <div className={cls.wrap} style={{ height: "45px" }}>
+                    {carInfo?.user?.provisions?.[0] === "empty" ? (
                                <>
                                  <GreenCarIcon />
                                  <span className={cls.balloonName}>Свободен</span>
@@ -281,27 +281,27 @@ const CmapAZS = memo(
                                  <span className={cls.balloonName}>Свободен</span>
                                </>
                              )}
-         
-                             <div className={cls.loadIconWrap}>
-                               <Box className={cls.conWrap}>
-                                 <StoneIcon />{" "}
-                                 <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
-                               </Box>
-         
-                               <Box
-                                 className={cls.conWrap}
-                                 gap={1}
-                                 alignItems={"center"}
-                               >
-                                 <LoadOulineIcon />
-                                 <span>{carInfo?.vehicles?.[0]?.height} m3</span>
-                               </Box>
-                             </div>
-                           </div>
-                           <p className={cls.balloon_fulName}>
-                             {carInfo?.user?.full_name}
-                           </p>
-                           {carInfo?.user?.provisions?.[0] === "empty" ? (
+
+                    <div className={cls.loadIconWrap}>
+                      <Box className={cls.conWrap}>
+                        <StoneIcon />{" "}
+                        <span> {carInfo?.vehicles?.[0]?.capacity} т.</span>
+                      </Box>
+
+                      <Box
+                        className={cls.conWrap}
+                        gap={1}
+                        alignItems={"center"}
+                      >
+                        <LoadOulineIcon />
+                        <span>{carInfo?.vehicles?.[0]?.height} m3</span>
+                      </Box>
+                    </div>
+                  </div>
+                  <p className={cls.balloon_fulName}>
+                    {carInfo?.user?.full_name}
+                  </p>
+                  {carInfo?.user?.provisions?.[0] === "empty" ? (
                              <>
                                <div className={cls.flex}>
                                  <GreenPhoneIcon />
@@ -371,7 +371,7 @@ const CmapAZS = memo(
                                    </a>
                                  </div>
                                </div>
-         
+
                                <p className={cls.footerBox}>
                                  <BlueFuraIcon />
                                  {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
@@ -410,7 +410,7 @@ const CmapAZS = memo(
                                    </a>
                                  </div>
                                </div>
-         
+
                                <p className={cls.footerBox}>
                                  <BlueFuraIcon />
                                  {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
@@ -449,7 +449,7 @@ const CmapAZS = memo(
                                    </a>
                                  </div>
                                </div>
-         
+
                                <p className={cls.footerBox}>
                                  <BlueFuraIcon />
                                  {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
@@ -526,7 +526,7 @@ const CmapAZS = memo(
                                    </a>
                                  </div>
                                </div>
-         
+
                                <p className={cls.footerBox}>
                                  <GreenFuraIcon />
                                  {carInfo?.vehicles?.[0]?.trailer_type_id_data?.name
@@ -535,8 +535,8 @@ const CmapAZS = memo(
                                </p>
                              </>
                            )}
-                         </div>
-                       );
+                </div>
+              );
               const balloonContent2 = ReactDOMServer.renderToString(
                 <BalloonContent />
               );
@@ -684,7 +684,7 @@ const CmapAZS = memo(
                       }}
                       key={item?.guid}
                       geometry={[
-                        item.location_name.split(" ")[0] * 1 + index * 0.0001, 
+                        item.location_name.split(" ")[0] * 1 + index * 0.0001,
                         item.location_name.split(" ")[1] * 1 + index * 0.0001
                       ]}
                       properties={{
@@ -700,7 +700,7 @@ const CmapAZS = memo(
                         iconImageSize: [60, 72],
                         iconImageOffset: [-15, -42],
                       }}
-                   
+
                     />
                   )}
                 </>

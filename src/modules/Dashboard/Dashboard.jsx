@@ -253,7 +253,7 @@ const Dashboard = ({ locale }) => {
           >
             {filterDataLoadin && <SimpleLoader />}
             <Tabs
-            defaultIndex={index * 1}
+              defaultIndex={index * 1}
               isLazy
               onChange={(el) => {
                 setStatus(el), setCurrentPage(1);

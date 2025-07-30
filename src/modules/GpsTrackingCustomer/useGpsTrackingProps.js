@@ -243,11 +243,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     if (remainingData.length === 0) {
-      getCarRefueling({
-        data: {
-          object_data: {},
-        },
-      });
+      getCarRefueling({ data: { object_data: {}, }, });
     }
   }, []);
 
@@ -389,7 +385,7 @@ export const useGpsTrackingProps = () => {
   const getUserOption = getUserNameOptions.concat(getUserPhoneOptions);
 
   useEffect(() => {
-     getLocation({ data: { object_data: { limit: 100, page: offsetCar } } });
+    getLocation({ data: { object_data: { limit: 100, page: offsetCar } } });
   }, [offsetCar]);
 
   useEffect(() => {

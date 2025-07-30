@@ -403,14 +403,14 @@ export const CargoViews = observer(({ id, status, locale }) => {
               status === "in_active" ||
               status === "rejected" ||
               status === "in_moderation") && (
-              <Box
-                display="flex"
-                justifyContent={`flex-end`}
-                columnGap="12px"
-                mt="32px"
-                width={`100%`}
-              >
-                {!addCargoProps.canEdit ? (
+            <Box
+              display="flex"
+              justifyContent={`flex-end`}
+              columnGap="12px"
+              mt="32px"
+              width={`100%`}
+            >
+              {!addCargoProps.canEdit ? (
                   <Box display={`flex`} columnGap="8px">
                     {status !== `active` && (
                       <Button
@@ -463,8 +463,8 @@ export const CargoViews = observer(({ id, status, locale }) => {
                     </Button>
                   </Box>
                 )}
-              </Box>
-            )}
+            </Box>
+          )}
           {status === "new" && (
             <Box display="flex" width="570px" columnGap="12px" mt="32px">
               <Button
@@ -487,18 +487,14 @@ export const CargoViews = observer(({ id, status, locale }) => {
       <Popup
         isOpen={addCargoProps.isPopupOpen}
         onClose={addCargoProps.handleCloseDeletePopup}
-        mainText={t("Вы уверены что хотите удалить груз ?", {
-          name: addCargoProps.cargoName,
-        })}
+        mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName, })}
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />
       <Popup
         isOpen={addCargoProps?.editModal}
         onClose={closePopup}
-        mainText={t("Хотите перейти в режим редактирования?", {
-          name: addCargoProps.cargoName,
-        })}
+        mainText={t("Хотите перейти в режим редактирования?", { name: addCargoProps.cargoName, })}
         status="second"
         btn2Callback={() => {
           addCargoProps.handleEditToggle();

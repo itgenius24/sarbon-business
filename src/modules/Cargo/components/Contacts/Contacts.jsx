@@ -12,7 +12,7 @@ export const Contacts = () => {
 
   const { register, setValue, watch, canEdit } = useAddCargoContext();
   const { value: userData } = useGetStoreData(authStore, "userData");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return <Box pt="24px" borderTop="1px solid" borderColor="brand.200" >
     <Box className={cls.fieldsWrapper} display="flex" columnGap="32px" mb="24px">

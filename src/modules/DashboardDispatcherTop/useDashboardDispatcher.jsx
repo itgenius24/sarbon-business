@@ -42,9 +42,7 @@ export const useDashboardDispatcher = (locale) => {
     [`4`]: `cargo`,
   };
 
-  const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, {
-    enabled: Boolean(firmId?.firm_data?.guid),
-  });
+  const { data: firmData } = useGetFirmInfo(firmId?.firm_data?.guid, { enabled: Boolean(firmId?.firm_data?.guid), });
 
   const { mutate: filterData, isLoading: filterDataLoadin } =
     useLogistikaGpsTrackingFilterDriverPred({
@@ -153,18 +151,10 @@ export const useDashboardDispatcher = (locale) => {
     });
   }, [startDate, endDate, status, date2, load]);
 
-  const { data: useList } = useGetOfferDispatcher({
-    data: JSON.stringify({
-      users_id_2: authStore?.userData?.guid,
-    }),
-  });
+  const { data: useList } = useGetOfferDispatcher({ data: JSON.stringify({ users_id_2: authStore?.userData?.guid, }), });
 
   const { data: useListDis } = useGetUserData({
-    params: {
-      data: JSON.stringify({
-        client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba",
-      }),
-    },
+    params: { data: JSON.stringify({ client_type_id: "2ae57983-f68f-487a-b76c-c7166c35dbba", }), },
     querySettings: {
       select: (res) =>
         res?.response?.map((item) => ({
@@ -174,11 +164,7 @@ export const useDashboardDispatcher = (locale) => {
     },
   });
 
-  const { data: useExsList } = useGetOfferDispatcherFirms({
-    data: JSON.stringify({
-      users_id: authStore?.userData?.guid,
-    }),
-  });
+  const { data: useExsList } = useGetOfferDispatcherFirms({ data: JSON.stringify({ users_id: authStore?.userData?.guid, }), });
 
   const {
     data: useCargo,
@@ -231,9 +217,7 @@ export const useDashboardDispatcher = (locale) => {
   });
 
   const clearFn = (row, e) => {
-    const data = {
-      id: row?.dispatcher_and_firms_data?.guid,
-    };
+    const data = { id: row?.dispatcher_and_firms_data?.guid, };
     dalete(data);
     setValue(e, {});
   };
@@ -470,33 +454,25 @@ export const useDashboardDispatcher = (locale) => {
     },
     responsive: true,
     plugins: {
-      legend: {
-        display: false,
-      },
+      legend: { display: false, },
       title: {
         display: false,
         text: "Chart.js Horizontal Bar Chart",
       },
-      datasets: {
-        display: false,
-      },
+      datasets: { display: false, },
       colorArea,
     },
     scales: {
       x: {
         ticks: {
           color: "#222", // Label color
-          font: {
-            size: 14,
-          },
+          font: { size: 14, },
         },
       },
       y: {
         ticks: {
           color: "#222",
-          font: {
-            size: 16,
-          },
+          font: { size: 16, },
         },
       },
     },

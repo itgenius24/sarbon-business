@@ -14,7 +14,7 @@ class SentryExampleFrontendError extends Error {
 export default function Page() {
   const [hasSentError, setHasSentError] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
-  
+
   useEffect(() => {
     async function checkConnectivity() {
       const result = await Sentry.diagnoseSdkConnectivity();
@@ -77,7 +77,7 @@ export default function Page() {
         )}
 
         <div className="flex-spacer" />
-        
+
         <p className="description">
           Adblockers will prevent errors from being sent to Sentry.
         </p>

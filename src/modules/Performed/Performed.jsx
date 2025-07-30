@@ -58,15 +58,15 @@ export const PerformedModule = () => {
       </Flex>
       {tab === `tab1` ? (
         <>
-           <TopContentPerfomet />
+          <TopContentPerfomet />
         </>
       ) : (
-        <Box  overflowX={ isLargerThan845 ? `none`:`scroll`}>
+        <Box overflowX={ isLargerThan845 ? `none`:`scroll`}>
           <Flex
             p={"10px 36px"}
             justifyContent={"space-between"}
             mt={isLargerThan845 ? "32px" : 0}
-            width={isLargerThan845  ?`100%`:`1426px`}
+            width={isLargerThan845 ?`100%`:`1426px`}
           >
             <p className={cls.th}>{t("Откуда забрать")}</p>
             <p className={cls.th}>{t("Куда")}</p>

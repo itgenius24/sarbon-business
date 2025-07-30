@@ -147,17 +147,13 @@ export const getFormFieldAriaProps = ({
       'aria-invalid': invalid,
       'aria-describedby': describedBy || undefined,
     },
-    labelProps: {
-      htmlFor: fieldId,
-    },
+    labelProps: { htmlFor: fieldId, },
     errorProps: errorId ? {
       id: errorId,
       role: ARIA_ROLES.ALERT,
       'aria-live': 'polite',
     } : {},
-    descriptionProps: descriptionId ? {
-      id: descriptionId,
-    } : {},
+    descriptionProps: descriptionId ? { id: descriptionId, } : {},
   };
 };
 
@@ -172,9 +168,7 @@ export const getNavigationAriaProps = ({
   label,
   current,
 } = {}) => {
-  const props = {
-    role: ARIA_ROLES.NAVIGATION,
-  };
+  const props = { role: ARIA_ROLES.NAVIGATION, };
 
   if (label) props['aria-label'] = label;
   if (current) props['aria-current'] = current;
@@ -311,7 +305,7 @@ export const focusUtils = {
     };
 
     container.addEventListener('keydown', handleKeyDown);
-    
+
     // Focus first element initially
     if (firstElement) firstElement.focus();
 

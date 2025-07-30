@@ -401,11 +401,11 @@ const MobileRegistrationForm = ({
           rules={
             authStore?.authData?.mediaAuth
               ? {
-                  required: {
-                    value: true,
-                    message: t("Это поле обязательно"),
-                  },
-                }
+                required: {
+                  value: true,
+                  message: t("Это поле обязательно"),
+                },
+              }
               : false
           }
         />

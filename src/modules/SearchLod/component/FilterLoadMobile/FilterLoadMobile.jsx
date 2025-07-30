@@ -97,38 +97,36 @@ export const FilterLoadMobile = ({
                 {activeIndex === `from` &&
                   results.length > 0 &&
                   address?.length > 0 && (
-                    <Box className={cls.optionsWrap}>
-                      {results?.map((location, idx) => {
-                        const text = location?.GeoObject?.name || "";
-                        const highlightText = (text, search) => {
-                          if (!search) return text;
-                          const regex = new RegExp(`(${search})`, "gi");
-                          return text.replace(
-                            regex,
-                            `<span class="${cls.bold}">$1</span>`
-                          );
-                        };
-
-                        return (
-                          <Flex
-                            onClick={() =>
-                              hanleAdress(location, `addressFrom`, "loading")
-                            }
-                            key={idx}
-                            gap={3}
-                            alignItems={"center"}
-                          >
-                            <p
-                              className={cls.item}
-                              dangerouslySetInnerHTML={{
-                                __html: highlightText(text, address),
-                              }}
-                            />
-                          </Flex>
+                  <Box className={cls.optionsWrap}>
+                    {results?.map((location, idx) => {
+                      const text = location?.GeoObject?.name || "";
+                      const highlightText = (text, search) => {
+                        if (!search) return text;
+                        const regex = new RegExp(`(${search})`, "gi");
+                        return text.replace(
+                          regex,
+                          `<span class="${cls.bold}">$1</span>`
                         );
-                      })}
-                    </Box>
-                  )}
+                      };
+
+                      return (
+                        <Flex
+                          onClick={() =>
+                            hanleAdress(location, `addressFrom`, "loading")
+                          }
+                          key={idx}
+                          gap={3}
+                          alignItems={"center"}
+                        >
+                          <p
+                            className={cls.item}
+                            dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                          />
+                        </Flex>
+                      );
+                    })}
+                  </Box>
+                )}
               </Box>
 
               <Box width={"100%"} className={cls.locationWrap}>
@@ -151,38 +149,36 @@ export const FilterLoadMobile = ({
                 {activeIndex === `to` &&
                   results.length > 0 &&
                   address?.length > 0 && (
-                    <Box className={cls.optionsWrap}>
-                      {results?.map((location, idx) => {
-                        const text = location?.GeoObject?.name || "";
-                        const highlightText = (text, search) => {
-                          if (!search) return text;
-                          const regex = new RegExp(`(${search})`, "gi");
-                          return text.replace(
-                            regex,
-                            `<span class="${cls.bold}">$1</span>`
-                          );
-                        };
-
-                        return (
-                          <Flex
-                            onClick={() =>
-                              hanleAdress(location, `addressTo`, "loading")
-                            }
-                            key={idx}
-                            gap={3}
-                            alignItems={"center"}
-                          >
-                            <p
-                              className={cls.item}
-                              dangerouslySetInnerHTML={{
-                                __html: highlightText(text, address),
-                              }}
-                            />
-                          </Flex>
+                  <Box className={cls.optionsWrap}>
+                    {results?.map((location, idx) => {
+                      const text = location?.GeoObject?.name || "";
+                      const highlightText = (text, search) => {
+                        if (!search) return text;
+                        const regex = new RegExp(`(${search})`, "gi");
+                        return text.replace(
+                          regex,
+                          `<span class="${cls.bold}">$1</span>`
                         );
-                      })}
-                    </Box>
-                  )}
+                      };
+
+                      return (
+                        <Flex
+                          onClick={() =>
+                            hanleAdress(location, `addressTo`, "loading")
+                          }
+                          key={idx}
+                          gap={3}
+                          alignItems={"center"}
+                        >
+                          <p
+                            className={cls.item}
+                            dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                          />
+                        </Flex>
+                      );
+                    })}
+                  </Box>
+                )}
               </Box>
 
               <Box width={"100%"}>

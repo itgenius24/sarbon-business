@@ -55,7 +55,7 @@ const CmapAZS = memo(
       return null; // Render nothing during SSR
     }
 
-  
+
     const copyFn = (refuelData) => {
       copy(
         `https://yandex.com/maps/?ll=${refuelData?.cords?.split(",")?.[1]},${
@@ -97,9 +97,9 @@ const CmapAZS = memo(
           "control.ZoomControl",
         ]}
       >
-       <div onClick={resetMap} className={cls.backMap}>
-                <RefeIcon />
-              </div>
+        <div onClick={resetMap} className={cls.backMap}>
+          <RefeIcon />
+        </div>
         <TypeSelector
           mapTypes={[
             "yandex#map",
@@ -370,7 +370,7 @@ const CmapAZS = memo(
                       }}
                       key={item?.guid}
                       geometry={[
-                        item.location_name.split(" ")[0] * 1 + index * 0.0001, 
+                        item.location_name.split(" ")[0] * 1 + index * 0.0001,
                         item.location_name.split(" ")[1] * 1 + index * 0.0001
                       ]}
                       properties={{
@@ -386,7 +386,7 @@ const CmapAZS = memo(
                         iconImageSize: [60, 72],
                         iconImageOffset: [-15, -42],
                       }}
-                
+
                     />
                   )}
                 </>

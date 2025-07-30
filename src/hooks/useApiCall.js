@@ -1,8 +1,8 @@
 import {
-    ERROR_TYPES,
-    isRetryableError,
-    normalizeError,
-    normalizeResponse
+  ERROR_TYPES,
+  isRetryableError,
+  normalizeError,
+  normalizeResponse
 } from '@/utils/api/responseHandler';
 import { useToast } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
@@ -75,7 +75,7 @@ export const useApiCall = ({
         return normalizedResponse;
       } catch (err) {
         lastError = normalizeError(err);
-        
+
         // Check if error is retryable and we have attempts left
         if (isRetryableError(lastError) && attempt < retries) {
           attempt++;
@@ -166,7 +166,7 @@ export const useAuthenticatedApiCall = (options = {}) => {
             console.warn('Authentication error, redirecting to login');
             // You can add your auth logic here
           }
-          
+
           // Call original error handler if provided
           if (callOptions.onError) {
             callOptions.onError(error);
@@ -198,7 +198,7 @@ export const useFormApiCall = (options = {}) => {
 
   const executeFormSubmit = useCallback(async (apiCallFn, callOptions = {}) => {
     setValidationErrors({});
-    
+
     try {
       return await apiCall.execute(apiCallFn, {
         ...callOptions,
@@ -222,7 +222,7 @@ export const useFormApiCall = (options = {}) => {
               isClosable: true,
             });
           }
-          
+
           // Call original error handler if provided
           if (callOptions.onError) {
             callOptions.onError(error);

@@ -52,7 +52,7 @@ export const useDistanceCalculationProps = () => {
 
   function handleCalculate() {
     const multiRoute = multiRouteRef.current;
-       mapRef.current.setCenter(
+    mapRef.current.setCenter(
       centerMap,
       6
     );
@@ -97,9 +97,7 @@ export const useDistanceCalculationProps = () => {
           ? { right: 0, top: 0 }
           : { right: 0, bottom: 50 };
 
-        const searchControl = new ymaps.control.SearchControl({
-          options: { float: "none", position },
-        });
+        const searchControl = new ymaps.control.SearchControl({ options: { float: "none", position }, });
         var myMap = new ymaps.Map(
           "map",
           {
@@ -147,7 +145,7 @@ export const useDistanceCalculationProps = () => {
       name,
       location?.GeoObject?.name
     );
-      setResults([]);
+    setResults([]);
   };
 
   const depArr = [typeof window !== "undefined" ? window?.ymaps : null];

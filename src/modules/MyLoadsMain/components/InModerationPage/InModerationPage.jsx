@@ -27,7 +27,7 @@ export const InModerationPage = ({ orderStatus, t, locale }) => {
             variant="card"
             columns={columns}
             data={cargoData}
-        
+
           />
         )}
 

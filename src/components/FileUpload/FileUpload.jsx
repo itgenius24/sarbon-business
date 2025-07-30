@@ -23,7 +23,7 @@ export const FileUpload = ({
 }) => {
   const canEdit = true;
   const src = watch(name);
- const {t} = useTranslation();
+  const { t } = useTranslation();
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   useEffect(() => {

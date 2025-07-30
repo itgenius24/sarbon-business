@@ -4,31 +4,31 @@ import { Popup } from "@/components/Popup";
 import { Rating } from "@/components/Rating";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
-    useGetUserCargo,
-    useOfferFromCustomerMutation
+  useGetUserCargo,
+  useOfferFromCustomerMutation
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import {
-    Accordion,
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
-    Box,
-    Button,
-    Card,
-    CardBody,
-    Flex,
-    Heading,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
-    Spinner,
-    Text,
-    useMediaQuery,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { Placemark } from "@pbe/react-yandex-maps";
 import clsx from "clsx";

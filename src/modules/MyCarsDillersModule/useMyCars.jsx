@@ -16,7 +16,7 @@ export const useMyCars = () => {
     params: {
       data: JSON.stringify({
         car_position: tabIndex === 0 ? ["moderation"] : ["alive"],
-        payment: tabIndex === 2 ? ["paid"] :  tabIndex === 1 ?  ["unpaid"] : undefined,
+        payment: tabIndex === 2 ? ["paid"] : tabIndex === 1 ? ["unpaid"] : undefined,
         users_id_3: authStore.userData.guid,
         with_relations: true,
       }),
@@ -29,19 +29,17 @@ export const useMyCars = () => {
     setTabIndex(tab);
   };
 
-      const { mutate: dalete } = useDeleteVehicle({
-          onSuccess: () => {
-            refetch()
-          },
-        });
-      
-        const handleDelete = (id) => {
-          const data = {
-            id: id,
-          };
-          dalete(data);
-        };
-  
+  const { mutate: dalete } = useDeleteVehicle({
+    onSuccess: () => {
+      refetch()
+    },
+  });
+
+  const handleDelete = (id) => {
+    const data = { id: id, };
+    dalete(data);
+  };
+
   return {
     t,
     tabCange,

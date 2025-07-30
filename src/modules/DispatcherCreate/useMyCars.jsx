@@ -54,7 +54,7 @@ export const useMyCars = () => {
     )
   );
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+
 
   const [open, setOpen] = useState(false);
 
@@ -75,11 +75,7 @@ export const useMyCars = () => {
 
   const { mutate, isLoading: useLoading } = useCreateUser({
     onSuccess: (res) => {
-      phoneGet({
-        data: JSON.stringify({
-          phone: res?.phone?.replace("+", ""),
-        }),
-      });
+      phoneGet({ data: JSON.stringify({ phone: res?.phone?.replace("+", ""), }), });
       actionCreate({
         data: {
           user_name: authStore.userData.full_name,

@@ -112,9 +112,7 @@ export const UploadImgMobile = ({
       cropper.getCroppedCanvas().toBlob(
         (blob) => {
           if (blob) {
-            const file = new File([blob], "cropped-image.jpg", {
-              type: "image/jpeg",
-            });
+            const file = new File([blob], "cropped-image.jpg", { type: "image/jpeg", });
             onCropDone(file);
           }
         },
@@ -294,7 +292,7 @@ export const UploadImgMobile = ({
           <ModalBody padding={`8px 5px`}>
             <Cropper
               src={cropImg}
-              style={{ height: isLargerThan845  ? 600 : 500, width: "100%" }}
+              style={{ height: isLargerThan845 ? 600 : 500, width: "100%" }}
               initialAspectRatio={1}
               guides={true}
               viewMode={1}

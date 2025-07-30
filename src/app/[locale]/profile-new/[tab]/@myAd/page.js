@@ -19,7 +19,7 @@ export default function MyAd ({ params: { locale } }) {
   } = useMyAdProps();
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Box>
       <MainContentHeader

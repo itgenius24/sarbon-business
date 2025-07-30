@@ -53,16 +53,14 @@ export const CarsCard = ({
         with_relations: true,
       }),
     },
-    querySettings: {
-      enabled: Boolean(item.users_id_data),
-    },
+    querySettings: { enabled: Boolean(item.users_id_data), },
   });
 
   return (
     <Box
       className={cls.cardWrap}
       borderLeft={`4px solid  ${
-        item?.users_id_data?.provisions[0] !== `empty` ||  item?.users_id_data?.provisions?.length === 0 
+        item?.users_id_data?.provisions[0] !== `empty` || item?.users_id_data?.provisions?.length === 0
           ? "rgba(0, 122, 255, 1)"
           : "rgba(21, 186, 77, 1)"
       } `}
@@ -255,7 +253,7 @@ export const CarsCard = ({
             <Flex
               style={{
                 background: `${
-                  response?.response?.[0]?.users_id_data?.provisions[0] !== `empty` ||  response?.response?.[0].users_id_data?.provisions?.length === 0 
+                  response?.response?.[0]?.users_id_data?.provisions[0] !== `empty` || response?.response?.[0].users_id_data?.provisions?.length === 0
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,
@@ -324,7 +322,7 @@ export const CarsCard = ({
             <Box
               style={{
                 background: `${
-                  item?.users_id_data?.provisions[0] !== `empty` ||  item?.users_id_data?.provisions?.length === 0 
+                  item?.users_id_data?.provisions[0] !== `empty` || item?.users_id_data?.provisions?.length === 0
                     ? "rgba(0, 122, 255, 0.08)"
                     : "rgba(21, 186, 77, 0.08)"
                 }`,

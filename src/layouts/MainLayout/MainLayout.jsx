@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import { useStoreHydration } from "@/hooks/useStoreHydration";
 import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { Box, IconButton } from "@chakra-ui/react";
+import { Box, IconButton, useMediaQuery } from "@chakra-ui/react";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import "slick-carousel/slick/slick-theme.css";
@@ -34,14 +34,15 @@ export const MainLayout = ({ locale, children }) => {
   const router = useRouter();
   const { mutate } = useUpdateNoteData();
   const isHydrated = useStoreHydration();
+  const [isLargerThan768] = useMediaQuery("(min-width: 769px)");
 
   const role_id = isHydrated ? authStore?.userData.role_id : null;
   const token = isHydrated ? authStore?.token?.access_token : null;
-const isPathChat = (
-  (role_id === 'f81d3c3d-228d-479e-a2b1-9948c98640f2' || role_id === '785678f2-fae7-4a00-8766-99ea67d3784f') &&
+  const isPathChat = (
+    (role_id === 'f81d3c3d-228d-479e-a2b1-9948c98640f2' || role_id === '785678f2-fae7-4a00-8766-99ea67d3784f') &&
   !pathname.includes('chat') &&
   !!token
-);
+  );
 
   const { data: data2 } = useGetNotificationFirst({
     data: {
@@ -112,7 +113,7 @@ const isPathChat = (
             />
           </Box>
       }
-      {!isAuthPage && <Header elements={elements} />}
+      {!isAuthPage && isLargerThan768 && <Header elements={elements} />}
       <article className={cls.main}>{children}</article>
       {isAuthPageFooter && <Footer />}
 

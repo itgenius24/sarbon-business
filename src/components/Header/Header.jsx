@@ -43,7 +43,7 @@ const Header = observer(({ elements }) => {
   const { t } = useTranslation(locale, "translations");
 
   const goToProfile = () => {
-      router.push(`/${locale ? locale : `ru`}/profile-new`);
+    router.push(`/${locale ? locale : `ru`}/profile-new`);
 
     // if (authStore.userData.role_id === "f81d3c3d-228d-479e-a2b1-9948c98640f2") {
     //   router.push(`/${locale ? locale : `ru`}/profile-new`);
@@ -88,10 +88,10 @@ const Header = observer(({ elements }) => {
                 {elements?.map((element, index) => {
                   // Add responsive classes based on item position
                   const responsiveClass =
-                    index >= elements.length - 1 ? cls.hideAt1380 :
-                    index >= elements.length - 2 ? cls.hideAt1280 :
-                    index >= elements.length - 3 ? cls.hideAt1180 :
-                    index >= elements.length - 4 ? cls.hideAt1080 : '';
+                    index >= elements.length - 1 ? cls.hideAt1380
+                    : index >= elements.length - 2 ? cls.hideAt1280
+                    : index >= elements.length - 3 ? cls.hideAt1180
+                    : index >= elements.length - 4 ? cls.hideAt1080 : '';
 
                   return (
                     <ListItem
@@ -145,9 +145,7 @@ const Header = observer(({ elements }) => {
                     <Link
                       onClick={() => setNavOpen(false)}
                       href={`/${locale}/profile-new`}
-                      className={clsx(cls.itemLink, {
-                        [cls.activeLink]: pathname === `/${locale}/profile-new`,
-                      })}
+                      className={clsx(cls.itemLink, { [cls.activeLink]: pathname === `/${locale}/profile-new`, })}
                     >
                       {t("Профиль")}
                     </Link>
@@ -196,8 +194,8 @@ const Header = observer(({ elements }) => {
                               ? UserImg
                               : !photo?.includes("http")
                               ? `${process.env.NEXT_PUBLIC_MEDIA_URL}${
-                                  photo || ""
-                                }`
+                                photo || ""
+                              }`
                               : photo?.includes("http")
                               ? photo
                               : UserImg
@@ -249,17 +247,17 @@ const Header = observer(({ elements }) => {
 
               {role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b" &&
                 !isLargerThan1024 && (
-                  <Box
-                    mr={`20px`}
-                    onClick={() => {
-                      router.push(`/${locale}/add-cars`);
-                      setNavOpen(false);
-                    }}
-                    as="button"
-                  >
-                    <AddDillerMunu />
-                  </Box>
-                )}
+                <Box
+                  mr={`20px`}
+                  onClick={() => {
+                    router.push(`/${locale}/add-cars`);
+                    setNavOpen(false);
+                  }}
+                  as="button"
+                >
+                  <AddDillerMunu />
+                </Box>
+              )}
 
               {!pathname?.includes("app-download") &&
                !(isAuth && !isLargerThan768) && ( // Hide hamburger on mobile when authenticated

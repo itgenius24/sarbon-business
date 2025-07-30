@@ -20,14 +20,14 @@ const LoadingSpinner = ({
 }) => {
   const containerProps = fullScreen
     ? {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 9999,
-        bg: overlay ? "rgba(255, 255, 255, 0.8)" : "white",
-      }
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 9999,
+      bg: overlay ? "rgba(255, 255, 255, 0.8)" : "white",
+    }
     : {};
 
   return (

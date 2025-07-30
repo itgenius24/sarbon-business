@@ -85,7 +85,7 @@ const DriverGruz = ({
                 {loadState?.users_id_data?.full_name}
               </p>
             </Box>
-           
+
           </Flex>
           <IconButton
             width={"fit-content"}
@@ -189,7 +189,7 @@ const DriverGruz = ({
             </p>
           </Flex>
         </Box>
-  
+
       </Flex>
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
@@ -203,7 +203,7 @@ const DriverGruz = ({
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
             </p>
           </ModalBody>
 
@@ -218,7 +218,7 @@ const DriverGruz = ({
               className={cls.btnOutline}
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(21, 186, 77, 1)" }}

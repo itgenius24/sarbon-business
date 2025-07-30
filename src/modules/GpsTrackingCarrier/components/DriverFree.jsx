@@ -66,9 +66,7 @@ const DriverFree = ({
         with_relations: true,
       }),
     },
-    querySettings: {
-      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
-    },
+    querySettings: { enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2), },
   });
   return (
     <div className={cls.filter}>
@@ -256,11 +254,11 @@ const DriverFree = ({
                   `name_${locale}`
                 ]
                   ? currentUserLocationData?.vehicles?.[0]
-                      ?.trailer_type_id_data?.[`name_${locale}`]
+                    ?.trailer_type_id_data?.[`name_${locale}`]
                     ? currentUserLocationData?.vehicles?.[0]
-                        ?.trailer_type_id_data?.[`name_${locale}`]
+                      ?.trailer_type_id_data?.[`name_${locale}`]
                     : currentUserLocationData?.vehicles?.[0]
-                        ?.trailer_type_id_data?.name
+                      ?.trailer_type_id_data?.name
                   : t(`Пока нет машины`)
               }
             >
@@ -268,7 +266,7 @@ const DriverFree = ({
                 {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
                   ?.name
                   ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                      ?.name
+                    ?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>
@@ -338,11 +336,11 @@ const DriverFree = ({
 
         <Button
 
-            size={`lg`}
-            className={cls.outline}
-          >
-            {currentUserLocationData?.is_independent? t(`Независимый водитель`) : t(`Зависимый водитель`)}
-          </Button>
+          size={`lg`}
+          className={cls.outline}
+        >
+          {currentUserLocationData?.is_independent? t(`Независимый водитель`) : t(`Зависимый водитель`)}
+        </Button>
 
         {currentUserLocationData?.user?.provisions?.[0] === `broke_down` ? (
           <Button
@@ -378,34 +376,34 @@ const DriverFree = ({
 
         {getUserGps?.data?.response?.length > 0 &&
           currentUserLocationData?.disp_data?.[0]?.users_id_2 && (
-            <Box
-              style={{ background: `white` }}
-              className={cls.cardWrapOutline}
-            >
-              <Flex width={"100%"} alignItems={"center"} gap={3}>
-                <Avatar
-                  name={getUserGps?.data?.response?.[0]?.full_name}
-                  src={getUserGps?.data?.response?.[0]?.full_name}
-                />
-                <Box>
-                  <p className={cls.cardStartSubTitlez}>Диспетчер </p>
-                  <p style={{ fontSize: `16px` }} className={cls.name}>
-                    {getUserGps?.data?.response?.[0]?.full_name}
+          <Box
+            style={{ background: `white` }}
+            className={cls.cardWrapOutline}
+          >
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={getUserGps?.data?.response?.[0]?.full_name}
+                src={getUserGps?.data?.response?.[0]?.full_name}
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Диспетчер </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {getUserGps?.data?.response?.[0]?.full_name}
+                </p>
+                <Flex alignItems={"center"} gap={2}>
+                  <a
+                    href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
+                  >
+                    <TelegramIcon />
+                  </a>
+                  <p className={cls.cardStartSubTitleZTel}>
+                    {getUserGps?.data?.response?.[0]?.phone}
                   </p>
-                  <Flex alignItems={"center"} gap={2}>
-                    <a
-                      href={`https://t.me/${getUserGps?.data?.response?.[0]?.phone}`}
-                    >
-                      <TelegramIcon />
-                    </a>
-                    <p className={cls.cardStartSubTitleZTel}>
-                      {getUserGps?.data?.response?.[0]?.phone}
-                    </p>
-                  </Flex>
-                </Box>
-              </Flex>
-            </Box>
-          )}
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        )}
 
         <Button
           onClick={() => setCenterModalType(`selectCargo`)}

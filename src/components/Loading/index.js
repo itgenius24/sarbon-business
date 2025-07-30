@@ -1,5 +1,5 @@
 export { default as LoadingSpinner } from './LoadingSpinner';
-export { 
+export {
   default as SkeletonLoader,
   CardSkeleton,
   TableSkeleton,

@@ -65,8 +65,8 @@ export const useMyDispatcher = () => {
     },
   });
 
-    const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
 
   useEffect(() => {
     if (valueR === `active`) {
@@ -106,9 +106,7 @@ export const useMyDispatcher = () => {
   });
 
   const deleteFuntion = (id,your_id) => {
-    deleteData({
-      id: id,
-    });
+    deleteData({ id: id, });
     actionCreate({
       data: {
         user_name: authStore.userData.full_name,
@@ -124,7 +122,7 @@ export const useMyDispatcher = () => {
     });
   };
 
-  
+
 
   const { mutate: userData, isLoading } = useUpdateUserInfo({
     onSuccess() {
@@ -207,11 +205,11 @@ export const useMyDispatcher = () => {
         data?.sort((a, b) =>
           status === `top`
             ? a?.first_dispatcher_data?.full_name.localeCompare(
-                b?.first_dispatcher_data?.full_name
-              )
+              b?.first_dispatcher_data?.full_name
+            )
             : b?.first_dispatcher_data?.full_name.localeCompare(
-                a?.first_dispatcher_data?.full_name
-              )
+              a?.first_dispatcher_data?.full_name
+            )
         )
       );
     } else {

@@ -586,9 +586,7 @@ const useNewPageProps = ({
             />
 
             <a
-              style={{
-                borderBottom: `1px dashed black`,
-              }}
+              style={{ borderBottom: `1px dashed black`, }}
               className={cls.subTitle}
               target="_blank"
               href={`https://t.me/${row?.users_id_data?.phone}`}
@@ -698,13 +696,13 @@ const useNewPageProps = ({
     //     </Box>
     //   ),
     // },
-     {
+    {
       title: t("Стоимость"),
       width: 170,
       render: (row, index) => {
         const total = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.total;
-        const prepayment = row?.cargo_id_data?.payment_data &&  JSON.parse(row?.cargo_id_data?.payment_data)?.prepayment;
-        const postpayment = row?.cargo_id_data?.payment_data &&  JSON.parse(row?.cargo_id_data?.payment_data)?.postpayment;
+        const prepayment = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.prepayment;
+        const postpayment = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.postpayment;
         return (
           <Box>
             {total?.length > 0 ? (
@@ -795,9 +793,7 @@ const useNewPageProps = ({
             <Box>
               <p className={cls.title}>{row?.users_id_3_data?.full_name} </p>
               <a
-                style={{
-                  borderBottom: `1px dashed black`,
-                }}
+                style={{ borderBottom: `1px dashed black`, }}
                 className={cls.subTitle}
                 target="_blank"
                 href={`https://t.me/${row?.users_id_3_data?.phone}`}
@@ -818,9 +814,7 @@ const useNewPageProps = ({
             <Box>
               <p className={cls.title}>{row?.users_id_2_data?.full_name} </p>
               <a
-                style={{
-                  borderBottom: `1px dashed black`,
-                }}
+                style={{ borderBottom: `1px dashed black`, }}
                 className={cls.subTitle}
                 target="_blank"
                 href={`https://t.me/${row?.users_id_2_data?.phone}`}

@@ -1,19 +1,19 @@
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
 import {
-    useCreateActionHistoriesMutation,
-    useCreateAddressMutation,
-    useCreateCargoMutation,
-    useDeleteCargo,
-    useGetCargoById,
-    useGetLoadingMutation,
-    useGetMaps,
-    useGetOfferById,
-    useGetUserCargo,
-    useLoadingTypes,
-    useSendNotification,
-    useUpdateCargo,
-    useUpdateResponse,
+  useCreateActionHistoriesMutation,
+  useCreateAddressMutation,
+  useCreateCargoMutation,
+  useDeleteCargo,
+  useGetCargoById,
+  useGetLoadingMutation,
+  useGetMaps,
+  useGetOfferById,
+  useGetUserCargo,
+  useLoadingTypes,
+  useSendNotification,
+  useUpdateCargo,
+  useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import formStore from "@/store/form.store";
@@ -400,15 +400,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       Array.isArray(watch("unloading")[watch("unloading").length - 1]?.cor)
         ? watch("unloading")?.[watch("unloading")?.length - 1]?.cor[0]
         : watch("unloading")?.[watch("unloading")?.length - 1]?.cor.split(
-            " "
-          )?.[0],
+          " "
+        )?.[0],
     long:
       watch("unloading")?.length &&
       Array.isArray(watch("unloading")[watch("unloading").length - 1]?.cor)
         ? watch("unloading")?.[watch("unloading")?.length - 1]?.cor[1]
         : watch("unloading")?.[watch("unloading")?.length - 1]?.cor.split(
-            " "
-          )?.[1],
+          " "
+        )?.[1],
   };
 
   const distance = useGetDistance({
@@ -466,9 +466,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const allCargoParams = { cargo_id: id };
 
-  const allResponseParams = {
-    cargo_id: getOfferCargoById.data?.response[0]?.cargo_id,
-  };
+  const allResponseParams = { cargo_id: getOfferCargoById.data?.response[0]?.cargo_id, };
 
   const templateParams = { cargo_id: templateId };
 
@@ -913,14 +911,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         back: watch(`back`),
         with_removal: watch(`with_removal`),
 
-           payment_data: check
+        payment_data: check
           ? null
           : JSON.stringify({
-              description: check ? undefined : watch("payment_description"),
-              total: watch(`allPrice`),
-              prepayment: watch(`allPrepayment`),
-              postpayment: watch(`priceAfterOrder`),
-            }),
+            description: check ? undefined : watch("payment_description"),
+            total: watch(`allPrice`),
+            prepayment: watch(`allPrepayment`),
+            postpayment: watch(`priceAfterOrder`),
+          }),
       },
     };
 
@@ -1227,9 +1225,9 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         priceAfterOrder: JSON.parse(data?.payment_data)?.postpayment
       });
 
- 
 
-      if ((data?.temp_from?.length > 0  && data?.temp_from !== `null` )) {
+
+      if ((data?.temp_from?.length > 0 && data?.temp_from !== `null` )) {
         setIsGradusOpen(true);
       }
       if (data.load_type?.length > 0) {
@@ -1345,9 +1343,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   useEffect(() => {
     if (formStore.isNotEmpty && (!status || status === "in_moderation")) {
-      reset({
-        ...formStore.formData,
-      });
+      reset({ ...formStore.formData, });
     }
 
     if (status && status !== "in_moderation") {

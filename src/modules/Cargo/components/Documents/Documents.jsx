@@ -10,7 +10,7 @@ export const Documents = () => {
 
   return (
     <Box p="24px" bgColor="baseWhite" borderRadius="12px" mb="16px">
-    
+
       {documents.map((doc, idx, arr) => {
         if(!doc.value) return;
         const isLast = arr.length === (idx+1);
@@ -47,7 +47,7 @@ export const Documents = () => {
         cursor={fileKey && !isAcceptRejectLoading ? "pointer" : "not-allowed"}
         opacity={fileKey ? 1 : 0.5}
       >
-        <input  className="visually-hidden" type="file" accept="image/*" onChange={(e) => {
+        <input className="visually-hidden" type="file" accept="image/*" onChange={(e) => {
           handleImageUpload(e);
         }} />
         <Box>

@@ -22,7 +22,7 @@ export const Search = (props={}) => {
   } = props;
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Box as="article" borderRadius="12px" padding={isLargerThan845 ? "24px" : "10px"} bgColor="baseWhite">
@@ -109,9 +109,9 @@ export const Search = (props={}) => {
         </>
         <>
           <Button isLoading={isLoading} type="submit" maxW={isLargerThan845 ? "180px" : "100%"}>
-           {t(
-            "Найти машину"
-           )}
+            {t(
+              "Найти машину"
+            )}
           </Button>
         </>
       </VStack>

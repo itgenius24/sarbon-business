@@ -21,9 +21,7 @@ export const useTinCreate = () => {
   const { data } = useGetFirmInfo(guid);
 
   useEffect(() => {
-    reset({
-      ...data?.response,
-    });
+    reset({ ...data?.response, });
   }, [data]);
 
   const onSubmit = (data) => {

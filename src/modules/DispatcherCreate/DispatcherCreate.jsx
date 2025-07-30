@@ -120,11 +120,11 @@ export const DispatcherCreate = ({ locale }) => {
                 name="full_name"
                 placeholder={t("Имя и фамилия")}
                 rules={{
-                    required: {
-                      value: true,
-                      message: t("Это поле обязательно для заполнения"),
-                    },
-                  }}
+                  required: {
+                    value: true,
+                    message: t("Это поле обязательно для заполнения"),
+                  },
+                }}
               />
             </Box>
             <Box>

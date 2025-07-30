@@ -24,12 +24,12 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
           className={cls.mobileNavigation}
         >
           {addCargoProps.watch(`cargoIndex`) === 1 ? (
-            <div style={{cursor:`pointer`}} onClick={addCargoProps.handleOpenModal}>
+            <div style={{ cursor:`pointer` }} onClick={addCargoProps.handleOpenModal}>
               <PlusIconStepMobile />
             </div>
           ) : (
             <div
-             style={{cursor:`pointer`}}
+              style={{ cursor:`pointer` }}
               onClick={() =>
                 addCargoProps.setValue(
                   `cargoIndex`,
@@ -52,8 +52,8 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                     addCargoProps.watch("weight_measurement") &&
                     addCargoProps.watch("volume_measurement")
                       ? `${
-                          addCargoProps.watch("cargo_type").label
-                        } ${addCargoProps.watch("weight_measurement")}T 
+                        addCargoProps.watch("cargo_type").label
+                      } ${addCargoProps.watch("weight_measurement")}T 
                           ${addCargoProps.watch("volume_measurement")}m³`
                       : t("не заполнено")}
                   </span>
@@ -118,7 +118,7 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
             </div>
           )}
           <div
-          style={{cursor:`pointer`}} 
+            style={{ cursor:`pointer` }}
             onClick={() =>
               addCargoProps.setValue(
                 `cargoIndex`,
@@ -150,8 +150,8 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                   addCargoProps.watch("weight_measurement") &&
                   addCargoProps.watch("volume_measurement")
                     ? `${
-                        addCargoProps.watch("cargo_type").label
-                      } ${addCargoProps.watch("weight_measurement")}T 
+                      addCargoProps.watch("cargo_type").label
+                    } ${addCargoProps.watch("weight_measurement")}T 
                           ${addCargoProps.watch("volume_measurement")}m³`
                     : t("не заполнено")}
                 </span>
@@ -174,8 +174,8 @@ const NavigationWrap = ({ cls, addCargoProps, clsx }) => {
                 {addCargoProps.watch(`loadings[0].address`) &&
                 addCargoProps.watch("unloading[0].address") ? (
                   <Flex width={`100%`} alignItems={`center`} gap={`5px`}>
-                    <p  className={cls.locationText}>
-                    
+                    <p className={cls.locationText}>
+
                       {addCargoProps.watch(`loadings[0].address`)}
                     </p>
                     -{`>`}

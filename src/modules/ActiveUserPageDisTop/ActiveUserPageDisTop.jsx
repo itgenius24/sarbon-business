@@ -161,9 +161,9 @@ const ActiveUserPageDisTop = ({ locale }) => {
           </Flex>
         </Flex>
         <Box mt={`25px`}>
-            {
-                   isFetching ?  <LoadingSpinner /> : data?.length > 0 ?  <SarbonTable isSticky variant="table" columns={columns} data={data} /> : <Box className={cls.noData}>Пока нет активности </Box>
-                 }
+          {
+                   isFetching ? <LoadingSpinner /> : data?.length > 0 ? <SarbonTable isSticky variant="table" columns={columns} data={data} /> : <Box className={cls.noData}>Пока нет активности </Box>
+          }
         </Box>
         {/* {data?.length >= 100 && (
           <Box mt={`15px`} width={`fit-content`}>

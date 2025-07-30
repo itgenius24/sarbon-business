@@ -12,7 +12,7 @@ import authStore from "@/store/auth.store";
 export const useCargoVehicleAnalysisProps = () => {
   const { t } = useTranslation();
   const toast = useToast();
-  
+
   const [distance, setDistance] = useState(500);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedCargo, setSelectedCargo] = useState([]);
@@ -37,7 +37,7 @@ export const useCargoVehicleAnalysisProps = () => {
     },
   });
 
-  const { mutate: getVehicleData, isLoading: vehicleLoading } = 
+  const { mutate: getVehicleData, isLoading: vehicleLoading } =
     useLogistikaGpsTrackingFilterDriver({
       onSuccess: (res) => {
         setVehicleData(res?.response || []);
@@ -53,7 +53,7 @@ export const useCargoVehicleAnalysisProps = () => {
       },
     });
 
-  const { mutate: sendBulkProposal, isLoading: proposalLoading } = 
+  const { mutate: sendBulkProposal, isLoading: proposalLoading } =
     useOfferFromCustomerMutation({
       onSuccess: () => {
         toast({
@@ -116,17 +116,17 @@ export const useCargoVehicleAnalysisProps = () => {
         const cargoLng = parseFloat(cargo.long);
         const vehicleLat = parseFloat(vehicle.lat);
         const vehicleLng = parseFloat(vehicle.long);
-        
+
         if (!cargoLat || !cargoLng || !vehicleLat || !vehicleLng) return false;
-        
+
         const distance = calculateDistance(cargoLat, cargoLng, vehicleLat, vehicleLng);
         return distance <= distance;
       }).sort((a, b) => {
-        const aResponded = a.provisions?.includes('approve_from_driver') || 
+        const aResponded = a.provisions?.includes('approve_from_driver') ||
                           a.provisions?.includes('new_proposal_from_director');
-        const bResponded = b.provisions?.includes('approve_from_driver') || 
+        const bResponded = b.provisions?.includes('approve_from_driver') ||
                           b.provisions?.includes('new_proposal_from_director');
-        
+
         if (aResponded && !bResponded) return -1;
         if (!aResponded && bResponded) return 1;
         return 0;
@@ -142,17 +142,17 @@ export const useCargoVehicleAnalysisProps = () => {
         const cargoLng = parseFloat(cargo.long);
         const vehicleLat = parseFloat(vehicle.lat);
         const vehicleLng = parseFloat(vehicle.long);
-        
+
         if (!cargoLat || !cargoLng || !vehicleLat || !vehicleLng) return false;
-        
+
         const distance = calculateDistance(cargoLat, cargoLng, vehicleLat, vehicleLng);
         return distance <= distance;
       }).sort((a, b) => {
-        const aResponded = a.provisions?.includes('approve_by_customer') || 
+        const aResponded = a.provisions?.includes('approve_by_customer') ||
                           a.provisions?.includes('performed');
-        const bResponded = b.provisions?.includes('approve_by_customer') || 
+        const bResponded = b.provisions?.includes('approve_by_customer') ||
                           b.provisions?.includes('performed');
-        
+
         if (aResponded && !bResponded) return -1;
         if (!aResponded && bResponded) return 1;
         return 0;
@@ -164,9 +164,9 @@ export const useCargoVehicleAnalysisProps = () => {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = 
+    const a =
       Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
       Math.sin(dLng/2) * Math.sin(dLng/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;

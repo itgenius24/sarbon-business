@@ -237,11 +237,11 @@ export const RegistrationForm = () => {
                     rules={
                       authStore?.authData?.mediaAuth
                         ? {
-                            required: {
-                              value: true,
-                              message: t("Это поле обязательно"),
-                            },
-                          }
+                          required: {
+                            value: true,
+                            message: t("Это поле обязательно"),
+                          },
+                        }
                         : false
                     }
                   />
@@ -384,7 +384,7 @@ export const RegistrationForm = () => {
                               }
                             }}
                           />
-  
+
                         </Flex>
                       </Box>
 

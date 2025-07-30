@@ -151,7 +151,7 @@ const DriverQuestion = ({
                 {currentUserLocationData?.users_gps?.[0]?.location_name || "Нет адреса"}
               </p>
               <p className={cls.cardStartSubTitle}>
-                {  currentUserLocationData?.users_gps?.[0]?.update_time && format(
+                { currentUserLocationData?.users_gps?.[0]?.update_time && format(
                   currentUserLocationData?.users_gps?.[0]?.update_time,
                   "yyyy-MM-dd"
                 )}

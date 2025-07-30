@@ -51,9 +51,7 @@ import {
   LocationMobileIcon,
   ResToreIcon,
 } from "@/assets/icons/icons";
-import {
-  YMaps,
-} from "@pbe/react-yandex-maps";
+import { YMaps, } from "@pbe/react-yandex-maps";
 import { AccordionMap } from "./AccordionMap";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { format } from "date-fns";
@@ -89,7 +87,7 @@ export const TopContent = ({
   const searchParams = useSearchParams();
   const firm_id = authStore.userData.firm_id;
   const paramsId = searchParams.get("car_id");
-  const driver_id = searchParams.get("driver_id"); 
+  const driver_id = searchParams.get("driver_id");
   const params = useParams()
   const locale = useGetLang();
   const role_id = authStore.userData.role_id;
@@ -193,11 +191,7 @@ export const TopContent = ({
 
   useEffect(() => {
     if (paramsId || id === `performed`) {
-      dataLocation({
-        data: {
-          object_data: { cargo_id: paramsId ? paramsId : ``, firm_id: ``,driver_id:driver_id},
-        },
-      });
+      dataLocation({ data: { object_data: { cargo_id: paramsId ? paramsId : ``, firm_id: ``,driver_id:driver_id }, }, });
     }
   }, [paramsId, id === `performed`]);
 
@@ -534,12 +528,12 @@ export const TopContent = ({
                               </div>
                             </div> */}
                             <div className={cls.item}>
-                            <BluetoothIcon />
-                            <div className={cls.itemText}>
-                              <p className={cls.phoneItemTitle}>Bluetooth</p>
-                              <p className={cls.phoneItemName}>Выкл </p>
+                              <BluetoothIcon />
+                              <div className={cls.itemText}>
+                                <p className={cls.phoneItemTitle}>Bluetooth</p>
+                                <p className={cls.phoneItemName}>Выкл </p>
+                              </div>
                             </div>
-                          </div>
                             <div className={cls.item}>
                               {user?.users_gps?.battery > 19 ? (
                                 <BatareyFullIcon />

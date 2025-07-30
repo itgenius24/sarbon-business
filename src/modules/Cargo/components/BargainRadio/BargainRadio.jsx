@@ -8,7 +8,7 @@ export const BargainRadio = ({
   watch = () => {},
   disabled
 }) => {
- const {t} = useTranslation();
+  const { t } = useTranslation();
   return <div className={cls.bargainWrapper}>
     <label>
       <input disabled={disabled} className={clsx("visually-hidden", cls.radio)} value="negotiable" checked={watch(name) === "negotiable"} type="radio" {...register(name)} defaultChecked />

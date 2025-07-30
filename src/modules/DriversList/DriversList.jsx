@@ -23,7 +23,7 @@ export const DriversList = () => {
 
   return (
     <>
-      <Container   my={isLargerThan845 ? "40px" : `20px`} pb={`20px`}>
+      <Container my={isLargerThan845 ? "40px" : `20px`} pb={`20px`}>
         <Flex width={"100%"} justifyContent={"space-between"}>
           <Heading
             size={isLargerThan845 ? "md" : "sm"}
@@ -74,18 +74,18 @@ export const DriversList = () => {
             </Flex>
           )}
         </Box>
-       {
-        !isLoading &&  <Button
+        {
+          !isLoading && <Button
           //  margin={`15px 15px`}
-          marginTop={`20px`}
-          width={`100%`}
-          display={isLargerThan845 ? `none` : `flex`}
-          onClick={() => router.push(`/${locale}/drivers/create`)}
-          leftIcon={<PlusIcon />}
-        >
-          {t("Добавить нового водителя")}
-        </Button>
-       }
+            marginTop={`20px`}
+            width={`100%`}
+            display={isLargerThan845 ? `none` : `flex`}
+            onClick={() => router.push(`/${locale}/drivers/create`)}
+            leftIcon={<PlusIcon />}
+          >
+            {t("Добавить нового водителя")}
+          </Button>
+        }
       </Container>
     </>
   );

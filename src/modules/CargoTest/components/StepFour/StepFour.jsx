@@ -149,7 +149,7 @@ const StepFour = ({ status, locale }) => {
                       {/* <RadioGroup
                       defaultValue={
                         watch(`price_prepayment_unit`)?.label || `доллар`
-                      } 
+                      }
                       onChange={(e) => onChange(e)}
                     >
                       <Flex gap={"19px"}>
@@ -161,7 +161,7 @@ const StepFour = ({ status, locale }) => {
                               value={item.label}
                               size={"md"}
                               _checked={{
-                                bg: "white", 
+                                bg: "white",
                                 border: `5px solid rgba(0, 122, 255, 1)`,
                               }}
                             >
@@ -227,18 +227,10 @@ const StepFour = ({ status, locale }) => {
                     onChange={(e) => setCheck(e.target.checked)}
                     size={"md"}
                     sx={{
-                      "& .chakra-switch__track": {
-                        backgroundColor: "rgba(230, 224, 233, 1) !important",
-                      },
-                      "&[data-checked] .chakra-switch__track": {
-                        backgroundColor: "#007aff !important",
-                      },
-                      "& .chakra-switch__thumb": {
-                        background: "rgba(121, 116, 126, 1) !important",
-                      },
-                      "&[data-checked] .chakra-switch__thumb": {
-                        background: "rgb(255, 255, 255) !important",
-                      },
+                      "& .chakra-switch__track": { backgroundColor: "rgba(230, 224, 233, 1) !important", },
+                      "&[data-checked] .chakra-switch__track": { backgroundColor: "#007aff !important", },
+                      "& .chakra-switch__thumb": { background: "rgba(121, 116, 126, 1) !important", },
+                      "&[data-checked] .chakra-switch__thumb": { background: "rgb(255, 255, 255) !important", },
                     }}
                   />
                 </Flex>
@@ -461,7 +453,7 @@ const StepFour = ({ status, locale }) => {
                     {/* <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
                       isEdit={!canEdit}
-                     
+
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -491,57 +483,57 @@ const StepFour = ({ status, locale }) => {
 
                 <Flex className={cls.inputWrap} mt={5} gap={10} width={"100%"}>
                   {/* {!status ? ( */}
-                    <Box width={"100%"}>
-                      <Flex mb={2} alignItems={"center"} gap={"10px"}>
-                        <p className={cls.label}>
-                          {t(`Сумма после завершения заказа`)}
-                        </p>
-                      </Flex>
+                  <Box width={"100%"}>
+                    <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                      <p className={cls.label}>
+                        {t(`Сумма после завершения заказа`)}
+                      </p>
+                    </Flex>
 
-                      <Flex flexDirection={`column`} gap={`6px`} width={`100%`}>
-                        {watch(`priceAfterOrder`)?.map((item, index) => (
-                          <>
-                            <PaymentComponents
-                              key={item}
-                              canEdit={canEdit}
-                              order_status={order_status}
-                              register={register}
-                              control={control}
-                              setEditModal={setEditModal}
-                              paymentOptions={paymentOptions}
-                              errors={errors}
-                              t={t}
-                              currencyOptions={currencyOptions}
-                              disabled={!canEdit}
-                              additionalItemName={`priceAfterOrder[${index}].type`}
-                              paymentName={`priceAfterOrder[${index}].currency`}
-                              name={`priceAfterOrder[${index}].price`}
-                              index={index}
-                              removeInput={removeInputPriceAfterOrder}
-                              zIndex={100}
-                            />
-                          </>
-                        ))}
-                        <Button
-                          width={`fit-content`}
-                          leftIcon={
-                            <PlusIcon
-                              width="16"
-                              height="16"
-                              color="rgba(126, 123, 134, 1)"
-                            />
-                          }
-                          variant="reset"
-                          color="rgba(126, 123, 134, 1)"
-                          fontWeight={400}
-                          onClick={handleAppendPriceAfterOrder}
-                          mt={`6px`}
-                        >
-                          {t("Добавить поле")}
-                        </Button>
-                      </Flex>
+                    <Flex flexDirection={`column`} gap={`6px`} width={`100%`}>
+                      {watch(`priceAfterOrder`)?.map((item, index) => (
+                        <>
+                          <PaymentComponents
+                            key={item}
+                            canEdit={canEdit}
+                            order_status={order_status}
+                            register={register}
+                            control={control}
+                            setEditModal={setEditModal}
+                            paymentOptions={paymentOptions}
+                            errors={errors}
+                            t={t}
+                            currencyOptions={currencyOptions}
+                            disabled={!canEdit}
+                            additionalItemName={`priceAfterOrder[${index}].type`}
+                            paymentName={`priceAfterOrder[${index}].currency`}
+                            name={`priceAfterOrder[${index}].price`}
+                            index={index}
+                            removeInput={removeInputPriceAfterOrder}
+                            zIndex={100}
+                          />
+                        </>
+                      ))}
+                      <Button
+                        width={`fit-content`}
+                        leftIcon={
+                          <PlusIcon
+                            width="16"
+                            height="16"
+                            color="rgba(126, 123, 134, 1)"
+                          />
+                        }
+                        variant="reset"
+                        color="rgba(126, 123, 134, 1)"
+                        fontWeight={400}
+                        onClick={handleAppendPriceAfterOrder}
+                        mt={`6px`}
+                      >
+                        {t("Добавить поле")}
+                      </Button>
+                    </Flex>
 
-                      {/* <TextFieldWithAddition
+                    {/* <TextFieldWithAddition
                         disabled={true}
                         name="price_after_order"
                         register={register}
@@ -568,7 +560,7 @@ const StepFour = ({ status, locale }) => {
                           )?.label
                         }
                       /> */}
-                    </Box>
+                  </Box>
                   {/* ) : (
                     <Box width={`100%`}>
                       <p className={cls.totalTEet}>

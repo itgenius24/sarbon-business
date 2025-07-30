@@ -13,7 +13,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import {PlusIcon } from "@/assets/icons/icons";
+import { PlusIcon } from "@/assets/icons/icons";
 
 import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
@@ -42,7 +42,7 @@ export const DispatcherModule = () => {
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
   const rowClassName = (row) => {
-      return row?.first_dispatcher_data?.user_status?.[0] === `blocked` ? cls.blocked :  cls.order
+    return row?.first_dispatcher_data?.user_status?.[0] === `blocked` ? cls.blocked : cls.order
   }
   return (
     <>
@@ -88,14 +88,14 @@ export const DispatcherModule = () => {
                   ))}
               </Flex>
             </RadioGroup>
-            <Button onClick={() => router.push(`/${locale}/dispatcher/create`)}  width={"fit-content"} leftIcon={<PlusIcon />}>
+            <Button onClick={() => router.push(`/${locale}/dispatcher/create`)} width={"fit-content"} leftIcon={<PlusIcon />}>
               {t(`Создать диспетчера `)}
             </Button>
           </Flex>
         </Flex>
 
-        <Box  mt={"37px"} mb={`10px`}>
-          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.first_dispatcher_data?.guid}&date=${row?.log_history?.last_move_time}`)} rowClassName={rowClassName}  variant="card" columns={columns}  data={data} />
+        <Box mt={"37px"} mb={`10px`}>
+          <SarbonTable onRow={(row) => router.push(`/${locale}/dispatcher/profile-dispacher?guid=${row?.first_dispatcher_data?.guid}&date=${row?.log_history?.last_move_time}`)} rowClassName={rowClassName} variant="card" columns={columns} data={data} />
         </Box>
 
       </Container>

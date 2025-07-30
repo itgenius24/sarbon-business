@@ -46,11 +46,11 @@ const SarbonTable = ({
         top={0}
         width={`100%`}
       >
-        <Flex justifyContent={`space-between`} padding={`10px 24px`}  backgroundColor={headerBackgroundColo}>
+        <Flex justifyContent={`space-between`} padding={`10px 24px`} backgroundColor={headerBackgroundColo}>
           {columns.map((item, index) => (
             <Flex
               className={cls.headerThWrap}
-              
+
               width={`${item.width}%`}
               key={index}
             >
@@ -91,7 +91,7 @@ const SarbonTable = ({
           ))}
         </Flex>
       </Box>
-      { data.length > 0 ?  variant === `table` ? (
+      { data.length > 0 ? variant === `table` ? (
         <Box className={cls.tableWrap}>
           {data?.map((item, index) => (
             <Flex
@@ -143,9 +143,9 @@ const SarbonTable = ({
             ))}
           </Flex>
         ))
-      ):
-      <>
-      {/* <Box display={`flex`} alignItems={`center`} justifyContent={`center`} background={`white`} height={`100px`} borderRadius={`10px`} color={`rgba(33, 31, 38, 1)`}>
+      )
+      :<>
+        {/* <Box display={`flex`} alignItems={`center`} justifyContent={`center`} background={`white`} height={`100px`} borderRadius={`10px`} color={`rgba(33, 31, 38, 1)`}>
           Нет данных
        </Box> */}
       </>

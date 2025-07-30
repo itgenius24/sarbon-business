@@ -103,16 +103,16 @@ const Notes = () => {
               <Box>
                 <p className={cls.text}>{item?.comment} </p>
                 <Flex flexWrap={`wrap`} mt={`16px`} gap={`18px`} width={`100%`}>
-                {
-                  item?.documents?.length > 0 && item?.documents?.map((file) => (
-                    <FileConponent
-                      cls={cls}
-                      key={file?.guid}
-                      item={extractUrlInfo(file?.document)}
-                    />
-                  ))
-                }
-                  
+                  {
+                    item?.documents?.length > 0 && item?.documents?.map((file) => (
+                      <FileConponent
+                        cls={cls}
+                        key={file?.guid}
+                        item={extractUrlInfo(file?.document)}
+                      />
+                    ))
+                  }
+
                 </Flex>
               </Box>
               <Box onClick={() => deleteReliabilities(item.guid)} marginLeft={`20px`} cursor={`pointer`}>

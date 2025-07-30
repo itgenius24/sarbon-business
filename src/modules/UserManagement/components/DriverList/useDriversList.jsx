@@ -30,7 +30,7 @@ export const useDriversList = () => {
 
   const { mutate, isLoading } = useGetCar({
     onSuccess: (res) => {
-       const response = res?.response;
+      const response = res?.response;
 
       if (!Array.isArray(response)) return;
       const grouped = {};
@@ -60,13 +60,7 @@ export const useDriversList = () => {
 
 
   useEffect(() => {
-    const data = {
-      data: {
-        object_data: {
-          firm_id:guid,
-        },
-      },
-    };
+    const data = { data: { object_data: { firm_id:guid, }, }, };
     mutate(data);
   }, [status]);
 
@@ -90,12 +84,10 @@ export const useDriversList = () => {
   });
 
   const handleDelete = (id) => {
-    const data = {
-      id: id,
-    };
+    const data = { id: id, };
     dalete(data);
   };
-  
+
   const columns = [
     {
       title: t(`Водитель`),
@@ -341,7 +333,7 @@ export const useDriversList = () => {
     },
   ];
 
-  
+
 
   return {
     data: data,

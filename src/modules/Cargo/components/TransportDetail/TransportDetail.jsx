@@ -217,7 +217,7 @@ export const TransportDetail = () => {
               disabled={!canEdit}
               register={register}
               inputPlaceholder={t(`Выберите`)}
-            placeholder={t(`Выберите`)}
+              placeholder={t(`Выберите`)}
 
               control={control}
               watch={watch}

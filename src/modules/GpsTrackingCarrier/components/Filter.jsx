@@ -67,7 +67,7 @@ const Filter = ({
     }
   }, [debouncedValue]);
 
-  
+
 
   return (
     <div className={cls.filter}>
@@ -140,9 +140,7 @@ const Filter = ({
                     >
                       <p
                         className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                       />{" "}
                     </Flex>
                   );

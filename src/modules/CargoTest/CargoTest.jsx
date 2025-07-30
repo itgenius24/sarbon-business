@@ -137,9 +137,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       addCargoProps.watch(`cargoIndex`) > 1 &&
                       addCargoProps.setValue(`cargoIndex`, 1)
                     }
-                    className={clsx(cls.arrow, {
-                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 1,
-                    })}
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 1, })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 1 ? (
                       <CricleBlueIcon />
@@ -157,8 +155,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         addCargoProps.watch("weight_measurement") &&
                         addCargoProps.watch("volume_measurement")
                           ? `${
-                              addCargoProps.watch("cargo_type").label
-                            } ${addCargoProps.watch("weight_measurement")}т
+                            addCargoProps.watch("cargo_type").label
+                          } ${addCargoProps.watch("weight_measurement")}т
                           ${addCargoProps.watch("volume_measurement")}m³`
                           : t("не заполнено")}
                       </span>
@@ -173,9 +171,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       addCargoProps.watch("volume_measurement") &&
                       addCargoProps.setValue(`cargoIndex`, 2)
                     }
-                    className={clsx(cls.arrow, {
-                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 2,
-                    })}
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 2, })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 2 ? (
                       <CricleBlueIcon />
@@ -213,9 +209,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       addCargoProps.watch("unloading[0].address") &&
                       addCargoProps.setValue(`cargoIndex`, 3)
                     }
-                    className={clsx(cls.arrow, {
-                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 3,
-                    })}
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 3, })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 3 ? (
                       <CricleBlueIcon />
@@ -243,9 +237,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       addCargoProps.watch(`transport_count`) &&
                       addCargoProps.setValue(`cargoIndex`, 4)
                     }
-                    className={clsx(cls.arrow, {
-                      [cls.active]: addCargoProps.watch(`cargoIndex`) === 4,
-                    })}
+                    className={clsx(cls.arrow, { [cls.active]: addCargoProps.watch(`cargoIndex`) === 4, })}
                   >
                     {addCargoProps.watch(`cargoIndex`) === 4 ? (
                       <CricleBlueIcon />
@@ -259,8 +251,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
                       <span>
                         {addCargoProps.check
                           ? addCargoProps
-                              .getTrueKeys(addCargoProps.mone)
-                              ?.join(`,`)
+                            .getTrueKeys(addCargoProps.mone)
+                            ?.join(`,`)
                           : addCargoProps.watch(`price_after_order`)
                           ? addCargoProps.watch(`price`) || 0
                           : t(`не заполнено`)}
@@ -285,9 +277,7 @@ export const CargoTest = observer(({ id, status, locale }) => {
       <Popup
         isOpen={addCargoProps.isPopupOpen}
         onClose={addCargoProps.handleCloseDeletePopup}
-        mainText={t("Вы уверены что хотите удалить груз ?", {
-          name: addCargoProps.cargoName,
-        })}
+        mainText={t("Вы уверены что хотите удалить груз ?", { name: addCargoProps.cargoName, })}
         status="delete"
         btn2Callback={addCargoProps.handleDelete}
       />
@@ -351,8 +341,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         {item.from
                           ? item.from
                           : item?.city_id_data?.[
-                              "name_" + (locale === "uz" ? "en" : locale)
-                            ] || item?.city_id_data?.name}
+                            "name_" + (locale === "uz" ? "en" : locale)
+                          ] || item?.city_id_data?.name}
                       </Text>
                       <span>
                         {item?.address_id_data?.[
@@ -385,8 +375,8 @@ export const CargoTest = observer(({ id, status, locale }) => {
                         {item.to
                           ? item?.to
                           : item?.city_id_2_data?.[
-                              "name_" + (locale === "uz" ? "en" : locale)
-                            ] || item?.city_id_2_data?.name}
+                            "name_" + (locale === "uz" ? "en" : locale)
+                          ] || item?.city_id_2_data?.name}
                       </Text>
                       <span>
                         {item?.address_id_2_data?.[

@@ -73,61 +73,61 @@ export const CarsCardMObile = ({
         >
           <p className={cls.title}>{item?.marka}</p>
           {
-            type === 0  &&  <Box className={cls.popup}>
-            <Popover placement={"bottom-start"}>
-              <PopoverTrigger>
-                <IconButton
-                  size={"sm"}
-                  borderRadius={"50%"}
-                  icon={<PopupIcon />}
-                  width="40px"
-                  _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
-                  backgroundColor={"white"}
-                />
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent
-                  boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
-                  border={"1px solid rgba(234, 236, 240, 1"}
-                  className={cls.popoverCon}
-                >
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <Box
-                      style={{ padding: `10px 8px` }}
-                      _hover={{
-                        backgroundColor: `rgba(0, 122, 255, 1)`,
-                        borderRadius: `6px`,
-                        color: `rgba(255, 255, 255, 1)`,
-                        cursor: `pointer`,
-                      }}
-                      className={cls.menuItem}
-                      onClick={() =>
-                        router.push(
-                          `/${locale}/add-cars?id=${item?.guid}&user_id=${item?.users_id}`
-                        )
-                      }
-                    >
-                      {t("Редактировать машину")}
-                    </Box>
-                    <Box
-                      style={{ padding: `10px 8px`, color: `red` }}
-                      _hover={{
-                        backgroundColor: `rgba(0, 122, 255, 1)`,
-                        borderRadius: `6px`,
-                        color: `rgba(255, 255, 255, 1)`,
-                        cursor: `pointer`,
-                      }}
-                      className={cls.menuItem}
-                      onClick={() => handleDelete(item?.guid)}
-                    >
-                      {t("Удалить машину")}
-                    </Box>
-                  </PopoverBody>
-                </PopoverContent>
-              </Portal>
-            </Popover>
-          </Box>
+            type === 0 && <Box className={cls.popup}>
+              <Popover placement={"bottom-start"}>
+                <PopoverTrigger>
+                  <IconButton
+                    size={"sm"}
+                    borderRadius={"50%"}
+                    icon={<PopupIcon />}
+                    width="40px"
+                    _hover={{ backgroundColor: "rgba(226, 228, 234, 1)" }}
+                    backgroundColor={"white"}
+                  />
+                </PopoverTrigger>
+                <Portal>
+                  <PopoverContent
+                    boxShadow={" 0px 12px 16px 10px rgba(16, 24, 40, 0.1)"}
+                    border={"1px solid rgba(234, 236, 240, 1"}
+                    className={cls.popoverCon}
+                  >
+                    <PopoverArrow />
+                    <PopoverBody>
+                      <Box
+                        style={{ padding: `10px 8px` }}
+                        _hover={{
+                          backgroundColor: `rgba(0, 122, 255, 1)`,
+                          borderRadius: `6px`,
+                          color: `rgba(255, 255, 255, 1)`,
+                          cursor: `pointer`,
+                        }}
+                        className={cls.menuItem}
+                        onClick={() =>
+                          router.push(
+                            `/${locale}/add-cars?id=${item?.guid}&user_id=${item?.users_id}`
+                          )
+                        }
+                      >
+                        {t("Редактировать машину")}
+                      </Box>
+                      <Box
+                        style={{ padding: `10px 8px`, color: `red` }}
+                        _hover={{
+                          backgroundColor: `rgba(0, 122, 255, 1)`,
+                          borderRadius: `6px`,
+                          color: `rgba(255, 255, 255, 1)`,
+                          cursor: `pointer`,
+                        }}
+                        className={cls.menuItem}
+                        onClick={() => handleDelete(item?.guid)}
+                      >
+                        {t("Удалить машину")}
+                      </Box>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Portal>
+              </Popover>
+            </Box>
           }
         </Flex>
         <Flex gap={`10px`} justifyContent={`space-between`}>
@@ -243,9 +243,7 @@ export const CarsCardMObile = ({
         <Flex mt={`10px`} alignItems={"center"} gap={"30px"} width={"100%"}>
           <Box width={"100%"}>
             <Box
-              style={{
-                background: "rgba(237, 239, 245, 1)",
-              }}
+              style={{ background: "rgba(237, 239, 245, 1)", }}
               gap={"30px"}
               alignItems={"center"}
               className={cls.statusWrap}

@@ -1,14 +1,14 @@
 import useDebounce2 from "@/hooks/useDebounce";
 import {
-    useCreateFeedback,
-    useCreateLogHistory,
-    useGetExcelPost,
-    useGetNewPredData,
-    useGetNotification,
-    useGetOffer,
-    useGetOfferCount,
-    useUpdateNoteData,
-    useUpdateResponse,
+  useCreateFeedback,
+  useCreateLogHistory,
+  useGetExcelPost,
+  useGetNewPredData,
+  useGetNotification,
+  useGetOffer,
+  useGetOfferCount,
+  useUpdateNoteData,
+  useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useMediaQuery, useToast } from "@chakra-ui/react";
@@ -218,15 +218,7 @@ export const useMyLoadsMainProps = (locale) => {
     },
   });
 
-  const { data: getNoDisPred, refetch: refetchNoDisPred } = useGetNewPredData({
-    data: {
-      data: {
-        object_data: {
-          dispetchir_id: ``,
-        },
-      },
-    },
-  });
+  const { data: getNoDisPred, refetch: refetchNoDisPred } = useGetNewPredData({ data: { data: { object_data: { dispetchir_id: ``, }, }, }, });
 
   const getOfferCount = useGetOfferCount(
     {
@@ -266,12 +258,12 @@ export const useMyLoadsMainProps = (locale) => {
 
   const notificationFn = (res) => {
     // if (res?.response?.[0]?.users_id_2) {
-      mutate({
-        data: {
-          views: true,
-          guid: res?.response?.[0]?.guid,
-        },
-      });
+    mutate({
+      data: {
+        views: true,
+        guid: res?.response?.[0]?.guid,
+      },
+    });
     // } else{
     //   setNotificationId(res?.response?.[0]?.guid)
     // }
@@ -467,7 +459,8 @@ export const useMyLoadsMainProps = (locale) => {
     refetchNoDisPred,
     refetchWaitingDriverCount: getWaitingDriverCount,
     orderStatus,
-    setNotificationId,notificationID,
+    setNotificationId,
+    notificationID,
     handleClear
   };
 };

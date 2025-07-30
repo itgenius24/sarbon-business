@@ -67,8 +67,8 @@ export default function AuthLayout({ children, params: { locale, auth } }) {
               </Box>
             </ContainerNav>
           </Box>
-          <Container 
-           maxW={`1444px`}
+          <Container
+            maxW={`1444px`}
             m={!isLargerThan845 && `0px`}
             p={!isLargerThan845 && `0px`}
           >

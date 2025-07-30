@@ -1,10 +1,10 @@
-import "./globals.scss";
-import { Inter } from "next/font/google";
-import { Providers } from "./providers";
 import { MainLayout } from "@/layouts/MainLayout";
 import { dir } from "i18next";
-import { languages } from "../i18n/settings";
+import { Inter } from "next/font/google";
 import Script from "next/script";
+import { languages } from "../i18n/settings";
+import "./globals.scss";
+import { Providers } from "./providers";
 
 
 const inter = Inter({
@@ -15,6 +15,7 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sarbon.me'),
   title: "Sarbon",
   description:
     "питак, logistics, logistika, sarbon, фурго, перевозка, перевозки, автоперевозки, юк ташиш, фурада юк ташиш, ставка, транзит, реф, firgo, погрузка, груз, аванс, затаможка, растаможка, догруз, глонасс, запрос, ref, adr, адр, грузовые перевозки",
@@ -48,8 +49,8 @@ export async function generateStaticParams() {
 export default function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir(locale)} className={`${inter.variable} html layout`}>
-  
-      <body style={{backgroundColor:`#f6f7f8`}} className={inter.className}>
+
+      <body style={{ backgroundColor:`#f6f7f8` }} className={inter.className}>
         <Providers>
           <MainLayout locale={locale}>{children}</MainLayout>
         </Providers>

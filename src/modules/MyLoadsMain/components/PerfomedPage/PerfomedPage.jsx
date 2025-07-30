@@ -42,14 +42,14 @@ export const PerfomedPage = ({ orderStatus, t, locale, isProfile = false }) => {
     onRow,
   } = usePerfomedPageProps(orderStatus, t, locale);
 
-   const rowClassName = () => {
-      return cls.cursor
-    }
+  const rowClassName = () => {
+    return cls.cursor
+  }
 
   return (
     <>
       <Box
-   
+
       >
         {!isProfile && cargoData?.length > 0 && (
           <SarbonTable
@@ -61,7 +61,7 @@ export const PerfomedPage = ({ orderStatus, t, locale, isProfile = false }) => {
             rowClassName={rowClassName}
           />
         )}
-        {cargoData?.length > 0 && isProfile  &&
+        {cargoData?.length > 0 && isProfile &&
           cargoData?.map((item, index) => (
             <Performed
               orderStatus={orderStatus}
