@@ -36,6 +36,10 @@ export const useElements = (lang) => {
         path: `/${lang || "ru"}/gps-tracking-carrier`,
         label: "GPS tracking",
       },
+      {
+        path: `/${lang || "ru"}/legal`,
+        label: "Правовая информация",
+      },
     ];
   } else if (dispatcher_type?.[0] === `first_dispatcher`) {
     return [
@@ -80,6 +84,10 @@ export const useElements = (lang) => {
           ? `/${lang || "ru"}/gps-tracking-dispatcher`
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
+      },
+      {
+        path: `/${lang || "ru"}/legal`,
+        label: "Правовая информация",
       },
     ];
   } else if (dispatcher_type?.[0] === `top_dispatcher`) {
@@ -127,6 +135,10 @@ export const useElements = (lang) => {
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
+      {
+        path: `/${lang || "ru"}/legal`,
+        label: "Правовая информация",
+      },
     ];
   } else if (role_id === `48871d27-7361-4f69-8fe4-b54daf270739`) {
     let menu = [];
@@ -161,6 +173,10 @@ export const useElements = (lang) => {
             : `/${lang || "ru"}/auth`,
           label: "GPS tracking",
         },
+        {
+          path: `/${lang || "ru"}/legal`,
+          label: "Правовая информация",
+        },
       ];
     } else {
       menu = [
@@ -187,6 +203,10 @@ export const useElements = (lang) => {
             : `/${lang || "ru"}/auth`,
           label: "GPS tracking",
         },
+        {
+          path: `/${lang || "ru"}/legal`,
+          label: "Правовая информация",
+        },
       ];
     }
 
@@ -211,6 +231,10 @@ export const useElements = (lang) => {
           : `/${lang || "ru"}/auth`,
         label: "GPS tracking",
       },
+      {
+        path: `/${lang || "ru"}/legal`,
+        label: "Правовая информация",
+      },
     ];
   } else if (role_id === "6a88112a-d543-4e6e-8f77-18149c82d99b") {
     return [
@@ -221,6 +245,10 @@ export const useElements = (lang) => {
       {
         path: `/${lang || "ru"}/add-cars`,
         label: "Добавить Водители",
+      },
+      {
+        path: `/${lang || "ru"}/legal`,
+        label: "Правовая информация",
       },
     ];
   } else {

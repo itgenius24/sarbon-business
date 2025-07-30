@@ -91,12 +91,26 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
 
   const isAuth = authStore?.token?.access_token;
 
-  // Don't show bottom tabs if not authenticated
-  if (!isAuth) {
-    return null;
-  }
+  // Show simplified tabs for unauthenticated users
+  const unauthenticatedTabs = [
+    {
+      id: "login",
+      label: t("Вход"),
+      path: `/${locale}/auth`,
+      icon: (isActive) => (
+        <User
+          style={{
+            color: isActive ? "#26BD49" : "#7E7B86",
+            width: "24px",
+            height: "24px"
+          }}
+        />
+      ),
+      isActive: pathname.includes("/auth"),
+    },
+  ];
 
-  const tabs = [
+  const tabs = isAuth ? [
     {
       id: "search",
       label: t("Грузы"),
@@ -141,7 +155,7 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
       isActive: false, // More tab doesn't have a specific route
       onClick: onMoreTabClick,
     },
-  ];
+  ] : unauthenticatedTabs;
 
   const handleTabClick = (tab) => {
     if (tab.onClick) {
