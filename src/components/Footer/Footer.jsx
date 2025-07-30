@@ -351,7 +351,7 @@ export const Footer = () => {
               <Image
                 width={105}
                 height={105}
-                src={"/svg/logo2.svg"}
+                src={"/svg/logo-gray.svg"}
                 alt="logo"
               />
             </Link>
