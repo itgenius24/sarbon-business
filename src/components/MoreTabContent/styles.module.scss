@@ -118,6 +118,87 @@
   flex-shrink: 0;
 }
 
+.languageSection {
+  padding: 16px 24px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.languageItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #F9FAFB;
+  }
+}
+
+.languageIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #F3F4F6;
+  margin-right: 16px;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.languageLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #211F26;
+  line-height: 1.4;
+}
+
+.languageSubtext {
+  font-size: 12px;
+  color: #9CA3AF;
+  line-height: 1.3;
+}
+
+.languageOption {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #F3F4F6;
+  }
+}
+
+.flagIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.languageOptionLabel {
+  font-size: 14px;
+  color: #211F26;
+  line-height: 1.4;
+}
+
 .footer {
   padding: 16px 24px 24px;
   border-top: 1px solid #E5E7EB;
