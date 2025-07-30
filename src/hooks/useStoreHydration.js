@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import authStore from "@/store/auth.store";
+import { useEffect, useState } from "react";
 
 export const useStoreHydration = () => {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -11,13 +11,18 @@ export const useStoreHydration = () => {
       return;
     }
 
+    let retryCount = 0;
+    const maxRetries = 20; // Increase max retries for PWA scenarios
+
     const checkHydration = () => {
       const storedAuth = localStorage.getItem('authStore');
 
       if (storedAuth) {
         try {
           const parsedAuth = JSON.parse(storedAuth);
-          if (parsedAuth.isAuth && !authStore.isAuth) {
+          // Check if stored auth indicates user should be authenticated but store isn't hydrated yet
+          if (parsedAuth.isAuth && !authStore.isAuth && retryCount < maxRetries) {
+            retryCount++;
             setTimeout(checkHydration, 100);
             return;
           }
@@ -26,10 +31,19 @@ export const useStoreHydration = () => {
         }
       }
 
+      // For PWA scenarios, ensure we wait a bit longer for store to hydrate
+      if (retryCount === 0 && window.navigator?.standalone) {
+        retryCount++;
+        setTimeout(checkHydration, 200);
+        return;
+      }
+
       setIsHydrated(true);
     };
 
-    const timeoutId = setTimeout(checkHydration, 50);
+    // Start checking immediately for PWA, with a small delay for regular web
+    const initialDelay = window.navigator?.standalone ? 0 : 50;
+    const timeoutId = setTimeout(checkHydration, initialDelay);
 
     return () => clearTimeout(timeoutId);
   }, []);

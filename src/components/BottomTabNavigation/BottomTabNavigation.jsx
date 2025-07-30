@@ -84,12 +84,36 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
   const isHydrated = useStoreHydration();
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
-  // Don't render on desktop or if not hydrated
-  if (isLargerThan768 || !isHydrated) {
+  // Don't render on desktop
+  if (isLargerThan768) {
     return null;
   }
 
+  // For PWA scenarios, show navigation even if not fully hydrated yet
+  // This prevents users from getting stuck without navigation
+  const isPWA = typeof window !== "undefined" && window.navigator?.standalone;
+  if (!isHydrated && !isPWA) {
+    return null;
+  }
+
+  // Check authentication status with fallback for PWA scenarios
   const isAuth = authStore?.token?.access_token;
+
+  // For PWA scenarios, also check localStorage directly if store isn't hydrated yet
+  let fallbackAuth = false;
+  if (!isHydrated && isPWA) {
+    try {
+      const storedAuth = localStorage.getItem('authStore');
+      if (storedAuth) {
+        const parsedAuth = JSON.parse(storedAuth);
+        fallbackAuth = parsedAuth.isAuth && parsedAuth.token?.access_token;
+      }
+    } catch (e) {
+      console.error('Error checking fallback auth:', e);
+    }
+  }
+
+  const userIsAuthenticated = isAuth || fallbackAuth;
 
   // Show simplified tabs for unauthenticated users
   const unauthenticatedTabs = [
@@ -110,7 +134,7 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
     },
   ];
 
-  const tabs = isAuth ? [
+  const tabs = userIsAuthenticated ? [
     {
       id: "search",
       label: t("Грузы"),

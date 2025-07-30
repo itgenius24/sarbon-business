@@ -2,7 +2,7 @@
   "name": "Sarbon - Logistics Platform",
   "short_name": "Sarbon",
   "description": "Comprehensive logistics platform for cargo transportation, vehicle tracking, and supply chain management",
-  "start_url": "/",
+  "start_url": "/uz",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#26BD49",
@@ -45,7 +45,7 @@
       "name": "Search Cargo",
       "short_name": "Cargo",
       "description": "Search for available cargo",
-      "url": "/cargos",
+      "url": "/ru/cargos",
       "icons": [
         {
           "src": "/android-chrome-192x192.png",
@@ -57,7 +57,7 @@
       "name": "Add Cargo",
       "short_name": "Add",
       "description": "Add new cargo listing",
-      "url": "/add-cargo",
+      "url": "/uz/add-cargo",
       "icons": [
         {
           "src": "/android-chrome-192x192.png",
@@ -69,7 +69,7 @@
       "name": "Dashboard",
       "short_name": "Dashboard",
       "description": "View your dashboard",
-      "url": "/dashboard",
+      "url": "/uz/dashboard",
       "icons": [
         {
           "src": "/android-chrome-192x192.png",
