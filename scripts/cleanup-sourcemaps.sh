@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Script to remove source maps that could expose folder structure
 # This script should be run after build in production
