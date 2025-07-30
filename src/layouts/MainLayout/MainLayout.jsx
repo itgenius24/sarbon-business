@@ -17,7 +17,7 @@ import cls from "./styles.module.scss";
 
 // Additional imports for bottom navigation
 import { BottomTabNavigation } from "@/components/BottomTabNavigation";
-import { MoreTabContent } from "@/components/MoreTabContent";
+import { MoreTabContent } from "@/components/MoreTabContent/MoreTabContent";
 import { useState } from "react";
 
 const predlojeniya = "/predlojeniya.mp3";
@@ -118,7 +118,6 @@ const isPathChat = (
 
       {/* Bottom Tab Navigation for Mobile */}
       <BottomTabNavigation onMoreTabClick={() => setIsMoreTabOpen(true)} />
-
       {/* More Tab Content Modal */}
       <MoreTabContent
         isOpen={isMoreTabOpen}

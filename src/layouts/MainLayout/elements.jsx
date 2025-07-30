@@ -13,7 +13,7 @@ export const useElements = (lang) => {
       //   label: "Главный",
       // },
       {
-        path: isAuth ? `/${lang || "ru"}/search-load` : `/${lang || "ru"}/auth`,
+        path: isAuth ? `/${lang || "ru"}/cargos` : `/${lang || "ru"}/auth`,
         label: "Грузы",
       },
       {
@@ -64,7 +64,7 @@ export const useElements = (lang) => {
         label: "Мои водители",
       },
       // {
-      //   path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
+      //   path: isAuth ? `/${lang || "ru"}/cargos-dispatcher` : `/${lang || "ru"}/auth`,
       //   label: "Грузы",
       // },
       {

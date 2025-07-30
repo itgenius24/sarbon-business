@@ -17,8 +17,8 @@ export default function Home({ params }) {
       const isAuth = authStore?.token?.access_token;
 
       if (isAuth) {
-        // Redirect authenticated users to search-load page
-        router.replace(`/${locale}/search-load`);
+        // Redirect authenticated users to cargos page
+        router.replace(`/${locale}/cargos`);
         return;
       }
     }

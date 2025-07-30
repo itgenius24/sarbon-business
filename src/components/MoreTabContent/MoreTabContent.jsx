@@ -53,7 +53,7 @@ export const MoreTabContent = ({ isOpen, onClose }) => {
   }
 
   // Filter out the main tabs that are already in bottom navigation
-  const excludedPaths = ["/search-load", "/performed", "/profile"];
+  const excludedPaths = ["/cargos", "/performed", "/profile"];
   const moreItems = elements?.filter(element => 
     !excludedPaths.some(path => element.path.includes(path))
   ) || [];

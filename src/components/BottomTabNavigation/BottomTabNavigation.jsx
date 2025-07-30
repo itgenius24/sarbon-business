@@ -1,14 +1,13 @@
 "use client";
 
+import { SearchIcon, User } from "@/assets/icons/icons";
+import { useGetLang } from "@/hooks/useGetLang";
+import { useStoreHydration } from "@/hooks/useStoreHydration";
+import authStore from "@/store/auth.store";
 import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
+import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
-import clsx from "clsx";
-import { SearchIcon, User, SettingIcon } from "@/assets/icons/icons";
-import { useGetLang } from "@/hooks/useGetLang";
-import authStore from "@/store/auth.store";
-import { useStoreHydration } from "@/hooks/useStoreHydration";
 import cls from "./styles.module.scss";
 
 // Custom Orders Icon for bottom navigation
@@ -22,6 +21,27 @@ const OrdersIcon = ({ isActive }) => (
   >
     <path
       d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V11H13V7H7V19H17Z"
+      stroke={isActive ? "#26BD49" : "#7E7B86"}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill={isActive ? "#26BD49" : "none"}
+      fillOpacity={isActive ? 0.1 : 0}
+    />
+  </svg>
+);
+
+// Custom Chat Icon for bottom navigation
+const ChatIcon = ({ isActive }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
       stroke={isActive ? "#26BD49" : "#7E7B86"}
       strokeWidth="2"
       strokeLinecap="round"
@@ -70,7 +90,6 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
   }
 
   const isAuth = authStore?.token?.access_token;
-  const role_id = authStore?.userData?.role_id;
 
   // Don't show bottom tabs if not authenticated
   if (!isAuth) {
@@ -81,17 +100,17 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
     {
       id: "search",
       label: t("Грузы"),
-      path: `/${locale}/search-load`,
+      path: `/${locale}/cargos`,
       icon: (isActive) => (
-        <SearchIcon 
-          style={{ 
+        <SearchIcon
+          style={{
             color: isActive ? "#26BD49" : "#7E7B86",
             width: "24px",
             height: "24px"
-          }} 
+          }}
         />
       ),
-      isActive: pathname.includes("/search-load"),
+      isActive: pathname.includes("/cargos"),
     },
     {
       id: "orders",
@@ -104,16 +123,15 @@ export const BottomTabNavigation = ({ onMoreTabClick }) => {
       id: "profile",
       label: t("Профиль"),
       path: `/${locale}/profile`,
-      icon: (isActive) => (
-        <User 
-          style={{ 
-            color: isActive ? "#26BD49" : "#7E7B86",
-            width: "24px",
-            height: "24px"
-          }} 
-        />
-      ),
+      icon: (isActive) => <User isActive={isActive} />,
       isActive: pathname.includes("/profile"),
+    },
+    {
+      id: "chat",
+      label: t("Чат"),
+      path: `/${locale}/chat`,
+      icon: (isActive) => <ChatIcon isActive={isActive} />,
+      isActive: pathname.includes("/chat"),
     },
     {
       id: "more",
