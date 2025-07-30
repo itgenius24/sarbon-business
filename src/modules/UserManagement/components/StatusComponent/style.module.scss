@@ -1,16 +1,21 @@
-.text{
-font-weight: 600;
-font-size: 13px;
-line-height: 16px;
-letter-spacing: -0.08%;
+// StatusComponent styles with standardized patterns
+@import '@/styles/variables.scss';
+@import '@/styles/mixins.scss';
 
+.text {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  letter-spacing: -0.08%;
+  color: inherit; // Color is set dynamically via style prop
+  margin: 0;
 }
 
-.data{
-font-weight: 400;
-font-size: 13px;
-line-height: 16px;
-letter-spacing: -0.08%;
-color: rgba(126, 123, 134, 1);
-margin-top: 4px;
+.data {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  letter-spacing: -0.08%;
+  color: var(--sarbon-text-secondary);
+  margin: var(--space-1) 0 0 0;
 }

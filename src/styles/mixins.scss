@@ -1,0 +1,318 @@
+/**
+ * SCSS Mixins for consistent styling patterns
+ * Provides reusable styling patterns and utilities
+ */
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Text utilities
+@mixin text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Focus styles
+@mixin focus-ring($color: var(--focus-color), $offset: 2px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+}
+
+@mixin focus-visible {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-base);
+  font-family: inherit;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-base);
+  user-select: none;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @include focus-visible;
+}
+
+@mixin button-size($height, $padding-x, $font-size) {
+  height: $height;
+  padding: 0 $padding-x;
+  font-size: $font-size;
+}
+
+@mixin button-variant($bg, $color, $border: $bg) {
+  background-color: $bg;
+  color: $color;
+  border: 1px solid $border;
+
+  &:hover:not(:disabled) {
+    background-color: darken($bg, 8%);
+    border-color: darken($border, 8%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: darken($bg, 12%);
+    border-color: darken($border, 12%);
+    transform: translateY(1px);
+  }
+}
+
+// Input mixins
+@mixin input-base {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-base);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: var(--transition-base);
+
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--border-color-hover);
+  }
+
+  &:focus:not(:disabled) {
+    border-color: var(--border-color-focus);
+    @include focus-ring(var(--focus-color), 0);
+  }
+
+  &:disabled {
+    background-color: var(--bg-tertiary);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--color-error-500);
+  }
+}
+
+@mixin input-size($height, $padding-x, $font-size) {
+  height: $height;
+  padding: 0 $padding-x;
+  font-size: $font-size;
+}
+
+// Card mixins
+@mixin card-base {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+@mixin card-hover {
+  transition: var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+// Loading states
+@mixin skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-200) 25%,
+    var(--color-gray-100) 50%,
+    var(--color-gray-200) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Responsive utilities
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: 640px) { @content; }
+  }
+  @if $breakpoint == md {
+    @media (min-width: 768px) { @content; }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: 1024px) { @content; }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: 1280px) { @content; }
+  }
+  @if $breakpoint == 2xl {
+    @media (min-width: 1536px) { @content; }
+  }
+}
+
+// Spacing utilities
+@mixin spacing($property, $size) {
+  #{$property}: var(--space-#{$size});
+}
+
+@mixin margin($size) {
+  @include spacing(margin, $size);
+}
+
+@mixin padding($size) {
+  @include spacing(padding, $size);
+}
+
+// Position utilities
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// Animation utilities
+@mixin fade-in($duration: var(--transition-base)) {
+  animation: fade-in $duration ease-in-out;
+}
+
+@mixin slide-up($duration: var(--transition-base)) {
+  animation: slide-up $duration ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Status indicators
+@mixin status-indicator($color) {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: $color;
+    border-radius: 50%;
+    border: 2px solid var(--bg-primary);
+  }
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar($width: 8px, $track-color: var(--color-gray-100), $thumb-color: var(--color-gray-400)) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    border-radius: $width / 2;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $width / 2;
+
+    &:hover {
+      background: darken($thumb-color, 10%);
+    }
+  }
+}
