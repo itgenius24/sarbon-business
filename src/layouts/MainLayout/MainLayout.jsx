@@ -6,13 +6,14 @@ import Header from "@/components/Header";
 import { useStoreHydration } from "@/hooks/useStoreHydration";
 import { useGetNotificationFirst, useUpdateNoteData } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { useMediaQuery } from "@chakra-ui/react";
+import { Box, IconButton, useMediaQuery } from "@chakra-ui/react";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { useElements } from "./elements";
 import cls from "./styles.module.scss";
+import { ChatHeaderIcon } from "@/assets/icons/icons";
 
 // Additional imports for bottom navigation
 import { BottomTabNavigation } from "@/components/BottomTabNavigation";
