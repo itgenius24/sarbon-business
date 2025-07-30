@@ -16,11 +16,16 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
     handleImageUpload
   } = useProfileInfoFormProps(setValue);
 
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+
   if (isLoading) return <SkeletonComp/>;
 
   return (
     <div>
-      <Flex gap="24px">
+      <Flex
+        gap={isLargerThan768 ? "24px" : "16px"}
+        direction={isLargerThan768 ? "row" : "column"}
+      >
         <TextField
           register={register}
           errors={errors}

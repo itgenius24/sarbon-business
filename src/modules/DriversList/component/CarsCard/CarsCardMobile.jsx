@@ -1,29 +1,29 @@
 import {
-  Box,
-  Flex,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
-} from "@chakra-ui/react";
-import cls from "./style.module.scss";
-import {
-  BatareyFullIcon,
-  BatareyIcon,
-  BluetoothIcon,
-  CricleArrovIcon,
-  LocationActiveIcon,
-  NoImFur,
-  NoImgDrivers,
-  PopupIcon,
+    BatareyFullIcon,
+    BatareyIcon,
+    BluetoothIcon,
+    CricleArrovIcon,
+    LocationActiveIcon,
+    NoImFur,
+    NoImgDrivers,
+    PopupIcon,
 } from "@/assets/icons/icons";
-import Image from "next/image";
-import { format } from "date-fns";
-import { useRouter } from "next/navigation";
 import { useGetLang } from "@/hooks/useGetLang";
+import {
+    Box,
+    Flex,
+    IconButton,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverContent,
+    PopoverTrigger,
+    Portal,
+} from "@chakra-ui/react";
+import { format } from "date-fns";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import cls from "./style.module.scss";
 
 export const CarsCardMobile = ({ t, item, handleDelete }) => {
   const router = useRouter();
@@ -44,7 +44,11 @@ export const CarsCardMobile = ({ t, item, handleDelete }) => {
             {item && item?.photo !== "photo" && item?.photo ? (
               <Image
                 style={{ borderRadius: `50%`, width: `100px`, height: `100px` }}
-                src={item?.photo}
+                src={
+                  item?.photo?.includes("http")
+                    ? item?.photo
+                    : `${process.env.NEXT_PUBLIC_MEDIA_URL}${item?.photo}`
+                }
                 objectFit="cover"
                 width={`200`}
                 height={`100`}

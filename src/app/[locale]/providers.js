@@ -5,10 +5,9 @@ import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider } from "@chakra-ui/react";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
+import { Inspector } from 'react-dev-inspector';
 import 'stream-chat-react/dist/css/v2/index.css';
-
 
 export function Providers({ children }) {
   const [queryClient] = React.useState(
@@ -33,6 +32,7 @@ export function Providers({ children }) {
     <CacheProvider theme={theme}>
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
+          <Inspector />
           <YMaps
             lang={`en`}
             query={{

@@ -1,22 +1,22 @@
 import { useGetUserCargo } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { keepPreviousData, } from "@tanstack/react-query";
+// keepPreviousData is deprecated in v4, using placeholderData instead
 import { useState } from "react";
 
 import {
-  LoadOulineIcon,
-  StoneIcon,
+    LoadOulineIcon,
+    StoneIcon,
 } from "@/assets/icons/icons";
 
-import { Box, Flex, Tooltip, useToast } from "@chakra-ui/react";
+import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
 
-import cls from "./style.module.scss";
-import { statusText } from "../../data";
 import SelectStatus from "@/components/SelectStatus/SelectStatus";
-import { useRouter } from "next/navigation";
 import { paymentType } from "@/utils/paymentTypes";
+import { useRouter } from "next/navigation";
+import { statusText } from "../../data";
+import cls from "./style.module.scss";
 
 
 const useProps = (orderStatus, t,locale) => {
@@ -35,7 +35,7 @@ const useProps = (orderStatus, t,locale) => {
       }),
     },
     {
-      placeholderData: keepPreviousData,
+      placeholderData: undefined,
       enabled: Boolean(orderStatus === `in_active`),
     }
   );

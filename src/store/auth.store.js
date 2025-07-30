@@ -24,13 +24,7 @@ class Store {
       storage: typeof window !== "undefined" ? window.localStorage : null,
       debugMode: process.env.NODE_ENV === 'development',
     }).then(() => {
-      if (typeof window !== "undefined" && process.env.NODE_ENV === 'development') {
-        console.log('AuthStore hydrated:', {
-          isAuth: this.isAuth,
-          userData: this.userData,
-          hasToken: !!this.token?.access_token
-        });
-      }
+      // Debug logging removed for production
     });
   }
 

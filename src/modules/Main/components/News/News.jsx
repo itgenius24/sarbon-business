@@ -1,25 +1,25 @@
 "use client";
 
-import cls from "./styles.module.scss";
+import { ArrowLeft } from "@/assets/icons/icons";
 import { Container } from "@/components/Container";
+import { useGetLang } from "@/hooks/useGetLang";
+import { useGetNewsList } from "@/services/api";
 import {
-  Box,
-  Flex,
-  Heading,
-  IconButton,
-  SimpleGrid,
-  Spacer,
-  Stack,
-  useMediaQuery,
+    Box,
+    Flex,
+    Heading,
+    IconButton,
+    SimpleGrid,
+    Spacer,
+    Stack,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "@/assets/icons/icons";
-import { useGetNewsList } from "@/services/api";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useGetLang } from "@/hooks/useGetLang";
-import { keepPreviousData } from "@tanstack/react-query";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import cls from "./styles.module.scss";
+// keepPreviousData is deprecated in v4, using placeholderData instead
 import { useTranslation } from "@/app/i18n/client";
 
 export const News = () => {
@@ -69,7 +69,7 @@ export const News = () => {
       select: (res) => {
         return res;
       },
-      placeholderData: isLargerThan768 ? [] : keepPreviousData,
+      placeholderData: isLargerThan768 ? [] : undefined,
     }
   );
 

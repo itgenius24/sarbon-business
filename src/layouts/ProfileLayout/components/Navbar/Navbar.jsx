@@ -1,21 +1,21 @@
-import cls from "./styles.module.scss";
+import { useGetLang } from "@/hooks/useGetLang";
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Flex,
+    Text,
+} from "@chakra-ui/react";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navList } from "./elements";
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Flex,
-  Text,
-} from "@chakra-ui/react";
-import { CustomLogOutButton } from "../CustomLogOutButton";
-import { useGetLang } from "@/hooks/useGetLang";
 import { useTranslation } from "react-i18next";
+import { CustomLogOutButton } from "../CustomLogOutButton";
+import cls from "./styles.module.scss";
+import { getNavList } from "./elements";
 
 const tabStyles = {
   alignItems: "center",
@@ -43,6 +43,10 @@ export const Navbar = () => {
   const path = pathname.split("/")[3];
   const { t } = useTranslation();
   const locale = useGetLang();
+
+  // Determine if we're in the advanced profile variant
+  const isAdvanced = pathname.includes('/profile-new');
+  const navList = getNavList(isAdvanced);
 
   return (
     <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">

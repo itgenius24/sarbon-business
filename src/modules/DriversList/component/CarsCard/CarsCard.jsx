@@ -1,24 +1,24 @@
 import {
-  BatareyFullIcon,
-  BatareyIcon,
-  BluetoothIcon,
-  CricleArrovIcon,
-  LocationActiveIcon,
-  NoImFur,
-  NoImgDrivers,
-  PopupIcon,
+    BatareyFullIcon,
+    BatareyIcon,
+    BluetoothIcon,
+    CricleArrovIcon,
+    LocationActiveIcon,
+    NoImFur,
+    NoImgDrivers,
+    PopupIcon,
 } from "@/assets/icons/icons";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
-  Box,
-  Flex,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
+    Box,
+    Flex,
+    IconButton,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverContent,
+    PopoverTrigger,
+    Portal,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -115,7 +115,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 height: `130px`,
                 objectFit: `cover`,
               }}
-              src={item?.photo}
+              src={
+                item?.photo?.includes("http")
+                  ? item?.photo
+                  : `${process.env.NEXT_PUBLIC_MEDIA_URL}${item?.photo}`
+              }
               objectFit="cover"
               width={200}
               height={200}

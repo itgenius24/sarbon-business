@@ -68,7 +68,7 @@ const Filter = ({
         setResults(geoObjects);
       }
     } catch (error) {
-      console.error("Geokodlashda xatolik:", error);
+      // Geocoding error handling without console logging
     }
   };
 

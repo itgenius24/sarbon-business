@@ -1,23 +1,23 @@
 import {
-  AndroidIcon,
-  AppleIcon,
-  BatareyFullIcon,
-  BatareyIcon,
-  BluetoothIcon,
-  CloseIconM,
-  FurIcon,
-  GruzIcon,
-  LoadOulineIcon,
-  LocationActiveIcon,
-  ModalWatingIcon,
-  NextBtnIcon,
-  StarsIcon,
-  StoneIcon,
+    AndroidIcon,
+    AppleIcon,
+    BatareyFullIcon,
+    BatareyIcon,
+    BluetoothIcon,
+    CloseIconM,
+    FurIcon,
+    GruzIcon,
+    LoadOulineIcon,
+    LocationActiveIcon,
+    ModalWatingIcon,
+    NextBtnIcon,
+    StarsIcon,
+    StoneIcon,
 } from "@/assets/icons/icons";
 import { useGetOffer, useUpdateResponse } from "@/services/api";
 import { Avatar, Box, Button, Flex, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
@@ -43,7 +43,7 @@ const DriverExpectation = ({ cls,setModalType,currentUserLocationData }) => {
       setModalType("filter");
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     }
   });
 

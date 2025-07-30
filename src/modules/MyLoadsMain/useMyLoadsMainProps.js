@@ -1,14 +1,14 @@
 import useDebounce2 from "@/hooks/useDebounce";
 import {
-  useCreateFeedback,
-  useCreateLogHistory,
-  useGetExcelPost,
-  useGetNewPredData,
-  useGetNotification,
-  useGetOffer,
-  useGetOfferCount,
-  useUpdateNoteData,
-  useUpdateResponse,
+    useCreateFeedback,
+    useCreateLogHistory,
+    useGetExcelPost,
+    useGetNewPredData,
+    useGetNotification,
+    useGetOffer,
+    useGetOfferCount,
+    useUpdateNoteData,
+    useUpdateResponse,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { useMediaQuery, useToast } from "@chakra-ui/react";
@@ -166,7 +166,7 @@ export const useMyLoadsMainProps = (locale) => {
       setAccept(true);
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     },
   });
 
@@ -380,7 +380,7 @@ export const useMyLoadsMainProps = (locale) => {
         setResults(geoObjects);
       }
     } catch (error) {
-      console.error("Geokodlashda xatolik:", error);
+      // Geocoding error handling without console logging
     }
   };
 

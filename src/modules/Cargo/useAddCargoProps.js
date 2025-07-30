@@ -1,28 +1,27 @@
-import * as yup from "yup";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import {
-  useCreateAddressMutation,
-  useCreateCargoMutation,
-  useDeleteCargo,
-  useGetCargoById,
-  useGetLoadingMutation,
-  useGetMaps,
-  useGetOfferById,
-  useGetUserCargo,
-  useLoadingTypes,
-  useSendNotification,
-  useUpdateCargo,
-  useUpdateResponse,
-} from "@/services/api";
-import { yupResolver } from "@/utils/yupResolver";
-import authStore from "@/store/auth.store";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetDistance } from "@/hooks/useGetDistance";
+import {
+    useCreateAddressMutation,
+    useCreateCargoMutation,
+    useDeleteCargo,
+    useGetCargoById,
+    useGetLoadingMutation,
+    useGetMaps,
+    useGetOfferById,
+    useGetUserCargo,
+    useLoadingTypes,
+    useSendNotification,
+    useUpdateCargo,
+    useUpdateResponse,
+} from "@/services/api";
+import authStore from "@/store/auth.store";
 import formStore from "@/store/form.store";
-import { useGetLang } from "@/hooks/useGetLang";
+import { yupResolver } from "@/utils/yupResolver";
+import { useToast } from "@chakra-ui/react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 export const useAddCargoProps = ({ id, status, locale }) => {
   const searchParams = useSearchParams();
@@ -310,7 +309,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       router.push(`/${locale}/my-loads`);
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     },
   });
 
@@ -575,7 +574,7 @@ export const useAddCargoProps = ({ id, status, locale }) => {
       if (status !== "performed") router.push(`/${locale}/my-loads`);
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     },
   });
 

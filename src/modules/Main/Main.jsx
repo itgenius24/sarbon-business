@@ -30,7 +30,7 @@ export async function Main({locale}) {
 
   return (
     <article className={clsx(styles.main, "fade-in")}>
-    <MainPage locale={locale} />
+    {/* <MainPage locale={locale} /> */}
       {/* <MobileApp description={banner?.description} description1={banner?.description_1} photo={banner?.photo} data={data?.data?.data?.response?.[0]} /> */}
       <News />
     </article>

@@ -8,14 +8,14 @@ import { Box, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import {
-  Channel,
-  ChannelHeader,
-  ChannelList,
-  ChannelPreviewMessenger,
-  Chat,
-  MessageList,
-  Thread,
-  Window,
+    Channel,
+    ChannelHeader,
+    ChannelList,
+    ChannelPreviewMessenger,
+    Chat,
+    MessageList,
+    Thread,
+    Window,
 } from "stream-chat-react";
 import { AttachmentWithMap } from "./components/AttachmentWithMap/AttachmentWithMap";
 import { MessageInputWithLocationButton } from "./components/MessageInputWithLocationButton/MessageInputWithLocationButton";
@@ -42,7 +42,7 @@ const ChatModule = () => {
         await client.connectUser(user, client.devToken(user.id));
         setClient(client);
       } catch (error) {
-        console.log('error', error);
+        // Error handling without console logging
       }
     };
 

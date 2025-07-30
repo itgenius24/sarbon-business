@@ -70,6 +70,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svg-jsx": "^1.2.2",
+    "react-dev-inspector": "^2.0.1",
     "sass": "^1.85.0"
   },
   "lint-staged": {

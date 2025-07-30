@@ -1,11 +1,9 @@
 import {
-  useCreateActionHistoriesMutation,
-  useDeleteCargo,
-  useGetOffer,
-  useGetUserCargo,
+    useCreateActionHistoriesMutation,
+    useDeleteCargo,
+    useGetUserCargo
 } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { DeleteIcon, LoadOulineIcon, StoneIcon } from "@/assets/icons/icons";
@@ -14,11 +12,11 @@ import { Box, Flex, IconButton, Tooltip, useToast } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
 
-import cls from "./style.module.scss";
-import { statusText } from "../../data";
 import SelectStatus from "@/components/SelectStatus/SelectStatus";
-import { useRouter } from "next/navigation";
 import { paymentType } from "@/utils/paymentTypes";
+import { useRouter } from "next/navigation";
+import { statusText } from "../../data";
+import cls from "./style.module.scss";
 
 const useProps = (orderStatus, t, locale) => {
   const toast = useToast();
@@ -39,7 +37,7 @@ const useProps = (orderStatus, t, locale) => {
       }),
     },
     {
-      placeholderData: keepPreviousData,
+      placeholderData: undefined,
     }
   );
 
