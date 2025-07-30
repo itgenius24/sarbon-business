@@ -35,6 +35,12 @@ const nextConfig = {
         port: "",
         pathname: "*/media/*",
       },
+       {
+        protocol: "https",
+        hostname: "cdn-api.sarbon.me",
+        port: "",
+        pathname: "*/media/*",
+      },
     ],
   },
   reactStrictMode: false,
