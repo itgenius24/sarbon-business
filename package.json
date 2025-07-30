@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --port 8080",
     "setup:size": "NODE_OPTIONS=\"--max-old-space-size=8192\"",
-    "build": "yarn setup:size && next build",
+    "clean:sourcemaps": "./scripts/cleanup-sourcemaps.sh",
+    "build": "yarn setup:size && next build && yarn clean:sourcemaps",
     "start": "next start --port 8080",
     "lint": "next lint",
     "prepare": "husky install",
