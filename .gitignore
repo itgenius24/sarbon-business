@@ -18,6 +18,7 @@
 # source maps (prevent folder structure exposure)
 *.map
 **/*.map
+public/*.js
 
 # misc
 .DS_Store
