@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Prevent indexing of source maps to avoid folder structure exposure
+Disallow: *.map
+Disallow: *.js.map
+Disallow: *.css.map
+
+# Sitemap
+Sitemap: https://sarbon.me/sitemap.xml
