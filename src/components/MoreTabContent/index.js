@@ -1,0 +1,1 @@
+export { MoreTabContent } from './MoreTabContent';

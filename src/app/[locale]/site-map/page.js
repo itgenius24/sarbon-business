@@ -22,7 +22,7 @@ export default function SiteMap() {
         </Flex>
         <Heading color="brand.600" mb="80px">{t("Карта сайта")}</Heading>
         <Heading fontSize="24px" lineHeight="32px" mb="40px">{t("Главная")}</Heading>
-        <Heading fontSize="36px" lineHeight="44px" mb="24px">{t("Поиск грузов")}</Heading>
+        <Heading fontSize="36px" lineHeight="44px" mb="24px">{t("Грузы")}</Heading>
         <UnorderedList color="primary">
           <ListItem mb="12px" fontWeight={400} fontSize="24px" lineHeight="32px">
             <Link href={`/${locale}/distance-calculation`}>{t("Расчет расстояний")}</Link>

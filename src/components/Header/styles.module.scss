@@ -169,24 +169,71 @@ letter-spacing: 0px;
   .list {
     gap: 2px;
   }
-  
+
   .itemLink {
     padding: 6px 8px;
     font-size: 13px;
   }
-  
+
   .rightBox {
     gap: 12px;
   }
-  
+
   .userIcon {
     width: 36px;
     height: 36px;
   }
 }
 
-  @include xl {
+// Progressive hiding of menu items
+@media (max-width: 1380px) {
+  .listItem:nth-last-child(1) {
+    display: none;
+  }
+}
 
+@media (max-width: 1280px) {
+  .listItem:nth-last-child(1),
+  .listItem:nth-last-child(2) {
+    display: none;
+  }
+}
+
+@media (max-width: 1180px) {
+  .listItem:nth-last-child(1),
+  .listItem:nth-last-child(2),
+  .listItem:nth-last-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .listItem:nth-last-child(1),
+  .listItem:nth-last-child(2),
+  .listItem:nth-last-child(3),
+  .listItem:nth-last-child(4) {
+    display: none;
+  }
+}
+
+// Show hamburger menu when most items are hidden
+@media (max-width: 1024px) {
+  .burgerBtn {
+    display: flex;
+  }
+
+  .registerLink {
+    display: none;
+  }
+
+  .registerLinkMobile {
+    display: block;
+    margin-left: auto;
+  }
+}
+
+// Mobile menu - only for very small screens
+@media (max-width: 768px) {
   .header {
     position: relative;
   }
@@ -218,35 +265,37 @@ letter-spacing: 0px;
     padding-top: 24px;
   }
 
+  .listItem {
+    display: block !important; // Override progressive hiding in mobile menu
+  }
+
   .registerLink {
     display: none;
 
-  @media (max-width:500px) {
-    margin-right: 5px;
-    padding: 6px 9px;
-  }
-
+    @media (max-width:500px) {
+      margin-right: 5px;
+      padding: 6px 9px;
+    }
   }
 
   .registerLinkMobile {
     display: block;
     margin-left: auto;
   }
+
   .registerLinkMobileRes{
-      @media (max-width:500px) {
-          width: 100px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-      }
+    @media (max-width:500px) {
+      width: 100px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   .registerLinkMobile2{
     display: block;
     margin-left: auto;
   }
-
-
 
   .profile {
     display: inline-block;
@@ -277,7 +326,6 @@ letter-spacing: 0px;
   .userIcon {
     display: flex;
   }
-
 }
 
 

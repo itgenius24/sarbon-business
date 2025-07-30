@@ -14,7 +14,7 @@ export const useElements = (lang) => {
       // },
       {
         path: isAuth ? `/${lang || "ru"}/search-load` : `/${lang || "ru"}/auth`,
-        label: "Поиск грузов",
+        label: "Грузы",
       },
       {
         path: isAuth ? `/${lang || "ru"}/drivers` : `/${lang || "ru"}/auth`,
@@ -26,7 +26,7 @@ export const useElements = (lang) => {
       },
       {
         path: isAuth ? `/${lang || "ru"}/performed` : `/${lang || "ru"}/auth`,
-        label: "Мои заказы",
+        label: "Заказы",
       },
       {
         path: `/${lang || "ru"}/distance-calculation`,
@@ -65,7 +65,7 @@ export const useElements = (lang) => {
       },
       // {
       //   path: isAuth ? `/${lang || "ru"}/search-load-dispatcher` : `/${lang || "ru"}/auth`,
-      //   label: "Поиск грузов",
+      //   label: "Грузы",
       // },
       {
         path: `/${lang || "ru"}/distance-calculation`,

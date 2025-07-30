@@ -1,32 +1,31 @@
 "use client";
 
-import clsx from "clsx";
-import cls from "./styles.module.scss";
-import Link from "next/link";
-import Image from "next/image";
-import authStore from "@/store/auth.store";
+import { useTranslation } from "@/app/i18n/client";
+import { AddDillerMunu } from "@/assets/icons/icons";
+import UserImg from "@/assets/images/user.png";
+import { useGetLang } from "@/hooks/useGetLang";
+import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
 import { useStoreHydration } from "@/hooks/useStoreHydration";
+import authStore from "@/store/auth.store";
+import { roleName } from "@/utils/roleName";
 import {
   Box,
   Button,
   Flex,
   ListItem,
   UnorderedList,
-  useMediaQuery,
+  useMediaQuery
 } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
-import { Logo } from "../Logo/Logo";
+import clsx from "clsx";
 import { observer } from "mobx-react-lite";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useGetUserInfoHook } from "@/hooks/useGetUserInfo";
-import { LocaleDropdown } from "../LocaleDropdown";
-import { useTranslation } from "@/app/i18n/client";
-import { useGetLang } from "@/hooks/useGetLang";
-import UserImg from "@/assets/images/user.png";
-import { AddDillerMunu } from "@/assets/icons/icons";
 import { ContainerNav } from "../ContainerNav/Container";
-import ChatPopover from "../ChatPopover/ChatPopover";
-import { roleName } from "@/utils/roleName";
+import { LocaleDropdown } from "../LocaleDropdown";
+import { Logo } from "../Logo/Logo";
+import cls from "./styles.module.scss";
 
 const Header = observer(({ elements }) => {
   const router = useRouter();
@@ -39,6 +38,7 @@ const Header = observer(({ elements }) => {
   const role_id = authStore.userData.role_id;
   const locale = useGetLang();
   const [isLargerThan1024] = useMediaQuery("(min-width: 1025px)");
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const { t } = useTranslation(locale, "translations");
 
@@ -59,11 +59,14 @@ const Header = observer(({ elements }) => {
   const photo = userData.data?.photo;
 
   const [isNavOpen, setNavOpen] = useState(false);
-
-
+  const [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
 
   function handleToggleNav() {
     setNavOpen(!isNavOpen);
+  }
+
+  function handleToggleMoreMenu() {
+    setMoreMenuOpen(!isMoreMenuOpen);
   }
 
   return (
@@ -83,8 +86,18 @@ const Header = observer(({ elements }) => {
             <Box className={cls.content}>
               <UnorderedList className={cls.list}>
                 {elements?.map((element, index) => {
+                  // Add responsive classes based on item position
+                  const responsiveClass =
+                    index >= elements.length - 1 ? cls.hideAt1380 :
+                    index >= elements.length - 2 ? cls.hideAt1280 :
+                    index >= elements.length - 3 ? cls.hideAt1180 :
+                    index >= elements.length - 4 ? cls.hideAt1080 : '';
+
                   return (
-                    <ListItem className={cls.listItem} key={element.path}>
+                    <ListItem
+                      className={clsx(cls.listItem, responsiveClass)}
+                      key={element.path}
+                    >
                       <Link
                         onClick={() => setNavOpen(false)}
                         href={element.path}
@@ -248,7 +261,8 @@ const Header = observer(({ elements }) => {
                   </Box>
                 )}
 
-              {!pathname?.includes("app-download") && (
+              {!pathname?.includes("app-download") &&
+               !(isAuth && !isLargerThan768) && ( // Hide hamburger on mobile when authenticated
                 <button className={cls.burgerBtn} onClick={handleToggleNav}>
                   <svg id="hamburger" viewBox="0 0 60 40">
                     <g

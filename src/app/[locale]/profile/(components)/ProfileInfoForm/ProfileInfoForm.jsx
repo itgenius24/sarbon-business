@@ -1,6 +1,6 @@
 import { Email } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 
 import FileUpload from "@/components/FileUpload";
 import { SkeletonComp } from "@/components/Skeleton";

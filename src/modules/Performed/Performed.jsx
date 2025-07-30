@@ -39,7 +39,7 @@ export const PerformedModule = () => {
           // color={`var(--primary-text)`}
 
         >
-          {t("Мои заказы")}
+          {t("Заказы")}
         </Heading>
       </Flex>
       <Flex className={cls.btnWrp}>

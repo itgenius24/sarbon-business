@@ -14,6 +14,12 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { useElements } from "./elements";
 import cls from "./styles.module.scss";
+
+// Additional imports for bottom navigation
+import { BottomTabNavigation } from "@/components/BottomTabNavigation";
+import { MoreTabContent } from "@/components/MoreTabContent";
+import { useState } from "react";
+
 const predlojeniya = "/predlojeniya.mp3";
 const predlojeniyauz = "/predlojeniyauz.mp3";
 const vispolneniya = "/vispolneniya.mp3";
@@ -22,12 +28,13 @@ const zavishon = "/zavishon.mp3";
 const zavishonuz = "/zavishonuz.mp3";
 
 export const MainLayout = ({ locale, children }) => {
+  const [isMoreTabOpen, setIsMoreTabOpen] = useState(false);
   const elements = useElements(locale);
   const pathname = usePathname();
   const router = useRouter();
   const { mutate } = useUpdateNoteData();
   const isHydrated = useStoreHydration();
-  
+
   const role_id = isHydrated ? authStore?.userData.role_id : null;
   const token = isHydrated ? authStore?.token?.access_token : null;
 const isPathChat = (
@@ -96,7 +103,7 @@ const isPathChat = (
   return (
     <div className={clsx(cls.layout, "fade-in")}>
       <ChangelogModal locale={locale} />
-      {isPathChat && 
+      {isPathChat &&
           <Box className={cls.chatIcon}>
             <IconButton
               onClick={() => window.location.replace(`/${locale}/chat`)}
@@ -108,6 +115,15 @@ const isPathChat = (
       {!isAuthPage && <Header elements={elements} />}
       <article className={cls.main}>{children}</article>
       {isAuthPageFooter && <Footer />}
+
+      {/* Bottom Tab Navigation for Mobile */}
+      <BottomTabNavigation onMoreTabClick={() => setIsMoreTabOpen(true)} />
+
+      {/* More Tab Content Modal */}
+      <MoreTabContent
+        isOpen={isMoreTabOpen}
+        onClose={() => setIsMoreTabOpen(false)}
+      />
     </div>
   );
 };
