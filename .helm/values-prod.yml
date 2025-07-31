@@ -12,7 +12,7 @@ replicaCount: 1
 
 image:
   registry: registry.furgo.uz
-  repository: /xlogistic/xlogistic_frontend
+  repository: /xlogistic/sarbon-business
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -21,7 +21,7 @@ imagePullSecrets: "furgo-registry"
 nameOverride: ""
 fullnameOverride: ""
 labels:
-  app: xlogistic_frontend
+  app: sarbon-business
 # command: ["/bin/sh","-c"]
 # args: ["echo 'consuming a message'; sleep 5"]
 
@@ -35,7 +35,7 @@ serviceAccount:
   name: "vault-auth"
 
 podLabels:
-  app: xlogistic_frontend
+  app: sarbon-business
 
 podSecurityContext:
   {}
@@ -88,13 +88,7 @@ ingress:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       type: web
       hosts:
-        - host: "furgo.uz"
-          path: /
-          servicePort: 8080
-        - host: "sarbon.me"
-          path: /
-          servicePort: 8080
-        - host: "www.sarbon.me"
+        - host: "app.sarbon.me"
           path: /
           servicePort: 8080
 
