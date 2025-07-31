@@ -1,11 +1,9 @@
 import {
   useCreateActionHistoriesMutation,
   useDeleteCargo,
-  useGetOffer,
-  useGetUserCargo,
+  useGetUserCargo
 } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { DeleteIcon, LoadOulineIcon, StoneIcon } from "@/assets/icons/icons";
@@ -14,10 +12,11 @@ import { Box, Flex, IconButton, Tooltip, useToast } from "@chakra-ui/react";
 import { format } from "date-fns";
 import Image from "next/image";
 
-import cls from "./style.module.scss";
-import { statusText } from "../../data";
 import SelectStatus from "@/components/SelectStatus/SelectStatus";
+import { paymentType } from "@/utils/paymentTypes";
 import { useRouter } from "next/navigation";
+import { statusText } from "../../data";
+import cls from "./style.module.scss";
 
 const useProps = (orderStatus, t, locale) => {
   const toast = useToast();
@@ -37,9 +36,7 @@ const useProps = (orderStatus, t, locale) => {
         order_status: [orderStatus],
       }),
     },
-    {
-      placeholderData: keepPreviousData,
-    }
+    { placeholderData: undefined, }
   );
 
   const addPage = () => {
@@ -232,41 +229,64 @@ const useProps = (orderStatus, t, locale) => {
       ),
     },
     {
-      title: t("Стомость"),
+      title: t("Стоимость"),
       width: 170,
-      render: (row, index) => (
-        <Box>
-          {row?.bid_cash ? (
-            <>
-              <p className={cls.title}>
-                {row?.bid_cash} {row?.currency_id_data?.code}
-                <span className={cls.subTitle1}>
-                  {row?.[`payment_type_${locale}`] || row?.payment_type
-                    ? ` ${t(
-                        row?.[`payment_type_${locale}`]
-                          ? row?.[`payment_type_${locale}`]
-                          : row?.payment_type
-                      )}`
-                    : t(" Безнал")}
-                </span>
-              </p>
-              <span className={cls.subTitle}>
-                {t("Аванс")}{" "}
-                {row?.prepayment_percentage > 0
-                  ? `${row?.prepayment_percentage} ${row?.currency_id_data?.code}`
-                  : t("Нет")}
-              </span>
-            </>
-          ) : (
-            <>
-              <p className={cls.title}>{t("По запросу")}</p>
-              <span className={cls.subTitle}>
-                {t("Аванс")} {t("По запросу")}
-              </span>
-            </>
-          )}
-        </Box>
-      ),
+      render: (row, index) => {
+        const total = JSON.parse(row?.payment_data)?.total;
+        const prepayment = JSON.parse(row?.payment_data)?.prepayment;
+        const postpayment = JSON.parse(row?.payment_data)?.postpayment;
+        return (
+          <Box>
+            {total?.length > 0 ? (
+              <Tooltip
+                color={`black`}
+                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                background={`#fff`}
+                label={
+                  <>
+                    <p className={cls.title}>{t(`Общая сумма`)}</p>
+                    {total?.map((item, index) => (
+                      <p key={index} className={cls.subTitle}>
+                        {item?.price} {item?.currency?.label}{" "}
+                        {item?.type?.label}
+                      </p>
+                    ))}
+
+                    <p className={cls.title}>
+                      {t(`Аванс`)} {prepayment?.length === 0 && `Нет`}
+                    </p>
+                    {prepayment?.length > 0 &&
+                      prepayment?.map((item, index) => (
+                        <p key={index} className={cls.subTitle}>
+                          {item?.price} {item?.currency?.label}{" "}
+                          {item?.type?.label}
+                        </p>
+                      ))}
+
+                    <p className={cls.title}>{t(`Сумма по заказу`)}</p>
+                    {postpayment?.length > 0 &&
+                      postpayment?.map((item, index) => (
+                        <p key={index} className={cls.subTitle}>
+                          {item?.price} {item?.currency?.label}{" "}
+                          {item?.type?.label}
+                        </p>
+                      ))}
+                  </>
+                }
+              >
+                <p className={cls.title}>{t(`Общая сумма`)}</p>
+              </Tooltip>
+            ) : (
+              <>
+                <p className={cls.title}>{t("По запросу")}</p>
+                <p className={cls.money_code}>
+                  {row?.money_code.map((item) => paymentType[item]).join(`, `)}
+                </p>
+              </>
+            )}
+          </Box>
+        );
+      },
     },
     {
       title: t("Статус груза"),
@@ -310,11 +330,11 @@ const useProps = (orderStatus, t, locale) => {
     {
       title:``,
       width: 50,
-      render: (row, index) => <Flex  alignItems={`center`} justifyContent={`center`}>
+      render: (row, index) => <Flex alignItems={`center`} justifyContent={`center`}>
         <IconButton onClick={(e) => {
           e.stopPropagation();
           handleDelete(row);
-        } }  _hover={{backgroundColor:`rgba(254, 228, 226, 1)`}} backgroundColor={`rgba(254, 228, 226, 1)`} icon={<DeleteIcon />} />
+        } } _hover={{ backgroundColor:`rgba(254, 228, 226, 1)` }} backgroundColor={`rgba(254, 228, 226, 1)`} icon={<DeleteIcon />} />
       </Flex>,
     },
   ];

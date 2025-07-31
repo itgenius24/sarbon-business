@@ -53,9 +53,7 @@ export const CarsCardMObile = ({
         with_relations: true,
       }),
     },
-    querySettings: {
-      enabled: Boolean(item.users_id_data),
-    },
+    querySettings: { enabled: Boolean(item.users_id_data), },
   });
 
   return (

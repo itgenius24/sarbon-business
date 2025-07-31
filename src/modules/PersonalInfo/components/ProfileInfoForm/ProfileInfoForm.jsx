@@ -18,7 +18,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
     isLoading,
     handleImageUpload
   } = useProfileInfoFormProps(setValue);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   if (isLoading) return <SkeletonComp/>;
 
   return (
@@ -82,7 +82,7 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
   );
 };
 
-function FileUploadPlaceholder({t}) {
+function FileUploadPlaceholder({ t }) {
   return (
     <>
       <Box fontSize="14px" lineHeight="20px">

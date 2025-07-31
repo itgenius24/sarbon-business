@@ -157,22 +157,22 @@ const TinCreateModule = () => {
               name="status_of_enterprise"
               placeholder={t("Состояние деятельности предприятия")}
             />
-             <TextFieldWithAddition
+            <TextFieldWithAddition
               label={`Уставный фонд`}
-                    
-                      errors={errors}
-                      control={control}
-                      name="capital"
-                      register={register}
-                      additionalItemName="currency"
-                      width="100%"
-                      placeholder={t("Уставный фонд")}
-                      additionalItemPlaceholder="UZS"
-                      additionalItemOptions={[{label:`UZS`,value:`UZS`},{label:`USD`,value:`USD`}]}
-                 
-                      type="number"
-                      zIndex={90}
-                    />
+
+              errors={errors}
+              control={control}
+              name="capital"
+              register={register}
+              additionalItemName="currency"
+              width="100%"
+              placeholder={t("Уставный фонд")}
+              additionalItemPlaceholder="UZS"
+              additionalItemOptions={[{ label:`UZS`,value:`UZS` },{ label:`USD`,value:`USD` }]}
+
+              type="number"
+              zIndex={90}
+            />
             {/* <TextField
               label={`Уставный фонд`}
               register={register}

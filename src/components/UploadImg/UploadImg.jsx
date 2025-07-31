@@ -79,9 +79,7 @@ export const UploadImg = ({
       cropper.getCroppedCanvas().toBlob(
         (blob) => {
           if (blob) {
-            const file = new File([blob], "cropped-image.jpg", {
-              type: "image/jpeg",
-            });
+            const file = new File([blob], "cropped-image.jpg", { type: "image/jpeg", });
             onCropDone(file);
           }
         },

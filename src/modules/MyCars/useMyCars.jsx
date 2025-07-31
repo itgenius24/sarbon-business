@@ -120,9 +120,7 @@ export const useMyCars = () => {
   };
 
   const handleDelete = (id) => {
-    const data = {
-      id: id,
-    };
+    const data = { id: id, };
     dalete(data);
   };
   const handleUpdateId = (id) => {
@@ -180,13 +178,7 @@ export const useMyCars = () => {
   });
 
   useEffect(() => {
-    const data = {
-      data: {
-        object_data: {
-          firm_id,
-        },
-      },
-    };
+    const data = { data: { object_data: { firm_id, }, }, };
     dataMutate(data);
   }, [status]);
 

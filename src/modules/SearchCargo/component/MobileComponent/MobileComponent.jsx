@@ -227,9 +227,7 @@ const MobileComponent = ({
             errors={errors}
             name="car_number"
             placeholder={t("Введите номер транспортного средства")}
-            rules={{
-              required: t("Это поле обязательно"),
-            }}
+            rules={{ required: t("Это поле обязательно"), }}
             onChange={(e) => {
               e.target.value = e.target.value
                 .replace(/[^A-Za-z0-9]/g, "")
@@ -403,9 +401,7 @@ const MobileComponent = ({
             <TextFieldWithAdditionCar
               className={cls.textField}
               errors={errors}
-              rules={{
-                required: t("Это поле обязательно"),
-              }}
+              rules={{ required: t("Это поле обязательно"), }}
               control={control}
               name="capacity"
               register={register}
@@ -472,9 +468,7 @@ const MobileComponent = ({
               control={control}
               name="height"
               register={register}
-              rules={{
-                required: t("Это поле обязательно"),
-              }}
+              rules={{ required: t("Это поле обязательно"), }}
               maxWidth="165px"
               placeholder={t("Объем")}
               additionalItemTheme={`light`}

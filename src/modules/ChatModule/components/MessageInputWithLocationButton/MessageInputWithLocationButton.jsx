@@ -38,15 +38,13 @@ export const MessageInputWithLocationButton = () => {
 
   return (
     <Flex alignItems={`center`}>
-      <IconButton _hover={{backgroundColor:`transparent`}}  backgroundColor={`transparent`} width={`fit-content`}  icon={<LocationMarkIcon />} onClick={handleSendLocation}  />
-          
-   
+      <IconButton _hover={{ backgroundColor:`transparent` }} backgroundColor={`transparent`} width={`fit-content`} icon={<LocationMarkIcon />} onClick={handleSendLocation} />
+
+
       <MessageInput
         audioRecordingEnabled
         focus
-        audioRecordingConfig={{
-          transcoderConfig: { encoder: encodeToMp3 },
-        }}
+        audioRecordingConfig={{ transcoderConfig: { encoder: encodeToMp3 }, }}
       />{" "}
 
     </Flex>

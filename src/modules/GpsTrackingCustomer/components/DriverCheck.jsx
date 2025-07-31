@@ -79,10 +79,10 @@ const DriverCheck = ({
               width={"fit-content"}
               style={{ background: "transparent" }}
               icon={<CloseIconM />}
-               onClick={() => {
-              setModalType("");
-              setIconStatus("");
-            }}
+              onClick={() => {
+                setModalType("");
+                setIconStatus("");
+              }}
             />
           </Flex>
 

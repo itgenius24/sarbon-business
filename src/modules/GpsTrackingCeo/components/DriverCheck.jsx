@@ -203,7 +203,7 @@ const DriverCheck = ({
                       currentUserLocationData?.orders?.[0]?.cargo_id_data
                         ?.load_time
                         ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                            ?.load_time
+                          ?.load_time
                         : new Date(),
                       "yyyy-MM-dd"
                     )}
@@ -229,7 +229,7 @@ const DriverCheck = ({
                     {format(
                       currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
                         ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                            ?.date
+                          ?.date
                         : new Date(),
                       "yyyy-MM-dd"
                     )}

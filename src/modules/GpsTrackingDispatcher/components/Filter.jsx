@@ -57,7 +57,7 @@ const Filter = ({
         setResults(geoObjects);
       }
     } catch (error) {
-      console.error("Geokodlashda xatolik:", error);
+      // Geocoding error handling without console logging
     }
   };
 
@@ -138,9 +138,7 @@ const Filter = ({
                     >
                       <p
                         className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                       />{" "}
                     </Flex>
                   );

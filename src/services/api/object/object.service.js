@@ -67,9 +67,7 @@ const objectService = {
   getLoadingTypes: (params) =>
     request.get("/v2/object-slim/get-list/load_type", { params }),
   getUsers: (params) =>
-    request.get("/v2/object-slim/get-list/users", {
-      params,
-    }),
+    request.get("/v2/object-slim/get-list/users", { params, }),
   getGPSHistory: (params) =>
     request.get("/v2/object-slim/get-list/gps_history", { params }),
   getDriverLocation: (params) =>
@@ -250,9 +248,7 @@ export const useGetNewsList = (
   });
 };
 export const useGetLocation = (
-  params = {
-    data: JSON.stringify({ cargo_type: ["cargo"], order_status: ["active"] }),
-  },
+  params = { data: JSON.stringify({ cargo_type: ["cargo"], order_status: ["active"] }), },
   settings
 ) => {
   return useQuery({

@@ -24,7 +24,7 @@ export const DataList = ({ list = [], status }) => {
         </div>
       )}
 
-      {/* 
+      {/*
     {
         list?.map((item, index) => (
           <div  key={index} className={cls.cardListItem}>

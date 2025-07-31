@@ -619,7 +619,7 @@ const StepThere = ({ status, locale }) => {
                         {t("Пломба")}
                       </Checkbox>
                     </Box>
-                       <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
                       <Checkbox
                         disabled={!canEdit}
                         register={register}

@@ -25,7 +25,7 @@ export const DatePickerComponent = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <Box onClick={() => !canEdit ? handleDisabled() : null  }>
+        <Box onClick={() => !canEdit ? handleDisabled() : null }>
           <DatePicker
             disabled={!canEdit ? !canEdit : isDisabled}
             selected={field.value ? new Date(field.value) : field.value}
@@ -35,7 +35,7 @@ export const DatePickerComponent = ({
             placeholderText="Select date"
             dateFormat="dd.MM.yyyy HH:mm"
             // dateFormat="dd.MM.yyyy"
-            customInput={<CustomInputDate canEdit={canEdit}   width={`${width}px`} />}
+            customInput={<CustomInputDate canEdit={canEdit} width={`${width}px`} />}
             {...props}
           />
         </Box>

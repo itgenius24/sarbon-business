@@ -24,6 +24,7 @@ import Image from "next/image";
 import cls from "./style.module.scss";
 import { LoadOulineIcon, StoneIcon } from "@/assets/icons/icons";
 import PopoverUserName from "@/components/PopoverUserName/PopoverUserName";
+import { paymentType } from "@/utils/paymentTypes";
 
 const useNewPageProps = ({
   orderStatus,
@@ -585,9 +586,7 @@ const useNewPageProps = ({
             />
 
             <a
-              style={{
-                borderBottom: `1px dashed black`,
-              }}
+              style={{ borderBottom: `1px dashed black`, }}
               className={cls.subTitle}
               target="_blank"
               href={`https://t.me/${row?.users_id_data?.phone}`}
@@ -662,40 +661,100 @@ const useNewPageProps = ({
         </Box>
       ),
     },
+    // {
+    //   title: t("Стоимость"),
+    //   width: 140,
+    //   render: (row, index) => (
+    //     <Box width={`140px`}>
+    //       {row?.cargo_id_data?.bid_cash ? (
+    //         <>
+    //           <p className={cls.title}>
+    //             {row?.cargo_id_data?.bid_cash} {row?.currency_id_data?.code}
+    //             <span className={cls.subTitle1}>
+    //               {row?.payment_type?.[0]
+    //                 ? ` ${obj[row?.payment_type?.[0]]}`
+    //                 : ` ${row?.cargo_id_data?.payment_type}`}
+    //             </span>
+    //           </p>
+    //           <span className={cls.subTitle}>
+    //             {t("Аванс")}{" "}
+    //             {row?.cargo_id_data?.prepayment_percentage > 0
+    //               ? `${row?.cargo_id_data?.prepayment_percentage} ${
+    //                   row?.currency_id_data?.code || ``
+    //                 }`
+    //               : t("Нет")}
+    //           </span>
+    //         </>
+    //       ) : (
+    //         <>
+    //           <p className={cls.title}>{t("По запросу")}</p>
+    //           <span className={cls.subTitle}>
+    //             {t("Аванс")} {t("По запросу")}
+    //           </span>
+    //         </>
+    //       )}
+    //     </Box>
+    //   ),
+    // },
     {
-      title: t("Стомость"),
-      width: 140,
-      render: (row, index) => (
-        <Box width={`140px`}>
-          {row?.cargo_id_data?.bid_cash ? (
-            <>
-              <p className={cls.title}>
-                {row?.cargo_id_data?.bid_cash} {row?.currency_id_data?.code}
-                <span className={cls.subTitle1}>
-                  {row?.payment_type?.[0]
-                    ? ` ${obj[row?.payment_type?.[0]]}`
-                    : ` ${row?.cargo_id_data?.payment_type}`}
-                </span>
-              </p>
-              <span className={cls.subTitle}>
-                {t("Аванс")}{" "}
-                {row?.cargo_id_data?.prepayment_percentage > 0
-                  ? `${row?.cargo_id_data?.prepayment_percentage} ${
-                      row?.currency_id_data?.code || ``
-                    }`
-                  : t("Нет")}
-              </span>
-            </>
-          ) : (
-            <>
-              <p className={cls.title}>{t("По запросу")}</p>
-              <span className={cls.subTitle}>
-                {t("Аванс")} {t("По запросу")}
-              </span>
-            </>
-          )}
-        </Box>
-      ),
+      title: t("Стоимость"),
+      width: 170,
+      render: (row, index) => {
+        const total = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.total;
+        const prepayment = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.prepayment;
+        const postpayment = row?.cargo_id_data?.payment_data && JSON.parse(row?.cargo_id_data?.payment_data)?.postpayment;
+        return (
+          <Box>
+            {total?.length > 0 ? (
+              <Tooltip
+                color={`black`}
+                boxShadow={`0px 4px 8px 0px rgba(0, 0, 0, 0.15)`}
+                background={`#fff`}
+                label={
+                  <>
+                    <p className={cls.title}>{t(`Общая сумма`)}</p>
+                    {total?.map((item, index) => (
+                      <p key={index} className={cls.subTitle}>
+                        {item?.price} {item?.currency?.label}{" "}
+                        {item?.type?.label}
+                      </p>
+                    ))}
+
+                    <p className={cls.title}>
+                      {t(`Аванс`)} {prepayment?.length === 0 && `Нет`}
+                    </p>
+                    {prepayment?.length > 0 &&
+                      prepayment?.map((item, index) => (
+                        <p key={index} className={cls.subTitle}>
+                          {item?.price} {item?.currency?.label}{" "}
+                          {item?.type?.label}
+                        </p>
+                      ))}
+
+                    <p className={cls.title}>{t(`Сумма по заказу`)}</p>
+                    {postpayment?.length > 0 &&
+                      postpayment?.map((item, index) => (
+                        <p key={index} className={cls.subTitle}>
+                          {item?.price} {item?.currency?.label}{" "}
+                          {item?.type?.label}
+                        </p>
+                      ))}
+                  </>
+                }
+              >
+                <p className={cls.title}>{t(`Общая сумма`)}</p>
+              </Tooltip>
+            ) : (
+              <>
+                <p className={cls.title}>{t("По запросу")}</p>
+                <p className={cls.money_code}>
+                  {row?.cargo_id_data?.money_code?.map((item) => paymentType[item]).join(`, `)}
+                </p>
+              </>
+            )}
+          </Box>
+        );
+      },
     },
     {
       title: t("Номер груза"),
@@ -734,9 +793,7 @@ const useNewPageProps = ({
             <Box>
               <p className={cls.title}>{row?.users_id_3_data?.full_name} </p>
               <a
-                style={{
-                  borderBottom: `1px dashed black`,
-                }}
+                style={{ borderBottom: `1px dashed black`, }}
                 className={cls.subTitle}
                 target="_blank"
                 href={`https://t.me/${row?.users_id_3_data?.phone}`}
@@ -757,9 +814,7 @@ const useNewPageProps = ({
             <Box>
               <p className={cls.title}>{row?.users_id_2_data?.full_name} </p>
               <a
-                style={{
-                  borderBottom: `1px dashed black`,
-                }}
+                style={{ borderBottom: `1px dashed black`, }}
                 className={cls.subTitle}
                 target="_blank"
                 href={`https://t.me/${row?.users_id_2_data?.phone}`}

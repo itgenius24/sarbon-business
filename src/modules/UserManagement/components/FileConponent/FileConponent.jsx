@@ -29,11 +29,11 @@ const FileConponent = ({ item, isCreate = false, deleteFile = () => {} }) => {
         </p>
       </Box>
       {
-        isCreate &&  <Box onClick={() => deleteFile(item)} className={cls.deleIcon}>
-        <DeleteFileIcon />
-      </Box>
+        isCreate && <Box onClick={() => deleteFile(item)} className={cls.deleIcon}>
+          <DeleteFileIcon />
+        </Box>
       }
-     
+
     </Flex>
   );
 };

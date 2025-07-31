@@ -226,39 +226,39 @@ const DriverFree = ({
           </Flex>
         </Box>
         <Box className={cls.btnOutline}>
-            <Flex
-                    pb={`10px`}
-                    borderBottom={`1px solid rgba(219, 216, 227, 1)`}
-                    width={"100%"}
-                    justifyContent={"space-between"}
-                  >
-                    <Tooltip
-                      border={`1px solid rgba(219, 216, 227, 1)`}
-                      background={`white`}
-                      color={`black`}
-                      placement="top-end"
-                      label={
+          <Flex
+            pb={`10px`}
+            borderBottom={`1px solid rgba(219, 216, 227, 1)`}
+            width={"100%"}
+            justifyContent={"space-between"}
+          >
+            <Tooltip
+              border={`1px solid rgba(219, 216, 227, 1)`}
+              background={`white`}
+              color={`black`}
+              placement="top-end"
+              label={
                         currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                           : t(`Пока нет машины`)
-                      }
-                    >
-                      <p className={cls.cargoType}>
-                        {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
+              }
+            >
+              <p className={cls.cargoType}>
+                {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                           ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data?.name
                           : t(`Пока нет машины`)}
-                      </p>
-                    </Tooltip>
-        
-                    <Flex gap={3}>
-                      <Flex gap={1} alignItems={"center"}>
-                        <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
-                      </Flex>
-                      <Flex gap={1} alignItems={"center"}>
-                        <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
-                      </Flex>
-                    </Flex>
-                  </Flex>
+              </p>
+            </Tooltip>
+
+            <Flex gap={3}>
+              <Flex gap={1} alignItems={"center"}>
+                <StoneIcon /> {currentUserLocationData?.vehicles?.[0]?.capacity} т.
+              </Flex>
+              <Flex gap={1} alignItems={"center"}>
+                <LoadOulineIcon /> {currentUserLocationData?.vehicles?.[0]?.height} m3
+              </Flex>
+            </Flex>
+          </Flex>
 
           <Flex
             p={`10px 0px`}
@@ -314,52 +314,52 @@ const DriverFree = ({
 
         {currentUserLocationData?.firm_data?.firm_data?.[0] &&
           user_type?.[0] === `approved` && (
-            <Box
-              style={{ background: `white` }}
-              className={cls.cardWrapOutline}
-            >
-              <Flex width={"100%"} alignItems={"center"} gap={3}>
-                <Avatar
-                  name={
+          <Box
+            style={{ background: `white` }}
+            className={cls.cardWrapOutline}
+          >
+            <Flex width={"100%"} alignItems={"center"} gap={3}>
+              <Avatar
+                name={
+                  currentUserLocationData?.firm_data?.firm_data?.[0]
+                    ?.full_name
+                }
+                src={
+                  currentUserLocationData?.firm_data?.firm_data?.[0]
+                    ?.full_name
+                }
+              />
+              <Box>
+                <p className={cls.cardStartSubTitlez}>Перевозчик </p>
+                <p style={{ fontSize: `16px` }} className={cls.name}>
+                  {
                     currentUserLocationData?.firm_data?.firm_data?.[0]
                       ?.full_name
                   }
-                  src={
-                    currentUserLocationData?.firm_data?.firm_data?.[0]
-                      ?.full_name
-                  }
-                />
-                <Box>
-                  <p className={cls.cardStartSubTitlez}>Перевозчик </p>
-                  <p style={{ fontSize: `16px` }} className={cls.name}>
+                </p>
+
+                <Flex alignItems={"center"} gap={2}>
+                  <p className={cls.cardStartSubTitleZTel}>
                     {
                       currentUserLocationData?.firm_data?.firm_data?.[0]
-                        ?.full_name
+                        ?.phone_number
                     }
                   </p>
-
-                  <Flex alignItems={"center"} gap={2}>
-                    <p className={cls.cardStartSubTitleZTel}>
-                      {
-                        currentUserLocationData?.firm_data?.firm_data?.[0]
-                          ?.phone_number
-                      }
-                    </p>
-                    <a
-                      href={`https://t.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
-                    >
-                      <TelegramOpasitiyIcon />
-                    </a>
-                    <a
-                      href={`https://wa.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
-                    >
-                      <WatsapOpasitiyIcon />
-                    </a>
-                  </Flex>
-                </Box>
-              </Flex>
-            </Box>
-          )}
+                  <a
+                    href={`https://t.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
+                  >
+                    <TelegramOpasitiyIcon />
+                  </a>
+                  <a
+                    href={`https://wa.me/${currentUserLocationData?.firm_data?.firm_data?.[0]?.phone_number}`}
+                  >
+                    <WatsapOpasitiyIcon />
+                  </a>
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        )}
       </Flex>
     </div>
   );

@@ -69,9 +69,7 @@ export const useRegistrationFormProps = () => {
             : "a25d605c-d153-4ddf-8590-e4cda176ef93",
       }),
     },
-    {
-      enabled: Boolean(enab),
-    }
+    { enabled: Boolean(enab), }
   );
 
   const login = () => {
@@ -92,7 +90,7 @@ export const useRegistrationFormProps = () => {
       token: {},
       role: getUsers?.data?.response?.[0]?.role,
     });
-    router.replace(`/${locale}/search-load`);
+    router.replace(`/${locale}/cargos`);
     // setLoadin(false)
   };
 
@@ -256,13 +254,9 @@ export const useRegistrationFormProps = () => {
     },
   });
 
-  const getRoles = useGetRoleList({
-    data: JSON.stringify({ client_type_id: "" }),
-  });
+  const getRoles = useGetRoleList({ data: JSON.stringify({ client_type_id: "" }), });
 
-  const getCompanyList = useGetCompanyList({
-    data: JSON.stringify({ company_direction: ["logistic_company"] }),
-  });
+  const getCompanyList = useGetCompanyList({ data: JSON.stringify({ company_direction: ["logistic_company"] }), });
   const companyOptions = getCompanyList.data?.response?.map((company) => ({
     label: company?.full_name,
     value: company?.guid,
@@ -283,7 +277,7 @@ export const useRegistrationFormProps = () => {
                     watch(`company_type`)?.value
                       ? watch(`company_type`)?.value
                       : `OOO`
-                  } ${nomer?.companyName}`
+                } ${nomer?.companyName}`
                 : undefined,
             building_address: nomer?.adress,
             phone_number: phone,
@@ -315,7 +309,7 @@ export const useRegistrationFormProps = () => {
                   watch(`company_type`)?.value
                     ? watch(`company_type`)?.value
                     : `OOO`
-                } ${data?.companyName}`
+              } ${data?.companyName}`
               : undefined,
           building_address: data?.adress,
           phone_number: phone,

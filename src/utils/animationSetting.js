@@ -19,8 +19,11 @@ export const fadeinLeft = {
   visible: {
     x: 0,
     opacity: 1,
-    transition: {  duration: 0.5,
-      delay: 0.5, x: { stiffness: 6000, velocity: -100 } },
+    transition: {
+      duration: 0.5,
+      delay: 0.5,
+      x: { stiffness: 6000, velocity: -100 }
+    },
   },
 };
 
@@ -86,12 +89,13 @@ export const phoneFadeinDown = {
     },
   },
 };
-export const  containerAnimation = {
+export const containerAnimation = {
   hidden: {},
   visible: {
     transition: {
       delay: 0.5,
-      staggerChildren: 0.07, delayChildren: 0.2
+      staggerChildren: 0.07,
+      delayChildren: 0.2
     },
   }
 }
@@ -130,8 +134,11 @@ export const fadeinRight = {
   visible: {
     x: 0,
     opacity: 1,
-    transition: {duration: 0.5,
-      delay: 0.5, x: { stiffness: 6000, velocity: -100 } },
+    transition: {
+      duration: 0.5,
+      delay: 0.5,
+      x: { stiffness: 6000, velocity: -100 }
+    },
   },
 };
 

@@ -116,9 +116,7 @@ const useProsp = () => {
   const { mutate: phoneGet } = useGetPhone({
     onSuccess: (res) => {
       if (!id) {
-        vehicleData({
-          data: { users_id: res?.response?.[0]?.guid, ...data.data },
-        });
+        vehicleData({ data: { users_id: res?.response?.[0]?.guid, ...data.data }, });
       } else {
         updateW({ data: { users_id: res?.response?.[0]?.guid, ...data.data } });
       }
@@ -127,11 +125,7 @@ const useProsp = () => {
 
   const { mutate } = useCreateUser({
     onSuccess: (res) => {
-      phoneGet({
-        data: JSON.stringify({
-          phone: watch(`phone`)?.replace("+", ""),
-        }),
-      });
+      phoneGet({ data: JSON.stringify({ phone: watch(`phone`)?.replace("+", ""), }), });
     },
   });
 
@@ -152,11 +146,7 @@ const useProsp = () => {
 
   const { mutate: updateDsate, isLoading } = useUpdateUser({
     onSuccess: (res) => {
-      phoneGet({
-        data: JSON.stringify({
-          phone: watch(`phone`)?.replace("+", ""),
-        }),
-      });
+      phoneGet({ data: JSON.stringify({ phone: watch(`phone`)?.replace("+", ""), }), });
       // router.push(`/${locale}/drivers`);
     },
   });
@@ -171,9 +161,7 @@ const useProsp = () => {
         view_fields: ["car_number"],
       }),
     },
-    querySettings: {
-      enabled: Boolean(inputValue),
-    },
+    querySettings: { enabled: Boolean(inputValue), },
   });
 
   const getUserGps = useGetUserGpsByIDData({
@@ -209,9 +197,7 @@ const useProsp = () => {
   });
 
   const { data: useList } = useGetVehicleSingle({
-    params: {
-      id,
-    },
+    params: { id, },
     querySettings: {
       enabled: Boolean(id),
       onSuccess: (res) => {
@@ -272,9 +258,7 @@ const useProsp = () => {
           shouldDirty: true,
         });
       } else {
-        setError(`car_number`, {
-          message: `Этот номер автомобиля был зарегистрирован ранее!`,
-        });
+        setError(`car_number`, { message: `Этот номер автомобиля был зарегистрирован ранее!`, });
       }
     } else if (
       (getCarNumnber?.count > 1 ||

@@ -71,9 +71,7 @@ export const useProps = () => {
         view_fields: ["car_number"],
       }),
     },
-    querySettings: {
-      enabled: Boolean(inputValue),
-    },
+    querySettings: { enabled: Boolean(inputValue), },
   });
 
   useEffect(() => {
@@ -107,12 +105,8 @@ export const useProps = () => {
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
 
   const { data: useList } = useGetVehicleSingle({
-    params: {
-      id,
-    },
-    querySettings: {
-      enabled: Boolean(id),
-    },
+    params: { id, },
+    querySettings: { enabled: Boolean(id), },
   });
 
   const { data: fuel } = useGetFuelInfo();
@@ -160,9 +154,7 @@ export const useProps = () => {
           shouldDirty: true,
         });
       } else {
-        setError(`car_number`, {
-          message: `Этот номер автомобиля был зарегистрирован ранее!`,
-        });
+        setError(`car_number`, { message: `Этот номер автомобиля был зарегистрирован ранее!`, });
       }
     } else if (
       (getCarNumnber?.count > 1 ||
@@ -333,7 +325,7 @@ export const useProps = () => {
         coupling: val.coupling,
         konika: val.konika,
         adr: val?.adr?.value || ``,
-            back_side_trailer: val.back_side_trailer?.length > 0 ? val.back_side_trailer : ``, //url cdn
+        back_side_trailer: val.back_side_trailer?.length > 0 ? val.back_side_trailer : ``, //url cdn
         back_side_trailer_1: val?.back_side_trailer_1?.length > 0 ? val?.back_side_trailer_1 : ``,
         front_side_trailer: val.front_side_trailer?.length > 0 ? val.front_side_trailer: ``, //url cdn
         front_side_trailer_1: val.front_side_trailer_1?.length > 0 ? val.front_side_trailer_1 : ``,

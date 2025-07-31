@@ -173,9 +173,9 @@ const DriverQuestion = ({
                   {addressAdd
                     ? `${addressAdd?.address.slice(0, 17)}...`
                     : `${currentUserLocationData?.user?.address_name.slice(
-                        0,
-                        17
-                      )}...`}
+                      0,
+                      17
+                    )}...`}
                 </p>
                 <p className={cls.cardStartSubTitle}>
                   {/* RUS / <span>18 августа</span> */}

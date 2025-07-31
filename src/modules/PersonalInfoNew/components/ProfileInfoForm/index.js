@@ -1,1 +1,0 @@
-export { ProfileInfoForm } from "./ProfileInfoForm";

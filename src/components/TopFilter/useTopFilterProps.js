@@ -6,7 +6,7 @@ export const useTopFilterProps = ({ filterList=[] }) => {
   const value = params.get(`value`)
   const label = params.get(`label`)
 
-  const [activeTab, setActiveTab] = useState(value ? {value:value,label:label} : filterList[0]);
+  const [activeTab, setActiveTab] = useState(value ? { value:value,label:label } : filterList[0]);
 
   // useEffect(() => {
   //   setActiveTab({value:value,label:label})

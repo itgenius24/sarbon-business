@@ -98,7 +98,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               <p className={cls.cardStartTitle}>{loadState?.from}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_from?.toUpperCase()} /{" "}
-                <span>{  loadState?.as_soon_as_a ? t( `Готов к загрузке`) :  format(loadState?.load_time, "yyyy-MM-dd")}</span>
+                <span>{ loadState?.as_soon_as_a ? t( `Готов к загрузке`) : format(loadState?.load_time, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>
@@ -110,7 +110,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               <p className={cls.cardStartTitle}> {loadState?.to}</p>
               <p className={cls.cardStartSubTitle}>
                 {loadState?.country_code_to?.toUpperCase()} /
-                <span> { loadState?.as_soon_as_b ? t( `Как можно скорее`) :  format(loadState?.date, "yyyy-MM-dd")}</span>
+                <span> { loadState?.as_soon_as_b ? t( `Как можно скорее`) : format(loadState?.date, "yyyy-MM-dd")}</span>
               </p>
             </Box>
           </Flex>
@@ -208,7 +208,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
           </Box>
         )}
       </Flex>
-      
+
       <Modal isOpen={isPopupOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
@@ -221,7 +221,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
             </p>
           </ModalBody>
 
@@ -236,7 +236,7 @@ const DriverGruzGoods = ({ cls, setModalType, loadState,locationData,setLocation
               colorScheme="blue"
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(193, 187, 32, 1)" }}

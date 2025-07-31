@@ -82,8 +82,7 @@ export const useForgotProps = () => {
           res?.response?.[0]?.role_id === "921464fa-8308-46b7-9b66-363acf654e40"
         ) {
           setOpen(`vodetel`);
-        }
-        else if(res?.response.length === 0){
+        } else if(res?.response.length === 0){
           setOpen(`noUser`);
         }
       },

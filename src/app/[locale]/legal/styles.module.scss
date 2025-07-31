@@ -1,0 +1,20 @@
+.section {
+  margin-bottom: 2rem;
+}
+
+.link {
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    margin-bottom: 1.5rem;
+  }
+}

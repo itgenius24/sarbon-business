@@ -67,7 +67,7 @@ const StepTwo = ({ status,locale }) => {
     handleResetForm,
     setDisabled,
     setEditModal,
-  } = useStepTwoProps({locale});
+  } = useStepTwoProps({ locale });
 
   const { t } = useTranslation(locale, "translations");
 
@@ -140,7 +140,7 @@ const StepTwo = ({ status,locale }) => {
                       }}
                       onChange={(e) => {
                         setActiveIndex(`loadings[${index}].address`),
-                          setAddress(e.target.value);
+                        setAddress(e.target.value);
                         setValue(`addressFrom`, e.target.value);
                       }}
                       name={`loadings[${index}].address`}
@@ -160,48 +160,46 @@ const StepTwo = ({ status,locale }) => {
                     {activeIndex === `loadings[${index}].address` &&
                       results.length > 0 &&
                       address?.length > 0 && (
-                        <Box className={cls.optionsWrap}>
-                          {results?.map((location, idx) => {
-                            const text =
+                      <Box className={cls.optionsWrap}>
+                        {results?.map((location, idx) => {
+                          const text =
                               location?.GeoObject?.metaDataProperty
                                 ?.GeocoderMetaData?.text || "";
 
-                            const highlightText = (text, search) => {
-                              if (!search) return text;
-                              const regex = new RegExp(`(${search})`, "gi");
-                              return text.replace(
-                                regex,
-                                `<span class="${cls.bold}">$1</span>`
-                              );
-                            };
-
-                            return (
-                              <Flex
-                                onClick={() =>
-                                  hanleAdress(
-                                    location,
-                                    `loadings[${index}].address`,
-                                    index,
-                                    "loading",
-                                    item?.guid
-                                  )
-                                }
-                                key={idx}
-                                gap={3}
-                                alignItems={"center"}
-                              >
-                                
-                                <p
-                                  className={cls.item}
-                                  dangerouslySetInnerHTML={{
-                                    __html: highlightText(text, address),
-                                  }}
-                                />
-                              </Flex>
+                          const highlightText = (text, search) => {
+                            if (!search) return text;
+                            const regex = new RegExp(`(${search})`, "gi");
+                            return text.replace(
+                              regex,
+                              `<span class="${cls.bold}">$1</span>`
                             );
-                          })}
-                        </Box>
-                      )}
+                          };
+
+                          return (
+                            <Flex
+                              onClick={() =>
+                                hanleAdress(
+                                  location,
+                                  `loadings[${index}].address`,
+                                  index,
+                                  "loading",
+                                  item?.guid
+                                )
+                              }
+                              key={idx}
+                              gap={3}
+                              alignItems={"center"}
+                            >
+
+                              <p
+                                className={cls.item}
+                                dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                              />
+                            </Flex>
+                          );
+                        })}
+                      </Box>
+                    )}
                   </Box>
                   <Flex
                     alignItems={"center"}
@@ -220,7 +218,7 @@ const StepTwo = ({ status,locale }) => {
                         isDisabled={!canEdit || watch(`as_soon_as_a`)}
                         canEdit={canEdit}
                         onChange={(date) => {
-                           if(watch(`unloading`)[index]?.to_date){
+                          if(watch(`unloading`)[index]?.to_date){
                             if(new Date(watch(`unloading`)[index]?.to_date) < date){
                               setValue(`unloading[${index}].to_date`, date);
                             }
@@ -228,8 +226,8 @@ const StepTwo = ({ status,locale }) => {
                           lodingChangeDate("loading", date, index, item?.guid);
                         }}
                         control={control}
-                           minDate={
-                          
+                        minDate={
+
                           new Date()
                         }
                         name={`loadings[${index}].from_date`}
@@ -352,7 +350,7 @@ const StepTwo = ({ status,locale }) => {
                         : `${index + 1}-${t(`й адрес доставки груза`)}`}
                     </p>
                   </Flex>
-                  <Box  onClick={() => (!canEdit ? setEditModal(true) : null)} className={cls.mobailIconButton}>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)} className={cls.mobailIconButton}>
                     {index !== 0 && (
                       <IconButton
                         isDisabled={!canEdit}
@@ -382,7 +380,7 @@ const StepTwo = ({ status,locale }) => {
                       }}
                       onChange={(e) => {
                         setActiveIndex(`unloading[${index}].address`),
-                          setAddress(e.target.value);
+                        setAddress(e.target.value);
                         setValue(`addressTo`, e.target.value);
                       }}
                       name={`unloading[${index}].address`}
@@ -436,12 +434,10 @@ const StepTwo = ({ status,locale }) => {
                               gap={3}
                               alignItems={"center"}
                             >
-                              
+
                               <p
                                 className={cls.item}
-                                dangerouslySetInnerHTML={{
-                                  __html: highlightText(text, address),
-                                }}
+                                dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                               />
                             </Flex>
                           );
@@ -478,8 +474,8 @@ const StepTwo = ({ status,locale }) => {
                         control={control}
                         name={`unloading[${index}].to_date`}
                         minDate={
-                          watch(`loadings[${index}].from_date`) ?  new Date(watch(`loadings[${index}].from_date`)) :
-                          new Date()
+                          watch(`loadings[${index}].from_date`) ? new Date(watch(`loadings[${index}].from_date`))
+                          : new Date()
                         }
                       />
                     </Box>

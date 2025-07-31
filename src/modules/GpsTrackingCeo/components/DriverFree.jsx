@@ -75,22 +75,14 @@ const DriverFree = ({
         with_relations: true,
       }),
     },
-    querySettings:{
-      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
-    }
+    querySettings:{ enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2), }
   },
 
-);
+  );
 
   const getCompanyList = useGetCompanyList(
-    {
-      data: JSON.stringify({
-        guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
-      }),
-    },
-    {
-      enabled: Boolean(currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id),
-    }
+    { data: JSON.stringify({ guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id, }), },
+    { enabled: Boolean(currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id), }
   );
 
   const downloadByLanguage = async (url) => {
@@ -110,7 +102,7 @@ const DriverFree = ({
 
 
   const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+
 
   const getExcelFile = useGetExcelPost({
     onSuccess: (res) => {

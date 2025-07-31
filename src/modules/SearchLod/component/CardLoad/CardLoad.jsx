@@ -161,7 +161,7 @@ export const CardLoad = ({
                     item?.[`payment_type_${locale}`]
                       ? item?.[`payment_type_${locale}`]
                       : item?.payment_type
-                  )}`
+                )}`
                 : t(" Безнал")
               : t(`По запросу`)}
           </p>

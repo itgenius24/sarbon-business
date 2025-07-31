@@ -468,7 +468,7 @@ export const TableComponent = ({
       ),
     },
     {
-      title: t("Стомость"),
+      title: t("Стоимость"),
       width: 200,
       filter: true,
       key: `price`,
@@ -485,7 +485,7 @@ export const TableComponent = ({
                         row?.[`payment_type_${locale}`]
                           ? row?.[`payment_type_${locale}`]
                           : row?.payment_type
-                      )}`
+                    )}`
                     : t(" Безнал")}
                 </span>
               </p>

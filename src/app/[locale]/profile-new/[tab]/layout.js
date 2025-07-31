@@ -15,7 +15,7 @@ export default function Layout({ handbook, personalInfo, wantBuy, myAd, params }
     "personal-data": personalInfo,
   };
 
-  return <ProfileLayout locale={locale} >
+  return <ProfileLayout locale={locale} variant="advanced">
     {components[tab] ?? personalInfo}
   </ProfileLayout>;
 

@@ -34,7 +34,7 @@ const DriversDispachers = () => {
             <LoadingSpinner />
           </Box>
         )}
-        {data?.length >= 50 &&  (
+        {data?.length >= 50 && (
           <Box mt={6} width={`fit-contend`}>
             <Button
               width={`fit-contend`}

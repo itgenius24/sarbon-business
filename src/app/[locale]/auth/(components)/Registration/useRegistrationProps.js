@@ -86,9 +86,7 @@ export const useRegistrationProps = () => {
         view_fields: ["phone"],
       }),
     },
-    querySettings: {
-      enabled: Boolean(nomer),
-    },
+    querySettings: { enabled: Boolean(nomer), },
   });
 
   // function onSubmit(data) {
@@ -180,11 +178,7 @@ export const useRegistrationProps = () => {
       unique_id: ``,
       user_type: `carrier`,
     };
-    googleRigister({
-      data: {
-        object_data: body,
-      },
-    });
+    googleRigister({ data: { object_data: body, }, });
     setUser(user);
   };
 

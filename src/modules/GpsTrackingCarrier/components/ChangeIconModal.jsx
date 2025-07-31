@@ -2,7 +2,7 @@ import {
 
   CencelMapIcon,
   CheckBlueIcon,
-    CloseIconModal,
+  CloseIconModal,
   GreenCarIcon,
   QuestionBlueIcon,
 } from "@/assets/icons/icons";
@@ -101,27 +101,27 @@ const ChangeIconModal = ({
           <Box>
             {role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
               ? iconStatusData.map((item) => (
-                  <CheckBoxComponent
-                    key={item.id}
-                    onClick={() => setIconStatus(item.type)}
-                    active={item.type === iconStatus}
-                  >
-                    <Flex gap={3} alignItems={"center"}>
-                      <item.icon /> <spa>{item.title}</spa>
-                    </Flex>
-                  </CheckBoxComponent>
-                ))
+                <CheckBoxComponent
+                  key={item.id}
+                  onClick={() => setIconStatus(item.type)}
+                  active={item.type === iconStatus}
+                >
+                  <Flex gap={3} alignItems={"center"}>
+                    <item.icon /> <spa>{item.title}</spa>
+                  </Flex>
+                </CheckBoxComponent>
+              ))
               : data.map((item) => (
-                  <CheckBoxComponent
-                    key={item.id}
-                    onClick={() => setIconStatus(item.type)}
-                    active={item.type === iconStatus}
-                  >
-                    <Flex gap={3} alignItems={"center"}>
-                      <item.icon /> <spa>{item.title}</spa>
-                    </Flex>
-                  </CheckBoxComponent>
-                ))}
+                <CheckBoxComponent
+                  key={item.id}
+                  onClick={() => setIconStatus(item.type)}
+                  active={item.type === iconStatus}
+                >
+                  <Flex gap={3} alignItems={"center"}>
+                    <item.icon /> <spa>{item.title}</spa>
+                  </Flex>
+                </CheckBoxComponent>
+              ))}
           </Box>
           <Flex mt={3} gap={2}>
             <Button
@@ -161,27 +161,27 @@ const ChangeIconModal = ({
                 <Box>
                   {role_id === `f81d3c3d-228d-479e-a2b1-9948c98640f2`
                     ? iconStatusData.map((item) => (
-                        <CheckBoxComponent
-                          key={item.id}
-                          onClick={() => setIconStatus(item.type)}
-                          active={item.type === iconStatus}
-                        >
-                          <Flex gap={3} alignItems={"center"}>
-                            <item.icon /> <spa>{item.title}</spa>
-                          </Flex>
-                        </CheckBoxComponent>
-                      ))
+                      <CheckBoxComponent
+                        key={item.id}
+                        onClick={() => setIconStatus(item.type)}
+                        active={item.type === iconStatus}
+                      >
+                        <Flex gap={3} alignItems={"center"}>
+                          <item.icon /> <spa>{item.title}</spa>
+                        </Flex>
+                      </CheckBoxComponent>
+                    ))
                     : data.map((item) => (
-                        <CheckBoxComponent
-                          key={item.id}
-                          onClick={() => setIconStatus(item.type)}
-                          active={item.type === iconStatus}
-                        >
-                          <Flex gap={3} alignItems={"center"}>
-                            <item.icon /> <spa>{item.title}</spa>
-                          </Flex>
-                        </CheckBoxComponent>
-                      ))}
+                      <CheckBoxComponent
+                        key={item.id}
+                        onClick={() => setIconStatus(item.type)}
+                        active={item.type === iconStatus}
+                      >
+                        <Flex gap={3} alignItems={"center"}>
+                          <item.icon /> <spa>{item.title}</spa>
+                        </Flex>
+                      </CheckBoxComponent>
+                    ))}
                 </Box>
               </DrawerBody>
               <DrawerFooter mb={`20px`}>

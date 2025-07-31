@@ -49,7 +49,8 @@ const SelectCargo = ({
       },
     },
     querySettings: {
-      select: (res) => ({...res,
+      select: (res) => ({
+        ...res,
         response: res?.response.sort((a, b) => a.distances - b.distances),
       }),
     },
@@ -88,23 +89,23 @@ const SelectCargo = ({
     },
   });
 
-    function handleOffer() {
-      setDisabled(true);
-      offerFromCustomer.mutate({
-        data: {
-          object_data: {
-            cargo: selectCargo?.map((item) => ({
-              cargo_id: item.guid,
-              customer_id: item?.users_id,
-            })),
-            driver_id: currentUserLocationData?.users_id,
-            dispatcher_id: authStore?.userData.id,
-            firm_id: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
-            approve_time_from_dispatcher: new Date().toISOString()
-          },
+  function handleOffer() {
+    setDisabled(true);
+    offerFromCustomer.mutate({
+      data: {
+        object_data: {
+          cargo: selectCargo?.map((item) => ({
+            cargo_id: item.guid,
+            customer_id: item?.users_id,
+          })),
+          driver_id: currentUserLocationData?.users_id,
+          dispatcher_id: authStore?.userData.id,
+          firm_id: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
+          approve_time_from_dispatcher: new Date().toISOString()
         },
-      });
-    }
+      },
+    });
+  }
 
   const toggleSelect = (id) => {
     const exists = selectCargo.find((i) => i.guid === id.guid);

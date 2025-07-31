@@ -25,10 +25,10 @@ export const filterTabsDis = [
     label: "Завершение",
     value: "archive",
   },
- 
+
 ];
 export const filterTabstopDis = [
-   {
+  {
     label: "Предложение без диспетчера",
     value: "no_dispatcher",
   },
@@ -63,7 +63,7 @@ export const filterTabsZ = [
     label: "Все",
     value: "",
   },
-    {
+  {
     label: "Активный",
     value: "active",
   },

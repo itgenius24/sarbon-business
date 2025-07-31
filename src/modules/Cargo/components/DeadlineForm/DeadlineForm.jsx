@@ -54,14 +54,12 @@ export const DeadlineForm = () => {
           >
             {t("до")}{" "}
             {endDate
-              ? `${endDate.getDate()} ${endDate.toLocaleString("ru-RU", {
-                  month: "short",
-                })} ${t("затем переместится в архив")}`
+              ? `${endDate.getDate()} ${endDate.toLocaleString("ru-RU", { month: "short", })} ${t("затем переместится в архив")}`
               : ""}
           </Text>
         </Box>
         <Box className={cls.dateInput} display="flex" gap={3}>{
-          params.includes(`/ru/my-loads`) &&    
+          params.includes(`/ru/my-loads`) &&
           <Dropdown
             className={cls.transportDropdown}
             disabled={!status}
@@ -75,19 +73,19 @@ export const DeadlineForm = () => {
             control={control}
           />
         }
-        
-          <DatePicker
-            minDate={new Date()}
-            placeholder={t("Выберите")}
-            disabled={!status}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            inputWidth="100%"
-            monthsShown={isLargerThan600 ? 2 : 1}
-            range
-          />
+
+        <DatePicker
+          minDate={new Date()}
+          placeholder={t("Выберите")}
+          disabled={!status}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          inputWidth="100%"
+          monthsShown={isLargerThan600 ? 2 : 1}
+          range
+        />
         </Box>
       </Box>
     </Box>

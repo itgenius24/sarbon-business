@@ -95,9 +95,7 @@ export const TextFieldWithAddition = ({
               <div className={cls.wrapper}>
                 <div
                   ref={additionalDropdownRef}
-                  className={clsx(cls.additionalItem, {
-                    [cls.lightTheme]: additionalItemTheme === "light",
-                  })}
+                  className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light", })}
                 >
                   <button
                     disabled={disabled}
@@ -129,9 +127,7 @@ export const TextFieldWithAddition = ({
                         return (
                           <button
                             key={index}
-                            className={clsx(cls.additionalItemOption, {
-                              [cls.active]: item.value === field?.value?.value,
-                            })}
+                            className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field?.value?.value, })}
                             onClick={() => {
                               field.onChange(item);
                               handleClose();

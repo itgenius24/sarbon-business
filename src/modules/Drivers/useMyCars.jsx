@@ -24,7 +24,7 @@ export const useMyCars = () => {
   const id = searchParams.get(`id`);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loadingFront, setLoadingFront] = useState(false);
-  const [check,setCheck]  = useState(false)
+  const [check,setCheck] = useState(false)
 
   const router = useRouter();
 
@@ -135,7 +135,7 @@ export const useMyCars = () => {
         ...getUserGps?.data?.response[0],
         password: "",
       });
-        setCheck(getUserGps?.data?.response[0]?.is_independent || false)
+      setCheck(getUserGps?.data?.response[0]?.is_independent || false)
 
     }
   }, [getUserGps?.data?.response]);
@@ -239,6 +239,7 @@ export const useMyCars = () => {
     loadingFront,
     setLoadingFront,
     uploadAi,
-    check,setCheck
+    check,
+    setCheck
   };
 };

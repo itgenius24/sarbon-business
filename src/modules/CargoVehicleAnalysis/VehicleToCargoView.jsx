@@ -72,8 +72,8 @@ export const VehicleToCargoView = ({ data, isLoading, distance }) => {
           <Box fontSize="12px" color="gray.600">
             {item.vehicles?.[0]?.car_number} | {item.vehicles?.[0]?.trailer_type_id_data?.name}
           </Box>
-          <StarRating 
-            rating={item.user?.rating || 0} 
+          <StarRating
+            rating={item.user?.rating || 0}
             comment={item.user?.reviews_count || 0}
           />
         </Box>
@@ -127,9 +127,9 @@ export const VehicleToCargoView = ({ data, isLoading, distance }) => {
           broke_down: { text: t("Поломка"), color: "red" },
           waiting_for_driver: { text: t("Ожидание"), color: "yellow" },
         };
-        
+
         const statusInfo = statusMap[status] || { text: t("Неизвестно"), color: "gray" };
-        
+
         return (
           <Box
             px="8px"
@@ -192,7 +192,7 @@ export const VehicleToCargoView = ({ data, isLoading, distance }) => {
           <Button
             size="sm"
             colorScheme="blue"
-        
+
           >
             {t("Массовое назначение")}
           </Button>

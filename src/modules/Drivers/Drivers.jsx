@@ -40,8 +40,7 @@ import {
 import { useState } from "react";
 import FormInternationInput from "@/components/Input/FormInternationalInput";
 import { UploadImg } from "@/components/UploadImg";
-import { Checkbox } from "@/components/Checkbox";
-
+import { UploadImgMobile } from "@/components/UploadImgMobile";
 export const DriversModule = ({ locale }) => {
   const { t } = useTranslation(locale);
   const {
@@ -142,25 +141,21 @@ export const DriversModule = ({ locale }) => {
                   onChange={(e) => setCheck(e.target.checked)}
                   size={"md"}
                   sx={{
-                    "& .chakra-switch__track": {
-                      backgroundColor: "rgba(230, 224, 233, 1) !important",
-                    },
-                    "&[data-checked] .chakra-switch__track": {
-                      backgroundColor: "#007aff !important",
-                    },
-                    "& .chakra-switch__thumb": {
-                      background: "rgba(121, 116, 126, 1) !important",
-                    },
-                    "&[data-checked] .chakra-switch__thumb": {
-                      background: "rgb(255, 255, 255) !important",
-                    },
+                    "& .chakra-switch__track": { backgroundColor: "rgba(230, 224, 233, 1) !important", },
+                    "&[data-checked] .chakra-switch__track": { backgroundColor: "#007aff !important", },
+                    "& .chakra-switch__thumb": { background: "rgba(121, 116, 126, 1) !important", },
+                    "&[data-checked] .chakra-switch__thumb": { background: "rgb(255, 255, 255) !important", },
                   }}
                 />
                 <p>
                   {check ? t(`Независимый водитель`) : t(`Зависимый водитель`)}
                 </p>
               </Flex>
-              <p className={cls.driver_dependency_description}>{ check ? t(`driver_dependency_description_on`) : t(`driver_dependency_description_off`)}</p>
+              <p className={cls.driver_dependency_description}>
+                {check
+                  ? t(`driver_dependency_description_on`)
+                  : t(`driver_dependency_description_off`)}
+              </p>
             </Box>
             {/* {!id && (
               <Box>
@@ -247,21 +242,39 @@ export const DriversModule = ({ locale }) => {
                 {t("Фото водительского удостоверения")}
               </p>
 
-              <UploadImg
-                isCrop
-                watch={watch}
-                setValue={setValue}
-                name={"drivers_license"}
-                icon={<Img3UploadIcon />}
-                text={t("Загрузить фото")}
-                errors={errors}
-                // register={register}
-                // rules={{ required: t("Загрузить фото") }}
-                type={`driver_pass`}
-                isLoading={loadingFront}
-                setLoading={setLoadingFront}
-                uploadAi={uploadAi}
-              />
+              {isLargerThan845 ? (
+                <UploadImg
+                  isCrop
+                  watch={watch}
+                  setValue={setValue}
+                  name={"drivers_license"}
+                  icon={<Img3UploadIcon />}
+                  text={t("Загрузить фото")}
+                  errors={errors}
+                  // register={register}
+                  // rules={{ required: t("Загрузить фото") }}
+                  type={`driver_pass`}
+                  isLoading={loadingFront}
+                  setLoading={setLoadingFront}
+                  uploadAi={uploadAi}
+                />
+              ) : (
+                <UploadImgMobile
+                  isCrop
+                  watch={watch}
+                  setValue={setValue}
+                  name={"drivers_license"}
+                  icon={<Img3UploadIcon />}
+                  text={t("Загрузить фото")}
+                  errors={errors}
+                  // register={register}
+                  // rules={{ required: t("Загрузить фото") }}
+                  type={`driver_pass`}
+                  isLoading={loadingFront}
+                  setLoading={setLoadingFront}
+                  uploadAi={uploadAi}
+                />
+              )}
             </Box>
           </Flex>
           <Flex
@@ -278,15 +291,28 @@ export const DriversModule = ({ locale }) => {
               <span className={cls.subTitle}>{t("(можно позже)")}</span>
             </p>
 
-            <UploadImg
-              isColor={true}
-              watch={watch}
-              setValue={setValue}
-              name={"photo"}
-              text={t("Загрузить фото")}
-              icon={<UserIcon2 />}
-              isCrop
-            />
+            {isLargerThan845 ? (
+              <UploadImg
+                isColor={true}
+                watch={watch}
+                setValue={setValue}
+                name={"photo"}
+                text={t("Загрузить фото")}
+                icon={<UserIcon2 />}
+                isCrop
+              />
+            ) : (
+              <UploadImgMobile
+                isColor={true}
+                watch={watch}
+                setValue={setValue}
+                name={"photo"}
+                text={t("Загрузить фото")}
+                icon={<UserIcon2 />}
+                isCrop
+              />
+            )}
+
             <p style={{ display: isLargerThan845 ? `block` : `none` }}>
               {t("Фото водителя")}
             </p>

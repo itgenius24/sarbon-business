@@ -78,7 +78,7 @@ export const CreateCarDis = () => {
     },
   };
 
-  
+
 
   return (
     <>
@@ -314,9 +314,7 @@ export const CreateCarDis = () => {
                     <TextFieldWithAdditionCar
                       className={cls.textField}
                       errors={errors}
-                      rules={{
-                        required: t("Это поле обязательно"),
-                      }}
+                      rules={{ required: t("Это поле обязательно"), }}
                       control={control}
                       name="capacity"
                       register={register}
@@ -385,9 +383,7 @@ export const CreateCarDis = () => {
                       control={control}
                       name="height"
                       register={register}
-                      rules={{
-                        required: t("Это поле обязательно"),
-                      }}
+                      rules={{ required: t("Это поле обязательно"), }}
                       placeholder={t("Объем")}
                       additionalItemTheme={`light`}
                       additionalItemPlaceholder="м³"
@@ -440,9 +436,7 @@ export const CreateCarDis = () => {
                     errors={errors}
                     name="car_number"
                     placeholder={t("Введите госномер...")}
-                    rules={{
-                      required: t("Это поле обязательно"),
-                    }}
+                    rules={{ required: t("Это поле обязательно"), }}
                     onChange={(e) => {
                       e.target.value = e.target.value
                         .replace(/[^A-Za-z0-9]/g, "")
@@ -698,8 +692,8 @@ export const CreateCarDis = () => {
                 <p className={cls.textFieldName}>{t("Фото Техпаспорта")}</p>
                 <Flex gap={4} className={cls.ImgWrap}>
                   <UploadImg
-                   isCrop
-                     watch={watch}
+                    isCrop
+                    watch={watch}
                     setValue={setValue}
                     name={"front_side_trailer"}
                     icon={<ImgploadIcon1 />}
@@ -713,7 +707,7 @@ export const CreateCarDis = () => {
                     uploadAi={uploadAi}
                   />
                   <UploadImg
-                  isCrop
+                    isCrop
                     watch={watch}
                     setValue={setValue}
                     name={"back_side_trailer"}
@@ -830,7 +824,7 @@ export const CreateCarDis = () => {
                 >
                   {t(("Назад"))}
                 </Button>
-          
+
               </ModalFooter>
             </ModalContent>
           </Modal>

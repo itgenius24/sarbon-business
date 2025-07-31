@@ -14,14 +14,14 @@ export const InActivePage = ({ orderStatus, t,locale }) => {
       {cargoData?.length === 0 && isFetching && <LoadingSpinner />}
 
       <Box>
-       <SarbonTable
+        <SarbonTable
           width="100%"
           variant="card"
           columns={columns}
           data={cargoData}
           onRow={onRow}
         />
-        
+
         {/* {cargoData?.length > 0 &&
           cargoData?.map((item, index) => (
             <LoadsCard orderStatus={orderStatus} key={index} cargo={item} />

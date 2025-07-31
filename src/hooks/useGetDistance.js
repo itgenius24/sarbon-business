@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const useGetDistance = ({ origin, destination, referencePoints }) => {
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
-  
+
   useEffect(() => {
     const ymapsScript = document.getElementById("yandex-maps-script");
     if(ymapsScript) {
@@ -14,7 +14,7 @@ export const useGetDistance = ({ origin, destination, referencePoints }) => {
     }
   }, [origin?.lat, destination?.lat, referencePoints?.[0]?.[0],referencePoints?.[1]?.[1]]);
 
-  
+
 
 
   const calculateDistance = () => {

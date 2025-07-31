@@ -57,18 +57,14 @@ const ChangelogModal = ({ locale }) => {
                       <Button
                         border={`1px solid rgba(199, 199, 204, 1)`}
                         color={"rgb(90, 89, 94)"}
-                        _hover={{
-                          backgroundColor: `transparent`,
-                        }}
+                        _hover={{ backgroundColor: `transparent`, }}
                         onClick={() => toast.closeAll()}
                         backgroundColor={``}
                       >
                         {t(`Закрыть`)}
                       </Button>
                       <Button
-                        _hover={{
-                          backgroundColor: `var(--primary)`,
-                        }}
+                        _hover={{ backgroundColor: `var(--primary)`, }}
                         backgroundColor={`var(--primary)`}
                         color={"rgb(255, 255, 255)"}
                         onClick={() => {

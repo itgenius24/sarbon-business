@@ -1,5 +1,5 @@
- export const getSVGIcon = (tempValue = "$2000", type) => {
-    const svgStringBlue = `
+export const getSVGIcon = (tempValue = "$2000", type) => {
+  const svgStringBlue = `
      <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2001_4093)">
 <mask id="path-1-outside-1_2001_4093" maskUnits="userSpaceOnUse" x="2" y="1" width="46" height="31" fill="black">
@@ -24,7 +24,7 @@
 </svg>
 `;
 
-    const svgStringGreen = `
+  const svgStringGreen = `
 <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_274_4505)">
 <mask id="path-1-outside-1_274_4505" maskUnits="userSpaceOnUse" x="2" y="1" width="46" height="31" fill="black">
@@ -46,14 +46,14 @@
 </filter>
 </defs>
  <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="600" fill="#fff">$${
-   tempValue || `------`
- }</text>
+  tempValue || `------`
+}</text>
 
 </svg>
 
 `;
 
-    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
       type === "occupied_cargo" ? svgStringBlue : svgStringGreen
-    )}`;
-  };
+  )}`;
+};

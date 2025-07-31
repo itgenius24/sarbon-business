@@ -37,26 +37,26 @@ export const CarsCard = forwardRef(({ item, deleteFuntion, containerRef,t }) => 
       className={cls.cardWrap}
     >
       <Box className={`${cls.contend} ${cls.contend1}`}>
-      
+
       </Box>
       <Box className={`${cls.contend} ${cls.contend2}`}>
-      
+
       </Box>
       <Box className={`${cls.contend} ${cls.contend3}`}>
-    
+
       </Box>
       <Box className={`${cls.contend} ${cls.contend4}`}>
-       
+
       </Box>
       <Box className={`${cls.contend} ${cls.contend5}`}>
-       
-       </Box>
-       <Box className={`${cls.contend} ${cls.contend6}`}>
-       
-       </Box>
-       <Box className={`${cls.contend} ${cls.contend7}`}>
-       
-       </Box>
+
+      </Box>
+      <Box className={`${cls.contend} ${cls.contend6}`}>
+
+      </Box>
+      <Box className={`${cls.contend} ${cls.contend7}`}>
+
+      </Box>
     </Flex>
   );
 });

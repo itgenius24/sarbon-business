@@ -62,7 +62,7 @@ export const useGpsTrackingProps = () => {
   const [closeRes, setCLoseRes] = useState(false);
   const [offset, setOffset] = useState(1);
   const [remainingData, setRemainingData] = useState([]);
-   const [isFuelMap, setIsFuelMap] = useState(false);
+  const [isFuelMap, setIsFuelMap] = useState(false);
   const [offsetCar, setOffsetCAr] = useState(1);
   const [currentUserLocationData, setCurrentUserLocationData] = useState();
   const [iconStatus, setIconStatus] = useState(``);
@@ -76,7 +76,7 @@ export const useGpsTrackingProps = () => {
   const [loadCheck, setLoadCheck] = useState(true);
   const [isBalloonOpened, setIsBalloonOpened] = useState(false);
   const [disVal, setDisVal] = useState({});
-  const [driverVal, setDriverVal] = useState();  
+  const [driverVal, setDriverVal] = useState();
   const [car_type, setCarType] = useState();
   const [checkboxStatuses, setCheckboxStatuses] = useState({
     empty: true,
@@ -139,9 +139,7 @@ export const useGpsTrackingProps = () => {
             },
           ],
           orders: [
-            {
-              cargo_id_data: res?.response?.[0],
-            },
+            { cargo_id_data: res?.response?.[0], },
           ],
           disp_data: [{ users_id_2: dispatcher_id }],
         };
@@ -474,11 +472,7 @@ export const useGpsTrackingProps = () => {
 
   useEffect(() => {
     if (remainingData.length === 0) {
-      getCarRefueling({
-        data: {
-          object_data: {},
-        },
-      });
+      getCarRefueling({ data: { object_data: {}, }, });
     }
   }, []);
 
@@ -521,7 +515,7 @@ export const useGpsTrackingProps = () => {
     };
   }, [
     watch("users_id"),
-   car_type?.value,
+    car_type?.value,
     dataUserID,
     filteredData,
     carsArr,
@@ -736,8 +730,9 @@ export const useGpsTrackingProps = () => {
     setDisVal,
     disVal,
     driverVal,
-      isFuelMap, setIsFuelMap,
-      setCarType,
-      car_type
+    isFuelMap,
+    setIsFuelMap,
+    setCarType,
+    car_type
   };
 };

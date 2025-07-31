@@ -1,6 +1,6 @@
 
 export const stringsToarray = (lines) => {
- 
-    return lines.split('\n\n').map(item => item.replace(/\n/g, ' '));
+
+  return lines.split('\n\n').map(item => item.replace(/\n/g, ' '));
 
 };

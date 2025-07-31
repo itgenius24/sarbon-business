@@ -17,7 +17,7 @@ export const CarList = ({
   height,
 }) => {
   if(!data?.length)return null;
-   const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Heading size="md" mt="40px" mb="24px">

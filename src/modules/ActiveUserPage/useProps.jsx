@@ -22,7 +22,7 @@ export const useProps = () => {
   const { t } = useTranslation();
 
   const [debouncedValue] = useDebounce2(watch(`search`), 500);
-  
+
   const formatDate = (date, hours, minutes, seconds) => {
     const newDate = new Date(date);
     newDate.setHours(hours, minutes, seconds, 0);
@@ -52,7 +52,7 @@ export const useProps = () => {
       select: (res) => {
         return res.response.filter(
           (item) =>
-            !item?.user_name?.toLocaleLowerCase()?.includes(`test`) && 
+            !item?.user_name?.toLocaleLowerCase()?.includes(`test`) &&
             !item?.user_name?.includes(`CЕО`)
           // &&
           // item?.user_name &&  item?.role_slug !== `voditel`

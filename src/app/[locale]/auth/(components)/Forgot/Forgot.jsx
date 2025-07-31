@@ -57,22 +57,22 @@ export const Forgot = () => {
                   lineHeight: `22px`,
                 }}
               >
-               { open === `vodetel` ?  t(
+                { open === `vodetel` ? t(
                   "Вы уже зарегистрированы как водитель. Войдите в аккаунт через мобильное"
                 ): t(`Данный телефон не прошёл регистрацию в контрольной системе`)}
-              {
-                open === `vodetel` &&   <a
-                  target="_blank"
-                  href="https://links.sarbon.me/"
-                  style={{
-                    color: `rgba(0, 122, 255, 1)`,
-                    cursor: `pointer`,
-                    marginLeft: `5px`,
-                  }}
-                >
-                  {t("приложение Sarbon")}
-                </a>
-              }
+                {
+                  open === `vodetel` && <a
+                    target="_blank"
+                    href="https://links.sarbon.me/"
+                    style={{
+                      color: `rgba(0, 122, 255, 1)`,
+                      cursor: `pointer`,
+                      marginLeft: `5px`,
+                    }}
+                  >
+                    {t("приложение Sarbon")}
+                  </a>
+                }
               </p>
             </Box>
           </ModalBody>

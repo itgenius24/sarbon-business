@@ -23,7 +23,7 @@ export const ArchivePage = ({ orderStatus, t, setOpen, locale, isProfile }) => {
             variant="card"
             columns={columns}
             data={cargoData}
-           
+
           />
         )}
         {cargoData?.length > 0 &&

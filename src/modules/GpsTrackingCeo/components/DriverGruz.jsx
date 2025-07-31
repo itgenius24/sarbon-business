@@ -89,8 +89,8 @@ const DriverGruz = ({
     });
   };
 
-      const { mutate: actionCreate } = useCreateActionHistoriesMutation();
-  
+  const { mutate: actionCreate } = useCreateActionHistoriesMutation();
+
 
   const downloadByLanguage = async (url) => {
     try {
@@ -306,15 +306,15 @@ const DriverGruz = ({
         >
           <Flex alignItems={`center`} gap={1}>
             <ExelIcon />
-             <p style={{
-                fontWeight: 600,
-                overflow: `hidden`,
-                textOverflow: `ellipsis`,
-                width: `100%`,
-             }}>
-             
+            <p style={{
+              fontWeight: 600,
+              overflow: `hidden`,
+              textOverflow: `ellipsis`,
+              width: `100%`,
+            }}>
+
                 Список ближайших машин в Excel
-             </p>
+            </p>
           </Flex>
         </Box>
       </Flex>
@@ -330,7 +330,7 @@ const DriverGruz = ({
               {t(`Забронировать груз`)}?
             </p>
             <p style={{ fontWeight: 500, fontSize: "14px" }}>
-             {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
+              {t(`Груз будет забронирован и недоступен для других диспетчеров`)}.
             </p>
           </ModalBody>
 
@@ -345,7 +345,7 @@ const DriverGruz = ({
               className={cls.btnOutline}
               mr={3}
             >
-             {t(`Нет`)}
+              {t(`Нет`)}
             </Button>
             <Button
               style={{ background: "rgba(21, 186, 77, 1)" }}

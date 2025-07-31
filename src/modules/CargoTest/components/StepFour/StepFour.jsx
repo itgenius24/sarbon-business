@@ -1,20 +1,26 @@
-import { NextArrowIcon, NoteIcon } from "@/assets/icons/icons";
-import { Checkbox } from "@/components/Checkbox";
-import { TextFieldWithAddition } from "@/components/TextFieldWithAddition";
 import {
   Box,
   Button,
   Flex,
+  Heading,
   Radio,
   RadioGroup,
+  Select,
   Switch,
-  Text
+  Text,
 } from "@chakra-ui/react";
-import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import cls from "./style.module.scss";
+import { NextArrowIcon, NoteIcon, PlusIcon } from "@/assets/icons/icons";
+import {
+  TextFieldWithAddition,
+  TextFieldWithAdditionPayment,
+} from "@/components/TextFieldWithAddition";
 import useFourProps from "./useFourProps";
+import { useTranslation } from "react-i18next";
+import { Checkbox } from "@/components/Checkbox";
+import { usePathname } from "next/navigation";
+import { PaymentComponents } from "./components/PaymentComponents";
 
 const StepFour = ({ status, locale }) => {
   const [value, setValueR] = React.useState("negotiable");
@@ -33,12 +39,16 @@ const StepFour = ({ status, locale }) => {
     order_status,
     onSubmit,
     setEditModal,
+    handleAppendAllPrice,
+    handleAppendAllPrepayment,
+    removeInput,
+    removeInputAllPrepayment,
+    handleAppendPriceAfterOrder,
+    removeInputPriceAfterOrder,
   } = useFourProps({ locale });
   const { t } = useTranslation();
 
   const params = usePathname();
-
-  
 
   useEffect(() => {
     if (watch(`price_prepayment`) > 0 && params.includes("my-loads")) {
@@ -135,10 +145,11 @@ const StepFour = ({ status, locale }) => {
                 </Flex>
                 <Flex className={cls.radioWrap} gap={"50px"}>
                   {!check && !status && currencyOptions ? (
-                    <RadioGroup
+                    <>
+                      {/* <RadioGroup
                       defaultValue={
                         watch(`price_prepayment_unit`)?.label || `доллар`
-                      } // Set the default value
+                      }
                       onChange={(e) => onChange(e)}
                     >
                       <Flex gap={"19px"}>
@@ -150,7 +161,7 @@ const StepFour = ({ status, locale }) => {
                               value={item.label}
                               size={"md"}
                               _checked={{
-                                bg: "white", // Custom background color
+                                bg: "white",
                                 border: `5px solid rgba(0, 122, 255, 1)`,
                               }}
                             >
@@ -168,7 +179,8 @@ const StepFour = ({ status, locale }) => {
                             </Radio>
                           ))}
                       </Flex>
-                    </RadioGroup>
+                    </RadioGroup> */}
+                    </>
                   ) : (
                     status && (
                       <Box
@@ -215,18 +227,10 @@ const StepFour = ({ status, locale }) => {
                     onChange={(e) => setCheck(e.target.checked)}
                     size={"md"}
                     sx={{
-                      "& .chakra-switch__track": {
-                        backgroundColor: "rgba(230, 224, 233, 1) !important",
-                      },
-                      "&[data-checked] .chakra-switch__track": {
-                        backgroundColor: "#007aff !important",
-                      },
-                      "& .chakra-switch__thumb": {
-                        background: "rgba(121, 116, 126, 1) !important",
-                      },
-                      "&[data-checked] .chakra-switch__thumb": {
-                        background: "rgb(255, 255, 255) !important",
-                      },
+                      "& .chakra-switch__track": { backgroundColor: "rgba(230, 224, 233, 1) !important", },
+                      "&[data-checked] .chakra-switch__track": { backgroundColor: "#007aff !important", },
+                      "& .chakra-switch__thumb": { background: "rgba(121, 116, 126, 1) !important", },
+                      "&[data-checked] .chakra-switch__thumb": { background: "rgb(255, 255, 255) !important", },
                     }}
                   />
                 </Flex>
@@ -313,7 +317,7 @@ const StepFour = ({ status, locale }) => {
                 </Flex>
 
                 <Flex
-                  alignItems={`end`}
+                  alignItems={`start`}
                   className={cls.inputWrap}
                   gap={10}
                   width={"100%"}
@@ -332,35 +336,52 @@ const StepFour = ({ status, locale }) => {
                         </Checkbox>
                       )}
                     </Flex>
-                    <TextFieldWithAddition
-                      onClick={() => (!canEdit ? setEditModal(true) : null)}
-                      isEdit={!canEdit}
-                      disabled={order_status?.[0] === "active" || !canEdit}
-                      name="price"
-                      register={register}
-                      control={control}
-                      additionalItemName="payment_type"
-                      additionalItemPlaceholder={paymentOptions?.[0]?.label}
-                      additionalItemDefaultIndex={0}
-                      placeholder={t("Введите сумму")}
-                      errors={errors}
-                      onKeyDown={(e) => {
-                        if (e.key === "." || e.key === "," || e.key === "e") {
-                          e.preventDefault();
+
+                    <Flex flexDirection={`column`} gap={`6px`} width={`100%`}>
+                      {watch(`allPrice`)?.map((item, index) => (
+                        <>
+                          <PaymentComponents
+                            key={item}
+                            canEdit={canEdit}
+                            order_status={order_status}
+                            register={register}
+                            control={control}
+                            setEditModal={setEditModal}
+                            paymentOptions={paymentOptions}
+                            errors={errors}
+                            t={t}
+                            currencyOptions={currencyOptions}
+                            disabled={
+                              order_status?.[0] === "active" || !canEdit
+                            }
+                            additionalItemName={`allPrice[${index}].type`}
+                            paymentName={`allPrice[${index}].currency`}
+                            name={`allPrice[${index}].price`}
+                            index={index}
+                            removeInput={removeInput}
+                          />
+                        </>
+                      ))}
+                      <Button
+                        width={`fit-content`}
+                        leftIcon={
+                          <PlusIcon
+                            width="16"
+                            height="16"
+                            color="rgba(126, 123, 134, 1)"
+                          />
                         }
-                      }}
-                      type="number"
-                      width="100%"
-                      additionalItemOptions={paymentOptions}
-                      zIndex={20}
-                      after={
-                        currencyOptions?.find(
-                          (opt) =>
-                            opt.value === watch(`price_prepayment_unit`)?.value
-                        )?.label
-                      }
-                    />
+                        variant="reset"
+                        color="rgba(126, 123, 134, 1)"
+                        fontWeight={400}
+                        onClick={handleAppendAllPrice}
+                        mt={`6px`}
+                      >
+                        {t("Добавить поле")}
+                      </Button>
+                    </Flex>
                   </Box>
+
                   <Box width={"100%"}>
                     <Flex
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
@@ -378,20 +399,61 @@ const StepFour = ({ status, locale }) => {
                       </Checkbox>
                     </Flex>
 
-                    <TextFieldWithAddition
+                    <Flex flexDirection={`column`} gap={`6px`} width={`100%`}>
+                      {watch(`allPrepayment`)?.map((item, index) => (
+                        <>
+                          <PaymentComponents
+                            key={item}
+                            canEdit={canEdit}
+                            order_status={order_status}
+                            register={register}
+                            control={control}
+                            setEditModal={setEditModal}
+                            paymentOptions={paymentOptions}
+                            errors={errors}
+                            t={t}
+                            currencyOptions={currencyOptions}
+                            disabled={
+                              order_status?.[0] === "active" ||
+                              !canEdit ||
+                              !watch(`prepayment`)
+                            }
+                            additionalItemName={`allPrepayment[${index}].type`}
+                            paymentName={`allPrepayment[${index}].currency`}
+                            name={`allPrepayment[${index}].price`}
+                            index={index}
+                            removeInput={removeInputAllPrepayment}
+                          />
+                        </>
+                      ))}
+                      <Button
+                        isDisabled={
+                          order_status?.[0] === "active" ||
+                          !canEdit ||
+                          !watch(`prepayment`)
+                        }
+                        width={`fit-content`}
+                        leftIcon={
+                          <PlusIcon
+                            width="16"
+                            height="16"
+                            color="rgba(126, 123, 134, 1)"
+                          />
+                        }
+                        variant="reset"
+                        color="rgba(126, 123, 134, 1)"
+                        fontWeight={400}
+                        onClick={handleAppendAllPrepayment}
+                        mt={`6px`}
+                      >
+                        {t("Добавить поле")}
+                      </Button>
+                    </Flex>
+
+                    {/* <TextFieldWithAddition
                       onClick={() => (!canEdit ? setEditModal(true) : null)}
                       isEdit={!canEdit}
-                      disabled={
-                        order_status?.[0] === "active" ||
-                        !canEdit ||
-                        !watch(`prepayment`)
-                      }
-                      // onlyFieldDisabled={
-                      //   !canEdit
-                      //     ? order_status?.[0] === "active" ||
-                      //       !watch(`prepayment`)
-                      //     : false
-                      // }
+
                       name="price_prepayment"
                       register={register}
                       control={control}
@@ -415,18 +477,63 @@ const StepFour = ({ status, locale }) => {
                             opt.value === watch(`price_prepayment_unit`)?.value
                         )?.label
                       }
-                    />
+                    /> */}
                   </Box>
                 </Flex>
+
                 <Flex className={cls.inputWrap} mt={5} gap={10} width={"100%"}>
-                  {!status ? (
-                    <Box width={"100%"}>
-                      <Flex mb={2} alignItems={"center"} gap={"10px"}>
-                        <p className={cls.label}>
-                          {t(`Сумма после завершения заказа`)}
-                        </p>
-                      </Flex>
-                      <TextFieldWithAddition
+                  {/* {!status ? ( */}
+                  <Box width={"100%"}>
+                    <Flex mb={2} alignItems={"center"} gap={"10px"}>
+                      <p className={cls.label}>
+                        {t(`Сумма после завершения заказа`)}
+                      </p>
+                    </Flex>
+
+                    <Flex flexDirection={`column`} gap={`6px`} width={`100%`}>
+                      {watch(`priceAfterOrder`)?.map((item, index) => (
+                        <>
+                          <PaymentComponents
+                            key={item}
+                            canEdit={canEdit}
+                            order_status={order_status}
+                            register={register}
+                            control={control}
+                            setEditModal={setEditModal}
+                            paymentOptions={paymentOptions}
+                            errors={errors}
+                            t={t}
+                            currencyOptions={currencyOptions}
+                            disabled={!canEdit}
+                            additionalItemName={`priceAfterOrder[${index}].type`}
+                            paymentName={`priceAfterOrder[${index}].currency`}
+                            name={`priceAfterOrder[${index}].price`}
+                            index={index}
+                            removeInput={removeInputPriceAfterOrder}
+                            zIndex={100}
+                          />
+                        </>
+                      ))}
+                      <Button
+                        width={`fit-content`}
+                        leftIcon={
+                          <PlusIcon
+                            width="16"
+                            height="16"
+                            color="rgba(126, 123, 134, 1)"
+                          />
+                        }
+                        variant="reset"
+                        color="rgba(126, 123, 134, 1)"
+                        fontWeight={400}
+                        onClick={handleAppendPriceAfterOrder}
+                        mt={`6px`}
+                      >
+                        {t("Добавить поле")}
+                      </Button>
+                    </Flex>
+
+                    {/* <TextFieldWithAddition
                         disabled={true}
                         name="price_after_order"
                         register={register}
@@ -452,9 +559,9 @@ const StepFour = ({ status, locale }) => {
                               watch(`price_prepayment_unit`)?.value
                           )?.label
                         }
-                      />
-                    </Box>
-                  ) : (
+                      /> */}
+                  </Box>
+                  {/* ) : (
                     <Box width={`100%`}>
                       <p className={cls.totalTEet}>
                         {t(`Сумма после завершения заказа`)}
@@ -473,7 +580,7 @@ const StepFour = ({ status, locale }) => {
                         }`}
                       </p>
                     </Box>
-                  )}
+                  )} */}
                   <Box width={"100%"}>
                     <Flex mb={2} alignItems={"center"} gap={"10px"}>
                       <p className={cls.label}>
@@ -569,9 +676,9 @@ const StepFour = ({ status, locale }) => {
                       isDisabled={!canEdit}
                       defaultChecked={true}
                       register={register}
-                      name="with_nds"
+                      name="prepayment"
                     >
-                      С НДС, безнал
+                      Предоплата
                     </Checkbox>
                   </Box>
 
@@ -580,9 +687,19 @@ const StepFour = ({ status, locale }) => {
                       isDisabled={!canEdit}
                       defaultChecked={true}
                       register={register}
-                      name="free_nds"
+                      name="combo"
                     >
-                      Без НДС, безнал
+                      Комбо
+                    </Checkbox>
+                  </Box>
+                  <Box onClick={() => (!canEdit ? setEditModal(true) : null)}>
+                    <Checkbox
+                      isDisabled={!canEdit}
+                      defaultChecked={true}
+                      register={register}
+                      name="transfer"
+                    >
+                      Перечисление
                     </Checkbox>
                   </Box>
                 </Flex>
@@ -593,7 +710,7 @@ const StepFour = ({ status, locale }) => {
       </Box>
       {!status && (
         <Button
-          isDisabled={disabled}
+          isDisabled={false}
           onClick={() => onSubmit()}
           rightIcon={<NextArrowIcon />}
           className={cls.nextBtn}

@@ -16,7 +16,7 @@ const tinService = {
 
 export const mapTinDataToCompanyData = (tinData) => {
   if (!tinData || !tinData.data) return null;
-  
+
   const company = tinData.data;
   return {
     companyName: company.name || '',

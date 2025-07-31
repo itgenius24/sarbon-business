@@ -31,7 +31,7 @@ const DriverCheck = ({
   setIconStatus,
 }) => {
   const { t } = useTranslation();
-  
+
   const getOfferCount = useGetOffer(
     {
       data: JSON.stringify({
@@ -83,10 +83,10 @@ const DriverCheck = ({
               width={"fit-content"}
               style={{ background: "transparent" }}
               icon={<CloseIconM />}
-               onClick={() => {
-              setModalType("");
-              setIconStatus("");
-            }}
+              onClick={() => {
+                setModalType("");
+                setIconStatus("");
+              }}
             />
           </Flex>
           {statuses[currentUserLocationData?.orders?.[0]?.indicate_status?.[0]] && (

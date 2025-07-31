@@ -37,9 +37,7 @@ const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffs
     }),
   };
 
-  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, {
-    enabled: !!currentUserLocationData.user.guid,
-  });
+  const getAllUserCargo = useGetUserCargo(getAllUserCargoParams, { enabled: !!currentUserLocationData.user.guid, });
 
   const cargoData = useMemo(() => {
     if (search) {
@@ -119,7 +117,7 @@ const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffs
                       </p>{" "}
                       <NextCheckIcon />{" "}
                       <p>
-                        
+
                         {item.to|| item.city_id_2_data?.name}
                       </p>{" "}
                     </Flex>
@@ -175,7 +173,7 @@ const SelectCargo = ({ cls, currentUserLocationData, setCenterModalType, setOffs
             className={cls.topButton}
             size="md"
           >
-             {t(`Предложить`)}
+            {t(`Предложить`)}
           </Button>
         </Flex>
       </Flex>

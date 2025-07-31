@@ -197,14 +197,12 @@ const CreateCars = ({
             errors={errors}
             name="car_number"
             placeholder={t("Введите номер транспортного средства")}
-            rules={{
-              required: t("Это поле обязательно"),
-            }}
+            rules={{ required: t("Это поле обязательно"), }}
             onChange={(e) => {
               e.target.value = e.target.value
                 .replace(/[^A-Za-z0-9]/g, "")
                 .toUpperCase();
-                setinputValue(e.target.value);
+              setinputValue(e.target.value);
             }}
           />
           <Flex ml={4} gap={2} mt={1}>
@@ -373,9 +371,7 @@ const CreateCars = ({
             <TextFieldWithAdditionCar
               className={cls.textField}
               errors={errors}
-              rules={{
-                required: t("Это поле обязательно"),
-              }}
+              rules={{ required: t("Это поле обязательно"), }}
               control={control}
               name="capacity"
               register={register}
@@ -442,9 +438,7 @@ const CreateCars = ({
               control={control}
               name="height"
               register={register}
-              rules={{
-                required: t("Это поле обязательно"),
-              }}
+              rules={{ required: t("Это поле обязательно"), }}
               maxWidth="165px"
               placeholder={t("Объем")}
               additionalItemTheme={`light`}

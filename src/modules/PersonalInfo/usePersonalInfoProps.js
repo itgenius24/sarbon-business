@@ -34,7 +34,7 @@ export const usePersonalInfoProps = () => {
           user_id: authStore.userData.guid,
           increment_id: authStore.userData.your_id,
           action_time: new Date(),
-          role_slug: roleName ? roleName : authStore.userData?.role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469"  ? `ceo`: `customer`,
+          role_slug: roleName ? roleName : authStore.userData?.role_id === "527d2017-2dc2-4449-9eeb-08fc1aafa469" ? `ceo`: `customer`,
           action_comment: `changed_own_info`,
           role_id: authStore.userData?.role_id,
           action_type: [`update`],

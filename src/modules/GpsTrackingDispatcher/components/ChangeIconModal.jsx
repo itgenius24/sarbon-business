@@ -36,7 +36,7 @@ const ChangeIconModal = ({
       id: 3,
       type: "someone_cargo",
       icon: QuestionBlueIcon,
-    title:t( "Занята чужим грузом")
+      title:t( "Занята чужим грузом")
     },
     // {
     //   id: 4,

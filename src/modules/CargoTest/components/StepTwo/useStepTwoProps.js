@@ -3,7 +3,7 @@ import { useWatch } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { useAddCargoContext } from "../../providers";
 
-const useStepTwoProps = ({locale}) => {
+const useStepTwoProps = ({ locale }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [index, setIndex] = useState();
@@ -177,7 +177,7 @@ const useStepTwoProps = ({locale}) => {
         }
       } else {
         setValue(`unloading.${[index]}`, {
-           ...watch(`unloading`)[index],
+          ...watch(`unloading`)[index],
           address: firstGeoObject.getAddressLine(),
           cor: `${firstGeoObject.geometry._coordinates[0]} ${firstGeoObject.geometry._coordinates[1]}`,
           to_date: watch(`unloading[${index}].to_date`) || "",
@@ -230,7 +230,7 @@ const useStepTwoProps = ({locale}) => {
       }
     } else {
       setValue(`unloading.${[index]}`, {
-         ...watch(`unloading`)[index],
+        ...watch(`unloading`)[index],
         address: watch(`unloading[${index}].address`),
         cor: location?.GeoObject?.Point?.pos?.split(` `)?.reverse()?.join(` `),
         to_date: watch(`unloading[${index}].to_date`) || "",

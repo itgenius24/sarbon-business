@@ -28,7 +28,7 @@ export const PhoneForm = ({
     <Box width={`100%`} height={"650px"} as="form" onSubmit={onSubmit}>
 
       <AuthTitle mb="32px" title={title} />
-  
+
       <Box mb="24px">
         <Box>
           <p className={cls.textFieldName}> {t("Мобильный телефон")} *</p>

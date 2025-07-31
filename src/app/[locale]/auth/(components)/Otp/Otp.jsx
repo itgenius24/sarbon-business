@@ -90,22 +90,22 @@ export const Otp = observer(() => {
           </Text>
         )}
         {
-          timer === 0 &&   <Box mt="16px" display="flex" columnGap="4px">
-          <Text fontSize="14px" color="brand.600" lineHeight="20px">
-            {t("Не пришло сообщение?")}
-          </Text>
-          <Box display="flex" columnGap="4px" alignItems="center">
-            <Button
-              isDisabled={timer > 0}
-              onClick={handleResendOtp}
-              variant="reset"
-            >
-              {t("Отправить ещё раз")}
-            </Button>
+          timer === 0 && <Box mt="16px" display="flex" columnGap="4px">
+            <Text fontSize="14px" color="brand.600" lineHeight="20px">
+              {t("Не пришло сообщение?")}
+            </Text>
+            <Box display="flex" columnGap="4px" alignItems="center">
+              <Button
+                isDisabled={timer > 0}
+                onClick={handleResendOtp}
+                variant="reset"
+              >
+                {t("Отправить ещё раз")}
+              </Button>
+            </Box>
           </Box>
-        </Box>
         }
-      
+
       </Box>
     </Box>
   );

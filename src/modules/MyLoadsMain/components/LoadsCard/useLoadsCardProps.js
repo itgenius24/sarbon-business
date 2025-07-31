@@ -119,7 +119,7 @@ export const useLoadsCardProps = ({
 
   const { register, handleSubmit, setValue, watch } = useForm();
 
-  
+
   function handleOpenEstimateModal(e) {
     e.stopPropagation();
     setIsEstimateModalOpen(true);

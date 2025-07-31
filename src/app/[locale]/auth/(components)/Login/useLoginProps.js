@@ -11,7 +11,7 @@ import authStore from "@/store/auth.store";
 import { signInWithGoogle } from "@/utils/fribaseAuth";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useLoginProps = () => {
@@ -40,12 +40,32 @@ export const useLoginProps = () => {
     watch,
     formState: { errors },
     setError,
+    setValue,
   } = useForm({
     defaultValues: {
       username: ``,
       password: ``,
     },
   });
+
+  // Load saved credentials on component mount
+  React.useEffect(() => {
+    const savedCredentials = localStorage.getItem('loginData');
+    if (savedCredentials) {
+      try {
+        const { username, password, remember: savedRemember } = JSON.parse(savedCredentials);
+        if (savedRemember) {
+          setValue('username', username || '');
+          setValue('password', password || '');
+          setRemember(true);
+          authStore.setRemember(true);
+        }
+      } catch (error) {
+        console.error('Error loading saved credentials:', error);
+        localStorage.removeItem('loginData');
+      }
+    }
+  }, [setValue]);
 
   const { mutate: getUserByIdData, isLoading: getUseLoading } =
     useGetUseMutation({
@@ -95,15 +115,20 @@ export const useLoginProps = () => {
       });
       setDataUser(data);
 
-      // if (remember) {
-      //   localStorage.setItem(
-      //     "loginData",
-      //     JSON.stringify({
-      //       username: watch("username"),
-      //       password: watch("password"),
-      //     })
-      //   );
-      // }
+      // Save credentials if remember me is checked
+      if (remember) {
+        const loginData = {
+          username: watch("username"),
+          password: watch("password"),
+          remember: true,
+        };
+        localStorage.setItem("loginData", JSON.stringify(loginData));
+        authStore.setRemember(true);
+      } else {
+        // Clear saved credentials if remember me is not checked
+        localStorage.removeItem("loginData");
+        authStore.setRemember(false);
+      }
     },
     onError: (_) => { return },
   });
@@ -206,11 +231,7 @@ export const useLoginProps = () => {
       unique_id: ``,
       user_type: `carrier`,
     };
-    googleRigister({
-      data: {
-        object_data: body,
-      },
-    });
+    googleRigister({ data: { object_data: body, }, });
   };
 
   function navigateRegistration() {
@@ -226,7 +247,14 @@ export const useLoginProps = () => {
   }
 
   function onRememberChange(e) {
-    setRemember(e.target.checked);
+    const isChecked = e.target.checked;
+    setRemember(isChecked);
+    authStore.setRemember(isChecked);
+
+    // If unchecking remember me, clear saved credentials
+    if (!isChecked) {
+      localStorage.removeItem("loginData");
+    }
   }
 
   function handleTogglePasswordVisibility() {

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --port 8080",
     "setup:size": "NODE_OPTIONS=\"--max-old-space-size=8192\"",
-    "build": "yarn setup:size && next build",
+    "clean:sourcemaps": "sh ./scripts/cleanup-sourcemaps.sh",
+    "build": "yarn setup:size && next build && yarn clean:sourcemaps",
     "start": "next start --port 8080",
     "lint": "next lint",
     "prepare": "husky install",
@@ -43,6 +44,7 @@
     "mobx-persist-store": "^1.1.4",
     "mobx-react-lite": "^4.0.5",
     "next": "14.1.0",
+    "next-pwa": "^5.6.0",
     "nookies": "^2.5.2",
     "rc-pagination": "^5.1.0",
     "rc-table": "^7.50.2",
@@ -70,6 +72,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svg-jsx": "^1.2.2",
+    "react-dev-inspector": "^2.0.1",
     "sass": "^1.85.0"
   },
   "lint-staged": {

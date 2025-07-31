@@ -15,9 +15,8 @@ import {
   TelegramIcon,
 } from "@/assets/icons/icons";
 import {
-  useGetOffer,
   useGetUserGpsByIDData,
-  useUpdateResponse,
+  useUpdateResponse
 } from "@/services/api";
 import {
   Avatar,
@@ -34,7 +33,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
@@ -50,7 +49,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
       setModalType("filter");
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     },
   });
 
@@ -61,9 +60,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
         with_relations: true,
       }),
     },
-    querySettings: {
-      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
-    },
+    querySettings: { enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2), },
   });
 
   const handleMutation = () => {
@@ -218,7 +215,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
                     currentUserLocationData?.orders?.[0]?.cargo_id_data
                       ?.load_time
                       ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                          ?.load_time
+                        ?.load_time
                       : new Date(),
                     "yyyy-MM-dd"
                   )}
@@ -242,7 +239,7 @@ const DriverExpectation = ({ cls, setModalType, currentUserLocationData }) => {
                   {format(
                     currentUserLocationData?.orders?.[0]?.cargo_id_data?.date
                       ? currentUserLocationData?.orders?.[0]?.cargo_id_data
-                          ?.date
+                        ?.date
                       : new Date(),
                     "yyyy-MM-dd"
                   )}

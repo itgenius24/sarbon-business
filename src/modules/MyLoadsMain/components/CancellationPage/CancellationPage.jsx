@@ -60,9 +60,7 @@ export const CancellationPage = ({ orderStatus, t, locale,isProfile }) => {
       <Popup
         isOpen={isDeletePopupOpen?.guid}
         onClose={() => setIsDeletePopupOpen(false)}
-        mainText={t("Вы уверены что хотите удалить груз ?", {
-          name: isDeletePopupOpen?.short_name,
-        })}
+        mainText={t("Вы уверены что хотите удалить груз ?", { name: isDeletePopupOpen?.short_name, })}
         status="delete"
         btn2Callback={() => onDeleteAccept()}
       />

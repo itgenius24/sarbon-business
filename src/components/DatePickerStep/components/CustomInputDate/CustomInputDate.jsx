@@ -12,7 +12,7 @@ export const CustomInputDate = forwardRef(
     disabled,
     canEdit
   }, ref) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
       <button
         type="button"
@@ -23,7 +23,7 @@ export const CustomInputDate = forwardRef(
         disabled={!canEdit ? false: disabled}
       >
         <span className={cls.dateInputInner}>
-       
+
           {value ? (
             <span className={cls.dateInputValue}>
               <span className={cls.dateInputValue}>{value || ""}</span>

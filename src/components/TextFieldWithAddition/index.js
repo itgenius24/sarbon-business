@@ -1,2 +1,2 @@
 export { TextFieldWithAddition } from "./TextFieldWithAddition";
-export {TextFieldWithAdditionPayment} from "./TextFieldWithAdditionPayment"
+export { TextFieldWithAdditionPayment } from "./TextFieldWithAdditionPayment"

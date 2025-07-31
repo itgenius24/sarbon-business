@@ -24,9 +24,7 @@ const FormInternationInput = ({
         return (
           <PhoneInput
             {...field}
-            inputProps={{
-              id: name,
-            }}
+            inputProps={{ id: name, }}
             // hideDropdown={true}
             disabled={disabled}
             defaultCountry="uz"

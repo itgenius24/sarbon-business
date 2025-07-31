@@ -1,8 +1,4 @@
-import cls from "./styles.module.scss";
-import clsx from "clsx";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { navList } from "./elements";
+import { useGetLang } from "@/hooks/useGetLang";
 import {
   Accordion,
   AccordionButton,
@@ -13,9 +9,13 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import { CustomLogOutButton } from "../CustomLogOutButton";
-import { useGetLang } from "@/hooks/useGetLang";
+import clsx from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { CustomLogOutButton } from "../CustomLogOutButton";
+import cls from "./styles.module.scss";
+import { getNavList } from "./elements";
 
 const tabStyles = {
   alignItems: "center",
@@ -44,6 +44,10 @@ export const Navbar = () => {
   const { t } = useTranslation();
   const locale = useGetLang();
 
+  // Determine if we're in the advanced profile variant
+  const isAdvanced = pathname.includes('/profile-new');
+  const navList = getNavList(isAdvanced);
+
   return (
     <Box py="8px" bgColor="baseWhite" borderRadius="12px" width="316px">
       {navList.map((nav, i) => {
@@ -61,9 +65,7 @@ export const Navbar = () => {
                   {nav.children.map((child, i) => {
                     return (
                       <Link
-                        className={clsx(cls.link, {
-                          [cls.active]: pathname.includes(child.path),
-                        })}
+                        className={clsx(cls.link, { [cls.active]: pathname.includes(child.path), })}
                         href={`/${locale}` + child.path}
                         key={i}
                       >
@@ -93,9 +95,7 @@ export const Navbar = () => {
 
         return (
           <Link
-            className={clsx(cls.link, {
-              [cls.active]: (!path && i === 0) || nav.path.includes(path),
-            })}
+            className={clsx(cls.link, { [cls.active]: (!path && i === 0) || nav.path.includes(path), })}
             href={`/${locale}` + nav.path}
             key={i}
           >

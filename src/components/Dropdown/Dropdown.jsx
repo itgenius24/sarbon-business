@@ -116,7 +116,7 @@ export const Dropdown = ({
                           ? inputPlaceholder
                           : t(inputPlaceholder)
                       }
-                     
+
                       autoComplete="off"
                     />
 
@@ -233,16 +233,12 @@ export const Dropdown = ({
             {isOpen && optionLen && (
               <div
                 className={cls.options}
-                style={{
-                  maxHeight: options.length > 2 ? optionsHeight : "auto",
-                }}
+                style={{ maxHeight: options.length > 2 ? optionsHeight : "auto", }}
                 onClick={handleClose}
               >
                 {options.map((option, index) => (
                   <div
-                    className={clsx(cls.option, {
-                      [cls.selected]: option.value === value?.value,
-                    })}
+                    className={clsx(cls.option, { [cls.selected]: option.value === value?.value, })}
                     key={index}
                     onClick={() => {
                       if (searchable) {
@@ -289,24 +285,24 @@ export const Dropdown = ({
                       ? option.guid === value?.guid
                       : option.value === value?.value) &&
                       isCheck && (
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                          >
-                            <path
-                              d="M10 3L4.5 8.5L2 6"
-                              stroke="#007AFF"
-                              strokeWidth="1.6666"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </span>
-                      )}
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                        >
+                          <path
+                            d="M10 3L4.5 8.5L2 6"
+                            stroke="#007AFF"
+                            strokeWidth="1.6666"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>

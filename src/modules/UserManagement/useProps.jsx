@@ -23,19 +23,17 @@ export const useProps = () => {
   const filterTabs =
     user_type === `driver`
       ? [
-          { value: `0`, label: `Данные  водителя` },
-          { value: `1`, label: `Надёжность` },
-        ]
+        { value: `0`, label: `Данные  водителя` },
+        { value: `1`, label: `Надёжность` },
+      ]
       : [
-          { value: `0`, label: `Данные перевозчика` },
-          // { value: `1`, label: `Водители` },
-          // { value: `2`, label: `Машины` },
-          { value: `1`, label: `Надёжность` },
-        ];
+        { value: `0`, label: `Данные перевозчика` },
+        // { value: `1`, label: `Водители` },
+        // { value: `2`, label: `Машины` },
+        { value: `1`, label: `Надёжность` },
+      ];
 
-  const { data: firmData } = useGetFirmInfo(guid, {
-    enabled: Boolean(guid && tab === `0`),
-  });
+  const { data: firmData } = useGetFirmInfo(guid, { enabled: Boolean(guid && tab === `0`), });
 
   const { data: userData, refetch } = useGetNewPredData({
     data: {
@@ -46,9 +44,7 @@ export const useProps = () => {
         },
       },
     },
-    querySettings: {
-      enabled: Boolean(user_id && tab === `0`),
-    },
+    querySettings: { enabled: Boolean(user_id && tab === `0`), },
   });
 
   return {

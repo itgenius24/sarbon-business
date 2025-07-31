@@ -1,4 +1,13 @@
-import cls from "./styles.module.scss";
+import { GreenMapIcon } from "@/assets/icons/icons";
+import { DataList } from "@/components/DataList";
+import { Popup } from "@/components/Popup";
+import { Rating } from "@/components/Rating";
+import { useGetLang } from "@/hooks/useGetLang";
+import {
+  useGetUserCargo,
+  useOfferFromCustomerMutation
+} from "@/services/api";
+import authStore from "@/store/auth.store";
 import {
   Accordion,
   AccordionButton,
@@ -21,23 +30,13 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { DataList } from "@/components/DataList";
-import authStore from "@/store/auth.store";
-import {
-  useGetUserCargo,
-  useGetVehicle,
-  useOfferFromCustomerMutation,
-} from "@/services/api";
-import { useEffect, useState } from "react";
-import { Rating } from "@/components/Rating";
-import { Popup } from "@/components/Popup";
-import Link from "next/link";
+import { Placemark } from "@pbe/react-yandex-maps";
 import clsx from "clsx";
-import { useGetLang } from "@/hooks/useGetLang";
-import { Placemark, map } from "@pbe/react-yandex-maps";
-import { GreenMapIcon, UseIcon, loadIcon } from "@/assets/icons/icons";
 import { format } from "date-fns";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import cls from "./styles.module.scss";
 
 export const SingleCar = ({
   carInfo,

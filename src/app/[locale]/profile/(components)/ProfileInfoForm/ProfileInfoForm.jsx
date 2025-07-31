@@ -1,6 +1,6 @@
 import { Email } from "@/assets/icons/icons";
 import { TextField } from "@/components/TextField";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 
 import FileUpload from "@/components/FileUpload";
 import { SkeletonComp } from "@/components/Skeleton";
@@ -16,11 +16,16 @@ export const ProfileInfoForm = ({ errors, watch, register, setValue }) => {
     handleImageUpload
   } = useProfileInfoFormProps(setValue);
 
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+
   if (isLoading) return <SkeletonComp/>;
 
   return (
     <div>
-      <Flex gap="24px">
+      <Flex
+        gap={isLargerThan768 ? "24px" : "16px"}
+        direction={isLargerThan768 ? "row" : "column"}
+      >
         <TextField
           register={register}
           errors={errors}

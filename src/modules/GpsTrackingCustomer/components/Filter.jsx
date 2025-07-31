@@ -109,9 +109,9 @@ const Filter = ({
               }}
               onlyFieldDisabled={false}
               additionalItemPlaceholder={
-               <p style={{marginLeft:`4px`,cursor:`default`}} className={cls.additionalIcons}>
-                                <LocationMarkIcon />
-                              </p>
+                <p style={{ marginLeft:`4px`,cursor:`default` }} className={cls.additionalIcons}>
+                  <LocationMarkIcon />
+                </p>
               }
             />
             {results.length > 0 && address?.length > 0 && (
@@ -136,9 +136,7 @@ const Filter = ({
                     >
                       <p
                         className={cls.item}
-                        dangerouslySetInnerHTML={{
-                          __html: highlightText(text, address),
-                        }}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
                       />{" "}
                     </Flex>
                   );

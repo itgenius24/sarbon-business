@@ -19,13 +19,13 @@ export const useProfileDis = () => {
   const [date2, setDate2] = useState([]);
 
 
-    const { mutate: filterData, isLoading: filterDataLoadin } =
+  const { mutate: filterData, isLoading: filterDataLoadin } =
       useLogistikaGpsTrackingFilterDriverPred({
         onSuccess: (res) => {
           setData(res);
         },
       });
-  
+
 
   const getWeekRange = () => {
     const today = new Date();
@@ -85,7 +85,7 @@ export const useProfileDis = () => {
 
           filter: `dispatcher`,
           start_date:
-            date2.length > 0 ? date2[0] :  ``,
+            date2.length > 0 ? date2[0] : ``,
           end_date:
             date2.length > 0
               ? date2[1]

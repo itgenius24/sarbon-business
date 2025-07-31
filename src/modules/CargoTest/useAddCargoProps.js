@@ -1,6 +1,5 @@
-import * as yup from "yup";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useTranslation } from "@/app/i18n/client";
+import { useGetDistance } from "@/hooks/useGetDistance";
 import {
   useCreateActionHistoriesMutation,
   useCreateAddressMutation,
@@ -16,13 +15,14 @@ import {
   useUpdateCargo,
   useUpdateResponse,
 } from "@/services/api";
-import { yupResolver } from "@/utils/yupResolver";
 import authStore from "@/store/auth.store";
-import { useRouter } from "next/navigation";
-import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "@/app/i18n/client";
-import { useGetDistance } from "@/hooks/useGetDistance";
 import formStore from "@/store/form.store";
+import { yupResolver } from "@/utils/yupResolver";
+import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
   const [editModal, setEditModal] = useState(false);
@@ -170,11 +170,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ],
     allPrice: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -183,11 +183,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ],
     allPrepayment: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -196,11 +196,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
     ],
     priceAfterOrder: [
       {
-        payment_type: {
+        type: {
           label: "Наличные",
           value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
         },
-        payment: {
+        currency: {
           label: "доллар",
           value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
         },
@@ -332,11 +332,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ],
       allPrice: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -345,11 +345,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ],
       allPrepayment: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -358,11 +358,11 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       ],
       priceAfterOrder: [
         {
-          payment_type: {
+          type: {
             label: "Наличные",
             value: "b4900a94-180f-4ef0-923e-e20725dec9a2",
           },
-          payment: {
+          currency: {
             label: "доллар",
             value: "8ce5aea8-da17-4e47-9e53-73f6bde69601",
           },
@@ -400,15 +400,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       Array.isArray(watch("unloading")[watch("unloading").length - 1]?.cor)
         ? watch("unloading")?.[watch("unloading")?.length - 1]?.cor[0]
         : watch("unloading")?.[watch("unloading")?.length - 1]?.cor.split(
-            " "
-          )?.[0],
+          " "
+        )?.[0],
     long:
       watch("unloading")?.length &&
       Array.isArray(watch("unloading")[watch("unloading").length - 1]?.cor)
         ? watch("unloading")?.[watch("unloading")?.length - 1]?.cor[1]
         : watch("unloading")?.[watch("unloading")?.length - 1]?.cor.split(
-            " "
-          )?.[1],
+          " "
+        )?.[1],
   };
 
   const distance = useGetDistance({
@@ -429,7 +429,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       router.push(`/${locale}/my-loads`);
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     },
   });
 
@@ -466,9 +466,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   const allCargoParams = { cargo_id: id };
 
-  const allResponseParams = {
-    cargo_id: getOfferCargoById.data?.response[0]?.cargo_id,
-  };
+  const allResponseParams = { cargo_id: getOfferCargoById.data?.response[0]?.cargo_id, };
 
   const templateParams = { cargo_id: templateId };
 
@@ -748,7 +746,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
       if (status !== "performed") router.push(`/${locale}/my-loads`);
     },
     onError(res) {
-      console.error(res);
+      // Error handling without console logging
     },
   });
 
@@ -912,6 +910,15 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         side: watch(`side`),
         back: watch(`back`),
         with_removal: watch(`with_removal`),
+
+        payment_data: check
+          ? null
+          : JSON.stringify({
+            description: check ? undefined : watch("payment_description"),
+            total: watch(`allPrice`),
+            prepayment: watch(`allPrepayment`),
+            postpayment: watch(`priceAfterOrder`),
+          }),
       },
     };
 
@@ -1213,9 +1220,14 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
         side: data?.load_type.includes(`side`),
         back: data?.load_type.includes(`back`),
         with_removal: data?.load_type.includes(`with_removal`),
+        allPrice: JSON.parse(data?.payment_data)?.total,
+        allPrepayment: JSON.parse(data?.payment_data)?.prepayment,
+        priceAfterOrder: JSON.parse(data?.payment_data)?.postpayment
       });
 
-      if (data?.temp_from || data?.temp_to) {
+
+
+      if ((data?.temp_from?.length > 0 && data?.temp_from !== `null` )) {
         setIsGradusOpen(true);
       }
       if (data.load_type?.length > 0) {
@@ -1331,9 +1343,7 @@ export const useAddCargoProps = ({ id, status, locale, setCargoIndex }) => {
 
   useEffect(() => {
     if (formStore.isNotEmpty && (!status || status === "in_moderation")) {
-      reset({
-        ...formStore.formData,
-      });
+      reset({ ...formStore.formData, });
     }
 
     if (status && status !== "in_moderation") {

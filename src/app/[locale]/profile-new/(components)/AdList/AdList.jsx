@@ -16,7 +16,7 @@ export const AdList = ({
 }) => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
- const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Box minH="250px">
       <TopFilter
@@ -41,7 +41,7 @@ export const AdList = ({
               ? <NoAdFound handleNoData={handleNoData} status={tabState} />
               : tabState !== "archive"
                 ? <Button onClick={handleNoData} type="button" maxW="320px" mt="24px">
-                    {t(`Добавить публикацию`)}
+                  {t(`Добавить публикацию`)}
                 </Button>
                 : null
           }

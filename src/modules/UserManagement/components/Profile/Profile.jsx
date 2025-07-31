@@ -79,7 +79,7 @@ const Profile = ({
                 type === `driver` ? userData?.rating || 0 : rev_count || 0
               }
               comment={
-                type === `driver` ? userData?.reviews_count || 0  : rating ? rating : 0
+                type === `driver` ? userData?.reviews_count || 0 : rating ? rating : 0
               }
             />
           </Flex>
@@ -158,10 +158,10 @@ const Profile = ({
                   </>
                 ) : (
                   <p
-                   
+
                     className={cls.noCar}
                   >
-                    Без машины. <span  onClick={() =>
+                    Без машины. <span onClick={() =>
                       router.push(
                         `/${locale}/my-cars-dispatcher/add-car?driver_id=${
                           userData?.guid

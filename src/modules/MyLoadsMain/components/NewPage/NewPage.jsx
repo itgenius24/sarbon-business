@@ -73,7 +73,7 @@ export const NewPage = ({
   return (
     <>
       <Box
-     
+
       >
         {newData?.length > 0 && !isProfile && (
           <SarbonTable

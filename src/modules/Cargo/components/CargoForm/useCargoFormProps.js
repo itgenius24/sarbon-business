@@ -34,9 +34,7 @@ export const useCargoFormProps = () => {
       limit: 40,
       data: JSON.stringify({}),
     },
-    querySettings: {
-      enabled: true,
-    },
+    querySettings: { enabled: true, },
   });
 
   const getMeasurement = useGetMeasurement();
@@ -67,7 +65,7 @@ export const useCargoFormProps = () => {
           ...data
         ]);
       }
-  
+
     }
   }, [!getCargoTypes.isSuccess, refesh]);
 

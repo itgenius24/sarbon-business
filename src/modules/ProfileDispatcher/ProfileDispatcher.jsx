@@ -58,8 +58,8 @@ const ProfileDispatcher = ({ locale }) => {
                   ? userData?.photo?.includes(`http`)
                     ? userData?.photo
                     : `${process.env.NEXT_PUBLIC_MEDIA_URL}${
-                        userData?.photo || ""
-                      }`
+                      userData?.photo || ""
+                    }`
                   : "/images/avatar.png"
               }
               width={150}
@@ -159,13 +159,13 @@ const ProfileDispatcher = ({ locale }) => {
               <NewPage isProfile={true} t={t} orderStatus={`new`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <ApproveFromDriver isProfile={true}  t={t} orderStatus={`approve_from_driver`} />
+              <ApproveFromDriver isProfile={true} t={t} orderStatus={`approve_from_driver`} />
             </TabPanel>
             <TabPanel padding={0}>
               <PerfomedPage isProfile={true} t={t} orderStatus={`performed`} />
             </TabPanel>
             <TabPanel padding={0}>
-              <CancellationPage t={t} isProfile={true}  orderStatus={`cancellation`} />
+              <CancellationPage t={t} isProfile={true} orderStatus={`cancellation`} />
             </TabPanel>
             <TabPanel padding={0}>
               <ArchivePage isProfile={true} t={t} orderStatus={`archive`} />

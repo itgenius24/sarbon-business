@@ -74,17 +74,11 @@ const DriverFree = ({
         with_relations: true,
       }),
     },
-    querySettings: {
-      enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2),
-    },
+    querySettings: { enabled: Boolean(currentUserLocationData?.disp_data?.[0]?.users_id_2), },
   });
 
   const getCompanyList = useGetCompanyList(
-    {
-      data: JSON.stringify({
-        guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id,
-      }),
-    },
+    { data: JSON.stringify({ guid: currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id, }), },
     {
       enabled: Boolean(
         currentUserLocationData?.firm_data?.firm_data?.[0]?.firm_id
@@ -327,7 +321,7 @@ const DriverFree = ({
                 currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
                   ?.name
                   ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                      ?.name
+                    ?.name
                   : t(`Пока нет машины`)
               }
             >
@@ -335,7 +329,7 @@ const DriverFree = ({
                 {currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
                   ?.name
                   ? currentUserLocationData?.vehicles?.[0]?.trailer_type_id_data
-                      ?.name
+                    ?.name
                   : t(`Пока нет машины`)}
               </p>
             </Tooltip>

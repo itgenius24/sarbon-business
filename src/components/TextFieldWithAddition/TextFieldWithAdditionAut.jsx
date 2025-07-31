@@ -48,7 +48,7 @@ export const TextFieldWithAdditionAut = ({
       className={clsx(cls.contentWrapper, { [cls.leftPosition]: additionalItemPosition === "left", [cls.rightPosition]: additionalItemPosition === "right", [cls.error]: !!errors?.[name] || error })}
       style={{ zIndex }}
     >
-       <Controller
+      <Controller
         name={additionalItemName}
         control={control || dropdownControl}
         render={({ field }) => {
@@ -79,7 +79,7 @@ export const TextFieldWithAdditionAut = ({
                     className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field?.value?.value })}
                     onClick={() => {
                       field.onChange(item);
-                   
+
                       handleClose();
                     }}
                   >
@@ -106,11 +106,11 @@ export const TextFieldWithAdditionAut = ({
           onWheel={(e) => e.target.blur()}
           {...props}
         />
-    
+
         {before && <span className={cls.before}>{before}</span>}
         {after && <span className={cls.after}>{after}</span>}
       </div>
- 
+
     </div>
     {
         error

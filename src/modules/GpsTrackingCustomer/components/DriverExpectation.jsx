@@ -14,7 +14,7 @@ import {
   StarsIcon,
   StoneIcon,
 } from "@/assets/icons/icons";
-import {  useUpdateResponse } from "@/services/api";
+import { useUpdateResponse } from "@/services/api";
 import {
   Avatar,
   Box,

@@ -65,9 +65,7 @@ export const useDriversList = () => {
   });
 
   const handleDelete = (id) => {
-    const data = {
-      id: id,
-    };
+    const data = { id: id, };
     dalete(data);
   };
 

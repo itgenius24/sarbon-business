@@ -38,7 +38,7 @@ export const AccordionMap = ({
 
     setTimeout(() => {
       if (map.current && ymaps) {
-        
+
         ymaps.route([
           [startLocation?.lat,startLocation?.long], // Boshlanish nuqtasi
           [endLocation.lat,endLocation.long], // Tugash nuqtasi
@@ -135,8 +135,8 @@ export const AccordionMap = ({
                 iconImageHref:
               "data:image/svg+xml;charset=UTF-8," +
               encodeURIComponent(StopIcon),
-              iconImageSize: [30, 42],
-              iconImageOffset: [-10, -22],
+                iconImageSize: [30, 42],
+                iconImageOffset: [-10, -22],
               }}
             />
           ))

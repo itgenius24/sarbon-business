@@ -63,7 +63,7 @@ import { ru } from "date-fns/locale";
 import { formatDateTime } from "@/utils/formatDateTime";
 import { Container } from "@/components/Container";
 
-export const ShareLocationModule = ({locale}) => {
+export const ShareLocationModule = ({ locale }) => {
   const searchParams = useSearchParams();
   // const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState([]);
@@ -93,9 +93,7 @@ export const ShareLocationModule = ({locale}) => {
 
 
   const getMaps = useGetMaps(
-    {
-      data: JSON.stringify({ cargo_id: carId }),
-    },
+    { data: JSON.stringify({ cargo_id: carId }), },
     { enabled: !!carId }
   );
 
@@ -236,7 +234,7 @@ export const ShareLocationModule = ({locale}) => {
                           color: `rgba(126, 123, 134, 1)`,
                         }}
                       >
-                      {t(`Готов к загрузке`)}
+                        {t(`Готов к загрузке`)}
                       </span>
                     </p>
                   ) : (
@@ -290,7 +288,7 @@ export const ShareLocationModule = ({locale}) => {
                         color: `rgba(126, 123, 134, 1)`,
                       }}
                     >
-                     {t(`Как можно скорее`)}
+                      {t(`Как можно скорее`)}
                     </span>
                   </p>
                 ) : (
@@ -484,16 +482,16 @@ export const ShareLocationModule = ({locale}) => {
                                   {user.cargo_id_data?.as_soon_as_a
                                     ? `Готов к загрузке`
                                     : format(
+                                      new Date(
+                                        user?.cargo_id_data?.load_time
+                                      ).setHours(
                                         new Date(
                                           user?.cargo_id_data?.load_time
-                                        ).setHours(
-                                          new Date(
-                                            user?.cargo_id_data?.load_time
-                                          ).getHours() - 5
-                                        ),
-                                        "dd-MMMM",
-                                        { locale: ru }
-                                      )}
+                                        ).getHours() - 5
+                                      ),
+                                      "dd-MMMM",
+                                      { locale: ru }
+                                    )}
                                 </p>
                               </Box>
                               <IocnPrev />

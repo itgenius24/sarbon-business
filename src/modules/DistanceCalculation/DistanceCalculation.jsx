@@ -109,36 +109,34 @@ export const DistanceCalculation = () => {
             {activeIndex === `from` &&
               results.length > 0 &&
               address?.length > 0 && (
-                <Box className={cls.optionsWrap}>
-                  {results?.map((location, idx) => {
-                    const text = location?.GeoObject?.name || "";
+              <Box className={cls.optionsWrap}>
+                {results?.map((location, idx) => {
+                  const text = location?.GeoObject?.name || "";
 
-                    const highlightText = (text, search) => {
-                      if (!search) return text;
-                      const regex = new RegExp(`(${search})`, "gi");
-                      return text.replace(
-                        regex,
-                        `<span class="${cls.bold}">$1</span>`
-                      );
-                    };
-                    return (
-                      <Flex
-                        onClick={() => hanleAdress(location, "from")}
-                        key={idx}
-                        gap={3}
-                        alignItems={"center"}
-                      >
-                        <p
-                          className={cls.item}
-                          dangerouslySetInnerHTML={{
-                            __html: highlightText(text, address),
-                          }}
-                        />{" "}
-                      </Flex>
+                  const highlightText = (text, search) => {
+                    if (!search) return text;
+                    const regex = new RegExp(`(${search})`, "gi");
+                    return text.replace(
+                      regex,
+                      `<span class="${cls.bold}">$1</span>`
                     );
-                  })}
-                </Box>
-              )}
+                  };
+                  return (
+                    <Flex
+                      onClick={() => hanleAdress(location, "from")}
+                      key={idx}
+                      gap={3}
+                      alignItems={"center"}
+                    >
+                      <p
+                        className={cls.item}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                      />{" "}
+                    </Flex>
+                  );
+                })}
+              </Box>
+            )}
           </Box>
           {locations.map((item, index) => (
             <Box
@@ -169,7 +167,7 @@ export const DistanceCalculation = () => {
                     onChange={(e) => {
                       onAdditionalAddressChange(e.target.value, index);
                       setActiveIndex(`locations.${index}.name`),
-                        setAddress(e.target.value);
+                      setAddress(e.target.value);
                       if (e.target.value.length === 0) {
                         setValue(`locations.${index}.name`, ``);
                       }
@@ -184,45 +182,43 @@ export const DistanceCalculation = () => {
                   {activeIndex === `locations.${index}.name` &&
                     results.length > 0 &&
                     address?.length > 0 && (
-                      <Box className={cls.optionsWrap}>
-                        {results?.map((location, idx) => {
-                          const text = location?.GeoObject?.name || "";
+                    <Box className={cls.optionsWrap}>
+                      {results?.map((location, idx) => {
+                        const text = location?.GeoObject?.name || "";
 
-                          const highlightText = (text, search) => {
-                            if (!search) return text;
-                            const regex = new RegExp(`(${search})`, "gi");
-                            return text.replace(
-                              regex,
-                              `<span class="${cls.bold}">$1</span>`
-                            );
-                          };
-                          return (
-                            <Flex
-                              onClick={() => {
-                                onAdditionalAddressChange(
-                                  location?.GeoObject?.name,
-                                  index
-                                );
-                                hanleAdress(
-                                  location,
-                                  `locations.${index}.name`
-                                );
-                              }}
-                              key={idx}
-                              gap={3}
-                              alignItems={"center"}
-                            >
-                              <p
-                                className={cls.item}
-                                dangerouslySetInnerHTML={{
-                                  __html: highlightText(text, address),
-                                }}
-                              />{" "}
-                            </Flex>
+                        const highlightText = (text, search) => {
+                          if (!search) return text;
+                          const regex = new RegExp(`(${search})`, "gi");
+                          return text.replace(
+                            regex,
+                            `<span class="${cls.bold}">$1</span>`
                           );
-                        })}
-                      </Box>
-                    )}
+                        };
+                        return (
+                          <Flex
+                            onClick={() => {
+                              onAdditionalAddressChange(
+                                location?.GeoObject?.name,
+                                index
+                              );
+                              hanleAdress(
+                                location,
+                                `locations.${index}.name`
+                              );
+                            }}
+                            key={idx}
+                            gap={3}
+                            alignItems={"center"}
+                          >
+                            <p
+                              className={cls.item}
+                              dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                            />{" "}
+                          </Flex>
+                        );
+                      })}
+                    </Box>
+                  )}
                 </Box>
                 {/* <TextField
                   register={register}
@@ -257,36 +253,34 @@ export const DistanceCalculation = () => {
             {activeIndex === `to` &&
               results.length > 0 &&
               address?.length > 0 && (
-                <Box className={cls.optionsWrap}>
-                  {results?.map((location, idx) => {
-                    const text = location?.GeoObject?.name || "";
+              <Box className={cls.optionsWrap}>
+                {results?.map((location, idx) => {
+                  const text = location?.GeoObject?.name || "";
 
-                    const highlightText = (text, search) => {
-                      if (!search) return text;
-                      const regex = new RegExp(`(${search})`, "gi");
-                      return text.replace(
-                        regex,
-                        `<span class="${cls.bold}">$1</span>`
-                      );
-                    };
-                    return (
-                      <Flex
-                        onClick={() => hanleAdress(location, "to")}
-                        key={idx}
-                        gap={3}
-                        alignItems={"center"}
-                      >
-                        <p
-                          className={cls.item}
-                          dangerouslySetInnerHTML={{
-                            __html: highlightText(text, address),
-                          }}
-                        />{" "}
-                      </Flex>
+                  const highlightText = (text, search) => {
+                    if (!search) return text;
+                    const regex = new RegExp(`(${search})`, "gi");
+                    return text.replace(
+                      regex,
+                      `<span class="${cls.bold}">$1</span>`
                     );
-                  })}
-                </Box>
-              )}
+                  };
+                  return (
+                    <Flex
+                      onClick={() => hanleAdress(location, "to")}
+                      key={idx}
+                      gap={3}
+                      alignItems={"center"}
+                    >
+                      <p
+                        className={cls.item}
+                        dangerouslySetInnerHTML={{ __html: highlightText(text, address), }}
+                      />{" "}
+                    </Flex>
+                  );
+                })}
+              </Box>
+            )}
           </Box>
         </Box>
         <Button
@@ -302,7 +296,7 @@ export const DistanceCalculation = () => {
         id="map"
         style={{ width: "100%", height: "500px" }}
       >
-        {(distanceParameters.distance || distanceParameters.duration) && watch("from") && watch("to")  && (
+        {(distanceParameters.distance || distanceParameters.duration) && watch("from") && watch("to") && (
           <div className={cls.distanceInfo}>
             <div className={cls.locationNames}>
               <p>{watch("from")}</p>

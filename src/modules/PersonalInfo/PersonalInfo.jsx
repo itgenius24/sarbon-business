@@ -1,23 +1,25 @@
 "use client";
 
+import { BackArrow } from "@/assets/icons/icons";
+import { MainContentCard } from "@/components/MainContentCard";
+import authStore from "@/store/auth.store";
 import {
   Box,
   Button,
   ButtonGroup,
+  Flex,
   useMediaQuery,
 } from "@chakra-ui/react";
-import React from "react";
-import { usePersonalInfoProps } from "./usePersonalInfoProps";
+import { useTranslation } from "react-i18next";
 import { MainContentHeader } from "./components/MainContentHeader";
 import { ProfileInfoForm } from "./components/ProfileInfoForm";
-import { MainContentCard } from "@/components/MainContentCard";
-import { BackArrow } from "@/assets/icons/icons";
-import { useTranslation } from "react-i18next";
+import { usePersonalInfoProps } from "./usePersonalInfoProps";
 
-export const PersonalInfo = () => {
+export const PersonalInfo = ({ variant = "simple" }) => {
 
   const [isLargerThan845] = useMediaQuery("(min-width: 845px)");
 
+  // Use the same hook for both variants - the logic is the same
   const {
     getProfileFormProps,
     handleSubmit,
@@ -25,8 +27,59 @@ export const PersonalInfo = () => {
     isLoading,
     router,
   } = usePersonalInfoProps();
-  const {t} = useTranslation();
 
+  const disabledBtn = variant === "advanced" ? authStore.userData.dispatcher_type?.[0] : null;
+  const { t } = useTranslation();
+
+  if (variant === "advanced") {
+    // Advanced variant with simplified layout and different button text
+    return (
+      <Box>
+        <Box
+          display={isLargerThan845 ? "block" : "flex"}
+          alignItems="center"
+        >
+          {!isLargerThan845 && (
+            <MainContentHeader
+              title={
+                <Flex as="button" onClick={router.back} alignItems="center">
+                  <BackArrow />
+                  <span>{t("Личные данные")}</span>
+                </Flex>
+              }
+            />
+          )}
+        </Box>
+        <MainContentCard
+          as="form"
+          onSubmit={handleSubmit(submitForm)}
+          footer={
+            <ButtonGroup
+              width={isLargerThan845 ? "auto" : "100%"}
+              spacing={isLargerThan845 ? "2" : "0"}
+              display={isLargerThan845 ? "inline-flex" : "flex"}
+              flexDirection={isLargerThan845 ? "row" : "column-reverse"}
+              rowGap={isLargerThan845 ? "0" : "8px"}
+            >
+              <Button
+                isDisabled={disabledBtn === `first_dispatcher`}
+                isLoading={isLoading}
+                type="submit"
+                fontSize={isLargerThan845 ? "16px" : "15px"}
+                variant="solid"
+              >
+                {t(`Сохранить профиль`)}
+              </Button>
+            </ButtonGroup>
+          }
+        >
+          <ProfileInfoForm {...getProfileFormProps()} />
+        </MainContentCard>
+      </Box>
+    );
+  }
+
+  // Simple variant (original)
   return (
     <Box>
       <Box display={isLargerThan845 ? "block" : "flex"} alignItems="center">

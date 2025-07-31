@@ -7,6 +7,9 @@
   "Контактная информация": "Aloqa ma'lumotlari",
   "Политика конфиденциальности": "Maxfiylik siyosati",
   "Карта сайта": "Sayt xaritasi",
+  "Правовая информация": "Huquqiy ma'lumot",
+  "Язык": "Til",
+  "Текущий язык": "Joriy til",
   "Полезное": "Foydali",
   "Контакты и тарифы": "Aloqalar va tariflar",
   "Информация": "Ma'lumot",
@@ -138,7 +141,6 @@
   "Авторизуйтесь": "Avtorizatsiya qiling",
   "Выберите шаблон": "Shablonni tanlang",
   "Главная": "Asosiy",
-  "Поиск грузов": "Yuklarni qidirish",
   "Запомнить": "Yodda saqlash",
   "Войти": "Kirish",
   "У вас нет аккаунта?": "Hisobingiz yo'qmi?",
@@ -303,7 +305,6 @@
   "Не указывайте контакты (телефоны, скайп и пр.), иначе ваш груз удалит модератор.": "Kontaktlarni (telefonlar, Skype va boshqalar) ko'rsatmang, aks holda yukingiz moderator tomonidan o'chiriladi",
   "Откуда забрать": "Qayerdan olish",
   "Груз": "Yuk",
-  "Стомость": "Narxi",
   "Предложить груз водителю": "Haydovchiga yukni taklif qilish",
   "Поиск": "Qidirish",
   "Отменить предложение": "Taklifni bekor qilish",
@@ -481,7 +482,7 @@
   "Объем": "Hajm",
   "Мои машины": "Mashinalar",
   "Мои водители": "Haydovchilar",
-  "Мои заказы": "Buyurtmalar",
+  "Заказы": "Buyurtmalar",
   "Оплата после завершения": "To'lov tugallangandan keyin",
   "Общая сумма": "Jami summa",
   "Товары": "Mahsulotlar",
@@ -655,7 +656,6 @@
    "Независимый водитель": "Mustaqil haydovchi",
    "Зависимый водитель": "Nomustaqil haydovchi",
    "driver_dependency_description_on": "Haydovchi takliflarni mustaqil ravishda yuborishi va qabul qilishi mumkin bo'ladi, buyurtma chatlari Siz va ushbu haydovchi bilan ochiladi. Bu funksiyani istalgan vaqtda o'chirib qo'yishingiz mumkin. ESLATMA: Yangi o'zgartirishlar kelgusi buyurtmalardan kuchga kiradi, faol buyurtmalar uchun amal qilmaydi.",
-   "driver_dependency_description_off": "Haydovchi takliflarni mustaqil ravishda yubora olmaydi va qabul qila olmaydi, buyurtma chatlari faqat Siz bilan ochiladi. Bu funksiyani istalgan vaqtda yoqishingiz mumkin. ESLATMA: Yangi o'zgartirishlar kelgusi buyurtmalardan kuchga kiradi, faol buyurtmalar uchun amal qilmaydi."
-
-
+   "driver_dependency_description_off": "Haydovchi takliflarni mustaqil ravishda yubora olmaydi va qabul qila olmaydi, buyurtma chatlari faqat Siz bilan ochiladi. Bu funksiyani istalgan vaqtda yoqishingiz mumkin. ESLATMA: Yangi o'zgartirishlar kelgusi buyurtmalardan kuchga kiradi, faol buyurtmalar uchun amal qilmaydi.",
+   "Ещё": "Boshqa"
 }

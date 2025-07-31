@@ -68,7 +68,7 @@ const Cmap = memo(
     useEffect(() => {
 
       if (watch("users_id") && currentUserLocationData && mapRef.current) {
-       const timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
           openBalloonById();
         }, 500);
 
@@ -177,9 +177,7 @@ const Cmap = memo(
       const multiRoute = new ymapsRef.current.multiRouter.MultiRoute(
         {
           referencePoints: [a, b],
-          params: {
-            routingMode: "auto",
-          },
+          params: { routingMode: "auto", },
         },
         {
           boundsAutoApply: true,
@@ -199,7 +197,7 @@ const Cmap = memo(
           activeRoute.balloon.open();
           setBallonRef(true);
         }
-         multiRoute.events.add("balloonclose", () => {
+        multiRoute.events.add("balloonclose", () => {
           clearMap();
         });
       });
@@ -243,9 +241,7 @@ const Cmap = memo(
       const map = mapRef.current;
       if (!map) return;
       const balloonContent = `<p class="distance">Masofa: ${distance} km</p>`;
-      map.balloon.open(getMiddlePoint(points), balloonContent, {
-        closeButton: true,
-      });
+      map.balloon.open(getMiddlePoint(points), balloonContent, { closeButton: true, });
     };
     const closeBallon = () => {
       const map = mapRef.current;
@@ -285,17 +281,17 @@ const Cmap = memo(
       setTimeout(() => {
         drawRoute(pointA, pointB);
       }, 500);
-         const map = mapRef.current;
+      const map = mapRef.current;
 
-       map.balloon.events.add("close", () => {
-  
-          clearMap();
-   
+      map.balloon.events.add("close", () => {
+
+        clearMap();
+
       });
     };
 
 
-     const clearMap = () => {
+    const clearMap = () => {
       setClickCount(0);
       setSelecting(false);
       setPointA(null);
@@ -335,9 +331,7 @@ const Cmap = memo(
       const coords = e.get("coords");
       const balloonContent = `Masofa: ${distance} km`;
 
-      map.balloon.open(coords, balloonContent, {
-        closeButton: true,
-      });
+      map.balloon.open(coords, balloonContent, { closeButton: true, });
     };
 
     if (!isClient) {
@@ -699,7 +693,7 @@ const Cmap = memo(
                   </>
                 );
               })}
-          
+
           </Clusterer>
         )}
         {locationData &&
@@ -819,7 +813,7 @@ const Cmap = memo(
                         item?.bid_cash,
                         item?.new_status?.[0]
                       ),
-                   iconImageSize: [60, 72],
+                      iconImageSize: [60, 72],
                       iconImageOffset: [-15, -42],
                       zIndexHover: 1,
                       zIndex: 1,

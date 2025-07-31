@@ -16,7 +16,7 @@ i18next
   .use(resourcesToBackend((language, namespace) => import(`./locales/${language}/${namespace}.json`)))
   .init({
     ...getOptions(),
-    locale: undefined, 
+    locale: undefined,
     detection: { order: ["path", "htmlTag", "cookie", "navigator"], },
     preload: runsOnServerSide ? languages : []
   });

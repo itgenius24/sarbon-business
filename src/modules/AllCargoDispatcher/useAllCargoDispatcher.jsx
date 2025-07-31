@@ -37,7 +37,7 @@ export const useAllCargoDispatcher = () => {
     },
     querySettings: {
       select: (res) => {
-        return {...res,response:res?.response?.flatMap(element => element.orders || [])};
+        return { ...res,response:res?.response?.flatMap(element => element.orders || []) };
       },
       onSuccess: (res) => {
         setCount(res?.active_count)
@@ -107,26 +107,26 @@ export const useAllCargoDispatcher = () => {
       const sortedData = [...data]?.sort((a, b) => {
         const timeA = new Date(a?.cargo?.load_time).getTime();
         const timeB = new Date(b?.cargo?.load_time).getTime();
-  
+
         return val === "top" ? timeA - timeB : timeB - timeA;
       });
-  
+
       setData(sortedData);
     } else {
       setData(dataRes?.response);
     }
   };
-  
+
 
   const timeSortDate = (val) => {
     if (val !== "all") {
       const sortedData = [...data]?.sort((a, b) => {
         const timeA = new Date(a?.cargo?.date).getTime();
         const timeB = new Date(b?.cargo?.date).getTime();
-  
+
         return val === "top" ? timeA - timeB : timeB - timeA;
       });
-  
+
       setData(sortedData);
     } else {
       setData(dataRes?.response);
@@ -143,7 +143,7 @@ export const useAllCargoDispatcher = () => {
       filterType:(type) => fromSort(type) ,
       render: (row, index) => (
         <Flex alignItems={`center`} gap={`7px`}>
-       
+
           <Image
             className={cls.flag}
             width={30}
@@ -184,7 +184,7 @@ export const useAllCargoDispatcher = () => {
             className={cls.flag}
             width={30}
             height={30}
-            src={row?.cargo?.flag_do ||  `https://flagcdn.com/w320/${row?.cargo?.country_code_to?.toLowerCase()}.png`}
+            src={row?.cargo?.flag_do || `https://flagcdn.com/w320/${row?.cargo?.country_code_to?.toLowerCase()}.png`}
             alt="wef"
           />
           {row?.cargo?.to ? (
@@ -240,7 +240,7 @@ export const useAllCargoDispatcher = () => {
         ),
     },
     {
-      title: t(`Общая Стомость`),
+      title: t(`Общая стоимость`),
       width: 250,
       render: (row, index) => (
         <Box>
@@ -295,8 +295,8 @@ export const useAllCargoDispatcher = () => {
               <span className={cls.countryName}>
                 {(row?.cargo?.prepayment_percentage > 0 || row?.prepayment > 0)
                   ? `${row?.cargo?.prepayment_percentage || row?.prepayment} ${
-                      row?.currency_data[0]?.code || `USD`
-                    }`
+                    row?.currency_data[0]?.code || `USD`
+                  }`
                   : t("Без предоплаты")}
               </span>
             </>

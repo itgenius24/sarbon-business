@@ -2,7 +2,7 @@
 import { Tooltip } from "@chakra-ui/react";
 import React from "react";
 
-const TooltipComponents = ({label,children}) => {
+const TooltipComponents = ({ label,children }) => {
   return (
     <Tooltip
       boxShadow={`none`}
@@ -16,7 +16,7 @@ const TooltipComponents = ({label,children}) => {
       textAlign={`center`}
       label={label}
     >
-      <div style={{lineHeight:0}}>
+      <div style={{ lineHeight:0 }}>
         {children}
       </div>
     </Tooltip>

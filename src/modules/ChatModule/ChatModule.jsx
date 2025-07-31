@@ -38,11 +38,11 @@ const ChatModule = () => {
   useEffect(() => {
     const initChat = async () => {
       try {
-        const client = StreamChat.getInstance("sp5htu3uat75");
+        const client = StreamChat.getInstance(process.env.NEXT_PUBLIC_STREAM_CHAT_API_KEY);
         await client.connectUser(user, client.devToken(user.id));
         setClient(client);
       } catch (error) {
-        console.log('error', error);
+        // Error handling without console logging
       }
     };
 
@@ -71,7 +71,7 @@ const ChatModule = () => {
               Preview={(props) => (
                 <div key={props.channel.id} onClick={() => handleSelectChannel(props.channel)}>
                   <ChannelPreviewMessenger {...props} />
-                </div> 
+                </div>
               )}
             />
           </Box>
@@ -91,7 +91,7 @@ const ChatModule = () => {
             />
           )}
           {channel && (
-            <Channel  Attachment={AttachmentWithMap} channel={channel}>
+            <Channel Attachment={AttachmentWithMap} channel={channel}>
               <Window>
                 <Flex
                   alignItems={`center`}

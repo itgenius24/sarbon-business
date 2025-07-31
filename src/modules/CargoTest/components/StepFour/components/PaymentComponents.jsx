@@ -51,9 +51,7 @@ export const PaymentComponents = ({
 
   const handleToggle = () => {
     if (!isOpen) {
-      const event = new CustomEvent(CUSTOM_DROPDOWN_EVENT, {
-        detail: { id: instanceId },
-      });
+      const event = new CustomEvent(CUSTOM_DROPDOWN_EVENT, { detail: { id: instanceId }, });
       window.dispatchEvent(event);
     }
     setOpen(!isOpen);
@@ -98,7 +96,7 @@ export const PaymentComponents = ({
       onMouseLeave={handleMouseLeave}
       ref={wrapperRef}
     >
-      {showCloseIcon && index > 0 &&  (
+      {showCloseIcon && index > 0 && (
         <Box
           display={`flex`}
           onClick={() => removeInput(index)}
@@ -115,7 +113,7 @@ export const PaymentComponents = ({
 
       <TextFieldWithAdditionPayment
         {...props}
-        
+
         index={index}
         onClick={() => (!canEdit ? setEditModal(true) : null)}
         isEdit={!canEdit}
@@ -146,9 +144,7 @@ export const PaymentComponents = ({
                 <div className={cls.wrapper}>
                   <div
                     ref={additionalDropdownRef}
-                    className={clsx(cls.additionalItem, {
-                      [cls.lightTheme]: additionalItemTheme === "light",
-                    })}
+                    className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light", })}
                   >
                     <button
                       disabled={disabled}

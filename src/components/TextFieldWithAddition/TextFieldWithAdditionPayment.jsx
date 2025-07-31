@@ -90,7 +90,7 @@ export const TextFieldWithAdditionPayment = ({
           {after && <div className={cls.after}>{after}</div>}
 
         </div>
-          {after2 && <div className={cls.after2}>{after2}</div>}
+        {after2 && <div className={cls.after2}>{after2}</div>}
 
         <Controller
           name={additionalItemName}
@@ -100,9 +100,7 @@ export const TextFieldWithAdditionPayment = ({
               <div className={cls.wrapper}>
                 <div
                   ref={additionalDropdownRef}
-                  className={clsx(cls.additionalItem, {
-                    [cls.lightTheme]: additionalItemTheme === "light",
-                  })}
+                  className={clsx(cls.additionalItem, { [cls.lightTheme]: additionalItemTheme === "light", })}
                 >
                   <button
                     disabled={disabled}
@@ -134,9 +132,7 @@ export const TextFieldWithAdditionPayment = ({
                         return (
                           <button
                             key={index}
-                            className={clsx(cls.additionalItemOption, {
-                              [cls.active]: item.value === field?.value?.value,
-                            })}
+                            className={clsx(cls.additionalItemOption, { [cls.active]: item.value === field?.value?.value, })}
                             onClick={() => {
                               field.onChange(item);
                               handleClose();

@@ -1,1 +1,0 @@
-export { MainContentHeader } from "./MainContentHeader";

@@ -27,7 +27,7 @@ export const Footer = () => {
         title: t("Расчет расстояний"),
         link: `/${locale}/distance-calculation`,
       },
-         {
+      {
         title: t("Журнал изменений"),
         link: `/${locale}/changelog`,
       },
@@ -127,7 +127,7 @@ export const Footer = () => {
                     />
                   </a>
                 </li>
-                  <li className={cls.mobileAppItem}>
+                <li className={cls.mobileAppItem}>
                   <a
                     className={cls.mobileAppLink}
                     href={
@@ -244,7 +244,7 @@ export const Footer = () => {
                 </svg>
               </a>
             </li> */}
-            
+
             {/* <li className={cls.socialItem}>
               <a className={cls.socialLink} href={"/"} target="_blank">
                 <svg
@@ -351,7 +351,7 @@ export const Footer = () => {
               <Image
                 width={105}
                 height={105}
-                src={"/svg/logo2.svg"}
+                src={"/svg/logo-gray.svg"}
                 alt="logo"
               />
             </Link>

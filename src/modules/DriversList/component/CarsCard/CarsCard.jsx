@@ -115,7 +115,11 @@ export const CarsCard = ({ t, item, handleDelete }) => {
                 height: `130px`,
                 objectFit: `cover`,
               }}
-              src={item?.photo}
+              src={
+                item?.photo?.includes("http")
+                  ? item?.photo
+                  : `${process.env.NEXT_PUBLIC_MEDIA_URL}${item?.photo}`
+              }
               objectFit="cover"
               width={200}
               height={200}
@@ -131,7 +135,7 @@ export const CarsCard = ({ t, item, handleDelete }) => {
               <p className={cls.title}>{item?.full_name}</p>
               <p className={cls.subTitle}>{item?.phone}</p>
               <p className={cls.subTitle}>
-                {item?.is_independent ?  t(`Независимый водитель`) : t(`Зависимый водитель`)}
+                {item?.is_independent ? t(`Независимый водитель`) : t(`Зависимый водитель`)}
               </p>
             </Box>
           </Flex>

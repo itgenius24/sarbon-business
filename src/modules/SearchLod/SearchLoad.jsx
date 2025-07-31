@@ -1,17 +1,14 @@
 "use client";
 
-import { Container } from "@/components/Container";
-import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
-import { useSearchLoad } from "./useSearchLoad";
-import { FilterLoad } from "./component/FilterLoad/FilterLoad";
-import { TableComponent } from "./component/Tablecompoent/TableComponent";
-import { useState } from "react";
-import cls from "./style.module.scss";
 import { FilterIcon } from "@/assets/icons/icons";
-import { FilterLoadMobile } from "./component/FilterLoadMobile/FilterLoadMobile";
-import { CardLoad } from "./component/CardLoad/CardLoad";
-import TooltipComponets from "./component/TooltipComponets";
+import { Container } from "@/components/Container";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { Box, Button, Flex, Heading, useMediaQuery } from "@chakra-ui/react";
+import { FilterLoad } from "./component/FilterLoad/FilterLoad";
+import { FilterLoadMobile } from "./component/FilterLoadMobile/FilterLoadMobile";
+import { TableComponent } from "./component/Tablecompoent/TableComponent";
+import cls from "./style.module.scss";
+import { useSearchLoad } from "./useSearchLoad";
 
 export const SearchLoadModule = ({ locale }) => {
   const {
@@ -53,7 +50,7 @@ export const SearchLoadModule = ({ locale }) => {
               mb={isLargerThan845 ? "24px" : "12px"}
               color={`var(--primary-text)`}
             >
-              {t("Поиск грузов")}
+              {t("Грузы")}
             </Heading>
 
             <Flex
