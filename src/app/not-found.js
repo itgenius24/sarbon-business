@@ -62,7 +62,7 @@ export default function GlobalNotFound() {
                     </p>
                   </Flex>
                   <Link
-                    href="/ru"
+                    href="/ru/auth"
                     style={{
                       display: "inline-block",
                       backgroundColor: "rgba(38, 189, 73, 1)",
