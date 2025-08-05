@@ -1,11 +1,11 @@
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLang } from "@/hooks/useGetLang";
 import {
-  useGetUseMutation,
-  useGetUserGpsBYData,
-  useGoogleRigister,
-  useLoginMutation,
-  useOneLoginMutation,
+    useGetUseMutation,
+    useGetUserGpsBYData,
+    useGoogleRigister,
+    useLoginMutation,
+    useOneLoginMutation,
 } from "@/services/api";
 import authStore from "@/store/auth.store";
 import { signInWithGoogle } from "@/utils/fribaseAuth";
@@ -98,7 +98,7 @@ export const useLoginProps = () => {
             role: dataUser?.role,
           });
           authStore.setAuthData("isChangelog",true);
-          router.push(`/${locale ? locale : `ru`}`);
+          router.push(`/${locale ? locale : `ru`}/cargos`);
         }
 
         setDataUser({});
@@ -191,7 +191,7 @@ export const useLoginProps = () => {
       });
       authStore.setAuthData("phone", ``);
       authStore.setAuthData("mediaAuth", {});
-      router.push(`/${locale ? locale : `ru`}`);
+      router.push(`/${locale ? locale : `ru`}/cargos`);
     },
   });
 
