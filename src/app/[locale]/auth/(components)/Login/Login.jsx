@@ -1,23 +1,23 @@
 "use client";
 
 import {
-  ErroModalIcon,
-  EyeIcon,
-  EyeIconOff
+    ErroModalIcon,
+    EyeIcon,
+    EyeIconOff
 } from "@/assets/icons/icons";
 import { Checkbox } from "@/components/Checkbox";
 import { TextField } from "@/components/TextField";
 import {
-  Box,
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text
+    Box,
+    Button,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { AuthTitle } from "../AuthTitle";
@@ -103,13 +103,28 @@ export const Login = () => {
             {t("Войти")}
           </Button>
         </Box>
-        <Box mt="10%" display="flex" justifyContent="center" columnGap="4px">
-          <Text fontSize="14px" color="brand.600" lineHeight="20px">
-            {t("Еще нет аккаунта?")}
-          </Text>
-          <Button variant="reset" onClick={navigateRegistration}>
-            {t("Зарегистрироваться")}
-          </Button>
+        <Box mt="10%" display="flex" flexDirection="column" alignItems="center" rowGap="16px">
+          <Box display="flex" justifyContent="center" columnGap="4px">
+            <Text fontSize="14px" color="brand.600" lineHeight="20px">
+              {t("Еще нет аккаунта?")}
+            </Text>
+            <Button variant="reset" onClick={navigateRegistration}>
+              {t("Зарегистрироваться")}
+            </Button>
+          </Box>
+
+          <Box display="flex" justifyContent="center" columnGap="16px" flexWrap="wrap">
+            <Link href={`/${locale}/privacy-policy`}>
+              <Button variant="ghost" size="sm" fontSize="12px" color="brand.500">
+                {t("Политика конфиденциальности")}
+              </Button>
+            </Link>
+            <Link href={`/${locale}/terms`}>
+              <Button variant="ghost" size="sm" fontSize="12px" color="brand.500">
+                {t("Условия использования")}
+              </Button>
+            </Link>
+          </Box>
         </Box>
       </Box>
       <Modal isOpen={open} isCentered>

@@ -1,21 +1,19 @@
-import * as yup from "yup";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@/utils/yupResolver";
+import { useTranslation } from "@/app/i18n/client";
+import { useGetLang } from "@/hooks/useGetLang";
 import {
-  useCheckUser,
-  useGetUserData,
-  useGetUserGpsBYData,
-  useGetUserGpsByIDData,
-  useGoogleRigister,
-  usePhoneMutation,
+    useGetUserData,
+    useGetUserGpsBYData,
+    useGoogleRigister,
+    usePhoneMutation
 } from "@/services/api";
 import authStore from "@/store/auth.store";
-import { useGetLang } from "@/hooks/useGetLang";
-import { useTranslation } from "@/app/i18n/client";
-import { useEffect, useState } from "react";
 import { signInWithApple, signInWithGoogle } from "@/utils/fribaseAuth";
+import { yupResolver } from "@/utils/yupResolver";
 import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 export const useRegistrationProps = () => {
   const router = useRouter();
@@ -145,7 +143,7 @@ export const useRegistrationProps = () => {
       });
       authStore.setAuthData("phone", ``);
       authStore.setAuthData("mediaAuth", {});
-      router.push(`/${locale ? locale : `ru`}`);
+      router.push(`/${locale ? locale : `ru`}/cargos`);
     },
   });
 
