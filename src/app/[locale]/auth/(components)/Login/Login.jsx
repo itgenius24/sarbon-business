@@ -1,13 +1,15 @@
 "use client";
 
-import cls from "./styles.module.scss";
-import { useLoginProps } from "./useLoginProps";
-import { AuthTitle } from "../AuthTitle";
+import {
+  ErroModalIcon,
+  EyeIcon,
+  EyeIconOff
+} from "@/assets/icons/icons";
+import { Checkbox } from "@/components/Checkbox";
 import { TextField } from "@/components/TextField";
 import {
   Box,
   Button,
-  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,19 +17,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
+  Text
 } from "@chakra-ui/react";
-import { Checkbox } from "@/components/Checkbox";
-import {
-  AppleAuthIcon,
-  ArrowLeft,
-  ErroModalIcon,
-  EyeIcon,
-  EyeIconOff,
-  GoogleIcon,
-} from "@/assets/icons/icons";
 import Link from "next/link";
-import { MobileLogo } from "../MobileLogo";
+import { AuthTitle } from "../AuthTitle";
+import cls from "./styles.module.scss";
+import { useLoginProps } from "./useLoginProps";
 
 export const Login = () => {
   const {
@@ -107,34 +102,8 @@ export const Login = () => {
           <Button mt="24px" size="md" type="submit" isLoading={isLoading}>
             {t("Войти")}
           </Button>
-          <div className={cls.divider}>
-            <span>{t(`Вход через соцсеть`)}</span>
-          </div>
-          <Flex
-            mt={`24px`}
-            width={`100%`}
-            gap={`15px`}
-            justifyContent={`space-between`}
-            className={cls.btnAuthGroup}
-          >
-            <Button
-              onClick={handleGoogleLogin}
-              leftIcon={<GoogleIcon />}
-              className={cls.btnAuth}
-            >
-              {t("Продолжить с Google")}
-            </Button>
-            <Button
-              // onClick={handleAppleLogin}
-              leftIcon={<AppleAuthIcon />}
-              className={cls.btnAuth}
-              isDisabled
-            >
-              {t("Продолжить с Apple")}
-            </Button>
-          </Flex>
         </Box>
-        <Box mt="30%" display="flex" justifyContent="center" columnGap="4px">
+        <Box mt="10%" display="flex" justifyContent="center" columnGap="4px">
           <Text fontSize="14px" color="brand.600" lineHeight="20px">
             {t("Еще нет аккаунта?")}
           </Text>
