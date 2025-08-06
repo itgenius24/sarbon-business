@@ -7,7 +7,14 @@
   border-top: 1px solid #E5E7EB;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  padding-bottom: env(safe-area-inset-bottom);
+
+  /* Enhanced safe area support */
+  padding-bottom: var(--safe-area-inset-bottom);
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+
+  /* Ensure minimum height even without safe areas */
+  min-height: calc(60px + var(--safe-area-inset-bottom));
 }
 
 .tabContainer {
@@ -16,6 +23,10 @@
   align-items: center;
   padding: 8px 16px 12px;
   min-height: 60px;
+
+  /* Ensure proper spacing with safe areas */
+  padding-left: max(16px, var(--safe-area-inset-left));
+  padding-right: max(16px, var(--safe-area-inset-right));
 }
 
 .tab {
@@ -84,17 +95,20 @@
 @media (max-width: 360px) {
   .tabContainer {
     padding: 6px 8px 10px;
+    /* Maintain safe area padding even on small screens */
+    padding-left: max(8px, var(--safe-area-inset-left));
+    padding-right: max(8px, var(--safe-area-inset-right));
   }
-  
+
   .tab {
     min-width: 50px;
     padding: 2px 4px;
   }
-  
+
   .label {
     font-size: 9px;
   }
-  
+
   .iconContainer svg {
     width: 20px;
     height: 20px;
