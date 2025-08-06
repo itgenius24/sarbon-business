@@ -3,27 +3,41 @@
   // display: flex;
   // flex-direction: column;
   // height: 100%;
+
+  /* Ensure layout respects safe areas */
+  min-height: 100vh;
+  min-height: calc(100vh - var(--safe-area-inset-top));
 }
 
 .main {
   flex-grow: 1;
   min-height: 50vh;
 
-  // Add bottom padding on mobile to account for bottom navigation
+  // Add bottom padding on mobile to account for bottom navigation and safe areas
   @media (max-width: 767px) {
-    padding-bottom: 80px;
+    padding-bottom: calc(80px + var(--safe-area-inset-bottom));
+    // Ensure content doesn't go under system UI
+    padding-left: var(--safe-area-inset-left);
+    padding-right: var(--safe-area-inset-right);
+  }
+
+  // On desktop, still respect horizontal safe areas
+  @media (min-width: 768px) {
+    padding-left: var(--safe-area-inset-left);
+    padding-right: var(--safe-area-inset-right);
   }
 }
 
 .chatIcon{
   position: fixed;
   bottom: 50px;
-  right: 50px;
+  right: calc(50px + var(--safe-area-inset-right));
   z-index: 323232;
 
-  // Adjust position on mobile to avoid bottom navigation
+  // Adjust position on mobile to avoid bottom navigation and safe areas
   @media (max-width: 767px) {
-    bottom: 140px; // Above bottom navigation
+    bottom: calc(140px + var(--safe-area-inset-bottom)); // Above bottom navigation + safe area
+    right: calc(20px + var(--safe-area-inset-right)); // Closer to edge on mobile
   }
 
   .iconButton{

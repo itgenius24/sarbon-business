@@ -1,22 +1,33 @@
 .navContainer {
   width: 100%;
   padding-left: 1%;
+
+  /* Safe area support */
+  padding-left: max(1%, var(--safe-area-inset-left));
+  padding-right: var(--safe-area-inset-right);
+
   @media (max-width: 900px) {
     width: 100% !important;
-    padding-left: 0;
-    padding-right: 0;
-    padding: 0px !important;
+    padding-left: var(--safe-area-inset-left);
+    padding-right: var(--safe-area-inset-right);
   }
 }
 
 .layoutContend {
   margin-top: 70px;
+
+  /* Safe area support */
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+
   @media (max-width: 900px) {
     width: 100%;
     height: auto;
     flex-direction: center;
     margin-top: 40px;
     padding: 20px;
+    padding-left: max(20px, var(--safe-area-inset-left));
+    padding-right: max(20px, var(--safe-area-inset-right));
   }
 }
 .formWrapper {
