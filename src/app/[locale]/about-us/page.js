@@ -44,13 +44,5 @@ export default function AboutUsPage({ params }) {
         dangerouslySetInnerHTML={{ __html: directory?.answear }}
       />
     </Box>
-    <DigitalFacts
-      t={t}
-      completed={directory?.projects_completed}
-      downloads={directory?.global_downloads}
-      investment={directory?.return_on_investment}
-      isLargerThan768={isLargerThan768}
-    />
-    <Partners isLargerThan768={isLargerThan768} partners={partners} t={t} />
   </Container>;
 }
