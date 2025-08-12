@@ -49,6 +49,14 @@ export const CardLoad = ({
           </Flex>
           <p className={cls.tel}>{item.customer_data?.[0]?.phone}</p>
         </Box>
+        {/* Updated time */}
+        <Box className={cls.updatedTime}>
+          <p>
+            {item?.date
+              ? format(item?.date, `HH:mm  dd/MM/yy`)
+              : item?.create_time && format(item?.create_time, `HH:mm dd.MM.yyyy`)}
+          </p>
+        </Box>
       </Flex>
       <Box className={cls.addressWrap}>
         <Flex alignItems={`center`} mb={`20px`} gap={2}>
