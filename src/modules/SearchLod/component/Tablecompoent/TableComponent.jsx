@@ -31,17 +31,16 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import cls from "./style.module.scss";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import cls from "./style.module.scss";
 
 import {
   useDeleteOrder,
   useGetCar,
   useGetCargoList,
-  useGetUserData,
   useLogistikaGpsTrackingFilterDriverPred,
-  useUpdateUserData,
+  useUpdateUserData
 } from "@/services/api";
 
 import {
@@ -52,18 +51,18 @@ import {
   StoneIcon,
   UserIconCerate,
 } from "@/assets/icons/icons";
-import { useGetLang } from "@/hooks/useGetLang";
 import { Checkbox } from "@/components/Checkbox";
-import TooltipComponets from "../TooltipComponets";
-import authStore from "@/store/auth.store";
 import SarbonTable from "@/components/SarbonTable/SarbonTable";
-import Image from "next/image";
-import { format } from "date-fns";
-import copy from "copy-to-clipboard";
-import { useRouter } from "next/navigation";
+import { useGetLang } from "@/hooks/useGetLang";
 import CheckBoxComponent from "@/modules/GpsTrackingCarrier/components/CheckBoxComponent";
-import { CardLoad } from "../CardLoad/CardLoad";
+import authStore from "@/store/auth.store";
 import { useQueryClient } from "@tanstack/react-query";
+import copy from "copy-to-clipboard";
+import { format } from "date-fns";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { CardLoad } from "../CardLoad/CardLoad";
+import TooltipComponets from "../TooltipComponets";
 
 export const TableComponent = ({
   isLargerThan845,
@@ -533,6 +532,19 @@ export const TableComponent = ({
               <p className={cls.tel}>{row?.customer_data?.[0]?.phone}</p>
             </Box>
           </Flex>
+        </Box>
+      ),
+    },
+    {
+      title: t("Обновлённое время"),
+      width: 200,
+      render: (row, index) => (
+        <Box>
+          <p className={cls.subTitle}>
+            {row?.date
+              ? format(row?.date, `HH:mm dd/MM/yyyy`)
+              : row?.create_time && format(row?.create_time, `HH:mm dd/MM/yyyy`)}
+          </p>
         </Box>
       ),
     },
