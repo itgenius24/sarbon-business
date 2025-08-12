@@ -104,15 +104,6 @@ export const Login = () => {
           </Button>
         </Box>
         <Box mt="10%" display="flex" flexDirection="column" alignItems="center" rowGap="16px">
-          <Box display="flex" justifyContent="center" columnGap="4px">
-            <Text fontSize="14px" color="brand.600" lineHeight="20px">
-              {t("Еще нет аккаунта?")}
-            </Text>
-            <Button variant="reset" onClick={navigateRegistration}>
-              {t("Зарегистрироваться")}
-            </Button>
-          </Box>
-
           <Box display="flex" justifyContent="center" columnGap="16px" flexWrap="wrap">
             <Link href={`/${locale}/privacy-policy`}>
               <Button variant="ghost" size="sm" fontSize="12px" color="brand.500">
