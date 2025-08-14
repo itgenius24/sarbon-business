@@ -90,7 +90,7 @@ const nextConfig = {
         `,
   },
   images: {
-    domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com", "cdn-api.furgo.uz"],
+    domains: ["cdn.u-code.io", "media.newyorker.com","flagcdn.com", "cdn-api.furgo.uz", "cdn-api.sarbon.me"],
     remotePatterns: [
       {
         protocol: "https",
