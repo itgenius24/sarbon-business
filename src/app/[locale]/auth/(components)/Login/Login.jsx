@@ -8,19 +8,18 @@ import {
 import { Checkbox } from "@/components/Checkbox";
 import { TextField } from "@/components/TextField";
 import {
-    Box,
-    Button,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Text
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { AuthTitle } from "../AuthTitle";
 import cls from "./styles.module.scss";
 import { useLoginProps } from "./useLoginProps";
 
@@ -46,6 +45,7 @@ export const Login = () => {
   return (
     <>
       <Box
+        padding={"4"}
         height={`100%`}
         width={`100%`}
         display={`flex`}
@@ -56,8 +56,6 @@ export const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Box width={`100%`}>
-          <AuthTitle mb="32px" title={t("Вход в Sarbon")} subtitle="" />
-
           <Box mb="24px" display="flex" flexDirection="column" rowGap="20px">
             <TextField
               register={register}
